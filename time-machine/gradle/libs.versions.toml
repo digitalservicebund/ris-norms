@@ -1,0 +1,36 @@
+[versions]
+# @keep
+jacoco = "0.8.10"
+kotlin = "1.9.10"
+spring-boot = "3.1.5"
+
+[libraries]
+archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.0"
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
+kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }
+reactor-kotlin-extensions = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions" }
+reactor-netty-http = "io.projectreactor.netty:reactor-netty-http:1.1.13"
+reactor-test = { module = "io.projectreactor:reactor-test" }
+snakeyaml = "org.yaml:snakeyaml:2.2"
+spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
+springmockk = "com.ninja-squad:springmockk:4.0.2"
+
+[plugins]
+dependency-license-report = "com.github.jk1.dependency-license-report:2.5"
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+sonarqube = "org.sonarqube:4.4.1.3373"
+spotless = "com.diffplug.spotless:6.22.0"
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management = "io.spring.dependency-management:1.1.4"
+test-logger = "com.adarshr.test-logger:4.0.0"
+version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.1"
+versions = "com.github.ben-manes.versions:0.50.0"
