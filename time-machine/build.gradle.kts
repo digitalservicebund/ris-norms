@@ -224,7 +224,7 @@ spotless {
 licenseReport {
 // If there's a new dependency with a yet unknown license causing this task to fail
 // the license(s) will be listed in build/reports/dependency-license/dependencies-without-allowed-license.json
-    allowedLicensesFile = File("$projectDir/allowed-licenses.json")
+    allowedLicensesFile = File("$projectDir/../allowed-licenses.json")
     filters =
         arrayOf(
             // With second arg true we get the default transformations:
