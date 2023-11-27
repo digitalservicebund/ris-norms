@@ -189,7 +189,7 @@ reporting {
 
 sonar {
     properties {
-        property("sonar.projectKey", "digitalservicebund_kotlin-application-template")
+        property("sonar.projectKey", "digitalservicebund_ris-norms-time-machine")
         property("sonar.organization", "digitalservicebund")
         property("sonar.host.url", "https://sonarcloud.io")
     }

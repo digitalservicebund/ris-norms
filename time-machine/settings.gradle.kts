@@ -1,1 +1,1 @@
-rootProject.name = "kotlin-application-template"
+rootProject.name = "ris-norms-time-machine"

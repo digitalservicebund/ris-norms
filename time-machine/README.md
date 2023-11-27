@@ -1,8 +1,8 @@
 # Kotlin Application Template
 
-[![Pipeline](https://github.com/digitalservicebund/kotlin-application-template/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/kotlin-application-template/actions/workflows/pipeline.yml)
-[![Scan](https://github.com/digitalservicebund/kotlin-application-template/actions/workflows/scan.yml/badge.svg)](https://github.com/digitalservicebund/kotlin-application-template/actions/workflows/scan.yml)
-[![Secrets Check](https://github.com/digitalservicebund/kotlin-application-template/actions/workflows/secrets-check.yml/badge.svg)](https://github.com/digitalservicebund/kotlin-application-template/actions/workflows/secrets-check.yml)
+[![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml)
+[![Scan](https://github.com/digitalservicebund/ris-norms/actions/workflows/scan.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/scan.yml)
+[![Secrets Check](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml)
 
 Kotlin service built with the [Spring WebFlux reactive stack](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#spring-webflux).
 
@@ -109,7 +109,7 @@ token provided as `SONAR_TOKEN` repository secret that needs to be obtained from
 SONAR_TOKEN=[sonar-token] ./gradlew sonar
 ```
 
-Go to [https://sonarcloud.io](https://sonarcloud.io/dashboard?id=digitalservicebund_kotlin-application-template)
+Go to [https://sonarcloud.io](https://sonarcloud.io/dashboard?id=digitalservicebund_ris-norms-time-machine)
 for the analysis results.
 
 ## Container image
@@ -120,7 +120,7 @@ the [GitHub Packages Container registry](https://docs.github.com/en/packages/wor
 **To run the latest published image:**
 
 ```bash
-docker run -p8080:8080 "ghcr.io/digitalservicebund/kotlin-application-template:$(git log -1 origin/main --format='%H')"
+docker run -p8080:8080 "ghcr.io/digitalservicebund/ris-norms-time-machine:$(git log -1 origin/main --format='%H')"
 ```
 
 The service will be accessible at `http://localhost:8080`.
@@ -129,7 +129,7 @@ We are using Spring's built-in support for producing an optimized container imag
 
 ```bash
 ./gradlew bootBuildImage
-docker run -p8080:8080 ghcr.io/digitalservicebund/kotlin-application-template
+docker run -p8080:8080 ghcr.io/digitalservicebund/ris-norms-time-machine
 ```
 
 Container images in the registry are [signed with keyless signatures](https://github.com/sigstore/cosign/blob/main/KEYLESS.md).
@@ -137,7 +137,7 @@ Container images in the registry are [signed with keyless signatures](https://gi
 **To verify an image**:
 
 ```bash
-COSIGN_EXPERIMENTAL=1 cosign verify "ghcr.io/digitalservicebund/kotlin-application-template:$(git log -1 origin/main --format='%H')"
+COSIGN_EXPERIMENTAL=1 cosign verify "ghcr.io/digitalservicebund/ris-norms-time-machine:$(git log -1 origin/main --format='%H')"
 ```
 
 If you need to push a new container image to the registry manually there are two ways to do this:
@@ -146,7 +146,7 @@ If you need to push a new container image to the registry manually there are two
 
 ```bash
 export CONTAINER_REGISTRY=ghcr.io
-export CONTAINER_IMAGE_NAME=digitalservicebund/kotlin-application-template
+export CONTAINER_IMAGE_NAME=digitalservicebund/ris-norms-time-machine
 export CONTAINER_IMAGE_VERSION="$(git log -1 --format='%H')"
 CONTAINER_REGISTRY_USER=[github-user] CONTAINER_REGISTRY_PASSWORD=[github-token] ./gradlew bootBuildImage --publishImage
 ```
@@ -157,7 +157,7 @@ CONTAINER_REGISTRY_USER=[github-user] CONTAINER_REGISTRY_PASSWORD=[github-token]
 
 ```bash
 echo [github-token] | docker login ghcr.io -u [github-user] --password-stdin
-docker push "ghcr.io/digitalservicebund/kotlin-application-template:$(git log -1 --format='%H')"
+docker push "ghcr.io/digitalservicebund/ris-norms-time-machine:$(git log -1 --format='%H')"
 ```
 
 **Note:** Make sure you're using a GitHub token with the necessary `write:packages` scope for this to work.
@@ -178,7 +178,7 @@ brew install aquasecurity/trivy/trivy
 
 ```bash
 ./gradlew bootBuildImage
-trivy image --severity HIGH,CRITICAL ghcr.io/digitalservicebund/kotlin-application-template:latest
+trivy image --severity HIGH,CRITICAL ghcr.io/digitalservicebund/ris-norms-time-machine:latest
 ```
 
 As part of the automated vulnerability scanning we are generating a Cosign vulnerability scan record using Trivy,
@@ -217,12 +217,12 @@ with the name `SLACK_WEBHOOK_URL`, containing a URL for [Incoming Webhooks](http
 ## Contributing
 
 🇬🇧
-Everyone is welcome to contribute the development of the _kotlin-application-template_. You can contribute by opening pull request,
+Everyone is welcome to contribute the development of the _RIS norms documentation_. You can contribute by opening pull request,
 providing documentation or answering questions or giving feedback. Please always follow the guidelines and our
 [Code of Conduct](CODE_OF_CONDUCT.md).
 
 🇩🇪
-Jede:r ist herzlich eingeladen, die Entwicklung der _kotlin-application-template_ mitzugestalten. Du kannst einen Beitrag leisten,
+Jede:r ist herzlich eingeladen, die Entwicklung der _RIS norms documentation_ mitzugestalten. Du kannst einen Beitrag leisten,
 indem du Pull-Requests eröffnest, die Dokumentation erweiterst, Fragen beantwortest oder Feedback gibst.
 Bitte befolge immer die Richtlinien und unseren [Verhaltenskodex](CODE_OF_CONDUCT_DE.md).
 

@@ -1,7 +1,7 @@
 Contact: mailto:security@digitalservice.bund.de
 Expires: 2022-12-31T23:59:59.000Z
 Preferred-Languages: en, de
-Policy: https://raw.githubusercontent.com/digitalservicebund/kotlin-application-template/main/SECURITY.md
+Policy: https://raw.githubusercontent.com/digitalservicebund/ris-norms/main/SECURITY.md
 # TODO: Update the canonical URI below and remove this comment
 Canonical: https://example.com/.well-known/security.txt
 Hiring: https://digitalservice.bund.de/en/career
