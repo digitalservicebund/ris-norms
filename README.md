@@ -10,6 +10,7 @@
 
 ❌ [![Secrets Check](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml)
 
+[![Sonarcloud time-machine Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-time-machine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-time-machine)
 
 ## Git hooks
 
