@@ -19,7 +19,7 @@ providing a Git hooks setup out of the box.
 **To install these hooks, run:**
 
 ```bash
-❌ ./run.sh init
+lefthook install
 ```
 
 The hooks are supposed to help you to:
@@ -31,10 +31,12 @@ The hooks are supposed to help you to:
 ## Architecture Decision Records
 
 [Architecture decisions](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
-are kept in the `docs/adr` directory. For adding new records install the [adr-tools](https://github.com/npryce/adr-tools) package:
+are kept in the `docs/adr` directory. 
+
+For adding new records install the [adr-tools](https://github.com/npryce/adr-tools) package:
 
 ```bash
-❌ brew install adr-tools
+brew install adr-tools
 ```
 
 See https://github.com/npryce/adr-tools regarding usage.
