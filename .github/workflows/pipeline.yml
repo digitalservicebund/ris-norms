@@ -139,7 +139,6 @@ jobs:
 # by the documentation
 
   trivy-scan:
-    name: Build
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
