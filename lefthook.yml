@@ -17,6 +17,21 @@ pre-push:
       root: time-machine/
       run: ./gradlew checkLicense
 
+    check-pipeline-status:
+      run: |
+        which gh 2>&1 >/dev/null || exit 0
+
+        conclusion="$(
+          gh run list --branch main --workflow pipeline --json conclusion,status \
+          --jq '[.[] | select(.status=="completed")][0].conclusion' \
+        )"
+
+        if [[ "$conclusion" != "success" ]]; then
+          echo "The last completed pipeline run has failed!"
+          echo "If you intend to fix the pipeline use '--no-verify', BUT ONLY IF all other hooks are okay."
+          exit 1
+        fi
+
 skip_output:
   - meta
   - execution
