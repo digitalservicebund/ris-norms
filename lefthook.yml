@@ -10,12 +10,57 @@ pre-commit:
       root: time-machine/
       run: ./gradlew spotlessApply -DspotlessFiles=$(echo {staged_files} | sed 's/ /,/g') && git add {staged_files}
 
+    secrets-audit:
+      run: >
+        talisman --githook pre-commit ||
+        (echo "Verify the content and fix it with: talisman --githook pre-commit --interactive"; exit 1)
+
+post-commit:
+  commands:
+    secrets-checkum-test:
+      tags: security
+      skip: 
+        - rebase
+      fail_text: |
+
+        This commit has touched files which are known to include false positives of the secret scanner.
+        It does not mean you have introduced new secrets, but this are "old" reports.
+        But due to the file content change, the checksum Talisman is using for the verification has changed too.
+        Please double check the reported file(s) and update their checksums in the `.talismanrc` file.
+        Afterwards stage the file and amend this commit which was just created with `git commit --amend --no-edit`
+
+      run: |
+        local_reference=$(git rev-parse --symbolic-full-name HEAD)
+        local_object_name=$(git rev-parse HEAD)
+        # Strong assumption that we run after the commit has been created (not before)!
+        remote_reference=$(git branch --format="%(upstream)" --list $(git rev-parse --abbrev-ref HEAD))
+        remote_object_name=$(git rev-parse $remote_reference)
+
+        echo $local_reference \
+          $local_object_name \
+          ${remote_reference:-0000000000000000000000000000000000000000} \
+          ${remote_object_name:-0000000000000000000000000000000000000000} \
+          | talisman --githook pre-push
+
 pre-push:
   parallel: true
   commands:
     licenses-audit-time-machine:
       root: time-machine/
       run: ./gradlew checkLicense
+
+    secrets-audit:
+      run: |
+        local_reference=$(git rev-parse --symbolic-full-name HEAD)
+        local_object_name=$(git rev-parse HEAD)
+        remote_reference=$(git log -1 origin)
+        remote_object_name=$(git rev-parse $remote_reference)
+
+        echo $local_reference \
+          $local_object_name \
+          ${remote_reference:-0000000000000000000000000000000000000000} \
+          ${remote_object_name:-0000000000000000000000000000000000000000} \
+          | talisman --githook pre-push
 
     check-pipeline-status:
       run: |
