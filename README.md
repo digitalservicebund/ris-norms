@@ -16,6 +16,10 @@
 The repo contains a [Lefthook](https://github.com/evilmartians/lefthook/blob/master/docs/full_guide.md) configuration,
 providing a Git hooks setup out of the box.
 
+This needs the following CLI tools to be installed locally:
+    - [talisman](https://thoughtworks.github.io/talisman/docs) - scans for secrets
+    - [gh](https://github.com/cli/cli) - check CI status (optional)
+
 **To install these hooks, run:**
 
 ```bash
