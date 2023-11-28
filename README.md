@@ -1,10 +1,15 @@
+**WIP** 
+
+❌ indicates where we know something is not yet up to speed
+
 # RIS Norms
 
-[![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml)
-[![Scan](https://github.com/digitalservicebund/ris-norms/actions/workflows/scan.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/scan.yml)
-[![Secrets Check](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml)
+❌ [![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml)
 
-**WIP**
+❌ [![Scan](https://github.com/digitalservicebund/ris-norms/actions/workflows/scan.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/scan.yml)
+
+❌ [![Secrets Check](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml)
+
 
 ## Git hooks
 
@@ -14,7 +19,7 @@ providing a Git hooks setup out of the box.
 **To install these hooks, run:**
 
 ```bash
-./run.sh init
+❌ ./run.sh init
 ```
 
 The hooks are supposed to help you to:
@@ -29,7 +34,7 @@ The hooks are supposed to help you to:
 are kept in the `docs/adr` directory. For adding new records install the [adr-tools](https://github.com/npryce/adr-tools) package:
 
 ```bash
-brew install adr-tools
+❌ brew install adr-tools
 ```
 
 See https://github.com/npryce/adr-tools regarding usage.
@@ -37,8 +42,7 @@ See https://github.com/npryce/adr-tools regarding usage.
 ## Contributing
 
 🇬🇧
-Everyone is welcome to contribute the development of the _RIS norms documentation_. You can contribute by opening pull request,
-providing documentation or answering questions or giving feedback. Please always follow the guidelines and our
+Everyone is welcome to contribute the development of the _RIS norms documentation_. You can contribute by opening pull requests, providing documentation or answering questions or giving feedback. Please always follow the guidelines and our
 [Code of Conduct](CODE_OF_CONDUCT.md).
 
 🇩🇪
