@@ -1,0 +1,5 @@
+fileignoreconfig:
+- filename: '*README.md'
+  # it would be nice to use a pattern match, but I could not get it to work
+  ignore_detectors:
+  - filecontent
