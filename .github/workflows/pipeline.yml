@@ -6,7 +6,8 @@ name: Pipeline
 on:
   push:
     branches: [main]
-  pull_request: # all branches
+  pull_request: 
+    branches: [main]
   # Allow to run this workflow manually
   workflow_dispatch:
 
