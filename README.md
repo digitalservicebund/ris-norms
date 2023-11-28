@@ -1,14 +1,8 @@
-**WIP** 
-
-❌ indicates where we know something is not yet up to speed
-
 # RIS Norms
 
-❌ [![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml)
+[![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml)
 
-❌ [![Scan](https://github.com/digitalservicebund/ris-norms/actions/workflows/scan.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/scan.yml)
-
-❌ [![Secrets Check](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml)
+[![Secrets Check](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/secrets-check.yml)
 
 [![Sonarcloud time-machine Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-time-machine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-time-machine)
 
