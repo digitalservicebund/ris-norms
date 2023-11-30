@@ -137,8 +137,6 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-# by the documentation
-
   trivy-scan:
     runs-on: ubuntu-latest
     steps:
@@ -150,7 +148,7 @@ jobs:
           scan-type: 'fs'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH' #ignored by sarif report 
+          severity: 'CRITICAL,HIGH' #ignored by sarif report
       - name: Check trivy results
         run: |
           if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
