@@ -31,7 +31,6 @@ jobs:
 
   build-time-machine:
     runs-on: ubuntu-latest
-    needs: [validate-gradle-wrapper]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK
