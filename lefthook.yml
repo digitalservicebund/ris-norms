@@ -10,10 +10,6 @@ pre-commit:
       root: time-machine/
       run: ./gradlew spotlessApply -DspotlessFiles=$(echo {staged_files} | sed 's/ /,/g') && git add {staged_files}
 
-    check-code-extension:
-      root: code-extension/
-      run: typechek lint format
-
     secrets-audit:
       run: >
         talisman --githook pre-commit ||
@@ -52,10 +48,6 @@ pre-push:
     licenses-audit-time-machine:
       root: time-machine/
       run: ./gradlew checkLicense
-
-    licenses-audit-code-extension:
-      root: code-extension/
-      run: npm run audit:licences > /dev/null;
 
     secrets-audit:
       run: |
