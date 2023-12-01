@@ -1,4 +1,6 @@
 allowed_patterns:
-- uses:\ ([A-z0-9\-]+\/)*[A-z0-9\-]+@[a-fA-F0-9]{40}
+  - uses:\ ([A-z0-9\-]+\/)*[A-z0-9\-]+@[a-fA-F0-9]{40}
 threshold: medium
 version: "1.0"
+scopeconfig:
+  - scope: node
