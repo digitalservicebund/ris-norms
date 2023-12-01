@@ -1,0 +1,48 @@
+{
+  "name": "normendokumentation",
+  "displayName": "Normendokumentation",
+  "publisher": "digitalservicebund",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.cjs",
+  "contributes": {
+    "commands": [
+      {
+        "command": "digitalservicebund.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "vite build",
+    "typecheck": "tsc --noEmit ./",
+    "watch": "vite build --watch",
+    "pretest": "npm run typecheck && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "TZ=UTC vitest run",
+    "test:watch": "TZ=UTC vitest watch"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/mocha": "^10.0.2",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.84.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.50.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.4",
+    "vitest": "^0.34.6"
+  }
+}
