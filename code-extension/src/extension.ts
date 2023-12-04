@@ -1,32 +1,63 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log(
-    'Congratulations, your extension "digitalservicebund" is now active!'
+  let openFilesInLayout = vscode.commands.registerCommand(
+    "digitalservicebund.openFilesInLayout",
+    async () => {
+      try {
+        await vscode.commands.executeCommand("vscode.setEditorLayout", {
+          orientation: 0,
+          groups: [
+            {
+              groups: [{}, {}],
+              size: 0.5,
+            },
+            {
+              size: 0.5,
+            },
+          ],
+        });
+
+        if (vscode.workspace.workspaceFolders) {
+          const workspaceFolder =
+            vscode.workspace.workspaceFolders[0].uri.fsPath;
+
+          const amendingLaw = vscode.Uri.file(
+            `${workspaceFolder}/07_01_änderungsgesetz.xml`,
+          );
+          const toBeAmendedLaw = vscode.Uri.file(
+            `${workspaceFolder}/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml`,
+          );
+          const amendedLaw = vscode.Uri.file(
+            `${workspaceFolder}/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml`,
+          );
+
+          const toBeAmendedPanel =
+            await vscode.workspace.openTextDocument(toBeAmendedLaw);
+          const amendingLawPanel =
+            await vscode.workspace.openTextDocument(amendingLaw);
+          const amendedLawPanel =
+            await vscode.workspace.openTextDocument(amendedLaw);
+
+          await vscode.window.showTextDocument(toBeAmendedPanel, {
+            viewColumn: vscode.ViewColumn.One,
+          });
+          await vscode.window.showTextDocument(amendingLawPanel, {
+            viewColumn: vscode.ViewColumn.Two,
+          });
+          await vscode.window.showTextDocument(amendedLawPanel, {
+            viewColumn: vscode.ViewColumn.Three,
+          });
+        } else {
+          console.error("Workspace folder not found.");
+        }
+      } catch (error) {
+        console.error("Error opening the xml files:", error);
+      }
+    },
   );
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
-    "digitalservicebund.helloWorld",
-    () => {
-      // The code you place here will be executed every time your command is executed
-      // Display a message box to the user
-      vscode.window.showInformationMessage(
-        "Hello World from Normendokumentation!"
-      );
-    }
-  );
-
-  context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable, openFilesInLayout);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
