@@ -36,10 +36,11 @@
     "pretest": "npm run compile:extension && npm run compile:tests",
     "test": "node dist/test/runTest",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src --ext ts",
-    "lint:fix": "eslint src --ext ts --fix",
+    "eslint:check": "f() { eslint --max-warnings=0 ${@:-.}; }; f",
+    "eslint:fix": "f() { eslint --fix --max-warnings=0 ${@:-.}; }; f",
     "prettier:check": "f() { prettier --check ${@:-.}; }; f",
-    "prettier:fix": "f() { prettier --write ${@:-.}; }; f"
+    "prettier:fix": "f() { prettier --write ${@:-.}; }; f",
+    "audit:licences": "license-checker --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.2",
@@ -55,6 +56,7 @@
     "glob": "^10.3.3",
     "mocha": "^10.2.0",
     "prettier": "^3.1.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "license-checker": "^25.0.1"
   }
 }
