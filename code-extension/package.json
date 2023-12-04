@@ -21,6 +21,10 @@
       {
         "command": "digitalservicebund.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "digitalservicebund.openFilesInLayout",
+        "title": "Open in custom Layout"
       }
     ]
   },
@@ -33,7 +37,9 @@
     "test": "node dist/test/runTest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext ts",
-    "lint:fix": "eslint src --ext ts --fix"
+    "lint:fix": "eslint src --ext ts --fix",
+    "prettier:check": "f() { prettier --check ${@:-.}; }; f",
+    "prettier:fix": "f() { prettier --write ${@:-.}; }; f"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.2",
@@ -45,8 +51,10 @@
     "@vscode/vsce": "^2.22.0",
     "esbuild": "^0.19.8",
     "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.1.0",
     "glob": "^10.3.3",
     "mocha": "^10.2.0",
+    "prettier": "^3.1.0",
     "typescript": "^5.2.2"
   }
 }
