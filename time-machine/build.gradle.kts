@@ -32,6 +32,7 @@ testlogger { theme = com.adarshr.gradle.testlogger.theme.ThemeType.MOCHA }
 dependencies {
   implementation(platform(libs.kotlin.bom))
   implementation(libs.kotlin.stdlib.jdk8)
+  implementation(libs.xml.unit.assertj3)
 }
 
 application { mainClass = "de.bund.digitalservice.ris.norms.timemachine.AppKt" }
