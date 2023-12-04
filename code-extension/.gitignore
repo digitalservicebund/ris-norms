@@ -1,1 +1,7 @@
+# Dependencies
 node_modules
+
+# Build output
+.vscode-test
+dist
+out
