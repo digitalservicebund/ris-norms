@@ -1,32 +1,19 @@
 package de.bund.digitalservice.ris.norms.timemachine.core
 
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import javax.xml.XMLConstants
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.dom.DOMSource
-import javax.xml.transform.stream.StreamResult
-import javax.xml.xpath.XPathConstants
+import javax.xml.xpath.XPathConstants.NODE
 import javax.xml.xpath.XPathFactory
+import org.w3c.dom.Document
 import org.w3c.dom.Node
 
-fun applyModification(newNodeValue: String, node: String): String {
-  val inputStream = ByteArrayInputStream(node.toByteArray())
-  val factory = DocumentBuilderFactory.newInstance()
-  factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
-  val document = factory.newDocumentBuilder().parse(inputStream)
-  val xpath = XPathFactory.newInstance().newXPath()
+// TODO: Is document parameter passed-as-value or -reference?
+fun applyModification(targetLaw: Document, eId: String, newText: String): Document {
+  val expression = "//*[@eId='$eId']"
+  val node = xpath.evaluate(expression, targetLaw, NODE) as Node?
 
-  val node = xpath.evaluate("//*[name()='akn:p']", document, XPathConstants.NODE) as Node
+  // TODO: handle negative case
+  node?.let { it.textContent = newText }
 
-  node.textContent = newNodeValue
-  document.xmlStandalone = true
-
-  val outputStream = ByteArrayOutputStream()
-  val streamResult = StreamResult(outputStream)
-  TransformerFactory.newInstance().newTransformer().transform(DOMSource(document), streamResult)
-  val result = outputStream.toString(Charsets.UTF_8)
-
-  return result
+  return targetLaw
 }
+
+val xpath by lazy { XPathFactory.newInstance().newXPath() }
