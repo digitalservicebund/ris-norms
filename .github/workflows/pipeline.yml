@@ -43,6 +43,66 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
+  analyze-vscode-extension:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Install SonarScanner
+        uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
+      - name: Scan with SonarQube
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npm install
+          npm run coverage
+          sonar-scanner
+        working-directory: ./vscode-extension
+      - name: Check SonarQube Quality Gate
+        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496
+        with:
+          scanMetadataReportFile: vscode-extension/.scannerwork/report-task.txt
+        timeout-minutes: 3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@0b21f14f28717b3b756282824976cdd1354b1235 # v1.3.0
+        if: ${{ failure() }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  tests-vscode-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./vscode-extension/.node-version
+          cache: npm
+          cache-dependency-path: ./vscode-extension/package-lock.json
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: ./vscode-extension/node_modules
+          key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+        working-directory: ./vscode-extension
+      - name: Run tests
+        run: npm test
+        working-directory: ./vscode-extension
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@0b21f14f28717b3b756282824976cdd1354b1235 # v1.3.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
   check-style-vscode-extension:
     runs-on: ubuntu-latest
     steps:
