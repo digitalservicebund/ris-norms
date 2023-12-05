@@ -57,7 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
-  context.subscriptions.push(openFilesInLayout);
+  context.subscriptions.push(disposable, openFilesInLayout);
 }
 
 export function deactivate() {}
