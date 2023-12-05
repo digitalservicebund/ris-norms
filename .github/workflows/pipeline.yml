@@ -6,11 +6,10 @@ name: Pipeline
 on:
   push:
     branches: [main]
-  pull_request: 
+  pull_request:
     branches: [main]
   # Allow to run this workflow manually
   workflow_dispatch:
-
 
 jobs:
   validate-gradle-wrapper:
@@ -41,6 +40,35 @@ jobs:
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
         uses: digitalservicebund/notify-on-failure-gha@0b21f14f28717b3b756282824976cdd1354b1235 # v1.3.0
         if: ${{ failure() }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  check-style-vscode-extension:
+    runs-on: ubuntu-latestå
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./vscode-extension/.node-version
+          cache: npm
+          cache-dependency-path: ./vscode-extension/package-lock.json
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: ./vscode-extension/node_modules
+          key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+        working-directory: ./vscode-extension
+      - name: Check style
+        run: npm run style:check
+        working-directory: ./vscode-extension
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@0b21f14f28717b3b756282824976cdd1354b1235 # v1.3.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
@@ -93,7 +121,6 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-
   analyze-time-machine:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -145,10 +172,10 @@ jobs:
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@2b6a709cf9c4025c5438138008beaddbb02086f0
         with:
-          scan-type: 'fs'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH' #ignored by sarif report
+          scan-type: "fs"
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH" #ignored by sarif report
       - name: Check trivy results
         run: |
           if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
@@ -162,7 +189,7 @@ jobs:
         if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: "trivy-results.sarif"
       - name: Send status to Slack
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
