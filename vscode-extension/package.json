@@ -19,31 +19,27 @@
   "contributes": {
     "commands": [
       {
-        "command": "digitalservicebund.openFilesInLayout",
-        "title": "Open in custom Layout"
+        "command": "digitalservicebund.helloWorld",
+        "title": "Hello World"
       },
       {
-        "command": "digitalservicebund.openXmlFilesInWebView",
-        "title": "Open Files in WebView"
+        "command": "digitalservicebund.openFilesInLayout",
+        "title": "Open in custom Layout"
       }
     ]
   },
   "scripts": {
-    "vscode:pack": "npm run vscode:prepublish && vsce package",
     "vscode:prepublish": "npm run compile:extension",
     "compile:extension": "esbuild ./src/extension.ts --bundle --outfile=dist/bundle.js --external:vscode --format=cjs --platform=node",
     "compile:extension:watch": "npm run compile:extension -- --watch",
     "compile:tests": "tsc -p ./",
     "pretest": "npm run compile:extension && npm run compile:tests",
     "test": "node dist/test/runTest",
-    "coverage": "nyc npm run test",
     "typecheck": "tsc --noEmit",
     "eslint:check": "f() { eslint --max-warnings=0 ${@:-.}; }; f",
     "eslint:fix": "f() { eslint --fix --max-warnings=0 ${@:-.}; }; f",
     "prettier:check": "f() { prettier --check ${@:-.}; }; f",
     "prettier:fix": "f() { prettier --write ${@:-.}; }; f",
-    "style:check": "f() { npm run typecheck && npm run prettier:check $@ && npm run eslint:check $@; }; f",
-    "style:fix": "f() { npm run prettier:fix $@ && npm run eslint:fix $@; }; f",
     "audit:licences": "license-checker --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
   },
   "devDependencies": {
@@ -58,10 +54,9 @@
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.1.0",
     "glob": "^10.3.3",
-    "license-checker": "^25.0.1",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
     "prettier": "^3.1.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "license-checker": "^25.0.1"
   }
 }

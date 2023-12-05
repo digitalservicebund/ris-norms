@@ -5,8 +5,3 @@ node_modules
 .vscode-test
 dist
 out
-normendokumentation-*.vsix
-
-# Test Output
-.nyc_output/
-coverage/
