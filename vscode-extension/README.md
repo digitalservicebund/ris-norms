@@ -1,65 +1,64 @@
-# digitalservicebund README
+# normendokumentation VSCode extension
 
-Welcome to the Digital Service Bund extension for Visual Studio Code!
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-vscode-extension&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-vscode-extension)
 
-## Features
+### Install dependencies:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+```bash
+npm install
+```
 
-## Requirements
+## Development
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### Running the Extension
 
-## Extension Settings
+To run and debug the extension directly within VS Code, follow these steps:
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+1. **Open the Extension Directory**: Make sure that the vscode-extension directory is open in Visual Studio Code and set as the root of the workspace.
 
-For example:
+2. **Start the Extension**:
 
-This extension contributes the following settings:
+   - Press 'F5' to launch a new Extension Development Host instance of VS Code with your extension loaded.
+   - Alternatively, you can go to the "Run and Debug" sidebar and click the green play button to start the extension.
 
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
+### Testing
 
-## Known Issues
+The application has uses Mocha for testing
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+**To run the tests:**
 
-## Release Notes
+```bash
+npm run test
+```
 
-Users appreciate release notes as you update your extension.
+**To Gather coverage:**
 
-### 1.0.0
+```bash
+npm run coverage
+```
 
-Initial release of ...
+### Style (linting & formatting)
 
-### 1.0.1
+Linting is done via [ESLint](https://eslint.org/docs/user-guide/getting-started); consistent formatting for a variety of source code files is being enforced using [Prettier](https://prettier.io/docs/en/index.html). ESLint and Prettier work in conjunction.
 
-Fixed issue #.
+**Check style:**
 
-### 1.1.0
+```bash
+npm run style:check
+```
 
-Added features X, Y, and Z.
+**Autofix issues:**
 
----
+```bash
+npm run style:fix
+```
 
-## Following extension guidelines
+### Packaging the extension
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+The extension is packaged and stored as an artifakt on our github repo but should you want to package the extension manually you can run:
 
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+```bash
+npm run vscode:pack
+```
 
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+This will create a `.vsix` file within the project. That is the extension.
