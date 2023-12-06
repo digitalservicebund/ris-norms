@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.w3c.dom.Document
 import org.xmlunit.assertj3.XmlAssert
@@ -47,9 +48,24 @@ class ModificationApplierTest {
         """
             .asXml()
 
-    val modifiedTargetLaw = applyModification(orginalTargetLaw, "any", "text", "text")
+    val modifiedTargetLaw = applyModification(orginalTargetLaw, "any", "", "")
 
     assertThat(modifiedTargetLaw).isNotEqualTo(orginalTargetLaw)
+  }
+
+  @Test
+  fun `it throws an exception if there is no element with the given eId`() {
+    val targetLaw =
+        """
+          <?xml version='1.0'?>
+          <akn:body>
+            <akn:p eId="any">text</akn:p>
+          </akn:body>
+        """
+
+    assertThatThrownBy { applyModification(targetLaw.asXml(), "none", "", "") }
+        .isInstanceOf(IllegalArgumentException::class.java)
+        .hasMessage("Could not find element with eId: 'none'")
   }
 }
 

@@ -16,8 +16,10 @@ fun applyModification(
   val expression = "//*[@eId='$eId']"
   val node = xpath.evaluate(expression, amendedLaw, NODE) as Node?
 
-  // TODO: handle negative case
-  node?.let { it.textContent = it.textContent.replaceFirst(oldText, newText) }
+  require(node != null) { "Could not find element with eId: '$eId'" }
+
+  val modifiedText = node.textContent.replaceFirst(oldText, newText)
+  node.textContent = modifiedText
 
   return amendedLaw
 }
