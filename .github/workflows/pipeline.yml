@@ -79,6 +79,40 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
+  build-vscode-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./vscode-extension/.node-version
+          cache: npm
+          cache-dependency-path: ./vscode-extension/package-lock.json
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: ./vscode-extension/node_modules
+          key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+        working-directory: ./vscode-extension
+      - name: Build Extension
+        run: npm run vscode:pack
+        working-directory: ./vscode-extension
+      - name: Upload VScode extension vsix file
+        uses: actions/upload-artifact@v3
+        with:
+          name: vscode-extension
+          path: ./vscode-extension/*.vsix
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@0b21f14f28717b3b756282824976cdd1354b1235 # v1.3.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
   tests-vscode-extension:
     runs-on: ubuntu-latest
     steps:
