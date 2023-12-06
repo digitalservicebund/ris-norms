@@ -100,7 +100,7 @@ jobs:
         working-directory: ./vscode-extension
       - name: Run tests
         run: npm test
-        working-directory: ./vscode
+        working-directory: ./vscode-extension
         env:
           DISPLAY: ":99.0"
       - name: Send status to Slack
