@@ -19,7 +19,7 @@ class ModificationApplierTest {
           </akn:body>
         """
 
-    val result = applyModification(targetLaw.asXml(), "two", "new text")
+    val result = applyModification(targetLaw.asXml(), "two", "old", "new")
 
     assertThat(result)
         .and(
