@@ -92,7 +92,7 @@ jobs:
           key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
       - name: Establish virtual display buffer
         run: |
-          /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1
+          /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           echo "Xvfb started"
       - name: Install dependencies
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
