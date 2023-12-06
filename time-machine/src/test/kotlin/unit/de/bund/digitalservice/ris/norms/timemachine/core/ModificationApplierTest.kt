@@ -3,9 +3,10 @@ package de.bund.digitalservice.ris.norms.timemachine.core
 import java.io.ByteArrayInputStream
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.w3c.dom.Document
-import org.xmlunit.assertj3.XmlAssert.assertThat
+import org.xmlunit.assertj3.XmlAssert
 
 class ModificationApplierTest {
   @Test
@@ -21,7 +22,7 @@ class ModificationApplierTest {
 
     val result = applyModification(targetLaw.asXml(), "two", "old", "new")
 
-    assertThat(result)
+    XmlAssert.assertThat(result)
         .and(
             """
               <?xml version='1.0'?>
@@ -33,6 +34,22 @@ class ModificationApplierTest {
                 .asXml(),
         )
         .areIdentical()
+  }
+
+  @Test
+  fun `it does not modify the orginal target law`() {
+    val orginalTargetLaw =
+        """
+          <?xml version='1.0'?>
+          <akn:body>
+            <akn:p eId="any">text</akn:p>
+          </akn:body>
+        """
+            .asXml()
+
+    val modifiedTargetLaw = applyModification(orginalTargetLaw, "any", "text", "text")
+
+    assertThat(modifiedTargetLaw).isNotEqualTo(orginalTargetLaw)
   }
 }
 
