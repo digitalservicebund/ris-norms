@@ -52,10 +52,15 @@ jobs:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Install SonarScanner
         uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
+      - name: Establish virtual display buffer
+        run: |
+          /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          echo "Xvfb started"
       - name: Scan with SonarQube
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          DISPLAY: ":99.0"
         run: |
           npm install
           npm run coverage
@@ -90,6 +95,10 @@ jobs:
         with:
           path: ./vscode-extension/node_modules
           key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
+      - name: Establish virtual display buffer
+        run: |
+          /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          echo "Xvfb started"
       - name: Install dependencies
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -97,6 +106,8 @@ jobs:
       - name: Run tests
         run: npm test
         working-directory: ./vscode-extension
+        env:
+          DISPLAY: ":99.0"
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@0b21f14f28717b3b756282824976cdd1354b1235 # v1.3.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
