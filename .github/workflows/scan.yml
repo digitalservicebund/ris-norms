@@ -11,19 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Remove all caches and database of the trivy scanner
-        uses: aquasecurity/trivy-action@2b6a709cf9c4025c5438138008beaddbb02086f0
+        uses: aquasecurity/trivy-action@22d2755f774d925b191a185b74e782a4b0638a41
         env:
           TRIVY_RESET: true
         with:
           scan-type: "fs"
       - name: Download trivy vulnerabilities DB
-        uses: aquasecurity/trivy-action@2b6a709cf9c4025c5438138008beaddbb02086f0
+        uses: aquasecurity/trivy-action@22d2755f774d925b191a185b74e782a4b0638a41
         env:
           TRIVY_DOWNLOAD_DB_ONLY: true
         with:
           scan-type: "fs"
       - name: Download trivy Java index DB
-        uses: aquasecurity/trivy-action@2b6a709cf9c4025c5438138008beaddbb02086f0
+        uses: aquasecurity/trivy-action@22d2755f774d925b191a185b74e782a4b0638a41
         env:
           TRIVY_DOWNLOAD_JAVA_DB_ONLY: true
         with:
@@ -57,7 +57,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@2b6a709cf9c4025c5438138008beaddbb02086f0
+        uses: aquasecurity/trivy-action@22d2755f774d925b191a185b74e782a4b0638a41
         with:
           scan-type: 'fs'
           format: 'sarif'
