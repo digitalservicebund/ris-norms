@@ -29,9 +29,10 @@ fun applyModification(
   return amendedLaw
 }
 
-fun getFirstModification(amendingLaw: Document) = getNode("//mod", amendingLaw)
+fun getFirstModification(amendingLaw: Document) = getNode("//*[local-name()='mod']", amendingLaw)
 
-fun getReferenceEid(modification: Node) = getNode("//ref/@href", modification)?.nodeValue
+fun getReferenceEid(modification: Node) =
+    getNode("//*[local-name()='ref']/@href", modification)?.nodeValue
 
 fun findElementToModify(eId: String, amendedLaw: Document) = getNode("//*[@eId='$eId']", amendedLaw)
 

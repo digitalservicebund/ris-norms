@@ -15,9 +15,9 @@ class ModificationApplierTest {
     val amendingLaw =
         """
           <akn:body>
-            <mod>
-              Change <ref href="two">paragraph 2</ref>
-            </mod>
+            <akn:mod>
+              Change <akn:ref href="two">paragraph 2</akn:ref>
+            </akn:mod>
           </akn:body>
         """
 
@@ -66,7 +66,7 @@ class ModificationApplierTest {
     val amendingLaw =
         """
           <akn:body>
-            <mod>Change paragraph 2</mod>
+            <akn:mod>Change paragraph 2</akn:mod>
           </akn:body>
         """
 
@@ -80,9 +80,9 @@ class ModificationApplierTest {
     val amendingLaw =
         """
           <akn:body>
-            <mod>
-              Change <ref href="none">paragraph 2</ref>
-            </mod>
+            <akn:mod>
+              Change <akn:ref href="none">paragraph 2</akn:ref>
+            </akn:mod>
           </akn:body>
         """
 
@@ -102,9 +102,9 @@ class ModificationApplierTest {
 private const val anyAmendingLaw =
     """
       <akn:body>
-        <mod>
-          Change <ref href="any">paragraph 2</ref>
-        </mod>
+        <akn:mod>
+          Change <akn:ref href="any">paragraph 2</akn:ref>
+        </akn:mod>
       </akn:body>
     """
 
