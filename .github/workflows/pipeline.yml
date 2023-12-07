@@ -228,25 +228,15 @@ jobs:
         with:
           name: vscode-extension
           path: ./vscode-extension/*.vsix
-      - name: Create GitHub Release for VScode extension
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create and Upload GitHub Release for VSCode Extension
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release VSCode Extension
+          files: ./vscode-extension/*.vsix
+          name: Release VSCode Extension
           draft: false
           prerelease: true
-      - name: Upload Extension to Release
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./vscode-extension/*.vsix
-          asset_name: normendokumentation.vsix
-          asset_content_type: application/octet-stream
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@0b21f14f28717b3b756282824976cdd1354b1235 # v1.3.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
