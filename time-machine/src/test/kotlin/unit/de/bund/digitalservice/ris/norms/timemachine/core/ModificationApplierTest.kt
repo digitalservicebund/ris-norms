@@ -12,6 +12,15 @@ import org.xmlunit.assertj3.XmlAssert
 class ModificationApplierTest {
   @Test
   fun `it replaces the text value of the node with the matching eId attribute of the amending law`() {
+    val amendingLaw =
+        """
+          <akn:body>
+            <mod>
+              Change <ref href="two">paragraph 2</ref>
+            </mod>
+          </akn:body>
+        """
+
     val targetLaw =
         """
           <akn:body>
@@ -20,7 +29,7 @@ class ModificationApplierTest {
           </akn:body>
         """
 
-    val result = applyModification(targetLaw.asXml(), "two", "old", "new")
+    val result = applyModification(amendingLaw.asXml(), targetLaw.asXml(), "old", "new")
 
     XmlAssert.assertThat(result)
         .and(
@@ -37,14 +46,46 @@ class ModificationApplierTest {
 
   @Test
   fun `it does not modify the orginal target law`() {
-    val targetLaw = anyTargetLaw.asXml()
-    val modifiedTargetLaw = applyModification(targetLaw, anyEId, "", "")
+    val targetLawXml = anyTargetLaw.asXml()
+    val modifiedTargetLaw = applyModification(anyAmendingLaw.asXml(), targetLawXml, "", "")
 
-    assertThat(modifiedTargetLaw).isNotEqualTo(targetLaw)
+    assertThat(modifiedTargetLaw).isNotEqualTo(targetLawXml)
   }
 
   @Test
-  fun `it throws an exception if there is no element with the given eId`() {
+  fun `it throws an exception if the amending law has no modifications`() {
+    val amendingLaw = "<akn:body></akn:body>"
+
+    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml(), "", "") }
+        .isInstanceOf(IllegalArgumentException::class.java)
+        .hasMessage("Amending law does not include any modification")
+  }
+
+  @Test
+  fun `it throws an exception if the modification does not include a reference with an eId`() {
+    val amendingLaw =
+        """
+          <akn:body>
+            <mod>Change paragraph 2</mod>
+          </akn:body>
+        """
+
+    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml(), "", "") }
+        .isInstanceOf(IllegalArgumentException::class.java)
+        .hasMessage("Modification has no target reference")
+  }
+
+  @Test
+  fun `it throws an exception if there is no element with the eId to modify`() {
+    val amendingLaw =
+        """
+          <akn:body>
+            <mod>
+              Change <ref href="none">paragraph 2</ref>
+            </mod>
+          </akn:body>
+        """
+
     val targetLaw =
         """
           <akn:body>
@@ -52,19 +93,27 @@ class ModificationApplierTest {
           </akn:body>
         """
 
-    assertThatThrownBy { applyModification(targetLaw.asXml(), "none", "", "") }
+    assertThatThrownBy { applyModification(amendingLaw.asXml(), targetLaw.asXml(), "", "") }
         .isInstanceOf(IllegalArgumentException::class.java)
-        .hasMessage("Could not find element with eId: 'none'")
+        .hasMessage("Could not find element to modify with eId: 'none'")
   }
 }
 
-private const val anyEId = "any"
+private const val anyAmendingLaw =
+    """
+      <akn:body>
+        <mod>
+          Change <ref href="any">paragraph 2</ref>
+        </mod>
+      </akn:body>
+    """
+
 private const val anyTargetLaw =
     """
-        <akn:body>
-          <akn:p eId="any">text</akn:p>
-        </akn:body>
-      """
+      <akn:body>
+        <akn:p eId="any">text</akn:p>
+      </akn:body>
+    """
 
 private const val xmlHeader = "<?xml version='1.0'?>"
 

@@ -7,22 +7,36 @@ import org.w3c.dom.Document
 import org.w3c.dom.Node
 
 fun applyModification(
+    amendingLaw: Document,
     targetLaw: Document,
-    eId: String,
     oldText: String,
     newText: String
 ): Document {
   val amendedLaw = targetLaw.clone()
-  val expression = "//*[@eId='$eId']"
-  val node = xpath.evaluate(expression, amendedLaw, NODE) as Node?
 
-  require(node != null) { "Could not find element with eId: '$eId'" }
+  val modification = getFirstModification(amendingLaw)
+  requireNotNull(modification) { "Amending law does not include any modification" }
 
-  val modifiedText = node.textContent.replaceFirst(oldText, newText)
-  node.textContent = modifiedText
+  val eId = getReferenceEid(modification)
+  requireNotNull(eId) { "Modification has no target reference" }
+
+  val elementToModify = findElementToModify(eId, amendedLaw)
+  requireNotNull(elementToModify) { "Could not find element to modify with eId: '$eId'" }
+
+  val modifiedText = elementToModify.textContent.replaceFirst(oldText, newText)
+  elementToModify.textContent = modifiedText
 
   return amendedLaw
 }
+
+fun getFirstModification(amendingLaw: Document) = getNode("//mod", amendingLaw)
+
+fun getReferenceEid(modification: Node) = getNode("//ref/@href", modification)?.nodeValue
+
+fun findElementToModify(eId: String, amendedLaw: Document) = getNode("//*[@eId='$eId']", amendedLaw)
+
+fun getNode(expression: String, document: Node) =
+    xpath.evaluate(expression, document, NODE) as Node?
 
 private fun Document.clone(): Document {
   val originalRootNode = this.getDocumentElement()
