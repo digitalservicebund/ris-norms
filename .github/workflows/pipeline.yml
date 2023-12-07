@@ -232,6 +232,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ./vscode-extension/*.vsix
+          tag_name: ${{ github.run_number }}
           name: Release VSCode Extension
           draft: false
           prerelease: true
