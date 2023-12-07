@@ -235,7 +235,7 @@ jobs:
           tag_name: extension-package-${{ github.run_number }}
           name: Release VSCode Extension
           draft: false
-          prerelease: true
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Send status to Slack
