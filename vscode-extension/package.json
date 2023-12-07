@@ -27,7 +27,7 @@
   "scripts": {
     "vscode:pack": "npm run vscode:prepublish && vsce package",
     "vscode:prepublish": "npm run compile:extension",
-    "compile:extension": "esbuild ./src/extension.ts --bundle --outfile=dist/bundle.js --external:vscode --format=cjs --platform=node",
+    "compile:extension": "esbuild ./src/extension.ts --bundle --outfile=dist/bundle.js --external:vscode --format=cjs --platform=node --sourcemap",
     "compile:extension:watch": "npm run compile:extension -- --watch",
     "compile:tests": "tsc -p ./",
     "pretest": "npm run compile:extension && npm run compile:tests",
@@ -45,6 +45,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.2",
     "@types/node": "18.x",
+    "@types/sinon": "^17.0.2",
     "@types/vscode": "^1.84.0",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
@@ -58,6 +59,7 @@
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "prettier": "^3.1.0",
+    "sinon": "^17.0.1",
     "typescript": "^5.2.2"
   }
 }
