@@ -11,10 +11,9 @@ import org.xmlunit.assertj3.XmlAssert
 
 class ModificationApplierTest {
   @Test
-  fun `it replaces the text value of the node with the matching eId attribute`() {
+  fun `it replaces the text value of the node with the matching eId attribute of the amending law`() {
     val targetLaw =
         """
-          <?xml version='1.0'?>
           <akn:body>
             <akn:p eId="one">old text</akn:p>
             <akn:p eId="two">old text</akn:p>
@@ -26,7 +25,6 @@ class ModificationApplierTest {
     XmlAssert.assertThat(result)
         .and(
             """
-              <?xml version='1.0'?>
               <akn:body>
                 <akn:p eId="one">old text</akn:p>
                 <akn:p eId="two">new text</akn:p>
@@ -39,25 +37,16 @@ class ModificationApplierTest {
 
   @Test
   fun `it does not modify the orginal target law`() {
-    val orginalTargetLaw =
-        """
-          <?xml version='1.0'?>
-          <akn:body>
-            <akn:p eId="any">text</akn:p>
-          </akn:body>
-        """
-            .asXml()
+    val targetLaw = anyTargetLaw.asXml()
+    val modifiedTargetLaw = applyModification(targetLaw, anyEId, "", "")
 
-    val modifiedTargetLaw = applyModification(orginalTargetLaw, "any", "", "")
-
-    assertThat(modifiedTargetLaw).isNotEqualTo(orginalTargetLaw)
+    assertThat(modifiedTargetLaw).isNotEqualTo(targetLaw)
   }
 
   @Test
   fun `it throws an exception if there is no element with the given eId`() {
     val targetLaw =
         """
-          <?xml version='1.0'?>
           <akn:body>
             <akn:p eId="any">text</akn:p>
           </akn:body>
@@ -69,8 +58,19 @@ class ModificationApplierTest {
   }
 }
 
+private const val anyEId = "any"
+private const val anyTargetLaw =
+    """
+        <akn:body>
+          <akn:p eId="any">text</akn:p>
+        </akn:body>
+      """
+
+private const val xmlHeader = "<?xml version='1.0'?>"
+
 private fun String.asXml(): Document {
-  val inputStream = ByteArrayInputStream(this.trimIndent().toByteArray())
+  val withHeader = xmlHeader + this.trimIndent()
+  val inputStream = ByteArrayInputStream(withHeader.toByteArray())
   val factory = DocumentBuilderFactory.newInstance()
   factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
   return factory.newDocumentBuilder().parse(inputStream)
