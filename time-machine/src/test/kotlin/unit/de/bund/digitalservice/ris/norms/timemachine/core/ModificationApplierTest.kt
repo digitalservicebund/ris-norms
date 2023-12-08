@@ -12,11 +12,12 @@ import org.xmlunit.assertj3.XmlAssert
 class ModificationApplierTest {
   @Test
   fun `it replaces the text value of the node with the matching eId attribute of the amending law`() {
+
     val amendingLaw =
         """
           <akn:body>
             <akn:mod>
-              Change <akn:ref href="two">paragraph 2</akn:ref>
+             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
             </akn:mod>
           </akn:body>
         """
@@ -29,7 +30,7 @@ class ModificationApplierTest {
           </akn:body>
         """
 
-    val result = applyModification(amendingLaw.asXml(), targetLaw.asXml(), "old", "new")
+    val result = applyModification(amendingLaw.asXml(), targetLaw.asXml())
 
     XmlAssert.assertThat(result)
         .and(
@@ -45,9 +46,9 @@ class ModificationApplierTest {
   }
 
   @Test
-  fun `it does not modify the orginal target law`() {
+  fun `it does not modify the original target law`() { // check object equality
     val targetLawXml = anyTargetLaw.asXml()
-    val modifiedTargetLaw = applyModification(anyAmendingLaw.asXml(), targetLawXml, "", "")
+    val modifiedTargetLaw = applyModification(anyAmendingLaw.asXml(), targetLawXml)
 
     assertThat(modifiedTargetLaw).isNotEqualTo(targetLawXml)
   }
@@ -56,7 +57,7 @@ class ModificationApplierTest {
   fun `it throws an exception if the amending law has no modifications`() {
     val amendingLaw = "<akn:body></akn:body>"
 
-    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml(), "", "") }
+    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml()) }
         .isInstanceOf(IllegalArgumentException::class.java)
         .hasMessage("Amending law does not include any modification")
   }
@@ -65,12 +66,12 @@ class ModificationApplierTest {
   fun `it throws an exception if the modification does not include a reference with an eId`() {
     val amendingLaw =
         """
-          <akn:body>
-            <akn:mod>Change paragraph 2</akn:mod>
-          </akn:body>
-        """
+              <akn:body>
+                <akn:mod>Change paragraph 2</akn:mod>
+              </akn:body>
+            """
 
-    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml(), "", "") }
+    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml()) }
         .isInstanceOf(IllegalArgumentException::class.java)
         .hasMessage("Modification has no target reference")
   }
@@ -79,21 +80,21 @@ class ModificationApplierTest {
   fun `it throws an exception if there is no element with the eId to modify`() {
     val amendingLaw =
         """
-          <akn:body>
-            <akn:mod>
-              Change <akn:ref href="none">paragraph 2</akn:ref>
-            </akn:mod>
-          </akn:body>
-        """
+              <akn:body>
+                <akn:mod>
+                  Change <akn:ref href="none">paragraph 2</akn:ref>
+                </akn:mod>
+              </akn:body>
+            """
 
     val targetLaw =
         """
-          <akn:body>
-            <akn:p eId="any">text</akn:p>
-          </akn:body>
-        """
+              <akn:body>
+                <akn:p eId="any">text</akn:p>
+              </akn:body>
+            """
 
-    assertThatThrownBy { applyModification(amendingLaw.asXml(), targetLaw.asXml(), "", "") }
+    assertThatThrownBy { applyModification(amendingLaw.asXml(), targetLaw.asXml()) }
         .isInstanceOf(IllegalArgumentException::class.java)
         .hasMessage("Could not find element to modify with eId: 'none'")
   }
@@ -103,7 +104,7 @@ private const val anyAmendingLaw =
     """
       <akn:body>
         <akn:mod>
-          Change <akn:ref href="any">paragraph 2</akn:ref>
+            In <akn:ref href="any">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
         </akn:mod>
       </akn:body>
     """

@@ -6,12 +6,8 @@ import javax.xml.xpath.XPathFactory
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 
-fun applyModification(
-    amendingLaw: Document,
-    targetLaw: Document,
-    oldText: String,
-    newText: String
-): Document {
+fun applyModification( // replace text?
+amendingLaw: Document, targetLaw: Document): Document {
   val amendedLaw = targetLaw.clone()
 
   val modification = getFirstModification(amendingLaw)
@@ -23,6 +19,12 @@ fun applyModification(
   val elementToModify = findElementToModify(eId, amendedLaw)
   requireNotNull(elementToModify) { "Could not find element to modify with eId: '$eId'" }
 
+  val oldText = extractOldText(modification)
+  requireNotNull(oldText) { "Could not find text that should be replaced" }
+
+  val newText = extractNewText(modification)
+  requireNotNull(newText) { "Could not find replacement text" }
+
   val modifiedText = elementToModify.textContent.replaceFirst(oldText, newText)
   elementToModify.textContent = modifiedText
 
@@ -31,10 +33,18 @@ fun applyModification(
 
 fun getFirstModification(amendingLaw: Document) = getNode("//*[local-name()='mod']", amendingLaw)
 
-fun getReferenceEid(modification: Node) =
-    getNode("//*[local-name()='ref']/@href", modification)?.nodeValue
+fun getReferenceEid(modification: Node): String? {
+  val href = getNode("//*[local-name()='ref']/@href", modification)?.nodeValue
+  return href?.split("/")?.takeLast(2)?.get(0)
+}
 
 fun findElementToModify(eId: String, amendedLaw: Document) = getNode("//*[@eId='$eId']", amendedLaw)
+
+fun extractOldText(modification: Node): String? =
+    getNode("//*[local-name()='quotedText']", modification)?.textContent
+
+fun extractNewText(modification: Node): String? =
+    getNode("(//*[local-name()='quotedText'])[2]", modification)?.textContent
 
 fun getNode(expression: String, document: Node) =
     xpath.evaluate(expression, document, NODE) as Node?
