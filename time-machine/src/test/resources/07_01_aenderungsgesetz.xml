@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	##################################################################################
+	Projekt E-Gesetzgebung
+	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.5 (Mai 2023)
+	
+	2023 Copyright (C) 2021-2023 Bundesministerium des Innern und für Heimat,
+	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
+	Verwaltungsarbeit
+	
+	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
+	##################################################################################
+-->
+<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.5/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.5/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.5/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+   <akn:act name="regelungstext">
+<!-- Metadaten -->
+      <akn:meta>
+         <akn:identification source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork>
+               <akn:FRBRthis value="eli/bund/bgbl-1/2017/s419/regelungstext-1"/>
+               <akn:FRBRuri value="eli/bund/bgbl-1/2017/s419"/>
+               <akn:FRBRalias name="übergreifende-id" value="c53036e4-14ac-420f-b01a-bae05a0a9756"/>
+               <akn:FRBRdate date="2017-03-15" name="verkuendungsfassung"/>
+               <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry value="de"/>
+               <akn:FRBRnumber value="s419"/>
+               <akn:FRBRname value="bgbl-1"/>
+               <akn:FRBRsubtype value="regelungstext-1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression>
+               <akn:FRBRthis value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"/>
+               <akn:FRBRuri value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"/>
+               <akn:FRBRalias name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
+               <akn:FRBRalias name="nachfolgende-version-id"
+                              value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
+               <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate date="2017-03-15" name="verkuendung"/>
+               <akn:FRBRlanguage language="deu"/>
+               <akn:FRBRversionNumber value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation>
+               <akn:FRBRthis value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1.xml"/>
+               <akn:FRBRuri value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1.xml"/>
+               <akn:FRBRdate date="2022-08-23" name="generierung"/>
+               <akn:FRBRauthor href="recht.bund.de"/>
+               <akn:FRBRformat value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:lifecycle source="attributsemantik-noch-undefiniert">
+            <akn:eventRef date="2017-03-15"
+                          eId="ereignis-1"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"
+                          refersTo="ausfertigung"/>
+            <akn:eventRef date="2017-03-16"
+                          eId="ereignis-2"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"
+                          refersTo="inkrafttreten"/>
+         </akn:lifecycle>
+         <!-- ANALYSIS -->
+         <akn:analysis source="attributsemantik-noch-undefiniert">
+            <akn:activeModifications>
+               <akn:textualMod type="substitution">
+                  <akn:source href="#art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
+                  <akn:destination href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"/>
+                  <akn:force period="#geltungszeitgr-1"/>
+               </akn:textualMod>
+            </akn:activeModifications>
+         </akn:analysis>
+         <!-- TEMPORAL DATA -->
+         <akn:temporalData source="attributsemantik-noch-undefiniert">
+            <akn:temporalGroup GUID="ac311ee1-33d3-4b9b-a974-776e55a88396" eId="geltungszeitgr-1">
+               <akn:timeInterval refersTo="geltungszeit" start="#ereignis-2"/>
+            </akn:temporalGroup>
+         </akn:temporalData>
+         <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
+         <akn:proprietary source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.5/">
+               <meta:typ>gesetz</meta:typ>
+               <meta:form>mantelform</meta:form>
+               <meta:fassung>verkuendungsfassung</meta:fassung>
+               <meta:art>regelungstext</meta:art>
+               <meta:initiant>bundesregierung</meta:initiant>
+               <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+               <meta:fna>nicht-vorhanden</meta:fna>
+               <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+               <meta:gesta>nicht-vorhanden</meta:gesta>
+               <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+               <meta:federfuehrung>
+                  <meta:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                  <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
+               </meta:federfuehrung>
+            </meta:legalDocML.de_metadaten>
+         </akn:proprietary>
+      </akn:meta>
+      <!-- Dokumentenkopf -->
+      <akn:preface>
+         <akn:longTitle GUID="185fcdbe-04f8-4b17-ac7c-2208c7f2f9df" eId="doktitel-1">
+            <akn:p GUID="a9694e02-330d-40e3-b0d1-50b2059f020c" eId="doktitel-1_text-1">
+               <akn:docStage>Referentenentwurf</akn:docStage>
+               <akn:docProponent> des Bundesministeriums des Innern</akn:docProponent>
+               <akn:docTitle>Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes</akn:docTitle>
+            </akn:p>
+         </akn:longTitle>
+         <akn:block GUID="a0973d49-d628-42f7-a1da-b004bc980a44"
+                    eId="block-1"
+                    name="attributsemantik-noch-undefiniert">
+            <akn:date GUID="f20d437a-3058-4747-8b8b-9b1e06c17273"
+                      eId="block-1_datum-1"
+                      refersTo="ausfertigung-datum"
+                      date="1900-01-01">Vom
+               01.01.1900</akn:date>
+         </akn:block>
+      </akn:preface>
+      <!-- Eingangsformel -->
+      <akn:preamble>
+         <akn:formula GUID="a7bbd756-c50a-4944-8f64-49134e1166cc"
+                      eId="formel-1"
+                      refersTo="eingangsformel"
+                      name="attributsemantik-noch-undefiniert">
+            <akn:p GUID="7e0cf2ac-b45a-40b8-8369-c5013ada9f48" eId="formel-1_text-1"> Der <akn:organization GUID="05004de4-44d4-4e59-a1ef-5912003a6f36"
+                                 eId="formel-1_text-1_org-1"
+                                 refersTo="">Bundestag</akn:organization> hat das folgende Gesetz beschlossen:</akn:p>
+         </akn:formula>
+      </akn:preamble>
+      <akn:body GUID="cdbfc728-a070-42d9-ba2f-357945afef06" eId="hauptteil">
+<!-- Artikel 1 : Hauptänderung -->
+         <akn:article period="#geltungszeitgr-1"
+                      GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
+                      eId="art-1"
+                      refersTo="hauptaenderung">
+            <akn:num GUID="25a9acae-7463-4490-bc3f-8258b629d7e9" eId="art-1_bezeichnung-1">
+               <akn:marker name="1"/>Artikel 1</akn:num>
+            <akn:heading GUID="92827aa8-8118-4207-9f93-589345f0bab6" eId="art-1_überschrift-1">Änderung des Vereinsgesetzes</akn:heading>
+            <!-- Absatz (1) -->
+            <akn:paragraph GUID="48ead358-f901-41d3-a135-e372d5ef97b1" eId="art-1_abs-1">
+               <akn:num GUID="ef3a32d2-df20-4978-914b-cd6288872208"
+                        eId="art-1_abs-1_bezeichnung-1">
+                  <akn:marker name="1"/>
+               </akn:num>
+               <akn:list GUID="41675622-ed62-46e3-869f-94d99908b010" eId="art-1_abs-1_untergl-1">
+                  <akn:intro GUID="5d6fc824-7926-43b4-b243-b0096da183f9"
+                             eId="art-1_abs-1_untergl-1_intro-1">
+                     <akn:p GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"
+                            eId="art-1_abs-1_untergl-1_intro-1_text-1"> Das <akn:affectedDocument href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt
+                           durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <!-- Nummer 1 -->
+                  <akn:point GUID="b5fa1383-f26a-4904-a638-f48711fbcf2d"
+                             eId="art-1_abs-1_untergl-1_listenelem-1">
+                     <akn:num GUID="6f0f92b3-1a51-440c-9137-b44ab9d990ac"
+                              eId="art-1_abs-1_untergl-1_listenelem-1_bezeichnung-1">
+                        <akn:marker name="2"/>2.</akn:num>
+                     <akn:content GUID="6cb14ab5-3a7f-45f4-9e85-00ac2fb0fe5e"
+                                  eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1">
+                        <akn:p GUID="db3fbe0f-b758-4cc4-b528-a723cacad94a"
+                               eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1">
+                           <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+                                    eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+                                    refersTo="aenderungsbefehl-ersetzen">In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird
+                              die Angabe <akn:quotedText startQuote="„" endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„" endQuote="“">§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:quotedText> ersetzt.</akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+<!-- Artikel 2: Geltungszeitregel-->
+         <akn:article period="#geltungszeitgr-1"
+                      GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b"
+                      eId="art-2"
+                      refersTo="geltungszeitregel">
+            <akn:num GUID="1bc12642-f00c-4b55-8388-5e8870e6e706" eId="art-2_bezeichnung-1">
+               <akn:marker name="2"/>Artikel 2</akn:num>
+            <akn:heading GUID="59a7dc28-e095-4da6-ba78-278a0d69a3fd" eId="art-2_überschrift-1">Inkrafttreten</akn:heading>
+            <!-- Absatz (1) -->
+            <akn:paragraph GUID="0b1590b0-8945-44a0-bf44-ebfb7d8c3bd8" eId="art-2_abs-1">
+               <akn:num GUID="c46a1cbc-f823-4a18-9b0c-0f131244a58e"
+                        eId="art-2_abs-1_bezeichnung-1">
+                  <akn:marker name="1"/>
+               </akn:num>
+               <akn:content GUID="3e004e1f-f1bc-42a7-8042-2c1d77df81aa" eId="art-2_abs-1_inhalt-1">
+                  <akn:p GUID="52406e40-b866-410c-b097-af69e6248f58"
+                         eId="art-2_abs-1_inhalt-1_text-1"> Dieses Gesetz tritt <akn:date GUID="2ee89811-5368-46e0-acf8-a598506cc956"
+                               eId="art-2_abs-1_inhalt-1_text-1_datum-1"
+                               date="2017-03-16"
+                               refersTo="inkrafttreten-datum">am Tag nach der Verkündung</akn:date> in Kraft. </akn:p>
+               </akn:content>
+            </akn:paragraph>
+         </akn:article>
+      </akn:body>
+      <!-- Schluss -->
+      <akn:conclusions>
+         <akn:formula name="attributsemantik-noch-undefiniert"
+                      refersTo="schlussformel"
+                      GUID="a269a1a9-e8ca-471a-a9d4-ce61e9af05aa"
+                      eId="formel-1">
+            <akn:p GUID="1354658b-fdb7-46b4-96e2-e194b16ee103" eId="formel-1_text-1">Das vorstehende Gesetz ist hiermit verkündet.</akn:p>
+         </akn:formula>
+         <!-- Signaturen -->
+         <akn:block GUID="35e11af5-ff7c-4422-af51-87cff3cc7ceb"
+                    eId="block-1"
+                    name="attributsemantik-noch-undefiniert">
+            <akn:location GUID="19ffc7e1-add6-40a4-b9af-2f0927e46e9c"
+                          eId="block-1_ort-1"
+                          refersTo="">Bonn</akn:location>
+            <akn:date GUID="34cf44aa-73a4-4dee-9827-4d890da7aac7"
+                      eId="block-1_datum-1"
+                      refersTo="ausfertigung-datum"
+                      date="1964-08-05">, den 5. August 1964 </akn:date>
+            <akn:signature GUID="b092cd1d-2f77-4fe6-a63d-5bcabeb410ad" eId="block-1_signatur-1">
+               <akn:role GUID="1cd9ff70-4004-48dc-8c76-7fb295852717"
+                         eId="block-1_signatur-1_fktbez-1"
+                         refersTo="">Der Bundespräsident</akn:role>
+               <akn:person refersTo="">Lübke</akn:person>
+            </akn:signature>
+            <akn:signature GUID="2c6c0dc9-32b6-46ee-a1fa-9b8a0bc7c193" eId="block-1_signatur-2">
+               <akn:role GUID="bea9417f-96d8-4a0b-a923-4541ed04b921"
+                         eId="block-1_signatur-2_fktbez-1">Der Stellvertreter des Bundeskanzlers</akn:role>
+               <akn:person refersTo="">Mende</akn:person>
+            </akn:signature>
+            <akn:signature GUID="669a4ce1-2782-4623-8af7-83e7bcf0917a" eId="block-1_signatur-3">
+               <akn:role GUID="0732a41f-abe1-4774-b6c0-b4934082ca2c"
+                         eId="block-1_signatur-3_fktbez-1"
+                         refersTo="">Der Bundesminister des Innern</akn:role>
+               <akn:person refersTo="">Hermann Höcherl</akn:person>
+            </akn:signature>
+            <akn:signature GUID="22a6ce3d-3ae9-4189-bfed-d544efe7e50b" eId="block-1_signatur-4">
+               <akn:role GUID="cacb2add-a766-4f2e-ac4a-7b437b226d0d"
+                         eId="block-1_signatur-4_fktbez-1"
+                         refersTo="">Der Bundesminister der Justiz</akn:role>
+               <akn:person refersTo="">Bucher</akn:person>
+            </akn:signature>
+         </akn:block>
+      </akn:conclusions>
+   </akn:act>
+</akn:akomaNtoso>
