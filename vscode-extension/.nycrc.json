@@ -1,4 +1,5 @@
 {
   "reporter": ["lcov"],
-  "report-dir": "./coverage"
+  "report-dir": "./coverage",
+  "exclude": ["test/runTests.ts", "test/suite/*.ts"]
 }
