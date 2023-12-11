@@ -6,8 +6,7 @@ import javax.xml.xpath.XPathFactory
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 
-fun applyModification( // replace text?
-amendingLaw: Document, targetLaw: Document): Document {
+fun applyModification(amendingLaw: Document, targetLaw: Document): Document {
   val amendedLaw = targetLaw.clone()
 
   val modification = getFirstModification(amendingLaw)
