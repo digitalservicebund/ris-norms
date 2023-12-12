@@ -1,4 +1,4 @@
-name: "Release VSCode Extension if changed"
+name: Release VSCode Extension if changed
 
 on:
   push:
@@ -14,4 +14,4 @@ jobs:
   publish-release:
     runs-on: ubuntu-latest
     steps:
-      - run: "Workflow triggered"
+      - run: echo 'Workflow triggered'
