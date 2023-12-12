@@ -62,11 +62,13 @@ jobs:
         run: npm run vscode:pack
         working-directory: ./vscode-extension
       - name: Upload VScode extension vsix file
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }} 
         uses: actions/upload-artifact@v3
         with:
           name: vscode-extension
           path: ./vscode-extension/*.vsix
       - name: Create and Upload GitHub Release for VSCode Extension
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }} 
         uses: softprops/action-gh-release@v1
         with:
           files: ./vscode-extension/*.vsix
