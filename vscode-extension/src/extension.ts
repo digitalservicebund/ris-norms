@@ -1,4 +1,6 @@
 import * as vscode from "vscode";
+import ContentProvider, { encodeLocation } from "./provider";
+import { Disposable, workspace, languages, commands, window } from "vscode";
 
 export function activate(context: vscode.ExtensionContext) {
   let openFilesInLayout = vscode.commands.registerCommand(
@@ -56,6 +58,40 @@ export function activate(context: vscode.ExtensionContext) {
       }
     },
   );
+
+  const provider = new ContentProvider();
+
+  // register content provider for scheme `references`
+  // register document link provider for scheme `references`
+  const providerRegistrations = Disposable.from(
+    workspace.registerTextDocumentContentProvider(
+      ContentProvider.scheme,
+      provider,
+    ),
+  );
+
+  // register command that crafts an uri with the `references` scheme,
+  // open the dynamic document, and shows it in the next editor
+  const commandRegistration = vscode.commands.registerTextEditorCommand(
+    "digitalservicebund.applyChanges",
+    (editor) => {
+      if (vscode.workspace.workspaceFolders) {
+        const workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
+        const amendingLaw = vscode.Uri.file(
+          `${workspaceFolder}/07_01_änderungsgesetz.xml`,
+        );
+        const toBeAmendedLaw = vscode.Uri.file(
+          `${workspaceFolder}/07_01_zuänderndesgesetz.xml`,
+        );
+        const url = encodeLocation(amendingLaw, toBeAmendedLaw);
+        return workspace
+          .openTextDocument(url)
+          .then((doc) => window.showTextDocument(doc, vscode.ViewColumn.Three));
+      }
+    },
+  );
+
+  context.subscriptions.push(commandRegistration, providerRegistrations);
 
   context.subscriptions.push(openFilesInLayout);
 }

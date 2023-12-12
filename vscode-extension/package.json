@@ -21,6 +21,10 @@
       {
         "command": "digitalservicebund.openFilesInLayout",
         "title": "Open in custom Layout"
+      },
+      {
+        "command": "digitalservicebund.applyChanges",
+        "title": "Apply time machine"
       }
     ]
   },
