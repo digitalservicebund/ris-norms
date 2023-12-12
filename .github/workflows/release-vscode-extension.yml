@@ -12,6 +12,7 @@ on:
 
 jobs:
   fake_job:
+    runs-on: ubuntu-latest
     steps:
       - run: echo 'workflow triggered. Did you want that to happen?'
 #  check-style-vscode-extension:
