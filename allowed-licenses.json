@@ -36,6 +36,26 @@
     {
       "moduleLicense": null,
       "moduleName": "org.jetbrains.kotlinx:kotlinx-coroutines-bom"
+    },
+    {
+      "moduleLicense": null,
+      "moduleVersion": "3.3.1",
+      "moduleName": "com.github.ajalt.colormath:colormath"
+    },
+    {
+      "moduleLicense": null,
+      "moduleVersion": "2.2.0",
+      "moduleName": "com.github.ajalt.mordant:mordant"
+    },
+    {
+      "moduleLicense": null,
+      "moduleVersion": "4.2.1",
+      "moduleName": "com.github.ajalt.clikt:clikt"
+    },
+    {
+      "moduleLicense": null,
+      "moduleVersion": "0.5.2",
+      "moduleName": "org.jetbrains:markdown"
     }
   ]
 }
