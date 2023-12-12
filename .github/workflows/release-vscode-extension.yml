@@ -2,8 +2,6 @@ name: Release VSCode Extension
 
 on:
   push:
-    branches:
-      - 'main'
     paths:
       - 'vscode-extension/**'
 
