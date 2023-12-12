@@ -5,6 +5,7 @@ import { activate } from "../../extension";
 
 suite("Extension Unit Test Suite", () => {
   let openTextDocumentStub: sinon.SinonStub;
+  let showTextDocumentStub: sinon.SinonStub;
 
   setup(() => {
     const mockedWorkspaceFolder = {
@@ -24,6 +25,9 @@ suite("Extension Unit Test Suite", () => {
     ];
 
     openTextDocumentStub = sinon.stub(vscode.workspace, "openTextDocument");
+    showTextDocumentStub = sinon
+      .stub(vscode.window, "showTextDocument")
+      .resolves();
 
     filePaths.forEach((path) => {
       openTextDocumentStub
