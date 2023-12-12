@@ -1,6 +1,6 @@
 # normendokumentation VSCode extension
 
-### About this Extension
+### About This Extension
 
 The Normendokumentation extension is designed to assist users in viewing and understanding amendments to legal documents. It provides a convenient way to view an amending law alongside the target law, as well as a preview of the applied changes in a legal document (LDML file).
 
