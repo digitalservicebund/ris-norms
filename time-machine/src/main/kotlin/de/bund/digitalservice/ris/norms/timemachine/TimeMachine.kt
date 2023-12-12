@@ -18,7 +18,8 @@ class TimeMachine : CliktCommand() {
     val targetLawDoc = FileToDocumentConverter().convert(targetLawFile)
 
     val appliedLaw = applyModification(amendingLawDoc, targetLawDoc)
-    XmlFileWriter().writeDocumentToFile(appliedLaw, targetLawFile.name + "_amended.xml")
+    XmlFileWriter()
+        .writeDocumentToFile(appliedLaw, targetLawFile.nameWithoutExtension + "_amended.xml")
   }
 }
 

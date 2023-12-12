@@ -27,6 +27,8 @@ fun applyModification(amendingLaw: Document, targetLaw: Document): Document {
   val modifiedText = elementToModify.textContent.replaceFirst(oldText, newText)
   elementToModify.textContent = modifiedText
 
+  println("Modification result: " + elementToModify.textContent)
+
   return amendedLaw
 }
 
