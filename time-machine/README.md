@@ -12,7 +12,7 @@ brew install openjdk@17
 
 ## Tests
 
-The project has distinct unit and integration test suites.
+This project has distinct unit and integration test suites.
 
 **To run just the unit tests:**
 
