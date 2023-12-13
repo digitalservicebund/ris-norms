@@ -59,7 +59,6 @@
     "glob": "^10.3.3",
     "license-checker": "^25.0.1",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
     "prettier": "^3.1.0",
     "sinon": "^17.0.1",
     "typescript": "^5.2.2"
