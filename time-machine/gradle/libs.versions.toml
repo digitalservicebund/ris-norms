@@ -9,6 +9,7 @@ assertj-core = "org.assertj:assertj-core:3.24.2"
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 xml-unit-assertj3 = "org.xmlunit:xmlunit-assertj3:2.9.1"
+clikt = "com.github.ajalt.clikt:clikt:4.2.1"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.5"
