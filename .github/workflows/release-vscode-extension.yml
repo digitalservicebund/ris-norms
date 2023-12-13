@@ -4,6 +4,13 @@ on:
   push:
     paths:
       - "vscode-extension/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "vscode-extension/**"
+
+  # Allow to run this workflow manually
+  workflow_dispatch:
 
 jobs:
   check-style-vscode-extension:
