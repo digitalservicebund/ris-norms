@@ -10,22 +10,20 @@ class TimeMachineTest {
   private val filePathAmendingLaw =
       this.javaClass.classLoader.getResource("07_01_aenderungsgesetz.xml")?.path
   private val filePathToBeAmendedLaw =
-      this.javaClass.classLoader
-          .getResource("07_01_geaendertesGesetz_V1.1_Metadatenaenderung.xml")
-          ?.path
+      this.javaClass.classLoader.getResource("07_01_zuaenderndesgesetz.xml")?.path
 
   @Test
-  fun `test command line time machine`() {
+  fun `return amended law with changed text when given to-be-amended law and amending law`() {
     val command = TimeMachine()
-    command.test("$filePathAmendingLaw $filePathToBeAmendedLaw")
     val workingDir = Paths.get("").toAbsolutePath().toString()
     val fileNameWithoutType =
         filePathToBeAmendedLaw?.substringBeforeLast(".")?.substringAfterLast("/")
     val resultFromFile = File(workingDir + "/" + fileNameWithoutType + "_amended.xml")
 
+    command.test("$filePathAmendingLaw $filePathToBeAmendedLaw")
+
     assertThat(resultFromFile).exists()
     assertThat(resultFromFile).isFile()
-
     val changedLine = resultFromFile.readLines().firstOrNull { it.contains("§ 9 Absatz 1 Satz") }
     println(changedLine)
     assertThat(changedLine).contains("§ 9 Absatz 1 Satz")
