@@ -73,7 +73,7 @@ jobs:
         with:
           files: ./vscode-extension/*.vsix
           tag_name: v${{ env.VERSION }}-${{ github.run_number }}
-          name: Normendokumentation VSCode Extenstion v${{ env.VERSION }}-${{ github.run_number }}
+          name: v${{ env.VERSION }}-${{ github.run_number }} Normendokumentation VSCode Extension
           draft: false
           prerelease: true
         env:
