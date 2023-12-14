@@ -87,18 +87,3 @@ For adding new records install the
 
 
 See https://github.com/npryce/adr-tools for information on how to use `adr-tools` usage.
-
-
-
-# normendokumentation VSCode extension
-
-
-
-### Install dependencies:
-
-```bash
-npm install
-```
-
-## Development
-
