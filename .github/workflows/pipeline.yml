@@ -324,7 +324,7 @@ jobs:
 
   trivy-scan:
     runs-on: ubuntu-latest
-    needs: [reset-trivy-cache, build-time-machine]
+    needs: [reset-trivy-cache]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
