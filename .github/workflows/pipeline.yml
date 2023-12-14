@@ -199,7 +199,7 @@ jobs:
         # TODO: Discuss: can this be a separate step (not being mixed into building)?
       - name: Upload VScode extension vsix file
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vscode-extension
           path: ./vscode-extension/*.vsix
