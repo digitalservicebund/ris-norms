@@ -87,11 +87,15 @@ export function activate(context: vscode.ExtensionContext) {
         return workspace
           .openTextDocument(url)
           .then((doc) => window.showTextDocument(doc, vscode.ViewColumn.Three));
+      } else {
+        return window.showErrorMessage("No workspace open");
       }
     },
   );
 
-  context.subscriptions.push(commandRegistration, providerRegistrations);
-
-  context.subscriptions.push(openFilesInLayout);
+  context.subscriptions.push(
+    openFilesInLayout,
+    commandRegistration,
+    providerRegistrations,
+  );
 }

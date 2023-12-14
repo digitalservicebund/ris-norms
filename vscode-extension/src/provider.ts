@@ -21,7 +21,11 @@ export default class Provider implements vscode.TextDocumentContentProvider {
     const parameters = new URLSearchParams(uri.query);
     const amendingLaw = parameters.get("amendingLaw");
     const targetLaw = parameters.get("targetLaw");
-    return execShell(`cat "${targetLaw}"`);
+
+    // ris-norms-time-machine has to be in the PATH
+    //
+    // TODO: Use the output of the time machine (actually a file written somewhere, might be a problem as the filesystem is read-only?)
+    return execShell(`ris-norms-time-machine "${amendingLaw}" "${targetLaw}"`);
   }
 }
 
@@ -30,6 +34,6 @@ export function encodeLocation(
   targetLaw: vscode.Uri,
 ): vscode.Uri {
   return vscode.Uri.parse(
-    `${Provider.scheme}:Vorschau?amendingLaw=${amendingLaw.fsPath}&targetLaw=${targetLaw.fsPath}`,
+    `${Provider.scheme}:Preview?amendingLaw=${amendingLaw.fsPath}&targetLaw=${targetLaw.fsPath}`,
   );
 }
