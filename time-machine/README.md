@@ -1,6 +1,6 @@
-# Kotlin Application Template
+🚧 This document is a placeholder, right now. Do not follow it! 🚧
 
-**WIP**
+# Kotlin Application Template
 
 ## Prerequisites
 
