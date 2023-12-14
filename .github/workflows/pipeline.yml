@@ -201,6 +201,7 @@ jobs:
       - name: Build Extension
         run: npm run vscode:pack
         working-directory: ./vscode-extension
+        # TODO: Discuss: can this be a separate step (not being mixed into building)?
       - name: Upload VScode extension vsix file
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         uses: actions/upload-artifact@v3
@@ -366,7 +367,8 @@ jobs:
       - name: Detect secrets in incoming commits with Talisman
         uses: digitalservicebund/talisman-secrets-scan-action@9a4cb85589e29a62b4546eb566119753a5680aeb
       - name: Send status to Slack
+        # only on failure and if on "main" branch
+        if: ${{ failure() && github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
-        if: ${{ failure() }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
