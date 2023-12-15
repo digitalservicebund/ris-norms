@@ -2,6 +2,8 @@ package de.bund.digitalservice.ris.norms.timemachine
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
 import de.bund.digitalservice.ris.norms.timemachine.core.applyModification
 import de.bund.digitalservice.ris.norms.timemachine.helper.FileToDocumentConverter
@@ -15,6 +17,7 @@ import org.w3c.dom.Document
 class TimeMachine : CliktCommand() {
   private val amendingLawFile by argument().file(mustExist = true, canBeDir = false)
   private val targetLawFile by argument().file(mustExist = true)
+  private val doPrintToStdandardOutput by option("--stdout").flag()
 
   override fun run() {
 
@@ -22,6 +25,12 @@ class TimeMachine : CliktCommand() {
     val targetLawDoc = FileToDocumentConverter().convert(targetLawFile)
 
     val appliedLaw = applyModification(amendingLawDoc, targetLawDoc)
+
+    if (doPrintToStdandardOutput == true) {
+      val documentString = documentToString(appliedLaw)
+      echo(documentString, true, false)
+      return
+    }
     XmlFileWriter()
         .writeDocumentToFile(appliedLaw, targetLawFile.nameWithoutExtension + "_amended.xml")
   }
