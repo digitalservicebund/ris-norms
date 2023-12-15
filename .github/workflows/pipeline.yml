@@ -1,7 +1,9 @@
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-
 name: Pipeline
+
+# Should not be necessary, but we ran into an issue with the softprops/action-gh-release@v1 action
+# https://github.com/softprops/action-gh-release/issues/236#issuecomment-1150530128
+permissions:
+  contents: write
 
 # TODO: Try to split into separate files (maybe the term is "continuations")
 
@@ -199,7 +201,7 @@ jobs:
         # TODO: Discuss: can this be a separate step (not being mixed into building)?
       - name: Upload VScode extension vsix file
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vscode-extension
           path: ./vscode-extension/*.vsix
