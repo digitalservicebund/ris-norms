@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test
 
 internal class XmlFileWriterTest {
 
+  val testOutputPath = "./src/test/output"
+
   private val documentWriter = XmlFileWriter()
 
   @Test
@@ -18,7 +20,7 @@ internal class XmlFileWriterTest {
 
     // Write the document to a file
     val fileName = "test.xml"
-    documentWriter.writeDocumentToFile(document, fileName)
+    documentWriter.writeDocumentToFile(document, "${testOutputPath}/${fileName}")
 
     // Check that the file exists and has the expected content
     val file = File(fileName)
