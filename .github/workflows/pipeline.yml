@@ -2,7 +2,7 @@ name: Pipeline
 
 permissions:
   contents: write # action-gh-release
-  security-events: write # To upload sarif files
+  security-events: write # upload-sarif
 
 # TODO: Try to split into separate files (maybe the term is "continuations")
 
