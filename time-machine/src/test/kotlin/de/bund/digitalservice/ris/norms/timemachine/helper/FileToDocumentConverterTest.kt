@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test
 
 class FileToDocumentConverterTest {
 
-  private val filePath = this.javaClass.classLoader.getResource("07_01_aenderungsgesetz.xml")?.path
+  private val filePath =
+      this.javaClass.classLoader.getResource("07_01_änderungsgesetz.xml")?.toURI()
   private val amendingLawFile = File(filePath!!)
 
   @Test
