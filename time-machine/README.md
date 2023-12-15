@@ -1,6 +1,6 @@
-# Kotlin Application Template
+🚧 This document is a placeholder, right now. Do not follow it! 🚧
 
-**WIP**
+# Kotlin Application Template
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ brew install openjdk@17
 
 ## Tests
 
-The project has distinct unit and integration test suites.
+This project has distinct unit and integration test suites.
 
 **To run just the unit tests:**
 

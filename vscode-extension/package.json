@@ -3,7 +3,7 @@
   "displayName": "Normendokumentation",
   "publisher": "digitalservicebund",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/digitalservicebund/ris-norms"
@@ -36,7 +36,7 @@
     "compile:tests": "tsc -p ./",
     "pretest": "npm run compile:extension && npm run compile:tests",
     "test": "vscode-test",
-    "coverage": "c8 --check-coverage npm run test",
+    "coverage": "c8 --check-coverage --reporter=lcov npm run test",
     "typecheck": "tsc --noEmit",
     "eslint:check": "f() { eslint --max-warnings=0 ${@:-.}; }; f",
     "eslint:fix": "f() { eslint --fix --max-warnings=0 ${@:-.}; }; f",
@@ -63,7 +63,6 @@
     "glob": "^10.3.3",
     "license-checker": "^25.0.1",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
     "prettier": "^3.1.0",
     "sinon": "^17.0.1",
     "typescript": "^5.2.2"

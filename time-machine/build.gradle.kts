@@ -33,7 +33,7 @@ dependencies {
   implementation(platform(libs.kotlin.bom))
   implementation(libs.kotlin.stdlib.jdk8)
   implementation(libs.xml.unit.assertj3)
-  implementation("com.github.ajalt.clikt:clikt:4.2.1")
+  implementation(libs.clikt)
 }
 
 application { mainClass = "de.bund.digitalservice.ris.norms.timemachine.TimeMachineKt" }
