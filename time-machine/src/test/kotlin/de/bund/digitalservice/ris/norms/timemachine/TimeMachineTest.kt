@@ -46,6 +46,6 @@ class TimeMachineTest {
     document.appendChild(root)
     val result = documentToString(document)
 
-    assertThat(result).contains("XML")
+    assertThat(result).contains("<?xml")
   }
 }
