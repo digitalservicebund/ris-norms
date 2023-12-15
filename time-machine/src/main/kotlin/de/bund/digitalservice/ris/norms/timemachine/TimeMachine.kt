@@ -23,4 +23,9 @@ class TimeMachine : CliktCommand() {
   }
 }
 
+// TODO: move to a different place
+fun documentToString(document: Document): String {
+  return ""
+}
+
 fun main(args: Array<String>) = TimeMachine().main(args)
