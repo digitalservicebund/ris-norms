@@ -20,7 +20,6 @@ class TimeMachine : CliktCommand() {
   private val doPrintToStdandardOutput by option("--stdout").flag()
 
   override fun run() {
-
     val amendingLawDoc: Document = FileToDocumentConverter().convert(amendingLawFile)
     val targetLawDoc = FileToDocumentConverter().convert(targetLawFile)
 
@@ -31,6 +30,7 @@ class TimeMachine : CliktCommand() {
       echo(documentString, true, false)
       return
     }
+
     XmlFileWriter()
         .writeDocumentToFile(appliedLaw, targetLawFile.nameWithoutExtension + "_amended.xml")
   }
