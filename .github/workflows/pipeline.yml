@@ -3,6 +3,11 @@
 
 name: Pipeline
 
+# Should not be necessary, but we ran into
+# https://github.com/softprops/action-gh-release/issues/236#issuecomment-1150530128
+permissions:
+  contents: write
+
 # TODO: Try to split into separate files (maybe the term is "continuations")
 
 on:
