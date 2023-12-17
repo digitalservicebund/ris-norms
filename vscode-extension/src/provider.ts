@@ -25,7 +25,9 @@ export default class Provider implements vscode.TextDocumentContentProvider {
     // ris-norms-time-machine has to be in the PATH
     //
     // TODO: Use the output of the time machine (actually a file written somewhere, might be a problem as the filesystem is read-only?)
-    return execShell(`ris-norms-time-machine "${amendingLaw}" "${targetLaw}"`);
+    return execShell(
+      `ris-norms-time-machine --stdout "${amendingLaw}" "${targetLaw}"`,
+    );
   }
 }
 
