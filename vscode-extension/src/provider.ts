@@ -14,10 +14,7 @@ const execShell = (cmd: string) =>
 export default class Provider implements vscode.TextDocumentContentProvider {
   static scheme = "timemachine-preview";
 
-  provideTextDocumentContent(
-    uri: vscode.Uri,
-    token: vscode.CancellationToken,
-  ): vscode.ProviderResult<string> {
+  provideTextDocumentContent(uri: vscode.Uri): vscode.ProviderResult<string> {
     const parameters = new URLSearchParams(uri.query);
     const amendingLaw = parameters.get("amendingLaw");
     const targetLaw = parameters.get("targetLaw");

@@ -74,7 +74,7 @@ export function activate(context: vscode.ExtensionContext) {
   // open the dynamic document, and shows it in the next editor
   const commandRegistration = vscode.commands.registerTextEditorCommand(
     "digitalservicebund.applyChanges",
-    (editor) => {
+    () => {
       if (vscode.workspace.workspaceFolders) {
         const workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
         const amendingLaw = vscode.Uri.file(
