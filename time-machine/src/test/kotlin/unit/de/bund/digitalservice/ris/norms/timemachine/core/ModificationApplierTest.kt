@@ -63,20 +63,6 @@ class ModificationApplierTest {
   }
 
   @Test
-  fun `it throws an exception if the modification does not include a reference with an eId`() {
-    val amendingLaw =
-        """
-              <akn:body>
-                <akn:mod>Change paragraph 2</akn:mod>
-              </akn:body>
-            """
-
-    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml()) }
-        .isInstanceOf(IllegalArgumentException::class.java)
-        .hasMessage("Modification has no target reference")
-  }
-
-  @Test
   fun `it throws an exception if there is no element with the eId to modify`() {
     val amendingLaw =
         """
@@ -97,6 +83,63 @@ class ModificationApplierTest {
     assertThatThrownBy { applyModification(amendingLaw.asXml(), targetLaw.asXml()) }
         .isInstanceOf(IllegalArgumentException::class.java)
         .hasMessage("Could not find element to modify with eId: 'none'")
+  }
+
+  @Test
+  fun `it throws an exception if the text to be replaced can't be found`() {
+    val amendingLaw =
+        """
+      <akn:body>
+        <akn:mod>
+            In <akn:ref href="any">paragraph 2</akn:ref> .
+        </akn:mod>
+      </akn:body>
+    """
+
+    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml()) }
+        .isInstanceOf(IllegalArgumentException::class.java)
+        .hasMessage("Could not find text that should be replaced")
+  }
+
+  @Test
+  fun `it throws an exception if the replacement text can't be found`() {
+    val amendingLaw =
+        """
+      <akn:body>
+        <akn:mod>
+            In <akn:ref href="any">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with.
+        </akn:mod>
+      </akn:body>
+    """
+
+    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml()) }
+        .isInstanceOf(IllegalArgumentException::class.java)
+        .hasMessage("Could not find replacement text")
+  }
+
+  @Test
+  fun `it throws an exception if no href is found in modification`() {
+    val amendingLaw =
+        """
+      <akn:body>
+        <akn:mod>
+        </akn:mod>
+      </akn:body>
+    """
+
+    assertThatThrownBy { applyModification(amendingLaw.asXml(), anyTargetLaw.asXml()) }
+        .isInstanceOf(IllegalArgumentException::class.java)
+        .hasMessage("Could not find href in modification")
+  }
+
+  @Test
+  fun `it gets the lokale Komponente from an ELI`() {
+    val eli =
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+
+    val result = extractLokaleKomponente(eli)
+
+    assertThat(result).isEqualTo("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
   }
 }
 

@@ -50,3 +50,17 @@ npm run vscode:pack
 ```
 
 This will create a `.vsix` file within the vscode-extension project folder. That is the extension.
+
+## Creating a stable release
+
+1. Update the version number in the `package.json`, and make a commit.
+
+2. Create a new tag with the new version number. The tag name should start with `v` followed by the version number. Include a message for the tag to describe the release.
+   ```bash
+   git tag vX.X.X -m "Stable release vX.X.X"
+   ```
+3. Push the newly created tag and the version change to the remote repository
+
+   ```bash
+   git push origin vX.X.X
+   ```
