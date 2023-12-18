@@ -1,4 +1,72 @@
-🚧 This document is a placeholder, right now. Do not follow it! 🚧
+# Time-Machine
+
+The goal of the time machine is to apply modifications as defined in an [LDML_de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) document.
+
+Given the 
+* amending law in LDML_de format and the
+* target law in LDML_de format
+it will produce the amended version of the target law.
+
+Note that we're in the first iterations, there's not much to be expected.
+
+# Development
+
+## Prerequisites
+
+* Java 17
+* Kotlin 1.3
+
+## Running via building and using a Startup Script
+
+### Building the startup scripts from source
+```bash
+./gradlew install
+```
+The results can be found in the `./build/install/ris-norms-time-machine` folder.
+
+### Running the script
+
+On Linux / Mac run the `sh` script via
+
+```bash
+./build/install/ris-norms-time-machine/bin/ris-norms-time-machine
+```
+On Windows, use the batch file
+
+```
+./build/install/ris-norms-time-machine/bin/ris-norms-time-machine.bat
+```
+
+Running without any arguments or parameters will tell you what options exist.
+
+
+### PATH
+
+Note that using the time-machine in the [vscode-extension](../vscode-extension/README.md) requires the scripts to be in the system's PATH.
+
+## Building (without tests)
+```bash
+./gradlew build -x test -x testCoverageReport
+```
+
+The results can then be found in the `./build` folder.
+
+## Testing
+For a single test run use
+```bash
+./gradlew test
+```
+
+For continuous testing (e.g. TDD), use
+```bash
+./gradlew test --continuous
+```
+
+
+
+----
+🚧 The below stems from a placeholder, right now. Do not follow it! 🚧
+----
 
 # Kotlin Application Template
 
