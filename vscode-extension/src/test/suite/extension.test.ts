@@ -1,7 +1,5 @@
-import * as assert from "assert";
 import * as vscode from "vscode";
 import * as sinon from "sinon";
-import { activate } from "../../extension";
 
 suite("Extension Unit Test Suite", () => {
   let openTextDocumentStub: sinon.SinonStub;
@@ -41,34 +39,66 @@ suite("Extension Unit Test Suite", () => {
   });
 
   test("openFilesInLayout command executes correctly", async () => {
-    const context = { subscriptions: [] } as unknown as vscode.ExtensionContext;
-    activate(context);
-
     await vscode.commands.executeCommand(
       "digitalservicebund.openFilesInLayout",
     );
 
-    assert.ok(
-      openTextDocumentStub.calledWith(
-        vscode.Uri.file("/mocked/workspace/folder/07_01_änderungsgesetz.xml"),
-      ),
-      "07_01_änderungsgesetz.xml should be opened",
+    sinon.assert.calledWith(
+      openTextDocumentStub,
+      vscode.Uri.file("/mocked/workspace/folder/07_01_änderungsgesetz.xml"),
     );
-    assert.ok(
-      openTextDocumentStub.calledWith(
-        vscode.Uri.file(
+    sinon.assert.calledWith(
+      openTextDocumentStub,
+      vscode.Uri.file(
+        "/mocked/workspace/folder/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml",
+      ),
+    );
+    sinon.assert.calledWith(
+      openTextDocumentStub,
+      vscode.Uri.file(
+        "/mocked/workspace/folder/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml",
+      ),
+    );
+
+    sinon.assert.calledWith(
+      showTextDocumentStub,
+      {
+        uri: vscode.Uri.file(
           "/mocked/workspace/folder/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml",
         ),
-      ),
-      "07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml should be opened",
+      },
+      { viewColumn: vscode.ViewColumn.One },
     );
-    assert.ok(
-      openTextDocumentStub.calledWith(
-        vscode.Uri.file(
+
+    sinon.assert.calledWith(
+      showTextDocumentStub,
+      {
+        uri: vscode.Uri.file(
+          "/mocked/workspace/folder/07_01_änderungsgesetz.xml",
+        ),
+      },
+      { viewColumn: vscode.ViewColumn.Two },
+    );
+
+    sinon.assert.calledWith(
+      showTextDocumentStub,
+      {
+        uri: vscode.Uri.file(
           "/mocked/workspace/folder/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml",
         ),
+      },
+      { viewColumn: vscode.ViewColumn.Three },
+    );
+  });
+
+  test("applyChanges opens resulting file in correct column", async () => {
+    await vscode.commands.executeCommand("digitalservicebund.applyChanges");
+
+    sinon.assert.calledWith(
+      openTextDocumentStub,
+      vscode.Uri.parse(
+        "timemachine-preview:Preview?amendingLaw=/mocked/workspace/folder/07_01_änderungsgesetz.xml&targetLaw=/mocked/workspace/folder/07_01_zuänderndesgesetz.xml",
       ),
-      "07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml should be opened",
     );
   });
 });
