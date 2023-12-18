@@ -36,7 +36,7 @@
     "compile:tests": "tsc -p ./",
     "pretest": "npm run compile:extension && npm run compile:tests",
     "test": "vscode-test",
-    "coverage": "c8 --check-coverage --reporter=lcov npm run test",
+    "coverage": "c8 --all --reporter=lcov npm run test && c8 report",
     "typecheck": "tsc --noEmit",
     "eslint:check": "f() { eslint --max-warnings=0 ${@:-.}; }; f",
     "eslint:fix": "f() { eslint --fix --max-warnings=0 ${@:-.}; }; f",

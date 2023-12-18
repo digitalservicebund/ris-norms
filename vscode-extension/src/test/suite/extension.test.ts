@@ -38,6 +38,23 @@ suite("Extension Unit Test Suite", () => {
     sinon.restore();
   });
 
+  test("openFilesInLayout shows error when no workspace is opened", async () => {
+    sinon.stub(vscode.workspace, "workspaceFolders").value(undefined as any);
+
+    const showErrorMessageStub = sinon
+      .stub(vscode.window, "showErrorMessage")
+      .resolves();
+
+    await vscode.commands.executeCommand(
+      "digitalservicebund.openFilesInLayout",
+    );
+
+    sinon.assert.calledWith(
+      showErrorMessageStub,
+      "Error opening the xml files: Error: Workspace folder not found.",
+    );
+  });
+
   test("openFilesInLayout command executes correctly", async () => {
     await vscode.commands.executeCommand(
       "digitalservicebund.openFilesInLayout",
@@ -91,14 +108,32 @@ suite("Extension Unit Test Suite", () => {
     );
   });
 
-  test("applyChanges opens resulting file in correct column", async () => {
+  test("applyChanges opens resulting file", async () => {
+    const expectedUri = vscode.Uri.parse(
+      "timemachine-preview:Preview?amendingLaw=/mocked/workspace/folder/07_01_änderungsgesetz.xml&targetLaw=/mocked/workspace/folder/07_01_zuänderndesgesetz.xml",
+    );
+    openTextDocumentStub.resolves({ uri: expectedUri });
+
     await vscode.commands.executeCommand("digitalservicebund.applyChanges");
 
-    sinon.assert.calledWith(
-      openTextDocumentStub,
-      vscode.Uri.parse(
-        "timemachine-preview:Preview?amendingLaw=/mocked/workspace/folder/07_01_änderungsgesetz.xml&targetLaw=/mocked/workspace/folder/07_01_zuänderndesgesetz.xml",
-      ),
+    sinon.assert.calledWith(openTextDocumentStub, expectedUri);
+
+    sinon.assert.calledWithExactly(
+      showTextDocumentStub,
+      { uri: expectedUri },
+      vscode.ViewColumn.Three,
     );
+  });
+
+  test("applyChanges shows error when no workspace is opened", async () => {
+    sinon.stub(vscode.workspace, "workspaceFolders").value(undefined as any);
+
+    const showErrorMessageStub = sinon
+      .stub(vscode.window, "showErrorMessage")
+      .resolves();
+
+    await vscode.commands.executeCommand("digitalservicebund.applyChanges");
+
+    sinon.assert.calledWith(showErrorMessageStub, "No workspace open");
   });
 });

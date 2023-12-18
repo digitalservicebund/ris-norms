@@ -39,4 +39,19 @@ suite("Provider", () => {
 
     assert.deepStrictEqual(uri, expectedUri);
   });
+
+  test("execShell returns the output of a shell invocation", async () => {
+    const provider = new Provider();
+
+    const output = await provider.execShell("echo Something");
+    assert.equal(output, "Something\n");
+  });
+
+  test("execShell rejects if the command exits non-zero", async () => {
+    const provider = new Provider();
+
+    assert.rejects(async () => {
+      await provider.execShell("echo Test && exit 1");
+    });
+  });
 });
