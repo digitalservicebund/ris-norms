@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test
 
 class TimeMachineTest {
   private val filePathAmendingLaw =
-      this.javaClass.classLoader.getResource("07_01_änderungsgesetz.xml")?.toURI()
+      this.javaClass.classLoader.getResource("07_01_änderungsgesetz.xml")!!.toURI()
   private val fileNameToBeAmendedLaw = "07_01_zuänderndesgesetz.xml"
   private val filePathToBeAmendedLaw =
-      this.javaClass.classLoader.getResource(fileNameToBeAmendedLaw)?.toURI()
+      this.javaClass.classLoader.getResource(fileNameToBeAmendedLaw)!!.toURI()
 
   @Test
   fun `return amended law with changed text when given to-be-amended law and amending law`() {
@@ -22,7 +22,7 @@ class TimeMachineTest {
         workingDir + "/" + fileNameToBeAmendedLaw.substringBeforeLast(".") + "_amended.xml"
     val resultFromFile = File(Paths.get(absolutePathResult).toUri())
 
-    command.test("${filePathAmendingLaw?.path} ${filePathToBeAmendedLaw?.path}")
+    command.test("${filePathAmendingLaw.path} ${filePathToBeAmendedLaw.path}")
 
     assertThat(resultFromFile).exists()
     assertThat(resultFromFile).isFile()
@@ -34,7 +34,7 @@ class TimeMachineTest {
   @Test
   fun `return changed text on STDOUT`() {
     val command = TimeMachine()
-    val result = command.test("--stdout $filePathAmendingLaw $filePathToBeAmendedLaw")
+    val result = command.test("--stdout ${filePathAmendingLaw.path} ${filePathToBeAmendedLaw.path}")
 
     assertThat(result.stdout).contains("§ 9 Absatz 1 Satz")
   }
