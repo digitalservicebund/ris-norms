@@ -42,6 +42,7 @@ class TimeMachineTest {
 
   @Test
   fun documentToString() {
+    // Create a sample document with a root element
     val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
     val root = document.createElement("root")
     document.appendChild(root)
