@@ -10,3 +10,9 @@ normendokumentation-*.vsix
 # Test Output
 .nyc_output/
 coverage/
+
+# macOS
+.DS_Store
+
+# IntelliJ
+.idea/

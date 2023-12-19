@@ -1,7 +1,5 @@
-import * as assert from "assert";
 import * as vscode from "vscode";
 import * as sinon from "sinon";
-import { activate } from "../../extension";
 
 suite("Extension Unit Test Suite", () => {
   let openTextDocumentStub: sinon.SinonStub;
@@ -40,35 +38,102 @@ suite("Extension Unit Test Suite", () => {
     sinon.restore();
   });
 
-  test("openFilesInLayout command executes correctly", async () => {
-    const context = { subscriptions: [] } as unknown as vscode.ExtensionContext;
-    activate(context);
+  test("openFilesInLayout shows error when no workspace is opened", async () => {
+    sinon.stub(vscode.workspace, "workspaceFolders").value(undefined as any);
+
+    const showErrorMessageStub = sinon
+      .stub(vscode.window, "showErrorMessage")
+      .resolves();
 
     await vscode.commands.executeCommand(
       "digitalservicebund.openFilesInLayout",
     );
 
-    assert.ok(
-      openTextDocumentStub.calledWith(
-        vscode.Uri.file("/mocked/workspace/folder/07_01_änderungsgesetz.xml"),
-      ),
-      "07_01_änderungsgesetz.xml should be opened",
+    sinon.assert.calledWith(
+      showErrorMessageStub,
+      "Error opening the xml files: Error: Workspace folder not found.",
     );
-    assert.ok(
-      openTextDocumentStub.calledWith(
-        vscode.Uri.file(
+  });
+
+  test("openFilesInLayout command executes correctly", async () => {
+    await vscode.commands.executeCommand(
+      "digitalservicebund.openFilesInLayout",
+    );
+
+    sinon.assert.calledWith(
+      openTextDocumentStub,
+      vscode.Uri.file("/mocked/workspace/folder/07_01_änderungsgesetz.xml"),
+    );
+    sinon.assert.calledWith(
+      openTextDocumentStub,
+      vscode.Uri.file(
+        "/mocked/workspace/folder/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml",
+      ),
+    );
+    sinon.assert.calledWith(
+      openTextDocumentStub,
+      vscode.Uri.file(
+        "/mocked/workspace/folder/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml",
+      ),
+    );
+
+    sinon.assert.calledWith(
+      showTextDocumentStub,
+      {
+        uri: vscode.Uri.file(
           "/mocked/workspace/folder/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml",
         ),
-      ),
-      "07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml should be opened",
+      },
+      { viewColumn: vscode.ViewColumn.One },
     );
-    assert.ok(
-      openTextDocumentStub.calledWith(
-        vscode.Uri.file(
+
+    sinon.assert.calledWith(
+      showTextDocumentStub,
+      {
+        uri: vscode.Uri.file(
+          "/mocked/workspace/folder/07_01_änderungsgesetz.xml",
+        ),
+      },
+      { viewColumn: vscode.ViewColumn.Two },
+    );
+
+    sinon.assert.calledWith(
+      showTextDocumentStub,
+      {
+        uri: vscode.Uri.file(
           "/mocked/workspace/folder/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml",
         ),
-      ),
-      "07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml should be opened",
+      },
+      { viewColumn: vscode.ViewColumn.Three },
     );
+  });
+
+  test("applyChanges opens resulting file", async () => {
+    const expectedUri = vscode.Uri.parse(
+      "timemachine-preview:Preview?amendingLaw=/mocked/workspace/folder/07_01_änderungsgesetz.xml&targetLaw=/mocked/workspace/folder/07_01_zuänderndesgesetz.xml",
+    );
+    openTextDocumentStub.resolves({ uri: expectedUri });
+
+    await vscode.commands.executeCommand("digitalservicebund.applyChanges");
+
+    sinon.assert.calledWith(openTextDocumentStub, expectedUri);
+
+    sinon.assert.calledWithExactly(
+      showTextDocumentStub,
+      { uri: expectedUri },
+      vscode.ViewColumn.Three,
+    );
+  });
+
+  test("applyChanges shows error when no workspace is opened", async () => {
+    sinon.stub(vscode.workspace, "workspaceFolders").value(undefined as any);
+
+    const showErrorMessageStub = sinon
+      .stub(vscode.window, "showErrorMessage")
+      .resolves();
+
+    await vscode.commands.executeCommand("digitalservicebund.applyChanges");
+
+    sinon.assert.calledWith(showErrorMessageStub, "No workspace open");
   });
 });
