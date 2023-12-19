@@ -5,7 +5,7 @@ import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.jupiter.api.Test
 
 @Test
-fun `it should return an XML document as a string`() {
+fun `documentToString() should return an XML document as a string`() {
   // Create a sample document with a root element
   val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
   val root = document.createElement("root")
@@ -16,7 +16,7 @@ fun `it should return an XML document as a string`() {
 }
 
 @Test
-fun `it should write an XML document to a file`() {
+fun `writeDocumentToFile() should write an XML document to a file`() {
   // Create a sample document with a root element
   val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
   val root = document.createElement("root")
@@ -36,7 +36,7 @@ fun `it should write an XML document to a file`() {
 }
 
 @Test
-fun `Document contains modification node with specific eID`() {
+fun `fileToDocument() result contains modification node with specific eID`() {
   //    val filePath = this.javaClass.classLoader.getResource("07_01_änderungsgesetz.xml")?.toURI()
   val filePath = object {}.javaClass.classLoader.getResource("07_01_änderungsgesetz.xml")?.toURI()
   val amendingLawFile = File(filePath!!)
