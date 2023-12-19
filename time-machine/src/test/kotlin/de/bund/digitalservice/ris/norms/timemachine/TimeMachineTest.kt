@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.timemachine
 
 import com.github.ajalt.clikt.testing.test
+import documentToString
 import java.io.File
 import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
@@ -41,7 +42,7 @@ class TimeMachineTest {
   }
 
   @Test
-  fun documentToString() {
+  fun `it should return a document`() {
     // Create a sample document with a root element
     val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
     val root = document.createElement("root")
