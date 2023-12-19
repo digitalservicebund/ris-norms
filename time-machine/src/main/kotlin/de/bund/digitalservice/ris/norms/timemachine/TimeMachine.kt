@@ -28,7 +28,6 @@ class TimeMachine : CliktCommand() {
     if (doPrintToStandardOutput) {
       val documentString = documentToString(appliedLaw)
       echo(documentString, true, false)
-      return
     }
 
     XmlFileWriter()
