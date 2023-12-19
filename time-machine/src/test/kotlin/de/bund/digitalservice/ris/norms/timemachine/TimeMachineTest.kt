@@ -1,10 +1,8 @@
 package de.bund.digitalservice.ris.norms.timemachine
 
 import com.github.ajalt.clikt.testing.test
-import documentToString
 import java.io.File
 import java.nio.file.Paths
-import javax.xml.parsers.DocumentBuilderFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -39,16 +37,5 @@ class TimeMachineTest {
         command.test("--stdout ${filePathAmendingLaw?.path} ${filePathToBeAmendedLaw?.path}")
 
     assertThat(result.stdout).contains("§ 9 Absatz 1 Satz")
-  }
-
-  @Test
-  fun `it should return a document`() {
-    // Create a sample document with a root element
-    val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
-    val root = document.createElement("root")
-    document.appendChild(root)
-    val result = documentToString(document)
-
-    assertThat(result).contains("<?xml")
   }
 }
