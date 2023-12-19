@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 import * as cp from "child_process";
+import * as fs from "fs";
+import { Uri } from "vscode";
 
 export default class Provider implements vscode.TextDocumentContentProvider {
   static scheme = "timemachine-preview";
@@ -9,13 +11,30 @@ export default class Provider implements vscode.TextDocumentContentProvider {
     const amendingLaw = parameters.get("amendingLaw");
     const targetLaw = parameters.get("targetLaw");
 
-    // ris-norms-time-machine has to be in the PATH
-    return this.execShell(
-      `ris-norms-time-machine --stdout "${amendingLaw}" "${targetLaw}"`,
-    );
+    if (!amendingLaw || !targetLaw) {
+      throw new Error("Amending law or target law not specified.");
+    }
+
+    const amendingLawFile = vscode.Uri.file(amendingLaw);
+    const targetLawFile = vscode.Uri.file(targetLaw);
+
+    return this.applyTimeMachine(amendingLawFile, targetLawFile);
   }
 
-  execShell(cmd: string): Promise<string> {
+  async applyTimeMachine(
+    amendingLawFile: Uri,
+    targetLawFile: Uri,
+  ): Promise<string> {
+    if (
+      !fs.existsSync(amendingLawFile.fsPath) ||
+      !fs.existsSync(targetLawFile.fsPath)
+    ) {
+      throw new Error("Amending law or target law file not found.");
+    }
+
+    // ris-norms-time-machine has to be in the PATH
+    const cmd = `ris-norms-time-machine --stdout "${amendingLawFile.fsPath}" "${targetLawFile.fsPath}"`;
+
     return new Promise<string>((resolve, reject) => {
       cp.exec(cmd, (err, out) => {
         if (err) {
