@@ -34,7 +34,8 @@ class TimeMachineTest {
   @Test
   fun `return changed text on STDOUT`() {
     val command = TimeMachine()
-    val result = command.test("--stdout $filePathAmendingLaw $filePathToBeAmendedLaw")
+    val result =
+        command.test("--stdout ${filePathAmendingLaw?.path} ${filePathToBeAmendedLaw?.path}")
 
     assertThat(result.stdout).contains("§ 9 Absatz 1 Satz")
   }
