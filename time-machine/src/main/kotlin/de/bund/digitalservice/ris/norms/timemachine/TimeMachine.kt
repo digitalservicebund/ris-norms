@@ -17,7 +17,7 @@ import org.w3c.dom.Document
 class TimeMachine : CliktCommand() {
   private val amendingLawFile by argument().file(mustExist = true, canBeDir = false)
   private val targetLawFile by argument().file(mustExist = true)
-  private val doPrintToStdandardOutput by option("--stdout").flag()
+  private val doPrintToStandardOutput by option("--stdout").flag()
 
   override fun run() {
     val amendingLawDoc: Document = FileToDocumentConverter().convert(amendingLawFile)
@@ -25,7 +25,7 @@ class TimeMachine : CliktCommand() {
 
     val appliedLaw = applyModification(amendingLawDoc, targetLawDoc)
 
-    if (doPrintToStdandardOutput == true) {
+    if (doPrintToStandardOutput) {
       val documentString = documentToString(appliedLaw)
       echo(documentString, true, false)
       return
