@@ -8,20 +8,17 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
+    baseURL: "http://127.0.0.1:8080",
     trace: "on-first-retry",
   },
-
-  /* Run your local dev server before starting the tests */
   projects: [
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
   ],
-
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  webServer: {
+    command: "code-server --auth=none --bind-addr=127.0.0.1:8080",
+    url: "http://127.0.0.1:8080",
+  },
 });
