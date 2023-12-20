@@ -63,12 +63,16 @@ post-commit:
 pre-push:
   parallel: true
   commands:
-    licenses-audit-time-machine:
+    licences-audit-time-machine:
       root: time-machine/
       run: ./gradlew checkLicense
 
-    licenses-audit-vscode-extension:
+    licences-audit-vscode-extension:
       root: vscode-extension/
+      run: npm run audit:licences > /dev/null;
+
+    licences-audit-system-tests:
+      root: system-tests/
       run: npm run audit:licences > /dev/null;
 
     secrets-audit:

@@ -11,7 +11,8 @@
     "prettier:check": "f() { prettier --check ${@:-.}; }; f",
     "prettier:fix": "f() { prettier --write ${@:-.}; }; f",
     "style:check": "f() { npm run prettier:check $@ && npm run eslint:check $@; }; f",
-    "style:fix": "f() { npm run prettier:fix $@ && npm run eslint:fix $@; }; f"
+    "style:fix": "f() { npm run prettier:fix $@ && npm run eslint:fix $@; }; f",
+    "audit:licences": "license-checker --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./licence-report.csv"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-playwright": "^0.20.0",
     "eslint-plugin-prettier": "^5.1.0",
+    "license-checker": "^25.0.1",
     "prettier": "^3.1.1"
   }
 }
