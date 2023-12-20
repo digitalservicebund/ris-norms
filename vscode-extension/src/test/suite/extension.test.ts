@@ -5,6 +5,11 @@ suite("Extension Unit Test Suite", () => {
   let openTextDocumentStub: sinon.SinonStub;
   let showTextDocumentStub: sinon.SinonStub;
 
+  const fileNameAmendment = "07_01_änderungsgesetz.xml";
+  const fileNameTarget = "07_01_zuänderndesgesetz.xml";
+  const fileNameConsolidated =
+    "07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml";
+
   setup(() => {
     const mockedWorkspaceFolder = {
       uri: vscode.Uri.file("/mocked/workspace/folder"),
@@ -17,9 +22,9 @@ suite("Extension Unit Test Suite", () => {
       .value([mockedWorkspaceFolder]);
 
     const filePaths = [
-      `${mockedWorkspaceFolder.uri.fsPath}/07_01_änderungsgesetz.xml`,
-      `${mockedWorkspaceFolder.uri.fsPath}/07_01_zuänderndesgesetz.xml`,
-      `${mockedWorkspaceFolder.uri.fsPath}/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml`,
+      `${mockedWorkspaceFolder.uri.fsPath}/${fileNameAmendment}`,
+      `${mockedWorkspaceFolder.uri.fsPath}/${fileNameTarget}`,
+      `${mockedWorkspaceFolder.uri.fsPath}/${fileNameConsolidated}`,
     ];
 
     openTextDocumentStub = sinon.stub(vscode.workspace, "openTextDocument");
@@ -62,25 +67,21 @@ suite("Extension Unit Test Suite", () => {
 
     sinon.assert.calledWith(
       openTextDocumentStub,
-      vscode.Uri.file("/mocked/workspace/folder/07_01_änderungsgesetz.xml"),
+      vscode.Uri.file(`/mocked/workspace/folder/${fileNameAmendment}`),
     );
     sinon.assert.calledWith(
       openTextDocumentStub,
-      vscode.Uri.file("/mocked/workspace/folder/07_01_zuänderndesgesetz.xml"),
+      vscode.Uri.file(`/mocked/workspace/folder/${fileNameTarget}`),
     );
     sinon.assert.calledWith(
       openTextDocumentStub,
-      vscode.Uri.file(
-        "/mocked/workspace/folder/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml",
-      ),
+      vscode.Uri.file(`/mocked/workspace/folder/${fileNameConsolidated}`),
     );
 
     sinon.assert.calledWith(
       showTextDocumentStub,
       {
-        uri: vscode.Uri.file(
-          "/mocked/workspace/folder/07_01_zuänderndesgesetz.xml",
-        ),
+        uri: vscode.Uri.file(`/mocked/workspace/folder/${fileNameTarget}`),
       },
       { viewColumn: vscode.ViewColumn.One },
     );
@@ -88,9 +89,7 @@ suite("Extension Unit Test Suite", () => {
     sinon.assert.calledWith(
       showTextDocumentStub,
       {
-        uri: vscode.Uri.file(
-          "/mocked/workspace/folder/07_01_änderungsgesetz.xml",
-        ),
+        uri: vscode.Uri.file(`/mocked/workspace/folder/${fileNameAmendment}`),
       },
       { viewColumn: vscode.ViewColumn.Two },
     );
@@ -99,7 +98,7 @@ suite("Extension Unit Test Suite", () => {
       showTextDocumentStub,
       {
         uri: vscode.Uri.file(
-          "/mocked/workspace/folder/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml",
+          `/mocked/workspace/folder/${fileNameConsolidated}`,
         ),
       },
       { viewColumn: vscode.ViewColumn.Three },
