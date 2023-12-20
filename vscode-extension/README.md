@@ -25,14 +25,12 @@ Now install the `vscode-extension`:
 
 # Using the Extension
 
-1. Download the LDML_de files:
-   - Open [change law](https://github.com/digitalservicebund/ris-norms/blob/main/time-machine/src/test/resources/07_01_%C3%A4nderungsgesetz.xml) and use the download button (or `CTRL-SHIFT-S`)
-   - [target law](https://github.com/digitalservicebund/ris-norms/blob/main/time-machine/src/test/resources/07_01_zu%C3%A4nderndesgesetz.xml) and use the download button (or `CTRL-SHIFT-S`)
-1. Put these files into the same folder
-1. Open your LDML files' folder in `VSCode``:
-   - In `VSCode`, open the folder containing your amending law and target law LDML files.
+1. Download all four LDML_de files from the [ldml-samples](https://github.com/digitalservicebund/ris-norms/tree/main/vscode-extension/ldml-samples) folder
+1. Put these files into a local folder
+1. Open the local LDML files' folder in `VSCode`
+1. (Optional) Close all editor panels
 1. Activate the Extension:
-   - Use the `VSCode` command `Open in custom Layout` in order to activate the extension. This will open the LDML_de files in multiple panes, cf. below.<br>
+   - Use the `VSCode` command `Open in custom Layout` in order to activate the extension. This will open the LDML_de files in multiple panels, cf. below.<br>
      The command palette can be opened using `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
 1. View and Compare:
    - The amending law, the target law, and a preview of the applied changes will be displayed in a split layout for easy comparison and review.
