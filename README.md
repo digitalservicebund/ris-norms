@@ -17,6 +17,28 @@ This is a mono-repository containing several software products. Right now, there
 * `./time-machine`: A command line tool for applying LDML_de change commands to existing laws
 * `./vscode-extension`: A VSCode extension supporting workflows on LDML_de change commands
 
+# Running the Solution Locally (Sketch)
+
+At some point we expect our modules to be useable as SAAS, but we're not there, yet.
+
+The details of running our tool chain locally are spelled out in the modules' documentation, but here's the gist:
+
+## Setup
+1. Get the `time-machine` scripts working on your command line (i.e. needs to be in your $PATH)
+   * It allows for applying modifications to LDML_de files and is used in the `vscode-extension`.
+   * Details can be found in [./time-machine/README.md](./time-machine/README.md)
+1. Get [VSCode](https://code.visualstudio.com/) installed (or [VSCodium](https://vscodium.com/) if you prefer FOSS)
+   * It provides the context for running our `vscode-extension`
+1. Get the `vscode-extension` installed to your local `VSCode` 
+   * Details can be found in [./vscode-extension/README.md](./vscode-extension/README.md)
+
+## Running the Tool Chain
+In `VSCode` use the extension's command for 
+* displaying LDML_de files and for 
+* applying modifications 
+
+(details, again, in  [./vscode-extension/README.md](./vscode-extension/README.md))
+
 # Development
 
 Please refer to [`DEVELOPING.md`](./DEVELOPING.md) for details.
