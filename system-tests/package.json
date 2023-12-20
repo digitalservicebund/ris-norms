@@ -10,8 +10,8 @@
     "eslint:fix": "f() { eslint --fix --max-warnings=0 ${@:-.}; }; f",
     "prettier:check": "f() { prettier --check ${@:-.}; }; f",
     "prettier:fix": "f() { prettier --write ${@:-.}; }; f",
-    "style:check": "f() { npm run prettier:check $@ }; f",
-    "style:fix": "f() { npm run prettier:fix $@ }; f"
+    "style:check": "f() { npm run prettier:check $@ && npm run eslint:check $@; }; f",
+    "style:fix": "f() { npm run prettier:fix $@ && npm run eslint:fix $@; }; f"
   },
   "keywords": [],
   "author": "",
