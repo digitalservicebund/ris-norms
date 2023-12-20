@@ -137,7 +137,7 @@ class ModificationApplierTest {
     val eli =
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
 
-    val result = extractLokaleKomponente(eli)
+    val result = extractEid(eli)
 
     assertThat(result).isEqualTo("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
   }

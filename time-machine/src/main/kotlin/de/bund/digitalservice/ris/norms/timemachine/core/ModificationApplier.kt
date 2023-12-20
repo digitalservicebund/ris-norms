@@ -15,7 +15,7 @@ fun applyModification(amendingLaw: Document, targetLaw: Document): Document {
   val eli = findHrefInModification(modification)
   requireNotNull(eli) { "Could not find href in modification" }
 
-  val eId = extractLokaleKomponente(eli)
+  val eId = extractEid(eli)
 
   val elementToModify = findElementToModify(eId, amendedLaw)
   requireNotNull(elementToModify) { "Could not find element to modify with eId: '$eId'" }
@@ -39,7 +39,7 @@ fun getFirstModification(amendingLaw: Document) = getNode("//*[local-name()='mod
 fun findHrefInModification(modification: Node): String? =
     getNode("//*[local-name()='ref']/@href", modification)?.nodeValue
 
-fun extractLokaleKomponente(eli: String) = eli.split("/").takeLast(2)[0]
+fun extractEid(eli: String) = eli.split("/").takeLast(2)[0]
 
 fun findElementToModify(eId: String, amendedLaw: Document) = getNode("//*[@eId='$eId']", amendedLaw)
 
