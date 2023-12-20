@@ -25,6 +25,7 @@ pre-commit:
 
     lint-system-tests:
       root: system-tests/
+      glob: "*.{ts,js,json}"
       run: npm run --silent eslint:fix {staged_files} && git add {staged_files}
 
     secrets-audit:
