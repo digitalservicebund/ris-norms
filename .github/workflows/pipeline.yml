@@ -171,6 +171,34 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
+  audit-licenses-vscode-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ./vscode-extension/.node-version
+          cache: npm
+          cache-dependency-path: ./vscode-extension/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./vscode-extension
+      - name: Run license scanner
+        run: npm run audit:licences
+        working-directory: ./vscode-extension
+      - name: Upload licence report
+        uses: actions/upload-artifact@v3
+        with:
+          name: vscode-extension-licence-report.csv
+          retention-days: 3
+          path: vscode-extension/licence-report.csv
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
   build-and-test-vscode-extension:
     runs-on: ubuntu-latest
     steps:
