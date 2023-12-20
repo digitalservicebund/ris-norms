@@ -4,8 +4,6 @@ permissions:
   contents: write # action-gh-release
   security-events: write # upload-sarif
 
-# TODO: Try to split into separate files (maybe the term is "continuations")
-
 on:
   # run on all branches
   push:
@@ -13,9 +11,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  ######
+
+  ####################
   # time machine jobs
-  #####
+  ####################
+
   validate-gradle-wrapper:
     runs-on: ubuntu-latest
     steps:
@@ -139,7 +139,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   ########################
-  # VSCode extension tasks
+  # VSCode extension jobs
   ########################
 
   check-style-vscode-extension:
@@ -298,9 +298,10 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  #################
-  # Security tasks
-  #################
+  ################
+  # Security jobs
+  ################
+
   trivy-scan:
     runs-on: ubuntu-latest
     steps:
