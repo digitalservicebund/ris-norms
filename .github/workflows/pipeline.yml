@@ -233,19 +233,7 @@ jobs:
       - name: Build Extension
         run: npm run vscode:pack
         working-directory: ./vscode-extension
-      - name: Create and Upload Stable Release for VSCode Extension
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./vscode-extension/*.vsix
-          tag_name: v${{ env.VERSION }}
-          name: v${{ env.VERSION }} Normendokumentation VSCode Extension
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create and Upload Pre-Release for VSCode Extension
-        if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
           files: ./vscode-extension/*.vsix
