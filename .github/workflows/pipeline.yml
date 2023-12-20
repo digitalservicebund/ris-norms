@@ -188,7 +188,7 @@ jobs:
         run: npm run audit:licences
         working-directory: ./vscode-extension
       - name: Upload licence report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vscode-extension-licence-report.csv
           retention-days: 3
@@ -364,7 +364,7 @@ jobs:
         run: npm run audit:licences
         working-directory: ./system-tests
       - name: Upload licence report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: system-tests-licence-report.csv
           retention-days: 3
