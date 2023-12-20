@@ -46,7 +46,7 @@ Running without any arguments or parameters will tell you what options exist.
 
 ### PATH
 
-Note that using the time-machine in the [vscode-extension](../vscode-extension/README.md) requires the scripts to be in the system's PATH.
+Note that using the time-machine in the [vscode-extension](../vscode-extension/README.md) requires the scripts to be in the system's `$PATH`.
 
 ## Building (without tests)
 
