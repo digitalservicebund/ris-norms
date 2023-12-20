@@ -19,6 +19,14 @@ pre-commit:
       glob: "*.{ts,js,json}"
       run: npm run --silent eslint:fix {staged_files} && git add {staged_files}
 
+    check-format-system-tests:
+      root: system-tests/
+      run: npm run --silent prettier:fix {staged_files} && git add {staged_files}
+
+    lint-system-tests:
+      root: system-tests/
+      run: npm run --silent eslint:fix {staged_files} && git add {staged_files}
+
     secrets-audit:
       run: >
         talisman --githook pre-commit ||
