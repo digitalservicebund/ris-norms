@@ -17,7 +17,7 @@ suite("Extension Unit Test Suite", () => {
       .value([mockedWorkspaceFolder]);
 
     const filePaths = [
-      `${mockedWorkspaceFolder.uri.fsPath}/07_01_änderungsgesetz-NONEXISTENT_SO_IT_FAILS.xml`,
+      `${mockedWorkspaceFolder.uri.fsPath}/07_01_änderungsgesetz.xml`,
       `${mockedWorkspaceFolder.uri.fsPath}/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml`,
       `${mockedWorkspaceFolder.uri.fsPath}/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml`,
     ];
