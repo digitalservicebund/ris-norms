@@ -5,13 +5,26 @@
   "main": "index.js",
   "scripts": {
     "init": "playwright install --with-deps",
-    "test": "playwright test"
+    "test": "playwright test",
+    "eslint:check": "f() { eslint --max-warnings=0 ${@:-.}; }; f",
+    "eslint:fix": "f() { eslint --fix --max-warnings=0 ${@:-.}; }; f",
+    "prettier:check": "f() { prettier --check ${@:-.}; }; f",
+    "prettier:fix": "f() { prettier --write ${@:-.}; }; f",
+    "style:check": "f() { npm run prettier:check $@ }; f",
+    "style:fix": "f() { npm run prettier:fix $@ }; f"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.40.1",
-    "@types/node": "^20.10.5"
+    "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-playwright": "^0.20.0",
+    "eslint-plugin-prettier": "^5.1.0",
+    "prettier": "^3.1.1"
   }
 }
