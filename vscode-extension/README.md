@@ -11,17 +11,35 @@ The Normendokumentation extension is designed to assist users in viewing and und
 - Previewing Applied Changes: See a static preview of the changes that the amending law would apply to the target law.
 - Static File Operation: Operate on a set of static files for each required input.
 
-# Installation and Usage
+# Installing the Extension
 
-- Open the Extensions pane in vscode, click on the `...` icon, select `Install from VSIX` , and select the .vsix extension file.
+Confirm that
 
-## Usage
+- [VSCode](https://code.visualstudio.com/) (or [VSCodium](https://vscodium.com/) if you prefer FOSS) is installed on your machine.
+- The `time-machine` is in your `$PATH` (cf. [../time-machine/README.md](../time-machine/README.md)).
 
-1. **Open Your LDML Files:** In VS Code, open the folder containing your amending law and target law LDML files.
-2. **Activate the Extension:** Use the command palette (Ctrl+Shift+P or Cmd+Shift+P on macOS) and search for `Open in custom Layout` to activate the extension.
-3. **View and Compare:** The amending law, to be amended law, and a preview of the applied changes will be displayed in a split layout for easy comparison and review.
+Now install the `vscode-extension`:
 
-_Note: Currently, the extension operates on static files and displays a static result. Interactive features, automatic document fetching, and diff previews are out of scope for this version._
+- Download the latest development version of the extension from the `ris-norms` list of [releases](https://github.com/digitalservicebund/ris-norms/releases).
+- Open the Extensions pane in vscode, click on the `...` icon, select `Install from VSIX` , and select the downloaded `.VSIX` file.
+
+# Using the Extension
+
+1. Download the LDML_de files:
+   - Open [change law](https://github.com/digitalservicebund/ris-norms/blob/main/time-machine/src/test/resources/07_01_%C3%A4nderungsgesetz.xml) and use the download button (or `CTRL-SHIFT-S`)
+   - [target law](https://github.com/digitalservicebund/ris-norms/blob/main/time-machine/src/test/resources/07_01_zu%C3%A4nderndesgesetz.xml) and use the download button (or `CTRL-SHIFT-S`)
+1. Put these files into the same folder
+1. Open your LDML files' folder in `VSCode``:
+   - In `VSCode`, open the folder containing your amending law and target law LDML files.
+1. Activate the Extension:
+   - Use the `VSCode` command `Open in custom Layout` in order to activate the extension. This will open the LDML_de files in multiple panes, cf. below.<br>
+     The command palette can be opened using `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
+1. View and Compare:
+   - The amending law, the target law, and a preview of the applied changes will be displayed in a split layout for easy comparison and review.
+1. Update the preview:
+   - Use the `VSCode` command `Apply time machine` in order to run the `time-machine` on the LDML_de files and get the preview updated by the result.
+
+_Note: We're still in early iterations._
 
 # Development
 
