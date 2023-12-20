@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
           `${workspaceFolder}/07_01_änderungsgesetz.xml`,
         );
         const toBeAmendedLaw = vscode.Uri.file(
-          `${workspaceFolder}/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml`,
+          `${workspaceFolder}/07_01_zuänderndesgesetz.xml`,
         );
         const amendedLaw = vscode.Uri.file(
           `${workspaceFolder}/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml`,

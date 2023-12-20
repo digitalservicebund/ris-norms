@@ -18,7 +18,7 @@ suite("Extension Unit Test Suite", () => {
 
     const filePaths = [
       `${mockedWorkspaceFolder.uri.fsPath}/07_01_änderungsgesetz.xml`,
-      `${mockedWorkspaceFolder.uri.fsPath}/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml`,
+      `${mockedWorkspaceFolder.uri.fsPath}/07_01_zuänderndesgesetz.xml`,
       `${mockedWorkspaceFolder.uri.fsPath}/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml`,
     ];
 
@@ -66,9 +66,7 @@ suite("Extension Unit Test Suite", () => {
     );
     sinon.assert.calledWith(
       openTextDocumentStub,
-      vscode.Uri.file(
-        "/mocked/workspace/folder/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml",
-      ),
+      vscode.Uri.file("/mocked/workspace/folder/07_01_zuänderndesgesetz.xml"),
     );
     sinon.assert.calledWith(
       openTextDocumentStub,
@@ -81,7 +79,7 @@ suite("Extension Unit Test Suite", () => {
       showTextDocumentStub,
       {
         uri: vscode.Uri.file(
-          "/mocked/workspace/folder/07_01_geändertesGesetz_V1.1_Metadatenaenderung.xml",
+          "/mocked/workspace/folder/07_01_zuänderndesgesetz.xml",
         ),
       },
       { viewColumn: vscode.ViewColumn.One },
