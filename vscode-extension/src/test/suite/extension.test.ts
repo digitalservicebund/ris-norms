@@ -105,8 +105,6 @@ suite("Extension Unit Test Suite", () => {
     );
   });
 
-  // TODO: Why does this not fail now that --stdout is no longer supported?
-  // Does it test what we think it should?
   test("applyChanges opens resulting file", async () => {
     const expectedUri = vscode.Uri.parse(
       "timemachine-preview:Preview?amendingLaw=/mocked/workspace/folder/07_01_änderungsgesetz.xml&targetLaw=/mocked/workspace/folder/07_01_zuänderndesgesetz.xml",
