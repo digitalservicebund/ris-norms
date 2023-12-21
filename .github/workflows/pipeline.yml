@@ -329,6 +329,8 @@ jobs:
         with:
           name: time-machine-install
           path: downloaded-artifacts
+      - name: List content of downloaded-artifacts
+        run: ls -la downloaded-artifacts
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
         uses: softprops/action-gh-release@v1
         with:
