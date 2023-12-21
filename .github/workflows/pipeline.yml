@@ -323,8 +323,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: |
-            vscode-extension-vsix
+          name: 
             time-machine-install
           path: downloaded-artifacts
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
