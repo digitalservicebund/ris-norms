@@ -7,9 +7,8 @@ import org.junit.jupiter.api.Test
 class TimeMachineTest {
   private val filePathAmendingLaw =
       this.javaClass.classLoader.getResource("07_01_änderungsgesetz.xml")!!.toURI()
-  private val fileNameToBeAmendedLaw = "07_01_zuänderndesgesetz.xml"
   private val filePathToBeAmendedLaw =
-      this.javaClass.classLoader.getResource(fileNameToBeAmendedLaw)!!.toURI()
+      this.javaClass.classLoader.getResource("07_01_zuänderndesgesetz.xml")!!.toURI()
 
   // TODO: remove if there is no strong objection
   // @Test
