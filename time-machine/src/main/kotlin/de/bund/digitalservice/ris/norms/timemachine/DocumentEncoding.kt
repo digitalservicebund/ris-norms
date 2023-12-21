@@ -28,7 +28,7 @@ fun writeDocumentToFile(document: Document, fileName: String) {
   transformer.transform(source, result)
 }
 
-fun fileToDocument(amendingLaw: File): Document {
+fun readDocumentFromFile(amendingLaw: File): Document {
   val dbFactory = DocumentBuilderFactory.newInstance()
   val dBuilder = dbFactory.newDocumentBuilder()
 
