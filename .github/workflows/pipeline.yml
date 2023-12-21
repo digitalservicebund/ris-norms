@@ -264,9 +264,7 @@ jobs:
       - name: Create and Upload Pre-Release for VSCode Extension
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            ./vscode-extension/*.vsix
-            ./vscode-extension/.node-version
+          files: ./vscode-extension/*.vsix
           tag_name: v${{ env.VERSION }}-${{ github.run_number }}
           name: v${{ env.VERSION }}-${{ github.run_number }} Normendokumentation VSCode Extension
           draft: false
