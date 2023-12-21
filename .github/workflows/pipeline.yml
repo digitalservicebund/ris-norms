@@ -352,9 +352,9 @@ jobs:
       - name: List content of downloaded-artifacts
         run: ls -la downloaded-artifacts
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-releaseBREAK@v1
         with:
-          files: downloaded-artifacts/ris-norms-releaseBREAK.zip
+          files: downloaded-artifacts/ris-norms-release.zip
           tag_name: v${{ env.VERSION }}-${{ github.run_number }}
           name: v${{ env.VERSION }}-${{ github.run_number }} Normendokumentation VSCode Extension + Time Machine
           draft: false
