@@ -43,7 +43,7 @@ jobs:
         with:
           name: time-machine-install
           retention-days: 1
-          path: time-machine/build/install/ris-norms-time-machine
+          path: time-machine/build/install
       - name: Send status to Slack
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
@@ -239,7 +239,7 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  build-and-package-vscode-extension:
+  build-and-pack-vscode-extension:
     runs-on: ubuntu-latest
     needs: [check-style-vscode-extension, build-and-test-vscode-extension]
     steps:
@@ -319,7 +319,7 @@ jobs:
 
   release-time-machine-and-vscode-extension:
     runs-on: ubuntu-latest
-    needs: [build-and-package-vscode-extension, build-time-machine]
+    needs: [build-and-pack-vscode-extension, build-time-machine]
     steps:
       - uses: actions/download-artifact@v4
         with:
