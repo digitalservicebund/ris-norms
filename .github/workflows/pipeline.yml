@@ -323,14 +323,16 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: 
-            time-machine-install
+          name: vscode-extension-vsix
+          path: downloaded-artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: time-machine-install
           path: downloaded-artifacts
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            ./downloaded-artifacts/*
+          files: downloaded-artifacts/*
           tag_name: v${{ env.VERSION }}-${{ github.run_number }}
           name: v${{ env.VERSION }}-${{ github.run_number }} Normendokumentation VSCode Extension + Time Machine
           draft: false
