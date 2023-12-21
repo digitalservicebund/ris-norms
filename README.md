@@ -17,28 +17,44 @@ This is a mono-repository containing several software products. Right now, there
 * `./time-machine`: A command line tool for applying LDML_de change commands to existing laws
 * `./vscode-extension`: A VSCode extension supporting workflows on LDML_de change commands
 
-# Running the Solution Locally (Sketch)
+# How to run
 
-At some point we expect our modules to be useable as SAAS, but we're not there, yet.
+## Prerequisites
+* `Java` 17 (check by running `java --version` in a terminal/shell)
+* `VSCode` (check with running `code --version`)
+   * or `VSCodium``  (check with running `codium --version`, accordingly)
 
-The details of running our tool chain locally are spelled out in the modules' documentation, but here's the gist:
+## Downloading the tools
+* From the [Release page](https://github.com/digitalservicebund/ris-norms/releases) download the latest `ris-norms-release.zip`
+* Extract that file
 
-## Setup
-1. Make sure there's a Java Runtime available on your system (e.g. `java --version` responds fine in a terminal/shell)
-1. Get the `time-machine` scripts working on your command line (i.e. needs to be in your `$PATH`)
-   * It allows for applying modifications to LDML_de files and is used in the `vscode-extension`.
-   * Details can be found in [./time-machine/README.md](./time-machine/README.md)
-1. Get [VSCode](https://code.visualstudio.com/) installed (or [VSCodium](https://vscodium.com/) if you prefer FOSS)
-   * It provides the context for running our `vscode-extension`
-1. Get the `vscode-extension` installed to your local `VSCode` 
-   * Details can be found in [./vscode-extension/README.md](./vscode-extension/README.md)
+## Setting up the tools
+* Set up the time-machine CLI
+  * The release contains a folder called `ris-norms-time-machine`
+  * That folder in turn contains folders `bin` and `lib`
+  * Add the `bin` folder to your $PATH (check with `ris-norms-time-machine`)
+    * This allows the VSCode extension to use the time-machine CLI
+* Install the VSCode extension
+  * Start VSCode
+  * Open the extensions pane in vscode
+  * Click on the `...` icon
+  * Select `Install from VSIX`
+  * Then select the `VSIX` file from `ris-norms-release/` (e.g. `normendokumentation-0.0.1.vsix`)
 
-## Running the Tool Chain
-In `VSCode` use the extension's command for 
-* displaying LDML_de files and for 
-* applying modifications 
+## Using the extension
+1. Download all four LDML_de files from the [ldml-samples](https://github.com/digitalservicebund/ris-norms/tree/main/vscode-extension/ldml-samples) folder
+1. Put these files into a local folder
+1. Open the local LDML files' folder in `VSCode`
+1. (Optional) Close all editor panels
+1. Activate the Extension:
+   - Use the `VSCode` command `Open in custom Layout` in order to activate the extension. This will open the LDML_de files in multiple panels, cf. below.<br>
+     The command palette can be opened using `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
+1. View and Compare:
+   - The amending law, the target law, and a preview of the applied changes will be displayed in a split layout for easy comparison and review.
+1. Update the preview:
+   - Use the `VSCode` command `Apply time machine` in order to run the `time-machine` on the LDML_de files and get the preview updated by the result.
 
-(details, again, in  [./vscode-extension/README.md](./vscode-extension/README.md))
+_Note: We're still in early iterations._
 
 # Development
 
