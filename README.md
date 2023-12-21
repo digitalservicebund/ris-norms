@@ -24,6 +24,7 @@ At some point we expect our modules to be useable as SAAS, but we're not there, 
 The details of running our tool chain locally are spelled out in the modules' documentation, but here's the gist:
 
 ## Setup
+1. Make sure there's a Java Runtime available on your system (e.g. `java --version` responds fine in a terminal/shell)
 1. Get the `time-machine` scripts working on your command line (i.e. needs to be in your `$PATH`)
    * It allows for applying modifications to LDML_de files and is used in the `vscode-extension`.
    * Details can be found in [./time-machine/README.md](./time-machine/README.md)
