@@ -352,7 +352,7 @@ jobs:
       - name: List content of downloaded-artifacts
         run: ls -la downloaded-artifacts
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
-        uses: softprops/action-gh-releaseBREAK@v1
+        uses: softprops/action-gh-release@v1
         with:
           files: downloaded-artifacts/ris-norms-release.zip
           tag_name: v${{ env.VERSION }}-${{ github.run_number }}
@@ -362,6 +362,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Send status to Slack
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
