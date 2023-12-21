@@ -339,6 +339,8 @@ jobs:
           directory: downloaded-artifacts
       - name: List content of downloaded-artifacts
         run: ls -la downloaded-artifacts
+      - name: List content of .
+        run: ls -la .
       - name: Extract Extension Version (= release version)
         id: package_version
         run: echo "VERSION=$(node -p "require('./vscode-extension/package.json').version")" >> $GITHUB_ENV
