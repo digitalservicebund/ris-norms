@@ -331,17 +331,18 @@ jobs:
           path: downloaded-artifacts
       - name: List content of downloaded-artifacts
         run: ls -la downloaded-artifacts
-
       - name: Zip Release locally
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: "zip"
           filename: "ris-norms-release.zip"
           directory: downloaded-artifacts
+      - name: List content of downloaded-artifacts
+        run: ls -la downloaded-artifacts
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
         uses: softprops/action-gh-release@v1
         with:
-          files: ris-norms-release.zip
+          files: downloaded-artifacts/ris-norms-release.zip
           tag_name: v${{ env.VERSION }}-${{ github.run_number }}
           name: v${{ env.VERSION }}-${{ github.run_number }} Normendokumentation VSCode Extension + Time Machine
           draft: false
