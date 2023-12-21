@@ -9,7 +9,6 @@ import de.bund.digitalservice.ris.norms.timemachine.core.applyModification
 import documentToString
 import fileToDocument
 import org.w3c.dom.Document
-import writeDocumentToFile
 
 class TimeMachine : CliktCommand() {
   private val amendingLawFile by argument().file(mustExist = true, canBeDir = false)
@@ -21,13 +20,11 @@ class TimeMachine : CliktCommand() {
     val targetLawDoc = fileToDocument(targetLawFile)
 
     val appliedLaw = applyModification(amendingLawDoc, targetLawDoc)
+    val documentString = documentToString(appliedLaw)
+    echo(documentString, true, false)
 
-    if (doPrintToStandardOutput) {
-      val documentString = documentToString(appliedLaw)
-      echo(documentString, true, false)
-    }
-
-    writeDocumentToFile(appliedLaw, targetLawFile.nameWithoutExtension + "_amended.xml")
+    // TODO: remove if there is no strong objection
+    // writeDocumentToFile(appliedLaw, targetLawFile.nameWithoutExtension + "_amended.xml")
   }
 }
 
