@@ -239,7 +239,7 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  release-vscode-extension:
+  build-and-package-vscode-extension:
     runs-on: ubuntu-latest
     needs: [check-style-vscode-extension, build-and-test-vscode-extension]
     steps:
@@ -250,9 +250,6 @@ jobs:
           node-version-file: ./vscode-extension/.node-version
           cache: npm
           cache-dependency-path: ./vscode-extension/package-lock.json
-      - name: Extract Extension Version
-        id: package_version
-        run: echo "VERSION=$(node -p "require('./vscode-extension/package.json').version")" >> $GITHUB_ENV
       - name: Cache node_modules
         uses: actions/cache@v3
         id: node-modules-cache
@@ -263,7 +260,7 @@ jobs:
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
         working-directory: ./vscode-extension
-      - name: Build Extension
+      - name: Build + Pack Extension
         run: npm run vscode:pack
         working-directory: ./vscode-extension
       - name: Upload extension # the release will pick this up, later
@@ -275,21 +272,6 @@ jobs:
       - name: Send status to Slack
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
-        if: ${{ failure() && github.ref == 'refs/heads/main' }}
-        with:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Create and Upload Pre-Release for VSCode Extension
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./vscode-extension/*.vsix
-          tag_name: v${{ env.VERSION }}-${{ github.run_number }}
-          name: v${{ env.VERSION }}-${{ github.run_number }} Normendokumentation VSCode Extension
-          draft: false
-          prerelease: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
@@ -337,6 +319,7 @@ jobs:
 
   release-time-machine-and-vscode-extension:
     runs-on: ubuntu-latest
+    needs: [build-and-package-vscode-extension, build-time-machine]
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -355,6 +338,12 @@ jobs:
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # TODO: uncomment
+      # - name: Send status to Slack
+      #   uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+      #   if: ${{ failure() && github.ref == 'refs/heads/main' }}
+      #   with:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   ########################
   # system test jobs
