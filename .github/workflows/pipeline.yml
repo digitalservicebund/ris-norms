@@ -331,6 +331,31 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
+  ###############################
+  # build release from artifacts
+  ###############################
+
+  release-time-machine-and-vscode-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: |
+            vscode-extension-vsix
+            time-machine-install
+          path: downloaded-artifacts
+      - name: Create and Upload Pre-Release for VSCode Extension and time-machine
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./downloaded-artifacts/*
+          tag_name: v${{ env.VERSION }}-${{ github.run_number }}
+          name: v${{ env.VERSION }}-${{ github.run_number }} Normendokumentation VSCode Extension + Time Machine
+          draft: false
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   ########################
   # system test jobs
   ########################
