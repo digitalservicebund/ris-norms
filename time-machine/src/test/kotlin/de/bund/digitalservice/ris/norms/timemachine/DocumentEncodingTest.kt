@@ -40,7 +40,7 @@ fun `fileToDocument() result contains modification node with specific eID`() {
   //    val filePath = this.javaClass.classLoader.getResource("07_01_änderungsgesetz.xml")?.toURI()
   val filePath = object {}.javaClass.classLoader.getResource("07_01_änderungsgesetz.xml")?.toURI()
   val amendingLawFile = File(filePath!!)
-  val amendingLaw = fileToDocument(amendingLawFile)
+  val amendingLaw = readDocumentFromFile(amendingLawFile)
   val modNode = getNode("//*[local-name()='mod']", amendingLaw)
 
   assertThat(modNode?.attributes?.getNamedItem("eId")?.nodeValue)
