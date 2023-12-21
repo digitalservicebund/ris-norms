@@ -339,6 +339,9 @@ jobs:
           directory: downloaded-artifacts
       - name: List content of downloaded-artifacts
         run: ls -la downloaded-artifacts
+      - name: Extract Extension Version (= release version)
+        id: package_version
+        run: echo "VERSION=$(node -p "require('./vscode-extension/package.json').version")" >> $GITHUB_ENV
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
         uses: softprops/action-gh-release@v1
         with:
