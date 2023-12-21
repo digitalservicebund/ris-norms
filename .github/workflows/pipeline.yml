@@ -38,12 +38,12 @@ jobs:
           gradle-version: ${{ env.GRADLE_VERSION}}
           arguments: install
           build-root-directory: ./time-machine
-      - name: Upload 'install' # the release will pick this up, later
-        uses: actions/upload-artifact@v4
-        with:
-          name: time-machine-install
-          retention-days: 1
-          path: time-machine/build/install
+      # - name: Upload 'install' # the release will pick this up, later
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: time-machine-install
+      #     retention-days: 1
+      #     path: time-machine/build/install
       - name: Send status to Slack
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
@@ -263,12 +263,12 @@ jobs:
       - name: Build + Pack Extension
         run: npm run vscode:pack
         working-directory: ./vscode-extension
-      - name: Upload extension # the release will pick this up, later
-        uses: actions/upload-artifact@v4
-        with:
-          name: vscode-extension-vsix
-          retention-days: 1
-          path: vscode-extension/*.vsix
+      # - name: Upload extension # the release will pick this up, later
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: vscode-extension-vsix
+      #     retention-days: 1
+      #     path: vscode-extension/*.vsix
       - name: Send status to Slack
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
