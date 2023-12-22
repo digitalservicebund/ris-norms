@@ -34,6 +34,7 @@ dependencies {
   implementation(libs.kotlin.stdlib.jdk8)
   implementation(libs.xml.unit.assertj3)
   implementation(libs.clikt)
+  implementation(libs.system.lambda)
 }
 
 application { mainClass = "de.bund.digitalservice.ris.norms.timemachine.TimeMachineKt" }
