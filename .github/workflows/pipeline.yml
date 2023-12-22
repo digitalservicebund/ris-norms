@@ -32,7 +32,7 @@ jobs:
         with:
           java-version: "17.0"
           distribution: "temurin"
-      - name: Setup Gradle
+      - name: Gradle install
         uses: gradle/gradle-build-action@8cbcb9948b5892387aed077daf6f90e1f0ba5b27
         with:
           gradle-version: ${{ env.GRADLE_VERSION}}
@@ -65,7 +65,8 @@ jobs:
         with:
           java-version: "17.0"
           distribution: "temurin"
-      - uses: gradle/gradle-build-action@8cbcb9948b5892387aed077daf6f90e1f0ba5b27
+      - name: Gradle test (without integrationTest)
+        uses: gradle/gradle-build-action@8cbcb9948b5892387aed077daf6f90e1f0ba5b27
         with:
           gradle-version: ${{ env.GRADLE_VERSION}}
           arguments: test -x integrationTest
