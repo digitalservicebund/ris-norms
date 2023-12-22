@@ -18,9 +18,8 @@ class TimeMachine : CliktCommand() {
 
     val appliedLaw = applyModification(amendingLawDoc, targetLawDoc)
     val documentString = documentToString(appliedLaw)
-    echo(documentString, true, false)
 
-    println("Mein text hier")
+    echo(documentString, true, false)
   }
 }
 
