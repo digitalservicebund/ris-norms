@@ -26,7 +26,24 @@
         "command": "digitalservicebund.applyChanges",
         "title": "Apply time machine"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "RIS-Norms",
+      "properties": {
+        "ris-norms.time-machine-executable": {
+          "type": "string",
+          "default": "ris-norms-time-machine",
+          "description": "Specifies the path of the time machine executable. In order to use the default `ris-norms-time-machine` the executable must be in the PATH.",
+          "scope": "machine"
+        }
+      }
+    }
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "RIS-Norms only works in trusted workspaces as it relies on user defined settings for code execution."
+    }
   },
   "scripts": {
     "vscode:pack": "npm run vscode:prepublish && vsce package",

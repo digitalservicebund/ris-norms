@@ -1,7 +1,8 @@
 import sinon = require("sinon");
 import Provider from "../../provider";
 import * as assert from "assert";
-import { Uri } from "vscode";
+import { Uri, WorkspaceConfiguration } from "vscode";
+import * as vscode from "vscode";
 import * as cp from "child_process";
 import * as fs from "fs";
 import { afterEach } from "mocha";
@@ -9,6 +10,7 @@ import { afterEach } from "mocha";
 suite("Provider", () => {
   const existsSyncStub = sinon.stub(fs, "existsSync");
   const execStub = sinon.stub(cp, "exec");
+  const getConfigurationStub = sinon.stub(vscode.workspace, "getConfiguration");
 
   afterEach(sinon.reset);
 
@@ -69,16 +71,71 @@ suite("Provider", () => {
     }, new Error("Amending law or target law file not found."));
   });
 
-  test("applyTimeMachine execs time-machine command", async () => {
+  test("applyTimeMachine execs time-machine command with the default path if not defined", async () => {
     const provider = new Provider();
 
     existsSyncStub.returns(true);
 
-    execStub.callsArgWith(1, null, "Sample text document content");
+    execStub
+      .withArgs(
+        'ris-norms-time-machine --stdout "/path/to/amendingLaw" "/path/to/targetLaw"',
+      )
+      .callsArgWith(1, null, "Sample text document content");
+
+    const workspaceConfigurationStub = {
+      get: sinon.stub().withArgs("time-machine-executable").returns(undefined),
+      has: sinon.stub(),
+      inspect: sinon.stub(),
+      update: sinon.stub(),
+    };
+    getConfigurationStub
+      .withArgs("ris-norms" as string)
+      .returns(workspaceConfigurationStub);
 
     const content = await provider.applyTimeMachine(
       Uri.file("/path/to/amendingLaw"),
       Uri.file("/path/to/targetLaw"),
+    );
+
+    sinon.assert.calledWith(
+      execStub,
+      'ris-norms-time-machine --stdout "/path/to/amendingLaw" "/path/to/targetLaw"',
+    );
+    assert.equal(content, "Sample text document content");
+  });
+
+  test("applyTimeMachine execs time-machine command with the specified path", async () => {
+    const provider = new Provider();
+
+    existsSyncStub.returns(true);
+
+    execStub
+      .withArgs(
+        '/path/to/ris-norms-time-machine --stdout "/path/to/amendingLaw" "/path/to/targetLaw"',
+      )
+      .callsArgWith(1, null, "Sample text document content");
+
+    const workspaceConfigurationStub = {
+      get: sinon
+        .stub()
+        .withArgs("time-machine-executable")
+        .returns("/path/to/ris-norms-time-machine"),
+      has: sinon.stub(),
+      inspect: sinon.stub(),
+      update: sinon.stub(),
+    };
+    getConfigurationStub
+      .withArgs("ris-norms" as string)
+      .returns(workspaceConfigurationStub);
+
+    const content = await provider.applyTimeMachine(
+      Uri.file("/path/to/amendingLaw"),
+      Uri.file("/path/to/targetLaw"),
+    );
+
+    sinon.assert.calledWith(
+      execStub,
+      '/path/to/ris-norms-time-machine --stdout "/path/to/amendingLaw" "/path/to/targetLaw"',
     );
 
     assert.equal(content, "Sample text document content");
@@ -88,6 +145,16 @@ suite("Provider", () => {
     const provider = new Provider();
 
     existsSyncStub.returns(true);
+
+    const workspaceConfigurationStub = {
+      get: sinon.stub().withArgs("time-machine-executable").returns(undefined),
+      has: sinon.stub(),
+      inspect: sinon.stub(),
+      update: sinon.stub(),
+    };
+    getConfigurationStub
+      .withArgs("ris-norms" as string)
+      .returns(workspaceConfigurationStub);
 
     const error = new Error("Sample text document content");
     execStub.callsArgWith(1, error);
