@@ -356,7 +356,7 @@ jobs:
         with:
           files: downloaded-artifacts/ris-norms-release.zip
           tag_name: v${{ env.VERSION }}-${{ github.run_number }}
-          name: v${{ env.VERSION }}-${{ github.run_number }} Normendokumentation VSCode Extension + Time Machine
+          name: v${{ env.VERSION }}-${{ github.run_number }} RIS-Norms VSCode Extension + Time Machine
           draft: false
           prerelease: true
           fail_on_unmatched_files: true
