@@ -263,6 +263,11 @@ jobs:
       - name: Build + Pack Extension
         run: npm run vscode:pack
         working-directory: ./vscode-extension
+      - name: Extract Extension Version (= release version)
+        id: package_version
+        run: echo "VERSION=$(node -p "require('./vscode-extension/package.json').version")" >> $GITHUB_ENV
+      - name: Append GitHub Run Number to VSIX file
+        run: mv ./vscode-extension/ris-norms-${{ env.VERSION }}.vsix ./vscode-extension/ris-norms-${{ env.VERSION }}-${{ github.run_number }}.vsix
       - name: Upload extension # the release will pick this up, later
         uses: actions/upload-artifact@v4
         with:
