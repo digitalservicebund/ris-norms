@@ -32,9 +32,14 @@ export default class Provider implements vscode.TextDocumentContentProvider {
       throw new Error("Amending law or target law file not found.");
     }
 
+    // ris-norms-time-machine has to be in the PATH if we fallback to it
+    const executable =
+      vscode.workspace
+        .getConfiguration("ris-norms")
+        .get<string>("time-machine-executable") ?? "ris-norms-time-machine";
+
     // TODO: This is not tested
-    // ris-norms-time-machine has to be in the $PATH
-    const cmd = `ris-norms-time-machine "${amendingLawFile.fsPath}" "${targetLawFile.fsPath}"`;
+    const cmd = `${executable} --stdout "${amendingLawFile.fsPath}" "${targetLawFile.fsPath}"`;
 
     return new Promise<string>((resolve, reject) => {
       cp.exec(cmd, (err, out) => {
