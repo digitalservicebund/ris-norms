@@ -324,7 +324,16 @@ jobs:
 
   release-time-machine-and-vscode-extension:
     runs-on: ubuntu-latest
-    needs: [build-and-pack-vscode-extension, build-time-machine]
+    needs: 
+      - build-time-machine
+      - unit-tests-time-machine
+      - build-and-pack-vscode-extension
+      - analyze-time-machine
+      - audit-licenses-time-machine
+      - audit-licenses-vscode-extension
+      - analyze-vscode-extension
+      - trivy-scan
+      - talisman-check
     steps:
       # --> reading the release version
       - uses: actions/checkout@v4
