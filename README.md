@@ -20,9 +20,9 @@ This is a mono-repository containing several software products. Right now, there
 # How to run
 
 ## Prerequisites
-* `Java` 17 (check by running `java --version` in a terminal/shell)
+* `Java 17` (check by running `java --version` in a terminal/shell)
 * `VSCode` (check with running `code --version`)
-   * or `VSCodium``  (check with running `codium --version`, accordingly)
+   * or `VSCodium`  (check with running `codium --version`, accordingly)
 
 ## Downloading the tools
 * From the [Release page](https://github.com/digitalservicebund/ris-norms/releases) download the latest `ris-norms-release.zip`
@@ -39,7 +39,7 @@ This is a mono-repository containing several software products. Right now, there
   * Open the extensions pane in vscode
   * Click on the `...` icon
   * Select `Install from VSIX`
-  * Then select the `VSIX` file from `ris-norms-release/` (e.g. `normendokumentation-0.0.1.vsix`)
+  * Then select the `VSIX` file from `ris-norms-release/` (e.g. `ris-norms-0.0.1-210.vsix`)
 
 ## Using the extension
 1. Download all four LDML_de files from the [ldml-samples](https://github.com/digitalservicebund/ris-norms/tree/main/vscode-extension/ldml-samples) folder
