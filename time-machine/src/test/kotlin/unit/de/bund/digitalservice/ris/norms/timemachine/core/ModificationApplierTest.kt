@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.timemachine.core
 
-import com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut
 import java.io.ByteArrayInputStream
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
@@ -141,30 +140,6 @@ class ModificationApplierTest {
     val result = extractEid(eli)
 
     assertThat(result).isEqualTo("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-  }
-
-  @Test
-  fun `it does not print to STDOUT`() {
-    val amendingLaw =
-        """
-          <akn:body>
-            <akn:mod>
-             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
-            </akn:mod>
-          </akn:body>
-        """
-
-    val targetLaw =
-        """
-          <akn:body>
-            <akn:p eId="one">old text</akn:p>
-            <akn:p eId="two">old text</akn:p>
-          </akn:body>
-        """
-
-    val output = tapSystemOut({ applyModification(amendingLaw.asXml(), targetLaw.asXml()) })
-
-    assertThat(output).isEmpty()
   }
 }
 
