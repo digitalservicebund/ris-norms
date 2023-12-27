@@ -15,13 +15,21 @@ suite("Integration tests", () => {
     });
   });
 
+  function stripAnsi(str: string): string {
+    return str.replace(
+      /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nq-uy=><]/g,
+      "",
+    );
+  }
+
   test("ris-norms-time-machine returns non-zero when passing unknown parameter", async () => {
     await assert.rejects(
       async () => {
         await execAsync(`${executable} --unknown`);
       },
-      {
-        message: /Error: no such option --unknown/,
+      (err: any) => {
+        const message = stripAnsi(err.message); // Clean the message of ANSI codes
+        return /Error: no such option --unknown/.test(message);
       },
     );
   });
