@@ -5,14 +5,20 @@ import { Uri, WorkspaceConfiguration } from "vscode";
 import * as vscode from "vscode";
 import * as cp from "child_process";
 import * as fs from "fs";
-import { afterEach } from "mocha";
+import { afterEach, beforeEach } from "mocha";
 
 suite("Provider", () => {
-  const existsSyncStub = sinon.stub(fs, "existsSync");
-  const execStub = sinon.stub(cp, "exec");
-  const getConfigurationStub = sinon.stub(vscode.workspace, "getConfiguration");
+  let existsSyncStub: sinon.SinonStub;
+  let execStub: sinon.SinonStub;
+  let getConfigurationStub: sinon.SinonStub;
 
-  afterEach(sinon.reset);
+  beforeEach(async () => {
+    existsSyncStub = sinon.stub(fs, "existsSync");
+    execStub = sinon.stub(cp, "exec");
+    getConfigurationStub = sinon.stub(vscode.workspace, "getConfiguration");
+  });
+
+  afterEach(sinon.restore);
 
   test("provideTextDocumentContent calls applyTimeMachine with the correct parameters and returns its return value", async () => {
     const provider = new Provider();
@@ -38,9 +44,14 @@ suite("Provider", () => {
     const provider = new Provider();
 
     const uri = Uri.parse("timemachine-preview://Preview");
-    assert.rejects(async () => {
-      await provider.provideTextDocumentContent(uri);
-    }, "Amending law or target law not specified.");
+    assert.rejects(
+      async () => {
+        await provider.provideTextDocumentContent(uri);
+      },
+      {
+        message: "Amending law or target law not specified.",
+      },
+    );
   });
 
   test("encodeLocation encodes the correct location", () => {
@@ -78,7 +89,7 @@ suite("Provider", () => {
 
     execStub
       .withArgs(
-        'ris-norms-time-machine --stdout "/path/to/amendingLaw" "/path/to/targetLaw"',
+        'ris-norms-time-machine "/path/to/amendingLaw" "/path/to/targetLaw"',
       )
       .callsArgWith(1, null, "Sample text document content");
 
@@ -99,7 +110,7 @@ suite("Provider", () => {
 
     sinon.assert.calledWith(
       execStub,
-      'ris-norms-time-machine --stdout "/path/to/amendingLaw" "/path/to/targetLaw"',
+      'ris-norms-time-machine "/path/to/amendingLaw" "/path/to/targetLaw"',
     );
     assert.equal(content, "Sample text document content");
   });
@@ -111,7 +122,7 @@ suite("Provider", () => {
 
     execStub
       .withArgs(
-        '/path/to/ris-norms-time-machine --stdout "/path/to/amendingLaw" "/path/to/targetLaw"',
+        '/path/to/ris-norms-time-machine "/path/to/amendingLaw" "/path/to/targetLaw"',
       )
       .callsArgWith(1, null, "Sample text document content");
 
@@ -135,7 +146,7 @@ suite("Provider", () => {
 
     sinon.assert.calledWith(
       execStub,
-      '/path/to/ris-norms-time-machine --stdout "/path/to/amendingLaw" "/path/to/targetLaw"',
+      '/path/to/ris-norms-time-machine "/path/to/amendingLaw" "/path/to/targetLaw"',
     );
 
     assert.equal(content, "Sample text document content");

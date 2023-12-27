@@ -207,6 +207,7 @@ jobs:
 
   build-and-test-vscode-extension:
     runs-on: ubuntu-latest
+    needs: [build-time-machine]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node
@@ -229,6 +230,10 @@ jobs:
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
         working-directory: ./vscode-extension
+      - uses: actions/download-artifact@v4
+        with:
+          name: time-machine-install
+          path: time-machine/build/install
       - name: Run tests
         run: npm test
         working-directory: ./vscode-extension
