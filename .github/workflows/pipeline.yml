@@ -216,6 +216,11 @@ jobs:
           node-version-file: ./vscode-extension/.node-version
           cache: npm
           cache-dependency-path: ./vscode-extension/package-lock.json
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
       - name: Cache node_modules
         uses: actions/cache@v3
         id: node-modules-cache
