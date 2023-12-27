@@ -234,6 +234,13 @@ jobs:
         with:
           name: time-machine-install
           path: time-machine/build/install
+
+      - name: Print working directory
+        run: pwd
+
+      - name: List contents of the downloaded time-machine artifact
+        run: ls -R time-machine/build/install
+
       - name: Run tests
         run: npm test
         working-directory: ./vscode-extension
@@ -330,7 +337,7 @@ jobs:
 
   release-time-machine-and-vscode-extension:
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - build-time-machine
       - unit-tests-time-machine
       - build-and-pack-vscode-extension
