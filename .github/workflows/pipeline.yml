@@ -235,7 +235,7 @@ jobs:
           name: time-machine-install
           path: time-machine/build/install
       - name: Set execute permissions on the time machine
-        run: chmod +x ../time-machine/build/install/ris-norms-time-machine/bin/ris-norms-time-machine
+        run: chmod +x ../../time-machine/build/install/ris-norms-time-machine/bin/ris-norms-time-machine
       - name: Run tests
         run: npm test
         working-directory: ./vscode-extension
