@@ -5,7 +5,7 @@ node_modules
 .vscode-test
 dist
 out
-normendokumentation-*.vsix
+ris-norms-*.vsix
 
 # Test Output
 .nyc_output/
