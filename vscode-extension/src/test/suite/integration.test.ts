@@ -5,8 +5,8 @@ import { promisify } from "util";
 suite("Integration tests", () => {
   const execAsync = promisify(cp.exec);
   const executable =
-    "time-machine/build/install/ris-norms-time-machine/bin/ris-norms-time-machine";
-
+    "../time-machine/build/install/ris-norms-time-machine/bin/ris-norms-time-machine";
+  console.log("Current working directory:", process.cwd());
   test("ris-norms-time-machine returns 0", async () => {
     await assert.doesNotReject(async () => {
       await execAsync(
