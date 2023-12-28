@@ -1,3 +1,5 @@
+package de.bund.digitalservice.ris.norms.timemachine
+
 import de.bund.digitalservice.ris.norms.timemachine.core.getNode
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory

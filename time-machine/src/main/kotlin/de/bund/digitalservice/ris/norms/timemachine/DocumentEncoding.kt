@@ -1,3 +1,5 @@
+package de.bund.digitalservice.ris.norms.timemachine
+
 import java.io.File
 import java.io.FileWriter
 import java.io.StringReader
