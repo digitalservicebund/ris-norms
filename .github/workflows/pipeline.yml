@@ -104,7 +104,6 @@ jobs:
 
   analyze-time-machine:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -297,7 +296,6 @@ jobs:
 
   analyze-vscode-extension:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -337,6 +335,7 @@ jobs:
 
   release-time-machine-and-vscode-extension:
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs:
       - build-time-machine
       - unit-tests-time-machine
