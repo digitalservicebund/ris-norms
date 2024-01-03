@@ -348,7 +348,7 @@ jobs:
   release-time-machine-and-vscode-extension:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs:
+    needs: 
       - build-time-machine
       - unit-tests-time-machine
       - build-and-pack-vscode-extension
