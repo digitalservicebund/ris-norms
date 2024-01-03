@@ -53,27 +53,3 @@ fun eaz() {
     println("index: $index")
   }
 }
-
-fun far() {
-  for (index in 1..100) {
-    println("index: $index")
-  }
-}
-
-fun faz() {
-  for (index in 1..100) {
-    println("index: $index")
-  }
-}
-
-fun gar() {
-  for (index in 1..100) {
-    println("index: $index")
-  }
-}
-
-fun gaz() {
-  for (index in 1..100) {
-    println("index: $index")
-  }
-}
