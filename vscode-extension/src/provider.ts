@@ -38,8 +38,7 @@ export default class Provider implements vscode.TextDocumentContentProvider {
         .getConfiguration("ris-norms")
         .get<string>("time-machine-executable") ?? "ris-norms-time-machine";
 
-    // TODO: This is not tested
-    const cmd = `${executable} --stdout "${amendingLawFile.fsPath}" "${targetLawFile.fsPath}"`;
+    const cmd = `${executable} "${amendingLawFile.fsPath}" "${targetLawFile.fsPath}"`;
 
     return new Promise<string>((resolve, reject) => {
       cp.exec(cmd, (err, out) => {
