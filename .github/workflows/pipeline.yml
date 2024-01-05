@@ -10,6 +10,10 @@ on:
   # Allow to run this workflow manually
   workflow_dispatch:
 
+env:
+  CONTAINER_REGISTRY: ghcr.io
+  CONTAINER_IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   ####################
   # time machine jobs
@@ -355,16 +359,12 @@ jobs:
         with:
           name: time-machine-install
           path: downloaded-artifacts
-      - name: List content of downloaded-artifacts
-        run: ls -la downloaded-artifacts
       - name: Zip Release locally
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: "zip"
           filename: "ris-norms-release.zip"
           directory: downloaded-artifacts
-      - name: List content of downloaded-artifacts
-        run: ls -la downloaded-artifacts
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
         uses: softprops/action-gh-release@v1
         with:
@@ -376,6 +376,83 @@ jobs:
           fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Send status to Slack
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+
+  ###############################
+  # create-and-push-docker-image
+  ###############################
+
+  create-and-push-docker-image:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs:
+      - build-time-machine
+      - unit-tests-time-machine
+      - build-and-pack-vscode-extension
+      - analyze-time-machine
+      - audit-licenses-time-machine
+      - audit-licenses-vscode-extension
+      - analyze-vscode-extension
+      - trivy-scan
+      - talisman-check
+    permissions:
+      contents: read
+      id-token: write # This is used to complete the identity challenge with sigstore/fulcio..
+      packages: write
+    steps:
+      # --> reading the release version
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./vscode-extension/.node-version
+          cache: npm
+          cache-dependency-path: ./vscode-extension/package-lock.json
+      - name: Extract Extension Version (= release version)
+        id: package_version
+        run: echo "VERSION=$(node -p "require('./vscode-extension/package.json').version")" >> $GITHUB_ENV
+      # <---
+      - uses: actions/download-artifact@v4
+        with:
+          name: vscode-extension-vsix
+          path: vscode-extension/ris-norms-0.0.1.vsix
+      - uses: actions/download-artifact@v4
+        with:
+          name: time-machine-install
+          path: time-machine/build/install
+      - name: Build docker image
+        run: docker build --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.VERSION }} .
+
+      - name: Log into container registry
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
+        with:
+          registry: ${{ env.CONTAINER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish backend container image
+        run: docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.VERSION }}
+      - name: Install cosign
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149
+        with:
+          cosign-release: "v1.13.1"
+      - name: Sign the published Docker image
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: cosign sign --yes ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.VERSION }}
+
       - name: Send status to Slack
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
