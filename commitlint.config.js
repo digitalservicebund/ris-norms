@@ -9,7 +9,7 @@ module.exports = {
   },
   parserPreset: {
     parserOpts: {
-      issuePrefixes: ["NDISC-"],
+      issuePrefixes: ["NDISC-", "RISDEV-"],
     },
   },
 };
