@@ -17,8 +17,8 @@ COPY ./time-machine/build/install/ris-norms-time-machine/bin /home/coder/bin
 COPY ./time-machine/build/install/ris-norms-time-machine/lib /home/coder/lib
 
 # add our extension
-COPY ./vscode-extension/ris-norms-0.0.1.vsix /home/coder
-RUN code-server --install-extension /home/coder/ris-norms-0.0.1.vsix
+COPY ./vscode-extension/ris-norms-*.vsix /home/coder/ris-norms.vsix
+RUN code-server --install-extension /home/coder/ris-norms.vsix
 
 # copy example files
 

@@ -422,7 +422,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: vscode-extension-vsix
-          path: vscode-extension/ris-norms-0.0.1.vsix
+          path: vscode-extension
       - uses: actions/download-artifact@v4
         with:
           name: time-machine-install
