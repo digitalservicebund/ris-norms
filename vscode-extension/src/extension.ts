@@ -27,13 +27,13 @@ export function activate(context: vscode.ExtensionContext) {
         const workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
 
         const amendingLaw = vscode.Uri.file(
-          `${workspaceFolder}/07_01_änderungsgesetz.xml`,
+          `${workspaceFolder}/07_01_aenderungsgesetz.xml`,
         );
         const toBeAmendedLaw = vscode.Uri.file(
-          `${workspaceFolder}/07_01_zuänderndesgesetz.xml`,
+          `${workspaceFolder}/07_01_zuaenderndesgesetz.xml`,
         );
         const amendedLaw = vscode.Uri.file(
-          `${workspaceFolder}/07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml`,
+          `${workspaceFolder}/07_01_geaendertesGesetz_V1.2_konsolidierte_Fassung.xml`,
         );
 
         const toBeAmendedPanel =
@@ -77,10 +77,10 @@ export function activate(context: vscode.ExtensionContext) {
 
       const workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
       const amendingLaw = vscode.Uri.file(
-        `${workspaceFolder}/07_01_änderungsgesetz.xml`,
+        `${workspaceFolder}/07_01_aenderungsgesetz.xml`,
       );
       const toBeAmendedLaw = vscode.Uri.file(
-        `${workspaceFolder}/07_01_zuänderndesgesetz.xml`,
+        `${workspaceFolder}/07_01_zuaenderndesgesetz.xml`,
       );
       const url = provider.encodeLocation(amendingLaw, toBeAmendedLaw);
       const doc = await workspace.openTextDocument(url);
