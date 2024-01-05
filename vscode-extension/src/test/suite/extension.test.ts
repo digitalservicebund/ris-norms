@@ -5,10 +5,10 @@ suite("Extension Unit Test Suite", () => {
   let openTextDocumentStub: sinon.SinonStub;
   let showTextDocumentStub: sinon.SinonStub;
 
-  const fileNameAmendment = "07_01_änderungsgesetz.xml";
-  const fileNameTarget = "07_01_zuänderndesgesetz.xml";
+  const fileNameAmendment = "07_01_aenderungsgesetz.xml";
+  const fileNameTarget = "07_01_zuaenderndesgesetz.xml";
   const fileNameConsolidated =
-    "07_01_geändertesGesetz_V1.2_konsolidierte_Fassung.xml";
+    "07_01_geaendertesGesetz_V1.2_konsolidierte_Fassung.xml";
 
   setup(() => {
     const mockedWorkspaceFolder = {
@@ -107,7 +107,7 @@ suite("Extension Unit Test Suite", () => {
 
   test("applyChanges opens resulting file", async () => {
     const expectedUri = vscode.Uri.parse(
-      "timemachine-preview:Preview?amendingLaw=/mocked/workspace/folder/07_01_änderungsgesetz.xml&targetLaw=/mocked/workspace/folder/07_01_zuänderndesgesetz.xml",
+      "timemachine-preview:Preview?amendingLaw=/mocked/workspace/folder/07_01_aenderungsgesetz.xml&targetLaw=/mocked/workspace/folder/07_01_zuaenderndesgesetz.xml",
     );
     openTextDocumentStub.resolves({ uri: expectedUri });
 
