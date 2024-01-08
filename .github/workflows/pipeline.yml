@@ -292,6 +292,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./vscode-extension/package.json
+          cache: npm
+          cache-dependency-path: ./vscode-extension/package-lock.json
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: ./vscode-extension/node_modules
+          key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
       - name: Install SonarScanner
         uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
       - name: Establish virtual display buffer
@@ -304,7 +316,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           DISPLAY: ":99.0"
         run: |
-          npm install
+          npm ci
           npm run coverage
           sonar-scanner
         working-directory: ./vscode-extension
