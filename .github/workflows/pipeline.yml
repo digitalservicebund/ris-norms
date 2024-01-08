@@ -464,7 +464,8 @@ jobs:
 
   deploy-staging:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
+#    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ false }}
     concurrency: deploy-staging
     environment: staging
     needs:
