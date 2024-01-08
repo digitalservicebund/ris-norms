@@ -9,7 +9,9 @@
     "url": "https://github.com/digitalservicebund/ris-norms"
   },
   "engines": {
-    "vscode": "^1.84.0"
+    "vscode": "^1.84.0",
+    "node": "20.10.0",
+    "npm": "10.2.3"
   },
   "categories": [
     "Other"
