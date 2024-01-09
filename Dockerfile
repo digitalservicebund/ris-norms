@@ -6,14 +6,12 @@ USER coder
 # Use bash shell
 ENV SHELL=/bin/bash
 
-# Fix permissions for home folder
-RUN sudo chown -R coder:coder /home/coder
-
 # install java
 RUN sudo apt-get update && sudo apt-get install openjdk-17-jre -y
 
 # copy time machine
 COPY ./time-machine/build/install/ris-norms-time-machine/bin /home/coder/bin
+RUN sudo chmod +x /home/coder/bin/ris-norms-time-machine
 COPY ./time-machine/build/install/ris-norms-time-machine/lib /home/coder/lib
 
 # add our extension
@@ -27,6 +25,9 @@ RUN code-server --install-extension redhat.vscode-xml
 
 RUN PATH="$PATH:/home/coder/bin"
 WORKDIR /home/coder/workspace1
+
+# Fix permissions for home folder
+RUN sudo chown -R coder:coder /home/coder
 
 # Port
 ENV PORT=8080
