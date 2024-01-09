@@ -437,7 +437,7 @@ jobs:
           name: time-machine-install
           path: time-machine/build/install
       - name: Build docker image
-        run: docker buildx build --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }} .
+        run: docker build --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }} .
       - name: Log into container registry
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
         with:
