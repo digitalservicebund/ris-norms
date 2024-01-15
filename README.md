@@ -13,11 +13,14 @@ The name "RIS Norms" refers to
 * "Norms", which makes explicit that within RIS, we're explicitly dealing with federal laws and similar documents (and not, for example, with court verdicts)
 
 # Structure of the Repository
-This is a mono-repository containing several software products. Right now, there's two of them:
-* `./time-machine`: A command line tool for applying LDML_de change commands to existing laws
-* `./vscode-extension`: A VSCode extension supporting workflows on LDML_de change commands
+This is a mono-repository containing several software products. Right now, there's three of them:
+* [`./frontend`](./frontend/): The main browser-based entry point for users of _RIS-norms_ 
+* [`./time-machine`](./time-machine/): A command line tool for applying LDML_de change commands to existing laws
+* [`./vscode-extension`](./vscode-extension): A VSCode extension supporting workflows on LDML_de change commands
 
-# How to run
+Each product has its own `README.md` with more details.
+
+# How to run the VSCode Extension and the Time Machine locally
 
 ## Prerequisites
 * `Java 17` (check by running `java --version` in a terminal/shell)
