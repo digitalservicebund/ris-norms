@@ -6,6 +6,9 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
     plugins: [vue()],
     test: {
-        global: true
+        global: true,
+        coverage: {
+            provider: 'v8' // or 'istanbul'
+        },
     },
 });

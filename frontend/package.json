@@ -11,7 +11,7 @@
     "test": "vitest",
     "test:e2e": "playwright test --config=test/e2e/playwright.config.ts",
     "test:a11y": "playwright test --config=test/a11y/playwright.config.ts",
-    "coverage": "jest test --coverage",
+    "coverage": "vitest run --coverage",
     "lint:check": "eslint --ext .js,.ts --ignore-path .gitignore .",
     "lint:fix": "npm run lint:check -- --fix",
     "format:check": "prettier --check .",
