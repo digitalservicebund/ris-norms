@@ -9,10 +9,10 @@
     "preview": "vite preview",
     "eslint:check": "eslint --ext .js,.ts --ignore-path .gitignore .",
     "eslint:fix": "npm run eslint:check -- --fix",
-    "format:check": "prettier --check .",
-    "format:fix": "prettier --write --ignore-unknown .",
-    "style:check": "npm run format:check && npm run eslint:check",
-    "style:fix": "npm run format:fix && npm run eslint:fix"
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write --ignore-unknown .",
+    "style:check": "npm run prettier:check && npm run eslint:check",
+    "style:fix": "npm run prettier:fix && npm run eslint:fix"
   },
   "dependencies": {
     "vue": "^3.2.45"
