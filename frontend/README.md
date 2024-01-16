@@ -18,11 +18,16 @@ From here the users can handle their procedures ("Vorgänge").
 
 - `npm run dev` will start the application. By default on [local port 5173](http://localhost:5173)
 
-## Testing
+## Testing, Coverage
 
-- `npm run test` will run `jest` tests
+- `npm run test` will run `vitest` tests
+- `npm run coverage` will run `vitest` compiling a coverage report via `v8`
 
 ## Style Checks
 
 - `npm run style:check` will run linting and formatting
 - `npm run style:fix` will try to fix linting and formatting issues
+
+## Build
+
+- `npm run build` builds the app
