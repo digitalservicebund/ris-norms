@@ -20,7 +20,7 @@ const moduleImportRules = {
    * We decided to rather depend on the end-to-end accessibility tests which test
    * this relation too, but are code independent.
    */
-};
+}
 
 module.exports = {
   root: true,
@@ -68,6 +68,8 @@ module.exports = {
         "plugin:vuejs-accessibility/recommended",
         "plugin:vue-scoped-css/vue3-recommended",
         "@vue/typescript/recommended",
+        "@vue/prettier",
+        "@vue/eslint-config-prettier",
       ],
       rules: {
         ...moduleImportRules,
@@ -114,4 +116,4 @@ module.exports = {
       rules: { ...moduleImportRules },
     },
   ],
-};
+}
