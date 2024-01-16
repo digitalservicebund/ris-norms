@@ -8,7 +8,7 @@
     "preserve": "vite build",
     "serve": "vite preview",
     "clean": "rm -rf dist/",
-    "test": "jest test",
+    "test": "vitest",
     "test:e2e": "playwright test --config=test/e2e/playwright.config.ts",
     "test:a11y": "playwright test --config=test/a11y/playwright.config.ts",
     "coverage": "jest test --coverage",
