@@ -7,8 +7,10 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint:check": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "lint:fix": "npm run lint:check -- --fix"
+    "eslint:check": "eslint --ext .js,.ts --ignore-path .gitignore .",
+    "eslint:fix": "npm run eslint:check -- --fix",
+    "style:check": "npm run eslint:check",
+    "style:fix": "npm run eslint:fix"
   },
   "dependencies": {
     "vue": "^3.2.45"
