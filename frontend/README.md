@@ -18,3 +18,7 @@ From here the users can handle their procedures ("Vorgänge").
 
 ## Testing
 * `npm run test` will run `jest` tests
+
+## Style Checks
+* `npm run style:check` will run linting and formatting
+* `npm run style:fix` will try to fix linting and formatting issues
