@@ -1,4 +1,9 @@
 {
+  "include": [
+    "src", 
+    "src/**/*.vue", 
+    "vite.config.ts"
+  ],
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
