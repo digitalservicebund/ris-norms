@@ -15,3 +15,6 @@ From here the users can handle their procedures ("Vorgänge").
 
 ## Start locally
 * `npm run dev` will start the application. By default on [local port 5173](http://localhost:5173)
+
+## Testing
+* `npm run test` will run `jest` tests
