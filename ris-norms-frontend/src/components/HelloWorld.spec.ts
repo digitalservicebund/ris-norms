@@ -1,5 +1,13 @@
-import { it, expect } from "vitest"
+import { render, screen } from "@testing-library/vue"
+import { it } from "vitest"
+import HelloWorld from "./HelloWorld.vue"
 
-it("should work", () => {
-  expect(true).toBeTruthy()
+it("increments value on click", async () => {
+  render(HelloWorld, {
+    props: {
+      msg: "my message",
+    },
+  })
+
+  screen.getByText("my message")
 })
