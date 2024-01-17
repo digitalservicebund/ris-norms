@@ -17,6 +17,10 @@
     "style:check": "npm run prettier:check && npm run eslint:check",
     "style:fix": "npm run prettier:fix && npm run eslint:fix"
   },
+  "engines": {
+    "node": "20.10.0",
+    "npm": "10.2.3"
+  },
   "dependencies": {
     "vue": "~3.2.45",
     "vue-router": "~4.2.5"
