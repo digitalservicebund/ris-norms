@@ -120,5 +120,15 @@ module.exports = {
       extends: ["plugin:testing-library/vue"],
       rules: { ...moduleImportRules },
     },
+    {
+      // Make an exception from requiring component names to consist of multiple
+      // words for views as they: 1) will not be used as standalone components
+      // and therefore do not need to adhere to HTML naming conventions, and 2)
+      // can therefore be simpler and match the route names.
+      files: ["src/views/**/*.vue"],
+      rules: {
+        "vue/multi-word-component-names": "off",
+      },
+    },
   ],
 }
