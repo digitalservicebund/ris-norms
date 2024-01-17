@@ -19,7 +19,8 @@
     "style:fix": "npm run prettier:fix && npm run eslint:fix"
   },
   "dependencies": {
-    "vue": "~3.2.45"
+    "vue": "~3.2.45",
+    "vue-router": "~4.2.5"
   },
   "devDependencies": {
     "@digitalservice4germany/angie": "^1.1.0",
