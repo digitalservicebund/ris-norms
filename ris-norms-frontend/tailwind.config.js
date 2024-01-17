@@ -1,8 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: ["./src/**/*.{html,vue,js,ts}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+  presets: [require("@digitalservice4germany/style-dictionary/tailwind")],
+  plugins: [require("@digitalservice4germany/angie")],
 }
