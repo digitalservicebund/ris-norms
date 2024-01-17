@@ -26,6 +26,7 @@ export default defineConfig({
 
         // App content we're not interested in covering with unit tests
         "src/App.vue",
+        "src/main.ts",
       ],
     },
   },
