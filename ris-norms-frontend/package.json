@@ -22,6 +22,8 @@
     "vue": "~3.2.45"
   },
   "devDependencies": {
+    "@digitalservice4germany/angie": "^1.1.0",
+    "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@testing-library/vue": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "~6.19.0",
     "@typescript-eslint/parser": "~6.19.0",
