@@ -13,6 +13,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["lcov"],
+      exclude: ["src/App.vue", "src/main.ts"],
     },
   },
   resolve: {
