@@ -7,6 +7,7 @@ import vue from "@vitejs/plugin-vue"
 export default defineConfig({
   plugins: [vue()],
   test: {
+    setupFiles: ["src/vitest-setup.ts"],
     globals: true,
     environment: "jsdom",
     coverage: {
