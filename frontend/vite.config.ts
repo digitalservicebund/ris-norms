@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [vue()],
   test: {
     setupFiles: ["src/vitest-setup.ts"],
+    globals: true,
     environment: "jsdom",
     coverage: {
       provider: "v8",
