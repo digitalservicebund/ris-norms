@@ -1,5 +1,10 @@
-import { describe, test } from "vitest"
+import { render, screen } from "@testing-library/vue"
+import { describe, expect, test } from "vitest"
+import Procedures from "./Procedures.vue"
 
 describe("Procedures", () => {
-  test.todo("Add procedure page tests here.")
+  test("should create", () => {
+    render(Procedures)
+    expect(screen.getByText("Vorgänge")).toBeInTheDocument()
+  })
 })

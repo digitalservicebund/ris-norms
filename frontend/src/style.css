@@ -6,6 +6,6 @@
 
 @layer base {
   body {
-    @apply font-font-family-sans font-normal;
+    @apply bg-gray-100 font-font-family-sans font-normal;
   }
 }
