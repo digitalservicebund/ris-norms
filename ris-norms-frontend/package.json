@@ -22,7 +22,6 @@
     "npm": "10.2.3"
   },
   "dependencies": {
-    "material-icons": "^1.13.12",
     "vue": "~3.2.45",
     "vue-router": "~4.2.5"
   },
