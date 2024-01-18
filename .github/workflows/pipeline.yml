@@ -149,7 +149,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   ########################
-  # Ris-Norms-Frontend jobs
+  # frontend jobs
   ########################
 
   check-style-frontend:
@@ -159,22 +159,22 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: ./ris-norms-frontend/package.json
+          node-version-file: ./frontend/package.json
           cache: npm
-          cache-dependency-path: ./ris-norms-frontend/package-lock.json
+          cache-dependency-path: ./frontend/package-lock.json
       - name: Cache node_modules
         uses: actions/cache@v3
         id: node-modules-cache
         with:
-          path: ./ris-norms-frontend/node_modules
-          key: modules-${{ hashFiles('./ris-norms-frontend/package-lock.json') }}
+          path: ./frontend/node_modules
+          key: modules-${{ hashFiles('./frontend/package-lock.json') }}
       - name: Install dependencies
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
-        working-directory: ./ris-norms-frontend
+        working-directory: ./frontend
       - name: Check style
         run: npm run style:check
-        working-directory: ./ris-norms-frontend
+        working-directory: ./frontend
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
@@ -188,22 +188,22 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: ./ris-norms-frontend/package.json
+          node-version-file: ./frontend/package.json
           cache: npm
-          cache-dependency-path: ./ris-norms-frontend/package-lock.json
+          cache-dependency-path: ./frontend/package-lock.json
       - name: Cache node_modules
         uses: actions/cache@v3
         id: node-modules-cache
         with:
-          path: ./ris-norms-frontend/node_modules
-          key: modules-${{ hashFiles('./ris-norms-frontend/package-lock.json') }}
+          path: ./frontend/node_modules
+          key: modules-${{ hashFiles('./frontend/package-lock.json') }}
       - name: Install dependencies
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
-        working-directory: ./ris-norms-frontend
+        working-directory: ./frontend
       - name: Check style
         run: npm run test
-        working-directory: ./ris-norms-frontend
+        working-directory: ./frontend
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
@@ -219,15 +219,15 @@ jobs:
   #     - name: Setup Node
   #       uses: actions/setup-node@v4
   #       with:
-  #         node-version-file: ./ris-norms-frontend/package.json
+  #         node-version-file: ./frontend/package.json
   #         cache: npm
-  #         cache-dependency-path: ./ris-norms-frontend/package-lock.json
+  #         cache-dependency-path: ./frontend/package-lock.json
   #     - name: Cache node_modules
   #       uses: actions/cache@v3
   #       id: node-modules-cache
   #       with:
-  #         path: analyze-ris-norms-frontend:./ris-norms-frontend/node_modules
-  #         key: modules-${{ hashFiles('./ris-norms-frontend/package-lock.json') }}
+  #         path: analyze-frontend:./frontend/node_modules
+  #         key: modules-${{ hashFiles('./frontend/package-lock.json') }}
   #     - name: Install SonarScanner
   #       uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
   #     - name: Establish virtual display buffer
@@ -243,11 +243,11 @@ jobs:
   #         npm ci
   #         npm run coverage
   #         sonar-scanner
-  #       working-directory: ./ris-norms-frontend
+  #       working-directory: ./frontend
   #     - name: Check SonarQube Quality Gate
   #       uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496
   #       with:
-  #         scanMetadataReportFile: ris-norms-frontend/.scannerwork/report-task.txt
+  #         scanMetadataReportFile: frontend/.scannerwork/report-task.txt
   #       timeout-minutes: 3
   #       env:
   #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

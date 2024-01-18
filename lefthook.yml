@@ -14,8 +14,8 @@ pre-commit:
       root: vscode-extension/
       run: npm run --silent prettier:fix {staged_files} && git add {staged_files}
 
-    check-format-ris-norms-frontend:
-      root: ris-norms-frontend/
+    check-format-frontend:
+      root: frontend/
       run: npm run --silent prettier:fix {staged_files} && git add {staged_files}
 
     lint-vscode-extension:
@@ -23,8 +23,8 @@ pre-commit:
       glob: "*.{ts,js,json}"
       run: npm run --silent eslint:fix {staged_files} && git add {staged_files}
 
-    lint-ris-norms-frontend:
-      root: ris-norms-frontend/
+    lint-frontend:
+      root: frontend/
       glob: "*.{ts,js,json}"
       run: npm run --silent eslint:fix {staged_files} && git add {staged_files}
 
