@@ -5,10 +5,5 @@
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "*rc.js",
-    "*rc.ts",
-    "*.config.js",
-    "*.config.ts"
-  ]
+  "include": ["*rc.js", "*rc.ts", "*.config.js", "*.config.ts"]
 }
