@@ -1,0 +1,43 @@
+name: Scan
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # Every day at 8am
+  # Allow to run this workflow manually
+  workflow_dispatch:
+
+jobs:
+  vulnerability-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: validate github workflow files to have pinned versions
+        uses: digitalservicebund/github-actions/github-actions-linter@5009471245d84903ea1af84104eb1908f8e2b2a2
+      - name: Run Trivy vulnerability scanner
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: aquasecurity/trivy-action@f78e9ecf42a1271402d4f484518b9313235990e1
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          scan-type: "fs"
+          skip-dirs: "node_modules" # See https://github.com/aquasecurity/trivy/issues/1283
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH"
+          exit-code: "1" # Fail the build!
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd # == v2
+        if: always() # Bypass non-zero exit code..
+        with:
+          sarif_file: "trivy-results.sarif"
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@0b21f14f28717b3b756282824976cdd1354b1235 # v1.3.0
+        if: ${{ failure() }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

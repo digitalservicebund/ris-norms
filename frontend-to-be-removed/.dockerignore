@@ -1,0 +1,11 @@
+*
+!src
+!package.json
+!package-lock.json
+!index.html
+!public
+!tsconfig.json
+!run.sh
+**/*.spec.*
+**/*.test.*
+/public/build/
