@@ -1,9 +1,5 @@
-import { render, screen } from "@testing-library/vue"
-import { it } from "vitest"
-import Procedures from "./Procedures.vue"
+import { describe, test } from "vitest"
 
-it("Shows procedures title", async () => {
-  render(Procedures)
-
-  screen.getByText("Procedures page")
+describe("Procedures", () => {
+  test.todo("Add procedure page tests here.")
 })

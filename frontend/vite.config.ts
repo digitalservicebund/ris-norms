@@ -7,7 +7,7 @@ import vue from "@vitejs/plugin-vue"
 export default defineConfig({
   plugins: [vue()],
   test: {
-    globals: true,
+    setupFiles: ["src/vitest-setup.ts"],
     environment: "jsdom",
     coverage: {
       provider: "v8",
