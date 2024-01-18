@@ -210,52 +210,52 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  # analyze-frontend:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version-file: ./frontend/package.json
-  #         cache: npm
-  #         cache-dependency-path: ./frontend/package-lock.json
-  #     - name: Cache node_modules
-  #       uses: actions/cache@v3
-  #       id: node-modules-cache
-  #       with:
-  #         path: analyze-frontend:./frontend/node_modules
-  #         key: modules-${{ hashFiles('./frontend/package-lock.json') }}
-  #     - name: Install SonarScanner
-  #       uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
-  #     - name: Establish virtual display buffer
-  #       run: |
-  #         /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  #         echo "Xvfb started"
-  #     - name: Scan with SonarQube
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #         DISPLAY: ":99.0"
-  #       run: |
-  #         npm ci
-  #         npm run coverage
-  #         sonar-scanner
-  #       working-directory: ./frontend
-  #     - name: Check SonarQube Quality Gate
-  #       uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496
-  #       with:
-  #         scanMetadataReportFile: frontend/.scannerwork/report-task.txt
-  #       timeout-minutes: 3
-  #       env:
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #     # - name: Send status to Slack
-  #     #   uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
-  #     #   if: ${{ failure() && github.ref == 'refs/heads/main' }}
-  #     #   with:
-  #     #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  analyze-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./frontend/package.json
+          cache: npm
+          cache-dependency-path: ./frontend/package-lock.json
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: analyze-frontend:./frontend/node_modules
+          key: modules-${{ hashFiles('./frontend/package-lock.json') }}
+      - name: Install SonarScanner
+        uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
+      - name: Establish virtual display buffer
+        run: |
+          /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          echo "Xvfb started"
+      - name: Scan with SonarQube
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          DISPLAY: ":99.0"
+        run: |
+          npm ci
+          npm run coverage
+          sonar-scanner
+        working-directory: ./frontend
+      - name: Check SonarQube Quality Gate
+        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496
+        with:
+          scanMetadataReportFile: frontend/.scannerwork/report-task.txt
+        timeout-minutes: 3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   ########################
   # VSCode extension jobs
