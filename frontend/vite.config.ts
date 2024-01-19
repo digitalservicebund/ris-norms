@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue"
 import { fileURLToPath, URL } from "node:url"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
+import { configDefaults } from "vitest/dist/config"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,6 +17,7 @@ export default defineConfig({
     setupFiles: ["src/vitest-setup.ts"],
     globals: true,
     environment: "jsdom",
+    exclude: [...configDefaults.exclude, "e2e/**/*.spec.ts"],
     coverage: {
       provider: "v8",
       reporter: ["lcov"],
