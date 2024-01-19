@@ -11,6 +11,7 @@ export default defineConfig({
     vue(),
     icons({
       scale: 1.3333, // ~24px at the current default font size of 18px
+      compiler: "vue3",
     }),
   ],
   test: {
