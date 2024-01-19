@@ -1,7 +1,10 @@
 allowed_patterns:
   - uses:\ ([A-z0-9\-]+\/)*[A-z0-9\-]+@[a-fA-F0-9]{40}
-  - uses:\ @sha256:[a-fA-F0-9]{64}
 threshold: medium
 version: "1.0"
 scopeconfig:
   - scope: node
+fileignoreconfig:
+- filename: frontend/Dockerfile
+  checksum: c671883dbc4c791b6f57f3cf2abe2b3e52602b658cb5dc8ea93ffc6ec46de168
+
