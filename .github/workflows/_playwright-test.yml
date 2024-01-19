@@ -1,0 +1,79 @@
+on:
+  workflow_call:
+    inputs:
+      browser:
+        required: false
+        type: string
+        default: chromium
+      mode:
+        required: false
+        type: string
+        default: e2e
+      runs:
+        required: false
+        type: string
+        default: "1"
+    secrets:
+      SLACK_WEBHOOK_URL:
+        required: false
+jobs:
+  playwright-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./frontend/.node-version
+          cache: npm
+          cache-dependency-path: ./frontend/package-lock.json
+      - name: cache node modules
+        id: cache-node
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./frontend/node_modules
+          key: modules-${{ hashFiles('./frontend/package-lock.json') }}
+      - name: Install node modules
+        if: steps.cache-node.outputs.cache-hit != 'true'
+        run: |
+          npm ci
+        working-directory: ./frontend
+      - name: Get Playwright version
+        working-directory: ./frontend
+        run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/@playwright/test"].version' package-lock.json)" >> $GITHUB_ENV
+      - name: Cache browser binaries
+        id: cache-browser-binaries
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+      - name: Install playwright browsers
+        if: steps.cache-browser-binaries.outputs.cache-hit != 'true'
+        run: |
+          npx --yes playwright install --with-deps ${{ inputs.browser }}
+        working-directory: ./frontend
+      - name: Run ${{ inputs.mode }} tests in ${{ inputs.browser }}
+
+        run: |
+          echo "Running ${{ inputs.mode }} tests ${{ inputs.runs }} times"
+
+          test_target=${{ inputs.mode }}
+
+          npm run test:"$test_target" -- --project ${{ inputs.browser }} --repeat-each ${{ inputs.runs}}
+        working-directory: ./frontend
+      - name: Upload screenshots and traces of failed tests
+        uses: actions/upload-artifact@v3
+        if: ${{ failure() }}
+        with:
+          name: failed-${{ inputs.mode }}-tests-${{ inputs.browser }}
+          path: |
+            ./frontend/test-results/**/*.png
+            ./frontend/test-results/**/trace.zip
+      - name: Send status to Slack
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
