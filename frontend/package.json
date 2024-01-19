@@ -17,7 +17,8 @@
     "style:check": "npm run prettier:check && npm run eslint:check",
     "style:fix": "npm run prettier:fix && npm run eslint:fix",
     "test:a11y": "playwright test --project=a11y",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "histoire": "histoire dev"
   },
   "engines": {
     "node": "20.10.0",
@@ -32,6 +33,7 @@
     "@axe-core/playwright": "~4.8.3",
     "@digitalservice4germany/angie": "~1.1.0",
     "@digitalservice4germany/style-dictionary": "~2.0.0",
+    "@histoire/plugin-vue": "~0.17.8",
     "@iconify-json/ic": "~1.1.17",
     "@playwright/test": "~1.41.0",
     "@testing-library/jest-dom": "~6.2.0",
@@ -53,6 +55,7 @@
     "eslint-plugin-vue": "~9.20.1",
     "eslint-plugin-vue-scoped-css": "~2.7.2",
     "eslint-plugin-vuejs-accessibility": "~2.2.1",
+    "histoire": "~0.17.8",
     "jsdom": "~23.2.0",
     "playwright": "~1.41.0",
     "postcss": "~8.4.33",
