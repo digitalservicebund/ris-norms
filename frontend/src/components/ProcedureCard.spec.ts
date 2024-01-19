@@ -8,10 +8,9 @@ describe("YourComponent", () => {
       props: {
         eli: "someEli",
         printAnnouncementGazette: "GazetteName",
-        printAnnouncementNumber: "123",
-        printAnnouncementYear: "2021",
-        printAnnouncementPage: "456",
-        // publicationDate: "2021-01-01",
+        printAnnouncementNumber: 123,
+        printAnnouncementYear: 2021,
+        printAnnouncementPage: 456,
         publicationDate: new Date("2021-01-01"),
       },
     })
