@@ -20,13 +20,34 @@ export default defineConfig({
       provider: "v8",
       reporter: ["lcov"],
       exclude: [
-        "src/App.vue",
-        "src/main.ts",
-        // not testing the router.ts; if necessary to use e.g. guards, we'll have a router-guards file that then should be tested
-        "src/router.ts",
-        "**/*.config.js",
-        ".eslintrc.cjs",
+        // Configuration and generated outputs
+        "**/[.]**",
+        "coverage/**/*",
+        "dist/**/*",
+        "**/.*rc.{?(c|m)js,yml}",
+        "*.config.{js,ts}",
+
+        // Types
         "**/*.d.ts",
+
+        // Tests
+        "test/**/*",
+
+        // App content we're not interested in covering with unit tests. If you
+        // add something here, please also add a comment explaining why the
+        // exclusion is necessary.
+
+        // Views are too complex too set up and mock in unit tests, we're covering
+        // those with E2E test instead. (App is also a view)
+        "src/views/**/*",
+        "src/App.vue",
+
+        // If necessary to use e.g. guards, we'll have a router-guards file that
+        // then should be tested
+        "src/router.ts",
+
+        // Just the init file, nothing much to test here.
+        "src/main.ts",
       ],
     },
   },
