@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{
+import ExpandMoreIcon from "~icons/ic/baseline-expand-more"
   eli: string
   printAnnouncementGazette: string
   printAnnouncementYear: number
@@ -22,8 +22,8 @@ const formatDate = (date: Date) => {
     <h1 class="ds-label-02-bold w-128 flex-none">
       {{ printAnnouncementGazette }} {{ printAnnouncementYear }} Nr.
       {{ printAnnouncementNumber }}
-    </h1>
-    <span class="flex-auto">{{ formatDate(publicationDate) }}</span>
-    <button class="material-icons">chevron_expand_more</button>
-  </div>
+    <button class="text-blue-800">
+      <ExpandMoreIcon class="h-24 w-24" />
+      <span class="sr-only">Details anzeigen</span>
+    </button>
 </template>
