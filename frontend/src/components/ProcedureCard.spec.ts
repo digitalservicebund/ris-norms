@@ -16,6 +16,7 @@ describe("YourComponent", () => {
       },
     })
     expect(screen.getByText("GazetteName 2021 Nr. 123")).toBeInTheDocument()
-    expect(screen.getByText(/Jan 1, 2021/)).toBeInTheDocument()
+    expect(screen.getByText("01.01.2021")).toBeInTheDocument()
+    expect(screen.queryByText("2021.01.01")).not.toBeInTheDocument()
   })
 })
