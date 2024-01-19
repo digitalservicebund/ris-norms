@@ -16,8 +16,7 @@ export default defineConfig({
       exclude: [
         "src/App.vue",
         "src/main.ts",
-        // testing the real router may not be worth it
-        // cf. https://test-utils.vuejs.org/guide/advanced/vue-router.html
+        // not testing the router.ts; if necessary to use e.g. guards, we'll have a router-guards file that then should be tested
         "src/router.ts",
         "**/*.config.js",
         ".eslintrc.cjs",
