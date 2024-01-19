@@ -25,7 +25,8 @@ const procedures = ref([
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100 p-40">
     <h1 class="ds-heading-02-reg mb-40">Vorgänge</h1>
-    <div class="flex flex-col gap-8">
+
+    <ul class="flex flex-col gap-8">
       <ProcedureCard
         v-for="procedure in procedures"
         :key="procedure.eli"
@@ -36,6 +37,6 @@ const procedures = ref([
         :print-announcement-year="procedure.printAnnouncementYear"
         :publication-date="procedure.publicationDate"
       />
-    </div>
+    </ul>
   </div>
 </template>
