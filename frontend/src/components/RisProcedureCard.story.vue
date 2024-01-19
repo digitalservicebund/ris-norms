@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import ProcedureCard from "./ProcedureCard.vue"
+import RisProcedureCard from "./RisProcedureCard.vue"
 </script>
 
 <template>
   <Story>
-    <ProcedureCard
+    <RisProcedureCard
       eli="4711"
       print-announcement-gazette="Test"
       :print-announcement-year="2024"
