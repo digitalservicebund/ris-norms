@@ -51,6 +51,10 @@ export default defineConfig({
 
         // Just the init file, nothing much to test here.
         "src/main.ts",
+
+        // Stories are just for internal development use and don't need to be
+        // tested
+        "src/**/*.story.vue",
       ],
     },
   },
