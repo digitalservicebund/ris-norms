@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, test } from "vitest"
-import Procedure from "./Procedure.vue"
+import ProcedureCard from "./ProcedureCard.vue"
 
 describe("YourComponent", () => {
   test("should render overview of open procedures", () => {
-    render(Procedure, {
+    render(ProcedureCard, {
       props: {
         eli: "someEli",
         printAnnouncementGazette: "GazetteName",

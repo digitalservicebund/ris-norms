@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import Procedure from "@/components/Procedure.vue"
+import ProcedureCard from "@/components/ProcedureCard.vue"
 
 const procedures = ref([
   {
@@ -26,7 +26,7 @@ const procedures = ref([
   <div class="flex min-h-screen flex-col bg-gray-100 p-40">
     <h1 class="ds-heading-02-reg mb-40">Vorgänge</h1>
     <div class="flex flex-col gap-8">
-      <Procedure
+      <ProcedureCard
         v-for="procedure in procedures"
         :key="procedure.eli"
         :eli="procedure.eli"
