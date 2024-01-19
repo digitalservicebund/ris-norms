@@ -13,7 +13,16 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["lcov"],
-      exclude: ["src/App.vue", "src/main.ts"],
+      exclude: [
+        "src/App.vue",
+        "src/main.ts",
+        // testing the real router may not be worth it
+        // cf. https://test-utils.vuejs.org/guide/advanced/vue-router.html
+        "src/router.ts",
+        "**/*.config.js",
+        ".eslintrc.cjs",
+        "**/*.d.ts",
+      ],
     },
   },
   resolve: {
