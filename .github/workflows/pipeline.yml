@@ -259,7 +259,6 @@ jobs:
 
   prep-playwright-tests:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node
@@ -284,7 +283,6 @@ jobs:
         working-directory: ./frontend
 
   e2e-tests:
-    if: ${{ github.ref == 'refs/heads/main' }}
     needs: [prep-playwright-tests]
     strategy:
       fail-fast: false
