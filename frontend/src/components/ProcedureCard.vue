@@ -22,6 +22,6 @@ const formatDate = (date: Date) => {
       {{ printAnnouncementNumber }}
     </h1>
     <span class="flex-auto">{{ formatDate(publicationDate) }}</span>
-    <button class="material-icons">chevron_right</button>
+    <button class="material-icons">chevron_expand_more</button>
   </div>
 </template>
