@@ -1,5 +1,6 @@
 allowed_patterns:
   - uses:\ ([A-z0-9\-]+\/)*[A-z0-9\-]+@[a-fA-F0-9]{40}
+  - uses:\ @sha256:[a-fA-F0-9]{64}
 threshold: medium
 version: "1.0"
 scopeconfig:
