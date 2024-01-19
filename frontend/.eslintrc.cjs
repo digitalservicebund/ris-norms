@@ -52,5 +52,9 @@ module.exports = {
         "vue/multi-word-component-names": "off",
       },
     },
+    {
+      files: ["e2e/**/*.ts"],
+      extends: ["plugin:playwright/playwright-test"],
+    },
   ],
 }
