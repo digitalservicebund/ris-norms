@@ -61,9 +61,9 @@ jobs:
           test_target=${{ inputs.mode }}
 
           npm run dev & 
-          false
-          DEV_PID=$!
 
+          DEV_PID=$!
+          false
           npm run test:"$test_target" -- --project ${{ inputs.browser }} --repeat-each ${{ inputs.runs}}
 
           pkill -P $DEV_PID
