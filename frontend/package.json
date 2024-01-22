@@ -18,7 +18,8 @@
     "style:fix": "npm run prettier:fix && npm run eslint:fix",
     "test:a11y": "playwright test --project=a11y",
     "test:e2e": "playwright test",
-    "histoire": "histoire dev"
+    "histoire": "histoire dev",
+    "audit:licences": "license-checker --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./licence-report.csv"
   },
   "engines": {
     "node": "20.10.0",
@@ -56,6 +57,7 @@
     "eslint-plugin-vuejs-accessibility": "~2.2.1",
     "histoire": "~0.17.8",
     "jsdom": "~24.0.0",
+    "license-checker": "~25.0.1",
     "playwright": "~1.41.1",
     "postcss": "~8.4.33",
     "prettier": "~3.2.4",
