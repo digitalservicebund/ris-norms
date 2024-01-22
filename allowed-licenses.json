@@ -1,7 +1,16 @@
 {
   "allowedLicenses": [
     {
+      "moduleLicense": "Apache-2.0"
+    },
+    {
       "moduleLicense": "Apache License, Version 2.0"
+    },
+    {
+      "moduleLicense": "BSD-2-Clause"
+    },
+    {
+      "moduleLicense": "BSD-3-Clause"
     },
     {
       "moduleLicense": "MIT License"
@@ -10,7 +19,7 @@
       "moduleLicense": "MIT-0"
     },
     {
-      "moduleLicense": "MIT*"
+      "moduleLicense": "MIT"
     },
     {
       "moduleLicense": "ISC"

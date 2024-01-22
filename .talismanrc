@@ -4,3 +4,7 @@ threshold: medium
 version: "1.0"
 scopeconfig:
   - scope: node
+fileignoreconfig:
+- filename: frontend/Dockerfile
+  checksum: c671883dbc4c791b6f57f3cf2abe2b3e52602b658cb5dc8ea93ffc6ec46de168
+

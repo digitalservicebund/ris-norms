@@ -25,7 +25,7 @@ pre-commit:
 
     lint-frontend:
       root: frontend/
-      glob: "*.{ts,js,json}"
+      glob: "*.{ts,js}"
       run: npm run --silent eslint:fix {staged_files} && git add {staged_files}
 
     check-format-system-tests:
@@ -78,6 +78,10 @@ pre-push:
 
     licences-audit-vscode-extension:
       root: vscode-extension/
+      run: npm run audit:licences > /dev/null;
+
+    licences-audit-frontend:
+      root: frontend/
       run: npm run audit:licences > /dev/null;
 
     licences-audit-system-tests:

@@ -2,14 +2,7 @@
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 version: 2
 updates:
-  - package-ecosystem: "gradle"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    # Too much noise with patch releases...
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
+  # Global: pipeline dependencies
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -18,3 +11,35 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
+
+  # Time machine
+  - package-ecosystem: "gradle"
+    directory: "/time-machine"
+    schedule:
+      interval: "daily"
+    # Too much noise with patch releases...
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+
+  # Web frontend
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "daily"
+    # Too much noise with patch releases...
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+    open-pull-requests-limit: 9999
+
+  # VS Code extension
+  - package-ecosystem: "npm"
+    directory: "/vscode-extension"
+    schedule:
+      interval: "daily"
+    # Too much noise with patch releases...
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+    open-pull-requests-limit: 9999
