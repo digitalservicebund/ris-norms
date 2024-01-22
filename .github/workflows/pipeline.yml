@@ -287,7 +287,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [chromium, firefox]
+        browser: [chromium, firefox, webkit]
         mode: [e2e]
     uses: ./.github/workflows/_playwright-test.yml
     with:
