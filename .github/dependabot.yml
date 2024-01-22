@@ -23,18 +23,15 @@ updates:
         update-types: ["version-update:semver-patch"]
 
   # Web frontend
-  # Commenting this out to see if that results in PRs getting raised for the
-  # VS Code extension module
-  #
-  # - package-ecosystem: "npm"
-  #   directory: "/frontend"
-  #   schedule:
-  #     interval: "daily"
-  #   # Too much noise with patch releases...
-  #   ignore:
-  #     - dependency-name: "*"
-  #       update-types: ["version-update:semver-patch"]
-  #   open-pull-requests-limit: 9999
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "daily"
+    # Too much noise with patch releases...
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+    open-pull-requests-limit: 9999
 
   # VS Code extension
   - package-ecosystem: "npm"
