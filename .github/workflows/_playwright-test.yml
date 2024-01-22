@@ -63,7 +63,7 @@ jobs:
           npm run dev & 
 
           DEV_PID=$!
-          false
+
           npm run test:"$test_target" -- --project ${{ inputs.browser }} --repeat-each ${{ inputs.runs}}
 
           pkill -P $DEV_PID
