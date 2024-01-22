@@ -713,8 +713,8 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: /tmp/images
-          key: docker-frontend-images-cache-${{ env.RUN_ID }}
-          restore-keys: docker-frontend-images-cache-${{ env.RUN_ID }}
+          key: docker-frontend-images-cache-${{ github.run_id }}
+          restore-keys: docker-frontend-images-cache-${{ github.run_id }}
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
@@ -739,8 +739,8 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: /tmp/images
-          key: docker-frontend-images-cache-${{ env.RUN_ID }}
-          restore-keys: docker-images-cache-${{ env.RUN_ID }}
+          key: docker-frontend-images-cache-${{ github.run_id }}
+          restore-keys: docker-images-cache-${{ github.run_id }}
       - name: load image
         shell: bash
         run: docker load -i /tmp/images/frontend-image.tar
@@ -755,7 +755,7 @@ jobs:
       - name: Install cosign
         uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149
         with:
-          cosign-release: "v1.13.1"
+          cosign-release: "v2.2.2"
       - name: Sign the published Docker image
         env:
           COSIGN_EXPERIMENTAL: "true"
