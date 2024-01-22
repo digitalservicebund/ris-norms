@@ -647,6 +647,7 @@ jobs:
       contents: read
       security-events: write
     steps:
+      - uses: actions/checkout@v4
       - name: Build docker image
         run: docker build --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }} ./frontend
       - name: Run Trivy vulnerability image scanner
