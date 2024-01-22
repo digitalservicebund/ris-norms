@@ -5,7 +5,7 @@ kotlin = "1.9.10"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.0"
-assertj-core = "org.assertj:assertj-core:3.24.2"
+assertj-core = "org.assertj:assertj-core:3.25.1"
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 xml-unit-assertj3 = "org.xmlunit:xmlunit-assertj3:2.9.1"
