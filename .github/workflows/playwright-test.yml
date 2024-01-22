@@ -1,6 +1,15 @@
 on:
   workflow_call:
     inputs:
+      container_registry:
+        required: true
+        type: string
+      container_image_name:
+        required: true
+        type: string
+      container_image_version:
+        required: true
+        type: string
       browser:
         required: false
         type: string
@@ -50,6 +59,20 @@ jobs:
         run: |
           npx --yes playwright install --with-deps ${{ inputs.browser }}
         working-directory: ./frontend
+
+      - name: Restore Docker Image Cache
+        uses: actions/cache@v3
+        with:
+          path: /tmp/images
+          key: docker-frontend-images-cache-${{ github.run_id }}
+          restore-keys: docker-images-cache-${{ github.run_id }}
+
+      - name: Load Docker Image
+        run: docker load -i /tmp/images/frontend-image.tar
+
+      - name: Run Docker Container
+        run: docker run -d --name frontend-container -p 5173:8080 ${{ inputs.container_registry }}/${{ inputs.container_image_name }}/frontend:${{ inputs.container_image_version }}
+
       - name: Run ${{ inputs.mode }} tests in ${{ inputs.browser }}
 
         run: |
@@ -57,13 +80,16 @@ jobs:
 
           test_target=${{ inputs.mode }}
 
-          npm run dev & 
-
-          DEV_PID=$!
-
           npm run test:"$test_target" -- --project ${{ inputs.browser }} --repeat-each ${{ inputs.runs}}
 
-          pkill -P $DEV_PID
+        working-directory: ./frontend
+
+      - name: Stop and Remove Docker Container
+        if: always()
+        run: |
+          docker stop frontend-container
+          docker rm frontend-container
+
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests
         uses: actions/upload-artifact@v4

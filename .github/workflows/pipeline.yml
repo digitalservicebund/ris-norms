@@ -295,7 +295,22 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
+  setup-env-e2e-tests-frontend:
+    runs-on: ubuntu-latest
+    outputs:
+      container_registry: ${{ steps.set-env.outputs.container_registry }}
+      container_image_name: ${{ steps.set-env.outputs.container_image_name }}
+      container_image_version: ${{ steps.set-env.outputs.container_image_version }}
+    steps:
+      - name: Set environment variables as outputs
+        id: set-env
+        run: |
+          echo "container_registry=${{ env.CONTAINER_REGISTRY }}" >> $GITHUB_OUTPUT
+          echo "container_image_name=${{ env.CONTAINER_IMAGE_NAME }}" >> $GITHUB_OUTPUT
+          echo "container_image_version=${{ env.CONTAINER_IMAGE_VERSION }}" >> $GITHUB_OUTPUT
+
   e2e-tests-frontend:
+    needs: [frontend-create-docker-image, setup-env-e2e-tests-frontend]
     strategy:
       fail-fast: false
       matrix:
@@ -305,6 +320,9 @@ jobs:
     with:
       browser: ${{ matrix.browser }}
       mode: ${{ matrix.mode }}
+      container_registry: ${{ needs.setup-env-e2e-tests-frontend.outputs.container_registry }}
+      container_image_name: ${{ needs.setup-env-e2e-tests-frontend.outputs.container_image_name }}
+      container_image_version: ${{ needs.setup-env-e2e-tests-frontend.outputs.container_image_version }}
     secrets: inherit
 
   ########################
@@ -665,7 +683,6 @@ jobs:
 
   frontend-create-docker-image:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
     permissions:
       contents: read
       security-events: write
