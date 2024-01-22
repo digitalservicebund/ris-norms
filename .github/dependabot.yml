@@ -7,39 +7,61 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     # Too much noise with patch releases...
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
+    open-pull-requests-limit: 9999
+    labels:
+      - "dependencies"
+      - "ci"
 
   # Time machine
   - package-ecosystem: "gradle"
     directory: "/time-machine"
     schedule:
       interval: "daily"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     # Too much noise with patch releases...
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
+    open-pull-requests-limit: 9999
+    labels:
+      - "dependencies"
+      - "time-machine"
 
   # Web frontend
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
       interval: "daily"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     # Too much noise with patch releases...
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
     open-pull-requests-limit: 9999
+    labels:
+      - "dependencies"
+      - "frontend"
 
   # VS Code extension
   - package-ecosystem: "npm"
     directory: "/vscode-extension"
     schedule:
       interval: "daily"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     # Too much noise with patch releases...
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
     open-pull-requests-limit: 9999
+    labels:
+      - "dependencies"
+      - "vscode-extension"
