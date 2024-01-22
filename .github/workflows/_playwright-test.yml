@@ -53,9 +53,6 @@ jobs:
         run: |
           npx --yes playwright install --with-deps ${{ inputs.browser }}
         working-directory: ./frontend
-      - name: Start Application
-        run: npm run dev
-        working-directory: ./frontend
       - name: Run ${{ inputs.mode }} tests in ${{ inputs.browser }}
 
         run: |
@@ -63,7 +60,13 @@ jobs:
 
           test_target=${{ inputs.mode }}
 
+          npm run dev & 
+
+          DEV_PID=$!
+
           npm run test:"$test_target" -- --project ${{ inputs.browser }} --repeat-each ${{ inputs.runs}}
+
+          pkill -P $DEV_PID
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests
         uses: actions/upload-artifact@v3
