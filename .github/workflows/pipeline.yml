@@ -162,14 +162,14 @@ jobs:
           node-version-file: ./frontend/package.json
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
-      - name: Cache node_modules
+      - name: Cache npm cache
         uses: actions/cache@v4
-        id: node-modules-cache
+        id: cache-npm-cache
         with:
-          path: ./frontend/node_modules
-          key: modules-${{ hashFiles('./frontend/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
+      - name: Install node modules
         run: npm ci
         working-directory: ./frontend
       - name: Check style
@@ -191,14 +191,14 @@ jobs:
           node-version-file: ./frontend/package.json
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
-      - name: Cache node_modules
+      - name: Cache npm cache
         uses: actions/cache@v4
-        id: node-modules-cache
+        id: cache-npm-cache
         with:
-          path: ./frontend/node_modules
-          key: modules-${{ hashFiles('./frontend/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
+      - name: Install node modules
         run: npm ci
         working-directory: ./frontend
       - name: Check style
@@ -222,12 +222,16 @@ jobs:
           node-version-file: ./frontend/package.json
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
-      - name: Cache node_modules
+      - name: Cache npm cache
         uses: actions/cache@v4
-        id: node-modules-cache
+        id: cache-npm-cache
         with:
-          path: analyze-frontend:./frontend/node_modules
-          key: modules-${{ hashFiles('./frontend/package-lock.json') }}
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
+      - name: Install node modules
+        run: npm ci
+        working-directory: ./frontend
       - name: Install SonarScanner
         uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
       - name: Establish virtual display buffer
@@ -240,7 +244,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           DISPLAY: ":99.0"
         run: |
-          npm ci
           npm run coverage
           sonar-scanner
         working-directory: ./frontend
@@ -267,7 +270,14 @@ jobs:
           node-version-file: ./frontend/package.json
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
-      - name: Install dependencies
+      - name: Cache npm cache
+        uses: actions/cache@v4
+        id: cache-npm-cache
+        with:
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
+      - name: Install node modules
         run: npm ci
         working-directory: ./frontend
       - name: Run license scanner
@@ -311,14 +321,14 @@ jobs:
           node-version-file: ./vscode-extension/package.json
           cache: npm
           cache-dependency-path: ./vscode-extension/package-lock.json
-      - name: Cache node_modules
+      - name: Cache npm cache
         uses: actions/cache@v4
-        id: node-modules-cache
+        id: cache-npm-cache
         with:
-          path: ./vscode-extension/node_modules
-          key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./vscode-extension/package-lock.json') }}
+      - name: Install node modules
         run: npm ci
         working-directory: ./vscode-extension
       - name: Check style
@@ -368,20 +378,20 @@ jobs:
           node-version-file: ./vscode-extension/package.json
           cache: npm
           cache-dependency-path: ./vscode-extension/package-lock.json
-      - name: Cache node_modules
+      - name: Cache npm cache
         uses: actions/cache@v4
-        id: node-modules-cache
+        id: cache-npm-cache
         with:
-          path: ./vscode-extension/node_modules
-          key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./vscode-extension/package-lock.json') }}
+      - name: Install node modules
+        run: npm ci
+        working-directory: vscode-extension
       - name: Establish virtual display buffer
         run: |
           /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           echo "Xvfb started"
-      - name: Install dependencies
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
-        run: npm ci
-        working-directory: ./vscode-extension
       - name: Run tests
         run: npm test
         working-directory: ./vscode-extension
@@ -404,14 +414,14 @@ jobs:
           node-version-file: ./vscode-extension/package.json
           cache: npm
           cache-dependency-path: ./vscode-extension/package-lock.json
-      - name: Cache node_modules
+      - name: Cache npm cache
         uses: actions/cache@v4
-        id: node-modules-cache
+        id: cache-npm-cache
         with:
-          path: ./vscode-extension/node_modules
-          key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./vscode-extension/package-lock.json') }}
+      - name: Install node modules
         run: npm ci
         working-directory: ./vscode-extension
       - name: Build + Pack Extension
@@ -448,12 +458,16 @@ jobs:
           node-version-file: ./vscode-extension/package.json
           cache: npm
           cache-dependency-path: ./vscode-extension/package-lock.json
-      - name: Cache node_modules
+      - name: Cache npm cache
         uses: actions/cache@v4
-        id: node-modules-cache
+        id: cache-npm-cache
         with:
-          path: ./vscode-extension/node_modules
-          key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./vscode-extension/package-lock.json') }}
+      - name: Install node modules
+        run: npm ci
+        working-directory: vscode-extension
       - name: Install SonarScanner
         uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
       - name: Establish virtual display buffer
@@ -466,7 +480,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           DISPLAY: ":99.0"
         run: |
-          npm ci
           npm run coverage
           sonar-scanner
         working-directory: ./vscode-extension
@@ -835,14 +848,14 @@ jobs:
           node-version-file: ./system-tests/package.json
           cache: npm
           cache-dependency-path: ./system-tests/package-lock.json
-      - name: Cache node_modules
+      - name: Cache npm cache
         uses: actions/cache@v4
-        id: node-modules-cache
+        id: cache-npm-cache
         with:
-          path: ./system-tests/node_modules
-          key: modules-${{ hashFiles('./system-tests/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./system-tests/package-lock.json') }}
+      - name: Install node modules
         run: npm ci
         working-directory: ./system-tests
       - name: Check style
@@ -864,7 +877,14 @@ jobs:
           node-version-file: ./system-tests/package.json
           cache: npm
           cache-dependency-path: ./system-tests/package-lock.json
-      - name: Install dependencies
+      - name: Cache npm cache
+        uses: actions/cache@v4
+        id: cache-npm-cache
+        with:
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./system-tests/package-lock.json') }}
+      - name: Install node modules
         run: npm ci
         working-directory: ./system-tests
       - name: Run license scanner
