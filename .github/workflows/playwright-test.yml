@@ -27,13 +27,12 @@ jobs:
           node-version-file: ./frontend/.node-version
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
-      - name: Cache npm cache 
+      - name: Cache npm cache
+        uses: actions/cache@v4
         id: cache-npm-cache
-        uses: actions/cache@v3
         with:
           # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
-          path: |
-            /home/runner/.npm
+          path: /home/runner/.npm
           key: modules-${{ hashFiles('./frontend/package-lock.json') }}
       - name: Install node modules
         if: steps.cache-npm-cache.outputs.cache-hit != 'true'
