@@ -35,9 +35,7 @@ jobs:
           path: /home/runner/.npm
           key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
       - name: Install node modules
-        if: steps.cache-npm-cache.outputs.cache-hit != 'true'
-        run: |
-          npm ci
+        run: npm ci
         working-directory: ./frontend
       - name: Get Playwright version
         working-directory: ./frontend
