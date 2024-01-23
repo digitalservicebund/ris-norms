@@ -42,7 +42,7 @@ jobs:
         run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/@playwright/test"].version' package-lock.json)" >> $GITHUB_ENV
       - name: Cache browser binaries
         id: cache-browser-binaries
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}-${{ inputs.browser }}
@@ -66,7 +66,7 @@ jobs:
           pkill -P $DEV_PID
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
           name: failed-${{ inputs.mode }}-tests-${{ inputs.browser }}

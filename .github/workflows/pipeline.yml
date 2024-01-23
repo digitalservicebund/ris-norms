@@ -674,7 +674,7 @@ jobs:
       - name: Build docker image
         run: docker build --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }} ./frontend
       - name: Run Trivy vulnerability image scanner
-        uses: aquasecurity/trivy-action@2b6a709cf9c4025c5438138008beaddbb02086f0
+        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "sarif"
@@ -695,7 +695,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-image-scan
       - name: Run Trivy vulnerability file scanner
-        uses: aquasecurity/trivy-action@2b6a709cf9c4025c5438138008beaddbb02086f0
+        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
         with:
           scan-type: "fs"
           scan-ref: "./frontend"
@@ -718,13 +718,13 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-fs-scan
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@2b6a709cf9c4025c5438138008beaddbb02086f0
+        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "cosign-vuln"
           output: "vuln-frontend.json"
       - name: Upload cosign vulnerability scan record
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "vuln-frontend.json"
           path: "vuln-frontend.json"
@@ -733,7 +733,7 @@ jobs:
         run: |
           mkdir /tmp/images
           docker save -o /tmp/images/frontend-image.tar ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: /tmp/images
           key: docker-frontend-images-cache-${{ github.run_id }}
@@ -758,7 +758,7 @@ jobs:
       - audit-licenses-frontend
       - frontend-create-docker-image
     steps:
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: /tmp/images
           key: docker-frontend-images-cache-${{ github.run_id }}
@@ -785,7 +785,7 @@ jobs:
         # against the sigstore community Fulcio instance.
         run: cosign sign --yes ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
       - name: Download cosign vulnerability scan record
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: "vuln-frontend.json"
       - name: Attest vulnerability scan
@@ -912,7 +912,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@91713af97dc80187565512baba96e4364e983601
+        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
         with:
           scan-type: "fs"
           format: "sarif"

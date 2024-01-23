@@ -5,7 +5,7 @@ kotlin = "1.9.10"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.0"
-assertj-core = "org.assertj:assertj-core:3.24.2"
+assertj-core = "org.assertj:assertj-core:3.25.1"
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 xml-unit-assertj3 = "org.xmlunit:xmlunit-assertj3:2.9.1"
@@ -16,7 +16,7 @@ system-lambda = "com.github.stefanbirkner:system-lambda:1.2.1"
 dependency-license-report = "com.github.jk1.dependency-license-report:2.5"
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 sonarqube = "org.sonarqube:4.4.1.3373"
-spotless = "com.diffplug.spotless:6.22.0"
+spotless = "com.diffplug.spotless:6.25.0"
 test-logger = "com.adarshr.test-logger:4.0.0"
 version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.1"
-versions = "com.github.ben-manes.versions:0.50.0"
+versions = "com.github.ben-manes.versions:0.51.0"
