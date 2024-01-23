@@ -825,7 +825,7 @@ jobs:
     concurrency: frontend-deploy-staging
     environment: staging
     needs:
-      - frontend-create-and-push-docker-image
+      - frontend-push-docker-image
     permissions:
       id-token: write # Enable OIDC for gitsign
     steps:
