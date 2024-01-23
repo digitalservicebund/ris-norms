@@ -33,7 +33,7 @@ jobs:
         with:
           # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
           path: /home/runner/.npm
-          key: modules-${{ hashFiles('./frontend/package-lock.json') }}
+          key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
       - name: Install node modules
         if: steps.cache-npm-cache.outputs.cache-hit != 'true'
         run: |
