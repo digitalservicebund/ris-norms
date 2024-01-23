@@ -451,12 +451,16 @@ jobs:
           node-version-file: ./vscode-extension/package.json
           cache: npm
           cache-dependency-path: ./vscode-extension/package-lock.json
-      - name: Cache node_modules
+      - name: Cache npm cache
         uses: actions/cache@v4
-        id: node-modules-cache
+        id: cache-npm-cache
         with:
-          path: ./vscode-extension/node_modules
-          key: modules-${{ hashFiles('./vscode-extension/package-lock.json') }}
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./vscode-extension/package-lock.json') }}
+      - name: Install node modules
+        run: npm ci
+        working-directory: vscode-extension
       - name: Install SonarScanner
         uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
       - name: Establish virtual display buffer
@@ -469,7 +473,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           DISPLAY: ":99.0"
         run: |
-          npm ci
           npm run coverage
           sonar-scanner
         working-directory: ./vscode-extension
