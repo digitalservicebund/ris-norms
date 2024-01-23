@@ -711,7 +711,7 @@ jobs:
           format: "cosign-vuln"
           output: "vuln-frontend.json"
       - name: Upload cosign vulnerability scan record
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "vuln-frontend.json"
           path: "vuln-frontend.json"
