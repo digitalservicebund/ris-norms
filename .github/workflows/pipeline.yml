@@ -870,7 +870,14 @@ jobs:
           node-version-file: ./system-tests/package.json
           cache: npm
           cache-dependency-path: ./system-tests/package-lock.json
-      - name: Install dependencies
+      - name: Cache npm cache
+        uses: actions/cache@v4
+        id: cache-npm-cache
+        with:
+          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+          path: /home/runner/.npm
+          key: npm-cache-${{ hashFiles('./system-tests/package-lock.json') }}
+      - name: Install node modules
         run: npm ci
         working-directory: ./system-tests
       - name: Run license scanner
