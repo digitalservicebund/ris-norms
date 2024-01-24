@@ -1,0 +1,26 @@
+[versions]
+# @keep
+jacoco = "0.8.8"
+spring-boot = "3.2.2"
+
+[libraries]
+archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
+lombok = { module = "org.projectlombok:lombok" }
+mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.9.0"
+reactor-test = { module = "io.projectreactor:reactor-test" }
+spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
+
+[plugins]
+dependency-license-report = "com.github.jk1.dependency-license-report:2.5"
+sonarqube = "org.sonarqube:4.4.1.3373"
+spotless = "com.diffplug.spotless:6.25.0"
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management = "io.spring.dependency-management:1.1.4"
+test-logger = "com.adarshr.test-logger:4.0.0"
+version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.1"
+versions = "com.github.ben-manes.versions:0.51.0"
