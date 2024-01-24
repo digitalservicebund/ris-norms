@@ -835,7 +835,7 @@ jobs:
         with:
           environment: staging
           version: ${{ env.CONTAINER_IMAGE_VERSION }}
-          deploying_repo: ris-norms
+          deploying_repo: ris-norms/frontend
           infra_repo: ris-norms-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
           app: ris-norms-staging
