@@ -109,7 +109,7 @@ jobs:
 
   analyze-time-machine:
     runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot' }}
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -213,7 +213,7 @@ jobs:
 
   analyze-frontend:
     runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot' }}
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -468,7 +468,7 @@ jobs:
 
   analyze-vscode-extension:
     runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot' }}
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v4
         with:
