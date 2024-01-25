@@ -36,7 +36,7 @@ testlogger { theme = ThemeType.MOCHA }
 dependencies {
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.security)
-    implementation(libs.spring.boot.starter.webflux)
+    implementation(libs.spring.boot.starter.web)
 
     compileOnly(libs.lombok)
 
@@ -45,7 +45,6 @@ dependencies {
     annotationProcessor(libs.lombok)
 
     testImplementation(libs.spring.boot.starter.test)
-    testImplementation(libs.reactor.test)
     testImplementation(libs.spring.security.test)
     testImplementation(libs.archunit.junit5)
     testImplementation(libs.mockito.junit.jupiter)

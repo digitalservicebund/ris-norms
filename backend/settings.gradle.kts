@@ -1,1 +1,1 @@
-rootProject.name = "java-application-template"
+rootProject.name = "ris-norms-backend"
