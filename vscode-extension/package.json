@@ -71,7 +71,7 @@
     "@types/node": "20.x",
     "@types/sinon": "~17.0.2",
     "@types/vscode": "~1.85.0",
-    "@typescript-eslint/eslint-plugin": "~6.7.3",
+    "@typescript-eslint/eslint-plugin": "~6.19.1",
     "@typescript-eslint/parser": "~6.19.1",
     "@vscode/test-cli": "~0.0.4",
     "@vscode/test-electron": "~2.3.4",
