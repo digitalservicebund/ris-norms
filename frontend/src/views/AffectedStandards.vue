@@ -6,7 +6,7 @@ const vscodeLink = ref(`vscode://file?fileId=${identifier}`)
 
 <template>
   <div>
-    <H1>Affected Standards</H1>
+    <p>Affected Standards</p>
     <a :href="vscodeLink">Meta data management</a>
   </div>
 </template>
