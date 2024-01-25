@@ -334,6 +334,10 @@ jobs:
   check-style-vscode-extension:
     runs-on: ubuntu-latest
     steps:
+      - name: What's dependabot's actor.name and actor.id
+        run: |
+          echo "GITHUB_ACTOR: $GITHUB_ACTOR"
+          echo "GITHUB_ACTOR_ID: $GITHUB_ACTOR_ID"
       - uses: actions/checkout@v4
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -470,10 +474,6 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
-      - name: What's dependabot's actor.name and actor.id
-        run: |
-          echo "GITHUB_ACTOR: $GITHUB_ACTOR"
-          echo "GITHUB_ACTOR_ID: $GITHUB_ACTOR_ID"
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
