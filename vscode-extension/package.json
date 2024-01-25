@@ -76,7 +76,7 @@
     "@vscode/test-cli": "~0.0.4",
     "@vscode/test-electron": "~2.3.4",
     "@vscode/vsce": "~2.22.0",
-    "c8": "~8.0.1",
+    "c8": "~9.1.0",
     "esbuild": "~0.19.8",
     "eslint": "~8.54.0",
     "eslint-config-prettier": "~9.1.0",
