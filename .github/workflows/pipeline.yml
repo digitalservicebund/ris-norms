@@ -5,9 +5,12 @@ permissions:
   security-events: write # upload-sarif
 
 on:
-  # run on all branches
+  # run on any branch receiving a push (not only on main)
   push:
-  # Allow to run this workflow manually
+  # also: every morning at 6am
+  schedule:
+    - cron: "0 6 * * *"
+  # also: allow to run this workflow manually
   workflow_dispatch:
 
 env:
@@ -29,7 +32,7 @@ jobs:
 
   build-time-machine:
     runs-on: ubuntu-latest
-    needs: [ validate-gradle-wrapper ]
+    needs: [validate-gradle-wrapper]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK
@@ -59,7 +62,7 @@ jobs:
 
   unit-tests-time-machine:
     runs-on: ubuntu-latest
-    needs: [ validate-gradle-wrapper ]
+    needs: [validate-gradle-wrapper]
     steps:
       - uses: actions/checkout@v4
       - name: Get Gradle version
@@ -312,12 +315,12 @@ jobs:
           echo "container_image_version=${{ env.CONTAINER_IMAGE_VERSION }}" >> $GITHUB_OUTPUT
 
   e2e-tests-frontend:
-    needs: [ frontend-create-docker-image, setup-env-e2e-tests-frontend ]
+    needs: [frontend-create-docker-image, setup-env-e2e-tests-frontend]
     strategy:
       fail-fast: false
       matrix:
-        browser: [ chromium, firefox, webkit ]
-        mode: [ e2e ]
+        browser: [chromium, firefox, webkit]
+        mode: [e2e]
     uses: ./.github/workflows/playwright-test.yml
     with:
       browser: ${{ matrix.browser }}
@@ -429,7 +432,7 @@ jobs:
 
   build-and-pack-vscode-extension:
     runs-on: ubuntu-latest
-    needs: [ check-style-vscode-extension, build-and-test-vscode-extension ]
+    needs: [check-style-vscode-extension, build-and-test-vscode-extension]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node
