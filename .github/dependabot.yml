@@ -16,7 +16,7 @@ updates:
     open-pull-requests-limit: 9999
     labels:
       - "dependencies"
-      - "ci"
+      - "github-actions"
 
   # Time machine
   - package-ecosystem: "gradle"
