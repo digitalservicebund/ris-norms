@@ -9,10 +9,10 @@ the [Spring WebFlux reactive stack](https://docs.spring.io/spring-framework/docs
 
 ## Prerequisites
 
-Java 17, Docker for building + running the containerized application:
+Java 21, Docker for building + running the containerized application:
 
 ```bash
-brew install openjdk@17
+brew install openjdk@21
 brew install --cask docker # or just `brew install docker` if you don't want the Desktop app
 ```
 

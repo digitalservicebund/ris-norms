@@ -2,25 +2,23 @@ package de.bund.digitalservice.template.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebFluxSecurity
+@EnableWebSecurity
 public class SecurityConfig {
 
   @Bean
-  public SecurityWebFilterChain springSecurityWebFilterChain(ServerHttpSecurity http) {
-    return http.authorizeExchange(
-            exchanges ->
-                exchanges
-                    .pathMatchers("/.well-known/security.txt")
-                    .permitAll()
-                    .pathMatchers("/actuator/health")
-                    .permitAll()
-                    .anyExchange()
-                    .denyAll())
-        .build();
+  public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(
+        authorize ->
+            authorize
+                .requestMatchers("/.well-known/security.txt", "/actuator/health")
+                .permitAll()
+                .anyRequest()
+                .denyAll());
+    return http.build();
   }
 }

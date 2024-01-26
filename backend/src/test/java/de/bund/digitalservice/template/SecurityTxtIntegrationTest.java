@@ -1,31 +1,29 @@
 package de.bund.digitalservice.template;
 
-import org.assertj.core.api.Assertions;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 @Tag("integration")
 class SecurityTxtIntegrationTest {
 
-  @Autowired WebTestClient webTestClient;
-
   @Test
-  void shouldExposeSecurityTxt() {
-    webTestClient
-        .get()
-        .uri("/.well-known/security.txt")
-        .exchange()
-        .expectStatus()
-        .isOk()
-        .expectHeader()
-        .contentType(MediaType.TEXT_PLAIN)
-        .expectBody()
-        .consumeWith(response -> Assertions.assertThat(response.getResponseBody()).isNotEmpty());
+  void shouldExposeSecurityTxt(@Autowired MockMvc mvc) throws Exception {
+    mvc.perform(get("/.well-known/security.txt"))
+        .andExpectAll(
+            status().isOk(),
+            header().stringValues("Content-Type", MediaType.TEXT_PLAIN.toString()),
+            content().string(containsString("Contact: ")));
   }
 }

@@ -21,7 +21,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
@@ -93,7 +93,7 @@ tasks {
         // coverage of our unit and integration tests as a single report!
         executionData.setFrom(
             files(
-                fileTree(project.buildDir.absolutePath) {
+                fileTree(project.layout.buildDirectory) {
                     include("jacoco/*.exec")
                 },
             ),
