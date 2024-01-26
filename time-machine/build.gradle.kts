@@ -167,6 +167,6 @@ spotless {
 
 licenseReport {
   allowedLicensesFile = File("$projectDir/../allowed-licenses.json")
-  renderers = arrayOf<ReportRenderer>(CsvReportRenderer("backend-licence-report.csv"))
+  renderers = arrayOf<ReportRenderer>(CsvReportRenderer("time-machine-licence-report.csv"))
   filters = arrayOf<DependencyFilter>(LicenseBundleNormalizer(null, true))
 }

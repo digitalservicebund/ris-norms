@@ -102,6 +102,12 @@ jobs:
           gradle-version: ${{ env.GRADLE_VERSION}}
           arguments: checkLicense
           build-root-directory: ./time-machine
+      - name: Upload licence report
+        uses: actions/upload-artifact@v3
+        with:
+          name: time-machine-licence-report.csv
+          retention-days: 3
+          path: time-machine/build/reports/dependency-license/time-machine-licence-report.csv
       - name: Send status to Slack
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions

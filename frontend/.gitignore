@@ -25,3 +25,5 @@ test-results
 *.njsproj
 *.sln
 *.sw?
+
+licence-report.csv
