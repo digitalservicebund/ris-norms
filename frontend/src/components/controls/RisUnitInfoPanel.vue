@@ -27,11 +27,11 @@ withDefaults(defineProps<Props>(), {
     >
       <div class="text-30">{{ heading }}</div>
       <div v-for="entry in propertyInfos" :key="entry.label" class="grow">
-        <PropertyInfo
+        <RisPropertyInfo
           direction="row"
           :label="entry.label"
           :value="entry.value || ' - '"
-        ></PropertyInfo>
+        ></RisPropertyInfo>
       </div>
     </div>
   </div>
