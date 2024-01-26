@@ -1,4 +1,4 @@
-package de.bund.digitalservice.template.config;
+package de.bund.digitalservice.ris.norms.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
