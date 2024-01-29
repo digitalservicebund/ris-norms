@@ -21,7 +21,7 @@ const formattedDate = computed(() => {
 </script>
 
 <template>
-  <li class="flex gap-8 bg-white p-16 hover:bg-blue-200">
+  <div class="flex gap-8 bg-white p-16 hover:bg-blue-200">
     <span class="ds-label-02-bold w-128 flex-none">
       {{ printAnnouncementGazette }} {{ printAnnouncementYear }} Nr.
       {{ printAnnouncementNumber }}
@@ -33,5 +33,5 @@ const formattedDate = computed(() => {
       <ExpandMoreIcon class="h-24 w-24" />
       <span class="sr-only">Details anzeigen</span>
     </button>
-  </li>
+  </div>
 </template>
