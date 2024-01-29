@@ -11,10 +11,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const activeRoute = useRoute() //used to find out which menu item is active based on the current route
-
-//opens the menu item if the current route is a child of the menu item
-// adds the class "underline" to the menu item if the current route is the menu item itself
+const activeRoute = useRoute()
 const enhancedActiveMenuItems = computed(() =>
   props.menuItems
     .filter((item) => !item.isDisabled)
