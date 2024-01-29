@@ -43,6 +43,7 @@ function getClassesForMenuItem(
   return {
     disabled: isDisabled ?? false,
     "bg-blue-200": isActive,
+    "ds-link-2-bold": isActive,
     underline: isActive || isParentActive,
   }
 }
@@ -143,7 +144,7 @@ export interface LevelTwoMenuItem {
     <span id="sidebarNavigation" hidden>SideBar Navigation</span>
     <router-link
       aria-labelledby="toProceduresListButton"
-      class="border-b-1 ds-link-01-bold flex h-80 items-center gap-12 border-gray-400 px-14 text-blue-800"
+      class="ds-link-01-bold flex h-80 items-center gap-12 border-b border-gray-400 px-14 text-blue-800"
       :to="goBackRoute"
     >
       <IconArrowBack class="text-18" />
@@ -153,11 +154,10 @@ export interface LevelTwoMenuItem {
     <div
       v-for="(levelOneItem, levelOneIndex) in enhancedActiveMenuItems"
       :key="levelOneItem.label"
-      class="border-b-1 border-gray-400"
     >
       <router-link
         :aria-labelledby="`levelOneSideMenuItem` + levelOneIndex"
-        class="ds-label-02-bold block py-[1.25rem] pl-[1rem] hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+        class="ds-label-02-bold block border-b border-gray-400 py-[1.25rem] pl-[1rem] hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
         :class="levelOneItem.classes"
         :to="levelOneItem.route"
       >
@@ -175,6 +175,7 @@ export interface LevelTwoMenuItem {
           :class="[
             levelTwoItem.classes,
             levelTwoItem.isActive ? 'underline' : '',
+            levelTwoItem.isActive ? 'font-bold' : '',
           ]"
           :to="levelTwoItem.route"
         >
