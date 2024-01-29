@@ -24,13 +24,17 @@ describe("RisInfoModal", () => {
   })
 
   test("displays a dash when property value is missing", async () => {
-    const propertyInfos = [{ label: "Missing Value", value: undefined }]
+    const label = "Missing Value"
+    const value = undefined
 
     render(RisPropertyInfo, {
-      props: { propertyInfos },
+      props: { label, value },
     })
 
-    const value = await screen.findByText("-")
-    expect(value).toBeInTheDocument()
+    const labelElement = screen.getByText(label)
+    const valueElement = await screen.findByText("-")
+
+    expect(labelElement).toBeInTheDocument()
+    expect(valueElement).toBeInTheDocument()
   })
 })
