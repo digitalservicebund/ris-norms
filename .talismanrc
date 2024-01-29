@@ -5,6 +5,7 @@ version: "1.0"
 scopeconfig:
   - scope: node
 fileignoreconfig:
-- filename: frontend/Dockerfile
-  checksum: 14da4b99b487d5becd23b985b2cf1d5812dd79aa203f9b5d3cd4ec0a8a41f8fa
-
+  - filename: frontend/Dockerfile
+    checksum: 14da4b99b487d5becd23b985b2cf1d5812dd79aa203f9b5d3cd4ec0a8a41f8fa
+  - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
+    checksum: cb94437b91ff42fb62b393d77e8d86551ec2de7fa26b2c119cf03fcb69dc7383
