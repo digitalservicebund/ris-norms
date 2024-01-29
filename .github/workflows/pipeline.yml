@@ -975,6 +975,8 @@ jobs:
 
   talisman-check:
     runs-on: ubuntu-latest
+    # Running on main only https://digitalservicebund.slack.com/archives/C046VD44ZEH/p1706516240974409
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v4
         with:
