@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public interface LoadProcedureUseCase {
 
-  // TODO define command for the input parameters?
-  Procedure loadProcedure(UUID uuid);
+  Procedure loadProcedure(Query query);
+
+  record Query(UUID id) {}
 }

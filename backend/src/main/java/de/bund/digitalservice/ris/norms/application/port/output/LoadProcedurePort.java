@@ -6,5 +6,7 @@ import java.util.UUID;
 
 public interface LoadProcedurePort {
 
-  Optional<Procedure> findById(UUID id);
+  Optional<Procedure> findById(final Command command);
+
+  record Command(UUID id) {}
 }

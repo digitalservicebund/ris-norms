@@ -19,6 +19,6 @@ public class ProcedureController {
 
   @GetMapping
   Procedure getProcedure(UUID uuid) {
-    return loadProcedureUseCase.loadProcedure(uuid);
+    return loadProcedureUseCase.loadProcedure(new LoadProcedureUseCase.Query(uuid));
   }
 }
