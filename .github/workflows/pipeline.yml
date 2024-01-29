@@ -103,7 +103,7 @@ jobs:
           arguments: checkLicense
           build-root-directory: ./time-machine
       - name: Upload licence report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: time-machine-licence-report.csv
           retention-days: 3
