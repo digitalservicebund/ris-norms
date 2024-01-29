@@ -17,9 +17,10 @@ describe("RisInfoModal", () => {
 
   test("renders a button with the correct label", () => {
     const iconText = "Icon Text"
+    const title = "Dummy Title"
 
     render(RisInfoModal, {
-      props: { iconText },
+      props: { iconText, title },
     })
 
     const button = screen.getByText(iconText)
