@@ -1,0 +1,26 @@
+package de.bund.digitalservice.ris.norms.adapter.input;
+
+import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/procedures")
+public class ProcedureController {
+
+    private final LoadProcedureUseCase loadProcedureUseCase;
+
+    public ProcedureController(LoadProcedureUseCase loadProcedureUseCase) {
+        this.loadProcedureUseCase = loadProcedureUseCase;
+    }
+
+    @GetMapping
+    Procedure getProcedure(UUID uuid) {
+       return loadProcedureUseCase.loadProcedure(uuid);
+    }
+
+}
