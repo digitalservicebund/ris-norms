@@ -10,7 +10,7 @@ on:
 env:
   CONTAINER_REGISTRY: ghcr.io
   CONTAINER_IMAGE_NAME: ${{ github.repository }}
-  CONTAINER_IMAGE_VERSION: ${{ github.sha }}
+  CONTAINER_IMAGE_VERSION: ${{ github.sha }} # sha of the last commit of the default branch
 
 jobs:
   reset-trivy-cache:
@@ -131,6 +131,7 @@ jobs:
 
   vulnerability-scan-time-machine:
     runs-on: ubuntu-latest
+    needs: reset-trivy-cache
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -167,6 +168,7 @@ jobs:
 
   vulnerability-scan-vs-code-extension:
     runs-on: ubuntu-latest
+    needs: reset-trivy-cache
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
