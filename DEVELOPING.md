@@ -2,9 +2,12 @@
 
 Here's what to know from a tech perspective.
 
+__Security note: Do not forget to run the `lefthook` setup below, including the setup of `talisman`. This ensures that secrets are caught before reaching the remote repository.__
+
 # The Modules
 
 Information on the modules can be found in their respective folder's README files:
+* [`./frontend/README.md`](./frontend/README.md)
 * [`./time-machine/README.md`](./time-machine/README.md)
 * [`./vscode-extension/README.md`](./vscode-extension/README.md)
 
