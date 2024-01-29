@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue"
-const identifier = "123"
-const vscodeLink = ref(`vscode://file?fileId=${identifier}`)
+import { useRoute } from "vue-router"
+import RisInfoModal from "@/components/RisInfoModal.vue"
+
+const route = useRoute()
+const eli = route.params.id?.toString().replace(/_/g, "/") || ""
 </script>
 
 <template>
   <div>
-    <p>Affected Standards</p>
-    <a :href="vscodeLink">Meta data management</a>
+    <h1 class="ds-heading-02-reg mb-40">Betroffene Normenkomplexe</h1>
+    <span class="ds-body-01-reg">
+      Durch das Änderungsgesetz ändern sich folgende Normenkomplexe und Artikel:
+    </span>
+    <RisInfoModal
+      title="Vereinsgesetz"
+      :description="`${eli}`"
+      icon-text="Metadaten editieren"
+    />
   </div>
 </template>
