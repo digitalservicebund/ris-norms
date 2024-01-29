@@ -6,8 +6,6 @@ import RisNavbarSide, {
 import RisUnitInfoPanel from "@/components/controls/RisUnitInfoPanel.vue"
 import { computed } from "vue"
 
-/*  this is the first use of the side navigation and so where menuItems is used, 
-can we leave these defined here for now inside the CustomLayout component. */
 const menuItems: LevelOneMenuItem[] = [
   {
     label: "Vorgang",
@@ -25,8 +23,6 @@ const menuItems: LevelOneMenuItem[] = [
   },
 ]
 
-// this needs to come from the store
-// make sure this matches the procedure from procedures view
 const propertyInfos = computed(() => [
   {
     label: "FNA",
