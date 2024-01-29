@@ -1,3 +1,4 @@
+import { markRaw } from "vue"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, test } from "vitest"
 import RisTextButton from "./RisTextButton.vue"
@@ -11,9 +12,9 @@ describe("RisTextButton", () => {
   })
 
   test("renders button with icon", () => {
-    const FakeIcon = {
+    const FakeIcon = markRaw({
       template: "<span>Fake Icon</span>",
-    }
+    })
 
     const { getByText } = render(RisTextButton, {
       props: { icon: FakeIcon },
