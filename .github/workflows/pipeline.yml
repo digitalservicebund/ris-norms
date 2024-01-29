@@ -7,7 +7,7 @@ permissions:
 on:
   # run on any branch receiving a push (not only on main)
   push:
-  # also: every morning at 6am
+  # also: every morning at 8am
   schedule:
     - cron: "0 6 * * *"
   # also: allow to run this workflow manually
@@ -643,8 +643,6 @@ jobs:
   #        run: docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
   #      - name: Install cosign
   #        uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149
-  #        with:
-  #          cosign-release: "v1.13.1"
   #      - name: Sign the published Docker image
   #        env:
   #          COSIGN_EXPERIMENTAL: "true"
@@ -805,12 +803,10 @@ jobs:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish backend container image
+      - name: Publish frontend container image
         run: docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
       - name: Install cosign
         uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149
-        with:
-          cosign-release: "v2.2.2"
       - name: Sign the published Docker image
         env:
           COSIGN_EXPERIMENTAL: "true"
