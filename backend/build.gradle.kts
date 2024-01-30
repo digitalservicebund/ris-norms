@@ -41,6 +41,9 @@ dependencies {
     implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.boot.starter.web)
 
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.2")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.2.2")
+
     compileOnly(libs.lombok)
 
     developmentOnly(libs.spring.boot.devtools)
@@ -163,7 +166,7 @@ sonar {
     // NOTE: sonarqube picks up combined coverage correctly without further configuration from:
     // build/reports/jacoco/test/jacocoTestReport.xml
     properties {
-        property("sonar.projectKey", "digitalservicebund_java-application-template")
+        property("sonar.projectKey", "digitalservicebund_ris-norms-backend")
         property("sonar.organization", "digitalservicebund")
         property("sonar.host.url", "https://sonarcloud.io")
     }

@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.adapter.input;
+package de.bund.digitalservice.ris.norms.adapter.input.restapi;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
@@ -19,6 +19,6 @@ public class ProcedureController {
 
   @GetMapping
   Procedure getProcedure(UUID uuid) {
-    return loadProcedureUseCase.loadProcedure(new LoadProcedureUseCase.Query(uuid));
+    return loadProcedureUseCase.loadProcedure(new LoadProcedureUseCase.Query(uuid)).orElse(null);
   }
 }
