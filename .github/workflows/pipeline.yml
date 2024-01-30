@@ -169,8 +169,7 @@ jobs:
       packages: write
       id-token: write
     uses: ./.github/workflows/frontend-jobs.yml
-    with:
-      sonar_token: ${{ secrets.SONAR_TOKEN }}
+    secrets: inherit
 
   ########################
   # VSCode extension jobs
