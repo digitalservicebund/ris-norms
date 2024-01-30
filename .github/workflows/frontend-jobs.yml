@@ -1,3 +1,7 @@
+permissions:
+  contents: write # action-gh-release
+  security-events: write # upload-sarif
+
 on:
   workflow_call:
 jobs:
