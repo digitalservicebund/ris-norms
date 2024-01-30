@@ -9,6 +9,7 @@ import static com.tngtech.archunit.lang.conditions.ArchConditions.notImplement;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
+import com.tngtech.archunit.core.domain.JavaMethod;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption.Predefined;
 import com.tngtech.archunit.lang.ArchCondition;
@@ -16,8 +17,9 @@ import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import com.tngtech.archunit.library.dependencies.SliceRule;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
+import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
@@ -173,40 +175,48 @@ class ArchitectureFitnessTest {
   }
 
   @Test
-  @Disabled
   void portsHaveASinglePublicMethodOnly() {
 
-    DescribedPredicate<JavaClass> haveASingleMethodPredicate =
-        new DescribedPredicate<>("have a single method") {
-          @Override
-          public boolean test(JavaClass input) {
-            return input.getMethods().size() == 1;
-          }
-        };
+    final HaveExactNumberOfMethods haveASingleMethod = new HaveExactNumberOfMethods(1);
 
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
             .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
-            .should(ArchCondition.from((haveASingleMethodPredicate)))
+            .and()
+            .doNotHaveSimpleName("Query")
+            .and()
+            .doNotHaveSimpleName("Command")
+            .should(ArchCondition.from((haveASingleMethod)))
             .andShould(bePublic());
     rule.check(classes);
   }
 
-  //    @Test
-  //    void portMethodsHaveASingleCommandOrQueryParameter() {
-  //        val haveACommandParameter = haveAParameterWithTypeName("Command")
-  //        val haveAQueryParameter = haveAParameterWithTypeName("Query")
-  //
-  //        ArchRule rule =  ArchRuleDefinition.methods()
-  //                .that()
-  //                .areDeclaredInClassesThat()
-  //                .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
-  //                .should(haveASingleParameter().and(haveACommandParameter))
-  //                .orShould(haveASingleParameter().and(haveAQueryParameter))
-  //                .orShould(haveNoParameter());
-  //        rule.check(classes);
-  //    }
+  @Test
+  void portMethodsHaveASingleCommandOrQueryParameter() {
+
+    final HaveAParameterWithTypeName haveACommandParameter =
+        new HaveAParameterWithTypeName("Command");
+    final HaveAParameterWithTypeName haveAQueryParameter = new HaveAParameterWithTypeName("Query");
+    final HaveExactNumberOfParameters haveASingleParameter = new HaveExactNumberOfParameters(1);
+    final HaveExactNumberOfParameters haveNoParameters = new HaveExactNumberOfParameters(0);
+
+    ArchRule rule =
+        ArchRuleDefinition.methods()
+            .that()
+            .areDeclaredInClassesThat()
+            .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
+            .and()
+            .doNotHaveName("equals")
+            .should(
+                ArchCondition.from((haveASingleParameter))
+                    .and(ArchCondition.from(haveAQueryParameter)))
+            .orShould(
+                ArchCondition.from((haveASingleParameter))
+                    .and(ArchCondition.from(haveACommandParameter)))
+            .orShould(ArchCondition.from(haveNoParameters));
+    rule.check(classes);
+  }
 
   @Test
   void applicationServicesDoNotImplementOutputPorts() {
@@ -231,5 +241,55 @@ class ArchitectureFitnessTest {
             .should()
             .notDependOnEachOther();
     rule.check(classes);
+  }
+
+  static class HaveExactNumberOfMethods extends DescribedPredicate<JavaClass> {
+
+    private final int number;
+
+    public HaveExactNumberOfMethods(final int number) {
+      super("have exactly " + number + " method");
+      this.number = number;
+    }
+
+    @Override
+    public boolean test(JavaClass javaClass) {
+      return javaClass.getMethods().size() == this.number;
+    }
+  }
+
+  static class HaveAParameterWithTypeName extends DescribedPredicate<JavaMethod> {
+
+    private final String typeName;
+
+    public HaveAParameterWithTypeName(final String typeName) {
+      super("have a parameter of type name " + typeName);
+      this.typeName = typeName;
+    }
+
+    @Override
+    public boolean test(JavaMethod javaMethod) {
+      final List<String> matched =
+          javaMethod.getParameters().stream()
+              .map(it -> it.getRawType().getSimpleName())
+              .filter(f -> Objects.equals(f, typeName))
+              .toList();
+      return !matched.isEmpty();
+    }
+  }
+
+  static class HaveExactNumberOfParameters extends DescribedPredicate<JavaMethod> {
+
+    private final int number;
+
+    public HaveExactNumberOfParameters(final int number) {
+      super("have exactly " + number + " parameters");
+      this.number = number;
+    }
+
+    @Override
+    public boolean test(JavaMethod javaMethod) {
+      return javaMethod.getParameters().size() == this.number;
+    }
   }
 }
