@@ -1,6 +1,8 @@
 permissions:
   contents: write # action-gh-release
   security-events: write # upload-sarif
+  packages: write
+  id-token: write
 
 on:
   workflow_call:
