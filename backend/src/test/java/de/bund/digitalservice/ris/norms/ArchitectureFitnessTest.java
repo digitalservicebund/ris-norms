@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 class ArchitectureFitnessTest {
@@ -37,6 +39,9 @@ class ArchitectureFitnessTest {
   static final String SERVICE_LAYER_PACKAGES = BASE_PACKAGE + ".application.service";
 
   static final String ADAPTER_LAYER_PACKAGES = BASE_PACKAGE + ".adapter..";
+
+  static final String REPOSITORY_LAYER_PACKAGES =
+      BASE_PACKAGE + ".adapter.output.database.repository";
   static final String DOMAIN_LAYER_PACKAGES = BASE_PACKAGE + ".domain..";
   static final String ENTITY_LAYER_PACKAGES = BASE_PACKAGE + ".domain.entity";
   static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value";
@@ -115,6 +120,66 @@ class ArchitectureFitnessTest {
             .andShould()
             .dependOnClassesThat()
             .areAnnotatedWith(RestController.class);
+    rule.check(classes);
+  }
+
+  @Test
+  void onlyRepositoryInterfacesAllowed() {
+    ArchRule rule =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage(ADAPTER_LAYER_PACKAGES)
+            .and()
+            .haveSimpleNameEndingWith("Repository")
+            .should()
+            .beInterfaces();
+    rule.check(classes);
+  }
+
+  @Test
+  void implementationOutputPortsOnlyAllowedInTheAdapterPackageAsRepositories() {
+    DescribedPredicate<JavaClass> predicate =
+        JavaClass.Predicates.resideInAPackage(OUTPUT_PORT_LAYER_PACKAGES)
+            .and(JavaClass.Predicates.INTERFACES);
+    ArchRule rule =
+        ArchRuleDefinition.classes()
+            .that()
+            .implement(predicate)
+            .should()
+            .resideInAPackage(ADAPTER_LAYER_PACKAGES)
+            .andShould()
+            .beAnnotatedWith(Service.class);
+    rule.check(classes);
+  }
+
+  @Test
+  void implementationInputPortsOnlyAllowedInTheApplicationPackageAsServices() {
+    DescribedPredicate<JavaClass> predicate =
+        JavaClass.Predicates.resideInAPackage(INPUT_PORT_LAYER_PACKAGES)
+            .and(JavaClass.Predicates.INTERFACES);
+    ArchRule rule =
+        ArchRuleDefinition.classes()
+            .that()
+            .implement(predicate)
+            .should()
+            .resideInAPackage(APPLICATION_LAYER_PACKAGES)
+            .andShould()
+            .beAnnotatedWith(Service.class);
+    rule.check(classes);
+  }
+
+  @Test
+  void repositoryInRepositoryPackageAreInterfacesWhichExtendJpaRepository() {
+    ArchRule rule =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage(REPOSITORY_LAYER_PACKAGES)
+            .and()
+            .haveSimpleNameEndingWith("Repository")
+            .should()
+            .beInterfaces()
+            .andShould()
+            .beAssignableTo(JpaRepository.class);
     rule.check(classes);
   }
 
