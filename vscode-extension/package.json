@@ -72,7 +72,7 @@
     "@types/sinon": "~17.0.2",
     "@types/vscode": "~1.85.0",
     "@typescript-eslint/eslint-plugin": "~6.20.0",
-    "@typescript-eslint/parser": "~6.19.1",
+    "@typescript-eslint/parser": "~6.20.0",
     "@vscode/test-cli": "~0.0.4",
     "@vscode/test-electron": "~2.3.4",
     "@vscode/vsce": "~2.23.0",
