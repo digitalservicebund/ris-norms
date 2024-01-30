@@ -163,6 +163,11 @@ jobs:
   ########################
 
   frontend-jobs:
+    permissions:
+      contents: write # action-gh-release
+      security-events: write # upload-sarif
+      packages: write
+      id-token: write
     uses: ./.github/workflows/frontend-jobs.yml
 
   ########################
