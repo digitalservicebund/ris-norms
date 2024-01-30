@@ -1,5 +1,9 @@
 on:
   workflow_call:
+    inputs:
+      sonar_token:
+        required: true
+        type: string
 
 jobs:
   check-style-frontend:
@@ -92,7 +96,7 @@ jobs:
       - name: Scan with SonarQube
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ inputs.sonar_token}}
           DISPLAY: ":99.0"
         run: |
           npm run coverage
@@ -104,7 +108,7 @@ jobs:
           scanMetadataReportFile: frontend/.scannerwork/report-task.txt
         timeout-minutes: 3
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
@@ -175,7 +179,6 @@ jobs:
       container_image_name: ${{ needs.setup-env-e2e-tests-frontend.outputs.container_image_name }}
       container_image_version: ${{ needs.setup-env-e2e-tests-frontend.outputs.container_image_version }}
     secrets: inherit
-
 
   ###############################
   # frontend create docker image and deploy on staging
