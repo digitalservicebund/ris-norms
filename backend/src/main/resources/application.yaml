@@ -6,6 +6,17 @@ spring:
     password: test
     driver-class-name: org.postgresql.Driver
 
+# expose health endpoint
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      enabled: true
+
 #logging:
 #  level:
 #    org.springframework: DEBUG
