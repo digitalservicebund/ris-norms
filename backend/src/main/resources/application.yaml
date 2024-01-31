@@ -1,0 +1,11 @@
+spring:
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/risnorms
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+
+#logging:
+#  level:
+#    org.springframework: DEBUG

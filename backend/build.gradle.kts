@@ -17,6 +17,7 @@ plugins {
     alias(libs.plugins.test.logger)
     alias(libs.plugins.versions)
     alias(libs.plugins.version.catalog.update)
+    alias(libs.plugins.flyway)
 }
 
 group = "de.bund.digitalservice"
@@ -42,7 +43,8 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.validation)
-    implementation(libs.postgres.driver)
+    implementation(libs.postgresql)
+    implementation(libs.flyway.core)
 
     compileOnly(libs.lombok)
 

@@ -4,11 +4,12 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseC
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/procedures")
+@RequestMapping("api/v1/norms/procedures")
 public class ProcedureController {
 
   private final LoadProcedureUseCase loadProcedureUseCase;
@@ -17,8 +18,8 @@ public class ProcedureController {
     this.loadProcedureUseCase = loadProcedureUseCase;
   }
 
-  @GetMapping
-  Procedure getProcedure(UUID uuid) {
+  @GetMapping(path = "/{uuid}")
+  Procedure getProcedure(@PathVariable final UUID uuid) {
     return loadProcedureUseCase.loadProcedure(new LoadProcedureUseCase.Query(uuid)).orElse(null);
   }
 }
