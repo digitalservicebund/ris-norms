@@ -193,9 +193,9 @@ jobs:
       id-token: write
     uses: ./.github/workflows/frontend-jobs.yml
     with:
-      container-registry: ${{ needs.print.outputs.container-registry }}
-      container-image-name: ${{ needs.print.outputs.container-image-name }}
-      container-image-version: ${{ needs.print.outputs.container-image-version }}
+      container-registry: ${{ needs.set-env-vars-as-output-variables.outputs.container-registry }}
+      container-image-name: ${{ needs.set-env-vars-as-output-variables.outputs.container-image-name }}
+      container-image-version: ${{ needs.set-env-vars-as-output-variables.outputs.container-image-version }}
     secrets: inherit
 
   ########################
