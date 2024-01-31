@@ -243,7 +243,7 @@ jobs:
         with:
           java-version: "21.0"
           distribution: "temurin"
-      - uses: gradle/gradle-build-action@e1ada08a9a43fad9770411d5dd099f25ece2569d
+      - uses: gradle/gradle-build-action@3b1b3b9a2104c2b47fbae53f3938079c00c9bb87
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
           arguments: build --profile -x integrationTest -x test
