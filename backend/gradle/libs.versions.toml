@@ -6,7 +6,7 @@ spring-boot = "3.2.2"
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
 lombok = { module = "org.projectlombok:lombok" }
-mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.9.0"
+mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.10.0"
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
