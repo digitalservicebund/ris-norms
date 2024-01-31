@@ -157,7 +157,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   e2e-tests-frontend:
-    needs: [frontend-create-docker-image, setup-env-e2e-tests-frontend]
+    needs: [frontend-create-docker-image]
     strategy:
       fail-fast: false
       matrix:
