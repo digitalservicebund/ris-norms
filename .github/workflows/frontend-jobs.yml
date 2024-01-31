@@ -167,9 +167,9 @@ jobs:
     with:
       browser: ${{ matrix.browser }}
       mode: ${{ matrix.mode }}
-      container_registry: ${{ inputs.container-registry }}
-      container_image_name: ${{ inputs.container-image-name }}
-      container_image_version: ${{ inputs.container-image-version }}
+      container-registry: ${{ inputs.container-registry }}
+      container-image-name: ${{ inputs.container-image-name }}
+      container-image-version: ${{ inputs.container-image-version }}
     secrets: inherit
 
   ###############################

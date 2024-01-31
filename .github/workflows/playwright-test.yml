@@ -1,13 +1,13 @@
 on:
   workflow_call:
     inputs:
-      container_registry:
+      container-registry:
         required: true
         type: string
-      container_image_name:
+      container-image-name:
         required: true
         type: string
-      container_image_version:
+      container-image-version:
         required: true
         type: string
       browser:
@@ -71,7 +71,7 @@ jobs:
         run: docker load -i /tmp/images/frontend-image.tar
 
       - name: Run Docker Container
-        run: docker run -d --name frontend-container -p 5173:8080 ${{ inputs.container_registry }}/${{ inputs.container_image_name }}/frontend:${{ inputs.container_image_version }}
+        run: docker run -d --name frontend-container -p 5173:8080 ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
 
       - name: Run ${{ inputs.mode }} tests in ${{ inputs.browser }}
 
