@@ -234,7 +234,7 @@ jobs:
       - name: Generate cosign vulnerability scan record
         uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
         with:
-          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
+          image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
           format: "cosign-vuln"
           output: "vuln-frontend.json"
       - name: Upload cosign vulnerability scan record
@@ -246,7 +246,7 @@ jobs:
       - name: Save image
         run: |
           mkdir /tmp/images
-          docker save -o /tmp/images/frontend-image.tar ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
+          docker save -o /tmp/images/frontend-image.tar ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
       - uses: actions/cache@v4
         with:
           path: /tmp/images
@@ -283,11 +283,11 @@ jobs:
       - name: Log into container registry
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
         with:
-          registry: ${{ env.CONTAINER_REGISTRY }}
+          registry: ${{ inputs.container-registry }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish frontend container image
-        run: docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
+        run: docker push ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
       - name: Install cosign
         uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149
       - name: Sign the published Docker image
@@ -295,13 +295,13 @@ jobs:
           COSIGN_EXPERIMENTAL: "true"
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
-        run: cosign sign --yes ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
+        run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
       - name: Download cosign vulnerability scan record
         uses: actions/download-artifact@v4
         with:
           name: "vuln-frontend.json"
       - name: Attest vulnerability scan
-        run: cosign attest --yes --replace --predicate vuln-frontend.json --type vuln ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
+        run: cosign attest --yes --replace --predicate vuln-frontend.json --type vuln ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
         env:
           COSIGN_EXPERIMENTAL: "true"
       - name: Send status to Slack
@@ -326,7 +326,7 @@ jobs:
         uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
         with:
           environment: staging
-          version: ${{ env.CONTAINER_IMAGE_VERSION }}
+          version: ${{ inputs.container-image-version }}
           deploying_repo: ris-norms/frontend
           infra_repo: ris-norms-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
