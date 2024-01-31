@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms;
+package de.bund.digitalservice.ris.norms.conventions;
 
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.simpleNameEndingWith;

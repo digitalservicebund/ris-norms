@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms;
+package de.bund.digitalservice.ris.norms.integration;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
