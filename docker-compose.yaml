@@ -1,8 +1,8 @@
 services:
-  postgres16:
-    image: postgres:16-alpine
+  postgres14:
+    image: postgres:14-alpine
     restart: always
-    container_name: postgres16
+    container_name: postgres14
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=pass

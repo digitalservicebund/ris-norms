@@ -18,7 +18,7 @@ abstract class BaseIntegrationTest {
 
   @Container
   static PostgreSQLContainer<?> postgreSQLContainer =
-      new PostgreSQLContainer<>("postgres:16")
+      new PostgreSQLContainer<>("postgres:14")
           .withExposedPorts(5432)
           .withDatabaseName("postgres")
           .withUsername("postgres")
