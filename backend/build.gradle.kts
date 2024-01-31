@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.validation)
+    implementation(libs.postgres.driver)
 
     compileOnly(libs.lombok)
 
@@ -53,6 +54,9 @@ dependencies {
     testImplementation(libs.spring.security.test)
     testImplementation(libs.archunit.junit5)
     testImplementation(libs.mockito.junit.jupiter)
+    testImplementation(libs.testcontainers.core)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testImplementation(libs.testcontainers.postgres)
 }
 
 tasks {

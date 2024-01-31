@@ -9,7 +9,7 @@ WORKDIR /backend
 COPY backend .
 RUN mkdir -p src/main/resources/static
 COPY --from=frontend /frontend/dist src/main/resources/static
-RUN gradle build -x test
+RUN ./gradlew build
 
 FROM cgr.dev/chainguard/jdk:latest
 COPY --from=backend /backend/target/backend-0.0.1-SNAPSHOT.jar ./app.jar
