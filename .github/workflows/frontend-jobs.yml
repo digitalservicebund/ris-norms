@@ -1,5 +1,15 @@
 on:
   workflow_call:
+    inputs:
+      container-registry: 
+        required: true
+        type: string
+      container-image-name:
+        required: true
+        type: string
+      container-image-version:
+        required: true
+        type: string
 
 jobs:
   check-style-frontend:
@@ -188,11 +198,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build docker image
-        run: docker build --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }} ./frontend
+        run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }} ./frontend
       - name: Run Trivy vulnerability image scanner
         uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
         with:
-          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}/frontend:${{ env.CONTAINER_IMAGE_VERSION }}
+          image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
           format: "sarif"
           output: "trivy-results.sarif"
       - name: Check trivy results

@@ -169,6 +169,10 @@ jobs:
       packages: write
       id-token: write
     uses: ./.github/workflows/frontend-jobs.yml
+    with:
+      container-registry: ${{ env.CONTAINER_REGISTRY }}
+      container-image-name: ${{ env.CONTAINER_IMAGE_NAME }}
+      container-image-version: ${{ env.CONTAINER_IMAGE_VERSION }}
     secrets: inherit
 
   ########################
