@@ -6,6 +6,9 @@ import de.bund.digitalservice.ris.norms.domain.value.ProcedureState;
 
 public class ProcedureMapper {
 
+  // Private constructor to hide the implicit public one and prevent instantiation
+  private ProcedureMapper() {}
+
   public static Procedure mapToDomain(final ProcedureDTO procedureDTO) {
 
     return new Procedure(

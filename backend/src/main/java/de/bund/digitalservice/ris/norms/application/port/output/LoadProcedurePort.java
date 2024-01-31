@@ -8,5 +8,5 @@ public interface LoadProcedurePort {
 
   Optional<Procedure> loadProcedureByUuid(final Command command);
 
-  record Command(UUID id) {}
+  record Command(UUID uuid) {}
 }

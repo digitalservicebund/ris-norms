@@ -8,5 +8,5 @@ public interface LoadProcedureUseCase {
 
   Optional<Procedure> loadProcedure(Query query);
 
-  record Query(UUID id) {}
+  record Query(UUID uuid) {}
 }

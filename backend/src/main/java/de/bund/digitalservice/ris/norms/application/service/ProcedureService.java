@@ -17,6 +17,6 @@ public class ProcedureService implements LoadProcedureUseCase {
 
   @Override
   public Optional<Procedure> loadProcedure(final Query query) {
-    return loadProcedurePort.loadProcedureByUuid(new LoadProcedurePort.Command(query.id()));
+    return loadProcedurePort.loadProcedureByUuid(new LoadProcedurePort.Command(query.uuid()));
   }
 }

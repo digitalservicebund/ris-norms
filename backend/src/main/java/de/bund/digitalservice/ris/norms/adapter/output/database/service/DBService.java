@@ -18,6 +18,6 @@ public class DBService implements LoadProcedurePort {
 
   @Override
   public Optional<Procedure> loadProcedureByUuid(Command command) {
-    return procedureRepository.findById(command.id()).map(ProcedureMapper::mapToDomain);
+    return procedureRepository.findById(command.uuid()).map(ProcedureMapper::mapToDomain);
   }
 }
