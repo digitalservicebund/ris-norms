@@ -162,29 +162,6 @@ jobs:
   # frontend jobs
   ########################
 
-  # env vars cannot be passed over to a reuseable workflow using "with"
-  # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations
-  # hence we use the "output" like in the recommended workaround
-  # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow
-  # Example taken from stackoverflow: https://stackoverflow.com/questions/73305126/passing-env-variable-inputs-to-a-reusable-workflow
-  set-env-vars-as-output-variables:
-    name: Set output variables to pass env variables to reuseable workflow
-    runs-on: ubuntu-latest
-    outputs:
-      container-registry: ${{ steps.print-step.outputs.container-registry }}
-      container-image-name: ${{ steps.print-step.outputs.container-image-name }}
-      container-image-version: ${{ steps.print-step.outputs.container-image-version }}
-    steps:
-      - name: Print env vars to $GITHUB_OUTPUT (fix for a missing feature)
-        id: print-step
-        run: |
-          echo "container-registry ${{ env.CONTAINER_REGISTRY }}"
-          echo "container-registry=${{ env.CONTAINER_REGISTRY }}" >> $GITHUB_OUTPUT
-          echo "container-image-name ${{ env.CONTAINER_IMAGE_NAME }}"
-          echo "container-image-name=${{ env.CONTAINER_IMAGE_NAME }}" >> $GITHUB_OUTPUT
-          echo "container-image-version ${{ env.CONTAINER_IMAGE_VERSION }}"
-          echo "container-image-version=${{ env.CONTAINER_IMAGE_VERSION }}" >> $GITHUB_OUTPUT
-
   frontend-jobs:
     permissions:
       contents: write # action-gh-release
@@ -193,10 +170,14 @@ jobs:
       id-token: write
     uses: ./.github/workflows/frontend-jobs.yml
     with:
-      example-variable: "my example variable's value"
-      container-registry: ${{ needs.set-env-vars-as-output-variables.outputs.container-registry }}
-      container-image-name: ${{ needs.set-env-vars-as-output-variables.outputs.container-image-name }}
-      container-image-version: ${{ needs.set-env-vars-as-output-variables.outputs.container-image-version }}
+      # It would be nicer if we used the env vars defined above (as not to duplicate information),
+      # however, env vars cannot be passed over to a reuseable workflow using "with"
+      # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations
+      # and the workaround is horrible
+      # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow     
+      container-registry: ghcr.io
+      container-image-name: ${{ github.repository }}
+      container-image-version: ${{ github.sha }}
     secrets: inherit
 
   ########################
