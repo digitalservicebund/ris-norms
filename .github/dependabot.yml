@@ -18,6 +18,22 @@ updates:
       - "dependencies"
       - "github-actions"
 
+  # backend
+  - package-ecosystem: "gradle"
+    directory: "/backend"
+    schedule:
+      interval: "daily"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    # Too much noise with patch releases...
+    ignore:
+      - dependency-name: "*"
+        update-types: [ "version-update:semver-patch" ]
+    open-pull-requests-limit: 9999
+    labels:
+      - "dependencies"
+      - "backend"
+
   # Time machine
   - package-ecosystem: "gradle"
     directory: "/time-machine"

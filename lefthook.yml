@@ -10,6 +10,10 @@ pre-commit:
       root: time-machine/
       run: ./gradlew spotlessApply -DspotlessFiles=$(echo {staged_files} | sed 's/ /,/g') && git add {staged_files}
 
+    check-format-backend:
+      root: backend/
+      run: ./gradlew spotlessApply -DspotlessFiles=$(echo {staged_files} | sed 's/ /,/g') && git add {staged_files}
+
     check-format-vscode-extension:
       root: vscode-extension/
       run: npm run --silent prettier:fix {staged_files} && git add {staged_files}
@@ -74,6 +78,10 @@ pre-push:
   commands:
     licences-audit-time-machine:
       root: time-machine/
+      run: ./gradlew checkLicense
+
+    licences-audit-backend:
+      root: backend/
       run: ./gradlew checkLicense
 
     licences-audit-vscode-extension:
