@@ -10,9 +10,6 @@ on:
       container-image-version:
         required: true
         type: string
-      example-variable:
-        required: true
-        type: string
 
 jobs:
   check-style-frontend:
