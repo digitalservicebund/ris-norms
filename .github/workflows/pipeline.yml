@@ -14,6 +14,8 @@ on:
   workflow_dispatch:
 
 env:
+  # Due to GitHub actions limitations, the frontend container handling
+  # does not make use of these variables but uses the same values
   CONTAINER_REGISTRY: ghcr.io
   CONTAINER_IMAGE_NAME: ${{ github.repository }}
   CONTAINER_IMAGE_VERSION: ${{ github.sha }}
@@ -174,7 +176,7 @@ jobs:
       # however, env vars cannot be passed over to a reuseable workflow using "with"
       # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations
       # and the workaround is horrible
-      # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow     
+      # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow
       container-registry: ghcr.io
       container-image-name: ${{ github.repository }}
       container-image-version: ${{ github.sha }}
