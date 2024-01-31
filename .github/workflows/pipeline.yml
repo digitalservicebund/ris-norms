@@ -13,13 +13,6 @@ on:
   # also: allow to run this workflow manually
   workflow_dispatch:
 
-env:
-  # Due to GitHub actions limitations, the frontend container handling
-  # does not make use of these variables but uses the same values
-  CONTAINER_REGISTRY: ghcr.io
-  CONTAINER_IMAGE_NAME: ${{ github.repository }}
-  CONTAINER_IMAGE_VERSION: ${{ github.sha }}
-
 jobs:
   #############################################
   # jobs dispatched to a separate workflow file
