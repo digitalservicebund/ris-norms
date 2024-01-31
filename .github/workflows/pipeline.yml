@@ -193,6 +193,7 @@ jobs:
       id-token: write
     uses: ./.github/workflows/frontend-jobs.yml
     with:
+      example-variable: "my example variable's value"
       container-registry: ${{ needs.set-env-vars-as-output-variables.outputs.container-registry }}
       container-image-name: ${{ needs.set-env-vars-as-output-variables.outputs.container-image-name }}
       container-image-version: ${{ needs.set-env-vars-as-output-variables.outputs.container-image-version }}
