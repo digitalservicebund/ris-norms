@@ -200,7 +200,7 @@ jobs:
       security-events: write
     steps:
       - name: Print example variable's
-        run: echo ${{ inputs.example-variable}}
+        run: echo "${{ inputs.example-variable}}"
       - uses: actions/checkout@v4
       - name: Build docker image
         run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }} ./frontend
