@@ -162,7 +162,7 @@ jobs:
   # frontend jobs
   ########################
 
-  # env vars cannot be passed over using "with"
+  # env vars cannot be passed over to a reuseable workflow using "with"
   # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations
   # hence we use the "output" like in the recommended workaround
   # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow
@@ -178,11 +178,11 @@ jobs:
       - name: Print env vars to $GITHUB_OUTPUT (fix for a missing feature)
         id: print-step
         run: |
-          echo:"container-registry ${{ env.CONTAINER_REGISTRY }}"
+          echo "container-registry ${{ env.CONTAINER_REGISTRY }}"
           echo "container-registry=${{ env.CONTAINER_REGISTRY }}" >> $GITHUB_OUTPUT
-          echo:"container-image-name ${{ env.CONTAINER_IMAGE_NAME }}"
+          echo "container-image-name ${{ env.CONTAINER_IMAGE_NAME }}"
           echo "container-image-name=${{ env.CONTAINER_IMAGE_NAME }}" >> $GITHUB_OUTPUT
-          echo:"container-image-version ${{ env.CONTAINER_IMAGE_VERSION }}"
+          echo "container-image-version ${{ env.CONTAINER_IMAGE_VERSION }}"
           echo "container-image-version=${{ env.CONTAINER_IMAGE_VERSION }}" >> $GITHUB_OUTPUT
 
   frontend-jobs:
