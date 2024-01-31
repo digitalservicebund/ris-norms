@@ -1,9 +1,5 @@
 name: Pipeline
 
-permissions:
-  contents: write # action-gh-release
-  security-events: write # upload-sarif
-
 on:
   # run on any branch receiving a push (not only on main)
   push:
@@ -24,10 +20,10 @@ jobs:
 
   frontend-jobs:
     permissions:
-      contents: write # action-gh-release
       security-events: write # upload-sarif
       packages: write
       id-token: write
+      contents: read
     uses: ./.github/workflows/frontend-jobs.yml
     with:
       # It would be nicer if we used the env vars defined above (as not to duplicate information),
@@ -56,6 +52,8 @@ jobs:
       - vscode-extension-jobs
       - trivy-scan
       - talisman-check
+    permissions:
+      contents: write # action-gh-release
     steps:
       # --> reading the release version
       - uses: actions/checkout@v4
@@ -176,6 +174,8 @@ jobs:
 
   trivy-scan:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write # upload-sarif
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -323,4 +323,3 @@ jobs:
   #        if: ${{ failure() && github.ref == 'refs/heads/main' }}
   #        with:
   #          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
