@@ -1,0 +1,148 @@
+on:
+  workflow_call:
+    # inputs:
+    #   container-registry:
+    #     required: true
+    #     type: string
+    #   container-image-name:
+    #     required: true
+    #     type: string
+    #   container-image-version:
+    #     required: true
+    #     type: string
+
+jobs: 
+  validate-gradle-wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@56b90f209b02bf6d1deae490e9ef18b21a389cd4
+
+  build-time-machine:
+    runs-on: ubuntu-latest
+    needs: [validate-gradle-wrapper]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17.0"
+          distribution: "temurin"
+      - name: Gradle install
+        uses: gradle/gradle-build-action@a8f75513eafdebd8141bd1cd4e30fcd194af8dfa
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION}}
+          arguments: install
+          build-root-directory: ./time-machine
+      - name: Upload 'install' # the release will pick this up, later
+        uses: actions/upload-artifact@v4
+        with:
+          name: time-machine-install
+          retention-days: 1
+          path: time-machine/build/install
+      - name: Send status to Slack
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  unit-tests-time-machine:
+    runs-on: ubuntu-latest
+    needs: [validate-gradle-wrapper]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get Gradle version
+        run: |
+          echo "GRADLE_VERSION=$(sed -n 's/.*gradle-\([0-9]*\(\.[0-9]*\)*\)-.*/\1/p' ./gradle/wrapper/gradle-wrapper.properties)" >> $GITHUB_ENV
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17.0"
+          distribution: "temurin"
+      - name: Gradle test (without integrationTest)
+        uses: gradle/gradle-build-action@a8f75513eafdebd8141bd1cd4e30fcd194af8dfa
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION}}
+          arguments: test -x integrationTest
+          build-root-directory: ./time-machine
+      - name: Send status to Slack
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  audit-licenses-time-machine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17.0"
+          distribution: "temurin"
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@a8f75513eafdebd8141bd1cd4e30fcd194af8dfa
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION}}
+          arguments: checkLicense
+          build-root-directory: ./time-machine
+      - name: Upload licence report
+        uses: actions/upload-artifact@v4
+        with:
+          name: time-machine-licence-report.csv
+          retention-days: 3
+          path: time-machine/build/reports/dependency-license/time-machine-licence-report.csv
+      - name: Send status to Slack
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() && github.ref == 'refs/heads/main'}}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  analyze-time-machine:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17.0"
+          distribution: "temurin"
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@a8f75513eafdebd8141bd1cd4e30fcd194af8dfa
+      - name: Scan with SonarQube
+        working-directory: ./time-machine
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonar --info
+      - name: Check SonarQube Quality Gate
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496
+        with:
+          scanMetadataReportFile: time-machine/build/sonar/report-task.txt
+        timeout-minutes: 3 # Force to fail step after specific time
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Send status to Slack
+        # Third-party action, pin to commit SHA!
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
