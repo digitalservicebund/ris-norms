@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,19 +24,28 @@ import lombok.Setter;
 public class ProcedureDTO {
   @Id @GeneratedValue private UUID id;
 
-  @NotNull @Column private String state;
-
-  @NotNull @Column private String eli;
-
-  @Column(name = "print_announcement_gazette")
   @NotNull
+  @Size(max = 50)
+  @Column
+  private String state;
+
+  @NotNull
+  @Size(max = 255)
+  @Column
+  private String eli;
+
+  @NotNull
+  @Size(max = 10)
+  @Column(name = "print_announcement_gazette")
   private String printAnnouncementGazette;
 
-  @Column(name = "print_announcement_year")
   @NotNull
+  @Size(max = 4)
+  @Column(name = "print_announcement_year")
   private String printAnnouncementYear;
 
-  @Column(name = "print_announcement_page")
   @NotNull
+  @Size(max = 5)
+  @Column(name = "print_announcement_page")
   private String printAnnouncementPage;
 }

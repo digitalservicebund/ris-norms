@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 class LoadProcedureQueryTest {
@@ -10,12 +9,12 @@ class LoadProcedureQueryTest {
   @Test
   void canCreateQueryWithUUID() {
     // Given
-    final UUID guid = UUID.randomUUID();
+    final String eli = "someEli";
 
     // When
-    final LoadProcedureUseCase.Query query = new LoadProcedureUseCase.Query(guid);
+    final LoadProcedureUseCase.Query query = new LoadProcedureUseCase.Query(eli);
 
     // Then
-    assertThat(query.uuid()).isEqualTo(guid);
+    assertThat(query.eli()).isEqualTo(eli);
   }
 }

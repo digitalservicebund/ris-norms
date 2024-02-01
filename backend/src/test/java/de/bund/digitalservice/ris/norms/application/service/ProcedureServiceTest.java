@@ -12,8 +12,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseC
 import de.bund.digitalservice.ris.norms.application.port.output.LoadProcedurePort;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import de.bund.digitalservice.ris.norms.domain.value.ProcedureState;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 class ProcedureServiceTest {
@@ -21,27 +21,27 @@ class ProcedureServiceTest {
   @Test
   void itCallsLoadProcedureByUuidUsingInputQueryUuid() {
     // Given
-    final UUID guid = UUID.randomUUID();
+    final String eli = "someEli";
     final LoadProcedurePort loadProcedureAdapter = mock(LoadProcedurePort.class);
     final ProcedureService service = new ProcedureService(loadProcedureAdapter);
-    final LoadProcedureUseCase.Query query = new LoadProcedureUseCase.Query(guid);
-    when(loadProcedureAdapter.loadProcedureByUuid(any())).thenReturn(Optional.empty());
+    final LoadProcedureUseCase.Query query = new LoadProcedureUseCase.Query(eli);
+    when(loadProcedureAdapter.loadProcedureByEli(any())).thenReturn(Optional.empty());
 
     // When
     service.loadProcedure(query);
 
     // Then
     verify(loadProcedureAdapter, times(1))
-        .loadProcedureByUuid(argThat(argument -> argument.uuid() == guid));
+        .loadProcedureByEli(argThat(argument -> Objects.equals(argument.eli(), eli)));
   }
 
   @Test
   void canLoadProcedureByUuidIfAdapterFindsOne() {
     // Given
-    final UUID guid = UUID.randomUUID();
+    final String eli = "someEli";
     final LoadProcedurePort loadProcedureAdapter = mock(LoadProcedurePort.class);
     final ProcedureService service = new ProcedureService(loadProcedureAdapter);
-    final LoadProcedureUseCase.Query query = new LoadProcedureUseCase.Query(guid);
+    final LoadProcedureUseCase.Query query = new LoadProcedureUseCase.Query(eli);
     final Procedure procedure =
         Procedure.builder()
             .state(ProcedureState.OPEN)
@@ -50,7 +50,7 @@ class ProcedureServiceTest {
             .printAnnouncementYear("2024")
             .printAnnouncementPage("page123")
             .build();
-    when(loadProcedureAdapter.loadProcedureByUuid(any())).thenReturn(Optional.of(procedure));
+    when(loadProcedureAdapter.loadProcedureByEli(any())).thenReturn(Optional.of(procedure));
 
     // When
     final Optional<Procedure> procedureLoaded = service.loadProcedure(query);
@@ -62,11 +62,11 @@ class ProcedureServiceTest {
   @Test
   void canNotLoadProcedureByUuidIfAdapterDoesNotFindOne() {
     // Given
-    final UUID guid = UUID.randomUUID();
+    final String eli = "someEli";
     final LoadProcedurePort loadProcedureAdapter = mock(LoadProcedurePort.class);
     final ProcedureService service = new ProcedureService(loadProcedureAdapter);
-    final LoadProcedureUseCase.Query query = new LoadProcedureUseCase.Query(guid);
-    when(loadProcedureAdapter.loadProcedureByUuid(any())).thenReturn(Optional.empty());
+    final LoadProcedureUseCase.Query query = new LoadProcedureUseCase.Query(eli);
+    when(loadProcedureAdapter.loadProcedureByEli(any())).thenReturn(Optional.empty());
 
     // When
     final Optional<Procedure> procedureLoaded = service.loadProcedure(query);

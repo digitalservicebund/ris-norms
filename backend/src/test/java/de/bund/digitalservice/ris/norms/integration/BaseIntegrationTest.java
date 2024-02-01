@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @AutoConfigureMockMvc
 @Testcontainers(disabledWithoutDocker = true)
 @Tag("integration")
-abstract class BaseIntegrationTest {
+public abstract class BaseIntegrationTest {
 
   @Container
   static PostgreSQLContainer<?> postgreSQLContainer =

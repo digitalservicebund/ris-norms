@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseC
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import de.bund.digitalservice.ris.norms.domain.value.ProcedureState;
 import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,25 +29,24 @@ class ProcedureControllerTest {
   @Test
   void itCallsProcedureServiceWithUuidFromQuery() throws Exception {
     // Given
-    final UUID guid = UUID.randomUUID();
+    final String eli = "eli/bgbl-1/1953/s225";
     when(loadProcedureUseCase.loadProcedure(any())).thenReturn(Optional.empty());
 
     // When
-    mockMvc.perform(get("/api/v1/norms/procedures/{guid}", guid));
+    mockMvc.perform(get("/api/v1/norms/procedures/{eli}", eli));
 
     // Then
-    verify(loadProcedureUseCase, times(1))
-        .loadProcedure(argThat(query -> query.uuid().equals(guid)));
+    verify(loadProcedureUseCase, times(1)).loadProcedure(argThat(query -> query.eli().equals(eli)));
   }
 
   @Test
   void itCallsProcedureServiceAndReturnsProcedure() throws Exception {
     // Given
-    final UUID guid = UUID.randomUUID();
+    final String eli = "eli/bgbl-1/1953/s225";
     final Procedure procedure =
         Procedure.builder()
             .state(ProcedureState.OPEN)
-            .eli("someEli")
+            .eli(eli)
             .printAnnouncementGazette("someGazette")
             .printAnnouncementYear("2024")
             .printAnnouncementPage("page123")
@@ -57,10 +55,10 @@ class ProcedureControllerTest {
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/norms/procedures/{guid}", guid))
+        .perform(get("/api/v1/norms/procedures/{eli}", eli))
         .andExpect(status().isOk())
         .andExpect(jsonPath("state").value(equalTo("OPEN")))
-        .andExpect(jsonPath("eli").value(equalTo("someEli")))
+        .andExpect(jsonPath("eli").value(equalTo("eli/bgbl-1/1953/s225")))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo("someGazette")))
         .andExpect(jsonPath("printAnnouncementYear").value(equalTo("2024")))
         .andExpect(jsonPath("printAnnouncementPage").value(equalTo("page123")));
@@ -69,22 +67,22 @@ class ProcedureControllerTest {
   @Test
   void itCallsProcedureServiceAndReturnsNotFound() throws Exception {
     // Given
-    final UUID guid = UUID.randomUUID();
+    final String eli = "eli/bgbl-1/1953/s225";
     when(loadProcedureUseCase.loadProcedure(any())).thenReturn(Optional.empty());
 
     // When // Then
-    mockMvc.perform(get("/api/v1/norms/procedures/{guid}", guid)).andExpect(status().isNotFound());
+    mockMvc.perform(get("/api/v1/norms/procedures/{eli}", eli)).andExpect(status().isNotFound());
   }
 
   @Test
   void itCallsProcedureServiceAndReturnsInternalError() throws Exception {
     // Given
-    final UUID guid = UUID.randomUUID();
+    final String eli = "eli/bgbl-1/1953/s225";
     when(loadProcedureUseCase.loadProcedure(any())).thenThrow(new Error());
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/norms/procedures/{guid}", guid))
+        .perform(get("/api/v1/norms/procedures/{eli}", eli))
         .andExpect(status().is5xxServerError());
   }
 }
