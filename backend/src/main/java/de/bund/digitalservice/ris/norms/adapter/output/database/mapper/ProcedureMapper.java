@@ -18,4 +18,14 @@ public class ProcedureMapper {
         procedureDTO.getPrintAnnouncementYear(),
         procedureDTO.getPrintAnnouncementPage());
   }
+
+  public static ProcedureDTO mapToDto(final Procedure procedure) {
+    return ProcedureDTO.builder()
+        .state(procedure.getState().name())
+        .eli(procedure.getEli())
+        .printAnnouncementGazette(procedure.getPrintAnnouncementGazette())
+        .printAnnouncementYear(procedure.getPrintAnnouncementYear())
+        .printAnnouncementPage(procedure.getPrintAnnouncementPage())
+        .build();
+  }
 }
