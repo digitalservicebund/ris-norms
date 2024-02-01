@@ -34,7 +34,7 @@ class ProcedureControllerTest {
     when(loadProcedureUseCase.loadProcedure(any())).thenReturn(Optional.empty());
 
     // When
-    mockMvc.perform(get("/api/v1/norms/procedures/{guid}", guid)).andExpect(status().isOk());
+    mockMvc.perform(get("/api/v1/norms/procedures/{guid}", guid));
 
     // Then
     verify(loadProcedureUseCase, times(1))
@@ -64,5 +64,27 @@ class ProcedureControllerTest {
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo("someGazette")))
         .andExpect(jsonPath("printAnnouncementYear").value(equalTo("2024")))
         .andExpect(jsonPath("printAnnouncementPage").value(equalTo("page123")));
+  }
+
+  @Test
+  void itCallsProcedureServiceAndReturnsNotFound() throws Exception {
+    // Given
+    final UUID guid = UUID.randomUUID();
+    when(loadProcedureUseCase.loadProcedure(any())).thenReturn(Optional.empty());
+
+    // When // Then
+    mockMvc.perform(get("/api/v1/norms/procedures/{guid}", guid)).andExpect(status().isNotFound());
+  }
+
+  @Test
+  void itCallsProcedureServiceAndReturnsInternalError() throws Exception {
+    // Given
+    final UUID guid = UUID.randomUUID();
+    when(loadProcedureUseCase.loadProcedure(any())).thenThrow(new Error());
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/norms/procedures/{guid}", guid))
+        .andExpect(status().is5xxServerError());
   }
 }

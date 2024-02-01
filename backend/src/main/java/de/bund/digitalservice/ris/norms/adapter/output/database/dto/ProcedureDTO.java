@@ -27,9 +27,15 @@ public class ProcedureDTO {
 
   @NotNull @Column private String eli;
 
-  @NotNull @Column private String printAnnouncementGazette;
+  @Column(name = "print_announcement_gazette")
+  @NotNull
+  private String printAnnouncementGazette;
 
-  @NotNull @Column private String printAnnouncementYear;
+  @Column(name = "print_announcement_year")
+  @NotNull
+  private String printAnnouncementYear;
 
-  @NotNull @Column private String printAnnouncementPage;
+  @Column(name = "print_announcement_page")
+  @NotNull
+  private String printAnnouncementPage;
 }

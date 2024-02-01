@@ -1,8 +1,11 @@
-package de.bund.digitalservice.ris.norms.adapter.input.restapi;
+package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProcedureResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
+import java.util.Optional;
 import java.util.UUID;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,12 @@ public class ProcedureController {
   }
 
   @GetMapping(path = "/{uuid}")
-  Procedure getProcedure(@PathVariable final UUID uuid) {
-    return loadProcedureUseCase.loadProcedure(new LoadProcedureUseCase.Query(uuid)).orElse(null);
+  ResponseEntity<ProcedureResponseSchema> getProcedure(@PathVariable final UUID uuid) {
+    final Optional<Procedure> optionalProcedure =
+        loadProcedureUseCase.loadProcedure(new LoadProcedureUseCase.Query(uuid));
+    return optionalProcedure
+        .map(ProcedureResponseSchema::fromUseCaseData)
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 }
