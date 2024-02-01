@@ -1,4 +1,4 @@
-FROM node:21.4.0 as frontend
+FROM node:20 as frontend
 WORKDIR /frontend
 COPY frontend .
 RUN npm ci
@@ -9,11 +9,9 @@ WORKDIR /backend
 COPY backend .
 RUN mkdir -p src/main/resources/static
 COPY --from=frontend /frontend/dist src/main/resources/static
-RUN ./gradlew build
+RUN ./gradlew build --profile -x integrationTest -x test -x spotlessMisc
 
-FROM cgr.dev/chainguard/jdk:latest
-COPY --from=backend /backend/target/backend-0.0.1-SNAPSHOT.jar ./app.jar
+FROM cgr.dev/chainguard/jre@sha256:58565c5cab3a63ff2b84592e1c544418a0ee9d2fa8129f5076a8e3acf7366b01
+COPY --from=backend /backend/build/libs/ris-norms-backend-*.jar /app/app.jar
 EXPOSE 8080
-RUN adduser -D user
-USER user
-CMD [ "sh", "-c", "java -Dserver.port=$PORT -Djava.security.egd=file:/dev/./urandom -jar app.jar" ]
+ENTRYPOINT ["java","-jar","/app/app.jar"]
