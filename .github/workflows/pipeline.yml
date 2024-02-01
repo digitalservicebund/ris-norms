@@ -3,7 +3,7 @@ name: Pipeline
 on:
   # run on any branch receiving a push (not only on main)
   push:
-  # also: every morning at 8am
+  # also: every morning at 7am (winter) or 8am (summer)
   schedule:
     - cron: "0 6 * * *"
   # also: allow to run this workflow manually
