@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.adapter.input.restapi;
+package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
