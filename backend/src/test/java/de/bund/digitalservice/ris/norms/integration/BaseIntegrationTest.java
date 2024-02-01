@@ -35,6 +35,5 @@ public abstract class BaseIntegrationTest {
             String.format(
                 "jdbc:postgresql://localhost:%d/%s",
                 postgreSQLContainer.getFirstMappedPort(), postgreSQLContainer.getDatabaseName()));
-    ;
   }
 }
