@@ -1,4 +1,10 @@
 services:
+  webapp:
+    image: ris-norms-app:001
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
+    ports:
+      - 8080:8080
   postgres14:
     image: postgres:14-alpine
     restart: always
