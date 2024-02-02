@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/vue"
 import { describe, expect, test, vi } from "vitest"
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 import RisNavbarSideLayout from "./RisNavbarSideLayout.vue"
+import { createPinia } from "pinia"
 
 vi.mock("@/components/controls/RisNavbarSide.vue", () => {
   return {
@@ -30,9 +31,11 @@ const router = createRouter({
 
 describe("YourLayoutComponent", () => {
   test("renders mocked components", async () => {
+    const pinia = createPinia()
+
     render(RisNavbarSideLayout, {
       global: {
-        plugins: [router],
+        plugins: [router, pinia],
       },
     })
 
