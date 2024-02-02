@@ -35,6 +35,7 @@ export default defineConfig({
 
         // Tests
         "test/**/*",
+        "e2e/**/*",
 
         // App content we're not interested in covering with unit tests. If you
         // add something here, please also add a comment explaining why the
