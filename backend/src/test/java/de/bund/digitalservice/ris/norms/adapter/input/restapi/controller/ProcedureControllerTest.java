@@ -7,24 +7,37 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import de.bund.digitalservice.ris.norms.domain.value.ProcedureState;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
+/**
+ * Not using SpringBootTest annotation to avoid needing a database connection. Therefore, manually
+ * setting up the {@code mockMvc} including the ControllerAdvice
+ */
+@ExtendWith(SpringExtension.class)
 class ProcedureControllerTest {
 
-  @Autowired private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
   @MockBean private LoadProcedureUseCase loadProcedureUseCase;
+
+  @BeforeEach
+  public void setUp() {
+    mockMvc =
+        MockMvcBuilders.standaloneSetup(new ProcedureController(loadProcedureUseCase))
+            .setControllerAdvice(new InternalErrorExceptionHandler())
+            .build();
+  }
 
   @Test
   void itCallsProcedureServiceWithUuidFromQuery() throws Exception {
@@ -78,7 +91,8 @@ class ProcedureControllerTest {
   void itCallsProcedureServiceAndReturnsInternalError() throws Exception {
     // Given
     final String eli = "eli/bgbl-1/1953/s225";
-    when(loadProcedureUseCase.loadProcedure(any())).thenThrow(new Error());
+    when(loadProcedureUseCase.loadProcedure(any()))
+        .thenThrow(new RuntimeException("simulating internal server error"));
 
     // When // Then
     mockMvc
