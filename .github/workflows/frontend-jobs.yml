@@ -271,6 +271,7 @@ jobs:
       - analyze-frontend
       - audit-licenses-frontend
       - frontend-create-docker-image
+      - e2e-tests-frontend
     steps:
       - uses: actions/cache@v4
         with:
