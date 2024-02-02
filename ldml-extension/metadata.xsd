@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://DS.Metadaten.LegalDocML.de/1.6/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://DS.Metadaten.LegalDocML.de/1.6/"
+           version="LegalDocML.de 1.6 (Dezember 2023)">
+<!-- ********************************* Hinweis zur Lizensierung ********************************* -->
+   <xs:annotation>
+      <xs:appinfo>
+         <copyright-hinweis>2024 DigitalService GmbH des Bundes</copyright-hinweis>
+         <lizenz url="https://opensource.org/license/mit/"
+                 kurzbezeichnung="MIT"
+                 langbezeichnung=""/>
+         <autor organisation="DigitalService GmbH des Bundes"
+                referat=""
+                organisatorischer-rahmen=""/>
+      </xs:appinfo>
+   </xs:annotation>
+   <!-- ******************************************************************************************** -->
+   <xs:element name="legalDocML.de_metadaten_ds">
+      <xs:complexType>
+         <xs:all>
+            <xs:element name="risAbk" type="xs:string" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>Die RIS-Abkürzung ist die systemeigene, menschenlesbare Abkürzung eines Normenkomplexes, die für die Dokumentation, 
+                     insbesondere bei der Bearbeitung von Referenzierungsrubriken verwendet wird. Sie wird intellektuell nach einem abgestimmten Regelwerk 
+                     (Konventionen) gebildet.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="keywords" type="keywords" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>Schlagwörter auf Rahmenebene</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="einzelelemente" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>Umfasst die einzelnen Elemente des Rechtsetzungsdokuments und seiner Teildokumente.</xs:documentation>
+               </xs:annotation>
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="einzelelement" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                           <xs:documentation>Metaangaben zu Einzelelementen</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                           <xs:all>
+                              <xs:element name="initiant" type="institution" minOccurs="0">
+                                 <xs:annotation>
+                                    <xs:documentation>Institution, welche die erste Fassung des Rechtsetzungsdokuments und seiner Teildokumente erstellt hat (z. B.
+                                             Bundesregierung, Bundestag usw.). Dieses Metadatum ist nur in der Entwurfsfassung relevant; in der Verkündungsfassung ist das
+                                             Literal "nicht-vorhanden" zu nutzen.</xs:documentation>
+                                 </xs:annotation>
+                              </xs:element>
+                              <xs:element name="bearbeitendeInstitution" type="institution" minOccurs="0">
+                                 <xs:annotation>
+                                    <xs:documentation>Institution, welche die vorliegende Fassung des Rechtsetzungsdokuments und seiner Teildokumente bearbeitet (z. B.
+                                             Bundesregierung, Bundestag usw.). Dieses Metadatum ist nur in der Entwurfsfassung relevant; in der Verkündungsfassung ist das
+                                             Literal "nicht-vorhanden" zu nutzen.</xs:documentation>
+                                 </xs:annotation>
+                              </xs:element>
+                              <xs:element name="artDerNorm" type="artDerNorm" minOccurs="0">
+                                 <xs:annotation>
+                                    <xs:documentation>Art der Norm</xs:documentation>
+                                 </xs:annotation>
+                              </xs:element>
+                              <xs:element name="keywords" type="keywords" minOccurs="0">
+                                 <xs:annotation>
+                                    <xs:documentation>Schlagwörter auf Einzelelementebene</xs:documentation>
+                                 </xs:annotation>
+                              </xs:element>
+                           </xs:all>
+                           <xs:attribute name="href" type="xs:string" use="required"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+               <xs:unique name="definitions-input-unique">
+                  <xs:selector xpath="einzelelement"/>
+                  <xs:field xpath="@href"/>
+               </xs:unique>
+            </xs:element>
+         </xs:all>
+      </xs:complexType>
+   </xs:element>
+   <xs:simpleType name="artDerNorm" final="restriction">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="SN"/>
+         <xs:enumeration value="ÄN"/>
+         <xs:enumeration value="ÜN"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="institution" final="restriction">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="bundesregierung"/>
+         <xs:enumeration value="bundestag"/>
+         <xs:enumeration value="bundesrat"/>
+         <xs:enumeration value="bundespräsident"/>
+         <xs:enumeration value="bundeskanzler"/>
+         <xs:enumeration value="nicht-vorhanden"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:complexType name="keywords">
+      <xs:sequence>
+         <xs:element name="keyword" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Schlagwort</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

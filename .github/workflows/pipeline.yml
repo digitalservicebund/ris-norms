@@ -52,6 +52,10 @@ jobs:
   vscode-extension-jobs:
     uses: ./.github/workflows/vscode-extension-jobs.yml
     secrets: inherit # e.g. sonar token
+  
+  ldml-extension-jobs:
+    uses: ./.github/workflows/ldml-extension-jobs.yml
+    secrets: inherit # e.g. sonar token
 
   ###############################
   # build release from artifacts

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema">
+    <import namespace="http://Metadaten.LegalDocML.de/1.6/" schemaLocation="../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd"/>
+    <import namespace="http://Inhaltsdaten.LegalDocML.de/1.6/" schemaLocation="../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd"/>
+    <import namespace="http://DS.Metadaten.LegalDocML.de/1.6/" schemaLocation="../metadata.xsd" />
+</schema>
