@@ -4,7 +4,7 @@
 | frontend         | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-frontend) |
 | backend          | [![Quality Gate Status Backend](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-backend)
 | time-machine     | [![Quality Gate time-machine](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-time-machine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-time-machine) |
-| vscode-extension | [![Quality Gate Status VSCode Extension](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-vscode-extension&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-vscode-extension)
+| vscode-extension | [![Quality Gate Status VSCode Extension](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-vscode-extension&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-vscode-extension) |
 
 
 # RIS Norms
@@ -17,9 +17,9 @@ The name "RIS Norms" refers to
 
 # Structure of the Repository
 This is a mono-repository containing several software products. Right now, there are four of them:
-* [`./frontend`](./frontend/): The main browser-based entry point for users of _RIS-norms_
-* [`./frontend`](./frontend/): The backend service with a REST HTTP API and taking care of the data management.
-* [`./time-machine`](./time-machine/): A command line tool for applying LDML_de change commands to existing laws
+* [`./frontend`](./frontend): The main browser-based entry point for users of _RIS-norms_
+* [`./frontend`](./backend): The backend service
+* [`./time-machine`](./time-machine): A command line tool for applying LDML_de change commands to existing laws
 * [`./vscode-extension`](./vscode-extension): A VSCode extension supporting workflows on LDML_de change commands
 
 Each product has its own `README.md` with more details.
