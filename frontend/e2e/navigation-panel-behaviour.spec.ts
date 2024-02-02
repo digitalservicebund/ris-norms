@@ -10,8 +10,8 @@ test("navigate and verify navigation panel behavior", async ({ page }) => {
     const expectedHeading = `${procedure.printAnnouncementGazette} ${procedure.printAnnouncementYear} Nr. ${procedure.printAnnouncementNumber}`
     await expect(page.locator(".ds-heading-03-reg")).toHaveText(expectedHeading)
 
-    const searchString = `${procedure.fna}`
-    await expect(page.locator(`text=${searchString}`)).toBeVisible()
+    const expectedFna = `${procedure.fna}`
+    await expect(page.locator(`text=${expectedFna}`)).toBeVisible()
 
     const articleOverviewMenuClass = await page
       .locator('a.router-link-active:has-text("Artikelübersicht")')
