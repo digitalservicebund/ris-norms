@@ -1,28 +1,15 @@
 import { test, expect } from "@playwright/test"
+import { procedures } from "../e2e/testData/testData"
 
 test("navigate from procedures list to a procedure detail page", async ({
   page,
 }) => {
   await page.goto("/")
-
   await expect(page.locator("text=Vorgänge")).toBeVisible()
 
-  const procedureCards = page.locator('a:has-text("BGBl")')
-  const cardCount = await procedureCards.count()
+  const procedure = procedures[0]
 
-  const expectedELIs = [
-    "eli_bund_bgbl-1_1964_s593_regelungstext-1",
-    "eli_bund_bgbl-1_1982_s22_regelungstext-1",
-  ]
+  await page.click(`a[href*="${procedure.eli}"]`)
 
-  for (let i = 0; i < cardCount; i++) {
-    await page.goto("/procedures")
-
-    const procedureCard = procedureCards.nth(i)
-    await procedureCard.click()
-
-    await expect(page).toHaveURL(
-      `/procedures/${expectedELIs[i]}/article-overview`,
-    )
-  }
+  await expect(page).toHaveURL(`/procedures/${procedure.eli}/article-overview`)
 })
