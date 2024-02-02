@@ -8,6 +8,7 @@ __Security note: Do not forget to run the `lefthook` setup below, including the 
 
 Information on the modules can be found in their respective folder's README files:
 * [`./frontend/README.md`](./frontend/README.md)
+* [`./backend/README.md`](./backend/README.md)
 * [`./time-machine/README.md`](./time-machine/README.md)
 * [`./vscode-extension/README.md`](./vscode-extension/README.md)
 
@@ -18,7 +19,7 @@ Information on the modules can be found in their respective folder's README file
 [Architecture decisions](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 are kept in the `docs/adr` directory.
 
-For adding new records install the 
+For adding new records install the
 * [`adr-tools`](https://github.com/npryce/adr-tools) package (e.g. via [`brew`](https://formulae.brew.sh/formula/adr-tools))
 
 
@@ -34,11 +35,11 @@ The repository contains Git hooks which support
 * preventing accidentally pushing secrets and sensitive information
 
 ### Git Hooks Setup
-In order to make use of the repository's Git hooks, 
-* [`Lefthook`](https://github.com/evilmartians/lefthook) 
+In order to make use of the repository's Git hooks,
+* [`Lefthook`](https://github.com/evilmartians/lefthook)
 
-needs to be installed, which, in turn, makes use of the following CLI tools: 
-* [`talisman`](https://thoughtworks.github.io/talisman/docs) - scans for secrets 
+needs to be installed, which, in turn, makes use of the following CLI tools:
+* [`talisman`](https://thoughtworks.github.io/talisman/docs) - scans for secrets
 * [`gh`](https://github.com/cli/cli) - check CI status (optional)
 
 Once these tools are available, install the hooks via
@@ -46,3 +47,8 @@ Once these tools are available, install the hooks via
 ```bash
 lefthook install
 ```
+
+## Slack notifications
+
+Opt in to CI posting notifications for failing jobs to a particular Slack channel by setting a repository secret
+with the name `SLACK_WEBHOOK_URL`, containing a url for [Incoming Webhooks](https://api.slack.com/messaging/webhooks).
