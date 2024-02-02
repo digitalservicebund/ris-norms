@@ -1,6 +1,6 @@
 # 4. Use Java 21
 
-Date: 2024-29-01
+Date: 2024-01-29
 
 ## Status
 
@@ -19,6 +19,6 @@ motivated by the combination of LTS stability and the exciting new features intr
 
 ## Consequences
 
-- **Feature Enhancements:** To mention some, JDK 21 introduces String templates and finalizes record patterns and pattern matching for switch statements, which can positively impact the development and performance of our backend service.
+- **Feature Enhancements:** To mention few, JDK 21 introduces String templates and finalizes record patterns and pattern matching for switch statements, which can positively impact the development and performance of our backend service.
 - **Performance Improvements:** As an LTS release, JDK 21 comes with optimizations that can lead to improved runtime performance and resource utilization, ensuring the long-term efficiency of our application.
 - **Security Updates:** Staying up-to-date with the latest JDK LTS version ensures that our application benefits from ongoing security patches and enhancements, reducing the risk of vulnerabilities.
