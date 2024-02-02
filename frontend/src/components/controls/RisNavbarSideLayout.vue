@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { RouterView } from "vue-router"
+import { RouterView, useRoute } from "vue-router"
 import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
 import RisUnitInfoPanel from "@/components/controls/RisUnitInfoPanel.vue"
-import { computed } from "vue"
+import { useProceduresStore } from "@/store/loadProcedureStore"
+import { computed, onMounted } from "vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -23,20 +24,39 @@ const menuItems: LevelOneMenuItem[] = [
   },
 ]
 
-const propertyInfos = computed(() => [
-  {
-    label: "FNA",
-    value: "703-13",
-  },
-])
+const route = useRoute()
+const eli = computed(() => route.params.id?.toString())
+
+const proceduresStore = useProceduresStore()
+const procedure = computed(() => proceduresStore.getProcedureByEli(eli.value))
+
+onMounted(() => {
+  proceduresStore.loadProcedures()
+})
+
+const heading = computed(() => {
+  if (procedure.value) {
+    return `${procedure.value.printAnnouncementGazette} ${procedure.value.printAnnouncementYear} Nr. ${procedure.value.printAnnouncementNumber}`
+  }
+  return ""
+})
+
+const propertyInfos = computed(() => {
+  if (procedure.value) {
+    return [
+      {
+        label: "FNA",
+        value: procedure.value.fna,
+      },
+    ]
+  }
+  return []
+})
 </script>
 
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100">
-    <RisUnitInfoPanel
-      heading="BGBl I 1964 Nr. 7"
-      :property-infos="propertyInfos"
-    />
+    <RisUnitInfoPanel :heading="heading" :property-infos="propertyInfos" />
     <div class="flex">
       <RisNavbarSide
         class="min-h-screen flex-none border-r border-gray-400 bg-white"

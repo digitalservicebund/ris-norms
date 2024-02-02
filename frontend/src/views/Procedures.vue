@@ -1,26 +1,15 @@
 <script setup lang="ts">
-import { ref } from "vue"
 import { RouterLink } from "vue-router"
 import RisProcedureCard from "@/components/RisProcedureCard.vue"
+import { computed, onMounted } from "vue"
+import { useProceduresStore } from "@/store/loadProcedureStore"
 
-const procedures = ref([
-  {
-    eli: "eli_bund_bgbl-1_1964_s593_regelungstext-1",
-    printAnnouncementGazette: "BGBl I",
-    printAnnouncementYear: 1964,
-    printAnnouncementNumber: 7,
-    printAnnouncementPage: 593,
-    publicationDate: new Date("2023-03-12"),
-  },
-  {
-    eli: "eli_bund_bgbl-1_1982_s22_regelungstext-1",
-    printAnnouncementGazette: "BGBl II",
-    printAnnouncementYear: 1982,
-    printAnnouncementNumber: 3,
-    printAnnouncementPage: 22,
-    publicationDate: new Date("2024-01-01"),
-  },
-])
+const proceduresStore = useProceduresStore()
+const procedures = computed(() => proceduresStore.procedures)
+
+onMounted(() => {
+  proceduresStore.loadProcedures()
+})
 </script>
 
 <template>
