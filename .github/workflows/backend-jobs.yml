@@ -10,6 +10,7 @@ jobs:
         uses: gradle/wrapper-validation-action@27152f6fa06a6b8062ef7195c795692e51fc2c81
 
   backend-build:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +40,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   backend-unit-tests:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -63,6 +65,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   backend-integration-tests:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
