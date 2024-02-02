@@ -1,21 +1,24 @@
-| Module | Status |
-| ----- | ----- |
-| All modules | [![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml) |
-| frontend | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-frontend) |
-| time-machine | [![Quality Gate time-machine](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-time-machine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-time-machine) |
+| Module           | Status |
+|------------------| ----- |
+| All modules      | [![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml) |
+| frontend         | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-frontend) |
+| backend          | [![Quality Gate Status Backend](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-backend)
+| time-machine     | [![Quality Gate time-machine](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-time-machine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-time-machine) |
 | vscode-extension | [![Quality Gate Status VSCode Extension](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-vscode-extension&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-vscode-extension)
+
 
 # RIS Norms
 
 This repository contains tools for supporting the Federal Documentation of Statutes (DE: ["Normendokumentation"](https://www.bundesjustizamt.de/DE/Themen/Rechtsetzung/Normendokumentation/Normendokumentation_node.html)) in their task of keeping the documentation of federal norms up-to-date through amendments (DE: "Fortschreibung").
 
-The name "RIS Norms" refers to 
+The name "RIS Norms" refers to
 * "RIS", which is the German acronym for "Information system on the law" (DE: "Rechtsinformationssystem")
 * "Norms", which makes explicit that within RIS, we're explicitly dealing with federal laws and similar documents (and not, for example, with court verdicts)
 
 # Structure of the Repository
-This is a mono-repository containing several software products. Right now, there's three of them:
-* [`./frontend`](./frontend/): The main browser-based entry point for users of _RIS-norms_ 
+This is a mono-repository containing several software products. Right now, there are four of them:
+* [`./frontend`](./frontend/): The main browser-based entry point for users of _RIS-norms_
+* [`./frontend`](./frontend/): The backend service with a REST HTTP API and taking care of the data management.
 * [`./time-machine`](./time-machine/): A command line tool for applying LDML_de change commands to existing laws
 * [`./vscode-extension`](./vscode-extension): A VSCode extension supporting workflows on LDML_de change commands
 
