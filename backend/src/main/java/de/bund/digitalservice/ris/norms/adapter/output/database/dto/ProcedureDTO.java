@@ -14,6 +14,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Data Transfer Object (DTO) class representing a procedure entity. This class is annotated with
+ * Lombok annotations for generating getters, setters, constructors, and builder methods.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

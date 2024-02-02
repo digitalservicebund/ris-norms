@@ -18,6 +18,7 @@ plugins {
     alias(libs.plugins.versions)
     alias(libs.plugins.version.catalog.update)
     alias(libs.plugins.flyway)
+    id("checkstyle")
 }
 
 group = "de.bund.digitalservice"
@@ -181,4 +182,12 @@ licenseReport {
     allowedLicensesFile = File("$projectDir/../allowed-licenses.json")
     renderers = arrayOf<ReportRenderer>(CsvReportRenderer("backend-licence-report.csv"))
     filters = arrayOf<DependencyFilter>(LicenseBundleNormalizer(null, true))
+}
+
+checkstyle {
+    configFile = rootProject.file("javadocs_checkstyle.xml")
+}
+
+tasks.named("checkstyleTest").configure {
+    enabled = false
 }

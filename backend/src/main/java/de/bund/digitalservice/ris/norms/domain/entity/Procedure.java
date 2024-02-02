@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * Represents a procedure entity with various attributes. This class is annotated with Lombok
+ * annotations for generating builders, getters, toString, and constructors.
+ */
 @SuperBuilder(toBuilder = true)
 @ToString(callSuper = true)
 @Getter

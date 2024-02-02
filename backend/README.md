@@ -85,3 +85,14 @@ is being added with a yet unknown license the build is going to fail.
 ```bash
 ./gradlew checkLicense
 ```
+
+## Javadoc comments check
+
+We aim to write Javadoc comments to at least all public classes and methods. To fulfill this goal we use checkstyle,
+which is integrated not only into gradle but into lefthook (pre-commit)
+
+**To run a check locally:**
+
+```bash
+./gradlew check
+```
