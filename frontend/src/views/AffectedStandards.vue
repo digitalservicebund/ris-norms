@@ -4,7 +4,9 @@ import { useRoute } from "vue-router"
 import RisInfoModal from "@/components/RisInfoModal.vue"
 
 const route = useRoute()
-const eli = computed(() => route.params.id?.toString().replace(/_/g, "/") || "")
+const eli = computed(() =>
+  decodeURIComponent(route.params.id?.toString() || ""),
+)
 </script>
 
 <template>

@@ -19,7 +19,7 @@ onMounted(() => {
       <RouterLink
         v-for="procedure in procedures"
         :key="procedure.eli"
-        :to="`/procedures/${procedure.eli}`"
+        :to="`/procedures/${encodeURIComponent(procedure.eli)}`"
         class="block"
       >
         <RisProcedureCard

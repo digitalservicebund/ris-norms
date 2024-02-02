@@ -25,7 +25,7 @@ const menuItems: LevelOneMenuItem[] = [
 ]
 
 const route = useRoute()
-const eli = computed(() => route.params.id?.toString())
+const eli = computed(() => decodeURIComponent(route.params.id?.toString()))
 
 const proceduresStore = useProceduresStore()
 const procedure = computed(() => proceduresStore.getProcedureByEli(eli.value))

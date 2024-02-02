@@ -5,7 +5,9 @@ test("navigate and verify navigation panel behavior", async ({ page }) => {
   for (const procedure of procedures) {
     await page.goto("/")
 
-    await page.click(`a[href*="${procedure.eli}"]`)
+    const encodedEli = encodeURIComponent(procedure.eli)
+
+    await page.click(`a[href*="${encodedEli}"]`)
 
     const expectedHeading = `${procedure.printAnnouncementGazette} ${procedure.printAnnouncementYear} Nr. ${procedure.printAnnouncementNumber}`
     await expect(page.locator(".ds-heading-03-reg")).toHaveText(expectedHeading)
@@ -27,9 +29,7 @@ test("navigate and verify navigation panel behavior", async ({ page }) => {
     await expect(checkTimeLimitsButton).toBeVisible()
 
     await page.click("text=Betroffene Normenkomplexe")
-    await expect(page).toHaveURL(
-      `/procedures/${procedure.eli}/affected-standards`,
-    )
+    await expect(page).toHaveURL(`/procedures/${encodedEli}/affected-standards`)
 
     const editMetadataButton = page.locator('text="Metadaten editieren"')
     await expect(editMetadataButton).toBeVisible()
@@ -42,9 +42,7 @@ test("navigate and verify navigation panel behavior", async ({ page }) => {
     expect(affectedStandardsIsActive).toBeTruthy()
 
     await page.click("text=Artikelübersicht")
-    await expect(page).toHaveURL(
-      `/procedures/${procedure.eli}/article-overview`,
-    )
+    await expect(page).toHaveURL(`/procedures/${encodedEli}/article-overview`)
 
     await page.click("text=Zurück")
     await expect(page).toHaveURL("/procedures")

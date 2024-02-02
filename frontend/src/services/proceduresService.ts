@@ -11,7 +11,7 @@ export interface Procedure {
 export function getProcedures(): Procedure[] {
   return [
     {
-      eli: "eli_bund_bgbl-1_1964_s593_regelungstext-1",
+      eli: "eli/bund/bgbl-1/1964/s593/regelungstext-1",
       printAnnouncementGazette: "BGBl I",
       printAnnouncementYear: 1964,
       printAnnouncementNumber: 7,
@@ -20,7 +20,7 @@ export function getProcedures(): Procedure[] {
       fna: "711-1-1",
     },
     {
-      eli: "eli_bund_bgbl-1_1982_s22_regelungstext-1",
+      eli: "eli/bund/bgbl-1/1982/s22/regelungstext-1",
       printAnnouncementGazette: "BGBl II",
       printAnnouncementYear: 1982,
       printAnnouncementNumber: 3,
