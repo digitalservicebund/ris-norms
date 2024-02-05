@@ -16,8 +16,7 @@ const routes = [
       },
       {
         path: ":id",
-        component: () =>
-          import("./components/controls/RisNavbarSideLayout.vue"),
+        component: () => import("@/views/Procedure.vue"),
         children: [
           {
             path: "",
