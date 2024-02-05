@@ -5,6 +5,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
     ports:
       - 8080:8080
+    depends_on:
+      - postgres14
   postgres14:
     image: postgres:14-alpine
     restart: always
