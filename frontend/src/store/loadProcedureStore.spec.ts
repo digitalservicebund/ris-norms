@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from "vitest"
 import { setActivePinia, createPinia } from "pinia"
 import { useProceduresStore } from "@/store/loadProcedureStore"
 import { getProcedures } from "@/services/proceduresService"
-import { Procedure } from "e2e/testData/testData"
+import { Procedure } from "@e2e/testData/testData"
 
 vi.mock("@/services/proceduresService", () => ({
   getProcedures: vi.fn(),
@@ -34,12 +34,12 @@ describe("useProceduresStore", () => {
         fna: "111-2-333",
       },
     ]
-    vi.mocked(getProcedures).mockReturnValue(mockProcedures)
+    vi.mocked(getProcedures).mockResolvedValue(mockProcedures)
   })
 
   it("loads procedures correctly", async () => {
     const store = useProceduresStore()
-    store.loadProcedures()
+    await store.loadProcedures()
 
     expect(getProcedures).toHaveBeenCalledOnce()
     expect(store.procedures).toEqual(mockProcedures)

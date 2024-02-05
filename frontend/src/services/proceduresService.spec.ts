@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest"
 import { getProcedures } from "./proceduresService"
 
 describe("getProcedures", () => {
-  it("returns an array of procedures with the correct structure", () => {
-    const procedures = getProcedures()
+  it("returns an array of procedures with the correct structure", async () => {
+    const procedures = await getProcedures()
 
     const expectedStructure = {
       eli: "string",

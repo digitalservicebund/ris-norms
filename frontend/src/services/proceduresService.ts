@@ -8,7 +8,7 @@ export interface Procedure {
   fna: string
 }
 
-export function getProcedures(): Procedure[] {
+export async function getProcedures(): Promise<Procedure[]> {
   return [
     {
       eli: "eli/bund/bgbl-1/1964/s593/regelungstext-1",

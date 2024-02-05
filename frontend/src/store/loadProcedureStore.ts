@@ -5,8 +5,8 @@ import { getProcedures, Procedure } from "@/services/proceduresService"
 export const useProceduresStore = defineStore("procedures", () => {
   const procedures = ref<Procedure[]>([])
 
-  function loadProcedures() {
-    procedures.value = getProcedures()
+  async function loadProcedures() {
+    procedures.value = await getProcedures()
   }
 
   function getProcedureByEli(eli: string) {
