@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import { useRoute } from "vue-router"
-import RisInfoModal from "@/components/RisInfoModal.vue"
+import RisInfoModal from "@/components/controls/RisInfoModal.vue"
 
 const route = useRoute()
 const eli = computed(() =>

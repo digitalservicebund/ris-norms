@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router"
-import RisProcedureCard from "@/components/RisProcedureCard.vue"
+import RisProcedureCard from "@/components/procedures/RisProcedureCard.vue"
 import { computed, onMounted } from "vue"
 import { useProceduresStore } from "@/store/loadProcedureStore"
 

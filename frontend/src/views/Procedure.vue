@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { RouterView, useRoute } from "vue-router"
-import RisNavbarSide, {
-  LevelOneMenuItem,
-} from "@/components/controls/RisNavbarSide.vue"
+import RisNavbarSide, { LevelOneMenuItem } from "@/components/RisNavbarSide.vue"
 import RisUnitInfoPanel from "@/components/controls/RisUnitInfoPanel.vue"
 import { useProceduresStore } from "@/store/loadProcedureStore"
 import { computed, onMounted } from "vue"

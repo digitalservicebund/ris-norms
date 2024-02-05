@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RisInfoModal from "@/components/RisInfoModal.vue"
+import RisInfoModal from "@/components/controls/RisInfoModal.vue"
 </script>
 
 <template>
