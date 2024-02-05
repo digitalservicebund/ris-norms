@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test"
-import { procedures } from "../e2e/testData/testData"
+import { procedures } from "@e2e/testData/testData"
 
 test("navigate from procedures list to a procedure detail page", async ({
   page,
