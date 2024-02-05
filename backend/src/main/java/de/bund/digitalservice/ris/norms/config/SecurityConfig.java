@@ -27,7 +27,13 @@ public class SecurityConfig {
     http.authorizeHttpRequests(
         authorize ->
             authorize
-                .requestMatchers("/.well-known/security.txt", "/actuator/health", "/api/**")
+                .requestMatchers(
+                    "/.well-known/security.txt",
+                    "/actuator/health",
+                    "/api/**",
+                    "/index.html",
+                    "/",
+                    "/assets/**")
                 .permitAll()
                 .anyRequest()
                 .denyAll());
