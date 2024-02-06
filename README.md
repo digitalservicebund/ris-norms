@@ -18,7 +18,7 @@ The name "RIS Norms" refers to
 # Structure of the Repository
 This is a mono-repository containing several software products. Right now, there are four of them:
 * [`./frontend`](./frontend): The main browser-based entry point for users of _RIS-norms_
-* [`./frontend`](./backend): The backend service
+* [`./backend`](./backend): The backend service
 * [`./time-machine`](./time-machine): A command line tool for applying LDML_de change commands to existing laws
 * [`./vscode-extension`](./vscode-extension): A VSCode extension supporting workflows on LDML_de change commands
 
