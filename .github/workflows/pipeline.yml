@@ -22,6 +22,8 @@ jobs:
     permissions:
       security-events: write # upload-sarif
       packages: write
+      id-token: write
+      contents: read
     uses: ./.github/workflows/backend-jobs.yml
     with:
       container-registry: ghcr.io
