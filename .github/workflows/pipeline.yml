@@ -19,7 +19,14 @@ jobs:
     secrets: inherit # e.g. sonar token
 
   backend-jobs:
+    permissions:
+      security-events: write # upload-sarif
+      packages: write
     uses: ./.github/workflows/backend-jobs.yml
+    with:
+      container-registry: ghcr.io
+      container-image-name: ${{ github.repository }}
+      container-image-version: ${{ github.sha }}
     secrets: inherit # e.g. sonar token
 
   frontend-jobs:
