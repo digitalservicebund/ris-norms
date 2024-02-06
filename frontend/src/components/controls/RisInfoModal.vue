@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import EditOutlineIcon from "~icons/ic/outline-edit"
-import RisTextButton from "@/components/RisTextButton.vue"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
 
 const props = withDefaults(
   defineProps<{
