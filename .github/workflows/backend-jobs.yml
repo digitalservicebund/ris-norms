@@ -1,5 +1,15 @@
 on:
   workflow_call:
+    inputs:
+      container-registry:
+        required: true
+        type: string
+      container-image-name:
+        required: true
+        type: string
+      container-image-version:
+        required: true
+        type: string
 
 jobs:
   validate-gradle-wrapper:
