@@ -154,3 +154,114 @@ jobs:
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  backend-create-docker-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Print example variable's
+        run: echo "${{ inputs.example-variable}}"
+      - uses: actions/checkout@v4
+      - name: Build docker image
+        run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }} -f DockerfileApp .
+      - name: Run Trivy vulnerability image scanner
+        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
+        with:
+          image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
+          format: "sarif"
+          output: "trivy-results.sarif"
+      - name: Check trivy results
+        run: |
+          if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
+            echo "Vulnerabilities found"
+            exit 1
+          else
+            echo "No significant vulnerabilities found"
+            exit 0
+          fi
+      - name: Upload Trivy image scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
+        with:
+          sarif_file: "trivy-results.sarif"
+          category: trivy-image-scan
+      - name: Generate cosign vulnerability scan record
+        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
+        with:
+          image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
+          format: "cosign-vuln"
+          output: "vuln-backend.json"
+      - name: Upload cosign vulnerability scan record
+        uses: actions/upload-artifact@v4
+        with:
+          name: "vuln-backend.json"
+          path: "vuln-backend.json"
+          if-no-files-found: error
+      - name: Save image
+        run: |
+          mkdir /tmp/images
+          docker save -o /tmp/images/backend-image.tar ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
+      - uses: actions/cache@v4
+        with:
+          path: /tmp/images
+          key: docker-backend-images-cache-${{ github.run_id }}
+          restore-keys: docker-backend-images-cache-${{ github.run_id }}
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  backend-push-docker-image:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    permissions:
+      contents: read
+      id-token: write # This is used to complete the identity challenge with sigstore/fulcio..
+      packages: write
+    needs:
+      - backend-unit-tests
+      - backend-integration-tests
+      - audit-licenses-backend
+      - analyze-backend
+      - backend-create-docker-image
+    steps:
+      - uses: actions/cache@v4
+        with:
+          path: /tmp/images
+          key: docker-backend-images-cache-${{ github.run_id }}
+          restore-keys: docker-images-cache-${{ github.run_id }}
+      - name: load image
+        shell: bash
+        run: docker load -i /tmp/images/backend-image.tar
+      - name: Log into container registry
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
+        with:
+          registry: ${{ inputs.container-registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish backend container image
+        run: docker push ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
+      - name: Install cosign
+        uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4
+      - name: Sign the published Docker image
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
+      - name: Download cosign vulnerability scan record
+        uses: actions/download-artifact@v4
+        with:
+          name: "vuln-backend.json"
+      - name: Attest vulnerability scan
+        run: cosign attest --yes --replace --predicate vuln-backend.json --type vuln ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
