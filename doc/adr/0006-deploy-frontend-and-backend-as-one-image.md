@@ -1,4 +1,4 @@
-# 4. Deploy Frontend and Backend as one image
+# 6. Deploy Frontend and Backend as one image
 
 Date: 2024-29-01
 
