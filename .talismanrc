@@ -11,4 +11,4 @@ fileignoreconfig:
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
     checksum: cb94437b91ff42fb62b393d77e8d86551ec2de7fa26b2c119cf03fcb69dc7383
   - filename: DockerfileApp
-    checksum: 4fb811514d7d6a186290551c6a8bf148930032ec8c3fac86dc56e2303e0ba214
+    checksum: fc6ae9754e92920bbcb7f0167afc9f971c1b17f8fd2df268a69f7cff6db33c72

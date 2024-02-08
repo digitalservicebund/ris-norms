@@ -1,0 +1,19 @@
+http:
+  routers:
+    backend:
+      rule: "PathPrefix(`/api`) || PathPrefix(`/actuator`)"
+      service: backend
+    frontend:
+      rule: "PathPrefix(`/`)"
+      service: frontend
+
+  services:
+    backend:
+      loadBalancer:
+        servers:
+          - url: "http://backend:8080"
+
+    frontend:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:8080"

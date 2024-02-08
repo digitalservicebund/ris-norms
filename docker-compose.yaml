@@ -1,12 +1,35 @@
 services:
-  webapp:
-    image: ris-norms-app:001
+  traefik:
+    image: traefik:v2.9
+    container_name: traefik
+    volumes:
+      - ./traefik.yaml:/etc/traefik/config.yml:ro
+    command:
+      - "--api.dashboard=false"
+      - "--providers.file.filename=/etc/traefik/config.yml"
+    ports:
+      - 80:80
+
+  backend:
+    build:
+      context: ./
+      dockerfile: DockerfileApp
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
     ports:
-      - 8080:8080
+      - :8080
     depends_on:
       - postgres14
+      - traefik
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - :8080
+    depends_on:
+      - traefik
+
   postgres14:
     image: postgres:14-alpine
     restart: always
