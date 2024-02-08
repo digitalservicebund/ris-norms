@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadProcedurePor
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import de.bund.digitalservice.ris.norms.domain.value.ProcedureState;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -58,5 +59,37 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // Then
     assertThat(procedureLoaded).isNotPresent();
+  }
+
+  @Test
+  void itLoadsAllProceduresFromDB() {
+    // Given
+    final Procedure procedure1 =
+        Procedure.builder()
+            .state(ProcedureState.OPEN)
+            .eli("eli/bgbl-1/2024/123")
+            .printAnnouncementGazette("bgbl-1")
+            .printAnnouncementYear("2024")
+            .printAnnouncementPage("123")
+            .build();
+    final Procedure procedure2 =
+        Procedure.builder()
+            .state(ProcedureState.OPEN)
+            .eli("eli/bgbl-2/2025/456")
+            .printAnnouncementGazette("bgbl-2")
+            .printAnnouncementYear("2025")
+            .printAnnouncementPage("456")
+            .build();
+    procedureRepository.saveAll(
+        List.of(ProcedureMapper.mapToDto(procedure1), ProcedureMapper.mapToDto(procedure2)));
+
+    // When
+    List<Procedure> proceduresLoaded = dbService.loadAllProcedures();
+
+    // Then
+    assertThat(proceduresLoaded).hasSize(2);
+    assertThat(proceduresLoaded)
+        .extracting(Procedure::getEli)
+        .containsExactlyInAnyOrder(procedure1.getEli(), procedure2.getEli());
   }
 }
