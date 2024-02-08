@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Proce
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import de.bund.digitalservice.ris.norms.domain.value.ProcedureState;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,37 @@ class ProcedureControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo("bgbl-1")))
         .andExpect(jsonPath("printAnnouncementYear").value(equalTo("2024")))
         .andExpect(jsonPath("printAnnouncementPage").value(equalTo("123")));
+  }
+
+  @Test
+  void itLoadsAllProceduresAndReturnsSuccessfully() throws Exception {
+    // Given
+    final Procedure procedure1 =
+        Procedure.builder()
+            .state(ProcedureState.OPEN)
+            .eli("eli/bgbl-1/2024/123")
+            .printAnnouncementGazette("bgbl-1")
+            .printAnnouncementYear("2024")
+            .printAnnouncementPage("123")
+            .build();
+    final Procedure procedure2 =
+        Procedure.builder()
+            .state(ProcedureState.OPEN)
+            .eli("eli/bgbl-2/2025/456")
+            .printAnnouncementGazette("bgbl-2")
+            .printAnnouncementYear("2025")
+            .printAnnouncementPage("456")
+            .build();
+    procedureRepository.saveAll(
+        List.of(ProcedureMapper.mapToDto(procedure1), ProcedureMapper.mapToDto(procedure2)));
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/norms/procedures"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[1]").exists())
+        .andExpect(jsonPath("$[2]").doesNotExist())
+        .andExpect(jsonPath("$[0].eli", equalTo(procedure1.getEli())))
+        .andExpect(jsonPath("$[1].eli", equalTo(procedure2.getEli())));
   }
 }

@@ -1,9 +1,12 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProcedureResponseSchema;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAllProceduresUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProcedureController {
 
   private final LoadProcedureUseCase loadProcedureUseCase;
+  private final LoadAllProceduresUseCase loadAllProceduresUseCase;
 
-  public ProcedureController(LoadProcedureUseCase loadProcedureUseCase) {
+  /**
+   * Creates a {@code ProcedureController} instance with necessary dependencies.
+   *
+   * @param loadProcedureUseCase the use case for loading a single procedure
+   * @param loadAllProceduresUseCase the use case for loading all procedures
+   */
+  public ProcedureController(
+      LoadProcedureUseCase loadProcedureUseCase,
+      LoadAllProceduresUseCase loadAllProceduresUseCase) {
     this.loadProcedureUseCase = loadProcedureUseCase;
+    this.loadAllProceduresUseCase = loadAllProceduresUseCase;
   }
 
   /**
@@ -54,5 +67,15 @@ public class ProcedureController {
         .map(ProcedureResponseSchema::fromUseCaseData)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  @GetMapping
+  public ResponseEntity<List<ProcedureResponseSchema>> getAllProcedures() {
+    List<Procedure> procedures = loadAllProceduresUseCase.loadAllProcedures();
+    List<ProcedureResponseSchema> responseSchemas =
+        procedures.stream()
+            .map(ProcedureResponseSchema::fromUseCaseData)
+            .collect(Collectors.toList());
+    return ResponseEntity.ok(responseSchemas);
   }
 }

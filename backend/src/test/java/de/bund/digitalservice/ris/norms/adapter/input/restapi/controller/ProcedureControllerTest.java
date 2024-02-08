@@ -8,9 +8,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAllProceduresUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import de.bund.digitalservice.ris.norms.domain.value.ProcedureState;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,11 +32,13 @@ class ProcedureControllerTest {
   private MockMvc mockMvc;
 
   @MockBean private LoadProcedureUseCase loadProcedureUseCase;
+  @MockBean private LoadAllProceduresUseCase loadAllProceduresUseCase;
 
   @BeforeEach
   public void setUp() {
     mockMvc =
-        MockMvcBuilders.standaloneSetup(new ProcedureController(loadProcedureUseCase))
+        MockMvcBuilders.standaloneSetup(
+                new ProcedureController(loadProcedureUseCase, loadAllProceduresUseCase))
             .setControllerAdvice(new InternalErrorExceptionHandler())
             .build();
   }
@@ -98,5 +102,39 @@ class ProcedureControllerTest {
     mockMvc
         .perform(get("/api/v1/norms/procedures/{eli}", eli))
         .andExpect(status().is5xxServerError());
+  }
+
+  @Test
+  void itLoadsAllProceduresAndReturnsSuccessfully() throws Exception {
+    // Given
+    List<Procedure> allProcedures =
+        List.of(
+            Procedure.builder()
+                .state(ProcedureState.OPEN)
+                .eli("eli1")
+                .printAnnouncementGazette("Gazette1")
+                .printAnnouncementYear("2021")
+                .printAnnouncementPage("1")
+                .build(),
+            Procedure.builder()
+                .state(ProcedureState.OPEN)
+                .eli("eli2")
+                .printAnnouncementGazette("Gazette2")
+                .printAnnouncementYear("2022")
+                .printAnnouncementPage("2")
+                .build());
+
+    when(loadAllProceduresUseCase.loadAllProcedures()).thenReturn(allProcedures);
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/norms/procedures"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[1]").exists())
+        .andExpect(jsonPath("$[2]").doesNotExist())
+        .andExpect(jsonPath("$[0].state", equalTo("OPEN")))
+        .andExpect(jsonPath("$[0].eli", equalTo("eli1")))
+        .andExpect(jsonPath("$[1].state", equalTo("OPEN")))
+        .andExpect(jsonPath("$[1].eli", equalTo("eli2")));
   }
 }
