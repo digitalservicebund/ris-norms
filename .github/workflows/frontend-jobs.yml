@@ -188,7 +188,7 @@ jobs:
       - name: Build docker image
         run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }} ./frontend
       - name: Run Trivy vulnerability image scanner
-        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
+        uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
           format: "sarif"
@@ -209,7 +209,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-image-scan
       - name: Run Trivy vulnerability file scanner
-        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
+        uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef
         with:
           scan-type: "fs"
           scan-ref: "./frontend"
@@ -232,7 +232,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-fs-scan
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca
+        uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
           format: "cosign-vuln"
