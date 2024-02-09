@@ -113,6 +113,47 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
+
+  ######################
+  # Deploy new versions
+  ######################
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    concurrency: deploy-staging
+    environment: staging
+    needs:
+      - frontend-jobs
+      - backend-jobs
+    permissions:
+      id-token: write # Enable OIDC for gitsign
+    steps:
+      - uses: chainguard-dev/actions/setup-gitsign@ac42db4c9c2e2bd9f66aadf3290c5995891d91a3
+      - name: Deploy new images
+        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        with:
+          environment: staging
+          version: ${{ github.sha }}
+          deploying_repo: ris-norms/frontend,ris-norms/backend
+          infra_repo: ris-norms-infra
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          app: ris-norms-staging
+          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER }}
+      - name: Track deploy
+        uses: digitalservicebund/github-actions/track-deployment@b51920b9fdeeb0c8721c210853aee955bd7cefc0
+        with:
+          project: ris-norms
+          environment: staging
+          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
   ########################
   # system test jobs
   ########################
