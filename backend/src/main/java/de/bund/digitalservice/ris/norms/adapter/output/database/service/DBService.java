@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ProcedureMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ProcedureRepository;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAllProceduresPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAllUnclosedProceduresPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadProcedurePort;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * context.
  */
 @Service
-public class DBService implements LoadProcedurePort, LoadAllProceduresPort {
+public class DBService implements LoadProcedurePort, LoadAllUnclosedProceduresPort {
 
   private final ProcedureRepository procedureRepository;
 
@@ -31,8 +31,8 @@ public class DBService implements LoadProcedurePort, LoadAllProceduresPort {
   }
 
   @Override
-  public List<Procedure> loadAllProcedures() {
-    return procedureRepository.findAll().stream()
+  public List<Procedure> loadAllUnclosedProcedures() {
+    return procedureRepository.findAllUnclosedProcedures().stream()
         .map(ProcedureMapper::mapToDomain)
         .collect(Collectors.toList());
   }

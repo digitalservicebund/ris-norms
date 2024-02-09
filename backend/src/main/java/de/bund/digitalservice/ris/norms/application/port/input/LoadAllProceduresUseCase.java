@@ -15,5 +15,5 @@ public interface LoadAllProceduresUseCase {
    * @return A {@link List} of {@link Procedure} objects, which may be empty if no procedures are
    *     found.
    */
-  List<Procedure> loadAllProcedures();
+  List<Procedure> loadAllUnclosedProcedures();
 }

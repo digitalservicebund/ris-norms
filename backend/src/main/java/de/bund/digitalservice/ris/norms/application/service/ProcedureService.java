@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllProceduresUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAllProceduresPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAllUnclosedProceduresPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadProcedurePort;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import java.util.List;
@@ -18,18 +18,19 @@ import org.springframework.stereotype.Service;
 public class ProcedureService implements LoadProcedureUseCase, LoadAllProceduresUseCase {
 
   private final LoadProcedurePort loadProcedurePort;
-  private final LoadAllProceduresPort loadAllProceduresPort;
+  private final LoadAllUnclosedProceduresPort loadAllUnclosedProceduresPort;
 
   /**
    * Constructs a new {@link ProcedureService} instance.
    *
    * @param loadProcedurePort The port for loading individual procedures.
-   * @param loadAllProceduresPort The port for loading all procedures.
+   * @param loadAllUnclosedProceduresPort The port for loading all procedures.
    */
   public ProcedureService(
-      LoadProcedurePort loadProcedurePort, LoadAllProceduresPort loadAllProceduresPort) {
+      LoadProcedurePort loadProcedurePort,
+      LoadAllUnclosedProceduresPort loadAllUnclosedProceduresPort) {
     this.loadProcedurePort = loadProcedurePort;
-    this.loadAllProceduresPort = loadAllProceduresPort;
+    this.loadAllUnclosedProceduresPort = loadAllUnclosedProceduresPort;
   }
 
   /** {@inheritDoc} */
@@ -39,7 +40,7 @@ public class ProcedureService implements LoadProcedureUseCase, LoadAllProcedures
   }
 
   @Override
-  public List<Procedure> loadAllProcedures() {
-    return loadAllProceduresPort.loadAllProcedures();
+  public List<Procedure> loadAllUnclosedProcedures() {
+    return loadAllUnclosedProceduresPort.loadAllUnclosedProcedures();
   }
 }

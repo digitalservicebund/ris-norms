@@ -70,8 +70,8 @@ public class ProcedureController {
   }
 
   @GetMapping
-  public ResponseEntity<List<ProcedureResponseSchema>> getAllProcedures() {
-    List<Procedure> procedures = loadAllProceduresUseCase.loadAllProcedures();
+  public ResponseEntity<List<ProcedureResponseSchema>> getAllUnclosedProcedures() {
+    List<Procedure> procedures = loadAllProceduresUseCase.loadAllUnclosedProcedures();
     List<ProcedureResponseSchema> responseSchemas =
         procedures.stream()
             .map(ProcedureResponseSchema::fromUseCaseData)

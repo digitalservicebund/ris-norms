@@ -124,7 +124,7 @@ class ProcedureControllerTest {
                 .printAnnouncementPage("2")
                 .build());
 
-    when(loadAllProceduresUseCase.loadAllProcedures()).thenReturn(allProcedures);
+    when(loadAllProceduresUseCase.loadAllUnclosedProcedures()).thenReturn(allProcedures);
 
     // When // Then
     mockMvc

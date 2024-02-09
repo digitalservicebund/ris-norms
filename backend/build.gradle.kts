@@ -60,6 +60,7 @@ dependencies {
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgres)
+    testImplementation("com.h2database:h2:2.2.224")
 }
 
 tasks {

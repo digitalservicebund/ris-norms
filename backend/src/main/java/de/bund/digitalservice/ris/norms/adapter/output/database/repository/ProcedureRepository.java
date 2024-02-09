@@ -1,9 +1,11 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ProcedureDTO;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,4 +24,7 @@ public interface ProcedureRepository extends JpaRepository<ProcedureDTO, UUID> {
    *     not found.
    */
   Optional<ProcedureDTO> findByEli(final String eli);
+
+  @Query("SELECT p FROM ProcedureDTO p WHERE p.state = 'OPEN' or p.state = 'PROGRESS'")
+  List<ProcedureDTO> findAllUnclosedProcedures();
 }
