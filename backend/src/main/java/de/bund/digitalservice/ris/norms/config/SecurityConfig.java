@@ -30,6 +30,8 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/.well-known/security.txt",
                     "/actuator/health",
+                    "/actuator/health/readiness",
+                    "/actuator/health/liveness",
                     "/api/**",
                     "/index.html",
                     "/",

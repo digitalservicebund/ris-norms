@@ -16,6 +16,16 @@ management:
   endpoint:
     health:
       enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState,db
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
 
 #logging:
 #  level:
