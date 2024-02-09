@@ -82,7 +82,7 @@
     "eslint-config-prettier": "~9.1.0",
     "glob": "~10.3.3",
     "license-checker": "~25.0.1",
-    "mocha": "~10.2.0",
+    "mocha": "~10.3.0",
     "prettier": "~3.2.4",
     "sinon": "~17.0.1",
     "typescript": "~5.3.3"
