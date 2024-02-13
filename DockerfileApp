@@ -1,7 +1,7 @@
 FROM node:20.10.0 as frontend
 WORKDIR /frontend
 COPY frontend .
-RUN npm ci
+RUN npm install
 RUN npm run-script build
 
 FROM gradle:8.5-jdk21 as backend
@@ -13,5 +13,6 @@ RUN ./gradlew build --profile -x integrationTest -x test -x spotlessMisc
 
 FROM cgr.dev/chainguard/jre@sha256:58565c5cab3a63ff2b84592e1c544418a0ee9d2fa8129f5076a8e3acf7366b01
 COPY --from=backend /backend/build/libs/ris-norms-backend-*.jar /app/app.jar
+ENV spring.cloud.bootstrap.enabled=true
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app/app.jar"]
