@@ -1,9 +1,9 @@
 spring:
   # Database Configuration
   datasource:
-    url: jdbc:postgresql://localhost:5432/risnorms
-    username: test
-    password: test
+    url: jdbc:postgresql://${database.host:localhost}:${database.port:5432}/${database.database:risnorms}
+    username: ${database.username:test}
+    password: ${database.password:test}
     driver-class-name: org.postgresql.Driver
 
 # expose health endpoint
