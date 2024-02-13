@@ -93,10 +93,6 @@
     },
     {
       "moduleLicense": null,
-      "moduleName": "org.jetbrains.kotlin:kotlin-stdlib-common"
-    },
-    {
-      "moduleLicense": null,
       "moduleName": "org.ow2.asm:asm-bom"
     },
     {
@@ -138,10 +134,6 @@
       "moduleLicense": null,
       "moduleVersion": "0.5.2",
       "moduleName": "org.jetbrains:markdown"
-    },
-    {
-      "moduleLicense": null,
-      "moduleName": "com.squareup.okio:okio"
     }
   ]
 }

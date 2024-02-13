@@ -44,7 +44,6 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.validation)
-    implementation(libs.spring.cloud.starter.kubernetes.client.config)
     implementation(libs.postgresql)
     implementation(libs.flyway.core)
 
