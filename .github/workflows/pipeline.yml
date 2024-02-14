@@ -52,7 +52,7 @@ jobs:
   vscode-extension-jobs:
     uses: ./.github/workflows/vscode-extension-jobs.yml
     secrets: inherit # e.g. sonar token
-  
+
   ldml-extension-jobs:
     uses: ./.github/workflows/ldml-extension-jobs.yml
     secrets: inherit # e.g. sonar token
@@ -139,7 +139,7 @@ jobs:
         with:
           environment: staging
           version: ${{ github.sha }}
-          deploying_repo: ris-norms/frontend,ris-norms/backend
+          deploying_repo: ris-norms/backend
           infra_repo: ris-norms-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
           app: ris-norms-staging
@@ -161,6 +161,19 @@ jobs:
   ########################
   # system test jobs
   ########################
+
+  e2e-tests-frontend:
+    needs: [deploy-staging]
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        mode: [e2e]
+    uses: ./.github/workflows/playwright-test.yml
+    with:
+      browser: ${{ matrix.browser }}
+      mode: ${{ matrix.mode }}
+    secrets: inherit
 
 
   ################
