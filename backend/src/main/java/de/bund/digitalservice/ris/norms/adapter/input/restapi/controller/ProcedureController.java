@@ -49,13 +49,13 @@ public class ProcedureController {
    *     not found, returns HTTP 404 (Not Found).
    */
   @GetMapping(
-      path = "/eli/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}")
+      path = "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}")
   ResponseEntity<ProcedureResponseSchema> getProcedure(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage) {
     final String eli =
-        "eli/"
+        "eli/bund/"
             + printAnnouncementGazette
             + "/"
             + printAnnouncementYear
