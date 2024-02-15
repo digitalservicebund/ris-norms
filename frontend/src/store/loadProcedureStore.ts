@@ -9,9 +9,5 @@ export const useProceduresStore = defineStore("procedures", () => {
     procedures.value = await getProcedures()
   }
 
-  function getProcedureByEli(eli: string) {
-    return procedures.value.find((p) => p.eli === eli)
-  }
-
-  return { procedures, loadProcedures, getProcedureByEli }
+  return { procedures, loadProcedures }
 })
