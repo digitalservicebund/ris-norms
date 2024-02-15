@@ -8,9 +8,9 @@ import { useProceduresStore } from "@/store/loadProcedureStore"
 const proceduresStore = useProceduresStore()
 const { procedures } = storeToRefs(proceduresStore)
 
-onMounted(() => {
+onMounted(async () => {
   try {
-    proceduresStore.loadProcedures()
+    await proceduresStore.loadProcedures()
   } catch (error) {
     //TODO: handle error
   }
