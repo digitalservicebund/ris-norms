@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router"
+import { storeToRefs } from "pinia"
 import RisProcedureCard from "@/components/procedures/RisProcedureCard.vue"
-import { computed, onMounted } from "vue"
+import { onMounted } from "vue"
 import { useProceduresStore } from "@/store/loadProcedureStore"
 
 const proceduresStore = useProceduresStore()
-const procedures = computed(() => proceduresStore.procedures)
+const { procedures } = storeToRefs(proceduresStore)
 
 onMounted(() => {
-  proceduresStore.loadProcedures()
+  try {
+    proceduresStore.loadProcedures()
+  } catch (error) {
+    //TODO: handle error
+  }
 })
 </script>
 
@@ -26,10 +31,8 @@ onMounted(() => {
           :key="procedure.eli"
           :eli="procedure.eli"
           :print-announcement-gazette="procedure.printAnnouncementGazette"
-          :print-announcement-number="procedure.printAnnouncementNumber"
           :print-announcement-page="procedure.printAnnouncementPage"
           :print-announcement-year="procedure.printAnnouncementYear"
-          :publication-date="procedure.publicationDate"
         />
       </RouterLink>
     </div>
