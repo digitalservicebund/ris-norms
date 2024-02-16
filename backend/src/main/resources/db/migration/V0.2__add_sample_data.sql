@@ -1,0 +1,12 @@
+INSERT
+INTO
+    procedure
+VALUES
+    (
+      '46dae99d-efff-4c59-9f21-6ee26d10fcc8',
+      'OPEN',
+      'eli/bund/bgbl-1/2024/123',
+      'bgbl-1',
+      '2024',
+      '123'
+    )
