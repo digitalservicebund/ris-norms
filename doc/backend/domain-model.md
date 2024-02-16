@@ -7,13 +7,14 @@ AmendingLaw "1" --> "*" Article: articles
 
 class AmendingLaw{
     eli: String
-    gazetteOrMedium: String
+    gazette: String
+    medium: String
     publicationDate: Date
-    page: int
-    edition: int
+    page: Int
+    edition: Int
 }
 class Article{
-    marker: String
+    enumeration: String
     title: String
     eli: String
 }
