@@ -87,9 +87,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     List<Procedure> proceduresLoaded = dbService.loadAllProcedures();
 
     // Then
-    assertThat(proceduresLoaded).hasSize(2);
+    assertThat(proceduresLoaded).hasSize(3);
     assertThat(proceduresLoaded)
         .extracting(Procedure::getEli)
-        .containsExactlyInAnyOrder(procedure1.getEli(), procedure2.getEli());
+        .containsExactlyInAnyOrder(
+            "eli/bund/bgbl-1/2024/123", procedure1.getEli(), procedure2.getEli());
   }
 }

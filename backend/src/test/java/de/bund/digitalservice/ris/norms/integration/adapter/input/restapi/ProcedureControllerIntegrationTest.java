@@ -82,8 +82,8 @@ class ProcedureControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/norms/procedures"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[1]").exists())
-        .andExpect(jsonPath("$[2]").doesNotExist())
-        .andExpect(jsonPath("$[0].eli", equalTo(procedure1.getEli())))
-        .andExpect(jsonPath("$[1].eli", equalTo(procedure2.getEli())));
+        .andExpect(jsonPath("$[2]").exists())
+        .andExpect(jsonPath("$[1].eli", equalTo(procedure1.getEli())))
+        .andExpect(jsonPath("$[2].eli", equalTo(procedure2.getEli())));
   }
 }
