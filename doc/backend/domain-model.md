@@ -1,4 +1,4 @@
-# Domain diagram
+# Domain model
 
 ```mermaid
 classDiagram
