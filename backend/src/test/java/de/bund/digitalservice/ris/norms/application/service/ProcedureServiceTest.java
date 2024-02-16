@@ -9,7 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAllUnclosedProceduresPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAllProceduresPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadProcedurePort;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import de.bund.digitalservice.ris.norms.domain.value.ProcedureState;
@@ -25,8 +25,7 @@ class ProcedureServiceTest {
     // Given
     final String eli = "someEli";
     final LoadProcedurePort loadProcedureAdapter = mock(LoadProcedurePort.class);
-    final LoadAllUnclosedProceduresPort loadAllProceduresAdapter =
-        mock(LoadAllUnclosedProceduresPort.class);
+    final LoadAllProceduresPort loadAllProceduresAdapter = mock(LoadAllProceduresPort.class);
 
     final ProcedureService service =
         new ProcedureService(loadProcedureAdapter, loadAllProceduresAdapter);
@@ -46,8 +45,7 @@ class ProcedureServiceTest {
     // Given
     final String eli = "someEli";
     final LoadProcedurePort loadProcedureAdapter = mock(LoadProcedurePort.class);
-    final LoadAllUnclosedProceduresPort loadAllProceduresAdapter =
-        mock(LoadAllUnclosedProceduresPort.class);
+    final LoadAllProceduresPort loadAllProceduresAdapter = mock(LoadAllProceduresPort.class);
 
     final ProcedureService service =
         new ProcedureService(loadProcedureAdapter, loadAllProceduresAdapter);
@@ -74,8 +72,7 @@ class ProcedureServiceTest {
     // Given
     final String eli = "someEli";
     final LoadProcedurePort loadProcedureAdapter = mock(LoadProcedurePort.class);
-    final LoadAllUnclosedProceduresPort loadAllProceduresAdapter =
-        mock(LoadAllUnclosedProceduresPort.class);
+    final LoadAllProceduresPort loadAllProceduresAdapter = mock(LoadAllProceduresPort.class);
 
     final ProcedureService service =
         new ProcedureService(loadProcedureAdapter, loadAllProceduresAdapter);
@@ -90,11 +87,10 @@ class ProcedureServiceTest {
   }
 
   @Test
-  void canLoadAllUnclosedProcedures() {
+  void canLoadAllProcedures() {
     // Given
     final LoadProcedurePort loadProcedureAdapter = mock(LoadProcedurePort.class);
-    final LoadAllUnclosedProceduresPort loadAllProceduresAdapter =
-        mock(LoadAllUnclosedProceduresPort.class);
+    final LoadAllProceduresPort loadAllProceduresAdapter = mock(LoadAllProceduresPort.class);
     final ProcedureService service =
         new ProcedureService(loadProcedureAdapter, loadAllProceduresAdapter);
 
@@ -115,15 +111,15 @@ class ProcedureServiceTest {
                 .printAnnouncementPage("2")
                 .build());
 
-    when(loadAllProceduresAdapter.loadAllUnclosedProcedures()).thenReturn(expectedProcedures);
+    when(loadAllProceduresAdapter.loadAllProcedures()).thenReturn(expectedProcedures);
 
     // When
-    List<Procedure> procedures = service.loadAllUnclosedProcedures();
+    List<Procedure> procedures = service.loadAllProcedures();
 
     // Then
     assertThat(procedures)
         .hasSize(expectedProcedures.size())
         .containsExactlyElementsOf(expectedProcedures);
-    verify(loadAllProceduresAdapter, times(1)).loadAllUnclosedProcedures();
+    verify(loadAllProceduresAdapter, times(1)).loadAllProcedures();
   }
 }

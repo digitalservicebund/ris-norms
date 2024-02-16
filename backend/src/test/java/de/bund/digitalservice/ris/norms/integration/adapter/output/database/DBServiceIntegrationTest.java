@@ -84,7 +84,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         List.of(ProcedureMapper.mapToDto(procedure1), ProcedureMapper.mapToDto(procedure2)));
 
     // When
-    List<Procedure> proceduresLoaded = dbService.loadAllUnclosedProcedures();
+    List<Procedure> proceduresLoaded = dbService.loadAllProcedures();
 
     // Then
     assertThat(proceduresLoaded).hasSize(2);
