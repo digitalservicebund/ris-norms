@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllProceduresUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProcedureUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAllUnclosedProceduresPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAllProceduresPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadProcedurePort;
 import de.bund.digitalservice.ris.norms.domain.entity.Procedure;
 import java.util.List;
@@ -18,19 +18,18 @@ import org.springframework.stereotype.Service;
 public class ProcedureService implements LoadProcedureUseCase, LoadAllProceduresUseCase {
 
   private final LoadProcedurePort loadProcedurePort;
-  private final LoadAllUnclosedProceduresPort loadAllUnclosedProceduresPort;
+  private final LoadAllProceduresPort loadAllProceduresPort;
 
   /**
    * Constructs a new {@link ProcedureService} instance.
    *
    * @param loadProcedurePort The port for loading individual procedures.
-   * @param loadAllUnclosedProceduresPort The port for loading all procedures.
+   * @param loadAllProceduresPort The port for loading all procedures.
    */
   public ProcedureService(
-      LoadProcedurePort loadProcedurePort,
-      LoadAllUnclosedProceduresPort loadAllUnclosedProceduresPort) {
+      LoadProcedurePort loadProcedurePort, LoadAllProceduresPort loadAllProceduresPort) {
     this.loadProcedurePort = loadProcedurePort;
-    this.loadAllUnclosedProceduresPort = loadAllUnclosedProceduresPort;
+    this.loadAllProceduresPort = loadAllProceduresPort;
   }
 
   /** {@inheritDoc} */
@@ -40,7 +39,7 @@ public class ProcedureService implements LoadProcedureUseCase, LoadAllProcedures
   }
 
   @Override
-  public List<Procedure> loadAllUnclosedProcedures() {
-    return loadAllUnclosedProceduresPort.loadAllUnclosedProcedures();
+  public List<Procedure> loadAllProcedures() {
+    return loadAllProceduresPort.loadAllProcedures();
   }
 }

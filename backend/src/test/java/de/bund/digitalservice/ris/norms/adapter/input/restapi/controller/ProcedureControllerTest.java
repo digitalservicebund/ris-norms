@@ -46,7 +46,7 @@ class ProcedureControllerTest {
   @Test
   void itCallsProcedureServiceWithUuidFromQuery() throws Exception {
     // Given
-    final String eli = "eli/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225";
     when(loadProcedureUseCase.loadProcedure(any())).thenReturn(Optional.empty());
 
     // When
@@ -59,7 +59,7 @@ class ProcedureControllerTest {
   @Test
   void itCallsProcedureServiceAndReturnsProcedure() throws Exception {
     // Given
-    final String eli = "eli/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225";
     final Procedure procedure =
         Procedure.builder()
             .state(ProcedureState.OPEN)
@@ -75,7 +75,7 @@ class ProcedureControllerTest {
         .perform(get("/api/v1/norms/procedures/{eli}", eli))
         .andExpect(status().isOk())
         .andExpect(jsonPath("state").value(equalTo("OPEN")))
-        .andExpect(jsonPath("eli").value(equalTo("eli/bgbl-1/1953/s225")))
+        .andExpect(jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1953/s225")))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo("someGazette")))
         .andExpect(jsonPath("printAnnouncementYear").value(equalTo("2024")))
         .andExpect(jsonPath("printAnnouncementPage").value(equalTo("page123")));
@@ -84,7 +84,7 @@ class ProcedureControllerTest {
   @Test
   void itCallsProcedureServiceAndReturnsNotFound() throws Exception {
     // Given
-    final String eli = "eli/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225";
     when(loadProcedureUseCase.loadProcedure(any())).thenReturn(Optional.empty());
 
     // When // Then
@@ -94,7 +94,7 @@ class ProcedureControllerTest {
   @Test
   void itCallsProcedureServiceAndReturnsInternalError() throws Exception {
     // Given
-    final String eli = "eli/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225";
     when(loadProcedureUseCase.loadProcedure(any()))
         .thenThrow(new RuntimeException("simulating internal server error"));
 
@@ -124,7 +124,7 @@ class ProcedureControllerTest {
                 .printAnnouncementPage("2")
                 .build());
 
-    when(loadAllProceduresUseCase.loadAllUnclosedProcedures()).thenReturn(allProcedures);
+    when(loadAllProceduresUseCase.loadAllProcedures()).thenReturn(allProcedures);
 
     // When // Then
     mockMvc

@@ -6,7 +6,11 @@ const config: PlaywrightTestConfig = {
   retries: process.env.CI === "true" ? 1 : 0,
   use: {
     viewport: { width: 1280, height: 720 },
-    baseURL: `http://localhost:5173`,
+    baseURL: process.env.E2E_BASE_URL,
+    httpCredentials: {
+      username: process.env.E2E_TEST_BASIC_AUTH_USER,
+      password: process.env.E2E_TEST_BASIC_AUTH_PASSWORD,
+    },
     screenshot: { mode: "only-on-failure", fullPage: true },
     timezoneId: "Europe/Berlin",
   },

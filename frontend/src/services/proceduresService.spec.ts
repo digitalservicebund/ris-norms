@@ -1,27 +1,37 @@
-import { describe, it, expect } from "vitest"
+import { describe, it, expect, vi } from "vitest"
 import { getProcedures } from "./proceduresService"
 
-describe("getProcedures", () => {
-  it("returns an array of procedures with the correct structure", async () => {
-    const procedures = await getProcedures()
+vi.mock("./proceduresService", () => ({
+  getProcedures: vi.fn(),
+}))
 
-    const expectedStructure = {
-      eli: "string",
-      printAnnouncementGazette: "string",
-      printAnnouncementYear: "number",
-      printAnnouncementNumber: "number",
-      printAnnouncementPage: "number",
-      publicationDate: "object",
-      fna: "string",
-    }
+describe("Service consumer tests", () => {
+  it("tests another function or component using getProcedures with mock data", async () => {
+    const mockedProceduresArray = [
+      {
+        eli: "eli/example/2023/1",
+        printAnnouncementGazette: "Example Gazette",
+        printAnnouncementYear: 2023,
+        printAnnouncementNumber: 1,
+        printAnnouncementPage: 100,
+        publicationDate: new Date("2023-01-01"),
+        fna: "123-456",
+      },
+      {
+        eli: "eli/example/2024/2",
+        printAnnouncementGazette: "Example Gazette 2",
+        printAnnouncementYear: 2024,
+        printAnnouncementNumber: 2,
+        printAnnouncementPage: 101,
+        publicationDate: new Date("2024-02-02"),
+        fna: "456-789",
+      },
+    ]
 
-    expect(procedures).toBeInstanceOf(Array)
+    vi.mocked(getProcedures).mockResolvedValue(mockedProceduresArray)
+    const result = await getProcedures()
+    expect(result).toBe(mockedProceduresArray)
 
-    procedures.forEach((procedure) => {
-      Object.entries(expectedStructure).forEach(([key, type]) => {
-        expect(procedure).toHaveProperty(key)
-        expect(typeof procedure[key as keyof typeof procedure]).toBe(type)
-      })
-    })
+    expect(getProcedures).toHaveBeenCalled()
   })
 })

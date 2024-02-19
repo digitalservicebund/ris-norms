@@ -29,6 +29,7 @@ public class SecurityConfig {
             authorize
                 .requestMatchers(
                     "/.well-known/security.txt",
+                    "/favicon.svg",
                     "/actuator/health",
                     "/actuator/health/readiness",
                     "/actuator/health/liveness",

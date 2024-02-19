@@ -1,15 +1,6 @@
 on:
   workflow_call:
     inputs:
-      container-registry:
-        required: true
-        type: string
-      container-image-name:
-        required: true
-        type: string
-      container-image-version:
-        required: true
-        type: string
       browser:
         required: false
         type: string
@@ -23,6 +14,8 @@ on:
         type: string
         default: "1"
     secrets:
+      STAGING_URL:
+        required: true
       SLACK_WEBHOOK_URL:
         required: false
 jobs:
@@ -59,37 +52,17 @@ jobs:
         run: |
           npx --yes playwright install --with-deps ${{ inputs.browser }}
         working-directory: ./frontend
-
-      - name: Restore Docker Image Cache
-        uses: actions/cache@v4
-        with:
-          path: /tmp/images
-          key: docker-frontend-images-cache-${{ github.run_id }}
-          restore-keys: docker-images-cache-${{ github.run_id }}
-
-      - name: Load Docker Image
-        run: docker load -i /tmp/images/frontend-image.tar
-
-      - name: Run Docker Container
-        run: docker run -d --name frontend-container -p 5173:8080 ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/frontend:${{ inputs.container-image-version }}
-
       - name: Run ${{ inputs.mode }} tests in ${{ inputs.browser }}
-
+        env:
+          E2E_BASE_URL: ${{ secrets.STAGING_URL }}
+          E2E_TEST_BASIC_AUTH_USER: ${{ secrets.E2E_TEST_BASIC_AUTH_USER }}
+          E2E_TEST_BASIC_AUTH_PASSWORD: ${{ secrets.E2E_TEST_BASIC_AUTH_PASSWORD }}
         run: |
           echo "Running ${{ inputs.mode }} tests ${{ inputs.runs }} times"
 
           test_target=${{ inputs.mode }}
 
           npm run test:"$test_target" -- --project ${{ inputs.browser }} --repeat-each ${{ inputs.runs}}
-
-        working-directory: ./frontend
-
-      - name: Stop and Remove Docker Container
-        if: always()
-        run: |
-          docker stop frontend-container
-          docker rm frontend-container
-
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests
         uses: actions/upload-artifact@v4
