@@ -1,24 +1,26 @@
-package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
+package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
-import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.UriComponentsBuilder;
 
-class DBServiceIntegrationTest extends BaseIntegrationTest {
+class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
-  @Autowired private DBService dbService;
+  @Autowired private MockMvc mockMvc;
 
   @Autowired private AmendingLawRepository amendingLawRepository;
 
@@ -31,9 +33,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itFindsAmendingLawOnDB() {
+  void itCallsProcedureServiceAndReturnsProcedure() throws Exception {
     // Given
-    final String eli = "eli/bgbl-1/2024/123";
+    final String eli = "eli/bund/bgbl-1/1953/s225";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";
@@ -53,38 +55,32 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .build();
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
 
-    // When
-    final Optional<AmendingLaw> amendingLawLoaded =
-        dbService.loadAmendingLawByEli(new LoadAmendingLawPort.Command(eli));
+    final String encodedEli =
+        UriComponentsBuilder.fromPath(amendingLaw.getEli()).build().encode().toUriString();
 
-    // Then
-    assertThat(amendingLawLoaded).isPresent().contains(amendingLaw);
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/norms/procedures/{eli}", encodedEli))
+        .andExpect(jsonPath("eli").value(equalTo(eli)))
+        .andExpect(jsonPath("printAnnouncementGazette").value(equalTo(printAnnouncementGazette)))
+        .andExpect(jsonPath("publicationDate").value(equalTo("2024-02-19")))
+        .andExpect(jsonPath("printedAnnouncementPage").value(equalTo(printAnnouncementPage)))
+        .andExpect(jsonPath("digitalAnnouncementMedium").value(equalTo(digitalAnnouncementMedium)))
+        .andExpect(
+            jsonPath("digitalAnnouncementEdition").value(equalTo(digitalAnnouncementEdition)));
   }
 
   @Test
-  void itDoesNotFindProcedureOnDb() {
+  void itLoadsAllAmendingLawsAndReturnsSuccessfully() throws Exception {
     // Given
-    final String eli = "eli/bgbl-1/2024/123";
-
-    // When
-    final Optional<AmendingLaw> procedureLoaded =
-        dbService.loadAmendingLawByEli(new LoadAmendingLawPort.Command(eli));
-
-    // Then
-    assertThat(procedureLoaded).isNotPresent();
-  }
-
-  @Test
-  void itLoadsAllProceduresFromDB() {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli1";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
 
-    final String eli2 = "eli/bund/bgbl-1/1953/s225";
+    final String eli2 = "eli2";
     final String printAnnouncementGazette2 = "someGazette2";
     final LocalDate publicationDate2 = LocalDate.now();
     final String printAnnouncementPage2 = "page1232";
@@ -101,6 +97,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .articles(List.of(article1, article2))
             .build();
+
     final AmendingLaw amendingLaw2 =
         AmendingLaw.builder()
             .eli(eli2)
@@ -116,13 +113,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         List.of(
             AmendingLawMapper.mapToDto(amendingLaw1), AmendingLawMapper.mapToDto(amendingLaw2)));
 
-    // When
-    List<AmendingLaw> amendingLawsLoaded = dbService.loadAllAmendingLaws();
-
-    // Then
-    assertThat(amendingLawsLoaded).hasSize(2);
-    assertThat(amendingLawsLoaded)
-        .extracting(AmendingLaw::getEli)
-        .containsExactlyInAnyOrder(amendingLaw1.getEli(), amendingLaw2.getEli());
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/norms/procedures"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[1]").exists())
+        .andExpect(jsonPath("$[2]").doesNotExist())
+        .andExpect(jsonPath("$[0].eli", equalTo(amendingLaw1.getEli())))
+        .andExpect(jsonPath("$[1].eli", equalTo(amendingLaw2.getEli())));
   }
 }

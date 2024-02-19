@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class LoadProcedureQueryTest {
+class LoadAmendingLawQueryTest {
 
   @Test
   void canCreateQueryWithUUID() {
@@ -12,7 +12,7 @@ class LoadProcedureQueryTest {
     final String eli = "someEli";
 
     // When
-    final LoadProcedureUseCase.Query query = new LoadProcedureUseCase.Query(eli);
+    final LoadAmendingLawUseCase.Query query = new LoadAmendingLawUseCase.Query(eli);
 
     // Then
     assertThat(query.eli()).isEqualTo(eli);
