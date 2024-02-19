@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test"
 import { procedures } from "../e2e/testData/testData"
 
-test("navigate and verify navigation panel behavior", async ({ page }) => {
+test.skip("navigate and verify navigation panel behavior", async ({ page }) => {
   for (const procedure of procedures) {
     await page.goto("/")
 

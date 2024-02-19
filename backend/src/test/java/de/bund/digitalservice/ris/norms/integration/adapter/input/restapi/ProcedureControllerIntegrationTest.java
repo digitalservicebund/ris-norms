@@ -34,7 +34,7 @@ class ProcedureControllerIntegrationTest extends BaseIntegrationTest {
     final Procedure procedure =
         Procedure.builder()
             .state(ProcedureState.OPEN)
-            .eli("eli/bgbl-1/2024/123")
+            .eli("eli/bund/bgbl-1/2024/123")
             .printAnnouncementGazette("bgbl-1")
             .printAnnouncementYear("2024")
             .printAnnouncementPage("123")
@@ -49,7 +49,7 @@ class ProcedureControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/norms/procedures/{eli}", encodedEli))
         .andExpect(status().isOk())
         .andExpect(jsonPath("state").value(equalTo("OPEN")))
-        .andExpect(jsonPath("eli").value(equalTo("eli/bgbl-1/2024/123")))
+        .andExpect(jsonPath("eli").value(equalTo("eli/bund/bgbl-1/2024/123")))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo("bgbl-1")))
         .andExpect(jsonPath("printAnnouncementYear").value(equalTo("2024")))
         .andExpect(jsonPath("printAnnouncementPage").value(equalTo("123")));
@@ -61,7 +61,7 @@ class ProcedureControllerIntegrationTest extends BaseIntegrationTest {
     final Procedure procedure1 =
         Procedure.builder()
             .state(ProcedureState.OPEN)
-            .eli("eli/bgbl-1/2024/123")
+            .eli("eli/bund/bgbl-1/2024/123")
             .printAnnouncementGazette("bgbl-1")
             .printAnnouncementYear("2024")
             .printAnnouncementPage("123")
@@ -69,7 +69,7 @@ class ProcedureControllerIntegrationTest extends BaseIntegrationTest {
     final Procedure procedure2 =
         Procedure.builder()
             .state(ProcedureState.OPEN)
-            .eli("eli/bgbl-2/2025/456")
+            .eli("eli/bund/bgbl-2/2025/456")
             .printAnnouncementGazette("bgbl-2")
             .printAnnouncementYear("2025")
             .printAnnouncementPage("456")

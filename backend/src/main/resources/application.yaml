@@ -2,9 +2,12 @@ spring:
   # Database Configuration
   datasource:
     url: jdbc:postgresql://${database.host:localhost}:${database.port:5432}/${database.database:risnorms}
-    username: ${database.username:test}
+    username: ${database.user:test}
     password: ${database.password:test}
     driver-class-name: org.postgresql.Driver
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 0.0
 
 # expose health endpoint
 management:
