@@ -15,8 +15,8 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
-      "@e2e/*": ["e2e/*"],
-    },
+      "@e2e/*": ["e2e/*"]
+    }
   },
   "include": [
     "env.d.ts",
@@ -25,7 +25,7 @@
     "src/**/*.ts",
     "src/**/*.js",
     "src/**/*.vue",
-    "e2e/**/*.ts",
+    "e2e/**/*.ts"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
