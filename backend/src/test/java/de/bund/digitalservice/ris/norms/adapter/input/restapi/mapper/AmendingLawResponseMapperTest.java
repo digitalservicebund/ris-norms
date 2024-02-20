@@ -30,17 +30,17 @@ class AmendingLawResponseMapperTest {
     amendingLaw.setArticles(article);
 
     // When
-    final AmendingLawResponseSchema resultProcedure =
+    final AmendingLawResponseSchema resultAmendingLaw =
         AmendingLawResponseMapper.fromUseCaseData(amendingLaw);
 
     // Then
-    assertThat(resultProcedure.getEli()).isEqualTo("ELI");
-    assertThat(resultProcedure.getPrintAnnouncementGazette()).isEqualTo("GAZETTE");
-    assertThat(resultProcedure.getDigitalAnnouncementMedium()).isEqualTo("MEDIUM");
-    assertThat(resultProcedure.getPublicationDate()).isEqualTo(now);
-    assertThat(resultProcedure.getPrintedAnnouncementPage()).isEqualTo("PAGE");
-    assertThat(resultProcedure.getDigitalAnnouncementEdition()).isEqualTo("EDITION");
-    assertThat(resultProcedure.getArticles().getFirst())
+    assertThat(resultAmendingLaw.getEli()).isEqualTo("ELI");
+    assertThat(resultAmendingLaw.getPrintAnnouncementGazette()).isEqualTo("GAZETTE");
+    assertThat(resultAmendingLaw.getDigitalAnnouncementMedium()).isEqualTo("MEDIUM");
+    assertThat(resultAmendingLaw.getPublicationDate()).isEqualTo(now);
+    assertThat(resultAmendingLaw.getPrintedAnnouncementPage()).isEqualTo("PAGE");
+    assertThat(resultAmendingLaw.getDigitalAnnouncementEdition()).isEqualTo("EDITION");
+    assertThat(resultAmendingLaw.getArticles().getFirst())
         .isEqualTo(new ArticleResponseSchema("1234", "ELI", "title"));
   }
 }

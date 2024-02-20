@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 class AmendingLawTest {
 
   @Test
-  void canCreateSimpleProcedure() {
+  void canCreateSimpleAmendingLaw() {
 
     final String eli = "someEli";
     final String printAnnouncementGazette = "someGazette";

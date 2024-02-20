@@ -45,7 +45,7 @@ class AmendingLawControllerTest {
   }
 
   @Test
-  void itCallsProcedureServiceWithUuidFromQuery() throws Exception {
+  void itCallsAmendingLawServiceWithUuidFromQuery() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
@@ -59,7 +59,7 @@ class AmendingLawControllerTest {
   }
 
   @Test
-  void itCallsAmendingServiceAndReturnsProcedure() throws Exception {
+  void itCallsAmendingServiceAndReturnsAmendingLaw() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     final String printAnnouncementGazette = "someGazette";
@@ -93,11 +93,13 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo(printAnnouncementGazette)))
         .andExpect(jsonPath("digitalAnnouncementMedium").value(equalTo(digitalAnnouncementMedium)))
         .andExpect(
-            jsonPath("digitalAnnouncementEdition").value(equalTo(digitalAnnouncementEdition)));
+            jsonPath("digitalAnnouncementEdition").value(equalTo(digitalAnnouncementEdition)))
+        .andExpect(jsonPath("articles").isArray())
+        .andExpect(jsonPath("$..articles[0].eli").value("eli1"));
   }
 
   @Test
-  void itCallsProcedureServiceAndReturnsNotFound() throws Exception {
+  void itCallsAmendingLawServiceAndReturnsNotFound() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
@@ -107,7 +109,7 @@ class AmendingLawControllerTest {
   }
 
   @Test
-  void itCallsProcedureServiceAndReturnsInternalError() throws Exception {
+  void itCallsAmendingLawServiceAndReturnsInternalError() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     when(loadAmendingLawUseCase.loadAmendingLaw(any()))
@@ -120,7 +122,7 @@ class AmendingLawControllerTest {
   }
 
   @Test
-  void itLoadsAllProceduresAndReturnsSuccessfully() throws Exception {
+  void itLoadsAllAmendingLawsAndReturnsSuccessfully() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     final String printAnnouncementGazette = "someGazette";
@@ -171,6 +173,8 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("$[0].printAnnouncementGazette", equalTo(printAnnouncementGazette)))
         .andExpect(jsonPath("$[0].eli", equalTo(eli)))
         .andExpect(jsonPath("$[1].printAnnouncementGazette", equalTo(printAnnouncementGazette2)))
-        .andExpect(jsonPath("$[1].eli", equalTo(eli2)));
+        .andExpect(jsonPath("$[1].eli", equalTo(eli2)))
+        .andExpect(jsonPath("$[0].articles").isArray())
+        .andExpect(jsonPath("$[0].articles[0].eli").value("eli1"));
   }
 }

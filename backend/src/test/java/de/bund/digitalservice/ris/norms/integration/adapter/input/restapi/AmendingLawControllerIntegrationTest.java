@@ -33,11 +33,11 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itCallsAmendinglawServiceAndReturnsProcedure() throws Exception {
+  void itCallsAmendingLawServiceAndReturnsAmendingLaw() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     final String printAnnouncementGazette = "someGazette";
-    final LocalDate publicationDate = LocalDate.parse("2024-02-20");
+    final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
@@ -63,11 +63,13 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/norms/procedures/{eli}", encodedEli))
         .andExpect(jsonPath("eli").value(equalTo(eli)))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo(printAnnouncementGazette)))
-        .andExpect(jsonPath("publicationDate").value(equalTo("2024-02-20")))
+        .andExpect(jsonPath("publicationDate").value(equalTo(publicationDate.toString())))
         .andExpect(jsonPath("printedAnnouncementPage").value(equalTo(printAnnouncementPage)))
         .andExpect(jsonPath("digitalAnnouncementMedium").value(equalTo(digitalAnnouncementMedium)))
         .andExpect(
-            jsonPath("digitalAnnouncementEdition").value(equalTo(digitalAnnouncementEdition)));
+            jsonPath("digitalAnnouncementEdition").value(equalTo(digitalAnnouncementEdition)))
+        .andExpect(jsonPath("articles").isArray())
+        .andExpect(jsonPath("articles[0].eli").value("eli1"));
   }
 
   @Test
@@ -120,6 +122,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[2]").doesNotExist())
         .andExpect(jsonPath("$[0].eli", equalTo(amendingLaw1.getEli())))
-        .andExpect(jsonPath("$[1].eli", equalTo(amendingLaw2.getEli())));
+        .andExpect(jsonPath("$[1].eli", equalTo(amendingLaw2.getEli())))
+        .andExpect(jsonPath("$[0].articles").isArray())
+        .andExpect(jsonPath("$[0].articles[0].eli").value("eli1"));
   }
 }

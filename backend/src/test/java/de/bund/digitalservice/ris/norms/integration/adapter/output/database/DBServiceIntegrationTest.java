@@ -73,7 +73,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itDoesNotFindAmendinglawOnDb() {
+  void itDoesNotFindAmendingLawOnDb() {
     // Given
     final String eli = "eli/bgbl-1/2024/123";
 
@@ -86,7 +86,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itLoadsAllAmendinglawsFromDB() {
+  void itLoadsAllAmendingLawsFromDB() {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     final String printAnnouncementGazette = "someGazette";

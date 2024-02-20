@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 class AmendingLawResponseSchemaTest {
 
   @Test
-  void canCreateSimpleProcedureResponseSchema() {
+  void canCreateSimpleAmendingLawResponseSchema() {
 
     final String eli = "someEli";
     final String printAnnouncementGazette = "someGazette";
