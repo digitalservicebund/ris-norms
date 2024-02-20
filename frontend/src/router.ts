@@ -12,11 +12,11 @@ const routes = [
       {
         path: "",
         name: "Procedures",
-        component: () => import("@/views/Procedures.vue"),
+        component: () => import("@/views/AmendingLaws.vue"),
       },
       {
         path: ":id",
-        component: () => import("@/views/Procedure.vue"),
+        component: () => import("@/views/AmendingLaw.vue"),
         children: [
           {
             path: "",

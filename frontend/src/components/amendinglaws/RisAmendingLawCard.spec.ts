@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, test } from "vitest"
-import RisProcedureCard from "./RisProcedureCard.vue"
+import RisProcedureCard from "./RisAmendingLawCard.vue"
 
 describe("YourComponent", () => {
   test("should render overview of open procedures", () => {
@@ -8,7 +8,7 @@ describe("YourComponent", () => {
       props: {
         eli: "someEli",
         printAnnouncementGazette: "GazetteName",
-        printAnnouncementYear: 2021,
+        publicationDate: "2021-01-01",
         printAnnouncementPage: 456,
       },
     })

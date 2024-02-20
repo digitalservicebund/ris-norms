@@ -24,7 +24,7 @@ public class AmendingLawResponseSchema {
 
   private LocalDate publicationDate;
 
-  private String printedAnnouncementPage;
+  private String printAnnouncementPage;
 
   private String digitalAnnouncementEdition;
 

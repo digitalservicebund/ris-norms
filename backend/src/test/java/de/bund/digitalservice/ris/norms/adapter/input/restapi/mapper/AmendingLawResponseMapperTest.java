@@ -38,7 +38,7 @@ class AmendingLawResponseMapperTest {
     assertThat(resultAmendingLaw.getPrintAnnouncementGazette()).isEqualTo("GAZETTE");
     assertThat(resultAmendingLaw.getDigitalAnnouncementMedium()).isEqualTo("MEDIUM");
     assertThat(resultAmendingLaw.getPublicationDate()).isEqualTo(now);
-    assertThat(resultAmendingLaw.getPrintedAnnouncementPage()).isEqualTo("PAGE");
+    assertThat(resultAmendingLaw.getPrintAnnouncementPage()).isEqualTo("PAGE");
     assertThat(resultAmendingLaw.getDigitalAnnouncementEdition()).isEqualTo("EDITION");
     assertThat(resultAmendingLaw.getArticles().getFirst())
         .isEqualTo(new ArticleResponseSchema("1234", "ELI", "title"));

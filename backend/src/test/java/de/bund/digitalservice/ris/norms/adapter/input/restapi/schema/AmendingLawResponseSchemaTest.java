@@ -23,7 +23,7 @@ class AmendingLawResponseSchemaTest {
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
-            .printedAnnouncementPage(printAnnouncementPage)
+            .printAnnouncementPage(printAnnouncementPage)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .build();
@@ -33,7 +33,7 @@ class AmendingLawResponseSchemaTest {
     assertThat(amendingLawPrinted.getPrintAnnouncementGazette())
         .isEqualTo(printAnnouncementGazette);
     assertThat(amendingLawPrinted.getPublicationDate()).isEqualTo(publicationDate);
-    assertThat(amendingLawPrinted.getPrintedAnnouncementPage()).isEqualTo(printAnnouncementPage);
+    assertThat(amendingLawPrinted.getPrintAnnouncementPage()).isEqualTo(printAnnouncementPage);
     assertThat(amendingLawPrinted.getDigitalAnnouncementMedium())
         .isEqualTo(digitalAnnouncementMedium);
     assertThat(amendingLawPrinted.getDigitalAnnouncementEdition())

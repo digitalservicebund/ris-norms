@@ -5,7 +5,7 @@ import RisNavbarSide, {
 } from "@/components/controls/RisNavbarSide.vue"
 import RisUnitInfoPanel from "@/components/controls/RisUnitInfoPanel.vue"
 import { computed } from "vue"
-import { useProcedure } from "@/composables/useProcedure"
+import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -26,13 +26,14 @@ const menuItems: LevelOneMenuItem[] = [
 
 const route = useRoute()
 const eli = computed(() => decodeURIComponent(route.params.id?.toString()))
-const { procedure } = useProcedure(eli)
+
+const amendingLawsStore = useAmendingLawsStore()
+const amendingLaw = amendingLawsStore.loadAmendingLawByEli(eli)
 
 const heading = computed(() => {
-  if (procedure.value) {
-    return `${procedure.value?.printAnnouncementGazette.toUpperCase()} ${procedure.value.printAnnouncementYear} Nr. ${procedure.value.printAnnouncementPage}`
-  }
-  return ""
+  return amendingLaw?.printAnnouncementGazette
+    ? `${amendingLaw.printAnnouncementGazette.toUpperCase()} Nr. ${amendingLaw.printAnnouncementPage}`
+    : ""
 })
 </script>
 
