@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS
     print_announcement_gazette       character varying(15)  ,
     digital_announcement_medium      character varying(255) ,
     publication_date                 date         ,
-    printed_announcement_page        character varying(15)   ,
+    print_announcement_page        character varying(15)   ,
     digital_announcement_edition     character varying(15)
 );
 

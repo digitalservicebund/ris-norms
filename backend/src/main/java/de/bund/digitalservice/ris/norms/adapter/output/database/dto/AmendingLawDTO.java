@@ -47,7 +47,7 @@ public class AmendingLawDTO {
 
   @NotNull
   @Size(max = 15)
-  @Column(name = "printed_announcement_page")
+  @Column(name = "print_announcement_page")
   private String printAnnouncementPage;
 
   @NotNull
