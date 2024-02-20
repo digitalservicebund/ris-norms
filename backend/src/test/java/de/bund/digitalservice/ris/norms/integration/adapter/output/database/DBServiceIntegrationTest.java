@@ -62,20 +62,20 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itDoesNotFindProcedureOnDb() {
+  void itDoesNotFindAmendinglawOnDb() {
     // Given
     final String eli = "eli/bgbl-1/2024/123";
 
     // When
-    final Optional<AmendingLaw> procedureLoaded =
+    final Optional<AmendingLaw> amendingLawLoaded =
         dbService.loadAmendingLawByEli(new LoadAmendingLawPort.Command(eli));
 
     // Then
-    assertThat(procedureLoaded).isNotPresent();
+    assertThat(amendingLawLoaded).isNotPresent();
   }
 
   @Test
-  void itLoadsAllProceduresFromDB() {
+  void itLoadsAllAmendinglawsFromDB() {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     final String printAnnouncementGazette = "someGazette";

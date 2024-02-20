@@ -33,11 +33,11 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itCallsProcedureServiceAndReturnsProcedure() throws Exception {
+  void itCallsAmendinglawServiceAndReturnsProcedure() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     final String printAnnouncementGazette = "someGazette";
-    final LocalDate publicationDate = LocalDate.now();
+    final LocalDate publicationDate = LocalDate.parse("2024-02-20");
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
@@ -63,7 +63,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/norms/procedures/{eli}", encodedEli))
         .andExpect(jsonPath("eli").value(equalTo(eli)))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo(printAnnouncementGazette)))
-        .andExpect(jsonPath("publicationDate").value(equalTo("2024-02-19")))
+        .andExpect(jsonPath("publicationDate").value(equalTo("2024-02-20")))
         .andExpect(jsonPath("printedAnnouncementPage").value(equalTo(printAnnouncementPage)))
         .andExpect(jsonPath("digitalAnnouncementMedium").value(equalTo(digitalAnnouncementMedium)))
         .andExpect(
