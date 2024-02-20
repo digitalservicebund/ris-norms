@@ -7,9 +7,8 @@ import RisProcedureCard from "./RisAmendingLawCard.vue"
     <RisProcedureCard
       eli="4711"
       print-announcement-gazette="Test"
-      :print-announcement-number="815"
-      :print-announcement-page="12"
-      :publication-date="new Date(2024, 1, 19)"
+      print-announcement-page="12"
+      publication-date="2014-01-19"
     />
   </Story>
 </template>

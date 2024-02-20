@@ -13,7 +13,7 @@ describe("Service consumer tests", () => {
         printAnnouncementGazette: "example",
         printAnnouncementMedium: undefined,
         publicationDate: "2023-01-01",
-        printAnnouncementPage: 1,
+        printAnnouncementPage: "1",
         digitalAnnouncementEdition: undefined,
         articles: [
           {
@@ -28,7 +28,7 @@ describe("Service consumer tests", () => {
         printAnnouncementGazette: "example2",
         printAnnouncementMedium: undefined,
         publicationDate: "2024-01-01",
-        printAnnouncementPage: 2,
+        printAnnouncementPage: "2",
         digitalAnnouncementEdition: undefined,
         articles: [
           {

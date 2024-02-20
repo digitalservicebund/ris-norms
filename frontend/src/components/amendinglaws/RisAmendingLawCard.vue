@@ -4,13 +4,13 @@ import ExpandMoreIcon from "~icons/ic/baseline-expand-more"
 
 const props = defineProps<{
   eli: string
-  printAnnouncementGazette: string
+  printAnnouncementGazette?: string
   publicationDate: string
-  printAnnouncementPage: string
+  printAnnouncementPage?: string
 }>()
 
-const printAnnouncementGazetteUpper = computed(() =>
-  props.printAnnouncementGazette.toUpperCase(),
+const printAnnouncementGazetteUpper = computed(
+  () => props.printAnnouncementGazette?.toUpperCase() ?? "",
 )
 
 const publicationYear = computed(() => props.publicationDate.substring(0, 4))
