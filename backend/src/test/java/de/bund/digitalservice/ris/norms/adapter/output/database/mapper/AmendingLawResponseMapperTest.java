@@ -18,7 +18,7 @@ class AmendingLawResponseMapperTest {
     // Given
     final LocalDate now = LocalDate.now();
     final List<ArticleDto> articles = new ArrayList<>();
-    articles.add(ArticleDto.builder().enumeration("1234").eli("ELI").build());
+    articles.add(ArticleDto.builder().enumeration("1234").eli("ELI").title("title").build());
 
     final AmendingLawDTO amendingLawDTO = new AmendingLawDTO();
     amendingLawDTO.setEli("ELI");
@@ -39,7 +39,8 @@ class AmendingLawResponseMapperTest {
     assertThat(resultProcedure.getPublicationDate()).isEqualTo(now);
     assertThat(resultProcedure.getPrintedAnnouncementPage()).isEqualTo("PAGE");
     assertThat(resultProcedure.getDigitalAnnouncementEdition()).isEqualTo("EDITION");
-    assertThat(resultProcedure.getArticles().getFirst()).isEqualTo(new Article("1234", "ELI"));
+    assertThat(resultProcedure.getArticles().getFirst())
+        .isEqualTo(new Article("1234", "ELI", "title"));
   }
 
   @Test
@@ -47,7 +48,8 @@ class AmendingLawResponseMapperTest {
     // Given
     final LocalDate now = LocalDate.now();
     final List<Article> articles = new ArrayList<>();
-    articles.add(new de.bund.digitalservice.ris.norms.domain.entity.Article("1234", "ELI"));
+    articles.add(
+        new de.bund.digitalservice.ris.norms.domain.entity.Article("1234", "ELI", "title"));
 
     final AmendingLaw amendingLaw =
         AmendingLaw.builder()
@@ -71,5 +73,6 @@ class AmendingLawResponseMapperTest {
     assertThat(resultAmendingLawDTO.getPrintedAnnouncementPage()).isEqualTo("PAGE");
     assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getEnumeration()).isEqualTo("1234");
     assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getEli()).isEqualTo("ELI");
+    assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getTitle()).isEqualTo("title");
   }
 }

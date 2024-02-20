@@ -32,7 +32,10 @@ public class AmendingLawResponseMapper {
   private static List<ArticleResponseSchema> fromUseCaseData(final List<Article> articles) {
     // TODO: Check what happens when articles are null
     return articles.stream()
-        .map(article -> new ArticleResponseSchema(article.getEnumeration(), article.getEli()))
+        .map(
+            article ->
+                new ArticleResponseSchema(
+                    article.getEnumeration(), article.getEli(), article.getTitle()))
         .toList();
   }
 }

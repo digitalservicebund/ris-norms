@@ -33,4 +33,8 @@ public class ArticleDto {
   @Size(max = 255)
   @Column
   private String eli;
+
+  @Size(max = 255)
+  @Column
+  private String title;
 }

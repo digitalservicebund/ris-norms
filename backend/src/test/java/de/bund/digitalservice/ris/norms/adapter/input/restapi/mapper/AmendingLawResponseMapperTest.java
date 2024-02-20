@@ -18,7 +18,7 @@ class AmendingLawResponseMapperTest {
     // Given
     final LocalDate now = LocalDate.now();
     final List<Article> article = new ArrayList<>();
-    article.add(Article.builder().enumeration("1234").eli("ELI").build());
+    article.add(Article.builder().enumeration("1234").eli("ELI").title("title").build());
 
     final AmendingLaw amendingLaw = new AmendingLaw();
     amendingLaw.setEli("ELI");
@@ -41,6 +41,6 @@ class AmendingLawResponseMapperTest {
     assertThat(resultProcedure.getPrintedAnnouncementPage()).isEqualTo("PAGE");
     assertThat(resultProcedure.getDigitalAnnouncementEdition()).isEqualTo("EDITION");
     assertThat(resultProcedure.getArticles().getFirst())
-        .isEqualTo(new ArticleResponseSchema("1234", "ELI"));
+        .isEqualTo(new ArticleResponseSchema("1234", "ELI", "title"));
   }
 }

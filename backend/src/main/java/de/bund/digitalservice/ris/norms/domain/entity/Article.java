@@ -15,4 +15,6 @@ public class Article {
   private String enumeration;
 
   private String eli;
+
+  private String title;
 }

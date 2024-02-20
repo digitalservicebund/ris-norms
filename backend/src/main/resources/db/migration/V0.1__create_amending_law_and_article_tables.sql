@@ -16,5 +16,6 @@ CREATE TABLE IF NOT EXISTS
     id                              uuid         NOT NULL PRIMARY KEY,
     enumeration                     character varying(255) NOT NULL,
     eli                             character varying(255) NOT NULL,
+    title                           character varying(255) ,
     amending_law_id                 uuid       REFERENCES amending_law (id)
 );
