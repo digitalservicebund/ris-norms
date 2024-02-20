@@ -93,4 +93,6 @@ export function activate(context: vscode.ExtensionContext) {
     commandRegistration,
     providerRegistrations,
   );
+
+  vscode.commands.executeCommand("digitalservicebund.openFilesInLayout");
 }
