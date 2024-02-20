@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class AmendingLawDTOTest {
 
   @Test
-  void testPrintedLawDTO() {
+  void testPrintLawDTO() {
     // Given
     final UUID id = UUID.randomUUID();
     final String eli = "someEli";
@@ -18,22 +18,22 @@ class AmendingLawDTOTest {
     final String printAnnouncementPage = "page123";
 
     // When
-    final AmendingLawDTO amendingLawPrintedDTO =
+    final AmendingLawDTO amendingLawPrintDTO =
         AmendingLawDTO.builder()
             .id(id)
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
-            .printedAnnouncementPage(printAnnouncementPage)
+            .printAnnouncementPage(printAnnouncementPage)
             .build();
 
     // Then
-    assertThat(amendingLawPrintedDTO.getId()).isEqualTo(id);
-    assertThat(amendingLawPrintedDTO.getEli()).isEqualTo(eli);
-    assertThat(amendingLawPrintedDTO.getPrintAnnouncementGazette())
+    assertThat(amendingLawPrintDTO.getId()).isEqualTo(id);
+    assertThat(amendingLawPrintDTO.getEli()).isEqualTo(eli);
+    assertThat(amendingLawPrintDTO.getPrintAnnouncementGazette())
         .isEqualTo(printAnnouncementGazette);
-    assertThat(amendingLawPrintedDTO.getPublicationDate()).isEqualTo(publicationDate);
-    assertThat(amendingLawPrintedDTO.getPrintedAnnouncementPage()).isEqualTo(printAnnouncementPage);
+    assertThat(amendingLawPrintDTO.getPublicationDate()).isEqualTo(publicationDate);
+    assertThat(amendingLawPrintDTO.getPrintAnnouncementPage()).isEqualTo(printAnnouncementPage);
   }
 
   @Test
@@ -46,7 +46,7 @@ class AmendingLawDTOTest {
     final String digitalAnnouncementEdition = "edition123";
 
     // When
-    final AmendingLawDTO amendingLawPrintedDTO =
+    final AmendingLawDTO amendingLawPrintDTO =
         AmendingLawDTO.builder()
             .id(id)
             .eli(eli)
@@ -56,12 +56,12 @@ class AmendingLawDTOTest {
             .build();
 
     // Then
-    assertThat(amendingLawPrintedDTO.getId()).isEqualTo(id);
-    assertThat(amendingLawPrintedDTO.getEli()).isEqualTo(eli);
-    assertThat(amendingLawPrintedDTO.getDigitalAnnouncementMedium())
+    assertThat(amendingLawPrintDTO.getId()).isEqualTo(id);
+    assertThat(amendingLawPrintDTO.getEli()).isEqualTo(eli);
+    assertThat(amendingLawPrintDTO.getDigitalAnnouncementMedium())
         .isEqualTo(digitalAnnouncementMedium);
-    assertThat(amendingLawPrintedDTO.getPublicationDate()).isEqualTo(publicationDate);
-    assertThat(amendingLawPrintedDTO.getDigitalAnnouncementEdition())
+    assertThat(amendingLawPrintDTO.getPublicationDate()).isEqualTo(publicationDate);
+    assertThat(amendingLawPrintDTO.getDigitalAnnouncementEdition())
         .isEqualTo(digitalAnnouncementEdition);
   }
 }

@@ -25,7 +25,7 @@ class AmendingLawResponseMapperTest {
     amendingLawDTO.setPrintAnnouncementGazette("GAZETTE");
     amendingLawDTO.setDigitalAnnouncementMedium("MEDIUM");
     amendingLawDTO.setPublicationDate(now);
-    amendingLawDTO.setPrintedAnnouncementPage("PAGE");
+    amendingLawDTO.setPrintAnnouncementPage("PAGE");
     amendingLawDTO.setDigitalAnnouncementEdition("EDITION");
     amendingLawDTO.setArticleDtos(articles);
 
@@ -37,7 +37,7 @@ class AmendingLawResponseMapperTest {
     assertThat(resultProcedure.getPrintAnnouncementGazette()).isEqualTo("GAZETTE");
     assertThat(resultProcedure.getDigitalAnnouncementMedium()).isEqualTo("MEDIUM");
     assertThat(resultProcedure.getPublicationDate()).isEqualTo(now);
-    assertThat(resultProcedure.getPrintedAnnouncementPage()).isEqualTo("PAGE");
+    assertThat(resultProcedure.getPrintAnnouncementPage()).isEqualTo("PAGE");
     assertThat(resultProcedure.getDigitalAnnouncementEdition()).isEqualTo("EDITION");
     assertThat(resultProcedure.getArticles().getFirst())
         .isEqualTo(new Article("1234", "ELI", "title"));
@@ -57,7 +57,7 @@ class AmendingLawResponseMapperTest {
             .printAnnouncementGazette("GAZETTE")
             .digitalAnnouncementMedium("MEDIUM")
             .publicationDate(now)
-            .printedAnnouncementPage("PAGE")
+            .printAnnouncementPage("PAGE")
             .digitalAnnouncementEdition("EDITION")
             .articles(articles)
             .build();
@@ -70,7 +70,7 @@ class AmendingLawResponseMapperTest {
     assertThat(resultAmendingLawDTO.getPrintAnnouncementGazette()).isEqualTo("GAZETTE");
     assertThat(resultAmendingLawDTO.getDigitalAnnouncementMedium()).isEqualTo("MEDIUM");
     assertThat(resultAmendingLawDTO.getPublicationDate()).isEqualTo(now);
-    assertThat(resultAmendingLawDTO.getPrintedAnnouncementPage()).isEqualTo("PAGE");
+    assertThat(resultAmendingLawDTO.getPrintAnnouncementPage()).isEqualTo("PAGE");
     assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getEnumeration()).isEqualTo("1234");
     assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getEli()).isEqualTo("ELI");
     assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getTitle()).isEqualTo("title");

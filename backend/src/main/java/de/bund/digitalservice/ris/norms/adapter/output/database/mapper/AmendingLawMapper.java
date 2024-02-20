@@ -25,7 +25,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getPrintAnnouncementGazette(),
         amendingLawDTO.getDigitalAnnouncementMedium(),
         amendingLawDTO.getPublicationDate(),
-        amendingLawDTO.getPrintedAnnouncementPage(),
+        amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
         mapToDomain(amendingLawDTO.getArticleDtos()));
   }
@@ -48,7 +48,7 @@ public class AmendingLawMapper {
         .printAnnouncementGazette(amendingLaw.getPrintAnnouncementGazette())
         .digitalAnnouncementMedium(amendingLaw.getDigitalAnnouncementMedium())
         .publicationDate(amendingLaw.getPublicationDate())
-        .printedAnnouncementPage(amendingLaw.getPrintedAnnouncementPage())
+        .printAnnouncementPage(amendingLaw.getPrintAnnouncementPage())
         .digitalAnnouncementEdition(amendingLaw.getDigitalAnnouncementEdition())
         .articleDtos(mapToDtos(amendingLaw.getArticles()))
         .build();

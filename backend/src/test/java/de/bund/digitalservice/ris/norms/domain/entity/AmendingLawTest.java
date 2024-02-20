@@ -18,25 +18,22 @@ class AmendingLawTest {
     final String digitalAnnouncementEdition = "edition123";
 
     // When
-    final AmendingLaw amendingLawPrinted =
+    final AmendingLaw amendingLaw =
         AmendingLaw.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
-            .printedAnnouncementPage(printAnnouncementPage)
+            .printAnnouncementPage(printAnnouncementPage)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .build();
 
     // Then
-    assertThat(amendingLawPrinted.getEli()).isEqualTo(eli);
-    assertThat(amendingLawPrinted.getPrintAnnouncementGazette())
-        .isEqualTo(printAnnouncementGazette);
-    assertThat(amendingLawPrinted.getPublicationDate()).isEqualTo(publicationDate);
-    assertThat(amendingLawPrinted.getPrintedAnnouncementPage()).isEqualTo(printAnnouncementPage);
-    assertThat(amendingLawPrinted.getDigitalAnnouncementMedium())
-        .isEqualTo(digitalAnnouncementMedium);
-    assertThat(amendingLawPrinted.getDigitalAnnouncementEdition())
-        .isEqualTo(digitalAnnouncementEdition);
+    assertThat(amendingLaw.getEli()).isEqualTo(eli);
+    assertThat(amendingLaw.getPrintAnnouncementGazette()).isEqualTo(printAnnouncementGazette);
+    assertThat(amendingLaw.getPublicationDate()).isEqualTo(publicationDate);
+    assertThat(amendingLaw.getPrintAnnouncementPage()).isEqualTo(printAnnouncementPage);
+    assertThat(amendingLaw.getDigitalAnnouncementMedium()).isEqualTo(digitalAnnouncementMedium);
+    assertThat(amendingLaw.getDigitalAnnouncementEdition()).isEqualTo(digitalAnnouncementEdition);
   }
 }

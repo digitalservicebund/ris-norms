@@ -25,7 +25,7 @@ public class AmendingLaw {
 
   private LocalDate publicationDate;
 
-  private String printedAnnouncementPage;
+  private String printAnnouncementPage;
 
   private String digitalAnnouncementEdition;
 

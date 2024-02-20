@@ -18,7 +18,7 @@ class AmendingLawResponseSchemaTest {
     final String digitalAnnouncementEdition = "edition123";
 
     // When
-    final AmendingLawResponseSchema amendingLawPrinted =
+    final AmendingLawResponseSchema amendingLaw =
         AmendingLawResponseSchema.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
@@ -29,14 +29,11 @@ class AmendingLawResponseSchemaTest {
             .build();
 
     // Then
-    assertThat(amendingLawPrinted.getEli()).isEqualTo(eli);
-    assertThat(amendingLawPrinted.getPrintAnnouncementGazette())
-        .isEqualTo(printAnnouncementGazette);
-    assertThat(amendingLawPrinted.getPublicationDate()).isEqualTo(publicationDate);
-    assertThat(amendingLawPrinted.getPrintAnnouncementPage()).isEqualTo(printAnnouncementPage);
-    assertThat(amendingLawPrinted.getDigitalAnnouncementMedium())
-        .isEqualTo(digitalAnnouncementMedium);
-    assertThat(amendingLawPrinted.getDigitalAnnouncementEdition())
-        .isEqualTo(digitalAnnouncementEdition);
+    assertThat(amendingLaw.getEli()).isEqualTo(eli);
+    assertThat(amendingLaw.getPrintAnnouncementGazette()).isEqualTo(printAnnouncementGazette);
+    assertThat(amendingLaw.getPublicationDate()).isEqualTo(publicationDate);
+    assertThat(amendingLaw.getPrintAnnouncementPage()).isEqualTo(printAnnouncementPage);
+    assertThat(amendingLaw.getDigitalAnnouncementMedium()).isEqualTo(digitalAnnouncementMedium);
+    assertThat(amendingLaw.getDigitalAnnouncementEdition()).isEqualTo(digitalAnnouncementEdition);
   }
 }

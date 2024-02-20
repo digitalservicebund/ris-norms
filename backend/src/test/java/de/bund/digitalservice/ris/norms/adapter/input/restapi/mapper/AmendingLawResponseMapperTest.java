@@ -25,7 +25,7 @@ class AmendingLawResponseMapperTest {
     amendingLaw.setPrintAnnouncementGazette("GAZETTE");
     amendingLaw.setDigitalAnnouncementMedium("MEDIUM");
     amendingLaw.setPublicationDate(now);
-    amendingLaw.setPrintedAnnouncementPage("PAGE");
+    amendingLaw.setPrintAnnouncementPage("PAGE");
     amendingLaw.setDigitalAnnouncementEdition("EDITION");
     amendingLaw.setArticles(article);
 

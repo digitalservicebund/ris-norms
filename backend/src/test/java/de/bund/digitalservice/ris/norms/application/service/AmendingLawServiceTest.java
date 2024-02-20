@@ -62,7 +62,7 @@ class AmendingLawServiceTest {
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
-            .printedAnnouncementPage(printAnnouncementPage)
+            .printAnnouncementPage(printAnnouncementPage)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .build();
@@ -117,7 +117,7 @@ class AmendingLawServiceTest {
                 .eli(eli)
                 .printAnnouncementGazette(printAnnouncementGazette)
                 .publicationDate(publicationDate)
-                .printedAnnouncementPage(printAnnouncementPage)
+                .printAnnouncementPage(printAnnouncementPage)
                 .digitalAnnouncementMedium(digitalAnnouncementMedium)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
                 .build(),
@@ -125,7 +125,7 @@ class AmendingLawServiceTest {
                 .eli(eli)
                 .printAnnouncementGazette(printAnnouncementGazette)
                 .publicationDate(publicationDate)
-                .printedAnnouncementPage(printAnnouncementPage)
+                .printAnnouncementPage(printAnnouncementPage)
                 .digitalAnnouncementMedium(digitalAnnouncementMedium)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
                 .build());
