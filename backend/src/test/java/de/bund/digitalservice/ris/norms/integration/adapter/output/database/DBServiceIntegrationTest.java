@@ -25,6 +25,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   final Article article1 = new Article("1", "eli1");
   final Article article2 = new Article("2", "eli2");
 
+  final Article article3 = new Article("3", "eli3");
+
+  final Article article4 = new Article("4", "eli4");
+
   @AfterEach
   void cleanUp() {
     amendingLawRepository.deleteAll();
@@ -54,11 +58,18 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
 
     // When
-    final Optional<AmendingLaw> amendingLawLoaded =
+    final Optional<AmendingLaw> amendingLawOptional =
         dbService.loadAmendingLawByEli(new LoadAmendingLawPort.Command(eli));
 
     // Then
-    assertThat(amendingLawLoaded).isPresent().contains(amendingLaw);
+    assertThat(amendingLawOptional)
+        .isPresent()
+        .satisfies(
+            amendingLawDb -> {
+              assertThat(amendingLawDb.get()).isEqualTo(amendingLaw);
+              assertThat(amendingLawDb.get().getArticles())
+                  .containsExactlyInAnyOrderElementsOf(amendingLaw.getArticles());
+            });
   }
 
   @Test
@@ -84,7 +95,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
 
-    final String eli2 = "eli/bund/bgbl-1/1953/s225";
+    final String eli2 = "eli/bund/bgbl-2/2010/s13";
     final String printAnnouncementGazette2 = "someGazette2";
     final LocalDate publicationDate2 = LocalDate.now();
     final String printAnnouncementPage2 = "page1232";
@@ -109,7 +120,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .printedAnnouncementPage(printAnnouncementPage2)
             .digitalAnnouncementMedium(digitalAnnouncementMedium2)
             .digitalAnnouncementEdition(digitalAnnouncementEdition2)
-            .articles(List.of(article1, article2))
+            .articles(List.of(article3, article4))
             .build();
 
     amendingLawRepository.saveAll(
@@ -124,5 +135,15 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     assertThat(amendingLawsLoaded)
         .extracting(AmendingLaw::getEli)
         .containsExactlyInAnyOrder(amendingLaw1.getEli(), amendingLaw2.getEli());
+
+    for (AmendingLaw amendingLaw : amendingLawsLoaded) {
+      if (amendingLaw.getEli().equals(eli2)) {
+        assertThat(amendingLaw.getArticles())
+            .containsExactlyInAnyOrderElementsOf(List.of(article3, article4));
+      } else {
+        assertThat(amendingLaw.getArticles())
+            .containsExactlyInAnyOrderElementsOf(List.of(article1, article2));
+      }
+    }
   }
 }

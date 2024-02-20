@@ -1,4 +1,4 @@
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     amending_law
 (
     id                               uuid         NOT NULL PRIMARY KEY,
@@ -10,7 +10,7 @@ CREATE TABLE
     digital_announcement_edition     character varying(15)
 );
 
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     article
 (
     id                              uuid         NOT NULL PRIMARY KEY,
