@@ -146,6 +146,10 @@ jobs:
         # with:
         #   version: '${{ inputs.version }}'
         #   force: '${{ inputs.force }}'
+      - name: Confirm jq
+        run: which jq
+      - name: Confirm command
+        run: jq .outdated.count  build/dependencyUpdates/report.json`
       - name: Determine library updates
         working-directory: ./backend
         run: |
