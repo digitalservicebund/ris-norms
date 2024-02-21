@@ -13,5 +13,11 @@
     "no-throw-literal": "warn",
     "semi": "off"
   },
-  "ignorePatterns": ["out", "dist", "**/*.d.ts", "!.vscode-test.js"]
+  "ignorePatterns": [
+    "out",
+    "dist",
+    "**/*.d.ts",
+    "!.vscode-test.js",
+    "!.c8rc.json"
+  ]
 }
