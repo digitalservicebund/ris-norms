@@ -149,6 +149,7 @@ jobs:
       - name: Confirm jq
         run: which jq
       - name: Confirm command
+        working-directory: ./backend
         run: jq .outdated.count  build/dependencyUpdates/report.json
       - name: Determine library updates
         working-directory: ./backend
