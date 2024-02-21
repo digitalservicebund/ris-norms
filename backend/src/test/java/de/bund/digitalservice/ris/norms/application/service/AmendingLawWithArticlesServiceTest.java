@@ -12,13 +12,14 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUs
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class AmendingLawServiceTest {
+class AmendingLawWithArticlesServiceTest {
 
   @Test
   void itCallsLoadAmendingLawByUuidUsingInputQueryUuid() {
@@ -57,8 +58,8 @@ class AmendingLawServiceTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
 
-    final AmendingLaw amendingLaw =
-        AmendingLaw.builder()
+    final AmendingLawWithArticles amendingLawWithArticles =
+        AmendingLawWithArticles.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
@@ -67,13 +68,14 @@ class AmendingLawServiceTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .build();
 
-    when(loadAmendingLawAdapter.loadAmendingLawByEli(any())).thenReturn(Optional.of(amendingLaw));
+    when(loadAmendingLawAdapter.loadAmendingLawByEli(any()))
+        .thenReturn(Optional.of(amendingLawWithArticles));
 
     // When
-    final Optional<AmendingLaw> amendingLawLoaded = service.loadAmendingLaw(query);
+    final Optional<AmendingLawWithArticles> amendingLawLoaded = service.loadAmendingLaw(query);
 
     // Then
-    assertThat(amendingLawLoaded).isPresent().contains(amendingLaw);
+    assertThat(amendingLawLoaded).isPresent().contains(amendingLawWithArticles);
   }
 
   @Test
@@ -89,7 +91,7 @@ class AmendingLawServiceTest {
     when(loadAmendingLawAdapter.loadAmendingLawByEli(any())).thenReturn(Optional.empty());
 
     // When
-    final Optional<AmendingLaw> amendingLawsLoaded = service.loadAmendingLaw(query);
+    final Optional<AmendingLawWithArticles> amendingLawsLoaded = service.loadAmendingLaw(query);
 
     // Then
     assertThat(amendingLawsLoaded).isEmpty();
@@ -111,7 +113,7 @@ class AmendingLawServiceTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
 
-    final List<AmendingLaw> expectedAmendingLaws =
+    final List<AmendingLaw> expectedAmendingLaw =
         List.of(
             AmendingLaw.builder()
                 .eli(eli)
@@ -130,15 +132,15 @@ class AmendingLawServiceTest {
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
                 .build());
 
-    when(loadAllAmendingLawsAdapter.loadAllAmendingLaws()).thenReturn(expectedAmendingLaws);
+    when(loadAllAmendingLawsAdapter.loadAllAmendingLaws()).thenReturn(expectedAmendingLaw);
 
     // When
-    List<AmendingLaw> amendingLaws = service.loadAllAmendingLaws();
+    List<AmendingLaw> amendingLaw = service.loadAllAmendingLaws();
 
     // Then
-    assertThat(amendingLaws)
-        .hasSize(expectedAmendingLaws.size())
-        .containsExactlyElementsOf(expectedAmendingLaws);
+    assertThat(amendingLaw)
+        .hasSize(expectedAmendingLaw.size())
+        .containsExactlyElementsOf(expectedAmendingLaw);
     verify(loadAllAmendingLawsAdapter, times(1)).loadAllAmendingLaws();
   }
 }

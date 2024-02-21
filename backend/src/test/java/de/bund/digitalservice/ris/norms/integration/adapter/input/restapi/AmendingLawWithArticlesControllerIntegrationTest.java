@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
-import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
@@ -43,8 +43,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementEdition = "edition123";
 
     // When
-    final AmendingLaw amendingLaw =
-        AmendingLaw.builder()
+    final AmendingLawWithArticles amendingLawWithArticles =
+        AmendingLawWithArticles.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
@@ -53,10 +53,13 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .articles(List.of(article1, article2))
             .build();
-    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLawWithArticles));
 
     final String encodedEli =
-        UriComponentsBuilder.fromPath(amendingLaw.getEli()).build().encode().toUriString();
+        UriComponentsBuilder.fromPath(amendingLawWithArticles.getEli())
+            .build()
+            .encode()
+            .toUriString();
 
     // When // Then
     mockMvc
@@ -89,8 +92,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
 
-    final AmendingLaw amendingLaw1 =
-        AmendingLaw.builder()
+    final AmendingLawWithArticles amendingLawWithArticles1 =
+        AmendingLawWithArticles.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
@@ -100,8 +103,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .articles(List.of(article1, article2))
             .build();
 
-    final AmendingLaw amendingLaw2 =
-        AmendingLaw.builder()
+    final AmendingLawWithArticles amendingLawWithArticles2 =
+        AmendingLawWithArticles.builder()
             .eli(eli2)
             .printAnnouncementGazette(printAnnouncementGazette2)
             .publicationDate(publicationDate2)
@@ -113,7 +116,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
     amendingLawRepository.saveAll(
         List.of(
-            AmendingLawMapper.mapToDto(amendingLaw1), AmendingLawMapper.mapToDto(amendingLaw2)));
+            AmendingLawMapper.mapToDto(amendingLawWithArticles1),
+            AmendingLawMapper.mapToDto(amendingLawWithArticles2)));
 
     // When // Then
     mockMvc
@@ -121,9 +125,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[2]").doesNotExist())
-        .andExpect(jsonPath("$[0].eli", equalTo(amendingLaw1.getEli())))
-        .andExpect(jsonPath("$[1].eli", equalTo(amendingLaw2.getEli())))
-        .andExpect(jsonPath("$[0].articles").isArray())
-        .andExpect(jsonPath("$[0].articles[0].eli").value("eli1"));
+        .andExpect(jsonPath("$[0].eli", equalTo(amendingLawWithArticles1.getEli())))
+        .andExpect(jsonPath("$[1].eli", equalTo(amendingLawWithArticles2.getEli())));
   }
 }

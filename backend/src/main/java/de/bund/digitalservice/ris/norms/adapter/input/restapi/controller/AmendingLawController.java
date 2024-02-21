@@ -1,10 +1,12 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.AmendingLawResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawIncludingArticlesResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAmendingLawsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,7 +53,7 @@ public class AmendingLawController {
    */
   @GetMapping(
       path = "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}")
-  ResponseEntity<AmendingLawResponseSchema> getAmendingLaw(
+  ResponseEntity<AmendingLawIncludingArticlesResponseSchema> getAmendingLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage) {
@@ -62,7 +64,7 @@ public class AmendingLawController {
             + printAnnouncementYear
             + "/"
             + printAnnouncementPage;
-    final Optional<AmendingLaw> optionalAmendingLaw =
+    final Optional<AmendingLawWithArticles> optionalAmendingLaw =
         loadAmendingLawUseCase.loadAmendingLaw(new LoadAmendingLawUseCase.Query(eli));
     return optionalAmendingLaw
         .map(AmendingLawResponseMapper::fromUseCaseData)
@@ -72,10 +74,10 @@ public class AmendingLawController {
 
   @GetMapping
   public ResponseEntity<List<AmendingLawResponseSchema>> getAllAmendingLaws() {
-    List<AmendingLaw> amendingLaws = loadAllAmendingLawsUseCase.loadAllAmendingLaws();
+    List<AmendingLaw> amendingLawWithArticles = loadAllAmendingLawsUseCase.loadAllAmendingLaws();
     List<AmendingLawResponseSchema> responseSchemas =
-        amendingLaws.stream()
-            .map(AmendingLawResponseMapper::fromUseCaseData)
+        amendingLawWithArticles.stream()
+            .map(AmendingLawResponseMapper::fromUseCaseDataWithoutArticles)
             .collect(Collectors.toList());
     return ResponseEntity.ok(responseSchemas);
   }

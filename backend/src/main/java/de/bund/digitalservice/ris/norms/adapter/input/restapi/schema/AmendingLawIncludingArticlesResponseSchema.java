@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -13,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 @Data
-public class AmendingLawResponseSchema {
+public class AmendingLawIncludingArticlesResponseSchema {
 
   private String eli;
 
@@ -26,4 +27,6 @@ public class AmendingLawResponseSchema {
   private String printAnnouncementPage;
 
   private String digitalAnnouncementEdition;
+
+  private List<ArticleResponseSchema> articles;
 }

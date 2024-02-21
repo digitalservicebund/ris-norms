@@ -2,16 +2,16 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawIncludingArticlesResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
-import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-class AmendingLawResponseMapperTest {
+class AmendingLawWithArticlesResponseMapperTest {
 
   @Test
   void canMapSimpleResponseSchema() {
@@ -20,18 +20,18 @@ class AmendingLawResponseMapperTest {
     final List<Article> article = new ArrayList<>();
     article.add(Article.builder().enumeration("1234").eli("ELI").title("title").build());
 
-    final AmendingLaw amendingLaw = new AmendingLaw();
-    amendingLaw.setEli("ELI");
-    amendingLaw.setPrintAnnouncementGazette("GAZETTE");
-    amendingLaw.setDigitalAnnouncementMedium("MEDIUM");
-    amendingLaw.setPublicationDate(now);
-    amendingLaw.setPrintAnnouncementPage("PAGE");
-    amendingLaw.setDigitalAnnouncementEdition("EDITION");
-    amendingLaw.setArticles(article);
+    final AmendingLawWithArticles amendingLawWithArticles = new AmendingLawWithArticles();
+    amendingLawWithArticles.setEli("ELI");
+    amendingLawWithArticles.setPrintAnnouncementGazette("GAZETTE");
+    amendingLawWithArticles.setDigitalAnnouncementMedium("MEDIUM");
+    amendingLawWithArticles.setPublicationDate(now);
+    amendingLawWithArticles.setPrintAnnouncementPage("PAGE");
+    amendingLawWithArticles.setDigitalAnnouncementEdition("EDITION");
+    amendingLawWithArticles.setArticles(article);
 
     // When
-    final AmendingLawResponseSchema resultAmendingLaw =
-        AmendingLawResponseMapper.fromUseCaseData(amendingLaw);
+    final AmendingLawIncludingArticlesResponseSchema resultAmendingLaw =
+        AmendingLawResponseMapper.fromUseCaseData(amendingLawWithArticles);
 
     // Then
     assertThat(resultAmendingLaw.getEli()).isEqualTo("ELI");

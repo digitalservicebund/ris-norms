@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Amend
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
@@ -45,8 +46,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementEdition = "edition123";
 
     // When
-    final AmendingLaw amendingLaw =
-        AmendingLaw.builder()
+    final AmendingLawWithArticles amendingLawWithArticles =
+        AmendingLawWithArticles.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
@@ -55,10 +56,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .articles(List.of(article1, article2))
             .build();
-    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLawWithArticles));
 
     // When
-    final Optional<AmendingLaw> amendingLawOptional =
+    final Optional<AmendingLawWithArticles> amendingLawOptional =
         dbService.loadAmendingLawByEli(new LoadAmendingLawPort.Command(eli));
 
     // Then
@@ -66,9 +67,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         .isPresent()
         .satisfies(
             amendingLawDb -> {
-              assertThat(amendingLawDb.get()).isEqualTo(amendingLaw);
+              assertThat(amendingLawDb.get()).isEqualTo(amendingLawWithArticles);
               assertThat(amendingLawDb.get().getArticles())
-                  .containsExactlyInAnyOrderElementsOf(amendingLaw.getArticles());
+                  .containsExactlyInAnyOrderElementsOf(amendingLawWithArticles.getArticles());
             });
   }
 
@@ -78,7 +79,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String eli = "eli/bgbl-1/2024/123";
 
     // When
-    final Optional<AmendingLaw> amendingLawLoaded =
+    final Optional<AmendingLawWithArticles> amendingLawLoaded =
         dbService.loadAmendingLawByEli(new LoadAmendingLawPort.Command(eli));
 
     // Then
@@ -102,8 +103,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
 
-    final AmendingLaw amendingLaw1 =
-        AmendingLaw.builder()
+    final AmendingLawWithArticles amendingLawWithArticles1 =
+        AmendingLawWithArticles.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
@@ -112,8 +113,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .articles(List.of(article1, article2))
             .build();
-    final AmendingLaw amendingLaw2 =
-        AmendingLaw.builder()
+    final AmendingLawWithArticles amendingLawWithArticles2 =
+        AmendingLawWithArticles.builder()
             .eli(eli2)
             .printAnnouncementGazette(printAnnouncementGazette2)
             .publicationDate(publicationDate2)
@@ -125,7 +126,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     amendingLawRepository.saveAll(
         List.of(
-            AmendingLawMapper.mapToDto(amendingLaw1), AmendingLawMapper.mapToDto(amendingLaw2)));
+            AmendingLawMapper.mapToDto(amendingLawWithArticles1),
+            AmendingLawMapper.mapToDto(amendingLawWithArticles2)));
 
     // When
     List<AmendingLaw> amendingLawsLoaded = dbService.loadAllAmendingLaws();
@@ -134,16 +136,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     assertThat(amendingLawsLoaded).hasSize(2);
     assertThat(amendingLawsLoaded)
         .extracting(AmendingLaw::getEli)
-        .containsExactlyInAnyOrder(amendingLaw1.getEli(), amendingLaw2.getEli());
-
-    for (AmendingLaw amendingLaw : amendingLawsLoaded) {
-      if (amendingLaw.getEli().equals(eli2)) {
-        assertThat(amendingLaw.getArticles())
-            .containsExactlyInAnyOrderElementsOf(List.of(article3, article4));
-      } else {
-        assertThat(amendingLaw.getArticles())
-            .containsExactlyInAnyOrderElementsOf(List.of(article1, article2));
-      }
-    }
+        .containsExactlyInAnyOrder(
+            amendingLawWithArticles1.getEli(), amendingLawWithArticles2.getEli());
   }
 }

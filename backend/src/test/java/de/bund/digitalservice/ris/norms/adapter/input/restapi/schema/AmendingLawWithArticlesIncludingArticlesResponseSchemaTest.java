@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
-class AmendingLawResponseSchemaTest {
+class AmendingLawWithArticlesIncludingArticlesResponseSchemaTest {
 
   @Test
   void canCreateSimpleAmendingLawResponseSchema() {
@@ -18,8 +18,8 @@ class AmendingLawResponseSchemaTest {
     final String digitalAnnouncementEdition = "edition123";
 
     // When
-    final AmendingLawResponseSchema amendingLaw =
-        AmendingLawResponseSchema.builder()
+    final AmendingLawIncludingArticlesResponseSchema amendingLaw =
+        AmendingLawIncludingArticlesResponseSchema.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)

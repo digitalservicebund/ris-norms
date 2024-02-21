@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.Interna
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAmendingLawsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * setting up the {@code mockMvc} including the ControllerAdvice
  */
 @ExtendWith(SpringExtension.class)
-class AmendingLawControllerTest {
+class AmendingLawWithArticlesControllerTest {
 
   private MockMvc mockMvc;
 
@@ -72,8 +73,8 @@ class AmendingLawControllerTest {
     final Article article2 = new Article("2", "eli2", "title2");
 
     // When
-    final AmendingLaw amendingLaw =
-        AmendingLaw.builder()
+    final AmendingLawWithArticles amendingLawWithArticles =
+        AmendingLawWithArticles.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
@@ -83,7 +84,8 @@ class AmendingLawControllerTest {
             .articles(List.of(article1, article2))
             .build();
 
-    when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.of(amendingLaw));
+    when(loadAmendingLawUseCase.loadAmendingLaw(any()))
+        .thenReturn(Optional.of(amendingLawWithArticles));
 
     // When // Then
     mockMvc
@@ -141,7 +143,7 @@ class AmendingLawControllerTest {
     final Article article1 = new Article("1", "eli1", "title1");
     final Article article2 = new Article("2", "eli2", "title2");
 
-    List<AmendingLaw> allAmendingLaws =
+    List<AmendingLaw> allAmendingLawWithArticles =
         List.of(
             AmendingLaw.builder()
                 .eli(eli)
@@ -150,7 +152,6 @@ class AmendingLawControllerTest {
                 .printAnnouncementPage(printAnnouncementPage)
                 .digitalAnnouncementMedium(digitalAnnouncementMedium)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
-                .articles(List.of(article1, article2))
                 .build(),
             AmendingLaw.builder()
                 .eli(eli2)
@@ -159,10 +160,9 @@ class AmendingLawControllerTest {
                 .printAnnouncementPage(printAnnouncementPage2)
                 .digitalAnnouncementMedium(digitalAnnouncementMedium2)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition2)
-                .articles(List.of(article1, article2))
                 .build());
 
-    when(loadAllAmendingLawsUseCase.loadAllAmendingLaws()).thenReturn(allAmendingLaws);
+    when(loadAllAmendingLawsUseCase.loadAllAmendingLaws()).thenReturn(allAmendingLawWithArticles);
 
     // When // Then
     mockMvc
@@ -173,8 +173,6 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("$[0].printAnnouncementGazette", equalTo(printAnnouncementGazette)))
         .andExpect(jsonPath("$[0].eli", equalTo(eli)))
         .andExpect(jsonPath("$[1].printAnnouncementGazette", equalTo(printAnnouncementGazette2)))
-        .andExpect(jsonPath("$[1].eli", equalTo(eli2)))
-        .andExpect(jsonPath("$[0].articles").isArray())
-        .andExpect(jsonPath("$[0].articles[0].eli").value("eli1"));
+        .andExpect(jsonPath("$[1].eli", equalTo(eli2)));
   }
 }
