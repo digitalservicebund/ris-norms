@@ -1,3 +1,8 @@
+import {
+  findAmendedLawFile,
+  findAmendingLawFile,
+  findToBeAmendedLawFile,
+} from "../findLawFiles";
 import * as vscode from "vscode";
 import { window } from "vscode";
 
@@ -29,17 +34,22 @@ export async function openFilesInLayout() {
       throw new Error("Workspace folder not found.");
     }
 
-    const workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    const workspaceFolder = vscode.workspace.workspaceFolders[0].uri;
 
-    const amendingLaw = vscode.Uri.file(
-      `${workspaceFolder}/07_01_aenderungsgesetz.xml`,
-    );
-    const toBeAmendedLaw = vscode.Uri.file(
-      `${workspaceFolder}/07_01_zuaenderndesgesetz.xml`,
-    );
-    const amendedLaw = vscode.Uri.file(
-      `${workspaceFolder}/07_01_geaendertesGesetz_V1.2_konsolidierte_Fassung.xml`,
-    );
+    const amendingLaw = await findAmendingLawFile(workspaceFolder);
+    if (amendingLaw === undefined) {
+      throw new Error("Amending law not found.");
+    }
+
+    const toBeAmendedLaw = await findToBeAmendedLawFile(workspaceFolder);
+    if (toBeAmendedLaw === undefined) {
+      throw new Error("To be amended law not found.");
+    }
+
+    const amendedLaw = await findAmendedLawFile(workspaceFolder);
+    if (amendedLaw === undefined) {
+      throw new Error("Amended law not found.");
+    }
 
     const amendingLawPanel =
       await vscode.workspace.openTextDocument(amendingLaw);

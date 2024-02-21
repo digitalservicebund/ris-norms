@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import ContentProvider from "../provider";
 import { Disposable, workspace, window } from "vscode";
+import { findAmendingLawFile, findToBeAmendedLawFile } from "@/findLawFiles";
 
 export function activate(context: vscode.ExtensionContext) {
   const provider = new ContentProvider();
@@ -20,13 +21,20 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      const workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
-      const amendingLaw = vscode.Uri.file(
-        `${workspaceFolder}/07_01_aenderungsgesetz.xml`,
-      );
-      const toBeAmendedLaw = vscode.Uri.file(
-        `${workspaceFolder}/07_01_zuaenderndesgesetz.xml`,
-      );
+      const workspaceFolder = vscode.workspace.workspaceFolders[0].uri;
+
+      const amendingLaw = await findAmendingLawFile(workspaceFolder);
+      if (amendingLaw === undefined) {
+        await window.showErrorMessage("Amending law not found.");
+        return;
+      }
+
+      const toBeAmendedLaw = await findToBeAmendedLawFile(workspaceFolder);
+      if (toBeAmendedLaw === undefined) {
+        await window.showErrorMessage("To be amended law not found.");
+        return;
+      }
+
       const url = provider.encodeLocation(amendingLaw, toBeAmendedLaw);
       const doc = await workspace.openTextDocument(url);
       await window.showTextDocument(doc, vscode.ViewColumn.Three);
