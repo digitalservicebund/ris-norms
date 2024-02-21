@@ -154,7 +154,7 @@ jobs:
       - name: Determine library updates
         working-directory: ./backend
         run: |
-          if (`jq .outdated.count  build/dependencyUpdates/report.json` -ne 0); then
+          if [ `jq .outdated.count  build/dependencyUpdates/report.json` -ne 0 ]; then
             echo "Outdated libraries found. Run './gradlew versionCatalogUpdate' to see the list"
             exit 1
           else
