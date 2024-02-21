@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.spring.cloud.starter.kubernetes.client.config)
     implementation(libs.postgresql)
     implementation(libs.flyway.core)
+    implementation(libs.apache.commons.compress)
 
     compileOnly(libs.lombok)
 
