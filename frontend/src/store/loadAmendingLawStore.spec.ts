@@ -20,7 +20,7 @@ describe("useAmendingLawsStore", () => {
     mockAmendingLaw = {
       eli: eli,
       printAnnouncementGazette: "example",
-      printAnnouncementMedium: undefined,
+      digitalAnnouncementMedium: undefined,
       publicationDate: "2023-01-01",
       printAnnouncementPage: "1",
       digitalAnnouncementEdition: undefined,
