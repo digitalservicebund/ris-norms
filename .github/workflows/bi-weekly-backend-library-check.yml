@@ -1,0 +1,50 @@
+name: Bi-weekly checking of backend libraries for missing updates
+
+on:
+  schedule:
+    # cron: "minute hour dayOfMonth month dayOfWeek"
+    # 7am Berlin in winter (8am Berlin time in summer) on the 1st and 15th of every month
+    - cron: "0 6 1,15 * *"
+  # also: allow to run this workflow manually
+  workflow_dispatch:
+
+jobs:
+  validate-gradle-wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@85cde3f5a1033b2adc2442631c24b530f1183a1a
+
+  backend-determine-library-updates:
+    needs: [validate-gradle-wrapper]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21.0"
+          distribution: "temurin"
+      - name: Run gradle versionCatalogUpdate
+        uses: gradle/gradle-build-action@3b1b3b9a2104c2b47fbae53f3938079c00c9bb87
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION}}
+          arguments: versionCatalogUpdate
+          build-root-directory: ./backend
+      - name: "Setup jq"
+        uses: dcarbone/install-jq-action@v2
+      - name: Determine library updates
+        working-directory: ./backend
+        run: |
+          if [ `jq .outdated.count  build/dependencyUpdates/report.json` -ne 0 ]; then
+            echo "Outdated libraries found. Cf. above for details."
+            exit 1
+          else
+            echo "No outdated libraries found"
+          fi
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
