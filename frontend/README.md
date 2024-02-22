@@ -9,6 +9,7 @@ From here the users can handle their procedures ("Vorgänge").
 ## Prerequisites
 
 - Node.js (with a `.node-version` file for simplified setup using [`nodenv``](https://github.com/nodenv/nodenv)
+- Environment Variables (copy the `.env.local.example` to `.env.local` and fill in the URL to the VSCode-Server)
 
 ## Quick-Start
 

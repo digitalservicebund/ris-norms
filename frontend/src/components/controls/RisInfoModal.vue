@@ -8,6 +8,8 @@ const props = withDefaults(
     title: string
     description?: string
     iconText?: string
+    href?: string
+    target?: string
   }>(),
   {
     ariaLabel: "Infomodal",
@@ -28,6 +30,8 @@ const props = withDefaults(
     </div>
 
     <RisTextButton
+      :href="href"
+      :target="target"
       :icon="EditOutlineIcon"
       :label="iconText"
       class="flex w-288 items-center"

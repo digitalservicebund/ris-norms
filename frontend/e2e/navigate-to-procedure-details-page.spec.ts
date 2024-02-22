@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test"
-import { procedures } from "@e2e/testData/testData"
+import { amendingLaws } from "@e2e/testData/testData"
 
 test.beforeEach(async ({ page }) => {
   // Intercept API calls and respond with your test data
@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
     route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify(procedures),
+      body: JSON.stringify(amendingLaws),
     }),
   )
 })
@@ -18,8 +18,8 @@ test.skip("navigate from procedures list to a procedure detail page", async ({
   await page.goto("/")
   await expect(page.locator("text=Vorgänge")).toBeVisible()
 
-  const procedure = procedures[0]
-  const encodedEli = encodeURIComponent(procedure.eli)
+  const amendingLaw = amendingLaws[0]
+  const encodedEli = encodeURIComponent(amendingLaw.eli)
 
   await page.click(`a[href*="${encodedEli}"]`)
 

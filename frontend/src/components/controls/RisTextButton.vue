@@ -8,6 +8,7 @@ interface Props {
   ariaLabel?: string
   disabled?: boolean
   href?: string
+  target?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -16,6 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   ariaLabel: undefined,
   disabled: false,
   href: undefined,
+  target: undefined,
 })
 
 const buttonClasses = computed(() => ({
@@ -43,6 +45,7 @@ const render = () => {
       "aria-label": props.ariaLabel,
       disabled: !href && disabled,
       href: sanitizedUrl.value,
+      target: props.target,
     },
     [renderIcon(), renderLabel()],
   )
