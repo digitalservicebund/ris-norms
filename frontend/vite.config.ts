@@ -14,6 +14,15 @@ export default defineConfig({
       compiler: "vue3",
     }),
   ],
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   test: {
     setupFiles: ["src/vitest-setup.ts"],
     globals: true,
