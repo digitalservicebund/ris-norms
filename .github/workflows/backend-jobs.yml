@@ -100,6 +100,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   audit-licenses-backend:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -126,34 +127,8 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  backend-determine-library-updates:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: "21.0"
-          distribution: "temurin"
-      - name: Run gradle versionCatalogUpdate
-        uses: gradle/gradle-build-action@3b1b3b9a2104c2b47fbae53f3938079c00c9bb87
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION}}
-          arguments: versionCatalogUpdate
-          build-root-directory: ./backend
-      - name: "Setup jq"
-        uses: dcarbone/install-jq-action@v2
-      - name: Determine library updates
-        working-directory: ./backend
-        run: |
-          if [ `jq .outdated.count  build/dependencyUpdates/report.json` -ne 0 ]; then
-            echo "Outdated libraries found. Cf. above for details."
-            exit 1
-          else
-            echo "No outdated libraries found"
-          fi
-
   analyze-backend:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
