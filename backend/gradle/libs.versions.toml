@@ -1,40 +1,39 @@
 [versions]
 # @keep
 jacoco = "0.8.11"
+org-testcontainers = "1.19.5"
 spring-boot = "3.2.2"
 
-
 [libraries]
-archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
-lombok = { module = "org.projectlombok:lombok" }
-mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.10.0"
-spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
-spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
-spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
-spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
-spring-security-test = { module = "org.springframework.security:spring-security-test" }
-spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
-spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
-spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.0"
-postgresql = "org.postgresql:postgresql:42.7.2"
-flyway-core = { module = "org.flywaydb:flyway-core"}
-testcontainers-core = "org.testcontainers:testcontainers:1.19.5"
-testcontainers-junit-jupiter = "org.testcontainers:junit-jupiter:1.19.5"
-testcontainers-postgres = "org.testcontainers:postgresql:1.19.5"
 # CVE-2024-26308
 apache-commons-compress = "org.apache.commons:commons-compress:1.26.0"
+archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
+flyway-core = { module = "org.flywaydb:flyway-core" }
+lombok = { module = "org.projectlombok:lombok" }
+mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.10.0"
+postgresql = "org.postgresql:postgresql:42.7.2"
+spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.0"
 # CVE-2024-22234
 spring-security-core = "org.springframework.security:spring-security-core:6.2.2"
-
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
+testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
+testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.5"
+flyway = "org.flywaydb.flyway:10.8.1"
 sonarqube = "org.sonarqube:4.4.1.3373"
 spotless = "com.diffplug.spotless:6.25.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.4"
 test-logger = "com.adarshr.test-logger:4.0.0"
-version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.1"
+version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
 versions = "com.github.ben-manes.versions:0.51.0"
-flyway = "org.flywaydb.flyway:10.8.1"
