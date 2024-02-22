@@ -99,7 +99,6 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-
   audit-licenses-backend:
     runs-on: ubuntu-latest
     steps:
@@ -120,7 +119,7 @@ jobs:
         with:
           name: backend-licence-report.csv
           retention-days: 3
-          path: time-machine/build/reports/dependency-license/backend-licence-report.csv
+          path: backend/build/reports/dependency-license/backend-licence-report.csv
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
         if: ${{ failure() && github.ref == 'refs/heads/main'}}
