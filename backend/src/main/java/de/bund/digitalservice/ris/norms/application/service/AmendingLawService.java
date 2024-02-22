@@ -5,7 +5,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUs
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
-import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,7 @@ public class AmendingLawService implements LoadAmendingLawUseCase, LoadAllAmendi
 
   /** {@inheritDoc} */
   @Override
-  public Optional<AmendingLawWithArticles> loadAmendingLaw(final Query query) {
+  public Optional<AmendingLaw> loadAmendingLaw(final Query query) {
     return loadAmendingLawPort.loadAmendingLawByEli(new LoadAmendingLawPort.Command(query.eli()));
   }
 

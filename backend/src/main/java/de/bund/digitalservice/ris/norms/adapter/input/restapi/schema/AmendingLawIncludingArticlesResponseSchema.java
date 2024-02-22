@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
-import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
+import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -8,8 +8,8 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 /**
- * Represents the response schema for a {@link AmendingLawWithArticles} entity in the REST API. This
- * class is used to structure the response data sent by the API.
+ * Represents the response schema for a {@link AmendingLaw} entity in the REST API. This class is
+ * used to structure the response data sent by the API.
  */
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor

@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,6 @@ public class AmendingLaw {
   private String printAnnouncementPage;
 
   private String digitalAnnouncementEdition;
+
+  private List<Article> articles;
 }

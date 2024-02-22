@@ -6,7 +6,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLaw
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAmendingLawsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
-import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,7 +63,7 @@ public class AmendingLawController {
             + printAnnouncementYear
             + "/"
             + printAnnouncementPage;
-    final Optional<AmendingLawWithArticles> optionalAmendingLaw =
+    final Optional<AmendingLaw> optionalAmendingLaw =
         loadAmendingLawUseCase.loadAmendingLaw(new LoadAmendingLawUseCase.Query(eli));
     return optionalAmendingLaw
         .map(AmendingLawResponseMapper::fromUseCaseData)

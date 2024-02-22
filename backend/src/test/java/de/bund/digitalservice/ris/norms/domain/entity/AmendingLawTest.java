@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
-class AmendingLawWithArticlesTest {
+class AmendingLawTest {
 
   @Test
   void canCreateSimpleAmendingLaw() {
@@ -18,8 +18,8 @@ class AmendingLawWithArticlesTest {
     final String digitalAnnouncementEdition = "edition123";
 
     // When
-    final AmendingLawWithArticles amendingLawWithArticles =
-        AmendingLawWithArticles.builder()
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
@@ -29,14 +29,11 @@ class AmendingLawWithArticlesTest {
             .build();
 
     // Then
-    assertThat(amendingLawWithArticles.getEli()).isEqualTo(eli);
-    assertThat(amendingLawWithArticles.getPrintAnnouncementGazette())
-        .isEqualTo(printAnnouncementGazette);
-    assertThat(amendingLawWithArticles.getPublicationDate()).isEqualTo(publicationDate);
-    assertThat(amendingLawWithArticles.getPrintAnnouncementPage()).isEqualTo(printAnnouncementPage);
-    assertThat(amendingLawWithArticles.getDigitalAnnouncementMedium())
-        .isEqualTo(digitalAnnouncementMedium);
-    assertThat(amendingLawWithArticles.getDigitalAnnouncementEdition())
-        .isEqualTo(digitalAnnouncementEdition);
+    assertThat(amendingLaw.getEli()).isEqualTo(eli);
+    assertThat(amendingLaw.getPrintAnnouncementGazette()).isEqualTo(printAnnouncementGazette);
+    assertThat(amendingLaw.getPublicationDate()).isEqualTo(publicationDate);
+    assertThat(amendingLaw.getPrintAnnouncementPage()).isEqualTo(printAnnouncementPage);
+    assertThat(amendingLaw.getDigitalAnnouncementMedium()).isEqualTo(digitalAnnouncementMedium);
+    assertThat(amendingLaw.getDigitalAnnouncementEdition()).isEqualTo(digitalAnnouncementEdition);
   }
 }

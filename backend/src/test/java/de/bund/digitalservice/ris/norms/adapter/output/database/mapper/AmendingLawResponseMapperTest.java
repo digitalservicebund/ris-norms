@@ -4,14 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDTO;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ArticleDto;
-import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
+import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-class AmendingLawWithArticlesResponseMapperTest {
+class AmendingLawResponseMapperTest {
 
   @Test
   void testMapToDomain() {
@@ -30,8 +30,7 @@ class AmendingLawWithArticlesResponseMapperTest {
     amendingLawDTO.setArticleDtos(articles);
 
     // When
-    final AmendingLawWithArticles resultProcedure =
-        AmendingLawMapper.mapToDomainWithArticles(amendingLawDTO);
+    final AmendingLaw resultProcedure = AmendingLawMapper.mapToDomainWithArticles(amendingLawDTO);
 
     // Then
     assertThat(resultProcedure.getEli()).isEqualTo("ELI");
@@ -52,8 +51,8 @@ class AmendingLawWithArticlesResponseMapperTest {
     articles.add(
         new de.bund.digitalservice.ris.norms.domain.entity.Article("1234", "ELI", "title"));
 
-    final AmendingLawWithArticles amendingLawWithArticles =
-        AmendingLawWithArticles.builder()
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
             .eli("ELI")
             .printAnnouncementGazette("GAZETTE")
             .digitalAnnouncementMedium("MEDIUM")
@@ -64,7 +63,7 @@ class AmendingLawWithArticlesResponseMapperTest {
             .build();
 
     // When
-    final AmendingLawDTO resultAmendingLawDTO = AmendingLawMapper.mapToDto(amendingLawWithArticles);
+    final AmendingLawDTO resultAmendingLawDTO = AmendingLawMapper.mapToDto(amendingLaw);
 
     // Then
     assertThat(resultAmendingLawDTO.getEli()).isEqualTo("ELI");

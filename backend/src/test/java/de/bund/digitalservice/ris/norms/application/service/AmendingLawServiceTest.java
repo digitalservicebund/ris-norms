@@ -12,14 +12,13 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUs
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
-import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class AmendingLawWithArticlesServiceTest {
+class AmendingLawServiceTest {
 
   @Test
   void itCallsLoadAmendingLawByUuidUsingInputQueryUuid() {
@@ -58,8 +57,8 @@ class AmendingLawWithArticlesServiceTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
 
-    final AmendingLawWithArticles amendingLawWithArticles =
-        AmendingLawWithArticles.builder()
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
@@ -68,14 +67,13 @@ class AmendingLawWithArticlesServiceTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .build();
 
-    when(loadAmendingLawAdapter.loadAmendingLawByEli(any()))
-        .thenReturn(Optional.of(amendingLawWithArticles));
+    when(loadAmendingLawAdapter.loadAmendingLawByEli(any())).thenReturn(Optional.of(amendingLaw));
 
     // When
-    final Optional<AmendingLawWithArticles> amendingLawLoaded = service.loadAmendingLaw(query);
+    final Optional<AmendingLaw> amendingLawLoaded = service.loadAmendingLaw(query);
 
     // Then
-    assertThat(amendingLawLoaded).isPresent().contains(amendingLawWithArticles);
+    assertThat(amendingLawLoaded).isPresent().contains(amendingLaw);
   }
 
   @Test
@@ -91,7 +89,7 @@ class AmendingLawWithArticlesServiceTest {
     when(loadAmendingLawAdapter.loadAmendingLawByEli(any())).thenReturn(Optional.empty());
 
     // When
-    final Optional<AmendingLawWithArticles> amendingLawsLoaded = service.loadAmendingLaw(query);
+    final Optional<AmendingLaw> amendingLawsLoaded = service.loadAmendingLaw(query);
 
     // Then
     assertThat(amendingLawsLoaded).isEmpty();

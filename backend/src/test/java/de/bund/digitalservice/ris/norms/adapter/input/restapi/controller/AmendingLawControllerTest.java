@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.Interna
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAmendingLawsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
-import de.bund.digitalservice.ris.norms.domain.entity.AmendingLawWithArticles;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import java.time.LocalDate;
 import java.util.List;
@@ -29,7 +28,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * setting up the {@code mockMvc} including the ControllerAdvice
  */
 @ExtendWith(SpringExtension.class)
-class AmendingLawWithArticlesControllerTest {
+class AmendingLawControllerTest {
 
   private MockMvc mockMvc;
 
@@ -73,8 +72,8 @@ class AmendingLawWithArticlesControllerTest {
     final Article article2 = new Article("2", "eli2", "title2");
 
     // When
-    final AmendingLawWithArticles amendingLawWithArticles =
-        AmendingLawWithArticles.builder()
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
@@ -84,8 +83,7 @@ class AmendingLawWithArticlesControllerTest {
             .articles(List.of(article1, article2))
             .build();
 
-    when(loadAmendingLawUseCase.loadAmendingLaw(any()))
-        .thenReturn(Optional.of(amendingLawWithArticles));
+    when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.of(amendingLaw));
 
     // When // Then
     mockMvc

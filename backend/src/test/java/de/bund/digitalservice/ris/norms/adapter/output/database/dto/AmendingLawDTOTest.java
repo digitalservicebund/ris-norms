@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-class AmendingLawWithArticlesDTOTest {
+class AmendingLawDTOTest {
 
   @Test
   void testPrintLawDTO() {

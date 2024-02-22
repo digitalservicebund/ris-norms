@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class LoadAmendingLawWithArticlesQueryTest {
+class LoadAmendingLawQueryTest {
 
   @Test
   void canCreateQueryWithUUID() {
