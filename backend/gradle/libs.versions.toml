@@ -19,7 +19,7 @@ spring-boot-starter-validation = { module = "org.springframework.boot:spring-boo
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.0"
 postgresql = "org.postgresql:postgresql:42.7.2"
 flyway-core = { module = "org.flywaydb:flyway-core"}
-testcontainers-core = "org.testcontainers:testcontainers:1.19.5"
+testcontainers-core = "org.testcontainers:testcontainers:1.19.6"
 testcontainers-junit-jupiter = "org.testcontainers:junit-jupiter:1.19.6"
 testcontainers-postgres = "org.testcontainers:postgresql:1.19.6"
 # CVE-2024-26308
