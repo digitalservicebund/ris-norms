@@ -131,7 +131,7 @@
     },
     {
       "moduleLicense": null,
-      "moduleVersion": "4.2.1",
+      "moduleVersion": "4.2.2",
       "moduleName": "com.github.ajalt.clikt:clikt"
     },
     {
