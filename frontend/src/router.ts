@@ -4,14 +4,14 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    redirect: { name: "Procedures" },
+    redirect: { name: "AmendingLaws" },
   },
   {
-    path: "/procedures",
+    path: "/amendinglaws",
     children: [
       {
         path: "",
-        name: "Procedures",
+        name: "AmendingLaws",
         component: () => import("@/views/AmendingLaws.vue"),
       },
       {
@@ -20,17 +20,17 @@ const routes = [
         children: [
           {
             path: "",
-            name: "Procedure",
-            redirect: { name: "ProcedureArticleOverview" },
+            name: "AmendingLaw",
+            redirect: { name: "AmendingLawArticleOverview" },
           },
           {
             path: "article-overview",
-            name: "ProcedureArticleOverview",
+            name: "AmendingLawArticleOverview",
             component: () => import("@/views/ArticleOverview.vue"),
           },
           {
             path: "affected-standards",
-            name: "ProcedureAffectedStandards",
+            name: "AmendingLawAffectedStandards",
             component: () => import("@/views/AffectedStandards.vue"),
           },
         ],

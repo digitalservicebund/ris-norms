@@ -1,19 +1,13 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router"
-import { storeToRefs } from "pinia"
 import RisAmendingLawCard from "@/components/amendinglaws/RisAmendingLawCard.vue"
-import { onMounted } from "vue"
-import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
+import { AmendingLaw, getAmendingLaws } from "@/services/amendingLawsService"
+import { onMounted, ref } from "vue"
 
-const amendingLawsStore = useAmendingLawsStore()
-const { amendingLaws } = storeToRefs(amendingLawsStore)
+const amendingLaws = ref<AmendingLaw[]>([])
 
 onMounted(async () => {
-  try {
-    await amendingLawsStore.loadAmendingLaws()
-  } catch (error) {
-    //TODO: handle error
-  }
+  amendingLaws.value = await getAmendingLaws()
 })
 </script>
 
@@ -24,7 +18,7 @@ onMounted(async () => {
       <RouterLink
         v-for="amendingLaw in amendingLaws"
         :key="amendingLaw.eli"
-        :to="`/procedures/${encodeURIComponent(amendingLaw.eli)}`"
+        :to="`/amendinglaws/${encodeURIComponent(amendingLaw.eli)}`"
         class="block"
       >
         <RisAmendingLawCard

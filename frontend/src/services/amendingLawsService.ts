@@ -7,7 +7,7 @@ export interface AmendingLaw {
   publicationDate: string
   printAnnouncementPage?: string
   digitalAnnouncementEdition?: string
-  articles: Article[]
+  articles?: Article[]
 }
 
 interface Article {
@@ -17,7 +17,7 @@ interface Article {
 }
 
 const apiFetch = ofetch.create({
-  baseURL: "/api/v1/norms",
+  baseURL: "/api/v1",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -25,9 +25,9 @@ const apiFetch = ofetch.create({
 })
 
 export async function getAmendingLaws(): Promise<AmendingLaw[]> {
-  return await apiFetch("/procedures")
+  return await apiFetch("/amendinglaw")
 }
 
 export async function getAmendingLawByEli(eli: string): Promise<AmendingLaw> {
-  return await apiFetch(`/procedures/${eli}`)
+  return await apiFetch(`/amendinglaw/${eli}`)
 }
