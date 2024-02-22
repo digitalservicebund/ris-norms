@@ -136,9 +136,6 @@ class AmendingLawControllerTest {
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
 
-    final Article article1 = new Article("1", "eli1", "title1");
-    final Article article2 = new Article("2", "eli2", "title2");
-
     List<AmendingLaw> allAmendingLawWithArticles =
         List.of(
             AmendingLaw.builder()
