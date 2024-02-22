@@ -4,7 +4,7 @@ jacoco = "0.8.10"
 kotlin = "1.9.22"
 
 [libraries]
-archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.0"
+archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
 assertj-core = "org.assertj:assertj-core:3.25.1"
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
