@@ -1,15 +1,15 @@
 [versions]
 # @keep
 jacoco = "0.8.10"
-kotlin = "1.9.10"
+kotlin = "1.9.22"
 
 [libraries]
-archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.0"
-assertj-core = "org.assertj:assertj-core:3.25.1"
+archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
+assertj-core = "org.assertj:assertj-core:3.25.3"
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 xml-unit-assertj3 = "org.xmlunit:xmlunit-assertj3:2.9.1"
-clikt = "com.github.ajalt.clikt:clikt:4.2.1"
+clikt = "com.github.ajalt.clikt:clikt:4.2.2"
 system-lambda = "com.github.stefanbirkner:system-lambda:1.2.1"
 
 [plugins]
@@ -18,5 +18,5 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 sonarqube = "org.sonarqube:4.4.1.3373"
 spotless = "com.diffplug.spotless:6.25.0"
 test-logger = "com.adarshr.test-logger:4.0.0"
-version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.1"
+version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
 versions = "com.github.ben-manes.versions:0.51.0"

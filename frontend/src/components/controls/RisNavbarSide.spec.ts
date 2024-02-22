@@ -169,7 +169,7 @@ function generateRouterRoute(routeLocation: RouteLocationRaw): RouteRecordRaw {
     return { path: routeAsUrl.pathname, component: {} }
   } else {
     const path =
-      "path" in routeLocation
+      "path" in routeLocation && routeLocation.path !== undefined
         ? routeLocation.path
         : generateString({ prefix: "/path-" })
     return { ...routeLocation, path, component: {} }

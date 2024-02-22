@@ -99,8 +99,8 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-
   audit-licenses-backend:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -120,7 +120,7 @@ jobs:
         with:
           name: backend-licence-report.csv
           retention-days: 3
-          path: time-machine/build/reports/dependency-license/backend-licence-report.csv
+          path: backend/build/reports/dependency-license/backend-licence-report.csv
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
         if: ${{ failure() && github.ref == 'refs/heads/main'}}
@@ -128,6 +128,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   analyze-backend:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
