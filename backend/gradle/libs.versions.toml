@@ -19,9 +19,9 @@ spring-boot-starter-validation = { module = "org.springframework.boot:spring-boo
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.0"
 postgresql = "org.postgresql:postgresql:42.7.2"
 flyway-core = { module = "org.flywaydb:flyway-core"}
-testcontainers-core = "org.testcontainers:testcontainers:1.19.5"
-testcontainers-junit-jupiter = "org.testcontainers:junit-jupiter:1.19.5"
-testcontainers-postgres = "org.testcontainers:postgresql:1.19.5"
+testcontainers-core = "org.testcontainers:testcontainers:1.19.6"
+testcontainers-junit-jupiter = "org.testcontainers:junit-jupiter:1.19.6"
+testcontainers-postgres = "org.testcontainers:postgresql:1.19.6"
 # CVE-2024-26308
 apache-commons-compress = "org.apache.commons:commons-compress:1.26.0"
 # CVE-2024-22234
@@ -35,6 +35,6 @@ spotless = "com.diffplug.spotless:6.25.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.4"
 test-logger = "com.adarshr.test-logger:4.0.0"
-version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.1"
+version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
 versions = "com.github.ben-manes.versions:0.51.0"
 flyway = "org.flywaydb.flyway:10.8.1"

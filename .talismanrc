@@ -9,7 +9,7 @@ fileignoreconfig:
   - filename: frontend/Dockerfile
     checksum: 0858645fc55a2f4e54a62604a28e1b8b029c771fb1e723b85b3a7d16a28c2969
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
-    checksum: cb94437b91ff42fb62b393d77e8d86551ec2de7fa26b2c119cf03fcb69dc7383
+    checksum: 671174b65f1c34d34870f93a9ef8ad7a1d43271384e09f4bb591c4d99055df92
   - filename: DockerfileApp
     checksum: eea8f39394d4ae87d5d5cfed8c3787f6f93e3a47cc26fcccab2446a5a9b95064
   - filename: ldml-extension/fixtures/SaatG_regelungstext.xml
