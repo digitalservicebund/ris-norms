@@ -1,7 +1,7 @@
 [versions]
 # @keep
 jacoco = "0.8.11"
-org-testcontainers = "1.19.5"
+org-testcontainers = "1.19.6"
 spring-boot = "3.2.2"
 
 [libraries]
