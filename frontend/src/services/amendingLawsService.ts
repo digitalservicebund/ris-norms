@@ -3,7 +3,7 @@ import { ofetch } from "ofetch"
 export interface AmendingLaw {
   eli: string
   printAnnouncementGazette?: string
-  printAnnouncementMedium?: string
+  digitalAnnouncementMedium?: string
   publicationDate: string
   printAnnouncementPage?: string
   digitalAnnouncementEdition?: string

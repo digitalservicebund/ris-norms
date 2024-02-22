@@ -35,9 +35,17 @@ watchEffect(() => amendingLawsStore.loadAmendingLawByEli(eli.value))
 onUnmounted(() => (loadedAmendingLaw.value = undefined))
 
 const heading = computed(() => {
-  return loadedAmendingLaw.value?.printAnnouncementGazette
-    ? `${loadedAmendingLaw.value?.printAnnouncementGazette.toUpperCase()} Nr. ${loadedAmendingLaw.value?.printAnnouncementPage}`
-    : ""
+  const gazetteOrMediumUpperValue =
+    loadedAmendingLaw.value?.printAnnouncementGazette?.toUpperCase() ??
+    loadedAmendingLaw.value?.digitalAnnouncementMedium?.toUpperCase() ??
+    ""
+
+  const pageOrEditionValue =
+    loadedAmendingLaw.value?.printAnnouncementPage ??
+    loadedAmendingLaw.value?.digitalAnnouncementEdition ??
+    ""
+
+  return `${gazetteOrMediumUpperValue} Nr. ${pageOrEditionValue}`
 })
 </script>
 

@@ -26,6 +26,8 @@ onMounted(async () => {
           :eli="amendingLaw.eli"
           :print-announcement-gazette="amendingLaw.printAnnouncementGazette"
           :print-announcement-page="amendingLaw.printAnnouncementPage"
+          :digital-announcement-medium="amendingLaw.digitalAnnouncementMedium"
+          :digital-announcement-edition="amendingLaw.digitalAnnouncementEdition"
           :publication-date="amendingLaw.publicationDate"
         />
       </RouterLink>
