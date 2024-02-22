@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * the API.
  */
 @RestController
-@RequestMapping("api/v1/norms/procedures")
+@RequestMapping("api/v1/amendinglaw")
 public class AmendingLawController {
 
   private final LoadAmendingLawUseCase loadAmendingLawUseCase;
