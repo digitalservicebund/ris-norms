@@ -51,7 +51,7 @@ class AmendingLawControllerTest {
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
 
     // When
-    mockMvc.perform(get("/api/v1/norms/procedures/{eli}", eli));
+    mockMvc.perform(get("/api/v1/amendinglaw/{eli}", eli));
 
     // Then
     verify(loadAmendingLawUseCase, times(1))
@@ -87,7 +87,7 @@ class AmendingLawControllerTest {
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/norms/procedures/{eli}", eli))
+        .perform(get("/api/v1/amendinglaw/{eli}", eli))
         .andExpect(status().isOk())
         .andExpect(jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1953/s225")))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo(printAnnouncementGazette)))
@@ -105,7 +105,7 @@ class AmendingLawControllerTest {
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
 
     // When // Then
-    mockMvc.perform(get("/api/v1/norms/procedures/{eli}", eli)).andExpect(status().isNotFound());
+    mockMvc.perform(get("/api/v1/amendinglaw/{eli}", eli)).andExpect(status().isNotFound());
   }
 
   @Test
@@ -116,9 +116,7 @@ class AmendingLawControllerTest {
         .thenThrow(new RuntimeException("simulating internal server error"));
 
     // When // Then
-    mockMvc
-        .perform(get("/api/v1/norms/procedures/{eli}", eli))
-        .andExpect(status().is5xxServerError());
+    mockMvc.perform(get("/api/v1/amendinglaw/{eli}", eli)).andExpect(status().is5xxServerError());
   }
 
   @Test
@@ -164,7 +162,7 @@ class AmendingLawControllerTest {
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/norms/procedures"))
+        .perform(get("/api/v1/amendinglaw"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[2]").doesNotExist())
