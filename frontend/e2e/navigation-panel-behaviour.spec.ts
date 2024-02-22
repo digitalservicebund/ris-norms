@@ -1,19 +1,16 @@
 import { test, expect } from "@playwright/test"
-import { procedures } from "../e2e/testData/testData"
+import { amendingLaws } from "../e2e/testData/testData"
 
 test.skip("navigate and verify navigation panel behavior", async ({ page }) => {
-  for (const procedure of procedures) {
+  for (const amendingLaw of amendingLaws) {
     await page.goto("/")
 
-    const encodedEli = encodeURIComponent(procedure.eli)
+    const encodedEli = encodeURIComponent(amendingLaw.eli)
 
     await page.click(`a[href*="${encodedEli}"]`)
 
-    const expectedHeading = `${procedure.printAnnouncementGazette} ${procedure.printAnnouncementYear} Nr. ${procedure.printAnnouncementNumber}`
+    const expectedHeading = `${amendingLaw.printAnnouncementGazette} ${amendingLaw.publicationDate} Nr. ${amendingLaw.printAnnouncementPage}`
     await expect(page.locator(".ds-heading-03-reg")).toHaveText(expectedHeading)
-
-    const expectedFna = `${procedure.fna}`
-    await expect(page.locator(`text=${expectedFna}`)).toBeVisible()
 
     const articleOverviewMenuClass = await page
       .locator('a.router-link-active:has-text("Artikelübersicht")')

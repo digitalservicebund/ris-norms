@@ -177,6 +177,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build docker image
         run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }} -f DockerfileApp .
+        env:
+          VITE_VSCODE_URL: ${{ secrets.VSCODE_URL }}
       - name: Run Trivy vulnerability image scanner
         uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef
         with:
