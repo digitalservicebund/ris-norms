@@ -143,9 +143,6 @@ jobs:
           build-root-directory: ./backend
       - name: "Setup jq"
         uses: dcarbone/install-jq-action@v2
-        # with:
-        #   version: '${{ inputs.version }}'
-        #   force: '${{ inputs.force }}'
       - name: Determine library updates
         working-directory: ./backend
         run: |
