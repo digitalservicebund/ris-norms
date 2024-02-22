@@ -11,7 +11,7 @@ on:
     #     required: true
     #     type: string
 
-jobs: 
+jobs:
   validate-gradle-wrapper:
     runs-on: ubuntu-latest
     steps:
@@ -92,6 +92,7 @@ jobs:
           arguments: checkLicense
           build-root-directory: ./time-machine
       - name: Upload licence report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: time-machine-licence-report.csv
