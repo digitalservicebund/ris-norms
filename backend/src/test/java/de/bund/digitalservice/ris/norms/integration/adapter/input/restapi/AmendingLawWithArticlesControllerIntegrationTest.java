@@ -60,7 +60,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/norms/procedures/{eli}", encodedEli))
+        .perform(get("/api/v1/amendinglaw/{eli}", encodedEli))
         .andExpect(jsonPath("eli").value(equalTo(eli)))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo(printAnnouncementGazette)))
         .andExpect(jsonPath("publicationDate").value(equalTo(publicationDate.toString())))
@@ -117,13 +117,11 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/norms/procedures"))
+        .perform(get("/api/v1/amendinglaw"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[2]").doesNotExist())
         .andExpect(jsonPath("$[0].eli", equalTo(amendingLaw1.getEli())))
-        .andExpect(jsonPath("$[1].eli", equalTo(amendingLaw2.getEli())))
-        .andExpect(jsonPath("$[0].articles").isArray())
-        .andExpect(jsonPath("$[0].articles[0].eli").value("eli1"));
+        .andExpect(jsonPath("$[1].eli", equalTo(amendingLaw2.getEli())));
   }
 }

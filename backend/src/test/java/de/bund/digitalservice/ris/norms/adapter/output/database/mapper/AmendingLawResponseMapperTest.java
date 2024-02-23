@@ -30,7 +30,7 @@ class AmendingLawResponseMapperTest {
     amendingLawDTO.setArticleDtos(articles);
 
     // When
-    final AmendingLaw resultProcedure = AmendingLawMapper.mapToDomain(amendingLawDTO);
+    final AmendingLaw resultProcedure = AmendingLawMapper.mapToDomainWithArticles(amendingLawDTO);
 
     // Then
     assertThat(resultProcedure.getEli()).isEqualTo("ELI");

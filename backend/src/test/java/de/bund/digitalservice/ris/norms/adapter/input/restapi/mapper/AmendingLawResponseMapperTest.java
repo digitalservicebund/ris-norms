@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawIncludingArticlesResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -30,7 +30,7 @@ class AmendingLawResponseMapperTest {
     amendingLaw.setArticles(article);
 
     // When
-    final AmendingLawResponseSchema resultAmendingLaw =
+    final AmendingLawIncludingArticlesResponseSchema resultAmendingLaw =
         AmendingLawResponseMapper.fromUseCaseData(amendingLaw);
 
     // Then

@@ -18,6 +18,24 @@ public class AmendingLawMapper {
    * @param amendingLawDTO The input {@link AmendingLawDTO} to be mapped.
    * @return A new {@link AmendingLaw} entity mapped from the input {@link AmendingLawDTO}.
    */
+  public static AmendingLaw mapToDomainWithArticles(final AmendingLawDTO amendingLawDTO) {
+
+    return new AmendingLaw(
+        amendingLawDTO.getEli(),
+        amendingLawDTO.getPrintAnnouncementGazette(),
+        amendingLawDTO.getDigitalAnnouncementMedium(),
+        amendingLawDTO.getPublicationDate(),
+        amendingLawDTO.getPrintAnnouncementPage(),
+        amendingLawDTO.getDigitalAnnouncementEdition(),
+        mapToDomainWithArticles(amendingLawDTO.getArticleDtos()));
+  }
+
+  /**
+   * Maps a {@link AmendingLawDTO} to a {@link AmendingLaw} entity.
+   *
+   * @param amendingLawDTO The input {@link AmendingLawDTO} to be mapped.
+   * @return A new {@link AmendingLaw} entity mapped from the input {@link AmendingLawDTO}.
+   */
   public static AmendingLaw mapToDomain(final AmendingLawDTO amendingLawDTO) {
 
     return new AmendingLaw(
@@ -27,10 +45,10 @@ public class AmendingLawMapper {
         amendingLawDTO.getPublicationDate(),
         amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
-        mapToDomain(amendingLawDTO.getArticleDtos()));
+        null);
   }
 
-  private static List<Article> mapToDomain(final List<ArticleDto> articlesDTO) {
+  private static List<Article> mapToDomainWithArticles(final List<ArticleDto> articlesDTO) {
     return articlesDTO.stream()
         .map(dto -> new Article(dto.getEnumeration(), dto.getEli(), dto.getTitle()))
         .toList();

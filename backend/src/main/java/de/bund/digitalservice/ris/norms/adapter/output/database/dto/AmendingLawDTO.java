@@ -55,7 +55,7 @@ public class AmendingLawDTO {
   @Column(name = "digital_announcement_edition")
   private String digitalAnnouncementEdition;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "amending_law_id")
   private List<ArticleDto> articleDtos;
 }

@@ -3,9 +3,6 @@ name: Pipeline
 on:
   # run on any branch receiving a push (not only on main)
   push:
-  # also: every morning at 7am (winter) or 8am (summer), Berlin time
-  schedule:
-    - cron: "0 6 * * *"
   # also: allow to run this workflow manually
   workflow_dispatch:
 
@@ -117,7 +114,6 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-
   ######################
   # Deploy new versions
   ######################
@@ -174,7 +170,6 @@ jobs:
       browser: ${{ matrix.browser }}
       mode: ${{ matrix.mode }}
     secrets: inherit
-
 
   ################
   # Security jobs

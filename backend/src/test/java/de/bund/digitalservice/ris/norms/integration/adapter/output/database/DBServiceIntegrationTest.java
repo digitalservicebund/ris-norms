@@ -135,15 +135,5 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     assertThat(amendingLawsLoaded)
         .extracting(AmendingLaw::getEli)
         .containsExactlyInAnyOrder(amendingLaw1.getEli(), amendingLaw2.getEli());
-
-    for (AmendingLaw amendingLaw : amendingLawsLoaded) {
-      if (amendingLaw.getEli().equals(eli2)) {
-        assertThat(amendingLaw.getArticles())
-            .containsExactlyInAnyOrderElementsOf(List.of(article3, article4));
-      } else {
-        assertThat(amendingLaw.getArticles())
-            .containsExactlyInAnyOrderElementsOf(List.of(article1, article2));
-      }
-    }
   }
 }
