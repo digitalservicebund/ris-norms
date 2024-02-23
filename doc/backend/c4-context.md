@@ -22,11 +22,6 @@ C4Context
 
     Enterprise_Boundary(boundaryBmJ, "BmJ"){
         Boundary(office1, "Office 1", "location"){
-            Person(documentalistA, "Documentalist A")
-            System(browserA, "Web Browser A", "on work PC A")
-            Rel(documentalistA, browserA, "uses")
-        }
-        Boundary(office2, "Office 2", "location"){
             Person(documentalistB, "Documentalist B")
             System(browserB, "Web Browser B", "on work PC B")
             Rel(documentalistB, browserB, "uses")
@@ -35,24 +30,30 @@ C4Context
             System(browserC, "Web Browser C", "on work PC C")
             Rel(documentalistC, browserC, "uses")
         }
+
+        Boundary(office2, "Office 2", "location"){
+            Person(documentalistA, "Documentalist A")
+            System(browserA, "Web Browser A", "on work PC A")
+            Rel(documentalistA, browserA, "uses")
+        }
+
     }
         
     Enterprise_Boundary(boundaryDS, "DigitalService","restricted"){
+        Boundary(boundaryRisNorms, "RIS Norms Web Application") {
 
+            System(frontend, "Front end", "Single-Page-App")
+            Rel(browserA, frontend, "visit, interact", "HTTPS")
+            Rel(browserB, frontend, "visit, interact", "HTTPS")
+            Rel(browserC, frontend, "visit, interact", "HTTPS")
 
-    Boundary(boundaryRisNorms, "RIS Norms Web Application") {
+            System(backend, "Back end", "Web Sever")
+            Rel(frontend, backend, "sends / retrieves data", "HTTP")
 
-        System(frontend, "Front end", "Single-Page-App")
-        Rel(browserA, frontend, "visit, interact", "HTTPS")
-        Rel(browserB, frontend, "visit, interact", "HTTPS")
-        Rel(browserC, frontend, "visit, interact", "HTTPS")
-
-        System(backend, "Back end", "Web Sever")
-        Rel(frontend, backend, "sends / retrieves data", "HTTP")
-
-        SystemDb(relationalDB, "Relational Database", "PostgreSQL")
-        Rel(backend, relationalDB, "sends/retrieves data", "HTTPS")
-    }
+            SystemDb(relationalDB, "Relational Database", "PostgreSQL")
+            Rel(backend, relationalDB, "sends/retrieves data", "HTTPS")
+        }
     }
 
+UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="2")
 ```
