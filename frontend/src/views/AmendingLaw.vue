@@ -4,7 +4,7 @@ import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
 import RisUnitInfoPanel from "@/components/controls/RisUnitInfoPanel.vue"
-import { computed, onUnmounted, watchEffect } from "vue"
+import { computed, onMounted, onUnmounted } from "vue"
 import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
 import { storeToRefs } from "pinia"
 
@@ -31,21 +31,17 @@ const eli = computed(() => decodeURIComponent(route.params.id?.toString()))
 const amendingLawsStore = useAmendingLawsStore()
 const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
 
-watchEffect(() => amendingLawsStore.loadAmendingLawByEli(eli.value))
+onMounted(() => amendingLawsStore.loadAmendingLawByEli(eli.value))
 onUnmounted(() => (loadedAmendingLaw.value = undefined))
 
 const heading = computed(() => {
-  const gazetteOrMediumUpperValue =
-    loadedAmendingLaw.value?.printAnnouncementGazette?.toUpperCase() ??
-    loadedAmendingLaw.value?.digitalAnnouncementMedium?.toUpperCase() ??
-    ""
-
-  const pageOrEditionValue =
-    loadedAmendingLaw.value?.printAnnouncementPage ??
-    loadedAmendingLaw.value?.digitalAnnouncementEdition ??
-    ""
-
-  return `${gazetteOrMediumUpperValue} Nr. ${pageOrEditionValue}`
+  if (loadedAmendingLaw.value?.printAnnouncementGazette) {
+    return `${loadedAmendingLaw.value?.printAnnouncementGazette} S. ${loadedAmendingLaw.value?.printAnnouncementPage}`
+  } else if (loadedAmendingLaw.value?.digitalAnnouncementEdition) {
+    return `${loadedAmendingLaw.value?.digitalAnnouncementMedium}Nr. ${loadedAmendingLaw.value?.digitalAnnouncementEdition}`
+  } else {
+    return ""
+  }
 })
 </script>
 

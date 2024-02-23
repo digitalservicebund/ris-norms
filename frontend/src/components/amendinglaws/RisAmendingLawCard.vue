@@ -12,15 +12,17 @@ const props = defineProps<{
 }>()
 
 const gazetteOrMediumUpper = computed(() => {
-  return (
-    props.printAnnouncementGazette?.toUpperCase() ??
-    props.digitalAnnouncementMedium?.toUpperCase() ??
-    ""
-  )
+  return props.printAnnouncementGazette ?? props.digitalAnnouncementMedium ?? ""
 })
 
 const pageOrEdition = computed(() => {
-  return props.printAnnouncementPage ?? props.digitalAnnouncementEdition ?? ""
+  if (props.printAnnouncementPage) {
+    return `S. ${props.printAnnouncementPage}`
+  } else if (props.digitalAnnouncementEdition) {
+    return `Nr. ${props.digitalAnnouncementEdition}`
+  } else {
+    return ""
+  }
 })
 
 const publicationYear = computed(() => props.publicationDate.substring(0, 4))
@@ -39,8 +41,7 @@ const publicationDateGerman = computed(() => {
   <div class="flex justify-between bg-white p-16 hover:bg-blue-200">
     <div class="flex items-center">
       <span class="ds-label-02-bold w-128 flex-none whitespace-nowrap">
-        {{ gazetteOrMediumUpper }} {{ publicationYear }} Nr.
-        {{ pageOrEdition }}
+        {{ gazetteOrMediumUpper }} {{ publicationYear }} {{ pageOrEdition }}
       </span>
 
       <span class="publication-date ml-40">

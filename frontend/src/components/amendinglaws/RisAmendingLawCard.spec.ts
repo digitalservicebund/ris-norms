@@ -12,7 +12,7 @@ describe("RisAmendingLawCard", () => {
         printAnnouncementPage: "456",
       },
     })
-    expect(screen.getByText("GAZETTENAME 2021 Nr. 456")).toBeInTheDocument()
+    expect(screen.getByText("GazetteName 2021 S. 456")).toBeInTheDocument()
   })
 
   test("should render overview of open digital amending law", () => {
@@ -24,6 +24,6 @@ describe("RisAmendingLawCard", () => {
         digitalAnnouncementEdition: "123",
       },
     })
-    expect(screen.getByText("DIGITALGAZETTE 2019 Nr. 123")).toBeInTheDocument()
+    expect(screen.getByText("DigitalGazette 2019 Nr. 123")).toBeInTheDocument()
   })
 })
