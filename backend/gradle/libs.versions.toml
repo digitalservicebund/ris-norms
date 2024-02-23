@@ -5,7 +5,6 @@ jacoco = "0.8.11"
 org-testcontainers = "1.19.6"
 spring-boot = "3.2.3"
 
-
 [libraries]
 # CVE-2024-26308
 apache-commons-compress = "org.apache.commons:commons-compress:1.26.0"
