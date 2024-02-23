@@ -17,7 +17,7 @@ export const amendingLaws: AmendingLaw[] = [
     ],
   },
   {
-    eli: "eli/bund/bgbl-1/2023/s413",
+    eli: "eli/bund/bgbl-1/2023/413",
     printAnnouncementGazette: undefined,
     digitalAnnouncementMedium: "BGBl. I",
     publicationDate: "2023-12-29",
