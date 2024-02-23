@@ -25,7 +25,6 @@ public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort {
     this.amendingLawRepository = amendingLawRepository;
   }
 
-  /** {@inheritDoc} */
   @Override
   @Transactional
   public Optional<AmendingLaw> loadAmendingLawByEli(Command command) {

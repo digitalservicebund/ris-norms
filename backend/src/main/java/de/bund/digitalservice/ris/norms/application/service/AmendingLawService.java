@@ -33,7 +33,6 @@ public class AmendingLawService implements LoadAmendingLawUseCase, LoadAllAmendi
     this.loadAllAmendingLawsPort = loadAllAmendingLawsPort;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Optional<AmendingLaw> loadAmendingLaw(final Query query) {
     return loadAmendingLawPort.loadAmendingLawByEli(new LoadAmendingLawPort.Command(query.eli()));
