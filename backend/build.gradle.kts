@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.flyway.core)
     implementation(libs.apache.commons.compress)
     implementation(libs.spring.security.core)
+    implementation(libs.flyway.postgres)
 
     compileOnly(libs.lombok)
 
