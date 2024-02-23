@@ -176,7 +176,7 @@ jobs:
         run: echo "${{ inputs.example-variable}}"
       - uses: actions/checkout@v4
       - name: Build docker image
-        run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }} -f DockerfileApp .
+        run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }} --build-arg VITE_VSCODE_URL="$VITE_VSCODE_URL" -f DockerfileApp .
         env:
           VITE_VSCODE_URL: ${{ secrets.VSCODE_URL }}
       - name: Run Trivy vulnerability image scanner

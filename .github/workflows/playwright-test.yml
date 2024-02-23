@@ -57,6 +57,7 @@ jobs:
           E2E_BASE_URL: ${{ secrets.STAGING_URL }}
           E2E_TEST_BASIC_AUTH_USER: ${{ secrets.E2E_TEST_BASIC_AUTH_USER }}
           E2E_TEST_BASIC_AUTH_PASSWORD: ${{ secrets.E2E_TEST_BASIC_AUTH_PASSWORD }}
+          VITE_VSCODE_URL: ${{ secrets.VSCODE_URL }}
         run: |
           echo "Running ${{ inputs.mode }} tests ${{ inputs.runs }} times"
 

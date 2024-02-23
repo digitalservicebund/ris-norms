@@ -10,4 +10,4 @@ npm --prefix ./vscode-extension/ run vscode:pack
 
 docker build -t ris-norms-vs-code:001 -f DockerfileVsCode .
 
-docker build -t ris-norms-app:001 -f DockerfileApp .
+docker build -t ris-norms-app:001 --build-arg VITE_VSCODE_URL="$VITE_VSCODE_URL" -f DockerfileApp .
