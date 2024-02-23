@@ -18,7 +18,7 @@ onMounted(async () => {
       <RouterLink
         v-for="amendingLaw in amendingLaws"
         :key="amendingLaw.eli"
-        :to="`/amendinglaws/${encodeURIComponent(amendingLaw.eli)}`"
+        :to="`/amendinglaws/${amendingLaw.eli}`"
         class="block"
       >
         <RisAmendingLawCard

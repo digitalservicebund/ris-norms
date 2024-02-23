@@ -15,7 +15,14 @@ const routes = [
         component: () => import("@/views/AmendingLaws.vue"),
       },
       {
-        path: ":id",
+        /**
+         * The regular expressions for the parts of the eli are based on the definitions from LDML.de 1.6 for elis
+         * for "Verkündungsfassungen und Neufassungen"
+         *
+         * It was not possible to put the eli in just one combined path parameter as vue-router replaces slashes in
+         * path parameters automatically by %2F when routing to a new route.
+         */
+        path: `eli/:eliJurisdiction(bund)/:eliAgent(bgbl-1|bgbl-2|banz-at)/:eliYear([12][0-9]{3})/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)`,
         component: () => import("@/views/AmendingLaw.vue"),
         children: [
           {

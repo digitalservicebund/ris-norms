@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { RouterView, useRoute } from "vue-router"
+import { RouterView } from "vue-router"
 import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
 import RisUnitInfoPanel from "@/components/controls/RisUnitInfoPanel.vue"
 import { computed, onMounted, onUnmounted } from "vue"
 import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { storeToRefs } from "pinia"
 
 const menuItems: LevelOneMenuItem[] = [
@@ -25,8 +26,7 @@ const menuItems: LevelOneMenuItem[] = [
   },
 ]
 
-const route = useRoute()
-const eli = computed(() => decodeURIComponent(route.params.id?.toString()))
+const eli = useEliPathParameter()
 
 const amendingLawsStore = useAmendingLawsStore()
 const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
