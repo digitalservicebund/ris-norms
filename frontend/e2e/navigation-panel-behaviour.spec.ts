@@ -5,9 +5,7 @@ test("navigate and verify navigation panel behavior", async ({ page }) => {
   for (const amendingLaw of amendingLaws) {
     await page.goto("/")
 
-    const encodedEli = encodeURIComponent(amendingLaw.eli)
-
-    await page.click(`a[href*="${encodedEli}"]`)
+    await page.click(`a[href*="${amendingLaw.eli}"]`)
 
     const expectedHeading = amendingLaw?.printAnnouncementGazette
       ? `${amendingLaw.printAnnouncementGazette} S. ${amendingLaw.printAnnouncementPage}`
@@ -29,7 +27,7 @@ test("navigate and verify navigation panel behavior", async ({ page }) => {
 
     await page.click("text=Betroffene Normenkomplexe")
     await expect(page).toHaveURL(
-      `/amendinglaws/${encodedEli}/affected-standards`,
+      `/amendinglaws/${amendingLaw.eli}/affected-standards`,
     )
 
     const editMetadataButton = page.locator('text="Metadaten editieren"')
@@ -43,7 +41,9 @@ test("navigate and verify navigation panel behavior", async ({ page }) => {
     expect(affectedStandardsIsActive).toBeTruthy()
 
     await page.click("text=Artikelübersicht")
-    await expect(page).toHaveURL(`/amendinglaws/${encodedEli}/article-overview`)
+    await expect(page).toHaveURL(
+      `/amendinglaws/${amendingLaw.eli}/article-overview`,
+    )
 
     await page.click("text=Zurück")
     await expect(page).toHaveURL("/amendinglaws")

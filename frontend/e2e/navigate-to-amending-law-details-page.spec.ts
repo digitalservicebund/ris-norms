@@ -18,10 +18,12 @@ test("navigate from amending laws list to an amending law detail page", async ({
   await page.goto("/")
   await expect(page.locator("text=Vorgänge")).toBeVisible()
 
-  const amendingLaw = amendingLaws[0]
-  const encodedEli = encodeURIComponent(amendingLaw.eli)
+  await page
+    .getByRole("link")
+    .filter({ hasText: "BGBl. I 2017 S. 419" })
+    .click()
 
-  await page.click(`a[href*="${encodedEli}"]`)
-
-  await expect(page).toHaveURL(`/amendinglaws/${encodedEli}/article-overview`)
+  await expect(page).toHaveURL(
+    `/amendinglaws/eli/bund/bgbl-1/2017/s419/article-overview`,
+  )
 })
