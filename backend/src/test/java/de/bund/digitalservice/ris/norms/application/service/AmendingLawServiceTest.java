@@ -111,7 +111,7 @@ class AmendingLawServiceTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
 
-    final List<AmendingLaw> expectedAmendingLaws =
+    final List<AmendingLaw> expectedAmendingLaw =
         List.of(
             AmendingLaw.builder()
                 .eli(eli)
@@ -130,15 +130,15 @@ class AmendingLawServiceTest {
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
                 .build());
 
-    when(loadAllAmendingLawsAdapter.loadAllAmendingLaws()).thenReturn(expectedAmendingLaws);
+    when(loadAllAmendingLawsAdapter.loadAllAmendingLaws()).thenReturn(expectedAmendingLaw);
 
     // When
-    List<AmendingLaw> amendingLaws = service.loadAllAmendingLaws();
+    List<AmendingLaw> amendingLaw = service.loadAllAmendingLaws();
 
     // Then
-    assertThat(amendingLaws)
-        .hasSize(expectedAmendingLaws.size())
-        .containsExactlyElementsOf(expectedAmendingLaws);
+    assertThat(amendingLaw)
+        .hasSize(expectedAmendingLaw.size())
+        .containsExactlyElementsOf(expectedAmendingLaw);
     verify(loadAllAmendingLawsAdapter, times(1)).loadAllAmendingLaws();
   }
 }

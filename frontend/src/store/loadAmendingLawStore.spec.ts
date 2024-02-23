@@ -1,59 +1,46 @@
 import { describe, it, expect, beforeEach, vi } from "vitest"
 import { setActivePinia, createPinia } from "pinia"
 import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
-import { getAmendingLaws, AmendingLaw } from "@/services/amendingLawsService"
+import {
+  AmendingLaw,
+  getAmendingLawByEli,
+} from "@/services/amendingLawsService"
 
 vi.mock("@/services/amendingLawsService", () => ({
-  getAmendingLaws: vi.fn(),
+  getAmendingLawByEli: vi.fn(),
 }))
 
 describe("useAmendingLawsStore", () => {
-  let mockProcedures: AmendingLaw[]
+  const eli = "eli/example/2023/1"
+  let mockAmendingLaw: AmendingLaw
 
   beforeEach(() => {
     setActivePinia(createPinia())
 
-    mockProcedures = [
-      {
-        eli: "eli/example/2023/1",
-        printAnnouncementGazette: "example",
-        printAnnouncementMedium: undefined,
-        publicationDate: "2023-01-01",
-        printAnnouncementPage: "1",
-        digitalAnnouncementEdition: undefined,
-        articles: [
-          {
-            eli: "article eli 1",
-            title: "article eli 1",
-            enumeration: "1",
-          },
-        ],
-      },
-      {
-        eli: "eli/example2/2024/2",
-        printAnnouncementGazette: "example2",
-        printAnnouncementMedium: undefined,
-        publicationDate: "2024-01-01",
-        printAnnouncementPage: "2",
-        digitalAnnouncementEdition: undefined,
-        articles: [
-          {
-            eli: "article eli 2",
-            title: "article title 2",
-            enumeration: "2",
-          },
-        ],
-      },
-    ]
+    mockAmendingLaw = {
+      eli: eli,
+      printAnnouncementGazette: "example",
+      digitalAnnouncementMedium: undefined,
+      publicationDate: "2023-01-01",
+      printAnnouncementPage: "1",
+      digitalAnnouncementEdition: undefined,
+      articles: [
+        {
+          eli: "article eli 1",
+          title: "article eli 1",
+          enumeration: "1",
+        },
+      ],
+    }
 
-    vi.mocked(getAmendingLaws).mockResolvedValue(mockProcedures)
+    vi.mocked(getAmendingLawByEli).mockResolvedValue(mockAmendingLaw)
   })
 
   it("loads amending laws correctly", async () => {
     const store = useAmendingLawsStore()
-    await store.loadAmendingLaws()
+    await store.loadAmendingLawByEli(eli)
 
-    expect(getAmendingLaws).toHaveBeenCalledOnce()
-    expect(store.amendingLaws).toEqual(mockProcedures)
+    expect(getAmendingLawByEli).toHaveBeenCalledOnce()
+    expect(store.loadedAmendingLaw).toEqual(mockAmendingLaw)
   })
 })

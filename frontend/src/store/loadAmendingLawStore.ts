@@ -1,19 +1,19 @@
 import { defineStore } from "pinia"
-import { ComputedRef, ref } from "vue"
-import { getAmendingLaws, AmendingLaw } from "@/services/amendingLawsService"
+import { ref } from "vue"
+import {
+  AmendingLaw,
+  getAmendingLawByEli,
+} from "@/services/amendingLawsService"
 
-export const useAmendingLawsStore = defineStore("amendingLaws", () => {
-  const amendingLaws = ref<AmendingLaw[]>([])
+export const useAmendingLawsStore = defineStore("loaded-amending-law", () => {
+  const loadedAmendingLaw = ref<AmendingLaw | undefined>(undefined)
 
-  async function loadAmendingLaws() {
-    amendingLaws.value = await getAmendingLaws()
+  async function loadAmendingLawByEli(eli: string): Promise<void> {
+    loadedAmendingLaw.value = await getAmendingLawByEli(eli)
   }
 
-  function loadAmendingLawByEli(eli: ComputedRef<string>): AmendingLaw {
-    return amendingLaws.value.filter(
-      (amendingLaw) => amendingLaw.eli == eli.value,
-    )[0]
+  return {
+    loadedAmendingLaw,
+    loadAmendingLawByEli,
   }
-
-  return { amendingLaws, loadAmendingLaws, loadAmendingLawByEli }
 })

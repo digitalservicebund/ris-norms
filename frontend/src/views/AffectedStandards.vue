@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue"
-import { useRoute } from "vue-router"
 import RisInfoModal from "@/components/controls/RisInfoModal.vue"
 import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
+import { storeToRefs } from "pinia"
 
-const route = useRoute()
-const eli = computed(() =>
-  decodeURIComponent(route.params.id?.toString() || ""),
-)
 const amendingLawsStore = useAmendingLawsStore()
-const amendingLaw = amendingLawsStore.loadAmendingLawByEli(eli)
+const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
 </script>
 
 <template>
@@ -19,7 +14,7 @@ const amendingLaw = amendingLawsStore.loadAmendingLawByEli(eli)
       Durch das Änderungsgesetz ändern sich folgende Normenkomplexe und Artikel:
     </span>
     <RisInfoModal
-      v-for="(article, index) in amendingLaw.articles"
+      v-for="(article, index) in loadedAmendingLaw?.articles"
       :key="index"
       :title="`Artikel ${article.enumeration}`"
       :description="article.eli"

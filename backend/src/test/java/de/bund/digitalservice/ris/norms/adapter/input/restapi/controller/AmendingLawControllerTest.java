@@ -51,7 +51,7 @@ class AmendingLawControllerTest {
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
 
     // When
-    mockMvc.perform(get("/api/v1/norms/procedures/{eli}", eli));
+    mockMvc.perform(get("/api/v1/amendinglaw/{eli}", eli));
 
     // Then
     verify(loadAmendingLawUseCase, times(1))
@@ -87,7 +87,7 @@ class AmendingLawControllerTest {
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/norms/procedures/{eli}", eli))
+        .perform(get("/api/v1/amendinglaw/{eli}", eli))
         .andExpect(status().isOk())
         .andExpect(jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1953/s225")))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo(printAnnouncementGazette)))
@@ -105,7 +105,7 @@ class AmendingLawControllerTest {
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
 
     // When // Then
-    mockMvc.perform(get("/api/v1/norms/procedures/{eli}", eli)).andExpect(status().isNotFound());
+    mockMvc.perform(get("/api/v1/amendinglaw/{eli}", eli)).andExpect(status().isNotFound());
   }
 
   @Test
@@ -116,9 +116,7 @@ class AmendingLawControllerTest {
         .thenThrow(new RuntimeException("simulating internal server error"));
 
     // When // Then
-    mockMvc
-        .perform(get("/api/v1/norms/procedures/{eli}", eli))
-        .andExpect(status().is5xxServerError());
+    mockMvc.perform(get("/api/v1/amendinglaw/{eli}", eli)).andExpect(status().is5xxServerError());
   }
 
   @Test
@@ -138,10 +136,7 @@ class AmendingLawControllerTest {
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
 
-    final Article article1 = new Article("1", "eli1", "title1");
-    final Article article2 = new Article("2", "eli2", "title2");
-
-    List<AmendingLaw> allAmendingLaws =
+    List<AmendingLaw> allAmendingLawWithArticles =
         List.of(
             AmendingLaw.builder()
                 .eli(eli)
@@ -150,7 +145,6 @@ class AmendingLawControllerTest {
                 .printAnnouncementPage(printAnnouncementPage)
                 .digitalAnnouncementMedium(digitalAnnouncementMedium)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
-                .articles(List.of(article1, article2))
                 .build(),
             AmendingLaw.builder()
                 .eli(eli2)
@@ -159,22 +153,19 @@ class AmendingLawControllerTest {
                 .printAnnouncementPage(printAnnouncementPage2)
                 .digitalAnnouncementMedium(digitalAnnouncementMedium2)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition2)
-                .articles(List.of(article1, article2))
                 .build());
 
-    when(loadAllAmendingLawsUseCase.loadAllAmendingLaws()).thenReturn(allAmendingLaws);
+    when(loadAllAmendingLawsUseCase.loadAllAmendingLaws()).thenReturn(allAmendingLawWithArticles);
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/norms/procedures"))
+        .perform(get("/api/v1/amendinglaw"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[2]").doesNotExist())
         .andExpect(jsonPath("$[0].printAnnouncementGazette", equalTo(printAnnouncementGazette)))
         .andExpect(jsonPath("$[0].eli", equalTo(eli)))
         .andExpect(jsonPath("$[1].printAnnouncementGazette", equalTo(printAnnouncementGazette2)))
-        .andExpect(jsonPath("$[1].eli", equalTo(eli2)))
-        .andExpect(jsonPath("$[0].articles").isArray())
-        .andExpect(jsonPath("$[0].articles[0].eli").value("eli1"));
+        .andExpect(jsonPath("$[1].eli", equalTo(eli2)));
   }
 }
