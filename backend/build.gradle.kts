@@ -17,7 +17,6 @@ plugins {
     alias(libs.plugins.test.logger)
     alias(libs.plugins.versions)
     alias(libs.plugins.version.catalog.update)
-    alias(libs.plugins.flyway)
     id("checkstyle")
 }
 

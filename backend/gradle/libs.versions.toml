@@ -32,7 +32,6 @@ testcontainers-postgres = { module = "org.testcontainers:postgresql", version.re
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.5"
-flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
 sonarqube = "org.sonarqube:4.4.1.3373"
 spotless = "com.diffplug.spotless:6.25.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
