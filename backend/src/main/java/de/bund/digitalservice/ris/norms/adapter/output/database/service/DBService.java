@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,8 +34,8 @@ public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort {
 
   @Override
   public List<AmendingLaw> loadAllAmendingLaws() {
-    return amendingLawRepository.findAll().stream()
+    return amendingLawRepository.findAllByOrderByPublicationDateDesc().stream()
         .map(AmendingLawMapper::mapToDomain)
-        .collect(Collectors.toList());
+        .toList();
   }
 }

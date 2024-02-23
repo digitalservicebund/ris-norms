@@ -90,14 +90,14 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225";
     final String printAnnouncementGazette = "someGazette";
-    final LocalDate publicationDate = LocalDate.now();
+    final LocalDate publicationDate = LocalDate.parse("1953-12-01");
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
 
     final String eli2 = "eli/bund/bgbl-2/2010/s13";
     final String printAnnouncementGazette2 = "someGazette2";
-    final LocalDate publicationDate2 = LocalDate.now();
+    final LocalDate publicationDate2 = LocalDate.parse("2024-11-23");
     final String printAnnouncementPage2 = "page1232";
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
@@ -134,6 +134,6 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     assertThat(amendingLawsLoaded).hasSize(2);
     assertThat(amendingLawsLoaded)
         .extracting(AmendingLaw::getEli)
-        .containsExactlyInAnyOrder(amendingLaw1.getEli(), amendingLaw2.getEli());
+        .containsExactly(amendingLaw2.getEli(), amendingLaw1.getEli());
   }
 }

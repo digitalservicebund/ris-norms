@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDTO;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,13 @@ public interface AmendingLawRepository extends JpaRepository<AmendingLawDTO, UUI
    *     not found.
    */
   Optional<AmendingLawDTO> findByEli(final String eli);
+
+  /**
+   * Retrieves a list of {@link AmendingLawDTO} instances, sorted in descending order based on their
+   * publication dates.
+   *
+   * @return A list of {@link AmendingLawDTO} instances sorted by publication date in descending
+   *     order.
+   */
+  List<AmendingLawDTO> findAllByOrderByPublicationDateDesc();
 }
