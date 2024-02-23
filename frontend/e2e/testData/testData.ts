@@ -3,7 +3,8 @@ import { AmendingLaw } from "@/services/amendingLawsService"
 export const amendingLaws: AmendingLaw[] = [
   {
     eli: "eli/bund/bgbl-1/2017/s419",
-    printAnnouncementGazette: "BGBl I",
+    printAnnouncementGazette: "BGBl. I",
+    digitalAnnouncementMedium: undefined,
     publicationDate: "2017-03-15",
     printAnnouncementPage: "419",
     digitalAnnouncementEdition: undefined,
@@ -17,10 +18,11 @@ export const amendingLaws: AmendingLaw[] = [
   },
   {
     eli: "eli/bund/bgbl-1/2023/s413",
-    printAnnouncementGazette: "BGBl I",
+    printAnnouncementGazette: undefined,
+    digitalAnnouncementMedium: "BGBl. I",
     publicationDate: "2023-12-29",
-    printAnnouncementPage: "413",
-    digitalAnnouncementEdition: undefined,
+    printAnnouncementPage: undefined,
+    digitalAnnouncementEdition: "413",
     articles: [
       {
         enumeration: "1",

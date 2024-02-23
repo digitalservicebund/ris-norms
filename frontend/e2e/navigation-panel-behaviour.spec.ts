@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test"
-import { amendingLaws } from "../e2e/testData/testData"
+import { amendingLaws } from "@e2e/testData/testData"
 
-test.skip("navigate and verify navigation panel behavior", async ({ page }) => {
+test("navigate and verify navigation panel behavior", async ({ page }) => {
   for (const amendingLaw of amendingLaws) {
     await page.goto("/")
 
@@ -9,7 +9,12 @@ test.skip("navigate and verify navigation panel behavior", async ({ page }) => {
 
     await page.click(`a[href*="${encodedEli}"]`)
 
-    const expectedHeading = `${amendingLaw.printAnnouncementGazette} ${amendingLaw.publicationDate} Nr. ${amendingLaw.printAnnouncementPage}`
+    const expectedHeading = amendingLaw?.printAnnouncementGazette
+      ? `${amendingLaw.printAnnouncementGazette} S. ${amendingLaw.printAnnouncementPage}`
+      : amendingLaw?.digitalAnnouncementEdition
+        ? `${amendingLaw.digitalAnnouncementMedium} Nr. ${amendingLaw.digitalAnnouncementEdition}`
+        : ""
+
     await expect(page.locator(".ds-heading-03-reg")).toHaveText(expectedHeading)
 
     const articleOverviewMenuClass = await page
@@ -22,11 +27,10 @@ test.skip("navigate and verify navigation panel behavior", async ({ page }) => {
     )
     await expect(checkChangeCommandButton).toBeVisible()
 
-    const checkTimeLimitsButton = page.locator('text="Zeitgrenzen prüfen"')
-    await expect(checkTimeLimitsButton).toBeVisible()
-
     await page.click("text=Betroffene Normenkomplexe")
-    await expect(page).toHaveURL(`/procedures/${encodedEli}/affected-standards`)
+    await expect(page).toHaveURL(
+      `/amendinglaws/${encodedEli}/affected-standards`,
+    )
 
     const editMetadataButton = page.locator('text="Metadaten editieren"')
     await expect(editMetadataButton).toBeVisible()
@@ -39,9 +43,9 @@ test.skip("navigate and verify navigation panel behavior", async ({ page }) => {
     expect(affectedStandardsIsActive).toBeTruthy()
 
     await page.click("text=Artikelübersicht")
-    await expect(page).toHaveURL(`/procedures/${encodedEli}/article-overview`)
+    await expect(page).toHaveURL(`/amendinglaws/${encodedEli}/article-overview`)
 
     await page.click("text=Zurück")
-    await expect(page).toHaveURL("/procedures")
+    await expect(page).toHaveURL("/amendinglaws")
   }
 })

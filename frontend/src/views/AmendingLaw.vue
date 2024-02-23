@@ -38,7 +38,7 @@ const heading = computed(() => {
   if (loadedAmendingLaw.value?.printAnnouncementGazette) {
     return `${loadedAmendingLaw.value?.printAnnouncementGazette} S. ${loadedAmendingLaw.value?.printAnnouncementPage}`
   } else if (loadedAmendingLaw.value?.digitalAnnouncementEdition) {
-    return `${loadedAmendingLaw.value?.digitalAnnouncementMedium}Nr. ${loadedAmendingLaw.value?.digitalAnnouncementEdition}`
+    return `${loadedAmendingLaw.value?.digitalAnnouncementMedium} Nr. ${loadedAmendingLaw.value?.digitalAnnouncementEdition}`
   } else {
     return ""
   }

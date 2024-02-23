@@ -18,7 +18,7 @@ const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
       :key="index"
       :title="`Artikel ${article.enumeration}`"
       :description="article.eli"
-      icon-text="Änderungsbefehl prüfen"
+      icon-text="Metadaten editieren"
     />
   </div>
 </template>
