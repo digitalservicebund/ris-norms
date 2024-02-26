@@ -12,7 +12,10 @@
 ```mermaid
 C4Container
       title Container: RIS-Norms
-      Person("documentalist", "Documentalist", "A staff member of the<br> 'Normendokumentation (BfJ)'")
+      Person_Ext("documentalist", "Documentalist", "A staff member of the<br> 'Normendokumentation (BfJ)'")
+
+      Container_Ext("portal", "Portal", "Gives the public access to norms")
+      Rel("backend", "portal", "Makes new norms accessible to the portal")
 
       System_Boundary("ris-norms", "RIS-Norms"){
         Container("frontend", "Single Page Web App", "Vue, TypeScript", "Provides all RIS-Norms functionality to <br>users via their web browser")
@@ -25,6 +28,7 @@ C4Container
         Rel("backend", "relationalDB", "Reads from and writes to", "SQL/TCP")
       }
 
-      UpdateLayoutConfig($c4ShapeInRow="1", $c4BoundaryInRow="2")
+      
+      UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="2")
 
 ```
