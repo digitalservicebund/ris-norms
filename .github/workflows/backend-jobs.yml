@@ -278,3 +278,70 @@ jobs:
         if: ${{ failure() }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+
+  generate-backend-code-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21.0"
+          distribution: "temurin"
+          cache: gradle
+      - name: Grant execute permission for gradlew
+        working-directory: ./backend
+        run: chmod +x gradlew
+      - name: Run Javadoc
+        working-directory: ./backend
+        run: ./gradlew javadoc
+      - name: Upload documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-code-documentation
+          retention-days: 3
+          path: backend/build/docs/javadoc/
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  push-reports:
+    runs-on: ubuntu-latest
+    env:
+      reports-repo: digitalservicebund/ris-reports
+    needs:
+      - backend-build
+      - generate-backend-code-documentation
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.reports-repo }}
+          ssh-key: ${{ secrets.REPORTS_DEPLOY_KEY }}
+      - name: Setup git config
+        run: |
+          git config user.name "${{ github.repository }}"
+          # This email identifies the commit as GitHub Actions - see https://github.com/orgs/community/discussions/26560
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Backend Code Documentation - Download
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-code-documentation
+          path: tmp/backend-code-documentation/
+      - name: Java - git add report
+        uses: digitalservicebund/github-actions/add-ris-report@a4d00619e174444b1382e59871b3f9adc83f95e0
+        with:
+          filePath: tmp/backend-code-documentation
+          destinationDir: backend-code-documentation/java
+          reportIsDirectory: true
+      - name: Push reports
+        run: |
+          git diff-index --cached --quiet HEAD ||
+            git commit \
+              -m ${{ toJSON(github.event.head_commit.message) }} \
+              -m "From commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" &&
+            git push origin main &&
+            echo "Pushed reports to ${{ github.server_url }}/${{ env.reports-repo }}" >> $GITHUB_STEP_SUMMARY
