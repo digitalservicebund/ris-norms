@@ -96,7 +96,7 @@ jobs:
           filename: "ris-norms-release.zip"
           directory: downloaded-artifacts
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
-        uses: softprops/action-gh-release@4634c16e79c963813287e889244c50009e7f0981
+        uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
         with:
           files: downloaded-artifacts/ris-norms-release.zip
           tag_name: v${{ env.VERSION }}-${{ github.run_number }}
