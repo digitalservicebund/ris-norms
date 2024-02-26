@@ -49,10 +49,13 @@ updates:
       interval: "daily"
       time: "06:00"
       timezone: "Europe/Berlin"
-    # Too much noise with patch releases...
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
+    groups:
+      dev-dependencies-patches:
+        dependency-type: "development"
+        update-types: ["patch"]
+      dependencies-patches:
+        dependency-type: "production"
+        update-types: ["patch"]
     open-pull-requests-limit: 9999
     labels:
       - "dependencies"
