@@ -24,6 +24,10 @@ This is a mono-repository containing several software products. Right now, there
 
 Each product has its own `README.md` with more details.
 
+# Architecture Documentation
+* Architecture C4 diagrams (in markdown format via [mermaid](https://mermaid.js.org/)) can be found in [`./doc/architecture-diagrams](./doc/architecture-diagrams/)
+
+
 # How to run the VSCode Extension and the Time Machine locally
 
 ## Prerequisites
