@@ -335,7 +335,7 @@ jobs:
         uses: digitalservicebund/github-actions/add-ris-report@a4d00619e174444b1382e59871b3f9adc83f95e0
         with:
           filePath: tmp/backend-code-documentation
-          destinationDir: backend-code-documentation/java
+          destinationDir: norms-code-documentation/java
           reportIsDirectory: true
       - name: Push reports
         run: |
