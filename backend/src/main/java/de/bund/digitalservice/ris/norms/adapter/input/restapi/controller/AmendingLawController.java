@@ -46,23 +46,40 @@ public class AmendingLawController {
    * @param printAnnouncementGazette The print announcement gazette parameter.
    * @param printAnnouncementYear The print announcement year parameter.
    * @param printAnnouncementPage The print announcement page parameter.
+   * @param pointInTime The point in time parameter
+   * @param version The version parameter
+   * @param language The language parameter
+   * @param subtype The subtype parameter
    * @return A {@link ResponseEntity} containing the response schema for the retrieved amending law.
    *     If the amending law is found, returns HTTP 200 (OK) with the amending law data. If the
    *     procedure is not found, returns HTTP 404 (Not Found).
    */
   @GetMapping(
-      path = "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}")
+      path =
+          "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}")
   ResponseEntity<AmendingLawIncludingArticlesResponseSchema> getAmendingLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
-      @PathVariable final String printAnnouncementPage) {
+      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype) {
     final String eli =
         "eli/bund/"
             + printAnnouncementGazette
             + "/"
             + printAnnouncementYear
             + "/"
-            + printAnnouncementPage;
+            + printAnnouncementPage
+            + "/"
+            + pointInTime
+            + "/"
+            + version
+            + "/"
+            + language
+            + "/"
+            + subtype;
     final Optional<AmendingLaw> optionalAmendingLaw =
         loadAmendingLawUseCase.loadAmendingLaw(new LoadAmendingLawUseCase.Query(eli));
     return optionalAmendingLaw
