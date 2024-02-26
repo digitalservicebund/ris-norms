@@ -37,7 +37,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itFindsAmendingLawOnDB() {
     // Given
-    final String eli = "eli/bgbl-1/2024/123";
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";
@@ -75,7 +75,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itDoesNotFindAmendingLawOnDb() {
     // Given
-    final String eli = "eli/bgbl-1/2024/123";
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
 
     // When
     final Optional<AmendingLaw> amendingLawLoaded =
@@ -88,14 +88,14 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @Test
   void itLoadsAllAmendingLawsFromDB() {
     // Given
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.parse("1953-12-01");
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
 
-    final String eli2 = "eli/bund/bgbl-2/2010/s13";
+    final String eli2 = "eli/bund/bgbl-2/2010/s13/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette2 = "someGazette2";
     final LocalDate publicationDate2 = LocalDate.parse("2024-11-23");
     final String printAnnouncementPage2 = "page1232";

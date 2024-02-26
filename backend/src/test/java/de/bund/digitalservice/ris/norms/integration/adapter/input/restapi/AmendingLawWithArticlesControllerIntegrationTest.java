@@ -35,7 +35,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
   @Test
   void itCallsAmendingLawServiceAndReturnsAmendingLaw() throws Exception {
     // Given
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";

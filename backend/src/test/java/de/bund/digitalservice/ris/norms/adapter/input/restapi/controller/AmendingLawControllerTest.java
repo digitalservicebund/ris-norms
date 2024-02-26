@@ -47,7 +47,7 @@ class AmendingLawControllerTest {
   @Test
   void itCallsAmendingLawServiceWithUuidFromQuery() throws Exception {
     // Given
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
 
     // When
@@ -61,7 +61,7 @@ class AmendingLawControllerTest {
   @Test
   void itCallsAmendingServiceAndReturnsAmendingLaw() throws Exception {
     // Given
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";
@@ -89,7 +89,9 @@ class AmendingLawControllerTest {
     mockMvc
         .perform(get("/api/v1/amendinglaw/{eli}", eli))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1953/s225")))
+        .andExpect(
+            jsonPath("eli")
+                .value(equalTo("eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1")))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo(printAnnouncementGazette)))
         .andExpect(jsonPath("digitalAnnouncementMedium").value(equalTo(digitalAnnouncementMedium)))
         .andExpect(
@@ -101,7 +103,7 @@ class AmendingLawControllerTest {
   @Test
   void itCallsAmendingLawServiceAndReturnsNotFound() throws Exception {
     // Given
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
 
     // When // Then
@@ -111,7 +113,7 @@ class AmendingLawControllerTest {
   @Test
   void itCallsAmendingLawServiceAndReturnsInternalError() throws Exception {
     // Given
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     when(loadAmendingLawUseCase.loadAmendingLaw(any()))
         .thenThrow(new RuntimeException("simulating internal server error"));
 
@@ -122,14 +124,14 @@ class AmendingLawControllerTest {
   @Test
   void itLoadsAllAmendingLawsAndReturnsSuccessfully() throws Exception {
     // Given
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
 
-    final String eli2 = "eli/bund/bgbl-1/1953/s225";
+    final String eli2 = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette2 = "someGazette2";
     final LocalDate publicationDate2 = LocalDate.now();
     final String printAnnouncementPage2 = "page1232";

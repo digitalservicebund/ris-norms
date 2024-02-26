@@ -104,7 +104,7 @@ class AmendingLawServiceTest {
         new AmendingLawService(loadAmendingLawAdapter, loadAllAmendingLawsAdapter);
 
     // TODO: refactor the creation of amending law test data
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";
