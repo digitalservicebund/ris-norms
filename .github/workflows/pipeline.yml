@@ -96,7 +96,7 @@ jobs:
           filename: "ris-norms-release.zip"
           directory: downloaded-artifacts
       - name: Create and Upload Pre-Release for VSCode Extension and time-machine
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@4634c16e79c963813287e889244c50009e7f0981
         with:
           files: downloaded-artifacts/ris-norms-release.zip
           tag_name: v${{ env.VERSION }}-${{ github.run_number }}
@@ -131,7 +131,7 @@ jobs:
     steps:
       - uses: chainguard-dev/actions/setup-gitsign@ac42db4c9c2e2bd9f66aadf3290c5995891d91a3
       - name: Deploy new images
-        uses: digitalservicebund/github-actions/argocd-deploy@a223a68bc5982e5175beb73c708d99d8f9ba7858
+        uses: digitalservicebund/github-actions/argocd-deploy@0ec47e73b6068bde71db075af6bf9ae27cb08b1b
         with:
           environment: staging
           version: ${{ github.sha }}
@@ -142,7 +142,7 @@ jobs:
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
       - name: Track deploy
-        uses: digitalservicebund/github-actions/track-deployment@b51920b9fdeeb0c8721c210853aee955bd7cefc0
+        uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
         with:
           project: ris-norms
           environment: staging
