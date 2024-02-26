@@ -47,7 +47,7 @@ class AmendingLawControllerTest {
   @Test
   void itCallsAmendingLawServiceWithUuidFromQuery() throws Exception {
     // Given
-    final String eli = "eli/bund/bgbl-1/1953/s225";
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
 
     // When
