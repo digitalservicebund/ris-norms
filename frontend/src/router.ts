@@ -22,7 +22,7 @@ const routes = [
          * It was not possible to put the eli in just one combined path parameter as vue-router replaces slashes in
          * path parameters automatically by %2F when routing to a new route.
          */
-        path: `eli/:eliJurisdiction(bund)/:eliAgent(bgbl-1|bgbl-2|banz-at)/:eliYear([12][0-9]{3})/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)`,
+        path: `eli/:eliJurisdiction(bund)/:eliAgent(bgbl-1|bgbl-2|banz-at)/:eliYear([12][0-9]{3})/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)/:eliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})/:eliVersion([0-9]+)/:eliLanguage(deu)/:eliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)`,
         component: () => import("@/views/AmendingLaw.vue"),
         children: [
           {

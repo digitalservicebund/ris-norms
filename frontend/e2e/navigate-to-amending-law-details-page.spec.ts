@@ -24,6 +24,6 @@ test("navigate from amending laws list to an amending law detail page", async ({
     .click()
 
   await expect(page).toHaveURL(
-    `/amendinglaws/eli/bund/bgbl-1/2017/s419/article-overview`,
+    `/amendinglaws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/article-overview`,
   )
 })

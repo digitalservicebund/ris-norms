@@ -14,13 +14,17 @@ export function useEliPathParameter() {
       params.eliJurisdiction == undefined ||
       params.eliAgent == undefined ||
       params.eliYear == undefined ||
-      params.eliNaturalIdentifier == undefined
+      params.eliNaturalIdentifier == undefined ||
+      params.eliPointInTime == undefined ||
+      params.eliVersion == undefined ||
+      params.eliLanguage == undefined ||
+      params.eliSubtype == undefined
     ) {
       throw new Error(
-        "useEliPathParameter: You can only use this composables on pages which have an eli in their route",
+        "useEliPathParameter: You can only use this composable on pages which have an eli in their route",
       )
     }
 
-    return `eli/${params.eliJurisdiction}/${params.eliAgent}/${params.eliYear}/${params.eliNaturalIdentifier}`
+    return `eli/${params.eliJurisdiction}/${params.eliAgent}/${params.eliYear}/${params.eliNaturalIdentifier}/${params.eliPointInTime}/${params.eliVersion}/${params.eliLanguage}/${params.eliSubtype}`
   })
 }

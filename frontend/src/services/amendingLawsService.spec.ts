@@ -1,5 +1,9 @@
 import { describe, it, expect, vi } from "vitest"
-import { getAmendingLawByEli, getAmendingLaws } from "./amendingLawsService"
+import {
+  AmendingLaw,
+  getAmendingLawByEli,
+  getAmendingLaws,
+} from "./amendingLawsService"
 
 vi.mock("./amendingLawsService", () => ({
   getAmendingLaws: vi.fn(),
@@ -8,21 +12,19 @@ vi.mock("./amendingLawsService", () => ({
 
 describe("Service consumer tests", () => {
   it("tests another function or component using getAmendingLaws with mock data", async () => {
-    const mockedAmendingLawsArray = [
+    const mockedAmendingLawsArray: AmendingLaw[] = [
       {
-        eli: "eli/example/2023/1",
-        printAnnouncementGazette: "example",
-        printAnnouncementMedium: undefined,
-        publicationDate: "2023-01-01",
-        printAnnouncementPage: "1",
+        eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        printAnnouncementGazette: "bgbl-1",
+        publicationDate: "2017-03-15",
+        printAnnouncementPage: "419",
         digitalAnnouncementEdition: undefined,
       },
       {
-        eli: "eli/example2/2024/2",
-        printAnnouncementGazette: "example2",
-        printAnnouncementMedium: undefined,
-        publicationDate: "2024-01-01",
-        printAnnouncementPage: "2",
+        eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        printAnnouncementGazette: "bgbl-1",
+        publicationDate: "2023-12-29",
+        printAnnouncementPage: "413",
         digitalAnnouncementEdition: undefined,
       },
     ]
@@ -35,13 +37,13 @@ describe("Service consumer tests", () => {
   })
 
   it("tests another function or component using getAmendingLawByEli with mock data", async () => {
-    const eli = "eli/example/2023/1"
+    const eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
     const mockedAmendingLaw = {
       eli: eli,
-      printAnnouncementGazette: "example",
+      printAnnouncementGazette: "bgbl-1",
       printAnnouncementMedium: undefined,
-      publicationDate: "2023-01-01",
-      printAnnouncementPage: "1",
+      publicationDate: "2017-03-15",
+      printAnnouncementPage: "419",
       digitalAnnouncementEdition: undefined,
       articles: [
         {
