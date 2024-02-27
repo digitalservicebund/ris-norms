@@ -89,7 +89,7 @@ public class AmendingLawController {
   }
 
   /**
-   * Retrieves
+   * Retrieves all available amending laws
    *
    * @return A {@link ResponseEntity} containing the response schema for a list of amending laws
    *     Successful execution returns HTTP 200 (OK) If no law is found, the list is empty.
