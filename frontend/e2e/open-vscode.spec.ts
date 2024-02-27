@@ -12,10 +12,6 @@ test.beforeEach(async ({ page }) => {
   )
 })
 
-test.use({
-  ignoreHTTPSErrors: true,
-})
-
 // Skipped as the routing directly to an article-overview does not work at the moment.
 test.skip("open a new tab with vs code from the article overview", async ({
   page,

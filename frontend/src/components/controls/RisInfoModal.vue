@@ -15,6 +15,8 @@ const props = withDefaults(
     ariaLabel: "Infomodal",
     description: "",
     iconText: "",
+    href: undefined,
+    target: undefined,
   },
 )
 </script>
