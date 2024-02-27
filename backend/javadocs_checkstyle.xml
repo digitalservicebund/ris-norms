@@ -6,6 +6,9 @@
 <!--
     This configuration file enforces rules for the coding standard at
     https://se-education.org/guides/conventions/java/intermediate.html
+
+    The list of available modules and their properties can be found at
+    https://checkstyle.sourceforge.io/checks/javadoc/index.html
 -->
 
 <module name="Checker">
