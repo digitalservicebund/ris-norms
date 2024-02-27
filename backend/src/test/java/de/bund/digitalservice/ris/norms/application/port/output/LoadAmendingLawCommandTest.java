@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class LoadAmendingLawCommandTest {
 
   @Test
-  void canCreateCommandWithUUID() {
+  void canCreateCommandWithEli() {
     // Given
     final String eli = "someEli";
     // When

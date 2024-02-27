@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 class AmendingLawServiceTest {
 
   @Test
-  void itCallsLoadAmendingLawByUuidUsingInputQueryUuid() {
+  void itCallsLoadAmendingLawByEliUsingInputQueryEli() {
     // Given
     final String eli = "someEli";
     final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);
@@ -41,7 +41,7 @@ class AmendingLawServiceTest {
   }
 
   @Test
-  void canLoadAmendingLawByUuidIfAdapterFindsOne() {
+  void canLoadAmendingLawByEliIfAdapterFindsOne() {
     // Given
     final String eli = "someEli";
     final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);
@@ -77,7 +77,7 @@ class AmendingLawServiceTest {
   }
 
   @Test
-  void canNotLoadAmendingLawByUuidIfAdapterDoesNotFindOne() {
+  void canNotLoadAmendingLawByEliIfAdapterDoesNotFindOne() {
     // Given
     final String eli = "someEli";
     final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);

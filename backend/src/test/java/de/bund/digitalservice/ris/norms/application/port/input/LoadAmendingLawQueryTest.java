@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class LoadAmendingLawQueryTest {
 
   @Test
-  void canCreateQueryWithUUID() {
+  void canCreateQueryWithEli() {
     // Given
     final String eli = "someEli";
 
