@@ -10,7 +10,7 @@
     "test": "TZ=UTC vitest run",
     "test:watch": "TZ=UTC vitest",
     "preview": "vite preview",
-    "eslint:check": "eslint --ext .js,.ts,.vue --ignore-path .gitignore .",
+    "eslint:check": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --max-warnings 0 .",
     "eslint:fix": "npm run eslint:check -- --fix",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write --ignore-unknown .",
