@@ -140,6 +140,12 @@ tasks {
         revision = "release"
         rejectVersionIf { !isStable(candidate.version) }
     }
+
+    // To avoid having the warning with org.apache.logging.log4j:log4j-core [2.17.1 -> 2.23.0]
+    // See https://github.com/ben-manes/gradle-versions-plugin/issues/686#issuecomment-1225322252
+    withType(com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask::class) {
+        checkBuildEnvironmentConstraints = false
+    }
 }
 
 spotless {

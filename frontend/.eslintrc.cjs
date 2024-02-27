@@ -27,7 +27,7 @@ module.exports = {
     // explanation for why this is necessary.
 
     // This doesn't work with aliases
-    "import/no-unresolved": 0,
+    "import/no-unresolved": "off",
 
     // If we can't avoid to use styles, they should at least be scoped
     "vue/enforce-style-attribute": ["warn", { allow: ["scoped", "module"] }],
@@ -43,18 +43,27 @@ module.exports = {
 
   overrides: [
     {
-      // Make an exception from requiring component names to consist of multiple
-      // words for views as they: 1) will not be used as standalone components
-      // and therefore do not need to adhere to HTML naming conventions, and 2)
-      // can therefore be simpler and match the route names.
       files: ["src/views/**/*.vue"],
+
       rules: {
+        // Make an exception from requiring component names to consist of multiple
+        // words for views as they: 1) will not be used as standalone components
+        // and therefore do not need to adhere to HTML naming conventions, and 2)
+        // can therefore be simpler and match the route names.
         "vue/multi-word-component-names": "off",
       },
     },
     {
       files: ["e2e/**/*.ts"],
+
       extends: ["plugin:playwright/playwright-test"],
+
+      rules: {
+        // It's acceptable to sometimes skip tests if that means we don't have
+        // to delete or comment out tests that don't behave as expected and we
+        // don't have time to fix them immediately.
+        "playwright/no-skipped-test": "off",
+      },
     },
   ],
 }
