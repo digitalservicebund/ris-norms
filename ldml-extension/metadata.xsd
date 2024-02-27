@@ -19,7 +19,65 @@
    <!-- ******************************************************************************************** -->
    <xs:element name="legalDocML.de_metadaten_ds">
       <xs:complexType>
-         <xs:all>
+         <xs:choice maxOccurs="unbounded">
+
+         <xs:element name="interne-referenz" minOccurs="0">
+            <xs:complexType>
+                <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                    <xs:choice>
+                        <xs:element name="abweichendeGueltigkeit">
+                           <xs:complexType>
+                              <xs:attribute name="ausserkraft" type="eId-verweis" use="optional"/>
+                              <xs:attribute name="inkraft" type="eId-verweis" use="optional"/>
+                           </xs:complexType>
+                        </xs:element>
+                        <xs:element name="fassungsdatum" type="xs:date"/>
+                        <xs:element name="normgeber" type="normgeber-typ"/>
+                        <xs:element name="stand" type="xs:date">
+                            <xs:annotation>
+                                <xs:documentation>Beschreibung, welcher Stand hier gemeint ist und wie er anzugeben ist.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:sequence>
+                <xs:attribute name="href" type="eId-verweis" use="required">
+                    <!-- 
+                        Hier wäre auch denkbar, statt auf die @eId auf die @GUID 
+                        zu verweisen, beides zu erlauben (entweder/oder) oder eben
+                        zwei Attribute (z. B. @eId-ref und @GUID-ref) zu deklarieren.
+                    -->
+                    <xs:annotation>
+                        <xs:documentation>Lokaler Verweis auf eine Stelle im Dokument, Erwartet wird das Rautesymbol (#), gefolgt von einer
+                            @eId.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="alt" type="xs:token" use="optional"/>
+            </xs:complexType>
+        </xs:element>
+        <xs:element name="aktenzeichen" type="xs:string" minOccurs="0"/>
+        <xs:element name="celex" type="xs:string" minOccurs="0"/>
+        <xs:element name="subtyp" type="artDerNorm" minOccurs="0"/>
+        <xs:element name="mitwirkung" type="xs:string" minOccurs="0"/>
+        <xs:element name="fundstelleNichtAmtlich" type="xs:string" minOccurs="0"/>
+        <xs:element name="qualifizierteMehrheit" type="xs:boolean" minOccurs="0"/>
+        <xs:element name="fnaAlt" type="xs:string" minOccurs="0"/>
+        <xs:element name="BGBL3" type="xs:string" minOccurs="0"/>
+        <xs:element name="note" minOccurs="0" maxOccurs="unbounded">
+         <xs:complexType mixed="true">
+            <xs:choice minOccurs="0">
+               <xs:element name="a">
+                  <xs:complexType mixed="true">
+                     <xs:choice minOccurs="0">
+                        <xs:element name="date"/>
+                     </xs:choice>
+                     <xs:attribute name="href" type="xs:string"/>
+                  </xs:complexType>
+               </xs:element>
+            </xs:choice>
+            <xs:attribute name="type" type="xs:string" use="optional"/>
+         </xs:complexType> 
+        </xs:element>
+        <xs:element name="vollzitat" type="xs:string" minOccurs="0"/>
             <xs:element name="risAbk" type="xs:string" minOccurs="0">
                <xs:annotation>
                   <xs:documentation>Die RIS-Abkürzung ist die systemeigene, menschenlesbare Abkürzung eines Normenkomplexes, die für die Dokumentation, 
@@ -79,7 +137,7 @@
                   <xs:field xpath="@href"/>
                </xs:unique>
             </xs:element>
-         </xs:all>
+         </xs:choice>
       </xs:complexType>
    </xs:element>
    <xs:simpleType name="artDerNorm" final="restriction">
@@ -108,4 +166,21 @@
          </xs:element>
       </xs:sequence>
    </xs:complexType>
+
+   <xs:simpleType name="normgeber-typ" final="restriction">
+      <xs:annotation>
+          <xs:documentation>Beschreibung, was ein Normgeber genau ist und welchem Zweck die Angabe dient.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+          <xs:enumeration value="normgeber-a"/>
+          <xs:enumeration value="normgeber-b"/>
+          <xs:enumeration value="normgeber-c"/>
+          <xs:enumeration value="normgeber-d"/>
+      </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="eId-verweis">
+   <xs:restriction base="xs:string">
+       <xs:pattern value="#(([a-zäöüß0-9]+-[a-zäöüß0-9]+(\.[a-zäöüß0-9]+)*)_?)*"/>
+   </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
