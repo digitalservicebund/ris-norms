@@ -41,18 +41,22 @@ public class AmendingLawController {
   }
 
   /**
-   * Retrieves an amending law based on the specified parameters.
+   * Retrieves an amending law based on its expression ELI. The ELI's components are interpreted as
+   * query parameters.
    *
-   * @param printAnnouncementGazette The print announcement gazette parameter.
-   * @param printAnnouncementYear The print announcement year parameter.
-   * @param printAnnouncementPage The print announcement page parameter.
-   * @param pointInTime The point in time parameter
-   * @param version The version parameter
-   * @param language The language parameter
-   * @param subtype The subtype parameter
-   * @return A {@link ResponseEntity} containing the response schema for the retrieved amending law.
-   *     If the amending law is found, returns HTTP 200 (OK) with the amending law data. If the
-   *     procedure is not found, returns HTTP 404 (Not Found).
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf.
+   * https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24)
+   *
+   * @param printAnnouncementGazette DE: "Verkündungsblatt"
+   * @param printAnnouncementYear DE "Verkündungsjahr"
+   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @return A {@link ResponseEntity} containing the retrieved amending law.
+   *     <p>Returns HTTP 200 (OK) and the amending law's data if found.
+   *     <p>Returns HTTP 404 (Not Found) if the amending law is not found.
    */
   @GetMapping(
       path =
@@ -92,7 +96,8 @@ public class AmendingLawController {
    * Retrieves all available amending laws
    *
    * @return A {@link ResponseEntity} containing the response schema for a list of amending laws
-   *     Successful execution returns HTTP 200 (OK) If no law is found, the list is empty.
+   *     <p>Returns HTTP 200 (OK) and a list of amending laws on successful exection.
+   *     <p>If no law is found, the list is empty.
    */
   @GetMapping
   public ResponseEntity<List<AmendingLawResponseSchema>> returnAllAmendingLaws() {
