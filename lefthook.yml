@@ -114,6 +114,8 @@ pre-push:
           | talisman --githook pre-push
 
     check-pipeline-status:
+      only:
+        - ref: main
       run: |
         which gh 2>&1 >/dev/null || exit 0
 
