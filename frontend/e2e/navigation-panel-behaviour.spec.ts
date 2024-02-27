@@ -10,7 +10,7 @@ for (const amendingLaw of amendingLaws) {
     expectedHeading = `${amendingLaw.digitalAnnouncementMedium} Nr. ${amendingLaw.digitalAnnouncementEdition}`
   }
 
-  test("navigate and verify navigation to article overview", async ({
+  test(`navigate and verify navigation to article overview for ${amendingLaw.eli}`, async ({
     page,
   }) => {
     await page.goto("/")
@@ -36,7 +36,7 @@ for (const amendingLaw of amendingLaws) {
     await expect(page).toHaveURL("/amendinglaws")
   })
 
-  test("navigate and verify navigation to affected standard", async ({
+  test(`navigate and verify navigation to affected standard for ${amendingLaw.eli}`, async ({
     page,
   }) => {
     await page.goto("/")
