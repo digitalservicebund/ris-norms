@@ -57,7 +57,7 @@ public class AmendingLawController {
   @GetMapping(
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}")
-  ResponseEntity<AmendingLawIncludingArticlesResponseSchema> getAmendingLaw(
+  public ResponseEntity<AmendingLawIncludingArticlesResponseSchema> returnAmendingLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -88,8 +88,14 @@ public class AmendingLawController {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
+  /**
+   * Retrieves
+   *
+   * @return A {@link ResponseEntity} containing the response schema for a list of amending laws
+   *     Successful execution returns HTTP 200 (OK) If no law is found, the list is empty.
+   */
   @GetMapping
-  public ResponseEntity<List<AmendingLawResponseSchema>> getAllAmendingLaws() {
+  public ResponseEntity<List<AmendingLawResponseSchema>> returnAllAmendingLaws() {
     List<AmendingLaw> amendingLawWithArticles = loadAllAmendingLawsUseCase.loadAllAmendingLaws();
     List<AmendingLawResponseSchema> responseSchemas =
         amendingLawWithArticles.stream()
