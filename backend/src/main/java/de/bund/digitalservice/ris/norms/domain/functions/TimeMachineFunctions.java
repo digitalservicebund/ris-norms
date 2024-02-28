@@ -41,8 +41,6 @@ public class TimeMachineFunctions {
    * @return TODO
    */
   public static Document applyTimeMachine(Document amendingLaw, Document targetLaw) {
-    final Optional<Document> someDocument =
-        loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>");
-    return someDocument.get();
+    return targetLaw;
   }
 }
