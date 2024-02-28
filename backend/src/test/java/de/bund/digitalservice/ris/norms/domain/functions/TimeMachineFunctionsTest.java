@@ -13,10 +13,10 @@ public class TimeMachineFunctionsTest {
   @Test
   public void XmlDocumentsGoInAndOut() {
   // given
-  final Optional<Document> amendingLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString);
-  final Optional<Document> targetLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString);
+  final Document amendingLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString).get();
+  final Document targetLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString).get();
   // when
-  final Optional<Document> result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+  final Document result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
   // then
   assertTrue(result.isPresent());
 }
