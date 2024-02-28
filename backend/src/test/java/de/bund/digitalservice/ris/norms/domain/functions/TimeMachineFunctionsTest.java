@@ -22,12 +22,22 @@ public class TimeMachineFunctionsTest {
 }
 
   @Test
-  public void DocumentGeneratedFromStringMustNotBeEmpty() {
+  public void documentGeneratedFromValidXmlStringMustNotBeEmpty() {
     // given
     final String input = minimalXmlString;
     // when
     final Optional<Document> result = TimeMachineFunctions.loadXMLFromString(input);
     // then
     assertTrue(result.isPresent());
+  }
+
+  @Test
+  public void documentGeneratedFromInValidXmlStringMustBeEmpty() {
+    // given
+    final String input = "invalid XML as it does not start with the XML declaration";
+    // when
+    final Optional<Document> result = TimeMachineFunctions.loadXMLFromString(input);
+    // then
+    assertTrue(result.isEmpty());
   }
 }

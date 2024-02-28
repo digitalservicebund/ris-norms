@@ -33,6 +33,14 @@ public class TimeMachineFunctions {
     return Optional.empty();
   }
 
+  // TODO documentation
+
+  /**
+   * 
+   * @param amendingLaw
+   * @param targetLaw
+   * @return TODO
+   */
   public static Optional<Document> applyTimeMachine(Optional<Document> amendingLaw, Optional<Document> targetLaw){
     final Optional<Document> someDocument = loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>");
     return someDocument;
