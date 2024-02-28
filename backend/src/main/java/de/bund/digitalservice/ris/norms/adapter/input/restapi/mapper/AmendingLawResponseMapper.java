@@ -29,6 +29,7 @@ public class AmendingLawResponseMapper {
         .publicationDate(amendingLaw.getPublicationDate())
         .printAnnouncementPage(amendingLaw.getPrintAnnouncementPage())
         .digitalAnnouncementEdition(amendingLaw.getDigitalAnnouncementEdition())
+        .title(amendingLaw.getTitle())
         .articles(fromUseCaseData(amendingLaw.getArticles()))
         .build();
   }

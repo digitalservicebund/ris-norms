@@ -27,6 +27,7 @@ class AmendingLawResponseMapperTest {
     amendingLaw.setPublicationDate(now);
     amendingLaw.setPrintAnnouncementPage("PAGE");
     amendingLaw.setDigitalAnnouncementEdition("EDITION");
+    amendingLaw.setTitle("TITLE");
     amendingLaw.setArticles(article);
 
     // When
@@ -40,6 +41,7 @@ class AmendingLawResponseMapperTest {
     assertThat(resultAmendingLaw.getPublicationDate()).isEqualTo(now);
     assertThat(resultAmendingLaw.getPrintAnnouncementPage()).isEqualTo("PAGE");
     assertThat(resultAmendingLaw.getDigitalAnnouncementEdition()).isEqualTo("EDITION");
+    assertThat(resultAmendingLaw.getTitle()).isEqualTo("TITLE");
     assertThat(resultAmendingLaw.getArticles().getFirst())
         .isEqualTo(new ArticleResponseSchema("1234", "ELI", "title"));
   }

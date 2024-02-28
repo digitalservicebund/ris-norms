@@ -41,6 +41,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
 
     // When
     final AmendingLaw amendingLaw =
@@ -51,6 +52,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .printAnnouncementPage(printAnnouncementPage)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
             .articles(List.of(article1, article2))
             .build();
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
@@ -68,6 +70,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("digitalAnnouncementMedium").value(equalTo(digitalAnnouncementMedium)))
         .andExpect(
             jsonPath("digitalAnnouncementEdition").value(equalTo(digitalAnnouncementEdition)))
+        .andExpect(jsonPath("title").value(equalTo(title)))
         .andExpect(jsonPath("articles").isArray())
         .andExpect(jsonPath("articles[0].eli").value("eli1"));
   }
@@ -81,6 +84,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
+    final String title1 = "title1";
 
     final String eli2 = "eli2";
     final String printAnnouncementGazette2 = "someGazette2";
@@ -88,6 +92,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String printAnnouncementPage2 = "page1232";
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
+    final String title2 = "title2";
 
     final AmendingLaw amendingLaw1 =
         AmendingLaw.builder()
@@ -97,6 +102,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .printAnnouncementPage(printAnnouncementPage)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title1)
             .articles(List.of(article1, article2))
             .build();
 
@@ -108,6 +114,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .printAnnouncementPage(printAnnouncementPage2)
             .digitalAnnouncementMedium(digitalAnnouncementMedium2)
             .digitalAnnouncementEdition(digitalAnnouncementEdition2)
+            .title(title2)
             .articles(List.of(article1, article2))
             .build();
 

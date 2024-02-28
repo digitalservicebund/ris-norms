@@ -8,6 +8,7 @@ export const amendingLaws: AmendingLaw[] = [
     publicationDate: "2017-03-15",
     printAnnouncementPage: "419",
     digitalAnnouncementEdition: undefined,
+    title: "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
     articles: [
       {
         enumeration: "1",
@@ -23,6 +24,7 @@ export const amendingLaws: AmendingLaw[] = [
     publicationDate: "2023-12-29",
     printAnnouncementPage: undefined,
     digitalAnnouncementEdition: "413",
+    title: "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
     articles: [
       {
         enumeration: "1",
@@ -32,3 +34,16 @@ export const amendingLaws: AmendingLaw[] = [
     ],
   },
 ]
+
+export function getExpectedHeading(amendingLaw: AmendingLaw): string {
+  let expectedHeading = ""
+  const publicationYear = amendingLaw.publicationDate.substring(0, 4)
+
+  if (amendingLaw?.printAnnouncementGazette) {
+    expectedHeading = `${amendingLaw.printAnnouncementGazette} ${publicationYear} S. ${amendingLaw.printAnnouncementPage}`
+  } else if (amendingLaw?.digitalAnnouncementEdition) {
+    expectedHeading = `${amendingLaw.digitalAnnouncementMedium} ${publicationYear} Nr. ${amendingLaw.digitalAnnouncementEdition}`
+  }
+
+  return expectedHeading
+}

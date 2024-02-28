@@ -67,6 +67,7 @@ class AmendingLawControllerTest {
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
+    final String title = "Title vom Gesetz";
 
     final Article article1 = new Article("1", "eli1", "title1");
     final Article article2 = new Article("2", "eli2", "title2");
@@ -80,6 +81,7 @@ class AmendingLawControllerTest {
             .printAnnouncementPage(printAnnouncementPage)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
             .articles(List.of(article1, article2))
             .build();
 
@@ -96,6 +98,7 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("digitalAnnouncementMedium").value(equalTo(digitalAnnouncementMedium)))
         .andExpect(
             jsonPath("digitalAnnouncementEdition").value(equalTo(digitalAnnouncementEdition)))
+        .andExpect(jsonPath("title").value(equalTo(title)))
         .andExpect(jsonPath("articles").isArray())
         .andExpect(jsonPath("$..articles[0].eli").value("eli1"));
   }

@@ -27,6 +27,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getPublicationDate(),
         amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
+        amendingLawDTO.getTitle(),
         mapToDomainWithArticles(amendingLawDTO.getArticleDtos()));
   }
 
@@ -45,6 +46,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getPublicationDate(),
         amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
+        amendingLawDTO.getTitle(),
         null);
   }
 
@@ -68,6 +70,7 @@ public class AmendingLawMapper {
         .publicationDate(amendingLaw.getPublicationDate())
         .printAnnouncementPage(amendingLaw.getPrintAnnouncementPage())
         .digitalAnnouncementEdition(amendingLaw.getDigitalAnnouncementEdition())
+        .title(amendingLaw.getTitle())
         .articleDtos(mapToDtos(amendingLaw.getArticles()))
         .build();
   }

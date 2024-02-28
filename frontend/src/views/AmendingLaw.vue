@@ -35,10 +35,14 @@ onMounted(() => amendingLawsStore.loadAmendingLawByEli(eli.value))
 onUnmounted(() => (loadedAmendingLaw.value = undefined))
 
 const heading = computed(() => {
+  const publicationYear = loadedAmendingLaw.value?.publicationDate.substring(
+    0,
+    4,
+  )
   if (loadedAmendingLaw.value?.printAnnouncementGazette) {
-    return `${loadedAmendingLaw.value?.printAnnouncementGazette} S. ${loadedAmendingLaw.value?.printAnnouncementPage}`
+    return `${loadedAmendingLaw.value?.printAnnouncementGazette} ${publicationYear} S. ${loadedAmendingLaw.value?.printAnnouncementPage}`
   } else if (loadedAmendingLaw.value?.digitalAnnouncementEdition) {
-    return `${loadedAmendingLaw.value?.digitalAnnouncementMedium} Nr. ${loadedAmendingLaw.value?.digitalAnnouncementEdition}`
+    return `${loadedAmendingLaw.value?.digitalAnnouncementMedium} ${publicationYear} Nr. ${loadedAmendingLaw.value?.digitalAnnouncementEdition}`
   } else {
     return ""
   }
@@ -47,7 +51,7 @@ const heading = computed(() => {
 
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100">
-    <RisUnitInfoPanel :heading="heading" />
+    <RisUnitInfoPanel :heading="heading" :title="loadedAmendingLaw?.title" />
     <div class="flex">
       <RisNavbarSide
         class="min-h-screen flex-none border-r border-gray-400 bg-white"

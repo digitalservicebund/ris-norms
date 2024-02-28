@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * Represents a amending law entity with various attributes. This class is annotated with Lombok
+ * Represents an amending law entity with various attributes. This class is annotated with Lombok
  * annotations for generating builders, getters, toString, and constructors.
  */
 @SuperBuilder(toBuilder = true)
@@ -28,6 +28,8 @@ public class AmendingLaw {
   private String printAnnouncementPage;
 
   private String digitalAnnouncementEdition;
+
+  private String title;
 
   private List<Article> articles;
 }

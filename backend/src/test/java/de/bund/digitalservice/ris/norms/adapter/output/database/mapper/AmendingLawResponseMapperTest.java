@@ -27,6 +27,7 @@ class AmendingLawResponseMapperTest {
     amendingLawDTO.setPublicationDate(now);
     amendingLawDTO.setPrintAnnouncementPage("PAGE");
     amendingLawDTO.setDigitalAnnouncementEdition("EDITION");
+    amendingLawDTO.setTitle("TITLE");
     amendingLawDTO.setArticleDtos(articles);
 
     // When
@@ -39,6 +40,7 @@ class AmendingLawResponseMapperTest {
     assertThat(resultProcedure.getPublicationDate()).isEqualTo(now);
     assertThat(resultProcedure.getPrintAnnouncementPage()).isEqualTo("PAGE");
     assertThat(resultProcedure.getDigitalAnnouncementEdition()).isEqualTo("EDITION");
+    assertThat(resultProcedure.getTitle()).isEqualTo("TITLE");
     assertThat(resultProcedure.getArticles().getFirst())
         .isEqualTo(new Article("1234", "ELI", "title"));
   }
@@ -59,6 +61,7 @@ class AmendingLawResponseMapperTest {
             .publicationDate(now)
             .printAnnouncementPage("PAGE")
             .digitalAnnouncementEdition("EDITION")
+            .title("TITLE")
             .articles(articles)
             .build();
 
@@ -71,6 +74,7 @@ class AmendingLawResponseMapperTest {
     assertThat(resultAmendingLawDTO.getDigitalAnnouncementMedium()).isEqualTo("MEDIUM");
     assertThat(resultAmendingLawDTO.getPublicationDate()).isEqualTo(now);
     assertThat(resultAmendingLawDTO.getPrintAnnouncementPage()).isEqualTo("PAGE");
+    assertThat(resultAmendingLawDTO.getTitle()).isEqualTo("TITLE");
     assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getEnumeration()).isEqualTo("1234");
     assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getEli()).isEqualTo("ELI");
     assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getTitle()).isEqualTo("title");

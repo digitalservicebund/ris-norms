@@ -43,6 +43,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
 
     // When
     final AmendingLaw amendingLaw =
@@ -53,6 +54,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .printAnnouncementPage(printAnnouncementPage)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
             .articles(List.of(article1, article2))
             .build();
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
@@ -94,6 +96,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
+    final String title1 = "title1";
 
     final String eli2 = "eli/bund/bgbl-2/2010/s13/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette2 = "someGazette2";
@@ -101,6 +104,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String printAnnouncementPage2 = "page1232";
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
+    final String title2 = "title2";
 
     final AmendingLaw amendingLaw1 =
         AmendingLaw.builder()
@@ -110,6 +114,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .printAnnouncementPage(printAnnouncementPage)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title1)
             .articles(List.of(article1, article2))
             .build();
     final AmendingLaw amendingLaw2 =
@@ -120,6 +125,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .printAnnouncementPage(printAnnouncementPage2)
             .digitalAnnouncementMedium(digitalAnnouncementMedium2)
             .digitalAnnouncementEdition(digitalAnnouncementEdition2)
+            .title(title2)
             .articles(List.of(article3, article4))
             .build();
 
