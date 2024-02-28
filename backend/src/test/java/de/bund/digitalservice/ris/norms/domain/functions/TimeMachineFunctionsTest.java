@@ -10,11 +10,16 @@ public class TimeMachineFunctionsTest {
 
   final String minimalXmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
 
-  //   @Test
-  //   public void XmlDocumentsGoInAndOut() {
-  //     // given
-  //     final Document amendingLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString);
-  //   }
+  @Test
+  public void XmlDocumentsGoInAndOut() {
+  // given
+  final Optional<Document> amendingLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString);
+  final Optional<Document> targetLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString);
+  // when
+  final Optional<Document> result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+  // then
+  assertTrue(result.isPresent());
+}
 
   @Test
   public void DocumentGeneratedFromStringMustNotBeEmpty() {
