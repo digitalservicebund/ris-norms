@@ -67,6 +67,8 @@ function handleArticleXMLChange({ content }: { content: string }) {
         <h3 class="ds-label-02-bold">{{ TARGET_LAW_TITLE }}</h3>
         <RisCodeEditor
           class="flex-grow border border-black"
+          :readonly="true"
+          :editable="false"
           :initial-content="TARGET_LAW_XML"
         ></RisCodeEditor>
       </div>
@@ -74,6 +76,8 @@ function handleArticleXMLChange({ content }: { content: string }) {
         <h3 class="ds-label-02-bold">Vorschau</h3>
         <RisCodeEditor
           class="flex-grow border border-black"
+          :readonly="true"
+          :editable="false"
           :initial-content="PREVIEW_XML"
         ></RisCodeEditor>
       </div>

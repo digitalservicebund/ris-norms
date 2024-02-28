@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { EditorView, basicSetup } from "codemirror"
 import { xml } from "@codemirror/lang-xml"
-import { ref, watch } from "vue"
+import { ref, shallowRef, toRef, watch } from "vue"
+import { useCodemirrorVueReadonlyExtension } from "@/components/editor/composables/useCodemirrorVueReadonlyExtension"
+import { useCodemirrorVueEditableExtension } from "@/components/editor/composables/useCodemirrorVueEditableExtension"
 
 const props = withDefaults(
   defineProps<{
@@ -9,9 +11,23 @@ const props = withDefaults(
      * The initial content of the editor. Changing this after the editor is created has no effect.
      */
     initialContent?: string
+    /**
+     * The readonly state of the editor.
+     *
+     * @see {@link https://codemirror.net/docs/ref/#state.EditorState^readOnly|CodeMirror Documentation}
+     */
+    readonly?: boolean
+    /**
+     * The editable state of the editor.
+     *
+     * @see {@link https://codemirror.net/docs/ref/#view.EditorView^editable|CodeMirror Documentation}
+     */
+    editable?: boolean
   }>(),
   {
     initialContent: "",
+    readonly: false,
+    editable: true,
   },
 )
 
@@ -35,6 +51,20 @@ const emit = defineEmits<{
 const editorElement = ref<HTMLDivElement | null>(null)
 
 /**
+ * The current codemirror editor
+ */
+const editorView = shallowRef<EditorView | null>(null)
+
+const codemirrorVueReadonlyExtension = useCodemirrorVueReadonlyExtension(
+  editorView,
+  toRef(props.readonly),
+)
+const codemirrorVueEditableExtension = useCodemirrorVueEditableExtension(
+  editorView,
+  toRef(props.editable),
+)
+
+/**
  * Initialize codemirror when the editor element is available
  */
 watch(
@@ -44,7 +74,7 @@ watch(
       return () => {}
     }
 
-    const editorView = new EditorView({
+    const newEditorView = new EditorView({
       doc: props.initialContent,
       extensions: [
         basicSetup,
@@ -63,12 +93,16 @@ watch(
         EditorView.theme({
           "&": { backgroundColor: "#ffffff" },
         }),
+        codemirrorVueReadonlyExtension,
+        codemirrorVueEditableExtension,
       ],
       parent: editorElement.value,
     })
 
+    editorView.value = newEditorView
+
     return () => {
-      editorView.destroy()
+      newEditorView.destroy()
     }
   },
   { immediate: true },
