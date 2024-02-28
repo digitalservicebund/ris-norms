@@ -39,7 +39,7 @@
     "@digitalservice4germany/style-dictionary": "~2.0.0",
     "@histoire/plugin-vue": "~0.17.12",
     "@iconify-json/ic": "~1.1.17",
-    "@playwright/test": "~1.41.1",
+    "@playwright/test": "~1.42.0",
     "@testing-library/jest-dom": "~6.4.0",
     "@testing-library/vue": "~8.0.1",
     "@typescript-eslint/eslint-plugin": "~7.1.0",
