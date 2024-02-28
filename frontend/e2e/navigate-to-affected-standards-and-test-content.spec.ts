@@ -19,7 +19,8 @@ for (const amendingLaw of amendingLaws) {
     ).toHaveAttribute("class", expect.stringContaining("bg-blue-200"))
 
     // Content
-    for (const article of amendingLaw.articles) {
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    for (const article of amendingLaw.articles ?? []) {
       await expect(
         page.getByText(`Artikel ${article.enumeration}`),
       ).toBeVisible()

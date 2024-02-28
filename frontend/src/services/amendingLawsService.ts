@@ -8,7 +8,7 @@ export interface AmendingLaw {
   printAnnouncementPage?: string
   digitalAnnouncementEdition?: string
   title?: string
-  articles: Article[]
+  articles?: Article[]
 }
 
 interface Article {
