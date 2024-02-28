@@ -14,4 +14,4 @@ fileignoreconfig:
   - filename: DockerfileApp
     checksum: 18f61a061fe788deda9bd9594b65611e6b5600829366e8d52ba23fa822190c23
   - filename: ldml-extension/fixtures/SaatG_regelungstext.xml
-    checksum: 52113796954a0fbaacacda2e75378f0c3de9b2df4f01ca04b97d548d7f2865a9
+    checksum: e764b8f5d4bc8b23962edc59f4939ec5a093b29fb9432684be6b0d0a3612da45
