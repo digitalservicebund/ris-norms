@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.domain.functions;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -24,10 +23,16 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void targetLawStaysUnchangedIfAmendingLawHasNoModifications(){
+  public void targetLawStaysUnchangedIfAmendingLawHasNoModifications() {
     // given
-    final Document amendingLaw = TimeMachineFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>").get();
-    final Document targetLaw = TimeMachineFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
+    final Document amendingLaw =
+        TimeMachineFunctions.loadXMLFromString(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
+            .get();
+    final Document targetLaw =
+        TimeMachineFunctions.loadXMLFromString(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>")
+            .get();
     // when
     final Document result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
