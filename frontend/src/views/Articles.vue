@@ -3,11 +3,14 @@ import RisInfoModal from "@/components/controls/RisInfoModal.vue"
 
 import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
 import { storeToRefs } from "pinia"
+import { useRouter } from "vue-router"
 
-const VSCODE_URL = import.meta.env.VITE_VSCODE_URL
+const router = useRouter()
 
 const amendingLawsStore = useAmendingLawsStore()
 const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
+
+const ARTICLE_EID = "hauptteil-1_art-1"
 </script>
 
 <template>
@@ -18,8 +21,12 @@ const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
       :key="index"
       :title="`Artikel ${article.enumeration}`"
       :description="article.title"
-      :href="`${VSCODE_URL}?folder=/home/ubuntu/ldml-samples/${loadedAmendingLaw?.eli}`"
-      target="_blank"
+      :href="
+        router.resolve({
+          name: 'AmendingLawArticleEditor',
+          params: { eid: ARTICLE_EID },
+        }).href
+      "
       icon-text="Änderungsbefehl prüfen"
     />
   </div>

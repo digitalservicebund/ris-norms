@@ -31,11 +31,6 @@ const routes = [
             redirect: { name: "AmendingLawArticles" },
           },
           {
-            path: "articles",
-            name: "AmendingLawArticles",
-            component: () => import("@/views/Articles.vue"),
-          },
-          {
             path: "affected-documents",
             name: "AmendingLawAffectedDocuments",
             component: () => import("@/views/AffectedDocuments.vue"),
@@ -52,6 +47,34 @@ const routes = [
                 path: "edit",
                 name: "AmendingLawAffectedDocumentEdit",
                 component: () => import("@/views/EditAffectedDocument.vue"),
+              },
+            ],
+          },
+          {
+            path: "articles",
+            children: [
+              {
+                path: "",
+                name: "AmendingLawArticles",
+                component: () => import("@/views/Articles.vue"),
+              },
+              {
+                /**
+                 * The regular expressions for the eId is based on the definitions from LDML.de 1.6 (Section 9.2.11.63, eIdLiterals.einzelvorschrift)
+                 *
+                 * The expression only matches eIds that represent articles or paragraphs.
+                 *
+                 * All groups have been converted to non-capturing groups and all closing ) have been escaped. This is as the vue-router otherwise has problems parsing the RegEx.
+                 */
+                path: ":eid((?:(?:[a-zäöüß0-9]+-[a-zäöüß0-9]+(?:\\.[azäöüß0-9]+\\)*\\)_\\)*(?:(?:para|art\\)+-[a-zäöüß0-9]+(?:\\.[azäöüß0-9]+\\)*\\))",
+                children: [
+                  {
+                    path: "edit",
+                    name: "AmendingLawArticleEditor",
+                    component: () =>
+                      import("@/views/AmendingLawArticleEditor.vue"),
+                  },
+                ],
               },
             ],
           },
