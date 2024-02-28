@@ -54,6 +54,15 @@ watch(
             emit("change", { content: viewUpdate.state.doc.toString() })
           }
         }),
+        // Ensure that the editor shows a scrollbar instead of overflowing
+        EditorView.theme({
+          "&": { height: "100%" },
+          ".cm-content, .cm-gutter": { minHeight: "100%" },
+          ".cm-scroller": { overflow: "auto" },
+        }),
+        EditorView.theme({
+          "&": { backgroundColor: "#ffffff" },
+        }),
       ],
       parent: editorElement.value,
     })
@@ -67,5 +76,5 @@ watch(
 </script>
 
 <template>
-  <div ref="editorElement"></div>
+  <div ref="editorElement" class="overflow-hidden"></div>
 </template>
