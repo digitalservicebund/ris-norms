@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.functions;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
@@ -12,14 +13,14 @@ public class TimeMachineFunctionsTest {
 
   @Test
   public void XmlDocumentsGoInAndOut() {
-  // given
-  final Document amendingLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString).get();
-  final Document targetLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString).get();
-  // when
-  final Document result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
-  // then
-  assertTrue(result.isPresent());
-}
+    // given
+    final Document amendingLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString).get();
+    final Document targetLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString).get();
+    // when
+    final Document result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+    // then
+    assertNotNull(result);
+  }
 
   @Test
   public void documentGeneratedFromValidXmlStringMustNotBeEmpty() {
