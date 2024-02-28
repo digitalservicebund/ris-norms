@@ -7,15 +7,27 @@ AmendingLaw "1" --> "*" Article: articles
 
 class AmendingLaw{
     eli: String
+    title: String
     printAnnouncementGazette: String
     digitalAnnouncementMedium: String
     publicationDate: Date
     printAnnouncementPage: Int
     digitalAnnouncementEdition: Int
+    xml: String
 }
+
 class Article{
+    eli: String
     enumeration: String
     title: String
-    eli: String
+    xml: String
 }
+
+Article "1" --> "1" TargetLaw: targetLaw
+
+class TargetLaw{
+    eli: String
+    xml: String
+}
+
 ```

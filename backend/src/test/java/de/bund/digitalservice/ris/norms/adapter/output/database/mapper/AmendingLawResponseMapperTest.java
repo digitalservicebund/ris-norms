@@ -42,7 +42,7 @@ class AmendingLawResponseMapperTest {
     assertThat(resultProcedure.getDigitalAnnouncementEdition()).isEqualTo("EDITION");
     assertThat(resultProcedure.getTitle()).isEqualTo("TITLE");
     assertThat(resultProcedure.getArticles().getFirst())
-        .isEqualTo(new Article("1234", "ELI", "title"));
+        .isEqualTo(new Article("1234", "ELI", "title", null, null));
   }
 
   @Test
@@ -51,7 +51,8 @@ class AmendingLawResponseMapperTest {
     final LocalDate now = LocalDate.now();
     final List<Article> articles = new ArrayList<>();
     articles.add(
-        new de.bund.digitalservice.ris.norms.domain.entity.Article("1234", "ELI", "title"));
+        new de.bund.digitalservice.ris.norms.domain.entity.Article(
+            "1234", "ELI", "title", null, null));
 
     final AmendingLaw amendingLaw =
         AmendingLaw.builder()

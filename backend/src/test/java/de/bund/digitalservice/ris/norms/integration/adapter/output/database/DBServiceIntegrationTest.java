@@ -22,12 +22,12 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private AmendingLawRepository amendingLawRepository;
 
-  final Article article1 = new Article("1", "eli1", "title1");
-  final Article article2 = new Article("2", "eli2", "title2");
+  final Article article1 = new Article("1", "eli1", "title1", null, null);
+  final Article article2 = new Article("2", "eli2", "title2", null, null);
 
-  final Article article3 = new Article("3", "eli3", "title3");
+  final Article article3 = new Article("3", "eli3", "title3", null, null);
 
-  final Article article4 = new Article("4", "eli4", "title4");
+  final Article article4 = new Article("4", "eli4", "title4", null, null);
 
   @AfterEach
   void cleanUp() {
