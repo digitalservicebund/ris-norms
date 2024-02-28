@@ -18,7 +18,5 @@ public class Article {
 
   private String title;
 
-  private String xml;
-
   private TargetLaw targetLaw;
 }

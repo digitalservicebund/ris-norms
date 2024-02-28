@@ -20,7 +20,6 @@ class Article{
     eli: String
     enumeration: String
     title: String
-    xml: String
 }
 
 Article "1" --> "1" TargetLaw: targetLaw

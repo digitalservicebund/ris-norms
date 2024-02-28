@@ -54,7 +54,7 @@ public class AmendingLawMapper {
 
   private static List<Article> mapToDomainWithArticles(final List<ArticleDto> articlesDTO) {
     return articlesDTO.stream()
-        .map(dto -> new Article(dto.getEnumeration(), dto.getEli(), dto.getTitle(), null, null))
+        .map(dto -> new Article(dto.getEnumeration(), dto.getEli(), dto.getTitle(), null))
         .toList();
   }
 
