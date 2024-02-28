@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.functions;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -12,7 +13,7 @@ public class TimeMachineFunctionsTest {
   final String minimalXmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
 
   @Test
-  public void XmlDocumentsGoInAndOut() {
+  public void xmlDocumentsGoInAndOut() {
     // given
     final Document amendingLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString).get();
     final Document targetLaw = TimeMachineFunctions.loadXMLFromString(minimalXmlString).get();
@@ -20,6 +21,17 @@ public class TimeMachineFunctionsTest {
     final Document result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
     assertNotNull(result);
+  }
+
+  @Test
+  public void targetLawStaysUnchangedIfAmendingLawHasNoModifications(){
+    // given
+    final Document amendingLaw = TimeMachineFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>").get();
+    final Document targetLaw = TimeMachineFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
+    // when
+    final Document result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+    // then
+    assertTrue(result.equals(targetLaw));
   }
 
   @Test
