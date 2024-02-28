@@ -56,6 +56,7 @@ class AmendingLawServiceTest {
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
 
     final AmendingLaw amendingLaw =
         AmendingLaw.builder()
@@ -65,6 +66,7 @@ class AmendingLawServiceTest {
             .printAnnouncementPage(printAnnouncementPage)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
             .build();
 
     when(loadAmendingLawAdapter.loadAmendingLawByEli(any())).thenReturn(Optional.of(amendingLaw));
@@ -103,13 +105,13 @@ class AmendingLawServiceTest {
     final AmendingLawService service =
         new AmendingLawService(loadAmendingLawAdapter, loadAllAmendingLawsAdapter);
 
-    // TODO: refactor the creation of amending law test data
     final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
 
     final List<AmendingLaw> expectedAmendingLaw =
         List.of(
@@ -120,6 +122,7 @@ class AmendingLawServiceTest {
                 .printAnnouncementPage(printAnnouncementPage)
                 .digitalAnnouncementMedium(digitalAnnouncementMedium)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
+                .title(title)
                 .build(),
             AmendingLaw.builder()
                 .eli(eli)
@@ -128,6 +131,7 @@ class AmendingLawServiceTest {
                 .printAnnouncementPage(printAnnouncementPage)
                 .digitalAnnouncementMedium(digitalAnnouncementMedium)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
+                .title(title)
                 .build());
 
     when(loadAllAmendingLawsAdapter.loadAllAmendingLaws()).thenReturn(expectedAmendingLaw);

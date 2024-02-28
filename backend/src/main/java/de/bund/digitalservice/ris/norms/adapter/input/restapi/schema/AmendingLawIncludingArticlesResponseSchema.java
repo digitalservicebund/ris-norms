@@ -28,5 +28,7 @@ public class AmendingLawIncludingArticlesResponseSchema {
 
   private String digitalAnnouncementEdition;
 
+  private String title;
+
   private List<ArticleResponseSchema> articles;
 }

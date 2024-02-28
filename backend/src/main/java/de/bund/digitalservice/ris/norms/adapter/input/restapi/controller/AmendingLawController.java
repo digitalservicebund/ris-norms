@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUs
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -105,7 +104,7 @@ public class AmendingLawController {
     List<AmendingLawResponseSchema> responseSchemas =
         amendingLawWithArticles.stream()
             .map(AmendingLawResponseMapper::fromUseCaseDataWithoutArticles)
-            .collect(Collectors.toList());
+            .toList();
     return ResponseEntity.ok(responseSchemas);
   }
 }

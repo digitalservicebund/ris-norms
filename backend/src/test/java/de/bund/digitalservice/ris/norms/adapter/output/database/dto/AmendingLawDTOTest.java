@@ -16,6 +16,7 @@ class AmendingLawDTOTest {
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
     final String printAnnouncementPage = "page123";
+    final String title = "title";
 
     // When
     final AmendingLawDTO amendingLawPrintDTO =
@@ -25,6 +26,7 @@ class AmendingLawDTOTest {
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
             .printAnnouncementPage(printAnnouncementPage)
+            .title(title)
             .build();
 
     // Then
@@ -34,6 +36,7 @@ class AmendingLawDTOTest {
         .isEqualTo(printAnnouncementGazette);
     assertThat(amendingLawPrintDTO.getPublicationDate()).isEqualTo(publicationDate);
     assertThat(amendingLawPrintDTO.getPrintAnnouncementPage()).isEqualTo(printAnnouncementPage);
+    assertThat(amendingLawPrintDTO.getTitle()).isEqualTo(title);
   }
 
   @Test
@@ -44,6 +47,7 @@ class AmendingLawDTOTest {
     final LocalDate publicationDate = LocalDate.now();
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
 
     // When
     final AmendingLawDTO amendingLawPrintDTO =
@@ -53,6 +57,7 @@ class AmendingLawDTOTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .publicationDate(publicationDate)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
             .build();
 
     // Then
@@ -63,5 +68,6 @@ class AmendingLawDTOTest {
     assertThat(amendingLawPrintDTO.getPublicationDate()).isEqualTo(publicationDate);
     assertThat(amendingLawPrintDTO.getDigitalAnnouncementEdition())
         .isEqualTo(digitalAnnouncementEdition);
+    assertThat(amendingLawPrintDTO.getTitle()).isEqualTo(title);
   }
 }
