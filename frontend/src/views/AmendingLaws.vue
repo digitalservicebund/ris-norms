@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router"
-import RisAmendingLawCard from "@/components/amendingLaws2/RisAmendingLawCard.vue"
+import RisAmendingLawCard from "@/components/amendingLaws/RisAmendingLawCard.vue"
 import { AmendingLaw, getAmendingLaws } from "@/services/amendingLawsService"
 import { onMounted, ref } from "vue"
 
