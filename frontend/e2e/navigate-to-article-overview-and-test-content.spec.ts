@@ -6,12 +6,12 @@ for (const amendingLaw of amendingLaws) {
     page,
   }) => {
     // Navigation
-    await page.goto("/")
-    await page.click(`a[href*="${amendingLaw.eli}"]`)
-    await expect(page).toHaveURL(`/amending-laws/${amendingLaw.eli}/articles`)
-    await expect(
-      page.locator('a.router-link-active:has-text("Artikelübersicht")'),
-    ).toHaveAttribute("class", expect.stringContaining("bg-blue-200"))
+    await page.goto(`/amending-laws/${amendingLaw.eli}/articles`)
+
+    // Menu
+    const locator = page.locator(`a:has-text("Artikelübersicht")`)
+    await expect(locator).toHaveClass(/router-link-active/)
+    await expect(locator).toHaveClass(/bg-blue-200/)
 
     // Content
     // eslint-disable-next-line playwright/no-conditional-in-test

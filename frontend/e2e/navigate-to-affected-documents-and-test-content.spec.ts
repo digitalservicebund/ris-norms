@@ -6,17 +6,12 @@ for (const amendingLaw of amendingLaws) {
     page,
   }) => {
     // Navigation
-    await page.goto("/")
-    await page.click(`a[href*="${amendingLaw.eli}"]`)
-    await page.click("text=Betroffene Normenkomplexe")
-    await expect(page).toHaveURL(
-      `/amending-laws/${amendingLaw.eli}/affected-documents`,
-    )
-    await expect(
-      page.locator(
-        'a.router-link-active:has-text("Betroffene Normenkomplexe")',
-      ),
-    ).toHaveAttribute("class", expect.stringContaining("bg-blue-200"))
+    await page.goto(`/amending-laws/${amendingLaw.eli}/affected-documents`)
+
+    // Menu
+    const locator = page.locator(`a:has-text("Betroffene Normenkomplexe")`)
+    await expect(locator).toHaveClass(/router-link-active/)
+    await expect(locator).toHaveClass(/bg-blue-200/)
 
     // Content
     // eslint-disable-next-line playwright/no-conditional-in-test
@@ -26,11 +21,11 @@ for (const amendingLaw of amendingLaws) {
       ).toBeVisible()
       await expect(page.getByText(article.eli)).toBeVisible()
     }
-    const editMetadataButton = page.locator('text="Metadaten editieren"')
-    await expect(editMetadataButton).toBeVisible()
+
+    await expect(page.getByText("Metadaten editieren")).toBeVisible()
 
     // Back
-    await page.click("text=Zurück")
+    await page.getByText("Zurück").click()
     await expect(page).toHaveURL("/amending-laws")
   })
 }

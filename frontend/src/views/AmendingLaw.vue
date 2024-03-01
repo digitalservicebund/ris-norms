@@ -51,7 +51,7 @@ const heading = computed(() => {
 
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100">
-    <RisInfoHeader :heading="heading" :title="loadedAmendingLaw?.title" />
+    <RisInfoHeader :heading="heading" :subtitle="loadedAmendingLaw?.title" />
     <div class="flex">
       <RisNavbarSide
         class="min-h-screen flex-none border-r border-gray-400 bg-white"
