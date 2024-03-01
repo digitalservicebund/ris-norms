@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDTO;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ArticleDto;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -18,9 +18,9 @@ class AmendingLawResponseMapperTest {
     // Given
     final LocalDate now = LocalDate.now();
     final List<ArticleDto> articles = new ArrayList<>();
-    articles.add(ArticleDto.builder().enumeration("1234").eli("ELI").title("title").build());
+    articles.add(ArticleDto.builder().enumeration("1234").eid("ELI").title("title").build());
 
-    final AmendingLawDTO amendingLawDTO = new AmendingLawDTO();
+    final AmendingLawDto amendingLawDTO = new AmendingLawDto();
     amendingLawDTO.setEli("ELI");
     amendingLawDTO.setPrintAnnouncementGazette("GAZETTE");
     amendingLawDTO.setDigitalAnnouncementMedium("MEDIUM");
@@ -66,17 +66,17 @@ class AmendingLawResponseMapperTest {
             .build();
 
     // When
-    final AmendingLawDTO resultAmendingLawDTO = AmendingLawMapper.mapToDto(amendingLaw);
+    final AmendingLawDto resultAmendingLawDto = AmendingLawMapper.mapToDto(amendingLaw);
 
     // Then
-    assertThat(resultAmendingLawDTO.getEli()).isEqualTo("ELI");
-    assertThat(resultAmendingLawDTO.getPrintAnnouncementGazette()).isEqualTo("GAZETTE");
-    assertThat(resultAmendingLawDTO.getDigitalAnnouncementMedium()).isEqualTo("MEDIUM");
-    assertThat(resultAmendingLawDTO.getPublicationDate()).isEqualTo(now);
-    assertThat(resultAmendingLawDTO.getPrintAnnouncementPage()).isEqualTo("PAGE");
-    assertThat(resultAmendingLawDTO.getTitle()).isEqualTo("TITLE");
-    assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getEnumeration()).isEqualTo("1234");
-    assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getEli()).isEqualTo("ELI");
-    assertThat(resultAmendingLawDTO.getArticleDtos().getFirst().getTitle()).isEqualTo("title");
+    assertThat(resultAmendingLawDto.getEli()).isEqualTo("ELI");
+    assertThat(resultAmendingLawDto.getPrintAnnouncementGazette()).isEqualTo("GAZETTE");
+    assertThat(resultAmendingLawDto.getDigitalAnnouncementMedium()).isEqualTo("MEDIUM");
+    assertThat(resultAmendingLawDto.getPublicationDate()).isEqualTo(now);
+    assertThat(resultAmendingLawDto.getPrintAnnouncementPage()).isEqualTo("PAGE");
+    assertThat(resultAmendingLawDto.getTitle()).isEqualTo("TITLE");
+    assertThat(resultAmendingLawDto.getArticleDtos().getFirst().getEnumeration()).isEqualTo("1234");
+    assertThat(resultAmendingLawDto.getArticleDtos().getFirst().getEid()).isEqualTo("ELI");
+    assertThat(resultAmendingLawDto.getArticleDtos().getFirst().getTitle()).isEqualTo("title");
   }
 }

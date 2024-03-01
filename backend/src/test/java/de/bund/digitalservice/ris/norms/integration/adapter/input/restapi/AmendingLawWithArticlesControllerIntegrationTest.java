@@ -42,6 +42,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
+    final String xml =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<note>\n" + "  <to>Me</to>" + "</note>";
 
     // When
     final AmendingLaw amendingLaw =
@@ -54,6 +56,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title)
             .articles(List.of(article1, article2))
+            .xml(xml)
             .build();
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
 
@@ -94,6 +97,9 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementEdition2 = "edition1232";
     final String title2 = "title2";
 
+    final String xml =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<note>\n" + "  <to>Me</to>" + "</note>";
+
     final AmendingLaw amendingLaw1 =
         AmendingLaw.builder()
             .eli(eli)
@@ -104,6 +110,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title1)
             .articles(List.of(article1, article2))
+            .xml(xml)
             .build();
 
     final AmendingLaw amendingLaw2 =
@@ -116,6 +123,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition2)
             .title(title2)
             .articles(List.of(article1, article2))
+            .xml(xml)
             .build();
 
     amendingLawRepository.saveAll(

@@ -20,25 +20,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity
-@Table(name = "article")
-public class ArticleDto {
+@Table(name = "target_law")
+public class TargetLawDto {
   @Id @GeneratedValue private UUID id;
 
   @NotNull
   @Size(max = 255)
   @Column
-  private String enumeration;
+  private String eli;
 
   @NotNull
   @Size(max = 255)
   @Column
-  private String eid;
-
-  @Size(max = 255)
-  @Column
   private String title;
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "target_law_id", referencedColumnName = "id")
-  private TargetLawDto targetLawDto;
+  @NotNull @Column private String xml;
 }

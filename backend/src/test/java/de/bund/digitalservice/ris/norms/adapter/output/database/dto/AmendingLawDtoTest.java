@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-class AmendingLawDTOTest {
+class AmendingLawDtoTest {
 
   @Test
   void testPrintLawDTO() {
@@ -19,8 +19,8 @@ class AmendingLawDTOTest {
     final String title = "title";
 
     // When
-    final AmendingLawDTO amendingLawPrintDTO =
-        AmendingLawDTO.builder()
+    final AmendingLawDto amendingLawPrintDTO =
+        AmendingLawDto.builder()
             .id(id)
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
@@ -50,8 +50,8 @@ class AmendingLawDTOTest {
     final String title = "title";
 
     // When
-    final AmendingLawDTO amendingLawPrintDTO =
-        AmendingLawDTO.builder()
+    final AmendingLawDto amendingLawPrintDTO =
+        AmendingLawDto.builder()
             .id(id)
             .eli(eli)
             .digitalAnnouncementMedium(digitalAnnouncementMedium)

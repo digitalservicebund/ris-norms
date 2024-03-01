@@ -23,7 +23,7 @@ import lombok.Setter;
 @Builder(toBuilder = true)
 @Entity
 @Table(name = "amending_law")
-public class AmendingLawDTO {
+public class AmendingLawDto {
   @Id @GeneratedValue private UUID id;
 
   @NotNull
@@ -59,6 +59,8 @@ public class AmendingLawDTO {
   @Size(max = 255)
   @Column
   private String title;
+
+  @NotNull @Column private String xml;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "amending_law_id")
