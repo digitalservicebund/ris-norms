@@ -20,6 +20,7 @@ public class TimeMachineFunctions {
   }
 
   static Optional<Node> getFirstModification(Document amendingLaw){
+    // TODO: requires getNode() in xmlFunctions
     return Optional.empty();
   }
 }
