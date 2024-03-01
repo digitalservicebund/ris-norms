@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { ref } from "vue"
+import { computed, onMounted, onUnmounted, ref } from "vue"
+import RisInfoHeader from "@/components/controls/RisInfoHeader.vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
+import { storeToRefs } from "pinia"
+import IconArrowBack from "~icons/ic/baseline-arrow-back"
 
 const ARTICLE = 1
 const TARGET_LAW_TITLE = "Bundesverfassungsschutzgesetz"
@@ -38,59 +43,96 @@ function handleGeneratePreview() {
 function handleArticleXMLChange({ content }: { content: string }) {
   currentArticleXml.value = content
 }
+
+const eli = useEliPathParameter()
+
+// ToDo: (Malte Laukötter; 01.03.24) move to a composable
+const amendingLawsStore = useAmendingLawsStore()
+const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
+
+onMounted(() => amendingLawsStore.loadAmendingLawByEli(eli.value))
+onUnmounted(() => (loadedAmendingLaw.value = undefined))
+
+// ToDo: (Malte Laukötter; 01.03.24) create a component for the heading
+const heading = computed(() => {
+  const publicationYear = loadedAmendingLaw.value?.publicationDate.substring(
+    0,
+    4,
+  )
+  if (loadedAmendingLaw.value?.printAnnouncementGazette) {
+    return `${loadedAmendingLaw.value?.printAnnouncementGazette} ${publicationYear} S. ${loadedAmendingLaw.value?.printAnnouncementPage}`
+  } else if (loadedAmendingLaw.value?.digitalAnnouncementEdition) {
+    return `${loadedAmendingLaw.value?.digitalAnnouncementMedium} ${publicationYear} Nr. ${loadedAmendingLaw.value?.digitalAnnouncementEdition}`
+  } else {
+    return ""
+  }
+})
 </script>
 
 <template>
-  <div class="flex flex-col" style="height: calc(100dvh - 40px * 2)">
-    <div class="mb-40 flex">
-      <div class="flex-grow">
-        <h1 class="ds-heading-02-reg">Artikel {{ ARTICLE }}</h1>
-        <h2 class="ds-heading-03-reg">Änderungsbefehle prüfen</h2>
+  <div class="flex min-h-screen flex-col bg-gray-100">
+    <RisInfoHeader :heading="heading" :subtitle="loadedAmendingLaw?.title" />
+
+    <router-link
+      aria-labelledby="toOverviewButton"
+      class="ds-link-01-bold -mb-28 flex h-80 items-center gap-12 px-40 text-blue-800"
+      :to="{ name: 'AmendingLawArticles' }"
+    >
+      <IconArrowBack class="text-18" />
+      <span id="toOverviewButton">Zurück</span>
+    </router-link>
+
+    <div class="flex h-dvh flex-col p-40">
+      <div class="mb-40 flex">
+        <div class="flex-grow">
+          <h1 class="ds-heading-02-reg">Artikel {{ ARTICLE }}</h1>
+          <h2 class="ds-heading-03-reg">Änderungsbefehle prüfen</h2>
+        </div>
+
+        <button
+          class="ds-button ds-button-small mr-16 h-fit self-end"
+          @click="handleSave"
+        >
+          Speichern
+        </button>
+        <button
+          class="ds-button ds-button-small ds-button-tertiary h-fit self-end"
+          @click="handleGeneratePreview"
+        >
+          Vorschau generieren
+        </button>
       </div>
 
-      <button
-        class="ds-button ds-button-small mr-16 h-fit self-end"
-        @click="handleSave"
-      >
-        Speichern
-      </button>
-      <button
-        class="ds-button ds-button-small ds-button-tertiary h-fit self-end"
-        @click="handleGeneratePreview"
-      >
-        Vorschau generieren
-      </button>
-    </div>
-
-    <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-2 gap-32">
-      <div class="flex flex-col gap-8">
-        <h3 class="ds-label-02-bold">{{ TARGET_LAW_TITLE }}</h3>
-        <RisCodeEditor
-          class="flex-grow border border-black"
-          :readonly="true"
-          :editable="false"
-          :initial-content="TARGET_LAW_XML"
-        ></RisCodeEditor>
-      </div>
-      <div class="row-span-2 flex flex-col gap-8">
-        <h3 class="ds-label-02-bold">Vorschau</h3>
-        <RisCodeEditor
-          class="flex-grow border border-black"
-          :readonly="true"
-          :editable="false"
-          :initial-content="PREVIEW_XML"
-        ></RisCodeEditor>
-      </div>
-      <div class="flex flex-col gap-8">
-        <h3 class="ds-label-02-bold">
-          <span class="block">Änderungsbefehle</span>
-          <span>{{ ARTICLE_TITLE }}</span>
-        </h3>
-        <RisCodeEditor
-          class="flex-grow border border-black"
-          :initial-content="ARTICLE_XML"
-          @change="handleArticleXMLChange"
-        ></RisCodeEditor>
+      <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-2 gap-32">
+        <div class="flex flex-col gap-8">
+          <h3 class="ds-label-02-bold">{{ TARGET_LAW_TITLE }}</h3>
+          <RisCodeEditor
+            class="flex-grow border border-black"
+            :readonly="true"
+            :editable="false"
+            :initial-content="TARGET_LAW_XML"
+          ></RisCodeEditor>
+        </div>
+        <div class="row-span-2 flex flex-col gap-8">
+          <h3 class="ds-label-02-bold">Vorschau</h3>
+          <RisCodeEditor
+            class="flex-grow border border-black"
+            :readonly="true"
+            :editable="false"
+            :initial-content="PREVIEW_XML"
+          ></RisCodeEditor>
+        </div>
+        <div class="flex flex-col gap-8">
+          <h3 class="ds-label-02-bold">
+            <span class="block">Änderungsbefehle</span>
+            <span>{{ ARTICLE_TITLE }}</span>
+          </h3>
+          <RisCodeEditor
+            class="flex-grow border border-black"
+            :initial-content="ARTICLE_XML"
+            @change="handleArticleXMLChange"
+          ></RisCodeEditor>
+        </div>
       </div>
     </div>
   </div>
