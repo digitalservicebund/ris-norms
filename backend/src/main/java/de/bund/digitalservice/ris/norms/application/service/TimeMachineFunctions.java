@@ -1,6 +1,9 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import java.util.Optional;
+
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /** TODO */
 public class TimeMachineFunctions {
@@ -14,5 +17,9 @@ public class TimeMachineFunctions {
    */
   public static Document applyTimeMachine(Document amendingLaw, Document targetLaw) {
     return targetLaw;
+  }
+
+  static Optional<Node> getFirstModification(Document amendingLaw){
+    return Optional.empty();
   }
 }
