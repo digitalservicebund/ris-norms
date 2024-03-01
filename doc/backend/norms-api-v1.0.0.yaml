@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: Amending Laws API
+  version: 1.0.0
+  description: API for managing amending laws, articles, and target laws
+
+paths:
+  /amending-laws:
+    get:
+      summary: Get a list of all amending laws
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AmendingLaw'
+
+  /amending-laws/{eli}:
+    get:
+      summary: Get a specific amending law by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the amending law
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AmendingLaw'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+
+  /amending-laws/{eli}/articles:
+    get:
+      summary: Get a list of articles for a specific amending law by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the amending law
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+
+  /amending-laws/{eli}/articles/{eid}:
+    get:
+      summary: Get a specific article by eli for a given amending law
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the amending law
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: ELI of the article
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+                
+  /target-laws/{eli}:
+    get:
+      summary: Get a specific target law by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: eli of the target law
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TargetLaw'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+  
+components:
+  schemas:
+    AmendingLaw:
+      type: object
+      properties:
+        eli:
+          type: string
+        title:
+          type: string
+        printAnnouncementGazette:
+          type: string
+        digitalAnnouncementMedium:
+          type: string
+        publicationDate:
+          type: string
+          format: date
+        printAnnouncementPage:
+          type: integer
+        digitalAnnouncementEdition:
+          type: integer
+
+    Article:
+      type: object
+      properties:
+        eli:
+          type: string
+        enumeration:
+          type: string
+        title:
+          type: string
+        affectedDocumentEli:
+          type: string
+
+    TargetLaw:
+      type: object
+      properties:
+        eli:
+          type: string
+        title:
+          type: string
+          
+    LegalDocML.de:
+      type: object
+      xml:
+        name: akomaNtoso
+        namespace: 'http://Inhaltsdaten.LegalDocML.de/1.6'
+        prefix: akn
