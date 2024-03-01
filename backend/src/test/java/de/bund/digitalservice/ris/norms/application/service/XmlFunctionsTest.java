@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Optional;
 import org.junit.Test;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 public class XmlFunctionsTest {
 
+  /** loadXmlFromString */
   @Test
   public void documentGeneratedFromValidXmlStringMustNotBeEmpty() {
     // given
@@ -17,7 +19,7 @@ public class XmlFunctionsTest {
     // then
     assertTrue(result.isPresent());
   }
-
+  
   @Test
   public void documentGeneratedFromInValidXmlStringMustBeEmpty() {
     // given
@@ -27,4 +29,23 @@ public class XmlFunctionsTest {
     // then
     assertTrue(result.isEmpty());
   }
+  
+  /** getNode() */
+  @Test
+  public void returnEmptyIfNoNodeMatches(){
+    // given
+    final String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
+    final Optional<Document> document = XmlFunctions.loadXMLFromString(xmlString);
+    // when
+    final Optional<Node> node = XmlFunctions.getNode("", document.get());
+    // then
+    assertTrue(node.isEmpty());
+  }
+
+  // @Test
+  // public void returnMatchingNode(){
+  //   // given
+  //   // when
+  //   // then
+  // }
 }
