@@ -7,10 +7,7 @@ for (const amendingLaw of amendingLaws) {
   }) => {
     await page.goto(`/amending-laws/${amendingLaw.eli}`)
 
-    await expect(page.locator(".ds-heading-03-reg")).toHaveText(
-      getExpectedHeading(amendingLaw),
-    )
-
-    // TODO
+    await expect(page.getByText(getExpectedHeading(amendingLaw))).toBeVisible()
+    await expect(page.getByText(amendingLaw.title ?? "")).toBeVisible()
   })
 }
