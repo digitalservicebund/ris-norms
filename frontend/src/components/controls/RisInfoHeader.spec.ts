@@ -1,20 +1,20 @@
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, test } from "vitest"
-import RisUnitInfoPanel from "./RisUnitInfoPanel.vue"
+import RisInfoHeader from "./RisInfoHeader.vue"
 
-describe("RisInfoModal", () => {
-  test("renders heading and title", () => {
+describe("RisInfoHeader", () => {
+  test("renders heading and subtitle", () => {
     const heading = "Test Heading"
-    const title = "Test Title"
+    const subtitle = "Test Title"
 
-    render(RisUnitInfoPanel, {
-      props: { heading, title },
+    render(RisInfoHeader, {
+      props: { heading, subtitle },
     })
 
     const headingElement = screen.getByText(heading)
     expect(headingElement).toBeInTheDocument()
 
-    const titleElement = screen.getByText(title)
+    const titleElement = screen.getByText(subtitle)
     expect(titleElement).toBeInTheDocument()
 
     expect(headingElement.compareDocumentPosition(titleElement)).toBe(

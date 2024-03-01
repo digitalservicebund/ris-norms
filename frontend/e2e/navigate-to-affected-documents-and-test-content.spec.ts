@@ -1,16 +1,16 @@
 import { test, expect } from "@playwright/test"
 import { amendingLaws } from "@e2e/testData/testData"
 
-test.describe("Articles page", () => {
+test.describe("Affected documents page", () => {
   for (const amendingLaw of amendingLaws) {
-    test(`navigate and verify navigation to articles page for ${amendingLaw.eli}`, async ({
+    test(`navigate and verify navigation to affected documents for ${amendingLaw.eli}`, async ({
       page,
     }) => {
       // Navigation
-      await page.goto(`/amending-laws/${amendingLaw.eli}/articles`)
+      await page.goto(`/amending-laws/${amendingLaw.eli}/affected-documents`)
 
       // Menu
-      const locator = page.locator(`a:has-text("Artikelübersicht")`)
+      const locator = page.locator(`a:has-text("Betroffene Normenkomplexe")`)
       await expect(locator).toHaveClass(/router-link-active/)
       await expect(locator).toHaveClass(/bg-blue-200/)
 
@@ -20,20 +20,13 @@ test.describe("Articles page", () => {
         await expect(
           page.getByText(`Artikel ${article.enumeration}`),
         ).toBeVisible()
-        await expect(
-          page.getByText(article.title, {
-            exact: true,
-          }),
-        ).toBeVisible()
+        await expect(page.getByText(article.eli)).toBeVisible()
       }
 
-      const checkChangeCommandButton = page.locator(
-        'text="Änderungsbefehl prüfen"',
-      )
-      await expect(checkChangeCommandButton).toBeVisible()
+      await expect(page.getByText("Metadaten editieren")).toBeVisible()
 
       // Back
-      await page.click("text=Zurück")
+      await page.getByText("Zurück").click()
       await expect(page).toHaveURL("/amending-laws")
     })
   }

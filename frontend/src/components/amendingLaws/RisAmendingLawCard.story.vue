@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import RisProcedureCard from "./RisAmendingLawCard.vue"
+import RisAmendingLawCard from "./RisAmendingLawCard.vue"
 </script>
 
 <template>
   <Story>
-    <RisProcedureCard
+    <RisAmendingLawCard
       eli="4711"
       print-announcement-gazette="BGBl. I"
       print-announcement-page="12"

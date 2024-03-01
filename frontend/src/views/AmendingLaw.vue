@@ -3,7 +3,7 @@ import { RouterView } from "vue-router"
 import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
-import RisUnitInfoPanel from "@/components/controls/RisUnitInfoPanel.vue"
+import RisInfoHeader from "@/components/controls/RisInfoHeader.vue"
 import { computed, onMounted, onUnmounted } from "vue"
 import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
@@ -12,15 +12,15 @@ import { storeToRefs } from "pinia"
 const menuItems: LevelOneMenuItem[] = [
   {
     label: "Vorgang",
-    route: { name: "AmendingLawArticleOverview" },
+    route: { name: "AmendingLaw" },
     children: [
       {
         label: "Artikelübersicht",
-        route: { name: "AmendingLawArticleOverview" },
+        route: { name: "AmendingLawArticles" },
       },
       {
         label: "Betroffene Normenkomplexe",
-        route: { name: "AmendingLawAffectedStandards" },
+        route: { name: "AmendingLawAffectedDocuments" },
       },
     ],
   },
@@ -51,7 +51,7 @@ const heading = computed(() => {
 
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100">
-    <RisUnitInfoPanel :heading="heading" :title="loadedAmendingLaw?.title" />
+    <RisInfoHeader :heading="heading" :subtitle="loadedAmendingLaw?.title" />
     <div class="flex">
       <RisNavbarSide
         class="min-h-screen flex-none border-r border-gray-400 bg-white"
@@ -59,7 +59,7 @@ const heading = computed(() => {
         :go-back-route="{ name: 'Home' }"
         :menu-items="menuItems"
       />
-      <div class="w-full flex-1 p-48">
+      <div class="w-full flex-1 p-40">
         <RouterView />
       </div>
     </div>
