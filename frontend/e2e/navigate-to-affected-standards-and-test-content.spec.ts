@@ -10,7 +10,7 @@ for (const amendingLaw of amendingLaws) {
     await page.click(`a[href*="${amendingLaw.eli}"]`)
     await page.click("text=Betroffene Normenkomplexe")
     await expect(page).toHaveURL(
-      `/amendinglaws/${amendingLaw.eli}/affected-standards`,
+      `/amending-laws/${amendingLaw.eli}/affected-documents`,
     )
     await expect(
       page.locator(
@@ -31,6 +31,6 @@ for (const amendingLaw of amendingLaws) {
 
     // Back
     await page.click("text=Zurück")
-    await expect(page).toHaveURL("/amendinglaws")
+    await expect(page).toHaveURL("/amending-laws")
   })
 }

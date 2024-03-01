@@ -12,13 +12,13 @@ test.beforeEach(async ({ page }) => {
   )
 })
 
-// Skipped as the routing directly to an article-overview does not work at the moment.
-test.skip("open a new tab with vs code from the article overview", async ({
+// Skipped as the routing directly to an articles page does not work at the moment.
+test.skip("open a new tab with vs code from the articles page", async ({
   page,
   context,
 }) => {
   await page.goto(
-    `/procedures/${encodeURIComponent("eli/bund/bgbl-1/2017/s419")}/article-overview`,
+    `/procedures/${encodeURIComponent("eli/bund/bgbl-1/2017/s419")}/articles`,
   )
   const pagePromise = context.waitForEvent("page")
   await page.getByText("Änderungsbefehl prüfen").click()

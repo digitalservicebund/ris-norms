@@ -7,7 +7,7 @@ const routes = [
     redirect: { name: "AmendingLaws" },
   },
   {
-    path: "/amendinglaws",
+    path: "/amending-laws",
     children: [
       {
         path: "",
@@ -28,17 +28,32 @@ const routes = [
           {
             path: "",
             name: "AmendingLaw",
-            redirect: { name: "AmendingLawArticleOverview" },
+            redirect: { name: "AmendingLawArticles" },
           },
           {
-            path: "article-overview",
-            name: "AmendingLawArticleOverview",
-            component: () => import("@/views/ArticleOverview.vue"),
+            path: "articles",
+            name: "AmendingLawArticles",
+            component: () => import("@/views/Articles.vue"),
           },
           {
-            path: "affected-standards",
-            name: "AmendingLawAffectedStandards",
-            component: () => import("@/views/AffectedStandards.vue"),
+            path: "affected-documents",
+            name: "AmendingLawAffectedDocuments",
+            component: () => import("@/views/AffectedDocuments.vue"),
+          },
+          {
+            path: "affected-documents/:eid",
+            children: [
+              {
+                path: "",
+                name: "AmendingLawAffectedDocument",
+                redirect: { name: "AmendingLawAffectedDocumentEdit" },
+              },
+              {
+                path: "edit",
+                name: "AmendingLawAffectedDocumentEdit",
+                component: () => import("@/views/EditAffectedDocument.vue"),
+              },
+            ],
           },
         ],
       },

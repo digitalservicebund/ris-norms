@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router"
-import RisAmendingLawCard from "@/components/amendinglaws/RisAmendingLawCard.vue"
+import RisAmendingLawCard from "@/components/amendingLaws/RisAmendingLawCard.vue"
 import { AmendingLaw, getAmendingLaws } from "@/services/amendingLawsService"
 import { onMounted, ref } from "vue"
 
@@ -18,7 +18,7 @@ onMounted(async () => {
       <RouterLink
         v-for="amendingLaw in amendingLaws"
         :key="amendingLaw.eli"
-        :to="`/amendinglaws/${amendingLaw.eli}`"
+        :to="`/amending-laws/${amendingLaw.eli}`"
         class="block"
       >
         <RisAmendingLawCard
