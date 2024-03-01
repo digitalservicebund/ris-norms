@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.domain.functions;
+package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

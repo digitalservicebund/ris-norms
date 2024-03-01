@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.domain.functions;
+package de.bund.digitalservice.ris.norms.application.service;
 
 import java.io.StringReader;
 import java.util.Optional;
