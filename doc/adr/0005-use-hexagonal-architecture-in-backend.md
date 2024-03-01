@@ -28,9 +28,3 @@ Using this architecture will provide us with:
 - **Consistency:** Aligning with other teams in the NeuRIS project ensures consistency across services. Developers familiar with the Hexagonal Architecture in other services will find it easier to navigate and contribute to our backend codebase.
 
 The architecture is tested using [ArchUnit](https://www.archunit.org).
-
-
-
-
-
-

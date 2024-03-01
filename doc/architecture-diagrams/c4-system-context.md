@@ -1,4 +1,4 @@
-<!-- 
+<!--
 
     Available Macros on the System Context level
     (cf. https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/README.md#system-context--system-landscape-diagrams)

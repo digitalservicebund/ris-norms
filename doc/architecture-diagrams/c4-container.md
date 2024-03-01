@@ -28,7 +28,7 @@ C4Container
         Rel("backend", "relationalDB", "Reads from and writes to", "SQL/TCP")
       }
 
-      
+
       UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="2")
 
 ```
