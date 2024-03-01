@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import RisInfoModal from "@/components/controls/RisInfoModal.vue"
-import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
-import { storeToRefs } from "pinia"
+import { useAmendingLaw } from "@/composables/useAmendingLaw"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 
-const amendingLawsStore = useAmendingLawsStore()
-const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
+const eli = useEliPathParameter()
+const amendingLaw = useAmendingLaw(eli)
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
     </span>
 
     <RisInfoModal
-      v-for="(article, index) in loadedAmendingLaw?.articles"
+      v-for="(article, index) in amendingLaw?.articles"
       :key="index"
       :title="`Artikel ${article.enumeration}`"
       :description="article.eid"

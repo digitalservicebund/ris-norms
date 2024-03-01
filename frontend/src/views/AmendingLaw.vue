@@ -4,10 +4,9 @@ import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
 import RisInfoHeader from "@/components/controls/RisInfoHeader.vue"
-import { computed, onMounted, onUnmounted } from "vue"
-import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
+import { computed } from "vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { storeToRefs } from "pinia"
+import { useAmendingLaw } from "@/composables/useAmendingLaw"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -27,22 +26,14 @@ const menuItems: LevelOneMenuItem[] = [
 ]
 
 const eli = useEliPathParameter()
-
-const amendingLawsStore = useAmendingLawsStore()
-const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
-
-onMounted(() => amendingLawsStore.loadAmendingLawByEli(eli.value))
-onUnmounted(() => (loadedAmendingLaw.value = undefined))
+const amendingLaw = useAmendingLaw(eli)
 
 const heading = computed(() => {
-  const publicationYear = loadedAmendingLaw.value?.publicationDate.substring(
-    0,
-    4,
-  )
-  if (loadedAmendingLaw.value?.printAnnouncementGazette) {
-    return `${loadedAmendingLaw.value?.printAnnouncementGazette} ${publicationYear} S. ${loadedAmendingLaw.value?.printAnnouncementPage}`
-  } else if (loadedAmendingLaw.value?.digitalAnnouncementEdition) {
-    return `${loadedAmendingLaw.value?.digitalAnnouncementMedium} ${publicationYear} Nr. ${loadedAmendingLaw.value?.digitalAnnouncementEdition}`
+  const publicationYear = amendingLaw.value?.publicationDate.substring(0, 4)
+  if (amendingLaw.value?.printAnnouncementGazette) {
+    return `${amendingLaw.value?.printAnnouncementGazette} ${publicationYear} S. ${amendingLaw.value?.printAnnouncementPage}`
+  } else if (amendingLaw.value?.digitalAnnouncementEdition) {
+    return `${amendingLaw.value?.digitalAnnouncementMedium} ${publicationYear} Nr. ${amendingLaw.value?.digitalAnnouncementEdition}`
   } else {
     return ""
   }
@@ -51,7 +42,7 @@ const heading = computed(() => {
 
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100">
-    <RisInfoHeader :heading="heading" :subtitle="loadedAmendingLaw?.title" />
+    <RisInfoHeader :heading="heading" :subtitle="amendingLaw?.title" />
     <div class="flex">
       <RisNavbarSide
         class="min-h-screen flex-none border-r border-gray-400 bg-white"

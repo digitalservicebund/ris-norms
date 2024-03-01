@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { computed, onMounted, onUnmounted, ref } from "vue"
+import { computed, ref } from "vue"
 import RisInfoHeader from "@/components/controls/RisInfoHeader.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
-import { storeToRefs } from "pinia"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
+import { useAmendingLaw } from "@/composables/useAmendingLaw"
 
 const ARTICLE = 1
 const TARGET_LAW_TITLE = "Bundesverfassungsschutzgesetz"
@@ -45,24 +44,15 @@ function handleArticleXMLChange({ content }: { content: string }) {
 }
 
 const eli = useEliPathParameter()
-
-// ToDo: (Malte Laukötter; 01.03.24) move to a composable
-const amendingLawsStore = useAmendingLawsStore()
-const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
-
-onMounted(() => amendingLawsStore.loadAmendingLawByEli(eli.value))
-onUnmounted(() => (loadedAmendingLaw.value = undefined))
+const amendingLaw = useAmendingLaw(eli)
 
 // ToDo: (Malte Laukötter; 01.03.24) create a component for the heading
 const heading = computed(() => {
-  const publicationYear = loadedAmendingLaw.value?.publicationDate.substring(
-    0,
-    4,
-  )
-  if (loadedAmendingLaw.value?.printAnnouncementGazette) {
-    return `${loadedAmendingLaw.value?.printAnnouncementGazette} ${publicationYear} S. ${loadedAmendingLaw.value?.printAnnouncementPage}`
-  } else if (loadedAmendingLaw.value?.digitalAnnouncementEdition) {
-    return `${loadedAmendingLaw.value?.digitalAnnouncementMedium} ${publicationYear} Nr. ${loadedAmendingLaw.value?.digitalAnnouncementEdition}`
+  const publicationYear = amendingLaw.value?.publicationDate.substring(0, 4)
+  if (amendingLaw.value?.printAnnouncementGazette) {
+    return `${amendingLaw.value?.printAnnouncementGazette} ${publicationYear} S. ${amendingLaw.value?.printAnnouncementPage}`
+  } else if (amendingLaw.value?.digitalAnnouncementEdition) {
+    return `${amendingLaw.value?.digitalAnnouncementMedium} ${publicationYear} Nr. ${amendingLaw.value?.digitalAnnouncementEdition}`
   } else {
     return ""
   }
@@ -71,7 +61,7 @@ const heading = computed(() => {
 
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100">
-    <RisInfoHeader :heading="heading" :subtitle="loadedAmendingLaw?.title" />
+    <RisInfoHeader :heading="heading" :subtitle="amendingLaw?.title" />
 
     <router-link
       aria-labelledby="toOverviewButton"

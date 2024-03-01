@@ -5,6 +5,7 @@ import {
   AmendingLaw,
   getAmendingLawByEli,
 } from "@/services/amendingLawsService"
+import { nextTick } from "vue"
 
 vi.mock("@/services/amendingLawsService", () => ({
   getAmendingLawByEli: vi.fn(),
@@ -38,9 +39,16 @@ describe("useAmendingLawsStore", () => {
 
   it("loads amending laws correctly", async () => {
     const store = useAmendingLawsStore()
-    await store.loadAmendingLawByEli(eli)
 
+    store.loadAmendingLawByEli(eli)
+    await nextTick()
+
+    expect(store.loading).toBe(true)
     expect(getAmendingLawByEli).toHaveBeenCalledOnce()
+
+    await vi.waitUntil(() => !store.loading)
+
+    expect(store.loading).toBe(false)
     expect(store.loadedAmendingLaw).toEqual(mockAmendingLaw)
   })
 })
