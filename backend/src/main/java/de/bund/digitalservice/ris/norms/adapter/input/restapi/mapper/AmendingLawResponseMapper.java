@@ -60,7 +60,7 @@ public class AmendingLawResponseMapper {
         .map(
             article ->
                 new ArticleResponseSchema(
-                    article.getEnumeration(), article.getEli(), article.getTitle()))
+                    article.getEnumeration(), article.getEid(), article.getTitle()))
         .toList();
   }
 }

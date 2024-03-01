@@ -28,6 +28,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
         amendingLawDTO.getTitle(),
+        null,
         mapToDomainWithArticles(amendingLawDTO.getArticleDtos()));
   }
 
@@ -47,12 +48,13 @@ public class AmendingLawMapper {
         amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
         amendingLawDTO.getTitle(),
+        null,
         null);
   }
 
   private static List<Article> mapToDomainWithArticles(final List<ArticleDto> articlesDTO) {
     return articlesDTO.stream()
-        .map(dto -> new Article(dto.getEnumeration(), dto.getEli(), dto.getTitle()))
+        .map(dto -> new Article(dto.getEnumeration(), dto.getEli(), dto.getTitle(), null))
         .toList();
   }
 
@@ -82,7 +84,7 @@ public class AmendingLawMapper {
             article ->
                 ArticleDto.builder()
                     .enumeration(article.getEnumeration())
-                    .eli(article.getEli())
+                    .eli(article.getEid())
                     .title(article.getTitle())
                     .build())
         .toList();

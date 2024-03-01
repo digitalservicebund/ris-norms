@@ -31,5 +31,7 @@ public class AmendingLaw {
 
   private String title;
 
+  private String xml;
+
   private List<Article> articles;
 }

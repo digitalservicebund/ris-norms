@@ -24,8 +24,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private AmendingLawRepository amendingLawRepository;
 
-  final Article article1 = new Article("1", "eli1", "title1");
-  final Article article2 = new Article("2", "eli2", "title2");
+  final Article article1 = new Article("1", "eli1", "title1", null);
+  final Article article2 = new Article("2", "eli2", "title2", null);
 
   @AfterEach
   void cleanUp() {
