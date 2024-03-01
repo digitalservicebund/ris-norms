@@ -8,6 +8,7 @@ import org.w3c.dom.Document;
 
 public class TimeMachineFunctionsTest {
 
+  /** applyTimeMachine() */
   @Test
   public void xmlDocumentsGoInAndOut() {
     // given
@@ -32,5 +33,19 @@ public class TimeMachineFunctionsTest {
     final Document result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
     assertTrue(result.equals(targetLaw));
+  }
+
+  /** getFirstModification()  */
+  @Test
+  public void returnEmptyIfThereIsNoFirstModification(){
+    // given
+    final Document amendingLawWithoutModification =
+        XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
+            .get();
+    // when
+    final Optional<Node> firstModificationNode = TimeMachineFunctions.getFirstModification(amendingLawWithoutModification);
+    // then
+    assertTrue(firstModificationNode.isEmpty());
+
   }
 }
