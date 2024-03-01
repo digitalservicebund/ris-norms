@@ -84,7 +84,7 @@ public class AmendingLawMapper {
             article ->
                 ArticleDto.builder()
                     .enumeration(article.getEnumeration())
-                    .eli(article.getEli())
+                    .eli(article.getEid())
                     .title(article.getTitle())
                     .build())
         .toList();

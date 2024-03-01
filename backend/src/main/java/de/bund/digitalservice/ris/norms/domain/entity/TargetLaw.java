@@ -14,5 +14,7 @@ import lombok.experimental.SuperBuilder;
 public class TargetLaw {
   private String eli;
 
+  private String title;
+
   private String xml;
 }

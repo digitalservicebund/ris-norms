@@ -18,7 +18,7 @@ class AmendingLawResponseMapperTest {
     // Given
     final LocalDate now = LocalDate.now();
     final List<Article> article = new ArrayList<>();
-    article.add(Article.builder().enumeration("1234").eli("ELI").title("title").build());
+    article.add(Article.builder().enumeration("1234").eid("ELI").title("title").build());
 
     final AmendingLaw amendingLaw = new AmendingLaw();
     amendingLaw.setEli("ELI");

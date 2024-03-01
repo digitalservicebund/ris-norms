@@ -17,7 +17,7 @@ class AmendingLaw{
 }
 
 class Article{
-    eli: String
+    eId: String
     enumeration: String
     title: String
 }
@@ -26,6 +26,7 @@ Article "1" --> "1" TargetLaw: targetLaw
 
 class TargetLaw{
     eli: String
+    title: String
     xml: String
 }
 
