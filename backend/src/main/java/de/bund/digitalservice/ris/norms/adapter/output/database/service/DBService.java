@@ -6,12 +6,14 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ArticleMa
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import jakarta.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,8 @@ import org.springframework.stereotype.Service;
  * Spring context.
  */
 @Service
-public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort, LoadArticlesPort {
+public class DBService
+    implements LoadAmendingLawPort, LoadAllAmendingLawsPort, LoadArticlesPort, LoadArticlePort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -54,5 +57,18 @@ public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort, 
             amendingLawDto ->
                 amendingLawDto.getArticleDtos().stream().map(ArticleMapper::mapToDomain).toList())
         .orElse(Collections.emptyList());
+  }
+
+  @Override
+  @Transactional
+  public Optional<Article> loadArticleByEliAndEid(LoadArticlePort.Command command) {
+    final Optional<AmendingLawDto> amendingLawDtoOptional =
+        amendingLawRepository.findByEli(command.eli());
+    return amendingLawDtoOptional.flatMap(
+        amendingLawDto ->
+            amendingLawDto.getArticleDtos().stream()
+                .filter(articleDto -> Objects.equals(articleDto.getEid(), command.eId()))
+                .findFirst()
+                .map(ArticleMapper::mapToDomain));
   }
 }

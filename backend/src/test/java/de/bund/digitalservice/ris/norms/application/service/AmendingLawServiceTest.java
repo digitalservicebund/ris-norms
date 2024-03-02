@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import java.time.LocalDate;
@@ -23,11 +24,12 @@ class AmendingLawServiceTest {
 
   final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);
   final LoadAllAmendingLawsPort loadAllAmendingLawsAdapter = mock(LoadAllAmendingLawsPort.class);
-
   final LoadArticlesPort loadArticlesPort = mock(LoadArticlesPort.class);
+  final LoadArticlePort loadArticlePort = mock(LoadArticlePort.class);
 
   final AmendingLawService service =
-      new AmendingLawService(loadAmendingLawAdapter, loadAllAmendingLawsAdapter, loadArticlesPort);
+      new AmendingLawService(
+          loadAmendingLawAdapter, loadAllAmendingLawsAdapter, loadArticlesPort, loadArticlePort);
 
   @Test
   void itCallsLoadAmendingLawByEliUsingInputQueryEli() {

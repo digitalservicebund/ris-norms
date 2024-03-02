@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesUseCa
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -31,6 +32,7 @@ public class AmendingLawService
   private final LoadAmendingLawPort loadAmendingLawPort;
   private final LoadAllAmendingLawsPort loadAllAmendingLawsPort;
   private final LoadArticlesPort loadArticlesPort;
+  private final LoadArticlePort loadArticlePort;
 
   /**
    * Constructs a new {@link AmendingLawService} instance.
@@ -41,10 +43,12 @@ public class AmendingLawService
   public AmendingLawService(
       LoadAmendingLawPort loadAmendingLawPort,
       LoadAllAmendingLawsPort loadAllAmendingLawsPort,
-      LoadArticlesPort loadArticlesPort) {
+      LoadArticlesPort loadArticlesPort,
+      LoadArticlePort loadArticlePort) {
     this.loadAmendingLawPort = loadAmendingLawPort;
     this.loadAllAmendingLawsPort = loadAllAmendingLawsPort;
     this.loadArticlesPort = loadArticlesPort;
+    this.loadArticlePort = loadArticlePort;
   }
 
   @Override
@@ -58,13 +62,14 @@ public class AmendingLawService
   }
 
   @Override
-  public Optional<Article> loadArticle(final LoadArticleUseCase.Query query) {
-    return Optional.empty();
+  public List<Article> loadArticlesOfAmendingLaw(final LoadArticlesUseCase.Query query) {
+    return loadArticlesPort.loadArticlesByAmendingLaw(new LoadArticlesPort.Command(query.eli()));
   }
 
   @Override
-  public List<Article> loadArticlesOfAmendingLaw(final LoadArticlesUseCase.Query query) {
-    return loadArticlesPort.loadArticlesByAmendingLaw(new LoadArticlesPort.Command(query.eli()));
+  public Optional<Article> loadArticle(final LoadArticleUseCase.Query query) {
+    return loadArticlePort.loadArticleByEliAndEid(
+        new LoadArticlePort.Command(query.eli(), query.eId()));
   }
 
   @Override

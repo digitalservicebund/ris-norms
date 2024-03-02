@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingL
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -225,5 +226,42 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // Then
     assertThat(articles).isEmpty();
+  }
+
+  @Test
+  void itFindsOneArticleOnDB() {
+    // Given
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1, article2))
+            .xml(xml)
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    // When
+    final Optional<Article> articleOptional =
+        dbService.loadArticleByEliAndEid(new LoadArticlePort.Command(eli, article2.getEid()));
+
+    // Then
+    assertThat(articleOptional)
+        .isPresent()
+        .satisfies(article -> assertThat(article.get()).isEqualTo(article2));
   }
 }

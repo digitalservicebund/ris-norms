@@ -186,4 +186,72 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("$[0].affectedDocumentEli", equalTo(targetLaw.getEli())))
         .andExpect(jsonPath("$[0].title", equalTo(article.getTitle())));
   }
+
+  @Test
+  void itCallsAmendingLawServiceAndReturnsOneArticle() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<test></test>";
+
+    final TargetLaw targetLaw1 =
+        TargetLaw.builder()
+            .eli("target law eli")
+            .title("target law title")
+            .xml("<target></target>")
+            .build();
+    final Article article1 =
+        Article.builder()
+            .eid("eid")
+            .title("article title")
+            .enumeration("1")
+            .targetLaw(targetLaw1)
+            .build();
+
+    final TargetLaw targetLaw2 =
+        TargetLaw.builder()
+            .eli("target law eli 2")
+            .title("target law title 2")
+            .xml("<target>2</target>")
+            .build();
+    final Article article2 =
+        Article.builder()
+            .eid("eid 2")
+            .title("article title 2")
+            .enumeration("2")
+            .targetLaw(targetLaw2)
+            .build();
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .xml(xml)
+            .articles(List.of(article1, article2))
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    final String encodedEli =
+        UriComponentsBuilder.fromPath(amendingLaw.getEli()).build().encode().toUriString();
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/amending-laws/{eli}/articles/{eid}", encodedEli, article2.getEid()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("eid", equalTo(article2.getEid())))
+        .andExpect(jsonPath("enumeration", equalTo(article2.getEnumeration())))
+        .andExpect(jsonPath("affectedDocumentEli", equalTo(targetLaw2.getEli())))
+        .andExpect(jsonPath("title", equalTo(article2.getTitle())));
+  }
 }

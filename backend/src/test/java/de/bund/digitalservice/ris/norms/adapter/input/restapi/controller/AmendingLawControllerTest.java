@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAmendingLawsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -38,13 +39,17 @@ class AmendingLawControllerTest {
   @MockBean private LoadAmendingLawUseCase loadAmendingLawUseCase;
   @MockBean private LoadAllAmendingLawsUseCase loadAllAmendingLawsUseCase;
   @MockBean private LoadArticlesUseCase loadArticlesUseCase;
+  @MockBean private LoadArticleUseCase loadArticleUseCase;
 
   @BeforeEach
   public void setUp() {
     mockMvc =
         MockMvcBuilders.standaloneSetup(
                 new AmendingLawController(
-                    loadAmendingLawUseCase, loadAllAmendingLawsUseCase, loadArticlesUseCase))
+                    loadAmendingLawUseCase,
+                    loadAllAmendingLawsUseCase,
+                    loadArticlesUseCase,
+                    loadArticleUseCase))
             .setControllerAdvice(new InternalErrorExceptionHandler())
             .build();
   }
@@ -237,5 +242,31 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("$[1].title", equalTo("article title 2")))
         .andExpect(jsonPath("$[1].enumeration", equalTo("2")))
         .andExpect(jsonPath("$[1].affectedDocumentEli", equalTo("target law eli 2")));
+  }
+
+  @Test
+  void itLoadsOneArticleAndReturnsTheOneSuccessfully() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+
+    final Article article2 =
+        Article.builder()
+            .eid("eid 2")
+            .title("article title 2")
+            .enumeration("2")
+            .targetLaw(
+                TargetLaw.builder().eli("target law eli 2").title("title2").xml("xml2").build())
+            .build();
+
+    when(loadArticleUseCase.loadArticle(any())).thenReturn(Optional.of(article2));
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/amending-laws/{eli}/articles/{eid}", eli, article2.getEid()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("enumeration", equalTo("2")))
+        .andExpect(jsonPath("eid", equalTo("eid 2")))
+        .andExpect(jsonPath("title", equalTo("article title 2")))
+        .andExpect(jsonPath("affectedDocumentEli", equalTo("target law eli 2")));
   }
 }
