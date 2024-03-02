@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,15 +21,19 @@ import org.junit.jupiter.api.Test;
 
 class AmendingLawServiceTest {
 
+  final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);
+  final LoadAllAmendingLawsPort loadAllAmendingLawsAdapter = mock(LoadAllAmendingLawsPort.class);
+
+  final LoadArticlesPort loadArticlesPort = mock(LoadArticlesPort.class);
+
+  final AmendingLawService service =
+      new AmendingLawService(loadAmendingLawAdapter, loadAllAmendingLawsAdapter, loadArticlesPort);
+
   @Test
   void itCallsLoadAmendingLawByEliUsingInputQueryEli() {
     // Given
     final String eli = "someEli";
-    final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);
-    final LoadAllAmendingLawsPort loadAllAmendingLawsAdapter = mock(LoadAllAmendingLawsPort.class);
 
-    final AmendingLawService service =
-        new AmendingLawService(loadAmendingLawAdapter, loadAllAmendingLawsAdapter);
     final LoadAmendingLawUseCase.Query query = new LoadAmendingLawUseCase.Query(eli);
     when(loadAmendingLawAdapter.loadAmendingLawByEli(any())).thenReturn(Optional.empty());
 
@@ -44,11 +49,7 @@ class AmendingLawServiceTest {
   void canLoadAmendingLawByEliIfAdapterFindsOne() {
     // Given
     final String eli = "someEli";
-    final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);
-    final LoadAllAmendingLawsPort loadAllAmendingLawAdapter = mock(LoadAllAmendingLawsPort.class);
 
-    final AmendingLawService service =
-        new AmendingLawService(loadAmendingLawAdapter, loadAllAmendingLawAdapter);
     final LoadAmendingLawUseCase.Query query = new LoadAmendingLawUseCase.Query(eli);
 
     final String printAnnouncementGazette = "someGazette";
@@ -82,11 +83,7 @@ class AmendingLawServiceTest {
   void canNotLoadAmendingLawByEliIfAdapterDoesNotFindOne() {
     // Given
     final String eli = "someEli";
-    final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);
-    final LoadAllAmendingLawsPort loadAllAmendingLawsAdapter = mock(LoadAllAmendingLawsPort.class);
 
-    final AmendingLawService service =
-        new AmendingLawService(loadAmendingLawAdapter, loadAllAmendingLawsAdapter);
     final LoadAmendingLawUseCase.Query query = new LoadAmendingLawUseCase.Query(eli);
     when(loadAmendingLawAdapter.loadAmendingLawByEli(any())).thenReturn(Optional.empty());
 
@@ -100,11 +97,6 @@ class AmendingLawServiceTest {
   @Test
   void canLoadAllAmendingLaws() {
     // Given
-    final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);
-    final LoadAllAmendingLawsPort loadAllAmendingLawsAdapter = mock(LoadAllAmendingLawsPort.class);
-    final AmendingLawService service =
-        new AmendingLawService(loadAmendingLawAdapter, loadAllAmendingLawsAdapter);
-
     final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();

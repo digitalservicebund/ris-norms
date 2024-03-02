@@ -1,11 +1,16 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ArticleMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import jakarta.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -16,7 +21,7 @@ import org.springframework.stereotype.Service;
  * Spring context.
  */
 @Service
-public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort {
+public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort, LoadArticlesPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -26,7 +31,7 @@ public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort {
 
   @Override
   @Transactional
-  public Optional<AmendingLaw> loadAmendingLawByEli(Command command) {
+  public Optional<AmendingLaw> loadAmendingLawByEli(LoadAmendingLawPort.Command command) {
     return amendingLawRepository
         .findByEli(command.eli())
         .map(AmendingLawMapper::mapToDomainWithArticles);
@@ -37,5 +42,16 @@ public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort {
     return amendingLawRepository.findAllByOrderByPublicationDateDesc().stream()
         .map(AmendingLawMapper::mapToDomain)
         .toList();
+  }
+
+  @Override
+  public List<Article> loadArticlesByAmendingLaw(LoadArticlesPort.Command command) {
+    final Optional<AmendingLawDto> amendingLawDtoOptional =
+        amendingLawRepository.findByEli(command.eli());
+    return amendingLawDtoOptional
+        .map(
+            amendingLawDto ->
+                amendingLawDto.getArticleDtos().stream().map(ArticleMapper::mapToDomain).toList())
+        .orElse(Collections.emptyList());
   }
 }

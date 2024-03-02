@@ -7,10 +7,10 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesUseCa
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,7 @@ public class AmendingLawService
 
   private final LoadAmendingLawPort loadAmendingLawPort;
   private final LoadAllAmendingLawsPort loadAllAmendingLawsPort;
+  private final LoadArticlesPort loadArticlesPort;
 
   /**
    * Constructs a new {@link AmendingLawService} instance.
@@ -38,9 +39,12 @@ public class AmendingLawService
    * @param loadAllAmendingLawsPort The port for loading all amending laws.
    */
   public AmendingLawService(
-      LoadAmendingLawPort loadAmendingLawPort, LoadAllAmendingLawsPort loadAllAmendingLawsPort) {
+      LoadAmendingLawPort loadAmendingLawPort,
+      LoadAllAmendingLawsPort loadAllAmendingLawsPort,
+      LoadArticlesPort loadArticlesPort) {
     this.loadAmendingLawPort = loadAmendingLawPort;
     this.loadAllAmendingLawsPort = loadAllAmendingLawsPort;
+    this.loadArticlesPort = loadArticlesPort;
   }
 
   @Override
@@ -60,7 +64,7 @@ public class AmendingLawService
 
   @Override
   public List<Article> loadArticlesOfAmendingLaw(final LoadArticlesUseCase.Query query) {
-    return Collections.emptyList();
+    return loadArticlesPort.loadArticlesByAmendingLaw(new LoadArticlesPort.Command(query.eli()));
   }
 
   @Override

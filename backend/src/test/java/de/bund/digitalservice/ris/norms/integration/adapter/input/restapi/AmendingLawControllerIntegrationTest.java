@@ -38,6 +38,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
+    final String xml = "<test></test>";
 
     // When
     final AmendingLaw amendingLaw =
@@ -49,6 +50,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title)
+            .xml(xml)
             .build();
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
 
@@ -78,6 +80,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title1 = "title1";
+    final String xml1 = "<test>1</test>";
 
     final String eli2 = "eli2";
     final String printAnnouncementGazette2 = "someGazette2";
@@ -86,6 +89,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
     final String title2 = "title2";
+    final String xml2 = "<test>2</test>";
 
     final AmendingLaw amendingLaw1 =
         AmendingLaw.builder()
@@ -96,6 +100,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title1)
+            .xml(xml1)
             .build();
 
     final AmendingLaw amendingLaw2 =
@@ -107,6 +112,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium2)
             .digitalAnnouncementEdition(digitalAnnouncementEdition2)
             .title(title2)
+            .xml(xml2)
             .build();
 
     amendingLawRepository.saveAll(

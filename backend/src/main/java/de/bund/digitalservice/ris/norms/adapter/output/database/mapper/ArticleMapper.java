@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ArticleDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import java.util.Optional;
 
 /** Mapper class for converting between {@link ArticleDto} and {@link Article}. */
 public class ArticleMapper {
@@ -35,7 +36,8 @@ public class ArticleMapper {
         .enumeration(article.getEnumeration())
         .eid(article.getEid())
         .title(article.getTitle())
-        .targetLawDto(TargetLawMapper.mapToDto(article.getTargetLaw()))
+        .targetLawDto(
+            Optional.ofNullable(article.getTargetLaw()).map(TargetLawMapper::mapToDto).orElse(null))
         .build();
   }
 }
