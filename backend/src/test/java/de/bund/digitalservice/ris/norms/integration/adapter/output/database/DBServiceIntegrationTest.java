@@ -3,11 +3,14 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -25,6 +28,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private AmendingLawRepository amendingLawRepository;
 
+  @Autowired private TargetLawRepository targetLawRepository;
+
   final TargetLaw targetLaw =
       TargetLaw.builder()
           .eli("target law eli")
@@ -40,6 +45,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   @AfterEach
   void cleanUp() {
     amendingLawRepository.deleteAll();
+    targetLawRepository.deleteAll();
   }
 
   @Test
@@ -78,7 +84,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         .isPresent()
         .satisfies(
             amendingLawDb -> {
-              assertThat(amendingLawDb.get()).isEqualTo(amendingLaw);
+              assertThat(amendingLawDb).contains(amendingLaw);
               assertThat(amendingLawDb.get().getArticles())
                   .containsExactlyInAnyOrderElementsOf(amendingLaw.getArticles());
             });
@@ -262,6 +268,43 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Then
     assertThat(articleOptional)
         .isPresent()
-        .satisfies(article -> assertThat(article.get()).isEqualTo(article2));
+        .satisfies(article -> assertThat(article).contains(article2));
+  }
+
+  @Test
+  void itFindsTargetLawOnDB() {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String title = "title";
+    final String xml = "<target></target>";
+
+    // When
+    final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
+    targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
+
+    // When
+    final Optional<TargetLaw> targetLawOptional =
+        dbService.loadTargetLawByEli(new LoadTargetLawPort.Command(eli));
+
+    // Then
+    assertThat(targetLawOptional)
+        .isPresent()
+        .satisfies(
+            targetlawDb -> {
+              assertThat(targetlawDb).contains(targetLaw);
+            });
+  }
+
+  @Test
+  void itDoesNotFindTargetLawOnDb() {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+    // When
+    final Optional<TargetLaw> targetLawOptional =
+        dbService.loadTargetLawByEli(new LoadTargetLawPort.Command(eli));
+
+    // Then
+    assertThat(targetLawOptional).isNotPresent();
   }
 }

@@ -4,14 +4,12 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAmendingLa
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
-import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -26,8 +24,7 @@ public class AmendingLawService
     implements LoadAmendingLawUseCase,
         LoadAllAmendingLawsUseCase,
         LoadArticleUseCase,
-        LoadArticlesUseCase,
-        LoadTargetLawUseCase {
+        LoadArticlesUseCase {
 
   private final LoadAmendingLawPort loadAmendingLawPort;
   private final LoadAllAmendingLawsPort loadAllAmendingLawsPort;
@@ -70,10 +67,5 @@ public class AmendingLawService
   public Optional<Article> loadArticle(final LoadArticleUseCase.Query query) {
     return loadArticlePort.loadArticleByEliAndEid(
         new LoadArticlePort.Command(query.eli(), query.eId()));
-  }
-
-  @Override
-  public Optional<TargetLaw> loadTargetLaw(final LoadTargetLawUseCase.Query query) {
-    return Optional.empty();
   }
 }
