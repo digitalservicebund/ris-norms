@@ -36,8 +36,8 @@ public class TargetLawController {
    * Retrieves a target law based on its expression ELI. The ELI's components are interpreted as
    * query parameters.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf.
-   * https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24)
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
    * @param printAnnouncementGazette DE: "Verkündungsblatt"
    * @param printAnnouncementYear DE "Verkündungsjahr"

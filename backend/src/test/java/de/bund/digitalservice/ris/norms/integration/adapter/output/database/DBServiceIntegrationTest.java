@@ -289,10 +289,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Then
     assertThat(targetLawOptional)
         .isPresent()
-        .satisfies(
-            targetlawDb -> {
-              assertThat(targetlawDb).contains(targetLaw);
-            });
+        .satisfies(targetlawDb -> assertThat(targetlawDb).contains(targetLaw));
   }
 
   @Test
