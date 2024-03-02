@@ -45,6 +45,7 @@ public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort, 
   }
 
   @Override
+  @Transactional
   public List<Article> loadArticlesByAmendingLaw(LoadArticlesPort.Command command) {
     final Optional<AmendingLawDto> amendingLawDtoOptional =
         amendingLawRepository.findByEli(command.eli());

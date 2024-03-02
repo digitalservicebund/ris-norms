@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
 import java.util.List;
@@ -127,5 +129,61 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("$[2]").doesNotExist())
         .andExpect(jsonPath("$[0].eli", equalTo(amendingLaw1.getEli())))
         .andExpect(jsonPath("$[1].eli", equalTo(amendingLaw2.getEli())));
+  }
+
+  @Test
+  void itCallsAmendingLawServiceAndReturnsArticles() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<test></test>";
+
+    final TargetLaw targetLaw =
+        TargetLaw.builder()
+            .eli("target law eli")
+            .title("target law title")
+            .xml("<target></target>")
+            .build();
+    final Article article =
+        Article.builder()
+            .eid("eid")
+            .title("article title")
+            .enumeration("1")
+            .targetLaw(targetLaw)
+            .build();
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .xml(xml)
+            .articles(List.of(article))
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    final String encodedEli =
+        UriComponentsBuilder.fromPath(amendingLaw.getEli()).build().encode().toUriString();
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/amending-laws/{eli}/articles", encodedEli))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").exists())
+        .andExpect(jsonPath("$[1]").doesNotExist())
+        .andExpect(jsonPath("$[0].eid", equalTo(article.getEid())))
+        .andExpect(jsonPath("$[0].enumeration", equalTo(article.getEnumeration())))
+        .andExpect(jsonPath("$[0].affectedDocumentEli", equalTo(targetLaw.getEli())))
+        .andExpect(jsonPath("$[0].title", equalTo(article.getTitle())));
   }
 }
