@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import java.util.Optional;
 
 /** Mapper class for converting between {@link AmendingLawDto} and {@link AmendingLaw}. */
 public class AmendingLawMapper {
@@ -64,7 +65,10 @@ public class AmendingLawMapper {
         .printAnnouncementPage(amendingLaw.getPrintAnnouncementPage())
         .digitalAnnouncementEdition(amendingLaw.getDigitalAnnouncementEdition())
         .title(amendingLaw.getTitle())
-        .articleDtos(amendingLaw.getArticles().stream().map(ArticleMapper::mapToDto).toList())
+        .articleDtos(
+            Optional.ofNullable(amendingLaw.getArticles())
+                .map(articles -> articles.stream().map(ArticleMapper::mapToDto).toList())
+                .orElse(null))
         .xml(amendingLaw.getXml())
         .build();
   }
