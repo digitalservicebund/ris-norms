@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 @Data
-public class AmendingLawIncludingArticlesResponseSchema {
+public class AmendingLawResponseSchemaTemporary {
 
   private String eli;
 

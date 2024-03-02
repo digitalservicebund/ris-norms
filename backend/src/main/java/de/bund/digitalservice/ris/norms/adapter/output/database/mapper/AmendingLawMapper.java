@@ -1,10 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ArticleDto;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
-import de.bund.digitalservice.ris.norms.domain.entity.Article;
-import java.util.List;
 
 /** Mapper class for converting between {@link AmendingLawDto} and {@link AmendingLaw}. */
 public class AmendingLawMapper {
@@ -29,7 +26,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getDigitalAnnouncementEdition(),
         amendingLawDTO.getTitle(),
         amendingLawDTO.getXml(),
-        mapToDomainWithArticles(amendingLawDTO.getArticleDtos()));
+        amendingLawDTO.getArticleDtos().stream().map(ArticleMapper::mapToDomain).toList());
   }
 
   /**
@@ -52,12 +49,6 @@ public class AmendingLawMapper {
         null);
   }
 
-  private static List<Article> mapToDomainWithArticles(final List<ArticleDto> articlesDTO) {
-    return articlesDTO.stream()
-        .map(dto -> new Article(dto.getEnumeration(), dto.getEid(), dto.getTitle(), null))
-        .toList();
-  }
-
   /**
    * Maps a {@link AmendingLaw} entity to a {@link AmendingLawDto}.
    *
@@ -73,21 +64,8 @@ public class AmendingLawMapper {
         .printAnnouncementPage(amendingLaw.getPrintAnnouncementPage())
         .digitalAnnouncementEdition(amendingLaw.getDigitalAnnouncementEdition())
         .title(amendingLaw.getTitle())
-        .articleDtos(mapToDtos(amendingLaw.getArticles()))
+        .articleDtos(amendingLaw.getArticles().stream().map(ArticleMapper::mapToDto).toList())
         .xml(amendingLaw.getXml())
         .build();
-  }
-
-  private static List<ArticleDto> mapToDtos(
-      final List<de.bund.digitalservice.ris.norms.domain.entity.Article> articles) {
-    return articles.stream()
-        .map(
-            article ->
-                ArticleDto.builder()
-                    .enumeration(article.getEnumeration())
-                    .eid(article.getEid())
-                    .title(article.getTitle())
-                    .build())
-        .toList();
   }
 }

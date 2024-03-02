@@ -47,12 +47,12 @@ describe("Service consumer tests", () => {
       digitalAnnouncementEdition: undefined,
       articles: [
         {
-          eli: "article eli 1",
+          eid: "article eid 1",
           title: "article eli 1",
           enumeration: "1",
         },
         {
-          eli: "article eli 2",
+          eid: "article eid 2",
           title: "article eli 2",
           enumeration: "2",
         },

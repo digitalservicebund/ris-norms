@@ -12,7 +12,7 @@ export interface AmendingLaw {
 }
 
 interface Article {
-  eli: string
+  eid: string
   title: string
   enumeration: string
 }
@@ -26,9 +26,9 @@ const apiFetch = ofetch.create({
 })
 
 export async function getAmendingLaws(): Promise<AmendingLaw[]> {
-  return await apiFetch("/amendinglaw")
+  return await apiFetch("/amending-laws")
 }
 
 export async function getAmendingLawByEli(eli: string): Promise<AmendingLaw> {
-  return await apiFetch(`/amendinglaw/${eli}`)
+  return await apiFetch(`/amending-laws/${eli}`)
 }

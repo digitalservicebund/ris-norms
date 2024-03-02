@@ -20,7 +20,7 @@ test.describe("Affected documents page", () => {
         await expect(
           page.getByText(`Artikel ${article.enumeration}`),
         ).toBeVisible()
-        await expect(page.getByText(article.eli)).toBeVisible()
+        await expect(page.getByText(article.eid)).toBeVisible()
       }
 
       await expect(page.getByText("Metadaten editieren")).toBeVisible()

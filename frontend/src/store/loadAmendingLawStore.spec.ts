@@ -26,7 +26,7 @@ describe("useAmendingLawsStore", () => {
       digitalAnnouncementEdition: undefined,
       articles: [
         {
-          eli: "article eli 1",
+          eid: "article eid 1",
           title: "article eli 1",
           enumeration: "1",
         },

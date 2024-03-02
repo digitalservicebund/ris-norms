@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBServic
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,12 +23,17 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private AmendingLawRepository amendingLawRepository;
 
-  final Article article1 = new Article("1", "eli1", "title1", null);
-  final Article article2 = new Article("2", "eli2", "title2", null);
+  final TargetLaw targetLaw =
+      TargetLaw.builder()
+          .eli("target law eli")
+          .title("target law title")
+          .xml("<test></test>")
+          .build();
 
-  final Article article3 = new Article("3", "eli3", "title3", null);
-
-  final Article article4 = new Article("4", "eli4", "title4", null);
+  final Article article1 = new Article("1", "eli1", "title1", targetLaw);
+  final Article article2 = new Article("2", "eli2", "title2", targetLaw);
+  final Article article3 = new Article("3", "eli3", "title3", targetLaw);
+  final Article article4 = new Article("4", "eli4", "title4", targetLaw);
 
   @AfterEach
   void cleanUp() {

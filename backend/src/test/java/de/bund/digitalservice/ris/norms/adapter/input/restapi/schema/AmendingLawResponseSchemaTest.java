@@ -18,8 +18,8 @@ class AmendingLawResponseSchemaTest {
     final String digitalAnnouncementEdition = "edition123";
 
     // When
-    final AmendingLawIncludingArticlesResponseSchema amendingLaw =
-        AmendingLawIncludingArticlesResponseSchema.builder()
+    final AmendingLawResponseSchema amendingLaw =
+        AmendingLawResponseSchema.builder()
             .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)

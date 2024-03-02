@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
-import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
 import java.util.List;
@@ -23,9 +22,6 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
   @Autowired private MockMvc mockMvc;
 
   @Autowired private AmendingLawRepository amendingLawRepository;
-
-  final Article article1 = new Article("1", "eli1", "title1", null);
-  final Article article2 = new Article("2", "eli2", "title2", null);
 
   @AfterEach
   void cleanUp() {
@@ -42,8 +38,6 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml =
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<note>\n" + "  <to>Me</to>" + "</note>";
 
     // When
     final AmendingLaw amendingLaw =
@@ -55,8 +49,6 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title)
-            .articles(List.of(article1, article2))
-            .xml(xml)
             .build();
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
 
@@ -65,7 +57,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/amendinglaw/{eli}", encodedEli))
+        .perform(get("/api/v1/amending-laws/{eli}", encodedEli))
         .andExpect(jsonPath("eli").value(equalTo(eli)))
         .andExpect(jsonPath("printAnnouncementGazette").value(equalTo(printAnnouncementGazette)))
         .andExpect(jsonPath("publicationDate").value(equalTo(publicationDate.toString())))
@@ -73,9 +65,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("digitalAnnouncementMedium").value(equalTo(digitalAnnouncementMedium)))
         .andExpect(
             jsonPath("digitalAnnouncementEdition").value(equalTo(digitalAnnouncementEdition)))
-        .andExpect(jsonPath("title").value(equalTo(title)))
-        .andExpect(jsonPath("articles").isArray())
-        .andExpect(jsonPath("articles[0].eli").value("eli1"));
+        .andExpect(jsonPath("title").value(equalTo(title)));
   }
 
   @Test
@@ -97,9 +87,6 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementEdition2 = "edition1232";
     final String title2 = "title2";
 
-    final String xml =
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<note>\n" + "  <to>Me</to>" + "</note>";
-
     final AmendingLaw amendingLaw1 =
         AmendingLaw.builder()
             .eli(eli)
@@ -109,8 +96,6 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title1)
-            .articles(List.of(article1, article2))
-            .xml(xml)
             .build();
 
     final AmendingLaw amendingLaw2 =
@@ -122,8 +107,6 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium2)
             .digitalAnnouncementEdition(digitalAnnouncementEdition2)
             .title(title2)
-            .articles(List.of(article1, article2))
-            .xml(xml)
             .build();
 
     amendingLawRepository.saveAll(
@@ -132,7 +115,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/amendinglaw"))
+        .perform(get("/api/v1/amending-laws"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[2]").doesNotExist())

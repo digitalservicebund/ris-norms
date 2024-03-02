@@ -1,49 +1,24 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawIncludingArticlesResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchemaTemporary;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
-import de.bund.digitalservice.ris.norms.domain.entity.Article;
-import java.util.List;
+import java.util.Optional;
 
-/**
- * Mapper class for converting between {@link AmendingLaw} and {@link
- * AmendingLawIncludingArticlesResponseSchema}.
- */
+/** Mapper class for converting between {@link AmendingLaw} and the different response schemas. */
 public class AmendingLawResponseMapper {
-  /**
-   * Creates a {@link AmendingLawIncludingArticlesResponseSchema} instance from a {@link
-   * AmendingLaw} entity.
-   *
-   * @param amendingLaw The input {@link AmendingLaw} entity to be converted.
-   * @return A new {@link AmendingLawIncludingArticlesResponseSchema} instance mapped from the input
-   *     {@link AmendingLaw}.
-   */
-  public static AmendingLawIncludingArticlesResponseSchema fromUseCaseData(
-      final AmendingLaw amendingLaw) {
-    return AmendingLawIncludingArticlesResponseSchema.builder()
-        .eli(amendingLaw.getEli())
-        .printAnnouncementGazette(amendingLaw.getPrintAnnouncementGazette())
-        .digitalAnnouncementMedium(amendingLaw.getDigitalAnnouncementMedium())
-        .publicationDate(amendingLaw.getPublicationDate())
-        .printAnnouncementPage(amendingLaw.getPrintAnnouncementPage())
-        .digitalAnnouncementEdition(amendingLaw.getDigitalAnnouncementEdition())
-        .title(amendingLaw.getTitle())
-        .articles(fromUseCaseData(amendingLaw.getArticles()))
-        .build();
-  }
+
+  // Private constructor to hide the implicit public one and prevent instantiation
+  private AmendingLawResponseMapper() {}
 
   /**
-   * Creates a {@link AmendingLawIncludingArticlesResponseSchema} instance from a {@link
-   * AmendingLaw} entity.
+   * Creates a {@link AmendingLawResponseSchema} instance from a {@link AmendingLaw} entity.
    *
    * @param amendingLaw The input {@link AmendingLaw} entity to be converted.
    * @return A new {@link AmendingLawResponseSchema} instance mapped from the input {@link
    *     AmendingLaw}.
    */
-  public static AmendingLawResponseSchema fromUseCaseDataWithoutArticles(
-      final AmendingLaw amendingLaw) {
+  public static AmendingLawResponseSchema fromUseCaseData(final AmendingLaw amendingLaw) {
     return AmendingLawResponseSchema.builder()
         .eli(amendingLaw.getEli())
         .printAnnouncementGazette(amendingLaw.getPrintAnnouncementGazette())
@@ -51,16 +26,35 @@ public class AmendingLawResponseMapper {
         .publicationDate(amendingLaw.getPublicationDate())
         .printAnnouncementPage(amendingLaw.getPrintAnnouncementPage())
         .digitalAnnouncementEdition(amendingLaw.getDigitalAnnouncementEdition())
+        .title(amendingLaw.getTitle())
         .build();
   }
 
-  private static List<ArticleResponseSchema> fromUseCaseData(final List<Article> articles) {
-    // TODO: Check what happens when articles are null
-    return articles.stream()
-        .map(
-            article ->
-                new ArticleResponseSchema(
-                    article.getEnumeration(), article.getEid(), article.getTitle()))
-        .toList();
+  /**
+   * Just a temporary mapper method till the frontend is also updated with the new API, meaning
+   * getting the articles not from the /amending-laws/{eli} endpoint but from
+   * /amending-laws/{eli}/articles
+   *
+   * @param amendingLaw The input {@link AmendingLaw} entity to be converted.
+   * @return A new {@link AmendingLawResponseSchemaTemporary} instance mapped from the input {@link
+   *     AmendingLaw}.
+   */
+  public static AmendingLawResponseSchemaTemporary fromUseCaseDataTemporary(
+      final AmendingLaw amendingLaw) {
+    return AmendingLawResponseSchemaTemporary.builder()
+        .eli(amendingLaw.getEli())
+        .printAnnouncementGazette(amendingLaw.getPrintAnnouncementGazette())
+        .digitalAnnouncementMedium(amendingLaw.getDigitalAnnouncementMedium())
+        .publicationDate(amendingLaw.getPublicationDate())
+        .printAnnouncementPage(amendingLaw.getPrintAnnouncementPage())
+        .digitalAnnouncementEdition(amendingLaw.getDigitalAnnouncementEdition())
+        .title(amendingLaw.getTitle())
+        .articles(
+            Optional.ofNullable(amendingLaw.getArticles())
+                .map(
+                    articles ->
+                        articles.stream().map(ArticleResponseMapper::fromUseCaseData).toList())
+                .orElse(null))
+        .build();
   }
 }

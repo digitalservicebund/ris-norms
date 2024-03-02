@@ -19,7 +19,7 @@ const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
       v-for="(article, index) in loadedAmendingLaw?.articles"
       :key="index"
       :title="`Artikel ${article.enumeration}`"
-      :description="article.eli"
+      :description="article.eid"
       icon-text="Metadaten editieren"
     />
   </div>

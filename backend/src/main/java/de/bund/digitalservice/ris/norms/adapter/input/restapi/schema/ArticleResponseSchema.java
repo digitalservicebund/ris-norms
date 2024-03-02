@@ -14,7 +14,9 @@ import lombok.experimental.SuperBuilder;
 public class ArticleResponseSchema {
   private String enumeration;
 
-  private String eli;
+  private String eid;
 
   private String title;
+
+  private String affectedDocumentEli;
 }

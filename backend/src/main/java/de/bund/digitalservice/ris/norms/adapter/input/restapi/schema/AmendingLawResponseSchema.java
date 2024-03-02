@@ -17,6 +17,8 @@ public class AmendingLawResponseSchema {
 
   private String eli;
 
+  private String title;
+
   private String printAnnouncementGazette;
 
   private String digitalAnnouncementMedium;
