@@ -54,24 +54,22 @@ public class XmlFunctionsTest {
     final String xmlString = """
       <?xml version=\"1.0\" encoding=\"UTF-8\"?>
       <root>
-        <notMyNode>
+        <not-my-node>
           not my node
-        </notMyNode>
-        <myNode>
+        </not-my-node>
+        <my-node>
           my node
-          <childNode>
-            child node
-          </childNode>
-          my node still
-        </myNode>
+        </my-node>
       </root>
       """;
-    final Optional<Document> document = XmlFunctions.loadXMLFromString(xmlString);
-
+    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlString);
+    
     // when
-    final Optional<Node> node = XmlFunctions.getNode("", document.get());
+    final Optional<Node> optionalNode = XmlFunctions.getNode("//*[local-name()='my-node']", optionalDocument.get());
+    // final Node node = optionalNode.get();
 
     // then
-    assertTrue(node.isPresent());
+    assertTrue(optionalNode.isPresent());
+    // assertTrue(node.getNodeValue().equals("my node"));
   }
 }
