@@ -49,7 +49,7 @@ public class XmlFunctionsTest {
   }
 
   @Test
-  public void returnMatchingNode(){
+  public void returnMatchingNodeByName(){
     // given
     final String xmlString = """
       <?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -65,11 +65,35 @@ public class XmlFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlString);
     
     // when
-    final Optional<Node> optionalModificationNode = XmlFunctions.getNode("//*[local-name()='my-node']", optionalDocument.get());
-    final Node node = optionalModificationNode.get();
+    String xPathExpression = "//*[local-name()='my-node']";
+    final Optional<Node> optionalMyNode = XmlFunctions.getNode(xPathExpression, optionalDocument.get());
 
     // then
-    assertTrue(optionalModificationNode.isPresent());
-    assertTrue(node.getTextContent().contains("my node"));
+    assertTrue(optionalMyNode.isPresent());
+    assertTrue(optionalMyNode.get().getTextContent().contains("my node"));
+  }
+
+  @Test
+  public void returnMatchingNodeByAttributeValue() {
+    // given
+    final String xmlText = """
+        <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+        <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+                                    eId="theEId"
+                                    refersTo="aenderungsbefehl-ersetzen">
+
+            my node
+            
+        </akn:mod>
+        """;
+    
+    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+
+    // when
+    final String xPathExpression = "//*[@eId='theEId']";
+    final Optional<Node> optionalNodeByEId = XmlFunctions.getNode(xPathExpression, optionalDocument.get());
+
+    // then
+    assertTrue(optionalNodeByEId.isPresent());
   }
 }
