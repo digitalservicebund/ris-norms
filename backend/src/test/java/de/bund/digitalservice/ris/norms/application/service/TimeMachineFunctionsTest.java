@@ -328,7 +328,7 @@ public class TimeMachineFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
-    final Optional<String> optionalNewTextInReplacement = TimeMachineFunctions.getTextToBeReplaced(optionalDocument.get());
+    final Optional<String> optionalNewTextInReplacement = TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
 
     // then
     assertTrue(optionalNewTextInReplacement.isPresent());
