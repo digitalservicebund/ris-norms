@@ -65,12 +65,12 @@ public class XmlFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlString);
     
     // when
-    final Optional<Node> optionalNode = XmlFunctions.getNode("//*[local-name()='my-node']", optionalDocument.get());
-    // final Node node = optionalNode.get();
+    final Optional<Node> optionalModificationNode = XmlFunctions.getNode("//*[local-name()='my-node']", optionalDocument.get());
+    final Node node = optionalModificationNode.get();
 
     // then
-    assertTrue(optionalNode.isPresent());
+    assertTrue(optionalModificationNode.isPresent());
     // TODO:
-    // assertTrue(node.getNodeValue().equals("my node"));
+    assertTrue(node.getTextContent().contains("my node"));
   }
 }
