@@ -1,57 +1,110 @@
 <script lang="ts" setup>
-import type { Component } from "vue"
-import { computed, h } from "vue"
+import { computed, type Component } from "vue"
+import { RouteLocationRaw, RouterLink } from "vue-router"
 
-interface Props {
-  label?: string
-  icon?: Component
-  ariaLabel?: string
-  disabled?: boolean
-  href?: string
+type LinkButtonHref = {
+  href: string
   target?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  label: undefined,
-  icon: undefined,
-  ariaLabel: undefined,
-  disabled: false,
-  href: undefined,
-  target: undefined,
+const props = withDefaults(
+  defineProps<{
+    /**
+     * The label of the button. For accesssibility reasons, this is always
+     * required, including for buttons only displaying an icon.
+     */
+    label: string
+
+    /** An optional icon to be displayed next to the label. */
+    icon?: Component
+
+    /**
+     * Visually hides the label to display only an icon. Note that for
+     * accessibility reasons, you will still need to provide a label.
+     *
+     * @default false
+     */
+    iconOnly?: boolean
+
+    /**
+     * The visual appearance of the button.
+     *
+     * @default "primary"
+     */
+    variant?: "primary" | "secondary" | "tertiary" | "ghost"
+
+    /**
+     * The size of the button.
+     *
+     * @default "default" (regular size)
+     */
+    size?: "default" | "large" | "small"
+
+    /**
+     * Disables the button.
+     *
+     * @default false
+     */
+    disabled?: boolean
+
+    /**
+     * When set to true, the button will stretch to take up the entire
+     * available width.
+     *
+     * @default false
+     */
+    fullWidth?: boolean
+
+    /**
+     * When provided, the button will be rendered as a link with the
+     * appearance of a button. Use this when clicking the button should
+     * trigger a navigation. You can provide a link to a route inside the
+     * app or an external link.
+     */
+    to?: RouteLocationRaw | LinkButtonHref
+  }>(),
+  {
+    icon: undefined,
+    variant: "primary",
+    size: "default",
+    to: undefined,
+  },
+)
+
+const tag = computed<"a" | "button" | typeof RouterLink>(() => {
+  if (!props.to) return "button"
+  else if ("href" in (props.to as LinkButtonHref)) return "a"
+  else return RouterLink
 })
 
-const buttonClasses = computed(() => ({
-  "ds-button-ghost": true,
-  "ds-button-with-icon": props.icon,
-  "is-disabled": props.href && props.disabled,
-}))
-
-const sanitizedUrl = computed(() => props.href)
-
-const renderIcon = () =>
-  props.icon ? h(props.icon, { class: "ds-button-icon" }) : undefined
-
-const renderLabel = () =>
-  props.label ? h("span", { class: "ds-button-label" }, props.label) : undefined
-
-const render = () => {
-  const { disabled, href } = props
-  const tag = href && !disabled ? "a" : "button"
-
-  return h(
-    tag,
-    {
-      class: ["ds-button", buttonClasses.value],
-      "aria-label": props.ariaLabel,
-      disabled: !href && disabled,
-      href: sanitizedUrl.value,
-      target: props.target,
-    },
-    [renderIcon(), renderLabel()],
-  )
-}
+const linkBindings = computed(() => {
+  if (tag.value === "button" || props.disabled) return undefined
+  else if (tag.value === "a") return { ...(props.to as LinkButtonHref) }
+  else return { to: props.to }
+})
 </script>
 
 <template>
-  <render />
+  <component
+    :is="tag"
+    :class="{
+      'ds-button': true,
+      'ds-button-with-icon': !!icon,
+      'ds-button-with-icon-only': iconOnly,
+      'ds-button-secondary': variant === 'secondary',
+      'ds-button-tertiary': variant === 'tertiary',
+      'ds-button-ghost': variant === 'ghost',
+      'is-disabled': disabled,
+      'ds-button-large': size === 'large',
+      'ds-button-small': size === 'small',
+      'ds-button-full-width': fullWidth,
+    }"
+    :disabled="tag === 'button' && disabled === true ? true : undefined"
+    v-bind="linkBindings"
+  >
+    <component :is="icon" v-if="icon" class="ds-button-icon" alt="" />
+    <span class="ds-button-label" :class="{ 'sr-only': iconOnly }">{{
+      label
+    }}</span>
+  </component>
 </template>

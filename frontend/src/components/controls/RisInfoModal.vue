@@ -32,11 +32,11 @@ const props = withDefaults(
     </div>
 
     <RisTextButton
-      :href="href"
-      :target="target"
+      :to="{ href: href ?? '', target }"
       :icon="EditOutlineIcon"
       :label="iconText"
       class="flex w-288 items-center"
+      variant="ghost"
     />
   </div>
 </template>
