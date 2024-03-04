@@ -25,8 +25,14 @@ public class TimeMachineFunctions {
   }
 
   static Optional<String> getEIdfromModificationHref(String modificationEli) {
-    final String[] hrefParts = modificationEli.split("/");
-    final String eId = hrefParts[hrefParts.length - 2];
-    return Optional.of(eId);
+    try {
+      final String[] hrefParts = modificationEli.split("/");
+      final String eId = hrefParts[hrefParts.length - 2];
+      return Optional.of(eId);
+    } catch (Exception e) {
+      // TODO: Probably do something with the exception. Logging?
+    }
+
+    return Optional.empty();
   }
 }
