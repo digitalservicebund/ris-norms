@@ -140,12 +140,11 @@ export interface LevelTwoMenuItem {
   <aside aria-labelledby="sidebarNavigation" class="w-[16rem]">
     <span id="sidebarNavigation" hidden>SideBar Navigation</span>
     <router-link
-      aria-labelledby="toOverviewButton"
       class="ds-link-01-bold flex h-80 items-center gap-12 border-b border-gray-400 px-14 text-blue-800"
       :to="goBackRoute"
     >
-      <IconArrowBack class="text-18" />
-      <span id="toOverviewButton">{{ goBackLabel }}</span>
+      <IconArrowBack class="text-18" alt="" />
+      <span>{{ goBackLabel }}</span>
     </router-link>
 
     <div

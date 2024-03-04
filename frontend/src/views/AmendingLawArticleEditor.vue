@@ -52,12 +52,11 @@ const amendingLaw = useAmendingLaw(eli)
     <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
 
     <router-link
-      aria-labelledby="toOverviewButton"
       class="ds-link-01-bold -mb-28 flex h-80 items-center gap-12 px-40 text-blue-800"
       :to="{ name: 'AmendingLawArticles' }"
     >
-      <IconArrowBack class="text-18" />
-      <span id="toOverviewButton">Zurück</span>
+      <IconArrowBack class="text-18" alt="" />
+      <span>Zurück</span>
     </router-link>
 
     <div class="flex h-dvh flex-col p-40">
