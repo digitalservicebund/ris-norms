@@ -119,7 +119,7 @@ public class XmlFunctionsTest {
     
     
     // when
-    final Document clonedDocument = XmlFunctions.cloneDocument(originalDocument);
+    final Document clonedDocument = XmlFunctions.cloneDocument(originalDocument).get();
     final String textOfClonedDocumentModification = XmlFunctions.getNode(xPathExpresion, clonedDocument).get().getTextContent();
     
 

@@ -62,4 +62,20 @@ public class XmlFunctions {
 
     return Optional.empty();
   }
+
+  static Optional<Document> cloneDocument(Document originalDocument){
+    try {
+      Node originalRootNode = originalDocument.getDocumentElement();
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      Document clonedDocument = db.newDocument();
+      Node clonedRootNode = clonedDocument.importNode(originalRootNode, true);
+      clonedDocument.appendChild(clonedRootNode);
+      return Optional.of(clonedDocument);
+    } catch (Exception e) {
+      // TODO: do something with e?
+    }
+
+    return Optional.empty();
+  }
 }
