@@ -151,4 +151,17 @@ public class TimeMachineFunctionsTest {
     assertTrue(optionalHref.isPresent());
     assertTrue(optionalHref.get().equals("some/href/with/slashes.xml"));
   }
+
+  /** getEIdFromModificationHref */
+  @Test
+  public void getEIdFromModificationHref(){
+    // given
+    final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml";
+
+    // when
+    final String eId = getEIdFromModificationHref(eli);
+
+    //then
+    assertTrue(eId.equals("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")));
+  }
 }
