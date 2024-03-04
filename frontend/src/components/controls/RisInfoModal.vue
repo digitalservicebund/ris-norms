@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import EditOutlineIcon from "~icons/ic/outline-edit"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
+import { RouteLocationRaw } from "vue-router"
 
 const props = withDefaults(
   defineProps<{
@@ -8,8 +9,7 @@ const props = withDefaults(
     title: string
     description?: string
     iconText?: string
-    href?: string
-    target?: string
+    to?: RouteLocationRaw
   }>(),
   {
     ariaLabel: "Infomodal",
@@ -17,6 +17,7 @@ const props = withDefaults(
     iconText: "",
     href: undefined,
     target: undefined,
+    to: undefined,
   },
 )
 </script>
@@ -32,7 +33,7 @@ const props = withDefaults(
     </div>
 
     <RisTextButton
-      :to="{ href: href ?? '', target }"
+      :to
       :icon="EditOutlineIcon"
       :label="iconText"
       class="flex w-288 items-center"
