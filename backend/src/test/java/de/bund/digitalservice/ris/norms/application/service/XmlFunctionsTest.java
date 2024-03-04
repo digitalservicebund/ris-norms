@@ -4,15 +4,15 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-public class XmlFunctionsTest {
+class XmlFunctionsTest {
 
   /** loadXmlFromString */
   @Test
-  public void documentGeneratedFromValidXmlStringMustNotBeEmpty() {
+  void documentGeneratedFromValidXmlStringMustNotBeEmpty() {
     // given
     final String input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
 
@@ -24,7 +24,7 @@ public class XmlFunctionsTest {
   }
 
   @Test
-  public void documentGeneratedFromInValidXmlStringMustBeEmpty() {
+  void documentGeneratedFromInValidXmlStringMustBeEmpty() {
     // given
     final String input = "invalid XML; does not even have an XML declaration";
 
@@ -37,7 +37,7 @@ public class XmlFunctionsTest {
 
   /** getNode() */
   @Test
-  public void returnEmptyIfNoNodeMatches() {
+  void returnEmptyIfNoNodeMatches() {
     // given
     final String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
     final Optional<Document> document = XmlFunctions.loadXMLFromString(xmlString);
@@ -50,7 +50,7 @@ public class XmlFunctionsTest {
   }
 
   @Test
-  public void returnMatchingNodeByName() {
+  void returnMatchingNodeByName() {
     // given
     final String xmlString =
         """
@@ -77,7 +77,7 @@ public class XmlFunctionsTest {
   }
 
   @Test
-  public void returnMatchingNodeByAttributeValue() {
+  void returnMatchingNodeByAttributeValue() {
     // given
     final String xmlText =
         """
@@ -104,7 +104,7 @@ public class XmlFunctionsTest {
 
   /** cloneDocument() */
   @Test
-  public void clonedDocumentMustNoBeIdentical() {
+  void clonedDocumentMustNoBeIdentical() {
     // given
     final String xmlText =
         """
