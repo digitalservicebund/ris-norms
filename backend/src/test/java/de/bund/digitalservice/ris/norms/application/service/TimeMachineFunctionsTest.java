@@ -266,4 +266,28 @@ public class TimeMachineFunctionsTest {
     assertTrue(optionalTextToBeReplaced.isPresent());
     assertTrue(optionalTextToBeReplaced.get().equals("old text"));
   }
+
+  /** getNewTextInReplacement() */
+  @Test
+  public void returnEmptyIfNoQuotedTextIsFoundInReplacement(){
+    // given
+    final String xmlText = """
+      <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:mod>
+             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace 
+            </akn:mod>
+
+            Note that no quoted texts were given
+
+          </akn:body>
+        """;
+    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+
+    // when
+    final Optional<String> optionalNewTextInReplacement = TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
+
+    // then
+    assertTrue(optionalNewTextInReplacement.isEmpty());
+  }
 }
