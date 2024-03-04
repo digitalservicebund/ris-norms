@@ -3,15 +3,15 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-public class TimeMachineFunctionsTest {
+class TimeMachineFunctionsTest {
 
   /** applyTimeMachine() */
   @Test
-  public void xmlDocumentsGoInAndOut() {
+  void xmlDocumentsGoInAndOut() {
     // given
     final String minimalXmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
     final Document amendingLaw = XmlFunctions.loadXMLFromString(minimalXmlString).get();
@@ -24,7 +24,7 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void targetLawStaysUnchangedIfAmendingLawHasNoModifications() {
+  void targetLawStaysUnchangedIfAmendingLawHasNoModifications() {
     // given
     final Document amendingLaw =
         XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
@@ -39,7 +39,7 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
+  void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
     // given two documents, the amending and the target law
     final String amendingLawXmlText =
         """
@@ -86,7 +86,7 @@ public class TimeMachineFunctionsTest {
 
   /** getFirstModification() */
   @Test
-  public void returnEmptyIfThereIsNoFirstModification() {
+  void returnEmptyIfThereIsNoFirstModification() {
     // given
     final Document amendingLawWithoutModification =
         XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
@@ -99,7 +99,7 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void returnModificationNodeIfThereIsAFirstModification() {
+  void returnModificationNodeIfThereIsAFirstModification() {
     // given
     final String xmlText =
         """
@@ -118,7 +118,7 @@ public class TimeMachineFunctionsTest {
 
   /** findHrefInModification() */
   @Test
-  public void returnEmptyIfNoHrefInModification() {
+  void returnEmptyIfNoHrefInModification() {
     // given
     final String xmlText =
         """
@@ -161,7 +161,7 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void returnHrefInModification() {
+  void returnHrefInModification() {
     // given
     final String xmlText =
         """
@@ -206,7 +206,7 @@ public class TimeMachineFunctionsTest {
 
   /** getEIdFromModificationHref */
   @Test
-  public void returnEmptyIfModificationHrefCannotBeSplitToGetEli() {
+  void returnEmptyIfModificationHrefCannotBeSplitToGetEli() {
     // given
     final String modificationHref = "can't be split as it has no slashes";
 
@@ -219,7 +219,7 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void getEIdFromModificationHref() {
+  void getEIdFromModificationHref() {
     // given
     final String modificationHref =
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml";
@@ -235,7 +235,7 @@ public class TimeMachineFunctionsTest {
 
   /** findNodeByEId */
   @Test
-  public void returnEmptyIfNoNodeFoundByEId() {
+  void returnEmptyIfNoNodeFoundByEId() {
     // given
     final String xmlText =
         """
@@ -257,7 +257,7 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void findNodeByEId() {
+  void findNodeByEId() {
     // given
     // given
     final String xmlText =
@@ -282,8 +282,7 @@ public class TimeMachineFunctionsTest {
 
   /** getTextToBeReplaced */
   @Test
-  public void
-      returnEmptyIfNoQuotedTextIsFound() { // TODO: return empty if only one quotedText is found
+  void returnEmptyIfNoQuotedTextIsFound() { // TODO: return empty if only one quotedText is found
     // given
     final String xmlText =
         """
@@ -308,7 +307,7 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void getTextToBeReplaced() {
+  void getTextToBeReplaced() {
     // given
     final String xmlText =
         """
@@ -332,7 +331,7 @@ public class TimeMachineFunctionsTest {
 
   /** getNewTextInReplacement() */
   @Test
-  public void returnEmptyIfNoQuotedTextIsFoundInReplacement() {
+  void returnEmptyIfNoQuotedTextIsFoundInReplacement() {
     // given
     final String xmlText =
         """
@@ -357,7 +356,7 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void returnEmptyIfOnlyOneQuotedTextIsFoundInReplacement() {
+  void returnEmptyIfOnlyOneQuotedTextIsFoundInReplacement() {
     // given
     final String xmlText =
         """
@@ -382,7 +381,7 @@ public class TimeMachineFunctionsTest {
   }
 
   @Test
-  public void getNewTextInReplacement() {
+  void getNewTextInReplacement() {
     // given
     final String xmlText =
         """
