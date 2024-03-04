@@ -153,13 +153,26 @@ public class TimeMachineFunctionsTest {
   }
 
   /** getEIdFromModificationHref */
+
+  @Test
+  public void returnEmptyIfModificationHrefCannotBeSplitToGetEli(){
+    // given
+    final String modificationHref = "can't be split as it has no slashes";
+
+    // when
+    final Optional<String> optionalEId = TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
+
+    // then
+    assertTrue(optionalEId.isEmpty());
+  }
+
   @Test
   public void getEIdFromModificationHref(){
     // given
-    final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml";
+    final String modificationHref = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml";
 
     // when
-    final Optional<String> optionalEId = TimeMachineFunctions.getEIdfromModificationHref(eli);
+    final Optional<String> optionalEId = TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
 
     //then
     assertTrue(optionalEId.isPresent());
