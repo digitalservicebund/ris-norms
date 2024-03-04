@@ -15,44 +15,45 @@ public class XmlFunctionsTest {
   public void documentGeneratedFromValidXmlStringMustNotBeEmpty() {
     // given
     final String input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
-    
+
     // when
     final Optional<Document> result = XmlFunctions.loadXMLFromString(input);
-    
+
     // then
     assertTrue(result.isPresent());
   }
-  
+
   @Test
   public void documentGeneratedFromInValidXmlStringMustBeEmpty() {
     // given
     final String input = "invalid XML; does not even have an XML declaration";
-    
+
     // when
     final Optional<Document> result = XmlFunctions.loadXMLFromString(input);
-    
+
     // then
     assertTrue(result.isEmpty());
   }
-  
+
   /** getNode() */
   @Test
-  public void returnEmptyIfNoNodeMatches(){
+  public void returnEmptyIfNoNodeMatches() {
     // given
     final String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
     final Optional<Document> document = XmlFunctions.loadXMLFromString(xmlString);
-    
+
     // when
     final Optional<Node> node = XmlFunctions.getNode("", document.get());
-    
+
     // then
     assertTrue(node.isEmpty());
   }
 
   @Test
-  public void returnMatchingNodeByName(){
+  public void returnMatchingNodeByName() {
     // given
-    final String xmlString = """
+    final String xmlString =
+        """
       <?xml version=\"1.0\" encoding=\"UTF-8\"?>
       <root>
         <not-my-node>
@@ -64,10 +65,11 @@ public class XmlFunctionsTest {
       </root>
       """;
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlString);
-    
+
     // when
     String xPathExpression = "//*[local-name()='my-node']";
-    final Optional<Node> optionalMyNode = XmlFunctions.getNode(xPathExpression, optionalDocument.get());
+    final Optional<Node> optionalMyNode =
+        XmlFunctions.getNode(xPathExpression, optionalDocument.get());
 
     // then
     assertTrue(optionalMyNode.isPresent());
@@ -77,22 +79,24 @@ public class XmlFunctionsTest {
   @Test
   public void returnMatchingNodeByAttributeValue() {
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="theEId"
                                     refersTo="aenderungsbefehl-ersetzen">
 
             my node
-            
+
         </akn:mod>
         """;
-    
+
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
     final String xPathExpression = "//*[@eId='theEId']";
-    final Optional<Node> optionalNodeByEId = XmlFunctions.getNode(xPathExpression, optionalDocument.get());
+    final Optional<Node> optionalNodeByEId =
+        XmlFunctions.getNode(xPathExpression, optionalDocument.get());
 
     // then
     assertTrue(optionalNodeByEId.isPresent());
@@ -100,28 +104,29 @@ public class XmlFunctionsTest {
 
   /** cloneDocument() */
   @Test
-  public void clonedDocumentMustNoBeIdentical(){
+  public void clonedDocumentMustNoBeIdentical() {
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="theEId"
                                     refersTo="aenderungsbefehl-ersetzen">
 
             my node
-            
+
         </akn:mod>
         """;
-    
+
     final Document originalDocument = XmlFunctions.loadXMLFromString(xmlText).get();
     final String xPathExpresion = "//*[@eId='theEId']";
-    final String textOfOriginalDocumentModification = XmlFunctions.getNode(xPathExpresion, originalDocument).get().getTextContent();
-    
-    
+    final String textOfOriginalDocumentModification =
+        XmlFunctions.getNode(xPathExpresion, originalDocument).get().getTextContent();
+
     // when
     final Document clonedDocument = XmlFunctions.cloneDocument(originalDocument).get();
-    final String textOfClonedDocumentModification = XmlFunctions.getNode(xPathExpresion, clonedDocument).get().getTextContent();
-    
+    final String textOfClonedDocumentModification =
+        XmlFunctions.getNode(xPathExpresion, clonedDocument).get().getTextContent();
 
     // then
     assertTrue(textOfOriginalDocumentModification.equals(textOfClonedDocumentModification));
