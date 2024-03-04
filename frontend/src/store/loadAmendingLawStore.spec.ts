@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest"
 import { setActivePinia, createPinia } from "pinia"
-import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
+import { useAmendingLawStore } from "@/store/loadAmendingLawStore"
 import {
   AmendingLaw,
   getAmendingLawByEli,
@@ -38,7 +38,7 @@ describe("useAmendingLawsStore", () => {
   })
 
   it("loads amending laws correctly", async () => {
-    const store = useAmendingLawsStore()
+    const store = useAmendingLawStore()
 
     store.loadAmendingLawByEli(eli)
     await nextTick()

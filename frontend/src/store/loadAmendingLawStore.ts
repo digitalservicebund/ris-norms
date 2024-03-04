@@ -5,7 +5,7 @@ import {
   getAmendingLawByEli,
 } from "@/services/amendingLawsService"
 
-export const useAmendingLawsStore = defineStore("loaded-amending-law", () => {
+export const useAmendingLawStore = defineStore("loaded-amending-law", () => {
   const loadedAmendingLaw = ref<AmendingLaw | undefined>(undefined)
   const eli = ref<string | undefined>(undefined)
   const loading = ref<boolean>(false)

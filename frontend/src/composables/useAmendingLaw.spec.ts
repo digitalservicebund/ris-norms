@@ -15,7 +15,7 @@ describe("useAmendingLaw", () => {
     })
 
     vi.doMock("@/store/loadAmendingLawStore", () => ({
-      useAmendingLawsStore: vi.fn().mockReturnValue(
+      useAmendingLawStore: vi.fn().mockReturnValue(
         defineStore("loaded-amending-law", () => {
           return {
             loadedAmendingLaw: ref({
@@ -60,7 +60,7 @@ describe("useAmendingLaw", () => {
     })
 
     vi.doMock("@/store/loadAmendingLawStore", () => ({
-      useAmendingLawsStore: vi.fn().mockReturnValue(
+      useAmendingLawStore: vi.fn().mockReturnValue(
         defineStore("loaded-amending-law", () => {
           return {
             loadedAmendingLaw: ref(),

@@ -1,4 +1,4 @@
-import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
+import { useAmendingLawStore } from "@/store/loadAmendingLawStore"
 import { storeToRefs } from "pinia"
 import {
   readonly,
@@ -18,7 +18,7 @@ import { AmendingLaw } from "@/services/amendingLawsService"
 export function useAmendingLaw(
   eli: MaybeRefOrGetter<string>,
 ): DeepReadonly<Ref<AmendingLaw | undefined>> {
-  const amendingLawsStore = useAmendingLawsStore()
+  const amendingLawsStore = useAmendingLawStore()
   const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
 
   watch(
