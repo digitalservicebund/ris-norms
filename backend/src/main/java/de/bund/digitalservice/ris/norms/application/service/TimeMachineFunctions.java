@@ -23,4 +23,6 @@ public class TimeMachineFunctions {
     Optional<Node> optionalNode = XmlFunctions.getNode("//*[local-name()='mod']", amendingLaw);
     return optionalNode;
   }
+
+  static String<Node>
 }
