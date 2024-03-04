@@ -221,4 +221,26 @@ public class TimeMachineFunctionsTest {
     assertTrue(optionalNode.isPresent());
     assertTrue(optionalNode.get().getTextContent().contains("Note the eId in the attributes"));
   }
+
+  /** getTextToBeReplaced */
+  @Test
+  public void getTextToBeReplaced(){
+    // given
+    final String xmlText = """
+      <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:mod>
+             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old text</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+            </akn:mod>
+          </akn:body>
+        """;
+    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+
+    // when
+    final Optional<String> optionalTextToBeReplaced = TimeMachineFunctions.getTextToBeReplaced(optionalDocument.get());
+
+    // then
+    assertTrue(optionalTextToBeReplaced.isPresent());
+    assertTrue(optionalTextToBeReplaced.get().equals("old text"));
+  }
 }
