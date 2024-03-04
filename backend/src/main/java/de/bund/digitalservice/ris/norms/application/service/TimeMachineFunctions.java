@@ -5,8 +5,6 @@ import java.util.Optional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import com.google.protobuf.Option;
-
 /** TODO */
 public class TimeMachineFunctions {
 
@@ -57,6 +55,13 @@ public class TimeMachineFunctions {
   }
 
   static Optional<String> getNewTextInReplacement(Node node) {
+    final String xPathExpression = "(//*[local-name()='quotedText'])[2]";
+    final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpression, node);
+    
+    if (optionalNode.isPresent()){
+      final String newText = optionalNode.get().getTextContent();
+      return Optional.of(newText);
+    }
     return Optional.empty();
   }
 }
