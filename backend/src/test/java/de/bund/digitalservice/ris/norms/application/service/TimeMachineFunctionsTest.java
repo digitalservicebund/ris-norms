@@ -201,4 +201,30 @@ public class TimeMachineFunctionsTest {
     // then
     assertTrue(optionalNode.isEmpty());
   }
+
+  @Test
+  public void findNodeByEId() {
+    // given
+    final String xmlString = """    
+        <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+        <akn:mod eId="not the mod we want to find">
+          some modification we don't want to find
+        <akn:mod>
+        <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+                 eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+                 refersTo="aenderungsbefehl-ersetzen">
+    
+            some modification with an eId
+                   
+        </akn:mod>
+    """;
+    final Optional<Document> document = XmlFunctions.loadXMLFromString(xmlString);
+
+    // when
+    final Optional<Node> optionalNode = TimeMachineFunctions.findNodeByEId("art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1");
+
+    // then
+    assertTrue(optionalNode.isPresent());
+    assertTrue(optionalNode.get().getTextContent().contains("some modification with an eId"));
+  }
 }
