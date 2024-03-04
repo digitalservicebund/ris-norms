@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.TargetLawDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ArticleMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
@@ -29,7 +30,8 @@ public class DBService
         LoadAllAmendingLawsPort,
         LoadArticlesPort,
         LoadArticlePort,
-        LoadTargetLawPort {
+        LoadTargetLawPort,
+        LoadTargetLawXmlPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -88,12 +90,17 @@ public class DBService
   }
 
   @Override
+  public Optional<String> loadAmendingLawXmlByEli(LoadAmendingLawXmlPort.Command command) {
+    return amendingLawRepository.findByEli(command.eli()).map(AmendingLawDto::getXml);
+  }
+
+  @Override
   public Optional<TargetLaw> loadTargetLawByEli(LoadTargetLawPort.Command command) {
     return targetLawRepository.findByEli(command.eli()).map(TargetLawMapper::mapToDomain);
   }
 
   @Override
-  public Optional<String> loadAmendingLawXmlByEli(LoadAmendingLawXmlPort.Command command) {
-    return amendingLawRepository.findByEli(command.eli()).map(AmendingLawDto::getXml);
+  public Optional<String> loadTargetLawXmlByEli(LoadTargetLawXmlPort.Command command) {
+    return targetLawRepository.findByEli(command.eli()).map(TargetLawDto::getXml);
   }
 }

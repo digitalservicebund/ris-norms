@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,11 +33,13 @@ class TargetLawControllerTest {
   private MockMvc mockMvc;
 
   @MockBean private LoadTargetLawUseCase loadTargetLawUseCase;
+  @MockBean private LoadTargetLawXmlUseCase loadTargetLawXmlUseCase;
 
   @BeforeEach
   public void setUp() {
     mockMvc =
-        MockMvcBuilders.standaloneSetup(new TargetLawController(loadTargetLawUseCase))
+        MockMvcBuilders.standaloneSetup(
+                new TargetLawController(loadTargetLawUseCase, loadTargetLawXmlUseCase))
             .setControllerAdvice(new InternalErrorExceptionHandler())
             .build();
   }
