@@ -159,7 +159,7 @@ public class TimeMachineFunctionsTest {
     final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml";
 
     // when
-    final Optional<String> optionalEId = getEIdFromModificationHref(eli);
+    final Optional<String> optionalEId = TimeMachineFunctions.getEIdfromModificationHref(eli);
 
     //then
     assertTrue(optionalEId.isPresent());
