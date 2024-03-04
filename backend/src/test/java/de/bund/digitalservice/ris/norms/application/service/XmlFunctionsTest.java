@@ -96,4 +96,28 @@ public class XmlFunctionsTest {
     // then
     assertTrue(optionalNodeByEId.isPresent());
   }
+
+  /** cloneDocument() */
+  @Test
+  public void returnClonedDocument(){
+    // given
+    final String xmlText = """
+        <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+        <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+                                    eId="theEId"
+                                    refersTo="aenderungsbefehl-ersetzen">
+
+            my node
+            
+        </akn:mod>
+        """;
+    
+    final Document originalDocument = XmlFunctions.loadXMLFromString(xmlText).get();
+
+    // when
+    final Document clonedDocument = cloneDocument(originalDocument);
+
+    // then
+    assertEquals(originalDocument, clonedDocument);
+  }
 }
