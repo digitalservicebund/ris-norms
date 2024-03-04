@@ -70,6 +70,7 @@ public class XmlFunctionsTest {
 
     // then
     assertTrue(optionalNode.isPresent());
+    // TODO:
     // assertTrue(node.getNodeValue().equals("my node"));
   }
 }
