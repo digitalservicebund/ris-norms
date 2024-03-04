@@ -6,11 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ArticleMa
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlePort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -29,6 +25,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DBService
     implements LoadAmendingLawPort,
+        LoadAmendingLawXmlPort,
         LoadAllAmendingLawsPort,
         LoadArticlesPort,
         LoadArticlePort,
@@ -93,5 +90,10 @@ public class DBService
   @Override
   public Optional<TargetLaw> loadTargetLawByEli(LoadTargetLawPort.Command command) {
     return targetLawRepository.findByEli(command.eli()).map(TargetLawMapper::mapToDomain);
+  }
+
+  @Override
+  public Optional<String> loadAmendingLawXmlByEli(LoadAmendingLawXmlPort.Command command) {
+    return amendingLawRepository.findByEli(command.eli()).map(AmendingLawDto::getXml);
   }
 }

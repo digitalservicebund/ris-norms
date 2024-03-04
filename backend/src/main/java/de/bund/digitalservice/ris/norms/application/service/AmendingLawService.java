@@ -1,13 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAmendingLawsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlePort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadArticlesPort;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import java.util.List;
@@ -22,11 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class AmendingLawService
     implements LoadAmendingLawUseCase,
+        LoadAmendingLawXmlUseCase,
         LoadAllAmendingLawsUseCase,
         LoadArticleUseCase,
         LoadArticlesUseCase {
 
   private final LoadAmendingLawPort loadAmendingLawPort;
+  private final LoadAmendingLawXmlPort loadAmendingLawXmlPort;
   private final LoadAllAmendingLawsPort loadAllAmendingLawsPort;
   private final LoadArticlesPort loadArticlesPort;
   private final LoadArticlePort loadArticlePort;
@@ -39,10 +35,12 @@ public class AmendingLawService
    */
   public AmendingLawService(
       LoadAmendingLawPort loadAmendingLawPort,
+      LoadAmendingLawXmlPort loadAmendingLawXmlPort,
       LoadAllAmendingLawsPort loadAllAmendingLawsPort,
       LoadArticlesPort loadArticlesPort,
       LoadArticlePort loadArticlePort) {
     this.loadAmendingLawPort = loadAmendingLawPort;
+    this.loadAmendingLawXmlPort = loadAmendingLawXmlPort;
     this.loadAllAmendingLawsPort = loadAllAmendingLawsPort;
     this.loadArticlesPort = loadArticlesPort;
     this.loadArticlePort = loadArticlePort;
@@ -67,5 +65,11 @@ public class AmendingLawService
   public Optional<Article> loadArticle(final LoadArticleUseCase.Query query) {
     return loadArticlePort.loadArticleByEliAndEid(
         new LoadArticlePort.Command(query.eli(), query.eId()));
+  }
+
+  @Override
+  public Optional<String> loadAmendingLawXml(LoadAmendingLawXmlUseCase.Query query) {
+    return loadAmendingLawXmlPort.loadAmendingLawXmlByEli(
+        new LoadAmendingLawXmlPort.Command(query.eli()));
   }
 }

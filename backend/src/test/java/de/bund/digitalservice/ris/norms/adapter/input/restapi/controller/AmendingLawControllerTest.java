@@ -8,10 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAmendingLawsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -37,6 +34,7 @@ class AmendingLawControllerTest {
   private MockMvc mockMvc;
 
   @MockBean private LoadAmendingLawUseCase loadAmendingLawUseCase;
+  @MockBean private LoadAmendingLawXmlUseCase loadAmendingLawXmlUseCase;
   @MockBean private LoadAllAmendingLawsUseCase loadAllAmendingLawsUseCase;
   @MockBean private LoadArticlesUseCase loadArticlesUseCase;
   @MockBean private LoadArticleUseCase loadArticleUseCase;
@@ -47,6 +45,7 @@ class AmendingLawControllerTest {
         MockMvcBuilders.standaloneSetup(
                 new AmendingLawController(
                     loadAmendingLawUseCase,
+                    loadAmendingLawXmlUseCase,
                     loadAllAmendingLawsUseCase,
                     loadArticlesUseCase,
                     loadArticleUseCase))
