@@ -52,4 +52,17 @@ public class XmlFunctions {
 
     return Optional.empty();
   }
+
+  static Optional<String> findHrefInModificationNode(Node modificationNode){
+    try {
+      throw new Exception("not implemented, yet");
+      // Document nodeAsDocument = (Document) modificationNode;
+      // Optional<Node> optionalNodeHrefAttribute = getNode("//*[local-name()='ref']/@href", nodeAsDocument);
+      // String href = optionalNodeHrefAttribute.get().getNodeValue();
+    } catch (Exception e) {
+      // TODO: do something with e?
+    }
+
+    return Optional.empty();
+  }
 }
