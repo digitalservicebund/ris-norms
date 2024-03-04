@@ -12,7 +12,7 @@ archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 lombok = { module = "org.projectlombok:lombok" }
-mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.10.0"
+mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.11.0"
 postgresql = "org.postgresql:postgresql:42.7.2"
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
