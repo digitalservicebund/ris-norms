@@ -47,6 +47,12 @@ public class TimeMachineFunctions {
   static Optional<String> getTextToBeReplaced(Node node){
     final String xPathExpresion = "//*[local-name()='quotedText']";
     final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpresion, node);
-      return Optional.of(optionalNode.get().getTextContent());
+
+    if (optionalNode.isPresent()){
+      final String textToBeReplaced = optionalNode.get().getTextContent();
+      return Optional.of(textToBeReplaced);
+    }
+
+    return Optional.empty();
   }
 }
