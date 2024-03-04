@@ -55,4 +55,8 @@ public class TimeMachineFunctions {
 
     return Optional.empty();
   }
+
+  static Optional<String> getNewTextInReplacement(Node node) {
+    return Optional.empty();
+  }
 }
