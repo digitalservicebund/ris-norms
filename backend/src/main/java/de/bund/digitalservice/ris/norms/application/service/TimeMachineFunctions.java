@@ -24,5 +24,9 @@ public class TimeMachineFunctions {
     return optionalNode;
   }
 
-  static String<Node>
+  static Optional<String> getEIdfromModificationHref(String modificationEli) {
+    final String[] hrefParts = modificationEli.split("/");
+    final String eId = hrefParts[hrefParts.length - 2];
+    return Optional.of(eId);
+  }
 }
