@@ -2,11 +2,18 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import java.io.StringReader;
 import java.util.Optional;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
+
+import com.google.protobuf.Option;
 
 /** TODO */
 public class XmlFunctions {
@@ -33,9 +40,12 @@ public class XmlFunctions {
     return Optional.empty();
   }
 
-  static Optional<Node> getNode(String expression, Document document) {
+  static Optional<Node> getNode(String xPathExpression, Document document) {
     try {
-      throw new Exception("not implemented, yet");
+      XPathFactory xpathfactory = XPathFactory.newInstance();
+      XPath xpath = xpathfactory.newXPath();
+      Node node = (Node) xpath.evaluate(xPathExpression, document, XPathConstants.NODE);
+      return Optional.of(node);
     } catch (Exception e) {
       // TODO: do something with e?
     }
