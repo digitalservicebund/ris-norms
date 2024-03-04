@@ -219,6 +219,6 @@ public class TimeMachineFunctionsTest {
 
     // then
     assertTrue(optionalNode.isPresent());
-    assertTrue(optionalNode.get().getTextContent().contains("some modification with an eId"));
+    assertTrue(optionalNode.get().getTextContent().contains("Note the eId in the attributes"));
   }
 }
