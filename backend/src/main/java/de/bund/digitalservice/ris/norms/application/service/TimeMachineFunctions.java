@@ -36,7 +36,7 @@ public class TimeMachineFunctions {
     return Optional.empty();
   }
 
-  static Optional<Node> findNodeByEId(String eId){
+  static Optional<Node> findNodeByEId(String eId, Node node){
     return Optional.empty();
   }
 }

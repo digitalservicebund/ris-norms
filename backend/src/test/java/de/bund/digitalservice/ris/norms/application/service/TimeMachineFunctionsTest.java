@@ -183,20 +183,18 @@ public class TimeMachineFunctionsTest {
   @Test
   public void returnEmptyIfNoNodeFoundByEId() {
     // given
-    final String xmlString = """    
+    final String xmlText = """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
-                 eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
-                 refersTo="aenderungsbefehl-ersetzen">
-    
-            some modification with an eId
-                   
+                                    eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+                                    refersTo="aenderungsbefehl-ersetzen">
+            Note that the eId above does not match what we're looking for, below.
         </akn:mod>
-    """;
-    final Optional<Document> document = XmlFunctions.loadXMLFromString(xmlString);
+        """;
+    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
-    final Optional<Node> optionalNode = TimeMachineFunctions.findNodeByEId("non-matching eId");
+    final Optional<Node> optionalNode = TimeMachineFunctions.findNodeByEId("non-matching eId", optionalDocument.get());
 
     // then
     assertTrue(optionalNode.isEmpty());
