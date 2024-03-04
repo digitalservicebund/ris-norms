@@ -68,6 +68,76 @@ public class TimeMachineFunctionsTest {
     assertTrue(firstModificationNode.isPresent());
     // TODO:
     // assertTrue(firstModificationNode.get().toString().equals(xmlText));
-
   }
+
+  /** findHrefInModification() */
+  @Test
+  public void returnEmptyIfNoHrefInModification(){
+    // given
+    final String xmlText = """
+        <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+        <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+                                    eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+                                    refersTo="aenderungsbefehl-ersetzen">
+            In 
+            
+            <akn:ref >
+                § 20 Absatz 1 Satz 2
+            </akn:ref> 
+
+            wird die Angabe 
+            
+            <akn:quotedText startQuote="„" endQuote="“">
+                § 9 Abs. 1 Satz
+            </akn:quotedText> 
+            
+            durch die Wörter 
+            
+            <akn:quotedText startQuote="„" endQuote="“">
+                § 9 Absatz 1 Satz
+            </akn:quotedText> 
+            
+            ersetzt.
+        </akn:mod>
+        """;
+    
+    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Node> optionalModificationNode = XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
+
+    // when
+    final Optional<String> optionalHref = XmlFunctions.findHrefInModificationNode(optionalModificationNode.get());
+    
+    // then
+    assertTrue(optionalHref.isEmpty());
+  }
+
+  // @Test
+  // public void returnHrefInModification(){
+  //   final String xmlText = """
+  //       <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+  //       <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+  //                                   eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+  //                                   refersTo="aenderungsbefehl-ersetzen">
+  //           In 
+            
+  //           <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml">
+  //               § 20 Absatz 1 Satz 2
+  //           </akn:ref> 
+
+  //           wird die Angabe 
+            
+  //           <akn:quotedText startQuote="„" endQuote="“">
+  //               § 9 Abs. 1 Satz
+  //           </akn:quotedText> 
+            
+  //           durch die Wörter 
+            
+  //           <akn:quotedText startQuote="„" endQuote="“">
+  //               § 9 Absatz 1 Satz
+  //           </akn:quotedText> 
+            
+  //           ersetzt.
+  //       </akn:mod>
+  //       """;
+  // }
 }
