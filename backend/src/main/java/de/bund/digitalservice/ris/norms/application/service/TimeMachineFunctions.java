@@ -15,8 +15,8 @@ public class TimeMachineFunctions {
    * @param targetLaw
    * @return TODO
    */
-  public static Document applyTimeMachine(Document amendingLaw, Document targetLaw) {
-    return targetLaw;
+  public static Optional<Document> applyTimeMachine(Document amendingLaw, Document targetLaw) {
+    return Optional.of(targetLaw);
   }
 
   static Optional<Node> getFirstModification(Document amendingLaw){
