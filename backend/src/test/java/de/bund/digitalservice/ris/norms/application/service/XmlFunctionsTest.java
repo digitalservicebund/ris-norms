@@ -70,7 +70,6 @@ public class XmlFunctionsTest {
 
     // then
     assertTrue(optionalModificationNode.isPresent());
-    // TODO:
     assertTrue(node.getTextContent().contains("my node"));
   }
 }

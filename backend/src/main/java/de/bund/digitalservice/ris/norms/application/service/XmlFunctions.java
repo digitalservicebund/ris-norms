@@ -41,12 +41,12 @@ public class XmlFunctions {
     return Optional.empty();
   }
 
-  static Optional<Node> getNode(String xPathExpression, Document document) {
+  static Optional<Node> getNode(String xPathExpression, Node node) {
     try {
       XPathFactory xpathfactory = XPathFactory.newInstance();
       XPath xpath = xpathfactory.newXPath();
-      Node node = (Node) xpath.evaluate(xPathExpression, document, XPathConstants.NODE);
-      return Optional.of(node);
+      Node nodeByXPath = (Node) xpath.evaluate(xPathExpression, node, XPathConstants.NODE);
+      return Optional.of(nodeByXPath);
     } catch (Exception e) {
       // TODO: do something with e?
     }
@@ -56,8 +56,7 @@ public class XmlFunctions {
 
   static Optional<String> findHrefInModificationNode(Node modificationNode){
     try {
-      Document nodeAsDocument = (Document) modificationNode;
-      Optional<Node> optionalNodeHrefAttribute = getNode("//*[local-name()='ref']/@href", nodeAsDocument);
+      Optional<Node> optionalNodeHrefAttribute = getNode("//*[local-name()='ref']/@href", modificationNode);
       String href = optionalNodeHrefAttribute.get().getNodeValue();
       return Optional.of(href);
     } catch (Exception e) {
