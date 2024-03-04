@@ -1,10 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
-
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -19,7 +17,8 @@ public class TimeMachineFunctionsTest {
     final Document amendingLaw = XmlFunctions.loadXMLFromString(minimalXmlString).get();
     final Document targetLaw = XmlFunctions.loadXMLFromString(minimalXmlString).get();
     // when
-    final Optional<Document> resultingLaw = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+    final Optional<Document> resultingLaw =
+        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
     assertTrue(resultingLaw.isPresent());
   }
@@ -33,7 +32,8 @@ public class TimeMachineFunctionsTest {
     final Document targetLaw =
         XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
     // when
-    final Optional<Document> resultingLaw = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+    final Optional<Document> resultingLaw =
+        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
     assertTrue(resultingLaw.get().equals(targetLaw));
   }
@@ -41,7 +41,8 @@ public class TimeMachineFunctionsTest {
   @Test
   public void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
     // given two documents, the amending and the target law
-    final String amendingLawXmlText = """
+    final String amendingLawXmlText =
+        """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
@@ -52,7 +53,8 @@ public class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final String targetLawXmlText = """
+    final String targetLawXmlText =
+        """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:p eId="one">old text</akn:p>
@@ -60,7 +62,8 @@ public class TimeMachineFunctionsTest {
           </akn:body>
         """;
 
-    final String expectedResultingLawXmlText = """
+    final String expectedResultingLawXmlText =
+        """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:p eId="one">new text</akn:p>
@@ -69,42 +72,44 @@ public class TimeMachineFunctionsTest {
         """;
     final Document optionalAmendingLaw = XmlFunctions.loadXMLFromString(amendingLawXmlText).get();
     final Document optionalTargetLaw = XmlFunctions.loadXMLFromString(targetLawXmlText).get();
-    final Document expectedResultingLaw = XmlFunctions.loadXMLFromString(expectedResultingLawXmlText).get();
+    final Document expectedResultingLaw =
+        XmlFunctions.loadXMLFromString(expectedResultingLawXmlText).get();
 
     // when applying the TimeMachine
-    final Optional<Document> resultingLaw = TimeMachineFunctions.applyTimeMachine(optionalAmendingLaw, optionalTargetLaw);
+    final Optional<Document> resultingLaw =
+        TimeMachineFunctions.applyTimeMachine(optionalAmendingLaw, optionalTargetLaw);
 
     // the result contains the new text in place of the old text
     assertTrue(resultingLaw.isPresent());
     assertTrue(resultingLaw.get().equals(expectedResultingLaw));
   }
 
-  /** getFirstModification()  */
+  /** getFirstModification() */
   @Test
-  public void returnEmptyIfThereIsNoFirstModification(){
+  public void returnEmptyIfThereIsNoFirstModification() {
     // given
     final Document amendingLawWithoutModification =
         XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
             .get();
     // when
-    final Optional<Node> firstModificationNode = TimeMachineFunctions.getFirstModification(amendingLawWithoutModification);
+    final Optional<Node> firstModificationNode =
+        TimeMachineFunctions.getFirstModification(amendingLawWithoutModification);
     // then
     assertTrue(firstModificationNode.isEmpty());
-
   }
 
   @Test
-  public void returnModificationNodeIfThereIsAFirstModification(){
+  public void returnModificationNodeIfThereIsAFirstModification() {
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
           <akn:mod>§ 20 Absatz 1 Satz 2 wird ersetzt.</akn:mod>
         """;
-    final Document amendingLawWithModification =
-        XmlFunctions.loadXMLFromString(xmlText)
-            .get();
+    final Document amendingLawWithModification = XmlFunctions.loadXMLFromString(xmlText).get();
     // when
-    final Optional<Node> firstModificationNode = TimeMachineFunctions.getFirstModification(amendingLawWithModification);
+    final Optional<Node> firstModificationNode =
+        TimeMachineFunctions.getFirstModification(amendingLawWithModification);
     // then
     assertTrue(firstModificationNode.isPresent());
     // TODO:
@@ -113,118 +118,127 @@ public class TimeMachineFunctionsTest {
 
   /** findHrefInModification() */
   @Test
-  public void returnEmptyIfNoHrefInModification(){
+  public void returnEmptyIfNoHrefInModification() {
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
                                     refersTo="aenderungsbefehl-ersetzen">
-            In 
-            
+            In
+
             <akn:ref >
                 § 20 Absatz 1 Satz 2
-            </akn:ref> 
+            </akn:ref>
 
-            wird die Angabe 
-            
+            wird die Angabe
+
             <akn:quotedText startQuote="„" endQuote="“">
                 § 9 Abs. 1 Satz
-            </akn:quotedText> 
-            
-            durch die Wörter 
-            
+            </akn:quotedText>
+
+            durch die Wörter
+
             <akn:quotedText startQuote="„" endQuote="“">
                 § 9 Absatz 1 Satz
-            </akn:quotedText> 
-            
+            </akn:quotedText>
+
             ersetzt.
         </akn:mod>
         """;
-    
+
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
-    final Optional<Node> optionalModificationNode = XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
+    final Optional<Node> optionalModificationNode =
+        XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
 
     // when
-    final Optional<String> optionalHref = XmlFunctions.findHrefInModificationNode(optionalModificationNode.get());
-    
+    final Optional<String> optionalHref =
+        XmlFunctions.findHrefInModificationNode(optionalModificationNode.get());
+
     // then
     assertTrue(optionalHref.isEmpty());
   }
 
   @Test
-  public void returnHrefInModification(){
+  public void returnHrefInModification() {
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
                                     refersTo="aenderungsbefehl-ersetzen">
-            In 
-            
+            In
+
             <akn:ref href="some/href/with/slashes.xml">
                 § 20 Absatz 1 Satz 2
-            </akn:ref> 
+            </akn:ref>
 
-            wird die Angabe 
-            
+            wird die Angabe
+
             <akn:quotedText startQuote="„" endQuote="“">
                 § 9 Abs. 1 Satz
-            </akn:quotedText> 
-            
-            durch die Wörter 
-            
+            </akn:quotedText>
+
+            durch die Wörter
+
             <akn:quotedText startQuote="„" endQuote="“">
                 § 9 Absatz 1 Satz
-            </akn:quotedText> 
-            
+            </akn:quotedText>
+
             ersetzt.
         </akn:mod>
         """;
 
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
-    final Optional<Node> optionalModificationNode = XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
+    final Optional<Node> optionalModificationNode =
+        XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
 
     // when
-    final Optional<String> optionalHref = XmlFunctions.findHrefInModificationNode(optionalModificationNode.get());
-    
+    final Optional<String> optionalHref =
+        XmlFunctions.findHrefInModificationNode(optionalModificationNode.get());
+
     // then
     assertTrue(optionalHref.isPresent());
     assertTrue(optionalHref.get().equals("some/href/with/slashes.xml"));
   }
 
   /** getEIdFromModificationHref */
-
   @Test
-  public void returnEmptyIfModificationHrefCannotBeSplitToGetEli(){
+  public void returnEmptyIfModificationHrefCannotBeSplitToGetEli() {
     // given
     final String modificationHref = "can't be split as it has no slashes";
 
     // when
-    final Optional<String> optionalEId = TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
+    final Optional<String> optionalEId =
+        TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
 
     // then
     assertTrue(optionalEId.isEmpty());
   }
 
   @Test
-  public void getEIdFromModificationHref(){
+  public void getEIdFromModificationHref() {
     // given
-    final String modificationHref = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml";
+    final String modificationHref =
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml";
 
     // when
-    final Optional<String> optionalEId = TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
+    final Optional<String> optionalEId =
+        TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
 
-    //then
+    // then
     assertTrue(optionalEId.isPresent());
     assertTrue(optionalEId.get().equals("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"));
   }
 
-  /** findNodeByEId*/
+  /** findNodeByEId */
   @Test
   public void returnEmptyIfNoNodeFoundByEId() {
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -235,7 +249,8 @@ public class TimeMachineFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
-    final Optional<Node> optionalNode = TimeMachineFunctions.findNodeByEId("non-matching eId", optionalDocument.get());
+    final Optional<Node> optionalNode =
+        TimeMachineFunctions.findNodeByEId("non-matching eId", optionalDocument.get());
 
     // then
     assertTrue(optionalNode.isEmpty());
@@ -245,7 +260,8 @@ public class TimeMachineFunctionsTest {
   public void findNodeByEId() {
     // given
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="theEIdWereLookingFor"
@@ -256,7 +272,8 @@ public class TimeMachineFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
-    final Optional<Node> optionalNode = TimeMachineFunctions.findNodeByEId("theEIdWereLookingFor", optionalDocument.get());
+    final Optional<Node> optionalNode =
+        TimeMachineFunctions.findNodeByEId("theEIdWereLookingFor", optionalDocument.get());
 
     // then
     assertTrue(optionalNode.isPresent());
@@ -265,13 +282,15 @@ public class TimeMachineFunctionsTest {
 
   /** getTextToBeReplaced */
   @Test
-  public void returnEmptyIfNoQuotedTextIsFound(){ // TODO: return empty if only one quotedText is found
+  public void
+      returnEmptyIfNoQuotedTextIsFound() { // TODO: return empty if only one quotedText is found
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
       <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
-             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace 
+             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace
             </akn:mod>
 
             Note that no quoted texts were given
@@ -281,16 +300,18 @@ public class TimeMachineFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
-    final Optional<String> optionalTextToBeReplaced = TimeMachineFunctions.getTextToBeReplaced(optionalDocument.get());
+    final Optional<String> optionalTextToBeReplaced =
+        TimeMachineFunctions.getTextToBeReplaced(optionalDocument.get());
 
     // then
     assertTrue(optionalTextToBeReplaced.isEmpty());
   }
 
   @Test
-  public void getTextToBeReplaced(){
+  public void getTextToBeReplaced() {
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
       <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
@@ -301,7 +322,8 @@ public class TimeMachineFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
-    final Optional<String> optionalTextToBeReplaced = TimeMachineFunctions.getTextToBeReplaced(optionalDocument.get());
+    final Optional<String> optionalTextToBeReplaced =
+        TimeMachineFunctions.getTextToBeReplaced(optionalDocument.get());
 
     // then
     assertTrue(optionalTextToBeReplaced.isPresent());
@@ -310,13 +332,14 @@ public class TimeMachineFunctionsTest {
 
   /** getNewTextInReplacement() */
   @Test
-  public void returnEmptyIfNoQuotedTextIsFoundInReplacement(){
+  public void returnEmptyIfNoQuotedTextIsFoundInReplacement() {
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
       <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
-             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace 
+             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace
             </akn:mod>
 
             Note that no quoted texts were given
@@ -326,16 +349,18 @@ public class TimeMachineFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
-    final Optional<String> optionalNewTextInReplacement = TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
+    final Optional<String> optionalNewTextInReplacement =
+        TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
 
     // then
     assertTrue(optionalNewTextInReplacement.isEmpty());
   }
 
   @Test
-  public void returnEmptyIfOnlyOneQuotedTextIsFoundInReplacement(){
+  public void returnEmptyIfOnlyOneQuotedTextIsFoundInReplacement() {
     // given
-     final String xmlText = """
+    final String xmlText =
+        """
       <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
@@ -349,16 +374,18 @@ public class TimeMachineFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
-    final Optional<String> optionalNewTextInReplacement = TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
+    final Optional<String> optionalNewTextInReplacement =
+        TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
 
     // then
     assertTrue(optionalNewTextInReplacement.isEmpty());
   }
 
   @Test
-  public void getNewTextInReplacement(){
+  public void getNewTextInReplacement() {
     // given
-    final String xmlText = """
+    final String xmlText =
+        """
       <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
@@ -369,7 +396,8 @@ public class TimeMachineFunctionsTest {
     final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
 
     // when
-    final Optional<String> optionalNewTextInReplacement = TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
+    final Optional<String> optionalNewTextInReplacement =
+        TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
 
     // then
     assertTrue(optionalNewTextInReplacement.isPresent());

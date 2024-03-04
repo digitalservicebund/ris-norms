@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import java.util.Optional;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -15,51 +14,30 @@ public class TimeMachineFunctions {
    * @param targetLaw
    * @return TODO
    */
-  public static Optional<Document> applyTimeMachine(final Document amendingLaw, final Document targetLaw) {
+  public static Optional<Document> applyTimeMachine(
+      final Document amendingLaw, final Document targetLaw) {
     // TODO: cover all Optional.isEmpty() in tests
     final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
     final Optional<String> oldText = getTextToBeReplaced(targetLawClone.get());
     final Optional<String> newText = getNewTextInReplacement(targetLawClone.get());
 
-    final Optional<Node> firstModificationNodeInAmendingLaw = TimeMachineFunctions.getFirstModification(amendingLaw);
-    final Optional<String> modificationHref = XmlFunctions.findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
-    final Optional<String> eId = TimeMachineFunctions.getEIdfromModificationHref(modificationHref.get());
+    final Optional<Node> firstModificationNodeInAmendingLaw =
+        TimeMachineFunctions.getFirstModification(amendingLaw);
+    final Optional<String> modificationHref =
+        XmlFunctions.findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
+    final Optional<String> eId =
+        TimeMachineFunctions.getEIdfromModificationHref(modificationHref.get());
 
     final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLawClone.get());
-    final String modifiedTextContent = targetLawNodeToBeModified.get().getTextContent().replaceFirst(oldText.get(), newText.get());
+    final String modifiedTextContent =
+        targetLawNodeToBeModified.get().getTextContent().replaceFirst(oldText.get(), newText.get());
 
     targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
 
     return targetLawClone;
-
-    /**
-     * val amendedLaw = targetLaw.clone()
-
-  val modification = getFirstModification(amendingLaw)
-  requireNotNull(modification) { "Amending law does not include any modification" }
-
-  val eli = findHrefInModification(modification)
-  requireNotNull(eli) { "Could not find href in modification" }
-
-  val eId = extractEid(eli)
-
-  val elementToModify = findElementToModify(eId, amendedLaw)
-  requireNotNull(elementToModify) { "Could not find element to modify with eId: '$eId'" }
-
-  val oldText = extractOldText(modification)
-  requireNotNull(oldText) { "Could not find text that should be replaced" }
-
-  val newText = extractNewText(modification)
-  requireNotNull(newText) { "Could not find replacement text" }
-
-  val modifiedText = elementToModify.textContent.replaceFirst(oldText, newText)
-  elementToModify.textContent = modifiedText
-
-  return amendedLaw
-     */
   }
 
-  static Optional<Node> getFirstModification(Document amendingLaw){
+  static Optional<Node> getFirstModification(Document amendingLaw) {
     Optional<Node> optionalNode = XmlFunctions.getNode("//*[local-name()='mod']", amendingLaw);
     return optionalNode;
   }
@@ -76,17 +54,17 @@ public class TimeMachineFunctions {
     return Optional.empty();
   }
 
-  static Optional<Node> findNodeByEId(String eId, Node node){
+  static Optional<Node> findNodeByEId(String eId, Node node) {
     final String xPathExpresion = "//*[@eId='" + eId + "']";
     final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpresion, node);
     return optionalNode;
   }
 
-  static Optional<String> getTextToBeReplaced(Node node){
+  static Optional<String> getTextToBeReplaced(Node node) {
     final String xPathExpresion = "//*[local-name()='quotedText']";
     final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpresion, node);
 
-    if (optionalNode.isPresent()){
+    if (optionalNode.isPresent()) {
       final String textToBeReplaced = optionalNode.get().getTextContent();
       return Optional.of(textToBeReplaced);
     }
@@ -97,8 +75,8 @@ public class TimeMachineFunctions {
   static Optional<String> getNewTextInReplacement(Node node) {
     final String xPathExpression = "(//*[local-name()='quotedText'])[2]";
     final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpression, node);
-    
-    if (optionalNode.isPresent()){
+
+    if (optionalNode.isPresent()) {
       final String newText = optionalNode.get().getTextContent();
       return Optional.of(newText);
     }
