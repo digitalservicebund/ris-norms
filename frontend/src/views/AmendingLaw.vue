@@ -3,10 +3,9 @@ import { RouterView } from "vue-router"
 import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
-import RisInfoHeader from "@/components/controls/RisInfoHeader.vue"
-import { computed } from "vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
+import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -27,22 +26,11 @@ const menuItems: LevelOneMenuItem[] = [
 
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
-
-const heading = computed(() => {
-  const publicationYear = amendingLaw.value?.publicationDate.substring(0, 4)
-  if (amendingLaw.value?.printAnnouncementGazette) {
-    return `${amendingLaw.value?.printAnnouncementGazette} ${publicationYear} S. ${amendingLaw.value?.printAnnouncementPage}`
-  } else if (amendingLaw.value?.digitalAnnouncementEdition) {
-    return `${amendingLaw.value?.digitalAnnouncementMedium} ${publicationYear} Nr. ${amendingLaw.value?.digitalAnnouncementEdition}`
-  } else {
-    return ""
-  }
-})
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col bg-gray-100">
-    <RisInfoHeader :heading="heading" :subtitle="amendingLaw?.title" />
+  <div v-if="amendingLaw" class="flex min-h-screen flex-col bg-gray-100">
+    <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
     <div class="flex">
       <RisNavbarSide
         class="min-h-screen flex-none border-r border-gray-400 bg-white"
@@ -55,4 +43,5 @@ const heading = computed(() => {
       </div>
     </div>
   </div>
+  <div v-else>Laden...</div>
 </template>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { computed, ref } from "vue"
-import RisInfoHeader from "@/components/controls/RisInfoHeader.vue"
+import { ref } from "vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
+import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 
 const ARTICLE = 1
 const TARGET_LAW_TITLE = "Bundesverfassungsschutzgesetz"
@@ -45,23 +45,11 @@ function handleArticleXMLChange({ content }: { content: string }) {
 
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
-
-// ToDo: (Malte Laukötter; 01.03.24) create a component for the heading
-const heading = computed(() => {
-  const publicationYear = amendingLaw.value?.publicationDate.substring(0, 4)
-  if (amendingLaw.value?.printAnnouncementGazette) {
-    return `${amendingLaw.value?.printAnnouncementGazette} ${publicationYear} S. ${amendingLaw.value?.printAnnouncementPage}`
-  } else if (amendingLaw.value?.digitalAnnouncementEdition) {
-    return `${amendingLaw.value?.digitalAnnouncementMedium} ${publicationYear} Nr. ${amendingLaw.value?.digitalAnnouncementEdition}`
-  } else {
-    return ""
-  }
-})
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col bg-gray-100">
-    <RisInfoHeader :heading="heading" :subtitle="amendingLaw?.title" />
+  <div v-if="amendingLaw" class="flex min-h-screen flex-col bg-gray-100">
+    <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
 
     <router-link
       aria-labelledby="toOverviewButton"
@@ -126,4 +114,5 @@ const heading = computed(() => {
       </div>
     </div>
   </div>
+  <div v-else>Laden...</div>
 </template>
