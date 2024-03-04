@@ -15,8 +15,48 @@ public class TimeMachineFunctions {
    * @param targetLaw
    * @return TODO
    */
-  public static Optional<Document> applyTimeMachine(Document amendingLaw, Document targetLaw) {
-    return Optional.of(targetLaw);
+  public static Optional<Document> applyTimeMachine(final Document amendingLaw, final Document targetLaw) {
+    // TODO: cover all Optional.isEmpty() in tests
+    final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
+    final Optional<String> oldText = getTextToBeReplaced(targetLawClone.get());
+    final Optional<String> newText = getNewTextInReplacement(targetLawClone.get());
+
+    final Optional<Node> firstModificationNodeInAmendingLaw = TimeMachineFunctions.getFirstModification(amendingLaw);
+    final Optional<String> modificationHref = XmlFunctions.findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
+    final Optional<String> eId = TimeMachineFunctions.getEIdfromModificationHref(modificationHref.get());
+
+    final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLawClone.get());
+    final String modifiedTextContent = targetLawNodeToBeModified.get().getTextContent().replaceFirst(oldText.get(), newText.get());
+
+    targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
+
+    return targetLawClone;
+
+    /**
+     * val amendedLaw = targetLaw.clone()
+
+  val modification = getFirstModification(amendingLaw)
+  requireNotNull(modification) { "Amending law does not include any modification" }
+
+  val eli = findHrefInModification(modification)
+  requireNotNull(eli) { "Could not find href in modification" }
+
+  val eId = extractEid(eli)
+
+  val elementToModify = findElementToModify(eId, amendedLaw)
+  requireNotNull(elementToModify) { "Could not find element to modify with eId: '$eId'" }
+
+  val oldText = extractOldText(modification)
+  requireNotNull(oldText) { "Could not find text that should be replaced" }
+
+  val newText = extractNewText(modification)
+  requireNotNull(newText) { "Could not find replacement text" }
+
+  val modifiedText = elementToModify.textContent.replaceFirst(oldText, newText)
+  elementToModify.textContent = modifiedText
+
+  return amendedLaw
+     */
   }
 
   static Optional<Node> getFirstModification(Document amendingLaw){
@@ -24,9 +64,9 @@ public class TimeMachineFunctions {
     return optionalNode;
   }
 
-  static Optional<String> getEIdfromModificationHref(String modificationEli) {
+  static Optional<String> getEIdfromModificationHref(String modificationHref) {
     try {
-      final String[] hrefParts = modificationEli.split("/");
+      final String[] hrefParts = modificationHref.split("/");
       final String eId = hrefParts[hrefParts.length - 2];
       return Optional.of(eId);
     } catch (Exception e) {
