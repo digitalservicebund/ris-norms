@@ -13,11 +13,13 @@ brew install --cask docker # or just `brew install docker` if you don't want the
 
 ## Running and developing
 
-Set up and boot the database:
+Set up and boot the database (from the project root):
 
 ```sh
 docker compose up postgres14
 ```
+
+Note: Test data has to be imported manually if needed.
 
 You can then start the backend by running the `bootRun` Gradle task.
 
