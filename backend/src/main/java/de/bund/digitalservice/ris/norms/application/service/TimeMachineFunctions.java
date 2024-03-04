@@ -37,6 +37,9 @@ public class TimeMachineFunctions {
   }
 
   static Optional<Node> findNodeByEId(String eId, Node node){
-    return Optional.empty();
+    //*[@eid='theEIdWereLookingFor']
+    final String xPathExpresion = "//*[@eId='" + eId + "']";
+    final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpresion, node);
+    return optionalNode;
   }
 }
