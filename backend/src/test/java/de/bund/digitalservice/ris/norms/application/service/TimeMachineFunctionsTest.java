@@ -121,7 +121,7 @@ public class TimeMachineFunctionsTest {
                                     refersTo="aenderungsbefehl-ersetzen">
             In 
             
-            <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml">
+            <akn:ref href="some/href/with/slashes.xml">
                 § 20 Absatz 1 Satz 2
             </akn:ref> 
 
@@ -149,5 +149,6 @@ public class TimeMachineFunctionsTest {
     
     // then
     assertTrue(optionalHref.isPresent());
+    assertTrue(optionalHref.get().equals("some/href/with/slashes.xml"));
   }
 }
