@@ -11,6 +11,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import com.google.protobuf.Option;
@@ -55,10 +56,10 @@ public class XmlFunctions {
 
   static Optional<String> findHrefInModificationNode(Node modificationNode){
     try {
-      throw new Exception("not implemented, yet");
-      // Document nodeAsDocument = (Document) modificationNode;
-      // Optional<Node> optionalNodeHrefAttribute = getNode("//*[local-name()='ref']/@href", nodeAsDocument);
-      // String href = optionalNodeHrefAttribute.get().getNodeValue();
+      Document nodeAsDocument = (Document) modificationNode;
+      Optional<Node> optionalNodeHrefAttribute = getNode("//*[local-name()='ref']/@href", nodeAsDocument);
+      String href = optionalNodeHrefAttribute.get().getNodeValue();
+      return Optional.of(href);
     } catch (Exception e) {
       // TODO: do something with e?
     }
