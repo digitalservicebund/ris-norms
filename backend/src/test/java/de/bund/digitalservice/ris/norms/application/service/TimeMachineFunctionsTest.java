@@ -224,7 +224,7 @@ public class TimeMachineFunctionsTest {
 
   /** getTextToBeReplaced */
   @Test
-  public void returnEmptyIfTextToBeReplacedIsNotFound(){
+  public void returnEmptyIfNoQuotedTextIsFound(){
     // given
     final String xmlText = """
       <?xml version="1.0" encoding="UTF-8"?>
