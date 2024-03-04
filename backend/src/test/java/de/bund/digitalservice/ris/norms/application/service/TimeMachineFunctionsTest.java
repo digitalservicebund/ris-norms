@@ -19,9 +19,9 @@ public class TimeMachineFunctionsTest {
     final Document amendingLaw = XmlFunctions.loadXMLFromString(minimalXmlString).get();
     final Document targetLaw = XmlFunctions.loadXMLFromString(minimalXmlString).get();
     // when
-    final Document result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+    final Optional<Document> resultingLaw = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
-    assertNotNull(result);
+    assertTrue(resultingLaw.isPresent());
   }
 
   @Test
@@ -33,9 +33,50 @@ public class TimeMachineFunctionsTest {
     final Document targetLaw =
         XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
     // when
-    final Document result = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+    final Optional<Document> resultingLaw = TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
-    assertTrue(result.equals(targetLaw));
+    assertTrue(resultingLaw.get().equals(targetLaw));
+  }
+
+  @Test
+  public void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
+    // given two documents, the amending and the target law
+    final String amendingLawXmlText = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:mod>
+             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+            </akn:mod>
+
+            "old" -> "new"
+
+          </akn:body>
+        """;
+    final String targetLawXmlText = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:p eId="one">old text</akn:p>
+            <akn:p eId="two">old text</akn:p>
+          </akn:body>
+        """;
+
+    final String expectedResultingLawXmlText = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:p eId="one">new text</akn:p>
+            <akn:p eId="two">new text</akn:p>
+          </akn:body>
+        """;
+    final Document optionalAmendingLaw = XmlFunctions.loadXMLFromString(amendingLawXmlText).get();
+    final Document optionalTargetLaw = XmlFunctions.loadXMLFromString(targetLawXmlText).get();
+    final Document expectedResultingLaw = XmlFunctions.loadXMLFromString(expectedResultingLawXmlText).get();
+
+    // when applying the TimeMachine
+    final Optional<Document> resultingLaw = TimeMachineFunctions.applyTimeMachine(optionalAmendingLaw, optionalTargetLaw);
+
+    // the result contains the new text in place of the old text
+    assertTrue(resultingLaw.isPresent());
+    assertTrue(resultingLaw.get().equals(expectedResultingLaw));
   }
 
   /** getFirstModification()  */
