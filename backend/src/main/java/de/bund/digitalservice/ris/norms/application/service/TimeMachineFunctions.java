@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import com.google.protobuf.Option;
+
 /** 
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying
  * LDML.de "modifications" to LDML.de files.
@@ -25,14 +27,15 @@ public class TimeMachineFunctions {
       try {
         final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
         
-        final Optional<Node> firstModificationNodeInAmendingLaw =
-          TimeMachineFunctions.getFirstModification(amendingLaw);
+        final Optional<Node> firstModificationNodeInAmendingLaw =getFirstModification(amendingLaw);
+
+        if (firstModificationNodeInAmendingLaw.isEmpty())
+          return Optional.of(targetLawClone.get());
+
         final Optional<String> oldText = getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
         final Optional<String> newText = getNewTextInReplacement(firstModificationNodeInAmendingLaw.get());
-        final Optional<String> modificationHref =
-          XmlFunctions.findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
-        final Optional<String> eId =
-          TimeMachineFunctions.getEIdfromModificationHref(modificationHref.get());
+        final Optional<String> modificationHref = findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
+        final Optional<String> eId =getEIdfromModificationHref(modificationHref.get());
 
         final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLawClone.get());
         final String modifiedTextContent =
@@ -51,6 +54,19 @@ public class TimeMachineFunctions {
   static Optional<Node> getFirstModification(Document amendingLaw) {
     Optional<Node> optionalNode = XmlFunctions.getNode("//*[local-name()='mod']", amendingLaw);
     return optionalNode;
+  }
+
+  static Optional<String> findHrefInModificationNode(Node modificationNode) {
+    try {
+      Optional<Node> optionalNodeHrefAttribute =
+          XmlFunctions.getNode("//*[local-name()='ref']/@href", modificationNode);
+      String href = optionalNodeHrefAttribute.get().getNodeValue();
+      return Optional.of(href);
+    } catch (Exception e) {
+      // TODO: do something with e?
+    }
+
+    return Optional.empty();
   }
 
   static Optional<String> getEIdfromModificationHref(String modificationHref) {
