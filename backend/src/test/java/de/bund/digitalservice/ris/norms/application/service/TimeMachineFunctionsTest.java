@@ -73,7 +73,7 @@ class TimeMachineFunctionsTest {
     final Optional<Document> resultingLaw =
         TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
-    assertTrue(resultingLaw.get().equals(targetLaw));
+    assertTrue(resultingLaw.get().toString().equals(targetLaw.toString()));
   }
 
   @Test
@@ -153,7 +153,7 @@ class TimeMachineFunctionsTest {
     assertTrue(firstModificationNode.get().getTextContent().equals("§ 20 Absatz 1 Satz 2 wird ersetzt."));
   }
 
-  /** findHrefInModification() */
+  /** findHrefInModificationNode() */
   @Test
   void returnEmptyIfNoHrefInModification() {
     // given
@@ -191,7 +191,7 @@ class TimeMachineFunctionsTest {
 
     // when
     final Optional<String> optionalHref =
-        XmlFunctions.findHrefInModificationNode(optionalModificationNode.get());
+        TimeMachineFunctions.findHrefInModificationNode(optionalModificationNode.get());
 
     // then
     assertTrue(optionalHref.isEmpty());
@@ -234,7 +234,7 @@ class TimeMachineFunctionsTest {
 
     // when
     final Optional<String> optionalHref =
-        XmlFunctions.findHrefInModificationNode(optionalModificationNode.get());
+        TimeMachineFunctions.findHrefInModificationNode(optionalModificationNode.get());
 
     // then
     assertTrue(optionalHref.isPresent());
