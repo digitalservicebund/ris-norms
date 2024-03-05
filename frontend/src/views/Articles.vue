@@ -13,8 +13,8 @@ const ARTICLE_EID = "hauptteil-1_art-1"
   <div>
     <h1 class="ds-heading-02-reg mb-40">Enthaltene Artikel</h1>
     <RisInfoModal
-      v-for="(article, index) in amendingLaw?.articles"
-      :key="index"
+      v-for="article in amendingLaw?.articles"
+      :key="article.eid"
       :title="`Artikel ${article.enumeration}`"
       :description="article.title"
       :to="{
