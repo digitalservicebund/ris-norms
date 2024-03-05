@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import RisInfoModal from "@/components/controls/RisInfoModal.vue"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
+import { useArticles } from "@/composables/useArticles"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 
 const eli = useEliPathParameter()
-const amendingLaw = useAmendingLaw(eli)
+const articles = useArticles(eli)
 </script>
 
 <template>
@@ -16,8 +16,8 @@ const amendingLaw = useAmendingLaw(eli)
     </span>
 
     <RisInfoModal
-      v-for="(article, index) in amendingLaw?.articles"
-      :key="index"
+      v-for="article in articles"
+      :key="article.eid"
       :title="`Artikel ${article.enumeration}`"
       :description="article.eid"
       icon-text="Metadaten editieren"

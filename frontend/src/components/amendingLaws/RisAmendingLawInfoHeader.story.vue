@@ -15,7 +15,6 @@ import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawIn
           digitalAnnouncementEdition: undefined,
           title:
             'Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes',
-          articles: [],
         }"
       />
     </Variant>
@@ -30,7 +29,6 @@ import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawIn
           digitalAnnouncementEdition: '413',
           title:
             'Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts',
-          articles: [],
         }"
       />
     </Variant>

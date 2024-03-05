@@ -1,7 +1,7 @@
-import { describe, expect, test } from "vitest"
-import { render, screen } from "@testing-library/vue"
 import RisAmendingLawInfoHeaderInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
-import { AmendingLaw } from "@/services/amendingLawsService"
+import { AmendingLaw } from "@/types/domain"
+import { render, screen } from "@testing-library/vue"
+import { describe, expect, test } from "vitest"
 
 describe("RisAmendingLawInfoHeaderInfoHeader", () => {
   test("renders heading and subtitle of printed announced amending law", () => {
@@ -13,7 +13,6 @@ describe("RisAmendingLawInfoHeaderInfoHeader", () => {
       printAnnouncementPage: "419",
       digitalAnnouncementEdition: undefined,
       title: "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
-      articles: [],
     }
 
     render(RisAmendingLawInfoHeaderInfoHeader, {
@@ -38,7 +37,6 @@ describe("RisAmendingLawInfoHeaderInfoHeader", () => {
       printAnnouncementPage: undefined,
       digitalAnnouncementEdition: "413",
       title: "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
-      articles: [],
     }
 
     render(RisAmendingLawInfoHeaderInfoHeader, {
