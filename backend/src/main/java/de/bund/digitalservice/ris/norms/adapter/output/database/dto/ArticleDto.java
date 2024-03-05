@@ -39,6 +39,6 @@ public class ArticleDto {
   private String title;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "target_law_id", referencedColumnName = "id")
+  @JoinColumn(name = "target_law_id", referencedColumnName = "id", nullable = false)
   private TargetLawDto targetLawDto;
 }

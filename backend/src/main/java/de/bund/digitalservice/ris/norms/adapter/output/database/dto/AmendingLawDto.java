@@ -59,6 +59,6 @@ public class AmendingLawDto {
   @NotNull @Column private String xml;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "amending_law_id")
+  @JoinColumn(name = "amending_law_id", nullable = false)
   private List<ArticleDto> articleDtos;
 }
