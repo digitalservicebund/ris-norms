@@ -10,6 +10,7 @@
     "test": "TZ=UTC vitest run",
     "test:watch": "TZ=UTC vitest",
     "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit",
     "eslint:check": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --max-warnings 0 .",
     "eslint:fix": "npm run eslint:check -- --fix",
     "prettier:check": "prettier --check .",

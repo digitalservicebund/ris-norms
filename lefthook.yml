@@ -33,8 +33,13 @@ pre-commit:
 
     lint-frontend:
       root: frontend/
-      glob: "*.{ts,js}"
+      glob: "*.{ts,js,vue}"
       run: npm run --silent eslint:fix {staged_files} && git add {staged_files}
+
+    typecheck-frontend:
+      root: frontend/
+      glob: "*.{ts,vue}"
+      run: npm run --silent typecheck && git add {staged_files}
 
     check-format-system-tests:
       root: system-tests/
