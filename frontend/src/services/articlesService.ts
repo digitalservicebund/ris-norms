@@ -1,5 +1,5 @@
 import { apiFetch } from "@/services/apiService"
-import { AmendingLawArticle } from "@/types/domain"
+import { Article } from "@/types/domain"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 
 /**
@@ -7,10 +7,8 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
  *
  * @param eli ELI of the law we want to get the articles from
  */
-export async function getArticlesByEli(
-  eli: string,
-): Promise<AmendingLawArticle[]> {
-  return apiFetch<AmendingLawArticle[]>(`/amending-laws/${eli}/articles`)
+export async function getArticlesByEli(eli: string): Promise<Article[]> {
+  return apiFetch<Article[]>(`/amending-laws/${eli}/articles`)
 }
 
 /**
@@ -21,8 +19,8 @@ export async function getArticlesByEli(
 export async function getArticleByEliAndEid({
   eli,
   eid,
-}: LawElementIdentifier): Promise<AmendingLawArticle> {
-  return apiFetch<AmendingLawArticle>(`/amending-laws/${eli}/articles/${eid}`)
+}: LawElementIdentifier): Promise<Article> {
+  return apiFetch<Article>(`/amending-laws/${eli}/articles/${eid}`)
 }
 
 /**

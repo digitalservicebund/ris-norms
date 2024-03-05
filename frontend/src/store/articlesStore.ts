@@ -1,10 +1,10 @@
 import { getArticlesByEli } from "@/services/articlesService"
-import { AmendingLawArticle } from "@/types/domain"
+import { Article } from "@/types/domain"
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"
 
 export const useArticlesStore = defineStore("articles", () => {
-  const loadedArticles = ref<AmendingLawArticle[]>()
+  const loadedArticles = ref<Article[]>()
   const eli = ref<string>()
   const loading = ref<boolean>(false)
 

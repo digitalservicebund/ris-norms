@@ -1,5 +1,5 @@
 import { useArticlesStore } from "@/store/articlesStore"
-import { AmendingLawArticle } from "@/types/domain"
+import { Article } from "@/types/domain"
 import { storeToRefs } from "pinia"
 import {
   DeepReadonly,
@@ -20,7 +20,7 @@ import {
  */
 export function useArticles(
   eli: MaybeRefOrGetter<string>,
-): DeepReadonly<Ref<AmendingLawArticle[] | undefined>> {
+): DeepReadonly<Ref<Article[] | undefined>> {
   const articlesStore = useArticlesStore()
   const { loadedArticles } = storeToRefs(articlesStore)
 

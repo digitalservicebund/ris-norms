@@ -1,7 +1,7 @@
-import { AmendingLaw, AmendingLawArticle } from "@/types/domain"
+import { AmendingLaw, Article } from "@/types/domain"
 
 export const amendingLaws: (AmendingLaw & {
-  articles: AmendingLawArticle[]
+  articles: Article[]
 })[] = [
   {
     eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",

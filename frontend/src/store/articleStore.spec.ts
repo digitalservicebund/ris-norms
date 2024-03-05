@@ -1,5 +1,5 @@
 import { getArticleByEliAndEid } from "@/services/articlesService"
-import { AmendingLawArticle } from "@/types/domain"
+import { Article } from "@/types/domain"
 import { createPinia, setActivePinia } from "pinia"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
@@ -10,7 +10,7 @@ vi.mock("@/services/articlesService", () => ({
 }))
 
 describe("useArticleStore", () => {
-  let mockArticle: AmendingLawArticle
+  let mockArticle: Article
 
   beforeEach(() => {
     setActivePinia(createPinia())

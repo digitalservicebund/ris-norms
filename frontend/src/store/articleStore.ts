@@ -1,11 +1,11 @@
 import { getArticleByEliAndEid } from "@/services/articlesService"
-import { AmendingLawArticle } from "@/types/domain"
+import { Article } from "@/types/domain"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"
 
 export const useArticleStore = defineStore("article", () => {
-  const loadedArticle = ref<AmendingLawArticle>()
+  const loadedArticle = ref<Article>()
   const identifier = ref<LawElementIdentifier>()
   const loading = ref<boolean>(false)
 

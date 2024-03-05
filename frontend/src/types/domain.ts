@@ -21,14 +21,14 @@ export interface AmendingLaw {
    * Articles contained in the law.
    * @deprecated Use the article endpoint + AmendingLawArticle
    */
-  articles?: AmendingLawArticle[]
+  articles?: Article[]
 }
 
 /**
  * Describes a specific type of article that is found in amending laws
  * and used for changing ("amending") other laws.
  */
-export interface AmendingLawArticle {
+export interface Article {
   /** Eid of the article within the law */
   eid: string
   /** Title of the article */
