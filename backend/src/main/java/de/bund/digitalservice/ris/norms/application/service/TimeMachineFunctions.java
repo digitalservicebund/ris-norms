@@ -5,8 +5,6 @@ import java.util.Optional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import com.google.protobuf.Option;
-
 /** 
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying
  * LDML.de "modifications" to LDML.de files.
