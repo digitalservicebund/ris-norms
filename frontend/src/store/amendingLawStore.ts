@@ -1,11 +1,9 @@
+import { getAmendingLawByEli } from "@/services/amendingLawsService"
+import { AmendingLaw } from "@/types/domain"
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"
-import {
-  AmendingLaw,
-  getAmendingLawByEli,
-} from "@/services/amendingLawsService"
 
-export const useAmendingLawStore = defineStore("loaded-amending-law", () => {
+export const useAmendingLawStore = defineStore("amending-law", () => {
   const loadedAmendingLaw = ref<AmendingLaw | undefined>(undefined)
   const eli = ref<string | undefined>(undefined)
   const loading = ref<boolean>(false)

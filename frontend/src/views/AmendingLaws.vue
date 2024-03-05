@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router"
 import RisAmendingLawCard from "@/components/amendingLaws/RisAmendingLawCard.vue"
-import { AmendingLaw, getAmendingLaws } from "@/services/amendingLawsService"
+import { getAmendingLaws } from "@/services/amendingLawsService"
+import { AmendingLaw } from "@/types/domain"
 import { onMounted, ref } from "vue"
+import { RouterLink } from "vue-router"
 
 const amendingLaws = ref<AmendingLaw[]>([])
 
