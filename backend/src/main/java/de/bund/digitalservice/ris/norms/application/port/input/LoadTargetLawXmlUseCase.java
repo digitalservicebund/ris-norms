@@ -20,9 +20,10 @@ public interface LoadTargetLawXmlUseCase {
   Optional<String> loadTargetLawXml(Query query);
 
   /**
-   * A record representing the parameters needed to query a target law.
+   * A record representing the query for loading the xml representation of a target law. The query
+   * includes the ELI (European Legislation Identifier) to identify the target law.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the target law in the
+   * @param eli The ELI (European Legislation Identifier) used to identify the amending law in the
    *     query.
    */
   record Query(String eli) {}

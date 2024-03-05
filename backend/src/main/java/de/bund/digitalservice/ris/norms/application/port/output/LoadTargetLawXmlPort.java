@@ -21,8 +21,8 @@ public interface LoadTargetLawXmlPort {
   Optional<String> loadTargetLawXmlByEli(final Command command);
 
   /**
-   * A record representing the command for loading a target law. The command includes the ELI
-   * (European Legislation Identifier) to identify the amending law.
+   * A record representing the command for loading the xml representation of a target law. The
+   * command includes the ELI (European Legislation Identifier) to identify the target law.
    *
    * @param eli The ELI (European Legislation Identifier) used to identify the target law in the
    *     command.
