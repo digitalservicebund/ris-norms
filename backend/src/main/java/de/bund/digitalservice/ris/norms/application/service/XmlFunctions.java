@@ -11,22 +11,23 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-/** TODO */
+/** 
+ * Namespace for functions dealing with XML Documents or Nodes
+ */
 public class XmlFunctions {
-  // TODO: This is not a time machine function. Move somewhere else.
 
   /**
-   * TODO
+   * Create an XML Document from an xml string representation.
    *
-   * @param xml TODO
-   * @return TODO
+   * @param xmlText an XML represented as a string
+   * @return a Document representation of the string's XML
    */
-  public static Optional<Document> loadXMLFromString(String xml) {
+  public static Optional<Document> stringToXmlDocument(String xmlText) {
     try {
 
       final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       final DocumentBuilder builder = factory.newDocumentBuilder();
-      final InputSource is = new InputSource(new StringReader(xml));
+      final InputSource is = new InputSource(new StringReader(xmlText));
       final Document document = builder.parse(is);
       return Optional.of(document);
     } catch (Exception e) {
@@ -36,7 +37,14 @@ public class XmlFunctions {
     return Optional.empty();
   }
 
-  static Optional<Node> getNode(String xPathExpression, Node node) {
+  /**
+   * Get single node from given node using an XPath expression
+   * 
+   * @param xPathExpression to identify node to return
+   * @param node
+   * @return
+   */
+  public static Optional<Node> getNode(String xPathExpression, Node node) {
     try {
       XPathFactory xpathfactory = XPathFactory.newInstance();
       XPath xpath = xpathfactory.newXPath();

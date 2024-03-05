@@ -14,10 +14,10 @@ class TimeMachineFunctionsTest {
   void returnEmptyOnFailure() {
     // given
     final Document amendingLaw =
-        XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
+        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
             .get();
     final Document targetLaw =
-        XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
+        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
     // when
     final Optional<Document> optionalResultingLaw =
         TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
@@ -51,8 +51,8 @@ class TimeMachineFunctionsTest {
           </akn:body>
         """;
 
-    final Document amendingLaw = XmlFunctions.loadXMLFromString(amendingLawXmlText).get();
-    final Document targetLaw = XmlFunctions.loadXMLFromString(targetLawXmlText).get();
+    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
+    final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
     // when 
     final Optional<Document> resultingLaw =
     TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
@@ -65,10 +65,10 @@ class TimeMachineFunctionsTest {
   void targetLawStaysUnchangedIfAmendingLawHasNoModifications() {
     // given
     final Document amendingLaw =
-        XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
+        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
             .get();
     final Document targetLaw =
-        XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
+        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
     // when
     final Optional<Document> resultingLaw =
         TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
@@ -108,10 +108,10 @@ class TimeMachineFunctionsTest {
             <akn:p eId="two">new text</akn:p>
           </akn:body>
         """;
-    final Document optionalAmendingLaw = XmlFunctions.loadXMLFromString(amendingLawXmlText).get();
-    final Document optionalTargetLaw = XmlFunctions.loadXMLFromString(targetLawXmlText).get();
+    final Document optionalAmendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
+    final Document optionalTargetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
     final Document expectedResultingLaw =
-        XmlFunctions.loadXMLFromString(expectedResultingLawXmlText).get();
+        XmlFunctions.stringToXmlDocument(expectedResultingLawXmlText).get();
 
     // when applying the TimeMachine
     final Optional<Document> resultingLaw =
@@ -127,7 +127,7 @@ class TimeMachineFunctionsTest {
   void returnEmptyIfThereIsNoFirstModification() {
     // given
     final Document amendingLawWithoutModification =
-        XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
+        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
             .get();
     // when
     final Optional<Node> firstModificationNode =
@@ -144,7 +144,7 @@ class TimeMachineFunctionsTest {
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
           <akn:mod>§ 20 Absatz 1 Satz 2 wird ersetzt.</akn:mod>
         """;
-    final Document amendingLawWithModification = XmlFunctions.loadXMLFromString(xmlText).get();
+    final Document amendingLawWithModification = XmlFunctions.stringToXmlDocument(xmlText).get();
     // when
     final Optional<Node> firstModificationNode =
         TimeMachineFunctions.getFirstModification(amendingLawWithModification);
@@ -185,7 +185,7 @@ class TimeMachineFunctionsTest {
         </akn:mod>
         """;
 
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
     final Optional<Node> optionalModificationNode =
         XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
 
@@ -228,7 +228,7 @@ class TimeMachineFunctionsTest {
         </akn:mod>
         """;
 
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
     final Optional<Node> optionalModificationNode =
         XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
 
@@ -283,7 +283,7 @@ class TimeMachineFunctionsTest {
             Note that the eId above does not match what we're looking for, below.
         </akn:mod>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
     // when
     final Optional<Node> optionalNode =
@@ -306,7 +306,7 @@ class TimeMachineFunctionsTest {
             Note the eId in the attributes
         </akn:mod>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
     // when
     final Optional<Node> optionalNode =
@@ -332,7 +332,7 @@ class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
     // when
     final Optional<String> optionalTextToBeReplaced =
@@ -357,7 +357,7 @@ class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
     // when
     final Optional<String> optionalTextToBeReplaced =
@@ -379,7 +379,7 @@ class TimeMachineFunctionsTest {
             </akn:mod>
           </akn:body>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
     // when
     final Optional<String> optionalTextToBeReplaced =
@@ -406,7 +406,7 @@ class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
     // when
     final Optional<String> optionalNewTextInReplacement =
@@ -431,7 +431,7 @@ class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
     // when
     final Optional<String> optionalNewTextInReplacement =
@@ -453,7 +453,7 @@ class TimeMachineFunctionsTest {
             </akn:mod>
           </akn:body>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
     // when
     final Optional<String> optionalNewTextInReplacement =
