@@ -1,50 +1,57 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import java.util.Optional;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-/** 
- * Namespace for business Logics related to "time machine" functionality, i.e. to applying
- * LDML.de "modifications" to LDML.de files.
- * For details on LDML.de modifications, cf. https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads
+/**
+ * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
+ * "modifications" to LDML.de files. For details on LDML.de modifications, cf.
+ * https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads
  */
 public class TimeMachineFunctions {
 
   /**
    * Applies the modifications of the amending law onto the target law.
    *
-   * @param amendingLaw An Document that contains LDML.de modifications to be applied on the target law
+   * @param amendingLaw An Document that contains LDML.de modifications to be applied on the target
+   *     law
    * @param targetLaw The Document that the modifications will be applied to
-   * @return the Document that results in applying the amending law's modifications to the target law
+   * @return the Document that results in applying the amending law's modifications to the target
+   *     law
    */
   public static Optional<Document> applyTimeMachine(
-    final Document amendingLaw, final Document targetLaw) {
-      // TODO: cover all individual failures in tests
-      try {
-        final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
-        
-        final Optional<Node> firstModificationNodeInAmendingLaw =getFirstModification(amendingLaw);
+      final Document amendingLaw, final Document targetLaw) {
+    // TODO: cover all individual failures in tests
+    try {
+      final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
 
-        if (firstModificationNodeInAmendingLaw.isEmpty())
-          return Optional.of(targetLawClone.get());
+      final Optional<Node> firstModificationNodeInAmendingLaw = getFirstModification(amendingLaw);
 
-        final Optional<String> oldText = getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
-        final Optional<String> newText = getNewTextInReplacement(firstModificationNodeInAmendingLaw.get());
-        final Optional<String> modificationHref = findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
-        final Optional<String> eId =getEIdfromModificationHref(modificationHref.get());
+      if (firstModificationNodeInAmendingLaw.isEmpty()) return Optional.of(targetLawClone.get());
 
-        final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLawClone.get());
-        final String modifiedTextContent =
-        targetLawNodeToBeModified.get().getTextContent().replaceFirst(oldText.get(), newText.get());
-        
-        targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
-        return targetLawClone;
+      final Optional<String> oldText =
+          getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
+      final Optional<String> newText =
+          getNewTextInReplacement(firstModificationNodeInAmendingLaw.get());
+      final Optional<String> modificationHref =
+          findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
+      final Optional<String> eId = getEIdfromModificationHref(modificationHref.get());
 
-      } catch (Exception e) {
-        // TODO: probably do something with the exception
-      }
+      final Optional<Node> targetLawNodeToBeModified =
+          findNodeByEId(eId.get(), targetLawClone.get());
+      final String modifiedTextContent =
+          targetLawNodeToBeModified
+              .get()
+              .getTextContent()
+              .replaceFirst(oldText.get(), newText.get());
+
+      targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
+      return targetLawClone;
+
+    } catch (Exception e) {
+      // TODO: probably do something with the exception
+    }
     return Optional.empty();
   }
 
@@ -88,8 +95,7 @@ public class TimeMachineFunctions {
     // make sure there are two texts
     final String xPathExpressionSecondNode = "(//*[local-name()='quotedText'])[2]";
     final Optional<Node> optionalSecondNode = XmlFunctions.getNode(xPathExpressionSecondNode, node);
-    if (optionalSecondNode.isEmpty())
-      return Optional.empty();
+    if (optionalSecondNode.isEmpty()) return Optional.empty();
 
     // now get the first one
     final String xPathExpresion = "//*[local-name()='quotedText']";
