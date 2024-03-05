@@ -49,20 +49,6 @@ public class XmlFunctions {
     return Optional.empty();
   }
 
-  // TODO: Move to TimeMachineFunctions
-  static Optional<String> findHrefInModificationNode(Node modificationNode) {
-    try {
-      Optional<Node> optionalNodeHrefAttribute =
-          getNode("//*[local-name()='ref']/@href", modificationNode);
-      String href = optionalNodeHrefAttribute.get().getNodeValue();
-      return Optional.of(href);
-    } catch (Exception e) {
-      // TODO: do something with e?
-    }
-
-    return Optional.empty();
-  }
-
   static Optional<Document> cloneDocument(Document originalDocument) {
     try {
       Node originalRootNode = originalDocument.getDocumentElement();
