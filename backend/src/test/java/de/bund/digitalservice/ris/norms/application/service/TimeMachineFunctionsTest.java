@@ -54,11 +54,11 @@ class TimeMachineFunctionsTest {
     final Document amendingLaw = XmlFunctions.loadXMLFromString(amendingLawXmlText).get();
     final Document targetLaw = XmlFunctions.loadXMLFromString(targetLawXmlText).get();
     // when 
-      final Optional<Document> resultingLaw =
-      TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+    final Optional<Document> resultingLaw =
+    TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
 
-      // then
-      assertTrue(resultingLaw.isPresent());
+    // then
+    assertTrue(resultingLaw.isPresent());
   }
 
   @Test
