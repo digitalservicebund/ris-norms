@@ -31,12 +31,10 @@ public class AmendingLawDto {
   @Column
   private String eli;
 
-  @NotNull
   @Size(max = 15)
   @Column(name = "print_announcement_gazette")
   private String printAnnouncementGazette;
 
-  @NotNull
   @Size(max = 15)
   @Column(name = "digital_announcement_medium")
   private String digitalAnnouncementMedium;
@@ -45,12 +43,10 @@ public class AmendingLawDto {
   @Column(name = "publication_date")
   private LocalDate publicationDate;
 
-  @NotNull
   @Size(max = 15)
   @Column(name = "print_announcement_page")
   private String printAnnouncementPage;
 
-  @NotNull
   @Size(max = 15)
   @Column(name = "digital_announcement_edition")
   private String digitalAnnouncementEdition;
