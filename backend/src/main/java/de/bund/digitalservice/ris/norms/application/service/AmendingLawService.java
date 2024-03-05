@@ -27,12 +27,6 @@ public class AmendingLawService
   private final LoadArticlesPort loadArticlesPort;
   private final LoadArticlePort loadArticlePort;
 
-  /**
-   * Constructs a new {@link AmendingLawService} instance.
-   *
-   * @param loadAmendingLawPort The port for loading individual amending laws.
-   * @param loadAllAmendingLawsPort The port for loading all amending laws.
-   */
   public AmendingLawService(
       LoadAmendingLawPort loadAmendingLawPort,
       LoadAmendingLawXmlPort loadAmendingLawXmlPort,

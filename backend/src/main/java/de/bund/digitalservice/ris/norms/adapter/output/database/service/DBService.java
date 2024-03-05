@@ -37,12 +37,6 @@ public class DBService
 
   private final TargetLawRepository targetLawRepository;
 
-  /**
-   * Constructs a new {@link DBService} instance.
-   *
-   * @param amendingLawRepository The repository for amending laws.
-   * @param targetLawRepository The repository for target laws.
-   */
   public DBService(
       AmendingLawRepository amendingLawRepository, TargetLawRepository targetLawRepository) {
     this.amendingLawRepository = amendingLawRepository;

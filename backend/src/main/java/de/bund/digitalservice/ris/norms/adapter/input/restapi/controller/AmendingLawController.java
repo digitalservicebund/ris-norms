@@ -35,12 +35,6 @@ public class AmendingLawController {
   private final LoadArticlesUseCase loadArticlesUseCase;
   private final LoadArticleUseCase loadArticleUseCase;
 
-  /**
-   * Creates a {@code AmendingLawController} instance with necessary dependencies.
-   *
-   * @param loadAmendingLawUseCase the use case for loading a single amending law
-   * @param loadAllAmendingLawsUseCase the use case for loading all amending laws
-   */
   public AmendingLawController(
       LoadAmendingLawUseCase loadAmendingLawUseCase,
       LoadAmendingLawXmlUseCase loadAmendingLawXmlUseCase,

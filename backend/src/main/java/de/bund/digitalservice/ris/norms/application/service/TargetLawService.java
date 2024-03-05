@@ -19,11 +19,6 @@ public class TargetLawService implements LoadTargetLawUseCase, LoadTargetLawXmlU
   private final LoadTargetLawPort loadTargetLawPort;
   private final LoadTargetLawXmlPort loadTargetLawXmlPort;
 
-  /**
-   * Constructs a new {@link TargetLawService} instance.
-   *
-   * @param loadTargetLawPort The port for loading individual target law.
-   */
   public TargetLawService(
       LoadTargetLawPort loadTargetLawPort, LoadTargetLawXmlPort loadTargetLawXmlPort) {
     this.loadTargetLawPort = loadTargetLawPort;

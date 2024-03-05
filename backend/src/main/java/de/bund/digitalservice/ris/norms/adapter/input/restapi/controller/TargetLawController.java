@@ -28,11 +28,6 @@ public class TargetLawController {
   private final LoadTargetLawUseCase loadTargetLawUseCase;
   private final LoadTargetLawXmlUseCase loadTargetLawXmlUseCase;
 
-  /**
-   * Creates a {@code TargetLawController} instance with necessary dependencies.
-   *
-   * @param loadTargetLawUseCase the use case for loading a target law
-   */
   public TargetLawController(
       LoadTargetLawUseCase loadTargetLawUseCase, LoadTargetLawXmlUseCase loadTargetLawXmlUseCase) {
     this.loadTargetLawUseCase = loadTargetLawUseCase;
