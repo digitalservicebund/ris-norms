@@ -10,39 +10,30 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
+import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
  * Not using SpringBootTest annotation to avoid needing a database connection. Therefore, manually
  * setting up the {@code mockMvc} including the ControllerAdvice
  */
-@ExtendWith(SpringExtension.class)
+@WebMvcTest(TargetLawController.class)
+@Import(SecurityConfig.class)
 class TargetLawControllerTest {
 
-  private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadTargetLawUseCase loadTargetLawUseCase;
   @MockBean private LoadTargetLawXmlUseCase loadTargetLawXmlUseCase;
-
-  @BeforeEach
-  public void setUp() {
-    mockMvc =
-        MockMvcBuilders.standaloneSetup(
-                new TargetLawController(loadTargetLawUseCase, loadTargetLawXmlUseCase))
-            .setControllerAdvice(new InternalErrorExceptionHandler())
-            .build();
-  }
 
   @Test
   void itCallsloadTargetLawWithExpressionEliFromQuery() throws Exception {

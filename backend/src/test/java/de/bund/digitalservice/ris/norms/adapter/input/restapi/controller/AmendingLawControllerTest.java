@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -16,42 +16,28 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
- * Not using SpringBootTest annotation to avoid needing a database connection. Therefore, manually
- * setting up the {@code mockMvc} including the ControllerAdvice
+ * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
+ * the {@link SecurityConfig} in order to avoid http 401 Unauthorised
  */
-@ExtendWith(SpringExtension.class)
+@WebMvcTest(AmendingLawController.class)
+@Import(SecurityConfig.class)
 class AmendingLawControllerTest {
 
-  private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadAmendingLawUseCase loadAmendingLawUseCase;
   @MockBean private LoadAmendingLawXmlUseCase loadAmendingLawXmlUseCase;
   @MockBean private LoadAllAmendingLawsUseCase loadAllAmendingLawsUseCase;
   @MockBean private LoadArticlesUseCase loadArticlesUseCase;
   @MockBean private LoadArticleUseCase loadArticleUseCase;
-
-  @BeforeEach
-  public void setUp() {
-    mockMvc =
-        MockMvcBuilders.standaloneSetup(
-                new AmendingLawController(
-                    loadAmendingLawUseCase,
-                    loadAmendingLawXmlUseCase,
-                    loadAllAmendingLawsUseCase,
-                    loadArticlesUseCase,
-                    loadArticleUseCase))
-            .setControllerAdvice(new InternalErrorExceptionHandler())
-            .build();
-  }
 
   @Test
   void itCallsloadAmendingLawWithExpressionEliFromQuery() throws Exception {
