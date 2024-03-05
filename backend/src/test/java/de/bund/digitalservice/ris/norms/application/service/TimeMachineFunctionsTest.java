@@ -25,11 +25,10 @@ class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final Document amendingLaw =
-        XmlFunctions.stringToXmlDocument(amendingLawXmlText)
-            .get();
+    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
     final Document targetLaw =
-        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
+        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>")
+            .get();
     // when
     final Optional<Document> optionalResultingLaw =
         TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
@@ -37,11 +36,10 @@ class TimeMachineFunctionsTest {
     assertTrue(optionalResultingLaw.isEmpty());
   }
 
-
   @Test
   void xmlDocumentsGoInAndOut() {
     // given
-     // given
+    // given
     final String amendingLawXmlText =
         """
         <?xml version="1.0" encoding="UTF-8"?>
@@ -65,9 +63,9 @@ class TimeMachineFunctionsTest {
 
     final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
     final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
-    // when 
+    // when
     final Optional<Document> resultingLaw =
-    TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
 
     // then
     assertTrue(resultingLaw.isPresent());
@@ -80,7 +78,8 @@ class TimeMachineFunctionsTest {
         XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
             .get();
     final Document targetLaw =
-        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
+        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>")
+            .get();
     // when
     final Optional<Document> resultingLaw =
         TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
@@ -162,7 +161,8 @@ class TimeMachineFunctionsTest {
         TimeMachineFunctions.getFirstModification(amendingLawWithModification);
     // then
     assertTrue(firstModificationNode.isPresent());
-    assertTrue(firstModificationNode.get().getTextContent().equals("§ 20 Absatz 1 Satz 2 wird ersetzt."));
+    assertTrue(
+        firstModificationNode.get().getTextContent().equals("§ 20 Absatz 1 Satz 2 wird ersetzt."));
   }
 
   /** findHrefInModificationNode() */
