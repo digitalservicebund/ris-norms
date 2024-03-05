@@ -10,14 +10,14 @@ import org.w3c.dom.Node;
 
 class XmlFunctionsTest {
 
-  /** loadXmlFromString */
+  /** stringToXmlDocument() */
   @Test
   void documentGeneratedFromValidXmlStringMustNotBeEmpty() {
     // given
     final String input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
 
     // when
-    final Optional<Document> result = XmlFunctions.loadXMLFromString(input);
+    final Optional<Document> result = XmlFunctions.stringToXmlDocument(input);
 
     // then
     assertTrue(result.isPresent());
@@ -29,7 +29,7 @@ class XmlFunctionsTest {
     final String input = "invalid XML; does not even have an XML declaration";
 
     // when
-    final Optional<Document> result = XmlFunctions.loadXMLFromString(input);
+    final Optional<Document> result = XmlFunctions.stringToXmlDocument(input);
 
     // then
     assertTrue(result.isEmpty());
@@ -40,7 +40,7 @@ class XmlFunctionsTest {
   void returnEmptyIfNoNodeMatches() {
     // given
     final String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
-    final Optional<Document> document = XmlFunctions.loadXMLFromString(xmlString);
+    final Optional<Document> document = XmlFunctions.stringToXmlDocument(xmlString);
 
     // when
     final Optional<Node> node = XmlFunctions.getNode("", document.get());
@@ -64,7 +64,7 @@ class XmlFunctionsTest {
         </my-node>
       </root>
       """;
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlString);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlString);
 
     // when
     String xPathExpression = "//*[local-name()='my-node']";
@@ -91,7 +91,7 @@ class XmlFunctionsTest {
         </akn:mod>
         """;
 
-    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
     // when
     final String xPathExpression = "//*[@eId='theEId']";
@@ -118,7 +118,7 @@ class XmlFunctionsTest {
         </akn:mod>
         """;
 
-    final Document originalDocument = XmlFunctions.loadXMLFromString(xmlText).get();
+    final Document originalDocument = XmlFunctions.stringToXmlDocument(xmlText).get();
     final String xPathExpresion = "//*[@eId='theEId']";
     final String textOfOriginalDocumentModification =
         XmlFunctions.getNode(xPathExpresion, originalDocument).get().getTextContent();
