@@ -319,8 +319,7 @@ class TimeMachineFunctionsTest {
 
   /** getTextToBeReplaced */
   @Test
-  void returnEmptyIfNoQuotedTextIsFound() { // TODO: return empty if only one quotedText is found
-    // given
+  void returnEmptyIfNoQuotedTextIsFound() {
     final String xmlText =
         """
       <?xml version="1.0" encoding="UTF-8"?>
@@ -330,6 +329,31 @@ class TimeMachineFunctionsTest {
             </akn:mod>
 
             Note that no quoted texts were given
+
+          </akn:body>
+        """;
+    final Optional<Document> optionalDocument = XmlFunctions.loadXMLFromString(xmlText);
+
+    // when
+    final Optional<String> optionalTextToBeReplaced =
+        TimeMachineFunctions.getTextToBeReplaced(optionalDocument.get());
+
+    // then
+    assertTrue(optionalTextToBeReplaced.isEmpty());
+  }
+
+  @Test
+  void returnEmptyIfOnlyOneQuotedTextIsFound() {
+    // given
+    final String xmlText =
+        """
+      <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:mod>
+                In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old text</akn:quotedText> with NO SECOND QUOTE GIVEN.
+            </akn:mod>
+
+            Note that no second quoted text is given
 
           </akn:body>
         """;
