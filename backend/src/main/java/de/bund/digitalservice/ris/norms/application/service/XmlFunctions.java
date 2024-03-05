@@ -59,7 +59,7 @@ public class XmlFunctions {
 
   /**
    * Create a deep copy of a Document
-   * 
+   *
    * @param originalDocument the document we want to clone
    * @return a deep copy of the <code>originalDocument</code>
    */
