@@ -44,7 +44,6 @@ public class TimeMachineFunctions {
 
       } catch (Exception e) {
         // TODO: probably do something with the exception
-        System.out.println("applyTimeMachine throws: " + e.toString());
       }
     return Optional.empty();
   }
