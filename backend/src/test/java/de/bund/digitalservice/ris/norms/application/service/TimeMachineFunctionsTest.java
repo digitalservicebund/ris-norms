@@ -119,7 +119,7 @@ class TimeMachineFunctionsTest {
 
     // the result contains the new text in place of the old text
     assertTrue(resultingLaw.isPresent());
-    assertTrue(resultingLaw.get().equals(expectedResultingLaw));
+    assertTrue(resultingLaw.get().toString().equals(expectedResultingLaw.toString()));
   }
 
   /** getFirstModification() */
