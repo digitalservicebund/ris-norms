@@ -13,8 +13,20 @@ class TimeMachineFunctionsTest {
   @Test
   void returnEmptyOnFailure() {
     // given
+    final String amendingLawXmlText =
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:mod>
+             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+            </akn:mod>
+
+            "old" -> "new"
+
+          </akn:body>
+        """;
     final Document amendingLaw =
-        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
+        XmlFunctions.stringToXmlDocument(amendingLawXmlText)
             .get();
     final Document targetLaw =
         XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
