@@ -5,15 +5,19 @@ import java.util.Optional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-/** TODO */
+/** 
+ * Namespace for business Logics related to "time machine" functionality, i.e. to applying
+ * LDML.de "modifications" to LDML.de files.
+ * For details on LDML.de modifications, cf. https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads
+ */
 public class TimeMachineFunctions {
 
   /**
-   * TODO
+   * Applies the modifications of the amending law onto the target law.
    *
-   * @param amendingLaw
-   * @param targetLaw
-   * @return TODO
+   * @param amendingLaw An Document that contains LDML.de modifications to be applied on the target law
+   * @param targetLaw The Document that the modifications will be applied to
+   * @return the Document that results in applying the amending law's modifications to the target law
    */
   public static Optional<Document> applyTimeMachine(
     final Document amendingLaw, final Document targetLaw) {
@@ -68,6 +72,13 @@ public class TimeMachineFunctions {
   }
 
   static Optional<String> getTextToBeReplaced(Node node) {
+    // make sure there are two texts
+    final String xPathExpressionSecondNode = "(//*[local-name()='quotedText'])[2]";
+    final Optional<Node> optionalSecondNode = XmlFunctions.getNode(xPathExpressionSecondNode, node);
+    if (optionalSecondNode.isEmpty())
+      return Optional.empty();
+
+    // now get the first one
     final String xPathExpresion = "//*[local-name()='quotedText']";
     final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpresion, node);
 
