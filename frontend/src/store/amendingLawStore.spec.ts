@@ -23,14 +23,6 @@ describe("useAmendingLawsStore", () => {
       publicationDate: "2023-01-01",
       printAnnouncementPage: "1",
       digitalAnnouncementEdition: undefined,
-      articles: [
-        {
-          eid: "article eid 1",
-          title: "article eli 1",
-          enumeration: "1",
-          affectedDocumentEli: "affected document eli 1",
-        },
-      ],
     }
 
     vi.mocked(getAmendingLawByEli).mockResolvedValue(mockAmendingLaw)

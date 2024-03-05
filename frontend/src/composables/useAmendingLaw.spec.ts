@@ -25,13 +25,6 @@ describe("useAmendingLaw", () => {
               publicationDate: "2023-01-01",
               printAnnouncementPage: "1",
               digitalAnnouncementEdition: undefined,
-              articles: [
-                {
-                  eli: "article eli 1",
-                  title: "article eli 1",
-                  enumeration: "1",
-                },
-              ],
             }),
             loadAmendingLawByEli: vi.fn(),
           }

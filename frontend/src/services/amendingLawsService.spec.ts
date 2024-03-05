@@ -15,18 +15,6 @@ describe("amendingLawsService", () => {
         publicationDate: "2017-03-15",
         printAnnouncementPage: "419",
         digitalAnnouncementEdition: undefined,
-        articles: [
-          {
-            eid: "article eid 1",
-            title: "article eli 1",
-            enumeration: "1",
-          },
-          {
-            eid: "article eid 2",
-            title: "article eli 2",
-            enumeration: "2",
-          },
-        ],
       })
 
       vi.doMock("./apiService.ts", () => ({
@@ -62,7 +50,7 @@ describe("amendingLawsService", () => {
           articles: [
             {
               eid: "article eid 1",
-              title: "article eli 1",
+              title: "article eid 1",
               enumeration: "1",
             },
             {
