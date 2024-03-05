@@ -2,11 +2,8 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import java.util.Optional;
 
-import org.aspectj.apache.bcel.classfile.ExceptionTable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-
-import com.google.protobuf.Option;
 
 /** TODO */
 public class TimeMachineFunctions {
@@ -23,15 +20,15 @@ public class TimeMachineFunctions {
       // TODO: cover all individual failures in tests
       try {
         final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
-        final Optional<String> oldText = getTextToBeReplaced(targetLawClone.get());
-        final Optional<String> newText = getNewTextInReplacement(targetLawClone.get());
         
         final Optional<Node> firstModificationNodeInAmendingLaw =
-        TimeMachineFunctions.getFirstModification(amendingLaw);
+          TimeMachineFunctions.getFirstModification(amendingLaw);
+        final Optional<String> oldText = getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
+        final Optional<String> newText = getNewTextInReplacement(firstModificationNodeInAmendingLaw.get());
         final Optional<String> modificationHref =
-        XmlFunctions.findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
+          XmlFunctions.findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
         final Optional<String> eId =
-        TimeMachineFunctions.getEIdfromModificationHref(modificationHref.get());
+          TimeMachineFunctions.getEIdfromModificationHref(modificationHref.get());
 
         final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLawClone.get());
         final String modifiedTextContent =
