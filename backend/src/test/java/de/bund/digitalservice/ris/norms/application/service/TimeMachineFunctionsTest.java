@@ -11,16 +11,54 @@ class TimeMachineFunctionsTest {
 
   /** applyTimeMachine() */
   @Test
-  void xmlDocumentsGoInAndOut() {
+  void returnEmptyOnFailure() {
     // given
-    final String minimalXmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
-    final Document amendingLaw = XmlFunctions.loadXMLFromString(minimalXmlString).get();
-    final Document targetLaw = XmlFunctions.loadXMLFromString(minimalXmlString).get();
+    final Document amendingLaw =
+        XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
+            .get();
+    final Document targetLaw =
+        XmlFunctions.loadXMLFromString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>").get();
     // when
-    final Optional<Document> resultingLaw =
+    final Optional<Document> optionalResultingLaw =
         TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
-    assertTrue(resultingLaw.isPresent());
+    assertTrue(optionalResultingLaw.isEmpty());
+  }
+
+
+  @Test
+  void xmlDocumentsGoInAndOut() {
+    // given
+     // given
+    final String amendingLawXmlText =
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:mod>
+             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+            </akn:mod>
+
+            "old" -> "new"
+
+          </akn:body>
+        """;
+    final String targetLawXmlText =
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:p eId="one">old text</akn:p>
+            <akn:p eId="two">old text</akn:p>
+          </akn:body>
+        """;
+
+    final Document amendingLaw = XmlFunctions.loadXMLFromString(amendingLawXmlText).get();
+    final Document targetLaw = XmlFunctions.loadXMLFromString(targetLawXmlText).get();
+    // when 
+      final Optional<Document> resultingLaw =
+      TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+
+      // then
+      assertTrue(resultingLaw.isPresent());
   }
 
   @Test
@@ -40,7 +78,7 @@ class TimeMachineFunctionsTest {
 
   @Test
   void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
-    // given two documents, the amending and the target law
+    // given
     final String amendingLawXmlText =
         """
         <?xml version="1.0" encoding="UTF-8"?>
