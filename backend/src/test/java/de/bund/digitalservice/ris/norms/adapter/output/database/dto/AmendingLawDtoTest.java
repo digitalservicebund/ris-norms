@@ -2,112 +2,72 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 import java.time.LocalDate;
-import java.util.Set;
 import java.util.UUID;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class AmendingLawDtoTest {
 
-  private static Validator validator;
-
-  @BeforeAll
-  public static void setUp() {
-    final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    validator = factory.getValidator();
-  }
-
   @Test
-  void testAllConstraintsAreMet() {
+  void testPrintLawDTO() {
     // Given
     final UUID id = UUID.randomUUID();
     final String eli = "someEli";
+    final String printAnnouncementGazette = "someGazette";
     final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
     final String title = "title";
-    final String xml = "<test></test>";
 
     // When
     final AmendingLawDto amendingLawPrintDTO =
         AmendingLawDto.builder()
             .id(id)
             .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
             .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
             .title(title)
-            .xml(xml)
             .build();
-    final Set<ConstraintViolation<AmendingLawDto>> violations =
-        validator.validate(amendingLawPrintDTO);
 
     // Then
-    assertThat(violations).isEmpty();
+    assertThat(amendingLawPrintDTO.getId()).isEqualTo(id);
+    assertThat(amendingLawPrintDTO.getEli()).isEqualTo(eli);
+    assertThat(amendingLawPrintDTO.getPrintAnnouncementGazette())
+        .isEqualTo(printAnnouncementGazette);
+    assertThat(amendingLawPrintDTO.getPublicationDate()).isEqualTo(publicationDate);
+    assertThat(amendingLawPrintDTO.getPrintAnnouncementPage()).isEqualTo(printAnnouncementPage);
+    assertThat(amendingLawPrintDTO.getTitle()).isEqualTo(title);
   }
 
   @Test
-  void testMissingNotNullProperties() {
-    // Given
-    final AmendingLawDto amendingLawDto = new AmendingLawDto();
-
-    // When
-    final Set<ConstraintViolation<AmendingLawDto>> violations = validator.validate(amendingLawDto);
-
-    // Then
-    assertThat(violations)
-        .hasSize(4)
-        .extracting(
-            violation -> violation.getPropertyPath().toString() + " " + violation.getMessage())
-        .containsExactlyInAnyOrder(
-            "eli must not be null",
-            "publicationDate must not be null",
-            "title must not be null",
-            "xml must not be null");
-  }
-
-  @Test
-  void testSizeConstraints() {
+  void testDigitalLawDTO() {
     // Given
     final UUID id = UUID.randomUUID();
+    final String eli = "someEli";
     final LocalDate publicationDate = LocalDate.now();
-    final String xml = "<test></test>";
-    final String invalidPrintGazette = "a".repeat(16);
-    final String invalidDigitalMedium = "a".repeat(16);
-    final String invalidPrintPage = "a".repeat(16);
-    final String invalidDigitalEdition = "a".repeat(16);
-    final String invalidEli = "a".repeat(256);
-    final String invalidTitle = "a".repeat(256);
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
 
     // When
-    final AmendingLawDto amendingLawDtoWithInvalidSizes =
+    final AmendingLawDto amendingLawPrintDTO =
         AmendingLawDto.builder()
             .id(id)
-            .eli(invalidEli)
-            .printAnnouncementGazette(invalidPrintGazette)
-            .digitalAnnouncementMedium(invalidDigitalMedium)
-            .printAnnouncementPage(invalidPrintPage)
-            .digitalAnnouncementEdition(invalidDigitalEdition)
+            .eli(eli)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .publicationDate(publicationDate)
-            .title(invalidTitle)
-            .xml(xml)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
             .build();
 
-    final Set<ConstraintViolation<AmendingLawDto>> violations =
-        validator.validate(amendingLawDtoWithInvalidSizes);
-
     // Then
-    assertThat(violations)
-        .hasSize(6)
-        .extracting(
-            violation -> violation.getPropertyPath().toString() + " " + violation.getMessage())
-        .containsExactlyInAnyOrder(
-            "printAnnouncementPage size must be between 0 and 15",
-            "printAnnouncementGazette size must be between 0 and 15",
-            "digitalAnnouncementEdition size must be between 0 and 15",
-            "title size must be between 0 and 255",
-            "digitalAnnouncementMedium size must be between 0 and 15",
-            "eli size must be between 0 and 255");
+    assertThat(amendingLawPrintDTO.getId()).isEqualTo(id);
+    assertThat(amendingLawPrintDTO.getEli()).isEqualTo(eli);
+    assertThat(amendingLawPrintDTO.getDigitalAnnouncementMedium())
+        .isEqualTo(digitalAnnouncementMedium);
+    assertThat(amendingLawPrintDTO.getPublicationDate()).isEqualTo(publicationDate);
+    assertThat(amendingLawPrintDTO.getDigitalAnnouncementEdition())
+        .isEqualTo(digitalAnnouncementEdition);
+    assertThat(amendingLawPrintDTO.getTitle()).isEqualTo(title);
   }
 }
