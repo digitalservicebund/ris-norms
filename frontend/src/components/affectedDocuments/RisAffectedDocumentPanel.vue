@@ -10,7 +10,7 @@ const props = defineProps<{
    * unsemantic div element and you'll need to ensure correct semantics by
    * yourself.
    */
-  asListItem: boolean
+  asListItem?: boolean
 
   /** FNA number of the affected document. */
   fna?: string
