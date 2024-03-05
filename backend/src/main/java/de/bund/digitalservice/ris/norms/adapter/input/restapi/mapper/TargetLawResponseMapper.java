@@ -16,7 +16,6 @@ public class TargetLawResponseMapper {
    * @return A new {@link TargetLawResponseSchema} instance mapped from the input {@link TargetLaw}.
    */
   public static TargetLawResponseSchema fromUseCaseData(final TargetLaw targetLaw) {
-    return new TargetLawResponseSchema(
-        targetLaw.getEli(), targetLaw.getTitle(), targetLaw.getXml());
+    return new TargetLawResponseSchema(targetLaw.getEli(), targetLaw.getTitle());
   }
 }

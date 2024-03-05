@@ -75,7 +75,7 @@ class TargetLawControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("eli").value(equalTo(eli)))
         .andExpect(jsonPath("title").value(equalTo(title)))
-        .andExpect(jsonPath("xml").value(equalTo(xml)));
+        .andExpect(jsonPath("xml").doesNotExist());
   }
 
   @Test

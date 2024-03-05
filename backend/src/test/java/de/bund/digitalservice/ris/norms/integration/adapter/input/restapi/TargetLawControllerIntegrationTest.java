@@ -44,6 +44,6 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/target-laws/{eli}", encodedEli))
         .andExpect(jsonPath("eli").value(equalTo(eli)))
         .andExpect(jsonPath("title").value(equalTo(title)))
-        .andExpect(jsonPath("xml").value(equalTo(xml)));
+        .andExpect(jsonPath("xml").doesNotExist());
   }
 }
