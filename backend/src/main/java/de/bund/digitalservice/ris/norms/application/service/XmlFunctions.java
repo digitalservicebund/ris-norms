@@ -11,9 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-/** 
- * Namespace for functions dealing with XML Documents or Nodes
- */
+/** Namespace for functions dealing with XML Documents or Nodes */
 public class XmlFunctions {
 
   /**
@@ -38,11 +36,13 @@ public class XmlFunctions {
   }
 
   /**
-   * Get single node from given node using an XPath expression
-   * 
-   * @param xPathExpression to identify node to return
-   * @param node
-   * @return
+   * Get single node using an XPath expression on an input node. Note that it only supports single
+   * node results (not NODELISTs)
+   *
+   * @param xPathExpression an XPath expression used for identifying the node that's returned
+   * @param node the Node we're applying the XPath expression on (may also be a Document, as
+   *     Document extends Node)
+   * @return the Node identified by the <code>xPathExpression</code>
    */
   public static Optional<Node> getNode(String xPathExpression, Node node) {
     try {
