@@ -28,6 +28,8 @@ spring-security-test = { module = "org.springframework.security:spring-security-
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
+# CVE-2023-51775
+kubernetes-client-java = "io.kubernetes:client-java:20.0.0"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.5"
