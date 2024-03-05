@@ -9,7 +9,7 @@ vi.mock("@/services/articlesService", () => ({
   getArticleByEliAndEid: vi.fn(),
 }))
 
-describe("useArticlesStore", () => {
+describe("useArticleStore", () => {
   let mockArticle: AmendingLawArticle
 
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe("useArticlesStore", () => {
     vi.mocked(getArticleByEliAndEid).mockResolvedValue(mockArticle)
   })
 
-  it("loads articles correctly", async () => {
+  it("loads article correctly", async () => {
     const store = useArticleStore()
 
     store.loadArticleByEliAndEid({ eli: "example/eli", eid: "article eid 1" })

@@ -22,8 +22,8 @@ import {
 export function useArticle(
   identifier: MaybeRefOrGetter<LawElementIdentifier>,
 ): DeepReadonly<Ref<AmendingLawArticle | undefined>> {
-  const amendingLawStore = useArticleStore()
-  const { loadedArticle } = storeToRefs(amendingLawStore)
+  const articleStore = useArticleStore()
+  const { loadedArticle } = storeToRefs(articleStore)
 
   watch(
     () => toValue(identifier),
@@ -37,7 +37,7 @@ export function useArticle(
         return
       }
 
-      amendingLawStore.loadArticleByEliAndEid(newIdentifier)
+      articleStore.loadArticleByEliAndEid(newIdentifier)
     },
     { immediate: true },
   )

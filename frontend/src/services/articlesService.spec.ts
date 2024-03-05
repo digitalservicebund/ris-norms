@@ -6,6 +6,38 @@ describe("articlesService", () => {
     vi.resetAllMocks()
   })
 
+  describe("getArticlesByEli(eli)", () => {
+    it("provides the data from the api", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce([
+        {
+          enumeration: "1",
+          eid: "article/eid",
+          title: "Example",
+          affectedDocumentEli: "article/eli",
+        },
+      ])
+
+      vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
+
+      const { getArticlesByEli } = await import("./articlesService")
+
+      const result = await getArticlesByEli("example/eli")
+
+      expect(result).toEqual([
+        {
+          enumeration: "1",
+          eid: "article/eid",
+          title: "Example",
+          affectedDocumentEli: "article/eli",
+        },
+      ])
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/amending-laws/example/eli/articles",
+      )
+    })
+  })
+
   describe("getArticleByEliAndEid(identifier)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi.fn().mockResolvedValueOnce({
