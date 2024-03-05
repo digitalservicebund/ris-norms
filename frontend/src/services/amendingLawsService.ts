@@ -1,31 +1,15 @@
 import { apiFetch } from "@/services/apiService"
-
-export interface AmendingLaw {
-  eli: string
-  printAnnouncementGazette?: string
-  digitalAnnouncementMedium?: string
-  publicationDate: string
-  printAnnouncementPage?: string
-  digitalAnnouncementEdition?: string
-  title?: string
-  articles?: Article[]
-}
-
-interface Article {
-  eid: string
-  title: string
-  enumeration: string
-}
+import { AmendingLaw } from "@/types/domain"
 
 /**
- * Load all amending laws from the api
+ * Load all amending laws from the API.
  */
 export async function getAmendingLaws(): Promise<AmendingLaw[]> {
   return await apiFetch("/amending-laws")
 }
 
 /**
- * Load an amending law from the api
+ * Load an amending law from the API.
  *
  * @param eli Eli of the amending law
  */
@@ -34,7 +18,7 @@ export async function getAmendingLawByEli(eli: string): Promise<AmendingLaw> {
 }
 
 /**
- * Load the xml version of an amending law from the api
+ * Load the xml version of an amending law from the API.
  *
  * @param eli Eli of the amending law
  */

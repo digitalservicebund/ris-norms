@@ -1,14 +1,14 @@
-import { useAmendingLawStore } from "@/store/loadAmendingLawStore"
+import { useAmendingLawStore } from "@/store/amendingLawStore"
+import { AmendingLaw } from "@/types/domain"
 import { storeToRefs } from "pinia"
 import {
-  readonly,
-  watch,
-  MaybeRefOrGetter,
-  toValue,
-  Ref,
   DeepReadonly,
+  MaybeRefOrGetter,
+  Ref,
+  readonly,
+  toValue,
+  watch,
 } from "vue"
-import { AmendingLaw } from "@/services/amendingLawsService"
 
 /**
  * Get the data of an amending law.
