@@ -62,6 +62,7 @@ class AmendingLawServiceTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
+    final String xml = "<test></test>";
 
     final AmendingLaw amendingLaw =
         AmendingLaw.builder()
@@ -72,6 +73,7 @@ class AmendingLawServiceTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title)
+            .xml(xml)
             .build();
 
     when(loadAmendingLawAdapter.loadAmendingLawByEli(any())).thenReturn(Optional.of(amendingLaw));
@@ -108,8 +110,9 @@ class AmendingLawServiceTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
+    final String xml = "<test></test>";
 
-    final List<AmendingLaw> expectedAmendingLaw =
+    final List<AmendingLaw> expectedAmendingLaws =
         List.of(
             AmendingLaw.builder()
                 .eli(eli)
@@ -119,6 +122,7 @@ class AmendingLawServiceTest {
                 .digitalAnnouncementMedium(digitalAnnouncementMedium)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
                 .title(title)
+                .xml(xml)
                 .build(),
             AmendingLaw.builder()
                 .eli(eli)
@@ -128,17 +132,16 @@ class AmendingLawServiceTest {
                 .digitalAnnouncementMedium(digitalAnnouncementMedium)
                 .digitalAnnouncementEdition(digitalAnnouncementEdition)
                 .title(title)
+                .xml(xml)
                 .build());
 
-    when(loadAllAmendingLawsAdapter.loadAllAmendingLaws()).thenReturn(expectedAmendingLaw);
+    when(loadAllAmendingLawsAdapter.loadAllAmendingLaws()).thenReturn(expectedAmendingLaws);
 
     // When
     List<AmendingLaw> amendingLaw = service.loadAllAmendingLaws();
 
     // Then
-    assertThat(amendingLaw)
-        .hasSize(expectedAmendingLaw.size())
-        .containsExactlyElementsOf(expectedAmendingLaw);
+    assertThat(amendingLaw).hasSize(2).containsExactlyElementsOf(expectedAmendingLaws);
     verify(loadAllAmendingLawsAdapter, times(1)).loadAllAmendingLaws();
   }
 }
