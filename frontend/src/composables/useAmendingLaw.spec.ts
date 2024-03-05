@@ -14,9 +14,9 @@ describe("useAmendingLaw", () => {
       stubActions: false,
     })
 
-    vi.doMock("@/store/loadAmendingLawStore", () => ({
+    vi.doMock("@/store/amendingLawStore", () => ({
       useAmendingLawStore: vi.fn().mockReturnValue(
-        defineStore("loaded-amending-law", () => {
+        defineStore("amending-law", () => {
           return {
             loadedAmendingLaw: ref({
               eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
@@ -59,9 +59,9 @@ describe("useAmendingLaw", () => {
       stubActions: false,
     })
 
-    vi.doMock("@/store/loadAmendingLawStore", () => ({
+    vi.doMock("@/store/amendingLawStore", () => ({
       useAmendingLawStore: vi.fn().mockReturnValue(
-        defineStore("loaded-amending-law", () => {
+        defineStore("amending-law", () => {
           return {
             loadedAmendingLaw: ref(),
             loadAmendingLawByEli,

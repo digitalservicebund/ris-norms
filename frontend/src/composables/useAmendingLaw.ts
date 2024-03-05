@@ -18,13 +18,13 @@ import {
 export function useAmendingLaw(
   eli: MaybeRefOrGetter<string>,
 ): DeepReadonly<Ref<AmendingLaw | undefined>> {
-  const amendingLawsStore = useAmendingLawStore()
-  const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
+  const amendingLawStore = useAmendingLawStore()
+  const { loadedAmendingLaw } = storeToRefs(amendingLawStore)
 
   watch(
     () => toValue(eli),
     (newEli) => {
-      amendingLawsStore.loadAmendingLawByEli(newEli)
+      amendingLawStore.loadAmendingLawByEli(newEli)
     },
     { immediate: true },
   )
