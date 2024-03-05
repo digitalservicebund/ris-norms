@@ -57,7 +57,13 @@ public class XmlFunctions {
     return Optional.empty();
   }
 
-  static Optional<Document> cloneDocument(Document originalDocument) {
+  /**
+   * Create a deep copy of a Document
+   * 
+   * @param originalDocument the document we want to clone
+   * @return a deep copy of the <code>originalDocument</code>
+   */
+  public static Optional<Document> cloneDocument(Document originalDocument) {
     try {
       Node originalRootNode = originalDocument.getDocumentElement();
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
