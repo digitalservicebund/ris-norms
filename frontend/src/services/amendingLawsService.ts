@@ -1,4 +1,4 @@
-import { ofetch } from "ofetch"
+import { apiFetch } from "@/services/apiService"
 
 export interface AmendingLaw {
   eli: string
@@ -17,18 +17,31 @@ interface Article {
   enumeration: string
 }
 
-const apiFetch = ofetch.create({
-  baseURL: "/api/v1",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-})
-
+/**
+ * Load all amending laws from the api
+ */
 export async function getAmendingLaws(): Promise<AmendingLaw[]> {
   return await apiFetch("/amending-laws")
 }
 
+/**
+ * Load an amending law from the api
+ *
+ * @param eli Eli of the amending law
+ */
 export async function getAmendingLawByEli(eli: string): Promise<AmendingLaw> {
   return await apiFetch(`/amending-laws/${eli}`)
+}
+
+/**
+ * Load the xml version of an amending law from the api
+ *
+ * @param eli Eli of the amending law
+ */
+export async function getAmendingLawXmlByEli(eli: string): Promise<string> {
+  return await apiFetch(`/amending-laws/${eli}`, {
+    headers: {
+      Accept: "application/xml",
+    },
+  })
 }

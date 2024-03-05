@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { ref } from "vue"
+import { computed, ref, watch } from "vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
+import { getAmendingLawXmlByEli } from "@/services/amendingLawsService"
 
-const ARTICLE = 1
 const TARGET_LAW_TITLE = "Bundesverfassungsschutzgesetz"
-const ARTICLE_TITLE =
-  "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts"
-const ARTICLE_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1"
+const TARGET_LAW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1"
                   GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
   <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-1"
                  GUID="2e5533d3-d0e3-43ba-aa1a-5859d108eb46"
@@ -26,10 +24,8 @@ const ARTICLE_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1
                period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
   </akn:textualMod>
 </akn:activeModifications>`
-const TARGET_LAW_XML = ARTICLE_XML
-const PREVIEW_XML = ARTICLE_XML
-
-const currentArticleXml = ref(ARTICLE_XML)
+const PREVIEW_XML = TARGET_LAW_XML
+const currentArticleXml = ref("")
 
 function handleSave() {
   console.log("AmendingLawArticleEditor::handleSave")
@@ -45,6 +41,21 @@ function handleArticleXMLChange({ content }: { content: string }) {
 
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
+const article = computed(() => amendingLaw.value?.articles?.[0])
+
+const articleXml = ref<string>("")
+/**
+ * Update the xml of the article whenever the eli changes.
+ *
+ * NOTE: currently the xml of the whole law is loaded, this will change in the future.
+ */
+watch(
+  eli,
+  async (eli) => {
+    articleXml.value = await getAmendingLawXmlByEli(eli)
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -62,7 +73,7 @@ const amendingLaw = useAmendingLaw(eli)
     <div class="flex h-dvh flex-col p-40">
       <div class="mb-40 flex">
         <div class="flex-grow">
-          <h1 class="ds-heading-02-reg">Artikel {{ ARTICLE }}</h1>
+          <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
           <h2 class="ds-heading-03-reg">Änderungsbefehle prüfen</h2>
         </div>
 
@@ -102,11 +113,11 @@ const amendingLaw = useAmendingLaw(eli)
         <div class="flex flex-col gap-8">
           <h3 class="ds-label-02-bold">
             <span class="block">Änderungsbefehle</span>
-            <span>{{ ARTICLE_TITLE }}</span>
+            <span>{{ article?.title }}</span>
           </h3>
           <RisCodeEditor
             class="flex-grow border border-black"
-            :initial-content="ARTICLE_XML"
+            :initial-content="articleXml"
             @change="handleArticleXMLChange"
           ></RisCodeEditor>
         </div>

@@ -8,7 +8,7 @@ import { useCodemirrorVueEditableExtension } from "@/components/editor/composabl
 const props = withDefaults(
   defineProps<{
     /**
-     * The initial content of the editor. Changing this after the editor is created has no effect.
+     * The initial content of the editor. Changing this will recreate the editor.
      */
     initialContent?: string
     /**
@@ -68,10 +68,10 @@ const codemirrorVueEditableExtension = useCodemirrorVueEditableExtension(
  * Initialize codemirror when the editor element is available
  */
 watch(
-  editorElement,
-  () => {
+  [editorElement, () => props.initialContent],
+  (value, oldValue, onCleanup) => {
     if (editorElement.value == null) {
-      return () => {}
+      return
     }
 
     const newEditorView = new EditorView({
@@ -101,9 +101,9 @@ watch(
 
     editorView.value = newEditorView
 
-    return () => {
+    onCleanup(() => {
       newEditorView.destroy()
-    }
+    })
   },
   { immediate: true },
 )
