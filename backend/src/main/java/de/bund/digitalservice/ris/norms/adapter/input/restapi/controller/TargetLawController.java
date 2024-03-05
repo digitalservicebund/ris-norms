@@ -56,7 +56,7 @@ public class TargetLawController {
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<TargetLawResponseSchema> getAmendingLaw(
+  public ResponseEntity<TargetLawResponseSchema> getTargetLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -103,7 +103,7 @@ public class TargetLawController {
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}",
       produces = {APPLICATION_XML_VALUE})
-  public ResponseEntity<String> getAmendingLawXml(
+  public ResponseEntity<String> getTargetLawXml(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
