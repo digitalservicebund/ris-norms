@@ -150,8 +150,7 @@ class TimeMachineFunctionsTest {
         TimeMachineFunctions.getFirstModification(amendingLawWithModification);
     // then
     assertTrue(firstModificationNode.isPresent());
-    // TODO:
-    // assertTrue(firstModificationNode.get().toString().equals(xmlText));
+    assertTrue(firstModificationNode.get().getTextContent().equals("§ 20 Absatz 1 Satz 2 wird ersetzt."));
   }
 
   /** findHrefInModification() */
