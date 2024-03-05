@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.apache.commons.compress)
     implementation(libs.spring.security.core)
     implementation(libs.flyway.postgres)
-    implementation(libs.kubernetes.client.java)
+    implementation(libs.jose4j)
 
     compileOnly(libs.lombok)
 
