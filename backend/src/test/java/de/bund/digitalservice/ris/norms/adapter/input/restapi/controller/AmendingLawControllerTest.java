@@ -4,8 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
@@ -21,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
@@ -253,5 +253,21 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("eid", equalTo("eid 2")))
         .andExpect(jsonPath("title", equalTo("article title 2")))
         .andExpect(jsonPath("affectedDocumentEli", equalTo("target law eli 2")));
+  }
+
+  @Test
+  void itCallsTargetServiceAndReturnsTargetLawXml() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String xml = "<target></target>";
+
+    // When
+    when(loadAmendingLawXmlUseCase.loadAmendingLawXml(any())).thenReturn(Optional.of(xml));
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/amending-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
+        .andExpect(status().isOk())
+        .andExpect(content().string(xml));
   }
 }
