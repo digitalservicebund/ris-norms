@@ -25,7 +25,7 @@ public class XmlFunctions {
    */
   public static Optional<Document> stringToXmlDocument(String xmlText) {
     try {
-
+      // TODO: how to prevent XXE attacks (loading external sources)
       final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       final DocumentBuilder builder = factory.newDocumentBuilder();
       final InputSource is = new InputSource(new StringReader(xmlText));
