@@ -35,9 +35,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AmendingLaw'
-            application/xml: 
+            application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
+    put:
+      summary: Update the XML of an specific amending law by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the amending law
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/LegalDocML.de'
+      responses:
+        '200':
+          description: Successful response
 
   /amending-laws/{eli}/articles:
     get:
@@ -82,7 +100,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Article'
-                
+
   /target-laws/{eli}:
     get:
       summary: Get a specific target law by eli
@@ -100,10 +118,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TargetLaw'
-            application/xml: 
+            application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
-  
+  /target-laws/{eli}/time-machine:
+    post:
+      summary: Call time machine to generate preview of applied amending law
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI identifier of the target law
+          schema:
+            type: string
+      requestBody:
+        description: The XML of the amending law (which may be updated and not saved on DB)
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/LegalDocML.de'
+      responses:
+        '200':
+          description: Successful response with preview of amended law
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+
+
 components:
   schemas:
     AmendingLaw:
@@ -144,7 +187,7 @@ components:
           type: string
         title:
           type: string
-          
+
     LegalDocML.de:
       type: object
       xml:
