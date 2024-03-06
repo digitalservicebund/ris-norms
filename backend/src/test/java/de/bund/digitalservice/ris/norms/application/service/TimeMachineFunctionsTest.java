@@ -105,7 +105,7 @@ class TimeMachineFunctionsTest {
         TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
 
     // then
-    assertTrue(resultingLaw.isPresent());
+    assertTrue(resultingLaw.isEmpty());
   }
 
   @Test
