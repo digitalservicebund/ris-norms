@@ -49,15 +49,15 @@ public class XmlFunctions {
    * node results (not NODELISTs)
    *
    * @param xPathExpression an XPath expression used for identifying the node that's returned
-   * @param node the Node we're applying the XPath expression on (may also be a Document, as
+   * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
    *     Document extends Node)
    * @return the Node identified by the <code>xPathExpression</code>
    */
-  public static Optional<Node> getNode(String xPathExpression, Node node) {
+  public static Optional<Node> getNodeByXPath(String xPathExpression, Node sourceNode) {
     try {
       XPathFactory xpathfactory = XPathFactory.newInstance();
       XPath xpath = xpathfactory.newXPath();
-      Node nodeByXPath = (Node) xpath.evaluate(xPathExpression, node, XPathConstants.NODE);
+      Node nodeByXPath = (Node) xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
       return Optional.of(nodeByXPath);
     } catch (Exception e) {
       // we don't analyze, right now

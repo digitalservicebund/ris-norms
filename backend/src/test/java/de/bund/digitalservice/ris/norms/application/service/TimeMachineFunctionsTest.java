@@ -246,7 +246,7 @@ class TimeMachineFunctionsTest {
 
       final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
       final Optional<Node> optionalModificationNode =
-          XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
+          XmlFunctions.getNodeByXPath("//*[local-name()='mod']", optionalDocument.get());
 
       // when
       final Optional<String> optionalHref =
@@ -289,7 +289,7 @@ class TimeMachineFunctionsTest {
 
       final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
       final Optional<Node> optionalModificationNode =
-          XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
+          XmlFunctions.getNodeByXPath("//*[local-name()='mod']", optionalDocument.get());
 
       // when
       final Optional<String> optionalHref =
