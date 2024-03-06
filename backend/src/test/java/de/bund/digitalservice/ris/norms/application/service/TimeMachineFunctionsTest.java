@@ -11,6 +11,42 @@ import org.w3c.dom.Node;
 class TimeMachineFunctionsTest {
 
   /** applyTimeMachine() */
+
+  @Test
+  void returnEmptyIfOnlyOneQuotedText() {
+    // given
+    // given
+    final String amendingLawXmlText =
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:mod>
+             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace with <akn:quotedText>new</akn:quotedText>.
+            </akn:mod>
+
+            only one quotedText
+
+          </akn:body>
+        """;
+    final String targetLawXmlText =
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:p eId="one">old text</akn:p>
+            <akn:p eId="two">old text</akn:p>
+          </akn:body>
+        """;
+
+    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
+    final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
+    // when
+    final Optional<Document> resultingLaw =
+        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+
+    // then
+    assertTrue(resultingLaw.isEmpty());
+  }
+
   @Test
   void returnEmptyIfEIdNotFoundInTargetLaw() {
     // given
