@@ -1,5 +1,5 @@
 import { apiFetch } from "@/services/apiService"
-import { Article } from "@/types/domain"
+import { Article } from "@/types/article"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 
 /**

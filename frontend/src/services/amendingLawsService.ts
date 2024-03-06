@@ -1,5 +1,5 @@
 import { apiFetch } from "@/services/apiService"
-import { AmendingLaw } from "@/types/domain"
+import { AmendingLaw } from "@/types/amendingLaw"
 
 /**
  * Load all amending laws from the API.

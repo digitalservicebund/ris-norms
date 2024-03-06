@@ -1,4 +1,4 @@
-import { Article } from "@/types/domain"
+import { Article } from "@/types/article"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { MaybeRefOrGetter, Ref, nextTick, ref, toValue, watch } from "vue"
 

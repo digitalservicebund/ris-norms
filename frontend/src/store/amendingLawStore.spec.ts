@@ -1,6 +1,6 @@
 import { getAmendingLawByEli } from "@/services/amendingLawsService"
 import { useAmendingLawStore } from "@/store/amendingLawStore"
-import { AmendingLaw } from "@/types/domain"
+import { AmendingLaw } from "@/types/amendingLaw"
 import { createPinia, setActivePinia } from "pinia"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"

@@ -1,5 +1,5 @@
 import { useArticlesStore } from "@/store/articlesStore"
-import { Article } from "@/types/domain"
+import { Article } from "@/types/article"
 import { storeToRefs } from "pinia"
 import {
   DeepReadonly,

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import RisInfoHeader from "@/components/controls/RisInfoHeader.vue"
-import { AmendingLaw } from "@/types/domain"
+import { AmendingLaw } from "@/types/amendingLaw"
 import { computed, DeepReadonly } from "vue"
 
 const props = defineProps<{

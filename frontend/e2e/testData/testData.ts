@@ -1,4 +1,5 @@
-import { AmendingLaw, Article } from "@/types/domain"
+import { AmendingLaw } from "@/types/amendingLaw"
+import { Article } from "@/types/article"
 
 export const amendingLaws: (AmendingLaw & {
   articles: Article[]
