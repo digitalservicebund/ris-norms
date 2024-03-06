@@ -81,6 +81,7 @@ public class XmlFunctions {
       Node clonedRootNode = clonedDocument.importNode(originalRootNode, true);
       clonedDocument.appendChild(clonedRootNode);
       return Optional.of(clonedDocument);
+      // I don't know how to test that DocumentBuilderFactory.newInstance() can throw
     } catch (Exception e) {
       // we don't analyze, right now
     }
