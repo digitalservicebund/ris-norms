@@ -15,7 +15,6 @@ class TimeMachineFunctionsTest {
   @Test
   void returnEmptyIfOnlyOneQuotedText() {
     // given
-    // given
     final String amendingLawXmlText =
         """
         <?xml version="1.0" encoding="UTF-8"?>
@@ -76,7 +75,6 @@ class TimeMachineFunctionsTest {
   @Test
   void returnEmptyIfTheresNoModificationHref() {
     // given
-    // given
     final String amendingLawXmlText =
         """
         <?xml version="1.0" encoding="UTF-8"?>
@@ -109,8 +107,41 @@ class TimeMachineFunctionsTest {
   }
 
   @Test
-  void xmlDocumentsGoInAndOut() {
+  void returnEmptyIfEIdCannotBeReadFromHref() {
     // given
+    final String amendingLawXmlText =
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:mod>
+             In <akn:ref href="invalid-eli-href">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+            </akn:mod>
+
+           can't get eId from href
+
+          </akn:body>
+        """;
+    final String targetLawXmlText =
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:p eId="one">old text</akn:p>
+            <akn:p eId="two">old text</akn:p>
+          </akn:body>
+        """;
+
+    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
+    final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
+    // when
+    final Optional<Document> resultingLaw =
+        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+
+    // then
+    assertTrue(resultingLaw.isEmpty());
+  }
+
+  @Test
+  void xmlDocumentsGoInAndOut() {
     // given
     final String amendingLawXmlText =
         """
