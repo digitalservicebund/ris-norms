@@ -28,9 +28,11 @@ public class TimeMachineFunctions {
     // TODO: cover all individual failures in tests
 
       final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
+      // don't know how to trigger this state in a test
+      if (targetLawClone.isEmpty()) return Optional.empty();
 
       final Optional<Node> firstModificationNodeInAmendingLaw = getFirstModification(amendingLaw);
-      if (firstModificationNodeInAmendingLaw.isEmpty()) return targetLawClone;
+      if (firstModificationNodeInAmendingLaw.isEmpty()) return targetLawClone; // return unmodified
 
       final Optional<String> oldText =
           getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
@@ -42,6 +44,8 @@ public class TimeMachineFunctions {
 
       final Optional<Node> targetLawNodeToBeModified =
           findNodeByEId(eId.get(), targetLawClone.get());
+      if (targetLawNodeToBeModified.isEmpty()) return Optional.empty();
+      
       final String modifiedTextContent =
           targetLawNodeToBeModified
               .get()
