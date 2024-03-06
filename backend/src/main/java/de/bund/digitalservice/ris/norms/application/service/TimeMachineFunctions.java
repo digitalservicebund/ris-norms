@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 public class TimeMachineFunctions {
 
   // prevent default constructor
-  private TimeMachineFunctions(){}
+  private TimeMachineFunctions() {}
 
   /**
    * Applies the modifications of the amending law onto the target law.
@@ -25,40 +25,35 @@ public class TimeMachineFunctions {
    */
   public static Optional<Document> applyTimeMachine(
       final Document amendingLaw, final Document targetLaw) {
-    // TODO: cover all individual failures in tests
 
-      final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
-      // don't know how to trigger this state in a test
-      if (targetLawClone.isEmpty()) return Optional.empty();
+    final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
+    // don't know how to trigger this state in a test
+    if (targetLawClone.isEmpty()) return Optional.empty();
 
-      final Optional<Node> firstModificationNodeInAmendingLaw = getFirstModification(amendingLaw);
-      if (firstModificationNodeInAmendingLaw.isEmpty()) return targetLawClone; // return unmodified
+    final Optional<Node> firstModificationNodeInAmendingLaw = getFirstModification(amendingLaw);
+    if (firstModificationNodeInAmendingLaw.isEmpty()) return targetLawClone; // return unmodified
 
-      final Optional<String> oldText =
-          getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
-      final Optional<String> newText =
-          getNewTextInReplacement(firstModificationNodeInAmendingLaw.get());
-      // not sure how to trigger the "newText" condition separately.
-      if (oldText.isEmpty() || newText.isEmpty()) return Optional.empty();
+    final Optional<String> oldText = getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
+    final Optional<String> newText =
+        getNewTextInReplacement(firstModificationNodeInAmendingLaw.get());
+    // not sure how to trigger the "newText" condition separately.
+    if (oldText.isEmpty() || newText.isEmpty()) return Optional.empty();
 
-      final Optional<String> modificationHref =
-          findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
-      if (modificationHref.isEmpty()) return Optional.empty();
+    final Optional<String> modificationHref =
+        findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
+    if (modificationHref.isEmpty()) return Optional.empty();
 
-      final Optional<String> eId = getEIdfromModificationHref(modificationHref.get());
+    final Optional<String> eId = getEIdfromModificationHref(modificationHref.get());
+    if (eId.isEmpty()) return Optional.empty();
 
-      final Optional<Node> targetLawNodeToBeModified =
-          findNodeByEId(eId.get(), targetLawClone.get());
-      if (targetLawNodeToBeModified.isEmpty()) return Optional.empty();
-      
-      final String modifiedTextContent =
-          targetLawNodeToBeModified
-              .get()
-              .getTextContent()
-              .replaceFirst(oldText.get(), newText.get());
+    final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLawClone.get());
+    if (targetLawNodeToBeModified.isEmpty()) return Optional.empty();
 
-      targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
-      return targetLawClone;
+    final String modifiedTextContent =
+        targetLawNodeToBeModified.get().getTextContent().replaceFirst(oldText.get(), newText.get());
+    targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
+
+    return targetLawClone;
   }
 
   static Optional<Node> getFirstModification(Document amendingLaw) {
@@ -66,22 +61,22 @@ public class TimeMachineFunctions {
   }
 
   static Optional<String> findHrefInModificationNode(Node modificationNode) {
-      Optional<Node> optionalNodeHrefAttribute =
-          XmlFunctions.getNode("//*[local-name()='ref']/@href", modificationNode);
-      
-      if (optionalNodeHrefAttribute.isPresent())
-        return Optional.of(optionalNodeHrefAttribute.get().getNodeValue());
+    Optional<Node> optionalNodeHrefAttribute =
+        XmlFunctions.getNode("//*[local-name()='ref']/@href", modificationNode);
+
+    if (optionalNodeHrefAttribute.isPresent())
+      return Optional.of(optionalNodeHrefAttribute.get().getNodeValue());
 
     return Optional.empty();
   }
 
   static Optional<String> getEIdfromModificationHref(String modificationHref) {
-      final String[] hrefParts = modificationHref.split("/");
+    final String[] hrefParts = modificationHref.split("/");
 
-      if (hrefParts.length >= 2) {
-        final String eId = hrefParts[hrefParts.length - 2];
-        return Optional.of(eId);
-      }
+    if (hrefParts.length >= 2) {
+      final String eId = hrefParts[hrefParts.length - 2];
+      return Optional.of(eId);
+    }
 
     return Optional.empty();
   }
