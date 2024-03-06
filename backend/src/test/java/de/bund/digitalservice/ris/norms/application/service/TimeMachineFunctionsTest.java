@@ -13,53 +13,55 @@ import org.w3c.dom.Node;
 
 class TimeMachineFunctionsTest {
 
-  /** applyTimeMachine() */
-  @ParameterizedTest
-  @ValueSource(
-      strings = {
-        """
+  @Nested
+  class applyTimeMachine {
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          """
       <akn:mod>
         In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
 
       only one quotedText
     """,
-        """
+          """
       <akn:mod>
         In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/THREE/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
 
       eId THREE not found in target law
     """,
-        """
+          """
       <akn:mod>
         In <akn:ref>paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
 
       no href attribute in "ref" tag
     """,
-        """
+          """
       <akn:mod>
         In <akn:ref href="invalid-eli-href">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
 
       can't get eId from href
     """
-      })
-  void returnEmptyOnError(String modificationNodeText) {
-    // given
-    final String amendingLawXmlText =
-        """
+        })
+    void returnEmptyOnError(String modificationNodeText) {
+      // given
+      final String amendingLawXmlText =
+          """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
         """
-            + modificationNodeText
-            + """
+              + modificationNodeText
+              + """
 
           </akn:body>
         """;
-    final String targetLawXmlText =
-        """
+      final String targetLawXmlText =
+          """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:p eId="one">old text</akn:p>
@@ -67,21 +69,21 @@ class TimeMachineFunctionsTest {
           </akn:body>
         """;
 
-    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
-    final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
-    // when
-    final Optional<Document> resultingLaw =
-        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+      final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
+      final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
+      // when
+      final Optional<Document> resultingLaw =
+          TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
 
-    // then
-    assertTrue(resultingLaw.isEmpty());
-  }
+      // then
+      assertTrue(resultingLaw.isEmpty());
+    }
 
-  @Test
-  void xmlDocumentsGoInAndOut() {
-    // given
-    final String amendingLawXmlText =
-        """
+    @Test
+    void xmlDocumentsGoInAndOut() {
+      // given
+      final String amendingLawXmlText =
+          """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
@@ -92,8 +94,8 @@ class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final String targetLawXmlText =
-        """
+      final String targetLawXmlText =
+          """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:p eId="one">old text</akn:p>
@@ -101,37 +103,37 @@ class TimeMachineFunctionsTest {
           </akn:body>
         """;
 
-    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
-    final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
-    // when
-    final Optional<Document> resultingLaw =
-        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+      final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
+      final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
+      // when
+      final Optional<Document> resultingLaw =
+          TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
 
-    // then
-    assertTrue(resultingLaw.isPresent());
-  }
+      // then
+      assertTrue(resultingLaw.isPresent());
+    }
 
-  @Test
-  void targetLawStaysUnchangedIfAmendingLawHasNoModifications() {
-    // given
-    final Document amendingLaw =
-        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
-            .get();
-    final Document targetLaw =
-        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>")
-            .get();
-    // when
-    final Optional<Document> resultingLaw =
-        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
-    // then
-    assertEquals(resultingLaw.get().toString(), targetLaw.toString());
-  }
+    @Test
+    void targetLawStaysUnchangedIfAmendingLawHasNoModifications() {
+      // given
+      final Document amendingLaw =
+          XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
+              .get();
+      final Document targetLaw =
+          XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>")
+              .get();
+      // when
+      final Optional<Document> resultingLaw =
+          TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+      // then
+      assertEquals(resultingLaw.get().toString(), targetLaw.toString());
+    }
 
-  @Test
-  void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
-    // given
-    final String amendingLawXmlText =
-        """
+    @Test
+    void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
+      // given
+      final String amendingLawXmlText =
+          """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
@@ -142,8 +144,8 @@ class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final String targetLawXmlText =
-        """
+      final String targetLawXmlText =
+          """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:p eId="one">old text</akn:p>
@@ -151,26 +153,28 @@ class TimeMachineFunctionsTest {
           </akn:body>
         """;
 
-    final String expectedResultingLawXmlText =
-        """
+      final String expectedResultingLawXmlText =
+          """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:p eId="one">new text</akn:p>
             <akn:p eId="two">new text</akn:p>
           </akn:body>
         """;
-    final Document optionalAmendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
-    final Document optionalTargetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
-    final Document expectedResultingLaw =
-        XmlFunctions.stringToXmlDocument(expectedResultingLawXmlText).get();
+      final Document optionalAmendingLaw =
+          XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
+      final Document optionalTargetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
+      final Document expectedResultingLaw =
+          XmlFunctions.stringToXmlDocument(expectedResultingLawXmlText).get();
 
-    // when applying the TimeMachine
-    final Optional<Document> resultingLaw =
-        TimeMachineFunctions.applyTimeMachine(optionalAmendingLaw, optionalTargetLaw);
+      // when applying the TimeMachine
+      final Optional<Document> resultingLaw =
+          TimeMachineFunctions.applyTimeMachine(optionalAmendingLaw, optionalTargetLaw);
 
-    // the result contains the new text in place of the old text
-    assertTrue(resultingLaw.isPresent());
-    assertEquals(resultingLaw.get().toString(), expectedResultingLaw.toString());
+      // the result contains the new text in place of the old text
+      assertTrue(resultingLaw.isPresent());
+      assertEquals(resultingLaw.get().toString(), expectedResultingLaw.toString());
+    }
   }
 
   @Nested
