@@ -11,7 +11,6 @@ import org.w3c.dom.Node;
 class TimeMachineFunctionsTest {
 
   /** applyTimeMachine() */
-
   @Test
   void returnEmptyIfOnlyOneQuotedText() {
     // given
@@ -264,8 +263,8 @@ class TimeMachineFunctionsTest {
         TimeMachineFunctions.getFirstModification(amendingLawWithModification);
     // then
     assertTrue(firstModificationNode.isPresent());
-    assertEquals("§ 20 Absatz 1 Satz 2 wird ersetzt.", 
-        firstModificationNode.get().getTextContent());
+    assertEquals(
+        "§ 20 Absatz 1 Satz 2 wird ersetzt.", firstModificationNode.get().getTextContent());
   }
 
   /** findHrefInModificationNode() */
