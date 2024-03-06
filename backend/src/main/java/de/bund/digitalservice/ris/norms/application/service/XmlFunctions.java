@@ -32,7 +32,7 @@ public class XmlFunctions {
       final Document document = builder.parse(is);
       return Optional.of(document);
     } catch (Exception e) {
-      // TODO: do something with e. Maybe log it?
+      // we don't analyze, right now
     }
 
     return Optional.empty();
@@ -54,7 +54,7 @@ public class XmlFunctions {
       Node nodeByXPath = (Node) xpath.evaluate(xPathExpression, node, XPathConstants.NODE);
       return Optional.of(nodeByXPath);
     } catch (Exception e) {
-      // TODO: do something with e?
+      // we don't analyze, right now
     }
 
     return Optional.empty();
@@ -75,8 +75,8 @@ public class XmlFunctions {
       Node clonedRootNode = clonedDocument.importNode(originalRootNode, true);
       clonedDocument.appendChild(clonedRootNode);
       return Optional.of(clonedDocument);
-    } catch (Exception e) {
-      // TODO: do something with e?
+    } catch (Exception e){
+      // we don't analyze, right now
     }
 
     return Optional.empty();
