@@ -63,14 +63,11 @@ public class TimeMachineFunctions {
   }
 
   static Optional<String> findHrefInModificationNode(Node modificationNode) {
-    try {
       Optional<Node> optionalNodeHrefAttribute =
           XmlFunctions.getNode("//*[local-name()='ref']/@href", modificationNode);
-      String href = optionalNodeHrefAttribute.get().getNodeValue();
-      return Optional.of(href);
-    } catch (Exception e) {
-      // TODO: do something with e?
-    }
+      
+      if (optionalNodeHrefAttribute.isPresent())
+        return Optional.of(optionalNodeHrefAttribute.get().getNodeValue());
 
     return Optional.empty();
   }
