@@ -15,7 +15,7 @@ import org.xml.sax.InputSource;
 public class XmlFunctions {
 
   // prevent default constructor
-  private XmlFunctions(){}
+  private XmlFunctions() {}
 
   /**
    * Create an XML Document from an xml string representation.
@@ -75,7 +75,7 @@ public class XmlFunctions {
       Node clonedRootNode = clonedDocument.importNode(originalRootNode, true);
       clonedDocument.appendChild(clonedRootNode);
       return Optional.of(clonedDocument);
-    } catch (Exception e){
+    } catch (Exception e) {
       // we don't analyze, right now
     }
 
