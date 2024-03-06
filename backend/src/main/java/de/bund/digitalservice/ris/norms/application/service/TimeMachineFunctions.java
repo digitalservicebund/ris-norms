@@ -38,6 +38,9 @@ public class TimeMachineFunctions {
           getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
       final Optional<String> newText =
           getNewTextInReplacement(firstModificationNodeInAmendingLaw.get());
+      // not sure how to trigger the "newText" condition separately.
+      if (oldText.isEmpty() || newText.isEmpty()) return Optional.empty();
+
       final Optional<String> modificationHref =
           findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
       final Optional<String> eId = getEIdfromModificationHref(modificationHref.get());
