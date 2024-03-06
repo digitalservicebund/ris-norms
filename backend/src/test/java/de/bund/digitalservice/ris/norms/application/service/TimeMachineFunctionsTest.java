@@ -293,33 +293,35 @@ class TimeMachineFunctionsTest {
     assertEquals("some/href/with/slashes.xml", optionalHref.get());
   }
 
-  /** getEIdFromModificationHref */
-  @Test
-  void returnEmptyIfModificationHrefCannotBeSplitToGetEli() {
-    // given
-    final String modificationHref = "can't be split as it has no slashes";
+  @Nested
+  class getEIdFromModificationHref {
+    @Test
+    void returnEmptyIfModificationHrefCannotBeSplitToGetEli() {
+      // given
+      final String modificationHref = "can't be split as it has no slashes";
 
-    // when
-    final Optional<String> optionalEId =
-        TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
+      // when
+      final Optional<String> optionalEId =
+          TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
 
-    // then
-    assertTrue(optionalEId.isEmpty());
-  }
+      // then
+      assertTrue(optionalEId.isEmpty());
+    }
 
-  @Test
-  void getEIdFromModificationHref() {
-    // given
-    final String modificationHref =
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml";
+    @Test
+    void getEIdFromModificationHref() {
+      // given
+      final String modificationHref =
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml";
 
-    // when
-    final Optional<String> optionalEId =
-        TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
+      // when
+      final Optional<String> optionalEId =
+          TimeMachineFunctions.getEIdfromModificationHref(modificationHref);
 
-    // then
-    assertTrue(optionalEId.isPresent());
-    assertEquals("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1", optionalEId.get());
+      // then
+      assertTrue(optionalEId.isPresent());
+      assertEquals("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1", optionalEId.get());
+    }
   }
 
   @Nested
