@@ -5,35 +5,38 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 class XmlFunctionsTest {
 
-  /** stringToXmlDocument() */
-  @Test
-  void documentGeneratedFromValidXmlStringMustNotBeEmpty() {
-    // given
-    final String input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
+  @Nested
+  class StringToXmlDocument {
+    @Test
+    void documentGeneratedFromValidXmlStringMustNotBeEmpty() {
+      // given
+      final String input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
 
-    // when
-    final Optional<Document> result = XmlFunctions.stringToXmlDocument(input);
+      // when
+      final Optional<Document> result = XmlFunctions.stringToXmlDocument(input);
 
-    // then
-    assertTrue(result.isPresent());
-  }
+      // then
+      assertTrue(result.isPresent());
+    }
 
-  @Test
-  void documentGeneratedFromInValidXmlStringMustBeEmpty() {
-    // given
-    final String input = "invalid XML; does not even have an XML declaration";
+    @Test
+    void documentGeneratedFromInValidXmlStringMustBeEmpty() {
+      // given
+      final String input = "invalid XML; does not even have an XML declaration";
 
-    // when
-    final Optional<Document> result = XmlFunctions.stringToXmlDocument(input);
+      // when
+      final Optional<Document> result = XmlFunctions.stringToXmlDocument(input);
 
-    // then
-    assertTrue(result.isEmpty());
+      // then
+      assertTrue(result.isEmpty());
+    }
   }
 
   /** getNode() */
