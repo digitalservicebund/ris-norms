@@ -8,13 +8,12 @@ From here the users can handle their procedures ("Vorgänge").
 
 ## Prerequisites
 
-- Node.js (with a `.node-version` file for simplified setup using [`nodenv``](https://github.com/nodenv/nodenv)
-- Environment Variables (copy the `.env.local.example` to `.env.local` and fill in the URL to the VSCode-Server)
+- Node.js (with a `.node-version` file) for simplified setup using [`nodenv``](https://github.com/nodenv/nodenv)
 
 ## Quick-Start
 
 - `npm i` fetches all dependencies
-- `npm run dev` starts the application. By default on [local port 5173](http://localhost:5173)
+- `npm run dev` starts the application. By default on [local port 5173](http://localhost:5173). You will also need a running [backend](../backend/README.md).
 - `npm run test` runs the tests (in watcher mode)
 - `npm run coverage` compiles a coverage report via `v8`
 - `npm run style:check` does linting and formatting

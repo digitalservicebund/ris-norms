@@ -1,34 +1,31 @@
-import { ofetch } from "ofetch"
+import { apiFetch } from "@/services/apiService"
+import { AmendingLaw } from "@/types/domain"
 
-export interface AmendingLaw {
-  eli: string
-  printAnnouncementGazette?: string
-  digitalAnnouncementMedium?: string
-  publicationDate: string
-  printAnnouncementPage?: string
-  digitalAnnouncementEdition?: string
-  title?: string
-  articles?: Article[]
-}
-
-interface Article {
-  eli: string
-  title: string
-  enumeration: string
-}
-
-const apiFetch = ofetch.create({
-  baseURL: "/api/v1",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-})
-
+/**
+ * Load all amending laws from the API.
+ */
 export async function getAmendingLaws(): Promise<AmendingLaw[]> {
-  return await apiFetch("/amendinglaw")
+  return await apiFetch("/amending-laws")
 }
 
+/**
+ * Load an amending law from the API.
+ *
+ * @param eli Eli of the amending law
+ */
 export async function getAmendingLawByEli(eli: string): Promise<AmendingLaw> {
-  return await apiFetch(`/amendinglaw/${eli}`)
+  return await apiFetch(`/amending-laws/${eli}`)
+}
+
+/**
+ * Load the xml version of an amending law from the API.
+ *
+ * @param eli Eli of the amending law
+ */
+export async function getAmendingLawXmlByEli(eli: string): Promise<string> {
+  return await apiFetch(`/amending-laws/${eli}`, {
+    headers: {
+      Accept: "application/xml",
+    },
+  })
 }

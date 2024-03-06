@@ -14,7 +14,9 @@ import lombok.experimental.SuperBuilder;
 public class Article {
   private String enumeration;
 
-  private String eli;
+  private String eid;
 
   private String title;
+
+  private TargetLaw targetLaw;
 }

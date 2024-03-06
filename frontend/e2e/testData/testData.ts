@@ -1,6 +1,8 @@
-import { AmendingLaw } from "@/services/amendingLawsService"
+import { AmendingLaw, Article } from "@/types/domain"
 
-export const amendingLaws: AmendingLaw[] = [
+export const amendingLaws: (AmendingLaw & {
+  articles: Article[]
+})[] = [
   {
     eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
     printAnnouncementGazette: "BGBl. I",
@@ -12,8 +14,9 @@ export const amendingLaws: AmendingLaw[] = [
     articles: [
       {
         enumeration: "1",
-        eli: "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1",
+        eid: "hauptteil-1_art-1",
         title: "Änderung des Vereinsgesetzes",
+        affectedDocumentEli: "",
       },
     ],
   },
@@ -28,8 +31,9 @@ export const amendingLaws: AmendingLaw[] = [
     articles: [
       {
         enumeration: "1",
-        eli: "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        eid: "hauptteil-1_art-1",
         title: "Änderung des Bundesverfassungsschutzgesetzes",
+        affectedDocumentEli: "",
       },
     ],
   },

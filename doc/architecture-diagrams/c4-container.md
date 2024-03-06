@@ -22,13 +22,13 @@ C4Container
         Rel("documentalist", "frontend", "Adjusts new amending laws,<br> adjusts metadata <br> and publishes the new norms<br> (or versions of norms)")
 
         Container("backend", "API Server", "Java, Spring Boot", "Provides functionality via a HTTPS/JSON API")
-        Rel("frontend", "backend", "Makes API calls to", "HTTPS/JSON")
+        Rel("frontend", "backend", "Makes API calls to", "HTTPS/JSON/XML")
 
         ContainerDb("relationalDB", "Relational DB", "PostgreSQL", "Stores process data")
         Rel("backend", "relationalDB", "Reads from and writes to", "SQL/TCP")
       }
 
-      
+
       UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="2")
 
 ```

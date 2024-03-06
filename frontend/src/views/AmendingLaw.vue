@@ -3,55 +3,34 @@ import { RouterView } from "vue-router"
 import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
-import RisUnitInfoPanel from "@/components/controls/RisUnitInfoPanel.vue"
-import { computed, onMounted, onUnmounted } from "vue"
-import { useAmendingLawsStore } from "@/store/loadAmendingLawStore"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { storeToRefs } from "pinia"
+import { useAmendingLaw } from "@/composables/useAmendingLaw"
+import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
     label: "Vorgang",
-    route: { name: "AmendingLawArticleOverview" },
+    route: { name: "AmendingLaw" },
     children: [
       {
         label: "Artikelübersicht",
-        route: { name: "AmendingLawArticleOverview" },
+        route: { name: "AmendingLawArticles" },
       },
       {
         label: "Betroffene Normenkomplexe",
-        route: { name: "AmendingLawAffectedStandards" },
+        route: { name: "AmendingLawAffectedDocuments" },
       },
     ],
   },
 ]
 
 const eli = useEliPathParameter()
-
-const amendingLawsStore = useAmendingLawsStore()
-const { loadedAmendingLaw } = storeToRefs(amendingLawsStore)
-
-onMounted(() => amendingLawsStore.loadAmendingLawByEli(eli.value))
-onUnmounted(() => (loadedAmendingLaw.value = undefined))
-
-const heading = computed(() => {
-  const publicationYear = loadedAmendingLaw.value?.publicationDate.substring(
-    0,
-    4,
-  )
-  if (loadedAmendingLaw.value?.printAnnouncementGazette) {
-    return `${loadedAmendingLaw.value?.printAnnouncementGazette} ${publicationYear} S. ${loadedAmendingLaw.value?.printAnnouncementPage}`
-  } else if (loadedAmendingLaw.value?.digitalAnnouncementEdition) {
-    return `${loadedAmendingLaw.value?.digitalAnnouncementMedium} ${publicationYear} Nr. ${loadedAmendingLaw.value?.digitalAnnouncementEdition}`
-  } else {
-    return ""
-  }
-})
+const amendingLaw = useAmendingLaw(eli)
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col bg-gray-100">
-    <RisUnitInfoPanel :heading="heading" :title="loadedAmendingLaw?.title" />
+  <div v-if="amendingLaw" class="flex min-h-screen flex-col bg-gray-100">
+    <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
     <div class="flex">
       <RisNavbarSide
         class="min-h-screen flex-none border-r border-gray-400 bg-white"
@@ -59,9 +38,10 @@ const heading = computed(() => {
         :go-back-route="{ name: 'Home' }"
         :menu-items="menuItems"
       />
-      <div class="w-full flex-1 p-48">
+      <div class="w-full flex-1 p-40">
         <RouterView />
       </div>
     </div>
   </div>
+  <div v-else>Laden...</div>
 </template>

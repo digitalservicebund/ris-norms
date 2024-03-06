@@ -1,6 +1,6 @@
 # Backend module
 
-Backend service built with Spring Boot
+Backend service built with Spring Boot.
 
 ## Prerequisites
 
@@ -10,6 +10,18 @@ Java 21, Docker for building + running the containerized application:
 brew install openjdk@21
 brew install --cask docker # or just `brew install docker` if you don't want the Desktop app
 ```
+
+## Running and developing
+
+Set up and boot the database (from the project root):
+
+```sh
+docker compose up postgres14
+```
+
+Note: Test data has to be imported manually if needed.
+
+You can then start the backend by running the `bootRun` Gradle task.
 
 ## Tests
 

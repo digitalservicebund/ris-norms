@@ -4,58 +4,67 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAmendingLawsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
- * Not using SpringBootTest annotation to avoid needing a database connection. Therefore, manually
- * setting up the {@code mockMvc} including the ControllerAdvice
+ * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
+ * the {@link SecurityConfig} in order to avoid http 401 Unauthorised
  */
-@ExtendWith(SpringExtension.class)
+@WebMvcTest(AmendingLawController.class)
+@Import(SecurityConfig.class)
 class AmendingLawControllerTest {
 
-  private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadAmendingLawUseCase loadAmendingLawUseCase;
+  @MockBean private LoadAmendingLawXmlUseCase loadAmendingLawXmlUseCase;
   @MockBean private LoadAllAmendingLawsUseCase loadAllAmendingLawsUseCase;
-
-  @BeforeEach
-  public void setUp() {
-    mockMvc =
-        MockMvcBuilders.standaloneSetup(
-                new AmendingLawController(loadAmendingLawUseCase, loadAllAmendingLawsUseCase))
-            .setControllerAdvice(new InternalErrorExceptionHandler())
-            .build();
-  }
+  @MockBean private LoadArticlesUseCase loadArticlesUseCase;
+  @MockBean private LoadArticleUseCase loadArticleUseCase;
 
   @Test
-  void itCallsAmendingLawServiceWithExpressionEliFromQuery() throws Exception {
+  void itCallsloadAmendingLawWithExpressionEliFromQuery() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
 
     // When
-    mockMvc.perform(get("/api/v1/amendinglaw/{eli}", eli));
+    mockMvc.perform(get("/api/v1/amending-laws/{eli}", eli));
 
     // Then
     verify(loadAmendingLawUseCase, times(1))
         .loadAmendingLaw(argThat(query -> query.eli().equals(eli)));
+  }
+
+  @Test
+  void itCallsloadArticlesOfAmendingLawWithExpressionEliFromQuery() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    when(loadArticlesUseCase.loadArticlesOfAmendingLaw(any())).thenReturn(Collections.emptyList());
+
+    // When
+    mockMvc.perform(get("/api/v1/amending-laws/{eli}/articles", eli));
+
+    // Then
+    verify(loadArticlesUseCase, times(1))
+        .loadArticlesOfAmendingLaw(argThat(query -> query.eli().equals(eli)));
   }
 
   @Test
@@ -69,9 +78,6 @@ class AmendingLawControllerTest {
     final String digitalAnnouncementEdition = "edition123";
     final String title = "Title vom Gesetz";
 
-    final Article article1 = new Article("1", "eli1", "title1");
-    final Article article2 = new Article("2", "eli2", "title2");
-
     // When
     final AmendingLaw amendingLaw =
         AmendingLaw.builder()
@@ -82,14 +88,13 @@ class AmendingLawControllerTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title)
-            .articles(List.of(article1, article2))
             .build();
 
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.of(amendingLaw));
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/amendinglaw/{eli}", eli))
+        .perform(get("/api/v1/amending-laws/{eli}", eli))
         .andExpect(status().isOk())
         .andExpect(
             jsonPath("eli")
@@ -98,9 +103,7 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("digitalAnnouncementMedium").value(equalTo(digitalAnnouncementMedium)))
         .andExpect(
             jsonPath("digitalAnnouncementEdition").value(equalTo(digitalAnnouncementEdition)))
-        .andExpect(jsonPath("title").value(equalTo(title)))
-        .andExpect(jsonPath("articles").isArray())
-        .andExpect(jsonPath("$..articles[0].eli").value("eli1"));
+        .andExpect(jsonPath("title").value(equalTo(title)));
   }
 
   @Test
@@ -110,18 +113,31 @@ class AmendingLawControllerTest {
     when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.empty());
 
     // When // Then
-    mockMvc.perform(get("/api/v1/amendinglaw/{eli}", eli)).andExpect(status().isNotFound());
+    mockMvc.perform(get("/api/v1/amending-laws/{eli}", eli)).andExpect(status().isNotFound());
   }
 
   @Test
-  void itCallsAmendingLawServiceAndReturnsInternalError() throws Exception {
+  void itCallsloadAmendingLawAndReturnsInternalError() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     when(loadAmendingLawUseCase.loadAmendingLaw(any()))
         .thenThrow(new RuntimeException("simulating internal server error"));
 
     // When // Then
-    mockMvc.perform(get("/api/v1/amendinglaw/{eli}", eli)).andExpect(status().is5xxServerError());
+    mockMvc.perform(get("/api/v1/amending-laws/{eli}", eli)).andExpect(status().is5xxServerError());
+  }
+
+  @Test
+  void itCallsloadArticlesOfAmendingLawAndReturnsInternalError() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    when(loadArticlesUseCase.loadArticlesOfAmendingLaw(any()))
+        .thenThrow(new RuntimeException("simulating internal server error"));
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/amending-laws/{eli}/articles", eli))
+        .andExpect(status().is5xxServerError());
   }
 
   @Test
@@ -164,7 +180,7 @@ class AmendingLawControllerTest {
 
     // When // Then
     mockMvc
-        .perform(get("/api/v1/amendinglaw"))
+        .perform(get("/api/v1/amending-laws"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[2]").doesNotExist())
@@ -172,5 +188,86 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("$[0].eli", equalTo(eli)))
         .andExpect(jsonPath("$[1].printAnnouncementGazette", equalTo(printAnnouncementGazette2)))
         .andExpect(jsonPath("$[1].eli", equalTo(eli2)));
+  }
+
+  @Test
+  void itLoadsAllArticlesAndReturnsSuccessfully() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final List<Article> articles =
+        List.of(
+            Article.builder()
+                .eid("eid 1")
+                .title("article title 1")
+                .enumeration("1")
+                .targetLaw(
+                    TargetLaw.builder().eli("target law eli 1").title("title1").xml("xml1").build())
+                .build(),
+            Article.builder()
+                .eid("eid 2")
+                .title("article title 2")
+                .enumeration("2")
+                .targetLaw(
+                    TargetLaw.builder().eli("target law eli 2").title("title2").xml("xml2").build())
+                .build());
+
+    when(loadArticlesUseCase.loadArticlesOfAmendingLaw(any())).thenReturn(articles);
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/amending-laws/{eli}/articles", eli))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[1]").exists())
+        .andExpect(jsonPath("$[2]").doesNotExist())
+        .andExpect(jsonPath("$[0].eid", equalTo("eid 1")))
+        .andExpect(jsonPath("$[0].title", equalTo("article title 1")))
+        .andExpect(jsonPath("$[0].enumeration", equalTo("1")))
+        .andExpect(jsonPath("$[0].affectedDocumentEli", equalTo("target law eli 1")))
+        .andExpect(jsonPath("$[1].eid", equalTo("eid 2")))
+        .andExpect(jsonPath("$[1].title", equalTo("article title 2")))
+        .andExpect(jsonPath("$[1].enumeration", equalTo("2")))
+        .andExpect(jsonPath("$[1].affectedDocumentEli", equalTo("target law eli 2")));
+  }
+
+  @Test
+  void itLoadsOneArticleAndReturnsTheOneSuccessfully() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+
+    final Article article2 =
+        Article.builder()
+            .eid("eid 2")
+            .title("article title 2")
+            .enumeration("2")
+            .targetLaw(
+                TargetLaw.builder().eli("target law eli 2").title("title2").xml("xml2").build())
+            .build();
+
+    when(loadArticleUseCase.loadArticle(any())).thenReturn(Optional.of(article2));
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/amending-laws/{eli}/articles/{eid}", eli, article2.getEid()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("enumeration", equalTo("2")))
+        .andExpect(jsonPath("eid", equalTo("eid 2")))
+        .andExpect(jsonPath("title", equalTo("article title 2")))
+        .andExpect(jsonPath("affectedDocumentEli", equalTo("target law eli 2")));
+  }
+
+  @Test
+  void itCallsTargetServiceAndReturnsTargetLawXml() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String xml = "<target></target>";
+
+    // When
+    when(loadAmendingLawXmlUseCase.loadAmendingLawXml(any())).thenReturn(Optional.of(xml));
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/amending-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
+        .andExpect(status().isOk())
+        .andExpect(content().string(xml));
   }
 }

@@ -32,9 +32,13 @@ public class ArticleDto {
   @NotNull
   @Size(max = 255)
   @Column
-  private String eli;
+  private String eid;
 
   @Size(max = 255)
   @Column
   private String title;
+
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "target_law_id", referencedColumnName = "id", nullable = false)
+  private TargetLawDto targetLawDto;
 }

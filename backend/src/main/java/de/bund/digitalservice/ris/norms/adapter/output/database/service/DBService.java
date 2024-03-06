@@ -1,12 +1,20 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.TargetLawDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ArticleMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAmendingLawsPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import jakarta.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +24,28 @@ import org.springframework.stereotype.Service;
  * Spring context.
  */
 @Service
-public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort {
+public class DBService
+    implements LoadAmendingLawPort,
+        LoadAmendingLawXmlPort,
+        LoadAllAmendingLawsPort,
+        LoadArticlesPort,
+        LoadArticlePort,
+        LoadTargetLawPort,
+        LoadTargetLawXmlPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
-  public DBService(AmendingLawRepository amendingLawRepository) {
+  private final TargetLawRepository targetLawRepository;
+
+  public DBService(
+      AmendingLawRepository amendingLawRepository, TargetLawRepository targetLawRepository) {
     this.amendingLawRepository = amendingLawRepository;
+    this.targetLawRepository = targetLawRepository;
   }
 
   @Override
   @Transactional
-  public Optional<AmendingLaw> loadAmendingLawByEli(Command command) {
+  public Optional<AmendingLaw> loadAmendingLawByEli(LoadAmendingLawPort.Command command) {
     return amendingLawRepository
         .findByEli(command.eli())
         .map(AmendingLawMapper::mapToDomainWithArticles);
@@ -37,5 +56,45 @@ public class DBService implements LoadAmendingLawPort, LoadAllAmendingLawsPort {
     return amendingLawRepository.findAllByOrderByPublicationDateDesc().stream()
         .map(AmendingLawMapper::mapToDomain)
         .toList();
+  }
+
+  @Override
+  @Transactional
+  public List<Article> loadArticlesByAmendingLaw(LoadArticlesPort.Command command) {
+    final Optional<AmendingLawDto> amendingLawDtoOptional =
+        amendingLawRepository.findByEli(command.eli());
+    return amendingLawDtoOptional
+        .map(
+            amendingLawDto ->
+                amendingLawDto.getArticleDtos().stream().map(ArticleMapper::mapToDomain).toList())
+        .orElse(Collections.emptyList());
+  }
+
+  @Override
+  @Transactional
+  public Optional<Article> loadArticleByEliAndEid(LoadArticlePort.Command command) {
+    final Optional<AmendingLawDto> amendingLawDtoOptional =
+        amendingLawRepository.findByEli(command.eli());
+    return amendingLawDtoOptional.flatMap(
+        amendingLawDto ->
+            amendingLawDto.getArticleDtos().stream()
+                .filter(articleDto -> Objects.equals(articleDto.getEid(), command.eId()))
+                .findFirst()
+                .map(ArticleMapper::mapToDomain));
+  }
+
+  @Override
+  public Optional<String> loadAmendingLawXmlByEli(LoadAmendingLawXmlPort.Command command) {
+    return amendingLawRepository.findByEli(command.eli()).map(AmendingLawDto::getXml);
+  }
+
+  @Override
+  public Optional<TargetLaw> loadTargetLawByEli(LoadTargetLawPort.Command command) {
+    return targetLawRepository.findByEli(command.eli()).map(TargetLawMapper::mapToDomain);
+  }
+
+  @Override
+  public Optional<String> loadTargetLawXmlByEli(LoadTargetLawXmlPort.Command command) {
+    return targetLawRepository.findByEli(command.eli()).map(TargetLawDto::getXml);
   }
 }

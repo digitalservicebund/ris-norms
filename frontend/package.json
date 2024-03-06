@@ -10,6 +10,7 @@
     "test": "TZ=UTC vitest run",
     "test:watch": "TZ=UTC vitest",
     "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit",
     "eslint:check": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --max-warnings 0 .",
     "eslint:fix": "npm run eslint:check -- --fix",
     "prettier:check": "prettier --check .",
@@ -26,11 +27,11 @@
     "npm": "10.2.3"
   },
   "dependencies": {
-    "@codemirror/lang-xml": "^6.0.2",
+    "@codemirror/lang-xml": "^6.1.0",
     "codemirror": "^6.0.1",
     "ofetch": "^1.3.3",
     "pinia": "^2.1.7",
-    "vue": "~3.4.20",
+    "vue": "~3.4.21",
     "vue-router": "~4.3.0"
   },
   "devDependencies": {
@@ -39,22 +40,23 @@
     "@digitalservice4germany/style-dictionary": "~2.0.0",
     "@histoire/plugin-vue": "~0.17.12",
     "@iconify-json/ic": "~1.1.17",
-    "@playwright/test": "~1.42.0",
+    "@pinia/testing": "^0.1.3",
+    "@playwright/test": "~1.42.1",
     "@testing-library/jest-dom": "~6.4.0",
     "@testing-library/vue": "~8.0.1",
-    "@typescript-eslint/eslint-plugin": "~7.1.0",
-    "@typescript-eslint/parser": "~7.1.0",
+    "@typescript-eslint/eslint-plugin": "~7.1.1",
+    "@typescript-eslint/parser": "~7.1.1",
     "@vitejs/plugin-vue": "~5.0.3",
     "@vitest/coverage-v8": "~1.3.1",
     "@vue/eslint-config-prettier": "~9.0.0",
     "@vue/eslint-config-typescript": "~12.0.0",
-    "autoprefixer": "~10.4.17",
+    "autoprefixer": "~10.4.18",
     "axe-playwright": "~2.0.1",
     "dotenv": "^16.4.5",
     "eslint": "~8.57.0",
     "eslint-config-prettier": "~9.1.0",
     "eslint-plugin-import": "~2.29.1",
-    "eslint-plugin-playwright": "~1.5.0",
+    "eslint-plugin-playwright": "~1.5.2",
     "eslint-plugin-prettier": "~5.1.3",
     "eslint-plugin-testing-library": "~6.2.0",
     "eslint-plugin-vue": "~9.22.0",
@@ -70,8 +72,8 @@
     "tailwindcss": "~3.4.1",
     "typescript": "~5.3.3",
     "unplugin-icons": "~0.18.2",
-    "vite": "~5.1.4",
+    "vite": "~5.1.5",
     "vitest": "~1.3.0",
-    "vue-tsc": "~1.8.27"
+    "vue-tsc": "~2.0.5"
   }
 }

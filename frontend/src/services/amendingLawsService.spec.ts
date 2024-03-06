@@ -1,68 +1,108 @@
-import { describe, it, expect, vi } from "vitest"
-import {
-  AmendingLaw,
-  getAmendingLawByEli,
-  getAmendingLaws,
-} from "./amendingLawsService"
+import { describe, it, expect, vi, beforeEach } from "vitest"
 
-vi.mock("./amendingLawsService", () => ({
-  getAmendingLaws: vi.fn(),
-  getAmendingLawByEli: vi.fn(),
-}))
+describe("amendingLawsService", () => {
+  beforeEach(() => {
+    vi.resetModules()
+    vi.resetAllMocks()
+  })
 
-describe("Service consumer tests", () => {
-  it("tests another function or component using getAmendingLaws with mock data", async () => {
-    const mockedAmendingLawsArray: AmendingLaw[] = [
-      {
+  describe("getAmendingLawByEli(eli)", () => {
+    it("provides the data from the api", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce({
         eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         printAnnouncementGazette: "bgbl-1",
+        printAnnouncementMedium: undefined,
         publicationDate: "2017-03-15",
         printAnnouncementPage: "419",
         digitalAnnouncementEdition: undefined,
-      },
-      {
-        eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        printAnnouncementGazette: "bgbl-1",
-        publicationDate: "2023-12-29",
-        printAnnouncementPage: "413",
-        digitalAnnouncementEdition: undefined,
-      },
-    ]
+      })
 
-    vi.mocked(getAmendingLaws).mockResolvedValue(mockedAmendingLawsArray)
-    const result = await getAmendingLaws()
-    expect(result).toBe(mockedAmendingLawsArray)
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
 
-    expect(getAmendingLaws).toHaveBeenCalled()
+      const { getAmendingLawByEli } = await import("./amendingLawsService")
+
+      const result = await getAmendingLawByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+      expect(result.eli).toBe(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+      expect(result.publicationDate).toBe("2017-03-15")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+    })
   })
 
-  it("tests another function or component using getAmendingLawByEli with mock data", async () => {
-    const eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
-    const mockedAmendingLaw = {
-      eli: eli,
-      printAnnouncementGazette: "bgbl-1",
-      printAnnouncementMedium: undefined,
-      publicationDate: "2017-03-15",
-      printAnnouncementPage: "419",
-      digitalAnnouncementEdition: undefined,
-      articles: [
+  describe("getAmendingLaws()", () => {
+    it("provides the data from the api", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce([
         {
-          eli: "article eli 1",
-          title: "article eli 1",
-          enumeration: "1",
+          eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+          printAnnouncementGazette: "bgbl-1",
+          printAnnouncementMedium: undefined,
+          publicationDate: "2017-03-15",
+          printAnnouncementPage: "419",
+          digitalAnnouncementEdition: undefined,
+          articles: [
+            {
+              eid: "article eid 1",
+              title: "article eid 1",
+              enumeration: "1",
+            },
+            {
+              eid: "article eid 2",
+              title: "article eli 2",
+              enumeration: "2",
+            },
+          ],
         },
-        {
-          eli: "article eli 2",
-          title: "article eli 2",
-          enumeration: "2",
-        },
-      ],
-    }
+      ])
 
-    vi.mocked(getAmendingLawByEli).mockResolvedValue(mockedAmendingLaw)
-    const result = await getAmendingLawByEli(eli)
-    expect(result).toBe(mockedAmendingLaw)
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
 
-    expect(getAmendingLawByEli).toHaveBeenCalled()
+      const { getAmendingLaws } = await import("./amendingLawsService")
+
+      const result = await getAmendingLaws()
+      expect(result.length).toBe(1)
+      expect(result[0].eli).toBe(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+
+      expect(fetchMock).toHaveBeenCalledWith("/amending-laws")
+    })
+  })
+
+  describe("getAmendingLawXmlByEli(eli)", () => {
+    it("provides the data from the api", async () => {
+      const fetchMock = vi
+        .fn()
+        .mockResolvedValueOnce(`<?xml version="1.0" encoding="UTF-8"?></xml>`)
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { getAmendingLawXmlByEli } = await import("./amendingLawsService")
+
+      const result = await getAmendingLawXmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+      expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Accept: "application/xml",
+          }),
+        }),
+      )
+    })
   })
 })

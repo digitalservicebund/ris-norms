@@ -1,8 +1,5 @@
 FROM node:20.10.0 as frontend
 
-ARG VITE_VSCODE_URL
-ENV VITE_VSCODE_URL=$VITE_VSCODE_URL
-
 WORKDIR /frontend
 COPY frontend .
 RUN npm ci

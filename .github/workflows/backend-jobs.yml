@@ -176,11 +176,9 @@ jobs:
         run: echo "${{ inputs.example-variable}}"
       - uses: actions/checkout@v4
       - name: Build docker image
-        run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }} --build-arg VITE_VSCODE_URL="$VITE_VSCODE_URL" -f DockerfileApp .
-        env:
-          VITE_VSCODE_URL: ${{ secrets.VSCODE_URL }}
+        run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }} -f DockerfileApp .
       - name: Run Trivy vulnerability image scanner
-        uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef
+        uses: aquasecurity/trivy-action@062f2592684a31eb3aa050cc61e7ca1451cecd3d
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
           format: "sarif"
@@ -201,7 +199,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-image-scan
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef
+        uses: aquasecurity/trivy-action@062f2592684a31eb3aa050cc61e7ca1451cecd3d
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
           format: "cosign-vuln"

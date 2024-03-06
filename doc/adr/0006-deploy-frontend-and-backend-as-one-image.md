@@ -13,7 +13,6 @@ as separate images, as documented here [ADR Nr. 8 Deploy frontend in separate im
 We aim to have just one docker image to deploy that consists of both the backend and the frontend, with the goal of
 tackling the issue raised there.
 
-
 ## Decision
 
 After careful consideration and evaluation of our architecture and deployment strategy, we have decided to consolidate

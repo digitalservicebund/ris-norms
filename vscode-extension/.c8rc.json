@@ -1,7 +1,0 @@
-{
-  "all": true,
-  "include": ["dist/**"],
-  "exclude": ["**/node_modules/**", "out/test/", "dist/test/**"],
-  "reporter": ["html", "text", "lcov"],
-  "report-dir": "coverage"
-}

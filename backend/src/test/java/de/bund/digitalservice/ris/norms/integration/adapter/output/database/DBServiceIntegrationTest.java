@@ -3,11 +3,14 @@ package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,16 +25,24 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private AmendingLawRepository amendingLawRepository;
 
-  final Article article1 = new Article("1", "eli1", "title1");
-  final Article article2 = new Article("2", "eli2", "title2");
+  @Autowired private TargetLawRepository targetLawRepository;
 
-  final Article article3 = new Article("3", "eli3", "title3");
+  final TargetLaw targetLaw =
+      TargetLaw.builder()
+          .eli("target law eli")
+          .title("target law title")
+          .xml("<test></test>")
+          .build();
 
-  final Article article4 = new Article("4", "eli4", "title4");
+  final Article article1 = new Article("1", "eli1", "title1", targetLaw);
+  final Article article2 = new Article("2", "eli2", "title2", targetLaw);
+  final Article article3 = new Article("3", "eli3", "title3", targetLaw);
+  final Article article4 = new Article("4", "eli4", "title4", targetLaw);
 
   @AfterEach
   void cleanUp() {
     amendingLawRepository.deleteAll();
+    targetLawRepository.deleteAll();
   }
 
   @Test
@@ -44,6 +55,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
+    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     // When
     final AmendingLaw amendingLaw =
@@ -56,6 +68,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title)
             .articles(List.of(article1, article2))
+            .xml(xml)
             .build();
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
 
@@ -68,7 +81,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         .isPresent()
         .satisfies(
             amendingLawDb -> {
-              assertThat(amendingLawDb.get()).isEqualTo(amendingLaw);
+              assertThat(amendingLawDb).contains(amendingLaw);
               assertThat(amendingLawDb.get().getArticles())
                   .containsExactlyInAnyOrderElementsOf(amendingLaw.getArticles());
             });
@@ -105,6 +118,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
     final String title2 = "title2";
+    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     final AmendingLaw amendingLaw1 =
         AmendingLaw.builder()
@@ -116,6 +130,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title1)
             .articles(List.of(article1, article2))
+            .xml(xml)
             .build();
     final AmendingLaw amendingLaw2 =
         AmendingLaw.builder()
@@ -127,6 +142,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition2)
             .title(title2)
             .articles(List.of(article3, article4))
+            .xml(xml)
             .build();
 
     amendingLawRepository.saveAll(
@@ -141,5 +157,204 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     assertThat(amendingLawsLoaded)
         .extracting(AmendingLaw::getEli)
         .containsExactly(amendingLaw2.getEli(), amendingLaw1.getEli());
+  }
+
+  @Test
+  void itFindsArticleOnDB() {
+    // Given
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1, article2))
+            .xml(xml)
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    // When
+    final List<Article> articles =
+        dbService.loadArticlesByAmendingLaw(new LoadArticlesPort.Command(eli));
+
+    // Then
+    assertThat(articles).hasSize(2);
+    assertThat(articles)
+        .extracting(Article::getTitle)
+        .containsExactly(article1.getTitle(), article2.getTitle());
+  }
+
+  @Test
+  void itDoesNotFindArticlesOfAmendingLaw() {
+    // Given
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .xml(xml)
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    // When
+    final List<Article> articles =
+        dbService.loadArticlesByAmendingLaw(new LoadArticlesPort.Command(eli));
+
+    // Then
+    assertThat(articles).isEmpty();
+  }
+
+  @Test
+  void itFindsOneArticleOnDB() {
+    // Given
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1, article2))
+            .xml(xml)
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    // When
+    final Optional<Article> articleOptional =
+        dbService.loadArticleByEliAndEid(new LoadArticlePort.Command(eli, article2.getEid()));
+
+    // Then
+    assertThat(articleOptional)
+        .isPresent()
+        .satisfies(article -> assertThat(article).contains(article2));
+  }
+
+  @Test
+  void itFindsTargetLawOnDB() {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String title = "title";
+    final String xml = "<target></target>";
+
+    // When
+    final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
+    targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
+
+    // When
+    final Optional<TargetLaw> targetLawOptional =
+        dbService.loadTargetLawByEli(new LoadTargetLawPort.Command(eli));
+
+    // Then
+    assertThat(targetLawOptional)
+        .isPresent()
+        .satisfies(targetlawDb -> assertThat(targetlawDb).contains(targetLaw));
+  }
+
+  @Test
+  void itDoesNotFindTargetLawOnDb() {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+    // When
+    final Optional<TargetLaw> targetLawOptional =
+        dbService.loadTargetLawByEli(new LoadTargetLawPort.Command(eli));
+
+    // Then
+    assertThat(targetLawOptional).isNotPresent();
+  }
+
+  @Test
+  void loadTargetLawXmlByEli() {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String title = "title";
+    final String xml = "<target></target>";
+
+    // When
+    final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
+    targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
+
+    // When
+    final Optional<String> targetLawXmlOptional =
+        dbService.loadTargetLawXmlByEli(new LoadTargetLawXmlPort.Command(eli));
+
+    // Then
+    assertThat(targetLawXmlOptional)
+        .isPresent()
+        .satisfies(xmlDb -> assertThat(xmlDb).contains(xml));
+  }
+
+  @Test
+  void loadAmendingLawXmlByEli() {
+    // Given
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1, article2))
+            .xml(xml)
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    // When
+    final Optional<String> xmlOptional =
+        dbService.loadAmendingLawXmlByEli(new LoadAmendingLawXmlPort.Command(eli));
+
+    // Then
+    assertThat(xmlOptional).isPresent().satisfies(xmlDb -> assertThat(xmlDb).contains(xml));
   }
 }
