@@ -173,36 +173,38 @@ class TimeMachineFunctionsTest {
     assertEquals(resultingLaw.get().toString(), expectedResultingLaw.toString());
   }
 
-  /** getFirstModification() */
-  @Test
-  void returnEmptyIfThereIsNoFirstModification() {
-    // given
-    final Document amendingLawWithoutModification =
-        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
-            .get();
-    // when
-    final Optional<Node> firstModificationNode =
-        TimeMachineFunctions.getFirstModification(amendingLawWithoutModification);
-    // then
-    assertTrue(firstModificationNode.isEmpty());
-  }
+  @Nested
+  class getFirstModification {
+    @Test
+    void returnEmptyIfThereIsNoFirstModification() {
+      // given
+      final Document amendingLawWithoutModification =
+          XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>")
+              .get();
+      // when
+      final Optional<Node> firstModificationNode =
+          TimeMachineFunctions.getFirstModification(amendingLawWithoutModification);
+      // then
+      assertTrue(firstModificationNode.isEmpty());
+    }
 
-  @Test
-  void returnModificationNodeIfThereIsAFirstModification() {
-    // given
-    final String xmlText =
-        """
+    @Test
+    void returnModificationNodeIfThereIsAFirstModification() {
+      // given
+      final String xmlText =
+          """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
           <akn:mod>§ 20 Absatz 1 Satz 2 wird ersetzt.</akn:mod>
         """;
-    final Document amendingLawWithModification = XmlFunctions.stringToXmlDocument(xmlText).get();
-    // when
-    final Optional<Node> firstModificationNode =
-        TimeMachineFunctions.getFirstModification(amendingLawWithModification);
-    // then
-    assertTrue(firstModificationNode.isPresent());
-    assertEquals(
-        "§ 20 Absatz 1 Satz 2 wird ersetzt.", firstModificationNode.get().getTextContent());
+      final Document amendingLawWithModification = XmlFunctions.stringToXmlDocument(xmlText).get();
+      // when
+      final Optional<Node> firstModificationNode =
+          TimeMachineFunctions.getFirstModification(amendingLawWithModification);
+      // then
+      assertTrue(firstModificationNode.isPresent());
+      assertEquals(
+          "§ 20 Absatz 1 Satz 2 wird ersetzt.", firstModificationNode.get().getTextContent());
+    }
   }
 
   @Nested
