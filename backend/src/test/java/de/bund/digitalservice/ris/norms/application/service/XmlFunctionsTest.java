@@ -47,7 +47,7 @@ class XmlFunctionsTest {
     final Optional<Document> document = XmlFunctions.stringToXmlDocument(xmlString);
 
     // when
-    final Optional<Node> node = XmlFunctions.getNode("", document.get());
+    final Optional<Node> node = XmlFunctions.getNodeByXPath("", document.get());
 
     // then
     assertTrue(node.isEmpty());
@@ -73,7 +73,7 @@ class XmlFunctionsTest {
     // when
     String xPathExpression = "//*[local-name()='my-node']";
     final Optional<Node> optionalMyNode =
-        XmlFunctions.getNode(xPathExpression, optionalDocument.get());
+        XmlFunctions.getNodeByXPath(xPathExpression, optionalDocument.get());
 
     // then
     assertTrue(optionalMyNode.isPresent());
@@ -100,7 +100,7 @@ class XmlFunctionsTest {
     // when
     final String xPathExpression = "//*[@eId='theEId']";
     final Optional<Node> optionalNodeByEId =
-        XmlFunctions.getNode(xPathExpression, optionalDocument.get());
+        XmlFunctions.getNodeByXPath(xPathExpression, optionalDocument.get());
 
     // then
     assertTrue(optionalNodeByEId.isPresent());
@@ -125,12 +125,12 @@ class XmlFunctionsTest {
     final Document originalDocument = XmlFunctions.stringToXmlDocument(xmlText).get();
     final String xPathExpresion = "//*[@eId='theEId']";
     final String textOfOriginalDocumentModification =
-        XmlFunctions.getNode(xPathExpresion, originalDocument).get().getTextContent();
+        XmlFunctions.getNodeByXPath(xPathExpresion, originalDocument).get().getTextContent();
 
     // when
     final Document clonedDocument = XmlFunctions.cloneDocument(originalDocument).get();
     final String textOfClonedDocumentModification =
-        XmlFunctions.getNode(xPathExpresion, clonedDocument).get().getTextContent();
+        XmlFunctions.getNodeByXPath(xPathExpresion, clonedDocument).get().getTextContent();
 
     // then
     assertEquals(textOfOriginalDocumentModification, textOfClonedDocumentModification);

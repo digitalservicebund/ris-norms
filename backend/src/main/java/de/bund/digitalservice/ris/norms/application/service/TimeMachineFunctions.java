@@ -57,12 +57,12 @@ public class TimeMachineFunctions {
   }
 
   static Optional<Node> getFirstModification(Document amendingLaw) {
-    return XmlFunctions.getNode("//*[local-name()='mod']", amendingLaw);
+    return XmlFunctions.getNodeByXPath("//*[local-name()='mod']", amendingLaw);
   }
 
   static Optional<String> findHrefInModificationNode(Node modificationNode) {
     Optional<Node> optionalNodeHrefAttribute =
-        XmlFunctions.getNode("//*[local-name()='ref']/@href", modificationNode);
+        XmlFunctions.getNodeByXPath("//*[local-name()='ref']/@href", modificationNode);
 
     if (optionalNodeHrefAttribute.isPresent())
       return Optional.of(optionalNodeHrefAttribute.get().getNodeValue());
@@ -83,18 +83,19 @@ public class TimeMachineFunctions {
 
   static Optional<Node> findNodeByEId(String eId, Node node) {
     final String xPathExpresion = "//*[@eId='" + eId + "']";
-    return XmlFunctions.getNode(xPathExpresion, node);
+    return XmlFunctions.getNodeByXPath(xPathExpresion, node);
   }
 
   static Optional<String> getTextToBeReplaced(Node node) {
     // make sure there are two texts
     final String xPathExpressionSecondNode = "(//*[local-name()='quotedText'])[2]";
-    final Optional<Node> optionalSecondNode = XmlFunctions.getNode(xPathExpressionSecondNode, node);
+    final Optional<Node> optionalSecondNode =
+        XmlFunctions.getNodeByXPath(xPathExpressionSecondNode, node);
     if (optionalSecondNode.isEmpty()) return Optional.empty();
 
     // now get the first one
     final String xPathExpresion = "//*[local-name()='quotedText']";
-    final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpresion, node);
+    final Optional<Node> optionalNode = XmlFunctions.getNodeByXPath(xPathExpresion, node);
 
     if (optionalNode.isPresent()) {
       final String textToBeReplaced = optionalNode.get().getTextContent();
@@ -106,7 +107,7 @@ public class TimeMachineFunctions {
 
   static Optional<String> getNewTextInReplacement(Node node) {
     final String xPathExpression = "(//*[local-name()='quotedText'])[2]";
-    final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpression, node);
+    final Optional<Node> optionalNode = XmlFunctions.getNodeByXPath(xPathExpression, node);
 
     if (optionalNode.isPresent()) {
       final String newText = optionalNode.get().getTextContent();
