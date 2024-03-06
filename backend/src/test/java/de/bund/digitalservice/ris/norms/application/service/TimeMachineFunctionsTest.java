@@ -82,7 +82,7 @@ class TimeMachineFunctionsTest {
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
-             In <akn:ref">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+             In <akn:ref>paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
             </akn:mod>
 
             no href attribute in "ref" tag
