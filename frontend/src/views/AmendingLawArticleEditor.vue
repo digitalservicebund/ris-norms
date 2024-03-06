@@ -7,8 +7,9 @@ import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import { getAmendingLawXmlByEli } from "@/services/amendingLawsService"
 import { useTargetLaw } from "@/composables/useTargetLaw"
+import { useTargetLawXml } from "@/composables/useTargetLawXml"
 
-const TARGET_LAW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1"
+const PREVIEW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1"
                   GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
   <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-1"
                  GUID="2e5533d3-d0e3-43ba-aa1a-5859d108eb46"
@@ -24,7 +25,6 @@ const TARGET_LAW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemo
                period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
   </akn:textualMod>
 </akn:activeModifications>`
-const PREVIEW_XML = TARGET_LAW_XML
 const currentArticleXml = ref("")
 
 function handleSave() {
@@ -58,6 +58,10 @@ watch(
     articleXml.value = await getAmendingLawXmlByEli(eli)
   },
   { immediate: true },
+)
+
+const targetLawXml = useTargetLawXml(
+  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
 )
 </script>
 
@@ -101,7 +105,7 @@ watch(
             class="flex-grow border border-black"
             :readonly="true"
             :editable="false"
-            :initial-content="TARGET_LAW_XML"
+            :initial-content="targetLawXml ?? ''"
           ></RisCodeEditor>
         </div>
         <div class="row-span-2 flex flex-col gap-8">
