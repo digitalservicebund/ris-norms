@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,36 +15,37 @@ class TimeMachineFunctionsTest {
 
   /** applyTimeMachine() */
   @ParameterizedTest
-  @ValueSource(strings = {
-    """
+  @ValueSource(
+      strings = {
+        """
       <akn:mod>
         In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
 
       only one quotedText
     """,
-    """
+        """
       <akn:mod>
         In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/THREE/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
 
       eId THREE not found in target law
     """,
-    """
+        """
       <akn:mod>
         In <akn:ref>paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
 
       no href attribute in "ref" tag
     """,
-    """
+        """
       <akn:mod>
         In <akn:ref href="invalid-eli-href">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
 
       can't get eId from href
     """
-  })
+      })
   void returnEmptyOnError(String modificationNodeText) {
     // given
     final String amendingLawXmlText =
@@ -51,8 +53,8 @@ class TimeMachineFunctionsTest {
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
         """
-            + modificationNodeText +
-        """
+            + modificationNodeText
+            + """
 
           </akn:body>
         """;
@@ -440,12 +442,13 @@ class TimeMachineFunctionsTest {
     assertEquals("old text", optionalTextToBeReplaced.get());
   }
 
-  /** getNewTextInReplacement() */
-  @Test
-  void returnEmptyIfNoQuotedTextIsFoundInReplacement() {
-    // given
-    final String xmlText =
-        """
+  @Nested
+  class getNewTextInReplacement {
+    @Test
+    void returnEmptyIfNoQuotedTextIsFoundInReplacement() {
+      // given
+      final String xmlText =
+          """
       <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
@@ -456,21 +459,21 @@ class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
+      final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
-    // when
-    final Optional<String> optionalNewTextInReplacement =
-        TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
+      // when
+      final Optional<String> optionalNewTextInReplacement =
+          TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
 
-    // then
-    assertTrue(optionalNewTextInReplacement.isEmpty());
-  }
+      // then
+      assertTrue(optionalNewTextInReplacement.isEmpty());
+    }
 
-  @Test
-  void returnEmptyIfOnlyOneQuotedTextIsFoundInReplacement() {
-    // given
-    final String xmlText =
-        """
+    @Test
+    void returnEmptyIfOnlyOneQuotedTextIsFoundInReplacement() {
+      // given
+      final String xmlText =
+          """
       <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
@@ -481,21 +484,21 @@ class TimeMachineFunctionsTest {
 
           </akn:body>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
+      final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
-    // when
-    final Optional<String> optionalNewTextInReplacement =
-        TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
+      // when
+      final Optional<String> optionalNewTextInReplacement =
+          TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
 
-    // then
-    assertTrue(optionalNewTextInReplacement.isEmpty());
-  }
+      // then
+      assertTrue(optionalNewTextInReplacement.isEmpty());
+    }
 
-  @Test
-  void getNewTextInReplacement() {
-    // given
-    final String xmlText =
-        """
+    @Test
+    void returnNewTextInReplacement() {
+      // given
+      final String xmlText =
+          """
       <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
             <akn:mod>
@@ -503,14 +506,15 @@ class TimeMachineFunctionsTest {
             </akn:mod>
           </akn:body>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
+      final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
-    // when
-    final Optional<String> optionalNewTextInReplacement =
-        TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
+      // when
+      final Optional<String> optionalNewTextInReplacement =
+          TimeMachineFunctions.getNewTextInReplacement(optionalDocument.get());
 
-    // then
-    assertTrue(optionalNewTextInReplacement.isPresent());
-    assertEquals("new text", optionalNewTextInReplacement.get());
+      // then
+      assertTrue(optionalNewTextInReplacement.isPresent());
+      assertEquals("new text", optionalNewTextInReplacement.get());
+    }
   }
 }
