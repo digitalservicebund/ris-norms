@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
@@ -84,7 +85,7 @@ class TimeMachineFunctionsTest {
     final Optional<Document> resultingLaw =
         TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
     // then
-    assertTrue(resultingLaw.get().toString().equals(targetLaw.toString()));
+    assertEquals(resultingLaw.get().toString(), targetLaw.toString());
   }
 
   @Test
@@ -130,7 +131,7 @@ class TimeMachineFunctionsTest {
 
     // the result contains the new text in place of the old text
     assertTrue(resultingLaw.isPresent());
-    assertTrue(resultingLaw.get().toString().equals(expectedResultingLaw.toString()));
+    assertEquals(resultingLaw.get().toString(), expectedResultingLaw.toString());
   }
 
   /** getFirstModification() */
@@ -161,8 +162,8 @@ class TimeMachineFunctionsTest {
         TimeMachineFunctions.getFirstModification(amendingLawWithModification);
     // then
     assertTrue(firstModificationNode.isPresent());
-    assertTrue(
-        firstModificationNode.get().getTextContent().equals("§ 20 Absatz 1 Satz 2 wird ersetzt."));
+    assertEquals("§ 20 Absatz 1 Satz 2 wird ersetzt.", 
+        firstModificationNode.get().getTextContent());
   }
 
   /** findHrefInModificationNode() */
@@ -250,7 +251,7 @@ class TimeMachineFunctionsTest {
 
     // then
     assertTrue(optionalHref.isPresent());
-    assertTrue(optionalHref.get().equals("some/href/with/slashes.xml"));
+    assertEquals("some/href/with/slashes.xml", optionalHref.get());
   }
 
   /** getEIdFromModificationHref */
@@ -279,7 +280,7 @@ class TimeMachineFunctionsTest {
 
     // then
     assertTrue(optionalEId.isPresent());
-    assertTrue(optionalEId.get().equals("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"));
+    assertEquals("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1", optionalEId.get());
   }
 
   /** findNodeByEId */
@@ -399,7 +400,7 @@ class TimeMachineFunctionsTest {
 
     // then
     assertTrue(optionalTextToBeReplaced.isPresent());
-    assertTrue(optionalTextToBeReplaced.get().equals("old text"));
+    assertEquals("old text", optionalTextToBeReplaced.get());
   }
 
   /** getNewTextInReplacement() */
@@ -473,6 +474,6 @@ class TimeMachineFunctionsTest {
 
     // then
     assertTrue(optionalNewTextInReplacement.isPresent());
-    assertTrue(optionalNewTextInReplacement.get().equals("new text"));
+    assertEquals("new text", optionalNewTextInReplacement.get());
   }
 }
