@@ -18,18 +18,9 @@ pre-commit:
       root: backend/
       run: ./gradlew checkstyleMain -Dinclude=$(echo {staged_files} | sed 's/ /,/g')}
 
-    check-format-vscode-extension:
-      root: vscode-extension/
-      run: npm run --silent prettier:fix {staged_files} && git add {staged_files}
-
     check-format-frontend:
       root: frontend/
       run: npm run --silent prettier:fix {staged_files} && git add {staged_files}
-
-    lint-vscode-extension:
-      root: vscode-extension/
-      glob: "*.{ts,js,json}"
-      run: npm run --silent eslint:fix {staged_files} && git add {staged_files}
 
     lint-frontend:
       root: frontend/
@@ -92,10 +83,6 @@ pre-push:
     licences-audit-backend:
       root: backend/
       run: ./gradlew checkLicense
-
-    licences-audit-vscode-extension:
-      root: vscode-extension/
-      run: npm run audit:licences > /dev/null;
 
     licences-audit-frontend:
       root: frontend/
