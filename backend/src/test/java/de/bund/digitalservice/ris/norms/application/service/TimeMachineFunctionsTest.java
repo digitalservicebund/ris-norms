@@ -205,12 +205,13 @@ class TimeMachineFunctionsTest {
         "§ 20 Absatz 1 Satz 2 wird ersetzt.", firstModificationNode.get().getTextContent());
   }
 
-  /** findHrefInModificationNode() */
-  @Test
-  void returnEmptyIfNoHrefInModification() {
-    // given
-    final String xmlText =
-        """
+  @Nested
+  class findHrefInModificationNode {
+    @Test
+    void returnEmptyIfNoHrefInModification() {
+      // given
+      final String xmlText =
+          """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -237,23 +238,23 @@ class TimeMachineFunctionsTest {
         </akn:mod>
         """;
 
-    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
-    final Optional<Node> optionalModificationNode =
-        XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
+      final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
+      final Optional<Node> optionalModificationNode =
+          XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
 
-    // when
-    final Optional<String> optionalHref =
-        TimeMachineFunctions.findHrefInModificationNode(optionalModificationNode.get());
+      // when
+      final Optional<String> optionalHref =
+          TimeMachineFunctions.findHrefInModificationNode(optionalModificationNode.get());
 
-    // then
-    assertTrue(optionalHref.isEmpty());
-  }
+      // then
+      assertTrue(optionalHref.isEmpty());
+    }
 
-  @Test
-  void returnHrefInModification() {
-    // given
-    final String xmlText =
-        """
+    @Test
+    void returnHrefInModification() {
+      // given
+      final String xmlText =
+          """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -280,17 +281,18 @@ class TimeMachineFunctionsTest {
         </akn:mod>
         """;
 
-    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
-    final Optional<Node> optionalModificationNode =
-        XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
+      final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
+      final Optional<Node> optionalModificationNode =
+          XmlFunctions.getNode("//*[local-name()='mod']", optionalDocument.get());
 
-    // when
-    final Optional<String> optionalHref =
-        TimeMachineFunctions.findHrefInModificationNode(optionalModificationNode.get());
+      // when
+      final Optional<String> optionalHref =
+          TimeMachineFunctions.findHrefInModificationNode(optionalModificationNode.get());
 
-    // then
-    assertTrue(optionalHref.isPresent());
-    assertEquals("some/href/with/slashes.xml", optionalHref.get());
+      // then
+      assertTrue(optionalHref.isPresent());
+      assertEquals("some/href/with/slashes.xml", optionalHref.get());
+    }
   }
 
   @Nested
