@@ -73,13 +73,12 @@ public class TimeMachineFunctions {
   }
 
   static Optional<String> getEIdfromModificationHref(String modificationHref) {
-    try {
       final String[] hrefParts = modificationHref.split("/");
-      final String eId = hrefParts[hrefParts.length - 2];
-      return Optional.of(eId);
-    } catch (Exception e) {
-      // TODO: Probably do something with the exception. Logging?
-    }
+
+      if (hrefParts.length >= 2) {
+        final String eId = hrefParts[hrefParts.length - 2];
+        return Optional.of(eId);
+      }
 
     return Optional.empty();
   }
