@@ -74,6 +74,41 @@ class TimeMachineFunctionsTest {
   }
 
   @Test
+  void returnEmptyIfTheresNoModificationHref() {
+    // given
+    // given
+    final String amendingLawXmlText =
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:mod>
+             In <akn:ref">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+            </akn:mod>
+
+            no href attribute in "ref" tag
+
+          </akn:body>
+        """;
+    final String targetLawXmlText =
+        """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <akn:body>
+            <akn:p eId="one">old text</akn:p>
+            <akn:p eId="two">old text</akn:p>
+          </akn:body>
+        """;
+
+    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
+    final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
+    // when
+    final Optional<Document> resultingLaw =
+        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
+
+    // then
+    assertTrue(resultingLaw.isPresent());
+  }
+
+  @Test
   void xmlDocumentsGoInAndOut() {
     // given
     // given
