@@ -39,25 +39,26 @@ class XmlFunctionsTest {
     }
   }
 
-  /** getNode() */
-  @Test
-  void returnEmptyIfNoNodeMatches() {
-    // given
-    final String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
-    final Optional<Document> document = XmlFunctions.stringToXmlDocument(xmlString);
+  @Nested
+  class GetNodeByXPath {
+    @Test
+    void returnEmptyIfNoNodeMatches() {
+      // given
+      final String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>";
+      final Optional<Document> document = XmlFunctions.stringToXmlDocument(xmlString);
 
-    // when
-    final Optional<Node> node = XmlFunctions.getNodeByXPath("", document.get());
+      // when
+      final Optional<Node> node = XmlFunctions.getNodeByXPath("", document.get());
 
-    // then
-    assertTrue(node.isEmpty());
-  }
+      // then
+      assertTrue(node.isEmpty());
+    }
 
-  @Test
-  void returnMatchingNodeByName() {
-    // given
-    final String xmlString =
-        """
+    @Test
+    void returnMatchingNodeByName() {
+      // given
+      final String xmlString =
+          """
       <?xml version=\"1.0\" encoding=\"UTF-8\"?>
       <root>
         <not-my-node>
@@ -68,23 +69,23 @@ class XmlFunctionsTest {
         </my-node>
       </root>
       """;
-    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlString);
+      final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlString);
 
-    // when
-    String xPathExpression = "//*[local-name()='my-node']";
-    final Optional<Node> optionalMyNode =
-        XmlFunctions.getNodeByXPath(xPathExpression, optionalDocument.get());
+      // when
+      String xPathExpression = "//*[local-name()='my-node']";
+      final Optional<Node> optionalMyNode =
+          XmlFunctions.getNodeByXPath(xPathExpression, optionalDocument.get());
 
-    // then
-    assertTrue(optionalMyNode.isPresent());
-    assertTrue(optionalMyNode.get().getTextContent().contains("my node"));
-  }
+      // then
+      assertTrue(optionalMyNode.isPresent());
+      assertTrue(optionalMyNode.get().getTextContent().contains("my node"));
+    }
 
-  @Test
-  void returnMatchingNodeByAttributeValue() {
-    // given
-    final String xmlText =
-        """
+    @Test
+    void returnMatchingNodeByAttributeValue() {
+      // given
+      final String xmlText =
+          """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="theEId"
@@ -95,15 +96,16 @@ class XmlFunctionsTest {
         </akn:mod>
         """;
 
-    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
+      final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
-    // when
-    final String xPathExpression = "//*[@eId='theEId']";
-    final Optional<Node> optionalNodeByEId =
-        XmlFunctions.getNodeByXPath(xPathExpression, optionalDocument.get());
+      // when
+      final String xPathExpression = "//*[@eId='theEId']";
+      final Optional<Node> optionalNodeByEId =
+          XmlFunctions.getNodeByXPath(xPathExpression, optionalDocument.get());
 
-    // then
-    assertTrue(optionalNodeByEId.isPresent());
+      // then
+      assertTrue(optionalNodeByEId.isPresent());
+    }
   }
 
   /** cloneDocument() */
