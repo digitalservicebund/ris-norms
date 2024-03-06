@@ -43,6 +43,8 @@ public class TimeMachineFunctions {
 
       final Optional<String> modificationHref =
           findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
+      if (modificationHref.isEmpty()) return Optional.empty();
+
       final Optional<String> eId = getEIdfromModificationHref(modificationHref.get());
 
       final Optional<Node> targetLawNodeToBeModified =
