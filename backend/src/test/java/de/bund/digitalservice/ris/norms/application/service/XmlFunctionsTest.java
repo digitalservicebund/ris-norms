@@ -108,12 +108,14 @@ class XmlFunctionsTest {
     }
   }
 
-  /** cloneDocument() */
-  @Test
-  void clonedDocumentMustContainSameTextButNoBeIdentical() {
-    // given
-    final String xmlText =
-        """
+  @Nested
+  class CloneDocument {
+
+    @Test
+    void clonedDocumentMustContainSameTextButNoBeIdentical() {
+      // given
+      final String xmlText =
+          """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="theEId"
@@ -124,18 +126,19 @@ class XmlFunctionsTest {
         </akn:mod>
         """;
 
-    final Document originalDocument = XmlFunctions.stringToXmlDocument(xmlText).get();
-    final String xPathExpresion = "//*[@eId='theEId']";
-    final String textOfOriginalDocumentModification =
-        XmlFunctions.getNodeByXPath(xPathExpresion, originalDocument).get().getTextContent();
+      final Document originalDocument = XmlFunctions.stringToXmlDocument(xmlText).get();
+      final String xPathExpresion = "//*[@eId='theEId']";
+      final String textOfOriginalDocumentModification =
+          XmlFunctions.getNodeByXPath(xPathExpresion, originalDocument).get().getTextContent();
 
-    // when
-    final Document clonedDocument = XmlFunctions.cloneDocument(originalDocument).get();
-    final String textOfClonedDocumentModification =
-        XmlFunctions.getNodeByXPath(xPathExpresion, clonedDocument).get().getTextContent();
+      // when
+      final Document clonedDocument = XmlFunctions.cloneDocument(originalDocument).get();
+      final String textOfClonedDocumentModification =
+          XmlFunctions.getNodeByXPath(xPathExpresion, clonedDocument).get().getTextContent();
 
-    // then
-    assertEquals(textOfOriginalDocumentModification, textOfClonedDocumentModification);
-    assertNotEquals((Object) originalDocument, (Object) clonedDocument);
+      // then
+      assertEquals(textOfOriginalDocumentModification, textOfClonedDocumentModification);
+      assertNotEquals((Object) originalDocument, (Object) clonedDocument);
+    }
   }
 }
