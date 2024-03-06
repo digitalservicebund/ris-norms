@@ -12,7 +12,7 @@ class TimeMachineFunctionsTest {
 
   /** applyTimeMachine() */
   @Test
-  void returnEmptyOnFailure() {
+  void returnEmptyIfEIdNotFoundInTargetLaw() {
     // given
     final String amendingLawXmlText =
         """
