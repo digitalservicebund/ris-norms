@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -104,7 +105,7 @@ class XmlFunctionsTest {
 
   /** cloneDocument() */
   @Test
-  void clonedDocumentMustNoBeIdentical() {
+  void clonedDocumentMustContainSameTextButNoBeIdentical() {
     // given
     final String xmlText =
         """
@@ -129,7 +130,7 @@ class XmlFunctionsTest {
         XmlFunctions.getNode(xPathExpresion, clonedDocument).get().getTextContent();
 
     // then
-    assertTrue(textOfOriginalDocumentModification.equals(textOfClonedDocumentModification));
+    assertEquals(textOfOriginalDocumentModification, textOfClonedDocumentModification);
     assertNotEquals((Object) originalDocument, (Object) clonedDocument);
   }
 }
