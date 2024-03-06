@@ -6,8 +6,8 @@ import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import { getAmendingLawXmlByEli } from "@/services/amendingLawsService"
+import { useTargetLaw } from "@/composables/useTargetLaw"
 
-const TARGET_LAW_TITLE = "Bundesverfassungsschutzgesetz"
 const TARGET_LAW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1"
                   GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
   <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-1"
@@ -42,6 +42,9 @@ function handleArticleXMLChange({ content }: { content: string }) {
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
 const article = computed(() => amendingLaw.value?.articles?.[0])
+const targetLaw = useTargetLaw(
+  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+)
 
 const articleXml = ref<string>("")
 /**
@@ -93,7 +96,7 @@ watch(
 
       <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-2 gap-32">
         <div class="flex flex-col gap-8">
-          <h3 class="ds-label-02-bold">{{ TARGET_LAW_TITLE }}</h3>
+          <h3 class="ds-label-02-bold">{{ targetLaw?.title }}</h3>
           <RisCodeEditor
             class="flex-grow border border-black"
             :readonly="true"
