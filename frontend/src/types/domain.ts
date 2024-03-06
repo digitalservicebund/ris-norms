@@ -17,11 +17,6 @@ export interface AmendingLaw {
   publicationDate: string
   /** Title of the law */
   title?: string
-  /**
-   * Articles contained in the law.
-   * @deprecated Use the article endpoint + AmendingLawArticle
-   */
-  articles?: Article[]
 }
 
 /**
