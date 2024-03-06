@@ -21,10 +21,7 @@ describe("useTargetLawXml", () => {
     )
     const xml = useTargetLawXml(eli)
     // wait for the getTargetLawXmlByEli promise to be resolved
-    await vi.waitUntil(() => xml.value, {
-      timeout: 100,
-      interval: 20,
-    })
+    await vi.waitUntil(() => xml.value)
 
     expect(xml.value).toBe("<xml></xml>")
   })

@@ -20,7 +20,7 @@ describe("useArticle", () => {
     const identifier = ref<LawElementIdentifier>({ eli: "", eid: "" })
     const article = useArticleXml(identifier)
 
-    await vi.waitUntil(() => article.value, { timeout: 100, interval: 20 })
+    await vi.waitUntil(() => article.value)
 
     expect(article.value).toBe("<xml></xml>")
     expect(getArticleXmlByEliAndEid).toHaveBeenCalled()
