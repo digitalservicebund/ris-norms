@@ -86,8 +86,7 @@ public class TimeMachineFunctions {
 
   static Optional<Node> findNodeByEId(String eId, Node node) {
     final String xPathExpresion = "//*[@eId='" + eId + "']";
-    final Optional<Node> optionalNode = XmlFunctions.getNode(xPathExpresion, node);
-    return optionalNode;
+    return XmlFunctions.getNode(xPathExpresion, node);
   }
 
   static Optional<String> getTextToBeReplaced(Node node) {
