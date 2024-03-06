@@ -20,32 +20,32 @@ class TimeMachineFunctionsTest {
     @ValueSource(
         strings = {
           """
+      only one quotedText
+
       <akn:mod>
         In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
-
-      only one quotedText
     """,
           """
+      eId THREE not found in target law
+
       <akn:mod>
         In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/THREE/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
-
-      eId THREE not found in target law
     """,
           """
+      no href attribute in "ref" tag
+
       <akn:mod>
         In <akn:ref>paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
-
-      no href attribute in "ref" tag
     """,
           """
+      can't get eId from href
+
       <akn:mod>
         In <akn:ref href="invalid-eli-href">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
       </akn:mod>
-
-      can't get eId from href
     """
         })
     void returnEmptyOnError(String modificationNodeText) {
