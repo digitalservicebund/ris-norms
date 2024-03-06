@@ -11,6 +11,9 @@ import org.w3c.dom.Node;
  */
 public class TimeMachineFunctions {
 
+  // prevent default constructor
+  private TimeMachineFunctions(){}
+
   /**
    * Applies the modifications of the amending law onto the target law.
    *
@@ -28,7 +31,7 @@ public class TimeMachineFunctions {
 
       final Optional<Node> firstModificationNodeInAmendingLaw = getFirstModification(amendingLaw);
 
-      if (firstModificationNodeInAmendingLaw.isEmpty()) return Optional.of(targetLawClone.get());
+      if (firstModificationNodeInAmendingLaw.isEmpty()) return targetLawClone;
 
       final Optional<String> oldText =
           getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
@@ -56,8 +59,7 @@ public class TimeMachineFunctions {
   }
 
   static Optional<Node> getFirstModification(Document amendingLaw) {
-    Optional<Node> optionalNode = XmlFunctions.getNode("//*[local-name()='mod']", amendingLaw);
-    return optionalNode;
+    return XmlFunctions.getNode("//*[local-name()='mod']", amendingLaw);
   }
 
   static Optional<String> findHrefInModificationNode(Node modificationNode) {
