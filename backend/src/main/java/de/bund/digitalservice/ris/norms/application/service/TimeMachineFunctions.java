@@ -26,11 +26,10 @@ public class TimeMachineFunctions {
   public static Optional<Document> applyTimeMachine(
       final Document amendingLaw, final Document targetLaw) {
     // TODO: cover all individual failures in tests
-    try {
+
       final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
 
       final Optional<Node> firstModificationNodeInAmendingLaw = getFirstModification(amendingLaw);
-
       if (firstModificationNodeInAmendingLaw.isEmpty()) return targetLawClone;
 
       final Optional<String> oldText =
@@ -51,11 +50,6 @@ public class TimeMachineFunctions {
 
       targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
       return targetLawClone;
-
-    } catch (Exception e) {
-      // TODO: probably do something with the exception
-    }
-    return Optional.empty();
   }
 
   static Optional<Node> getFirstModification(Document amendingLaw) {
