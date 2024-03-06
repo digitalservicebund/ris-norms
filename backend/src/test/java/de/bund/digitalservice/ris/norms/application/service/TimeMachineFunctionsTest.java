@@ -322,12 +322,13 @@ class TimeMachineFunctionsTest {
     assertEquals("para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1", optionalEId.get());
   }
 
-  /** findNodeByEId */
-  @Test
-  void returnEmptyIfNoNodeFoundByEId() {
-    // given
-    final String xmlText =
-        """
+  @Nested
+  class findNodeByEId {
+    @Test
+    void returnEmptyIfNoNodeFoundByEId() {
+      // given
+      final String xmlText =
+          """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
@@ -335,22 +336,22 @@ class TimeMachineFunctionsTest {
             Note that the eId above does not match what we're looking for, below.
         </akn:mod>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
+      final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
-    // when
-    final Optional<Node> optionalNode =
-        TimeMachineFunctions.findNodeByEId("non-matching eId", optionalDocument.get());
+      // when
+      final Optional<Node> optionalNode =
+          TimeMachineFunctions.findNodeByEId("non-matching eId", optionalDocument.get());
 
-    // then
-    assertTrue(optionalNode.isEmpty());
-  }
+      // then
+      assertTrue(optionalNode.isEmpty());
+    }
 
-  @Test
-  void findNodeByEId() {
-    // given
-    // given
-    final String xmlText =
-        """
+    @Test
+    void returnNode() {
+      // given
+      // given
+      final String xmlText =
+          """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
                                     eId="theEIdWereLookingFor"
@@ -358,15 +359,16 @@ class TimeMachineFunctionsTest {
             Note the eId in the attributes
         </akn:mod>
         """;
-    final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
+      final Optional<Document> optionalDocument = XmlFunctions.stringToXmlDocument(xmlText);
 
-    // when
-    final Optional<Node> optionalNode =
-        TimeMachineFunctions.findNodeByEId("theEIdWereLookingFor", optionalDocument.get());
+      // when
+      final Optional<Node> optionalNode =
+          TimeMachineFunctions.findNodeByEId("theEIdWereLookingFor", optionalDocument.get());
 
-    // then
-    assertTrue(optionalNode.isPresent());
-    assertTrue(optionalNode.get().getTextContent().contains("Note the eId in the attributes"));
+      // then
+      assertTrue(optionalNode.isPresent());
+      assertTrue(optionalNode.get().getTextContent().contains("Note the eId in the attributes"));
+    }
   }
 
   @Nested
@@ -421,7 +423,7 @@ class TimeMachineFunctionsTest {
     }
 
     @Test
-    void returnTextToBeReplaced() {
+    void returnString() {
       // given
       final String xmlText =
           """
