@@ -14,6 +14,9 @@ import org.xml.sax.InputSource;
 /** Namespace for functions dealing with XML Documents or Nodes */
 public class XmlFunctions {
 
+  // prevent default constructor
+  private XmlFunctions(){}
+
   /**
    * Create an XML Document from an xml string representation.
    *
