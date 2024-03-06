@@ -8,7 +8,7 @@ import {
   DeepReadonly,
 } from "vue"
 import { useTargetLawStore } from "@/store/targetLawStore"
-import { TargetLaw } from "@/services/targetLawsService"
+import { TargetLaw } from "@/types/targetLaw"
 
 /**
  * Get the data of a target law.
