@@ -1,5 +1,5 @@
 [versions]
-flyway = "10.8.1"
+flyway = "10.9.0"
 # @keep
 jacoco = "0.8.11"
 org-testcontainers = "1.19.6"
