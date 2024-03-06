@@ -5,118 +5,54 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 class TimeMachineFunctionsTest {
 
   /** applyTimeMachine() */
-  @Test
-  void returnEmptyIfOnlyOneQuotedText() {
+  @ParameterizedTest
+  @ValueSource(strings = {
+    """
+      <akn:mod>
+        In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace with <akn:quotedText>new</akn:quotedText>.
+      </akn:mod>
+
+      only one quotedText
+    """,
+    """
+      <akn:mod>
+        In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/THREE/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+      </akn:mod>
+
+      eId THREE not found in target law
+    """,
+    """
+      <akn:mod>
+        In <akn:ref>paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+      </akn:mod>
+
+      no href attribute in "ref" tag
+    """,
+    """
+      <akn:mod>
+        In <akn:ref href="invalid-eli-href">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
+      </akn:mod>
+
+      can't get eId from href
+    """
+  })
+  void returnEmptyOnError(String modificationNodeText) {
     // given
     final String amendingLawXmlText =
         """
         <?xml version="1.0" encoding="UTF-8"?>
         <akn:body>
-            <akn:mod>
-             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace with <akn:quotedText>new</akn:quotedText>.
-            </akn:mod>
-
-            only one quotedText
-
-          </akn:body>
-        """;
-    final String targetLawXmlText =
         """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <akn:body>
-            <akn:p eId="one">old text</akn:p>
-            <akn:p eId="two">old text</akn:p>
-          </akn:body>
-        """;
-
-    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
-    final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
-    // when
-    final Optional<Document> resultingLaw =
-        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
-
-    // then
-    assertTrue(resultingLaw.isEmpty());
-  }
-
-  @Test
-  void returnEmptyIfEIdNotFoundInTargetLaw() {
-    // given
-    final String amendingLawXmlText =
+            + modificationNodeText +
         """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <akn:body>
-            <akn:mod>
-             In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
-            </akn:mod>
-
-            "old" -> "new"
-
-          </akn:body>
-        """;
-    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
-    final Document targetLaw =
-        XmlFunctions.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>")
-            .get();
-    // when
-    final Optional<Document> optionalResultingLaw =
-        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
-    // then
-    assertTrue(optionalResultingLaw.isEmpty());
-  }
-
-  @Test
-  void returnEmptyIfTheresNoModificationHref() {
-    // given
-    final String amendingLawXmlText =
-        """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <akn:body>
-            <akn:mod>
-             In <akn:ref>paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
-            </akn:mod>
-
-            no href attribute in "ref" tag
-
-          </akn:body>
-        """;
-    final String targetLawXmlText =
-        """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <akn:body>
-            <akn:p eId="one">old text</akn:p>
-            <akn:p eId="two">old text</akn:p>
-          </akn:body>
-        """;
-
-    final Document amendingLaw = XmlFunctions.stringToXmlDocument(amendingLawXmlText).get();
-    final Document targetLaw = XmlFunctions.stringToXmlDocument(targetLawXmlText).get();
-    // when
-    final Optional<Document> resultingLaw =
-        TimeMachineFunctions.applyTimeMachine(amendingLaw, targetLaw);
-
-    // then
-    assertTrue(resultingLaw.isEmpty());
-  }
-
-  @Test
-  void returnEmptyIfEIdCannotBeReadFromHref() {
-    // given
-    final String amendingLawXmlText =
-        """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <akn:body>
-            <akn:mod>
-             In <akn:ref href="invalid-eli-href">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
-            </akn:mod>
-
-           can't get eId from href
 
           </akn:body>
         """;
