@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import java.io.StringReader;
 import java.util.Optional;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -25,8 +26,13 @@ public class XmlFunctions {
    */
   public static Optional<Document> stringToXmlDocument(String xmlText) {
     try {
-      // TODO: how to prevent XXE attacks (loading external sources)
       final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+      // XXE vulnerability hardening, cf. https://www.sonarsource.com/blog/secure-xml-processor/
+      factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+      factory.setExpandEntityReferences(false);
+
       final DocumentBuilder builder = factory.newDocumentBuilder();
       final InputSource is = new InputSource(new StringReader(xmlText));
       final Document document = builder.parse(is);
