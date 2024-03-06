@@ -1,4 +1,4 @@
-import { computed } from "vue"
+import { ComputedRef, computed } from "vue"
 import { useRoute } from "vue-router"
 
 /**
@@ -6,7 +6,7 @@ import { useRoute } from "vue-router"
  *
  * @returns a reference to the eli of the current route
  */
-export function useEliPathParameter() {
+export function useEliPathParameter(): ComputedRef<string> {
   const { params } = useRoute()
 
   return computed(() => {

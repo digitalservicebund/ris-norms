@@ -9,39 +9,34 @@ describe("useArticle", () => {
   })
 
   test("should provide the article", async () => {
-    const getArticleByEliAndEid = vi.fn().mockResolvedValue({
-      eid: "article eid 1",
-      title: "article eid 1",
-      enumeration: "1",
-      affectedDocumentEli: "example/eli",
-    })
+    const getArticleXmlByEliAndEid = vi.fn().mockResolvedValue("<xml></xml>")
 
-    vi.doMock("@/services/articlesService", () => ({
-      getArticleByEliAndEid,
+    vi.doMock("@/services/amendingLawsService", () => ({
+      getAmendingLawXmlByEli: getArticleXmlByEliAndEid,
     }))
 
-    const { useArticle } = await import("./useArticle")
+    const { useArticleXml } = await import("./useArticleXml")
 
     const identifier = ref<LawElementIdentifier>({ eli: "", eid: "" })
-    const article = useArticle(identifier)
+    const article = useArticleXml(identifier)
 
     await vi.waitUntil(() => article.value, { timeout: 100, interval: 20 })
 
-    expect(article.value?.eid).toBe("article eid 1")
-    expect(getArticleByEliAndEid).toHaveBeenCalled()
+    expect(article.value).toBe("<xml></xml>")
+    expect(getArticleXmlByEliAndEid).toHaveBeenCalled()
   })
 
   test("should load the article when the identifier changes", async () => {
-    const getArticleByEliAndEid = vi.fn()
+    const getArticleXmlByEliAndEid = vi.fn()
 
-    vi.doMock("@/services/articlesService", () => ({
-      getArticleByEliAndEid,
+    vi.doMock("@/services/amendingLawsService", () => ({
+      getAmendingLawXmlByEli: getArticleXmlByEliAndEid,
     }))
 
-    const { useArticle } = await import("./useArticle")
+    const { useArticleXml } = await import("./useArticleXml")
 
     const identifier = ref<LawElementIdentifier>({ eli: "", eid: "" })
-    useArticle(identifier)
+    useArticleXml(identifier)
 
     identifier.value = { eli: "1", eid: "1" }
     await nextTick()
@@ -49,6 +44,6 @@ describe("useArticle", () => {
     identifier.value = { eli: "1", eid: "1" }
     await nextTick()
 
-    expect(getArticleByEliAndEid).toBeCalledTimes(2)
+    expect(getArticleXmlByEliAndEid).toBeCalledTimes(2)
   })
 })

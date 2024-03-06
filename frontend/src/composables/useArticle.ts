@@ -1,46 +1,41 @@
-import { useArticleStore } from "@/store/articleStore"
+import { getArticleByEliAndEid } from "@/services/articlesService"
 import { Article } from "@/types/domain"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { storeToRefs } from "pinia"
 import {
   DeepReadonly,
   MaybeRefOrGetter,
   Ref,
   readonly,
+  ref,
   toValue,
   watch,
 } from "vue"
 
 /**
  * Get the data of an article inside an amending law.
+ *
  * @param identifier A reference to the ELI/eId combination for which the article data
- *  for which the law data will be returned. Changing the value of the reference will
- *  load the data for the new ELI/eId combination.
+ *  will be returned. Changing the value of the reference will load the data for the
+ *  new ELI/eId combination.
  * @returns A reference to the article data or undefined if it is not available (or
  *  still loading).
  */
 export function useArticle(
-  identifier: MaybeRefOrGetter<LawElementIdentifier>,
+  identifier: MaybeRefOrGetter<LawElementIdentifier | undefined>,
 ): DeepReadonly<Ref<Article | undefined>> {
-  const articleStore = useArticleStore()
-  const { loadedArticle } = storeToRefs(articleStore)
+  const article = ref<Article>()
 
   watch(
     () => toValue(identifier),
-    (newIdentifier, oldIdentifier) => {
-      if (
-        newIdentifier.eli === oldIdentifier?.eli &&
-        newIdentifier.eid === oldIdentifier?.eli
-      ) {
-        // Bail if only the object reference has changed, but the contents
-        // are the same
-        return
-      }
+    async (is, was) => {
+      // Bail if only the object reference has changed, but the contents
+      // are the same
+      if (!is || (is.eli === was?.eli && is.eid === was?.eli)) return
 
-      articleStore.loadArticleByEliAndEid(newIdentifier)
+      article.value = await getArticleByEliAndEid(is)
     },
     { immediate: true },
   )
 
-  return readonly(loadedArticle)
+  return readonly(article)
 }

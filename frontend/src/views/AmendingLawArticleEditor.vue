@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { computed, ref, watch } from "vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import IconArrowBack from "~icons/ic/baseline-arrow-back"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
-import { getAmendingLawXmlByEli } from "@/services/amendingLawsService"
+import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
+import { useAmendingLaw } from "@/composables/useAmendingLaw"
+import { useArticle } from "@/composables/useArticle"
+import { useArticleXml } from "@/composables/useArticleXml"
+import { useEidPathParameter } from "@/composables/useEidPathParameter"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTargetLaw } from "@/composables/useTargetLaw"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
+import { LawElementIdentifier } from "@/types/lawElementIdentifier"
+import { computed, ref } from "vue"
+import IconArrowBack from "~icons/ic/baseline-arrow-back"
 
 const PREVIEW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1"
                   GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
@@ -39,25 +42,21 @@ function handleArticleXMLChange({ content }: { content: string }) {
   currentArticleXml.value = content
 }
 
+const eid = useEidPathParameter()
 const eli = useEliPathParameter()
-const amendingLaw = useAmendingLaw(eli)
-const article = computed(() => amendingLaw.value?.articles?.[0])
-const targetLaw = useTargetLaw(
-  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+
+const identifier = computed<LawElementIdentifier | undefined>(() =>
+  eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
 
-const articleXml = ref<string>("")
-/**
- * Update the xml of the article whenever the eli changes.
- *
- * NOTE: currently the xml of the whole law is loaded, this will change in the future.
- */
-watch(
-  eli,
-  async (eli) => {
-    articleXml.value = await getAmendingLawXmlByEli(eli)
-  },
-  { immediate: true },
+const amendingLaw = useAmendingLaw(eli)
+
+const article = useArticle(identifier)
+
+const articleXml = useArticleXml(identifier)
+
+const targetLaw = useTargetLaw(
+  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
 )
 
 const targetLawXml = useTargetLawXml(
