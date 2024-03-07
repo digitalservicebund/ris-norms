@@ -11,6 +11,8 @@ import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
+import { putAmendingLawXml } from "@/services/amendingLawsService"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
 
 const PREVIEW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1"
                   GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
@@ -29,10 +31,6 @@ const PREVIEW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1
   </akn:textualMod>
 </akn:activeModifications>`
 const currentArticleXml = ref("")
-
-function handleSave() {
-  console.log("AmendingLawArticleEditor::handleSave")
-}
 
 function handleGeneratePreview() {
   console.log("AmendingLawArticleEditor::handleGeneratePreview")
@@ -57,6 +55,29 @@ const articleXml = useArticleXml(identifier)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const targetLaw = useTargetLaw(targetLawEli)
 const targetLawXml = useTargetLawXml(targetLawEli)
+
+/**
+ * Handle the click of the save button.
+ */
+async function handleSave() {
+  try {
+    const newArticleXml = currentArticleXml.value
+    // TODO: (Malte Laukötter, 2024-03-07) this is currently saving the whole amending law, we need to change this to a single article once we have adjusted the provided xml as well
+    const response = await putAmendingLawXml(eli.value, newArticleXml)
+
+    if (response.ok) {
+      alert("Änderungsgesetz gespeichert")
+    } else {
+      alert("Änderungsgesetz nicht gespeichert")
+      console.error(
+        `Non 200 status code for putAmendingLawXml: ${response.status} - ${response.statusText} - ${await response.text()}`,
+      )
+    }
+  } catch (error) {
+    alert("Änderungsgesetz nicht gespeichert")
+    console.error(error)
+  }
+}
 </script>
 
 <template>
@@ -78,18 +99,20 @@ const targetLawXml = useTargetLawXml(targetLawEli)
           <h2 class="ds-heading-03-reg">Änderungsbefehle prüfen</h2>
         </div>
 
-        <button
-          class="ds-button ds-button-small mr-16 h-fit self-end"
+        <RisTextButton
+          label="Speichern"
+          size="small"
+          class="mr-16 h-fit self-end"
           @click="handleSave"
-        >
-          Speichern
-        </button>
-        <button
-          class="ds-button ds-button-small ds-button-tertiary h-fit self-end"
+        ></RisTextButton>
+
+        <RisTextButton
+          label="Vorschau generieren"
+          size="small"
+          variant="tertiary"
+          class="h-fit self-end"
           @click="handleGeneratePreview"
-        >
-          Vorschau generieren
-        </button>
+        ></RisTextButton>
       </div>
 
       <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-2 gap-32">

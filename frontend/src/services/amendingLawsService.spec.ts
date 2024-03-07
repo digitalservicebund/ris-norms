@@ -105,4 +105,37 @@ describe("amendingLawsService", () => {
       )
     })
   })
+
+  describe("putAmendingLawXml(eli, xml)", () => {
+    it("sends the data to the api", async () => {
+      const fetchMock = vi
+        .fn()
+        .mockResolvedValueOnce(new Response(null, { status: 200 }))
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: {
+          raw: fetchMock,
+        },
+      }))
+
+      const { putAmendingLawXml } = await import("./amendingLawsService")
+
+      const result = await putAmendingLawXml(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        '<?xml version="1.0" encoding="UTF-8"?></xml>',
+      )
+      expect(result.status).toBe(200)
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        expect.objectContaining({
+          method: "PUT",
+          headers: expect.objectContaining({
+            "Content-Type": "application/xml",
+          }),
+          body: '<?xml version="1.0" encoding="UTF-8"?></xml>',
+        }),
+      )
+    })
+  })
 })
