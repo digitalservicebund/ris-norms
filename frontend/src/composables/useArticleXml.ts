@@ -3,8 +3,8 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import {
   DeepReadonly,
   MaybeRefOrGetter,
-  Ref,
   readonly,
+  Ref,
   ref,
   toValue,
   watch,
@@ -16,13 +16,27 @@ import {
  * @param identifier A reference to the ELI/eId combination for which the article XML
  *  will be returned. Changing the value of the reference will load the XML for the
  *  new ELI/eId combination.
- * @returns A reference to the article XML or undefined if it is not available (or
- *  still loading).
  */
 export function useArticleXml(
   identifier: MaybeRefOrGetter<LawElementIdentifier | undefined>,
-): DeepReadonly<Ref<string | undefined>> {
+): {
+  /**
+   * A reference to the article XML or undefined if it is not available (or
+   *  still loading).
+   */
+  xml: DeepReadonly<Ref<string | undefined>>
+  /**
+   * A function to call so the xml is refreshed. It is not necessary to call this when the identifier changed.
+   */
+  refresh: () => Promise<unknown>
+} {
   const articleXml = ref<string>()
+
+  async function load(identifier: LawElementIdentifier) {
+    // TODO: Switch this to article XML once we have that. For now we'll display
+    // the entire amending law.
+    articleXml.value = await getAmendingLawXmlByEli(identifier.eli)
+  }
 
   watch(
     () => toValue(identifier),
@@ -31,12 +45,20 @@ export function useArticleXml(
       // are the same
       if (!is || (is.eli === was?.eli && is.eid === was?.eid)) return
 
-      // TODO: Switch this to article XML once we have that. For now we'll display
-      // the entire amending law.
-      articleXml.value = await getAmendingLawXmlByEli(is.eli)
+      await load(is)
     },
     { immediate: true },
   )
 
-  return readonly(articleXml)
+  async function refresh() {
+    const id = toValue(identifier)
+    if (id) {
+      await load(id)
+    }
+  }
+
+  return {
+    xml: readonly(articleXml),
+    refresh,
+  }
 }

@@ -9,7 +9,7 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTargetLaw } from "@/composables/useTargetLaw"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import { putAmendingLawXml } from "@/services/amendingLawsService"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
@@ -30,15 +30,6 @@ const PREVIEW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1
                period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
   </akn:textualMod>
 </akn:activeModifications>`
-const currentArticleXml = ref("")
-
-function handleGeneratePreview() {
-  console.log("AmendingLawArticleEditor::handleGeneratePreview")
-}
-
-function handleArticleXMLChange({ content }: { content: string }) {
-  currentArticleXml.value = content
-}
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -50,11 +41,24 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
 const amendingLaw = useAmendingLaw(eli)
 
 const article = useArticle(identifier)
-const articleXml = useArticleXml(identifier)
+const { xml: articleXml, refresh: refreshArticleXml } =
+  useArticleXml(identifier)
 
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const targetLaw = useTargetLaw(targetLawEli)
 const targetLawXml = useTargetLawXml(targetLawEli)
+
+const currentArticleXml = ref("")
+
+function handleArticleXMLChange({ content }: { content: string }) {
+  currentArticleXml.value = content
+}
+
+watch(articleXml, (articleXml) => {
+  if (articleXml) {
+    currentArticleXml.value = articleXml
+  }
+})
 
 /**
  * Handle the click of the save button.
@@ -67,6 +71,7 @@ async function handleSave() {
 
     if (response.ok) {
       alert("Änderungsgesetz gespeichert")
+      void refreshArticleXml()
     } else {
       alert("Änderungsgesetz nicht gespeichert")
       console.error(
@@ -77,6 +82,10 @@ async function handleSave() {
     alert("Änderungsgesetz nicht gespeichert")
     console.error(error)
   }
+}
+
+function handleGeneratePreview() {
+  console.log("AmendingLawArticleEditor::handleGeneratePreview")
 }
 </script>
 
@@ -103,6 +112,7 @@ async function handleSave() {
           label="Speichern"
           size="small"
           class="mr-16 h-fit self-end"
+          :disabled="articleXml === currentArticleXml"
           @click="handleSave"
         ></RisTextButton>
 

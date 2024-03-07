@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { EditorView, basicSetup } from "codemirror"
+import { basicSetup, EditorView } from "codemirror"
 import { xml } from "@codemirror/lang-xml"
-import { ref, shallowRef, toRef, watch } from "vue"
+import { computed, ref, shallowRef, toRef, watch } from "vue"
 import { useCodemirrorVueReadonlyExtension } from "@/components/editor/composables/useCodemirrorVueReadonlyExtension"
 import { useCodemirrorVueEditableExtension } from "@/components/editor/composables/useCodemirrorVueEditableExtension"
 
@@ -64,17 +64,27 @@ const codemirrorVueEditableExtension = useCodemirrorVueEditableExtension(
   toRef(props.editable),
 )
 
+const editorContent = computed(() => editorView.value?.state.doc.toString())
+
 /**
  * Initialize codemirror when the editor element is available
  */
 watch(
   [editorElement, () => props.initialContent],
-  (value, oldValue, onCleanup) => {
+  () => {
     if (editorElement.value == null) {
       return
     }
 
-    const newEditorView = new EditorView({
+    if (props.initialContent === editorContent.value) {
+      return
+    }
+
+    if (editorView.value) {
+      editorView.value.destroy()
+    }
+
+    editorView.value = new EditorView({
       doc: props.initialContent,
       extensions: [
         basicSetup,
@@ -97,12 +107,6 @@ watch(
         codemirrorVueEditableExtension,
       ],
       parent: editorElement.value,
-    })
-
-    editorView.value = newEditorView
-
-    onCleanup(() => {
-      newEditorView.destroy()
     })
   },
   { immediate: true },
