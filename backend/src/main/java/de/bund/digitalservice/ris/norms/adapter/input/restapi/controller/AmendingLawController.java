@@ -51,11 +51,11 @@ public class AmendingLawController {
    * Retrieves all available amending laws
    *
    * @return A {@link ResponseEntity} containing the response schema for a list of amending laws
-   *     <p>Returns HTTP 200 (OK) and a list of amending laws on successful exection.
+   *     <p>Returns HTTP 200 (OK) and a list of amending laws on successful execution.
    *     <p>If no law is found, the list is empty.
    */
   @GetMapping
-  public ResponseEntity<List<AmendingLawResponseSchema>> gellAllAmendingLaws() {
+  public ResponseEntity<List<AmendingLawResponseSchema>> getAllAmendingLaws() {
     final List<AmendingLaw> amendingLawWithArticles =
         loadAllAmendingLawsUseCase.loadAllAmendingLaws();
     final List<AmendingLawResponseSchema> responseSchemas =
