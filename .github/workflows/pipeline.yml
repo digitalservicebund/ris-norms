@@ -11,10 +11,6 @@ jobs:
   # jobs dispatched to a separate workflow file
   #############################################
 
-  time-machine-jobs:
-    uses: ./.github/workflows/time-machine-jobs.yml
-    secrets: inherit # e.g. sonar token
-
   backend-jobs:
     permissions:
       security-events: write # upload-sarif
