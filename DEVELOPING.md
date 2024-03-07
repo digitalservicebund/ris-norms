@@ -10,6 +10,7 @@ Information on the modules can be found in their respective folder's README file
 
 - [`./frontend/README.md`](./frontend/README.md)
 - [`./backend/README.md`](./backend/README.md)
+- [`./ldml-extension/README.md`](./backend/README.md)
 
 # The Main Repository
 

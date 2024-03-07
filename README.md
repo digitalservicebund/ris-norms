@@ -6,7 +6,7 @@
 
 # RIS Norms
 
-This repository contains tools for supporting the Federal Documentation of Statutes (DE: ["Normendokumentation"](https://www.bundesjustizamt.de/DE/Themen/Rechtsetzung/Normendokumentation/Normendokumentation_node.html)) in their task of keeping the documentation of federal norms up-to-date through amendments (DE: "Fortschreibung").
+This repository contains a web app supporting the Federal Documentation of Statutes (DE: ["Normendokumentation"](https://www.bundesjustizamt.de/DE/Themen/Rechtsetzung/Normendokumentation/Normendokumentation_node.html)) in their task of keeping the documentation of federal norms up-to-date through amendments (DE: "Fortschreibung").
 
 The name "RIS Norms" refers to
 
@@ -15,12 +15,13 @@ The name "RIS Norms" refers to
 
 # Structure of the Repository
 
-This is a mono-repository containing several software products. Right now, there are four of them:
+This is a mono-repository containing
 
-- [`./frontend`](./frontend): The main browser-based entry point for users of _RIS-norms_
-- [`./backend`](./backend): The backend service
+- [`./frontend`](./frontend) - The main browser-based entry point for users of _RIS-norms_
+- [`./backend`](./backend) - The backend service
+- [`./ldml-extension`](./ldml-extension) - Extensions to the [LDML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) schema
 
-Each product has its own `README.md` with more details.
+Each of the above has its own `README.md` with more details on that component.
 
 # Additional Documentation
 - The [`./doc`](./doc) folder contains additional information e.g. on architecture and domain model
