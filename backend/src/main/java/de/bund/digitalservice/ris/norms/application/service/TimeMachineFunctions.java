@@ -6,8 +6,9 @@ import org.w3c.dom.Node;
 
 /**
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
- * "modifications" to LDML.de files. For details on LDML.de modifications, cf.
- * https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads
+ * "modifications" to LDML.de files. For details on LDML.de modifications, cf. the <a
+ * href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML.de
+ * Documentation</a>
  */
 public class TimeMachineFunctions {
 
