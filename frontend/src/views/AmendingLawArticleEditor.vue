@@ -96,7 +96,7 @@ const targetLawXml = useTargetLawXml(targetLawEli)
         <div class="flex flex-col gap-8">
           <h3 class="ds-label-02-bold">{{ targetLaw?.title }}</h3>
           <RisCodeEditor
-            class="flex-grow border border-black"
+            class="flex-grow"
             :readonly="true"
             :editable="false"
             :initial-content="targetLawXml ?? ''"
@@ -105,7 +105,7 @@ const targetLawXml = useTargetLawXml(targetLawEli)
         <div class="row-span-2 flex flex-col gap-8">
           <h3 class="ds-label-02-bold">Vorschau</h3>
           <RisCodeEditor
-            class="flex-grow border border-black"
+            class="flex-grow"
             :readonly="true"
             :editable="false"
             :initial-content="PREVIEW_XML"
@@ -117,7 +117,7 @@ const targetLawXml = useTargetLawXml(targetLawEli)
             <span>{{ article?.title }}</span>
           </h3>
           <RisCodeEditor
-            class="flex-grow border border-black"
+            class="flex-grow"
             :initial-content="articleXml"
             @change="handleArticleXMLChange"
           ></RisCodeEditor>

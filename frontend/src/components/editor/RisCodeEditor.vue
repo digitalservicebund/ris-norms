@@ -110,5 +110,5 @@ watch(
 </script>
 
 <template>
-  <div ref="editorElement" class="overflow-hidden"></div>
+  <div ref="editorElement" class="ds-textarea overflow-hidden p-2"></div>
 </template>
