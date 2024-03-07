@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,15 +23,9 @@ import lombok.Setter;
 public class TargetLawDto {
   @Id @GeneratedValue private UUID id;
 
-  @NotNull
-  @Size(max = 255)
-  @Column
-  private String eli;
+  @NotNull @Column private String eli;
 
-  @NotNull
-  @Size(max = 255)
-  @Column
-  private String title;
+  @NotNull @Column private String title;
 
   @NotNull @Column private String xml;
 }

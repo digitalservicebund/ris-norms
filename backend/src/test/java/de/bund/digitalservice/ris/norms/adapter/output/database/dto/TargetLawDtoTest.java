@@ -54,28 +54,4 @@ class TargetLawDtoTest {
         .containsExactlyInAnyOrder(
             "eli must not be null", "title must not be null", "xml must not be null");
   }
-
-  @Test
-  void testSizeConstraints() {
-    // Given
-    final UUID id = UUID.randomUUID();
-    final String eli = "a".repeat(256);
-    final String title = "a".repeat(256);
-    final String xml = "<test></test>";
-
-    // When
-    final TargetLawDto targetLawDtoWithInvalidSizes =
-        TargetLawDto.builder().id(id).eli(eli).title(title).xml(xml).build();
-
-    final Set<ConstraintViolation<TargetLawDto>> violations =
-        validator.validate(targetLawDtoWithInvalidSizes);
-
-    // Then
-    assertThat(violations)
-        .hasSize(2)
-        .extracting(
-            violation -> violation.getPropertyPath().toString() + " " + violation.getMessage())
-        .containsExactlyInAnyOrder(
-            "eli size must be between 0 and 255", "title size must be between 0 and 255");
-  }
 }
