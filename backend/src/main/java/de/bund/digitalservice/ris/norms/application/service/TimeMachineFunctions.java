@@ -26,9 +26,7 @@ public class TimeMachineFunctions {
    */
   public static Optional<Document> applyTimeMachine(
       final Document amendingLaw, final Document targetLaw) {
-        //
     try {
-
       final Document targetLawClone = XmlFunctions.cloneDocument(targetLaw).orElseThrow();
 
       final Optional<Node> firstModificationNodeInAmendingLaw = getFirstModification(amendingLaw);
@@ -51,8 +49,9 @@ public class TimeMachineFunctions {
 
       return Optional.of(targetLawClone);
     } catch (Exception e) {
-      // no requiremnt wrt. failure; we will probably return a tuple of Optional<Document> and some
-      // helful error message
+      // There are no requirements on the failure case.
+      // We will probably return a tuple of Optional<Document> and some helful information on the
+      // error (which may be returned by the API in certain circumstances)
       return Optional.empty();
     }
   }
