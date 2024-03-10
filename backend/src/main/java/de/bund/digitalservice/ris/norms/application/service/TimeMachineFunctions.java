@@ -26,6 +26,7 @@ public class TimeMachineFunctions {
    */
   public static Optional<Document> applyTimeMachine(
       final Document amendingLaw, final Document targetLaw) {
+        //
     try {
 
       final Document targetLawClone = XmlFunctions.cloneDocument(targetLaw).orElseThrow();
@@ -38,19 +39,15 @@ public class TimeMachineFunctions {
           getTextToBeReplaced(firstModificationNodeInAmendingLaw.get()).orElseThrow();
       final String newText =
           getNewTextInReplacement(firstModificationNodeInAmendingLaw.get()).orElseThrow();
-
       final String modificationHref =
           findHrefInModificationNode(firstModificationNodeInAmendingLaw.get()).orElseThrow();
-
-      final Optional<String> eId = getEIdfromModificationHref(modificationHref);
-      if (eId.isEmpty()) return Optional.empty();
-
-      final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLawClone);
-      if (targetLawNodeToBeModified.isEmpty()) return Optional.empty();
-
+      final String eId = getEIdfromModificationHref(modificationHref).orElseThrow();
+      final Node targetLawNodeToBeModified = findNodeByEId(eId, targetLawClone).orElseThrow();
       final String modifiedTextContent =
-          targetLawNodeToBeModified.get().getTextContent().replaceFirst(oldText, newText);
-      targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
+          targetLawNodeToBeModified.getTextContent().replaceFirst(oldText, newText);
+
+      // apply modification
+      targetLawNodeToBeModified.setTextContent(modifiedTextContent);
 
       return Optional.of(targetLawClone);
     } catch (Exception e) {
