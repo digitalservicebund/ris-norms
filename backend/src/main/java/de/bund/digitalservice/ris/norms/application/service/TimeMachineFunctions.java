@@ -26,35 +26,44 @@ public class TimeMachineFunctions {
    */
   public static Optional<Document> applyTimeMachine(
       final Document amendingLaw, final Document targetLaw) {
+    try {
 
-    final Optional<Document> targetLawClone = XmlFunctions.cloneDocument(targetLaw);
-    // don't know how to trigger this state in a test
-    if (targetLawClone.isEmpty()) return Optional.empty();
+      final Document targetLawClone = XmlFunctions.cloneDocument(targetLaw).orElseThrow();
 
-    final Optional<Node> firstModificationNodeInAmendingLaw = getFirstModification(amendingLaw);
-    if (firstModificationNodeInAmendingLaw.isEmpty()) return targetLawClone; // return unmodified
+      final Optional<Node> firstModificationNodeInAmendingLaw = getFirstModification(amendingLaw);
+      if (firstModificationNodeInAmendingLaw.isEmpty())
+        return Optional.of(targetLawClone); // return unmodified
 
-    final Optional<String> oldText = getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
-    final Optional<String> newText =
-        getNewTextInReplacement(firstModificationNodeInAmendingLaw.get());
-    // not sure how to trigger the "newText" condition separately.
-    if (oldText.isEmpty() || newText.isEmpty()) return Optional.empty();
+      final Optional<String> oldText =
+          getTextToBeReplaced(firstModificationNodeInAmendingLaw.get());
+      final Optional<String> newText =
+          getNewTextInReplacement(firstModificationNodeInAmendingLaw.get());
+      // not sure how to trigger the "newText" condition separately.
+      if (oldText.isEmpty() || newText.isEmpty()) return Optional.empty();
 
-    final Optional<String> modificationHref =
-        findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
-    if (modificationHref.isEmpty()) return Optional.empty();
+      final Optional<String> modificationHref =
+          findHrefInModificationNode(firstModificationNodeInAmendingLaw.get());
+      if (modificationHref.isEmpty()) return Optional.empty();
 
-    final Optional<String> eId = getEIdfromModificationHref(modificationHref.get());
-    if (eId.isEmpty()) return Optional.empty();
+      final Optional<String> eId = getEIdfromModificationHref(modificationHref.get());
+      if (eId.isEmpty()) return Optional.empty();
 
-    final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLawClone.get());
-    if (targetLawNodeToBeModified.isEmpty()) return Optional.empty();
+      final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLawClone);
+      if (targetLawNodeToBeModified.isEmpty()) return Optional.empty();
 
-    final String modifiedTextContent =
-        targetLawNodeToBeModified.get().getTextContent().replaceFirst(oldText.get(), newText.get());
-    targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
+      final String modifiedTextContent =
+          targetLawNodeToBeModified
+              .get()
+              .getTextContent()
+              .replaceFirst(oldText.get(), newText.get());
+      targetLawNodeToBeModified.get().setTextContent(modifiedTextContent);
 
-    return targetLawClone;
+      return Optional.of(targetLawClone);
+    } catch (Exception e) {
+      // no requiremnt wrt. failure; we will probably return a tuple of Optional<Document> and some
+      // helful error message
+      return Optional.empty();
+    }
   }
 
   static Optional<Node> getFirstModification(Document amendingLaw) {
