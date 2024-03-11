@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test"
+import { amendingLawXml } from "@e2e/testData/amendingLawXml"
 
 test(`navigate to article editor`, async ({ page }) => {
   await page.goto(
@@ -45,4 +46,47 @@ test(`see law title, articel number and xmls`, async ({ page }) => {
       '<akn:meta eId="meta-1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">',
     ),
   ).toBeVisible()
+})
+
+test(`update law with new content`, async ({ page }) => {
+  await page.goto(
+    `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit`,
+  )
+
+  try {
+    const saveButton = page.getByRole("button", { name: "Speichern" })
+    await expect(saveButton).toBeDisabled()
+
+    const editor = page.getByRole("textbox").nth(2)
+    await expect(editor).toBeVisible()
+
+    await editor.fill("<xml></xml>")
+    await expect(saveButton).toBeEnabled()
+
+    await saveButton.click()
+    await expect(saveButton).toBeDisabled()
+
+    // Validate the xml is saved
+    const response = await page.request.get(
+      `/api/v1/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
+      {
+        headers: {
+          Accept: "application/xml",
+        },
+      },
+    )
+    expect(await response.text()).toBe("<xml></xml>")
+  } finally {
+    // Reset the xml
+    await page.request.put(
+      `/api/v1/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
+      {
+        headers: {
+          "Content-Type": "application/xml",
+          Accept: "application/xml",
+        },
+        data: amendingLawXml,
+      },
+    )
+  }
 })

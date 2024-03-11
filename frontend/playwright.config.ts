@@ -7,6 +7,7 @@ const config: PlaywrightTestConfig = {
   testDir: "./e2e",
   timeout: 10000,
   retries: process.env.CI === "true" ? 1 : 0,
+  workers: 1,
   use: {
     viewport: { width: 1280, height: 720 },
     baseURL: process.env.E2E_BASE_URL,
