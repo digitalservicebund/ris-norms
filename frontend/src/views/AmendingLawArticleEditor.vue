@@ -11,7 +11,6 @@ import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
-import { putAmendingLawXml } from "@/services/amendingLawsService"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 
 const PREVIEW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1"
@@ -41,8 +40,7 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
 const amendingLaw = useAmendingLaw(eli)
 
 const article = useArticle(identifier)
-const { xml: articleXml, refresh: refreshArticleXml } =
-  useArticleXml(identifier)
+const { xml: articleXml, update: updateArticleXml } = useArticleXml(identifier)
 
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const targetLaw = useTargetLaw(targetLawEli)
@@ -65,19 +63,8 @@ watch(articleXml, (articleXml) => {
  */
 async function handleSave() {
   try {
-    const newArticleXml = currentArticleXml.value
     // TODO: (Malte Laukötter, 2024-03-07) this is currently saving the whole amending law, we need to change this to a single article once we have adjusted the provided xml as well
-    const response = await putAmendingLawXml(eli.value, newArticleXml)
-
-    if (response.ok) {
-      alert("Änderungsgesetz gespeichert")
-      void refreshArticleXml()
-    } else {
-      alert("Änderungsgesetz nicht gespeichert")
-      console.error(
-        `Non 200 status code for putAmendingLawXml: ${response.status} - ${response.statusText} - ${await response.text()}`,
-      )
-    }
+    await updateArticleXml(currentArticleXml.value)
   } catch (error) {
     alert("Änderungsgesetz nicht gespeichert")
     console.error(error)

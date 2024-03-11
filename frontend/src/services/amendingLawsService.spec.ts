@@ -110,12 +110,10 @@ describe("amendingLawsService", () => {
     it("sends the data to the api", async () => {
       const fetchMock = vi
         .fn()
-        .mockResolvedValueOnce(new Response(null, { status: 200 }))
+        .mockResolvedValueOnce('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
       vi.doMock("./apiService.ts", () => ({
-        apiFetch: {
-          raw: fetchMock,
-        },
+        apiFetch: fetchMock,
       }))
 
       const { putAmendingLawXml } = await import("./amendingLawsService")
@@ -124,7 +122,7 @@ describe("amendingLawsService", () => {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         '<?xml version="1.0" encoding="UTF-8"?></xml>',
       )
-      expect(result.status).toBe(200)
+      expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
       expect(fetchMock).toHaveBeenCalledWith(
         "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",

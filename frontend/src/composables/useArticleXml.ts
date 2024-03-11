@@ -1,4 +1,7 @@
-import { getAmendingLawXmlByEli } from "@/services/amendingLawsService"
+import {
+  getAmendingLawXmlByEli,
+  putAmendingLawXml,
+} from "@/services/amendingLawsService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import {
   DeepReadonly,
@@ -26,17 +29,11 @@ export function useArticleXml(
    */
   xml: DeepReadonly<Ref<string | undefined>>
   /**
-   * A function to call so the xml is refreshed. It is not necessary to call this when the identifier changed.
+   * Update the article xml.
    */
-  refresh: () => Promise<unknown>
+  update: (xml: string) => Promise<unknown>
 } {
   const articleXml = ref<string>()
-
-  async function load(identifier: LawElementIdentifier) {
-    // TODO: Switch this to article XML once we have that. For now we'll display
-    // the entire amending law.
-    articleXml.value = await getAmendingLawXmlByEli(identifier.eli)
-  }
 
   watch(
     () => toValue(identifier),
@@ -45,20 +42,25 @@ export function useArticleXml(
       // are the same
       if (!is || (is.eli === was?.eli && is.eid === was?.eid)) return
 
-      await load(is)
+      // TODO: Switch this to article XML once we have that. For now we'll display
+      // the entire amending law.
+      articleXml.value = await getAmendingLawXmlByEli(is.eli)
     },
     { immediate: true },
   )
 
-  async function refresh() {
+  async function update(xml: string) {
     const id = toValue(identifier)
-    if (id) {
-      await load(id)
+
+    if (!id) {
+      throw new Error("Expected an identifier to exist when calling update.")
     }
+
+    articleXml.value = await putAmendingLawXml(id.eli, xml)
   }
 
   return {
     xml: readonly(articleXml),
-    refresh,
+    update,
   }
 }

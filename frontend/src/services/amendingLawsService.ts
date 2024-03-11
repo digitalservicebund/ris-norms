@@ -35,9 +35,10 @@ export async function getAmendingLawXmlByEli(eli: string): Promise<string> {
  *
  * @param eli Eli of the amending law
  * @param xml New xml of the amending law
+ * @returns the newly saved xml
  */
 export async function putAmendingLawXml(eli: string, xml: string) {
-  return await apiFetch.raw<undefined>(`/amending-laws/${eli}`, {
+  return await apiFetch<string>(`/amending-laws/${eli}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/xml",
