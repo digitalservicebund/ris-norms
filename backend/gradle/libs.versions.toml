@@ -7,7 +7,7 @@ spring-boot = "3.2.3"
 
 [libraries]
 # CVE-2024-26308
-apache-commons-compress = "org.apache.commons:commons-compress:1.26.0"
+apache-commons-compress = "org.apache.commons:commons-compress:1.26.1"
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
