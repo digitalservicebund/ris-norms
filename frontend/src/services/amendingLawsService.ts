@@ -42,6 +42,7 @@ export async function putAmendingLawXml(eli: string, xml: string) {
     method: "PUT",
     headers: {
       "Content-Type": "application/xml",
+      Accept: "application/xml",
     },
     body: xml,
   })
