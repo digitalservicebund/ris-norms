@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
  * Configuration class for defining security settings in the application. This class is annotated
@@ -14,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
+@EnableRedisHttpSession
 public class SecurityConfig {
 
   /**
@@ -41,6 +44,9 @@ public class SecurityConfig {
                     .permitAll()
                     .anyRequest()
                     .denyAll())
+        .sessionManagement(
+            sessionManagement ->
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
         .csrf(AbstractHttpConfigurer::disable);
     return http.build();
   }

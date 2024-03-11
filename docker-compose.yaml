@@ -7,6 +7,7 @@ services:
       - 8080:8080
     depends_on:
       - postgres14
+      - redis
   postgres14:
     image: postgres:14-alpine
     restart: always
@@ -25,6 +26,30 @@ services:
       retries: 3
       start_period: 5s
       timeout: 3s
+  redis:
+    image: cgr.dev/chainguard/redis@sha256:cd0eb6030e86577bbf24c18e7d6ff1f84b2bce4b9f1d74f2bd0fba170e728165
+    extra_hosts:
+      - localhost:host-gateway
+    container_name: redis
+    command:
+      - "--maxmemory 256mb"
+      - "--maxmemory-policy allkeys-lru"
+      - "--timeout 300"
+      - "--tcp-keepalive 10"
+      - "--user redis on +@all -CONFIG ~* >password"
+      - "--user default off resetchannels -@all"
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "redis-cli -h 127.0.0.1 --user redis -a password PING | grep 'PONG' || exit 1",
+        ]
+      interval: 5s
+      retries: 5
+      start_period: 3s
+      timeout: 5s
 
 volumes:
   postgres14-data:
