@@ -31,7 +31,8 @@ public class DBService
         LoadArticlesPort,
         LoadArticlePort,
         LoadTargetLawPort,
-        LoadTargetLawXmlPort {
+        LoadTargetLawXmlPort,
+        UpdateAmendingLawXmlPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -96,5 +97,16 @@ public class DBService
   @Override
   public Optional<String> loadTargetLawXmlByEli(LoadTargetLawXmlPort.Command command) {
     return targetLawRepository.findByEli(command.eli()).map(TargetLawDto::getXml);
+  }
+
+  @Override
+  public Optional<String> updateAmendingLawXmlByEli(UpdateAmendingLawXmlPort.Command command) {
+    return amendingLawRepository
+        .findByEli(command.eli())
+        .map(
+            amendingLawDto -> {
+              amendingLawDto.setXml(command.xml());
+              return amendingLawRepository.save(amendingLawDto).getXml();
+            });
   }
 }

@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
@@ -38,6 +39,7 @@ class AmendingLawControllerTest {
   @MockBean private LoadAllAmendingLawsUseCase loadAllAmendingLawsUseCase;
   @MockBean private LoadArticlesUseCase loadArticlesUseCase;
   @MockBean private LoadArticleUseCase loadArticleUseCase;
+  @MockBean private UpdateAmendingLawXmlUseCase updateAmendingLawXmlUseCase;
 
   @Test
   void itCallsloadAmendingLawWithExpressionEliFromQuery() throws Exception {
@@ -269,5 +271,75 @@ class AmendingLawControllerTest {
         .perform(get("/api/v1/amending-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
         .andExpect(content().string(xml));
+  }
+
+  @Test
+  void itCallsUpdateAmendingLawXmlWithExpressionEliAndXmlFromQuery() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String xml = "<toUpdate></toUpdate>";
+    when(updateAmendingLawXmlUseCase.updateAmendingLawXml(any())).thenReturn(Optional.empty());
+
+    // When
+    mockMvc.perform(
+        put("/api/v1/amending-laws/{eli}", eli)
+            .contentType(MediaType.APPLICATION_XML)
+            .content(xml));
+
+    // Then
+    verify(updateAmendingLawXmlUseCase, times(1))
+        .updateAmendingLawXml(argThat(query -> query.eli().equals(eli) && query.xml().equals(xml)));
+  }
+
+  @Test
+  void itCallsUpdateAmendingLawXmlAndReturnsNotFound() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String xml = "<toUpdate></toUpdate>";
+    when(updateAmendingLawXmlUseCase.updateAmendingLawXml(any())).thenReturn(Optional.empty());
+
+    // When // Then
+    mockMvc
+        .perform(
+            put("/api/v1/amending-laws/{eli}", eli)
+                .contentType(MediaType.APPLICATION_XML)
+                .content(xml))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  void itCallsUpdateAmendingLawXmlAndReturnsInternalError() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String xml = "<toUpdate></toUpdate>";
+
+    when(updateAmendingLawXmlUseCase.updateAmendingLawXml(any()))
+        .thenThrow(new RuntimeException("simulating internal server error"));
+
+    // When // Then
+    mockMvc
+        .perform(
+            put("/api/v1/amending-laws/{eli}", eli)
+                .contentType(MediaType.APPLICATION_XML)
+                .content(xml))
+        .andExpect(status().is5xxServerError());
+  }
+
+  @Test
+  void itLoadsUpdateAmendingLawXmlAndReturnsTheOneSuccessfully() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String xml = "<toUpdate></toUpdate>";
+    when(updateAmendingLawXmlUseCase.updateAmendingLawXml(any())).thenReturn(Optional.of(xml));
+
+    // When // Then
+    mockMvc
+        .perform(
+            put("/api/v1/amending-laws/{eli}", eli)
+                .contentType(MediaType.APPLICATION_XML)
+                .content(xml))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML_VALUE))
+        .andExpect(content().xml(xml));
   }
 }

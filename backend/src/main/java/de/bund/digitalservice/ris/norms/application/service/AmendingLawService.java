@@ -19,25 +19,29 @@ public class AmendingLawService
         LoadAmendingLawXmlUseCase,
         LoadAllAmendingLawsUseCase,
         LoadArticleUseCase,
-        LoadArticlesUseCase {
+        LoadArticlesUseCase,
+        UpdateAmendingLawXmlUseCase {
 
   private final LoadAmendingLawPort loadAmendingLawPort;
   private final LoadAmendingLawXmlPort loadAmendingLawXmlPort;
   private final LoadAllAmendingLawsPort loadAllAmendingLawsPort;
   private final LoadArticlesPort loadArticlesPort;
   private final LoadArticlePort loadArticlePort;
+  private final UpdateAmendingLawXmlPort updateAmendingLawXmlPort;
 
   public AmendingLawService(
       LoadAmendingLawPort loadAmendingLawPort,
       LoadAmendingLawXmlPort loadAmendingLawXmlPort,
       LoadAllAmendingLawsPort loadAllAmendingLawsPort,
       LoadArticlesPort loadArticlesPort,
-      LoadArticlePort loadArticlePort) {
+      LoadArticlePort loadArticlePort,
+      UpdateAmendingLawXmlPort updateAmendingLawXmlPort) {
     this.loadAmendingLawPort = loadAmendingLawPort;
     this.loadAmendingLawXmlPort = loadAmendingLawXmlPort;
     this.loadAllAmendingLawsPort = loadAllAmendingLawsPort;
     this.loadArticlesPort = loadArticlesPort;
     this.loadArticlePort = loadArticlePort;
+    this.updateAmendingLawXmlPort = updateAmendingLawXmlPort;
   }
 
   @Override
@@ -65,5 +69,11 @@ public class AmendingLawService
   public Optional<String> loadAmendingLawXml(LoadAmendingLawXmlUseCase.Query query) {
     return loadAmendingLawXmlPort.loadAmendingLawXmlByEli(
         new LoadAmendingLawXmlPort.Command(query.eli()));
+  }
+
+  @Override
+  public Optional<String> updateAmendingLawXml(UpdateAmendingLawXmlUseCase.Query query) {
+    return updateAmendingLawXmlPort.updateAmendingLawXmlByEli(
+        new UpdateAmendingLawXmlPort.Command(query.eli(), query.xml()));
   }
 }

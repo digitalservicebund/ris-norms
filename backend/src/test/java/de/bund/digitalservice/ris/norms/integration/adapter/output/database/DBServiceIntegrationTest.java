@@ -357,4 +357,45 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Then
     assertThat(xmlOptional).isPresent().satisfies(xmlDb -> assertThat(xmlDb).contains(xml));
   }
+
+  @Test
+  void itUpdatesXmlOfAmendingLaw() {
+    // Given
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<test></test>";
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1, article2))
+            .xml(xml)
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    // When
+    final String newXml = "<new></new>";
+    final Optional<String> updatedXmlOptional =
+        dbService.updateAmendingLawXmlByEli(new UpdateAmendingLawXmlPort.Command(eli, newXml));
+
+    // Then
+    assertThat(updatedXmlOptional)
+        .isPresent()
+        .satisfies(
+            updatedXml -> {
+              assertThat(updatedXml).contains(newXml);
+            });
+  }
 }

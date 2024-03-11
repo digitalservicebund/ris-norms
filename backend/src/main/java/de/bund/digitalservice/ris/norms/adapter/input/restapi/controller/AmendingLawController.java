@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,18 +35,21 @@ public class AmendingLawController {
   private final LoadAllAmendingLawsUseCase loadAllAmendingLawsUseCase;
   private final LoadArticlesUseCase loadArticlesUseCase;
   private final LoadArticleUseCase loadArticleUseCase;
+  private final UpdateAmendingLawXmlUseCase updateAmendingLawXmlUseCase;
 
   public AmendingLawController(
       LoadAmendingLawUseCase loadAmendingLawUseCase,
       LoadAmendingLawXmlUseCase loadAmendingLawXmlUseCase,
       LoadAllAmendingLawsUseCase loadAllAmendingLawsUseCase,
       LoadArticlesUseCase loadArticlesUseCase,
-      LoadArticleUseCase loadArticleUseCase) {
+      LoadArticleUseCase loadArticleUseCase,
+      UpdateAmendingLawXmlUseCase updateAmendingLawXmlUseCase) {
     this.loadAmendingLawUseCase = loadAmendingLawUseCase;
     this.loadAmendingLawXmlUseCase = loadAmendingLawXmlUseCase;
     this.loadAllAmendingLawsUseCase = loadAllAmendingLawsUseCase;
     this.loadArticlesUseCase = loadArticlesUseCase;
     this.loadArticleUseCase = loadArticleUseCase;
+    this.updateAmendingLawXmlUseCase = updateAmendingLawXmlUseCase;
   }
 
   /**
@@ -106,6 +111,55 @@ public class AmendingLawController {
         loadAmendingLawUseCase.loadAmendingLaw(new LoadAmendingLawUseCase.Query(eli));
     return optionalAmendingLaw
         .map(AmendingLawResponseMapper::fromUseCaseData)
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Updates the XML representation of an amending law based on its expression ELI. The ELI's
+   * components are interpreted as query parameters.
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param printAnnouncementGazette DE: "Verkündungsblatt"
+   * @param printAnnouncementYear DE "Verkündungsjahr"
+   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @param xml - the XML representation of the amending law
+   * @return A {@link ResponseEntity} without any content if 204 or error response if 404.
+   *     <p>Returns HTTP 200 (OK) with the saved XML as response payload.
+   *     <p>Returns HTTP 404 (Not Found) if the amending law is not found.
+   */
+  @PutMapping(
+      path =
+          "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}",
+      consumes = {APPLICATION_XML_VALUE},
+      produces = {APPLICATION_XML_VALUE})
+  public ResponseEntity<String> updateAmendingLaw(
+      @PathVariable final String printAnnouncementGazette,
+      @PathVariable final String printAnnouncementYear,
+      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype,
+      @RequestBody String xml) {
+    final String eli =
+        buildEli(
+            printAnnouncementGazette,
+            printAnnouncementYear,
+            printAnnouncementPage,
+            pointInTime,
+            version,
+            language,
+            subtype);
+
+    return updateAmendingLawXmlUseCase
+        .updateAmendingLawXml(new UpdateAmendingLawXmlUseCase.Query(eli, xml))
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
