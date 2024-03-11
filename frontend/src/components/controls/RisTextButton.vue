@@ -7,6 +7,10 @@ type LinkButtonHref = {
   target?: string
 }
 
+function isLinkButton(maybe: unknown): maybe is LinkButtonHref {
+  return !!maybe && typeof maybe === "object" && "href" in maybe
+}
+
 const props = withDefaults(
   defineProps<{
     /**
@@ -73,7 +77,7 @@ const props = withDefaults(
 
 const tag = computed<"a" | "button" | typeof RouterLink>(() => {
   if (!props.to) return "button"
-  else if ("href" in (props.to as LinkButtonHref)) return "a"
+  else if (isLinkButton(props.to)) return "a"
   else return RouterLink
 })
 
