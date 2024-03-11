@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisTextButton from "@/components/controls/RisTextButton.vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { computed } from "vue"
 import IcOutlineModeEdit from "~icons/ic/outline-mode-edit"
 
@@ -29,6 +30,12 @@ const props = defineProps<{
 }>()
 
 const tag = computed<"li" | "div">(() => (props.asListItem ? "li" : "div"))
+
+const eliParam = useEliPathParameter()
+
+const editorUrl = computed<string>(
+  () => `/amending-laws/${eliParam.value}/affected-documents/${props.eli}/edit`,
+)
 </script>
 
 <template>
@@ -54,7 +61,7 @@ const tag = computed<"li" | "div">(() => (props.asListItem ? "li" : "div"))
         label="Metadaten bearbeiten"
         :icon="IcOutlineModeEdit"
         variant="ghost"
-        :to="{ href: '#' }"
+        :to="editorUrl"
       />
     </div>
   </component>

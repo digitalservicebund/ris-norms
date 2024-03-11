@@ -73,6 +73,11 @@ const routes = [
     name: "AmendingLawArticleEditor",
     component: () => import("@/views/AmendingLawArticleEditor.vue"),
   },
+  {
+    path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/edit`,
+    name: "AmendingLawAffectedDocumentEditor",
+    component: () => import("@/views/AmendingLawAffectedDocumentEditor.vue"),
+  },
 ]
 
 const router = createRouter({
