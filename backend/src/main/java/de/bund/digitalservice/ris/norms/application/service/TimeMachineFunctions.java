@@ -19,10 +19,11 @@ public class TimeMachineFunctions {
    * Applies the modifications of the amending law onto the target law.
    *
    * @param amendingLaw A {@link Document} that contains LDML.de modifications to be applied to the
-   *     <code>targetLaw</code>
-   * @param targetLaw The {@link Document} that the modifications will be applied to
-   * @return the Document that results in applying the amending law's modifications to the target
-   *     law
+   *     <code>targetLaw</code>.
+   * @param targetLaw The {@link Document} that the modifications will be applied to.
+   * @return The {@link Document} that applying the amending law's modifications to the target
+   *     results in. law, wrapped in an {@link Optional}. In case of an error while applying, <code>
+   *     Optional.empty()</code> is returned.
    */
   public static Optional<Document> applyTimeMachine(
       final Document amendingLaw, final Document targetLaw) {
