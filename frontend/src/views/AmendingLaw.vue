@@ -20,6 +20,10 @@ const menuItems: LevelOneMenuItem[] = [
         label: "Betroffene Normenkomplexe",
         route: { name: "AmendingLawAffectedDocuments" },
       },
+      {
+        label: "Abgabe",
+        route: { name: "AmendingLawPublishing" },
+      },
     ],
   },
 ]

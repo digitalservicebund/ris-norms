@@ -44,6 +44,11 @@ const routes = [
             name: "AmendingLawArticles",
             component: () => import("@/views/Articles.vue"),
           },
+          {
+            path: "publishing",
+            name: "AmendingLawPublishing",
+            component: () => import("@/views/Publishing.vue"),
+          },
         ],
       },
     ],
