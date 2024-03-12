@@ -89,7 +89,7 @@ function handleGeneratePreview() {
     </router-link>
 
     <div class="flex h-dvh flex-col p-40">
-      <div class="mb-40 flex">
+      <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
           <h2 class="ds-heading-03-reg">Änderungsbefehle prüfen</h2>
@@ -98,41 +98,54 @@ function handleGeneratePreview() {
         <RisTextButton
           label="Speichern"
           size="small"
-          class="mr-16 h-fit self-end"
+          class="h-fit flex-none self-end"
           :disabled="articleXml === currentArticleXml"
           @click="handleSave"
-        ></RisTextButton>
+        />
 
         <RisTextButton
           label="Vorschau generieren"
           size="small"
           variant="tertiary"
-          class="h-fit self-end"
+          class="h-fit flex-none self-end"
           @click="handleGeneratePreview"
-        ></RisTextButton>
+        />
       </div>
 
       <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-2 gap-32">
-        <div class="flex flex-col gap-8">
-          <h3 class="ds-label-02-bold">{{ targetLaw?.title }}</h3>
+        <section
+          class="flex flex-col gap-8"
+          aria-labelledby="originalArticleTitle"
+        >
+          <h3 id="originalArticleTitle" class="ds-label-02-bold">
+            {{ targetLaw?.title }}
+          </h3>
           <RisCodeEditor
             class="flex-grow"
             :readonly="true"
             :editable="false"
             :initial-content="targetLawXml ?? ''"
           ></RisCodeEditor>
-        </div>
-        <div class="row-span-2 flex flex-col gap-8">
-          <h3 class="ds-label-02-bold">Vorschau</h3>
+        </section>
+
+        <section
+          class="row-span-2 flex flex-col gap-8"
+          aria-labelledby="changedArticlePreivew"
+        >
+          <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
           <RisCodeEditor
             class="flex-grow"
             :readonly="true"
             :editable="false"
             :initial-content="PREVIEW_XML"
           ></RisCodeEditor>
-        </div>
-        <div class="flex flex-col gap-8">
-          <h3 class="ds-label-02-bold">
+        </section>
+
+        <section
+          class="flex flex-col gap-8"
+          aria-labelledby="changeCommandsEditor"
+        >
+          <h3 id="changeCommandsEditor" class="ds-label-02-bold">
             <span class="block">Änderungsbefehle</span>
             <span>{{ article?.title }}</span>
           </h3>
@@ -141,7 +154,7 @@ function handleGeneratePreview() {
             :initial-content="articleXml"
             @change="handleArticleXMLChange"
           ></RisCodeEditor>
-        </div>
+        </section>
       </div>
     </div>
   </div>
