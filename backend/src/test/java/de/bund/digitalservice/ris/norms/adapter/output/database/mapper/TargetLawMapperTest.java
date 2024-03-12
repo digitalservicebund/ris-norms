@@ -13,7 +13,13 @@ class TargetLawMapperTest {
   void testMapToDomain() {
     // Given
     final TargetLawDto targetLawDto =
-        TargetLawDto.builder().eli("123").title("Test Law").xml("<xml>Test XML</xml>").build();
+        TargetLawDto.builder()
+            .eli("123")
+            .title("Test Law")
+            .xml("<xml>Test XML</xml>")
+            .fna("4711")
+            .shortTitle("TL")
+            .build();
 
     // When
     final TargetLaw targetLaw = TargetLawMapper.mapToDomain(targetLawDto);
@@ -23,6 +29,8 @@ class TargetLawMapperTest {
     assertEquals(targetLawDto.getEli(), targetLaw.getEli());
     assertEquals(targetLawDto.getTitle(), targetLaw.getTitle());
     assertEquals(targetLawDto.getXml(), targetLaw.getXml());
+    assertEquals(targetLawDto.getFna(), targetLaw.getFna());
+    assertEquals(targetLawDto.getShortTitle(), targetLaw.getShortTitle());
   }
 
   @Test

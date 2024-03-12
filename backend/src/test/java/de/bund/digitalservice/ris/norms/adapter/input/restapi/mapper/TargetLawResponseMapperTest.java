@@ -16,6 +16,8 @@ class TargetLawResponseMapperTest {
             .eli("target-law-eli-1")
             .title("target law article 1")
             .xml("<target>1</target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
             .build();
 
     // When
@@ -25,5 +27,7 @@ class TargetLawResponseMapperTest {
     // Then
     assertThat(resultTargetLaw.getEli()).isEqualTo("target-law-eli-1");
     assertThat(resultTargetLaw.getTitle()).isEqualTo("target law article 1");
+    assertThat(resultTargetLaw.getFna()).isEqualTo("4711");
+    assertThat(resultTargetLaw.getShortTitle()).isEqualTo("targetlaw");
   }
 }
