@@ -18,6 +18,8 @@ const affectedDocuments = useAffectedDocuments(eli)
         :key="affectedDocument.eli"
         :title="affectedDocument.title"
         :eli="affectedDocument.eli"
+        :fna="affectedDocument.fna"
+        :short-title="affectedDocument.shortTitle"
         as-list-item
       />
     </ul>
