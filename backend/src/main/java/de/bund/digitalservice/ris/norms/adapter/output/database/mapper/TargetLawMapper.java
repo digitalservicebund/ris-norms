@@ -20,6 +20,8 @@ public class TargetLawMapper {
         .eli(targetLawDto.getEli())
         .title(targetLawDto.getTitle())
         .xml(targetLawDto.getXml())
+        .fna(targetLawDto.getFna())
+        .shortTitle(targetLawDto.getShortTitle())
         .build();
   }
 
@@ -34,6 +36,8 @@ public class TargetLawMapper {
         .eli(targetLaw.getEli())
         .title(targetLaw.getTitle())
         .xml(targetLaw.getXml())
+        .fna(targetLaw.getFna())
+        .shortTitle(targetLaw.getShortTitle())
         .build();
   }
 }

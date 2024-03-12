@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,6 +18,7 @@ class TargetLawDtoTest {
 
   @BeforeAll
   public static void setUp() {
+    Locale.setDefault(Locale.ENGLISH);
     final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     validator = factory.getValidator();
   }
@@ -28,10 +30,19 @@ class TargetLawDtoTest {
     final String eli = "someEli";
     final String title = "title";
     final String xml = "<test></test>";
+    final String fna = "4711";
+    final String shortTitle = "T";
 
     // When
     final TargetLawDto targetLawDto =
-        TargetLawDto.builder().id(id).eli(eli).title(title).xml(xml).build();
+        TargetLawDto.builder()
+            .id(id)
+            .eli(eli)
+            .title(title)
+            .xml(xml)
+            .fna(fna)
+            .shortTitle(shortTitle)
+            .build();
     final Set<ConstraintViolation<TargetLawDto>> violations = validator.validate(targetLawDto);
 
     // Then
@@ -48,10 +59,14 @@ class TargetLawDtoTest {
 
     // Then
     assertThat(violations)
-        .hasSize(3)
+        .hasSize(5)
         .extracting(
             violation -> violation.getPropertyPath().toString() + " " + violation.getMessage())
         .containsExactlyInAnyOrder(
-            "eli must not be null", "title must not be null", "xml must not be null");
+            "eli must not be null",
+            "title must not be null",
+            "xml must not be null",
+            "fna must not be null",
+            "shortTitle must not be null");
   }
 }
