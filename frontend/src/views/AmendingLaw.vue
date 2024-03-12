@@ -42,8 +42,11 @@ const amendingLaw = useAmendingLaw(eli)
         :go-back-route="{ name: 'Home' }"
         :menu-items="menuItems"
       />
-      <div class="w-full flex-1 p-40">
-        <RouterView />
+      <div class="w-full flex-1">
+        <div id="alertArea"></div>
+        <div class="w-full p-40">
+          <RouterView />
+        </div>
       </div>
     </div>
   </div>

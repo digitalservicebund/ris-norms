@@ -3,6 +3,7 @@ import RisTextButton from "@/components/controls/RisTextButton.vue"
 import IconCheck from "~icons/ic/baseline-check"
 import IconErrorOutline from "~icons/ic/baseline-error-outline"
 import { computed, ref } from "vue"
+import RisAlert from "@/components/controls/RisAlert.vue"
 
 /**
  * The result of a plausibility check of an amending law
@@ -42,12 +43,34 @@ function onCheckPlausibility() {
   }
 }
 
+type Alert = {
+  variant: "success" | "error"
+  message: string
+}
+
+/**
+ * Currently visible alerts
+ */
+const alerts = ref<Alert[]>([])
+
 // TODO: (Malte Laukötter, 2024-03-12) this is probably a property of the amending law in the future
 const publishedAt = ref<Date | null>(null)
 
 function onPublish() {
   // TODO: (Malte Laukötter, 2024-03-12) Call an endpoint to publish the amending law
-  publishedAt.value = new Date()
+  if (Math.random() > 0.5) {
+    publishedAt.value = new Date()
+
+    alerts.value.push({
+      variant: "success",
+      message: "Die Datei wurde erfolgreich abgegeben",
+    })
+  } else {
+    alerts.value.push({
+      variant: "error",
+      message: "Gesetz konnte nicht als XML abgegeben werden",
+    })
+  }
 }
 
 const publishedAtDateTime = computed(() => publishedAt.value?.toISOString())
@@ -65,7 +88,7 @@ const publishedAtDateString = computed(() =>
 </script>
 
 <template>
-  <div class="flex flex-col gap-[60px]">
+  <div class="flex flex-col">
     <section class="flex flex-col gap-40">
       <h1 class="ds-heading-02-reg">Abgabe</h1>
 
@@ -113,7 +136,7 @@ const publishedAtDateString = computed(() =>
       />
     </section>
 
-    <section class="flex flex-col gap-40">
+    <section class="mt-[60px] flex flex-col gap-40">
       <h1 class="ds-heading-02-reg">Letzte Abgabe</h1>
 
       <span v-if="publishedAt"
@@ -125,4 +148,14 @@ const publishedAtDateString = computed(() =>
       <span v-else>Das Gesetz wurde noch nicht veröffentlicht.</span>
     </section>
   </div>
+
+  <Teleport
+    v-for="({ variant, message }, index) in alerts"
+    :key="index"
+    to="#alertArea"
+  >
+    <RisAlert :variant="variant" @click="alerts.splice(index, 1)">
+      {{ message }}
+    </RisAlert>
+  </Teleport>
 </template>
