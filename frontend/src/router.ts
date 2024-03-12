@@ -41,13 +41,8 @@ const routes = [
           },
           {
             path: "articles",
-            children: [
-              {
-                path: "",
-                name: "AmendingLawArticles",
-                component: () => import("@/views/Articles.vue"),
-              },
-            ],
+            name: "AmendingLawArticles",
+            component: () => import("@/views/Articles.vue"),
           },
         ],
       },
