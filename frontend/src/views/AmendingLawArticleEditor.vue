@@ -12,23 +12,7 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-
-const PREVIEW_XML = `<akn:activeModifications eId="meta-1_analysis-1_activemod-1"
-                  GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
-  <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-1"
-                 GUID="2e5533d3-d0e3-43ba-aa1a-5859d108eb46"
-                 type="substitution">
-    <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1"
-                GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6"
-                href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
-    <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
-                     GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                     href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3.xml"/>
-    <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
-               GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
-               period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
-  </akn:textualMod>
-</akn:activeModifications>`
+import { previewTargetLaw } from "@/services/targetLawsService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -71,8 +55,19 @@ async function handleSave() {
   }
 }
 
-function handleGeneratePreview() {
-  console.log("AmendingLawArticleEditor::handleGeneratePreview")
+const previewXml = ref<string>("")
+async function handleGeneratePreview() {
+  try {
+    if (targetLawEli.value) {
+      previewXml.value = await previewTargetLaw(
+        targetLawEli.value,
+        currentArticleXml.value,
+      )
+    }
+  } catch (error) {
+    alert("Vorschau konnte nicht erstellt werden")
+    console.error(error)
+  }
 }
 </script>
 
@@ -137,7 +132,7 @@ function handleGeneratePreview() {
             class="flex-grow"
             :readonly="true"
             :editable="false"
-            :initial-content="PREVIEW_XML"
+            :initial-content="previewXml"
           ></RisCodeEditor>
         </section>
 
