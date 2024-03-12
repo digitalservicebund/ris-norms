@@ -17,6 +17,6 @@ test(`see page title`, async ({ page }) => {
   )
 
   await expect(
-    page.getByRole("heading", { level: 1, name: "Abgabe" }),
+    page.getByRole("heading", { level: 1, name: "Abgabe", exact: true }),
   ).toBeVisible()
 })
