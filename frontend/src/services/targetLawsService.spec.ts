@@ -63,4 +63,36 @@ describe("targetLawsService", () => {
       )
     })
   })
+
+  describe("previewTargetLaw(eli, xml)", () => {
+    it("calls the api correctly", async () => {
+      const fetchMock = vi
+        .fn()
+        .mockResolvedValueOnce(`<?xml version="1.0" encoding="UTF-8"?></xml>`)
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { previewTargetLaw } = await import("./targetLawsService")
+
+      const result = await previewTargetLaw(
+        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        "<xml></xml>",
+      )
+      expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview",
+        expect.objectContaining({
+          method: "POST",
+          body: "<xml></xml>",
+          headers: expect.objectContaining({
+            Accept: "application/xml",
+            "Content-Type": "application/xml",
+          }),
+        }),
+      )
+    })
+  })
 })

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisTextButton from "@/components/controls/RisTextButton.vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { computed } from "vue"
 import IcOutlineModeEdit from "~icons/ic/outline-mode-edit"
 
@@ -29,30 +30,39 @@ const props = defineProps<{
 }>()
 
 const tag = computed<"li" | "div">(() => (props.asListItem ? "li" : "div"))
+
+const eliParam = useEliPathParameter()
+
+const editorUrl = computed<string>(
+  () => `/amending-laws/${eliParam.value}/affected-documents/${props.eli}/edit`,
+)
 </script>
 
 <template>
-  <component :is="tag" :class="{ 'list-none': tag === 'li' }">
-    <div class="flex gap-24 bg-blue-200 p-24">
-      <div class="flex flex-1 flex-col gap-8">
-        <div v-if="fna || shortTitle">
-          <template v-if="fna">
-            FNA <span class="font-bold">{{ fna }}</span>
-          </template>
-          <span v-if="fna && shortTitle" class="mx-4 font-bold">-</span>
-          <span v-if="shortTitle" class="font-bold">{{ shortTitle }}</span>
-        </div>
-        <div v-if="title">{{ title }}</div>
-        <div v-if="eli">{{ eli }}</div>
+  <component
+    :is="tag"
+    :class="{ 'list-none': tag === 'li' }"
+    class="flex gap-24 bg-blue-200 p-24"
+  >
+    <div class="flex flex-1 flex-col gap-8">
+      <div v-if="fna || shortTitle">
+        <template v-if="fna">
+          FNA <span class="font-bold">{{ fna }}</span>
+        </template>
+        <span v-if="fna && shortTitle" class="mx-4 font-bold">-</span>
+        <span v-if="shortTitle" class="font-bold">{{ shortTitle }}</span>
       </div>
+      <div v-if="title">{{ title }}</div>
+      <div v-if="eli">{{ eli }}</div>
+    </div>
 
-      <div class="flex flex-none items-center">
-        <RisTextButton
-          label="Metadaten bearbeiten"
-          :icon="IcOutlineModeEdit"
-          variant="ghost"
-        />
-      </div>
+    <div class="flex flex-none items-center">
+      <RisTextButton
+        label="Metadaten bearbeiten"
+        :icon="IcOutlineModeEdit"
+        variant="ghost"
+        :to="editorUrl"
+      />
     </div>
   </component>
 </template>

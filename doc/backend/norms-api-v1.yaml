@@ -55,7 +55,11 @@ paths:
               $ref: '#/components/schemas/LegalDocML.de'
       responses:
         '200':
-          description: Successful response
+          description: Successful response with saved XML
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
 
   /amending-laws/{eli}/articles:
     get:

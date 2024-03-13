@@ -1,14 +1,5 @@
+import { createEliPathParameter } from "@/composables/useEliPathParameter"
 import { createRouter, createWebHistory } from "vue-router"
-
-/**
- * The regular expressions for the parts of the eli are based on the definitions from LDML.de 1.6 for elis
- * for "Verkündungsfassungen und Neufassungen"
- *
- * It was not possible to put the eli in just one combined path parameter as vue-router replaces slashes in
- * path parameters automatically by %2F when routing to a new route.
- */
-const ELI_ROUTE_PATH =
-  "eli/:eliJurisdiction(bund)/:eliAgent(bgbl-1|bgbl-2|banz-at)/:eliYear([12][0-9]{3})/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)/:eliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})/:eliVersion([0-9]+)/:eliLanguage(deu)/:eliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)"
 
 /**
  * The regular expressions for the eId is based on the definitions from LDML.de 1.6 (Section 9.2.11.63, eIdLiterals.einzelvorschrift)
@@ -35,7 +26,7 @@ const routes = [
         component: () => import("@/views/AmendingLaws.vue"),
       },
       {
-        path: ELI_ROUTE_PATH,
+        path: createEliPathParameter(),
         component: () => import("@/views/AmendingLaw.vue"),
         children: [
           {
@@ -49,38 +40,23 @@ const routes = [
             component: () => import("@/views/AffectedDocuments.vue"),
           },
           {
-            path: "affected-documents/:eid",
-            children: [
-              {
-                path: "",
-                name: "AmendingLawAffectedDocument",
-                redirect: { name: "AmendingLawAffectedDocumentEdit" },
-              },
-              {
-                path: "edit",
-                name: "AmendingLawAffectedDocumentEdit",
-                component: () => import("@/views/EditAffectedDocument.vue"),
-              },
-            ],
-          },
-          {
             path: "articles",
-            children: [
-              {
-                path: "",
-                name: "AmendingLawArticles",
-                component: () => import("@/views/Articles.vue"),
-              },
-            ],
+            name: "AmendingLawArticles",
+            component: () => import("@/views/Articles.vue"),
           },
         ],
       },
     ],
   },
   {
-    path: `/amending-laws/${ELI_ROUTE_PATH}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
+    path: `/amending-laws/${createEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
     name: "AmendingLawArticleEditor",
     component: () => import("@/views/AmendingLawArticleEditor.vue"),
+  },
+  {
+    path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/edit`,
+    name: "AmendingLawAffectedDocumentEditor",
+    component: () => import("@/views/AmendingLawAffectedDocumentEditor.vue"),
   },
 ]
 

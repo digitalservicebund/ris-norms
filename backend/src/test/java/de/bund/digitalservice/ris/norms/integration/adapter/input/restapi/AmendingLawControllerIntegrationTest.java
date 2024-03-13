@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
@@ -148,6 +149,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .eli("target law eli")
             .title("target law title")
             .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
             .build();
     final Article article =
         Article.builder()
@@ -204,6 +207,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .eli("target law eli")
             .title("target law title")
             .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
             .build();
     final Article article1 =
         Article.builder()
@@ -218,6 +223,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .eli("target law eli 2")
             .title("target law title 2")
             .xml("<target>2</target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
             .build();
     final Article article2 =
         Article.builder()
@@ -286,5 +293,46 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/amending-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
         .andExpect(content().string(xml));
+  }
+
+  @Test
+  void itCallsUpdateAmendingLawXmlAndReturnsUpdatedXml() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<test></test>";
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .xml(xml)
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    final String encodedEli =
+        UriComponentsBuilder.fromPath(amendingLaw.getEli()).build().encode().toUriString();
+
+    // When // Then
+    final String updateXml = "<updated></updated>";
+    mockMvc
+        .perform(
+            put("/api/v1/amending-laws/{eli}", encodedEli)
+                .contentType(MediaType.APPLICATION_XML)
+                .content(updateXml))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML_VALUE))
+        .andExpect(content().xml(updateXml));
   }
 }

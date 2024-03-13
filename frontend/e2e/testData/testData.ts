@@ -1,8 +1,10 @@
 import { AmendingLaw } from "@/types/amendingLaw"
 import { Article } from "@/types/article"
+import { TargetLaw } from "@/types/targetLaw"
 
 export const amendingLaws: (AmendingLaw & {
   articles: Article[]
+  targetLaws: TargetLaw[]
 })[] = [
   {
     eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
@@ -20,6 +22,14 @@ export const amendingLaws: (AmendingLaw & {
         affectedDocumentEli: "",
       },
     ],
+    targetLaws: [
+      {
+        eli: "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1",
+        title: "Gesetz zur Regelungs des öffenltichen Vereinsrechts",
+        fna: "754-28-1",
+        shortTitle: "Vereinsgesetz",
+      },
+    ],
   },
   {
     eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -35,6 +45,15 @@ export const amendingLaws: (AmendingLaw & {
         eid: "hauptteil-1_art-1",
         title: "Änderung des Bundesverfassungsschutzgesetzes",
         affectedDocumentEli: "",
+      },
+    ],
+    targetLaws: [
+      {
+        eli: "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        title:
+          "Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz",
+        fna: "210-5",
+        shortTitle: "Bundesverfassungsschutzgesetz",
       },
     ],
   },

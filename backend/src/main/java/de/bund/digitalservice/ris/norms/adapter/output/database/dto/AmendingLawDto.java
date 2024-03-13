@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -26,16 +25,11 @@ import lombok.Setter;
 public class AmendingLawDto {
   @Id @GeneratedValue private UUID id;
 
-  @NotNull
-  @Size(max = 255)
-  @Column
-  private String eli;
+  @NotNull @Column private String eli;
 
-  @Size(max = 15)
   @Column(name = "print_announcement_gazette")
   private String printAnnouncementGazette;
 
-  @Size(max = 15)
   @Column(name = "digital_announcement_medium")
   private String digitalAnnouncementMedium;
 
@@ -43,18 +37,13 @@ public class AmendingLawDto {
   @Column(name = "publication_date")
   private LocalDate publicationDate;
 
-  @Size(max = 15)
   @Column(name = "print_announcement_page")
   private String printAnnouncementPage;
 
-  @Size(max = 15)
   @Column(name = "digital_announcement_edition")
   private String digitalAnnouncementEdition;
 
-  @NotNull
-  @Size(max = 255)
-  @Column
-  private String title;
+  @NotNull @Column private String title;
 
   @NotNull @Column private String xml;
 

@@ -10,24 +10,50 @@ test.describe("Affected documents page", () => {
       await page.goto(`/amending-laws/${amendingLaw.eli}/affected-documents`)
 
       // Menu
-      const locator = page.locator(`a:has-text("Betroffene Normenkomplexe")`)
-      await expect(locator).toHaveClass(/router-link-active/)
-      await expect(locator).toHaveClass(/bg-blue-200/)
+      const link = page.getByRole("link", { name: "Betroffene Normenkomplexe" })
+      await expect(link).toHaveClass(/router-link-active/)
 
       // Content
-      // eslint-disable-next-line playwright/no-conditional-in-test
-      for (const article of amendingLaw.articles ?? []) {
-        await expect(
-          page.getByText(`Artikel ${article.enumeration}`),
-        ).toBeVisible()
-        await expect(page.getByText(article.eid)).toBeVisible()
-      }
+      for (const targetLaw of amendingLaw.targetLaws) {
+        const element = page
+          .getByRole("listitem")
+          .filter({ hasText: targetLaw.title })
 
-      await expect(page.getByText("Metadaten editieren")).toBeVisible()
+        await expect(element).toBeVisible()
+        await expect(element.getByText(targetLaw.fna)).toBeVisible()
+        await expect(element.getByText(targetLaw.shortTitle)).toBeVisible()
+        await expect(element.getByText(targetLaw.eli)).toBeVisible()
+
+        // Metadata button
+        await expect(
+          element.getByRole("link", { name: "Metadaten bearbeiten" }),
+        ).toBeVisible()
+      }
 
       // Back
       await page.getByText("Zurück").click()
       await expect(page).toHaveURL("/amending-laws")
+    })
+
+    test(`navigate from affected document ${amendingLaw.eli} to the corresponding editor`, async ({
+      page,
+    }) => {
+      // Navigation
+      await page.goto(`/amending-laws/${amendingLaw.eli}/affected-documents`)
+
+      for (const targetLaw of amendingLaw.targetLaws) {
+        const link = page
+          .getByRole("listitem")
+          .filter({ hasText: targetLaw.title })
+          .getByRole("link", { name: "Metadaten bearbeiten" })
+
+        await link.click()
+        await expect(page).toHaveURL(
+          `/amending-laws/${amendingLaw.eli}/affected-documents/${targetLaw.eli}/edit`,
+        )
+
+        await page.goBack()
+      }
     })
   }
 })

@@ -14,8 +14,8 @@ recent language, API and JVM enhancements.
 
 ## Decision
 
-We will use JDK 21 for our backend module and will migrate the time-machine from JDK 17 to JDK 21. This move is
-motivated by the combination of LTS stability and the exciting new features introduced in this release.
+We will use JDK 21 for our backend module. This move is motivated by the combination of LTS stability and the exciting
+new features introduced in this release.
 
 ## Consequences
 

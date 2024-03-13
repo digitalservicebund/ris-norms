@@ -1,5 +1,5 @@
 [versions]
-flyway = "10.9.0"
+flyway = "10.9.1"
 # @keep
 jacoco = "0.8.11"
 org-testcontainers = "1.19.7"
@@ -7,7 +7,7 @@ spring-boot = "3.2.3"
 
 [libraries]
 # CVE-2024-26308
-apache-commons-compress = "org.apache.commons:commons-compress:1.26.0"
+apache-commons-compress = "org.apache.commons:commons-compress:1.26.1"
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
@@ -32,7 +32,7 @@ testcontainers-postgres = { module = "org.testcontainers:postgresql", version.re
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 
 [plugins]
-dependency-license-report = "com.github.jk1.dependency-license-report:2.5"
+dependency-license-report = "com.github.jk1.dependency-license-report:2.6"
 sonarqube = "org.sonarqube:4.4.1.3373"
 spotless = "com.diffplug.spotless:6.25.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

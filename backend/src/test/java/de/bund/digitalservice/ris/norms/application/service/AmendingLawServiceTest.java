@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateAmendingLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -24,17 +25,20 @@ class AmendingLawServiceTest {
 
   final LoadAmendingLawPort loadAmendingLawAdapter = mock(LoadAmendingLawPort.class);
   final LoadAllAmendingLawsPort loadAllAmendingLawsAdapter = mock(LoadAllAmendingLawsPort.class);
-  final LoadArticlesPort loadArticlesPort = mock(LoadArticlesPort.class);
-  final LoadArticlePort loadArticlePort = mock(LoadArticlePort.class);
+  final LoadArticlesPort loadArticlesAdapter = mock(LoadArticlesPort.class);
+  final LoadArticlePort loadArticleAdapter = mock(LoadArticlePort.class);
   final LoadAmendingLawXmlPort loadAmendingLawXmlAdapter = mock(LoadAmendingLawXmlPort.class);
+
+  final UpdateAmendingLawXmlPort updateAmendingLawXmlAdapter = mock(UpdateAmendingLawXmlPort.class);
 
   final AmendingLawService service =
       new AmendingLawService(
           loadAmendingLawAdapter,
           loadAmendingLawXmlAdapter,
           loadAllAmendingLawsAdapter,
-          loadArticlesPort,
-          loadArticlePort);
+          loadArticlesAdapter,
+          loadArticleAdapter,
+          updateAmendingLawXmlAdapter);
 
   @Test
   void itCallsLoadAmendingLawByEliUsingInputQueryEli() {
@@ -162,14 +166,14 @@ class AmendingLawServiceTest {
     final Article article =
         Article.builder().title(title).enumeration(enumeration).eid(eId).build();
 
-    when(loadArticlePort.loadArticleByEliAndEid(any())).thenReturn(Optional.of(article));
+    when(loadArticleAdapter.loadArticleByEliAndEid(any())).thenReturn(Optional.of(article));
 
     // When
     final Optional<Article> loadedArticle = service.loadArticle(query);
 
     // Then
     assertThat(loadedArticle).isPresent().contains(article);
-    verify(loadArticlePort, times(1))
+    verify(loadArticleAdapter, times(1))
         .loadArticleByEliAndEid(
             argThat(command -> command.eli().equals(eli) && command.eId().equals(eId)));
   }
@@ -194,14 +198,66 @@ class AmendingLawServiceTest {
 
     final List<Article> expectedArticles = List.of(article1, article2);
 
-    when(loadArticlesPort.loadArticlesByAmendingLaw(any())).thenReturn(expectedArticles);
+    when(loadArticlesAdapter.loadArticlesByAmendingLaw(any())).thenReturn(expectedArticles);
 
     // When
     List<Article> loadedArticles = service.loadArticlesOfAmendingLaw(query);
 
     // Then
     assertThat(loadedArticles).hasSize(2).containsExactlyElementsOf(expectedArticles);
-    verify(loadArticlesPort, times(1))
+    verify(loadArticlesAdapter, times(1))
         .loadArticlesByAmendingLaw(argThat(command -> command.eli().equals(eli)));
+  }
+
+  @Test
+  void itCallsUpdateAmendingLawXmlUsingInputQueryEli() {
+    // Given
+    final String eli = "someEli";
+    final String xml = "<test></test>";
+
+    final UpdateAmendingLawXmlUseCase.Query query = new UpdateAmendingLawXmlUseCase.Query(eli, xml);
+    when(updateAmendingLawXmlAdapter.updateAmendingLawXmlByEli(any())).thenReturn(Optional.empty());
+
+    // When
+    service.updateAmendingLawXml(query);
+
+    // Then
+    verify(updateAmendingLawXmlAdapter, times(1))
+        .updateAmendingLawXmlByEli(argThat(arg -> arg.eli().equals(eli) && arg.xml().equals(xml)));
+  }
+
+  @Test
+  void canUpdateAmendingLawXmlByEliIfAdapterFindsOne() {
+    // Given
+    final String eli = "someEli";
+    final String xml = "<test></test>";
+
+    final UpdateAmendingLawXmlUseCase.Query query = new UpdateAmendingLawXmlUseCase.Query(eli, xml);
+
+    when(updateAmendingLawXmlAdapter.updateAmendingLawXmlByEli(any())).thenReturn(Optional.of(xml));
+
+    // When
+    final Optional<String> updatedXml = service.updateAmendingLawXml(query);
+
+    // Then
+    assertThat(updatedXml).isPresent().contains(xml);
+  }
+
+  @Test
+  void canNotUpdateAmendingLawXmlIfAdapterDoesNotFindOne() {
+    // Given
+    final String eli = "someEli";
+
+    final String xml = "<test></test>";
+
+    final UpdateAmendingLawXmlUseCase.Query query = new UpdateAmendingLawXmlUseCase.Query(eli, xml);
+
+    when(updateAmendingLawXmlAdapter.updateAmendingLawXmlByEli(any())).thenReturn(Optional.empty());
+
+    // When
+    final Optional<String> updatedXml = service.updateAmendingLawXml(query);
+
+    // Then
+    assertThat(updatedXml).isEmpty();
   }
 }

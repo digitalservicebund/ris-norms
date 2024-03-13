@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,19 +23,11 @@ import lombok.Setter;
 public class ArticleDto {
   @Id @GeneratedValue private UUID id;
 
-  @NotNull
-  @Size(max = 255)
-  @Column
-  private String enumeration;
+  @NotNull @Column private String enumeration;
 
-  @NotNull
-  @Size(max = 255)
-  @Column
-  private String eid;
+  @NotNull @Column private String eid;
 
-  @Size(max = 255)
-  @Column
-  private String title;
+  @Column private String title;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "target_law_id", referencedColumnName = "id", nullable = false)

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { EditorView, basicSetup } from "codemirror"
-import { xml } from "@codemirror/lang-xml"
-import { ref, shallowRef, toRef, watch } from "vue"
-import { useCodemirrorVueReadonlyExtension } from "@/components/editor/composables/useCodemirrorVueReadonlyExtension"
 import { useCodemirrorVueEditableExtension } from "@/components/editor/composables/useCodemirrorVueEditableExtension"
+import { useCodemirrorVueReadonlyExtension } from "@/components/editor/composables/useCodemirrorVueReadonlyExtension"
+import { xml } from "@codemirror/lang-xml"
+import { basicSetup, EditorView } from "codemirror"
+import { computed, ref, shallowRef, watch } from "vue"
 
 const props = withDefaults(
   defineProps<{
@@ -57,11 +57,11 @@ const editorView = shallowRef<EditorView | null>(null)
 
 const codemirrorVueReadonlyExtension = useCodemirrorVueReadonlyExtension(
   editorView,
-  toRef(props.readonly),
+  computed(() => props.readonly),
 )
 const codemirrorVueEditableExtension = useCodemirrorVueEditableExtension(
   editorView,
-  toRef(props.editable),
+  computed(() => props.editable),
 )
 
 /**
@@ -69,12 +69,20 @@ const codemirrorVueEditableExtension = useCodemirrorVueEditableExtension(
  */
 watch(
   [editorElement, () => props.initialContent],
-  (value, oldValue, onCleanup) => {
+  () => {
     if (editorElement.value == null) {
       return
     }
 
-    const newEditorView = new EditorView({
+    if (props.initialContent === editorView.value?.state.doc.toString()) {
+      return
+    }
+
+    if (editorView.value) {
+      editorView.value.destroy()
+    }
+
+    editorView.value = new EditorView({
       doc: props.initialContent,
       extensions: [
         basicSetup,
@@ -98,17 +106,11 @@ watch(
       ],
       parent: editorElement.value,
     })
-
-    editorView.value = newEditorView
-
-    onCleanup(() => {
-      newEditorView.destroy()
-    })
   },
   { immediate: true },
 )
 </script>
 
 <template>
-  <div ref="editorElement" class="overflow-hidden"></div>
+  <div ref="editorElement" class="ds-textarea overflow-hidden p-2"></div>
 </template>

@@ -1,10 +1,13 @@
-import { getAmendingLawXmlByEli } from "@/services/amendingLawsService"
+import {
+  getAmendingLawXmlByEli,
+  putAmendingLawXml,
+} from "@/services/amendingLawsService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import {
   DeepReadonly,
   MaybeRefOrGetter,
-  Ref,
   readonly,
+  Ref,
   ref,
   toValue,
   watch,
@@ -16,12 +19,20 @@ import {
  * @param identifier A reference to the ELI/eId combination for which the article XML
  *  will be returned. Changing the value of the reference will load the XML for the
  *  new ELI/eId combination.
- * @returns A reference to the article XML or undefined if it is not available (or
- *  still loading).
  */
 export function useArticleXml(
   identifier: MaybeRefOrGetter<LawElementIdentifier | undefined>,
-): DeepReadonly<Ref<string | undefined>> {
+): {
+  /**
+   * A reference to the article XML or undefined if it is not available (or
+   *  still loading).
+   */
+  xml: DeepReadonly<Ref<string | undefined>>
+  /**
+   * Update the article xml.
+   */
+  update: (xml: string) => Promise<unknown>
+} {
   const articleXml = ref<string>()
 
   watch(
@@ -38,5 +49,18 @@ export function useArticleXml(
     { immediate: true },
   )
 
-  return readonly(articleXml)
+  async function update(xml: string) {
+    const id = toValue(identifier)
+
+    if (!id) {
+      throw new Error("Expected an identifier to exist when calling update.")
+    }
+
+    articleXml.value = await putAmendingLawXml(id.eli, xml)
+  }
+
+  return {
+    xml: readonly(articleXml),
+    update,
+  }
 }

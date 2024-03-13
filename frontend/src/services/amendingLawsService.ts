@@ -29,3 +29,21 @@ export async function getAmendingLawXmlByEli(eli: string): Promise<string> {
     },
   })
 }
+
+/**
+ * Save the xml version of an amending law to the API.
+ *
+ * @param eli Eli of the amending law
+ * @param xml New xml of the amending law
+ * @returns the newly saved xml
+ */
+export async function putAmendingLawXml(eli: string, xml: string) {
+  return await apiFetch<string>(`/amending-laws/${eli}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/xml",
+      Accept: "application/xml",
+    },
+    body: xml,
+  })
+}
