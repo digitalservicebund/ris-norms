@@ -12,7 +12,7 @@ test(`navigate to article editor`, async ({ page }) => {
   )
 })
 
-test(`see law title, articel number and xmls`, async ({ page }) => {
+test(`see law title, article number and xmls`, async ({ page }) => {
   await page.goto(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit`,
   )

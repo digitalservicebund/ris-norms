@@ -40,29 +40,9 @@ const routes = [
             component: () => import("@/views/AffectedDocuments.vue"),
           },
           {
-            path: "affected-documents/:eid",
-            children: [
-              {
-                path: "",
-                name: "AmendingLawAffectedDocument",
-                redirect: { name: "AmendingLawAffectedDocumentEdit" },
-              },
-              {
-                path: "edit",
-                name: "AmendingLawAffectedDocumentEdit",
-                component: () => import("@/views/EditAffectedDocument.vue"),
-              },
-            ],
-          },
-          {
             path: "articles",
-            children: [
-              {
-                path: "",
-                name: "AmendingLawArticles",
-                component: () => import("@/views/Articles.vue"),
-              },
-            ],
+            name: "AmendingLawArticles",
+            component: () => import("@/views/Articles.vue"),
           },
         ],
       },

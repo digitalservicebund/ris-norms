@@ -30,18 +30,6 @@ updates:
       - "dependencies"
       - "backend"
 
-  # Time machine
-  - package-ecosystem: "gradle"
-    directory: "/time-machine"
-    schedule:
-      interval: "daily"
-      time: "06:00"
-      timezone: "Europe/Berlin"
-    open-pull-requests-limit: 9999
-    labels:
-      - "dependencies"
-      - "time-machine"
-
   # Web frontend
   - package-ecosystem: "npm"
     directory: "/frontend"

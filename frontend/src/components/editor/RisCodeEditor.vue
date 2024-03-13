@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { basicSetup, EditorView } from "codemirror"
-import { xml } from "@codemirror/lang-xml"
-import { ref, shallowRef, toRef, watch } from "vue"
-import { useCodemirrorVueReadonlyExtension } from "@/components/editor/composables/useCodemirrorVueReadonlyExtension"
 import { useCodemirrorVueEditableExtension } from "@/components/editor/composables/useCodemirrorVueEditableExtension"
+import { useCodemirrorVueReadonlyExtension } from "@/components/editor/composables/useCodemirrorVueReadonlyExtension"
+import { xml } from "@codemirror/lang-xml"
+import { basicSetup, EditorView } from "codemirror"
+import { computed, ref, shallowRef, watch } from "vue"
 
 const props = withDefaults(
   defineProps<{
@@ -57,11 +57,11 @@ const editorView = shallowRef<EditorView | null>(null)
 
 const codemirrorVueReadonlyExtension = useCodemirrorVueReadonlyExtension(
   editorView,
-  toRef(props.readonly),
+  computed(() => props.readonly),
 )
 const codemirrorVueEditableExtension = useCodemirrorVueEditableExtension(
   editorView,
-  toRef(props.editable),
+  computed(() => props.editable),
 )
 
 /**
