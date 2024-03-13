@@ -62,8 +62,7 @@ public class TimeMachine {
    * @param targetLaw the document version of the target law
    * @return the <code>targetLaw</code> with the applied modification
    */
-  private Document applyOneSubstitutionModification(
-      Node modificationNode, Document targetLaw) { // target law is not cloned here != functional
+  private Document applyOneSubstitutionModification(Node modificationNode, Document targetLaw) {
     final Document targetLawClone = xmlDocumentExtractor.cloneDocument(targetLaw);
 
     XmlDocumentExtractor.ReplacementPair replacementText =
@@ -80,7 +79,7 @@ public class TimeMachine {
     return targetLawClone;
   }
 
-  Document stringToXmlDocument(String xmlText) {
+  private Document stringToXmlDocument(String xmlText) {
 
     final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -104,8 +103,13 @@ public class TimeMachine {
       DOMSource domSource = new DOMSource(doc);
       StringWriter writer = new StringWriter();
       StreamResult result = new StreamResult(writer);
-      TransformerFactory tf = TransformerFactory.newInstance();
-      Transformer transformer = tf.newTransformer();
+
+      TransformerFactory factory = TransformerFactory.newInstance();
+      // Disable the use of external general and parameter entities to prevent XXE attacks
+      factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+
+      Transformer transformer = factory.newTransformer();
       transformer.transform(domSource, result);
       return writer.toString();
     } catch (TransformerException e) {

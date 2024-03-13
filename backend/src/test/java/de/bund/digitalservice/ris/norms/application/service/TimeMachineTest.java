@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 class TimeMachineTest {
 
   @Test
-  public void allRelevantMethodsAreCalled() {
+  void allRelevantMethodsAreCalled() {
     // given
     final XmlDocumentExtractor xmlDocumentExtractor = mock(XmlDocumentExtractor.class);
     final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
@@ -44,7 +44,7 @@ class TimeMachineTest {
   }
 
   @Test
-  public void oldTextIsReplacedByNewText() {
+  void oldTextIsReplacedByNewText() {
     // given
     final XmlDocumentExtractor xmlDocumentExtractor = new XmlDocumentExtractor();
     final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
@@ -66,7 +66,7 @@ class TimeMachineTest {
   }
 
   @Test
-  public void XmlProcessingExceptionIsThrownWhenAmendingLawXmlIsInvalid() {
+  void XmlProcessingExceptionIsThrownWhenAmendingLawXmlIsInvalid() {
     // given
     final XmlDocumentExtractor xmlDocumentExtractor = mock(XmlDocumentExtractor.class);
     final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
@@ -81,7 +81,7 @@ class TimeMachineTest {
   }
 
   @Test
-  public void XmlProcessingExceptionIsThrownWhenTargetLawXmlIsInvalid() {
+  void XmlProcessingExceptionIsThrownWhenTargetLawXmlIsInvalid() {
     // given
     final XmlDocumentExtractor xmlDocumentExtractor = mock(XmlDocumentExtractor.class);
     final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
