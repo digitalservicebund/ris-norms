@@ -19,9 +19,9 @@ Set up and boot the database (from the project root):
 docker compose up postgres14
 ```
 
-If you want to import test data into your database, you'll find some in [this SQL script](./src/test/resources/test-data/initial-test-laws.sql).
-
 You can then start the backend by running the `bootRun` Gradle task.
+
+If you want to import test data into your database, you'll find some in [this SQL script](./src/test/resources/test-data/initial-test-laws.sql).
 
 ## Tests
 
