@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawXmlPort;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -14,15 +15,20 @@ import org.springframework.stereotype.Service;
  * it's a service component in the Spring context.
  */
 @Service
-public class TargetLawService implements LoadTargetLawUseCase, LoadTargetLawXmlUseCase {
+public class TargetLawService
+    implements LoadTargetLawUseCase, LoadTargetLawXmlUseCase, TimeMachineUseCase {
 
   private final LoadTargetLawPort loadTargetLawPort;
   private final LoadTargetLawXmlPort loadTargetLawXmlPort;
+  private final TimeMachine timeMachine;
 
   public TargetLawService(
-      LoadTargetLawPort loadTargetLawPort, LoadTargetLawXmlPort loadTargetLawXmlPort) {
+      LoadTargetLawPort loadTargetLawPort,
+      LoadTargetLawXmlPort loadTargetLawXmlPort,
+      TimeMachine timeMachine) {
     this.loadTargetLawPort = loadTargetLawPort;
     this.loadTargetLawXmlPort = loadTargetLawXmlPort;
+    this.timeMachine = timeMachine;
   }
 
   @Override
@@ -34,5 +40,13 @@ public class TargetLawService implements LoadTargetLawUseCase, LoadTargetLawXmlU
   public Optional<String> loadTargetLawXml(LoadTargetLawXmlUseCase.Query query) {
     return loadTargetLawXmlPort.loadTargetLawXmlByEli(
         new LoadTargetLawXmlPort.Command(query.eli()));
+  }
+
+  @Override
+  public String applyTimeMachine(TimeMachineUseCase.Query query) {
+    final Optional<String> targetLaw =
+        loadTargetLawXmlPort.loadTargetLawXmlByEli(
+            new LoadTargetLawXmlPort.Command(query.eliTargetLaw()));
+    return timeMachine.apply(query.amendingLawXml(), targetLaw.get());
   }
 }

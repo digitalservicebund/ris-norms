@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawXmlPort;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -21,8 +22,10 @@ class TargetLawServiceTest {
   final LoadTargetLawPort loadTargetLawAdapter = mock(LoadTargetLawPort.class);
   final LoadTargetLawXmlPort loadTargetLawXmlAdapter = mock(LoadTargetLawXmlPort.class);
 
+  final TimeMachine timeMachine = mock(TimeMachine.class);
+
   final TargetLawService service =
-      new TargetLawService(loadTargetLawAdapter, loadTargetLawXmlAdapter);
+      new TargetLawService(loadTargetLawAdapter, loadTargetLawXmlAdapter, timeMachine);
 
   @Test
   void canLoadTargetLawByEli() {
@@ -61,5 +64,29 @@ class TargetLawServiceTest {
     assertThat(loadedXml).isPresent().contains(xmlContent);
     verify(loadTargetLawXmlAdapter, times(1))
         .loadTargetLawXmlByEli(argThat(command -> command.eli().equals(eli)));
+  }
+
+  @Test
+  void appliesTimeMachineWhenCalled() {
+    // Given
+    final String targetLawEli = "someEli";
+    final String amendingLawXmlAsString = "</amendingLawXml>";
+
+    final TimeMachineUseCase.Query query =
+        new TimeMachineUseCase.Query(targetLawEli, amendingLawXmlAsString);
+
+    final String targetLawXmlAsString = "<targetLaw>Test content</targetLaw>";
+    when(loadTargetLawXmlAdapter.loadTargetLawXmlByEli(any()))
+        .thenReturn(Optional.of(targetLawXmlAsString));
+    when(timeMachine.apply(any(), any())).thenReturn("Success");
+
+    // When
+    final String appliedXml = service.applyTimeMachine(query);
+
+    // Then
+    assertThat(appliedXml).contains("Success");
+    verify(loadTargetLawXmlAdapter, times(1))
+        .loadTargetLawXmlByEli(argThat(command -> command.eli().equals(targetLawEli)));
+    verify(timeMachine, times(1)).apply(amendingLawXmlAsString, targetLawXmlAsString);
   }
 }
