@@ -4,13 +4,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 import de.bund.digitalservice.ris.norms.application.service.exceptions.ModificationException;
+import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
+import java.io.IOException;
+import java.io.StringReader;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 class XmlDocumentExtractorTest {
   final XmlDocumentExtractor xmlDocumentExtractor = new XmlDocumentExtractor();
-  final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
 
   @Test
   void throwModificationExceptionIfNoHrefInModification() {
@@ -47,8 +55,8 @@ class XmlDocumentExtractorTest {
 
     String targetLawString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw></targetLaw>";
 
-    final Document amendingLawDocument = timeMachine.stringToXmlDocument(amendingLaw);
-    final Document targetLawDocument = timeMachine.stringToXmlDocument(targetLawString);
+    final Document amendingLawDocument = stringToXmlDocument(amendingLaw);
+    final Document targetLawDocument = stringToXmlDocument(targetLawString);
 
     // when
     Throwable thrown =
@@ -103,8 +111,8 @@ class XmlDocumentExtractorTest {
                   </akn:body>
                 """;
 
-    final Document amendingLawDocument = timeMachine.stringToXmlDocument(amendingLaw);
-    final Document targetLawDocument = timeMachine.stringToXmlDocument(targetLaw);
+    final Document amendingLawDocument = stringToXmlDocument(amendingLaw);
+    final Document targetLawDocument = stringToXmlDocument(targetLaw);
 
     // when
     final Node targetNode =
@@ -140,8 +148,8 @@ class XmlDocumentExtractorTest {
                     <akn:p eId="eIdValue">old text</akn:p>
                   </akn:body>
                 """;
-    final Document amendingLawDocument = timeMachine.stringToXmlDocument(amendingLawString);
-    final Document targetLawDocument = timeMachine.stringToXmlDocument(targetLawString);
+    final Document amendingLawDocument = stringToXmlDocument(amendingLawString);
+    final Document targetLawDocument = stringToXmlDocument(targetLawString);
     final Node targetNode =
         xmlDocumentExtractor.findTargetLawNodeToBeModified(targetLawDocument, amendingLawDocument);
 
@@ -179,8 +187,8 @@ class XmlDocumentExtractorTest {
                     <akn:p eId="eIdValue">old text</akn:p>
                   </akn:body>
                 """;
-    final Document amendingLawDocument = timeMachine.stringToXmlDocument(amendingLawString);
-    final Document targetLawDocument = timeMachine.stringToXmlDocument(targetLawString);
+    final Document amendingLawDocument = stringToXmlDocument(amendingLawString);
+    final Document targetLawDocument = stringToXmlDocument(targetLawString);
     final Node targetNode =
         xmlDocumentExtractor.findTargetLawNodeToBeModified(targetLawDocument, amendingLawDocument);
 
@@ -205,7 +213,7 @@ class XmlDocumentExtractorTest {
           """
             .strip();
 
-    final Document amendingLawDocument = timeMachine.stringToXmlDocument(amendingLawString);
+    final Document amendingLawDocument = stringToXmlDocument(amendingLawString);
     final Node firstModificationNodeInAmendingLaw =
         xmlDocumentExtractor.getFirstModification(amendingLawDocument);
 
@@ -216,5 +224,24 @@ class XmlDocumentExtractorTest {
     // then
     assertThat(replacementPair.newText()).isEqualTo("new");
     assertThat(replacementPair.oldText()).isEqualTo("old text");
+  }
+
+  private Document stringToXmlDocument(String xmlText) {
+
+    final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+    // XXE vulnerability hardening, cf. https://www.sonarsource.com/blog/secure-xml-processor/
+    try {
+      factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+
+      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+      factory.setExpandEntityReferences(false);
+
+      final DocumentBuilder builder = factory.newDocumentBuilder();
+      final InputSource is = new InputSource(new StringReader(xmlText));
+      return builder.parse(is);
+    } catch (ParserConfigurationException | SAXException | IOException e) {
+      throw new XmlProcessingException();
+    }
   }
 }
