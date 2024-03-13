@@ -42,7 +42,7 @@ defineEmits<{
     <span class="flex-grow font-bold"><slot /></span>
     <button
       class="h-24 w-24 rounded-full bg-white bg-opacity-50"
-      name="Close"
+      aria-label="Schließen"
       @click="$emit('close')"
     >
       <IconClose width="16" height="16" class="m-auto" />
