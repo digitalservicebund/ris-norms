@@ -149,6 +149,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .eli("target law eli")
             .title("target law title")
             .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
             .build();
     final Article article =
         Article.builder()
@@ -205,6 +207,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .eli("target law eli")
             .title("target law title")
             .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
             .build();
     final Article article1 =
         Article.builder()
@@ -219,6 +223,8 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .eli("target law eli 2")
             .title("target law title 2")
             .xml("<target>2</target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
             .build();
     final Article article2 =
         Article.builder()
