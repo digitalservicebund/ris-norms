@@ -36,10 +36,19 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
           .shortTitle("targetlaw")
           .build();
 
-  final Article article1 = new Article("1", "eli1", "title1", targetLaw);
-  final Article article2 = new Article("2", "eli2", "title2", targetLaw);
-  final Article article3 = new Article("3", "eli3", "title3", targetLaw);
-  final Article article4 = new Article("4", "eli4", "title4", targetLaw);
+  final TargetLaw targetLawZf0 =
+      TargetLaw.builder()
+          .eli("target law eli zf0")
+          .title("target law title zf0")
+          .xml("<test>zf0</test>")
+          .fna("4711")
+          .shortTitle("targetlawzf0")
+          .build();
+
+  final Article article1 = new Article("1", "eli1", "title1", targetLaw, targetLawZf0);
+  final Article article2 = new Article("2", "eli2", "title2", targetLaw, targetLawZf0);
+  final Article article3 = new Article("3", "eli3", "title3", targetLaw, targetLawZf0);
+  final Article article4 = new Article("4", "eli4", "title4", targetLaw, targetLawZf0);
 
   @AfterEach
   void cleanUp() {

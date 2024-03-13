@@ -22,6 +22,7 @@ public class ArticleMapper {
         .title(articleDto.getTitle())
         .eid(articleDto.getEid())
         .targetLaw(TargetLawMapper.mapToDomain(articleDto.getTargetLawDto()))
+        .targetLawZf0(TargetLawMapper.mapToDomain(articleDto.getTargetLawZf0Dto()))
         .build();
   }
 
@@ -38,6 +39,10 @@ public class ArticleMapper {
         .title(article.getTitle())
         .targetLawDto(
             Optional.ofNullable(article.getTargetLaw()).map(TargetLawMapper::mapToDto).orElse(null))
+        .targetLawZf0Dto(
+            Optional.ofNullable(article.getTargetLawZf0())
+                .map(TargetLawMapper::mapToDto)
+                .orElse(null))
         .build();
   }
 }

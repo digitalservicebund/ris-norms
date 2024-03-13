@@ -27,6 +27,13 @@ class AmendingLawMapperTest {
             .xml("<test></test>")
             .build();
 
+    final TargetLawDto targetLawZf0Dto =
+        TargetLawDto.builder()
+            .eli("target law eli zf0")
+            .title("target law title zf0")
+            .xml("<test>zf0</test>")
+            .build();
+
     final List<ArticleDto> articles = new ArrayList<>();
     articles.add(
         ArticleDto.builder()
@@ -34,6 +41,7 @@ class AmendingLawMapperTest {
             .eid("eid")
             .title("title")
             .targetLawDto(targetLawDto)
+            .targetLawZf0Dto(targetLawZf0Dto)
             .build());
 
     final AmendingLawDto amendingLawDTO = new AmendingLawDto();
@@ -77,8 +85,16 @@ class AmendingLawMapperTest {
             .title("target law title")
             .xml("<test></test>")
             .build();
+
+    final TargetLaw targetLawZf0 =
+        TargetLaw.builder()
+            .eli("target law zf0 eli")
+            .title("target law zf0 title")
+            .xml("<test>zf0</test>")
+            .build();
+
     final List<Article> articles = new ArrayList<>();
-    articles.add(new Article("1234", "eid", "title", targetLaw));
+    articles.add(new Article("1234", "eid", "title", targetLaw, targetLawZf0));
 
     final AmendingLaw amendingLaw =
         AmendingLaw.builder()
@@ -111,5 +127,9 @@ class AmendingLawMapperTest {
     assertThat(articleDto.getTargetLawDto().getEli()).isEqualTo("target law eli");
     assertThat(articleDto.getTargetLawDto().getTitle()).isEqualTo("target law title");
     assertThat(articleDto.getTargetLawDto().getXml()).isEqualTo("<test></test>");
+
+    assertThat(articleDto.getTargetLawZf0Dto().getEli()).isEqualTo("target law zf0 eli");
+    assertThat(articleDto.getTargetLawZf0Dto().getTitle()).isEqualTo("target law zf0 title");
+    assertThat(articleDto.getTargetLawZf0Dto().getXml()).isEqualTo("<test>zf0</test>");
   }
 }
