@@ -23,6 +23,7 @@ class Article{
 }
 
 Article "1" --> "1" TargetLaw: targetLaw
+Article "1" --> "1" TargetLaw: targetLawZF0
 
 class TargetLaw{
     eli: String
