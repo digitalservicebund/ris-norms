@@ -32,6 +32,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
           .eli("target law eli")
           .title("target law title")
           .xml("<test></test>")
+          .fna("4711")
+          .shortTitle("targetlaw")
           .build();
 
   final Article article1 = new Article("1", "eli1", "title1", targetLaw);
@@ -274,9 +276,12 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String title = "title";
     final String xml = "<target></target>";
+    final String fna = "4711";
+    final String shortTitle = "TitleGesetz";
 
     // When
-    final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
+    final TargetLaw targetLaw =
+        TargetLaw.builder().eli(eli).title(title).xml(xml).fna(fna).shortTitle(shortTitle).build();
     targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
 
     // When
@@ -308,9 +313,12 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String title = "title";
     final String xml = "<target></target>";
+    final String fna = "4711";
+    final String shortTitle = "TitleGesetz";
 
     // When
-    final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
+    final TargetLaw targetLaw =
+        TargetLaw.builder().eli(eli).title(title).xml(xml).fna(fna).shortTitle(shortTitle).build();
     targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
 
     // When
