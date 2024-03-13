@@ -19,4 +19,6 @@ public class Article {
   private String title;
 
   private TargetLaw targetLaw;
+
+  private TargetLaw targetLawZf0;
 }

@@ -32,4 +32,8 @@ public class ArticleDto {
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "target_law_id", referencedColumnName = "id", nullable = false)
   private TargetLawDto targetLawDto;
+
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "target_law_zf0_id", referencedColumnName = "id", nullable = false)
+  private TargetLawDto targetLawZf0Dto;
 }

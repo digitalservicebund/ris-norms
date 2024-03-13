@@ -17,12 +17,16 @@ class ArticleMapperTest {
     final TargetLawDto targetLawDto =
         TargetLawDto.builder().eli("123").title("Test Law").xml("<xml>Test XML</xml>").build();
 
+    final TargetLawDto targetLawZf0Dto =
+        TargetLawDto.builder().eli("123").title("Test Law").xml("<xml>Test XML ZF0</xml>").build();
+
     final ArticleDto articleDto =
         ArticleDto.builder()
             .enumeration("1")
             .title("Test Article")
             .eid("article-1")
             .targetLawDto(targetLawDto)
+            .targetLawZf0Dto(targetLawZf0Dto)
             .build();
 
     // When
@@ -37,6 +41,9 @@ class ArticleMapperTest {
     assertEquals(targetLawDto.getEli(), article.getTargetLaw().getEli());
     assertEquals(targetLawDto.getTitle(), article.getTargetLaw().getTitle());
     assertEquals(targetLawDto.getXml(), article.getTargetLaw().getXml());
+    assertEquals(targetLawZf0Dto.getEli(), article.getTargetLawZf0().getEli());
+    assertEquals(targetLawZf0Dto.getTitle(), article.getTargetLawZf0().getTitle());
+    assertEquals(targetLawZf0Dto.getXml(), article.getTargetLawZf0().getXml());
   }
 
   @Test
