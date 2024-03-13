@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlU
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawXmlPort;
+import de.bund.digitalservice.ris.norms.application.service.exceptions.ModificationException;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,10 @@ public class TargetLawService
     final Optional<String> targetLaw =
         loadTargetLawXmlPort.loadTargetLawXmlByEli(
             new LoadTargetLawXmlPort.Command(query.eliTargetLaw()));
-    return timeMachine.apply(query.amendingLawXml(), targetLaw.get());
+    if (targetLaw.isPresent()) {
+      return timeMachine.apply(query.amendingLawXml(), targetLaw.get());
+    } else {
+      throw new ModificationException();
+    }
   }
 }
