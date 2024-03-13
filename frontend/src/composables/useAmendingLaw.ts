@@ -1,5 +1,5 @@
 import { useAmendingLawStore } from "@/store/amendingLawStore"
-import { AmendingLaw } from "@/types/domain"
+import { AmendingLaw } from "@/types/amendingLaw"
 import { storeToRefs } from "pinia"
 import {
   DeepReadonly,

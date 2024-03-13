@@ -1,9 +1,5 @@
 import { apiFetch } from "@/services/apiService"
-
-export interface TargetLaw {
-  eli: string
-  title: string
-}
+import { TargetLaw } from "@/types/targetLaw"
 
 /**
  * Load a target law from the api

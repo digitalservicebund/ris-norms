@@ -1,5 +1,5 @@
 import { getArticleByEliAndEid } from "@/services/articlesService"
-import { Article } from "@/types/domain"
+import { Article } from "@/types/article"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import {
   DeepReadonly,

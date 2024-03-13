@@ -6,7 +6,6 @@ import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.AmendingLawResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchemaTemporary;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
@@ -86,7 +85,7 @@ public class AmendingLawController {
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<AmendingLawResponseSchemaTemporary> getAmendingLaw(
+  public ResponseEntity<AmendingLawResponseSchema> getAmendingLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -106,7 +105,7 @@ public class AmendingLawController {
     final Optional<AmendingLaw> optionalAmendingLaw =
         loadAmendingLawUseCase.loadAmendingLaw(new LoadAmendingLawUseCase.Query(eli));
     return optionalAmendingLaw
-        .map(AmendingLawResponseMapper::fromUseCaseDataTemporary)
+        .map(AmendingLawResponseMapper::fromUseCaseData)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }

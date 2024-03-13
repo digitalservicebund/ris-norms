@@ -15,7 +15,7 @@ import { getTargetLawXmlByEli } from "@/services/targetLawsService"
  * @returns A reference to the target law xml or undefined if it is not available (or still loading).
  */
 export function useTargetLawXml(
-  eli: MaybeRefOrGetter<string>,
+  eli: MaybeRefOrGetter<string | undefined>,
 ): DeepReadonly<Ref<string | undefined>> {
   const targetLawXml = ref<string>()
   watch(

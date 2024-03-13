@@ -1,5 +1,5 @@
 import RisAmendingLawInfoHeaderInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
-import { AmendingLaw } from "@/types/domain"
+import { AmendingLaw } from "@/types/amendingLaw"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, test } from "vitest"
 

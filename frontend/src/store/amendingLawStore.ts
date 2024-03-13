@@ -1,5 +1,5 @@
 import { getAmendingLawByEli } from "@/services/amendingLawsService"
-import { AmendingLaw } from "@/types/domain"
+import { AmendingLaw } from "@/types/amendingLaw"
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"
 

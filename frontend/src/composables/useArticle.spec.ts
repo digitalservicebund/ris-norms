@@ -25,7 +25,7 @@ describe("useArticle", () => {
     const identifier = ref<LawElementIdentifier>({ eli: "", eid: "" })
     const article = useArticle(identifier)
 
-    await vi.waitUntil(() => article.value, { timeout: 100, interval: 20 })
+    await vi.waitUntil(() => article.value)
 
     expect(article.value?.eid).toBe("article eid 1")
     expect(getArticleByEliAndEid).toHaveBeenCalled()

@@ -52,16 +52,11 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
 const amendingLaw = useAmendingLaw(eli)
 
 const article = useArticle(identifier)
-
 const articleXml = useArticleXml(identifier)
 
-const targetLaw = useTargetLaw(
-  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-)
-
-const targetLawXml = useTargetLawXml(
-  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-)
+const targetLawEli = computed(() => article.value?.affectedDocumentEli)
+const targetLaw = useTargetLaw(targetLawEli)
+const targetLawXml = useTargetLawXml(targetLawEli)
 </script>
 
 <template>

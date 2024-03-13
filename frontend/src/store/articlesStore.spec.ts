@@ -1,9 +1,9 @@
 import { getArticlesByEli } from "@/services/articlesService"
-import { Article } from "@/types/domain"
 import { createPinia, setActivePinia } from "pinia"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
 import { useArticlesStore } from "./articlesStore"
+import { Article } from "@/types/article"
 
 vi.mock("@/services/articlesService", () => ({
   getArticlesByEli: vi.fn(),

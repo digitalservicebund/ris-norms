@@ -8,7 +8,7 @@ import {
   DeepReadonly,
 } from "vue"
 import { useTargetLawStore } from "@/store/targetLawStore"
-import { TargetLaw } from "@/services/targetLawsService"
+import { TargetLaw } from "@/types/targetLaw"
 
 /**
  * Get the data of a target law.
@@ -16,7 +16,7 @@ import { TargetLaw } from "@/services/targetLawsService"
  * @returns A reference to the target law or undefined if it is not available (or still loading).
  */
 export function useTargetLaw(
-  eli: MaybeRefOrGetter<string>,
+  eli: MaybeRefOrGetter<string | undefined>,
 ): DeepReadonly<Ref<TargetLaw | undefined>> {
   const targetLawStore = useTargetLawStore()
   const { targetLaw } = storeToRefs(targetLawStore)
@@ -24,7 +24,9 @@ export function useTargetLaw(
   watch(
     () => toValue(eli),
     (newEli) => {
-      targetLawStore.loadTargetLawByEli(newEli)
+      if (newEli) {
+        targetLawStore.loadTargetLawByEli(newEli)
+      }
     },
     { immediate: true },
   )
