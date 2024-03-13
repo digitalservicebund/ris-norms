@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.*;
 
@@ -12,42 +11,42 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.w3c.dom.Node;
 
-class TimeMachineTest {
+class TimeMachineServiceTest {
 
   @Test
   void allRelevantMethodsAreCalled() {
     // given
-    final XmlDocumentExtractor xmlDocumentExtractor = mock(XmlDocumentExtractor.class);
-    final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
+    final XmlDocumentService xmlDocumentService = mock(XmlDocumentService.class);
+    final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
 
     String amendingLawString =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
     String targetLawString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw></targetLaw>";
     Node firstModificationNodeInAmendingLaw = mock(Node.class);
     Node targetNode = mock(Node.class);
-    XmlDocumentExtractor.ReplacementPair replacementPair =
-        new XmlDocumentExtractor.ReplacementPair("old", "new");
+    XmlDocumentService.ReplacementPair replacementPair =
+        new XmlDocumentService.ReplacementPair("old", "new");
 
-    when(xmlDocumentExtractor.getFirstModification(any()))
+    when(xmlDocumentService.getFirstModification(any()))
         .thenReturn(firstModificationNodeInAmendingLaw);
-    when(xmlDocumentExtractor.getReplacementText(any())).thenReturn(replacementPair);
-    when(xmlDocumentExtractor.findTargetLawNodeToBeModified(any(), any())).thenReturn(targetNode);
+    when(xmlDocumentService.getReplacementPair(any())).thenReturn(replacementPair);
+    when(xmlDocumentService.findTargetLawNodeToBeModified(any(), any())).thenReturn(targetNode);
     when(targetNode.getTextContent()).thenReturn("old");
 
     // when
-    timeMachine.apply(amendingLawString, targetLawString);
+    timeMachineService.apply(amendingLawString, targetLawString);
 
     // then
-    verify(xmlDocumentExtractor, times(1)).getFirstModification(any());
-    verify(xmlDocumentExtractor, times(1)).getReplacementText(any());
-    verify(xmlDocumentExtractor, times(1)).findTargetLawNodeToBeModified(any(), any());
+    verify(xmlDocumentService, times(1)).getFirstModification(any());
+    verify(xmlDocumentService, times(1)).getReplacementPair(any());
+    verify(xmlDocumentService, times(1)).findTargetLawNodeToBeModified(any(), any());
   }
 
   @Test
   void oldTextIsReplacedByNewText() {
     // given
-    final XmlDocumentExtractor xmlDocumentExtractor = new XmlDocumentExtractor();
-    final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
+    final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+    final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
 
     String amendingLawString =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>In <akn:ref"
@@ -57,7 +56,7 @@ class TimeMachineTest {
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw><akn:p eId=\"two\">old text</akn:p></targetLaw>";
 
     // when
-    String result = timeMachine.apply(amendingLawString, targetLawString);
+    String result = timeMachineService.apply(amendingLawString, targetLawString);
 
     // then
     assertThat(result)
@@ -68,13 +67,14 @@ class TimeMachineTest {
   @Test
   void XmlProcessingExceptionIsThrownWhenAmendingLawXmlIsInvalid() {
     // given
-    final XmlDocumentExtractor xmlDocumentExtractor = mock(XmlDocumentExtractor.class);
-    final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
+    final XmlDocumentService xmlDocumentService = mock(XmlDocumentService.class);
+    final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
     String amendingLawString = "SomeRandomText";
     String targetLawString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw></targetLaw>";
 
     // when
-    Throwable thrown = catchThrowable(() -> timeMachine.apply(amendingLawString, targetLawString));
+    Throwable thrown =
+        catchThrowable(() -> timeMachineService.apply(amendingLawString, targetLawString));
 
     // then
     assertThat(thrown).isInstanceOf(XmlProcessingException.class);
@@ -83,15 +83,16 @@ class TimeMachineTest {
   @Test
   void XmlProcessingExceptionIsThrownWhenTargetLawXmlIsInvalid() {
     // given
-    final XmlDocumentExtractor xmlDocumentExtractor = mock(XmlDocumentExtractor.class);
-    final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
+    final XmlDocumentService xmlDocumentService = mock(XmlDocumentService.class);
+    final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
     String amendingLawString =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw></amendingLaw>";
 
     String targetLawString = "randomString";
 
     // when
-    Throwable thrown = catchThrowable(() -> timeMachine.apply(amendingLawString, targetLawString));
+    Throwable thrown =
+        catchThrowable(() -> timeMachineService.apply(amendingLawString, targetLawString));
 
     // then
     assertThat(thrown).isInstanceOf(XmlProcessingException.class);
@@ -138,8 +139,8 @@ class TimeMachineTest {
       })
   void throwModificationExceptionOnMissingParts(String modificationNodeText) {
     // given
-    final XmlDocumentExtractor xmlDocumentExtractor = new XmlDocumentExtractor();
-    final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
+    final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+    final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
 
     final String amendingLawXmlText =
         """
@@ -160,29 +161,35 @@ class TimeMachineTest {
           </akn:body>
         """;
 
-    // when/then
-    assertThatExceptionOfType(ModificationException.class)
-        .isThrownBy(() -> timeMachine.apply(amendingLawXmlText, targetLawXmlText));
+    // when
+    Throwable thrown =
+        catchThrowable(() -> timeMachineService.apply(amendingLawXmlText, targetLawXmlText));
+
+    // then
+    assertThat(thrown).isInstanceOf(ModificationException.class);
   }
 
   @Test
   void throwModificationExceptionIfAmendingLawHasNoModifications() {
     // given
-    final XmlDocumentExtractor xmlDocumentExtractor = new XmlDocumentExtractor();
-    final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
+    final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+    final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
 
     final String amendingLaw = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>";
     final String targetLaw = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>";
-    // when/then
-    assertThatExceptionOfType(ModificationException.class)
-        .isThrownBy(() -> timeMachine.apply(amendingLaw, targetLaw));
+
+    // when
+    Throwable thrown = catchThrowable(() -> timeMachineService.apply(amendingLaw, targetLaw));
+
+    // then
+    assertThat(thrown).isInstanceOf(ModificationException.class);
   }
 
   @Test
   void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
     // given
-    final XmlDocumentExtractor xmlDocumentExtractor = new XmlDocumentExtractor();
-    final TimeMachine timeMachine = new TimeMachine(xmlDocumentExtractor);
+    final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+    final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
     final String amendingLawXmlText =
         """
           <?xml version="1.0" encoding="UTF-8"?>
@@ -219,7 +226,7 @@ class TimeMachineTest {
             .replaceAll("[\\n ]", "");
 
     // when applying the TimeMachine
-    final String resultingLaw = timeMachine.apply(amendingLawXmlText, targetLawXmlText);
+    final String resultingLaw = timeMachineService.apply(amendingLawXmlText, targetLawXmlText);
 
     // the result contains the new text in place of the old text
     assertThat(resultingLaw.replaceAll("[\\n ]", "")).isEqualTo(expectedResultingLawXmlText);

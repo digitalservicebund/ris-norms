@@ -25,12 +25,12 @@ import org.xml.sax.SAXException;
  * href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML-details</a>
  */
 @Service
-public class TimeMachine {
+public class TimeMachineService {
 
-  XmlDocumentExtractor xmlDocumentExtractor;
+  XmlDocumentService xmlDocumentService;
 
-  public TimeMachine(XmlDocumentExtractor xmlDocumentExtractor) {
-    this.xmlDocumentExtractor = xmlDocumentExtractor;
+  public TimeMachineService(XmlDocumentService xmlDocumentService) {
+    this.xmlDocumentService = xmlDocumentService;
   }
 
   /**
@@ -45,14 +45,15 @@ public class TimeMachine {
   public String apply(final String amendingLawString, final String targetLawString) {
 
     final Document amendingLaw = stringToXmlDocument(amendingLawString);
-    Document targetLaw = stringToXmlDocument(targetLawString);
+    final Document targetLaw = stringToXmlDocument(targetLawString);
 
     final Node firstModificationNodeInAmendingLaw =
-        xmlDocumentExtractor.getFirstModification(amendingLaw);
+        xmlDocumentService.getFirstModification(amendingLaw);
 
-    targetLaw = applyOneSubstitutionModification(firstModificationNodeInAmendingLaw, targetLaw);
+    final Document appliedTargetLaw =
+        applyOneSubstitutionModification(firstModificationNodeInAmendingLaw, targetLaw);
 
-    return convertDocumentToString(targetLaw);
+    return convertDocumentToString(appliedTargetLaw);
   }
 
   /**
@@ -63,18 +64,18 @@ public class TimeMachine {
    * @return the <code>targetLaw</code> with the applied modification
    */
   private Document applyOneSubstitutionModification(Node modificationNode, Document targetLaw) {
-    final Document targetLawClone = xmlDocumentExtractor.cloneDocument(targetLaw);
+    final Document targetLawClone = xmlDocumentService.cloneDocument(targetLaw);
 
-    XmlDocumentExtractor.ReplacementPair replacementText =
-        xmlDocumentExtractor.getReplacementText(modificationNode);
+    final XmlDocumentService.ReplacementPair replacementPair =
+        xmlDocumentService.getReplacementPair(modificationNode);
 
     final Node targetLawNodeToBeModified =
-        xmlDocumentExtractor.findTargetLawNodeToBeModified(targetLawClone, modificationNode);
+        xmlDocumentService.findTargetLawNodeToBeModified(targetLawClone, modificationNode);
 
     final String modifiedTextContent =
         targetLawNodeToBeModified
             .getTextContent()
-            .replaceFirst(replacementText.oldText(), replacementText.newText());
+            .replaceFirst(replacementPair.oldText(), replacementPair.newText());
     targetLawNodeToBeModified.setTextContent(modifiedTextContent);
     return targetLawClone;
   }
@@ -100,16 +101,16 @@ public class TimeMachine {
 
   private String convertDocumentToString(Document doc) {
     try {
-      DOMSource domSource = new DOMSource(doc);
-      StringWriter writer = new StringWriter();
-      StreamResult result = new StreamResult(writer);
+      final DOMSource domSource = new DOMSource(doc);
+      final StringWriter writer = new StringWriter();
+      final StreamResult result = new StreamResult(writer);
 
-      TransformerFactory factory = TransformerFactory.newInstance();
+      final TransformerFactory factory = TransformerFactory.newInstance();
       // Disable the use of external general and parameter entities to prevent XXE attacks
       factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
       factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
 
-      Transformer transformer = factory.newTransformer();
+      final Transformer transformer = factory.newTransformer();
       transformer.transform(domSource, result);
       return writer.toString();
     } catch (TransformerException e) {

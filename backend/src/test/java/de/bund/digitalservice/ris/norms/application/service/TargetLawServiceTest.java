@@ -22,10 +22,10 @@ class TargetLawServiceTest {
   final LoadTargetLawPort loadTargetLawAdapter = mock(LoadTargetLawPort.class);
   final LoadTargetLawXmlPort loadTargetLawXmlAdapter = mock(LoadTargetLawXmlPort.class);
 
-  final TimeMachine timeMachine = mock(TimeMachine.class);
+  final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
   final TargetLawService service =
-      new TargetLawService(loadTargetLawAdapter, loadTargetLawXmlAdapter, timeMachine);
+      new TargetLawService(loadTargetLawAdapter, loadTargetLawXmlAdapter, timeMachineService);
 
   @Test
   void canLoadTargetLawByEli() {
@@ -67,7 +67,7 @@ class TargetLawServiceTest {
   }
 
   @Test
-  void appliesTimeMachineWhenCalled() {
+  void bothRelevantMethodsAreCalled() {
     // Given
     final String targetLawEli = "someEli";
     final String amendingLawXmlAsString = "</amendingLawXml>";
@@ -78,7 +78,7 @@ class TargetLawServiceTest {
     final String targetLawXmlAsString = "<targetLaw>Test content</targetLaw>";
     when(loadTargetLawXmlAdapter.loadTargetLawXmlByEli(any()))
         .thenReturn(Optional.of(targetLawXmlAsString));
-    when(timeMachine.apply(any(), any())).thenReturn("Success");
+    when(timeMachineService.apply(any(), any())).thenReturn("Success");
 
     // When
     final String appliedXml = service.applyTimeMachine(query);
@@ -87,6 +87,6 @@ class TargetLawServiceTest {
     assertThat(appliedXml).contains("Success");
     verify(loadTargetLawXmlAdapter, times(1))
         .loadTargetLawXmlByEli(argThat(command -> command.eli().equals(targetLawEli)));
-    verify(timeMachine, times(1)).apply(amendingLawXmlAsString, targetLawXmlAsString);
+    verify(timeMachineService, times(1)).apply(amendingLawXmlAsString, targetLawXmlAsString);
   }
 }

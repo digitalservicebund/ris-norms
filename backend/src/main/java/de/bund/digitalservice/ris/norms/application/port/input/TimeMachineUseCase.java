@@ -10,7 +10,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 public interface TimeMachineUseCase {
 
   /**
-   * Starts the application of the tme machine.
+   * Starts the application of the time machine.
    *
    * @param query The query containing the ELI (European Legislation Identifier) of the target law
    *     and the xml of the amending law
@@ -23,9 +23,9 @@ public interface TimeMachineUseCase {
    * string representation of the amending law xml. The query includes the ELI (European Legislation
    * Identifier) to identify the target law.
    *
-   * @param eliTargetLaw The ELI (European Legislation Identifier) used to identify the amending law
+   * @param targetLawEli The ELI (European Legislation Identifier) used to identify the target law
    *     in the query.
    * @param amendingLawXml The String representation of the amending law xml
    */
-  record Query(String eliTargetLaw, String amendingLawXml) {}
+  record Query(String targetLawEli, String amendingLawXml) {}
 }
