@@ -21,15 +21,15 @@ public class TargetLawService
 
   private final LoadTargetLawPort loadTargetLawPort;
   private final LoadTargetLawXmlPort loadTargetLawXmlPort;
-  private final TimeMachine timeMachine;
+  private final TimeMachineService timeMachineService;
 
   public TargetLawService(
       LoadTargetLawPort loadTargetLawPort,
       LoadTargetLawXmlPort loadTargetLawXmlPort,
-      TimeMachine timeMachine) {
+      TimeMachineService timeMachineService) {
     this.loadTargetLawPort = loadTargetLawPort;
     this.loadTargetLawXmlPort = loadTargetLawXmlPort;
-    this.timeMachine = timeMachine;
+    this.timeMachineService = timeMachineService;
   }
 
   @Override
@@ -47,9 +47,9 @@ public class TargetLawService
   public String applyTimeMachine(TimeMachineUseCase.Query query) {
     final Optional<String> targetLaw =
         loadTargetLawXmlPort.loadTargetLawXmlByEli(
-            new LoadTargetLawXmlPort.Command(query.eliTargetLaw()));
+            new LoadTargetLawXmlPort.Command(query.targetLawEli()));
     if (targetLaw.isPresent()) {
-      return timeMachine.apply(query.amendingLawXml(), targetLaw.get());
+      return timeMachineService.apply(query.amendingLawXml(), targetLaw.get());
     } else {
       throw new ModificationException();
     }

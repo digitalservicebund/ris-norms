@@ -20,7 +20,7 @@ import org.w3c.dom.Node;
  * the Spring context.
  */
 @Service
-public class XmlDocumentExtractor {
+public class XmlDocumentService {
 
   /**
    * Create a deep copy of a Document
@@ -30,12 +30,12 @@ public class XmlDocumentExtractor {
    */
   Document cloneDocument(Document originalDocument) {
     try {
-      Node originalRootNode = originalDocument.getDocumentElement();
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      DocumentBuilder db = dbf.newDocumentBuilder();
+      final Node originalRootNode = originalDocument.getDocumentElement();
+      final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      final DocumentBuilder db = dbf.newDocumentBuilder();
 
-      Document clonedDocument = db.newDocument();
-      Node clonedRootNode = clonedDocument.importNode(originalRootNode, true);
+      final Document clonedDocument = db.newDocument();
+      final Node clonedRootNode = clonedDocument.importNode(originalRootNode, true);
       clonedDocument.appendChild(clonedRootNode);
       return clonedDocument;
     } catch (ParserConfigurationException e) {
@@ -43,7 +43,7 @@ public class XmlDocumentExtractor {
     }
   }
 
-  ReplacementPair getReplacementText(Node firstModificationNodeInAmendingLaw) {
+  ReplacementPair getReplacementPair(Node firstModificationNodeInAmendingLaw) {
     try {
       final Optional<String> oldText = getTextToBeReplaced(firstModificationNodeInAmendingLaw);
 
@@ -83,7 +83,8 @@ public class XmlDocumentExtractor {
    */
   Node getFirstModification(Document amendingLaw) {
     try {
-      Optional<Node> firstModification = getNodeByXPath("//*[local-name()='mod']", amendingLaw);
+      final Optional<Node> firstModification =
+          getNodeByXPath("//*[local-name()='mod']", amendingLaw);
       if (firstModification.isEmpty()) throw new ModificationException();
       return firstModification.get();
     } catch (XPathExpressionException e) {
@@ -93,7 +94,7 @@ public class XmlDocumentExtractor {
 
   private Optional<String> findHrefInModificationNode(Node modificationNode)
       throws XPathExpressionException {
-    Optional<Node> optionalNodeHrefAttribute =
+    final Optional<Node> optionalNodeHrefAttribute =
         getNodeByXPath("//*[local-name()='ref']/@href", modificationNode);
 
     return optionalNodeHrefAttribute.map(Node::getNodeValue);
@@ -156,9 +157,10 @@ public class XmlDocumentExtractor {
   private Optional<Node> getNodeByXPath(String xPathExpression, Node sourceNode)
       throws XPathExpressionException {
     try {
-      XPathFactory xpathfactory = XPathFactory.newInstance();
-      XPath xpath = xpathfactory.newXPath();
-      Node nodeByXPath = (Node) xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
+      final XPathFactory xpathfactory = XPathFactory.newInstance();
+      final XPath xpath = xpathfactory.newXPath();
+      final Node nodeByXPath =
+          (Node) xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
       return Optional.of(nodeByXPath);
     } catch (NullPointerException e) {
       return Optional.empty();

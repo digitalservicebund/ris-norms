@@ -17,8 +17,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-class XmlDocumentExtractorTest {
-  final XmlDocumentExtractor xmlDocumentExtractor = new XmlDocumentExtractor();
+class XmlDocumentServiceTest {
+  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
 
   @Test
   void throwModificationExceptionIfNoHrefInModification() {
@@ -62,7 +62,7 @@ class XmlDocumentExtractorTest {
     Throwable thrown =
         catchThrowable(
             () ->
-                xmlDocumentExtractor.findTargetLawNodeToBeModified(
+                xmlDocumentService.findTargetLawNodeToBeModified(
                     targetLawDocument, amendingLawDocument));
 
     // then
@@ -116,7 +116,7 @@ class XmlDocumentExtractorTest {
 
     // when
     final Node targetNode =
-        xmlDocumentExtractor.findTargetLawNodeToBeModified(targetLawDocument, amendingLawDocument);
+        xmlDocumentService.findTargetLawNodeToBeModified(targetLawDocument, amendingLawDocument);
 
     // then
     assertThat(targetNode.getAttributes().getNamedItem("eId").getNodeValue()).isEqualTo("eIdValue");
@@ -151,10 +151,10 @@ class XmlDocumentExtractorTest {
     final Document amendingLawDocument = stringToXmlDocument(amendingLawString);
     final Document targetLawDocument = stringToXmlDocument(targetLawString);
     final Node targetNode =
-        xmlDocumentExtractor.findTargetLawNodeToBeModified(targetLawDocument, amendingLawDocument);
+        xmlDocumentService.findTargetLawNodeToBeModified(targetLawDocument, amendingLawDocument);
 
     // when
-    Throwable thrown = catchThrowable(() -> xmlDocumentExtractor.getReplacementText(targetNode));
+    Throwable thrown = catchThrowable(() -> xmlDocumentService.getReplacementPair(targetNode));
 
     // then
     assertThat(thrown).isInstanceOf(ModificationException.class);
@@ -190,10 +190,10 @@ class XmlDocumentExtractorTest {
     final Document amendingLawDocument = stringToXmlDocument(amendingLawString);
     final Document targetLawDocument = stringToXmlDocument(targetLawString);
     final Node targetNode =
-        xmlDocumentExtractor.findTargetLawNodeToBeModified(targetLawDocument, amendingLawDocument);
+        xmlDocumentService.findTargetLawNodeToBeModified(targetLawDocument, amendingLawDocument);
 
     // when
-    Throwable thrown = catchThrowable(() -> xmlDocumentExtractor.getReplacementText(targetNode));
+    Throwable thrown = catchThrowable(() -> xmlDocumentService.getReplacementPair(targetNode));
 
     // then
     assertThat(thrown).isInstanceOf(ModificationException.class);
@@ -215,11 +215,11 @@ class XmlDocumentExtractorTest {
 
     final Document amendingLawDocument = stringToXmlDocument(amendingLawString);
     final Node firstModificationNodeInAmendingLaw =
-        xmlDocumentExtractor.getFirstModification(amendingLawDocument);
+        xmlDocumentService.getFirstModification(amendingLawDocument);
 
     // when
-    final XmlDocumentExtractor.ReplacementPair replacementPair =
-        xmlDocumentExtractor.getReplacementText(firstModificationNodeInAmendingLaw);
+    final XmlDocumentService.ReplacementPair replacementPair =
+        xmlDocumentService.getReplacementPair(firstModificationNodeInAmendingLaw);
 
     // then
     assertThat(replacementPair.newText()).isEqualTo("new");
