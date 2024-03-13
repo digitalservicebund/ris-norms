@@ -6,6 +6,8 @@ import RisNavbarSide, {
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
+import { useAlerts } from "@/composables/useAlerts"
+import RisAlert from "@/components/controls/RisAlert.vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -30,6 +32,8 @@ const menuItems: LevelOneMenuItem[] = [
 
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
+
+const { alerts, hideAlert } = useAlerts()
 </script>
 
 <template>
@@ -43,7 +47,14 @@ const amendingLaw = useAmendingLaw(eli)
         :menu-items="menuItems"
       />
       <div class="w-full flex-1">
-        <div id="alertArea"></div>
+        <RisAlert
+          v-for="[key, { variant, message }] in alerts"
+          :key="key"
+          :variant="variant"
+          @click="hideAlert(key)"
+        >
+          {{ message }}
+        </RisAlert>
         <div class="w-full p-40">
           <RouterView />
         </div>

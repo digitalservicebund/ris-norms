@@ -3,7 +3,7 @@ import RisTextButton from "@/components/controls/RisTextButton.vue"
 import IconCheck from "~icons/ic/baseline-check"
 import IconErrorOutline from "~icons/ic/baseline-error-outline"
 import { computed, ref } from "vue"
-import RisAlert from "@/components/controls/RisAlert.vue"
+import { useShowAlert } from "@/composables/useAlerts"
 
 /**
  * The result of a plausibility check of an amending law
@@ -43,15 +43,7 @@ function onCheckPlausibility() {
   }
 }
 
-type Alert = {
-  variant: "success" | "error"
-  message: string
-}
-
-/**
- * Currently visible alerts
- */
-const alerts = ref<Alert[]>([])
+const showAlert = useShowAlert()
 
 // TODO: (Malte Laukötter, 2024-03-12) this is probably a property of the amending law in the future
 const publishedAt = ref<Date | null>(null)
@@ -61,12 +53,12 @@ function onPublish() {
   if (Math.random() > 0.5) {
     publishedAt.value = new Date()
 
-    alerts.value.push({
+    showAlert({
       variant: "success",
       message: "Die Datei wurde erfolgreich abgegeben",
     })
   } else {
-    alerts.value.push({
+    showAlert({
       variant: "error",
       message: "Gesetz konnte nicht als XML abgegeben werden",
     })
@@ -148,14 +140,4 @@ const publishedAtDateString = computed(() =>
       <span v-else>Das Gesetz wurde noch nicht veröffentlicht.</span>
     </section>
   </div>
-
-  <Teleport
-    v-for="({ variant, message }, index) in alerts"
-    :key="index"
-    to="#alertArea"
-  >
-    <RisAlert :variant="variant" @click="alerts.splice(index, 1)">
-      {{ message }}
-    </RisAlert>
-  </Teleport>
 </template>
