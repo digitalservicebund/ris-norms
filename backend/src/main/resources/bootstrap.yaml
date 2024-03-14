@@ -4,7 +4,9 @@ spring:
       config:
         enabled: true
         fail-fast: true
-        name: database-config
+        sources:
+          - name: database-config
+          - name: redis-config
       secrets:
         enabled: true
         fail-fast: true
