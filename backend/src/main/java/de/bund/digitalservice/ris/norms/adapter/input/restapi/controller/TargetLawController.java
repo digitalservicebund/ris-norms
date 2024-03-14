@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TargetLawRe
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TargetLawResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -24,11 +25,15 @@ public class TargetLawController {
 
   private final LoadTargetLawUseCase loadTargetLawUseCase;
   private final LoadTargetLawXmlUseCase loadTargetLawXmlUseCase;
+  private final TimeMachineUseCase timeMachineUseCase;
 
   public TargetLawController(
-      LoadTargetLawUseCase loadTargetLawUseCase, LoadTargetLawXmlUseCase loadTargetLawXmlUseCase) {
+      LoadTargetLawUseCase loadTargetLawUseCase,
+      LoadTargetLawXmlUseCase loadTargetLawXmlUseCase,
+      TimeMachineUseCase timeMachineUseCase) {
     this.loadTargetLawUseCase = loadTargetLawUseCase;
     this.loadTargetLawXmlUseCase = loadTargetLawXmlUseCase;
+    this.timeMachineUseCase = timeMachineUseCase;
   }
 
   /**
@@ -138,23 +143,46 @@ public class TargetLawController {
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
+   * @param amendingLaw DE: Änderungsgesetz (as XML)
    * @return A {@link ResponseEntity} containing the retrieved preview.
    *     <p>Returns HTTP 400 (Bad Request) if the amending law is missing in the request.
    */
   @PostMapping(
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/preview",
+      consumes = {APPLICATION_XML_VALUE},
       produces = {APPLICATION_XML_VALUE})
-  public ResponseEntity<String> getPreview(
+  public String getPreview(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
-      @PathVariable final String subtype) {
+      @PathVariable final String subtype,
+      @RequestBody final String amendingLaw) {
 
-    return ResponseEntity.badRequest().build();
+    final String eli =
+        buildEli(
+            printAnnouncementGazette,
+            printAnnouncementYear,
+            printAnnouncementPage,
+            pointInTime,
+            version,
+            language,
+            subtype);
+
+    final String targetLawPreview =
+        timeMachineUseCase.applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLaw));
+
+    return targetLawPreview;
+    // .map(ResponseEntity::ok)
+    // .orElseGet(() -> ResponseEntity.notFound().build());
+
+    // return ResponseEntity.badRequest().build();
+
+    // success
+    // exceptions
   }
 
   @NotNull

@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
@@ -35,6 +37,7 @@ class TargetLawControllerTest {
 
   @MockBean private LoadTargetLawUseCase loadTargetLawUseCase;
   @MockBean private LoadTargetLawXmlUseCase loadTargetLawXmlUseCase;
+  @MockBean private TimeMachineUseCase timeMachineUseCase;
 
   @Test
   void itCallsloadTargetLawWithExpressionEliFromQuery() throws Exception {
@@ -112,12 +115,37 @@ class TargetLawControllerTest {
     // Given
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
+    // When // Then
+    mockMvc
+        .perform(
+            post("/api/v1/target-laws/{eli}/preview", eli).contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().is5xxServerError());
+  }
+
+  @Test
+  void itCallsPreviewAndTimeMachineServiceIsCalled() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String xml = "<target></target>";
+    final String amendingLaw =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
+
     // When
-    //    when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
+    when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(xml);
 
     // When // Then
     mockMvc
-        .perform(post("/api/v1/target-laws/{eli}/preview", eli).accept(MediaType.APPLICATION_XML))
-        .andExpect(status().isBadRequest());
+        .perform(
+            post("/api/v1/target-laws/{eli}/preview", eli)
+                .content(amendingLaw)
+                .contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().isOk());
+
+    verify(timeMachineUseCase, times(1))
+        .applyTimeMachine(
+            argThat(
+                query ->
+                    query.amendingLawXml().equals(amendingLaw)
+                        && query.targetLawEli().equals(eli)));
   }
 }
