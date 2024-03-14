@@ -28,4 +28,10 @@ public class TargetLawDto {
   @NotNull @Column private String title;
 
   @NotNull @Column private String xml;
+
+  @NotNull @Column private String fna;
+
+  @NotNull
+  @Column(name = "short_title")
+  private String shortTitle;
 }

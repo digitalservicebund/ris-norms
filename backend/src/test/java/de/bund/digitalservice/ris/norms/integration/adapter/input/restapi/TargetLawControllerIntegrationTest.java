@@ -32,9 +32,12 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
     final String xml = "<target></target>";
+    final String fna = "4711";
+    final String shortTitle = "TitleGesetz";
 
     // When
-    final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
+    final TargetLaw targetLaw =
+        TargetLaw.builder().eli(eli).title(title).xml(xml).fna(fna).shortTitle(shortTitle).build();
     targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
 
     final String encodedEli =
@@ -45,6 +48,8 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/target-laws/{eli}", encodedEli))
         .andExpect(jsonPath("eli").value(equalTo(eli)))
         .andExpect(jsonPath("title").value(equalTo(title)))
+        .andExpect(jsonPath("fna").value(equalTo(fna)))
+        .andExpect(jsonPath("shortTitle").value(equalTo(shortTitle)))
         .andExpect(jsonPath("xml").doesNotExist());
   }
 
@@ -54,9 +59,12 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
     final String xml = "<target></target>";
+    final String fna = "4711";
+    final String shortTitle = "TitleGesetz";
 
     // When
-    final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
+    final TargetLaw targetLaw =
+        TargetLaw.builder().eli(eli).title(title).xml(xml).fna(fna).shortTitle(shortTitle).build();
     targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
 
     // When // Then

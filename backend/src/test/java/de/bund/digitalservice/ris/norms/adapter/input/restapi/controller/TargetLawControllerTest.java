@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
@@ -104,5 +105,19 @@ class TargetLawControllerTest {
         .perform(get("/api/v1/target-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
         .andExpect(content().string(xml));
+  }
+
+  @Test
+  void itReturnsBadRequest() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+    // When
+    //    when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
+
+    // When // Then
+    mockMvc
+        .perform(post("/api/v1/target-laws/{eli}/preview", eli).accept(MediaType.APPLICATION_XML))
+        .andExpect(status().isBadRequest());
   }
 }

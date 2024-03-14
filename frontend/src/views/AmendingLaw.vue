@@ -6,6 +6,8 @@ import RisNavbarSide, {
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
+import { useAlerts } from "@/composables/useAlerts"
+import RisAlert from "@/components/controls/RisAlert.vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -20,12 +22,18 @@ const menuItems: LevelOneMenuItem[] = [
         label: "Betroffene Normenkomplexe",
         route: { name: "AmendingLawAffectedDocuments" },
       },
+      {
+        label: "Abgabe",
+        route: { name: "AmendingLawPublishing" },
+      },
     ],
   },
 ]
 
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
+
+const { alerts, hideAlert } = useAlerts()
 </script>
 
 <template>
@@ -38,8 +46,18 @@ const amendingLaw = useAmendingLaw(eli)
         :go-back-route="{ name: 'Home' }"
         :menu-items="menuItems"
       />
-      <div class="w-full flex-1 p-40">
-        <RouterView />
+      <div class="w-full flex-1">
+        <RisAlert
+          v-for="[key, { variant, message }] in alerts"
+          :key="key"
+          :variant="variant"
+          @click="hideAlert(key)"
+        >
+          {{ message }}
+        </RisAlert>
+        <div class="w-full p-40">
+          <RouterView />
+        </div>
       </div>
     </div>
   </div>

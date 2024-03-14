@@ -26,6 +26,8 @@ export const amendingLaws: (AmendingLaw & {
       {
         eli: "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1",
         title: "Gesetz zur Regelungs des öffenltichen Vereinsrechts",
+        fna: "754-28-1",
+        shortTitle: "Vereinsgesetz",
       },
     ],
   },
@@ -50,6 +52,8 @@ export const amendingLaws: (AmendingLaw & {
         eli: "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         title:
           "Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz",
+        fna: "210-5",
+        shortTitle: "Bundesverfassungsschutzgesetz",
       },
     ],
   },

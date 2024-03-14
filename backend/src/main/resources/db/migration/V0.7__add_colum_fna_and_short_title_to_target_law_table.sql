@@ -1,0 +1,3 @@
+ALTER TABLE target_law
+    ADD COLUMN IF NOT EXISTS fna text NOT NULL DEFAULT '',
+    ADD COLUMN IF NOT EXISTS short_title text NOT NULL DEFAULT '';

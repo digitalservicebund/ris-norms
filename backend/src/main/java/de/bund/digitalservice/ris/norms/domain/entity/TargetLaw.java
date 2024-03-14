@@ -17,4 +17,8 @@ public class TargetLaw {
   private String title;
 
   private String xml;
+
+  private String fna;
+
+  private String shortTitle;
 }

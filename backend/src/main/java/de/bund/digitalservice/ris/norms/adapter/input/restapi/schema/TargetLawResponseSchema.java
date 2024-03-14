@@ -16,4 +16,8 @@ public class TargetLawResponseSchema {
   private String eli;
 
   private String title;
+
+  private String fna;
+
+  private String shortTitle;
 }
