@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
@@ -72,5 +73,58 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/target-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
         .andExpect(content().string(xml));
+  }
+
+  @Test
+  void itPostsAmendingLawAndReturnsAppliedTargetLawXml() throws Exception {
+    // Given
+    final String amendingLawXmlText =
+        """
+              <?xml version="1.0" encoding="UTF-8"?>
+              <akn:body>
+                  <akn:mod>
+                   In <akn:ref
+       href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph
+       2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
+       <akn:quotedText>new</akn:quotedText>.
+                  </akn:mod>
+
+                  "old" -> "new"
+
+                </akn:body>
+              """
+            .trim();
+
+    final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+    final String title = "Title vom Gesetz";
+    final String targetLawXmlText =
+        """
+              <?xml version="1.0" encoding="UTF-8"?>
+              <akn:body>
+                  <akn:p eId="one">old text</akn:p>
+                  <akn:p eId="two">old text</akn:p>
+                </akn:body>
+              """;
+    final String fna = "4711";
+    final String shortTitle = "TitleGesetz";
+
+    // When
+    final TargetLaw targetLaw =
+        TargetLaw.builder()
+            .eli(targetLawEliShort)
+            .title(title)
+            .xml(targetLawXmlText)
+            .fna(fna)
+            .shortTitle(shortTitle)
+            .build();
+    targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
+
+    // When // Then
+    mockMvc
+        .perform(
+            post("/api/v1/target-laws/{eli}/preview", targetLawEliShort)
+                .content(amendingLawXmlText)
+                .contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().isOk());
   }
 }

@@ -172,17 +172,7 @@ public class TargetLawController {
             language,
             subtype);
 
-    final String targetLawPreview =
-        timeMachineUseCase.applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLaw));
-
-    return targetLawPreview;
-    // .map(ResponseEntity::ok)
-    // .orElseGet(() -> ResponseEntity.notFound().build());
-
-    // return ResponseEntity.badRequest().build();
-
-    // success
-    // exceptions
+    return timeMachineUseCase.applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLaw));
   }
 
   @NotNull
