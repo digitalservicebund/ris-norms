@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.application.service.exceptions.ModificationException;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
@@ -99,7 +100,6 @@ class TargetLawControllerTest {
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String xml = "<target></target>";
 
-    // When
     when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
 
     // When // Then
@@ -129,7 +129,6 @@ class TargetLawControllerTest {
     final String amendingLaw =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
 
-    // When
     when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(xml);
 
     // When // Then
@@ -146,5 +145,23 @@ class TargetLawControllerTest {
                 query ->
                     query.amendingLawXml().equals(amendingLaw)
                         && query.targetLawEli().equals(eli)));
+  }
+
+  @Test
+  void returnsHttps500OnModificationException() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String amendingLaw =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
+
+    when(timeMachineUseCase.applyTimeMachine(any())).thenThrow(ModificationException.class);
+
+    // When // Then
+    mockMvc
+        .perform(
+            post("/api/v1/target-laws/{eli}/preview", eli)
+                .content(amendingLaw)
+                .contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().is5xxServerError());
   }
 }
