@@ -48,8 +48,7 @@ test(`see law title, article number and xmls`, async ({ page }) => {
   ).toBeVisible()
 })
 
-// Skip the test for now as it is flaky / not working at the moment.
-test.skip(`update law with new content`, async ({ page }) => {
+test(`update law with new content`, async ({ page }) => {
   await page.goto(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit`,
   )
@@ -62,9 +61,11 @@ test.skip(`update law with new content`, async ({ page }) => {
     await expect(editor).toBeVisible()
 
     // eslint-disable-next-line playwright/no-conditional-in-test -- we need to know if we are running on macos (which uses the darwin nodejs build) to use the correct key for selecting everything in the editor
-    await editor.press(`${process.platform === "darwin" ? "Meta" : "Ctrl"}+a`)
+    await editor.press(
+      `${process.platform === "darwin" ? "Meta" : "Control"}+a`,
+    )
     await editor.press("Backspace")
-    await editor.pressSequentially("<xml></xml>")
+    await editor.fill("<xml></xml>")
     await expect(saveButton).toBeEnabled()
 
     await saveButton.click()
