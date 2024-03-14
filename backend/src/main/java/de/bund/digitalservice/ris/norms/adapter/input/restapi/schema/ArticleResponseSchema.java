@@ -19,4 +19,6 @@ public class ArticleResponseSchema {
   private String title;
 
   private String affectedDocumentEli;
+
+  private String affectedDocumentZf0Eli;
 }

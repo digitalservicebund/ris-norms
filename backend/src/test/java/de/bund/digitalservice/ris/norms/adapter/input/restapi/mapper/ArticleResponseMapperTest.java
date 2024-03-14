@@ -12,11 +12,18 @@ class ArticleResponseMapperTest {
   @Test
   void canMapSimpleResponseSchema() {
     // Given
-    final TargetLaw targetLaw1 =
+    final TargetLaw targetLaw =
         TargetLaw.builder()
-            .eli("target-law-eli-1")
-            .title("target law article 1")
-            .xml("<target>1</target>")
+            .eli("target-law-eli")
+            .title("target law article")
+            .xml("<target></target>")
+            .build();
+
+    final TargetLaw targetLawZf0 =
+        TargetLaw.builder()
+            .eli("target-law-zf0-eli")
+            .title("target law zf0 article")
+            .xml("<target>zf0</target>")
             .build();
 
     final Article article1 =
@@ -24,7 +31,8 @@ class ArticleResponseMapperTest {
             .enumeration("1")
             .eid("eid-article-1")
             .title("article title 1")
-            .targetLaw(targetLaw1)
+            .targetLaw(targetLaw)
+            .targetLawZf0(targetLawZf0)
             .build();
 
     // When
@@ -34,6 +42,7 @@ class ArticleResponseMapperTest {
     assertThat(resultArticle.getEid()).isEqualTo("eid-article-1");
     assertThat(resultArticle.getEnumeration()).isEqualTo("1");
     assertThat(resultArticle.getTitle()).isEqualTo("article title 1");
-    assertThat(resultArticle.getAffectedDocumentEli()).isEqualTo("target-law-eli-1");
+    assertThat(resultArticle.getAffectedDocumentEli()).isEqualTo("target-law-eli");
+    assertThat(resultArticle.getAffectedDocumentZf0Eli()).isEqualTo("target-law-zf0-eli");
   }
 }
