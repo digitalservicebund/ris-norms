@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.spring.security.core)
     implementation(libs.flyway.postgres)
     implementation(libs.jose4j)
+    implementation(libs.spring.starter.data.redis)
+    implementation(libs.spring.session.data.redis)
 
     compileOnly(libs.lombok)
 

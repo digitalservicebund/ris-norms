@@ -22,6 +22,8 @@ spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-star
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.0"
+spring-starter-data-redis = { module =  "org.springframework.boot:spring-boot-starter-data-redis" }
+spring-session-data-redis = { module =  "org.springframework.session:spring-session-data-redis" }
 # CVE-2024-22234
 spring-security-core = "org.springframework.security:spring-security-core:6.2.2"
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
