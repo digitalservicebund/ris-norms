@@ -11,10 +11,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller class for handling target laws in the REST API. This class is annotated with {@link
@@ -95,7 +92,7 @@ public class TargetLawController {
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
-   * @return A {@link ResponseEntity} containing the retrieved amending law.
+   * @return A {@link ResponseEntity} containing the retrieved target law.
    *     <p>Returns HTTP 200 (OK) and the target law's data if found.
    *     <p>Returns HTTP 404 (Not Found) if the target law is not found.
    */
@@ -125,6 +122,39 @@ public class TargetLawController {
     return targetLawXmlOptional
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Retrieves the xml preview of a target law after an amending law is applied. The ELI's
+   * components are interpreted as query parameters.
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param printAnnouncementGazette DE: "Verkündungsblatt"
+   * @param printAnnouncementYear DE "Verkündungsjahr"
+   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @return A {@link ResponseEntity} containing the retrieved preview.
+   *     <p>Returns HTTP 400 (Bad Request) if the amending law is missing in the request.
+   */
+  @PostMapping(
+      path =
+          "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/preview",
+      produces = {APPLICATION_XML_VALUE})
+  public ResponseEntity<String> getPreview(
+      @PathVariable final String printAnnouncementGazette,
+      @PathVariable final String printAnnouncementYear,
+      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype) {
+
+    return ResponseEntity.badRequest().build();
   }
 
   @NotNull
