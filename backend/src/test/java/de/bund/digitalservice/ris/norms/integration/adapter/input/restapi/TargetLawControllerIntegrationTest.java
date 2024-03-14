@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -125,6 +125,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
             post("/api/v1/target-laws/{eli}/preview", targetLawEliShort)
                 .content(amendingLawXmlText)
                 .contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("<akn:p eId=\"two\">new text</akn:p>")));
   }
 }
