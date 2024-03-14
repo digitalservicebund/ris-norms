@@ -204,6 +204,12 @@ class AmendingLawControllerTest {
                 .enumeration("1")
                 .targetLaw(
                     TargetLaw.builder().eli("target law eli 1").title("title1").xml("xml1").build())
+                .targetLawZf0(
+                    TargetLaw.builder()
+                        .eli("target law zf0 eli 1")
+                        .title("title zf0 1")
+                        .xml("xml zf0 1")
+                        .build())
                 .build(),
             Article.builder()
                 .eid("eid 2")
@@ -211,6 +217,12 @@ class AmendingLawControllerTest {
                 .enumeration("2")
                 .targetLaw(
                     TargetLaw.builder().eli("target law eli 2").title("title2").xml("xml2").build())
+                .targetLawZf0(
+                    TargetLaw.builder()
+                        .eli("target law zf0 eli 2")
+                        .title("title zf0 2")
+                        .xml("xml zf0 2")
+                        .build())
                 .build());
 
     when(loadArticlesUseCase.loadArticlesOfAmendingLaw(any())).thenReturn(articles);
@@ -225,10 +237,12 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("$[0].title", equalTo("article title 1")))
         .andExpect(jsonPath("$[0].enumeration", equalTo("1")))
         .andExpect(jsonPath("$[0].affectedDocumentEli", equalTo("target law eli 1")))
+        .andExpect(jsonPath("$[0].affectedDocumentZf0Eli", equalTo("target law zf0 eli 1")))
         .andExpect(jsonPath("$[1].eid", equalTo("eid 2")))
         .andExpect(jsonPath("$[1].title", equalTo("article title 2")))
         .andExpect(jsonPath("$[1].enumeration", equalTo("2")))
-        .andExpect(jsonPath("$[1].affectedDocumentEli", equalTo("target law eli 2")));
+        .andExpect(jsonPath("$[1].affectedDocumentEli", equalTo("target law eli 2")))
+        .andExpect(jsonPath("$[1].affectedDocumentZf0Eli", equalTo("target law zf0 eli 2")));
   }
 
   @Test
@@ -243,6 +257,12 @@ class AmendingLawControllerTest {
             .enumeration("2")
             .targetLaw(
                 TargetLaw.builder().eli("target law eli 2").title("title2").xml("xml2").build())
+            .targetLawZf0(
+                TargetLaw.builder()
+                    .eli("target law zf0 eli")
+                    .title("title zf0")
+                    .xml("xml zf0")
+                    .build())
             .build();
 
     when(loadArticleUseCase.loadArticle(any())).thenReturn(Optional.of(article2));
@@ -254,7 +274,8 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("enumeration", equalTo("2")))
         .andExpect(jsonPath("eid", equalTo("eid 2")))
         .andExpect(jsonPath("title", equalTo("article title 2")))
-        .andExpect(jsonPath("affectedDocumentEli", equalTo("target law eli 2")));
+        .andExpect(jsonPath("affectedDocumentEli", equalTo("target law eli 2")))
+        .andExpect(jsonPath("affectedDocumentZf0Eli", equalTo("target law zf0 eli")));
   }
 
   @Test

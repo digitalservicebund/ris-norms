@@ -20,6 +20,7 @@ public class ArticleResponseMapper {
         article.getEnumeration(),
         article.getEid(),
         article.getTitle(),
-        article.getTargetLaw().getEli());
+        article.getTargetLaw().getEli(),
+        article.getTargetLawZf0().getEli());
   }
 }
