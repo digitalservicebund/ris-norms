@@ -60,7 +60,9 @@ test(`update law with new content`, async ({ page }) => {
     const editor = page.getByRole("textbox").nth(2)
     await expect(editor).toBeVisible()
 
-    await editor.fill("<xml></xml>")
+    await editor.press("Meta+a")
+    await editor.press("Backspace")
+    await editor.pressSequentially("<xml></xml>")
     await expect(saveButton).toBeEnabled()
 
     await saveButton.click()
