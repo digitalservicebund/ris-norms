@@ -41,6 +41,6 @@ management:
     liveness-state:
       enabled: true
 
-logging:
-  level:
-    org.springframework: DEBUG
+#logging:
+#  level:
+#    org.springframework: DEBUG
