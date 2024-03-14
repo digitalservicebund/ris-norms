@@ -61,7 +61,7 @@ test(`update law with new content`, async ({ page }) => {
     await expect(editor).toBeVisible()
 
     // eslint-disable-next-line playwright/no-conditional-in-test -- we need to know if we are running on macos (which uses the darwin nodejs build) to use the correct key for selecting everything in the editor
-    await editor.press(`${process.platform === "darwin" ? "Meta" : "Cmd"}+a`)
+    await editor.press(`${process.platform === "darwin" ? "Meta" : "Ctrl"}+a`)
     await editor.press("Backspace")
     await editor.pressSequentially("<xml></xml>")
     await expect(saveButton).toBeEnabled()
