@@ -1,6 +1,6 @@
 # 0. Template
 
-Date: 2024-03-07
+Date: 202x-xx-xx
 
 ## Status
 
