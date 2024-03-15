@@ -1,5 +1,5 @@
 [versions]
-flyway = "10.9.1"
+flyway = "10.10.0"
 # @keep
 jacoco = "0.8.11"
 org-testcontainers = "1.19.7"
@@ -11,9 +11,11 @@ apache-commons-compress = "org.apache.commons:commons-compress:1.26.1"
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.2.1"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
+# CVE-2023-51775
+jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = { module = "org.projectlombok:lombok" }
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.11.0"
-postgresql = "org.postgresql:postgresql:42.7.2"
+postgresql = "org.postgresql:postgresql:42.7.3"
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
@@ -22,16 +24,14 @@ spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-star
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.0"
-spring-starter-data-redis = { module =  "org.springframework.boot:spring-boot-starter-data-redis" }
-spring-session-data-redis = { module =  "org.springframework.session:spring-session-data-redis" }
 # CVE-2024-22234
 spring-security-core = "org.springframework.security:spring-security-core:6.2.2"
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
+spring-session-data-redis = { module = "org.springframework.session:spring-session-data-redis" }
+spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
-# CVE-2023-51775
-jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.6"
