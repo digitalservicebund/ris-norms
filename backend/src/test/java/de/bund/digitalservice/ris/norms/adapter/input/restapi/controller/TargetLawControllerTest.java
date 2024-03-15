@@ -6,13 +6,13 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.service.exceptions.ModificationException;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -38,6 +38,7 @@ class TargetLawControllerTest {
   @MockBean private LoadTargetLawUseCase loadTargetLawUseCase;
   @MockBean private LoadTargetLawXmlUseCase loadTargetLawXmlUseCase;
   @MockBean private TimeMachineUseCase timeMachineUseCase;
+  @MockBean private UpdateTargetLawUseCase updateTargetLawUseCase;
 
   @Test
   void itCallsloadTargetLawWithExpressionEliFromQuery() throws Exception {
@@ -110,7 +111,7 @@ class TargetLawControllerTest {
   }
 
   @Test
-  void itReturnsBadRequestWhenThereIsNoAmendingLaw() throws Exception {
+  void itReturnsInternalServerErrorWhenThereIsNoAmendingLaw() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
@@ -163,5 +164,27 @@ class TargetLawControllerTest {
                 .content(amendingLaw)
                 .contentType(MediaType.APPLICATION_XML))
         .andExpect(status().is5xxServerError());
+  }
+
+  @Test
+  void itSendsAnUpdatedTargetLawWhichIsSavedAndReturned() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String targetLawXml = "<target></target>";
+
+    when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.of(targetLawXml));
+
+    // When // Then
+    mockMvc
+        .perform(
+            put("/api/v1/target-laws/{eli}", eli)
+                .content(targetLawXml)
+                .contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().isOk());
+
+    verify(updateTargetLawUseCase, times(1))
+        .updateTargetLaw(
+            argThat(
+                query -> query.newTargetLawXml().equals(targetLawXml) && query.eli().equals(eli)));
   }
 }
