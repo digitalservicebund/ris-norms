@@ -125,6 +125,33 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
+    put:
+      summary: Update a specific target law by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: eli of the target law
+          schema:
+            type: string
+      requestBody:
+        description: The XML of the target law (which may be updated and saved on DB)
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/LegalDocML.de'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TargetLaw'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+
   /target-laws/{eli}/preview:
     post:
       summary: Call time machine to generate preview of applied amending law
