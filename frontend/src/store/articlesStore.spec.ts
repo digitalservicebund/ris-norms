@@ -21,6 +21,7 @@ describe("useArticlesStore", () => {
         title: "article eid 1",
         enumeration: "1",
         affectedDocumentEli: "affected document eli 1",
+        affectedDocumentZf0Eli: "affected document ZF0 eli 1",
       },
     ]
 
