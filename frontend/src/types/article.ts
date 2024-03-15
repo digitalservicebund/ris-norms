@@ -11,4 +11,9 @@ export interface Article {
   enumeration: string
   /** The ELI of the law that is changed by this article */
   affectedDocumentEli: string
+  /**
+   * The ELI of the first future version of the law that is changed
+   * by this article.
+   */
+  affectedDocumentZf0Eli: string
 }

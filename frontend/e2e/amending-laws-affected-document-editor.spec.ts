@@ -12,7 +12,7 @@ test(`navigate to affected document metadata editor`, async ({ page }) => {
   )
 })
 
-test(`see affected document titla and xmls`, async ({ page }) => {
+test(`see affected document title and xmls`, async ({ page }) => {
   await page.goto(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/edit`,
   )

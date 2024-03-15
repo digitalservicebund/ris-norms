@@ -28,12 +28,13 @@ export function useAffectedDocuments(
 
   const articles = useArticles(eli)
 
-  const affectedDocumentElis = computed(
-    () => articles.value?.map((article) => article.affectedDocumentEli) ?? [],
+  const affectedDocumentZf0Elis = computed(
+    () =>
+      articles.value?.map((article) => article.affectedDocumentZf0Eli) ?? [],
   )
 
   watch(
-    affectedDocumentElis,
+    affectedDocumentZf0Elis,
     async (is) => {
       targetLaws.value = await Promise.all(
         is.map((eli) => getTargetLawByEli(eli)),
