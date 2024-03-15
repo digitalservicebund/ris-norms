@@ -119,7 +119,7 @@ class TargetLawControllerTest {
     mockMvc
         .perform(
             post("/api/v1/target-laws/{eli}/preview", eli).contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().is5xxServerError());
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -218,9 +218,8 @@ class TargetLawControllerTest {
     when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.empty());
 
     // When // Then
-    // TODO .andExpect(status().isBadRequest());
     mockMvc
         .perform(put("/api/v1/target-laws/{eli}", eli).contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().is5xxServerError());
+        .andExpect(status().isBadRequest());
   }
 }

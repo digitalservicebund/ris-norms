@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,6 +15,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 @Slf4j
 public class InternalErrorExceptionHandler {
+
+  /**
+   * Exception handler method for letting Spring handle this exception.
+   *
+   * @param e The exception that occurred.
+   */
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public void handleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
+
+    log.error("Internal server error", e);
+    throw e;
+  }
 
   /**
    * Exception handler method for handling general exceptions.
