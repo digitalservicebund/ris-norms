@@ -95,3 +95,21 @@ test(`update law with new content`, async ({ page }) => {
     )
   }
 })
+
+test("preview is rendered", async ({ page }) => {
+  await page.goto(
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+  )
+
+  await expect(page.getByLabel("Vorschau").getByRole("textbox")).toBeEmpty()
+
+  await page.getByRole("button", { name: "Vorschau generieren" }).click()
+
+  await expect(page.getByLabel("Vorschau").getByRole("textbox")).not.toBeEmpty()
+  await expect(
+    page.getByLabel("Vorschau").getByText(
+      // meta tag of the target law, but in another format (eId and GUID are reordered) than the original target law
+      '<akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">',
+    ),
+  ).toBeVisible()
+})
