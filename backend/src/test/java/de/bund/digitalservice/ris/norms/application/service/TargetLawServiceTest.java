@@ -81,10 +81,11 @@ class TargetLawServiceTest {
     when(timeMachineService.apply(any(), any())).thenReturn("Success");
 
     // When
-    final String appliedXml = service.applyTimeMachine(query);
+    final Optional<String> appliedXml = service.applyTimeMachine(query);
 
     // Then
-    assertThat(appliedXml).contains("Success");
+    assertThat(appliedXml).isPresent();
+    assertThat(appliedXml.get()).contains("Success");
     verify(loadTargetLawXmlAdapter, times(1))
         .loadTargetLawXmlByEli(argThat(command -> command.eli().equals(targetLawEli)));
     verify(timeMachineService, times(1)).apply(amendingLawXmlAsString, targetLawXmlAsString);

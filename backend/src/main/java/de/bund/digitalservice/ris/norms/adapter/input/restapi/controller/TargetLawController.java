@@ -152,7 +152,7 @@ public class TargetLawController {
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/preview",
       consumes = {APPLICATION_XML_VALUE},
       produces = {APPLICATION_XML_VALUE})
-  public String getPreview(
+  public ResponseEntity<String> getPreview(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -172,7 +172,11 @@ public class TargetLawController {
             language,
             subtype);
 
-    return timeMachineUseCase.applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLaw));
+    Optional<String> targetLawPreview =
+        timeMachineUseCase.applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLaw));
+    return targetLawPreview
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @NotNull

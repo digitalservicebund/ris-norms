@@ -36,7 +36,6 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 
-    // When
     final TargetLaw targetLaw =
         TargetLaw.builder().eli(eli).title(title).xml(xml).fna(fna).shortTitle(shortTitle).build();
     targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
@@ -63,7 +62,6 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 
-    // When
     final TargetLaw targetLaw =
         TargetLaw.builder().eli(eli).title(title).xml(xml).fna(fna).shortTitle(shortTitle).build();
     targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
@@ -76,7 +74,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itPostsAmendingLawAndReturnsAppliedTargetLawXml() throws Exception {
+  void itPostsAmendingLawAndReturns404() throws Exception {
     // Given
     final String amendingLawXmlText =
         """
@@ -96,15 +94,46 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
             .trim();
 
     final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+
+    // When // Then
+    mockMvc
+        .perform(
+            post("/api/v1/target-laws/{eli}/preview", targetLawEliShort)
+                .content(amendingLawXmlText)
+                .contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  void itPostsAmendingLawAndReturnsAppliedTargetLawXml() throws Exception {
+    // Given
+    final String amendingLawXmlText =
+        """
+                  <?xml version="1.0" encoding="UTF-8"?>
+                  <akn:body>
+                      <akn:mod>
+                       In <akn:ref
+           href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph
+           2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
+           <akn:quotedText>new</akn:quotedText>.
+                      </akn:mod>
+
+                      "old" -> "new"
+
+                    </akn:body>
+                  """
+            .trim();
+
+    final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
     final String targetLawXmlText =
         """
-              <?xml version="1.0" encoding="UTF-8"?>
-              <akn:body>
-                  <akn:p eId="one">old text</akn:p>
-                  <akn:p eId="two">old text</akn:p>
-                </akn:body>
-              """;
+                  <?xml version="1.0" encoding="UTF-8"?>
+                  <akn:body>
+                      <akn:p eId="one">old text</akn:p>
+                      <akn:p eId="two">old text</akn:p>
+                    </akn:body>
+                  """;
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 

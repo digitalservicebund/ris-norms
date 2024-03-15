@@ -110,7 +110,7 @@ class TargetLawControllerTest {
   }
 
   @Test
-  void itReturnsBadRequest() throws Exception {
+  void itReturnsBadRequestWhenThereIsNoAmendingLaw() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
@@ -129,7 +129,7 @@ class TargetLawControllerTest {
     final String amendingLaw =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
 
-    when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(xml);
+    when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(Optional.of(xml));
 
     // When // Then
     mockMvc

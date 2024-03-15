@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
+import java.util.Optional;
 
 /**
  * Interface representing the use case for applying the time machine on a {@link TargetLaw} using
@@ -16,7 +17,7 @@ public interface TimeMachineUseCase {
    *     and the xml of the amending law
    * @return An {@link String} containing the updated {@link TargetLaw}.
    */
-  String applyTimeMachine(Query query);
+  Optional<String> applyTimeMachine(Query query);
 
   /**
    * A record representing the query for loading the xml representation of a target law and the
