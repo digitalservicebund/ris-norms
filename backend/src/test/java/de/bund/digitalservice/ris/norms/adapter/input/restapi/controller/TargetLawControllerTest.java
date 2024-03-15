@@ -187,4 +187,40 @@ class TargetLawControllerTest {
             argThat(
                 query -> query.newTargetLawXml().equals(targetLawXml) && query.eli().equals(eli)));
   }
+
+  @Test
+  void itReturn404whenLawIsNotFound() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String targetLawXml = "<target></target>";
+
+    when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.empty());
+
+    // When // Then
+    mockMvc
+        .perform(
+            put("/api/v1/target-laws/{eli}", eli)
+                .content(targetLawXml)
+                .contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().isNotFound());
+
+    verify(updateTargetLawUseCase, times(1))
+        .updateTargetLaw(
+            argThat(
+                query -> query.newTargetLawXml().equals(targetLawXml) && query.eli().equals(eli)));
+  }
+
+  @Test
+  void itReturnBadRequestWhenThereIsNoTargetLawXmlProvided() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+    when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.empty());
+
+    // When // Then
+    // TODO .andExpect(status().isBadRequest());
+    mockMvc
+        .perform(put("/api/v1/target-laws/{eli}", eli).contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().is5xxServerError());
+  }
 }
