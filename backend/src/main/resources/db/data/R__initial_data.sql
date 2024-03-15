@@ -1,3 +1,7 @@
+DELETE FROM article;
+DELETE FROM target_law;
+DELETE FROM amending_law;
+
 -- Clean example
 INSERT INTO amending_law (id, eli, print_announcement_gazette, digital_announcement_medium, publication_date, print_announcement_page, digital_announcement_edition, title, xml)
 VALUES ('e47a5106-c153-4da4-8d94-8cc2ebf9b232', 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1', 'BGBl. I', NULL, '2017-03-15', '419', null, 'Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes', '<?xml version="1.0" encoding="UTF-8"?>
