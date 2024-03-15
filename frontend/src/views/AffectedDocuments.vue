@@ -15,11 +15,12 @@ const affectedDocuments = useAffectedDocuments(eli)
     <ul>
       <RisAffectedDocumentPanel
         v-for="affectedDocument in affectedDocuments"
-        :key="affectedDocument.eli"
-        :title="affectedDocument.title"
-        :eli="affectedDocument.eli"
-        :fna="affectedDocument.fna"
-        :short-title="affectedDocument.shortTitle"
+        :key="affectedDocument.targetLaw.eli"
+        :title="affectedDocument.targetLaw.title"
+        :eli="affectedDocument.targetLaw.eli"
+        :fna="affectedDocument.targetLaw.fna"
+        :short-title="affectedDocument.targetLaw.shortTitle"
+        :zf0-eli="affectedDocument.targetLawZf0Eli"
         as-list-item
       />
     </ul>

@@ -23,10 +23,15 @@ const props = defineProps<{
   title: string
 
   /**
-   * ELI of the affected document. This is needed both for display as well
-   * as linking to the correct page for metadata editing.
+   * ELI of the affected document. This is needed both for display.
    */
   eli: string
+
+  /**
+   * ELI of the first future version of the affected document.
+   * This is needed for linking to the correct page for metadata editing.
+   */
+  zf0Eli: string
 }>()
 
 const tag = computed<"li" | "div">(() => (props.asListItem ? "li" : "div"))
@@ -34,7 +39,8 @@ const tag = computed<"li" | "div">(() => (props.asListItem ? "li" : "div"))
 const eliParam = useEliPathParameter()
 
 const editorUrl = computed<string>(
-  () => `/amending-laws/${eliParam.value}/affected-documents/${props.eli}/edit`,
+  () =>
+    `/amending-laws/${eliParam.value}/affected-documents/${props.zf0Eli}/edit`,
 )
 </script>
 

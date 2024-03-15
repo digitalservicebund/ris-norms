@@ -11,6 +11,11 @@ import {
   watch,
 } from "vue"
 
+export type TargetLawWithZF0Eli = {
+  targetLaw: TargetLaw
+  targetLawZf0Eli: string
+}
+
 /**
  * Get the data of all target laws changed by the amending law with the
  * specified ELI. In the context of the amending law, those target laws
@@ -23,21 +28,31 @@ import {
  */
 export function useAffectedDocuments(
   eli: MaybeRefOrGetter<string>,
-): DeepReadonly<Ref<TargetLaw[]>> {
-  const targetLaws = ref<TargetLaw[]>([])
+): DeepReadonly<Ref<TargetLawWithZF0Eli[]>> {
+  const targetLaws = ref<TargetLawWithZF0Eli[]>([])
 
   const articles = useArticles(eli)
 
-  const affectedDocumentZf0Elis = computed(
+  const affectedDocumentElis = computed(
     () =>
-      articles.value?.map((article) => article.affectedDocumentZf0Eli) ?? [],
+      articles.value?.map((article) => [
+        article.affectedDocumentEli,
+        article.affectedDocumentZf0Eli,
+      ]) ?? [],
   )
 
   watch(
-    affectedDocumentZf0Elis,
+    affectedDocumentElis,
     async (is) => {
       targetLaws.value = await Promise.all(
-        is.map((eli) => getTargetLawByEli(eli)),
+        is.map(async ([eli, zf0Eli]) => {
+          const targetLaw = await getTargetLawByEli(eli)
+          debugger
+          return {
+            targetLaw,
+            targetLawZf0Eli: zf0Eli,
+          }
+        }),
       )
     },
     { immediate: true },
