@@ -28,7 +28,7 @@ const { xml: articleXml, update: updateArticleXml } = useArticleXml(identifier)
 
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const targetLaw = useTargetLaw(targetLawEli)
-const targetLawXml = useTargetLawXml(targetLawEli)
+const { xml: targetLawXml } = useTargetLawXml(targetLawEli)
 
 const currentArticleXml = ref("")
 
@@ -76,7 +76,7 @@ async function handleGeneratePreview() {
     <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
 
     <router-link
-      class="ds-link-01-bold -mb-28 flex h-80 items-center gap-12 px-40 text-blue-800"
+      class="ds-link-01-bold -mb-28 inline-flex h-80 items-center gap-12 px-40 text-blue-800"
       :to="{ name: 'AmendingLawArticles' }"
     >
       <IconArrowBack class="text-18" alt="" />

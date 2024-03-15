@@ -2,7 +2,7 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
-describe("useArticle", () => {
+describe("useArticleXml", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()

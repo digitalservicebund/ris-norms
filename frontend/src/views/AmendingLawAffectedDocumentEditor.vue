@@ -6,6 +6,7 @@ import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTargetLaw } from "@/composables/useTargetLaw"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
+import { ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 
 const amendingLawEli = useEliPathParameter()
@@ -14,7 +15,31 @@ const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const amendingLaw = useAmendingLaw(amendingLawEli)
 
 const targetLaw = useTargetLaw(affectedDocumentEli)
-const targetLawXml = useTargetLawXml(affectedDocumentEli)
+
+const { xml: targetLawXml, update: updateTargetLawXml } =
+  useTargetLawXml(affectedDocumentEli)
+
+const currentTargetLawXml = ref("")
+
+function handleTargetLawXmlChange({ content }: { content: string }) {
+  currentTargetLawXml.value = content
+}
+
+watch(targetLawXml, (targetLawXml) => {
+  if (targetLawXml) {
+    currentTargetLawXml.value = targetLawXml
+  }
+})
+
+/** Save the updated XML to the API on click of the save button. */
+async function handleSave() {
+  try {
+    await updateTargetLawXml(currentTargetLawXml.value)
+  } catch (error) {
+    alert("Metadaten nicht gespeichert")
+    console.error(error)
+  }
+}
 </script>
 
 <template>
@@ -22,7 +47,7 @@ const targetLawXml = useTargetLawXml(affectedDocumentEli)
     <RisAmendingLawInfoHeader :amending-law />
 
     <RouterLink
-      class="ds-link-01-bold -mb-28 flex h-80 items-center gap-12 px-40 text-blue-800"
+      class="ds-link-01-bold -mb-28 inline-flex h-80 items-center gap-12 px-40 text-blue-800"
       :to="{ name: 'AmendingLawAffectedDocuments' }"
     >
       <IconArrowBack class="text-18" alt="" />
@@ -37,11 +62,11 @@ const targetLawXml = useTargetLawXml(affectedDocumentEli)
         </div>
 
         <RisTextButton
-          label="Speichern"
+          :disabled="targetLawXml === currentTargetLawXml"
           size="small"
           class="h-fit flex-none self-end"
-          disabled
-          @click="() => {}"
+          label="Speichern"
+          @click="handleSave"
         />
 
         <RisTextButton
@@ -64,7 +89,8 @@ const targetLawXml = useTargetLawXml(affectedDocumentEli)
           </h3>
           <RisCodeEditor
             class="flex-grow"
-            :initial-content="targetLawXml ?? ''"
+            :initial-content="targetLawXml"
+            @change="handleTargetLawXmlChange"
           />
         </section>
 
