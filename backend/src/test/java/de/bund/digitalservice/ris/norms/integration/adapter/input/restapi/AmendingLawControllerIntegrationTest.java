@@ -152,12 +152,23 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
+
+    final TargetLaw targetLawZf0 =
+        TargetLaw.builder()
+            .eli("target law zf0 eli")
+            .title("target law zf0 title")
+            .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlawZf0")
+            .build();
+
     final Article article =
         Article.builder()
             .eid("eid")
             .title("article title")
             .enumeration("1")
             .targetLaw(targetLaw)
+            .targetLawZf0(targetLawZf0)
             .build();
 
     // When
@@ -210,12 +221,23 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
+
+    final TargetLaw targetLaw1Zf0 =
+        TargetLaw.builder()
+            .eli("target law zf0 eli")
+            .title("target law zf0 title")
+            .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
+            .build();
+
     final Article article1 =
         Article.builder()
             .eid("eid")
             .title("article title")
             .enumeration("1")
             .targetLaw(targetLaw1)
+            .targetLawZf0(targetLaw1Zf0)
             .build();
 
     final TargetLaw targetLaw2 =
@@ -226,12 +248,23 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
+
+    final TargetLaw targetLaw2Zf0 =
+        TargetLaw.builder()
+            .eli("target law zf0 eli")
+            .title("target law zf0 title")
+            .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
+            .build();
+
     final Article article2 =
         Article.builder()
             .eid("eid 2")
             .title("article title 2")
             .enumeration("2")
             .targetLaw(targetLaw2)
+            .targetLawZf0(targetLaw2Zf0)
             .build();
 
     // When
@@ -259,6 +292,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("eid", equalTo(article2.getEid())))
         .andExpect(jsonPath("enumeration", equalTo(article2.getEnumeration())))
         .andExpect(jsonPath("affectedDocumentEli", equalTo(targetLaw2.getEli())))
+        .andExpect(jsonPath("affectedDocumentZf0Eli", equalTo(targetLaw2Zf0.getEli())))
         .andExpect(jsonPath("title", equalTo(article2.getTitle())));
   }
 
