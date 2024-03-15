@@ -113,6 +113,12 @@ public class DBService
 
   @Override
   public Optional<String> updateTargetLawXmlByEli(UpdateTargetLawXmlPort.Command command) {
-    return Optional.empty();
+    return targetLawRepository
+        .findByEli(command.eli())
+        .map(
+            targetLawDto -> {
+              targetLawDto.setXml(command.updatedXml());
+              return targetLawRepository.save(targetLawDto).getXml();
+            });
   }
 }

@@ -401,9 +401,34 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Then
     assertThat(updatedXmlOptional)
         .isPresent()
-        .satisfies(
-            updatedXml -> {
-              assertThat(updatedXml).contains(newXml);
-            });
+        .satisfies(updatedXml -> assertThat(updatedXml).contains(newXml));
+  }
+
+  @Test
+  void itUpdatesXmlOfTargetLaw() {
+    // Given
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String xml = "<test></test>";
+
+    // When
+    final TargetLaw targetLaw =
+        TargetLaw.builder()
+            .eli(eli)
+            .title("title")
+            .shortTitle("shortTitle")
+            .fna("fna")
+            .xml(xml)
+            .build();
+    targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
+
+    // When
+    final String newXml = "<new></new>";
+    final Optional<String> updatedXmlOptional =
+        dbService.updateTargetLawXmlByEli(new UpdateTargetLawXmlPort.Command(eli, newXml));
+
+    // Then
+    assertThat(updatedXmlOptional)
+        .isPresent()
+        .satisfies(updatedXml -> assertThat(updatedXml).contains(newXml));
   }
 }
