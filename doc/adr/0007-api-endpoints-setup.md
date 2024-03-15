@@ -14,13 +14,13 @@ This ADR outlines our idea of sensible defaults for how endpoints should be stru
 
 ## Decision
 
-Our proposal consists of a simple foundation that, while not ideal, supports everything we need. It is also easy to extend to support requirements we will very likely have in the near future.
+Our proposal consists of a simple foundation that supports our current needs. It is also easy to extend to support requirements we will very likely have in the near future.
 
-We're generally not dogmatic, but we're aiming for a REST-ful interface, meaning that we ask the API for resources, not functionality.
+We're aiming for a REST-ful interface, meaning that we ask the API for resources, not functionality. However we are not dogmatic about it.
 
 ### Foundation
 
-We provide create, read, update, and delete endpoints for individual resources (not all resources need to support all operations), as well as list endpoints for listing all available resources.
+We provide create, read, update, and delete endpoints for individual resources (not all resources need to support all operations), as well as list endpoints for listing all available resources of a certain type.
 
 An individual resource endpoint returns all relevant top level properties of the resource. It does not return nested objects or other resources that are referenced. In order to fetch those, you will need to know which related resources are available, as well as the endpoint for requesting them, and then request them separately.
 
@@ -50,7 +50,7 @@ type Article = {
 | ------------------------------ | ------------------------------------------------------------ |
 | `GET /laws`                    | Returns an array of `{ eli: string; title: string }`         |
 | `GET /laws/:eli`               | Returns a single law of type `{ eli: string, title: string}` |
-| `GET /laws/:eli/articles`      | Returns the articles inside the law                          |
+| `GET /laws/:eli/articles`      | Returns the articles of the law                              |
 | `GET /laws/:eli/articles/:eid` | Returns a single article                                     |
 
 ### Extension 1: Support for nested resources
@@ -59,7 +59,7 @@ In the above example, having to know that laws contain articles as well as knowi
 
 ### Extension 2: Supporting different data formats
 
-Many of our endpoints will need to provide output and accept input in both JSON and XML. We're planning to solve this by sending the [HTTP `Accept`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) header with API requests. Based on that, the backend can then respond with the appropriate data format.
+Many of our endpoints need to provide output and accept input in both JSON and XML. We're planning solving this by sending the [HTTP `Accept`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) header with API requests. Based on that, the backend can then respond with the appropriate data format.
 
 ### Extension 3: Unified endpoints via ELI/eId
 
