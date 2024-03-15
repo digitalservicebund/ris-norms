@@ -13,10 +13,10 @@ brew install --cask docker # or just `brew install docker` if you don't want the
 
 ## Running and developing
 
-Set up and boot the database (from the project root):
+Set up and boot the postgres database and the redis database (from the project root):
 
 ```sh
-docker compose up postgres14
+docker compose up postgres14 redis
 ```
 
 You can then start the backend by running the `bootRun` Gradle task.
