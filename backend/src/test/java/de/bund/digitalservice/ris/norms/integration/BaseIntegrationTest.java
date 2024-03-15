@@ -24,7 +24,9 @@ import org.testcontainers.utility.DockerImageName;
  * tells the test framework to close and recreate the context.
  */
 @DirtiesContext
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    webEnvironment = WebEnvironment.RANDOM_PORT,
+    properties = "spring.flyway.locations=classpath:db/migration")
 @AutoConfigureDataJpa
 @AutoConfigureMockMvc
 @Testcontainers(disabledWithoutDocker = true)
@@ -57,7 +59,7 @@ public abstract class BaseIntegrationTest {
 
     registry.add("spring.data.redis.host", redis::getHost);
     registry.add("spring.data.redis.port", () -> redis.getMappedPort(6379).toString());
-    // Unsetting default values from application.yaml
+    // Removing user/pass for redis
     registry.add("spring.data.redis.username", () -> "");
     registry.add("spring.data.redis.password", () -> "");
   }
