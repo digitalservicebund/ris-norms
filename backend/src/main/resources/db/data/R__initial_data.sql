@@ -7172,6 +7172,7 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
 </akn:akomaNtoso>
 ');
 
+-- ZF0
 INSERT INTO target_law (id, eli, title, fna, short_title, xml)
 VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1', 'Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz (ZF0)', '210-5', 'Bundesverfassungsschutzgesetz (ZF0)', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -14280,6 +14281,7 @@ VALUES ('6ae442b5-6601-4a72-bfa2-50a059348cb3', 'eli/bund/bgbl-1/1964/s593/2017-
    </akn:act>
 </akn:akomaNtoso>');
 
+-- Articles
 INSERT INTO article (id, enumeration, title, eid, amending_law_id, target_law_id, target_law_zf0_id)
 VALUES ('fda2c91e-1fd4-4e44-8e08-40dc8fdb475c', '1', 'Änderung des Vereinsgesetzes', 'hauptteil-1_art-1', 'e47a5106-c153-4da4-8d94-8cc2ebf9b232', 'd04791fc-dcdc-47e6-aefb-bc2f7aaee151', '6ae442b5-6601-4a72-bfa2-50a059348cb3');
 
