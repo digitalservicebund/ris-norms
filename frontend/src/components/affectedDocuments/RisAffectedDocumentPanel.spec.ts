@@ -15,10 +15,11 @@ describe("RisAffectedDocumentPanel", () => {
 
   const eli = "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1"
   const title = "Some title"
+  const zf0Eli = "eli/zf0"
 
   test("should show title, eli and edit metadata button", () => {
     render(RisAffectedDocumentPanel, {
-      props: { eli, title },
+      props: { eli, title, zf0Eli },
       global: { plugins: [router] },
     })
 
@@ -29,7 +30,7 @@ describe("RisAffectedDocumentPanel", () => {
 
   test("should render fna", () => {
     render(RisAffectedDocumentPanel, {
-      props: { eli, title, fna: "1234" },
+      props: { eli, title, fna: "1234", zf0Eli },
       global: { plugins: [router] },
     })
 
@@ -39,7 +40,7 @@ describe("RisAffectedDocumentPanel", () => {
 
   test("should render as a list item", () => {
     render(RisAffectedDocumentPanel, {
-      props: { eli, title, asListItem: true },
+      props: { eli, title, asListItem: true, zf0Eli },
       global: { plugins: [router] },
     })
 
@@ -48,7 +49,7 @@ describe("RisAffectedDocumentPanel", () => {
 
   test("should render as a regular container if not told to be a list item", () => {
     render(RisAffectedDocumentPanel, {
-      props: { eli, title, asListItem: false },
+      props: { eli, title, asListItem: false, zf0Eli },
       global: { plugins: [router] },
     })
 
@@ -57,7 +58,7 @@ describe("RisAffectedDocumentPanel", () => {
 
   test("should render fna and short title", () => {
     render(RisAffectedDocumentPanel, {
-      props: { eli, title, fna: "1234", shortTitle: "SomeShortTitle" },
+      props: { eli, title, fna: "1234", shortTitle: "SomeShortTitle", zf0Eli },
       global: { plugins: [router] },
     })
 
@@ -66,7 +67,7 @@ describe("RisAffectedDocumentPanel", () => {
 
   test("should render short title without fna", () => {
     render(RisAffectedDocumentPanel, {
-      props: { eli, title, shortTitle: "SomeShortTitle" },
+      props: { eli, title, shortTitle: "SomeShortTitle", zf0Eli },
       global: { plugins: [router] },
     })
 
@@ -76,7 +77,7 @@ describe("RisAffectedDocumentPanel", () => {
 
   test("should link to the editor", () => {
     render(RisAffectedDocumentPanel, {
-      props: { eli: "foo", title },
+      props: { eli: "foo", title, zf0Eli: "bar" },
       global: { plugins: [router] },
     })
 
@@ -84,7 +85,7 @@ describe("RisAffectedDocumentPanel", () => {
       "href",
       // Due to the mocking the ELI param is undefined, but we don't care
       // about the specific value anyways
-      "#/amending-laws/undefined/affected-documents/foo/edit",
+      "#/amending-laws/undefined/affected-documents/bar/edit",
     )
   })
 })

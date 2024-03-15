@@ -49,7 +49,7 @@ test.describe("Affected documents page", () => {
 
         await link.click()
         await expect(page).toHaveURL(
-          `/amending-laws/${amendingLaw.eli}/affected-documents/${targetLaw.eli}/edit`,
+          `/amending-laws/${amendingLaw.eli}/affected-documents/${targetLaw.zf0Eli}/edit`,
         )
 
         await page.goBack()

@@ -10,6 +10,7 @@ import RisAffectedDocumentPanel from "./RisAffectedDocumentPanel.vue"
       :title="'Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz'"
       :eli="'eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1'"
       :as-list-item="true"
+      :zf0-eli="'eli/bund/bgbl-1/1968/s537/2023-12-29/18/deu/regelungstext-1'"
     />
   </Story>
 </template>
