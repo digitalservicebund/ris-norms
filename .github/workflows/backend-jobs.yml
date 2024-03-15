@@ -330,7 +330,7 @@ jobs:
           name: backend-code-documentation
           path: tmp/backend-code-documentation/
       - name: Java - git add report
-        uses: digitalservicebund/github-actions/add-ris-report@a4d00619e174444b1382e59871b3f9adc83f95e0
+        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
         with:
           filePath: tmp/backend-code-documentation
           destinationDir: norms-code-documentation/java
