@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCas
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawXmlPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateTargetLawXmlPort;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -25,14 +26,17 @@ public class TargetLawService
   private final LoadTargetLawPort loadTargetLawPort;
   private final LoadTargetLawXmlPort loadTargetLawXmlPort;
   private final TimeMachineService timeMachineService;
+  private final UpdateTargetLawXmlPort updateTargetLawXmlPort;
 
   public TargetLawService(
       LoadTargetLawPort loadTargetLawPort,
       LoadTargetLawXmlPort loadTargetLawXmlPort,
-      TimeMachineService timeMachineService) {
+      TimeMachineService timeMachineService,
+      UpdateTargetLawXmlPort updateTargetLawXmlPort) {
     this.loadTargetLawPort = loadTargetLawPort;
     this.loadTargetLawXmlPort = loadTargetLawXmlPort;
     this.timeMachineService = timeMachineService;
+    this.updateTargetLawXmlPort = updateTargetLawXmlPort;
   }
 
   @Override
@@ -57,6 +61,7 @@ public class TargetLawService
 
   @Override
   public Optional<String> updateTargetLaw(UpdateTargetLawUseCase.Query query) {
-    return Optional.empty();
+    return updateTargetLawXmlPort.updateTargetLawXmlByEli(
+        new UpdateTargetLawXmlPort.Command(query.eli(), query.newTargetLawXml()));
   }
 }

@@ -11,8 +11,10 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawXmlPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateTargetLawXmlPort;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -21,11 +23,16 @@ class TargetLawServiceTest {
 
   final LoadTargetLawPort loadTargetLawAdapter = mock(LoadTargetLawPort.class);
   final LoadTargetLawXmlPort loadTargetLawXmlAdapter = mock(LoadTargetLawXmlPort.class);
+  final UpdateTargetLawXmlPort updateTargetLawXmlPort = mock(UpdateTargetLawXmlPort.class);
 
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
   final TargetLawService service =
-      new TargetLawService(loadTargetLawAdapter, loadTargetLawXmlAdapter, timeMachineService);
+      new TargetLawService(
+          loadTargetLawAdapter,
+          loadTargetLawXmlAdapter,
+          timeMachineService,
+          updateTargetLawXmlPort);
 
   @Test
   void canLoadTargetLawByEli() {
@@ -89,5 +96,26 @@ class TargetLawServiceTest {
     verify(loadTargetLawXmlAdapter, times(1))
         .loadTargetLawXmlByEli(argThat(command -> command.eli().equals(targetLawEli)));
     verify(timeMachineService, times(1)).apply(amendingLawXmlAsString, targetLawXmlAsString);
+  }
+
+  @Test
+  void canUpdateTargetLawXmlByEli() {
+    // Given
+    final String eli = "someEli";
+    final String targetLawXml = "<targetLaw>Test content</targetLaw>";
+    final UpdateTargetLawUseCase.Query query = new UpdateTargetLawUseCase.Query(eli, targetLawXml);
+
+    when(updateTargetLawXmlPort.updateTargetLawXmlByEli(any()))
+        .thenReturn(Optional.of(targetLawXml));
+
+    // When
+    final Optional<String> updatedXml = service.updateTargetLaw(query);
+
+    // Then
+    assertThat(updatedXml).isPresent().contains(targetLawXml);
+    verify(updateTargetLawXmlPort, times(1))
+        .updateTargetLawXmlByEli(
+            argThat(
+                command -> command.eli().equals(eli) && command.updatedXml().equals(targetLawXml)));
   }
 }
