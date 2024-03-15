@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
@@ -71,6 +72,31 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/target-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
         .andExpect(content().string(xml));
+  }
+
+  @Test
+  void itSendATargetLawXmlAndReturnsTheSameTargetLawXml() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String title = "Title vom Gesetz";
+    final String xml = "<target></target>";
+    final String fna = "4711";
+    final String shortTitle = "TitleGesetz";
+
+    final TargetLaw targetLaw =
+        TargetLaw.builder().eli(eli).title(title).xml(xml).fna(fna).shortTitle(shortTitle).build();
+    targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
+
+    final String newXml = "<new></new>";
+
+    // When // Then
+    mockMvc
+        .perform(
+            put("/api/v1/target-laws/{eli}", eli)
+                .content(newXml)
+                .contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().isOk())
+        .andExpect(content().string(newXml));
   }
 
   @Test
