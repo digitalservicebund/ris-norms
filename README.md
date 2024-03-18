@@ -24,8 +24,14 @@ This is a mono-repository containing
 Each of the above has its own `README.md` with more details on that component.
 
 # Additional Documentation
-- The [`./doc`](./doc) folder contains additional information e.g. on architecture and domain model
-- Back end JavaDocs can be found [here](https://digitalservicebund.github.io/ris-reports/docs/backend-code-documentation/norms-java.html)
+There are two places where documentation can be found:
+- This projects's [`./doc`](./doc) folder, most notably containing information on
+  -  the domain model
+  -  the API specification and
+  -  our Architecture Decision Records (ADR)
+- The general [RIS Documentation](https://digitalservicebund.github.io/ris-reports/), especially
+  - the [architecture diagrams](https://digitalservicebund.github.io/ris-reports/docs/architecture/diagrams_list.html)
+  - the backend [JavaDocs](https://digitalservicebund.github.io/ris-reports/docs/backend-code-documentation/norms-java.html)
 
 # Development
 
