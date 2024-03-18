@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.service.exceptions.ModificationException;
 import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -166,7 +165,7 @@ class TimeMachineServiceTest {
         catchThrowable(() -> timeMachineService.apply(amendingLawXmlText, targetLawXmlText));
 
     // then
-    assertThat(thrown).isInstanceOf(ModificationException.class);
+    assertThat(thrown).isInstanceOf(XmlProcessingException.class);
   }
 
   @Test
@@ -182,7 +181,7 @@ class TimeMachineServiceTest {
     Throwable thrown = catchThrowable(() -> timeMachineService.apply(amendingLaw, targetLaw));
 
     // then
-    assertThat(thrown).isInstanceOf(ModificationException.class);
+    assertThat(thrown).isInstanceOf(XmlProcessingException.class);
   }
 
   @Test

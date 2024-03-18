@@ -72,12 +72,17 @@ public class TimeMachineService {
     final Node targetLawNodeToBeModified =
         xmlDocumentService.findTargetLawNodeToBeModified(targetLawClone, modificationNode);
 
-    final String modifiedTextContent =
-        targetLawNodeToBeModified
-            .getTextContent()
-            .replaceFirst(replacementPair.oldText(), replacementPair.newText());
-    targetLawNodeToBeModified.setTextContent(modifiedTextContent);
-    return targetLawClone;
+    try {
+      final String modifiedTextContent =
+          targetLawNodeToBeModified
+              .getTextContent()
+              .replaceFirst(replacementPair.oldText(), replacementPair.newText());
+      targetLawNodeToBeModified.setTextContent(modifiedTextContent);
+      return targetLawClone;
+    } catch (NullPointerException e) {
+      throw new XmlProcessingException(
+          "Target Law could not be modified since there is no according paragraph found", e);
+    }
   }
 
   private Document stringToXmlDocument(String xmlText) {

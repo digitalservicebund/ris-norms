@@ -13,7 +13,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseC
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
-import de.bund.digitalservice.ris.norms.application.service.exceptions.ModificationException;
+import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
@@ -155,7 +155,7 @@ class TargetLawControllerTest {
     final String amendingLaw =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
 
-    when(timeMachineUseCase.applyTimeMachine(any())).thenThrow(ModificationException.class);
+    when(timeMachineUseCase.applyTimeMachine(any())).thenThrow(XmlProcessingException.class);
 
     // When // Then
     mockMvc

@@ -3,7 +3,6 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
-import de.bund.digitalservice.ris.norms.application.service.exceptions.ModificationException;
 import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.io.StringReader;
@@ -66,7 +65,7 @@ class XmlDocumentServiceTest {
                     targetLawDocument, amendingLawDocument));
 
     // then
-    assertThat(thrown).isInstanceOf(ModificationException.class);
+    assertThat(thrown).isInstanceOf(XmlProcessingException.class);
   }
 
   @Test
@@ -157,7 +156,7 @@ class XmlDocumentServiceTest {
     Throwable thrown = catchThrowable(() -> xmlDocumentService.getReplacementPair(targetNode));
 
     // then
-    assertThat(thrown).isInstanceOf(ModificationException.class);
+    assertThat(thrown).isInstanceOf(XmlProcessingException.class);
   }
 
   @Test
@@ -196,7 +195,7 @@ class XmlDocumentServiceTest {
     Throwable thrown = catchThrowable(() -> xmlDocumentService.getReplacementPair(targetNode));
 
     // then
-    assertThat(thrown).isInstanceOf(ModificationException.class);
+    assertThat(thrown).isInstanceOf(XmlProcessingException.class);
   }
 
   @Test
