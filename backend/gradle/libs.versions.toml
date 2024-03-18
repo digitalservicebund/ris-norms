@@ -37,6 +37,7 @@ spring-core = "org.springframework:spring-core:6.1.5"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
+saxon-he = "net.sf.saxon:Saxon-HE:12.4"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.6"

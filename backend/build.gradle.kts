@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.jose4j)
     implementation(libs.spring.starter.data.redis)
     implementation(libs.spring.session.data.redis)
+    implementation(libs.saxon.he)
 
     compileOnly(libs.lombok)
 

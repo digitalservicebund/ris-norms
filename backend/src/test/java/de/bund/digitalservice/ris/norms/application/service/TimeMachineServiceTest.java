@@ -60,7 +60,7 @@ class TimeMachineServiceTest {
     // then
     assertThat(result)
         .isEqualTo(
-            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><targetLaw><akn:p eId=\"two\">new text</akn:p></targetLaw>");
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw><akn:p eId=\"two\">new text</akn:p></targetLaw>");
   }
 
   @Test
@@ -216,7 +216,7 @@ class TimeMachineServiceTest {
 
     final String expectedResultingLawXmlText =
         """
-          <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          <?xml version="1.0" encoding="UTF-8"?>
           <akn:body>
               <akn:p eId="one">old text</akn:p>
               <akn:p eId="two">new text</akn:p>
