@@ -90,7 +90,7 @@ jobs:
   # # system test jobs
   # ########################
 
-     e2e-tests:
+   e2e-tests:
       needs: [backend-jobs, frontend-jobs, ldml-extension-jobs]
       strategy:
         fail-fast: false
