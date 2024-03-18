@@ -106,7 +106,7 @@ jobs:
 
   e2e-tests:
     # needs: [backend-jobs, frontend-jobs, ldml-extension-jobs]
-    uses: ./.github/workflows/end-to-end-jobs.yml
+    uses: ./.github/workflows/end-to-end-tests.yml
 
   ################
   # Security jobs
