@@ -24,7 +24,7 @@ public class InternalErrorExceptionHandler {
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public void handleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
 
-    log.error("Internal server error", e);
+    log.error("Bad request", e);
     throw e;
   }
 
@@ -38,7 +38,7 @@ public class InternalErrorExceptionHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<String> handleException(final Exception e) {
 
-    log.error("Internal server error", e);
+    log.error("Internal server error with message: " + e.getMessage(), e);
 
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
   }

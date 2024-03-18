@@ -39,40 +39,32 @@ public class XmlDocumentService {
       clonedDocument.appendChild(clonedRootNode);
       return clonedDocument;
     } catch (ParserConfigurationException e) {
-      throw new XmlProcessingException();
+      throw new XmlProcessingException(e.getMessage(), e);
     }
   }
 
   ReplacementPair getReplacementPair(Node firstModificationNodeInAmendingLaw) {
-    try {
-      final Optional<String> oldText = getTextToBeReplaced(firstModificationNodeInAmendingLaw);
+    final Optional<String> oldText = getTextToBeReplaced(firstModificationNodeInAmendingLaw);
 
-      final Optional<String> newText = getNewTextInReplacement(firstModificationNodeInAmendingLaw);
-      if (oldText.isEmpty() || newText.isEmpty()) throw new ModificationException();
-      return new ReplacementPair(oldText.get(), newText.get());
-    } catch (XPathExpressionException e) {
-      throw new XmlProcessingException();
-    }
+    final Optional<String> newText = getNewTextInReplacement(firstModificationNodeInAmendingLaw);
+    if (oldText.isEmpty() || newText.isEmpty()) throw new ModificationException();
+    return new ReplacementPair(oldText.get(), newText.get());
   }
 
   record ReplacementPair(String oldText, String newText) {}
 
   Node findTargetLawNodeToBeModified(Document targetLaw, Node firstModificationNodeInAmendingLaw) {
-    try {
-      final Optional<String> modificationHref;
+    final Optional<String> modificationHref;
 
-      modificationHref = findHrefInModificationNode(firstModificationNodeInAmendingLaw);
-      if (modificationHref.isEmpty()) throw new ModificationException();
+    modificationHref = findHrefInModificationNode(firstModificationNodeInAmendingLaw);
+    if (modificationHref.isEmpty()) throw new ModificationException();
 
-      final Optional<String> eId = getEIdfromModificationHref(modificationHref.get());
-      if (eId.isEmpty()) throw new ModificationException();
+    final Optional<String> eId = getEIdfromModificationHref(modificationHref.get());
+    if (eId.isEmpty()) throw new ModificationException();
 
-      final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLaw);
-      if (targetLawNodeToBeModified.isEmpty()) throw new ModificationException();
-      return targetLawNodeToBeModified.get();
-    } catch (XPathExpressionException e) {
-      throw new XmlProcessingException();
-    }
+    final Optional<Node> targetLawNodeToBeModified = findNodeByEId(eId.get(), targetLaw);
+    if (targetLawNodeToBeModified.isEmpty()) throw new ModificationException();
+    return targetLawNodeToBeModified.get();
   }
 
   /**
@@ -82,18 +74,12 @@ public class XmlDocumentService {
    * @return the Node containing the modification
    */
   Node getFirstModification(Document amendingLaw) {
-    try {
-      final Optional<Node> firstModification =
-          getNodeByXPath("//*[local-name()='mod']", amendingLaw);
-      if (firstModification.isEmpty()) throw new ModificationException();
-      return firstModification.get();
-    } catch (XPathExpressionException e) {
-      throw new XmlProcessingException();
-    }
+    final Optional<Node> firstModification = getNodeByXPath("//*[local-name()='mod']", amendingLaw);
+    if (firstModification.isEmpty()) throw new ModificationException();
+    return firstModification.get();
   }
 
-  private Optional<String> findHrefInModificationNode(Node modificationNode)
-      throws XPathExpressionException {
+  private Optional<String> findHrefInModificationNode(Node modificationNode) {
     final Optional<Node> optionalNodeHrefAttribute =
         getNodeByXPath("//*[local-name()='ref']/@href", modificationNode);
 
@@ -111,12 +97,12 @@ public class XmlDocumentService {
     return Optional.empty();
   }
 
-  private Optional<Node> findNodeByEId(String eId, Node node) throws XPathExpressionException {
+  private Optional<Node> findNodeByEId(String eId, Node node) {
     final String xPathExpression = "//*[@eId='" + eId + "']";
     return getNodeByXPath(xPathExpression, node);
   }
 
-  private Optional<String> getTextToBeReplaced(Node node) throws XPathExpressionException {
+  private Optional<String> getTextToBeReplaced(Node node) {
     // make sure there are two texts
     final String xPathExpressionSecondNode = "(//*[local-name()='quotedText'])[2]";
     final Optional<Node> optionalSecondNode = getNodeByXPath(xPathExpressionSecondNode, node);
@@ -134,7 +120,7 @@ public class XmlDocumentService {
     return Optional.empty();
   }
 
-  private Optional<String> getNewTextInReplacement(Node node) throws XPathExpressionException {
+  private Optional<String> getNewTextInReplacement(Node node) {
     final String xPathExpression = "(//*[local-name()='quotedText'])[2]";
     final Optional<Node> optionalNode = getNodeByXPath(xPathExpression, node);
 
@@ -154,15 +140,17 @@ public class XmlDocumentService {
    *     Document extends Node)
    * @return the Node identified by the <code>xPathExpression</code>
    */
-  private Optional<Node> getNodeByXPath(String xPathExpression, Node sourceNode)
-      throws XPathExpressionException {
+  private Optional<Node> getNodeByXPath(String xPathExpression, Node sourceNode) {
     try {
       final XPathFactory xpathfactory = XPathFactory.newInstance();
       final XPath xpath = xpathfactory.newXPath();
       final Node nodeByXPath =
           (Node) xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
       return Optional.of(nodeByXPath);
+    } catch (XPathExpressionException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
     } catch (NullPointerException e) {
+      // TODO do we know wht is null? ModificationException here? or don't catch?
       return Optional.empty();
     }
   }

@@ -241,7 +241,7 @@ class XmlDocumentServiceTest {
       final InputSource is = new InputSource(new StringReader(xmlText));
       return builder.parse(is);
     } catch (ParserConfigurationException | SAXException | IOException e) {
-      throw new XmlProcessingException();
+      throw new XmlProcessingException(e.getMessage(), e);
     }
   }
 }
