@@ -94,7 +94,7 @@ jobs:
         run: npm ci
         working-directory: ./frontend
       - name: Install SonarScanner
-        uses: digitalservicebund/github-actions/setup-sonarscanner@7c3c5fd3b1467215f9e6c66181a37538607999b1
+        uses: digitalservicebund/setup-sonarscanner@3ade23691f865c02dce6b46452947a0e7944196e # v1.0.0
       - name: Establish virtual display buffer
         run: |
           /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
