@@ -77,6 +77,8 @@ jobs:
           npx --yes playwright install --with-deps ${{ inputs.browser }}
         working-directory: ./frontend
       - name: Run ${{ inputs.mode }} tests in ${{ inputs.browser }} against localhost
+        env:
+          E2E_BASE_URL: ${{ http://localhost:5173 }}
         run: |
           echo "Running ${{ inputs.mode }} tests ${{ inputs.runs }} times"
 
