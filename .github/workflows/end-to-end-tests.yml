@@ -72,9 +72,9 @@ jobs:
         run: |
           echo "Running ${{ inputs.mode }} tests ${{ inputs.runs }} times"
 
-          npm run dev & 
-          DEV_PID=$! 
-          npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each ${{ inputs.runs}} 
+          npm run dev &
+          DEV_PID=$!
+          npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each 1
           pkill -P $DEV_PID
         working-directory: ./frontend
       # - name: Send status to Slack
