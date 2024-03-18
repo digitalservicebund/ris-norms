@@ -7177,8 +7177,9 @@ INSERT INTO target_law (id, eli, title, fna, short_title, xml)
 VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1', 'Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz (ZF0)', '210-5', 'Bundesverfassungsschutzgesetz (ZF0)', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-metadaten.xsd
-                        http://Inhaltsdaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+    xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd
+                        http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd
+                        http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
     <akn:act name="regelungstext">
         <akn:meta eId="meta-1" GUID="731ba8ee-6f44-4a86-8682-eab3a376f16a">
             <akn:identification eId="meta-1_ident-1" GUID="e0548b32-89df-433d-bf28-3337f7753882" source="attributsemantik-noch-undefiniert">
@@ -7261,7 +7262,15 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
             </akn:temporalGroup>
             </akn:temporalData>
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
-</akn:proprietary>
+            </akn:proprietary>
+            <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-2" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
+                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                    <meta:celex></meta:celex>
+                    <meta:interne-referenz href="">
+                        <meta:normgeber></meta:normgeber>
+                    </meta:interne-referenz>
+                </meta:legalDocML.de_metadaten_ds>
+            </akn:proprietary>
         </akn:meta>
         <akn:preface eId="einleitung-1" GUID="59a7267f-11bf-464e-a884-15c0bbd17416">
             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="d5ff5e89-7289-481a-9637-ac07858edd35">
@@ -13746,7 +13755,7 @@ VALUES ('6ae442b5-6601-4a72-bfa2-50a059348cb3', 'eli/bund/bgbl-1/1964/s593/2017-
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
 <!-- Regelungstext des Stammgesetzes nach der Ausfertigung des Änderungsgesetzes. Da die Änderungsbefehle noch nicht in Kraft getreten sind, werden diese lediglich in den Metadaten
        hinterlegt. Sie stellen nun schwebende Änderungen dar, bis sie in Kraft treten und angewendet werden. -->
    <akn:act name="regelungstext">
@@ -13967,6 +13976,14 @@ VALUES ('6ae442b5-6601-4a72-bfa2-50a059348cb3', 'eli/bund/bgbl-1/1964/s593/2017-
                   <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
+         </akn:proprietary>
+         <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-2" GUID="d0a21a1f-6e0d-41f3-aa46-adeebd86aa00">
+            <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+               <meta:celex></meta:celex>
+               <meta:interne-referenz href="">
+                  <meta:normgeber></meta:normgeber>
+               </meta:interne-referenz>
+            </meta:legalDocML.de_metadaten_ds>
          </akn:proprietary>
       </akn:meta>
       <!-- Dokumentenkopf Regelungstext -->
