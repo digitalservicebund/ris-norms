@@ -11,163 +11,149 @@ jobs:
   # jobs dispatched to a separate workflow file
   #############################################
 
-  # backend-jobs:
-  #   permissions:
-  #     security-events: write # upload-sarif
-  #     packages: write
-  #     id-token: write
-  #     contents: read
-  #   uses: ./.github/workflows/backend-jobs.yml
-  #   with:
-  #     container-registry: ghcr.io
-  #     container-image-name: ${{ github.repository }}
-  #     container-image-version: ${{ github.sha }}
-  #   secrets: inherit # e.g. sonar token
+   backend-jobs:
+     permissions:
+       security-events: write # upload-sarif
+       packages: write
+       id-token: write
+       contents: read
+     uses: ./.github/workflows/backend-jobs.yml
+     with:
+       container-registry: ghcr.io
+       container-image-name: ${{ github.repository }}
+       container-image-version: ${{ github.sha }}
+     secrets: inherit # e.g. sonar token
 
-  # frontend-jobs:
-  #   permissions:
-  #     security-events: write # upload-sarif
-  #     packages: write
-  #     id-token: write
-  #     contents: read
-  #   uses: ./.github/workflows/frontend-jobs.yml
-  #   with:
-  #     # It would be nicer if we used the env vars defined above (as not to duplicate information),
-  #     # however, env vars cannot be passed over to a reuseable workflow using "with"
-  #     # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations
-  #     # and the workaround is horrible
-  #     # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow
-  #     container-registry: ghcr.io
-  #     container-image-name: ${{ github.repository }}
-  #     container-image-version: ${{ github.sha }}
-  #   secrets: inherit # e.g. sonar token
+   frontend-jobs:
+     permissions:
+       security-events: write # upload-sarif
+       packages: write
+       id-token: write
+       contents: read
+     uses: ./.github/workflows/frontend-jobs.yml
+     with:
+       # It would be nicer if we used the env vars defined above (as not to duplicate information),
+       # however, env vars cannot be passed over to a reuseable workflow using "with"
+       # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations
+       # and the workaround is horrible
+       # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow
+       container-registry: ghcr.io
+       container-image-name: ${{ github.repository }}
+       container-image-version: ${{ github.sha }}
+     secrets: inherit # e.g. sonar token
 
-  # ldml-extension-jobs:
-  #   uses: ./.github/workflows/ldml-extension-jobs.yml
-  #   secrets: inherit # e.g. sonar token
+   ldml-extension-jobs:
+     uses: ./.github/workflows/ldml-extension-jobs.yml
+     secrets: inherit # e.g. sonar token
 
   # ######################
   # # Deploy new versions
   # ######################
 
-  # deploy-staging:
-  #   runs-on: ubuntu-latest
-  #   if: ${{ github.ref == 'refs/heads/main' }}
-  #   concurrency: deploy-staging
-  #   environment: staging
-  #   needs:
-  #     - frontend-jobs
-  #     - backend-jobs
-  #   permissions:
-  #     id-token: write # Enable OIDC for gitsign
-  #   steps:
-  #     - uses: chainguard-dev/actions/setup-gitsign@ac42db4c9c2e2bd9f66aadf3290c5995891d91a3
-  #     - name: Deploy new images
-  #       uses: digitalservicebund/github-actions/argocd-deploy@0ec47e73b6068bde71db075af6bf9ae27cb08b1b
-  #       with:
-  #         environment: staging
-  #         version: ${{ github.sha }}
-  #         deploying_repo: ris-norms/backend
-  #         infra_repo: ris-norms-infra
-  #         deploy_key: ${{ secrets.DEPLOY_KEY }}
-  #         app: ris-norms-staging
-  #         argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
-  #         argocd_server: ${{ secrets.ARGOCD_SERVER }}
-  #     - name: Track deploy
-  #       uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
-  #       with:
-  #         project: ris-norms
-  #         environment: staging
-  #         metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
-  #         metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
-  #     - name: Send status to Slack
-  #       uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
-  #       if: ${{ failure() && github.ref == 'refs/heads/main' }}
-  #       with:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+   deploy-staging:
+     runs-on: ubuntu-latest
+     if: ${{ github.ref == 'refs/heads/main' }}
+     concurrency: deploy-staging
+     environment: staging
+     needs:
+       - frontend-jobs
+       - backend-jobs
+     permissions:
+       id-token: write # Enable OIDC for gitsign
+     steps:
+       - uses: chainguard-dev/actions/setup-gitsign@ac42db4c9c2e2bd9f66aadf3290c5995891d91a3
+       - name: Deploy new images
+         uses: digitalservicebund/github-actions/argocd-deploy@0ec47e73b6068bde71db075af6bf9ae27cb08b1b
+         with:
+           environment: staging
+           version: ${{ github.sha }}
+           deploying_repo: ris-norms/backend
+           infra_repo: ris-norms-infra
+           deploy_key: ${{ secrets.DEPLOY_KEY }}
+           app: ris-norms-staging
+           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
+           argocd_server: ${{ secrets.ARGOCD_SERVER }}
+       - name: Track deploy
+         uses: digitalservicebund/github-actions/track-deployment@34a48d29a9c4cc2fd6710b8eb37e13618a08fa88
+         with:
+           project: ris-norms
+           environment: staging
+           metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+       - name: Send status to Slack
+         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+         if: ${{ failure() && github.ref == 'refs/heads/main' }}
+         with:
+           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   # ########################
   # # system test jobs
   # ########################
 
-  # e2e-tests-frontend:
-  #   needs: [deploy-staging]
-  #   strategy:
-  #     fail-fast: false
-  #     max-parallel: 1
-  #     matrix:
-  #       browser: [chromium, firefox, webkit]
-  #       mode: [e2e]
-  #   uses: ./.github/workflows/playwright-test.yml
-  #   with:
-  #     browser: ${{ matrix.browser }}
-  #     mode: ${{ matrix.mode }}
-  #   secrets: inherit
-
-  e2e-tests:
-    # needs: [backend-jobs, frontend-jobs, ldml-extension-jobs]
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [chromium, firefox, webkit]
-    uses: ./.github/workflows/end-to-end-tests.yml
-    with:
-      browser: ${{ matrix.browser }}
-    secrets: inherit
+     e2e-tests:
+      needs: [backend-jobs, frontend-jobs, ldml-extension-jobs]
+      strategy:
+        fail-fast: false
+        matrix:
+          browser: [chromium, firefox, webkit]
+      uses: ./.github/workflows/end-to-end-tests.yml
+      with:
+        browser: ${{ matrix.browser }}
+      secrets: inherit
 
   ################
   # Security jobs
   ################
 
-  # trivy-scan:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     security-events: write # upload-sarif
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #     - name: Run Trivy vulnerability scanner in repo mode
-  #       uses: aquasecurity/trivy-action@062f2592684a31eb3aa050cc61e7ca1451cecd3d
-  #       with:
-  #         scan-type: "fs"
-  #         format: "sarif"
-  #         output: "trivy-results.sarif"
-  #         severity: "CRITICAL,HIGH" #ignored by sarif report
-  #     - name: Check trivy results
-  #       run: |
-  #         if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
-  #           echo "Vulnerabilities found"
-  #           exit 1
-  #         else
-  #           echo "No significant vulnerabilities found"
-  #           exit 0
-  #         fi
-  #     - name: Upload Trivy scan results to GitHub Security tab
-  #       if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
-  #       uses: github/codeql-action/upload-sarif@v3
-  #       with:
-  #         sarif_file: "trivy-results.sarif"
-  #     - name: Send status to Slack
-  #       # Third-party action, pin to commit SHA!
-  #       # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
-  #       uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
-  #       if: ${{ failure() && github.ref == 'refs/heads/main' }}
-  #       with:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+   trivy-scan:
+     runs-on: ubuntu-latest
+     permissions:
+       security-events: write # upload-sarif
+     steps:
+       - name: Checkout code
+         uses: actions/checkout@v4
+       - name: Run Trivy vulnerability scanner in repo mode
+         uses: aquasecurity/trivy-action@062f2592684a31eb3aa050cc61e7ca1451cecd3d
+         with:
+           scan-type: "fs"
+           format: "sarif"
+           output: "trivy-results.sarif"
+           severity: "CRITICAL,HIGH" #ignored by sarif report
+       - name: Check trivy results
+         run: |
+           if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
+             echo "Vulnerabilities found"
+             exit 1
+           else
+             echo "No significant vulnerabilities found"
+             exit 0
+           fi
+       - name: Upload Trivy scan results to GitHub Security tab
+         if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
+         uses: github/codeql-action/upload-sarif@v3
+         with:
+           sarif_file: "trivy-results.sarif"
+       - name: Send status to Slack
+         # Third-party action, pin to commit SHA!
+         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+         if: ${{ failure() && github.ref == 'refs/heads/main' }}
+         with:
+           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  # talisman-check:
-  #   runs-on: ubuntu-latest
-  #   # Running on main only https://digitalservicebund.slack.com/archives/C046VD44ZEH/p1706516240974409
-  #   if: ${{ github.ref == 'refs/heads/main' }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-  #     - name: Detect secrets in incoming commits with Talisman
-  #       uses: digitalservicebund/talisman-secrets-scan-action@9a4cb85589e29a62b4546eb566119753a5680aeb
-  #     - name: Send status to Slack
-  #       # only on failure and if on "main" branch
-  #       if: ${{ failure() && github.ref == 'refs/heads/main' }}
-  #       uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
-  #       with:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+   talisman-check:
+     runs-on: ubuntu-latest
+     # Running on main only https://digitalservicebund.slack.com/archives/C046VD44ZEH/p1706516240974409
+     if: ${{ github.ref == 'refs/heads/main' }}
+     steps:
+       - uses: actions/checkout@v4
+         with:
+           fetch-depth: 0
+       - name: Detect secrets in incoming commits with Talisman
+         uses: digitalservicebund/talisman-secrets-scan-action@9a4cb85589e29a62b4546eb566119753a5680aeb
+       - name: Send status to Slack
+         # only on failure and if on "main" branch
+         if: ${{ failure() && github.ref == 'refs/heads/main' }}
+         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+         with:
+           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
