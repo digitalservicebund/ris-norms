@@ -347,6 +347,19 @@ class AmendingLawControllerTest {
   }
 
   @Test
+  void itCallsUpdateAmendingLawXmlWithoutXmlAndReturnsInternalError() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+
+    when(updateAmendingLawXmlUseCase.updateAmendingLawXml(any())).thenReturn(Optional.empty());
+
+    // When // Then
+    mockMvc
+        .perform(put("/api/v1/amending-laws/{eli}", eli).contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   void itLoadsUpdateAmendingLawXmlAndReturnsTheOneSuccessfully() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
