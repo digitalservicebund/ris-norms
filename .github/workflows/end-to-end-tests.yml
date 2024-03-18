@@ -30,12 +30,6 @@ jobs:
           distribution: "temurin"
       - name: Start PostgreSQL
         run: docker compose up --detach postgres14 redis
-      # TODO: set the "local" profile
-      # - uses: gradle/gradle-build-action@e1ada08a9a43fad9770411d5dd099f25ece2569d
-      #   with:
-      #     gradle-version: ${{ env.GRADLE_VERSION }}
-      #     arguments: bootRun
-      #     build-root-directory: ./backend
       - name: Start backend in the background (via .gradlew and nohup)
         run: nohup ./gradlew bootRun > /tmp/nohup.out &
         working-directory: ./backend
@@ -87,8 +81,8 @@ jobs:
           npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each 1
           pkill -P $DEV_PID
         working-directory: ./frontend
-      # - name: Send status to Slack
-      #   uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
-      #   if: ${{ failure() && github.ref == 'refs/heads/main' }}
-      #   with:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+        with:
+           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
