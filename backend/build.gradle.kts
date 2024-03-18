@@ -149,6 +149,10 @@ tasks {
     withType(com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask::class) {
         checkBuildEnvironmentConstraints = false
     }
+
+    named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+        args("--spring.profiles.active=local")
+    }
 }
 
 spotless {

@@ -8,7 +8,7 @@ spring:
   flyway:
     baseline-on-migrate: true
     baseline-version: 0.0
-    locations: ${flyway.locations:classpath:db/migration,classpath:db/data}
+    locations: ${flyway.locations:classpath:db/migration}
   data:
     redis:
       host: ${redis.host:localhost}
@@ -41,7 +41,3 @@ management:
       enabled: true
     liveness-state:
       enabled: true
-
-#logging:
-#  level:
-#    org.springframework: DEBUG

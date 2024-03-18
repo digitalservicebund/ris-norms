@@ -19,9 +19,10 @@ Set up and boot the postgres database and the redis database (from the project r
 docker compose up postgres14 redis
 ```
 
-You can then start the backend by running the `bootRun` Gradle task.
+You can then start the backend with two different options:
 
-If you want to import test data into your database, you'll find some in [this SQL script](./src/test/resources/test-data/initial-test-laws.sql).
+1. Running the `bootRun` Gradle task.
+2. Creating a Run/Debug config in your IDE with Spring support using the profile `local`
 
 ## Tests
 
