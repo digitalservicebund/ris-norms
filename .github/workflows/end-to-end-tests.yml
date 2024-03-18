@@ -70,19 +70,27 @@ jobs:
         run: |
           npx --yes playwright install --with-deps ${{ inputs.browser }}
         working-directory: ./frontend
-      - name: Run ${{ inputs.mode }} tests in ${{ inputs.browser }} against localhost
+      - name: Run e2e tests in ${{ inputs.browser }} against localhost
         env:
           E2E_BASE_URL: "http://localhost:5173"
         run: |
-          echo "Running ${{ inputs.mode }} tests ${{ inputs.runs }} times"
+          echo "Running e2e tests 1 time"
 
           npm run dev &
           DEV_PID=$!
           npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each 1
           pkill -P $DEV_PID
         working-directory: ./frontend
+      - name: Upload screenshots and traces of failed tests
+        uses: actions/upload-artifact@v4
+        if: ${{ failure() }}
+        with:
+          name: failed-e2e-tests-${{ inputs.browser }}
+          path: |
+            ./frontend/test-results/**/*.png
+            ./frontend/test-results/**/trace.zip
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
-           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
