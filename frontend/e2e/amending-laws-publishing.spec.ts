@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test"
 
 test(`navigate to publishing`, async ({ page }) => {
   await page.goto(
-    "BREAK TEST/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
   )
   await page.getByRole("link", { name: "Abgabe" }).click()
 
