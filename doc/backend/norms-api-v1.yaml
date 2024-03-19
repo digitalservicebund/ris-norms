@@ -83,7 +83,7 @@ paths:
 
   /amending-laws/{eli}/articles/{eid}:
     get:
-      summary: Get a specific article by eli for a given amending law
+      summary: Get a specific article by eid for a given amending law
       parameters:
         - name: eli
           in: path
@@ -94,7 +94,7 @@ paths:
         - name: eid
           in: path
           required: true
-          description: ELI of the article
+          description: EID of the article
           schema:
             type: string
       responses:
