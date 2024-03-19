@@ -9,15 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate-gradle-wrapper:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Validate gradle wrapper
-        uses: gradle/wrapper-validation-action@85cde3f5a1033b2adc2442631c24b530f1183a1a
-
   backend-determine-library-updates:
-    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
