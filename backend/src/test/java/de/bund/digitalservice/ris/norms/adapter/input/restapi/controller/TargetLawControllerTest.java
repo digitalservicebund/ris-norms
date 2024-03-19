@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -9,6 +10,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
@@ -16,8 +21,10 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUs
 import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
+import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -164,6 +171,38 @@ class TargetLawControllerTest {
                 .content(amendingLaw)
                 .contentType(MediaType.APPLICATION_XML))
         .andExpect(status().is5xxServerError());
+  }
+
+  @Test
+  void expectStacktraceWhenParsingExceptionOccurs() throws Exception {
+    // Given
+    MemoryAppender memoryAppender;
+
+    Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+    memoryAppender = new MemoryAppender();
+    memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
+    logger.setLevel(Level.ALL);
+    logger.addAppender(memoryAppender);
+    memoryAppender.start();
+
+    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    final String amendingLaw =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
+
+    when(timeMachineUseCase.applyTimeMachine(any()))
+        .thenThrow(new XmlProcessingException("message with individual cause", new Exception()));
+
+    // When // Then
+    mockMvc
+        .perform(
+            post("/api/v1/target-laws/{eli}/preview", eli)
+                .content(amendingLaw)
+                .contentType(MediaType.APPLICATION_XML))
+        .andExpect(status().is5xxServerError())
+        .andExpect(
+            result ->
+                assertThat(memoryAppender.contains("message with individual cause", Level.ERROR))
+                    .isTrue());
   }
 
   @Test
