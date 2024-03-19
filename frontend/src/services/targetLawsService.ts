@@ -24,6 +24,19 @@ export async function getTargetLawXmlByEli(eli: string): Promise<string> {
 }
 
 /**
+ * Load the rendered html version of a target law from the api
+ *
+ * @param eli Eli of the target law
+ */
+export async function getTargetLawHtmlByEli(eli: string): Promise<string> {
+  return await apiFetch(`/target-laws/${eli}`, {
+    headers: {
+      Accept: "text/html",
+    },
+  })
+}
+
+/**
  * Save the XML version of a target law to the API.
  *
  * @param eli ELI of the target law
@@ -58,6 +71,26 @@ export async function previewTargetLaw(
     method: "POST",
     headers: {
       Accept: "application/xml",
+      "Content-Type": "application/xml",
+    },
+    body: amendingLawXml,
+  })
+}
+
+/**
+ * Load the rendered HTML preview of the target law after the provided amending law is applied to it.
+ *
+ * @param eli Eli of the target law
+ * @param amendingLawXml XML of the amending law that should be used for creating the preview
+ */
+export async function previewTargetLawAsHtml(
+  eli: string,
+  amendingLawXml: string,
+): Promise<string> {
+  return await apiFetch(`/target-laws/${eli}/preview`, {
+    method: "POST",
+    headers: {
+      Accept: "text/html",
       "Content-Type": "application/xml",
     },
     body: amendingLawXml,
