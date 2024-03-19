@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.flyway.core)
     implementation(libs.apache.commons.compress)
     implementation(libs.spring.security.core)
+    implementation(libs.spring.web)
     implementation(libs.flyway.postgres)
     implementation(libs.jose4j)
     implementation(libs.spring.starter.data.redis)
