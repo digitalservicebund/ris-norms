@@ -2,6 +2,8 @@
 flyway = "10.10.0"
 # @keep
 jacoco = "0.8.11"
+org-springframework = "6.1.5"
+spring-security = "6.2.3"
 org-testcontainers = "1.19.7"
 spring-boot = "3.2.3"
 
@@ -25,12 +27,13 @@ spring-boot-starter-validation = { module = "org.springframework.boot:spring-boo
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.0"
 # CVE-2024-22257
-spring-security-core = "org.springframework.security:spring-security-core:6.2.3"
-spring-security-test = { module = "org.springframework.security:spring-security-test" }
+spring-security-core = { module = "org.springframework.security:spring-security-core", version.ref = "spring-security" }
+spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-security" }
 spring-session-data-redis = { module = "org.springframework.session:spring-session-data-redis" }
 spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
 # CVE-2024-22259
-spring-web = "org.springframework:spring-web:6.1.5"
+spring-web =  "org.springframework:spring-web:6.1.5"
+spring-core = "org.springframework:spring-core:6.1.5"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
