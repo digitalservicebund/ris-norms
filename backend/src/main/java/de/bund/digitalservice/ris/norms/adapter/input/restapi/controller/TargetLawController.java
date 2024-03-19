@@ -131,6 +131,59 @@ public class TargetLawController {
   }
 
   /**
+   * Retrieves the rendered html representation of a target law based on its expression ELI.
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param printAnnouncementGazette DE: "Verkündungsblatt"
+   * @param printAnnouncementYear DE "Verkündungsjahr"
+   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @return A {@link ResponseEntity} containing the retrieved target law.
+   *     <p>Returns HTTP 200 (OK) and the target law as a rendered html if found.
+   *     <p>Returns HTTP 404 (Not Found) if the target law is not found.
+   */
+  @GetMapping(
+      path =
+          "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}",
+      produces = {TEXT_HTML_VALUE})
+  public ResponseEntity<String> getTargetLawHtml(
+      @PathVariable final String printAnnouncementGazette,
+      @PathVariable final String printAnnouncementYear,
+      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype)
+      throws TransformLegalDocMlToHtmlUseCase.XmlTransformationException {
+    final String eli =
+        buildEli(
+            printAnnouncementGazette,
+            printAnnouncementYear,
+            printAnnouncementPage,
+            pointInTime,
+            version,
+            language,
+            subtype);
+    final Optional<String> targetLawXmlOptional =
+        loadTargetLawXmlUseCase.loadTargetLawXml(new LoadTargetLawXmlUseCase.Query(eli));
+
+    if (targetLawXmlOptional.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    final var xml = targetLawXmlOptional.get();
+    final var html =
+        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(eli, xml));
+    return ResponseEntity.ok(html);
+  }
+
+  /**
    * Retrieves the xml preview of a target law after an amending law is applied.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a

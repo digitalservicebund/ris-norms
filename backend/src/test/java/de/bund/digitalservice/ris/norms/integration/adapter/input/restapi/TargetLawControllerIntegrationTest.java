@@ -71,7 +71,44 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
     mockMvc
         .perform(get("/api/v1/target-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML))
         .andExpect(content().string(xml));
+  }
+
+  @Test
+  void itCallsTargetLawServiceAndReturnsTargetLawHtml() throws Exception {
+    // Given
+    final TargetLaw targetLaw =
+        TargetLaw.builder()
+            .eli("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+            .title("Title vom Gesetz")
+            .xml(
+                """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-metadaten.xsd
+                                      http://Inhaltsdaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                  <akn:body>
+                    <akn:p eId="one">text1</akn:p>
+                    <akn:p eId="two">text2</akn:p>
+                  </akn:body>
+                </akn:akomaNtoso>
+                """)
+            .fna("4711")
+            .shortTitle("TitleGesetz")
+            .build();
+    targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
+
+    // When // Then
+    mockMvc
+        .perform(
+            get("/api/v1/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+                .accept(MediaType.TEXT_HTML))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+        .andExpect(
+            content()
+                .string(containsString("<span class=\"p block\" data-eId=\"two\">text2</span>")));
   }
 
   @Test
