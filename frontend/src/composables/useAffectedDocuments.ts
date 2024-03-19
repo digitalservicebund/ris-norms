@@ -47,7 +47,6 @@ export function useAffectedDocuments(
       targetLaws.value = await Promise.all(
         is.map(async ([eli, zf0Eli]) => {
           const targetLaw = await getTargetLawByEli(eli)
-          debugger
           return {
             targetLaw,
             targetLawZf0Eli: zf0Eli,
