@@ -181,6 +181,74 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
                 .content(amendingLawXmlText)
                 .contentType(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML))
         .andExpect(content().string(containsString("<akn:p eId=\"two\">new text</akn:p>")));
+  }
+
+  @Test
+  void itPostsAmendingLawAndReturnsAppliedTargetLawAsHtml() throws Exception {
+    // Given
+    final String amendingLawXmlText =
+        """
+                      <?xml version="1.0" encoding="UTF-8"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-metadaten.xsd
+                                            http://Inhaltsdaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                        <akn:body>
+                          <akn:mod>
+                           In <akn:ref
+               href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph
+               2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
+               <akn:quotedText>new</akn:quotedText>.
+                          </akn:mod>
+
+                          "old" -> "new"
+
+                        </akn:body>
+                      </akn:akomaNtoso>
+                      """
+            .trim();
+
+    final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+    final String title = "Title vom Gesetz";
+    final String targetLawXmlText =
+        """
+                      <?xml version="1.0" encoding="UTF-8"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-metadaten.xsd
+                                            http://Inhaltsdaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                        <akn:body>
+                          <akn:p eId="one">old text</akn:p>
+                          <akn:p eId="two">old text</akn:p>
+                        </akn:body>
+                      </akn:akomaNtoso>
+                      """;
+    final String fna = "4711";
+    final String shortTitle = "TitleGesetz";
+
+    // When
+    final TargetLaw targetLaw =
+        TargetLaw.builder()
+            .eli(targetLawEliShort)
+            .title(title)
+            .xml(targetLawXmlText)
+            .fna(fna)
+            .shortTitle(shortTitle)
+            .build();
+    targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
+
+    // When // Then
+    mockMvc
+        .perform(
+            post("/api/v1/target-laws/{eli}/preview", targetLawEliShort)
+                .content(amendingLawXmlText)
+                .contentType(MediaType.APPLICATION_XML)
+                .accept(MediaType.TEXT_HTML))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+        .andExpect(
+            content()
+                .string(
+                    containsString("<span class=\"p block\" data-eId=\"two\">new text</span>")));
   }
 }

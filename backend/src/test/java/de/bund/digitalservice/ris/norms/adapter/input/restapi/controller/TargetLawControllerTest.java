@@ -17,6 +17,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.Interna
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
@@ -47,6 +48,7 @@ class TargetLawControllerTest {
   @MockBean private LoadTargetLawXmlUseCase loadTargetLawXmlUseCase;
   @MockBean private TimeMachineUseCase timeMachineUseCase;
   @MockBean private UpdateTargetLawUseCase updateTargetLawUseCase;
+  @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
   @Nested
   class GetTargetLaw {
@@ -135,7 +137,9 @@ class TargetLawControllerTest {
       // When // Then
       mockMvc
           .perform(
-              post("/api/v1/target-laws/{eli}/preview", eli).contentType(MediaType.APPLICATION_XML))
+              post("/api/v1/target-laws/{eli}/preview", eli)
+                  .contentType(MediaType.APPLICATION_XML)
+                  .accept(MediaType.APPLICATION_XML))
           .andExpect(status().isBadRequest());
     }
 
@@ -154,7 +158,8 @@ class TargetLawControllerTest {
           .perform(
               post("/api/v1/target-laws/{eli}/preview", eli)
                   .content(amendingLaw)
-                  .contentType(MediaType.APPLICATION_XML))
+                  .contentType(MediaType.APPLICATION_XML)
+                  .accept(MediaType.APPLICATION_XML))
           .andExpect(status().isOk());
 
       verify(timeMachineUseCase, times(1))
@@ -179,7 +184,8 @@ class TargetLawControllerTest {
           .perform(
               post("/api/v1/target-laws/{eli}/preview", eli)
                   .content(amendingLaw)
-                  .contentType(MediaType.APPLICATION_XML))
+                  .contentType(MediaType.APPLICATION_XML)
+                  .accept(MediaType.APPLICATION_XML))
           .andExpect(status().is5xxServerError());
     }
 
@@ -213,6 +219,58 @@ class TargetLawControllerTest {
               result ->
                   assertThat(memoryAppender.contains("message with individual cause", Level.ERROR))
                       .isTrue());
+    }
+  }
+
+  @Nested
+  class GetHtmlPreview {
+    @Test
+    void itReturnsInternalServerErrorWhenThereIsNoAmendingLaw() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      // When // Then
+      mockMvc
+          .perform(
+              post("/api/v1/target-laws/{eli}/preview", eli)
+                  .contentType(MediaType.APPLICATION_XML)
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void itCallsPreviewAndTimeMachineUseCaseAndTransformLegalDocMlToHtmlUseCaseAreCalled()
+        throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<target></target>";
+      final String html = "<div></div>";
+      final String amendingLaw =
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
+
+      when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(Optional.of(xml));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+
+      // When // Then
+      mockMvc
+          .perform(
+              post("/api/v1/target-laws/{eli}/preview", eli)
+                  .content(amendingLaw)
+                  .contentType(MediaType.APPLICATION_XML)
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+          .andExpect(content().string(html));
+
+      verify(timeMachineUseCase, times(1))
+          .applyTimeMachine(
+              argThat(
+                  query ->
+                      query.amendingLawXml().equals(amendingLaw)
+                          && query.targetLawEli().equals(eli)));
+      verify(transformLegalDocMlToHtmlUseCase, times(1))
+          .transformLegalDocMlToHtml(
+              argThat(query -> query.eli().equals(eli) && query.xml().equals(xml)));
     }
   }
 

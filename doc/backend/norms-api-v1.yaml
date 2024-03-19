@@ -176,6 +176,9 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
+            text/html:
+              schema:
+                type: string
 
 
 components:
