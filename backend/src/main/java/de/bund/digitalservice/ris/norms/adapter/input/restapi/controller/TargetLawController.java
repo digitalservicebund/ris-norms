@@ -41,8 +41,7 @@ public class TargetLawController {
   }
 
   /**
-   * Retrieves a target law based on its expression ELI. The ELI's components are interpreted as
-   * query parameters.
+   * Retrieves a target law based on its expression ELI.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
@@ -88,8 +87,7 @@ public class TargetLawController {
   }
 
   /**
-   * Retrieves the xml representation of a target law based on its expression ELI. The ELI's
-   * components are interpreted as query parameters.
+   * Retrieves the xml representation of a target law based on its expression ELI.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
@@ -134,8 +132,7 @@ public class TargetLawController {
   }
 
   /**
-   * Retrieves the xml preview of a target law after an amending law is applied. The ELI's
-   * components are interpreted as query parameters.
+   * Retrieves the xml preview of a target law after an amending law is applied.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
@@ -184,7 +181,7 @@ public class TargetLawController {
   }
 
   /**
-   * Updates a target law. The ELI's components are interpreted as query parameters.
+   * Updates a target law.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
