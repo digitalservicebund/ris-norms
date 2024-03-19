@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -23,6 +23,7 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import java.util.Optional;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,218 +48,233 @@ class TargetLawControllerTest {
   @MockBean private TimeMachineUseCase timeMachineUseCase;
   @MockBean private UpdateTargetLawUseCase updateTargetLawUseCase;
 
-  @Test
-  void itCallsloadTargetLawWithExpressionEliFromQuery() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    when(loadTargetLawUseCase.loadTargetLaw(any())).thenReturn(Optional.empty());
+  @Nested
+  class GetTargetLaw {
+    @Test
+    void itCallsloadTargetLawWithExpressionEliFromQuery() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      when(loadTargetLawUseCase.loadTargetLaw(any())).thenReturn(Optional.empty());
 
-    // When
-    mockMvc.perform(get("/api/v1/target-laws/{eli}", eli));
+      // When
+      mockMvc.perform(get("/api/v1/target-laws/{eli}", eli));
 
-    // Then
-    verify(loadTargetLawUseCase, times(1)).loadTargetLaw(argThat(query -> query.eli().equals(eli)));
+      // Then
+      verify(loadTargetLawUseCase, times(1))
+          .loadTargetLaw(argThat(query -> query.eli().equals(eli)));
+    }
+
+    @Test
+    void itCallsTargetServiceAndReturnsTargetLaw() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String title = "Title vom Gesetz";
+      final String xml = "<target></target>";
+
+      // When
+      final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
+
+      when(loadTargetLawUseCase.loadTargetLaw(any())).thenReturn(Optional.of(targetLaw));
+
+      // When // Then
+      mockMvc
+          .perform(get("/api/v1/target-laws/{eli}", eli))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("eli").value(equalTo(eli)))
+          .andExpect(jsonPath("title").value(equalTo(title)))
+          .andExpect(jsonPath("xml").doesNotExist());
+    }
+
+    @Test
+    void itCallsTargetLawServiceAndReturnsNotFound() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      when(loadTargetLawUseCase.loadTargetLaw(any())).thenReturn(Optional.empty());
+
+      // When // Then
+      mockMvc.perform(get("/api/v1/target-laws/{eli}", eli)).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void itCallsloadAmendingLawAndReturnsInternalError() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      when(loadTargetLawUseCase.loadTargetLaw(any()))
+          .thenThrow(new RuntimeException("simulating internal server error"));
+
+      // When // Then
+      mockMvc.perform(get("/api/v1/target-laws/{eli}", eli)).andExpect(status().is5xxServerError());
+    }
   }
 
-  @Test
-  void itCallsTargetServiceAndReturnsTargetLaw() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    final String title = "Title vom Gesetz";
-    final String xml = "<target></target>";
+  @Nested
+  class GetTargetLawXml {
+    @Test
+    void itCallsTargetServiceAndReturnsTargetLawXml() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<target></target>";
 
-    // When
-    final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
+      when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
 
-    when(loadTargetLawUseCase.loadTargetLaw(any())).thenReturn(Optional.of(targetLaw));
-
-    // When // Then
-    mockMvc
-        .perform(get("/api/v1/target-laws/{eli}", eli))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("eli").value(equalTo(eli)))
-        .andExpect(jsonPath("title").value(equalTo(title)))
-        .andExpect(jsonPath("xml").doesNotExist());
+      // When // Then
+      mockMvc
+          .perform(get("/api/v1/target-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(content().string(xml));
+    }
   }
 
-  @Test
-  void itCallsTargetLawServiceAndReturnsNotFound() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    when(loadTargetLawUseCase.loadTargetLaw(any())).thenReturn(Optional.empty());
+  @Nested
+  class GetPreview {
+    @Test
+    void itReturnsInternalServerErrorWhenThereIsNoAmendingLaw() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
-    // When // Then
-    mockMvc.perform(get("/api/v1/target-laws/{eli}", eli)).andExpect(status().isNotFound());
+      // When // Then
+      mockMvc
+          .perform(
+              post("/api/v1/target-laws/{eli}/preview", eli).contentType(MediaType.APPLICATION_XML))
+          .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void itCallsPreviewAndTimeMachineServiceIsCalled() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<target></target>";
+      final String amendingLaw =
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
+
+      when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(Optional.of(xml));
+
+      // When // Then
+      mockMvc
+          .perform(
+              post("/api/v1/target-laws/{eli}/preview", eli)
+                  .content(amendingLaw)
+                  .contentType(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk());
+
+      verify(timeMachineUseCase, times(1))
+          .applyTimeMachine(
+              argThat(
+                  query ->
+                      query.amendingLawXml().equals(amendingLaw)
+                          && query.targetLawEli().equals(eli)));
+    }
+
+    @Test
+    void returnsHttps500OnModificationException() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String amendingLaw =
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
+
+      when(timeMachineUseCase.applyTimeMachine(any())).thenThrow(XmlProcessingException.class);
+
+      // When // Then
+      mockMvc
+          .perform(
+              post("/api/v1/target-laws/{eli}/preview", eli)
+                  .content(amendingLaw)
+                  .contentType(MediaType.APPLICATION_XML))
+          .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    void expectStacktraceWhenParsingExceptionOccurs() throws Exception {
+      // Given
+      MemoryAppender memoryAppender;
+
+      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      memoryAppender = new MemoryAppender();
+      memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
+      logger.setLevel(Level.ALL);
+      logger.addAppender(memoryAppender);
+      memoryAppender.start();
+
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String amendingLaw =
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
+
+      when(timeMachineUseCase.applyTimeMachine(any()))
+          .thenThrow(new XmlProcessingException("message with individual cause", new Exception()));
+
+      // When // Then
+      mockMvc
+          .perform(
+              post("/api/v1/target-laws/{eli}/preview", eli)
+                  .content(amendingLaw)
+                  .contentType(MediaType.APPLICATION_XML))
+          .andExpect(status().is5xxServerError())
+          .andExpect(
+              result ->
+                  assertThat(memoryAppender.contains("message with individual cause", Level.ERROR))
+                      .isTrue());
+    }
   }
 
-  @Test
-  void itCallsloadAmendingLawAndReturnsInternalError() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    when(loadTargetLawUseCase.loadTargetLaw(any()))
-        .thenThrow(new RuntimeException("simulating internal server error"));
+  @Nested
+  class UpdateTargetLaw {
+    @Test
+    void itSendsAnUpdatedTargetLawWhichIsSavedAndReturned() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String targetLawXml = "<target></target>";
 
-    // When // Then
-    mockMvc.perform(get("/api/v1/target-laws/{eli}", eli)).andExpect(status().is5xxServerError());
-  }
+      when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.of(targetLawXml));
 
-  @Test
-  void itCallsTargetServiceAndReturnsTargetLawXml() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    final String xml = "<target></target>";
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/target-laws/{eli}", eli)
+                  .content(targetLawXml)
+                  .contentType(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk());
 
-    when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
+      verify(updateTargetLawUseCase, times(1))
+          .updateTargetLaw(
+              argThat(
+                  query ->
+                      query.newTargetLawXml().equals(targetLawXml) && query.eli().equals(eli)));
+    }
 
-    // When // Then
-    mockMvc
-        .perform(get("/api/v1/target-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
-        .andExpect(status().isOk())
-        .andExpect(content().string(xml));
-  }
+    @Test
+    void itReturn404whenLawIsNotFound() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String targetLawXml = "<target></target>";
 
-  @Test
-  void itReturnsInternalServerErrorWhenThereIsNoAmendingLaw() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.empty());
 
-    // When // Then
-    mockMvc
-        .perform(
-            post("/api/v1/target-laws/{eli}/preview", eli).contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().isBadRequest());
-  }
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/target-laws/{eli}", eli)
+                  .content(targetLawXml)
+                  .contentType(MediaType.APPLICATION_XML))
+          .andExpect(status().isNotFound());
 
-  @Test
-  void itCallsPreviewAndTimeMachineServiceIsCalled() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    final String xml = "<target></target>";
-    final String amendingLaw =
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
+      verify(updateTargetLawUseCase, times(1))
+          .updateTargetLaw(
+              argThat(
+                  query ->
+                      query.newTargetLawXml().equals(targetLawXml) && query.eli().equals(eli)));
+    }
 
-    when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(Optional.of(xml));
+    @Test
+    void itReturnBadRequestWhenThereIsNoTargetLawXmlProvided() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
-    // When // Then
-    mockMvc
-        .perform(
-            post("/api/v1/target-laws/{eli}/preview", eli)
-                .content(amendingLaw)
-                .contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().isOk());
+      when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.empty());
 
-    verify(timeMachineUseCase, times(1))
-        .applyTimeMachine(
-            argThat(
-                query ->
-                    query.amendingLawXml().equals(amendingLaw)
-                        && query.targetLawEli().equals(eli)));
-  }
-
-  @Test
-  void returnsHttps500OnModificationException() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    final String amendingLaw =
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
-
-    when(timeMachineUseCase.applyTimeMachine(any())).thenThrow(XmlProcessingException.class);
-
-    // When // Then
-    mockMvc
-        .perform(
-            post("/api/v1/target-laws/{eli}/preview", eli)
-                .content(amendingLaw)
-                .contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().is5xxServerError());
-  }
-
-  @Test
-  void expectStacktraceWhenParsingExceptionOccurs() throws Exception {
-    // Given
-    MemoryAppender memoryAppender;
-
-    Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
-    memoryAppender = new MemoryAppender();
-    memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
-    logger.setLevel(Level.ALL);
-    logger.addAppender(memoryAppender);
-    memoryAppender.start();
-
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    final String amendingLaw =
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
-
-    when(timeMachineUseCase.applyTimeMachine(any()))
-        .thenThrow(new XmlProcessingException("message with individual cause", new Exception()));
-
-    // When // Then
-    mockMvc
-        .perform(
-            post("/api/v1/target-laws/{eli}/preview", eli)
-                .content(amendingLaw)
-                .contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().is5xxServerError())
-        .andExpect(
-            result ->
-                assertThat(memoryAppender.contains("message with individual cause", Level.ERROR))
-                    .isTrue());
-  }
-
-  @Test
-  void itSendsAnUpdatedTargetLawWhichIsSavedAndReturned() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    final String targetLawXml = "<target></target>";
-
-    when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.of(targetLawXml));
-
-    // When // Then
-    mockMvc
-        .perform(
-            put("/api/v1/target-laws/{eli}", eli)
-                .content(targetLawXml)
-                .contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().isOk());
-
-    verify(updateTargetLawUseCase, times(1))
-        .updateTargetLaw(
-            argThat(
-                query -> query.newTargetLawXml().equals(targetLawXml) && query.eli().equals(eli)));
-  }
-
-  @Test
-  void itReturn404whenLawIsNotFound() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-    final String targetLawXml = "<target></target>";
-
-    when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.empty());
-
-    // When // Then
-    mockMvc
-        .perform(
-            put("/api/v1/target-laws/{eli}", eli)
-                .content(targetLawXml)
-                .contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().isNotFound());
-
-    verify(updateTargetLawUseCase, times(1))
-        .updateTargetLaw(
-            argThat(
-                query -> query.newTargetLawXml().equals(targetLawXml) && query.eli().equals(eli)));
-  }
-
-  @Test
-  void itReturnBadRequestWhenThereIsNoTargetLawXmlProvided() throws Exception {
-    // Given
-    final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-
-    when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.empty());
-
-    // When // Then
-    mockMvc
-        .perform(put("/api/v1/target-laws/{eli}", eli).contentType(MediaType.APPLICATION_XML))
-        .andExpect(status().isBadRequest());
+      // When // Then
+      mockMvc
+          .perform(put("/api/v1/target-laws/{eli}", eli).contentType(MediaType.APPLICATION_XML))
+          .andExpect(status().isBadRequest());
+    }
   }
 }
