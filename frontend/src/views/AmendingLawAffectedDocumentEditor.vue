@@ -10,6 +10,7 @@ import { ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import { getTargetLawHtmlByEli } from "@/services/targetLawsService"
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import { FetchError } from "ofetch"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -45,7 +46,19 @@ async function handleSave() {
 
 const previewHtml = ref("")
 async function handleGeneratePreview() {
-  previewHtml.value = await getTargetLawHtmlByEli(affectedDocumentEli.value)
+  try {
+    previewHtml.value = await getTargetLawHtmlByEli(affectedDocumentEli.value)
+  } catch (e) {
+    if (
+      e instanceof FetchError &&
+      e.status == 500 &&
+      e.data !== "Internal Server Error"
+    ) {
+      previewHtml.value = e.data
+    } else {
+      throw e
+    }
+  }
 }
 </script>
 
