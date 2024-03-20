@@ -7,23 +7,18 @@ on:
         default: chromium
 
 jobs:
-  validate-gradle-wrapper:
+  e2e-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@85cde3f5a1033b2adc2442631c24b530f1183a1a
-
-  e2e-tests:
-    needs: [validate-gradle-wrapper]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: "21.0"
           distribution: "temurin"
+          cache: gradle
       - name: Start PostgreSQL
         run: docker compose up --detach postgres14 redis
       - name: Start backend in the background (via .gradlew and nohup)

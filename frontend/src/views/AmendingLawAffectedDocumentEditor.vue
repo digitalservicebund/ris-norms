@@ -8,6 +8,9 @@ import { useTargetLaw } from "@/composables/useTargetLaw"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
+import { getTargetLawHtmlByEli } from "@/services/targetLawsService"
+import RisLawPreview from "@/components/RisLawPreview.vue"
+import { FetchError } from "ofetch"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -40,11 +43,28 @@ async function handleSave() {
     console.error(error)
   }
 }
+
+const previewHtml = ref("")
+async function handleGeneratePreview() {
+  try {
+    previewHtml.value = await getTargetLawHtmlByEli(affectedDocumentEli.value)
+  } catch (e) {
+    if (
+      e instanceof FetchError &&
+      e.status == 500 &&
+      e.data !== "Internal Server Error"
+    ) {
+      previewHtml.value = e.data
+    } else {
+      throw e
+    }
+  }
+}
 </script>
 
 <template>
   <div v-if="amendingLaw">
-    <RisAmendingLawInfoHeader :amending-law />
+    <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
 
     <RouterLink
       class="ds-link-01-bold -mb-28 inline-flex h-80 items-center gap-12 px-40 text-blue-800"
@@ -74,8 +94,7 @@ async function handleSave() {
           size="small"
           variant="tertiary"
           class="h-fit flex-none self-end"
-          disabled
-          @click="() => {}"
+          @click="handleGeneratePreview"
         />
       </div>
 
@@ -101,12 +120,8 @@ async function handleSave() {
           <h3 id="affectedDocumentPreview" class="ds-label-02-bold">
             Vorschau
           </h3>
-          <RisCodeEditor
-            class="flex-grow"
-            readonly
-            :editable="false"
-            :initial-content="targetLawXml ?? ''"
-          />
+
+          <RisLawPreview class="flex-grow" :content="previewHtml" />
         </section>
       </div>
     </div>

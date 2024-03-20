@@ -158,8 +158,7 @@ public class TargetLawController {
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
-      @PathVariable final String subtype)
-      throws TransformLegalDocMlToHtmlUseCase.XmlTransformationException {
+      @PathVariable final String subtype) {
     final String eli =
         buildEli(
             printAnnouncementGazette,
@@ -172,15 +171,21 @@ public class TargetLawController {
     final Optional<String> targetLawXmlOptional =
         loadTargetLawXmlUseCase.loadTargetLawXml(new LoadTargetLawXmlUseCase.Query(eli));
 
-    if (targetLawXmlOptional.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    final var xml = targetLawXmlOptional.get();
-    final var html =
-        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query(eli, xml));
-    return ResponseEntity.ok(html);
+    return targetLawXmlOptional
+        .map(
+            (xml) -> {
+              try {
+                var html =
+                    this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                        new TransformLegalDocMlToHtmlUseCase.Query(eli, xml));
+                return ResponseEntity.ok(html);
+              } catch (TransformLegalDocMlToHtmlUseCase.XmlTransformationException e) {
+                return ResponseEntity.internalServerError()
+                    .contentType(TEXT_PLAIN)
+                    .body(e.getMessage());
+              }
+            })
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   /**

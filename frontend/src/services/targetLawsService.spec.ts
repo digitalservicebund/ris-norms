@@ -64,6 +64,32 @@ describe("targetLawsService", () => {
     })
   })
 
+  describe("getTargetLawHtmlByEli(eli)", () => {
+    it("provides the data from the api", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<span></span>`)
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { getTargetLawHtmlByEli } = await import("./targetLawsService")
+
+      const result = await getTargetLawHtmlByEli(
+        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+      )
+      expect(result).toBe("<span></span>")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Accept: "text/html",
+          }),
+        }),
+      )
+    })
+  })
+
   describe("putTargetLawXml(eli, xml)", () => {
     it("sends the data to the API", async () => {
       const fetchMock = vi
@@ -119,6 +145,36 @@ describe("targetLawsService", () => {
           body: "<xml></xml>",
           headers: expect.objectContaining({
             Accept: "application/xml",
+            "Content-Type": "application/xml",
+          }),
+        }),
+      )
+    })
+  })
+
+  describe("previewTargetLawAsHtml(eli, xml)", () => {
+    it("calls the api correctly", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<span></span>`)
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { previewTargetLawAsHtml } = await import("./targetLawsService")
+
+      const result = await previewTargetLawAsHtml(
+        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        "<xml></xml>",
+      )
+      expect(result).toBe("<span></span>")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview",
+        expect.objectContaining({
+          method: "POST",
+          body: "<xml></xml>",
+          headers: expect.objectContaining({
+            Accept: "text/html",
             "Content-Type": "application/xml",
           }),
         }),

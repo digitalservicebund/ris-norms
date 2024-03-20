@@ -61,6 +61,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
 
+  /amending-laws/{eli}/release:
+    put:
+      summary: Release the XML of an specific amending law by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the amending law
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully released an amending law
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TargetLawList'
+
   /amending-laws/{eli}/articles:
     get:
       summary: Get a list of articles for a specific amending law by eli
@@ -125,6 +143,9 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
+            text/html:
+              schema:
+                type: string
     put:
       summary: Update a specific target law by eli
       parameters:
@@ -221,6 +242,14 @@ components:
           type: string
         title:
           type: string
+
+    TargetLawList:
+      type: array
+      items:
+        type: object
+        properties:
+          eli:
+            type: string
 
     LegalDocML.de:
       type: object

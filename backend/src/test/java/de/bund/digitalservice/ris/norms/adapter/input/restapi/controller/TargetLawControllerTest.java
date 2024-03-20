@@ -151,6 +151,25 @@ class TargetLawControllerTest {
           .transformLegalDocMlToHtml(
               argThat(query -> query.eli().equals(eli) && query.xml().equals(xml)));
     }
+
+    @Test
+    void itReturnsXmlTransformationExceptions() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<target";
+
+      when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
+          .thenThrow(
+              new TransformLegalDocMlToHtmlUseCase.XmlTransformationException("XML Exception"));
+
+      // When // Then
+      mockMvc
+          .perform(get("/api/v1/target-laws/{eli}", eli).accept(MediaType.TEXT_HTML))
+          .andExpect(status().is5xxServerError())
+          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
+          .andExpect(content().string("XML Exception"));
+    }
   }
 
   @Nested
