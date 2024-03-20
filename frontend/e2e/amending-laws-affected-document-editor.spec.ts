@@ -12,7 +12,7 @@ test(`navigate to affected document metadata editor`, async ({ page }) => {
   )
 })
 
-test(`see affected document title and xmls`, async ({ page }) => {
+test(`see affected document title and xml`, async ({ page }) => {
   await page.goto(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/edit`,
   )
@@ -31,13 +31,19 @@ test(`see affected document title and xmls`, async ({ page }) => {
       '<akn:meta eId="meta-1" GUID="849a7fcc-fa01-4b64-92d9-4843520d5db1">',
     )
   await expect(targetLawEditor).toBeVisible()
+})
 
-  // part of the XML of the preview (Änderung des Vereinsgesetzes)
+test(`load preview`, async ({ page }) => {
+  await page.goto(
+    `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/edit`,
+  )
+
+  await page.getByRole("button", { name: "Vorschau generieren" }).click()
+
+  // part of the rendered html of the preview
   const targetLawPreview = page
     .getByRole("region", { name: "Vorschau" })
-    .getByText(
-      '<akn:meta eId="meta-1" GUID="849a7fcc-fa01-4b64-92d9-4843520d5db1">',
-    )
+    .getByText("§ 9 Kennzeichenverbot")
   await expect(targetLawPreview).toBeVisible()
 })
 
