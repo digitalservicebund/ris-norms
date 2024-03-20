@@ -5,9 +5,9 @@ defineProps<{
 </script>
 
 <template>
-  <div class="overflow-auto bg-white p-8">
+  <div class="ds-textarea overflow-hidden p-2">
     <!-- eslint-disable-next-line vue/no-v-html -->
-    <div v-html="content"></div>
+    <div class="flex h-full overflow-auto bg-white p-8" v-html="content"></div>
   </div>
 </template>
 
