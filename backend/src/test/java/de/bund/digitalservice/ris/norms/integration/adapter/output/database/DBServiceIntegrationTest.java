@@ -12,7 +12,9 @@ import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -439,5 +441,46 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     assertThat(updatedXmlOptional)
         .isPresent()
         .satisfies(updatedXml -> assertThat(updatedXml).contains(newXml));
+  }
+
+  @Test
+  void itSetsReleasedAtOfAmendingLaw() {
+    // Given
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<test></test>";
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1, article2))
+            .xml(xml)
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    // When
+    final Timestamp timestampNow = new Timestamp(new Date().getTime());
+    final Optional<Timestamp> releaseTimestampOptional =
+        dbService.setAmendingLawReleasedAt(
+            new SetAmendingLawReleasedAtTimestampPort.Command(eli, timestampNow));
+
+    // Then
+    assertThat(releaseTimestampOptional)
+        .isPresent()
+        .satisfies(
+            releaseTimestamp ->
+                assertThat(timestampNow.toString().equals(releaseTimestampOptional.toString())));
   }
 }
