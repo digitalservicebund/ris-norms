@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import jakarta.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +34,8 @@ public class DBService
         LoadTargetLawPort,
         LoadTargetLawXmlPort,
         UpdateTargetLawXmlPort,
-        UpdateAmendingLawXmlPort {
+        UpdateAmendingLawXmlPort,
+        SetAmendingLawReleasedAtTimestampPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -121,4 +123,17 @@ public class DBService
               return targetLawRepository.save(targetLawDto).getXml();
             });
   }
+
+  @Override
+  public Optional<Timestamp> setAmendingLawReleasedAt(
+      SetAmendingLawReleasedAtTimestampPort.Command command) {
+    return amendingLawRepository
+        .findByEli(command.eli())
+        .map(
+            amendingLawDto -> {
+              amendingLawDto.setReleasedAt(command.timestamp());
+              return amendingLawRepository.save(amendingLawDto).getReleasedAt();
+            });
+  }
+  ;
 }

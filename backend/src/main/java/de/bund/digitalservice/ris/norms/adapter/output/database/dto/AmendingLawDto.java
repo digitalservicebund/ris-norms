@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -46,6 +47,9 @@ public class AmendingLawDto {
   @NotNull @Column private String title;
 
   @NotNull @Column private String xml;
+
+  @Column(name = "released_at")
+  private Timestamp releasedAt;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "amending_law_id", nullable = false)
