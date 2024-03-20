@@ -7,9 +7,11 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.AmendingLaw
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TargetEliResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +38,8 @@ public class AmendingLawController {
   private final LoadArticlesUseCase loadArticlesUseCase;
   private final LoadArticleUseCase loadArticleUseCase;
   private final UpdateAmendingLawXmlUseCase updateAmendingLawXmlUseCase;
+  private final ReleaseAmendingLawAndAllRelatedTargetLawsUseCase
+      releaseAmendingLawAndAllRelatedTargetLawsUseCase;
 
   public AmendingLawController(
       LoadAmendingLawUseCase loadAmendingLawUseCase,
@@ -43,13 +47,17 @@ public class AmendingLawController {
       LoadAllAmendingLawsUseCase loadAllAmendingLawsUseCase,
       LoadArticlesUseCase loadArticlesUseCase,
       LoadArticleUseCase loadArticleUseCase,
-      UpdateAmendingLawXmlUseCase updateAmendingLawXmlUseCase) {
+      UpdateAmendingLawXmlUseCase updateAmendingLawXmlUseCase,
+      ReleaseAmendingLawAndAllRelatedTargetLawsUseCase
+          releaseAmendingLawAndAllRelatedTargetLawsUseCase) {
     this.loadAmendingLawUseCase = loadAmendingLawUseCase;
     this.loadAmendingLawXmlUseCase = loadAmendingLawXmlUseCase;
     this.loadAllAmendingLawsUseCase = loadAllAmendingLawsUseCase;
     this.loadArticlesUseCase = loadArticlesUseCase;
     this.loadArticleUseCase = loadArticleUseCase;
     this.updateAmendingLawXmlUseCase = updateAmendingLawXmlUseCase;
+    this.releaseAmendingLawAndAllRelatedTargetLawsUseCase =
+        releaseAmendingLawAndAllRelatedTargetLawsUseCase;
   }
 
   /**
@@ -301,6 +309,56 @@ public class AmendingLawController {
         .map(ArticleResponseMapper::fromUseCaseData)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Releases an amending law based on its expression ELI. The ELI's components are interpreted as
+   * query parameters.
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param printAnnouncementGazette DE: "Verkündungsblatt"
+   * @param printAnnouncementYear DE "Verkündungsjahr"
+   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @return A {@link ResponseEntity} containing the elis of the affected target laws.
+   *     <p>Returns HTTP 200 (OK) and the amending law's data if found.
+   *     <p>Returns HTTP 404 (Not Found) if the amending law respectively it's target laws are not
+   *     found.
+   */
+  @PutMapping(
+      path =
+          "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/release",
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<List<TargetEliResponseSchema>> releaseAmendingLaw(
+      @PathVariable final String printAnnouncementGazette,
+      @PathVariable final String printAnnouncementYear,
+      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype) {
+    final String eli =
+        buildEli(
+            printAnnouncementGazette,
+            printAnnouncementYear,
+            printAnnouncementPage,
+            pointInTime,
+            version,
+            language,
+            subtype);
+    final List<TargetLaw> targetLawElis =
+        releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(
+            new ReleaseAmendingLawAndAllRelatedTargetLawsUseCase.Query(eli));
+    if (targetLawElis.isEmpty()) return ResponseEntity.notFound().build();
+
+    final List<TargetEliResponseSchema> result =
+        targetLawElis.stream().map(t -> new TargetEliResponseSchema(t.getEli())).toList();
+    return ResponseEntity.ok(result);
   }
 
   @NotNull

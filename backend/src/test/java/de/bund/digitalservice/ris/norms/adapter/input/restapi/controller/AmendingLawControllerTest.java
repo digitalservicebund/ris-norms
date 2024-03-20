@@ -41,6 +41,10 @@ class AmendingLawControllerTest {
   @MockBean private LoadArticleUseCase loadArticleUseCase;
   @MockBean private UpdateAmendingLawXmlUseCase updateAmendingLawXmlUseCase;
 
+  @MockBean
+  private ReleaseAmendingLawAndAllRelatedTargetLawsUseCase
+      releaseAmendingLawAndAllRelatedTargetLawsUseCase;
+
   @Test
   void itCallsloadAmendingLawWithExpressionEliFromQuery() throws Exception {
     // Given
@@ -279,7 +283,7 @@ class AmendingLawControllerTest {
   }
 
   @Test
-  void itCallsTargetServiceAndReturnsTargetLawXml() throws Exception {
+  void itCallsLoadAmendingLawXmlAndReturnsAmendingLawXml() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String xml = "<target></target>";
@@ -375,5 +379,36 @@ class AmendingLawControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML_VALUE))
         .andExpect(content().xml(xml));
+  }
+
+  @Test
+  void itCallsReleaseAmendingLawAndReturnsNotFound() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+
+    when(releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(any()))
+        .thenReturn(Collections.emptyList());
+
+    // When // Then
+    mockMvc
+        .perform(put("/api/v1/amending-laws/{eli}/release", eli))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  void itCallsReleaseAmendingLawAndReturnsElisOfTargetLaws() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    when(releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(any()))
+        .thenReturn(
+            List.of(
+                TargetLaw.builder().eli("eli1").build(), TargetLaw.builder().eli("eli2").build()));
+
+    // When // Then
+    mockMvc
+        .perform(put("/api/v1/amending-laws/{eli}/release", eli))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].eli", equalTo("eli1")))
+        .andExpect(jsonPath("$[1].eli", equalTo("eli2")));
   }
 }
