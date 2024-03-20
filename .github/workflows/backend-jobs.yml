@@ -20,21 +20,16 @@ jobs:
         uses: gradle/wrapper-validation-action@85cde3f5a1033b2adc2442631c24b530f1183a1a
 
   backend-build:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Get Gradle version
-        working-directory: ./backend
-        run: |
-          echo "GRADLE_VERSION=$(sed -n 's/.*gradle-\([0-9]*\(\.[0-9]*\)*\)-.*/\1/p' ./gradle/wrapper/gradle-wrapper.properties)" >> $GITHUB_ENV
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: "21.0"
           distribution: "temurin"
-      - uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
+          cache: gradle
       - name: Build backend
         working-directory: ./backend
         run: ./gradlew build --profile -x integrationTest -x test
@@ -50,21 +45,16 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   backend-unit-tests:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Get Gradle version
-        working-directory: ./backend
-        run: |
-          echo "GRADLE_VERSION=$(sed -n 's/.*gradle-\([0-9]*\(\.[0-9]*\)*\)-.*/\1/p' ./gradle/wrapper/gradle-wrapper.properties)" >> $GITHUB_ENV
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: "21.0"
           distribution: "temurin"
-      - uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION}}
+          cache: gradle
       - name: Run unit tests
         working-directory: ./backend
         run: ./gradlew test -x integrationTest
@@ -75,21 +65,16 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   backend-integration-tests:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Get Gradle version
-        working-directory: ./backend
-        run: |
-          echo "GRADLE_VERSION=$(sed -n 's/.*gradle-\([0-9]*\(\.[0-9]*\)*\)-.*/\1/p' ./gradle/wrapper/gradle-wrapper.properties)" >> $GITHUB_ENV
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: "21.0"
           distribution: "temurin"
-      - uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
+          cache: gradle
       - name: Run integration tests
         working-directory: ./backend
         run: ./gradlew integrationTest -x test
@@ -100,22 +85,16 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   audit-licenses-backend:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Get Gradle version
-        working-directory: ./backend
-        run: |
-          echo "GRADLE_VERSION=$(sed -n 's/.*gradle-\([0-9]*\(\.[0-9]*\)*\)-.*/\1/p' ./gradle/wrapper/gradle-wrapper.properties)" >> $GITHUB_ENV
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: "21.0"
           distribution: "temurin"
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION}}
+          cache: gradle
       - name: Check licenses
         working-directory: ./backend
         run: ./gradlew checkLicense
@@ -132,30 +111,24 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   analyze-backend:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Get Gradle version
-        working-directory: ./backend
-        run: |
-          echo "GRADLE_VERSION=$(sed -n 's/.*gradle-\([0-9]*\(\.[0-9]*\)*\)-.*/\1/p' ./gradle/wrapper/gradle-wrapper.properties)" >> $GITHUB_ENV
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: "21.0"
           distribution: "temurin"
+          cache: gradle
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
       - name: Scan with SonarQube
         working-directory: ./backend
         env:
@@ -288,23 +261,16 @@ jobs:
 
 
   generate-backend-code-documentation:
+    needs: [validate-gradle-wrapper]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Get Gradle version
-        working-directory: ./backend
-        run: |
-          echo "GRADLE_VERSION=$(sed -n 's/.*gradle-\([0-9]*\(\.[0-9]*\)*\)-.*/\1/p' ./gradle/wrapper/gradle-wrapper.properties)" >> $GITHUB_ENV
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: "21.0"
           distribution: "temurin"
           cache: gradle
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
       - name: Run Javadoc
         working-directory: ./backend
         run: ./gradlew javadoc
