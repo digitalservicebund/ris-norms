@@ -14,7 +14,7 @@ class AmendingLaw{
     printAnnouncementPage: Int
     digitalAnnouncementEdition: Int
     xml: String
-    releaseDate: Date
+    releaseDate: Date | Null
 
 }
 
