@@ -17,8 +17,8 @@ public interface SetAmendingLawReleasedAtTimestampPort {
    *
    * @param command The command specifying the ELI to identify the amending law where we set the
    *     relase timestamp.
-   * @return An {@link Optional} containing the release timestamp of a {@link TargetLaw} if found,
-   *     or empty if not found.
+   * @return An {@link Optional} containing the release timestamp of the {@link AmendingLaw} if
+   *     found, or empty if not found.
    */
   Optional<Timestamp> setAmendingLawReleasedAt(final Command command);
 
