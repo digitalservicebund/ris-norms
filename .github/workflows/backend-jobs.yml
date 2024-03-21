@@ -12,7 +12,7 @@ on:
         type: string
 
 jobs:
-  validate-gradle-wrapper:
+  validate-gradle-wrapper-and-setup-gradle:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
   backend-build:
-    needs: [validate-gradle-wrapper]
+    needs: [validate-gradle-wrapper-and-setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   backend-unit-tests:
-    needs: [validate-gradle-wrapper]
+    needs: [validate-gradle-wrapper-and-setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -67,7 +67,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   backend-integration-tests:
-    needs: [validate-gradle-wrapper]
+    needs: [validate-gradle-wrapper-and-setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -87,7 +87,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   audit-licenses-backend:
-    needs: [validate-gradle-wrapper]
+    needs: [validate-gradle-wrapper-and-setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -113,7 +113,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   analyze-backend:
-    needs: [validate-gradle-wrapper]
+    needs: [validate-gradle-wrapper-and-setup-gradle]
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
@@ -263,7 +263,7 @@ jobs:
 
 
   generate-backend-code-documentation:
-    needs: [validate-gradle-wrapper]
+    needs: [validate-gradle-wrapper-and-setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
