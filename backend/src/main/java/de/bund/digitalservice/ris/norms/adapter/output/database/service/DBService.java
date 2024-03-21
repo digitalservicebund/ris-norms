@@ -12,7 +12,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import jakarta.transaction.Transactional;
-import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +34,8 @@ public class DBService
         LoadTargetLawXmlPort,
         UpdateTargetLawXmlPort,
         UpdateAmendingLawXmlPort,
-        SetAmendingLawReleasedAtTimestampPort {
+        SaveAmendingLawPort,
+        LoadTargetLawsForAmendingLawPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -125,15 +125,16 @@ public class DBService
   }
 
   @Override
-  public Optional<Timestamp> setAmendingLawReleasedAt(
-      SetAmendingLawReleasedAtTimestampPort.Command command) {
-    return amendingLawRepository
-        .findByEli(command.eli())
-        .map(
-            amendingLawDto -> {
-              amendingLawDto.setReleasedAt(command.timestamp());
-              return amendingLawRepository.save(amendingLawDto).getReleasedAt();
-            });
+  public AmendingLaw saveAmendingLawByEli(SaveAmendingLawPort.Command command) {
+    AmendingLawDto amendingLawDto = amendingLawRepository.save(command.amendingLawDto());
+    return AmendingLawMapper.mapToDomain(amendingLawDto);
   }
-  ;
+
+  @Override
+  public List<TargetLaw> loadTargetsLawByAmendingLawEli(
+      LoadTargetLawsForAmendingLawPort.Command command) {
+    List<TargetLawDto> targetLawDtoList =
+        targetLawRepository.findByAmendingLawEli(command.amendingLawEli());
+    return targetLawDtoList.stream().map(TargetLawMapper::mapToDomain).toList();
+  }
 }

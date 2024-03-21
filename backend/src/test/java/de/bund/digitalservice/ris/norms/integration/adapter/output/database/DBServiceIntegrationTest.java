@@ -12,9 +12,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -455,7 +454,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String title = "title";
     final String xml = "<test></test>";
 
-    // When
+    final Instant timestampNow = Instant.now();
     final AmendingLaw amendingLaw =
         AmendingLaw.builder()
             .eli(eli)
@@ -467,20 +466,77 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .title(title)
             .articles(List.of(article1, article2))
             .xml(xml)
+            .releasedAt(timestampNow)
             .build();
-    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
 
     // When
-    final Timestamp timestampNow = new Timestamp(new Date().getTime());
-    final Optional<Timestamp> releaseTimestampOptional =
-        dbService.setAmendingLawReleasedAt(
-            new SetAmendingLawReleasedAtTimestampPort.Command(eli, timestampNow));
+
+    final AmendingLaw amendingLawFromDatabase =
+        dbService.saveAmendingLawByEli(
+            new SaveAmendingLawPort.Command(AmendingLawMapper.mapToDto(amendingLaw)));
 
     // Then
-    assertThat(releaseTimestampOptional)
-        .isPresent()
-        .satisfies(
-            releaseTimestamp ->
-                assertThat(timestampNow.toString().equals(releaseTimestampOptional.toString())));
+    assertThat(amendingLawFromDatabase.getReleasedAt()).isEqualTo(timestampNow);
+  }
+
+  @Test
+  void itGetsTargetLawsOfAmendingLaw() {
+    final TargetLaw targetLawZf0article1 =
+        TargetLaw.builder()
+            .eli("target law eli zf0 article1")
+            .title("target law title zf0 article1")
+            .xml("<test>zf0 article1</test>")
+            .fna("4711")
+            .shortTitle("targetlawzf0")
+            .build();
+
+    final TargetLaw targetLawZf0article2 =
+        TargetLaw.builder()
+            .eli("target law eli zf0 article2")
+            .title("target law title zf0 article2")
+            .xml("<test>zf0 article2</test>")
+            .fna("4711")
+            .shortTitle("targetlawzf0")
+            .build();
+
+    final Article article1 = new Article("1", "eli1", "title1", targetLaw, targetLawZf0article1);
+    final Article article2 = new Article("2", "eli2", "title2", targetLaw, targetLawZf0article2);
+
+    // Given
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<test></test>";
+
+    final Instant timestampNow = Instant.now();
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1, article2))
+            .xml(xml)
+            .releasedAt(timestampNow)
+            .build();
+
+    final AmendingLaw amendingLawFromDatabase =
+        dbService.saveAmendingLawByEli(
+            new SaveAmendingLawPort.Command(AmendingLawMapper.mapToDto(amendingLaw)));
+
+    // when
+    List<TargetLaw> targetLaws =
+        dbService.loadTargetsLawByAmendingLawEli(
+            new LoadTargetLawsForAmendingLawPort.Command(amendingLawFromDatabase.getEli()));
+
+    // Then
+    assertThat(targetLaws).contains(targetLawZf0article1);
   }
 }

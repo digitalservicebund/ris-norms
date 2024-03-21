@@ -27,6 +27,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getDigitalAnnouncementEdition(),
         amendingLawDTO.getTitle(),
         amendingLawDTO.getXml(),
+        amendingLawDTO.getReleasedAt(),
         amendingLawDTO.getArticleDtos().stream().map(ArticleMapper::mapToDomain).toList());
   }
 
@@ -47,6 +48,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getDigitalAnnouncementEdition(),
         amendingLawDTO.getTitle(),
         amendingLawDTO.getXml(),
+        amendingLawDTO.getReleasedAt(),
         null);
   }
 
@@ -70,6 +72,7 @@ public class AmendingLawMapper {
                 .map(articles -> articles.stream().map(ArticleMapper::mapToDto).toList())
                 .orElse(null))
         .xml(amendingLaw.getXml())
+        .releasedAt(amendingLaw.getReleasedAt())
         .build();
   }
 }
