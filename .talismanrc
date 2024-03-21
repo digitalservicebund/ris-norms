@@ -16,4 +16,4 @@ fileignoreconfig:
   - filename: ldml-extension/fixtures/SaatG_regelungstext.xml
     checksum: e764b8f5d4bc8b23962edc59f4939ec5a093b29fb9432684be6b0d0a3612da45
   - filename: docker-compose.yaml
-    checksum: 654f7cceb41d9796f85bf3305bf3c336c27d3487620287bc068f9f42e61a22a3
+    checksum: 9bc83eddb03aedb5d1153dc609412ecc05fb817f199224d8cfb7bd6790224e8f
