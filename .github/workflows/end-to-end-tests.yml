@@ -28,11 +28,11 @@ jobs:
       - name: Load cached Docker images
         if: steps.cache-images.outputs.cache-hit == 'true'
         run: docker load -i /tmp/images.tar || true
-      - name: Start PostgreSQL
+      - name: Start PostgreSQL and Redis
         run: docker compose up --detach postgres14 redis
       - name: Save cached Docker images
         if: steps.cache-images.outputs.cache-hit != 'true'
-        run: docker save -o /tmp/images.tar postgres cgr.dev/chainguard/redis
+        run: docker save -o /tmp/images.tar postgres redis
       - name: Start backend in the background (via .gradlew and nohup)
         run: nohup ./gradlew bootRun > /tmp/nohup.out &
         working-directory: ./backend
