@@ -18,6 +18,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@85cde3f5a1033b2adc2442631c24b530f1183a1a
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
   backend-build:
     needs: [validate-gradle-wrapper]
