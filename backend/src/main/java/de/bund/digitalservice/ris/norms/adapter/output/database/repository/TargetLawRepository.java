@@ -1,12 +1,9 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.TargetLawDto;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -25,8 +22,4 @@ public interface TargetLawRepository extends JpaRepository<TargetLawDto, UUID> {
    *     not found.
    */
   Optional<TargetLawDto> findByEli(final String eli);
-
-  @Query(
-      "SELECT t FROM AmendingLawDto a JOIN a.articleDtos ar JOIN ar.targetLawZf0Dto t  WHERE a.eli = :amendingLawEli")
-  List<TargetLawDto> findByAmendingLawEli(@Param("amendingLawEli") String amendingLawEli);
 }

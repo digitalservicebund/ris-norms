@@ -35,8 +35,7 @@ public class DBService
         UpdateTargetLawXmlPort,
         UpdateAmendingLawXmlPort,
         UpdateAmendingLawPort,
-        SaveAmendingLawPort,
-        LoadTargetLawsForAmendingLawPort {
+        SaveAmendingLawPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -158,13 +157,5 @@ public class DBService
     } else {
       return Optional.empty();
     }
-  }
-
-  @Override
-  public List<TargetLaw> loadTargetsLawByAmendingLawEli(
-      LoadTargetLawsForAmendingLawPort.Command command) {
-    List<TargetLawDto> targetLawDtoList =
-        targetLawRepository.findByAmendingLawEli(command.amendingLawEli());
-    return targetLawDtoList.stream().map(TargetLawMapper::mapToDomain).toList();
   }
 }
