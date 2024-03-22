@@ -34,6 +34,7 @@ public class DBService
         LoadTargetLawXmlPort,
         UpdateTargetLawXmlPort,
         UpdateAmendingLawXmlPort,
+        UpdateAmendingLawPort,
         SaveAmendingLawPort,
         LoadTargetLawsForAmendingLawPort {
 
@@ -128,6 +129,31 @@ public class DBService
   public AmendingLaw saveAmendingLawByEli(SaveAmendingLawPort.Command command) {
     AmendingLawDto amendingLawDto = amendingLawRepository.save(command.amendingLawDto());
     return AmendingLawMapper.mapToDomain(amendingLawDto);
+  }
+
+  @Override
+  @Transactional
+  public AmendingLaw updateAmendingLawByEli(UpdateAmendingLawPort.Command command) {
+    Optional<AmendingLawDto> amendingLawDtoOptional =
+        amendingLawRepository.findByEli(command.amendingLawDto().getEli());
+
+    if (amendingLawDtoOptional.isPresent()) {
+      AmendingLawDto amendingLawDto = amendingLawDtoOptional.get();
+      amendingLawDto.setEli(command.amendingLawDto().getEli());
+      amendingLawDto.setXml(command.amendingLawDto().getXml());
+      amendingLawDto.setTitle(command.amendingLawDto().getTitle());
+      amendingLawDto.setDigitalAnnouncementMedium(
+          command.amendingLawDto().getDigitalAnnouncementMedium());
+      amendingLawDto.setDigitalAnnouncementEdition(
+          command.amendingLawDto().getDigitalAnnouncementEdition());
+      amendingLawDto.setPrintAnnouncementGazette(
+          command.amendingLawDto().getPrintAnnouncementGazette());
+      amendingLawDto.setPrintAnnouncementPage(command.amendingLawDto().getPrintAnnouncementPage());
+      amendingLawDto.setPublicationDate(command.amendingLawDto().getPublicationDate());
+      amendingLawDto.setReleasedAt(command.amendingLawDto().getReleasedAt());
+    }
+    AmendingLawDto amendingLawDtoSaved = amendingLawRepository.save(command.amendingLawDto());
+    return AmendingLawMapper.mapToDomainWithArticles(amendingLawDtoSaved);
   }
 
   @Override

@@ -480,6 +480,84 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
+  void itUpdatesAmendingLaw() {
+    // Given
+    // old amending law
+    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<test></test>";
+    final Instant timestampNow = Instant.now();
+
+    // new amending law
+    final String eli2 = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-12";
+    final String printAnnouncementGazette2 = "someGazette2";
+    final LocalDate publicationDate2 = LocalDate.now();
+    final String printAnnouncementPage2 = "page1232";
+    final String digitalAnnouncementMedium2 = "medium1232";
+    final String digitalAnnouncementEdition2 = "edition1232";
+    final String title2 = "title2";
+    final String xml2 = "<test2></test2>";
+    final Instant timestampNow2 = Instant.now();
+
+    final AmendingLaw amendingLawOld =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1, article2))
+            .xml(xml)
+            .releasedAt(timestampNow)
+            .build();
+
+    dbService.saveAmendingLawByEli(
+        new SaveAmendingLawPort.Command(AmendingLawMapper.mapToDto(amendingLawOld)));
+
+    final AmendingLaw amendingLawNew =
+        AmendingLaw.builder()
+            .eli(eli2)
+            .printAnnouncementGazette(printAnnouncementGazette2)
+            .publicationDate(publicationDate2)
+            .printAnnouncementPage(printAnnouncementPage2)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium2)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition2)
+            .title(title2)
+            .articles(List.of(article1, article2))
+            .xml(xml2)
+            .releasedAt(timestampNow2)
+            .build();
+
+    // When
+
+    final AmendingLaw amendingLawFromDatabase =
+        dbService.updateAmendingLawByEli(
+            new UpdateAmendingLawPort.Command(AmendingLawMapper.mapToDto(amendingLawNew)));
+
+    // Then
+    assertThat(amendingLawFromDatabase.getEli()).isEqualTo(eli2);
+    assertThat(amendingLawFromDatabase.getPrintAnnouncementGazette())
+        .isEqualTo(printAnnouncementGazette2);
+    assertThat(amendingLawFromDatabase.getPublicationDate()).isEqualTo(publicationDate2);
+    assertThat(amendingLawFromDatabase.getPrintAnnouncementPage())
+        .isEqualTo(printAnnouncementPage2);
+    assertThat(amendingLawFromDatabase.getDigitalAnnouncementMedium())
+        .isEqualTo(digitalAnnouncementMedium2);
+    assertThat(amendingLawFromDatabase.getDigitalAnnouncementEdition())
+        .isEqualTo(digitalAnnouncementEdition2);
+    assertThat(amendingLawFromDatabase.getTitle()).isEqualTo(title2);
+    assertThat(amendingLawFromDatabase.getXml()).isEqualTo(xml2);
+    assertThat(amendingLawFromDatabase.getReleasedAt()).isEqualTo(timestampNow2);
+  }
+
+  @Test
   void itGetsTargetLawsOfAmendingLaw() {
     final TargetLaw targetLawZf0article1 =
         TargetLaw.builder()
