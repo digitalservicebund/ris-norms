@@ -2,10 +2,8 @@
 flyway = "10.10.0"
 # @keep
 jacoco = "0.8.11"
-org-springframework = "6.1.5"
-spring-security = "6.2.3"
 org-testcontainers = "1.19.7"
-spring-boot = "3.2.3"
+spring-boot = "3.2.4"
 
 [libraries]
 # CVE-2024-26308
@@ -15,9 +13,10 @@ flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
-lombok = { module = "org.projectlombok:lombok" }
+lombok = "org.projectlombok:lombok:1.18.32"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.11.0"
 postgresql = "org.postgresql:postgresql:42.7.3"
+saxon-he = "net.sf.saxon:Saxon-HE:12.4"
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
@@ -26,18 +25,12 @@ spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-star
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.0"
-# CVE-2024-22257
-spring-security-core = { module = "org.springframework.security:spring-security-core", version.ref = "spring-security" }
-spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-security" }
+spring-security-test = "org.springframework.security:spring-security-test:6.2.3"
 spring-session-data-redis = { module = "org.springframework.session:spring-session-data-redis" }
 spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
-# CVE-2024-22259
-spring-web =  "org.springframework:spring-web:6.1.5"
-spring-core = "org.springframework:spring-core:6.1.5"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
-saxon-he = "net.sf.saxon:Saxon-HE:12.4"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.6"

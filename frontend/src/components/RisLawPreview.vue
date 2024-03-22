@@ -12,61 +12,55 @@ defineProps<{
 </template>
 
 <style scoped>
-:deep(.act) {
+:deep(.akn-act) {
   @apply flex flex-col;
 }
 
-:deep(.preface) {
+:deep(.akn-preface) {
   @apply mb-24;
 }
 
-:deep(.longTitle),
-:deep(.docTitle),
-:deep(.shortTitle) {
-  @apply text-xl;
+:deep(h1) {
+  @apply text-2xl;
 }
 
-:deep(.body) {
+:deep(.akn-body) {
   @apply my-24 flex flex-col gap-24;
 }
 
-:deep(.heading) {
-  @apply text-lg;
-}
-
-:deep(.section) > .num {
-  @apply text-lg;
-}
-
-:deep(.section) > .article {
-  @apply mt-24;
-}
-
-:deep(.article) > .num {
-  @apply text-lg;
-}
-
-:deep(.paragraph) {
-  @apply flex flex-row;
-}
-
-:deep(.paragraph .num) {
-  @apply mr-8;
-}
-
-:deep(.list .point) {
-  @apply mb-4 flex flex-row;
-}
-
-:deep(.list .point .num) {
-  @apply mr-8;
-}
-
-:deep(.conclusions) {
+:deep(.akn-section) {
   @apply flex flex-col gap-24;
 }
 
-:deep(.signature) {
+:deep(.akn-section h2) {
+  @apply text-xl;
+}
+
+:deep(.akn-article h3) {
+  @apply text-lg;
+}
+
+:deep(.akn-paragraph) {
+  @apply flex flex-row;
+}
+
+:deep(.akn-paragraph .akn-num) {
+  @apply mr-8;
+}
+
+:deep(.akn-point) {
+  @apply mb-4 flex flex-row;
+}
+
+:deep(.akn-point .akn-num) {
+  @apply mr-8;
+}
+
+:deep(.akn-conclusions) {
+  @apply flex flex-col gap-24;
+}
+
+:deep(.akn-signature) {
   @apply block;
 }
 </style>

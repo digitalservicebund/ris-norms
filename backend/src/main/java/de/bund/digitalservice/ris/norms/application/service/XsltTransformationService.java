@@ -46,6 +46,9 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
     } catch (IOException | TransformerConfigurationException e) {
       throw new RuntimeException(e);
     } catch (TransformerException e) {
+      // This exception can happen when a malformed xml is provided to the service. Therefore, we
+      // want to send the
+      // exception to the thing calling this service.
       throw new TransformLegalDocMlToHtmlUseCase.XmlTransformationException(
           e.getMessageAndLocation());
     }
