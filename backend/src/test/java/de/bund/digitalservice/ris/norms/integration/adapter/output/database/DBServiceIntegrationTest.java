@@ -472,8 +472,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // When
 
     final AmendingLaw amendingLawFromDatabase =
-        dbService.saveAmendingLawByEli(
-            new SaveAmendingLawPort.Command(AmendingLawMapper.mapToDto(amendingLaw)));
+        dbService.saveAmendingLawByEli(new SaveAmendingLawPort.Command(amendingLaw));
 
     // Then
     assertThat(amendingLawFromDatabase.getReleasedAt()).isEqualTo(timestampNow);
@@ -518,19 +517,17 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .releasedAt(timestampNow)
             .build();
 
-    dbService.saveAmendingLawByEli(
-        new SaveAmendingLawPort.Command(AmendingLawMapper.mapToDto(amendingLawOld)));
+    dbService.saveAmendingLawByEli(new SaveAmendingLawPort.Command(amendingLawOld));
 
     final AmendingLaw amendingLawNew =
         AmendingLaw.builder()
-            .eli(eli2)
+            .eli(eli)
             .printAnnouncementGazette(printAnnouncementGazette2)
             .publicationDate(publicationDate2)
             .printAnnouncementPage(printAnnouncementPage2)
             .digitalAnnouncementMedium(digitalAnnouncementMedium2)
             .digitalAnnouncementEdition(digitalAnnouncementEdition2)
             .title(title2)
-            .articles(List.of(article1, article2))
             .xml(xml2)
             .releasedAt(timestampNow2)
             .build();
@@ -538,11 +535,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // When
 
     final AmendingLaw amendingLawFromDatabase =
-        dbService.updateAmendingLawByEli(
-            new UpdateAmendingLawPort.Command(AmendingLawMapper.mapToDto(amendingLawNew)));
+        dbService.updateAmendingLaw(new UpdateAmendingLawPort.Command(amendingLawNew)).get();
 
     // Then
-    assertThat(amendingLawFromDatabase.getEli()).isEqualTo(eli2);
+    assertThat(amendingLawFromDatabase.getEli()).isEqualTo(eli);
     assertThat(amendingLawFromDatabase.getPrintAnnouncementGazette())
         .isEqualTo(printAnnouncementGazette2);
     assertThat(amendingLawFromDatabase.getPublicationDate()).isEqualTo(publicationDate2);
@@ -606,8 +602,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .build();
 
     final AmendingLaw amendingLawFromDatabase =
-        dbService.saveAmendingLawByEli(
-            new SaveAmendingLawPort.Command(AmendingLawMapper.mapToDto(amendingLaw)));
+        dbService.saveAmendingLawByEli(new SaveAmendingLawPort.Command(amendingLaw));
 
     // when
     List<TargetLaw> targetLaws =

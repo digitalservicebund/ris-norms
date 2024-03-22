@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TargetEliRe
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
-import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -351,13 +350,13 @@ public class AmendingLawController {
             version,
             language,
             subtype);
-    final List<TargetLaw> targetLawElis =
+    final Optional<AmendingLaw> amendingLaw =
         releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(
             new ReleaseAmendingLawAndAllRelatedTargetLawsUseCase.Query(eli));
-    if (targetLawElis.isEmpty()) return ResponseEntity.notFound().build();
+    if (amendingLaw.isEmpty()) return ResponseEntity.notFound().build();
 
     final List<TargetEliResponseSchema> result =
-        targetLawElis.stream().map(t -> new TargetEliResponseSchema(t.getEli())).toList();
+        amendingLaw.stream().map(t -> new TargetEliResponseSchema(t.getEli())).toList();
     return ResponseEntity.ok(result);
   }
 

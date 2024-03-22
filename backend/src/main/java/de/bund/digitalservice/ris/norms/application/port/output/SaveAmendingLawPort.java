@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 
 /**
@@ -20,7 +19,7 @@ public interface SaveAmendingLawPort {
   /**
    * A record representing the command for updating an amending law.
    *
-   * @param amendingLawDto The new XML representation of the amending law.
+   * @param amendingLaw The new XML representation of the amending law.
    */
-  record Command(AmendingLawDto amendingLawDto) {}
+  record Command(AmendingLaw amendingLaw) {}
 }

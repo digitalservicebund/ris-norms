@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface representing the use case for releasing an {@link AmendingLaw} and the corresponding
@@ -17,7 +17,7 @@ public interface ReleaseAmendingLawAndAllRelatedTargetLawsUseCase {
    * @param query The query specifying the amending law to be loaded.
    * @return A {@link java.util.List} containing the elis of the corresponding {@link TargetLaw}.
    */
-  List<TargetLaw> releaseAmendingLaw(Query query);
+  Optional<AmendingLaw> releaseAmendingLaw(Query query);
 
   /**
    * A record representing the query for releasing an amending law. The query includes the ELI

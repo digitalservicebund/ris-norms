@@ -387,7 +387,7 @@ class AmendingLawControllerTest {
     final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
 
     when(releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(any()))
-        .thenReturn(Collections.emptyList());
+        .thenReturn(Optional.empty());
 
     // When // Then
     mockMvc
@@ -398,17 +398,56 @@ class AmendingLawControllerTest {
   @Test
   void itCallsReleaseAmendingLawAndReturnsElisOfTargetLaws() throws Exception {
     // Given
+    final TargetLaw targetLaw =
+        TargetLaw.builder()
+            .eli("target law eli")
+            .title("target law title")
+            .xml("<test></test>")
+            .fna("4711")
+            .shortTitle("targetlaw")
+            .build();
+
+    final TargetLaw targetLawZf0 =
+        TargetLaw.builder()
+            .eli("target law eli zf0")
+            .title("target law title zf0")
+            .xml("<test>zf0</test>")
+            .fna("4711")
+            .shortTitle("targetlawzf0")
+            .build();
+
+    final Article article1 = new Article("1", "eli1", "title1", targetLaw, targetLawZf0);
+    final Article article2 = new Article("2", "eli2", "title2", targetLaw, targetLawZf0);
+
     final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "Title vom Gesetz";
+
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1, article2))
+            .build();
+
     when(releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(any()))
-        .thenReturn(
-            List.of(
-                TargetLaw.builder().eli("eli1").build(), TargetLaw.builder().eli("eli2").build()));
+        .thenReturn(Optional.of(amendingLaw));
 
     // When // Then
     mockMvc
         .perform(put("/api/v1/amending-laws/{eli}/release", eli))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].eli", equalTo("eli1")))
-        .andExpect(jsonPath("$[1].eli", equalTo("eli2")));
+        .andExpect(
+            jsonPath(
+                "$[0].eli", equalTo("eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1")));
   }
 }
