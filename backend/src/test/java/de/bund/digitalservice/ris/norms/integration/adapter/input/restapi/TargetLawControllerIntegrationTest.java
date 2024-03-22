@@ -108,7 +108,11 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
         .andExpect(
             content()
-                .string(containsString("<span class=\"p block\" data-eId=\"two\">text2</span>")));
+                .string(
+                    containsString(
+                        """
+                  <p class="akn-p" data-eId="two">text2</p>
+                """)));
   }
 
   @Test
@@ -286,6 +290,9 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
             content()
                 .string(
-                    containsString("<span class=\"p block\" data-eId=\"two\">new text</span>")));
+                    containsString(
+                        """
+                      <p class="akn-p" data-eId="two">new text</p>
+                    """)));
   }
 }

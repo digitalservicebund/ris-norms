@@ -43,7 +43,7 @@ test(`load preview`, async ({ page }) => {
   // part of the rendered html of the preview
   const targetLawPreview = page
     .getByRole("region", { name: "Vorschau" })
-    .getByText("§ 9 Kennzeichenverbot")
+    .getByText("§ 9Kennzeichenverbot")
   await expect(targetLawPreview).toBeVisible()
 })
 
