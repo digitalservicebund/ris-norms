@@ -448,6 +448,7 @@ class AmendingLawControllerTest {
         .andExpect(status().isOk())
         .andExpect(
             jsonPath(
-                "$[0].eli", equalTo("eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1")));
+                "$.eliAmendingLaw",
+                equalTo("eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1")));
   }
 }

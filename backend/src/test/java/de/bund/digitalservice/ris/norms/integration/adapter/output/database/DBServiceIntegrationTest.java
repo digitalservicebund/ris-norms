@@ -493,7 +493,6 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final Instant timestampNow = Instant.now();
 
     // new amending law
-    final String eli2 = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-12";
     final String printAnnouncementGazette2 = "someGazette2";
     final LocalDate publicationDate2 = LocalDate.now();
     final String printAnnouncementPage2 = "page1232";

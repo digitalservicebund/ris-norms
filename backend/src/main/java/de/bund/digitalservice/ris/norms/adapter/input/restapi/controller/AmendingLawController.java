@@ -7,7 +7,8 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.AmendingLaw
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TargetEliResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.EliOfLaw;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseAmendingLawResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -333,7 +334,7 @@ public class AmendingLawController {
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/release",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<List<TargetEliResponseSchema>> releaseAmendingLaw(
+  public ResponseEntity<ReleaseAmendingLawResponseSchema> releaseAmendingLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -350,13 +351,19 @@ public class AmendingLawController {
             version,
             language,
             subtype);
-    final Optional<AmendingLaw> amendingLaw =
+    final Optional<AmendingLaw> amendingLawReleasedOptional =
         releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(
             new ReleaseAmendingLawAndAllRelatedTargetLawsUseCase.Query(eli));
-    if (amendingLaw.isEmpty()) return ResponseEntity.notFound().build();
+    if (amendingLawReleasedOptional.isEmpty()) return ResponseEntity.notFound().build();
+    AmendingLaw amendingLawReleased = amendingLawReleasedOptional.get();
 
-    final List<TargetEliResponseSchema> result =
-        amendingLaw.stream().map(t -> new TargetEliResponseSchema(t.getEli())).toList();
+    final ReleaseAmendingLawResponseSchema result =
+        new ReleaseAmendingLawResponseSchema(
+            amendingLawReleased.getReleasedAt(),
+            amendingLawReleased.getEli(),
+            amendingLawReleased.getArticles().stream()
+                .map(article -> new EliOfLaw(article.getTargetLawZf0().getEli()))
+                .toList());
     return ResponseEntity.ok(result);
   }
 
