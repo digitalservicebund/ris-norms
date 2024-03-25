@@ -32,8 +32,8 @@ defineProps<{
   content: "-";
 }
 
-:deep(article + article) {
-  @apply mt-48;
+:deep(.metadata) {
+  @apply mb-24;
 }
 
 :deep(.akn-act) {

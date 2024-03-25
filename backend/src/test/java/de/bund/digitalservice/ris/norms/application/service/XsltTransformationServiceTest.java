@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Stream;
 import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -25,6 +27,11 @@ class XsltTransformationServiceTest {
   final Resource xsltResource = mock(Resource.class);
   final XsltTransformationService xsltTransformationService =
       new XsltTransformationService(xsltResource);
+
+  @BeforeAll
+  public static void setUp() {
+    Locale.setDefault(Locale.ENGLISH);
+  }
 
   @Test
   void shouldReturnTransformedXml()
