@@ -177,7 +177,7 @@ public class TargetLawController {
               try {
                 var html =
                     this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(eli, xml));
+                        new TransformLegalDocMlToHtmlUseCase.Query(xml, true));
                 return ResponseEntity.ok(html);
               } catch (TransformLegalDocMlToHtmlUseCase.XmlTransformationException e) {
                 return ResponseEntity.internalServerError()
@@ -285,7 +285,7 @@ public class TargetLawController {
               try {
                 var html =
                     this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(eli, xml));
+                        new TransformLegalDocMlToHtmlUseCase.Query(xml, false));
                 return ResponseEntity.ok(html);
               } catch (TransformLegalDocMlToHtmlUseCase.XmlTransformationException e) {
                 return ResponseEntity.badRequest().body(e.getMessage());

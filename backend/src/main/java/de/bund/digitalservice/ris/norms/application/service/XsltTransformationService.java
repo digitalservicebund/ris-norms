@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCase {
 
-  private static final String LEGISLATION_IDENTIFIER_PARAMETER = "legislation-identifier";
+  private static final String SHOW_METADATA = "show-metadata";
   private final Resource xslt;
 
   public XsltTransformationService(@Value("classpath:XSLT/html/legislation.xslt") Resource xslt) {
@@ -32,10 +32,12 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
   public String transformLegalDocMlToHtml(TransformLegalDocMlToHtmlUseCase.Query query)
       throws TransformLegalDocMlToHtmlUseCase.XmlTransformationException {
     try {
-      Transformer transformer =
-          new TransformerFactoryImpl().newTransformer(new StreamSource(xslt.getInputStream()));
+      Source xsltSource = new StreamSource(xslt.getInputStream());
+      // Fix the location of the source so xsl:import works
+      xsltSource.setSystemId(xslt.getURL().toString());
+      Transformer transformer = new TransformerFactoryImpl().newTransformer(xsltSource);
       transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-      transformer.setParameter(LEGISLATION_IDENTIFIER_PARAMETER, query.eli());
+      transformer.setParameter(SHOW_METADATA, query.showMetadata());
       transformer.setParameter("outputMode", "html");
 
       StringWriter output = new StringWriter();
