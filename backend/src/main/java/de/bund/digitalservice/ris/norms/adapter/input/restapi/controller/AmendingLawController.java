@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.AmendingLaw
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.EliOfLaw;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseAmendingLawResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
@@ -354,17 +353,18 @@ public class AmendingLawController {
     final Optional<AmendingLaw> amendingLawReleasedOptional =
         releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(
             new ReleaseAmendingLawAndAllRelatedTargetLawsUseCase.Query(eli));
-    if (amendingLawReleasedOptional.isEmpty()) return ResponseEntity.notFound().build();
-    AmendingLaw amendingLawReleased = amendingLawReleasedOptional.get();
 
-    final ReleaseAmendingLawResponseSchema result =
-        new ReleaseAmendingLawResponseSchema(
-            amendingLawReleased.getReleasedAt(),
-            amendingLawReleased.getEli(),
-            amendingLawReleased.getArticles().stream()
-                .map(article -> new EliOfLaw(article.getTargetLawZf0().getEli()))
-                .toList());
-    return ResponseEntity.ok(result);
+    return amendingLawReleasedOptional
+        .map(
+            amendingLawReleased ->
+                new ReleaseAmendingLawResponseSchema(
+                    amendingLawReleased.getReleasedAt(),
+                    amendingLawReleased.getEli(),
+                    amendingLawReleased.getArticles().stream()
+                        .map(article -> article.getTargetLawZf0().getEli())
+                        .toList()))
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @NotNull

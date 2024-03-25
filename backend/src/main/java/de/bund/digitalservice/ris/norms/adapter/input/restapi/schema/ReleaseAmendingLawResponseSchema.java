@@ -16,6 +16,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class ReleaseAmendingLawResponseSchema {
   private Instant releaseAt;
-  private String eliAmendingLaw;
-  private List<EliOfLaw> eliOfLawTargetLawsZF0;
+  private String amendingLawEli;
+  private List<String> zf0Elis;
 }

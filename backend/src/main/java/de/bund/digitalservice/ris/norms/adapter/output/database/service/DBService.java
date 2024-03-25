@@ -34,8 +34,7 @@ public class DBService
         LoadTargetLawXmlPort,
         UpdateTargetLawXmlPort,
         UpdateAmendingLawXmlPort,
-        UpdateAmendingLawPort,
-        SaveAmendingLawPort {
+        UpdateAmendingLawPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -125,37 +124,26 @@ public class DBService
   }
 
   @Override
-  public AmendingLaw saveAmendingLawByEli(SaveAmendingLawPort.Command command) {
-    AmendingLawDto amendingLawDto =
-        amendingLawRepository.save(AmendingLawMapper.mapToDto(command.amendingLaw()));
-    return AmendingLawMapper.mapToDomain(amendingLawDto);
-  }
-
-  @Override
   @Transactional
   public Optional<AmendingLaw> updateAmendingLaw(UpdateAmendingLawPort.Command command) {
-    Optional<AmendingLawDto> amendingLawDtoOptional =
+    final Optional<AmendingLawDto> amendingLawDtoOptional =
         amendingLawRepository.findByEli(command.amendingLaw().getEli());
-
-    if (amendingLawDtoOptional.isPresent()) {
-      AmendingLawDto amendingLawDto = amendingLawDtoOptional.get();
-      amendingLawDto.setEli(command.amendingLaw().getEli());
-      amendingLawDto.setXml(command.amendingLaw().getXml());
-      amendingLawDto.setTitle(command.amendingLaw().getTitle());
-      amendingLawDto.setDigitalAnnouncementMedium(
-          command.amendingLaw().getDigitalAnnouncementMedium());
-      amendingLawDto.setDigitalAnnouncementEdition(
-          command.amendingLaw().getDigitalAnnouncementEdition());
-      amendingLawDto.setPrintAnnouncementGazette(
-          command.amendingLaw().getPrintAnnouncementGazette());
-      amendingLawDto.setPrintAnnouncementPage(command.amendingLaw().getPrintAnnouncementPage());
-      amendingLawDto.setPublicationDate(command.amendingLaw().getPublicationDate());
-      amendingLawDto.setReleasedAt(command.amendingLaw().getReleasedAt());
-
-      AmendingLawDto amendingLawDtoSaved = amendingLawRepository.save(amendingLawDto);
-      return Optional.of(AmendingLawMapper.mapToDomainWithArticles(amendingLawDtoSaved));
-    } else {
-      return Optional.empty();
-    }
+    return amendingLawDtoOptional.map(
+        amendingLawDto -> {
+          amendingLawDto.setEli(command.amendingLaw().getEli());
+          amendingLawDto.setXml(command.amendingLaw().getXml());
+          amendingLawDto.setTitle(command.amendingLaw().getTitle());
+          amendingLawDto.setDigitalAnnouncementMedium(
+              command.amendingLaw().getDigitalAnnouncementMedium());
+          amendingLawDto.setDigitalAnnouncementEdition(
+              command.amendingLaw().getDigitalAnnouncementEdition());
+          amendingLawDto.setPrintAnnouncementGazette(
+              command.amendingLaw().getPrintAnnouncementGazette());
+          amendingLawDto.setPrintAnnouncementPage(command.amendingLaw().getPrintAnnouncementPage());
+          amendingLawDto.setPublicationDate(command.amendingLaw().getPublicationDate());
+          amendingLawDto.setReleasedAt(command.amendingLaw().getReleasedAt());
+          final AmendingLawDto amendingLawDtoSaved = amendingLawRepository.save(amendingLawDto);
+          return AmendingLawMapper.mapToDomainWithArticles(amendingLawDtoSaved);
+        });
   }
 }

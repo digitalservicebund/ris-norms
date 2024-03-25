@@ -417,7 +417,6 @@ class AmendingLawControllerTest {
             .build();
 
     final Article article1 = new Article("1", "eli1", "title1", targetLaw, targetLawZf0);
-    final Article article2 = new Article("2", "eli2", "title2", targetLaw, targetLawZf0);
 
     final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
     final String printAnnouncementGazette = "someGazette";
@@ -436,7 +435,7 @@ class AmendingLawControllerTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title)
-            .articles(List.of(article1, article2))
+            .articles(List.of(article1))
             .build();
 
     when(releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(any()))
@@ -448,7 +447,11 @@ class AmendingLawControllerTest {
         .andExpect(status().isOk())
         .andExpect(
             jsonPath(
-                "$.eliAmendingLaw",
-                equalTo("eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1")));
+                "$.amendingLawEli",
+                equalTo("eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1")))
+        .andExpect(jsonPath("$.zf0Elis").exists())
+        .andExpect(jsonPath("$.zf0Elis[0]").exists())
+        .andExpect(jsonPath("$.zf0Elis[0]", equalTo("target law eli zf0")))
+        .andExpect(jsonPath("$.zf0Elis[1]").doesNotExist());
   }
 }

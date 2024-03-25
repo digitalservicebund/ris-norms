@@ -443,42 +443,6 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itSetsReleasedAtOfAmendingLaw() {
-    // Given
-    final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
-    final String printAnnouncementGazette = "someGazette";
-    final LocalDate publicationDate = LocalDate.now();
-    final String printAnnouncementPage = "page123";
-    final String digitalAnnouncementMedium = "medium123";
-    final String digitalAnnouncementEdition = "edition123";
-    final String title = "title";
-    final String xml = "<test></test>";
-
-    final Instant timestampNow = Instant.now();
-    final AmendingLaw amendingLaw =
-        AmendingLaw.builder()
-            .eli(eli)
-            .printAnnouncementGazette(printAnnouncementGazette)
-            .publicationDate(publicationDate)
-            .printAnnouncementPage(printAnnouncementPage)
-            .digitalAnnouncementMedium(digitalAnnouncementMedium)
-            .digitalAnnouncementEdition(digitalAnnouncementEdition)
-            .title(title)
-            .articles(List.of(article1, article2))
-            .xml(xml)
-            .releasedAt(timestampNow)
-            .build();
-
-    // When
-
-    final AmendingLaw amendingLawFromDatabase =
-        dbService.saveAmendingLawByEli(new SaveAmendingLawPort.Command(amendingLaw));
-
-    // Then
-    assertThat(amendingLawFromDatabase.getReleasedAt()).isEqualTo(timestampNow);
-  }
-
-  @Test
   void itUpdatesAmendingLaw() {
     // Given
     // old amending law
@@ -500,7 +464,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementEdition2 = "edition1232";
     final String title2 = "title2";
     final String xml2 = "<test2></test2>";
-    final Instant timestampNow2 = Instant.now();
+    final Instant timestampNow2 = Instant.now().plusSeconds(5);
 
     final AmendingLaw amendingLawOld =
         AmendingLaw.builder()
@@ -516,7 +480,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .releasedAt(timestampNow)
             .build();
 
-    dbService.saveAmendingLawByEli(new SaveAmendingLawPort.Command(amendingLawOld));
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLawOld));
 
     final AmendingLaw amendingLawNew =
         AmendingLaw.builder()
@@ -532,7 +496,6 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .build();
 
     // When
-
     final AmendingLaw amendingLawFromDatabase =
         dbService.updateAmendingLaw(new UpdateAmendingLawPort.Command(amendingLawNew)).get();
 

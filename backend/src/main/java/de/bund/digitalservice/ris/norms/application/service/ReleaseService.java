@@ -26,14 +26,13 @@ public class ReleaseService implements ReleaseAmendingLawAndAllRelatedTargetLaws
 
   @Override
   public Optional<AmendingLaw> releaseAmendingLaw(Query query) {
-    Optional<AmendingLaw> amendingLawOptional =
+    final Optional<AmendingLaw> amendingLawOptional =
         loadAmendingLawPort.loadAmendingLawByEli(new LoadAmendingLawPort.Command(query.eli()));
-    if (amendingLawOptional.isEmpty()) return amendingLawOptional;
-
-    AmendingLaw amendingLaw = amendingLawOptional.get();
-    final Instant timestampNow = Instant.now();
-    amendingLaw.setReleasedAt(timestampNow);
-
-    return updateAmendingLawPort.updateAmendingLaw(new UpdateAmendingLawPort.Command(amendingLaw));
+    return amendingLawOptional.flatMap(
+        amendingLaw -> {
+          amendingLaw.setReleasedAt(Instant.now());
+          return updateAmendingLawPort.updateAmendingLaw(
+              new UpdateAmendingLawPort.Command(amendingLaw));
+        });
   }
 }
