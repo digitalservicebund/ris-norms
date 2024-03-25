@@ -7,11 +7,10 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.AmendingLaw
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TargetEliResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseAmendingLawResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
-import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -334,7 +333,7 @@ public class AmendingLawController {
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/release",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<List<TargetEliResponseSchema>> releaseAmendingLaw(
+  public ResponseEntity<ReleaseAmendingLawResponseSchema> releaseAmendingLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -351,14 +350,21 @@ public class AmendingLawController {
             version,
             language,
             subtype);
-    final List<TargetLaw> targetLawElis =
+    final Optional<AmendingLaw> amendingLawReleasedOptional =
         releaseAmendingLawAndAllRelatedTargetLawsUseCase.releaseAmendingLaw(
             new ReleaseAmendingLawAndAllRelatedTargetLawsUseCase.Query(eli));
-    if (targetLawElis.isEmpty()) return ResponseEntity.notFound().build();
 
-    final List<TargetEliResponseSchema> result =
-        targetLawElis.stream().map(t -> new TargetEliResponseSchema(t.getEli())).toList();
-    return ResponseEntity.ok(result);
+    return amendingLawReleasedOptional
+        .map(
+            amendingLawReleased ->
+                new ReleaseAmendingLawResponseSchema(
+                    amendingLawReleased.getReleasedAt(),
+                    amendingLawReleased.getEli(),
+                    amendingLawReleased.getArticles().stream()
+                        .map(article -> article.getTargetLawZf0().getEli())
+                        .toList()))
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @NotNull

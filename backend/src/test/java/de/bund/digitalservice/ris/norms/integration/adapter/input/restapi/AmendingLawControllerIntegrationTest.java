@@ -369,4 +369,104 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML_VALUE))
         .andExpect(content().xml(updateXml));
   }
+
+  @Test
+  void itReleasesAmendingLawAndReturnsTimestampWithElis() throws Exception {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "title";
+    final String xml = "<test></test>";
+
+    final TargetLaw targetLaw1 =
+        TargetLaw.builder()
+            .eli("target law eli")
+            .title("target law title")
+            .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
+            .build();
+
+    final TargetLaw targetLaw1Zf0 =
+        TargetLaw.builder()
+            .eli("target law zf0 eli")
+            .title("target law zf0 title")
+            .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
+            .build();
+
+    final Article article1 =
+        Article.builder()
+            .eid("eid")
+            .title("article title")
+            .enumeration("1")
+            .targetLaw(targetLaw1)
+            .targetLawZf0(targetLaw1Zf0)
+            .build();
+
+    final TargetLaw targetLaw2 =
+        TargetLaw.builder()
+            .eli("target law eli 2")
+            .title("target law title 2")
+            .xml("<target>2</target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
+            .build();
+
+    final TargetLaw targetLaw2Zf0 =
+        TargetLaw.builder()
+            .eli("target law 2 zf0 eli")
+            .title("target law zf0 title")
+            .xml("<target></target>")
+            .fna("4711")
+            .shortTitle("targetlaw")
+            .build();
+
+    final Article article2 =
+        Article.builder()
+            .eid("eid 2")
+            .title("article title 2")
+            .enumeration("2")
+            .targetLaw(targetLaw2)
+            .targetLawZf0(targetLaw2Zf0)
+            .build();
+
+    // When
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .xml(xml)
+            .articles(List.of(article1, article2))
+            .build();
+    amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
+
+    final String encodedEli =
+        UriComponentsBuilder.fromPath(amendingLaw.getEli()).build().encode().toUriString();
+
+    // When // Then
+    mockMvc
+        .perform(put("/api/v1/amending-laws/{eli}/release", encodedEli))
+        .andExpect(status().isOk())
+        .andExpect(
+            jsonPath(
+                "$.amendingLawEli",
+                equalTo("eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1")))
+        .andExpect(jsonPath("$.zf0Elis").exists())
+        .andExpect(jsonPath("$.zf0Elis[0]").exists())
+        .andExpect(jsonPath("$.zf0Elis[0]", equalTo("target law zf0 eli")))
+        .andExpect(jsonPath("$.zf0Elis[1]").exists())
+        .andExpect(jsonPath("$.zf0Elis[1]", equalTo("target law 2 zf0 eli")))
+        .andExpect(jsonPath("$.zf0Elis[2]").doesNotExist());
+  }
 }

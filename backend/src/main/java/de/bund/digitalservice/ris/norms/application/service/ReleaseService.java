@@ -1,8 +1,11 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
-import java.util.List;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateAmendingLawPort;
+import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import java.time.Instant;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,13 +15,24 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ReleaseService implements ReleaseAmendingLawAndAllRelatedTargetLawsUseCase {
+  private final LoadAmendingLawPort loadAmendingLawPort;
+  private final UpdateAmendingLawPort updateAmendingLawPort;
+
+  public ReleaseService(
+      LoadAmendingLawPort loadAmendingLawPort, UpdateAmendingLawPort updateAmendingLawPort) {
+    this.loadAmendingLawPort = loadAmendingLawPort;
+    this.updateAmendingLawPort = updateAmendingLawPort;
+  }
 
   @Override
-  public List<TargetLaw> releaseAmendingLaw(Query query) {
-    // TODO implement this. Now it's just for testing
-    return List.of(
-        TargetLaw.builder()
-            .eli("eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1")
-            .build());
+  public Optional<AmendingLaw> releaseAmendingLaw(Query query) {
+    final Optional<AmendingLaw> amendingLawOptional =
+        loadAmendingLawPort.loadAmendingLawByEli(new LoadAmendingLawPort.Command(query.eli()));
+    return amendingLawOptional.flatMap(
+        amendingLaw -> {
+          amendingLaw.setReleasedAt(Instant.now());
+          return updateAmendingLawPort.updateAmendingLaw(
+              new UpdateAmendingLawPort.Command(amendingLaw));
+        });
   }
 }

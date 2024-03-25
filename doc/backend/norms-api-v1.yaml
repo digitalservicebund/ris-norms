@@ -77,7 +77,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TargetLawList'
+                $ref: '#/components/schemas/ReleaseResponse'
 
   /amending-laws/{eli}/articles:
     get:
@@ -243,13 +243,21 @@ components:
         title:
           type: string
 
-    TargetLawList:
-      type: array
-      items:
-        type: object
-        properties:
-          eli:
-            type: string
+    ReleaseResponse:
+      type: object
+      properties:
+        releaseAt:
+          type: string
+          format: date-time
+        eliAmendingLaw:
+          type: string
+        eliTargetLawZF0:
+          type: array
+          items:
+            type: object
+            properties:
+              eli:
+                type: string
 
     LegalDocML.de:
       type: object

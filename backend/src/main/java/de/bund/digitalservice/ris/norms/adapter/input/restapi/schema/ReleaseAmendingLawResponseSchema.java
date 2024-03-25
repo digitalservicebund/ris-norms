@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
+import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -12,6 +14,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Data
 @SuperBuilder(toBuilder = true)
-public class TargetEliResponseSchema {
-  private String eli;
+public class ReleaseAmendingLawResponseSchema {
+  private Instant releaseAt;
+  private String amendingLawEli;
+  private List<String> zf0Elis;
 }
