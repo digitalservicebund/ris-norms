@@ -15,10 +15,10 @@ public interface TransformLegalDocMlToHtmlUseCase {
    * A record representing the query for transforming the XML representation of an law in
    * LegalDocML.de to HTML.
    *
-   * @param eli The ELI (European Legislation Identifier) used to identify the law.
    * @param xml The XML representation of the law.
+   * @param showMetadata Should the metadata section be included in the HTML?
    */
-  record Query(String eli, String xml) {}
+  record Query(String xml, boolean showMetadata) {}
 
   /** Exception for problems that happen when transforming an xml document. */
   class XmlTransformationException extends Exception {

@@ -148,8 +148,7 @@ class TargetLawControllerTest {
           .andExpect(content().string(html));
 
       verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(
-              argThat(query -> query.eli().equals(eli) && query.xml().equals(xml)));
+          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));
     }
 
     @Test
@@ -314,8 +313,7 @@ class TargetLawControllerTest {
                       query.amendingLawXml().equals(amendingLaw)
                           && query.targetLawEli().equals(eli)));
       verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(
-              argThat(query -> query.eli().equals(eli) && query.xml().equals(xml)));
+          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));
     }
   }
 
