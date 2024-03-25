@@ -367,6 +367,62 @@ public class AmendingLawController {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
+  /**
+   * Gets an released amending law based on its expression ELI. The ELI's components are interpreted
+   * as query parameters.
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param printAnnouncementGazette DE: "Verkündungsblatt"
+   * @param printAnnouncementYear DE "Verkündungsjahr"
+   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @return A {@link ResponseEntity} containing the elis of the affected target laws.
+   *     <p>Returns HTTP 200 (OK) and the amending law's data if found.
+   *     <p>Returns HTTP 404 (Not Found) if the amending law respectively it's target laws are not
+   *     found.
+   */
+  @GetMapping(
+      path =
+          "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/release",
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<ReleaseAmendingLawResponseSchema> getReleasedAmendingLaw(
+      @PathVariable final String printAnnouncementGazette,
+      @PathVariable final String printAnnouncementYear,
+      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype) {
+    final String eli =
+        buildEli(
+            printAnnouncementGazette,
+            printAnnouncementYear,
+            printAnnouncementPage,
+            pointInTime,
+            version,
+            language,
+            subtype);
+    final Optional<AmendingLaw> amendingLawReleasedOptional =
+        loadAmendingLawUseCase.loadAmendingLaw(new LoadAmendingLawUseCase.Query(eli));
+
+    return amendingLawReleasedOptional
+        .map(
+            amendingLawReleased ->
+                new ReleaseAmendingLawResponseSchema(
+                    amendingLawReleased.getReleasedAt(),
+                    amendingLawReleased.getEli(),
+                    amendingLawReleased.getArticles().stream()
+                        .map(article -> article.getTargetLawZf0().getEli())
+                        .toList()))
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
   @NotNull
   private static String buildEli(
       String printAnnouncementGazette,

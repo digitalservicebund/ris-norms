@@ -454,4 +454,63 @@ class AmendingLawControllerTest {
         .andExpect(jsonPath("$.zf0Elis[0]", equalTo("target law eli zf0")))
         .andExpect(jsonPath("$.zf0Elis[1]").doesNotExist());
   }
+
+  @Test
+  void itCallsGetReleasedAmendingLawAndReturnsElisOfTargetLaws() throws Exception {
+    // Given
+    final TargetLaw targetLaw =
+        TargetLaw.builder()
+            .eli("target law eli")
+            .title("target law title")
+            .xml("<test></test>")
+            .fna("4711")
+            .shortTitle("targetlaw")
+            .build();
+
+    final TargetLaw targetLawZf0 =
+        TargetLaw.builder()
+            .eli("target law eli zf0")
+            .title("target law title zf0")
+            .xml("<test>zf0</test>")
+            .fna("4711")
+            .shortTitle("targetlawzf0")
+            .build();
+
+    final Article article1 = new Article("1", "eli1", "title1", targetLaw, targetLawZf0);
+
+    final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
+    final String printAnnouncementGazette = "someGazette";
+    final LocalDate publicationDate = LocalDate.now();
+    final String printAnnouncementPage = "page123";
+    final String digitalAnnouncementMedium = "medium123";
+    final String digitalAnnouncementEdition = "edition123";
+    final String title = "Title vom Gesetz";
+
+    final AmendingLaw amendingLaw =
+        AmendingLaw.builder()
+            .eli(eli)
+            .printAnnouncementGazette(printAnnouncementGazette)
+            .publicationDate(publicationDate)
+            .printAnnouncementPage(printAnnouncementPage)
+            .digitalAnnouncementMedium(digitalAnnouncementMedium)
+            .digitalAnnouncementEdition(digitalAnnouncementEdition)
+            .title(title)
+            .articles(List.of(article1))
+            .build();
+
+    when(loadAmendingLawUseCase.loadAmendingLaw(any())).thenReturn(Optional.of(amendingLaw));
+
+    // When // Then
+    mockMvc
+        .perform(get("/api/v1/amending-laws/{eli}/release", eli))
+        .andExpect(status().isOk())
+        .andExpect(
+            jsonPath(
+                "$.amendingLawEli",
+                equalTo("eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1")))
+        .andExpect(jsonPath("$.zf0Elis").exists())
+        .andExpect(jsonPath("$.zf0Elis[0]").exists())
+        .andExpect(jsonPath("$.zf0Elis[0]", equalTo("target law eli zf0")))
+        .andExpect(jsonPath("$.zf0Elis[1]").doesNotExist());
+  }
 }
