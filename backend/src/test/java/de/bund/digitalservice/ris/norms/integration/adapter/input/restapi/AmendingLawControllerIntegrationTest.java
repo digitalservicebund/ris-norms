@@ -456,7 +456,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
     // When // Then
     mockMvc
-        .perform(put("/api/v1/amending-laws/{eli}/release", eli))
+        .perform(put("/api/v1/amending-laws/{eli}/release", encodedEli))
         .andExpect(status().isOk())
         .andExpect(
             jsonPath(
