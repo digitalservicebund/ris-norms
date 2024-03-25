@@ -12,6 +12,30 @@ defineProps<{
 </template>
 
 <style scoped>
+:deep(:is(table, thead, td)) {
+  @apply border border-blue-400;
+}
+
+:deep(:is(thead, td:first-child)) {
+  @apply font-bold;
+}
+
+:deep(thead) {
+  @apply bg-blue-100;
+}
+
+:deep(td) {
+  @apply p-8;
+}
+
+:deep(td:empty::before) {
+  content: "-";
+}
+
+:deep(article + article) {
+  @apply mt-48;
+}
+
 :deep(.akn-act) {
   @apply flex flex-col;
 }
