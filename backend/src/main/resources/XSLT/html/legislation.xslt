@@ -156,9 +156,10 @@
     </xsl:template>
 
     <!-- Fallback for missing elements -->
-    <xsl:template match="*">
-        <div style="background-color: red">Unimplemented tag
-            <xsl:value-of select="name(.)"/>
-        </div>
-    </xsl:template>
+    <!-- Temporarily disabled because it breaks templates in the metadata table -->
+    <!--<xsl:template match="*">-->
+    <!--    <div style="background-color: red">Unimplemented tag-->
+    <!--        <xsl:value-of select="name(.)"/>-->
+    <!--    </div>-->
+    <!--</xsl:template>-->
 </xsl:stylesheet>
