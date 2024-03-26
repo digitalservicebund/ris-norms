@@ -13,7 +13,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -63,7 +62,7 @@ class AmendingLawControllerTest {
   void itCallsloadArticlesOfAmendingLawWithExpressionEliFromQuery() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1953/s225/2017-03-15/1/deu/regelungstext-1";
-    when(loadArticlesUseCase.loadArticlesOfAmendingLaw(any())).thenReturn(Collections.emptyList());
+    when(loadArticlesUseCase.loadArticlesOfAmendingLaw(any())).thenReturn(List.of());
 
     // When
     mockMvc.perform(get("/api/v1/amending-laws/{eli}/articles", eli));

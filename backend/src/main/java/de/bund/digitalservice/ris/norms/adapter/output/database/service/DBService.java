@@ -12,7 +12,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import jakarta.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -70,7 +69,7 @@ public class DBService
         .map(
             amendingLawDto ->
                 amendingLawDto.getArticleDtos().stream().map(ArticleMapper::mapToDomain).toList())
-        .orElse(Collections.emptyList());
+        .orElse(List.of());
   }
 
   @Override
