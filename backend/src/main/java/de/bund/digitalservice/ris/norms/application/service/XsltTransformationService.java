@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -29,8 +30,7 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
    * @param query The query specifying the XML of the law to be transformed to HTML.
    * @return A html version of the law
    */
-  public String transformLegalDocMlToHtml(TransformLegalDocMlToHtmlUseCase.Query query)
-      throws TransformLegalDocMlToHtmlUseCase.XmlTransformationException {
+  public String transformLegalDocMlToHtml(TransformLegalDocMlToHtmlUseCase.Query query) {
     try {
       Source xsltSource = new StreamSource(xslt.getInputStream());
       // Fix the location of the source so xsl:import works
@@ -45,14 +45,8 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
           new StreamSource(new ByteArrayInputStream(query.xml().getBytes())),
           new StreamResult(output));
       return output.toString();
-    } catch (IOException | TransformerConfigurationException e) {
-      throw new RuntimeException(e);
-    } catch (TransformerException e) {
-      // This exception can happen when a malformed xml is provided to the service. Therefore, we
-      // want to send the
-      // exception to the thing calling this service.
-      throw new TransformLegalDocMlToHtmlUseCase.XmlTransformationException(
-          e.getMessageAndLocation());
+    } catch (IOException | TransformerException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
     }
   }
 }

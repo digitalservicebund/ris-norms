@@ -9,7 +9,7 @@ public interface TransformLegalDocMlToHtmlUseCase {
    * @param query The query specifying the XML of the law to be transformed to HTML.
    * @return The HTML representation.
    */
-  String transformLegalDocMlToHtml(Query query) throws XmlTransformationException;
+  String transformLegalDocMlToHtml(Query query);
 
   /**
    * A record representing the query for transforming the XML representation of an law in
@@ -19,11 +19,4 @@ public interface TransformLegalDocMlToHtmlUseCase {
    * @param showMetadata Should the metadata section be included in the HTML?
    */
   record Query(String xml, boolean showMetadata) {}
-
-  /** Exception for problems that happen when transforming an xml document. */
-  class XmlTransformationException extends Exception {
-    public XmlTransformationException(String message) {
-      super(message);
-    }
-  }
 }

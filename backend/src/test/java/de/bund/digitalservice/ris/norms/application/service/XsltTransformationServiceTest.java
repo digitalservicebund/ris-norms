@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -34,8 +35,7 @@ class XsltTransformationServiceTest {
   }
 
   @Test
-  void shouldReturnTransformedXml()
-      throws TransformLegalDocMlToHtmlUseCase.XmlTransformationException, IOException {
+  void shouldReturnTransformedXml() throws IOException {
     when(xsltResource.getInputStream())
         .thenReturn(
             new ByteArrayInputStream(
@@ -62,8 +62,7 @@ class XsltTransformationServiceTest {
   }
 
   @Test
-  void shouldReturnTransformedXmlWithMetadata()
-      throws TransformLegalDocMlToHtmlUseCase.XmlTransformationException, IOException {
+  void shouldReturnTransformedXmlWithMetadata() throws IOException {
     when(xsltResource.getInputStream())
         .thenReturn(
             new ByteArrayInputStream(
@@ -109,8 +108,7 @@ class XsltTransformationServiceTest {
   }
 
   @Test
-  void shouldReturnTransformedXmlWithoutMetadata()
-      throws TransformLegalDocMlToHtmlUseCase.XmlTransformationException, IOException {
+  void shouldReturnTransformedXmlWithoutMetadata() throws IOException {
     when(xsltResource.getInputStream())
         .thenReturn(
             new ByteArrayInputStream(
@@ -181,8 +179,7 @@ class XsltTransformationServiceTest {
                     new TransformLegalDocMlToHtmlUseCase.Query(
                         "<data><invalid xml</data>", false)));
 
-    assertThat(throwable)
-        .isInstanceOf(TransformLegalDocMlToHtmlUseCase.XmlTransformationException.class);
+    assertThat(throwable).isInstanceOf(XmlProcessingException.class);
     assertThat(throwable.getMessage())
         .isEqualToIgnoringWhitespace(
             """
@@ -192,8 +189,7 @@ class XsltTransformationServiceTest {
 
   @ParameterizedTest(name = "{0}")
   @MethodSource("shouldTransformXmlArgumentsProvider")
-  void shouldTransformXml(String name, String xml, Boolean showMetadata, String expectedHtml)
-      throws TransformLegalDocMlToHtmlUseCase.XmlTransformationException {
+  void shouldTransformXml(String name, String xml, Boolean showMetadata, String expectedHtml) {
     var xsltResource =
         new FileUrlResource(
             Objects.requireNonNull(

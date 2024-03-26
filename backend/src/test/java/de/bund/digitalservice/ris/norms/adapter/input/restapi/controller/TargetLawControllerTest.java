@@ -159,15 +159,12 @@ class TargetLawControllerTest {
 
       when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenThrow(
-              new TransformLegalDocMlToHtmlUseCase.XmlTransformationException("XML Exception"));
+          .thenThrow(new XmlProcessingException("XML Exception", new Exception()));
 
       // When // Then
       mockMvc
           .perform(get("/api/v1/target-laws/{eli}", eli).accept(MediaType.TEXT_HTML))
-          .andExpect(status().is5xxServerError())
-          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-          .andExpect(content().string("XML Exception"));
+          .andExpect(status().is5xxServerError());
     }
   }
 
