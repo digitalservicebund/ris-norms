@@ -173,17 +173,11 @@ public class TargetLawController {
 
     return targetLawXmlOptional
         .map(
-            (xml) -> {
-              try {
-                var html =
-                    this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(xml, true));
-                return ResponseEntity.ok(html);
-              } catch (TransformLegalDocMlToHtmlUseCase.XmlTransformationException e) {
-                return ResponseEntity.internalServerError()
-                    .contentType(TEXT_PLAIN)
-                    .body(e.getMessage());
-              }
+            xml -> {
+              var html =
+                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                      new TransformLegalDocMlToHtmlUseCase.Query(xml, true));
+              return ResponseEntity.ok(html);
             })
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
@@ -281,15 +275,11 @@ public class TargetLawController {
     return timeMachineUseCase
         .applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLaw))
         .map(
-            (xml) -> {
-              try {
-                var html =
-                    this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(xml, false));
-                return ResponseEntity.ok(html);
-              } catch (TransformLegalDocMlToHtmlUseCase.XmlTransformationException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
-              }
+            xml -> {
+              var html =
+                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                      new TransformLegalDocMlToHtmlUseCase.Query(xml, false));
+              return ResponseEntity.ok(html);
             })
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
