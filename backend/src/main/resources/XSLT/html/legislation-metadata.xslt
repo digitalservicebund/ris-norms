@@ -92,7 +92,7 @@
                     <tr>
                         <td>Federführung</td>
                         <td>
-                            <xsl:apply-templates select="//meta:federfuehrung"/>
+                            <xsl:apply-templates mode="#current" select="//meta:federfuehrung"/>
                         </td>
                     </tr>
                     <tr>
@@ -138,7 +138,7 @@
         </section>
     </xsl:template>
 
-    <xsl:template match="//meta:federfuehrung">
+    <xsl:template match="//meta:federfuehrung" mode="metadata">
         <xsl:for-each select="meta:federfuehrend">
             <li><xsl:value-of select="."/></li>
         </xsl:for-each>
