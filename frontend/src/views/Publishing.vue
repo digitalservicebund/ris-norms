@@ -1,143 +1,141 @@
 <script setup lang="ts">
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import IconCheck from "~icons/ic/baseline-check"
-import IconErrorOutline from "~icons/ic/baseline-error-outline"
-import { computed, ref } from "vue"
-import { useShowAlert } from "@/composables/useAlerts"
+import { computed, ref, watchEffect, onBeforeUnmount, onMounted } from "vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { getAmendingLawXmlByEli } from "@/services/amendingLawsService"
+import { getTargetLawXmlByEli } from "@/services/targetLawsService"
+import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
 
-/**
- * The result of a plausibility check of an amending law
- */
-type PlausibilityCheckResult = {
-  /**
-   * True if the amending law is plausible, false otherwise
-   */
-  plausible: boolean
-  /**
-   * A message containing more information. E.g. an error message if the amending law is not plausible or a statement
-   * about the LDML.de Version the amending law was found plausible for.
-   */
-  message: string
-}
+const eli = useEliPathParameter()
+const { releasedAt, releasedElis, fetchReleaseStatus, releaseAmendingLaw } =
+  useAmendingLawRelease(eli)
+const blobUrl = ref("")
+const zf0BlobUrls = ref<BlobUrlItem[]>([])
 
-/**
- * The result of the plausibility check
- */
-const plausibilityCheckResult = ref<PlausibilityCheckResult>({
-  plausible: true,
-  message: "LDML entspricht dem Standard 1.6",
+onMounted(async () => {
+  await fetchReleaseStatus()
 })
 
-function onCheckPlausibility() {
-  // TODO: (Malte Laukötter, 2024-03-12) Do a plausibility check
-  if (plausibilityCheckResult.value.plausible) {
-    plausibilityCheckResult.value = {
-      plausible: false,
-      message: "LDML Fehler in Zeile 232",
-    }
-  } else {
-    plausibilityCheckResult.value = {
-      plausible: true,
-      message: "LDML entspricht dem Standard 1.6",
-    }
-  }
+interface BlobUrlItem {
+  zf0Eli: string
+  zf0BlobUrl: string
 }
 
-const showAlert = useShowAlert()
+watchEffect(async () => {
+  let newBlobUrl = ""
+  const newZf0BlobUrls = []
 
-// TODO: (Malte Laukötter, 2024-03-12) this is probably a property of the amending law in the future
-const publishedAt = ref<Date | null>(null)
+  if (releasedElis?.value?.amendingLawEli) {
+    const xmlContent = await getAmendingLawXmlByEli(
+      releasedElis.value.amendingLawEli,
+    )
+    const blob = new Blob([xmlContent], { type: "application/xml" })
+    newBlobUrl = URL.createObjectURL(blob)
 
-function onPublish() {
-  // TODO: (Malte Laukötter, 2024-03-12) Call an endpoint to publish the amending law
-  if (Math.random() > 0.5) {
-    publishedAt.value = new Date()
-
-    showAlert({
-      variant: "success",
-      message: "Die Datei wurde erfolgreich abgegeben",
-    })
-  } else {
-    showAlert({
-      variant: "error",
-      message: "Gesetz konnte nicht als XML abgegeben werden",
-    })
+    if (blobUrl.value) {
+      URL.revokeObjectURL(blobUrl.value)
+    }
+    blobUrl.value = newBlobUrl
   }
+
+  if (releasedElis.value?.zf0Elis) {
+    for (const zf0Eli of releasedElis.value.zf0Elis) {
+      const xmlContent = await getTargetLawXmlByEli(zf0Eli)
+      const blob = new Blob([xmlContent], { type: "application/xml" })
+      const blobUrlForZf0 = URL.createObjectURL(blob)
+      newZf0BlobUrls.push({ zf0Eli, zf0BlobUrl: blobUrlForZf0 })
+
+      zf0BlobUrls.value.forEach((item) => {
+        URL.revokeObjectURL(item.zf0BlobUrl)
+      })
+      zf0BlobUrls.value = newZf0BlobUrls
+    }
+  }
+})
+
+onBeforeUnmount(() => {
+  if (blobUrl.value) {
+    URL.revokeObjectURL(blobUrl.value)
+  }
+
+  zf0BlobUrls.value.forEach((item) => {
+    URL.revokeObjectURL(item.zf0BlobUrl)
+  })
+})
+async function onRelease() {
+  await releaseAmendingLaw()
 }
 
-const publishedAtDateTime = computed(() => publishedAt.value?.toISOString())
+const publishedAtDateTime = computed(() => releasedAt.value?.toISOString())
 const publishedAtTimeString = computed(() =>
-  publishedAt.value?.toLocaleTimeString("de-DE", {
+  releasedAt.value?.toLocaleTimeString("de-DE", {
     hour: "2-digit",
     minute: "2-digit",
   }),
 )
 const publishedAtDateString = computed(() =>
-  publishedAt.value?.toLocaleDateString("de-DE", {
+  releasedAt.value?.toLocaleDateString("de-DE", {
     dateStyle: "medium",
   }),
 )
+
+const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
 </script>
 
 <template>
   <div class="flex flex-col">
-    <section class="flex flex-col gap-40">
+    <section class="flex flex-col gap-20">
       <h1 class="ds-heading-02-reg">Abgabe</h1>
 
-      <section class="flex gap-20">
-        <h2 class="w-1/4">1. Plausibilitätsprüfung</h2>
-
-        <div class="flex flex-grow gap-8">
-          <IconCheck
-            v-if="plausibilityCheckResult.plausible"
-            class="text-green-700"
-          />
-          <IconErrorOutline
-            v-if="!plausibilityCheckResult.plausible"
-            class="text-red-900"
-          />
-          <span>{{ plausibilityCheckResult.message }}</span>
+      <div
+        v-if="releasedAt"
+        aria-label="Infomodal"
+        class="flex w-full gap-[0.625rem] border-[0.125rem] border-orange-200 bg-orange-100 px-[1.25rem] py-[1.125rem]"
+      >
+        <div class="flex flex-col gap-4">
+          <span class="ds-label-02-bold">
+            Die Abgabe ist aktuell ein Prototyp verfügbar.
+          </span>
+          <span class="ds-body-01-reg">
+            Dieses Änderungsgesetz wurde zuletzt abgegeben am
+            <time :datetime="publishedAtDateTime">
+              {{ publishedAtDateString }} um {{ publishedAtTimeString }} Uhr
+              abgeben. Die aktuelle Version kann hier eingesehen werden:
+            </time>
+            <ul class="list-disc pl-20">
+              <li>
+                <a
+                  v-if="releasedElis"
+                  :href="blobUrl"
+                  :download="formatEliForDownload(releasedElis?.amendingLawEli)"
+                  target="_blank"
+                  class="underline"
+                  >{{ releasedElis?.amendingLawEli }}.xml</a
+                >
+              </li>
+              <li v-for="{ zf0Eli, zf0BlobUrl } in zf0BlobUrls" :key="zf0Eli">
+                <a
+                  :href="zf0BlobUrl"
+                  :download="formatEliForDownload(zf0Eli)"
+                  target="_blank"
+                  class="underline"
+                  >{{ zf0Eli }}.xml</a
+                >
+              </li>
+            </ul>
+          </span>
         </div>
+      </div>
 
-        <RisTextButton
-          variant="tertiary"
-          size="small"
-          label="Erneut prüfen"
-          @click="onCheckPlausibility"
-        />
-      </section>
-
-      <hr class="border-t-gray-600" />
-
-      <section class="flex gap-20">
-        <h2 class="w-1/4">2. Abgabe veranlassen</h2>
-
-        <div class="flex flex-grow gap-8">
-          <span>Gesamtes Änderungsgesetz im Portal veröffentlichen.</span>
-        </div>
-      </section>
-
-      <hr class="border-t-gray-600" />
+      <span v-else>Das Gesetz wurde noch nicht veröffentlicht.</span>
 
       <RisTextButton
         class="w-fit"
         variant="primary"
         size="small"
-        label="Jetzt Abgeben"
-        @click="onPublish"
+        label="Jetzt abgeben"
+        @click="onRelease"
       />
-    </section>
-
-    <section class="mt-[60px] flex flex-col gap-40">
-      <h1 class="ds-heading-02-reg">Letzte Abgabe</h1>
-
-      <span v-if="publishedAt"
-        >Dieses Änderungsgesetz wurde zuletzt abgegeben am
-        <time :datetime="publishedAtDateTime">
-          {{ publishedAtDateString }} um {{ publishedAtTimeString }} Uhr
-        </time>
-      </span>
-      <span v-else>Das Gesetz wurde noch nicht veröffentlicht.</span>
     </section>
   </div>
 </template>
