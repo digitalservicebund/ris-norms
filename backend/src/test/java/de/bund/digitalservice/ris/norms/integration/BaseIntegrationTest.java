@@ -52,10 +52,10 @@ public abstract class BaseIntegrationTest {
     registry.add(
         "spring.datasource.url",
         () ->
-            String.format(
-                "jdbc:postgresql://localhost:%d/%s",
-                postgreSQLContainer.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
-                postgreSQLContainer.getDatabaseName()));
+            "jdbc:postgresql://localhost:%d/%s"
+                .formatted(
+                    postgreSQLContainer.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
+                    postgreSQLContainer.getDatabaseName()));
 
     registry.add("spring.data.redis.host", redis::getHost);
     registry.add("spring.data.redis.port", () -> redis.getMappedPort(6379).toString());
