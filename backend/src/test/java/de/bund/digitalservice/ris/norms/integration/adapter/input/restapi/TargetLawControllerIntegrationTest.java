@@ -158,7 +158,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
 
                 </akn:body>
               """
-            .trim();
+            .strip();
 
     final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
@@ -189,7 +189,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
 
                     </akn:body>
                   """
-            .trim();
+            .strip();
 
     final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
@@ -248,7 +248,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
                         </akn:body>
                       </akn:akomaNtoso>
                       """
-            .trim();
+            .strip();
 
     final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
