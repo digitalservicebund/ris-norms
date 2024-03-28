@@ -106,6 +106,32 @@ describe("amendingLawsService", () => {
     })
   })
 
+  describe("getAmendingLawHtmlByEli(eli)", () => {
+    it("provides the data from the api", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { getAmendingLawHtmlByEli } = await import("./amendingLawsService")
+
+      const result = await getAmendingLawHtmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+      expect(result).toBe("<div></div>")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Accept: "text/html",
+          }),
+        }),
+      )
+    })
+  })
+
   describe("putAmendingLawXml(eli, xml)", () => {
     it("sends the data to the api", async () => {
       const fetchMock = vi
