@@ -3,7 +3,7 @@ import { amendingLawXml } from "@e2e/testData/amendingLawXml"
 
 test(`navigate to article editor`, async ({ page }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles",
   )
   await page.getByText("Änderungsbefehl prüfen").click()
 

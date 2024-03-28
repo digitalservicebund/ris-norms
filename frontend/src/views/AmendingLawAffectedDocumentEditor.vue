@@ -121,7 +121,10 @@ async function handleGeneratePreview() {
             Vorschau
           </h3>
 
-          <RisLawPreview class="flex-grow" :content="previewHtml" />
+          <RisLawPreview
+            class="ds-textarea flex-grow p-2"
+            :content="previewHtml"
+          />
         </section>
       </div>
     </div>

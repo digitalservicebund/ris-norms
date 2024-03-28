@@ -2,6 +2,20 @@ import { test, expect } from "@playwright/test"
 import { amendingLaws } from "@e2e/testData/testData"
 
 test.describe("Articles page", () => {
+  test(`navigate to articles overview`, async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+    )
+    await page.getByText("Artikelübersicht").click()
+
+    await expect(page).toHaveURL(
+      `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles`,
+    )
+    await expect(
+      page.getByRole("heading", { name: "Enthaltene Artikel" }),
+    ).toBeVisible()
+  })
+
   for (const amendingLaw of amendingLaws) {
     test(`navigate and verify navigation to articles page for ${amendingLaw.eli}`, async ({
       page,

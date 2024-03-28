@@ -32,7 +32,7 @@ const routes = [
           {
             path: "",
             name: "AmendingLaw",
-            redirect: { name: "AmendingLawArticles" },
+            component: () => import("@/views/AmendingLawOverview.vue"),
           },
           {
             path: "affected-documents",

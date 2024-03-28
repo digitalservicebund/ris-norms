@@ -11,7 +11,9 @@ test.describe("Info header", () => {
       await expect(
         page.getByText(getExpectedHeading(amendingLaw)),
       ).toBeVisible()
-      await expect(page.getByText(amendingLaw.title ?? "")).toBeVisible()
+      await expect(
+        page.getByText(amendingLaw.title ?? "").first(),
+      ).toBeVisible()
     })
   }
 })
