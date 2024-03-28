@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.spring.starter.data.redis)
     implementation(libs.spring.session.data.redis)
     implementation(libs.saxon.he)
+    implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.2")
 
     compileOnly(libs.lombok)
 

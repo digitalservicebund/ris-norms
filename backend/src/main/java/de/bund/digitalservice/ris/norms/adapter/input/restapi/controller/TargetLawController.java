@@ -4,8 +4,17 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TargetLawResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TargetLawResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.legaldoc1_6.Aenderungsbefehl;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.legaldoc1_6.AkomaNtoso;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.legaldoc1_6.P;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -231,6 +240,52 @@ public class TargetLawController {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
+  @PostMapping(
+      path =
+          "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/previewnew",
+      consumes = {APPLICATION_XML_VALUE},
+      produces = {APPLICATION_XML_VALUE})
+  public AkomaNtoso testXmlConversion(
+      @PathVariable final String printAnnouncementGazette,
+      @PathVariable final String printAnnouncementYear,
+      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype,
+      @RequestBody final String amendingLaw)
+      throws JAXBException, FileNotFoundException {
+
+    JAXBContext context = JAXBContext.newInstance(AkomaNtoso.class);
+    AkomaNtoso wholeDokument =
+        (AkomaNtoso)
+            context
+                .createUnmarshaller()
+                .unmarshal(new ByteArrayInputStream(amendingLaw.getBytes()));
+    P textabsatz =
+        (P)
+            wholeDokument
+                .getAct()
+                .getBody()
+                .getArticle()
+                .getFirst()
+                .getParagraph()
+                .getFirst()
+                .getList()
+                .getFirst()
+                .getPoint()
+                .get(1)
+                .getContent()
+                .getInhaltselement()
+                .get(0);
+    JAXBElement j = (JAXBElement) textabsatz.getContent().get(1);
+    Aenderungsbefehl aenderungbefehl = (Aenderungsbefehl) j.getValue();
+    //    Object a = findInstanceOfAenderungsbefehl(wholeDokument);
+
+    System.out.println(aenderungbefehl.getContent());
+    return wholeDokument;
+  }
+
   /**
    * Retrieves the html preview of a target law after an amending law is applied.
    *
@@ -357,5 +412,30 @@ public class TargetLawController {
         + language
         + "/"
         + subtype;
+  }
+
+  public static Aenderungsbefehl findInstanceOfAenderungsbefehl(Object obj) {
+    if (obj instanceof Aenderungsbefehl) {
+      return (Aenderungsbefehl) obj;
+    } else {
+      Field[] fields = obj.getClass().getDeclaredFields();
+      for (Field field : fields) {
+        field.setAccessible(true);
+        try {
+          Object value = field.get(obj);
+          if (value instanceof Aenderungsbefehl) {
+            return (Aenderungsbefehl) value;
+          } else {
+            Aenderungsbefehl found = findInstanceOfAenderungsbefehl(value);
+            if (found != null) {
+              return found;
+            }
+          }
+        } catch (IllegalAccessException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return null;
   }
 }
