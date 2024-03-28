@@ -38,6 +38,9 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
+            text/html:
+              schema:
+                type: string
     put:
       summary: Update the XML of an specific amending law by eli
       parameters:

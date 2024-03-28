@@ -131,7 +131,7 @@ class TargetLawControllerTest {
   @Nested
   class GetTargetLawHtml {
     @Test
-    void itCallsTargetServiceAndReturnsTargetLawXml() throws Exception {
+    void itCallsTargetServiceAndReturnsTargetLawAsHtml() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<target></target>";

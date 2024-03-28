@@ -40,6 +40,7 @@ class AmendingLawControllerTest {
   @MockBean private LoadArticlesUseCase loadArticlesUseCase;
   @MockBean private LoadArticleUseCase loadArticleUseCase;
   @MockBean private UpdateAmendingLawXmlUseCase updateAmendingLawXmlUseCase;
+  @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
   @MockBean
   private ReleaseAmendingLawAndAllRelatedTargetLawsUseCase
@@ -197,6 +198,31 @@ class AmendingLawControllerTest {
           .perform(get("/api/v1/amending-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
           .andExpect(status().isOk())
           .andExpect(content().string(xml));
+    }
+  }
+
+  @Nested
+  class getAmendingLawRenderedHtml {
+
+    @Test
+    void itCallsAmendingLawServiceAndReturnsLawHtml() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<akn:doc></akn:doc>";
+      final String html = "<div></div>";
+
+      when(loadAmendingLawXmlUseCase.loadAmendingLawXml(any())).thenReturn(Optional.of(xml));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+
+      // When // Then
+      mockMvc
+          .perform(get("/api/v1/amending-laws/{eli}", eli).accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+          .andExpect(content().string(html));
+
+      verify(transformLegalDocMlToHtmlUseCase, times(1))
+          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));
     }
   }
 
