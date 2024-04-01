@@ -64,6 +64,7 @@ jobs:
       - name: Run e2e tests in ${{ inputs.browser }} against localhost
         env:
           E2E_BASE_URL: "http://localhost:5173"
+          TZ: 'Europe/Berlin'
         run: |
           echo "Running e2e tests 1 time"
 
