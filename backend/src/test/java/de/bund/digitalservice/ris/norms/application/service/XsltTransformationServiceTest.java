@@ -261,6 +261,11 @@ class XsltTransformationServiceTest {
             "Bundesverfassungsschutzgesetz with metadata",
             "Bundesverfassungsschutzgesetz.xml",
             true,
-            "Bundesverfassungsschutzgesetz-with-metadata.html"));
+            "Bundesverfassungsschutzgesetz-with-metadata.html"),
+        Arguments.arguments(
+            "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
+            "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.xml",
+            false,
+            "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.html"));
   }
 }
