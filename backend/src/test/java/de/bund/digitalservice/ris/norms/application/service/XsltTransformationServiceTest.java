@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -15,8 +16,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Stream;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -187,9 +190,14 @@ class XsltTransformationServiceTest {
             """);
   }
 
+  /** To generate new expected files see {@link #generateExpectedHtmlForShouldTransformXml} */
   @ParameterizedTest(name = "{0}")
   @MethodSource("shouldTransformXmlArgumentsProvider")
-  void shouldTransformXml(String name, String xml, Boolean showMetadata, String expectedHtml) {
+  void shouldTransformXml(
+      String name, String xmlFile, Boolean showMetadata, String expectedHtmlFile)
+      throws IOException {
+    var xml = loadTestResource(xmlFile);
+    var expectedHtml = loadTestResource(expectedHtmlFile);
     var xsltResource =
         new FileUrlResource(
             Objects.requireNonNull(
@@ -203,6 +211,31 @@ class XsltTransformationServiceTest {
     assertThat(result).isEqualToIgnoringWhitespace(expectedHtml);
   }
 
+  /**
+   * This test can be used to generate new expected output files for {@link #shouldTransformXml}.
+   * The files can be found in build/resources/test/... and then need to be copied to
+   * /src/test/resources/...
+   */
+  @ParameterizedTest(name = "{0}")
+  @MethodSource("shouldTransformXmlArgumentsProvider")
+  @Disabled
+  void generateExpectedHtmlForShouldTransformXml(
+      String name, String xmlFile, Boolean showMetadata, String expectedHtmlFile)
+      throws IOException {
+    var xml = loadTestResource(xmlFile);
+    var xsltResource =
+        new FileUrlResource(
+            Objects.requireNonNull(
+                XsltTransformationService.class.getResource("/XSLT/html/legislation.xslt")));
+    var xsltTransformationService = new XsltTransformationService(xsltResource);
+
+    var result =
+        xsltTransformationService.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata));
+
+    saveTestResource(expectedHtmlFile, result);
+  }
+
   static String loadTestResource(String fileName) throws IOException {
     var resource =
         XsltTransformationServiceTest.class.getResource("xsltTransformationService/" + fileName);
@@ -210,17 +243,24 @@ class XsltTransformationServiceTest {
     return IOUtils.toString(resource, StandardCharsets.UTF_8);
   }
 
+  static void saveTestResource(String fileName, String result) throws IOException {
+    var resource =
+        XsltTransformationServiceTest.class.getResource("xsltTransformationService/" + fileName);
+    assert resource != null;
+    FileUtils.writeStringToFile(new File(resource.getFile()), result, StandardCharsets.UTF_8);
+  }
+
   static Stream<Arguments> shouldTransformXmlArgumentsProvider() throws IOException {
     return Stream.of(
         Arguments.arguments(
             "Bundesverfassungsschutzgesetz",
-            loadTestResource("Bundesverfassungsschutzgesetz.xml"),
+            "Bundesverfassungsschutzgesetz.xml",
             false,
-            loadTestResource("Bundesverfassungsschutzgesetz.html")),
+            "Bundesverfassungsschutzgesetz.html"),
         Arguments.arguments(
             "Bundesverfassungsschutzgesetz with metadata",
-            loadTestResource("Bundesverfassungsschutzgesetz.xml"),
+            "Bundesverfassungsschutzgesetz.xml",
             true,
-            loadTestResource("Bundesverfassungsschutzgesetz-with-metadata.html")));
+            "Bundesverfassungsschutzgesetz-with-metadata.html"));
   }
 }
