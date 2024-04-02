@@ -94,13 +94,13 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
       >
         <div class="flex flex-col gap-4">
           <span class="ds-label-02-bold">
-            Die Abgabe ist aktuell ein Prototyp verfügbar.
+            Die Abgabe ist aktuell als Prototyp verfügbar.
           </span>
           <span class="ds-body-01-reg">
             Dieses Änderungsgesetz wurde zuletzt abgegeben am
             <time :datetime="publishedAtDateTime">
-              {{ publishedAtDateString }} um {{ publishedAtTimeString }} Uhr
-              abgeben. Die aktuelle Version kann hier eingesehen werden:
+              {{ publishedAtDateString }} um {{ publishedAtTimeString }} Uhr.
+              Die aktuelle Version kann hier eingesehen werden:
             </time>
             <ul class="list-disc pl-20">
               <li>
