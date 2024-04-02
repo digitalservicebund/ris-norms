@@ -88,7 +88,7 @@
     </xsl:template>
 
     <xsl:template
-            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:subheading | akn:marker | akn:content | akn:intro | akn:formula | akn:location | akn:role | akn:person | akn:inline | akn:mod | akn:affectedDocument | akn:organization | akn:ref">
+            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:subheading | akn:marker | akn:content | akn:intro | akn:formula | akn:location | akn:role | akn:person | akn:inline | akn:mod | akn:affectedDocument | akn:organization | akn:ref | akn:p">
         <span>
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
@@ -172,7 +172,7 @@
 
     <!-- Handle "normal" html elements -->
     <xsl:template
-            match="akn:a | akn:abbr | akn:b | akn:br | akn:caption | akn:del | akn:i | akn:ins | akn:li | akn:ol | akn:sub | akn:sup | akn:td | akn:th | akn:tr | akn:u | akn:ul | akn:span | akn:table | akn:p">
+            match="akn:a | akn:abbr | akn:b | akn:br | akn:caption | akn:del | akn:i | akn:ins | akn:li | akn:ol | akn:sub | akn:sup | akn:td | akn:th | akn:tr | akn:u | akn:ul | akn:span | akn:table">
         <xsl:element name="{local-name()}">
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
