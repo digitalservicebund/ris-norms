@@ -9,7 +9,7 @@ test.describe("Publishing flow for an amending law", () => {
   ): Promise<void> {
     const timeElement = page.locator("time")
     await expect(timeElement).toHaveText(
-      `${expectedDate} um ${expectedTime} Uhr abgeben. Die aktuelle Version kann hier eingesehen werden: `,
+      `${expectedDate} um ${expectedTime} Uhr. Die aktuelle Version kann hier eingesehen werden: `,
     )
   }
 
