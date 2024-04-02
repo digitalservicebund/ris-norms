@@ -55,7 +55,7 @@
                 <xsl:apply-templates select="akn:num"/>
                 <xsl:apply-templates select="akn:heading"/>
             </h2>
-            <xsl:apply-templates select="*[not(self::akn:num|self::akn:heading)]"/>
+            <xsl:apply-templates select="text()|*[not(self::akn:num|self::akn:heading)]"/>
         </section>
     </xsl:template>
 
@@ -66,7 +66,7 @@
                 <xsl:apply-templates select="akn:num"/>
                 <xsl:apply-templates select="akn:heading"/>
             </h3>
-            <xsl:apply-templates select="*[not(self::akn:num|self::akn:heading)]"/>
+            <xsl:apply-templates select="text()|*[not(self::akn:num|self::akn:heading)]"/>
         </section>
     </xsl:template>
 
@@ -76,7 +76,7 @@
             <h4>
                 <xsl:apply-templates select="akn:num"/>
             </h4>
-            <xsl:apply-templates select="*[not(self::akn:num)]"/>
+            <xsl:apply-templates select="text()|*[not(self::akn:num)]"/>
         </section>
     </xsl:template>
 
@@ -129,6 +129,18 @@
         </div>
     </xsl:template>
 
+    <!--
+        We normally create a li-Element for each akn:point. A li-Element can only be nested within some specific HTML elements.
+        A akn:quotedStructure is not rendered as one of these. Therefor we need to handle akn:point in a special way when it is directly nested in a akn:quotedStructure.
+    -->
+    <xsl:template match="akn:quotedStructure/akn:point" priority="2">
+        <span>
+            <xsl:call-template name="attributes"/>
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
+
+
     <xsl:template
             match="akn:date">
         <time>
@@ -145,7 +157,7 @@
             <xsl:apply-templates select="akn:intro"/>
             <ol>
                 <xsl:apply-templates
-                        select="*[not(self::akn:intro | self::akn:wrapUp)]"/>
+                        select="text()|*[not(self::akn:intro|self::akn:wrapUp)]"/>
             </ol>
             <xsl:apply-templates select="akn:wrapUp"/>
         </div>
