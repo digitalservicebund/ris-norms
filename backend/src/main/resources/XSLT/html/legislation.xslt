@@ -88,11 +88,54 @@
     </xsl:template>
 
     <xsl:template
-            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:marker | akn:content | akn:intro | akn:formula | akn:location | akn:role | akn:person | akn:date | akn:inline">
+            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:subheading | akn:marker | akn:content | akn:intro | akn:formula | akn:location | akn:role | akn:person | akn:inline | akn:mod | akn:affectedDocument | akn:organization | akn:ref">
         <span>
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
         </span>
+    </xsl:template>
+
+    <!-- handle the quote characters of the attribute-group akn:quote (used by e.g. quotedText and quotedStructure)-->
+    <xsl:template name="quote">
+        <span class="akn-quote-startQuote">
+            <xsl:value-of select="@startQuote"/>
+        </span>
+        <xsl:apply-templates/>
+        <span class="akn-quote-endQuote">
+            <xsl:choose>
+                <xsl:when test="@endQuote">
+                    <xsl:value-of select="@endQuote"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="@startQuote"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </span>
+    </xsl:template>
+
+    <xsl:template
+            match="akn:quotedText">
+        <span>
+            <xsl:call-template name="attributes"/>
+            <xsl:call-template name="quote"/>
+        </span>
+    </xsl:template>
+
+    <xsl:template
+            match="akn:quotedStructure">
+        <div>
+            <xsl:call-template name="attributes"/>
+            <xsl:call-template name="quote"/>
+        </div>
+    </xsl:template>
+
+    <xsl:template
+            match="akn:date">
+        <time>
+            <xsl:call-template name="attributes"/>
+            <xsl:attribute name="datetime" select="@date"/>
+            <xsl:apply-templates/>
+        </time>
     </xsl:template>
 
     <!-- Lists -->
@@ -111,23 +154,13 @@
     <xsl:template match="akn:point">
         <li>
             <xsl:call-template name="attributes"/>
-            <span>
-                <xsl:apply-templates select="akn:num"/>
-            </span>
-            <xsl:apply-templates select="*[not(self::akn:num)]"/>
-        </li>
-    </xsl:template>
-
-    <xsl:template match="akn:p">
-        <p>
-            <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
-        </p>
+        </li>
     </xsl:template>
 
     <!-- Handle "normal" html elements -->
     <xsl:template
-            match="akn:a | akn:abbr | akn:b | akn:br | akn:caption | akn:del | akn:i | akn:ins | akn:li | akn:ol | akn:sub | akn:sup | akn:td | akn:th | akn:tr | akn:u | akn:ul">
+            match="akn:a | akn:abbr | akn:b | akn:br | akn:caption | akn:del | akn:i | akn:ins | akn:li | akn:ol | akn:sub | akn:sup | akn:td | akn:th | akn:tr | akn:u | akn:ul | akn:span | akn:table | akn:p">
         <xsl:element name="{local-name()}">
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
