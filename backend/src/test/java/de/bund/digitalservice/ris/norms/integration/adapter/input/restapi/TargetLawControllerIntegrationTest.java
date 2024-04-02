@@ -111,7 +111,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
                 .string(
                     containsString(
                         """
-                  <p class="akn-p" data-eId="two">text2</p>
+                              <span class="akn-p" data-eId="two">text2</span>
                 """)));
   }
 
@@ -292,7 +292,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
                 .string(
                     containsString(
                         """
-                      <p class="akn-p" data-eId="two">new text</p>
+                              <span class="akn-p" data-eId="two">new text</span>
                     """)));
   }
 }
