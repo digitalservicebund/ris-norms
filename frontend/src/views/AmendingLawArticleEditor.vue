@@ -147,7 +147,6 @@ async function handleGeneratePreview() {
           <RisCodeEditor
             class="flex-grow"
             :initial-content="articleXml"
-            highlight-mods
             @change="handleArticleXMLChange"
           ></RisCodeEditor>
         </section>
