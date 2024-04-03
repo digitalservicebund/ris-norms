@@ -10,6 +10,10 @@ const amendingLawHtml = useAmendingLawHtml(eli)
 <template>
   <div>
     <h1 class="ds-heading-02-reg mb-40">Verkündung</h1>
-    <RisLawPreview class="drop-shadow-md" :content="amendingLawHtml ?? ''" />
+    <RisLawPreview
+      class="drop-shadow-md"
+      :content="amendingLawHtml ?? ''"
+      highlight-mods
+    />
   </div>
 </template>

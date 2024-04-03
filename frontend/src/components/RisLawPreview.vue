@@ -1,13 +1,26 @@
 <script setup lang="ts">
-defineProps<{
-  content: string
-}>()
+withDefaults(
+  defineProps<{
+    content: string
+    highlightMods: boolean
+  }>(),
+  {
+    highlightMods: false,
+  },
+)
 </script>
 
 <template>
   <div class="overflow-hidden">
-    <!-- eslint-disable-next-line vue/no-v-html -->
-    <div class="flex h-full overflow-auto bg-white p-8" v-html="content"></div>
+    <!-- eslint-disable vue/no-v-html -->
+    <div
+      class="flex h-full overflow-auto bg-white p-8"
+      :class="{
+        'highlight-mods': highlightMods,
+      }"
+      v-html="content"
+    ></div>
+    <!-- eslint-enable vue/no-v-html -->
   </div>
 </template>
 
@@ -86,5 +99,9 @@ defineProps<{
 
 :deep(.akn-signature) {
   @apply block;
+}
+
+.highlight-mods :deep(.akn-mod) {
+  @apply -mx-2 inline-block border border-dashed border-gray-900 bg-[#D3EFFF] bg-opacity-20 px-2;
 }
 </style>
