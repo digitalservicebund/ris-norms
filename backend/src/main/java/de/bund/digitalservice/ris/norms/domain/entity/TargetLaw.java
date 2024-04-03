@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Document;
 
 /**
  * Class representing an targetLaw entity. This class is annotated with Lombok annotations for
@@ -16,7 +17,7 @@ public class TargetLaw {
 
   private String title;
 
-  private String xml;
+  private Document xml;
 
   private String fna;
 

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Document;
 
 /**
  * Represents an amending law entity with various attributes. This class is annotated with Lombok
@@ -32,7 +33,7 @@ public class AmendingLaw {
 
   private String title;
 
-  private String xml;
+  private Document xml;
 
   private Instant releasedAt;
 
