@@ -242,10 +242,6 @@ jobs:
       - name: Install cosign
         uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4
       - name: Sign the published Docker image
-        env:
-          COSIGN_EXPERIMENTAL: "true"
-        # This step uses the identity token to provision an ephemeral certificate
-        # against the sigstore community Fulcio instance.
         run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
       - name: Download cosign vulnerability scan record
         uses: actions/download-artifact@v4
@@ -253,8 +249,6 @@ jobs:
           name: "vuln-backend.json"
       - name: Attest vulnerability scan
         run: cosign attest --yes --replace --predicate vuln-backend.json --type vuln ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
-        env:
-          COSIGN_EXPERIMENTAL: "true"
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
         if: ${{ failure() }}
