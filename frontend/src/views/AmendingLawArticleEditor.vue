@@ -109,24 +109,21 @@ watch(articleXml, fetchRenderedHtml)
 watch(targetLawEli, fetchTargetLawHtmlContent)
 const amendingLawActiveTab = ref("text")
 
-// Watch for changes in currentArticleXml or the active tab
 watch(
   [currentArticleXml, amendingLawActiveTab],
   async ([newXml, newActiveTab], [oldXml, oldActiveTab]) => {
-    // Check if the XML has changed or if the active tab has changed to "text"
     if (
       newXml !== oldXml ||
       (newActiveTab === "text" && newActiveTab !== oldActiveTab)
     ) {
-      // Trigger fetchRenderedHtml only if there is XML content and the "text" tab is active
       if (newXml && newActiveTab === "text") {
         await fetchRenderedHtml()
       }
     }
   },
   {
-    immediate: true, // Run the watcher immediately on component mount
-    deep: true, // Ensure deep reactivity tracking, especially useful if the objects being watched are complex or nested
+    immediate: true,
+    deep: true,
   },
 )
 </script>
