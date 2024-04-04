@@ -56,7 +56,6 @@ class TargetLawControllerTest {
   final XmlDocumentService xmlDocumentService = new XmlDocumentService();
   final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
 
-
   @Nested
   class GetTargetLaw {
     @Test

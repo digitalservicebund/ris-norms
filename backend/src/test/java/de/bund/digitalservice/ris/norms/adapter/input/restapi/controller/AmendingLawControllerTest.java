@@ -426,10 +426,10 @@ class AmendingLawControllerTest {
               .enumeration("2")
               .targetLaw(
                   TargetLaw.builder()
-                    .eli("target law eli 2")
-                    .title("title2")
-                    .xml(timeMachineService.stringToXmlDocument("<xml2></xml2>"))
-                    .build())
+                      .eli("target law eli 2")
+                      .title("title2")
+                      .xml(timeMachineService.stringToXmlDocument("<xml2></xml2>"))
+                      .build())
               .targetLawZf0(
                   TargetLaw.builder()
                       .eli("target law zf0 eli")

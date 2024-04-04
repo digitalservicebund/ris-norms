@@ -4,7 +4,6 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawD
 import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
 import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
-
 import java.util.Optional;
 
 /** Mapper class for converting between {@link AmendingLawDto} and {@link AmendingLaw}. */
@@ -30,7 +29,8 @@ public class AmendingLawMapper {
         amendingLawDTO.getPublicationDate(),
         amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
-        amendingLawDTO.getTitle(), timeMachineService.stringToXmlDocument(amendingLawDTO.getXml()),
+        amendingLawDTO.getTitle(),
+        timeMachineService.stringToXmlDocument(amendingLawDTO.getXml()),
         amendingLawDTO.getReleasedAt(),
         amendingLawDTO.getArticleDtos().stream().map(ArticleMapper::mapToDomain).toList());
   }

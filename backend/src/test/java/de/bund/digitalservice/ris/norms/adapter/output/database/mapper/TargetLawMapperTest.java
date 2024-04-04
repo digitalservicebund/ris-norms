@@ -31,7 +31,8 @@ class TargetLawMapperTest {
     assertNotNull(targetLaw);
     assertEquals(targetLawDto.getEli(), targetLaw.getEli());
     assertEquals(targetLawDto.getTitle(), targetLaw.getTitle());
-    assertEquals(targetLawDto.getXml(), timeMachineService.convertDocumentToString(targetLaw.getXml()));
+    assertEquals(
+        targetLawDto.getXml(), timeMachineService.convertDocumentToString(targetLaw.getXml()));
     assertEquals(targetLawDto.getFna(), targetLaw.getFna());
     assertEquals(targetLawDto.getShortTitle(), targetLaw.getShortTitle());
   }
@@ -44,7 +45,9 @@ class TargetLawMapperTest {
         TargetLaw.builder()
             .eli("456")
             .title("Another Test Law")
-            .xml(timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Another Test XML</test>"))
+            .xml(
+                timeMachineService.stringToXmlDocument(
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Another Test XML</test>"))
             .build();
 
     // When
@@ -54,6 +57,7 @@ class TargetLawMapperTest {
     assertNotNull(targetLawDto);
     assertEquals(targetLaw.getEli(), targetLawDto.getEli());
     assertEquals(targetLaw.getTitle(), targetLawDto.getTitle());
-    assertEquals(timeMachineService.convertDocumentToString(targetLaw.getXml()), targetLawDto.getXml());
+    assertEquals(
+        timeMachineService.convertDocumentToString(targetLaw.getXml()), targetLawDto.getXml());
   }
 }

@@ -43,7 +43,8 @@ class TargetLawServiceTest {
     final LoadTargetLawUseCase.Query query = new LoadTargetLawUseCase.Query(eli);
 
     final String title = "Target Law Title";
-    final Document xml = timeMachineService.stringToXmlDocument("<targetLaw>Test target law</targetLaw>");
+    final Document xml =
+        timeMachineService.stringToXmlDocument("<targetLaw>Test target law</targetLaw>");
     final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
 
     when(loadTargetLawAdapter.loadTargetLawByEli(any())).thenReturn(Optional.of(targetLaw));

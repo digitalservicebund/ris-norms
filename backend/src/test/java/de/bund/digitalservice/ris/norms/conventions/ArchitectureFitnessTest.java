@@ -75,10 +75,10 @@ class ArchitectureFitnessTest {
                 resideInAPackage(DOMAIN_LAYER_PACKAGES)
                     .or(
                         JavaClass.Predicates.resideInAnyPackage(
-                            "kotlin..", 
-                            "java..", 
-                            "org.jetbrains.annotations..", 
-                            "lombok..", 
+                            "kotlin..",
+                            "java..",
+                            "org.jetbrains.annotations..",
+                            "lombok..",
                             "org.w3c.dom..")));
     rule.check(classes);
   }

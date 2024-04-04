@@ -44,7 +44,6 @@ class AmendingLawServiceTest {
   final XmlDocumentService xmlDocumentService = new XmlDocumentService();
   final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
 
-
   @Test
   void itCallsLoadAmendingLawByEliUsingInputQueryEli() {
     // Given

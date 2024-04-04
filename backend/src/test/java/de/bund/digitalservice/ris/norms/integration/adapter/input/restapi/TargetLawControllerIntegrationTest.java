@@ -34,7 +34,6 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
   final XmlDocumentService xmlDocumentService = new XmlDocumentService();
   final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
 
-
   @Test
   void itCallsTargetLawServiceAndReturnsTargetLaw() throws Exception {
     // Given
@@ -89,8 +88,9 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
             .title("Title vom Gesetz")
-            .xml(timeMachineService.stringToXmlDocument(
-                """
+            .xml(
+                timeMachineService.stringToXmlDocument(
+                    """
                 <?xml version="1.0" encoding="UTF-8"?>
                 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-metadaten.xsd
@@ -200,8 +200,9 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
 
     final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
-    final Document targetLawXmlText = timeMachineService.stringToXmlDocument(
-        """
+    final Document targetLawXmlText =
+        timeMachineService.stringToXmlDocument(
+            """
                   <?xml version="1.0" encoding="UTF-8"?>
                   <akn:body>
                       <akn:p eId="one">old text</akn:p>
@@ -259,8 +260,9 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
 
     final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
-    final Document targetLawXml = timeMachineService.stringToXmlDocument(
-        """
+    final Document targetLawXml =
+        timeMachineService.stringToXmlDocument(
+            """
                       <?xml version="1.0" encoding="UTF-8"?>
                       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-metadaten.xsd

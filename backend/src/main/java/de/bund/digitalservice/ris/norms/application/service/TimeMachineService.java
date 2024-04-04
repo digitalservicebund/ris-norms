@@ -88,6 +88,7 @@ public class TimeMachineService {
   // TODO: add tests now that these are public
   /**
    * TODO: complete docs
+   *
    * @param xmlText
    * @return something
    */
@@ -113,6 +114,7 @@ public class TimeMachineService {
   // TODO add tests now that these are public
   /**
    * TODO: complete docs
+   *
    * @param doc
    * @return something
    */

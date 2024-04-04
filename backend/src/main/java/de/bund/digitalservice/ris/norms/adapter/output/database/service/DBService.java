@@ -43,14 +43,13 @@ public class DBService
   TimeMachineService timeMachineService;
 
   public DBService(
-      AmendingLawRepository amendingLawRepository, 
+      AmendingLawRepository amendingLawRepository,
       TargetLawRepository targetLawRepository,
       TimeMachineService timeMachineService) {
     this.amendingLawRepository = amendingLawRepository;
     this.targetLawRepository = targetLawRepository;
     this.timeMachineService = timeMachineService;
   }
-
 
   @Override
   @Transactional
@@ -137,7 +136,8 @@ public class DBService
     return amendingLawDtoOptional.map(
         amendingLawDto -> {
           amendingLawDto.setEli(command.amendingLaw().getEli());
-          amendingLawDto.setXml(timeMachineService.convertDocumentToString(command.amendingLaw().getXml()));
+          amendingLawDto.setXml(
+              timeMachineService.convertDocumentToString(command.amendingLaw().getXml()));
           amendingLawDto.setTitle(command.amendingLaw().getTitle());
           amendingLawDto.setDigitalAnnouncementMedium(
               command.amendingLaw().getDigitalAnnouncementMedium());

@@ -32,7 +32,6 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
   final XmlDocumentService xmlDocumentService = new XmlDocumentService();
   final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
 
-
   @AfterEach
   void cleanUp() {
     amendingLawRepository.deleteAll();

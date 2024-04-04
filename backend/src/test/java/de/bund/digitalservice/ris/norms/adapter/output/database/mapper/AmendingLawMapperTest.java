@@ -75,7 +75,8 @@ class AmendingLawMapperTest {
     assertThat(article.getTitle()).isEqualTo("title");
     assertThat(article.getTargetLaw().getEli()).isEqualTo("target law eli");
     assertThat(article.getTargetLaw().getTitle()).isEqualTo("target law title");
-    assertThat(article.getTargetLaw().getXml().toString()).isEqualTo(timeMachineService.stringToXmlDocument("<test></test>").toString());
+    assertThat(article.getTargetLaw().getXml().toString())
+        .isEqualTo(timeMachineService.stringToXmlDocument("<test></test>").toString());
   }
 
   @Test
@@ -88,14 +89,18 @@ class AmendingLawMapperTest {
         TargetLaw.builder()
             .eli("target law eli")
             .title("target law title")
-            .xml(timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test/>"))
+            .xml(
+                timeMachineService.stringToXmlDocument(
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><test/>"))
             .build();
 
     final TargetLaw targetLawZf0 =
         TargetLaw.builder()
             .eli("target law zf0 eli")
             .title("target law zf0 title")
-            .xml(timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>zf0</test>"))
+            .xml(
+                timeMachineService.stringToXmlDocument(
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>zf0</test>"))
             .build();
 
     final List<Article> articles = new ArrayList<>();
@@ -131,10 +136,12 @@ class AmendingLawMapperTest {
 
     assertThat(articleDto.getTargetLawDto().getEli()).isEqualTo("target law eli");
     assertThat(articleDto.getTargetLawDto().getTitle()).isEqualTo("target law title");
-    assertThat(articleDto.getTargetLawDto().getXml()).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test/>");
+    assertThat(articleDto.getTargetLawDto().getXml())
+        .isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test/>");
 
     assertThat(articleDto.getTargetLawZf0Dto().getEli()).isEqualTo("target law zf0 eli");
     assertThat(articleDto.getTargetLawZf0Dto().getTitle()).isEqualTo("target law zf0 title");
-    assertThat(articleDto.getTargetLawZf0Dto().getXml()).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>zf0</test>");
+    assertThat(articleDto.getTargetLawZf0Dto().getXml())
+        .isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>zf0</test>");
   }
 }
