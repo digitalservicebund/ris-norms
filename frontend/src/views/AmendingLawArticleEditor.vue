@@ -1,25 +1,36 @@
 <script setup lang="ts">
+import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
+import { useAmendingLawHtml } from "@/composables/useAmendingLawHtml"
 import { useArticle } from "@/composables/useArticle"
 import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTargetLaw } from "@/composables/useTargetLaw"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
-import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, ref, watch, onMounted } from "vue"
-import IconArrowBack from "~icons/ic/baseline-arrow-back"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
+import { eidHasPart, reduceEidToPart } from "@/services/eidService"
+import { renderHtmlLaw } from "@/services/lawService"
 import {
-  previewTargetLaw,
+  getChangeNewText,
+  getChangeRefHref,
+  getChangeType,
+  getTargetLawHref,
+  setChangeNewText,
+  setChangeType,
+} from "@/services/ldmlDeService"
+import {
   getTargetLawHtmlByEli,
+  previewTargetLaw,
   previewTargetLawAsHtml,
 } from "@/services/targetLawsService"
-import RisLawPreview from "@/components/RisLawPreview.vue"
-import { renderHtmlLaw } from "@/services/lawService"
+import { xmlDocumentToString, xmlStringToDocument } from "@/services/xmlService"
+import { LawElementIdentifier } from "@/types/lawElementIdentifier"
+import { ComputedRef, computed, onMounted, ref, watch } from "vue"
+import IconArrowBack from "~icons/ic/baseline-arrow-back"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -33,6 +44,9 @@ const { xml: articleXml, update: updateArticleXml } = useArticleXml(identifier)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const targetLaw = useTargetLaw(targetLawEli)
 const { xml: targetLawXml } = useTargetLawXml(targetLawEli)
+const { html: amendingLawHtml, update: updateAmendingLawHtml } =
+  useAmendingLawHtml(eli)
+
 const currentArticleXml = ref("")
 const renderedHtml = ref("")
 const previewXml = ref<string>("")
@@ -59,6 +73,7 @@ async function handleSave() {
   try {
     // TODO: (Malte Laukötter, 2024-03-07) this is currently saving the whole amending law, we need to change this to a single article once we have adjusted the provided xml as well
     await updateArticleXml(currentArticleXml.value)
+    updateAmendingLawHtml()
   } catch (error) {
     alert("Änderungsgesetz nicht gespeichert")
     console.error(error)
@@ -121,6 +136,119 @@ watch(articleXml, (articleXml) => {
     currentArticleXml.value = articleXml
   }
 })
+
+const xmlDoc = computed(() =>
+  xmlStringToDocument(currentArticleXml.value ?? ""),
+)
+
+function reduceToSingleValueOrMixed(values: (string | null | undefined)[]) {
+  return values.reduce(
+    (acc, current) => {
+      if (acc === current || acc === null) {
+        return current ?? null
+      } else {
+        return "mixed"
+      }
+    },
+    null as string | null,
+  )
+}
+
+const selectedChangeMods = ref<string[]>([])
+const selectedBezugsDoc = ref<string | null>(null)
+
+function handleEditorClick({
+  eid,
+  originalEvent,
+}: {
+  eid: string
+  guid: string
+  originalEvent: MouseEvent
+}) {
+  if (eidHasPart(eid, "ändbefehl")) {
+    if (!originalEvent.shiftKey) {
+      selectedChangeMods.value = []
+    }
+    selectedChangeMods.value.push(reduceEidToPart(eid, "ändbefehl"))
+  }
+
+  if (eidHasPart(eid, "bezugsdoc")) {
+    selectedBezugsDoc.value = reduceEidToPart(eid, "bezugsdoc")
+  }
+}
+
+const changeType = computed({
+  get() {
+    return reduceToSingleValueOrMixed(
+      selectedChangeMods.value.map((eid) => getChangeType(xmlDoc.value, eid)),
+    )
+  },
+  set(newValue) {
+    if (!newValue) return
+
+    for (const eid of selectedChangeMods.value) {
+      setChangeType(xmlDoc.value, eid, newValue)
+    }
+
+    currentArticleXml.value = xmlDocumentToString(xmlDoc.value)
+  },
+})
+const changeRefHref = computed(() =>
+  reduceToSingleValueOrMixed(
+    selectedChangeMods.value.map((eid) => getChangeRefHref(xmlDoc.value, eid)),
+  ),
+)
+const changeNewText = computed({
+  get() {
+    return reduceToSingleValueOrMixed(
+      selectedChangeMods.value.map((eid) =>
+        getChangeNewText(xmlDoc.value, eid),
+      ),
+    )
+  },
+  set(newText) {
+    if (!newText) return
+
+    for (const eid of selectedChangeMods.value) {
+      setChangeNewText(xmlDoc.value, eid, newText)
+    }
+
+    currentArticleXml.value = xmlDocumentToString(xmlDoc.value)
+  },
+})
+
+const targetLawEliTest = ref<string>()
+watch(
+  selectedChangeMods,
+  () =>
+    (targetLawEliTest.value =
+      reduceToSingleValueOrMixed(
+        selectedChangeMods.value.map((eid) =>
+          getChangeRefHref(xmlDoc.value, eid)
+            ?.split("/")
+            .slice(0, -2)
+            .join("/"),
+        ),
+      ) ?? ""),
+)
+
+function handleUseEliClick(eid: string | null) {
+  if (eid === null) return
+
+  targetLawEliTest.value = getTargetLawHref(xmlDoc.value, eid) ?? ""
+}
+
+const selectedEids: ComputedRef<string[]> = computed(() => {
+  const eIds: string[] = [...selectedChangeMods.value]
+  if (selectedBezugsDoc.value) {
+    eIds.push(selectedBezugsDoc.value)
+  }
+  return eIds
+})
+
+function eidToSlotName(eid: string) {
+  return `eid:${eid}`
+}
 </script>
 
 <template>
@@ -159,10 +287,10 @@ watch(articleXml, (articleXml) => {
         />
       </div>
 
-      <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-2 gap-32">
+      <div class="gap grid min-h-0 flex-grow grid-cols-3 grid-rows-2 gap-32">
         <section
-          class="flex flex-col gap-8"
-          aria-labelledby="originalArticleTitle"
+          class="row-span-2 flex flex-col gap-8"
+          aria-labelledby="changeCommandsEditor"
         >
           <h3
             id="originalArticleTitle"
@@ -192,7 +320,119 @@ watch(articleXml, (articleXml) => {
               ></RisCodeEditor>
             </template>
           </RisTabs>
+          =======
+          <h3 id="changeCommandsEditor" class="ds-label-02-bold">
+            <span class="block">Änderungsbefehle</span>
+            <span>{{ article?.title }}</span>
+          </h3>
+          <RisLawPreview
+            highlight-mods
+            highlight-affected-document
+            class="ds-textarea h-1/2 p-2"
+            :content="amendingLawHtml ?? ''"
+            :selected-eids="selectedEids"
+            @content:click="handleEditorClick"
+          >
+            <template
+              v-for="changeModEid in selectedChangeMods"
+              #[eidToSlotName(changeModEid)]
+            >
+              TEST
+            </template>
+            <template
+              v-if="selectedBezugsDoc"
+              #[eidToSlotName(selectedBezugsDoc)]
+            >
+              <div class="mt-4 flex flex-row gap-4">
+                <button
+                  class="ds-button ds-button-small ds-button-tertiary bg-white"
+                  @click="() => handleUseEliClick(selectedBezugsDoc)"
+                >
+                  ELI übernehmen
+                </button>
+                <button
+                  class="ds-button ds-button-small ds-button-tertiary bg-white"
+                >
+                  ELI kopiere
+                </button>
+                <button
+                  class="ds-button ds-button-small ds-button-tertiary bg-white"
+                >
+                  Öffnen
+                </button>
+              </div>
+            </template>
+          </RisLawPreview>
+          <RisCodeEditor
+            class="h-1/2"
+            :readonly="false"
+            :editable="true"
+            :initial-content="currentArticleXml"
+            @change="handleArticleXMLChange"
+          ></RisCodeEditor>
         </section>
+        <section
+          class="row-span-2 flex flex-col gap-8"
+          aria-labelledby="visualEditor"
+        >
+          <h3 id="visualEditor" class="ds-label-02-bold">
+            Änderungsbefehl bearbeiten
+          </h3>
+
+          <div>
+            <label for="changeType"
+              >Änderungstyp
+              <select
+                id="changeType"
+                v-model="changeType"
+                class="ds-select ds-select-medium"
+              >
+                <option disabled value="mixed">Verschiedene</option>
+                <option value="aenderungsbefehl-einfuegen">Einfügen</option>
+                <option value="aenderungsbefehl-ersetzen">Ersetzen</option>
+                <option value="aenderungsbefehl-streichen">Streichen</option>
+                <option value="aenderungsbefehl-neufassung">Neufassung</option>
+                <option value="aenderungsbefehl-ausserkrafttreten">
+                  Außerkrafttreten
+                </option>
+              </select></label
+            >
+          </div>
+
+          <div>
+            <label for="changeTargetLaw"
+              >ELI Zielgesetz
+              <input
+                id="changeTargetLaw"
+                class="ds-input ds-input-medium"
+                type="text"
+                :value="targetLawEliTest"
+            /></label>
+          </div>
+
+          <div>
+            <label for="changeRefHref"
+              >zu ersetzende Textstelle
+              <input
+                id="changeRefHref"
+                class="ds-input ds-input-medium"
+                type="text"
+                :value="changeRefHref"
+            /></label>
+          </div>
+          <div>
+            <label for="changeNewText"
+              >Neuer Text Inhalt
+              <textarea
+                id="changeNewText"
+                v-model="changeNewText"
+                class="ds-textarea"
+                type="text"
+              />
+            </label>
+          </div>
+        </section>
+
         <section
           class="row-span-2 flex flex-col gap-8"
           aria-labelledby="changedArticlePreivew"

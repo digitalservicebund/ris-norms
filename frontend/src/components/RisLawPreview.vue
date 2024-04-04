@@ -123,8 +123,8 @@ watch(
 </template>
 
 <style scoped>
-.highlight-mods :deep([data-eId]) {
-  @apply -mx-2 px-2;
+:deep([data-eId]) {
+  @apply align-top;
 }
 
 :deep(:is(table, thead, td)) {
@@ -243,9 +243,5 @@ watch(
 /* This is currently unused as the .selected class is never applied to elements */
 .highlight-affected-document :deep(.akn-affectedDocument.selected) {
   @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
-}
-
-.highlight-mods :deep([data-eId]):hover {
-  @apply bg-yellow-900 bg-opacity-15;
 }
 </style>

@@ -1,5 +1,5 @@
 import { MaybeRefOrGetter, Ref, readonly, ref, toValue, watch } from "vue"
-import { getAmendingLawHtmlByEli } from "@/services/amendingLawsService"
+import { getTargetLawHtmlByEli } from "@/services/targetLawsService"
 
 /**
  * Get the rendered HTML of an amending law.
@@ -9,29 +9,20 @@ import { getAmendingLawHtmlByEli } from "@/services/amendingLawsService"
  *
  * @returns A reference to the amending law rendered HTML or undefined if it is not available (or still loading).
  */
-export function useAmendingLawHtml(eli: MaybeRefOrGetter<string | undefined>): {
-  html: Readonly<Ref<string | undefined>>
-  update: () => unknown
-} {
+export function useTargetLawHtml(
+  eli: MaybeRefOrGetter<string | undefined>,
+): Readonly<Ref<string | undefined>> {
   const amendingLawHtml = ref<string>()
 
   watch(
     () => toValue(eli),
     async (eli) => {
       if (eli) {
-        amendingLawHtml.value = await getAmendingLawHtmlByEli(eli)
+        amendingLawHtml.value = await getTargetLawHtmlByEli(eli)
       }
     },
     { immediate: true },
   )
 
-  return {
-    html: readonly(amendingLawHtml),
-    update: async () => {
-      const eliValue = toValue(eli)
-      if (eliValue) {
-        amendingLawHtml.value = await getAmendingLawHtmlByEli(eliValue)
-      }
-    },
-  }
+  return readonly(amendingLawHtml)
 }

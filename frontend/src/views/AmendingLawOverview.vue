@@ -4,7 +4,7 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useAmendingLawHtml } from "@/composables/useAmendingLawHtml"
 
 const eli = useEliPathParameter()
-const amendingLawHtml = useAmendingLawHtml(eli)
+const { html: amendingLawHtml } = useAmendingLawHtml(eli)
 </script>
 
 <template>

@@ -19,7 +19,7 @@ describe("useAmendingLawHtml", () => {
     const eli = ref(
       "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
     )
-    const html = useAmendingLawHtml(eli)
+    const { html } = useAmendingLawHtml(eli)
     await vi.waitUntil(() => html.value)
 
     expect(html.value).toBe("<div></div>")
