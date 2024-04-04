@@ -2,21 +2,14 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.TargetLawDto;
 import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 
 /** Mapper class for converting between {@link TargetLawDto} and {@link TargetLaw}. */
 public class TargetLawMapper {
 
-  // TODO: the XML <--> String mapping should be in XmlDocumentService.
-  // Also: harmonize the function names like "mapStringToDocumen" and "mapDocumentToString"
-  static TimeMachineService timeMachineService;
-
   // Private constructor to hide the implicit public one and prevent instantiation
-  private TargetLawMapper(
-    TimeMachineService timeMachineService
-  ) {
-    this.timeMachineService = timeMachineService;
-  }
+  private TargetLawMapper() {}
 
   /**
    * Maps a {@link TargetLawDto} to the domain {@link TargetLaw}.
@@ -25,6 +18,7 @@ public class TargetLawMapper {
    * @return A new {@link TargetLaw} mapped from the input {@link TargetLawDto}.
    */
   public static TargetLaw mapToDomain(final TargetLawDto targetLawDto) {
+    final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
     return TargetLaw.builder()
         .eli(targetLawDto.getEli())
         .title(targetLawDto.getTitle())
@@ -41,6 +35,7 @@ public class TargetLawMapper {
    * @return A new {@link TargetLawDto} mapped from the input {@link TargetLaw}.
    */
   public static TargetLawDto mapToDto(final TargetLaw targetLaw) {
+    final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
     return TargetLawDto.builder()
         .eli(targetLaw.getEli())
         .title(targetLaw.getTitle())
