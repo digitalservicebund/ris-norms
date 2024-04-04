@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -19,12 +20,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.w3c.dom.Document;
 
 class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
 
   @Autowired private AmendingLawRepository amendingLawRepository;
+
+  TimeMachineService timeMachineService;
 
   @AfterEach
   void cleanUp() {
@@ -41,7 +45,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     // When
     final AmendingLaw amendingLaw =
@@ -83,7 +87,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title1 = "title1";
-    final String xml1 = "<test>1</test>";
+    final Document xml1 = timeMachineService.stringToXmlDocument("<test>1</test>");
 
     final String eli2 = "eli2";
     final String printAnnouncementGazette2 = "someGazette2";
@@ -92,7 +96,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
     final String title2 = "title2";
-    final String xml2 = "<test>2</test>";
+    final Document xml2 = timeMachineService.stringToXmlDocument("<test>2</test>");
 
     final AmendingLaw amendingLaw1 =
         AmendingLaw.builder()
@@ -142,13 +146,13 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     final TargetLaw targetLaw =
         TargetLaw.builder()
             .eli("target law eli")
             .title("target law title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -157,7 +161,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law zf0 eli")
             .title("target law zf0 title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlawZf0")
             .build();
@@ -211,13 +215,13 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     final TargetLaw targetLaw1 =
         TargetLaw.builder()
             .eli("target law eli")
             .title("target law title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -226,7 +230,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law zf0 eli")
             .title("target law zf0 title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -244,7 +248,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law eli 2")
             .title("target law title 2")
-            .xml("<target>2</target>")
+            .xml(timeMachineService.stringToXmlDocument("<target>2</target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -253,7 +257,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law zf0 eli")
             .title("target law zf0 title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -306,7 +310,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final String xmlString = "<test></test>";
 
     // When
     final AmendingLaw amendingLaw =
@@ -318,7 +322,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementMedium(digitalAnnouncementMedium)
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title)
-            .xml(xml)
+            .xml(timeMachineService.stringToXmlDocument(xmlString))
             .build();
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
 
@@ -326,7 +330,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     mockMvc
         .perform(get("/api/v1/amending-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
-        .andExpect(content().string(xml));
+        .andExpect(content().string(xmlString));
   }
 
   @Test
@@ -339,7 +343,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     // When
     final AmendingLaw amendingLaw =
@@ -380,13 +384,13 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     final TargetLaw targetLaw1 =
         TargetLaw.builder()
             .eli("target law eli")
             .title("target law title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -395,7 +399,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law zf0 eli")
             .title("target law zf0 title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -413,7 +417,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law eli 2")
             .title("target law title 2")
-            .xml("<target>2</target>")
+            .xml(timeMachineService.stringToXmlDocument("<target>2</target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -422,7 +426,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law 2 zf0 eli")
             .title("target law zf0 title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -480,13 +484,13 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     final TargetLaw targetLaw1 =
         TargetLaw.builder()
             .eli("target law eli")
             .title("target law title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -495,7 +499,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law zf0 eli")
             .title("target law zf0 title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -513,7 +517,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law eli 2")
             .title("target law title 2")
-            .xml("<target>2</target>")
+            .xml(timeMachineService.stringToXmlDocument("<target>2</target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();
@@ -522,7 +526,7 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("target law 2 zf0 eli")
             .title("target law zf0 title")
-            .xml("<target></target>")
+            .xml(timeMachineService.stringToXmlDocument("<target></target>"))
             .fna("4711")
             .shortTitle("targetlaw")
             .build();

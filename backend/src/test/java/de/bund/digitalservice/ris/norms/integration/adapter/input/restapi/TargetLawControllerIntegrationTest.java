@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.w3c.dom.Document;
 
 class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
 
@@ -28,12 +30,14 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
     targetLawRepository.deleteAll();
   }
 
+  TimeMachineService timeMachineService;
+
   @Test
   void itCallsTargetLawServiceAndReturnsTargetLaw() throws Exception {
     // Given
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
-    final String xml = "<target></target>";
+    final Document xml = timeMachineService.stringToXmlDocument("<target></target>");
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 
@@ -59,7 +63,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
     // Given
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
-    final String xml = "<target></target>";
+    final Document xml = timeMachineService.stringToXmlDocument("<target></target>");
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 
@@ -72,7 +76,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/target-laws/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML))
-        .andExpect(content().string(xml));
+        .andExpect(content().string("<target></target>"));
   }
 
   @Test
@@ -82,7 +86,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
             .title("Title vom Gesetz")
-            .xml(
+            .xml(timeMachineService.stringToXmlDocument(
                 """
                 <?xml version="1.0" encoding="UTF-8"?>
                 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -93,7 +97,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
                     <akn:p eId="two">text2</akn:p>
                   </akn:body>
                 </akn:akomaNtoso>
-                """)
+                """))
             .fna("4711")
             .shortTitle("TitleGesetz")
             .build();
@@ -120,7 +124,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
     // Given
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
-    final String xml = "<target></target>";
+    final Document xml = timeMachineService.stringToXmlDocument("<target></target>");
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 
@@ -193,14 +197,14 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
 
     final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
-    final String targetLawXmlText =
+    final Document targetLawXmlText = timeMachineService.stringToXmlDocument(
         """
                   <?xml version="1.0" encoding="UTF-8"?>
                   <akn:body>
                       <akn:p eId="one">old text</akn:p>
                       <akn:p eId="two">old text</akn:p>
                     </akn:body>
-                  """;
+                  """);
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 
@@ -252,7 +256,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
 
     final String targetLawEliShort = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
     final String title = "Title vom Gesetz";
-    final String targetLawXmlText =
+    final Document targetLawXml = timeMachineService.stringToXmlDocument(
         """
                       <?xml version="1.0" encoding="UTF-8"?>
                       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -263,7 +267,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
                           <akn:p eId="two">old text</akn:p>
                         </akn:body>
                       </akn:akomaNtoso>
-                      """;
+                      """);
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 
@@ -272,7 +276,7 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
         TargetLaw.builder()
             .eli(targetLawEliShort)
             .title(title)
-            .xml(targetLawXmlText)
+            .xml(targetLawXml)
             .fna(fna)
             .shortTitle(shortTitle)
             .build();

@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Amend
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -16,9 +17,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.w3c.dom.Document;
 
 class DBServiceIntegrationTest extends BaseIntegrationTest {
 
@@ -28,11 +31,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private TargetLawRepository targetLawRepository;
 
+  TimeMachineService timeMachineService;
+
   final TargetLaw targetLaw =
       TargetLaw.builder()
           .eli("target law eli")
           .title("target law title")
-          .xml("<test></test>")
+          .xml(timeMachineService.stringToXmlDocument("<test></test>"))
           .fna("4711")
           .shortTitle("targetlaw")
           .build();
@@ -41,7 +46,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
       TargetLaw.builder()
           .eli("target law eli zf0")
           .title("target law title zf0")
-          .xml("<test>zf0</test>")
+          .xml(timeMachineService.stringToXmlDocument("<test>zf0</test>"))
           .fna("4711")
           .shortTitle("targetlawzf0")
           .build();
@@ -67,7 +72,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    final Document xml = timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
     // When
     final AmendingLaw amendingLaw =
@@ -130,7 +135,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
     final String title2 = "title2";
-    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    final Document xml = timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
     final AmendingLaw amendingLaw1 =
         AmendingLaw.builder()
@@ -181,7 +186,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    final Document xml = timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
     // When
     final AmendingLaw amendingLaw =
@@ -219,7 +224,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    final Document xml = timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
     // When
     final AmendingLaw amendingLaw =
@@ -253,7 +258,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    final Document xml = timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
     // When
     final AmendingLaw amendingLaw =
@@ -285,7 +290,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Given
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String title = "title";
-    final String xml = "<target></target>";
+    final Document xml = timeMachineService.stringToXmlDocument("<target></target>");
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 
@@ -322,7 +327,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Given
     final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
     final String title = "title";
-    final String xml = "<target></target>";
+    final Document xml = timeMachineService.stringToXmlDocument("<target></target>");
     final String fna = "4711";
     final String shortTitle = "TitleGesetz";
 
@@ -338,7 +343,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Then
     assertThat(targetLawXmlOptional)
         .isPresent()
-        .satisfies(xmlDb -> assertThat(xmlDb).contains(xml));
+        .satisfies(xmlDb -> assertThat(xmlDb).contains("<target></target>"));
   }
 
   @Test
@@ -364,7 +369,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             .digitalAnnouncementEdition(digitalAnnouncementEdition)
             .title(title)
             .articles(List.of(article1, article2))
-            .xml(xml)
+            .xml(timeMachineService.stringToXmlDocument(xml))
             .build();
     amendingLawRepository.save(AmendingLawMapper.mapToDto(amendingLaw));
 
@@ -386,7 +391,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     // When
     final AmendingLaw amendingLaw =
@@ -418,7 +423,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   void itUpdatesXmlOfTargetLaw() {
     // Given
     final String eli = "eli/bgbl-1/2024/123/2017-03-15/1/deu/regelungstext-1";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     // When
     final TargetLaw targetLaw =
@@ -453,7 +458,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
     final Instant timestampNow = Instant.now();
 
     // new amending law
@@ -463,7 +468,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     final String digitalAnnouncementMedium2 = "medium1232";
     final String digitalAnnouncementEdition2 = "edition1232";
     final String title2 = "title2";
-    final String xml2 = "<test2></test2>";
+    final Document xml2 = timeMachineService.stringToXmlDocument("<test2></test2>");
     final Instant timestampNow2 = Instant.now().plusSeconds(5);
 
     final AmendingLaw amendingLawOld =
