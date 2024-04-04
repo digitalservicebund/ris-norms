@@ -11,18 +11,15 @@ import org.junit.jupiter.api.Test;
 
 class TargetLawMapperTest {
 
-  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
-  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
-
-
   @Test
   void testMapToDomain() {
     // Given
+    TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
     final TargetLawDto targetLawDto =
         TargetLawDto.builder()
             .eli("123")
             .title("Test Law")
-            .xml("<xml>Test XML</xml>")
+            .xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML</test>")
             .fna("4711")
             .shortTitle("TL")
             .build();
@@ -34,7 +31,7 @@ class TargetLawMapperTest {
     assertNotNull(targetLaw);
     assertEquals(targetLawDto.getEli(), targetLaw.getEli());
     assertEquals(targetLawDto.getTitle(), targetLaw.getTitle());
-    assertEquals(targetLawDto.getXml(), targetLaw.getXml());
+    assertEquals(targetLawDto.getXml(), timeMachineService.convertDocumentToString(targetLaw.getXml()));
     assertEquals(targetLawDto.getFna(), targetLaw.getFna());
     assertEquals(targetLawDto.getShortTitle(), targetLaw.getShortTitle());
   }
@@ -42,11 +39,12 @@ class TargetLawMapperTest {
   @Test
   void testMapToDto() {
     // Given
+    TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
     final TargetLaw targetLaw =
         TargetLaw.builder()
             .eli("456")
             .title("Another Test Law")
-            .xml(timeMachineService.stringToXmlDocument("<xml>Another Test XML</xml>"))
+            .xml(timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Another Test XML</test>"))
             .build();
 
     // When
@@ -56,6 +54,6 @@ class TargetLawMapperTest {
     assertNotNull(targetLawDto);
     assertEquals(targetLaw.getEli(), targetLawDto.getEli());
     assertEquals(targetLaw.getTitle(), targetLawDto.getTitle());
-    assertEquals(targetLaw.getXml(), targetLawDto.getXml());
+    assertEquals(timeMachineService.convertDocumentToString(targetLaw.getXml()), targetLawDto.getXml());
   }
 }
