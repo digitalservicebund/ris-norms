@@ -85,7 +85,8 @@ public class TimeMachineService {
     }
   }
 
-  private Document stringToXmlDocument(String xmlText) {
+  // TODO: add tests now that these are public
+  public Document stringToXmlDocument(String xmlText) {
 
     final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -104,7 +105,8 @@ public class TimeMachineService {
     }
   }
 
-  private String convertDocumentToString(Document doc) {
+  // TODO add tests now that these are public
+  public String convertDocumentToString(Document doc) {
     try {
       final DOMSource domSource = new DOMSource(doc);
       final StringWriter writer = new StringWriter();

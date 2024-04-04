@@ -1,14 +1,23 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+
+import java.sql.Time;
 import java.util.Optional;
 
 /** Mapper class for converting between {@link AmendingLawDto} and {@link AmendingLaw}. */
 public class AmendingLawMapper {
 
+  static TimeMachineService timeMachineService;
+
   // Private constructor to hide the implicit public one and prevent instantiation
-  private AmendingLawMapper() {}
+  private AmendingLawMapper(
+    TimeMachineService timeMachineService
+  ) {
+    this.timeMachineService = timeMachineService;
+  }
 
   /**
    * Maps a {@link AmendingLawDto} to a {@link AmendingLaw} entity.
@@ -26,7 +35,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
         amendingLawDTO.getTitle(),
-        amendingLawDTO.getXml(),
+        timeMachineService.stringToXmlDocument(amendingLawDTO.getXml()),
         amendingLawDTO.getReleasedAt(),
         amendingLawDTO.getArticleDtos().stream().map(ArticleMapper::mapToDomain).toList());
   }
@@ -47,7 +56,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
         amendingLawDTO.getTitle(),
-        amendingLawDTO.getXml(),
+        timeMachineService.stringToXmlDocument(amendingLawDTO.getXml()),
         amendingLawDTO.getReleasedAt(),
         null);
   }
@@ -71,7 +80,7 @@ public class AmendingLawMapper {
             Optional.ofNullable(amendingLaw.getArticles())
                 .map(articles -> articles.stream().map(ArticleMapper::mapToDto).toList())
                 .orElse(null))
-        .xml(amendingLaw.getXml())
+        .xml(timeMachineService.convertDocumentToString(amendingLaw.getXml()))
         .releasedAt(amendingLaw.getReleasedAt())
         .build();
   }
