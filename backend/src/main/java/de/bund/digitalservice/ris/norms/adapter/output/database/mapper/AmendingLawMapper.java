@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
 import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 
 import java.util.Optional;
@@ -9,15 +10,8 @@ import java.util.Optional;
 /** Mapper class for converting between {@link AmendingLawDto} and {@link AmendingLaw}. */
 public class AmendingLawMapper {
 
-  static TimeMachineService timeMachineService;
-
-  // TODO: is this still true?
   // Private constructor to hide the implicit public one and prevent instantiation
-  private AmendingLawMapper(
-    TimeMachineService timeMachineService
-  ) {
-    this.timeMachineService = timeMachineService;
-  }
+  private AmendingLawMapper() {}
 
   /**
    * Maps a {@link AmendingLawDto} to a {@link AmendingLaw} entity.
@@ -27,6 +21,8 @@ public class AmendingLawMapper {
    */
   public static AmendingLaw mapToDomainWithArticles(final AmendingLawDto amendingLawDTO) {
 
+    TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
+
     return new AmendingLaw(
         amendingLawDTO.getEli(),
         amendingLawDTO.getPrintAnnouncementGazette(),
@@ -34,8 +30,7 @@ public class AmendingLawMapper {
         amendingLawDTO.getPublicationDate(),
         amendingLawDTO.getPrintAnnouncementPage(),
         amendingLawDTO.getDigitalAnnouncementEdition(),
-        amendingLawDTO.getTitle(),
-        timeMachineService.stringToXmlDocument(amendingLawDTO.getXml()),
+        amendingLawDTO.getTitle(), timeMachineService.stringToXmlDocument(amendingLawDTO.getXml()),
         amendingLawDTO.getReleasedAt(),
         amendingLawDTO.getArticleDtos().stream().map(ArticleMapper::mapToDomain).toList());
   }
@@ -47,6 +42,8 @@ public class AmendingLawMapper {
    * @return A new {@link AmendingLaw} entity mapped from the input {@link AmendingLawDto}.
    */
   public static AmendingLaw mapToDomain(final AmendingLawDto amendingLawDTO) {
+
+    TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
 
     return new AmendingLaw(
         amendingLawDTO.getEli(),
@@ -68,6 +65,9 @@ public class AmendingLawMapper {
    * @return A new {@link AmendingLawDto} mapped from the input {@link AmendingLaw} entity.
    */
   public static AmendingLawDto mapToDto(final AmendingLaw amendingLaw) {
+
+    TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
+
     return AmendingLawDto.builder()
         .eli(amendingLaw.getEli())
         .printAnnouncementGazette(amendingLaw.getPrintAnnouncementGazette())
