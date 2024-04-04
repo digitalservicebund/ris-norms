@@ -148,7 +148,35 @@ class TargetLawControllerTest {
           .andExpect(content().string(html));
 
       verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));
+          .transformLegalDocMlToHtml(
+              argThat(query -> query.xml().equals(xml) && query.showMetadata() == true));
+    }
+
+    @Test
+    void itCallsTargetServiceAndReturnsTargetLawAsHtmlWithSpecifiedShowMetadataParameter()
+        throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<target></target>";
+      final String html = "<div>Show Metadata HTML Content</div>";
+      final boolean showMetadata = false;
+
+      when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+
+      mockMvc
+          .perform(
+              get("/api/v1/target-laws/{eli}", eli)
+                  .param("showMetadata", String.valueOf(showMetadata))
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+          .andExpect(content().string(html));
+
+      // Verify that the service was called with the correct showMetadata value
+      verify(transformLegalDocMlToHtmlUseCase, times(1))
+          .transformLegalDocMlToHtml(
+              argThat(query -> query.xml().equals(xml) && query.showMetadata() == showMetadata));
     }
 
     @Test
