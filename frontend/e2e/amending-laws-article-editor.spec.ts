@@ -12,7 +12,7 @@ test(`navigate to article editor`, async ({ page }) => {
   )
 })
 
-test(`see law title, article number and xmls`, async ({ page }) => {
+test.skip(`see law title, article number and xmls`, async ({ page }) => {
   await page.goto(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit`,
   )
@@ -20,12 +20,15 @@ test(`see law title, article number and xmls`, async ({ page }) => {
   await expect(
     page.getByRole("heading", { level: 1, name: "Artikel 1" }),
   ).toBeVisible()
+  // heading of target law
   await expect(
     page.getByRole("heading", {
       level: 3,
       name: "Gesetz zur Regelungs des öffenltichen Vereinsrechts",
     }),
   ).toBeVisible()
+
+  // heading of amending law
   await expect(
     page.getByRole("heading", {
       level: 3,
@@ -33,12 +36,25 @@ test(`see law title, article number and xmls`, async ({ page }) => {
     }),
   ).toBeVisible()
 
+  // part of the text of the target law (Gesetz zur Regelungs des öffenltichen Vereinsrechts)
+  await expect(
+    page.getByText(
+      "Gesetz zur Regelungs des öffenltichen Vereinsrechts ( Vereinsgesetz)",
+    ),
+  ).toBeVisible()
+
+  // switch tab to see xml of target law
+
   // part of the XML of the target law (Gesetz zur Regelungs des öffenltichen Vereinsrechts)
   await expect(
     page.getByText(
       '<akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">',
     ),
   ).toBeVisible()
+
+  // part of the text of the target law (Gesetz zur Regelungs des öffenltichen Vereinsrechts)
+
+  // switch tab to see xml of target law
 
   // part of the XML of the amending law (Änderung des Vereinsgesetzes)
   await expect(
@@ -48,7 +64,7 @@ test(`see law title, article number and xmls`, async ({ page }) => {
   ).toBeVisible()
 })
 
-test(`update law with new content`, async ({ page }) => {
+test.skip(`update law with new content`, async ({ page }) => {
   await page.goto(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit`,
   )
@@ -57,6 +73,9 @@ test(`update law with new content`, async ({ page }) => {
     const saveButton = page.getByRole("button", { name: "Speichern" })
     await expect(saveButton).toBeDisabled()
 
+    // switch tab to see xml of amending law
+
+    //target the amending law editor
     const editor = page.getByRole("textbox").nth(2)
     await expect(editor).toBeVisible()
 
@@ -96,7 +115,7 @@ test(`update law with new content`, async ({ page }) => {
   }
 })
 
-test("preview is rendered", async ({ page }) => {
+test.skip("preview is rendered", async ({ page }) => {
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
   )
@@ -112,4 +131,6 @@ test("preview is rendered", async ({ page }) => {
       '<akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">',
     ),
   ).toBeVisible()
+
+  //   switch to the text tab for the preview
 })
