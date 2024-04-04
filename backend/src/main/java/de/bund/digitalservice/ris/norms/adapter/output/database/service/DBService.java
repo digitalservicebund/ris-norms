@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLaw
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -44,6 +45,8 @@ public class DBService
     this.amendingLawRepository = amendingLawRepository;
     this.targetLawRepository = targetLawRepository;
   }
+
+  TimeMachineService timeMachineService;
 
   @Override
   @Transactional
@@ -130,7 +133,7 @@ public class DBService
     return amendingLawDtoOptional.map(
         amendingLawDto -> {
           amendingLawDto.setEli(command.amendingLaw().getEli());
-          amendingLawDto.setXml(command.amendingLaw().getXml());
+          amendingLawDto.setXml(timeMachineService.convertDocumentToString(command.amendingLaw().getXml()));
           amendingLawDto.setTitle(command.amendingLaw().getTitle());
           amendingLawDto.setDigitalAnnouncementMedium(
               command.amendingLaw().getDigitalAnnouncementMedium());
