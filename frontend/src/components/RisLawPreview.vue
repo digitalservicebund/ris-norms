@@ -1,33 +1,120 @@
 <script setup lang="ts">
-withDefaults(
+import { watch } from "vue"
+
+/**
+ * Slots
+ *
+ * Slots with a name like "eid:part-1_part-2-..." are added into the rendering of the LDML.de preview to the end of the
+ * element with the given eid. E.g. the content of a slot with the name "eid:hauptteil-1_art-1" is added to the end of
+ * the rendering of the first article.
+ */
+
+const props = withDefaults(
   defineProps<{
     content: string
     highlightMods?: boolean
     highlightAffectedDocument?: boolean
+    selectedEids?: string[]
   }>(),
   {
     highlightMods: false,
     highlightAffectedDocument: false,
+    selectedEids: () => [],
   },
 )
+
+const emit = defineEmits<{
+  "content:click": [
+    {
+      eid: string
+      guid: string
+      originalEvent: MouseEvent
+    },
+  ]
+}>()
+
+function handleClick(e: MouseEvent) {
+  if (!(e.target instanceof HTMLElement)) {
+    return
+  }
+
+  if (!e.target.dataset.eid || !e.target.dataset.guid) {
+    return
+  }
+
+  emit("content:click", {
+    eid: e.target.dataset.eid,
+    guid: e.target.dataset.guid,
+    originalEvent: e,
+  })
+}
+
+function getElementByEid(eid: string) {
+  return document.querySelector(`[data-eId="${eid}"]`)
+}
+
+function difference<a>(xs: a[], ys: a[]): a[] {
+  return xs.filter((x) => ys.indexOf(x) === -1)
+}
+
+watch(
+  () => [...props.selectedEids],
+  (newElements: string[], oldElements: string[]) => {
+    const addedElements = difference(newElements, oldElements)
+    addedElements.forEach((element) => {
+      getElementByEid(element)?.classList.add("selected")
+    })
+
+    const removedElements = difference(oldElements, newElements)
+    removedElements.forEach((element) => {
+      getElementByEid(element)?.classList.remove("selected")
+    })
+  },
+  { deep: true },
+)
+
+function teleportEidSlotNameToEid(slotName: string) {
+  return slotName.substring(4)
+}
 </script>
 
 <template>
   <div class="overflow-hidden">
     <!-- eslint-disable vue/no-v-html -->
+    <!-- eslint-disable vuejs-accessibility/click-events-have-key-events vuejs-accessibility/no-static-element-interactions -- think of something for this when moving this out of the prototype -->
     <div
       class="flex h-full overflow-auto bg-white p-8"
       :class="{
         'highlight-mods': highlightMods,
         'highlight-affected-document': highlightAffectedDocument,
       }"
+      @click="handleClick"
       v-html="content"
     ></div>
+    <!-- eslint-enable vuejs-accessibility/click-events-have-key-events vuejs-accessibility/no-static-element-interactions -->
     <!-- eslint-enable vue/no-v-html -->
+
+    <template
+      v-for="name in Object.keys($slots).filter((key) =>
+        key.startsWith('eid:'),
+      )"
+      :key="name"
+    >
+      <Teleport
+        v-if="getElementByEid(teleportEidSlotNameToEid(name))"
+        :to="getElementByEid(teleportEidSlotNameToEid(name))"
+      >
+        <slot :name="name"></slot>
+      </Teleport>
+    </template>
   </div>
 </template>
 
 <style scoped>
+.highlight-mods :deep([data-eId]) {
+  @apply -mx-2 px-2;
+}
+
 :deep(:is(table, thead, td)) {
   @apply border border-blue-400;
 }
@@ -80,12 +167,8 @@ withDefaults(
   @apply text-lg;
 }
 
-:deep(.akn-paragraph) {
-  @apply flex flex-row;
-}
-
 :deep(.akn-paragraph .akn-num) {
-  @apply mr-8;
+  @apply float-left mr-8;
 }
 
 :deep(.akn-point) {
@@ -148,5 +231,9 @@ withDefaults(
 /* This is currently unused as the .selected class is never applied to elements */
 .highlight-affected-document :deep(.akn-affectedDocument.selected) {
   @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
+}
+
+.highlight-mods :deep([data-eId]):hover {
+  @apply bg-yellow-900 bg-opacity-15;
 }
 </style>
