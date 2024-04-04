@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -45,6 +47,9 @@ class AmendingLawControllerTest {
   @MockBean
   private ReleaseAmendingLawAndAllRelatedTargetLawsUseCase
       releaseAmendingLawAndAllRelatedTargetLawsUseCase;
+
+  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
 
   @Nested
   class getAllAmendingLaws {
@@ -331,13 +336,13 @@ class AmendingLawControllerTest {
                       TargetLaw.builder()
                           .eli("target law eli 1")
                           .title("title1")
-                          .xml("xml1")
+                          .xml(timeMachineService.stringToXmlDocument("xml1"))
                           .build())
                   .targetLawZf0(
                       TargetLaw.builder()
                           .eli("target law zf0 eli 1")
                           .title("title zf0 1")
-                          .xml("xml zf0 1")
+                          .xml(timeMachineService.stringToXmlDocument("xml zf0 1"))
                           .build())
                   .build(),
               Article.builder()
@@ -348,13 +353,13 @@ class AmendingLawControllerTest {
                       TargetLaw.builder()
                           .eli("target law eli 2")
                           .title("title2")
-                          .xml("xml2")
+                          .xml(timeMachineService.stringToXmlDocument("xml2"))
                           .build())
                   .targetLawZf0(
                       TargetLaw.builder()
                           .eli("target law zf0 eli 2")
                           .title("title zf0 2")
-                          .xml("xml zf0 2")
+                          .xml(timeMachineService.stringToXmlDocument("xml zf0 2"))
                           .build())
                   .build());
 
@@ -420,12 +425,16 @@ class AmendingLawControllerTest {
               .title("article title 2")
               .enumeration("2")
               .targetLaw(
-                  TargetLaw.builder().eli("target law eli 2").title("title2").xml("xml2").build())
+                  TargetLaw.builder()
+                    .eli("target law eli 2")
+                    .title("title2")
+                    .xml(timeMachineService.stringToXmlDocument("xml2"))
+                    .build())
               .targetLawZf0(
                   TargetLaw.builder()
                       .eli("target law zf0 eli")
                       .title("title zf0")
-                      .xml("xml zf0")
+                      .xml(timeMachineService.stringToXmlDocument("xml zf0"))
                       .build())
               .build();
 
@@ -467,7 +476,7 @@ class AmendingLawControllerTest {
           TargetLaw.builder()
               .eli("target law eli")
               .title("target law title")
-              .xml("<test></test>")
+              .xml(timeMachineService.stringToXmlDocument("<test></test>"))
               .fna("4711")
               .shortTitle("targetlaw")
               .build();
@@ -476,7 +485,7 @@ class AmendingLawControllerTest {
           TargetLaw.builder()
               .eli("target law eli zf0")
               .title("target law title zf0")
-              .xml("<test>zf0</test>")
+              .xml(timeMachineService.stringToXmlDocument("<test>zf0</test>"))
               .fna("4711")
               .shortTitle("targetlawzf0")
               .build();
@@ -531,7 +540,7 @@ class AmendingLawControllerTest {
           TargetLaw.builder()
               .eli("target law eli")
               .title("target law title")
-              .xml("<test></test>")
+              .xml(timeMachineService.stringToXmlDocument("<test></test>"))
               .fna("4711")
               .shortTitle("targetlaw")
               .build();
@@ -540,7 +549,7 @@ class AmendingLawControllerTest {
           TargetLaw.builder()
               .eli("target law eli zf0")
               .title("target law title zf0")
-              .xml("<test>zf0</test>")
+              .xml(timeMachineService.stringToXmlDocument("<test>zf0</test>"))
               .fna("4711")
               .shortTitle("targetlawzf0")
               .build();

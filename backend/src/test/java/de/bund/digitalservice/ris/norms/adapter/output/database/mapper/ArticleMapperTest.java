@@ -5,11 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ArticleDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.TargetLawDto;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import org.junit.jupiter.api.Test;
 
 class ArticleMapperTest {
+
+  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
+
 
   @Test
   void testMapToDomain() {
@@ -53,7 +59,7 @@ class ArticleMapperTest {
         TargetLaw.builder()
             .eli("456")
             .title("Another Test Law")
-            .xml("<xml>Another Test XML</xml>")
+            .xml(timeMachineService.stringToXmlDocument("<xml>Another Test XML</xml>"))
             .build();
 
     final Article article =

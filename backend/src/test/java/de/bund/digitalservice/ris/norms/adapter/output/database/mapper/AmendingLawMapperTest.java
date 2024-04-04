@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ArticleDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.TargetLawDto;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -14,6 +16,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class AmendingLawMapperTest {
+
+  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
+
 
   @Test
   void testMapToDomain() {
@@ -83,14 +89,14 @@ class AmendingLawMapperTest {
         TargetLaw.builder()
             .eli("target law eli")
             .title("target law title")
-            .xml("<test></test>")
+            .xml(timeMachineService.stringToXmlDocument("<test></test>"))
             .build();
 
     final TargetLaw targetLawZf0 =
         TargetLaw.builder()
             .eli("target law zf0 eli")
             .title("target law zf0 title")
-            .xml("<test>zf0</test>")
+            .xml(timeMachineService.stringToXmlDocument("<test>zf0</test>"))
             .build();
 
     final List<Article> articles = new ArrayList<>();

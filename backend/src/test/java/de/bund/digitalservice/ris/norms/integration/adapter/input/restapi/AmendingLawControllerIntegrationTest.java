@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -28,7 +29,9 @@ class AmendingLawControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private AmendingLawRepository amendingLawRepository;
 
-  TimeMachineService timeMachineService;
+  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
+
 
   @AfterEach
   void cleanUp() {

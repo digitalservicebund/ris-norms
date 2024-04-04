@@ -40,13 +40,17 @@ public class DBService
 
   private final TargetLawRepository targetLawRepository;
 
+  TimeMachineService timeMachineService;
+
   public DBService(
-      AmendingLawRepository amendingLawRepository, TargetLawRepository targetLawRepository) {
+      AmendingLawRepository amendingLawRepository, 
+      TargetLawRepository targetLawRepository,
+      TimeMachineService timeMachineService) {
     this.amendingLawRepository = amendingLawRepository;
     this.targetLawRepository = targetLawRepository;
+    this.timeMachineService = timeMachineService;
   }
 
-  TimeMachineService timeMachineService;
 
   @Override
   @Transactional

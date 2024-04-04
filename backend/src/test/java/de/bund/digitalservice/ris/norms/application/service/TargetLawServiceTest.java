@@ -18,6 +18,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateTargetLawX
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
 
 class TargetLawServiceTest {
 
@@ -25,6 +26,7 @@ class TargetLawServiceTest {
   final LoadTargetLawXmlPort loadTargetLawXmlAdapter = mock(LoadTargetLawXmlPort.class);
   final UpdateTargetLawXmlPort updateTargetLawXmlPort = mock(UpdateTargetLawXmlPort.class);
 
+  // TODO why is this using a mock?
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
   final TargetLawService service =
@@ -41,7 +43,7 @@ class TargetLawServiceTest {
     final LoadTargetLawUseCase.Query query = new LoadTargetLawUseCase.Query(eli);
 
     final String title = "Target Law Title";
-    final String xml = "<targetLaw>Test target law</targetLaw>";
+    final Document xml = timeMachineService.stringToXmlDocument("<targetLaw>Test target law</targetLaw>");
     final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();
 
     when(loadTargetLawAdapter.loadTargetLawByEli(any())).thenReturn(Optional.of(targetLaw));

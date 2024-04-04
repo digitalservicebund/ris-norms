@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
 
 class AmendingLawServiceTest {
 
@@ -39,6 +40,10 @@ class AmendingLawServiceTest {
           loadArticlesAdapter,
           loadArticleAdapter,
           updateAmendingLawXmlAdapter);
+
+  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
+
 
   @Test
   void itCallsLoadAmendingLawByEliUsingInputQueryEli() {
@@ -69,7 +74,7 @@ class AmendingLawServiceTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     final AmendingLaw amendingLaw =
         AmendingLaw.builder()
@@ -117,7 +122,7 @@ class AmendingLawServiceTest {
     final String digitalAnnouncementMedium = "medium123";
     final String digitalAnnouncementEdition = "edition123";
     final String title = "title";
-    final String xml = "<test></test>";
+    final Document xml = timeMachineService.stringToXmlDocument("<test></test>");
 
     final List<AmendingLaw> expectedAmendingLaws =
         List.of(

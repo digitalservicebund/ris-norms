@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
 import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
@@ -30,7 +31,9 @@ class TargetLawControllerIntegrationTest extends BaseIntegrationTest {
     targetLawRepository.deleteAll();
   }
 
-  TimeMachineService timeMachineService;
+  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
+
 
   @Test
   void itCallsTargetLawServiceAndReturnsTargetLaw() throws Exception {

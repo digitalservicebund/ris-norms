@@ -19,6 +19,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlU
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -33,6 +35,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.w3c.dom.Document;
 
 /**
  * Not using SpringBootTest annotation to avoid needing a database connection. Therefore, manually
@@ -49,6 +52,10 @@ class TargetLawControllerTest {
   @MockBean private TimeMachineUseCase timeMachineUseCase;
   @MockBean private UpdateTargetLawUseCase updateTargetLawUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
+
+  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
+
 
   @Nested
   class GetTargetLaw {
@@ -71,7 +78,7 @@ class TargetLawControllerTest {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String title = "Title vom Gesetz";
-      final String xml = "<target></target>";
+      final Document xml = timeMachineService.stringToXmlDocument("<target></target>");
 
       // When
       final TargetLaw targetLaw = TargetLaw.builder().eli(eli).title(title).xml(xml).build();

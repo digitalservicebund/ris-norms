@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Targe
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -31,7 +32,9 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private TargetLawRepository targetLawRepository;
 
-  TimeMachineService timeMachineService;
+  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
+  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
+
 
   final TargetLaw targetLaw =
       TargetLaw.builder()
