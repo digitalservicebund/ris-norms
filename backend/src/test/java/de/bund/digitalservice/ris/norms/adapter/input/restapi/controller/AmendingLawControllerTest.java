@@ -336,13 +336,13 @@ class AmendingLawControllerTest {
                       TargetLaw.builder()
                           .eli("target law eli 1")
                           .title("title1")
-                          .xml(timeMachineService.stringToXmlDocument("xml1"))
+                          .xml(timeMachineService.stringToXmlDocument("<xml1></xml1>"))
                           .build())
                   .targetLawZf0(
                       TargetLaw.builder()
                           .eli("target law zf0 eli 1")
                           .title("title zf0 1")
-                          .xml(timeMachineService.stringToXmlDocument("xml zf0 1"))
+                          .xml(timeMachineService.stringToXmlDocument("<xml> zf0 1</xml>"))
                           .build())
                   .build(),
               Article.builder()
@@ -353,13 +353,13 @@ class AmendingLawControllerTest {
                       TargetLaw.builder()
                           .eli("target law eli 2")
                           .title("title2")
-                          .xml(timeMachineService.stringToXmlDocument("xml2"))
+                          .xml(timeMachineService.stringToXmlDocument("<xml2></xml2>"))
                           .build())
                   .targetLawZf0(
                       TargetLaw.builder()
                           .eli("target law zf0 eli 2")
                           .title("title zf0 2")
-                          .xml(timeMachineService.stringToXmlDocument("xml zf0 2"))
+                          .xml(timeMachineService.stringToXmlDocument("<xml> zf0 2</xml>"))
                           .build())
                   .build());
 
@@ -428,13 +428,13 @@ class AmendingLawControllerTest {
                   TargetLaw.builder()
                     .eli("target law eli 2")
                     .title("title2")
-                    .xml(timeMachineService.stringToXmlDocument("xml2"))
+                    .xml(timeMachineService.stringToXmlDocument("<xml2></xml2>"))
                     .build())
               .targetLawZf0(
                   TargetLaw.builder()
                       .eli("target law zf0 eli")
                       .title("title zf0")
-                      .xml(timeMachineService.stringToXmlDocument("xml zf0"))
+                      .xml(timeMachineService.stringToXmlDocument("<xml> zf0</xml>"))
                       .build())
               .build();
 
