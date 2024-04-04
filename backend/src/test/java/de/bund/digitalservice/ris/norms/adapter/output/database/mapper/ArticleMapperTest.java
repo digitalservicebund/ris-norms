@@ -13,18 +13,23 @@ import org.junit.jupiter.api.Test;
 
 class ArticleMapperTest {
 
-  final XmlDocumentService xmlDocumentService = new XmlDocumentService();
-  final TimeMachineService timeMachineService = new TimeMachineService(xmlDocumentService);
-
-
   @Test
   void testMapToDomain() {
     // Given
+    TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
     final TargetLawDto targetLawDto =
-        TargetLawDto.builder().eli("123").title("Test Law").xml("<xml>Test XML</xml>").build();
+        TargetLawDto.builder()
+          .eli("123")
+          .title("Test Law")
+          .xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML</test>")
+          .build();
 
     final TargetLawDto targetLawZf0Dto =
-        TargetLawDto.builder().eli("123").title("Test Law").xml("<xml>Test XML ZF0</xml>").build();
+        TargetLawDto.builder()
+          .eli("123")
+          .title("Test Law")
+          .xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML ZF0</test>")
+          .build();
 
     final ArticleDto articleDto =
         ArticleDto.builder()
@@ -46,20 +51,21 @@ class ArticleMapperTest {
     assertNotNull(article.getTargetLaw());
     assertEquals(targetLawDto.getEli(), article.getTargetLaw().getEli());
     assertEquals(targetLawDto.getTitle(), article.getTargetLaw().getTitle());
-    assertEquals(targetLawDto.getXml(), article.getTargetLaw().getXml());
+    assertEquals(targetLawDto.getXml(), timeMachineService.convertDocumentToString(article.getTargetLaw().getXml()));
     assertEquals(targetLawZf0Dto.getEli(), article.getTargetLawZf0().getEli());
     assertEquals(targetLawZf0Dto.getTitle(), article.getTargetLawZf0().getTitle());
-    assertEquals(targetLawZf0Dto.getXml(), article.getTargetLawZf0().getXml());
+    assertEquals(targetLawZf0Dto.getXml(), timeMachineService.convertDocumentToString(article.getTargetLawZf0().getXml()));
   }
 
   @Test
   void testMapToDto() {
     // Given
+    TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
     final TargetLaw targetLaw =
         TargetLaw.builder()
             .eli("456")
             .title("Another Test Law")
-            .xml(timeMachineService.stringToXmlDocument("<xml>Another Test XML</xml>"))
+            .xml(timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML</test>"))
             .build();
 
     final Article article =
@@ -81,6 +87,6 @@ class ArticleMapperTest {
     assertNotNull(articleDto.getTargetLawDto());
     assertEquals(targetLaw.getEli(), articleDto.getTargetLawDto().getEli());
     assertEquals(targetLaw.getTitle(), articleDto.getTargetLawDto().getTitle());
-    assertEquals(targetLaw.getXml(), articleDto.getTargetLawDto().getXml());
+    assertEquals(timeMachineService.convertDocumentToString(targetLaw.getXml()), articleDto.getTargetLawDto().getXml());
   }
 }
