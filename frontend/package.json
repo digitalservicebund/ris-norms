@@ -35,7 +35,7 @@
     "vue-router": "~4.3.0"
   },
   "devDependencies": {
-    "@axe-core/playwright": "~4.8.4",
+    "@axe-core/playwright": "~4.9.0",
     "@digitalservice4germany/angie": "~1.1.1",
     "@digitalservice4germany/style-dictionary": "~2.0.0",
     "@histoire/plugin-vue": "~0.17.15",
