@@ -89,7 +89,7 @@ public class TimeMachineService {
   /**
    * TODO: complete docs
    * @param xmlText
-   * @return
+   * @return something
    */
   public Document stringToXmlDocument(String xmlText) {
 
@@ -114,7 +114,7 @@ public class TimeMachineService {
   /**
    * TODO: complete docs
    * @param doc
-   * @return
+   * @return something
    */
   public String convertDocumentToString(Document doc) {
     try {
