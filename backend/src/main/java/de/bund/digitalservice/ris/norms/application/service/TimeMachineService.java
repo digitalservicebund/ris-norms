@@ -86,6 +86,11 @@ public class TimeMachineService {
   }
 
   // TODO: add tests now that these are public
+  /**
+   * TODO: complete docs
+   * @param xmlText
+   * @return
+   */
   public Document stringToXmlDocument(String xmlText) {
 
     final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -106,6 +111,11 @@ public class TimeMachineService {
   }
 
   // TODO add tests now that these are public
+  /**
+   * TODO: complete docs
+   * @param doc
+   * @return
+   */
   public String convertDocumentToString(Document doc) {
     try {
       final DOMSource domSource = new DOMSource(doc);
