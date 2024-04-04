@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch } from "vue"
+import { nextTick, ref, watch } from "vue"
 
 /**
  * Slots
@@ -76,6 +76,18 @@ watch(
 function teleportEidSlotNameToEid(slotName: string) {
   return slotName.substring(4)
 }
+
+const contentHash = ref("")
+watch(
+  () => props.content,
+  async () => {
+    await nextTick()
+    contentHash.value = props.content
+    props.selectedEids.forEach((element) => {
+      getElementByEid(element)?.classList.add("selected")
+    })
+  },
+)
 </script>
 
 <template>
@@ -98,7 +110,7 @@ function teleportEidSlotNameToEid(slotName: string) {
       v-for="name in Object.keys($slots).filter((key) =>
         key.startsWith('eid:'),
       )"
-      :key="name"
+      :key="`${contentHash}-${name}`"
     >
       <Teleport
         v-if="getElementByEid(teleportEidSlotNameToEid(name))"
