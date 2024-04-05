@@ -80,7 +80,6 @@ async function handleGeneratePreview() {
         previewTargetLaw(targetLawEli.value, currentArticleXml.value),
         previewTargetLawAsHtml(targetLawEli.value, currentArticleXml.value),
       ])
-      console.log(xmlContent)
       previewXml.value = xmlContent
       previewHtmlTargetLaw.value = htmlContent
     }
