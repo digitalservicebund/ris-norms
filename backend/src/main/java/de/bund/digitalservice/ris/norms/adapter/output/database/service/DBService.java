@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
 /**
  * Service class for interacting with the database and implementing {@link LoadAmendingLawPort}.
@@ -102,7 +103,7 @@ public class DBService
   }
 
   @Override
-  public Optional<String> loadTargetLawXmlByEli(LoadTargetLawXmlPort.Command command) {
+  public Optional<Document> loadTargetLawXmlByEli(LoadTargetLawXmlPort.Command command) {
     return targetLawRepository.findByEli(command.eli()).map(TargetLawDto::getXml);
   }
 
@@ -118,7 +119,7 @@ public class DBService
   }
 
   @Override
-  public Optional<String> updateTargetLawXmlByEli(UpdateTargetLawXmlPort.Command command) {
+  public Optional<Document> updateTargetLawXmlByEli(UpdateTargetLawXmlPort.Command command) {
     return targetLawRepository
         .findByEli(command.eli())
         .map(
