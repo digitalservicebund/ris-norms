@@ -3,6 +3,8 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 
+import org.w3c.dom.Document;
+
 /**
  * Interface representing the use case for loading the xml representation of a {@link TargetLaw}.
  * Implementations of this interface should provide functionality to load the xml representation of
@@ -17,7 +19,7 @@ public interface LoadTargetLawXmlUseCase {
    * @return An {@link Optional} containing the loaded {@link TargetLaw} if found, or empty if not
    *     found.
    */
-  Optional<String> loadTargetLawXml(Query query);
+  Optional<Document> loadTargetLawXml(Query query);
 
   /**
    * A record representing the query for loading the xml representation of a target law. The query

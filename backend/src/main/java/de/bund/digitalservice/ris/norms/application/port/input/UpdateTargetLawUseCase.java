@@ -3,6 +3,8 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 
+import org.w3c.dom.Document;
+
 /**
  * Interface representing the use case for updating a {@link TargetLaw}. Implementations of this
  * interface should provide functionality to load and update a target law based on a given query.
@@ -17,7 +19,7 @@ public interface UpdateTargetLawUseCase {
    * @return An {@link Optional} containing the loaded {@link String} if found, or empty if not
    *     found.
    */
-  Optional<String> updateTargetLaw(Query query);
+  Optional<Document> updateTargetLaw(Query query);
 
   /**
    * A record representing the parameters needed to query a target law.
@@ -26,5 +28,5 @@ public interface UpdateTargetLawUseCase {
    *     query.
    * @param newTargetLawXml the updated target law
    */
-  record Query(String eli, String newTargetLawXml) {}
+  record Query(String eli, Document newTargetLawXml) {}
 }

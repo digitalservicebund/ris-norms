@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateTargetLawX
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
 /**
  * Service class within the application core part of the backend. It is responsible for implementing
@@ -45,22 +46,23 @@ public class TargetLawService
   }
 
   @Override
-  public Optional<String> loadTargetLawXml(LoadTargetLawXmlUseCase.Query query) {
+  public Optional<Document> loadTargetLawXml(LoadTargetLawXmlUseCase.Query query) {
     return loadTargetLawXmlPort.loadTargetLawXmlByEli(
         new LoadTargetLawXmlPort.Command(query.eli()));
   }
 
   @Override
   public Optional<String> applyTimeMachine(TimeMachineUseCase.Query query) {
-    final Optional<String> targetLaw =
+    final Optional<Document> targetLaw =
         loadTargetLawXmlPort.loadTargetLawXmlByEli(
             new LoadTargetLawXmlPort.Command(query.targetLawEli()));
     return targetLaw.map(
-        targetLawString -> timeMachineService.apply(query.amendingLawXml(), targetLawString));
+        // TODO: Switch timeMachineService.apply() to work on Documents, not Strings
+        targetLawDocument -> timeMachineService.apply(timeMachineService.convertDocumentToString(query.amendingLawXml()), timeMachineService.convertDocumentToString(targetLawDocument)));
   }
 
   @Override
-  public Optional<String> updateTargetLaw(UpdateTargetLawUseCase.Query query) {
+  public Optional<Document> updateTargetLaw(UpdateTargetLawUseCase.Query query) {
     return updateTargetLawXmlPort.updateTargetLawXmlByEli(
         new UpdateTargetLawXmlPort.Command(query.eli(), query.newTargetLawXml()));
   }

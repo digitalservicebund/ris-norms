@@ -4,6 +4,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 
+import org.w3c.dom.Document;
+
 /**
  * Interface representing the use case for applying the time machine on a {@link TargetLaw} using
  * the modifications defined in the {@link AmendingLaw}
@@ -28,5 +30,5 @@ public interface TimeMachineUseCase {
    *     in the query.
    * @param amendingLawXml The String representation of the amending law xml
    */
-  record Query(String targetLawEli, String amendingLawXml) {}
+  record Query(String targetLawEli, Document amendingLawXml) {}
 }
