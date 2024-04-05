@@ -343,13 +343,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     targetLawRepository.save(TargetLawMapper.mapToDto(targetLaw));
 
     // When
-    final Optional<String> targetLawXmlOptional =
+    final Optional<Document> targetLawXmlOptional =
         dbService.loadTargetLawXmlByEli(new LoadTargetLawXmlPort.Command(eli));
 
     // Then
     assertThat(targetLawXmlOptional)
         .isPresent()
-        .satisfies(xmlDb -> assertThat(xmlDb).contains("<target></target>"));
+        .satisfies(xmlDb -> assertThat(timeMachineService.convertDocumentToString(xmlDb.get())).contains("<target></target>"));
   }
 
   @Test
@@ -444,13 +444,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // When
     final String newXml = "<new></new>";
-    final Optional<String> updatedXmlOptional =
-        dbService.updateTargetLawXmlByEli(new UpdateTargetLawXmlPort.Command(eli, newXml));
+    final Optional<Document> updatedXmlOptional =
+        dbService.updateTargetLawXmlByEli(new UpdateTargetLawXmlPort.Command(eli, timeMachineService.stringToXmlDocument(newXml)));
 
     // Then
     assertThat(updatedXmlOptional)
         .isPresent()
-        .satisfies(updatedXml -> assertThat(updatedXml).contains(newXml));
+        .satisfies(updatedXml -> assertThat(timeMachineService.convertDocumentToString(updatedXml.get())).contains(newXml));
   }
 
   @Test

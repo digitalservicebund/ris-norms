@@ -123,7 +123,7 @@ class TargetLawControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<target></target>";
 
-      when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
+      when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(timeMachineService.stringToXmlDocument(xml)));
 
       // When // Then
       mockMvc
@@ -143,7 +143,7 @@ class TargetLawControllerTest {
       final String xml = "<target></target>";
       final String html = "<div></div>";
 
-      when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
+      when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(timeMachineService.stringToXmlDocument(xml)));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When // Then
@@ -163,7 +163,7 @@ class TargetLawControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<target";
 
-      when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(xml));
+      when(loadTargetLawXmlUseCase.loadTargetLawXml(any())).thenReturn(Optional.of(timeMachineService.stringToXmlDocument(xml)));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
           .thenThrow(new XmlProcessingException("XML Exception", new Exception()));
 
@@ -328,7 +328,7 @@ class TargetLawControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String targetLawXml = "<target></target>";
 
-      when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.of(targetLawXml));
+      when(updateTargetLawUseCase.updateTargetLaw(any())).thenReturn(Optional.of(timeMachineService.stringToXmlDocument(targetLawXml)));
 
       // When // Then
       mockMvc

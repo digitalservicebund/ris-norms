@@ -21,14 +21,14 @@ class ArticleMapperTest {
         TargetLawDto.builder()
             .eli("123")
             .title("Test Law")
-            .xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML</test>")
+            .xml(timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML</test>"))
             .build();
 
     final TargetLawDto targetLawZf0Dto =
         TargetLawDto.builder()
             .eli("123")
             .title("Test Law")
-            .xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML ZF0</test>")
+            .xml(timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML ZF0</test>"))
             .build();
 
     final ArticleDto articleDto =

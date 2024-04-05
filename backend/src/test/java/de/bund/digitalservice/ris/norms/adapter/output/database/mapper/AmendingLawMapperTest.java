@@ -27,14 +27,14 @@ class AmendingLawMapperTest {
         TargetLawDto.builder()
             .eli("target law eli")
             .title("target law title")
-            .xml("<test></test>")
+            .xml(timeMachineService.stringToXmlDocument("<test></test>"))
             .build();
 
     final TargetLawDto targetLawZf0Dto =
         TargetLawDto.builder()
             .eli("target law eli zf0")
             .title("target law title zf0")
-            .xml("<test>zf0</test>")
+            .xml(timeMachineService.stringToXmlDocument("<test>zf0</test>"))
             .build();
 
     final List<ArticleDto> articles = new ArrayList<>();

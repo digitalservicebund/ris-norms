@@ -12,6 +12,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
+
 class TargetLawDtoTest {
 
   private static Validator validator;
@@ -33,13 +36,15 @@ class TargetLawDtoTest {
     final String fna = "4711";
     final String shortTitle = "T";
 
+    final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService()));
+
     // When
     final TargetLawDto targetLawDto =
         TargetLawDto.builder()
             .id(id)
             .eli(eli)
             .title(title)
-            .xml(xml)
+            .xml(timeMachineService.stringToXmlDocument(xml))
             .fna(fna)
             .shortTitle(shortTitle)
             .build();
