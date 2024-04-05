@@ -14,6 +14,7 @@ const amendingLawHtml = useAmendingLawHtml(eli)
       class="drop-shadow-md"
       :content="amendingLawHtml ?? ''"
       highlight-mods
+      highlight-affected-document
     />
   </div>
 </template>
