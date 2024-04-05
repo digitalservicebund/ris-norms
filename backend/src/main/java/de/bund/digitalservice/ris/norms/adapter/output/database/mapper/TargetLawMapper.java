@@ -1,8 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.TargetLawDto;
-import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
-import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 
 /** Mapper class for converting between {@link TargetLawDto} and {@link TargetLaw}. */
@@ -18,11 +16,10 @@ public class TargetLawMapper {
    * @return A new {@link TargetLaw} mapped from the input {@link TargetLawDto}.
    */
   public static TargetLaw mapToDomain(final TargetLawDto targetLawDto) {
-    final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
     return TargetLaw.builder()
         .eli(targetLawDto.getEli())
         .title(targetLawDto.getTitle())
-        .xml(timeMachineService.stringToXmlDocument(targetLawDto.getXml()))
+        .xml(targetLawDto.getXml())
         .fna(targetLawDto.getFna())
         .shortTitle(targetLawDto.getShortTitle())
         .build();
@@ -35,11 +32,10 @@ public class TargetLawMapper {
    * @return A new {@link TargetLawDto} mapped from the input {@link TargetLaw}.
    */
   public static TargetLawDto mapToDto(final TargetLaw targetLaw) {
-    final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
     return TargetLawDto.builder()
         .eli(targetLaw.getEli())
         .title(targetLaw.getTitle())
-        .xml(timeMachineService.convertDocumentToString(targetLaw.getXml()))
+        .xml(targetLaw.getXml())
         .fna(targetLaw.getFna())
         .shortTitle(targetLaw.getShortTitle())
         .build();

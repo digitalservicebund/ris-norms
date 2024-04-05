@@ -3,6 +3,9 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
+
+import org.w3c.dom.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +30,7 @@ public class TargetLawDto {
 
   @NotNull @Column private String title;
 
-  @NotNull @Column private String xml;
+  @NotNull @Column private Document xml;
 
   @NotNull @Column private String fna;
 
