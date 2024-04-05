@@ -81,14 +81,14 @@ class TargetLawServiceTest {
   void bothRelevantMethodsAreCalled() {
     // Given
     final String targetLawEli = "someEli";
-    final String amendingLawXmlAsString = "</amendingLawXml>";
+    final String amendingLawXmlText = "</amendingLawXml>";
 
     final TimeMachineUseCase.Query query =
-        new TimeMachineUseCase.Query(targetLawEli, amendingLawXmlAsString);
+        new TimeMachineUseCase.Query(targetLawEli, amendingLawXmlText);
 
     final String targetLawXmlAsString = "<targetLaw>Test content</targetLaw>";
     when(loadTargetLawXmlAdapter.loadTargetLawXmlByEli(any()))
-        .thenReturn(Optional.of(targetLawXmlAsString));
+        .thenReturn(Optional.of(timeMachineService.stringToXmlDocument(targetLawXmlAsString)));
     when(timeMachineService.apply(any(), any())).thenReturn("Success");
 
     // When
@@ -99,7 +99,7 @@ class TargetLawServiceTest {
     assertThat(appliedXml.get()).contains("Success");
     verify(loadTargetLawXmlAdapter, times(1))
         .loadTargetLawXmlByEli(argThat(command -> command.eli().equals(targetLawEli)));
-    verify(timeMachineService, times(1)).apply(amendingLawXmlAsString, targetLawXmlAsString);
+    verify(timeMachineService, times(1)).apply(amendingLawXmlText, targetLawXmlAsString);
   }
 
   @Test
@@ -107,16 +107,17 @@ class TargetLawServiceTest {
     // Given
     final String eli = "someEli";
     final String targetLawXml = "<targetLaw>Test content</targetLaw>";
-    final UpdateTargetLawUseCase.Query query = new UpdateTargetLawUseCase.Query(eli, targetLawXml);
+    final UpdateTargetLawUseCase.Query query = new UpdateTargetLawUseCase.Query(eli, timeMachineService.stringToXmlDocument(targetLawXml));
 
     when(updateTargetLawXmlPort.updateTargetLawXmlByEli(any()))
-        .thenReturn(Optional.of(targetLawXml));
+        .thenReturn(Optional.of(timeMachineService.stringToXmlDocument(targetLawXml)));
 
     // When
-    final Optional<String> updatedXml = service.updateTargetLaw(query);
+    final Optional<Document> updatedXml = service.updateTargetLaw(query);
 
     // Then
-    assertThat(updatedXml).isPresent().contains(targetLawXml);
+    assertThat(updatedXml).isPresent();
+    assertThat(timeMachineService.convertDocumentToString(updatedXml.get())).contains(targetLawXml);
     verify(updateTargetLawXmlPort, times(1))
         .updateTargetLawXmlByEli(
             argThat(
