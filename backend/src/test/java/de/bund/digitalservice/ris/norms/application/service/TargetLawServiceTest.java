@@ -65,13 +65,14 @@ class TargetLawServiceTest {
     final LoadTargetLawXmlUseCase.Query query = new LoadTargetLawXmlUseCase.Query(eli);
 
     final String xmlContent = "<targetLaw>Test content</targetLaw>";
-    when(loadTargetLawXmlAdapter.loadTargetLawXmlByEli(any())).thenReturn(Optional.of(xmlContent));
+    when(loadTargetLawXmlAdapter.loadTargetLawXmlByEli(any())).thenReturn(Optional.of(timeMachineService.stringToXmlDocument(xmlContent)));
 
     // When
-    final Optional<String> loadedXml = service.loadTargetLawXml(query);
+    final Optional<Document> loadedXml = service.loadTargetLawXml(query);
 
     // Then
-    assertThat(loadedXml).isPresent().contains(xmlContent);
+    assertThat(loadedXml).isPresent();
+    assertThat(timeMachineService.convertDocumentToString(loadedXml.get())).contains(xmlContent);
     verify(loadTargetLawXmlAdapter, times(1))
         .loadTargetLawXmlByEli(argThat(command -> command.eli().equals(eli)));
   }
