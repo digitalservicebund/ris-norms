@@ -9,9 +9,11 @@ import { getAmendingLawHtmlByEli } from "@/services/amendingLawsService"
  *
  * @returns A reference to the amending law rendered HTML or undefined if it is not available (or still loading).
  */
-export function useAmendingLawHtml(
-  eli: MaybeRefOrGetter<string | undefined>,
-): Readonly<Ref<string | undefined>> {
+export function useAmendingLawHtml(eli: MaybeRefOrGetter<string | undefined>): {
+  html: Readonly<Ref<string | undefined>>
+
+  reload: () => Promise<void>
+} {
   const amendingLawHtml = ref<string>()
 
   watch(
@@ -24,5 +26,13 @@ export function useAmendingLawHtml(
     { immediate: true },
   )
 
-  return readonly(amendingLawHtml)
+  async function reload() {
+    const eliVal = toValue(eli)
+    if (eliVal) amendingLawHtml.value = await getAmendingLawHtmlByEli(eliVal)
+  }
+
+  return {
+    html: readonly(amendingLawHtml),
+    reload,
+  }
 }
