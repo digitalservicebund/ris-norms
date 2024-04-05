@@ -169,7 +169,11 @@ watch(
           class="flex flex-col gap-8"
           aria-labelledby="originalArticleTitle"
         >
-          <h3 id="originalArticleTitle" class="ds-label-02-bold">
+          <h3
+            id="originalArticleTitle"
+            class="ds-label-02-bold"
+            data-testid="targetLawHeading"
+          >
             {{ targetLaw?.title }}
           </h3>
           <RisTabs
@@ -225,7 +229,11 @@ watch(
           class="flex flex-col gap-8"
           aria-labelledby="changeCommandsEditor"
         >
-          <h3 id="changeCommandsEditor" class="ds-label-02-bold">
+          <h3
+            id="changeCommandsEditor"
+            class="ds-label-02-bold"
+            data-testid="amendingLawHeading"
+          >
             <span class="block">Änderungsbefehle</span>
             <span>{{ article?.title }}</span>
           </h3>
