@@ -2,6 +2,8 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -11,9 +13,6 @@ import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
-import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 
 class TargetLawDtoTest {
 
@@ -36,7 +35,7 @@ class TargetLawDtoTest {
     final String fna = "4711";
     final String shortTitle = "T";
 
-    final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService()));
+    final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
 
     // When
     final TargetLawDto targetLawDto =
