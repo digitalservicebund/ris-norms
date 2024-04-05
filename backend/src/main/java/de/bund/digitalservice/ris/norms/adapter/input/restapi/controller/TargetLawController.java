@@ -5,11 +5,14 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TargetLawResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TargetLawResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.application.service.TimeMachineService;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Document;
 
 /**
  * Controller class for handling target laws in the REST API. This class is annotated with {@link
@@ -106,7 +109,7 @@ public class TargetLawController {
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}",
       produces = {APPLICATION_XML_VALUE})
-  public ResponseEntity<String> getTargetLawXml(
+  public ResponseEntity<Document> getTargetLawXml(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -123,7 +126,7 @@ public class TargetLawController {
             version,
             language,
             subtype);
-    final Optional<String> targetLawXmlOptional =
+    final Optional<Document> targetLawXmlOptional =
         loadTargetLawXmlUseCase.loadTargetLawXml(new LoadTargetLawXmlUseCase.Query(eli));
     return targetLawXmlOptional
         .map(ResponseEntity::ok)
@@ -168,15 +171,20 @@ public class TargetLawController {
             version,
             language,
             subtype);
-    final Optional<String> targetLawXmlOptional =
+    final Optional<Document> targetLawXmlOptional =
         loadTargetLawXmlUseCase.loadTargetLawXml(new LoadTargetLawXmlUseCase.Query(eli));
 
+    // TODO: this violates the call hierarchy. We could either
+    // a) make the UseCase return String (which would be a shame as Document is much richer)
+    // b) provide the XML utilities via some other means than a service (which seems to go against the Spring defaults)
+    final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
+    
     return targetLawXmlOptional
         .map(
             xml -> {
               var html =
                   this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                      new TransformLegalDocMlToHtmlUseCase.Query(xml, true));
+                      new TransformLegalDocMlToHtmlUseCase.Query(timeMachineService.convertDocumentToString(xml), true));
               return ResponseEntity.ok(html);
             })
         .orElseGet(() -> ResponseEntity.notFound().build());
@@ -307,7 +315,7 @@ public class TargetLawController {
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}",
       consumes = {APPLICATION_XML_VALUE},
       produces = {APPLICATION_XML_VALUE})
-  public ResponseEntity<String> updateTargetLaw(
+  public ResponseEntity<Document> updateTargetLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -327,9 +335,12 @@ public class TargetLawController {
             language,
             subtype);
 
-    Optional<String> targetLawPreview =
-        updateTargetLawUseCase.updateTargetLaw(new UpdateTargetLawUseCase.Query(eli, targetLaw));
-    return targetLawPreview
+    final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
+
+    Optional<Document> updatedTargetLaw =
+        updateTargetLawUseCase.updateTargetLaw(new UpdateTargetLawUseCase.Query(eli, timeMachineService.stringToXmlDocument(targetLaw)));
+
+    return updatedTargetLaw
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
