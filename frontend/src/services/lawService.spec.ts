@@ -34,6 +34,33 @@ describe("lawService", () => {
       )
     })
 
+    it("explicitly sets showMetadata to true and calls the API", async () => {
+      const fetchMock = vi
+        .fn()
+        .mockResolvedValueOnce(`<html>Metadata explicitly shown</html>`)
+      vi.doMock("@/services/apiService", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const xml = "<law></law>"
+      const { renderHtmlLaw } = await import("./lawService")
+
+      const result = await renderHtmlLaw(xml, true)
+      expect(result).toBe(`<html>Metadata explicitly shown</html>`)
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "laws/rendering?showMetadata=true",
+        expect.objectContaining({
+          method: "POST",
+          headers: expect.objectContaining({
+            Accept: "text/html",
+            "Content-Type": "application/xml",
+          }),
+          body: xml,
+        }),
+      )
+    })
+
     it("allows showMetadata to be explicitly set to false", async () => {
       const fetchMock = vi
         .fn()
