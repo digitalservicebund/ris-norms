@@ -65,7 +65,8 @@ class TargetLawServiceTest {
     final LoadTargetLawXmlUseCase.Query query = new LoadTargetLawXmlUseCase.Query(eli);
 
     final String xmlContent = "<targetLaw>Test content</targetLaw>";
-    when(loadTargetLawXmlAdapter.loadTargetLawXmlByEli(any())).thenReturn(Optional.of(timeMachineService.stringToXmlDocument(xmlContent)));
+    when(loadTargetLawXmlAdapter.loadTargetLawXmlByEli(any()))
+        .thenReturn(Optional.of(timeMachineService.stringToXmlDocument(xmlContent)));
 
     // When
     final Optional<Document> loadedXml = service.loadTargetLawXml(query);
@@ -107,7 +108,8 @@ class TargetLawServiceTest {
     // Given
     final String eli = "someEli";
     final String targetLawXml = "<targetLaw>Test content</targetLaw>";
-    final UpdateTargetLawUseCase.Query query = new UpdateTargetLawUseCase.Query(eli, timeMachineService.stringToXmlDocument(targetLawXml));
+    final UpdateTargetLawUseCase.Query query =
+        new UpdateTargetLawUseCase.Query(eli, timeMachineService.stringToXmlDocument(targetLawXml));
 
     when(updateTargetLawXmlPort.updateTargetLawXmlByEli(any()))
         .thenReturn(Optional.of(timeMachineService.stringToXmlDocument(targetLawXml)));

@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
-
 import org.w3c.dom.Document;
 
 /**

@@ -176,15 +176,17 @@ public class TargetLawController {
 
     // TODO: this violates the call hierarchy. We could either
     // a) make the UseCase return String (which would be a shame as Document is much richer)
-    // b) provide the XML utilities via some other means than a service (which seems to go against the Spring defaults)
+    // b) provide the XML utilities via some other means than a service (which seems to go against
+    // the Spring defaults)
     final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
-    
+
     return targetLawXmlOptional
         .map(
             xml -> {
               var html =
                   this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                      new TransformLegalDocMlToHtmlUseCase.Query(timeMachineService.convertDocumentToString(xml), true));
+                      new TransformLegalDocMlToHtmlUseCase.Query(
+                          timeMachineService.convertDocumentToString(xml), true));
               return ResponseEntity.ok(html);
             })
         .orElseGet(() -> ResponseEntity.notFound().build());
@@ -338,7 +340,9 @@ public class TargetLawController {
     final TimeMachineService timeMachineService = new TimeMachineService(new XmlDocumentService());
 
     Optional<Document> updatedTargetLaw =
-        updateTargetLawUseCase.updateTargetLaw(new UpdateTargetLawUseCase.Query(eli, timeMachineService.stringToXmlDocument(targetLaw)));
+        updateTargetLawUseCase.updateTargetLaw(
+            new UpdateTargetLawUseCase.Query(
+                eli, timeMachineService.stringToXmlDocument(targetLaw)));
 
     return updatedTargetLaw
         .map(ResponseEntity::ok)

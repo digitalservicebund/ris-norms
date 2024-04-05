@@ -19,7 +19,9 @@ class TargetLawMapperTest {
         TargetLawDto.builder()
             .eli("123")
             .title("Test Law")
-            .xml(timeMachineService.stringToXmlDocument("<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML</test>"))
+            .xml(
+                timeMachineService.stringToXmlDocument(
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><test>Test XML</test>"))
             .fna("4711")
             .shortTitle("TL")
             .build();

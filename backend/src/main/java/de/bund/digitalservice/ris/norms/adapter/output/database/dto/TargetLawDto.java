@@ -3,14 +3,12 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
-
-import org.w3c.dom.Document;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.w3c.dom.Document;
 
 /**
  * Data Transfer Object (DTO) class representing an article entity. This class is annotated with

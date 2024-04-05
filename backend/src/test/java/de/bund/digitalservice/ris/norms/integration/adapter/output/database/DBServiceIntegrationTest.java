@@ -349,7 +349,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // Then
     assertThat(targetLawXmlOptional)
         .isPresent()
-        .satisfies(xmlDb -> assertThat(timeMachineService.convertDocumentToString(xmlDb.get())).contains("<target></target>"));
+        .satisfies(
+            xmlDb ->
+                assertThat(timeMachineService.convertDocumentToString(xmlDb.get()))
+                    .contains("<target></target>"));
   }
 
   @Test
@@ -445,12 +448,17 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // When
     final String newXml = "<new></new>";
     final Optional<Document> updatedXmlOptional =
-        dbService.updateTargetLawXmlByEli(new UpdateTargetLawXmlPort.Command(eli, timeMachineService.stringToXmlDocument(newXml)));
+        dbService.updateTargetLawXmlByEli(
+            new UpdateTargetLawXmlPort.Command(
+                eli, timeMachineService.stringToXmlDocument(newXml)));
 
     // Then
     assertThat(updatedXmlOptional)
         .isPresent()
-        .satisfies(updatedXml -> assertThat(timeMachineService.convertDocumentToString(updatedXml.get())).contains(newXml));
+        .satisfies(
+            updatedXml ->
+                assertThat(timeMachineService.convertDocumentToString(updatedXml.get()))
+                    .contains(newXml));
   }
 
   @Test

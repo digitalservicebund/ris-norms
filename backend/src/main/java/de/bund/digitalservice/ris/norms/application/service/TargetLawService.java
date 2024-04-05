@@ -58,7 +58,10 @@ public class TargetLawService
             new LoadTargetLawXmlPort.Command(query.targetLawEli()));
     return targetLaw.map(
         // TODO: Switch timeMachineService.apply() to work on Documents, not Strings
-        targetLawDocument -> timeMachineService.apply(query.amendingLawXml(), timeMachineService.convertDocumentToString(targetLawDocument)));
+        targetLawDocument ->
+            timeMachineService.apply(
+                query.amendingLawXml(),
+                timeMachineService.convertDocumentToString(targetLawDocument)));
   }
 
   @Override
