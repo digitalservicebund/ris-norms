@@ -47,4 +47,27 @@ class LawControllerTest {
     verify(transformLegalDocMlToHtmlUseCase, times(1))
         .transformLegalDocMlToHtml(new TransformLegalDocMlToHtmlUseCase.Query(xml, true));
   }
+
+  @Test
+  void getHtmlPreviewWithShowMetadataFalse() throws Exception {
+    String xml = "<law></law>";
+    String html = "<html></html>";
+    boolean showMetadata = false;
+
+    when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata)))
+        .thenReturn(html);
+
+    mockMvc
+        .perform(
+            post("/api/v1/laws/rendering")
+                .queryParam("showMetadata", String.valueOf(showMetadata))
+                .contentType(MediaType.APPLICATION_XML)
+                .content(xml))
+        .andExpect(status().isOk())
+        .andExpect(content().string(html));
+
+    verify(transformLegalDocMlToHtmlUseCase, times(1))
+        .transformLegalDocMlToHtml(new TransformLegalDocMlToHtmlUseCase.Query(xml, false));
+  }
 }
