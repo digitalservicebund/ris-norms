@@ -2,8 +2,8 @@
 withDefaults(
   defineProps<{
     content: string
-    highlightMods: boolean
-    highlightAffectedDocument: boolean
+    highlightMods?: boolean
+    highlightAffectedDocument?: boolean
   }>(),
   {
     highlightMods: false,
