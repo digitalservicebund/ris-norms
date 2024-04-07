@@ -212,7 +212,7 @@ paths:
           name: show_metadata
           schema:
             type: boolean
-            default: false
+            default: true
           description: Should the metadata table be included?
       requestBody:
         description: The LDML.de XML
