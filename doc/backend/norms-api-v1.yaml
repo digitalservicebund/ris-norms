@@ -204,6 +204,30 @@ paths:
               schema:
                 type: string
 
+  /renderings:
+    post:
+      summary: Create and return an HTML rendering of the provided LDML.de XML
+      parameters:
+        - in: query
+          name: show_metadata
+          schema:
+            type: boolean
+            default: false
+          description: Should the metadata table be included?
+      requestBody:
+        description: The LDML.de XML
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/LegalDocML.de'
+      responses:
+        '200':
+          description: HTML rendering the provided LDML.de XML
+          content:
+            text/html:
+              schema:
+                type: string
 
 components:
   schemas:
