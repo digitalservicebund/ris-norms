@@ -2,10 +2,12 @@
 withDefaults(
   defineProps<{
     content: string
-    highlightMods?: boolean
+    highlightMods: boolean
+    highlightAffectedDocument: boolean
   }>(),
   {
     highlightMods: false,
+    highlightAffectedDocument: false,
   },
 )
 </script>
@@ -17,6 +19,7 @@ withDefaults(
       class="flex h-full overflow-auto bg-white p-8"
       :class="{
         'highlight-mods': highlightMods,
+        'highlight-affected-document': highlightAffectedDocument,
       }"
       v-html="content"
     ></div>
@@ -101,7 +104,33 @@ withDefaults(
   @apply block;
 }
 
+:deep(.akn-intro) {
+  @apply mb-4 block;
+}
+
 .highlight-mods :deep(.akn-mod) {
-  @apply -mx-2 inline-block border border-dashed border-gray-900 bg-[#D3EFFF] bg-opacity-20 px-2;
+  @apply -mx-2 inline-block border border-dotted border-gray-900 bg-highlight-mod-default px-2;
+}
+
+.highlight-mods :deep(.akn-mod):hover {
+  @apply -mx-[3px] -my-1 inline-block border-2 border-dotted border-highlight-mod-border bg-highlight-mod-hover px-2;
+}
+
+/* This is currently unused as the .selected class is never applied to elements */
+.highlight-mods :deep(.akn-mod.selected) {
+  @apply -mx-[3px] -my-1 inline-block border-2 border-solid border-highlight-mod-border bg-highlight-mod-selected px-2;
+}
+
+.highlight-affected-document :deep(.akn-affectedDocument) {
+  @apply -mx-2 inline-block border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
+}
+
+.highlight-affected-document :deep(.akn-affectedDocument):hover {
+  @apply -mx-[3px] -my-1 inline-block border-2 border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
+}
+
+/* This is currently unused as the .selected class is never applied to elements */
+.highlight-affected-document :deep(.akn-affectedDocument.selected) {
+  @apply -mx-[3px] -my-1 inline-block border-2 border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
 }
 </style>
