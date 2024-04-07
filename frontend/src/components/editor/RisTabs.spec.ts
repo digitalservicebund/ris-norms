@@ -1,7 +1,22 @@
 import { describe, it, expect } from "vitest"
 import { render, fireEvent, screen } from "@testing-library/vue"
 import RisTabs from "./RisTabs.vue"
-import { nextTick } from "vue"
+import { nextTick, ref } from "vue"
+
+const ParentComponent = {
+  components: { RisTabs },
+  template: `
+    <RisTabs :tabs="tabs" v-model:activeTab="activeTab" />
+  `,
+  setup() {
+    const tabs = ref([
+      { id: "tab1", label: "Tab 1" },
+      { id: "tab2", label: "Tab 2" },
+    ])
+    const activeTab = ref("tab1")
+    return { tabs, activeTab }
+  },
+}
 
 describe("RisTabs", () => {
   it("activates the first tab by default", async () => {
@@ -14,12 +29,9 @@ describe("RisTabs", () => {
       props: { tabs },
     })
 
-    // Wait for the next DOM update
     await nextTick()
 
-    // Use the aria-label attribute value to find the first tab
     const firstTab = screen.getByRole("tab", { name: "tab1" })
-    // Check the `aria-selected` attribute directly
     expect(firstTab.getAttribute("aria-selected")).toBe("true")
   })
 
@@ -33,10 +45,20 @@ describe("RisTabs", () => {
       props: { tabs },
     })
 
-    // Use the aria-label attribute value to find the second tab
     const secondTab = screen.getByRole("tab", { name: "tab2" })
+    expect(secondTab.ariaSelected).toBe("false")
     await fireEvent.click(secondTab)
 
     expect(secondTab.ariaSelected).toBe("true")
+  })
+  it("changes the tab status after updating the activeTab model", async () => {
+    const parentComponent = render(ParentComponent)
+    const firstTab = screen.getByRole("tab", { name: "tab1" })
+    expect(firstTab.getAttribute("aria-selected")).toBe("true")
+    await parentComponent.rerender({
+      activeTab: "tab2",
+    })
+    const secondTab = screen.getByRole("tab", { name: "tab2" })
+    expect(secondTab.getAttribute("aria-selected")).toBe("true")
   })
 })
