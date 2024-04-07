@@ -27,9 +27,14 @@ export async function getTargetLawXmlByEli(eli: string): Promise<string> {
  * Load the rendered html version of a target law from the api
  *
  * @param eli Eli of the target law
+ * @param showMetadata Whether to include metadata in the rendered HTML
+
  */
-export async function getTargetLawHtmlByEli(eli: string): Promise<string> {
-  return await apiFetch(`/target-laws/${eli}`, {
+export async function getTargetLawHtmlByEli(
+  eli: string,
+  showMetadata: boolean = true,
+): Promise<string> {
+  return await apiFetch(`/target-laws/${eli}?showMetadata=${showMetadata}`, {
     headers: {
       Accept: "text/html",
     },

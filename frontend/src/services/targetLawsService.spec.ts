@@ -80,7 +80,30 @@ describe("targetLawsService", () => {
       expect(result).toBe("<span></span>")
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1?showMetadata=true",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Accept: "text/html",
+          }),
+        }),
+      )
+    })
+
+    it("allows showMetadata to be explicitly set to false", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<span></span>`)
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { getTargetLawHtmlByEli } = await import("./targetLawsService")
+
+      const eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+      const result = await getTargetLawHtmlByEli(eli, false)
+      expect(result).toBe("<span></span>")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        `/target-laws/${eli}?showMetadata=false`,
         expect.objectContaining({
           headers: expect.objectContaining({
             Accept: "text/html",
