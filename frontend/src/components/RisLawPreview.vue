@@ -2,7 +2,7 @@
 withDefaults(
   defineProps<{
     content: string
-    highlightMods: boolean
+    highlightMods?: boolean
   }>(),
   {
     highlightMods: false,
