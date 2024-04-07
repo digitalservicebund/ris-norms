@@ -28,17 +28,19 @@ const amendingLaw = useAmendingLaw(eli)
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
-
 const article = useArticle(identifier)
 const { xml: articleXml, update: updateArticleXml } = useArticleXml(identifier)
-
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const targetLaw = useTargetLaw(targetLawEli)
 const { xml: targetLawXml } = useTargetLawXml(targetLawEli)
-
 const currentArticleXml = ref("")
 const renderedHtml = ref("")
-async function fetchRenderedHtml() {
+const previewXml = ref<string>("")
+const previewHtml = ref<string>("")
+const targetLawHtml = ref("")
+const amendingLawActiveTab = ref("text")
+
+async function fetchAmendingLawRenderedHtml() {
   try {
     if (currentArticleXml.value) {
       renderedHtml.value = await renderHtmlLaw(currentArticleXml.value, false)
@@ -50,13 +52,6 @@ async function fetchRenderedHtml() {
 function handleArticleXMLChange({ content }: { content: string }) {
   currentArticleXml.value = content
 }
-
-watch(articleXml, (articleXml) => {
-  if (articleXml) {
-    currentArticleXml.value = articleXml
-  }
-})
-
 /**
  * Handle the click of the save button.
  */
@@ -69,11 +64,8 @@ async function handleSave() {
     console.error(error)
   }
 }
-
-const previewXml = ref<string>("")
-const previewHtmlTargetLaw = ref<string>("")
-
 async function handleGeneratePreview() {
+  if (!targetLawEli.value) return
   try {
     if (targetLawEli.value) {
       const [xmlContent, htmlContent] = await Promise.all([
@@ -81,15 +73,13 @@ async function handleGeneratePreview() {
         previewTargetLawAsHtml(targetLawEli.value, currentArticleXml.value),
       ])
       previewXml.value = xmlContent
-      previewHtmlTargetLaw.value = htmlContent
+      previewHtml.value = htmlContent
     }
   } catch (error) {
     alert("Vorschau konnte nicht erstellt werden")
     console.error(error)
   }
 }
-
-const targetLawHtml = ref("")
 async function fetchTargetLawHtmlContent() {
   try {
     if (targetLawEli.value) {
@@ -102,29 +92,35 @@ async function fetchTargetLawHtmlContent() {
     console.error("Failed to fetch HTML content:", error)
   }
 }
+const initialize = async () => {
+  await fetchTargetLawHtmlContent()
+  await fetchAmendingLawRenderedHtml()
+}
+onMounted(() => {
+  initialize()
+})
 
-onMounted(fetchTargetLawHtmlContent)
-watch(articleXml, fetchRenderedHtml)
-watch(targetLawEli, fetchTargetLawHtmlContent)
-const amendingLawActiveTab = ref("text")
-
-watch(
-  [currentArticleXml, amendingLawActiveTab],
-  async ([newXml, newActiveTab], [oldXml, oldActiveTab]) => {
-    if (
-      newXml !== oldXml ||
-      (newActiveTab === "text" && newActiveTab !== oldActiveTab)
-    ) {
-      if (newXml && newActiveTab === "text") {
-        await fetchRenderedHtml()
-      }
-    }
-  },
-  {
-    immediate: true,
-    deep: true,
-  },
-)
+watch(articleXml, fetchAmendingLawRenderedHtml, { immediate: true })
+watch(targetLawEli, fetchTargetLawHtmlContent, { immediate: true })
+watch(currentArticleXml, (newXml, oldXml) => {
+  if (newXml !== oldXml && amendingLawActiveTab.value === "text") {
+    fetchAmendingLawRenderedHtml()
+  }
+})
+watch(amendingLawActiveTab, (newActiveTab, oldActiveTab) => {
+  if (
+    newActiveTab === "text" &&
+    newActiveTab !== oldActiveTab &&
+    currentArticleXml.value
+  ) {
+    fetchAmendingLawRenderedHtml()
+  }
+})
+watch(articleXml, (articleXml) => {
+  if (articleXml) {
+    currentArticleXml.value = articleXml
+  }
+})
 </script>
 
 <template>
@@ -211,7 +207,7 @@ watch(
             <template #text>
               <RisLawPreview
                 class="ds-textarea flex-grow p-2"
-                :content="previewHtmlTargetLaw"
+                :content="previewHtml"
               />
             </template>
             <template #xml>
