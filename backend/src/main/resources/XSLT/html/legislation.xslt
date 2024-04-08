@@ -182,7 +182,7 @@
 
     <!-- Handle "normal" html elements -->
     <xsl:template
-            match="akn:a | akn:abbr | akn:b | akn:br | akn:caption | akn:del | akn:i | akn:ins | akn:li | akn:ol | akn:sub | akn:sup | akn:td | akn:th | akn:tr | akn:u | akn:ul | akn:span | akn:table">
+            match="akn:a | akn:abbr | akn:b | akn:br | akn:caption | akn:i | akn:sub | akn:sup | akn:td | akn:th | akn:tr | akn:u | akn:span | akn:table">
         <xsl:element name="{local-name()}">
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
