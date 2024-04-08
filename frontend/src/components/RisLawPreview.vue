@@ -16,6 +16,7 @@ withDefaults(
   <div class="overflow-hidden">
     <!-- eslint-disable vue/no-v-html -->
     <div
+      tabindex="0"
       class="flex h-full overflow-auto bg-white p-8"
       :class="{
         'highlight-mods': highlightMods,
