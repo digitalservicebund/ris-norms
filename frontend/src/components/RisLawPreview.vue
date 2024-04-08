@@ -108,6 +108,10 @@ withDefaults(
   @apply mb-4 block;
 }
 
+:deep(.akn-a) {
+  @apply underline;
+}
+
 .highlight-mods :deep(.akn-mod) {
   @apply -mx-2 inline-block border border-dotted border-gray-900 bg-highlight-mod-default px-2;
 }

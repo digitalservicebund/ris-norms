@@ -88,7 +88,7 @@
     </xsl:template>
 
     <xsl:template
-            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:subheading | akn:marker | akn:content | akn:intro | akn:formula | akn:location | akn:role | akn:person | akn:inline | akn:mod | akn:affectedDocument | akn:organization | akn:ref | akn:p">
+            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:subheading | akn:marker | akn:content | akn:intro | akn:formula | akn:location | akn:role | akn:person | akn:inline | akn:mod | akn:affectedDocument | akn:organization | akn:ref">
         <span>
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
@@ -178,6 +178,13 @@
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
         </li>
+    </xsl:template>
+
+    <xsl:template match="akn:a[@href]">
+        <a href="{@href}">
+            <xsl:call-template name="attributes"/>
+            <xsl:apply-templates/>
+        </a>
     </xsl:template>
 
     <!-- Handle "normal" html elements -->
