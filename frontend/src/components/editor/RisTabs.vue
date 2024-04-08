@@ -19,19 +19,20 @@ onMounted(() => {
     activeTab.value = props.tabs[0].id
   }
 })
+
 function switchTab(tabId: string) {
   activeTab.value = tabId
 }
 </script>
 <template>
   <div>
-    <ul role="tablist" class="flex">
+    <ul role="tablist" class="flex gap-16">
       <li v-for="tab in tabs" :key="tab.id" role="presentation">
         <button
-          :role="'tab'"
+          role="tab"
           :aria-selected="tab.id === activeTab"
           :aria-label="tab.id"
-          class="items-center px-8 text-blue-800 hover:underline focus:underline aria-selected:text-blue-800 aria-selected:underline"
+          class="items-center text-blue-800 hover:underline focus:underline aria-selected:font-bold aria-selected:text-blue-800 aria-selected:underline"
           @click="switchTab(tab.id)"
         >
           {{ tab.label }}
