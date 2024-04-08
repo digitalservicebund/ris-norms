@@ -8,7 +8,7 @@
 
     <xsl:import href="./legislation-metadata.xslt"/>
 
-    <xsl:output method="html" encoding="UTF-8"/>
+    <xsl:output method="html" version="5" include-content-type="no" encoding="utf-8" indent="yes" />
 
     <xsl:template match="/akn:akomaNtoso">
         <div>
@@ -135,7 +135,7 @@
     <xsl:template match="akn:p">
         <div>
             <xsl:call-template name="attributes"/>
-            <xsl:apply-templates />
+            <xsl:apply-templates/>
         </div>
     </xsl:template>
 
@@ -216,6 +216,10 @@
             <xsl:value-of select="."/>
         </xsl:attribute>
     </xsl:template>
+
+    <!--<xsl:template match="text()">-->
+    <!--    <xsl:value-of select="normalize-space()"/>-->
+    <!--</xsl:template>-->
 
     <!-- Fallback for missing elements -->
     <xsl:template match="*">

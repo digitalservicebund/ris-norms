@@ -112,6 +112,18 @@ withDefaults(
   @apply underline;
 }
 
+:deep(.akn-num + .akn-heading) {
+  @apply pl-4;
+}
+
+:deep(.akn-longTitle) {
+  @apply font-bold;
+}
+
+:deep(.akn-shortTitle) {
+  @apply block font-normal;
+}
+
 .highlight-mods :deep(.akn-mod) {
   @apply border border-dotted border-gray-900 bg-highlight-mod-default px-2;
 }
