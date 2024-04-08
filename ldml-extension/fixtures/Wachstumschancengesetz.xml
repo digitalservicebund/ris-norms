@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!--
 	##################################################################################
-	Discovery Metadaten-Struktur für nichtdefinierte Metadaten auf LDML.de-Ebene
+	Discovery Metadaten&#x2D;Struktur für nichtdefinierte Metadaten auf LDML.de&#x2D;Ebene
 	2024 Copyright (C) 2024 Digitalservice GmbH des Bundes
 	##################################################################################
 --><?xml-model href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/26e27e3a56996587fe737639fd80e2c4a8fe0311/Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
@@ -122,6 +122,97 @@
                            </akn:mod>
                         </akn:p>
                      </akn:content>
+                     </akn:point>
+                     <akn:point GUID="4bf3aae7-b83c-4429-8518-040182a228d5" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2">
+                        <akn:num GUID="81e4878a-ad3a-4ec9-b32a-074c32367d12" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_bezeichnung-1"><akn:marker name="2" GUID="99188b27-8978-4f86-9fdf-cec0c62a6185" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"></akn:marker>2.</akn:num>
+                        <akn:content GUID="e447e69e-5b1f-4880-b0d9-04a596ab2a01" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1">
+                           <akn:p GUID="0d881f49-5342-4629-9874-fc4c248b630a" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">
+                              <akn:mod refersTo="aenderungsbefehl-ersetzen" GUID="58161d8d-b02e-4d54-a362-25a734c5e79b" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1">
+                                 <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-71_abs-2" GUID="88c21ccc-f528-4dd1-ab38-48c562daf53c" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1">
+                                 § 19 Absatz 2 Satz 3 wird wie folgt gefasst:</akn:ref>
+                                 <akn:quotedStructure endQuote="“" startQuote="„" GUID="2785f9b5-51ee-4876-af06-17219ddd9351" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1"><akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_text-1" GUID="0d7a4336-d505-4125-bdb5-13987833ce75">Der  maßgebende  Prozentsatz,  der  Höchstbetrag  des  Versorgungsfreibetrags  und  der  Zuschlag  zum 
+                           Versorgungsfreibetrag sind der nachstehenden Tabelle zu entnehmen:</akn:p>
+                           <akn:table GUID="e6095f0b-884b-4be8-a033-58282d5dd514" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1">
+                              <akn:tr GUID="990c5783-9b51-4062-87df-e7c73c6b3598" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-1">
+                                 <akn:th GUID="1b3dfb9b-41cf-4650-aad6-f5c250d71c26" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-1_tabellekopf-1" rowspan="2">
+                                    <akn:p GUID="63cbbdb0-a993-4c76-bfe1-06176e954df1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-1_tabellekopf-1_text-1">Jahr des Versorgungsbeginns</akn:p> 
+                                 </akn:th>
+                                 <akn:th GUID="e1849850-f1bc-485e-b9cb-ecd2ac14a513" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-1_tabellekopf-2">
+                                    <akn:p GUID="e25d8ec3-3470-4778-beae-bb23f26ff94e" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-1_tabellekopf-2_text-1">Versorgungsfreibetrag</akn:p>
+                                 </akn:th>
+                                 <akn:th GUID="1512c9fd-fe29-4363-915f-f1b34f022c4f" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-1_tabellekopf-3" rowspan="2">
+                                    <akn:p GUID="5ffcdd71-953f-4035-9f4a-cc82038f1932" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-1_tabellekopf-3_text-1">Zuschlag zum Versorgungsfreibetrag in Euro</akn:p>
+                                 </akn:th>
+                              </akn:tr>
+                              <akn:tr GUID="ce0a57b3-bcd4-4a51-bd34-bd3df5ea5e54" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-2">
+                                 <akn:th GUID="82a5507b-1c59-4989-9810-ea39897b3142" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-2_tabellekopf-1">
+                                    <akn:p GUID="f502b5ab-d7af-49a2-88ed-1cb7c380387a" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-2_tabellekopf-1_text-1">in % der Versorgungsbezüge</akn:p>
+                                 </akn:th>
+                                 <akn:th GUID="a4b33640-a58f-4fa5-9286-c6fc3a4521dc" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-2_tabellekopf-2">
+                                    <akn:p GUID="44c877d7-4e7b-427a-9c69-58dfeaddea39" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-2_tabellekopf-2_text-1">Höchstbetrag in Euro</akn:p>
+                                 </akn:th>
+                              </akn:tr>
+                              <akn:tr GUID="c7b2cdea-4ac3-4af7-9d7d-29345f1d6ed8" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-3">
+                                 <akn:td GUID="6135164c-082f-4f25-8146-39b2c7851f8d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-3_tabelleinh-1">
+                                    <akn:p GUID="1daba036-230a-4595-aca2-c72faa0dbfaf" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-3_tabelleinh-1_text-1">bis 2005</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="4b1822c2-86f2-499b-9e15-3e238a9475e5" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-3_tabelleinh-2">
+                                    <akn:p GUID="47f2763e-83f9-4a8e-81e3-188ab8ce46c6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-3_tabelleinh-2_text-1">40,0</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="ff209893-13c7-4e15-a401-dd660be8c527" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-3_tabelleinh-3">
+                                    <akn:p GUID="95dffc04-b963-4f63-b39d-2da5ba650654" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-3_tabelleinh-3_text-1">3 000</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="3972a0d5-7c54-4bcc-9c3c-e59630f840b0" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-3_tabelleinh-4">
+                                    <akn:p GUID="9834fccb-d13e-4ac5-a2ff-dd242fe0f763" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-3_tabelleinh-4_text-1">900</akn:p>
+                                 </akn:td>
+                              </akn:tr>
+                              <akn:tr GUID="b671a30c-dc1a-4898-970d-e371abe9aed9" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-4">
+                                 <akn:td GUID="fad8cef3-00be-4d74-b23e-dcafa2516bf2" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-4_tabelleinh-1">
+                                    <akn:p GUID="a2a1f303-9c82-4c6c-a95f-35f01941029f" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-4_tabelleinh-1_text-1">ab 2006</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="e3c06299-3855-41e7-995a-f395d7f84461" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-4_tabelleinh-2">
+                                    <akn:p GUID="85ae462a-e205-4f7e-8532-4b993b5ea12e" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-4_tabelleinh-2_text-1">38,4</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="aff4aa39-7b78-4f69-8004-a95a88c4fa9c" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-4_tabelleinh-3">
+                                    <akn:p GUID="08bc3ade-e920-438b-8448-7fcedb6192fa" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-4_tabelleinh-3_text-1">2 880</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="1180c599-4219-4f91-a2a0-e5bf5754430d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-4_tabelleinh-4">
+                                    <akn:p GUID="7a10ff40-0025-4622-97d4-0333473653f2" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-4_tabelleinh-4_text-1">864</akn:p>
+                                 </akn:td>
+                              </akn:tr>
+                              <akn:tr GUID="458a49d1-b3ea-46bd-8051-10960c0f4094" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-5">
+                                 <akn:td GUID="dd0ed33d-b834-4e5a-906c-59474385394d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-5_tabelleinh-1">
+                                    <akn:p GUID="93656d01-643a-4a9a-8f9c-de0b85f43955" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-5_tabelleinh-1_text-1">2007</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="3fd9bac2-803f-42fc-938f-cbd6b58bc833" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-5_tabelleinh-2">
+                                    <akn:p GUID="23c53d5e-8217-4d29-a099-2575c85ae7dc" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-5_tabelleinh-2_text-1">36,8</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="22bea0e1-db96-4694-98c7-c2d2574b2263" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-5_tabelleinh-3">
+                                    <akn:p GUID="257a1968-fe04-4180-a8cb-18c825f1c836" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-5_tabelleinh-3_text-1">2 760</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="5e6ed51d-48da-44e9-b8bd-7453929bef81" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-5_tabelleinh-4">
+                                    <akn:p GUID="22751007-c55f-41c4-89ae-b7a3acef841a" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-5_tabelleinh-4_text-1">828</akn:p>
+                                 </akn:td>
+                              </akn:tr>
+                              <akn:tr GUID="23fd3a0c-b7ff-471c-a6b2-10e2f25b8b5d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-6">
+                                 <akn:td GUID="037d324d-67dd-4c6c-b74f-0da3c094d7f3" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-6_tabelleinh-1">
+                                    <akn:p GUID="07be3174-ab04-4ae6-a8f6-0c5652ffe1ea" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-6_tabelleinh-1_text-1">2008</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="16acddc4-a085-43be-b413-a9c7240632c0" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-6_tabelleinh-2">
+                                    <akn:p GUID="0c5a3e05-7a6c-43cd-b19e-c748e2046e02" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-6_tabelleinh-2_text-1">35,2</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="82745578-4b7e-48e3-ba66-a5e80caa6e5f" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-6_tabelleinh-3">
+                                    <akn:p GUID="84690030-0b62-409e-acee-67b422fb4e1e" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-6_tabelleinh-3_text-1">2 640</akn:p>
+                                 </akn:td>
+                                 <akn:td GUID="8e897241-573d-4b7d-87a3-3fbfaba46602" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-6_tabelleinh-4">
+                                    <akn:p GUID="88ec824e-0b3c-4e6e-9e67-93b2c9ba0c07" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_tabelle-1_tabellereihe-6_tabelleinh-4_text-1">792</akn:p>
+                                 </akn:td>
+                              </akn:tr>
+                           </akn:table>
+                        </akn:quotedStructure>
+                        </akn:mod>
+                        </akn:p>
+                        </akn:content>
                      </akn:point>
                      </akn:list>
                   </akn:paragraph>
