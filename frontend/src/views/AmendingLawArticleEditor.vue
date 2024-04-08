@@ -187,7 +187,6 @@ watch(articleXml, (articleXml) => {
               <RisCodeEditor
                 class="flex-grow"
                 :readonly="true"
-                :editable="false"
                 :initial-content="targetLawXml ?? ''"
               ></RisCodeEditor>
             </template>
@@ -214,7 +213,6 @@ watch(articleXml, (articleXml) => {
               <RisCodeEditor
                 class="flex-grow"
                 :readonly="true"
-                :editable="false"
                 :initial-content="previewXml"
               ></RisCodeEditor>
             </template>
