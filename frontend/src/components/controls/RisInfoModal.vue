@@ -25,7 +25,7 @@ const props = withDefaults(
 <template>
   <div
     :aria-label="props.ariaLabel || 'Infomodal'"
-    class="mt-32 flex w-full justify-between gap-[1.5rem] border-l-[0.125rem] bg-blue-200 px-[1rem] py-[1.125rem]"
+    class="mt-32 flex w-full justify-between gap-24 bg-blue-200 p-24"
   >
     <div class="flex flex-col">
       <span class="ds-label-02-bold">{{ title }}</span>
@@ -36,7 +36,6 @@ const props = withDefaults(
       :to
       :icon="EditOutlineIcon"
       :label="iconText"
-      class="flex w-288 items-center"
       variant="ghost"
     />
   </div>
