@@ -113,19 +113,29 @@
         </span>
     </xsl:template>
 
-    <xsl:template
-            match="akn:quotedText">
+    <xsl:template match="akn:quotedText">
         <span>
             <xsl:call-template name="attributes"/>
             <xsl:call-template name="quote"/>
         </span>
     </xsl:template>
 
-    <xsl:template
-            match="akn:quotedStructure">
+    <xsl:template match="akn:quotedStructure">
         <div>
             <xsl:call-template name="attributes"/>
             <xsl:call-template name="quote"/>
+        </div>
+    </xsl:template>
+
+    <!--
+        Paragraph elements - usually we'd want them to show up as <p> elements in HTML too, but not everything
+        that can be contained in an akn:p is also allowed inside <p>. Rendering as a <div> for now so we at least
+        keep the block-appearance.
+    -->
+    <xsl:template match="akn:p">
+        <div>
+            <xsl:call-template name="attributes"/>
+            <xsl:apply-templates />
         </div>
     </xsl:template>
 
