@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+	##################################################################################
+	Discovery Metadaten-Struktur für nichtdefinierte Metadaten auf LDML.de-Ebene
+	2024 Copyright (C) 2024 Digitalservice GmbH des Bundes
+	##################################################################################
+--><?xml-model href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/26e27e3a56996587fe737639fd80e2c4a8fe0311/Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
+   <akn:act name="regelungstext">
+<!-- Metadaten-->
+      <akn:meta eId="meta-1" GUID="52226401-eb20-4c64-8077-bacdcf3bf584">
+         <akn:identification eId="meta-1_ident-1" GUID="e225e375-84cf-4f86-8b81-e3e8d6755e22" source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="1223336c-174a-4ebe-96b6-23b73d74249d">
+               <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="8ab599fb-6c27-434a-a769-2f0b15ea3761" value="eli/bund/bgbl-1/2004/s1673/regelungstext-1"></akn:FRBRthis>
+               <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="a90733dd-4780-472d-8371-a3690f2e869a" value="eli/bund/bgbl-1/2024/108"></akn:FRBRuri>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1" GUID="f6c40af6-f65c-4eef-8ffe-9696eb2f0d2b" name="übergreifende-id" value="2c1a6ec9-7161-4e2f-8999-91219180d991"></akn:FRBRalias>
+               <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="0b3ed103-3c9f-4df9-970f-4e296b2e6811" date="2024-03-27" name="verkuendungsfassung"></akn:FRBRdate>
+               <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1" GUID="2fa426b3-6592-40ed-a1ff-65fd5ddc07d1" href="recht.bund.de/institution/bundesregierung"></akn:FRBRauthor>
+               <akn:FRBRcountry eId="meta-1_ident-1_frbrwork-1_frbrcountry-1" GUID="0b8bfe94-3e70-4db2-94b5-cf3f1a37fc7e" value="de"></akn:FRBRcountry>
+               <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="439e34d4-7228-48e3-bfb3-9c6f30fefdc5" value="108"></akn:FRBRnumber>
+               <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="a70716e1-c0c7-44d3-a795-a04fcc25cca8" value="bgbl-1"></akn:FRBRname>
+               <akn:FRBRsubtype eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" GUID="af948830-e615-4dd5-8237-b8c830939f78" value="regelungstext-1"></akn:FRBRsubtype>
+            </akn:FRBRWork>
+            <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="21777967-2f44-49be-845d-d73c0ffb4d5b">
+               <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="85e064f4-f56f-4cef-86a4-6801cc71c712" value="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1"></akn:FRBRthis>
+               <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="e8f52739-79c1-4e59-9db2-004180c8b29c" value="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu"></akn:FRBRuri>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="c2e78146-833b-4d78-a055-27f05eeaf018" name="aktuelle-version-id" value="53d31e3c-5c46-4e96-8017-b0db064561a1"></akn:FRBRalias>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2fd1cd57-d43c-4f95-82ee-cfc6f890741c" name="nachfolgende-version-id" value="5d84cd1d-3575-4a03-bb6c-f17834e392fd"></akn:FRBRalias>
+               <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="6aace8d0-001f-4829-9794-79857835ee45" href="recht.bund.de/institution/bundesregierung"></akn:FRBRauthor>
+               <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" GUID="a6dc32d0-140d-4147-88b2-d64639b91742" date="2004-07-16" name="verkuendung"></akn:FRBRdate>
+               <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" GUID="b872861e-0add-4bbb-ba90-a5edb3c40038" language="deu"></akn:FRBRlanguage>
+               <akn:FRBRversionNumber eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1" GUID="22170c7e-8c51-4d7c-9917-16d5ea7494fc" value="1"></akn:FRBRversionNumber>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
+               <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="4c881fca-0e36-440e-a5f9-513079ccc77f" value="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1.xml"></akn:FRBRthis>
+               <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="d0491f91-d599-46d4-ba61-c7426b607e4f" value="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1.xml"></akn:FRBRuri>
+               <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="1d52860f-0990-4fd4-8b2f-32da6f99c612" date="2024-03-24" name="generierung"></akn:FRBRdate>
+               <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="1d015a20-823e-496e-808d-27c8fec85b51" href="recht.bund.de"></akn:FRBRauthor>
+               <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" GUID="758b3dc8-a5f1-46fe-bda3-97cd0930da67" value="xml"></akn:FRBRformat>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:lifecycle eId="meta-1_lebzykl-1" GUID="cef30a63-d738-4712-bac8-50fda44949e2" source="attributsemantik-noch-undefiniert">
+<!-- 1. Originales Gesetz -->
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="65f3910d-4e79-45f8-a24d-44ef7523963a" date="2024-03-27" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung"></akn:eventRef>
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="22cfa201-1d32-4655-afae-4bf01e9ba75c" date="2024-08-24" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten"></akn:eventRef>
+            <!-- 2. -->
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="85e92fc8-b381-47bb-a476-c35fa2794336" date="2023-01-01" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="inkrafttreten"></akn:eventRef>
+          </akn:lifecycle>
+         <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ee45119b-2485-4115-b587-da54b95e3ebd">
+               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="a43d0287-920d-4fbb-91d1-42fd7e03fe16" start="#meta-1_lebzykl-1_ereignis-2" refersTo="geltungszeit"></akn:timeInterval>
+            </akn:temporalGroup>
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2" GUID="0477223f-0f4e-4f79-9656-5ff7d2afd9c4">
+               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" GUID="ebd52dd5-7122-4000-93e8-b6e96d0ac75f" start="#meta-1_lebzykl-1_ereignis-3" refersTo="geltungszeit"></akn:timeInterval>
+            </akn:temporalGroup>
+         </akn:temporalData>
+         <!-- Diese Metadaten sind die Konstituenten für die Schematron&#x2D;Validierung. -->
+         <akn:proprietary eId="meta-1_proprietary-1" GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7" source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+               <meta:typ>gesetz</meta:typ>
+               <meta:form>stammform</meta:form>
+               <meta:fassung>neufassung</meta:fassung>
+               <meta:art>regelungstext</meta:art>
+               <meta:initiant>nicht-vorhanden</meta:initiant>
+               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
+               <!-- Die vorliegende Angabe von meta:fna stellt einen beliebigen, exemplarischen Fundstellennachweis dar und besitzt keine fachliche Korrektheit. -->
+               <meta:fna>754-28-1</meta:fna>
+               <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+               <meta:gesta>nicht-vorhanden</meta:gesta>
+               <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+               <meta:federfuehrung>
+                  <meta:federfuehrend ab="2024-03-27" bis="unbestimmt">Bundesministerium für Finanzen</meta:federfuehrend>
+               </meta:federfuehrung>
+            </meta:legalDocML.de_metadaten>
+         </akn:proprietary>
+         <!-- Metadaten vom DS definiert -->
+         <akn:proprietary eId="meta-1_proprietary-2" GUID="5d3855be-763f-4ebf-8ca6-8399b5fb86b8" source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+               <meta:subtyp>ÄN</meta:subtyp>
+           </meta:legalDocML.de_metadaten_ds>
+         </akn:proprietary>
+      </akn:meta>
+      <akn:preface eId="einleitung-1" GUID="803123ed-9705-4e0f-8a7c-a648084e1638">
+         <akn:longTitle eId="einleitung-1_doktitel-1" GUID="9610fccb-c35a-4756-81fb-0bb8fa111000">
+            <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a80af8c8-c844-4b75-824f-cdbf2f666d07">
+               <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Gesetz zur Stärkung von Wachstumschancen, Investitionen und Innovation sowie Steuervereinfachung und Steuerfairness
+                  
+<!-- Fußnote -->
+                  <akn:authorialNote eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1" GUID="9de7999f-a222-43ac-a648-f92c5a8ee927" marker="*)" placement="bottom" placementBase="">
+                     <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1_text-1" GUID="7c210663-00e0-48c1-b86d-d02f1c422de0">Artikel 31 dient der Umsetzung der Richtlinie (EU) 2021/514 des Rates vom 22. März 2021 zur Änderung der Richtlinie 2011/16/EU über die 
+                            Zusammenarbeit der Verwaltungsbehörden im Bereich der Besteuerung (ABl. L 104 vom 25.3.2021, S. 1).
+                            </akn:p>
+                  </akn:authorialNote>
+               </akn:docTitle>
+               <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1" GUID="f25432ed-590e-4bfc-bd6f-2ded9c586dba">(Wachstumschancengesetz)</akn:shortTitle>
+            </akn:p>
+         </akn:longTitle>
+      </akn:preface>
+      <!-- Hauptteil -->
+      <akn:body eId="hauptteil-1" GUID="ce0ac10d-510e-4148-8a8d-a4406a8b0a67">
+               <!-- §1 -->
+               <akn:article eId="hauptteil-1_para-1" GUID="17e9c25e-251d-48a7-8e74-3f0bb4b93b6b" period="#geltungszeitgr-2">
+                  <akn:num eId="hauptteil-1_para-1_bezeichnung-1" GUID="24f5f556-e005-4d10-8d7e-d92f141780d7">
+                     <akn:marker eId="hauptteil-1_para-1_bezeichnung-1_zaehlbez-1" GUID="6fa27ec6-e4c2-476a-8729-85e16b3105d1" name="1"></akn:marker>§1</akn:num>
+                  <akn:heading eId="hauptteil-1_para-1_überschrift-1" GUID="31b97e2a-1872-4a52-aba1-d075bae3c0d6">Änderung des Einkommensteuergesetzes</akn:heading>
+                  <!-- Absatz 1 -->
+                  <akn:paragraph eId="hauptteil-1_para-1_abs-1" GUID="58ea2242-386a-42b9-8f23-eaa1678159f1">
+                     <akn:num eId="hauptteil-1_para-1_abs-1_bezeichnung-1" GUID="c38a41af-4911-4b1a-9404-929912af983e">
+                        <akn:marker eId="hauptteil-1_para-1_abs-1_bezeichnung-1_zaehlbez-1" GUID="00aa91c0-6457-4200-bce9-a6350377c58f" name="1"></akn:marker>(1)</akn:num>
+                                    <akn:list GUID="5d6fc824-7926-43b4-b243-b0096da183f8" eId="hauptteil-1_para-1_abs-1_untergl-1">
+                                    <akn:intro GUID="5d6fc824-7926-43b4-b243-b0096da183f9" eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1">
+                     <akn:p GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5" eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1_text-1"> Das <akn:affectedDocument GUID="e9e5ceb0-c831-45da-8fa4-aaaa16572bee" eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1" href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1">Einkommensteuergesetz in der Fassung der Bekanntmachung vom 8. Oktober 2009 (BGBl. I S. 3366, 3862), 
+                            das zuletzt durch Artikel 20 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist</akn:affectedDocument>, wird 
+                            wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="49983c1a-c952-4ab1-b926-2f414c05da7d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1">
+                        <akn:num GUID="634ddcaa-4851-4656-8b65-f26c8f56d1f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1">
+                              <akn:marker eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1" GUID="b10ede97-383f-49b2-bf45-7deb7eeb7256" name="1"></akn:marker>1.
+                           </akn:num>
+                     <akn:content eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1" GUID="63c7840e-f93f-497a-843f-3afbd9ec8784">
+                        <akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861a">
+                           <akn:mod refersTo="aenderungsbefehl-ersetzen" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861b">
+                              In <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-26_bezeichnung-1_zaehlbez-1/284-449.xml" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861c">§ 6b Absatz 6 Satz 2</akn:ref> werden die Wörter „<akn:quotedText startQuote="„" endQuote="“" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861d">§ 7 Absatz 4 Satz 1 und Absatz 5</akn:quotedText>“ durch die Wörter „<akn:quotedText startQuote="„" endQuote="“" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2" GUID="a8786a31-bf59-41f9-b945-7785ed93861f">§ 7 Absatz 4 Satz 1, Absatz 5 und 5a</akn:quotedText>“ ersetzt.
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                     </akn:point>
+                     </akn:list>
+                  </akn:paragraph>
+               </akn:article>
+      </akn:body>
+   </akn:act>
+</akn:akomaNtoso>
