@@ -243,6 +243,8 @@ watch(articleXml, (articleXml) => {
               <RisLawPreview
                 class="ds-textarea flex-grow p-2"
                 :content="renderedHtml"
+                highlight-mods
+                highlight-affected-document
               />
             </template>
             <template #xml>
