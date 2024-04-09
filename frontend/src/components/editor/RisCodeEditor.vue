@@ -115,6 +115,5 @@ watch(
   <div
     ref="editorElement"
     class="ds-textarea overflow-hidden p-2 focus:outline focus:outline-2 focus:outline-blue-500"
-    tabindex="0"
   ></div>
 </template>
