@@ -11,6 +11,8 @@ brew install openjdk@21
 brew install --cask docker # or just `brew install docker` if you don't want the Desktop app
 ```
 
+Install the latest LTS version of node for running Spotless with Prettier.
+
 ## Running and developing
 
 Set up and boot the postgres database and the redis database (from the project root):
