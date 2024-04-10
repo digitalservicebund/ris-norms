@@ -1,9 +1,9 @@
 name: Trivy Scan
 
 on:
-  # every morning at 7am (winter) or 8am (summer)
+  # every morning at 5am (winter) or 6am (summer) Berlin time
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 4 * * *"
   # Allow to run this workflow manually
   workflow_dispatch:
 
