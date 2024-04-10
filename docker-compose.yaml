@@ -3,6 +3,8 @@ services:
     image: ris-norms-app:001
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
+      - REDIS_HOST=redis
+      - SPRING_PROFILES_ACTIVE=local
     ports:
       - 8080:8080
     depends_on:

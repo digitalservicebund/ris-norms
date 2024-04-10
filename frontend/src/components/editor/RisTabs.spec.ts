@@ -51,6 +51,7 @@ describe("RisTabs", () => {
 
     expect(secondTab.ariaSelected).toBe("true")
   })
+
   it("changes the tab status after updating the activeTab model", async () => {
     const parentComponent = render(ParentComponent)
     const firstTab = screen.getByRole("tab", { name: "tab1" })

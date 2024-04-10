@@ -8,7 +8,7 @@
 
     <xsl:import href="./legislation-metadata.xslt"/>
 
-    <xsl:output method="html" encoding="UTF-8"/>
+    <xsl:output method="html" version="5" include-content-type="no" encoding="utf-8" indent="yes" />
 
     <xsl:template match="/akn:akomaNtoso">
         <div>
@@ -88,7 +88,7 @@
     </xsl:template>
 
     <xsl:template
-            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:subheading | akn:marker | akn:content | akn:intro | akn:formula | akn:location | akn:role | akn:person | akn:inline | akn:mod | akn:affectedDocument | akn:organization | akn:ref | akn:p">
+            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:subheading | akn:marker | akn:content | akn:intro | akn:formula | akn:location | akn:role | akn:person | akn:inline | akn:mod | akn:affectedDocument | akn:organization | akn:ref">
         <span>
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
@@ -113,19 +113,29 @@
         </span>
     </xsl:template>
 
-    <xsl:template
-            match="akn:quotedText">
+    <xsl:template match="akn:quotedText">
         <span>
             <xsl:call-template name="attributes"/>
             <xsl:call-template name="quote"/>
         </span>
     </xsl:template>
 
-    <xsl:template
-            match="akn:quotedStructure">
+    <xsl:template match="akn:quotedStructure">
         <div>
             <xsl:call-template name="attributes"/>
             <xsl:call-template name="quote"/>
+        </div>
+    </xsl:template>
+
+    <!--
+        Paragraph elements - usually we'd want them to show up as <p> elements in HTML too, but not everything
+        that can be contained in an akn:p is also allowed inside <p>. Rendering as a <div> for now so we at least
+        keep the block-appearance.
+    -->
+    <xsl:template match="akn:p">
+        <div>
+            <xsl:call-template name="attributes"/>
+            <xsl:apply-templates/>
         </div>
     </xsl:template>
 
@@ -170,9 +180,16 @@
         </li>
     </xsl:template>
 
+    <xsl:template match="akn:a[@href]">
+        <a href="{@href}">
+            <xsl:call-template name="attributes"/>
+            <xsl:apply-templates/>
+        </a>
+    </xsl:template>
+
     <!-- Handle "normal" html elements -->
     <xsl:template
-            match="akn:a | akn:abbr | akn:b | akn:br | akn:caption | akn:del | akn:i | akn:ins | akn:li | akn:ol | akn:sub | akn:sup | akn:td | akn:th | akn:tr | akn:u | akn:ul | akn:span | akn:table">
+            match="akn:a | akn:abbr | akn:b | akn:br | akn:caption | akn:i | akn:sub | akn:sup | akn:td | akn:th | akn:tr | akn:u | akn:span | akn:table">
         <xsl:element name="{local-name()}">
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
@@ -199,6 +216,10 @@
             <xsl:value-of select="."/>
         </xsl:attribute>
     </xsl:template>
+
+    <!--<xsl:template match="text()">-->
+    <!--    <xsl:value-of select="normalize-space()"/>-->
+    <!--</xsl:template>-->
 
     <!-- Fallback for missing elements -->
     <xsl:template match="*">

@@ -173,7 +173,6 @@ class TargetLawControllerTest {
           .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
           .andExpect(content().string(html));
 
-      // Verify that the service was called with the correct showMetadata value
       verify(transformLegalDocMlToHtmlUseCase, times(1))
           .transformLegalDocMlToHtml(
               argThat(query -> query.xml().equals(xml) && query.showMetadata() == showMetadata));
