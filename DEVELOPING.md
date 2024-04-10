@@ -54,3 +54,21 @@ lefthook install
 
 Opt in to CI posting notifications for failing jobs to a particular Slack channel by setting a repository secret
 with the name `SLACK_WEBHOOK_URL`, containing a url for [Incoming Webhooks](https://api.slack.com/messaging/webhooks).
+
+# How to run locally
+
+With Docker being installed (Compose Plugin needed) run following to start all containers:
+```bash
+docker compose up -d
+```
+
+Watch the state by either of:
+```bash
+docker container ls
+docker compose ls
+```
+
+To stop them:
+```bash
+docker compose down
+```
