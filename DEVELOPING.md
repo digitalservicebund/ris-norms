@@ -57,10 +57,15 @@ with the name `SLACK_WEBHOOK_URL`, containing a url for [Incoming Webhooks](http
 
 # How to run locally
 
+## Docker
+
 With Docker being installed (Compose Plugin needed) run following to start all containers:
 ```bash
 docker compose up -d
 ```
+
+Visit: [http://localhost:8080](http://localhost:8080)
+
 
 Watch the state by either of:
 ```bash
@@ -72,3 +77,25 @@ To stop them:
 ```bash
 docker compose down
 ```
+
+## Direct
+
+Run dependencies from the root of the project:
+```bash
+docker compose up postgres14 redis
+```
+
+Run from `./backend`:
+```bash
+./gradlew bootRun
+```
+More info on the backend part [here](./backend/README.md).
+
+Run from `./frontend`:
+```bash
+npm i
+npm run dev
+```
+More info on the frontend part [here](./frontend/README.md).
+
+Visit: [http://localhost:5173](http://localhost:5173)
