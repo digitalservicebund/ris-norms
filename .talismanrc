@@ -17,3 +17,11 @@ fileignoreconfig:
     checksum: e764b8f5d4bc8b23962edc59f4939ec5a093b29fb9432684be6b0d0a3612da45
   - filename: docker-compose.yaml
     checksum: 39dc3b06dcd8a768527beaf10f77997b7bc12aea3fcbe4006bf6abcffda5b4b1
+  - filename: ldml-extension/fixtures/Wachstumschancengesetz Part 2.xml
+    checksum: 238955ed4bf60753a01bd2c53b90dc44cc75487e1dbc2f98a7b76c15437eea14
+  - filename: ldml-extension/fixtures/Einkommensteuergesetz.xml
+    checksum: d2e1fe169bf768768f2163b0f0accd91f38002092b75f5946b8b0de2daf615e3
+  - filename: ldml-extension/fixtures/Wachstumschancengesetz.xml
+    checksum: a73821620682403515b7d87d3df3720daa41244d95999a220af2e08944b74ca1
+  - filename: ldml-extension/fixtures/Bundesverfassungschutzgesetz.xml
+    checksum: bd9f0f269bae29bc814009396ef6bae5b932c24ee5257005439a5d95b8dd91af
