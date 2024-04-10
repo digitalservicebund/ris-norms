@@ -44,6 +44,20 @@
             <!-- 2. -->
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="85e92fc8-b381-47bb-a476-c35fa2794336" date="2023-01-01" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="inkrafttreten"></akn:eventRef>
           </akn:lifecycle>
+          <akn:analysis source="attributsemantik-noch-undefiniert" eId="meta-1_analysis-1" GUID="4cc2a228-5c5e-44bb-b19d-e6b145efe69b">
+            <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="127e593d-6ce7-4ee1-8c1d-8ab537593a25">
+               <akn:textualMod type="substitution" GUID="de2d69cd-691b-4b61-b1fb-db471d9f52aa" eId="meta-1_analysis-1_activemod-1_textualmod-1">
+                  <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" GUID="c42641b3-e987-4013-b713-52017ca0ca78"></akn:source>
+                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-26_bezeichnung-1_zaehlbez-1/284-449.xml" GUID="e99747be-63b9-4729-adf3-b4b4299e188b"></akn:destination>
+                  <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2" eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1" GUID="362f30ad-343c-4b8e-8bb4-993c8a0f5256"></akn:force>
+               </akn:textualMod>
+               <akn:textualMod type="substitution" GUID="a9447c63-fd78-44b9-9426-48ea9e86cf68" eId="meta-1_analysis-1_activemod-1_textualmod-2">
+                  <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1" GUID="c509c75e-4813-491a-a973-9b23e2b8be03"></akn:source>
+                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-71_abs-2" GUID="e1d7e59f-5c59-4834-847d-3dc1dbc26259"></akn:destination>
+                  <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2" eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" GUID="5d66169e-3af1-453b-8009-b5d62ad16aee"></akn:force>
+               </akn:textualMod>
+            </akn:activeModifications>
+          </akn:analysis>
          <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
             <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ee45119b-2485-4115-b587-da54b95e3ebd">
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="a43d0287-920d-4fbb-91d1-42fd7e03fe16" start="#meta-1_lebzykl-1_ereignis-2" refersTo="geltungszeit"></akn:timeInterval>
