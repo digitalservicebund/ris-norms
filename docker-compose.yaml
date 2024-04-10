@@ -1,6 +1,9 @@
 services:
   webapp:
     image: ris-norms-app:001
+    build: 
+      context: .
+      dockerfile: DockerfileApp
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
       - REDIS_HOST=redis
