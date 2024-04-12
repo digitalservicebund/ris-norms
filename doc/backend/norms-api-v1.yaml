@@ -19,8 +19,24 @@ paths:
                   $ref: '#/components/schemas/Announcement'
 
   /announcements/{eli}/release:
+    get:
+      summary: Get the latest release of a specific announcement by the amending law eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the amending law
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Information about a released an announcement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseResponse'
     put:
-      summary: Release the XML of an specific announcements by the amending law eli
+      summary: Release the XML of a specific announcement by the amending law eli
       parameters:
         - name: eli
           in: path
