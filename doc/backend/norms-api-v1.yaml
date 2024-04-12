@@ -18,52 +18,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Norm'
 
-  /amending-laws/{eli}:
-    get:
-      summary: Get a specific amending law by eli
-      parameters:
-        - name: eli
-          in: path
-          required: true
-          description: ELI of the amending law
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Norm'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-            text/html:
-              schema:
-                type: string
-    put:
-      summary: Update the XML of an specific amending law by eli
-      parameters:
-        - name: eli
-          in: path
-          required: true
-          description: ELI of the amending law
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/LegalDocML.de'
-      responses:
-        '200':
-          description: Successful response with saved XML
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-
   /amending-laws/{eli}/release:
     put:
       summary: Release the XML of an specific amending law by eli
@@ -82,14 +36,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ReleaseResponse'
 
-  /amending-laws/{eli}/articles:
+  /norms/{eli}/articles:
     get:
-      summary: Get a list of articles for a specific amending law by eli
+      summary: Get a list of articles for a specific norm by eli
       parameters:
         - name: eli
           in: path
           required: true
-          description: ELI of the amending law
+          description: ELI of the norm
           schema:
             type: string
       responses:
@@ -102,14 +56,14 @@ paths:
                 items:
                   $ref: '#/components/schemas/Article'
 
-  /amending-laws/{eli}/articles/{eid}:
+  /norms/{eli}/articles/{eid}:
     get:
-      summary: Get a specific article by eid for a given amending law
+      summary: Get a specific article by eid for a given norm
       parameters:
         - name: eli
           in: path
           required: true
-          description: ELI of the amending law
+          description: ELI of the norm
           schema:
             type: string
         - name: eid
@@ -126,14 +80,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Article'
 
-  /target-laws/{eli}:
+  /norms/{eli}:
     get:
-      summary: Get a specific target law by eli
+      summary: Get a specific norm by eli
       parameters:
         - name: eli
           in: path
           required: true
-          description: eli of the target law
+          description: eli of the norm
           schema:
             type: string
       responses:
@@ -150,16 +104,16 @@ paths:
               schema:
                 type: string
     put:
-      summary: Update a specific target law by eli
+      summary: Update a specific norm by eli
       parameters:
         - name: eli
           in: path
           required: true
-          description: eli of the target law
+          description: eli of the norm
           schema:
             type: string
       requestBody:
-        description: The XML of the target law (which may be updated and saved on DB)
+        description: The XML of the norm (which may be updated and saved on DB)
         required: true
         content:
           application/xml:
@@ -176,7 +130,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
 
-  /target-laws/{eli}/preview:
+  /norms/{eli}/preview:
     post:
       summary: Call time machine to generate preview of applied amending law
       parameters:
