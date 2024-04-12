@@ -5,9 +5,9 @@ info:
   description: API for managing amending laws, articles, and target laws
 
 paths:
-  /amending-laws:
+  /announcements:
     get:
-      summary: Get a list of all amending laws
+      summary: Get a list of all announcements
       responses:
         '200':
           description: Successful response
@@ -16,11 +16,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Norm'
+                  $ref: '#/components/schemas/Announcement'
 
-  /amending-laws/{eli}/release:
+  /announcements/{eli}/release:
     put:
-      summary: Release the XML of an specific amending law by eli
+      summary: Release the XML of an specific announcements by the amending law eli
       parameters:
         - name: eli
           in: path
@@ -30,7 +30,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Successfully released an amending law
+          description: Successfully released an announcement
           content:
             application/json:
               schema:
@@ -185,6 +185,25 @@ paths:
 
 components:
   schemas:
+    Announcement:
+      type: object
+      properties:
+        eli:
+          type: string
+        title:
+          type: string
+        printAnnouncementGazette:
+          type: string
+        digitalAnnouncementMedium:
+          type: string
+        publicationDate:
+          type: string
+          format: date
+        printAnnouncementPage:
+          type: integer
+        digitalAnnouncementEdition:
+          type: integer
+
     Norm:
       type: object
       properties:
