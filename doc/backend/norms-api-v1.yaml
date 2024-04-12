@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: Amending Laws API
+  title: RIS-Norms API
   version: 1.0.0
-  description: API for managing amending laws, articles, and target laws
+  description: API for managing norms and announcements
 
 paths:
   /announcements:
