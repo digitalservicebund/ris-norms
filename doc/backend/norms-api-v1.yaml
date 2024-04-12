@@ -16,7 +16,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AmendingLaw'
+                  $ref: '#/components/schemas/Norm'
 
   /amending-laws/{eli}:
     get:
@@ -34,7 +34,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AmendingLaw'
+                $ref: '#/components/schemas/Norm'
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
@@ -142,7 +142,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TargetLaw'
+                $ref: '#/components/schemas/Norm'
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
@@ -171,7 +171,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TargetLaw'
+                $ref: '#/components/schemas/Norm'
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
@@ -231,7 +231,7 @@ paths:
 
 components:
   schemas:
-    AmendingLaw:
+    Norm:
       type: object
       properties:
         eli:
@@ -260,14 +260,6 @@ components:
         title:
           type: string
         affectedDocumentEli:
-          type: string
-
-    TargetLaw:
-      type: object
-      properties:
-        eli:
-          type: string
-        title:
           type: string
 
     ReleaseResponse:
