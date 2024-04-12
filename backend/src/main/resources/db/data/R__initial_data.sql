@@ -28608,7 +28608,7 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
 -- Announcements
 
 INSERT INTO announcements (id, eli, released_by_documentalist_at)
-VALUES ('620bbbc5-02d6-4713-95ec-0144741b053e', 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1', NULL)
+VALUES ('620bbbc5-02d6-4713-95ec-0144741b053e', 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1', NULL);
 
 INSERT INTO announcements (id, eli, released_by_documentalist_at)
-VALUES ('9c2e7385-3a0f-44c0-aa2d-5db2bf265cf9', 'eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1', NULL)
+VALUES ('9c2e7385-3a0f-44c0-aa2d-5db2bf265cf9', 'eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1', NULL);
