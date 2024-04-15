@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import java.util.Optional;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -25,7 +26,7 @@ public class Norm {
    *
    * @return An Eli
    */
-  public Optional<String> getEli() throws XPathExpressionException {
+  public Optional<String> getEli() {
     return getValueFromExpression("//FRBRExpression/FRBRthis/@value", document);
   }
 
@@ -61,11 +62,15 @@ public class Norm {
   //    return articles;
   //  }
 
-  private Optional<String> getValueFromExpression(String expression, Document xmlDocument)
-      throws XPathExpressionException {
+  private Optional<String> getValueFromExpression(String expression, Document xmlDocument) {
 
     XPath xPath = XPathFactory.newInstance().newXPath();
-    String result = (String) xPath.evaluate(expression, xmlDocument, XPathConstants.STRING);
+    String result;
+    try {
+      result = (String) xPath.evaluate(expression, xmlDocument, XPathConstants.STRING);
+    } catch (XPathExpressionException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
+    }
     if (result.isEmpty()) return Optional.empty();
 
     return Optional.of(result);

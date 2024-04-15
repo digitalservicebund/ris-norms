@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 class NormTest {
 
   @Test
-  void getEli() throws XPathExpressionException {
+  void getEli() {
     // given
     String normString =
         """
@@ -51,7 +51,7 @@ class NormTest {
   }
 
   @Test
-  void getEliWhenItDoesntExist() throws XPathExpressionException {
+  void getOptionalEmptyEliWhenItDoesntExist() throws XPathExpressionException {
     // given
     String normString =
         """
