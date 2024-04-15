@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Optional;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +20,7 @@ class NormTest {
 
   @Test
   void getEli() throws XPathExpressionException {
+    // given
     String normString =
         """
       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -39,8 +41,34 @@ class NormTest {
     """;
 
     Norm norm = new Norm(stringToXmlDocument(normString));
-    assertThat(norm.getEli())
-        .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+    String expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+
+    // when
+    String actualEli = norm.getEli().get();
+
+    // then
+    assertThat(actualEli).isEqualTo(expectedEli);
+  }
+
+  @Test
+  void getEliWhenItDoesntExist() throws XPathExpressionException {
+    // given
+    String normString =
+        """
+          <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+         <akn:act name="regelungstext">
+         </akn:act>
+      </akn:akomaNtoso>
+        """
+            .strip();
+
+    Norm norm = new Norm(stringToXmlDocument(normString));
+
+    Optional<String> optionalEli = norm.getEli();
+    assertThat(optionalEli).isEmpty();
   }
 
   private Document stringToXmlDocument(String xmlText) {
