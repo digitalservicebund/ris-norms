@@ -4,12 +4,16 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawD
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.TargetLawDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ArticleMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -31,6 +35,7 @@ public class DBService
         LoadArticlePort,
         LoadTargetLawPort,
         LoadTargetLawXmlPort,
+        LoadNormPort,
         UpdateTargetLawXmlPort,
         UpdateAmendingLawXmlPort,
         UpdateAmendingLawPort {
@@ -38,11 +43,18 @@ public class DBService
   private final AmendingLawRepository amendingLawRepository;
 
   private final TargetLawRepository targetLawRepository;
+  private final AnnouncementRepository announcementRepository;
+  private final NormRepository normRepository;
 
   public DBService(
-      AmendingLawRepository amendingLawRepository, TargetLawRepository targetLawRepository) {
+      AmendingLawRepository amendingLawRepository,
+      TargetLawRepository targetLawRepository,
+      AnnouncementRepository announcementRepository,
+      NormRepository normRepository) {
     this.amendingLawRepository = amendingLawRepository;
     this.targetLawRepository = targetLawRepository;
+    this.announcementRepository = announcementRepository;
+    this.normRepository = normRepository;
   }
 
   @Override
@@ -98,6 +110,11 @@ public class DBService
   @Override
   public Optional<String> loadTargetLawXmlByEli(LoadTargetLawXmlPort.Command command) {
     return targetLawRepository.findByEli(command.eli()).map(TargetLawDto::getXml);
+  }
+
+  @Override
+  public Optional<Norm> loadNorm(LoadNormPort.Command command) {
+    return normRepository.findByEli(command.eli()).map(NormMapper::mapToDomain);
   }
 
   @Override
