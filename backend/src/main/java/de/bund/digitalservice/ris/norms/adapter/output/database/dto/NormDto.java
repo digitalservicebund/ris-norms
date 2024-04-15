@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.dto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +24,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "norms")
 public class NormDto {
-  @Id @GeneratedValue private UUID guid;
+  @Id @NotNull private UUID guid;
 
   @NotNull @Column private String eli;
 
