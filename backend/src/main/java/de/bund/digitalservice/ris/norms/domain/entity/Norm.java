@@ -53,18 +53,18 @@ public class Norm {
   //  public String getDigitalAnnouncementMedium() {
   //    return digitalAnnouncementMedium;
   //  }
+
+  //  public String getDigitalAnnouncementEdition() {
+  //    return digitalAnnouncementEdition;
+  //  }
   //
   //  public LocalDate getPublicationDate() {
   //    return publicationDate;
   //  }
-  //
-  //  public String getPrintAnnouncementPage() {
-  //    return printAnnouncementPage;
-  //  }
-  //
-  //  public String getDigitalAnnouncementEdition() {
-  //    return digitalAnnouncementEdition;
-  //  }
+
+  public Optional<String> getPrintAnnouncementPage() {
+    return getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
+  }
 
   public Optional<String> getTitle() {
     return getValueFromExpression("//longTitle/*/docTitle", document);
