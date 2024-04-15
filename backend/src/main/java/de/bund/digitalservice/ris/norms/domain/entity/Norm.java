@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -49,11 +50,11 @@ public class Norm {
   //  public String getDigitalAnnouncementEdition() {
   //    return digitalAnnouncementEdition;
   //  }
-  //
-  //  public String getTitle() {
-  //    return title;
-  //  }
-  //
+
+  public Optional<String> getTitle() {
+    return getValueFromExpression("//longTitle/*/docTitle", document);
+  }
+
   //  public Instant getReleasedAt() {
   //    return releasedAt;
   //  }
@@ -68,7 +69,7 @@ public class Norm {
     String result;
     try {
       result = (String) xPath.evaluate(expression, xmlDocument, XPathConstants.STRING);
-    } catch (XPathExpressionException e) {
+    } catch (XPathExpressionException | NoSuchElementException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
     if (result.isEmpty()) return Optional.empty();
