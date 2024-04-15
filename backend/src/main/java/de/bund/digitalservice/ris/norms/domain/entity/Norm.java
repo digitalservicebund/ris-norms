@@ -101,7 +101,7 @@ public class Norm {
   }
 
   private Optional<Integer> extractNumberAtEnd(String str) {
-    Pattern pattern = Pattern.compile("\\d+$");
+    Pattern pattern = Pattern.compile("\\d{1,3}$");
     Matcher matcher = pattern.matcher(str);
 
     if (matcher.find()) {
