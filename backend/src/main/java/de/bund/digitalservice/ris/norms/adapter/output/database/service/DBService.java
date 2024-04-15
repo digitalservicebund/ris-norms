@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AmendingLawDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.TargetLawDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingLawMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ArticleMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
@@ -12,6 +13,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.TargetLawRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
@@ -36,6 +38,7 @@ public class DBService
         LoadTargetLawPort,
         LoadTargetLawXmlPort,
         LoadNormPort,
+        LoadAnnouncementPort,
         UpdateTargetLawXmlPort,
         UpdateAmendingLawXmlPort,
         UpdateAmendingLawPort {
@@ -115,6 +118,13 @@ public class DBService
   @Override
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
     return normRepository.findByEli(command.eli()).map(NormMapper::mapToDomain);
+  }
+
+  @Override
+  public Optional<Announcement> loadAnnouncement(LoadAnnouncementPort.Command command) {
+    return announcementRepository
+        .findByNormDtoEli(command.eli())
+        .map(AnnouncementMapper::mapToDomain);
   }
 
   @Override
