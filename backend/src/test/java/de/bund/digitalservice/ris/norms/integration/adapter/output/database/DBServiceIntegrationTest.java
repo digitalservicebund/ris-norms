@@ -596,7 +596,10 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // When
     var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
     var announcement =
-        Announcement.builder().releasedByDocumentalistAt(Instant.now()).norm(norm).build();
+        Announcement.builder()
+            .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
+            .norm(norm)
+            .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
     // When
@@ -671,13 +674,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     // When
     var announcement1 =
         Announcement.builder()
-            .releasedByDocumentalistAt(Instant.now())
+            .releasedByDocumentalistAt(Instant.parse("2024-01-01T10:20:30.00Z"))
             .norm(Norm.builder().document(XmlMapper.toDocument(xml1)).build())
             .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement1));
     var announcement2 =
         Announcement.builder()
-            .releasedByDocumentalistAt(Instant.now())
+            .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
             .norm(Norm.builder().document(XmlMapper.toDocument(xml2)).build())
             .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement2));
