@@ -2,9 +2,7 @@ package de.bund.digitalservice.ris.norms.conventions;
 
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.simpleNameEndingWith;
-import static com.tngtech.archunit.lang.conditions.ArchConditions.beInterfaces;
-import static com.tngtech.archunit.lang.conditions.ArchConditions.bePublic;
-import static com.tngtech.archunit.lang.conditions.ArchConditions.notImplement;
+import static com.tngtech.archunit.lang.conditions.ArchConditions.*;
 
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
@@ -17,6 +15,7 @@ import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import com.tngtech.archunit.library.dependencies.SliceRule;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
@@ -67,21 +66,39 @@ class ArchitectureFitnessTest {
 
   @Test
   void domainClassesShouldOnlyDependOnDomainOrSpecificStandardLibraries() {
+    final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
+        new String[] {
+          "kotlin..",
+          "java..",
+          "javax.xml.xpath..",
+          "org.jetbrains.annotations..",
+          "lombok..",
+          "org.w3c.dom.."
+        };
+
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
             .resideInAPackage(DOMAIN_LAYER_PACKAGES)
-            .should()
-            .onlyDependOnClassesThat(
-                resideInAPackage(DOMAIN_LAYER_PACKAGES)
-                    .or(
-                        JavaClass.Predicates.resideInAnyPackage(
-                            "kotlin..",
-                            "java..",
-                            "javax.xml.xpath..",
-                            "org.jetbrains.annotations..",
-                            "lombok..",
-                            "org.w3c.dom..")));
+            .should(
+                onlyDependOnClassesThat(
+                    resideInAPackage(DOMAIN_LAYER_PACKAGES)
+                        .or(
+                            JavaClass.Predicates.resideInAnyPackage(
+                                DOMAIN_LAYER_ALLOWED_PACKAGES))))
+            .orShould(
+                // the hashCode method of the Norm class needs to parse the w3c.dom.Document to a
+                // string and for this we need some additional libraries
+                be(Norm.class)
+                    .and(
+                        onlyDependOnClassesThat(
+                            resideInAPackage(DOMAIN_LAYER_PACKAGES)
+                                .or(
+                                    JavaClass.Predicates.resideInAnyPackage(
+                                        DOMAIN_LAYER_ALLOWED_PACKAGES))
+                                .or(
+                                    JavaClass.Predicates.resideInAnyPackage(
+                                        "net.sf.saxon..", "javax.xml.transform..")))));
     rule.check(classes);
   }
 

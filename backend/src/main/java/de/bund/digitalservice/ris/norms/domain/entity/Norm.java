@@ -1,18 +1,22 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
+import java.io.StringWriter;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import net.sf.saxon.TransformerFactoryImpl;
 import org.w3c.dom.Document;
 
 /**
@@ -21,7 +25,6 @@ import org.w3c.dom.Document;
  */
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-@EqualsAndHashCode
 public class Norm {
 
   @Getter private Document document;
@@ -183,5 +186,28 @@ public class Norm {
           .sorted(Comparator.comparing((RomanNumeral e) -> e.value).reversed())
           .toList();
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Norm norm = (Norm) o;
+    return document.isEqualNode(norm.document);
+  }
+
+  @Override
+  public int hashCode() {
+    var writer = new StringWriter();
+
+    try {
+      new TransformerFactoryImpl()
+          .newTransformer()
+          .transform(new DOMSource(document), new StreamResult(writer));
+    } catch (TransformerException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
+    }
+
+    return Objects.hash(writer.toString());
   }
 }
