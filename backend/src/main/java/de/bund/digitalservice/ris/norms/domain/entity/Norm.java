@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import javax.xml.xpath.XPath;

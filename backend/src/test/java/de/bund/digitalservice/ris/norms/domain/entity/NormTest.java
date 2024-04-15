@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Optional;

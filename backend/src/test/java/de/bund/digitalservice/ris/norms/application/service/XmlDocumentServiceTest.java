@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
-import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.io.StringReader;
 import javax.xml.XMLConstants;

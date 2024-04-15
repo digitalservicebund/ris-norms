@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
-import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;

@@ -19,9 +19,9 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlU
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
-import de.bund.digitalservice.ris.norms.application.service.exceptions.XmlProcessingException;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
+import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;

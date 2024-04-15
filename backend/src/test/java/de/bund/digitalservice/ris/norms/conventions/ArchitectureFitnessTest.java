@@ -45,6 +45,7 @@ class ArchitectureFitnessTest {
   static final String DOMAIN_LAYER_PACKAGES = BASE_PACKAGE + ".domain..";
   static final String ENTITY_LAYER_PACKAGES = BASE_PACKAGE + ".domain.entity";
   static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value";
+  static final String EXCEPTIONS_LAYER_PACKAGES = BASE_PACKAGE + ".domain.exceptions";
 
   @BeforeAll
   static void setUp() {
@@ -93,7 +94,10 @@ class ArchitectureFitnessTest {
             .should()
             .resideInAPackage(ENTITY_LAYER_PACKAGES)
             .orShould()
-            .resideInAPackage(VALUE_LAYER_PACKAGES);
+            .resideInAPackage(VALUE_LAYER_PACKAGES)
+            .orShould()
+            .resideInAPackage(EXCEPTIONS_LAYER_PACKAGES);
+
     rule.check(classes);
   }
 
