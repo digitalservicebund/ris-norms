@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.Announcem
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ArticleMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.XmlMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
@@ -44,7 +45,8 @@ public class DBService
         LoadAllAnnouncementsPort,
         UpdateTargetLawXmlPort,
         UpdateAmendingLawXmlPort,
-        UpdateAmendingLawPort {
+        UpdateAmendingLawPort,
+        UpdateNormPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -140,6 +142,24 @@ public class DBService
                         announcement.getNorm().getPublicationDate().orElse(LocalDate.MIN))
                 .reversed())
         .toList();
+  }
+
+  @Override
+  public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
+    var normXml = XmlMapper.toString(command.norm().getDocument());
+    return command
+        .norm()
+        .getEli()
+        .flatMap(
+            eli ->
+                normRepository
+                    .findByEli(eli)
+                    .map(
+                        normDto -> {
+                          normDto.setXml(normXml);
+                          // we do not update the GUID or ELI as they may not change
+                          return NormMapper.mapToDomain(normRepository.save(normDto));
+                        }));
   }
 
   @Override
