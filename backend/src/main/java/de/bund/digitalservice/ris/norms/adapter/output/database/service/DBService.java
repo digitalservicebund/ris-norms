@@ -18,6 +18,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,6 +41,7 @@ public class DBService
         LoadTargetLawXmlPort,
         LoadNormPort,
         LoadAnnouncementPort,
+        LoadAllAnnouncementsPort,
         UpdateTargetLawXmlPort,
         UpdateAmendingLawXmlPort,
         UpdateAmendingLawPort {
@@ -125,6 +128,18 @@ public class DBService
     return announcementRepository
         .findByNormDtoEli(command.eli())
         .map(AnnouncementMapper::mapToDomain);
+  }
+
+  @Override
+  public List<Announcement> loadAllAnnouncements() {
+    return announcementRepository.findAll().stream()
+        .map(AnnouncementMapper::mapToDomain)
+        .sorted(
+            Comparator.comparing(
+                    (Announcement announcement) ->
+                        announcement.getNorm().getPublicationDate().orElse(LocalDate.MIN))
+                .reversed())
+        .toList();
   }
 
   @Override
