@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,10 +58,10 @@ public class Norm {
   //  public String getDigitalAnnouncementEdition() {
   //    return digitalAnnouncementEdition;
   //  }
-  //
-  //  public LocalDate getPublicationDate() {
-  //    return publicationDate;
-  //  }
+
+  public Optional<LocalDate> getPublicationDate() {
+    return getValueFromExpression("//FRBRWork/FRBRdate/@date", document).map(LocalDate::parse);
+  }
 
   public Optional<String> getPrintAnnouncementPage() {
     return getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
