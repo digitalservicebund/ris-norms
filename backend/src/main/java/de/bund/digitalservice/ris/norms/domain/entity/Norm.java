@@ -126,26 +126,26 @@ public class Norm {
 
       final Optional<String> enumeration;
 
-      final Optional<Norm> targetLaw;
+      final Optional<String> affectedDocumentEli;
+
       if (guid.isPresent()) {
-        heading =
-            getValueFromExpression(
-                "//body/article[@GUID=" + "'" + guid.get() + "'" + "]/heading/text()", document);
+        final String ARTICLE_EXPRESSION = "//body/article[@GUID=" + "'" + guid.get() + "']";
+
+        heading = getValueFromExpression(ARTICLE_EXPRESSION + "/heading/text()", document);
         // not(normalize-space() is needed to filter out whitespaces which occur due to inner nodes
         // like akn:marker
         enumeration =
             getValueFromExpression(
-                "//body/article[@GUID="
-                    + "'"
-                    + guid.get()
-                    + "'"
-                    + "]/num/text()[not(normalize-space() = '')]",
-                document);
-        targetLaw = getTargetLaw(guid.get());
+                ARTICLE_EXPRESSION + "/num/text()[not(normalize-space() = '')]", document);
+
+        // /akn:akomaNtoso/akn:act/akn:body/akn:article/akn:paragraph/akn:list/akn:intro/akn:p/akn:affectedDocument/@href
+        affectedDocumentEli =
+            getValueFromExpression(ARTICLE_EXPRESSION + "//affectedDocument/@href", document);
+
       } else {
         heading = Optional.empty();
         enumeration = Optional.empty();
-        targetLaw = Optional.empty();
+        affectedDocumentEli = Optional.empty();
       }
 
       NormArticle newArticle =
@@ -154,20 +154,11 @@ public class Norm {
               .eid(eId)
               .enumeration(enumeration)
               .title(heading)
-              .targetLaw(targetLaw)
+              .affectedDocumentEli(affectedDocumentEli)
               .build();
       articles.add(newArticle);
     }
     return articles;
-  }
-
-  private Optional<Norm> getTargetLaw(String articleGuid) {
-
-    // /akn:akomaNtoso/akn:act/akn:body/akn:article/akn:paragraph/akn:list/akn:intro/akn:p/akn:affectedDocument/@href
-    //        String targetLawEli = getNodesFromExpression("//affectedDocument", document);
-    //        TargetLaw targetLaw = TargetLaw.builder().eli("").build();
-
-    return Optional.empty();
   }
 
   private Optional<String> getValueFromExpression(String expression, Node xmlNode) {

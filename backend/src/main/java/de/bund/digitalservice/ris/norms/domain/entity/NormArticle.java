@@ -21,7 +21,5 @@ public class NormArticle {
 
   private Optional<String> title;
 
-  private Optional<Norm> targetLaw;
-
-  private Optional<TargetLaw> targetLawZf0;
+  private Optional<String> affectedDocumentEli;
 }
