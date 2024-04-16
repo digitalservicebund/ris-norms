@@ -104,11 +104,16 @@ const linkBindings = computed(() => {
       'ds-button-full-width': fullWidth,
     }"
     :disabled="tag === 'button' && disabled === true ? true : undefined"
+    :aria-label="iconOnly ? label : undefined"
     v-bind="linkBindings"
   >
     <component :is="icon" v-if="icon" class="ds-button-icon" alt="" />
-    <span class="ds-button-label" :class="{ 'sr-only': iconOnly }">{{
-      label
-    }}</span>
+    <span
+      v-if="!iconOnly"
+      class="ds-button-label"
+      :class="{ 'sr-only static': iconOnly }"
+      >{{ label }}</span
+    >
   </component>
 </template>
+<!--render lavel with vif dependin on icon only. and add to component an aria label but only if icon only is true-->

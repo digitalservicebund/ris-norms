@@ -22,8 +22,8 @@ describe("RisTextButton", () => {
     expect(container.querySelector("svg")).toBeInTheDocument()
   })
 
-  test("hides the label when the button is renderes with only an icon", () => {
-    const { getByText, container } = render(RisTextButton, {
+  test("renders the button with an icon and appropriate aria-label when iconOnly is true", () => {
+    const { container } = render(RisTextButton, {
       props: {
         icon: markRaw(IcOutlineModeEdit),
         label: "Test",
@@ -33,9 +33,23 @@ describe("RisTextButton", () => {
 
     expect(container.querySelector("svg")).toBeInTheDocument()
 
-    const hiddenLabel = getByText("Test")
-    expect(hiddenLabel).toBeInTheDocument()
-    expect(hiddenLabel).toHaveClass("sr-only")
+    const button = container.querySelector('button[aria-label="Test"]')
+    expect(button).toBeInTheDocument()
+  })
+
+  test("does not render the label when the button is rendered with only an icon", () => {
+    const { queryByText, container } = render(RisTextButton, {
+      props: {
+        icon: markRaw(IcOutlineModeEdit),
+        label: "Test",
+        iconOnly: true,
+      },
+    })
+
+    expect(container.querySelector("svg")).toBeInTheDocument()
+
+    const labelText = queryByText("Test")
+    expect(labelText).not.toBeInTheDocument()
   })
 
   test("shows the primary variant", () => {
