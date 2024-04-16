@@ -137,7 +137,7 @@ export interface LevelTwoMenuItem {
 </script>
 
 <template>
-  <aside aria-labelledby="sidebarNavigation" class="w-[16rem]">
+  <aside aria-labelledby="sidebarNavigation">
     <span id="sidebarNavigation" hidden>SideBar Navigation</span>
     <router-link
       class="ds-link-01-bold flex h-80 items-center gap-12 border-b border-gray-400 px-14 text-blue-800"

@@ -74,7 +74,7 @@ async function handleGeneratePreview() {
       <span>Zurück</span>
     </RouterLink>
 
-    <div class="flex h-dvh flex-col p-40">
+    <div class="flex h-[calc(100dvh-5rem)] flex-col p-40">
       <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">{{ targetLaw?.title }}</h1>

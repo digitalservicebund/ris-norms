@@ -37,27 +37,31 @@ const { alerts, hideAlert } = useAlerts()
 </script>
 
 <template>
-  <div v-if="amendingLaw" class="flex min-h-screen flex-col bg-gray-100">
-    <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
-    <div class="flex">
-      <RisNavbarSide
-        class="min-h-screen flex-none border-r border-gray-400 bg-white"
-        go-back-label="Zurück"
-        :go-back-route="{ name: 'Home' }"
-        :menu-items="menuItems"
-      />
-      <div class="w-full flex-1">
-        <RisAlert
-          v-for="[key, { variant, message }] in alerts"
-          :key="key"
-          :variant="variant"
-          @click="hideAlert(key)"
-        >
-          {{ message }}
-        </RisAlert>
-        <div class="w-full p-40">
-          <RouterView />
-        </div>
+  <div
+    v-if="amendingLaw"
+    class="grid h-[calc(100dvh-5rem)] grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] overflow-hidden bg-gray-100"
+  >
+    <RisAmendingLawInfoHeader :amending-law="amendingLaw" class="col-span-2" />
+
+    <RisNavbarSide
+      class="col-span-1 w-full overflow-auto border-r border-gray-400 bg-white"
+      go-back-label="Zurück"
+      :go-back-route="{ name: 'Home' }"
+      :menu-items="menuItems"
+    />
+
+    <div class="col-span-1 overflow-auto">
+      <RisAlert
+        v-for="[key, { variant, message }] in alerts"
+        :key="key"
+        :variant="variant"
+        @click="hideAlert(key)"
+      >
+        {{ message }}
+      </RisAlert>
+
+      <div class="p-40">
+        <RouterView />
       </div>
     </div>
   </div>
