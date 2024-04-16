@@ -7,7 +7,9 @@ import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAmendingLawAndAllRelatedTargetLawsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAmendingLawPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import java.util.Objects;
 import java.util.Optional;
@@ -15,9 +17,12 @@ import org.junit.jupiter.api.Test;
 
 class ReleaseServiceTest {
   private final LoadAmendingLawPort loadAmendingLawPort = mock(LoadAmendingLawPort.class);
+  private final LoadAnnouncementPort loadAnnouncementPort = mock(LoadAnnouncementPort.class);
   private final UpdateAmendingLawPort updateAmendingLawPort = mock(UpdateAmendingLawPort.class);
+  private final UpdateAnnouncementPort updateAnnouncementPort = mock(UpdateAnnouncementPort.class);
   private final ReleaseService releaseService =
-      new ReleaseService(loadAmendingLawPort, updateAmendingLawPort);
+      new ReleaseService(
+          loadAmendingLawPort, loadAnnouncementPort, updateAmendingLawPort, updateAnnouncementPort);
 
   @Test
   void releaseAmendingLaw() {

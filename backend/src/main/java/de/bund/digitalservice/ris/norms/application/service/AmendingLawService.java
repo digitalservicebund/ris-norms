@@ -28,6 +28,7 @@ public class AmendingLawService
   private final LoadArticlesPort loadArticlesPort;
   private final LoadArticlePort loadArticlePort;
   private final UpdateAmendingLawXmlPort updateAmendingLawXmlPort;
+  private final UpdateNormXmlUseCase updateNormXmlUseCase;
 
   public AmendingLawService(
       LoadAmendingLawPort loadAmendingLawPort,
@@ -35,13 +36,15 @@ public class AmendingLawService
       LoadAllAmendingLawsPort loadAllAmendingLawsPort,
       LoadArticlesPort loadArticlesPort,
       LoadArticlePort loadArticlePort,
-      UpdateAmendingLawXmlPort updateAmendingLawXmlPort) {
+      UpdateAmendingLawXmlPort updateAmendingLawXmlPort,
+      UpdateNormXmlUseCase updateNormXmlUseCase) {
     this.loadAmendingLawPort = loadAmendingLawPort;
     this.loadAmendingLawXmlPort = loadAmendingLawXmlPort;
     this.loadAllAmendingLawsPort = loadAllAmendingLawsPort;
     this.loadArticlesPort = loadArticlesPort;
     this.loadArticlePort = loadArticlePort;
     this.updateAmendingLawXmlPort = updateAmendingLawXmlPort;
+    this.updateNormXmlUseCase = updateNormXmlUseCase;
   }
 
   @Override
@@ -73,6 +76,12 @@ public class AmendingLawService
 
   @Override
   public Optional<String> updateAmendingLawXml(UpdateAmendingLawXmlUseCase.Query query) {
+    try {
+      updateNormXmlUseCase.updateNormXml(new UpdateNormXmlUseCase.Query(query.eli(), query.xml()));
+    } catch (UpdateNormXmlUseCase.InvalidUpdateException e) {
+      throw new RuntimeException(e);
+    }
+
     return updateAmendingLawXmlPort.updateAmendingLawXmlByEli(
         new UpdateAmendingLawXmlPort.Command(query.eli(), query.xml()));
   }

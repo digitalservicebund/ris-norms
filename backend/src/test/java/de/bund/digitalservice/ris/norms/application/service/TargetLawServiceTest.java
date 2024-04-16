@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawXmlPort;
@@ -26,13 +27,15 @@ class TargetLawServiceTest {
   final UpdateTargetLawXmlPort updateTargetLawXmlPort = mock(UpdateTargetLawXmlPort.class);
 
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
+  final UpdateNormXmlUseCase updateNormXmlUseCase = mock(UpdateNormXmlUseCase.class);
 
   final TargetLawService service =
       new TargetLawService(
           loadTargetLawAdapter,
           loadTargetLawXmlAdapter,
           timeMachineService,
-          updateTargetLawXmlPort);
+          updateTargetLawXmlPort,
+          updateNormXmlUseCase);
 
   @Test
   void canLoadTargetLawByEli() {
@@ -99,7 +102,7 @@ class TargetLawServiceTest {
   }
 
   @Test
-  void canUpdateTargetLawXmlByEli() {
+  void canUpdateTargetLawXmlByEli() throws UpdateNormXmlUseCase.InvalidUpdateException {
     // Given
     final String eli = "someEli";
     final String targetLawXml = "<targetLaw>Test content</targetLaw>";
@@ -117,5 +120,8 @@ class TargetLawServiceTest {
         .updateTargetLawXmlByEli(
             argThat(
                 command -> command.eli().equals(eli) && command.updatedXml().equals(targetLawXml)));
+    verify(updateNormXmlUseCase, times(1))
+        .updateNormXml(
+            argThat(command -> command.eli().equals(eli) && command.xml().equals(targetLawXml)));
   }
 }

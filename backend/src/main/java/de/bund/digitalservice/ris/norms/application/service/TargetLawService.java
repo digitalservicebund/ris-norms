@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetLawXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadTargetLawXmlPort;
@@ -27,16 +28,19 @@ public class TargetLawService
   private final LoadTargetLawXmlPort loadTargetLawXmlPort;
   private final TimeMachineService timeMachineService;
   private final UpdateTargetLawXmlPort updateTargetLawXmlPort;
+  private final UpdateNormXmlUseCase updateNormXmlUseCase;
 
   public TargetLawService(
       LoadTargetLawPort loadTargetLawPort,
       LoadTargetLawXmlPort loadTargetLawXmlPort,
       TimeMachineService timeMachineService,
-      UpdateTargetLawXmlPort updateTargetLawXmlPort) {
+      UpdateTargetLawXmlPort updateTargetLawXmlPort,
+      UpdateNormXmlUseCase updateNormXmlUseCase) {
     this.loadTargetLawPort = loadTargetLawPort;
     this.loadTargetLawXmlPort = loadTargetLawXmlPort;
     this.timeMachineService = timeMachineService;
     this.updateTargetLawXmlPort = updateTargetLawXmlPort;
+    this.updateNormXmlUseCase = updateNormXmlUseCase;
   }
 
   @Override
@@ -61,6 +65,13 @@ public class TargetLawService
 
   @Override
   public Optional<String> updateTargetLaw(UpdateTargetLawUseCase.Query query) {
+    try {
+      updateNormXmlUseCase.updateNormXml(
+          new UpdateNormXmlUseCase.Query(query.eli(), query.newTargetLawXml()));
+    } catch (UpdateNormXmlUseCase.InvalidUpdateException e) {
+      throw new RuntimeException(e);
+    }
+
     return updateTargetLawXmlPort.updateTargetLawXmlByEli(
         new UpdateTargetLawXmlPort.Command(query.eli(), query.newTargetLawXml()));
   }

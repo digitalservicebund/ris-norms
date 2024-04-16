@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAmendingLawUs
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateAmendingLawXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -30,6 +31,7 @@ class AmendingLawServiceTest {
   final LoadAmendingLawXmlPort loadAmendingLawXmlAdapter = mock(LoadAmendingLawXmlPort.class);
 
   final UpdateAmendingLawXmlPort updateAmendingLawXmlAdapter = mock(UpdateAmendingLawXmlPort.class);
+  final UpdateNormXmlUseCase updateNormXmlUseCase = mock(UpdateNormXmlUseCase.class);
 
   final AmendingLawService service =
       new AmendingLawService(
@@ -38,7 +40,8 @@ class AmendingLawServiceTest {
           loadAllAmendingLawsAdapter,
           loadArticlesAdapter,
           loadArticleAdapter,
-          updateAmendingLawXmlAdapter);
+          updateAmendingLawXmlAdapter,
+          updateNormXmlUseCase);
 
   @Test
   void itCallsLoadAmendingLawByEliUsingInputQueryEli() {
@@ -210,13 +213,15 @@ class AmendingLawServiceTest {
   }
 
   @Test
-  void itCallsUpdateAmendingLawXmlUsingInputQueryEli() {
+  void itCallsUpdateAmendingLawXmlUsingInputQueryEli()
+      throws UpdateNormXmlUseCase.InvalidUpdateException {
     // Given
     final String eli = "someEli";
     final String xml = "<test></test>";
 
     final UpdateAmendingLawXmlUseCase.Query query = new UpdateAmendingLawXmlUseCase.Query(eli, xml);
     when(updateAmendingLawXmlAdapter.updateAmendingLawXmlByEli(any())).thenReturn(Optional.empty());
+    when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(Optional.empty());
 
     // When
     service.updateAmendingLawXml(query);
@@ -224,6 +229,8 @@ class AmendingLawServiceTest {
     // Then
     verify(updateAmendingLawXmlAdapter, times(1))
         .updateAmendingLawXmlByEli(argThat(arg -> arg.eli().equals(eli) && arg.xml().equals(xml)));
+    verify(updateNormXmlUseCase, times(1))
+        .updateNormXml(argThat(arg -> arg.eli().equals(eli) && arg.xml().equals(xml)));
   }
 
   @Test
