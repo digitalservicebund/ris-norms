@@ -63,10 +63,7 @@ const { alerts, hideAlert } = useAlerts()
       >
         {{ message }}
       </RisAlert>
-
-      <div class="p-40">
-        <RouterView />
-      </div>
+      <RouterView />
     </div>
   </div>
   <div v-else>Laden...</div>

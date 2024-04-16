@@ -8,7 +8,7 @@ const articles = useArticles(eli)
 </script>
 
 <template>
-  <div>
+  <div class="p-40">
     <h1 class="ds-heading-02-reg mb-40">Enthaltene Artikel</h1>
     <RisInfoModal
       v-for="article in articles"
