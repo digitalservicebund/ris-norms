@@ -36,6 +36,16 @@ public class Norm {
   }
 
   /**
+   * Returns an GUID as {@link String} from a {@link Document} in a {@link Norm}.
+   *
+   * @return An GUID of the document
+   */
+  public Optional<String> getGuid() {
+    return getValueFromExpression(
+        "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document);
+  }
+
+  /**
    * Returns an PrintAnnouncementGazette as {@link String} from a {@link Document} in a {@link
    * Norm}.
    *
