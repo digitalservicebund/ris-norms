@@ -36,13 +36,21 @@ public class Norm {
   }
 
   /**
-   * Returns an GUID as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns an GUID as {@link UUID} from a {@link Document} in a {@link Norm}.
    *
    * @return An GUID of the document
    */
-  public Optional<String> getGuid() {
+  public Optional<UUID> getGuid() {
     return getValueFromExpression(
-        "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document);
+            "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document)
+        .flatMap(
+            (guid) -> {
+              try {
+                return Optional.of(UUID.fromString(guid));
+              } catch (IllegalArgumentException e) {
+                return Optional.empty();
+              }
+            });
   }
 
   /**

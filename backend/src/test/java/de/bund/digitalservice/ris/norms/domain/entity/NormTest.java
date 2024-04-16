@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -76,13 +77,12 @@ class NormTest {
         """;
 
     Norm norm = new Norm(stringToXmlDocument(normString));
-    String expectedGuid = "ba44d2ae-0e73-44ba-850a-932ab2fa553f";
 
     // when
-    String actualGuid = norm.getGuid().get();
+    var guid = norm.getGuid();
 
     // then
-    assertThat(actualGuid).isEqualTo(expectedGuid);
+    assertThat(guid).contains(UUID.fromString("ba44d2ae-0e73-44ba-850a-932ab2fa553f"));
   }
 
   @Test
