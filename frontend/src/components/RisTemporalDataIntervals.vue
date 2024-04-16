@@ -42,7 +42,7 @@ watch(
           <RisDateInput
             :id="'date-' + index"
             v-model="dates[index]"
-            aria-label="Date Input"
+            :aria-label="'Date Input'"
             size="small"
             is-read-only
           />
@@ -65,7 +65,7 @@ watch(
         <RisDateInput
           id="new-date"
           v-model="newDate"
-          aria-label="Enter new date"
+          :aria-label="`Enter new date`"
           size="small"
           class="w-[calc(100%-9rem)]"
         />
