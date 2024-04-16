@@ -18,6 +18,7 @@ interface Props {
   isFutureDate?: boolean
   hasError?: boolean
   size?: "regular" | "medium" | "small"
+  isReadOnly?: boolean
 }
 
 const props = defineProps<Props>()
@@ -130,6 +131,7 @@ watch(inputCompleted, (is) => {
     :class="conditionalClasses"
     data-maska="##.##.####"
     placeholder="TT.MM.JJJJ"
+    :readonly="isReadOnly"
     @blur="onBlur"
     @keydown.delete="backspaceDelete"
     @maska="onMaska"
