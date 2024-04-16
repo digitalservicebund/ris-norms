@@ -58,12 +58,11 @@ public class Norm {
   }
 
   /**
-   * Returns an PrintAnnouncementGazette as {@link String} from a {@link Document} in a {@link
-   * Norm}.
+   * Returns an FRBRname as {@link String} from a {@link Document} in a {@link Norm}.
    *
    * @return The PrintAnnouncementGazette
    */
-  public Optional<String> getPrintAnnouncementGazette() {
+  public Optional<String> getFRBRname() {
     Optional<String> announcementGazetteRaw =
         getValueFromExpression("//FRBRWork/FRBRname/@value", document);
 
@@ -74,13 +73,14 @@ public class Norm {
                 .replace("bgbl-3", "BGBl. III"));
   }
 
-  //  public String getDigitalAnnouncementMedium() {
-  //    return digitalAnnouncementMedium;
-  //  }
-
-  //  public String getDigitalAnnouncementEdition() {
-  //    return digitalAnnouncementEdition;
-  //  }
+  /**
+   * Returns an AnnouncementPage as {@link String} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The AnnouncementPage
+   */
+  public Optional<String> getFRBRnumber() {
+    return getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
+  }
 
   /**
    * Returns an PublicationDate as {@link LocalDate} from a {@link Document} in a {@link Norm}.
@@ -89,15 +89,6 @@ public class Norm {
    */
   public Optional<LocalDate> getPublicationDate() {
     return getValueFromExpression("//FRBRWork/FRBRdate/@date", document).map(LocalDate::parse);
-  }
-
-  /**
-   * Returns an AnnouncementPage as {@link String} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The AnnouncementPage
-   */
-  public Optional<String> getPrintAnnouncementPage() {
-    return getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
   }
 
   /**

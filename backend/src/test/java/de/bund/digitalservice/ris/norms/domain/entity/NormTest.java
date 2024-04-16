@@ -148,7 +148,7 @@ class NormTest {
   }
 
   @Test
-  void getPrintAnnouncementGazette() {
+  void getFRBRname() {
     // given
     String normString =
         """
@@ -174,14 +174,14 @@ class NormTest {
     String expectedPrintAnnouncementGazette = "BGBl. I";
 
     // when
-    String actualAnnouncementGazette = norm.getPrintAnnouncementGazette().get();
+    String actualAnnouncementGazette = norm.getFRBRname().get();
 
     // then
     assertThat(actualAnnouncementGazette).isEqualTo(expectedPrintAnnouncementGazette);
   }
 
   @Test
-  void getPrintAnnouncementPage() {
+  void getFRBRnumber() {
     // given
     String normString =
         """
@@ -207,14 +207,14 @@ class NormTest {
     String expectedPrintAnnouncementGazette = "s593";
 
     // when
-    String actualAnnouncementGazette = norm.getPrintAnnouncementPage().get();
+    String actualAnnouncementGazette = norm.getFRBRnumber().get();
 
     // then
     assertThat(actualAnnouncementGazette).isEqualTo(expectedPrintAnnouncementGazette);
   }
 
   @Test
-  void getPrintAnnouncementGazetteAlreadyProperlyFormatted() {
+  void getFRBRnameAlreadyProperlyFormatted() {
     // given
     String normString =
         """
@@ -240,7 +240,7 @@ class NormTest {
     String expectedPrintAnnouncementGazette = "BGBl. I";
 
     // when
-    String actualAnnouncementGazette = norm.getPrintAnnouncementGazette().get();
+    String actualAnnouncementGazette = norm.getFRBRname().get();
 
     // then
     assertThat(actualAnnouncementGazette).isEqualTo(expectedPrintAnnouncementGazette);
