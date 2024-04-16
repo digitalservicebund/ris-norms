@@ -46,7 +46,8 @@ public class DBService
         UpdateTargetLawXmlPort,
         UpdateAmendingLawXmlPort,
         UpdateAmendingLawPort,
-        UpdateNormPort {
+        UpdateNormPort,
+        UpdateAnnouncementPort {
 
   private final AmendingLawRepository amendingLawRepository;
 
@@ -159,6 +160,28 @@ public class DBService
                           normDto.setXml(normXml);
                           // we do not update the GUID or ELI as they may not change
                           return NormMapper.mapToDomain(normRepository.save(normDto));
+                        }));
+  }
+
+  @Override
+  public Optional<Announcement> updateAnnouncement(UpdateAnnouncementPort.Command command) {
+    var announcement = command.announcement();
+    return command
+        .announcement()
+        .getNorm()
+        .getEli()
+        .flatMap(
+            eli ->
+                announcementRepository
+                    .findByNormDtoEli(eli)
+                    .map(
+                        announcementDto -> {
+                          announcementDto.setReleasedByDocumentalistAt(
+                              announcement.getReleasedByDocumentalistAt());
+                          // It is not possible to change the norm associated with an announcement.
+                          // Therefore, we don't update that relationship.
+                          return AnnouncementMapper.mapToDomain(
+                              announcementRepository.save(announcementDto));
                         }));
   }
 
