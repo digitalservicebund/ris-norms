@@ -18,6 +18,9 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import net.sf.saxon.TransformerFactoryImpl;
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Represents an amending law entity with various attributes. This class is annotated with Lombok
@@ -27,7 +30,7 @@ import org.w3c.dom.Document;
 @AllArgsConstructor
 public class Norm {
 
-  @Getter private Document document;
+  @Getter private final Document document;
 
   /**
    * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}.
@@ -80,33 +83,124 @@ public class Norm {
   //    return digitalAnnouncementEdition;
   //  }
 
+  /**
+   * Returns an PublicationDate as {@link LocalDate} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The PublicationDate
+   */
   public Optional<LocalDate> getPublicationDate() {
     return getValueFromExpression("//FRBRWork/FRBRdate/@date", document).map(LocalDate::parse);
   }
 
+  /**
+   * Returns an AnnouncementPage as {@link String} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The AnnouncementPage
+   */
   public Optional<String> getPrintAnnouncementPage() {
     return getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
   }
 
+  /**
+   * Returns the title as {@link String} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The title
+   */
   public Optional<String> getTitle() {
     return getValueFromExpression("//longTitle/*/docTitle", document);
   }
 
-  //  public List<Article> getArticles() {
-  //    return articles;
-  //  }
+  /**
+   * Returns a list of articles as {@link List} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The list of articles
+   */
+  public List<NormArticle> getArticles() {
+    final Optional<NodeList> allArticles = getNodesFromExpression("//body/article", document);
+    if (allArticles.isEmpty()) {
+      return List.of();
+    }
 
-  private Optional<String> getValueFromExpression(String expression, Document xmlDocument) {
+    List<NormArticle> articles = new ArrayList<>();
 
+    for (int i = 0; i < allArticles.get().getLength(); i++) {
+      final Node articleNode = allArticles.get().item(i);
+      final NamedNodeMap attributes = articleNode.getAttributes();
+      final Optional<Node> guidNode = Optional.ofNullable(attributes.getNamedItem("GUID"));
+      final Optional<String> guid = guidNode.map(Node::getNodeValue);
+
+      final Optional<Node> eIdNode = Optional.ofNullable(attributes.getNamedItem("eId"));
+      final Optional<String> eId = eIdNode.map(Node::getNodeValue);
+
+      final Optional<String> heading;
+
+      final Optional<String> enumeration;
+
+      final Optional<Norm> targetLaw;
+      if (guid.isPresent()) {
+        heading =
+            getValueFromExpression(
+                "//body/article[@GUID=" + "'" + guid.get() + "'" + "]/heading/text()", document);
+        // not(normalize-space() is needed to filter out whitespaces which occur due to inner nodes
+        // like akn:marker
+        enumeration =
+            getValueFromExpression(
+                "//body/article[@GUID="
+                    + "'"
+                    + guid.get()
+                    + "'"
+                    + "]/num/text()[not(normalize-space() = '')]",
+                document);
+        targetLaw = getTargetLaw(guid.get());
+      } else {
+        heading = Optional.empty();
+        enumeration = Optional.empty();
+        targetLaw = Optional.empty();
+      }
+
+      NormArticle newArticle =
+          NormArticle.builder()
+              .guid(guid)
+              .eid(eId)
+              .enumeration(enumeration)
+              .title(heading)
+              .targetLaw(targetLaw)
+              .build();
+      articles.add(newArticle);
+    }
+    return articles;
+  }
+
+  private Optional<Norm> getTargetLaw(String articleGuid) {
+
+    // /akn:akomaNtoso/akn:act/akn:body/akn:article/akn:paragraph/akn:list/akn:intro/akn:p/akn:affectedDocument/@href
+    //        String targetLawEli = getNodesFromExpression("//affectedDocument", document);
+    //        TargetLaw targetLaw = TargetLaw.builder().eli("").build();
+
+    return Optional.empty();
+  }
+
+  private Optional<String> getValueFromExpression(String expression, Node xmlNode) {
     XPath xPath = XPathFactory.newInstance().newXPath();
     String result;
     try {
-      result = (String) xPath.evaluate(expression, xmlDocument, XPathConstants.STRING);
+      result = (String) xPath.evaluate(expression, xmlNode, XPathConstants.STRING);
     } catch (XPathExpressionException | NoSuchElementException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
     if (result.isEmpty()) return Optional.empty();
 
+    return Optional.of(result);
+  }
+
+  private Optional<NodeList> getNodesFromExpression(String expression, Document xmlDocument) {
+    XPath xPath = XPathFactory.newInstance().newXPath();
+    NodeList result;
+    try {
+      result = (NodeList) xPath.evaluate(expression, xmlDocument, XPathConstants.NODESET);
+    } catch (XPathExpressionException | NoSuchElementException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
+    }
     return Optional.of(result);
   }
 
