@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -28,6 +29,7 @@ class NormControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadNormXmlUseCase loadNormXmlUseCase;
+  @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
   @Nested
   class getNormXml {
@@ -46,6 +48,31 @@ class NormControllerTest {
           .perform(get("/api/v1/norms/{eli}", eli).accept(MediaType.APPLICATION_XML))
           .andExpect(status().isOk())
           .andExpect(content().string(xml));
+    }
+  }
+
+  @Nested
+  class getNormRender {
+
+    @Test
+    void itCallsNormServiceAndReturnsNormRender() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<akn:doc></akn:doc>";
+      final String html = "<div></div>";
+
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+
+      // When // Then
+      mockMvc
+          .perform(get("/api/v1/norms/{eli}", eli).accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+          .andExpect(content().string(html));
+
+      verify(transformLegalDocMlToHtmlUseCase, times(1))
+          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));
     }
   }
 }
