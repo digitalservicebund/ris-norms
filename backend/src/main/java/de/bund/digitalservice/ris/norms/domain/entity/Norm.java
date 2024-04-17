@@ -16,7 +16,6 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import net.sf.saxon.TransformerFactoryImpl;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -115,37 +114,17 @@ public class Norm {
 
     for (int i = 0; i < allArticles.get().getLength(); i++) {
       final Node articleNode = allArticles.get().item(i);
-      final NamedNodeMap attributes = articleNode.getAttributes();
-      final Optional<Node> guidNode = Optional.ofNullable(attributes.getNamedItem("GUID"));
-      final Optional<String> guid = guidNode.map(Node::getNodeValue);
 
-      final Optional<Node> eIdNode = Optional.ofNullable(attributes.getNamedItem("eId"));
-      final Optional<String> eId = eIdNode.map(Node::getNodeValue);
+      final Optional<String> guid = getValueFromExpression("./@GUID", articleNode);
+      final Optional<String> eId = getValueFromExpression("./@eId", articleNode);
+      final Optional<String> heading = getValueFromExpression("./heading/text()", articleNode);
+      // not(normalize-space() is needed to filter out whitespaces which occur due to inner nodes
+      // like akn:marker
+      final Optional<String> enumeration =
+          getValueFromExpression("./num/text()[not(normalize-space() = '')]", articleNode);
 
-      final Optional<String> heading;
-
-      final Optional<String> enumeration;
-
-      final Optional<String> affectedDocumentEli;
-
-      if (guid.isPresent()) {
-        final String ARTICLE_EXPRESSION = "//body/article[@GUID=" + "'" + guid.get() + "']";
-
-        heading = getValueFromExpression(ARTICLE_EXPRESSION + "/heading/text()", document);
-        // not(normalize-space() is needed to filter out whitespaces which occur due to inner nodes
-        // like akn:marker
-        enumeration =
-            getValueFromExpression(
-                ARTICLE_EXPRESSION + "/num/text()[not(normalize-space() = '')]", document);
-
-        affectedDocumentEli =
-            getValueFromExpression(ARTICLE_EXPRESSION + "//affectedDocument/@href", document);
-
-      } else {
-        heading = Optional.empty();
-        enumeration = Optional.empty();
-        affectedDocumentEli = Optional.empty();
-      }
+      final Optional<String> affectedDocumentEli =
+          getValueFromExpression(".//affectedDocument/@href", articleNode);
 
       NormArticle newArticle =
           NormArticle.builder()
