@@ -1,12 +1,12 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.Optional;
 
 /**
- * Interface representing the use case for loading the xml representation of a {@link
- * de.bund.digitalservice.ris.norms.domain.entity.Norm}. Implementations of this interface should
- * provide functionality to load the xml representation of a target law based on a given query.
+ * Interface representing the use case for loading the xml representation of a {@link Norm}.
+ * Implementations of this interface should provide functionality to load the xml representation of
+ * a norm based on a given query.
  */
 public interface LoadNormXmlUseCase {
 
@@ -14,8 +14,7 @@ public interface LoadNormXmlUseCase {
    * Retrieves the xml representation of a norm based on the provided query.
    *
    * @param query The query containing the ELI (European Legislation Identifier) of the norm.
-   * @return An {@link Optional} containing the loaded {@link TargetLaw} if found, or empty if not
-   *     found.
+   * @return An {@link Optional} containing the loaded {@link Norm} if found, or empty if not found.
    */
   Optional<String> loadNormXml(Query query);
 

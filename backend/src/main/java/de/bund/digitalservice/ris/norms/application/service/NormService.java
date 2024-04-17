@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -15,13 +16,18 @@ import org.springframework.stereotype.Service;
  * component in the Spring context.
  */
 @Service
-public class NormService implements LoadNormXmlUseCase, UpdateNormXmlUseCase {
+public class NormService implements LoadNormUseCase, LoadNormXmlUseCase, UpdateNormXmlUseCase {
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
 
   public NormService(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
+  }
+
+  @Override
+  public Optional<Norm> loadNorm(final LoadNormUseCase.Query query) {
+    return loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
   }
 
   @Override
