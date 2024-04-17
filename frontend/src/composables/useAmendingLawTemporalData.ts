@@ -9,6 +9,7 @@ interface AmendingLawData {
   htmlContent: Ref<string>
   dates: Ref<string[]>
   update: (newDates: string[]) => Promise<void>
+  loadData: () => Promise<void>
 }
 
 export function useAmendingLawTemporalData(eli: Ref<string>): AmendingLawData {
@@ -17,8 +18,8 @@ export function useAmendingLawTemporalData(eli: Ref<string>): AmendingLawData {
 
   async function loadData() {
     try {
-      htmlContent.value = await getAmendingLawEntryIntoForceHtml(eli.value)
-      dates.value = await getAmendingLawTemporalDates(eli.value)
+      htmlContent.value = await getAmendingLawEntryIntoForceHtml()
+      dates.value = await getAmendingLawTemporalDates()
     } catch (error) {
       console.error("Error fetching amending law data:", error)
     }
@@ -39,5 +40,6 @@ export function useAmendingLawTemporalData(eli: Ref<string>): AmendingLawData {
     htmlContent,
     dates,
     update,
+    loadData,
   }
 }
