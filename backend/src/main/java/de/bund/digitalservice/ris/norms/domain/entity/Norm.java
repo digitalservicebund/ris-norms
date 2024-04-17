@@ -1,16 +1,13 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import java.util.*;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -35,7 +32,7 @@ public class Norm {
    * @return An Eli
    */
   public Optional<String> getEli() {
-    return getValueFromExpression("//FRBRExpression/FRBRthis/@value", document);
+    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document);
   }
 
   /**
@@ -44,7 +41,7 @@ public class Norm {
    * @return An GUID of the document
    */
   public Optional<UUID> getGuid() {
-    return getValueFromExpression(
+    return NodeParser.getValueFromExpression(
             "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document)
         .flatMap(
             guid -> {
@@ -62,7 +59,8 @@ public class Norm {
    * @return The PrintAnnouncementGazette
    */
   public Optional<String> getFRBRname() {
-    Optional<String> fRBRname = getValueFromExpression("//FRBRWork/FRBRname/@value", document);
+    Optional<String> fRBRname =
+        NodeParser.getValueFromExpression("//FRBRWork/FRBRname/@value", document);
 
     return fRBRname.map(
         s ->
@@ -77,7 +75,7 @@ public class Norm {
    * @return The AnnouncementPage
    */
   public Optional<String> getFRBRnumber() {
-    return getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
+    return NodeParser.getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
   }
 
   /**
@@ -86,7 +84,8 @@ public class Norm {
    * @return The PublicationDate
    */
   public Optional<LocalDate> getPublicationDate() {
-    return getValueFromExpression("//FRBRWork/FRBRdate/@date", document).map(LocalDate::parse);
+    return NodeParser.getValueFromExpression("//FRBRWork/FRBRdate/@date", document)
+        .map(LocalDate::parse);
   }
 
   /**
@@ -95,7 +94,7 @@ public class Norm {
    * @return The title
    */
   public Optional<String> getTitle() {
-    return getValueFromExpression("//longTitle/*/docTitle", document);
+    return NodeParser.getValueFromExpression("//longTitle/*/docTitle", document);
   }
 
   /**
@@ -104,7 +103,8 @@ public class Norm {
    * @return The list of articles
    */
   public List<NormArticle> getArticles() {
-    final Optional<NodeList> allArticles = getNodesFromExpression("//body/article", document);
+    final Optional<NodeList> allArticles =
+        NodeParser.getNodesFromExpression("//body/article", document);
     if (allArticles.isEmpty()) {
       return List.of();
     }
@@ -114,16 +114,18 @@ public class Norm {
     for (int i = 0; i < allArticles.get().getLength(); i++) {
       final Node articleNode = allArticles.get().item(i);
 
-      final Optional<String> guid = getValueFromExpression("./@GUID", articleNode);
-      final Optional<String> eId = getValueFromExpression("./@eId", articleNode);
-      final Optional<String> heading = getValueFromExpression("./heading/text()", articleNode);
+      final Optional<String> guid = NodeParser.getValueFromExpression("./@GUID", articleNode);
+      final Optional<String> eId = NodeParser.getValueFromExpression("./@eId", articleNode);
+      final Optional<String> heading =
+          NodeParser.getValueFromExpression("./heading/text()", articleNode);
       // not(normalize-space() is needed to filter out whitespaces which occur due to inner nodes
       // like akn:marker
       final Optional<String> enumeration =
-          getValueFromExpression("./num/text()[not(normalize-space() = '')]", articleNode);
+          NodeParser.getValueFromExpression(
+              "./num/text()[not(normalize-space() = '')]", articleNode);
 
       final Optional<String> affectedDocumentEli =
-          getValueFromExpression(".//affectedDocument/@href", articleNode);
+          NodeParser.getValueFromExpression(".//affectedDocument/@href", articleNode);
 
       NormArticle newArticle =
           NormArticle.builder()
@@ -136,30 +138,6 @@ public class Norm {
       articles.add(newArticle);
     }
     return articles;
-  }
-
-  private Optional<String> getValueFromExpression(String expression, Node xmlNode) {
-    XPath xPath = XPathFactory.newInstance().newXPath();
-    String result;
-    try {
-      result = (String) xPath.evaluate(expression, xmlNode, XPathConstants.STRING);
-    } catch (XPathExpressionException | NoSuchElementException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
-    if (result.isEmpty()) return Optional.empty();
-
-    return Optional.of(result);
-  }
-
-  private Optional<NodeList> getNodesFromExpression(String expression, Document xmlDocument) {
-    XPath xPath = XPathFactory.newInstance().newXPath();
-    NodeList result;
-    try {
-      result = (NodeList) xPath.evaluate(expression, xmlDocument, XPathConstants.NODESET);
-    } catch (XPathExpressionException | NoSuchElementException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
-    return Optional.of(result);
   }
 
   @Override

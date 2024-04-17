@@ -73,6 +73,7 @@ class ArchitectureFitnessTest {
           "javax.xml.xpath..",
           "org.jetbrains.annotations..",
           "lombok..",
+          "de.bund.digitalservice.ris.norms.utils",
           "org.w3c.dom.."
         };
 
