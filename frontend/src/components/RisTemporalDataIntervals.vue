@@ -43,7 +43,7 @@ watch(
     <form class="p-10">
       <div class="flex flex-col space-y-4">
         <div v-for="(date, index) in dates" :key="date" class="mb-4">
-          <div class="p-1o flex items-center justify-between">
+          <div class="flex items-center justify-between">
             <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
             <label :for="'date-' + index" class="w-96 flex-none"
               >Zeitgrenze {{ index + 1 }}</label
@@ -52,6 +52,7 @@ watch(
               :id="'date-' + index"
               v-model="dates[index]"
               size="small"
+              data-testid="date-input-field"
             />
             <RisTextButton
               :icon="DeleteOutlineIcon"
@@ -74,6 +75,7 @@ watch(
             v-model="newDate"
             size="small"
             class="w-[calc(100%-9rem)]"
+            data-testid="new-date-input-field"
           />
         </div>
       </div>
