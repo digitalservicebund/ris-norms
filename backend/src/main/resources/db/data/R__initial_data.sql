@@ -44,7 +44,7 @@ VALUES ('e47a5106-c153-4da4-8d94-8cc2ebf9b232', 'eli/bund/bgbl-1/2017/s419/2017-
             <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4c69a6d2-8988-4581-bfa9-df9e8e24f321">
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126197" value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1" />
                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="5a2c4542-56cc-4c70-8b80-e2041b5b75e1" value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu" />
-               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="e47a5106-c153-4da4-8d94-8cc2ebf9b232" />
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="9063f5e7-c3c5-4ab4-8e15-459b11d7a9f2" href="recht.bund.de/institution/bundesregierung" />
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" GUID="1e8f33a8-d124-48c3-a864-7968701816ee" date="2017-03-15" name="verkuendung" />
@@ -248,7 +248,7 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', 'eli/bund/bgbl-1/1964/s593/1964-
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="ad94eb82-1a61-4210-939f-7e423fbc78d4" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu" />
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="76d63725-d669-4189-995d-92b9f8e4dadb" name="vorherige-version-id" value="30c19ca3-cf77-4ff9-8623-0cf60abac28e" />
-               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="519cad64-9102-4808-99ba-ea64988745bd" name="aktuelle-version-id" value="095a0a1e-5e23-438e-bca2-db4fc383e0d8" />
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="519cad64-9102-4808-99ba-ea64988745bd" name="aktuelle-version-id" value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151" />
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="849f7a4f-0477-4e00-8631-ca8232b32d2f" name="nachfolgende-version-id" value="a0bdb90e-31ca-4a48-b773-89cf858208fa" />
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="e4334f35-501a-46f0-a8f5-a02d9a03aca3" href="recht.bund.de/institution/bundesregierung" />
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" GUID="1bfbd095-93f3-4674-8096-be18041cbc65" date="1964-08-05" name="verkuendung" />

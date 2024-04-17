@@ -48,6 +48,11 @@ test(`load preview`, async ({ page }) => {
 })
 
 test(`update law with new content`, async ({ page }) => {
+  const newXml = targetLawXml.replace(
+    "Gesetz zur Regelungs des öffenltichen Vereinsrechts",
+    "TEST",
+  )
+
   await page.goto(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/edit`,
   )
@@ -66,7 +71,7 @@ test(`update law with new content`, async ({ page }) => {
       `${process.platform === "darwin" ? "Meta" : "Control"}+a`,
     )
     await editor.press("Backspace")
-    await editor.fill("<xml></xml>")
+    await editor.fill(newXml)
     await expect(saveButton).toBeEnabled()
 
     await saveButton.click()
@@ -81,7 +86,7 @@ test(`update law with new content`, async ({ page }) => {
         },
       },
     )
-    expect(await response.text()).toBe("<xml></xml>")
+    expect(await response.text()).toBe(newXml)
   } finally {
     // Reset the xml
     await page.request.put(

@@ -78,6 +78,11 @@ test.describe("article editor", () => {
   })
 
   test(`update law with new content`, async ({ page }) => {
+    const newXml = amendingLawXml.replace(
+      "Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593)",
+      "TEST",
+    )
+
     try {
       const saveButton = page.getByRole("button", { name: "Speichern" })
       await expect(saveButton).toBeDisabled()
@@ -97,7 +102,7 @@ test.describe("article editor", () => {
         `${process.platform === "darwin" ? "Meta" : "Control"}+a`,
       )
       await editor.press("Backspace")
-      await editor.fill("<xml></xml>")
+      await editor.fill(newXml)
       await expect(saveButton).toBeEnabled()
 
       await saveButton.click()
@@ -112,7 +117,7 @@ test.describe("article editor", () => {
           },
         },
       )
-      expect(await response.text()).toBe("<xml></xml>")
+      expect(await response.text()).toBe(newXml)
     } finally {
       // Reset the xml
       await page.request.put(

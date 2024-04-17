@@ -37,7 +37,7 @@ export const targetLawXml = `<?xml version="1.0" encoding="UTF-8"?>
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="ad94eb82-1a61-4210-939f-7e423fbc78d4" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu" />
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="76d63725-d669-4189-995d-92b9f8e4dadb" name="vorherige-version-id" value="30c19ca3-cf77-4ff9-8623-0cf60abac28e" />
-               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="519cad64-9102-4808-99ba-ea64988745bd" name="aktuelle-version-id" value="095a0a1e-5e23-438e-bca2-db4fc383e0d8" />
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="519cad64-9102-4808-99ba-ea64988745bd" name="aktuelle-version-id" value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151" />
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="849f7a4f-0477-4e00-8631-ca8232b32d2f" name="nachfolgende-version-id" value="a0bdb90e-31ca-4a48-b773-89cf858208fa" />
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="e4334f35-501a-46f0-a8f5-a02d9a03aca3" href="recht.bund.de/institution/bundesregierung" />
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" GUID="1bfbd095-93f3-4674-8096-be18041cbc65" date="1964-08-05" name="verkuendung" />
