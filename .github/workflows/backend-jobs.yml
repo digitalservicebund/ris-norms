@@ -112,7 +112,7 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  analyze-backend:
+  analyze-backend-with-sonar-cube:
     needs: [validate-gradle-wrapper-and-setup-gradle]
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
@@ -226,7 +226,7 @@ jobs:
       - backend-unit-tests
       - backend-integration-tests
       - audit-licenses-backend
-      - analyze-backend
+      - analyze-backend-with-sonar-cube
       - backend-create-docker-image
     steps:
       - uses: actions/cache@v4
