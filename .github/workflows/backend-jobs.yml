@@ -176,7 +176,7 @@ jobs:
             echo "No significant vulnerabilities found"
             exit 0
           fi
-      - name: Upload result
+      - name: Upload trivy-results.sarif as an artifact
         uses: actions/upload-artifact@v4
         if: ${{ always () }}
         with:
