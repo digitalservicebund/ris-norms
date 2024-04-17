@@ -1,22 +1,13 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
-import java.io.IOException;
-import java.io.StringReader;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 class NormTest {
 
@@ -42,7 +33,7 @@ class NormTest {
       </akn:akomaNtoso>
     """;
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
     String expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // when
@@ -67,7 +58,7 @@ class NormTest {
         """
             .strip();
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
 
     Optional<String> optionalEli = norm.getEli();
     assertThat(optionalEli).isEmpty();
@@ -98,7 +89,7 @@ class NormTest {
               </akn:akomaNtoso>
             """;
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
 
     // when
     UUID actualGuid = norm.getGuid().get();
@@ -137,7 +128,7 @@ class NormTest {
           </akn:akomaNtoso>
         """;
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
     String expectedTitle = "Gesetz zur Regelungs des öffenltichen Vereinsrechts";
 
     // when
@@ -170,7 +161,7 @@ class NormTest {
           </akn:akomaNtoso>
         """;
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
     String expectedPrintAnnouncementGazette = "BGBl. I";
 
     // when
@@ -203,7 +194,7 @@ class NormTest {
               </akn:akomaNtoso>
             """;
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
     String expectedPrintAnnouncementGazette = "s593";
 
     // when
@@ -236,7 +227,7 @@ class NormTest {
               </akn:akomaNtoso>
             """;
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
     String expectedPrintAnnouncementGazette = "BGBl. I";
 
     // when
@@ -270,7 +261,7 @@ class NormTest {
                   </akn:akomaNtoso>
                 """;
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
     LocalDate expectedPublishingDate = LocalDate.of(1964, 8, 5);
 
     // when
@@ -330,7 +321,7 @@ class NormTest {
                       </akn:akomaNtoso>
                     """;
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
     var expectedNumberOfArticles = 2;
     var firstExpectedHeading = "Änderung des Vereinsgesetzes";
     var secondExpectedHeading = "Inkrafttreten";
@@ -368,7 +359,7 @@ class NormTest {
                               </akn:akomaNtoso>
                             """;
 
-    Norm norm = new Norm(stringToXmlDocument(normString));
+    Norm norm = new Norm(toDocument(normString));
 
     // when
     List<NormArticle> actualArticles = norm.getArticles();
@@ -401,8 +392,8 @@ class NormTest {
               </akn:akomaNtoso>
             """;
 
-    Norm norm1 = new Norm(stringToXmlDocument(xml));
-    Norm norm2 = new Norm(stringToXmlDocument(xml));
+    Norm norm1 = new Norm(toDocument(xml));
+    Norm norm2 = new Norm(toDocument(xml));
 
     // then
     assertThat(norm1).isEqualTo(norm2);
@@ -453,8 +444,8 @@ class NormTest {
               </akn:akomaNtoso>
             """;
 
-    Norm norm1 = new Norm(stringToXmlDocument(xml1));
-    Norm norm2 = new Norm(stringToXmlDocument(xml2));
+    Norm norm1 = new Norm(toDocument(xml1));
+    Norm norm2 = new Norm(toDocument(xml2));
 
     // then
     assertThat(norm1).isNotEqualTo(norm2);
@@ -484,8 +475,8 @@ class NormTest {
               </akn:akomaNtoso>
             """;
 
-    Norm norm1 = new Norm(stringToXmlDocument(xml));
-    Norm norm2 = new Norm(stringToXmlDocument(xml));
+    Norm norm1 = new Norm(toDocument(xml));
+    Norm norm2 = new Norm(toDocument(xml));
 
     // then
     assertThat(norm1.hashCode()).hasSameHashCodeAs(norm2.hashCode());
@@ -536,29 +527,10 @@ class NormTest {
               </akn:akomaNtoso>
             """;
 
-    Norm norm1 = new Norm(stringToXmlDocument(xml1));
-    Norm norm2 = new Norm(stringToXmlDocument(xml2));
+    Norm norm1 = new Norm(toDocument(xml1));
+    Norm norm2 = new Norm(toDocument(xml2));
 
     // then
     assertThat(norm1.hashCode()).isNotEqualTo(norm2.hashCode());
-  }
-
-  private Document stringToXmlDocument(String xmlText) {
-
-    final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-    // XXE vulnerability hardening, cf. https://www.sonarsource.com/blog/secure-xml-processor/
-    try {
-      factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-
-      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-      factory.setExpandEntityReferences(false);
-
-      final DocumentBuilder builder = factory.newDocumentBuilder();
-      final InputSource is = new InputSource(new StringReader(xmlText));
-      return builder.parse(is);
-    } catch (ParserConfigurationException | SAXException | IOException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
   }
 }
