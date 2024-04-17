@@ -176,7 +176,13 @@ jobs:
             echo "No significant vulnerabilities found"
             exit 0
           fi
-      - name: Upload Trivy image scan results to GitHub Security tab
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        if: ${{ always () }}
+        with:
+          name: trivy-results.sarif
+          path: trivy-results.sarif
+      - name: Upload Trivy image scan results to GitHub Security tab (on 'main' only)
         uses: github/codeql-action/upload-sarif@v3
         if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
         with:
@@ -254,7 +260,6 @@ jobs:
         if: ${{ failure() }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
 
   generate-backend-code-documentation:
     needs: [validate-gradle-wrapper-and-setup-gradle]
