@@ -1,8 +1,8 @@
 DELETE FROM article;
 DELETE FROM target_law;
 DELETE FROM amending_law;
-DELETE FROM norms;
 DELETE FROM announcements;
+DELETE FROM norms;
 
 -- Clean example
 INSERT INTO amending_law (id, eli, print_announcement_gazette, digital_announcement_medium, publication_date, print_announcement_page, digital_announcement_edition, title, xml)
