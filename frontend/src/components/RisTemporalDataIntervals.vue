@@ -82,5 +82,3 @@ watch(
     </form>
   </div>
 </template>
-
-// norms eid article refert
