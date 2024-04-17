@@ -62,10 +62,9 @@ public class Norm {
    * @return The PrintAnnouncementGazette
    */
   public Optional<String> getFRBRname() {
-    Optional<String> announcementGazetteRaw =
-        getValueFromExpression("//FRBRWork/FRBRname/@value", document);
+    Optional<String> fRBRname = getValueFromExpression("//FRBRWork/FRBRname/@value", document);
 
-    return announcementGazetteRaw.map(
+    return fRBRname.map(
         s ->
             s.replace("bgbl-1", "BGBl. I")
                 .replace("bgbl-2", "BGBl. II")
