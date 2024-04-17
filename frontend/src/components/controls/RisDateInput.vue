@@ -14,7 +14,6 @@ interface Props {
   id: string
   value?: string
   modelValue?: string
-  ariaLabel: string
   isFutureDate?: boolean
   hasError?: boolean
   size?: "regular" | "medium" | "small"
@@ -126,7 +125,6 @@ watch(inputCompleted, (is) => {
     :id="id"
     v-model="inputValue"
     v-maska
-    :aria-label="ariaLabel"
     class="ds-input"
     :class="conditionalClasses"
     data-maska="##.##.####"
