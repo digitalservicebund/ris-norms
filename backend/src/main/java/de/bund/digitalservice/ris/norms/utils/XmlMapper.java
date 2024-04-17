@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
+package de.bund.digitalservice.ris.norms.utils;
 
 import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
 import java.io.IOException;

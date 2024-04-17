@@ -6,7 +6,6 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AmendingL
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.XmlMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
@@ -19,6 +18,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;

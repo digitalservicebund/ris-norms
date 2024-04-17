@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 

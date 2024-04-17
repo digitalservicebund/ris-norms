@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.Announcem
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.ArticleMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.TargetLawMapper;
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.XmlMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AmendingLawRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
@@ -18,6 +17,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Comparator;

@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 

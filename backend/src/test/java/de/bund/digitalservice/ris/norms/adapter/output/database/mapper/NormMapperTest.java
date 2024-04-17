@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.UUID;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
