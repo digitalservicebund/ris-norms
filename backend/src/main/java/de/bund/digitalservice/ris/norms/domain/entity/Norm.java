@@ -138,7 +138,6 @@ public class Norm {
             getValueFromExpression(
                 ARTICLE_EXPRESSION + "/num/text()[not(normalize-space() = '')]", document);
 
-        // /akn:akomaNtoso/akn:act/akn:body/akn:article/akn:paragraph/akn:list/akn:intro/akn:p/akn:affectedDocument/@href
         affectedDocumentEli =
             getValueFromExpression(ARTICLE_EXPRESSION + "//affectedDocument/@href", document);
 
