@@ -4,9 +4,10 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.AmendingLawResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.AmendingLawResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseAmendingLawResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
@@ -387,7 +388,7 @@ public class AmendingLawController {
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/release",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ReleaseAmendingLawResponseSchema> releaseAmendingLaw(
+  public ResponseEntity<ReleaseResponseSchema> releaseAmendingLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -411,7 +412,7 @@ public class AmendingLawController {
     return amendingLawReleasedOptional
         .map(
             amendingLawReleased ->
-                new ReleaseAmendingLawResponseSchema(
+                new ReleaseResponseSchema(
                     amendingLawReleased.getReleasedAt(),
                     amendingLawReleased.getEli(),
                     amendingLawReleased.getArticles().stream()
@@ -444,7 +445,7 @@ public class AmendingLawController {
       path =
           "/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}/release",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ReleaseAmendingLawResponseSchema> getReleasedAmendingLaw(
+  public ResponseEntity<ReleaseResponseSchema> getReleasedAmendingLaw(
       @PathVariable final String printAnnouncementGazette,
       @PathVariable final String printAnnouncementYear,
       @PathVariable final String printAnnouncementPage,
@@ -465,14 +466,7 @@ public class AmendingLawController {
         loadAmendingLawUseCase.loadAmendingLaw(new LoadAmendingLawUseCase.Query(eli));
 
     return amendingLawReleasedOptional
-        .map(
-            amendingLawReleased ->
-                new ReleaseAmendingLawResponseSchema(
-                    amendingLawReleased.getReleasedAt(),
-                    amendingLawReleased.getEli(),
-                    amendingLawReleased.getArticles().stream()
-                        .map(article -> article.getTargetLawZf0().getEli())
-                        .toList()))
+        .map(ReleaseResponseMapper::fromAmendingLaw)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }

@@ -1,9 +1,17 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAnnouncementsPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormArticle;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,15 +20,57 @@ import org.springframework.stereotype.Service;
  * component in the Spring context.
  */
 @Service
-public class AnnouncementService implements LoadAllAnnouncementsUseCase {
+public class AnnouncementService
+    implements LoadAllAnnouncementsUseCase,
+        LoadAnnouncementUseCase,
+        LoadTargetNormsAffectedByAnnouncementUseCase {
   private final LoadAllAnnouncementsPort loadAllAnnouncementsPort;
+  private final LoadAnnouncementPort loadAnnouncementPort;
+  private final NormService normService;
 
-  public AnnouncementService(LoadAllAnnouncementsPort loadAllAnnouncementsPort) {
+  public AnnouncementService(
+      LoadAllAnnouncementsPort loadAllAnnouncementsPort,
+      LoadAnnouncementPort loadAnnouncementPort,
+      NormService normService) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
+    this.loadAnnouncementPort = loadAnnouncementPort;
+    this.normService = normService;
   }
 
   @Override
   public List<Announcement> loadAllAnnouncements() {
     return loadAllAnnouncementsPort.loadAllAnnouncements();
+  }
+
+  @Override
+  public Optional<Announcement> loadAnnouncement(LoadAnnouncementUseCase.Query query) {
+    return loadAnnouncementPort.loadAnnouncement(new LoadAnnouncementPort.Command(query.eli()));
+  }
+
+  @Override
+  public List<Norm> loadTargetNormsAffectedByAnnouncement(
+      LoadTargetNormsAffectedByAnnouncementUseCase.Query query) {
+    var articles =
+        this.loadAnnouncement(new LoadAnnouncementUseCase.Query(query.eli()))
+            .map(Announcement::getNorm)
+            .map(Norm::getArticles)
+            .stream()
+            .flatMap(List::stream)
+            .toList();
+
+    return articles.stream()
+        .map(this::loadNextVersionOfAffectedDocument)
+        .flatMap(Optional::stream)
+        .toList();
+  }
+
+  private Optional<Norm> loadNextVersionOfAffectedDocument(NormArticle article) {
+    return article
+        .getAffectedDocumentEli()
+        .flatMap(
+            affectedDocumentEli ->
+                normService.loadNorm(new LoadNormUseCase.Query(affectedDocumentEli)))
+        .flatMap(Norm::getNextVersionGuid)
+        .flatMap(zf0Guid -> normService.loadNormByGuid(new LoadNormByGuidUseCase.Query(zf0Guid)));
   }
 }

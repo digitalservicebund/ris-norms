@@ -551,7 +551,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itFindsNormByGuidOnDB() throws XPathExpressionException, TransformerException {
+  void itFindsNormByGuidOnDB() {
     // Given
     final String xml =
         """
