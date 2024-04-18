@@ -1,9 +1,9 @@
 import { ref, onMounted, Ref } from "vue"
 import {
   getAmendingLawEntryIntoForceHtml,
-  getAmendingLawTemporalDates,
-  updateAmendingLawTemporalDates,
-} from "@/services/amendingLawEntryIntoForceService"
+  getAmendingLawTemporalDataIntervals,
+  updateAmendingLawTemporalDataIntervals,
+} from "@/services/amendingLawTemporalDataService"
 
 interface AmendingLawData {
   htmlContent: Ref<string>
@@ -18,8 +18,8 @@ export function useAmendingLawTemporalData(eli: Ref<string>): AmendingLawData {
 
   async function loadData() {
     try {
-      htmlContent.value = await getAmendingLawEntryIntoForceHtml()
-      dates.value = await getAmendingLawTemporalDates()
+      htmlContent.value = await getAmendingLawEntryIntoForceHtml(eli.value)
+      dates.value = await getAmendingLawTemporalDataIntervals()
     } catch (error) {
       console.error("Error fetching amending law data:", error)
     }
@@ -27,7 +27,7 @@ export function useAmendingLawTemporalData(eli: Ref<string>): AmendingLawData {
 
   async function update(newDates: string[]) {
     try {
-      await updateAmendingLawTemporalDates(eli.value, newDates)
+      await updateAmendingLawTemporalDataIntervals(eli.value, newDates)
       dates.value = newDates
     } catch (error) {
       console.error("Error updating amending law dates:", error)
