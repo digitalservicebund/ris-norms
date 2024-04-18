@@ -16,7 +16,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Announcement'
+                  $ref: '#/components/schemas/Norm'
 
   /announcements/{eli}/release:
     get:
@@ -204,25 +204,6 @@ paths:
 
 components:
   schemas:
-    Announcement:
-      type: object
-      properties:
-        eli:
-          type: string
-        title:
-          type: string
-        printAnnouncementGazette:
-          type: string
-        digitalAnnouncementMedium:
-          type: string
-        publicationDate:
-          type: string
-          format: date
-        printAnnouncementPage:
-          type: integer
-        digitalAnnouncementEdition:
-          type: integer
-
     Norm:
       type: object
       properties:
