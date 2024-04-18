@@ -1,13 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-describe("amendingLawEntryIntoForceService", () => {
+describe("amendingLawTemporalDataService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
   })
 
-  describe("getAmendingLawEntryIntoForceHtml", () => {
-    it("returns HTML content for the law's entry into force section", async () => {
+  describe("Getting all temporal data", () => {
+    it("returns HTML content and temporal data intervals for the law's entry into force section", async () => {
       const mockResponseHtml = `
 <div>
 <h2><strong>Artikel 7</strong> - Inkrafttreten</h2>
@@ -19,49 +19,38 @@ describe("amendingLawEntryIntoForceService", () => {
 <p>(5) Artikel 1 Nummer 3 Buchstabe b Doppelbuchstabe aa, Nummer 14 Buchstabe b und Artikel 2 Nummer 11 Buchstabe b treten am 1. November 2025 in Kraft.</p>
 </div>
 `
-      const fetchMock = vi.fn().mockResolvedValueOnce(mockResponseHtml)
-
-      vi.doMock("@/services/apiService", () => ({
-        apiFetch: fetchMock,
-      }))
-
-      const { getAmendingLawEntryIntoForceHtml } = await import(
-        "./amendingLawEntryIntoForceService"
-      )
-
-      const result = await getAmendingLawEntryIntoForceHtml()
-      expect(result).toBe(mockResponseHtml)
-    })
-  })
-
-  describe("getAmendingLawTemporalDates", () => {
-    it("returns temporal data related to an amending law", async () => {
-      const expectedDates = [
+      const expectedDates: string[] = [
         "2023-04-01T00:00:00Z",
-        "2023-05-15T00:00:00Z",
-        "2023-06-20T00:00:00Z",
-        "2023-07-25T00:00:00Z",
         "2023-05-15T00:00:00Z",
         "2023-06-20T00:00:00Z",
         "2023-07-25T00:00:00Z",
       ]
 
-      const fetchMock = vi.fn().mockResolvedValueOnce(expectedDates)
+      const fetchMock = vi
+        .fn()
+        .mockResolvedValueOnce(mockResponseHtml)
+        .mockResolvedValueOnce(expectedDates)
 
       vi.doMock("@/services/apiService", () => ({
         apiFetch: fetchMock,
       }))
 
-      const { getAmendingLawTemporalDates } = await import(
-        "./amendingLawEntryIntoForceService"
-      )
+      const {
+        getAmendingLawEntryIntoForceHtml,
+        getAmendingLawTemporalDataIntervals,
+      } = await import("./amendingLawTemporalDataService")
 
-      const result = await getAmendingLawTemporalDates()
-      expect(result).toEqual(expectedDates)
+      const htmlResult = await getAmendingLawEntryIntoForceHtml(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      )
+      expect(htmlResult).toBe(mockResponseHtml)
+
+      const datesResult = await getAmendingLawTemporalDataIntervals()
+      expect(datesResult).toEqual(expectedDates)
     })
   })
 
-  describe("updateAmendingLawTemporalDates", () => {
+  describe("updateAmendingLawTemporalDataIntervals", () => {
     it("updates the temporal data related to an amending law", async () => {
       const eli = "test-eli"
       const dates = ["2024-04-01T00:00:00Z", "2024-05-15T00:00:00Z"]
@@ -70,11 +59,11 @@ describe("amendingLawEntryIntoForceService", () => {
       const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
       vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
 
-      const { updateAmendingLawTemporalDates } = await import(
-        "./amendingLawEntryIntoForceService"
+      const { updateAmendingLawTemporalDataIntervals } = await import(
+        "./amendingLawTemporalDataService"
       )
 
-      const result = await updateAmendingLawTemporalDates(eli, dates)
+      const result = await updateAmendingLawTemporalDataIntervals(eli, dates)
       expect(result).toEqual(expectedResponse)
     })
   })
