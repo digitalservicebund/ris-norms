@@ -113,28 +113,7 @@ public class Norm {
 
     for (int i = 0; i < allArticles.get().getLength(); i++) {
       final Node articleNode = allArticles.get().item(i);
-
-      final Optional<String> guid = NodeParser.getValueFromExpression("./@GUID", articleNode);
-      final Optional<String> eId = NodeParser.getValueFromExpression("./@eId", articleNode);
-      final Optional<String> heading =
-          NodeParser.getValueFromExpression("./heading/text()", articleNode);
-      // not(normalize-space() is needed to filter out whitespaces which occur due to inner nodes
-      // like akn:marker
-      final Optional<String> enumeration =
-          NodeParser.getValueFromExpression(
-              "./num/text()[not(normalize-space() = '')]", articleNode);
-
-      final Optional<String> affectedDocumentEli =
-          NodeParser.getValueFromExpression(".//affectedDocument/@href", articleNode);
-
-      NormArticle newArticle =
-          NormArticle.builder()
-              .guid(guid)
-              .eid(eId)
-              .enumeration(enumeration)
-              .title(heading)
-              .affectedDocumentEli(affectedDocumentEli)
-              .build();
+      NormArticle newArticle = NormArticle.builder().node(articleNode).build();
       articles.add(newArticle);
     }
     return articles;
