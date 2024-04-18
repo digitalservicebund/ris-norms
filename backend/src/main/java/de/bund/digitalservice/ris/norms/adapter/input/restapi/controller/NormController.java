@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 /** Controller for norm-related actions. */
 @RestController
 @RequestMapping(
-    "/api/v1/norms/eli/bund/{printAnnouncementGazette}/{printAnnouncementYear}/{printAnnouncementPage}/{pointInTime}/{version}/{language}/{subtype}")
+    "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}")
 public class NormController {
 
   private final LoadNormUseCase loadNormUseCase;
@@ -41,9 +41,9 @@ public class NormController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param printAnnouncementGazette DE: "Verkündungsblatt"
-   * @param printAnnouncementYear DE "Verkündungsjahr"
-   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param agent DE: "Verkündungsblatt"
+   * @param year DE "Verkündungsjahr"
+   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
    * @param pointInTime DE: "Versionsdatum"
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
@@ -54,22 +54,15 @@ public class NormController {
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<NormResponseSchema> getNorm(
-      @PathVariable final String printAnnouncementGazette,
-      @PathVariable final String printAnnouncementYear,
-      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype) {
     final String eli =
-        buildEli(
-            printAnnouncementGazette,
-            printAnnouncementYear,
-            printAnnouncementPage,
-            pointInTime,
-            version,
-            language,
-            subtype);
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     return loadNormUseCase
         .loadNorm(new LoadNormUseCase.Query(eli))
@@ -85,9 +78,9 @@ public class NormController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param printAnnouncementGazette DE: "Verkündungsblatt"
-   * @param printAnnouncementYear DE "Verkündungsjahr"
-   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param agent DE: "Verkündungsblatt"
+   * @param year DE "Verkündungsjahr"
+   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
    * @param pointInTime DE: "Versionsdatum"
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
@@ -101,23 +94,16 @@ public class NormController {
       produces = {TEXT_HTML_VALUE},
       path = "/articles")
   public ResponseEntity<String> getSpecificArticlesForANorm(
-      @PathVariable final String printAnnouncementGazette,
-      @PathVariable final String printAnnouncementYear,
-      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
       @RequestParam("refersTo") final String refersTo) {
     final String eli =
-        buildEli(
-            printAnnouncementGazette,
-            printAnnouncementYear,
-            printAnnouncementPage,
-            pointInTime,
-            version,
-            language,
-            subtype);
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     String result =
         loadSpecificArticleXmlFromNormUseCase
@@ -138,9 +124,9 @@ public class NormController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param printAnnouncementGazette DE: "Verkündungsblatt"
-   * @param printAnnouncementYear DE "Verkündungsjahr"
-   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param agent DE: "Verkündungsblatt"
+   * @param year DE "Verkündungsjahr"
+   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
    * @param pointInTime DE: "Versionsdatum"
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
@@ -151,22 +137,15 @@ public class NormController {
    */
   @GetMapping(produces = {APPLICATION_XML_VALUE})
   public ResponseEntity<String> getNormXml(
-      @PathVariable final String printAnnouncementGazette,
-      @PathVariable final String printAnnouncementYear,
-      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype) {
     final String eli =
-        buildEli(
-            printAnnouncementGazette,
-            printAnnouncementYear,
-            printAnnouncementPage,
-            pointInTime,
-            version,
-            language,
-            subtype);
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     return loadNormXmlUseCase
         .loadNormXml(new LoadNormXmlUseCase.Query(eli))
@@ -181,9 +160,9 @@ public class NormController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param printAnnouncementGazette DE: "Verkündungsblatt"
-   * @param printAnnouncementYear DE "Verkündungsjahr"
-   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param agent DE: "Verkündungsblatt"
+   * @param year DE "Verkündungsjahr"
+   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
    * @param pointInTime DE: "Versionsdatum"
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
@@ -194,22 +173,15 @@ public class NormController {
    */
   @GetMapping(produces = {TEXT_HTML_VALUE})
   public ResponseEntity<String> getNormRender(
-      @PathVariable final String printAnnouncementGazette,
-      @PathVariable final String printAnnouncementYear,
-      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype) {
     final String eli =
-        buildEli(
-            printAnnouncementGazette,
-            printAnnouncementYear,
-            printAnnouncementPage,
-            pointInTime,
-            version,
-            language,
-            subtype);
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     return loadNormXmlUseCase
         .loadNormXml(new LoadNormXmlUseCase.Query(eli))
@@ -228,9 +200,9 @@ public class NormController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param printAnnouncementGazette DE: "Verkündungsblatt"
-   * @param printAnnouncementYear DE "Verkündungsjahr"
-   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param agent DE: "Verkündungsblatt"
+   * @param year DE "Verkündungsjahr"
+   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
    * @param pointInTime DE: "Versionsdatum"
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
@@ -244,23 +216,16 @@ public class NormController {
       consumes = {APPLICATION_XML_VALUE},
       produces = {APPLICATION_XML_VALUE})
   public ResponseEntity<String> updateAmendingLaw(
-      @PathVariable final String printAnnouncementGazette,
-      @PathVariable final String printAnnouncementYear,
-      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
       @RequestBody String xml) {
     final String eli =
-        buildEli(
-            printAnnouncementGazette,
-            printAnnouncementYear,
-            printAnnouncementPage,
-            pointInTime,
-            version,
-            language,
-            subtype);
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     try {
       return updateNormXmlUseCase
