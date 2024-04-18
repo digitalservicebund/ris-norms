@@ -1,9 +1,11 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -20,20 +22,31 @@ import org.springframework.stereotype.Service;
 @Service
 public class NormService
     implements LoadNormUseCase,
+        LoadNormByGuidUseCase,
         LoadNormXmlUseCase,
         UpdateNormXmlUseCase,
         LoadSpecificArticleXmlFromNormUseCase {
   private final LoadNormPort loadNormPort;
+  private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
 
-  public NormService(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
+  public NormService(
+      LoadNormPort loadNormPort,
+      LoadNormByGuidPort loadNormByGuidPort,
+      UpdateNormPort updateNormPort) {
     this.loadNormPort = loadNormPort;
+    this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
   }
 
   @Override
   public Optional<Norm> loadNorm(final LoadNormUseCase.Query query) {
     return loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+  }
+
+  @Override
+  public Optional<Norm> loadNormByGuid(final LoadNormByGuidUseCase.Query query) {
+    return loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(query.guid()));
   }
 
   @Override

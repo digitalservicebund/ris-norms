@@ -41,6 +41,7 @@ public class DBService
         LoadTargetLawPort,
         LoadTargetLawXmlPort,
         LoadNormPort,
+        LoadNormByGuidPort,
         LoadAnnouncementPort,
         LoadAllAnnouncementsPort,
         UpdateTargetLawXmlPort,
@@ -124,6 +125,11 @@ public class DBService
   @Override
   public Optional<Norm> loadNorm(LoadNormPort.Command command) {
     return normRepository.findByEli(command.eli()).map(NormMapper::mapToDomain);
+  }
+
+  @Override
+  public Optional<Norm> loadNormByGuid(LoadNormByGuidPort.Command command) {
+    return normRepository.findById(command.guid()).map(NormMapper::mapToDomain);
   }
 
   @Override
