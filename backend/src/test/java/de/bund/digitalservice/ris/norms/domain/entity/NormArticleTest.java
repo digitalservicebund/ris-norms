@@ -1,17 +1,9 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toNode;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
-import java.io.IOException;
-import java.io.StringReader;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 class NormArticleTest {
   @Test
@@ -22,7 +14,7 @@ class NormArticleTest {
                 <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung"></akn:article>
                 """;
 
-    var article = new NormArticle(stringToXmlNode(articleString));
+    var article = new NormArticle(toNode(articleString));
     var expectedGuid = "cdbfc728-a070-42d9-ba2f-357945afef06";
 
     // when
@@ -45,7 +37,7 @@ class NormArticleTest {
                 </akn:article>
                 """;
 
-    var article = new NormArticle(stringToXmlNode(articleString));
+    var article = new NormArticle(toNode(articleString));
     var expectedEnumeration = "Artikel 1";
 
     // when
@@ -64,7 +56,7 @@ class NormArticleTest {
                 </akn:article>
                 """;
 
-    var article = new NormArticle(stringToXmlNode(articleString));
+    var article = new NormArticle(toNode(articleString));
     var expectedEid = "hauptteil-1_art-1";
 
     // when
@@ -84,7 +76,7 @@ class NormArticleTest {
                 </akn:article>
                 """;
 
-    var article = new NormArticle(stringToXmlNode(articleString));
+    var article = new NormArticle(toNode(articleString));
     var expectedHeading = "Änderung des Vereinsgesetzes";
 
     // when
@@ -118,7 +110,7 @@ class NormArticleTest {
                 </akn:article>
                 """;
 
-    var article = new NormArticle(stringToXmlNode(articleString));
+    var article = new NormArticle(toNode(articleString));
     var expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // when
@@ -126,23 +118,5 @@ class NormArticleTest {
 
     // then
     assertThat(eli).isEqualTo(expectedEli);
-  }
-
-  private Node stringToXmlNode(String xmlText) {
-    final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-    try {
-      factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-      factory.setExpandEntityReferences(false);
-
-      return factory
-          .newDocumentBuilder()
-          .parse(new InputSource((new StringReader(xmlText))))
-          .getDocumentElement();
-
-    } catch (ParserConfigurationException | SAXException | IOException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
   }
 }

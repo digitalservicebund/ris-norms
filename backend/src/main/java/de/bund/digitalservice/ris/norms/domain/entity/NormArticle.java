@@ -1,12 +1,8 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
-import java.util.NoSuchElementException;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -27,7 +23,7 @@ public class NormArticle {
    * @return The GUID of the article
    */
   public Optional<String> getGuid() {
-    return getValueFromExpression("./@GUID", this.node);
+    return NodeParser.getValueFromExpression("./@GUID", this.node);
   }
 
   /**
@@ -38,7 +34,8 @@ public class NormArticle {
   public Optional<String> getEnumeration() {
     // not(normalize-space() is needed to filter out whitespaces which occur due to inner nodes
     // like akn:marker
-    return getValueFromExpression("./num/text()[not(normalize-space() = '')]", this.node);
+    return NodeParser.getValueFromExpression(
+        "./num/text()[not(normalize-space() = '')]", this.node);
   }
 
   /**
@@ -47,7 +44,7 @@ public class NormArticle {
    * @return The eId of the article
    */
   public Optional<String> getEid() {
-    return getValueFromExpression("./@eId", this.node);
+    return NodeParser.getValueFromExpression("./@eId", this.node);
   }
 
   /**
@@ -56,7 +53,7 @@ public class NormArticle {
    * @return The heading of the article
    */
   public Optional<String> getHeading() {
-    return getValueFromExpression("./heading/text()", this.node);
+    return NodeParser.getValueFromExpression("./heading/text()", this.node);
   }
 
   /**
@@ -66,19 +63,6 @@ public class NormArticle {
    * @return The ELI of the affected document of the article
    */
   public Optional<String> getAffectedDocumentEli() {
-    return getValueFromExpression(".//affectedDocument/@href", this.node);
-  }
-
-  private Optional<String> getValueFromExpression(String expression, Node xmlNode) {
-    XPath xPath = XPathFactory.newInstance().newXPath();
-    String result;
-    try {
-      result = (String) xPath.evaluate(expression, xmlNode, XPathConstants.STRING);
-    } catch (XPathExpressionException | NoSuchElementException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
-    if (result.isEmpty()) return Optional.empty();
-
-    return Optional.of(result);
+    return NodeParser.getValueFromExpression(".//affectedDocument/@href", this.node);
   }
 }
