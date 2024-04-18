@@ -145,9 +145,6 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Norm'
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
