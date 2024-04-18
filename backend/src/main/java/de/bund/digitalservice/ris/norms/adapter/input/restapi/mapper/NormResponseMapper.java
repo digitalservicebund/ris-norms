@@ -16,7 +16,7 @@ public class NormResponseMapper {
    * @return A new {@link NormResponseSchema} instance mapped from the input {@link Norm}.
    */
   public static NormResponseSchema fromUseCaseData(final Norm norm) {
-    var isDigitallyAnnounced = norm.getFRBRnumber().map(s -> !s.startsWith("s")).orElse(false);
+    boolean isDigitallyAnnounced = norm.getFRBRnumber().map(s -> !s.startsWith("s")).orElse(false);
 
     return new NormResponseSchema(
         norm.getEli().orElse(null),

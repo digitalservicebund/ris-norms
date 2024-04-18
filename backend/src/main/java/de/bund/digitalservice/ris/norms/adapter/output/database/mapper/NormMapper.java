@@ -20,8 +20,6 @@ public class NormMapper {
    */
   public static Norm mapToDomain(final NormDto normDto) {
     return Norm.builder().document(XmlMapper.toDocument(normDto.getXml())).build();
-    // TODO: (Malte Laukötter, 2024-04-15) should we assert/validate that the eli and guid are
-    // correct?
   }
 
   /**
