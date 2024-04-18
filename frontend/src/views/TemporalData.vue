@@ -7,7 +7,7 @@ import RisTextButton from "@/components/controls/RisTextButton.vue"
 import dayjs from "dayjs"
 const eli = useEliPathParameter()
 const {
-  htmlContent: mockHtml,
+  htmlContent: entryIntoForceArticleHtml,
   dates: dates,
   update,
 } = useAmendingLawTemporalData(eli)
@@ -28,7 +28,7 @@ async function handleSave() {
 
 <template>
   <div
-    v-if="mockHtml"
+    v-if="entryIntoForceArticleHtml"
     class="grid h-full grid-cols-3 grid-rows-[5rem,1fr] overflow-hidden p-40"
   >
     <div class="col-span-3 mb-40 flex items-center justify-between">
@@ -44,7 +44,10 @@ async function handleSave() {
       v-model:dates="dates"
       class="col-span-1 overflow-auto"
     />
-    <RisLawPreview :content="mockHtml ?? ''" class="col-span-2" />
+    <RisLawPreview
+      :content="entryIntoForceArticleHtml ?? ''"
+      class="col-span-2"
+    />
   </div>
   <div v-else class="p-40">
     <p>Es wurde kein Inkrafttreten-Artikel gefunden.</p>
