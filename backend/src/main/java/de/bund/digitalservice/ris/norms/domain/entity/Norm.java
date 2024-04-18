@@ -113,6 +113,24 @@ public class Norm {
     return articles;
   }
 
+  /**
+   * Returns the GUID of the next version as {@link UUID} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The GUID of the next version of the norm.
+   */
+  public Optional<UUID> getNextVersionGuid() {
+    return NodeParser.getValueFromExpression(
+            "//FRBRExpression/FRBRalias[@name='nachfolgende-version-id']/@value", document)
+        .flatMap(
+            guid -> {
+              try {
+                return Optional.of(UUID.fromString(guid));
+              } catch (IllegalArgumentException e) {
+                return Optional.empty();
+              }
+            });
+  }
+
   @Override
   public boolean equals(Object object) {
     if (this == object) return true;
