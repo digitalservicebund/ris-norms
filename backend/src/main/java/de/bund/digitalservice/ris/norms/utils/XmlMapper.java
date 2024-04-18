@@ -13,10 +13,14 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import net.sf.saxon.TransformerFactoryImpl;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-/** Mapper class for converting between a string containing xml and {@link org.w3c.dom.Document}. */
+/**
+ * Mapper class for converting between a string containing xml and various types of w3c DOM
+ * elements.
+ */
 public class XmlMapper {
 
   // Private constructor to hide the implicit public one and prevent instantiation
@@ -48,18 +52,29 @@ public class XmlMapper {
   }
 
   /**
-   * Maps a {@link Document} to a string.
+   * Maps a string containing xml to a {@link Node}.
    *
-   * @param document The input {@link Document} to be mapped to a string
-   * @return the resulting text representation of the {@link Document}
+   * @param xmlText The input string containing xml to be mapped to a {@link Node}
+   * @return the resulting {@link Node}
    */
-  public static String toString(Document document) {
+  public static Node toNode(String xmlText) {
+    return toDocument(xmlText).getDocumentElement();
+  }
+
+  /**
+   * Maps a {@link Node} to a string. This can also be used for an entire {@link Document}, as a
+   * document is just a more specific version of a node.
+   *
+   * @param node The input {@link Node} to be mapped to a string
+   * @return the resulting text representation of the {@link Node}
+   */
+  public static String toString(Node node) {
     var writer = new StringWriter();
 
     try {
       new TransformerFactoryImpl()
           .newTransformer()
-          .transform(new DOMSource(document), new StreamResult(writer));
+          .transform(new DOMSource(node), new StreamResult(writer));
     } catch (TransformerException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
