@@ -2,8 +2,6 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathExpressionException;
 
 /** Mapper class for converting between {@link AnnouncementDto} and {@link Announcement}. */
 public class AnnouncementMapper {
@@ -30,8 +28,7 @@ public class AnnouncementMapper {
    * @param announcement The input {@link Announcement} to be mapped.
    * @return A new {@link AnnouncementDto} mapped from the input {@link Announcement}.
    */
-  public static AnnouncementDto mapToDto(final Announcement announcement)
-      throws XPathExpressionException, TransformerException {
+  public static AnnouncementDto mapToDto(final Announcement announcement) {
     return AnnouncementDto.builder()
         .releasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt())
         .normDto(NormMapper.mapToDto(announcement.getNorm()))

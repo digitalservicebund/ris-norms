@@ -6,8 +6,6 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.UUID;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathExpressionException;
 import org.junit.jupiter.api.Test;
 
 class NormMapperTest {
@@ -52,7 +50,7 @@ class NormMapperTest {
   }
 
   @Test
-  void itShouldMapToDto() throws XPathExpressionException, TransformerException {
+  void itShouldMapToDto() {
     // Given
     var xml =
         """

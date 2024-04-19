@@ -23,8 +23,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathExpressionException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -531,7 +529,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itFindsNormOnDB() throws XPathExpressionException, TransformerException {
+  void itFindsNormOnDB() {
     // Given
     final String xml =
         """
@@ -569,7 +567,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itFindsAnnouncementOnDB() throws XPathExpressionException, TransformerException {
+  void itFindsAnnouncementOnDB() {
     // Given
     final String xml =
         """
@@ -615,7 +613,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itLoadsAllAnnouncementsFromDB() throws XPathExpressionException, TransformerException {
+  void itLoadsAllAnnouncementsFromDB() {
     // Given
     final String xml1 =
         """
@@ -693,7 +691,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itUpdatesNorm() throws XPathExpressionException, TransformerException {
+  void itUpdatesNorm() {
     // Given
     final String oldXml =
         """
@@ -778,7 +776,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itUpdatesAnnouncement() throws XPathExpressionException, TransformerException {
+  void itUpdatesAnnouncement() {
     // Given
     final String xml =
         """
