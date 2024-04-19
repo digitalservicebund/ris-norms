@@ -115,7 +115,7 @@ public class NormService
             .map(Norm::getArticles)
             .orElse(List.of());
 
-    if (query.refersTo().isEmpty()) {
+    if (query.refersTo() == null) {
       return normArticles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
     } else {
       return normArticles.stream()

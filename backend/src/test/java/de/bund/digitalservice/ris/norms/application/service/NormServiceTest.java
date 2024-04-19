@@ -670,7 +670,7 @@ class NormServiceTest {
 
       // When
       var xmls =
-          service.loadSpecificArticles(new LoadSpecificArticleXmlFromNormUseCase.Query(eli, ""));
+          service.loadSpecificArticles(new LoadSpecificArticleXmlFromNormUseCase.Query(eli, null));
 
       // Then
       verify(loadNormPort, times(1))
