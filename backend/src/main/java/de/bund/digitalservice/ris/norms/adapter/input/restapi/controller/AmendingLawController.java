@@ -313,7 +313,7 @@ public class AmendingLawController {
     final List<Article> articles =
         loadArticlesUseCase.loadArticlesOfAmendingLaw(new LoadArticlesUseCase.Query(eli));
     final List<ArticleResponseSchema> responseSchemas =
-        articles.stream().map(ArticleResponseMapper::fromUseCaseData).toList();
+        articles.stream().map(ArticleResponseMapper::fromArticle).toList();
     return ResponseEntity.ok(responseSchemas);
   }
 
@@ -360,7 +360,7 @@ public class AmendingLawController {
     final Optional<Article> articleOptional =
         loadArticleUseCase.loadArticle(new LoadArticleUseCase.Query(eli, eid));
     return articleOptional
-        .map(ArticleResponseMapper::fromUseCaseData)
+        .map(ArticleResponseMapper::fromArticle)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }

@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
@@ -24,6 +25,7 @@ public class NormService
     implements LoadNormUseCase,
         LoadNormByGuidUseCase,
         LoadNormXmlUseCase,
+        LoadNextVersionOfNormUseCase,
         UpdateNormXmlUseCase,
         LoadSpecificArticleXmlFromNormUseCase {
   private final LoadNormPort loadNormPort;
@@ -55,6 +57,14 @@ public class NormService
         .loadNorm(new LoadNormPort.Command(query.eli()))
         .map(Norm::getDocument)
         .map(XmlMapper::toString);
+  }
+
+  @Override
+  public Optional<Norm> loadNextVersionOfNorm(LoadNextVersionOfNormUseCase.Query query) {
+    return loadNorm(new LoadNormUseCase.Query(query.eli()))
+        .flatMap(Norm::getNextVersionGuid)
+        .flatMap(
+            nextVersionGuid -> loadNormByGuid(new LoadNormByGuidUseCase.Query(nextVersionGuid)));
   }
 
   @Override
