@@ -2,11 +2,13 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,11 @@ import org.springframework.stereotype.Service;
  * component in the Spring context.
  */
 @Service
-public class NormService implements LoadNormUseCase, LoadNormXmlUseCase, UpdateNormXmlUseCase {
+public class NormService
+    implements LoadNormUseCase,
+        LoadNormXmlUseCase,
+        UpdateNormXmlUseCase,
+        LoadSpecificArticleXmlFromNormUseCase {
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
 
@@ -63,5 +69,10 @@ public class NormService implements LoadNormUseCase, LoadNormXmlUseCase, UpdateN
         .updateNorm(new UpdateNormPort.Command(updatedNorm))
         .map(Norm::getDocument)
         .map(XmlMapper::toString);
+  }
+
+  @Override
+  public List<String> loadSpecificArticles(LoadSpecificArticleXmlFromNormUseCase.Query query) {
+    return List.of();
   }
 }

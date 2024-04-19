@@ -4,18 +4,10 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /** Controller for norm-related actions. */
 @RestController
@@ -25,17 +17,20 @@ public class NormController {
 
   private final LoadNormUseCase loadNormUseCase;
   private final LoadNormXmlUseCase loadNormXmlUseCase;
+  private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final UpdateNormXmlUseCase updateNormXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
   public NormController(
       LoadNormUseCase loadNormUseCase,
       LoadNormXmlUseCase loadNormXmlUseCase,
+      LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
       UpdateNormXmlUseCase updateNormXmlUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.updateNormXmlUseCase = updateNormXmlUseCase;
+    this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
   }
 
@@ -81,6 +76,59 @@ public class NormController {
         .map(NormResponseMapper::fromUseCaseData)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Retrieves a norm's articles as html based on its expression ELI. The ELI's components are
+   * interpreted as query parameters.
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param printAnnouncementGazette DE: "Verkündungsblatt"
+   * @param printAnnouncementYear DE "Verkündungsjahr"
+   * @param printAnnouncementPage DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @param refersTo DE: "Artikeltyp"
+   * @return A {@link ResponseEntity} containing the retrieved norm's articles as html.
+   *     <p>Returns HTTP 200 (OK) and the norm if found.
+   *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
+   */
+  @GetMapping(
+      produces = {TEXT_HTML_VALUE},
+      path = "/articles")
+  public ResponseEntity<String> getSpecificArticlesForANorm(
+      @PathVariable final String printAnnouncementGazette,
+      @PathVariable final String printAnnouncementYear,
+      @PathVariable final String printAnnouncementPage,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype,
+      @RequestParam("refersTo") final String refersTo) {
+    final String eli =
+        buildEli(
+            printAnnouncementGazette,
+            printAnnouncementYear,
+            printAnnouncementPage,
+            pointInTime,
+            version,
+            language,
+            subtype);
+
+    String result =
+        loadSpecificArticleXmlFromNormUseCase
+            .loadSpecificArticles(new LoadSpecificArticleXmlFromNormUseCase.Query(eli, refersTo))
+            .stream()
+            .map(
+                xml ->
+                    this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                        new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
+            .reduce("", String::concat);
+    return (result.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
   }
 
   /**
