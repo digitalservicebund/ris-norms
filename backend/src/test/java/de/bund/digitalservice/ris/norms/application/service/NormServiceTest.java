@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUse
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -28,8 +29,10 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
+  final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
-  final NormService service = new NormService(loadNormPort, loadNormByGuidPort, updateNormPort);
+  final NormService service =
+      new NormService(loadNormPort, loadNormByGuidPort, updateNormPort, timeMachineService);
 
   @Nested
   class loadNorm {
@@ -582,6 +585,52 @@ class NormServiceTest {
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
       assertThat(thrown).isInstanceOf(UpdateNormXmlUseCase.InvalidUpdateException.class);
+    }
+  }
+
+  @Nested
+  class applyTimeMachine {
+    @Test
+    void itAppliesTimeMachine() {
+
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+
+      var norm =
+          Norm.builder()
+              .document(
+                  XmlMapper.toDocument(
+                      """
+                            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                                   http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                               <akn:act name="regelungstext">
+                                  <!-- Metadaten -->
+                                  <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                                     <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                                        <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                                           <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                                        </akn:FRBRExpression>
+                                    </akn:identification>
+                                  </akn:meta>
+                               </akn:act>
+                            </akn:akomaNtoso>
+                          """))
+              .build();
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(timeMachineService.apply(any(), any())).thenReturn("<xml>result</xml>");
+
+      // When
+      var xml =
+          service.applyTimeMachine(new TimeMachineUseCase.Query(eli, "<xml>amending-law</xml>"));
+
+      // Then
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(timeMachineService, times(1)).apply(any(), any());
+      assertThat(xml).isPresent();
+      assertThat(xml.get()).isEqualTo("<xml>result</xml>");
     }
   }
 

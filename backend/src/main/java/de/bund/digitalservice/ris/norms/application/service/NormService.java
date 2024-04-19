@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUse
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -27,18 +28,22 @@ public class NormService
         LoadNormXmlUseCase,
         LoadNextVersionOfNormUseCase,
         UpdateNormXmlUseCase,
+        TimeMachineUseCase,
         LoadSpecificArticleXmlFromNormUseCase {
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
+  private final TimeMachineService timeMachineService;
 
   public NormService(
       LoadNormPort loadNormPort,
       LoadNormByGuidPort loadNormByGuidPort,
-      UpdateNormPort updateNormPort) {
+      UpdateNormPort updateNormPort,
+      TimeMachineService timeMachineService) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
+    this.timeMachineService = timeMachineService;
   }
 
   @Override
@@ -92,6 +97,12 @@ public class NormService
         .updateNorm(new UpdateNormPort.Command(updatedNorm))
         .map(Norm::getDocument)
         .map(XmlMapper::toString);
+  }
+
+  @Override
+  public Optional<String> applyTimeMachine(TimeMachineUseCase.Query query) {
+    return loadNormXml(new LoadNormXmlUseCase.Query(query.targetLawEli()))
+        .map(targetNormXml -> timeMachineService.apply(query.amendingLawXml(), targetNormXml));
   }
 
   @Override

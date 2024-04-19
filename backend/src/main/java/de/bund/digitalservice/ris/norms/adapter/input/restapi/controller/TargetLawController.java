@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class TargetLawController {
       LoadTargetLawUseCase loadTargetLawUseCase,
       LoadTargetLawXmlUseCase loadTargetLawXmlUseCase,
       UpdateTargetLawUseCase updateTargetLawUseCase,
-      TimeMachineUseCase timeMachineUseCase,
+      @Qualifier("targetLawService") TimeMachineUseCase timeMachineUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
     this.loadTargetLawUseCase = loadTargetLawUseCase;
     this.loadTargetLawXmlUseCase = loadTargetLawXmlUseCase;

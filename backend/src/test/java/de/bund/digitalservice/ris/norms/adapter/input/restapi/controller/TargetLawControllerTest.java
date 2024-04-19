@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -46,7 +47,11 @@ class TargetLawControllerTest {
 
   @MockBean private LoadTargetLawUseCase loadTargetLawUseCase;
   @MockBean private LoadTargetLawXmlUseCase loadTargetLawXmlUseCase;
-  @MockBean private TimeMachineUseCase timeMachineUseCase;
+
+  @MockBean
+  @Qualifier("targetLawService")
+  private TimeMachineUseCase timeMachineUseCase;
+
   @MockBean private UpdateTargetLawUseCase updateTargetLawUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
