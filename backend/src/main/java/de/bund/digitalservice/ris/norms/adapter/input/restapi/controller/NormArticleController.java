@@ -79,6 +79,63 @@ public class NormArticleController {
             .toList());
   }
 
+  /**
+   * Retrieves an article of a norm based on the norms expression ELI and the articles eid. The
+   * ELI's components are interpreted as query parameters.
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param agent DE: "Verkündungsblatt"
+   * @param year DE "Verkündungsjahr"
+   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @param eid eid of the article
+   * @return A {@link ResponseEntity} containing the retrieved norm.
+   *     <p>Returns HTTP 200 (OK) and the norm if found.
+   *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
+   */
+  @GetMapping(
+      path = "/{eid}",
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<ArticleResponseSchema> getArticle(
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype,
+      @PathVariable final String eid) {
+    final String eli =
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    var optionalArticle =
+        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
+            .flatMap(List::stream)
+            .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
+            .findFirst();
+
+    if (optionalArticle.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    var article = optionalArticle.get();
+    var targetLawZf0 =
+        article
+            .getAffectedDocumentEli()
+            .flatMap(
+                affectedDocumentEli ->
+                    loadNextVersionOfNormUseCase.loadNextVersionOfNorm(
+                        new LoadNextVersionOfNormUseCase.Query(affectedDocumentEli)))
+            .orElse(null);
+
+    return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(article, targetLawZf0));
+  }
+
   @NotNull
   private static String buildEli(
       String agent,
