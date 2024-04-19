@@ -629,8 +629,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(timeMachineService, times(1)).apply(any(), any());
-      assertThat(xml).isPresent();
-      assertThat(xml.get()).isEqualTo("<xml>result</xml>");
+      assertThat(xml).isPresent().contains("<xml>result</xml>");
     }
   }
 

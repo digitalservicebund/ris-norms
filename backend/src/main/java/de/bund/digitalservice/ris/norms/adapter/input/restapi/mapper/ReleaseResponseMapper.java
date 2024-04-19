@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReleaseResponseMapper {
 
+  // Private constructor to hide the implicit public one and prevent instantiation
+  private ReleaseResponseMapper() {}
+
   /**
    * Creates a {@link ReleaseResponseSchema} instance from an {@link Announcement} entity and the
    * affected {@link Norm}s.
