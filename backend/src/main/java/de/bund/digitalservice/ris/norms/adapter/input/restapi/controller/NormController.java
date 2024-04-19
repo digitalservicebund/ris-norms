@@ -106,7 +106,7 @@ public class NormController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @RequestParam("refersTo") final String refersTo) {
+      @RequestParam(required = false, name = "refersTo") final String refersTo) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 

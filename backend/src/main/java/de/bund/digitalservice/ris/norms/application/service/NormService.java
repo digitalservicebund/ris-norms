@@ -11,8 +11,10 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormArticle;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -107,12 +109,19 @@ public class NormService
 
   @Override
   public List<String> loadSpecificArticles(LoadSpecificArticleXmlFromNormUseCase.Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(Norm::getArticles)
-        .orElse(List.of())
-        .stream()
-        .map(a -> XmlMapper.toString(a.getNode()))
-        .toList();
+    List<NormArticle> normArticles =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .map(Norm::getArticles)
+            .orElse(List.of());
+
+    if (query.refersTo().isEmpty()) {
+      return normArticles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
+    } else {
+      return normArticles.stream()
+          .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
+          .map(a -> XmlMapper.toString(a.getNode()))
+          .toList();
+    }
   }
 }

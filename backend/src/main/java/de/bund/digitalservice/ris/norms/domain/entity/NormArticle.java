@@ -62,4 +62,14 @@ public class NormArticle {
   public Optional<String> getAffectedDocumentEli() {
     return NodeParser.getValueFromExpression(".//affectedDocument/@href", this.node);
   }
+
+  /**
+   * Returns the refersTo attribute of the affected article as {@link String} from a {@link Node} in
+   * a {@link Norm}.
+   *
+   * @return The ELI of the affected document of the article
+   */
+  public Optional<String> getRefersTo() {
+    return NodeParser.getValueFromExpression("./@refersTo", this.node);
+  }
 }
