@@ -32,10 +32,7 @@ public class NormArticle {
    * @return The enumeration of the article
    */
   public Optional<String> getEnumeration() {
-    // not(normalize-space() is needed to filter out whitespaces which occur due to inner nodes
-    // like akn:marker
-    return NodeParser.getValueFromExpression(
-        "./num/text()[not(normalize-space() = '')]", this.node);
+    return NodeParser.getValueFromExpression("./num/marker/@name", this.node);
   }
 
   /**

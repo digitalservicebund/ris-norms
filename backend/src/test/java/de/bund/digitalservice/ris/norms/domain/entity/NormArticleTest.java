@@ -38,13 +38,12 @@ class NormArticleTest {
                 """;
 
     var article = new NormArticle(toNode(articleString));
-    var expectedEnumeration = "Artikel 1";
 
     // when
-    var enumeration = article.getEnumeration().get();
+    var enumeration = article.getEnumeration();
 
     // then
-    assertThat(enumeration).contains(expectedEnumeration);
+    assertThat(enumeration).contains("1");
   }
 
   @Test
