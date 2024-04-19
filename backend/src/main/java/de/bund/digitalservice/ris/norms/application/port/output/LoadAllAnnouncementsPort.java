@@ -9,8 +9,7 @@ public interface LoadAllAnnouncementsPort {
   /**
    * Loads all {@link Announcement}s available in the system.
    *
-   * @return A {@link List} of {@link Announcement}, which may be empty if no Announcement are
-   *     found.
+   * @return A {@link List} of {@link Announcement}, which may be empty if no Announcement is found.
    */
   List<Announcement> loadAllAnnouncements();
 }
