@@ -21,8 +21,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDoc
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTargetLawUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TargetLaw;
-import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

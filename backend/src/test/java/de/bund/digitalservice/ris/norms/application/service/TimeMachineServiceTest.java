@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

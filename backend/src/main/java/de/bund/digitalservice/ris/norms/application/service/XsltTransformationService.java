@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
-import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;

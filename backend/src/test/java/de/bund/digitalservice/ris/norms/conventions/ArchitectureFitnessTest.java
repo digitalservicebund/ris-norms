@@ -15,7 +15,6 @@ import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import com.tngtech.archunit.library.dependencies.SliceRule;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,6 +44,7 @@ class ArchitectureFitnessTest {
   static final String ENTITY_LAYER_PACKAGES = BASE_PACKAGE + ".domain.entity";
   static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value";
   static final String EXCEPTIONS_LAYER_PACKAGES = BASE_PACKAGE + ".domain.exceptions";
+  static final String UTILS_LAYER_PACKAGES = BASE_PACKAGE + ".utils..";
 
   @BeforeAll
   static void setUp() {
@@ -65,16 +65,10 @@ class ArchitectureFitnessTest {
   }
 
   @Test
-  void domainClassesShouldOnlyDependOnDomainOrSpecificStandardLibraries() {
+  void domainClassesShouldOnlyDependOnDomainUtilsOrSpecificStandardLibraries() {
     final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
         new String[] {
-          "kotlin..",
-          "java..",
-          "javax.xml.xpath..",
-          "org.jetbrains.annotations..",
-          "lombok..",
-          "de.bund.digitalservice.ris.norms.utils",
-          "org.w3c.dom.."
+          "kotlin..", "java..", "org.jetbrains.annotations..", "lombok..", "org.w3c.dom.."
         };
 
     ArchRule rule =
@@ -84,22 +78,37 @@ class ArchitectureFitnessTest {
             .should(
                 onlyDependOnClassesThat(
                     resideInAPackage(DOMAIN_LAYER_PACKAGES)
+                        .or(resideInAPackage(UTILS_LAYER_PACKAGES))
                         .or(
                             JavaClass.Predicates.resideInAnyPackage(
-                                DOMAIN_LAYER_ALLOWED_PACKAGES))))
-            .orShould(
-                // the hashCode method of the Norm class needs to parse the w3c.dom.Document to a
-                // string and for this we need some additional libraries
-                be(Norm.class)
-                    .and(
-                        onlyDependOnClassesThat(
-                            resideInAPackage(DOMAIN_LAYER_PACKAGES)
-                                .or(
-                                    JavaClass.Predicates.resideInAnyPackage(
-                                        DOMAIN_LAYER_ALLOWED_PACKAGES))
-                                .or(
-                                    JavaClass.Predicates.resideInAnyPackage(
-                                        "net.sf.saxon..", "javax.xml.transform..")))));
+                                DOMAIN_LAYER_ALLOWED_PACKAGES))));
+    rule.check(classes);
+  }
+
+  @Test
+  void utilsClassesShouldOnlyDependOnUtilsOrSpecificStandardLibraries() {
+    final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
+        new String[] {
+          "kotlin..",
+          "java..",
+          "javax.xml..",
+          "org.jetbrains.annotations..",
+          "lombok..",
+          "org.w3c.dom..",
+          "net.sf.saxon..",
+          "org.xml.sax..",
+        };
+
+    ArchRule rule =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage(UTILS_LAYER_PACKAGES)
+            .should(
+                onlyDependOnClassesThat(
+                    resideInAPackage(UTILS_LAYER_PACKAGES)
+                        .or(
+                            JavaClass.Predicates.resideInAnyPackage(
+                                UTILITY_LAYER_ALLOWED_PACKAGES))));
     rule.check(classes);
   }
 
@@ -221,6 +230,8 @@ class ArchitectureFitnessTest {
             .resideInAPackage(DOMAIN_LAYER_PACKAGES)
             .orShould()
             .resideInAnyPackage(APPLICATION_LAYER_PACKAGES)
+            .orShould()
+            .resideInAnyPackage(UTILS_LAYER_PACKAGES)
             .orShould()
             .resideInAnyPackage("kotlin..", "java..", "org.jetbrains.annotations..")
             .orShould()

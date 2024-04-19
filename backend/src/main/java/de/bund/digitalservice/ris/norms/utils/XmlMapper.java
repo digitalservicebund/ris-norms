@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.utils;
 
-import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
