@@ -73,6 +73,12 @@ public class NormService
 
   @Override
   public List<String> loadSpecificArticles(LoadSpecificArticleXmlFromNormUseCase.Query query) {
-    return List.of();
+    return loadNormPort
+        .loadNorm(new LoadNormPort.Command(query.eli()))
+        .map(Norm::getArticles)
+        .orElse(List.of())
+        .stream()
+        .map(a -> XmlMapper.toString(a.getNode()))
+        .toList();
   }
 }
