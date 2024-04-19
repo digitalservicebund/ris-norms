@@ -2,14 +2,12 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAnnouncementsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormArticle;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -50,27 +48,16 @@ public class AnnouncementService
   @Override
   public List<Norm> loadTargetNormsAffectedByAnnouncement(
       LoadTargetNormsAffectedByAnnouncementUseCase.Query query) {
-    var articles =
-        this.loadAnnouncement(new LoadAnnouncementUseCase.Query(query.eli()))
-            .map(Announcement::getNorm)
-            .map(Norm::getArticles)
-            .stream()
-            .flatMap(List::stream)
-            .toList();
-
-    return articles.stream()
-        .map(this::loadNextVersionOfAffectedDocument)
-        .flatMap(Optional::stream)
-        .toList();
-  }
-
-  private Optional<Norm> loadNextVersionOfAffectedDocument(NormArticle article) {
-    return article
-        .getAffectedDocumentEli()
+    return this.loadAnnouncement(new LoadAnnouncementUseCase.Query(query.eli())).stream()
+        .map(Announcement::getNorm)
+        .flatMap(norm -> norm.getArticles().stream())
+        .flatMap(article -> article.getAffectedDocumentEli().stream())
         .flatMap(
             affectedDocumentEli ->
-                normService.loadNorm(new LoadNormUseCase.Query(affectedDocumentEli)))
-        .flatMap(Norm::getNextVersionGuid)
-        .flatMap(zf0Guid -> normService.loadNormByGuid(new LoadNormByGuidUseCase.Query(zf0Guid)));
+                normService
+                    .loadNextVersionOfNorm(
+                        new LoadNextVersionOfNormUseCase.Query(affectedDocumentEli))
+                    .stream())
+        .toList();
   }
 }
