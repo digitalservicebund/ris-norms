@@ -13809,11 +13809,11 @@ VALUES ('6ae442b5-6601-4a72-bfa2-50a059348cb3', 'eli/bund/bgbl-1/1964/s593/2017-
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
                               GUID="400bbb40-67aa-4cd3-b8b3-6c811947e8bd"
                               name="vorherige-version-id"
-                              value="052b9279-343e-4a6d-901f-74c4e9c6d2ae"/>
+                              value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
                               GUID="6ae442b5-6601-4a72-bfa2-50a059348cb3"
                               name="aktuelle-version-id"
-                              value="b2414c09-5e56-4ceb-87ba-ee9f644f7a90"/>
+                              value="a0bdb90e-31ca-4a48-b773-89cf858208fa"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3"
                               GUID="a1e5c767-7742-4edd-a0ca-52318cb555ba"
                               name="nachfolgende-version-id"
@@ -28114,7 +28114,7 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
                               GUID="400bbb40-67aa-4cd3-b8b3-6c811947e8bd"
                               name="vorherige-version-id"
-                              value="052b9279-343e-4a6d-901f-74c4e9c6d2ae"/>
+                              value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
                               GUID="6ae442b5-6601-4a72-bfa2-50a059348cb3"
                               name="aktuelle-version-id"
