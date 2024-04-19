@@ -3,7 +3,7 @@ flyway = "10.11.0"
 # @keep
 jacoco = "0.8.11"
 org-testcontainers = "1.19.7"
-spring-boot = "3.2.4"
+spring-boot = "3.2.5"
 
 [libraries]
 # CVE-2024-26308
