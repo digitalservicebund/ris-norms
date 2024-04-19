@@ -1,17 +1,12 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.exceptions.XmlProcessingException;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import java.io.StringWriter;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import net.sf.saxon.TransformerFactoryImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -120,25 +115,15 @@ public class Norm {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Norm norm = (Norm) o;
+  public boolean equals(Object object) {
+    if (this == object) return true;
+    if (object == null || getClass() != object.getClass()) return false;
+    Norm norm = (Norm) object;
     return document.isEqualNode(norm.document);
   }
 
   @Override
   public int hashCode() {
-    var writer = new StringWriter();
-
-    try {
-      new TransformerFactoryImpl()
-          .newTransformer()
-          .transform(new DOMSource(document), new StreamResult(writer));
-    } catch (TransformerException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
-
-    return Objects.hash(writer.toString());
+    return Objects.hash(XmlMapper.toString(document));
   }
 }
