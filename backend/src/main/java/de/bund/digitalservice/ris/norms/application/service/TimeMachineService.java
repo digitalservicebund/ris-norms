@@ -1,23 +1,10 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 /**
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
@@ -44,8 +31,8 @@ public class TimeMachineService {
    */
   public String apply(final String amendingLawString, final String targetLawString) {
 
-    final Document amendingLaw = stringToXmlDocument(amendingLawString);
-    final Document targetLaw = stringToXmlDocument(targetLawString);
+    final Document amendingLaw = XmlMapper.toDocument(amendingLawString);
+    final Document targetLaw = XmlMapper.toDocument(targetLawString);
 
     final Node firstModificationNodeInAmendingLaw =
         xmlDocumentService.getFirstModification(amendingLaw);
@@ -53,7 +40,7 @@ public class TimeMachineService {
     final Document appliedTargetLaw =
         applyOneSubstitutionModification(firstModificationNodeInAmendingLaw, targetLaw);
 
-    return convertDocumentToString(appliedTargetLaw);
+    return XmlMapper.toString(appliedTargetLaw);
   }
 
   /**
@@ -82,44 +69,6 @@ public class TimeMachineService {
     } catch (NullPointerException e) {
       throw new XmlProcessingException(
           "Target Law could not be modified since there is no according paragraph found", e);
-    }
-  }
-
-  private Document stringToXmlDocument(String xmlText) {
-
-    final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-    // XXE vulnerability hardening, cf. https://www.sonarsource.com/blog/secure-xml-processor/
-    try {
-      factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-
-      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-      factory.setExpandEntityReferences(false);
-
-      final DocumentBuilder builder = factory.newDocumentBuilder();
-      final InputSource is = new InputSource(new StringReader(xmlText));
-      return builder.parse(is);
-    } catch (ParserConfigurationException | SAXException | IOException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
-  }
-
-  private String convertDocumentToString(Document doc) {
-    try {
-      final DOMSource domSource = new DOMSource(doc);
-      final StringWriter writer = new StringWriter();
-      final StreamResult result = new StreamResult(writer);
-
-      final TransformerFactory factory = TransformerFactory.newInstance();
-      // Disable the use of external general and parameter entities to prevent XXE attacks
-      factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-      factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
-
-      final Transformer transformer = factory.newTransformer();
-      transformer.transform(domSource, result);
-      return writer.toString();
-    } catch (TransformerException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
     }
   }
 }
