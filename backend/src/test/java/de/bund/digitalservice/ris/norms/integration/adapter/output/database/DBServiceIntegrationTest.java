@@ -102,14 +102,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         dbService.loadAmendingLawByEli(new LoadAmendingLawPort.Command(eli));
 
     // Then
-    assertThat(amendingLawOptional)
-        .isPresent()
-        .satisfies(
-            amendingLawDb -> {
-              assertThat(amendingLawDb).contains(amendingLaw);
-              assertThat(amendingLawDb.get().getArticles())
-                  .containsExactlyInAnyOrderElementsOf(amendingLaw.getArticles());
-            });
+    assertThat(amendingLawOptional).isPresent().contains(amendingLaw);
   }
 
   @Test
@@ -288,9 +281,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         dbService.loadArticleByEliAndEid(new LoadArticlePort.Command(eli, article2.getEid()));
 
     // Then
-    assertThat(articleOptional)
-        .isPresent()
-        .satisfies(article -> assertThat(article).contains(article2));
+    assertThat(articleOptional).isPresent().contains(article2);
   }
 
   @Test
@@ -312,9 +303,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         dbService.loadTargetLawByEli(new LoadTargetLawPort.Command(eli));
 
     // Then
-    assertThat(targetLawOptional)
-        .isPresent()
-        .satisfies(targetlawDb -> assertThat(targetlawDb).contains(targetLaw));
+    assertThat(targetLawOptional).isPresent().contains(targetLaw);
   }
 
   @Test
@@ -349,9 +338,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         dbService.loadTargetLawXmlByEli(new LoadTargetLawXmlPort.Command(eli));
 
     // Then
-    assertThat(targetLawXmlOptional)
-        .isPresent()
-        .satisfies(xmlDb -> assertThat(xmlDb).contains(xml));
+    assertThat(targetLawXmlOptional).isPresent().contains(xml);
   }
 
   @Test
@@ -386,7 +373,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         dbService.loadAmendingLawXmlByEli(new LoadAmendingLawXmlPort.Command(eli));
 
     // Then
-    assertThat(xmlOptional).isPresent().satisfies(xmlDb -> assertThat(xmlDb).contains(xml));
+    assertThat(xmlOptional).isPresent().contains(xml);
   }
 
   @Test
@@ -422,9 +409,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         dbService.updateAmendingLawXmlByEli(new UpdateAmendingLawXmlPort.Command(eli, newXml));
 
     // Then
-    assertThat(updatedXmlOptional)
-        .isPresent()
-        .satisfies(updatedXml -> assertThat(updatedXml).contains(newXml));
+    assertThat(updatedXmlOptional).isPresent().contains(newXml);
   }
 
   @Test
@@ -450,9 +435,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
         dbService.updateTargetLawXmlByEli(new UpdateTargetLawXmlPort.Command(eli, newXml));
 
     // Then
-    assertThat(updatedXmlOptional)
-        .isPresent()
-        .satisfies(updatedXml -> assertThat(updatedXml).contains(newXml));
+    assertThat(updatedXmlOptional).isPresent().contains(newXml);
   }
 
   @Test
@@ -563,7 +546,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
     // Then
-    assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+    assertThat(normOptional).isPresent().contains(norm);
   }
 
   @Test
@@ -607,9 +590,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
                 "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
     // Then
-    assertThat(announcementOptional)
-        .isPresent()
-        .satisfies(announcementDb -> assertThat(announcementDb).contains(announcement));
+    assertThat(announcementOptional).isPresent().contains(announcement);
   }
 
   @Test
