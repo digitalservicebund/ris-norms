@@ -98,16 +98,15 @@ public class Norm {
    * @return The list of articles
    */
   public List<NormArticle> getArticles() {
-    final Optional<NodeList> allArticles =
-        NodeParser.getNodesFromExpression("//body/article", document);
-    if (allArticles.isEmpty()) {
+    final NodeList allArticles = NodeParser.getNodesFromExpression("//body/article", document);
+    if (allArticles.getLength() == 0) {
       return List.of();
     }
 
     List<NormArticle> articles = new ArrayList<>();
 
-    for (int i = 0; i < allArticles.get().getLength(); i++) {
-      final Node articleNode = allArticles.get().item(i);
+    for (int i = 0; i < allArticles.getLength(); i++) {
+      final Node articleNode = allArticles.item(i);
       NormArticle newArticle = NormArticle.builder().node(articleNode).build();
       articles.add(newArticle);
     }
