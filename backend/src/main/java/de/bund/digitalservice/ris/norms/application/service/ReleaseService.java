@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncement
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAmendingLawPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.AmendingLaw;
+import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import java.time.Instant;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ import org.springframework.stereotype.Service;
  * component in the Spring context.
  */
 @Service
-public class ReleaseService implements ReleaseAmendingLawAndAllRelatedTargetLawsUseCase {
+public class ReleaseService
+    implements ReleaseAmendingLawAndAllRelatedTargetLawsUseCase, ReleaseAnnouncementUseCase {
   private final LoadAmendingLawPort loadAmendingLawPort;
   private final LoadAnnouncementPort loadAnnouncementPort;
   private final UpdateAmendingLawPort updateAmendingLawPort;
@@ -34,7 +36,8 @@ public class ReleaseService implements ReleaseAmendingLawAndAllRelatedTargetLaws
   }
 
   @Override
-  public Optional<AmendingLaw> releaseAmendingLaw(Query query) {
+  public Optional<AmendingLaw> releaseAmendingLaw(
+      ReleaseAmendingLawAndAllRelatedTargetLawsUseCase.Query query) {
     var announcementOptional =
         loadAnnouncementPort.loadAnnouncement(new LoadAnnouncementPort.Command(query.eli()));
     announcementOptional.ifPresent(
@@ -54,5 +57,28 @@ public class ReleaseService implements ReleaseAmendingLawAndAllRelatedTargetLaws
           return updateAmendingLawPort.updateAmendingLaw(
               new UpdateAmendingLawPort.Command(amendingLaw));
         });
+  }
+
+  @Override
+  public Optional<Announcement> releaseAnnouncement(ReleaseAnnouncementUseCase.Query query) {
+    loadAmendingLawPort
+        .loadAmendingLawByEli(new LoadAmendingLawPort.Command(query.eli()))
+        .ifPresent(
+            amendingLaw -> {
+              amendingLaw.setReleasedAt(Instant.now());
+
+              updateAmendingLawPort.updateAmendingLaw(
+                  new UpdateAmendingLawPort.Command(amendingLaw));
+            });
+
+    return loadAnnouncementPort
+        .loadAnnouncement(new LoadAnnouncementPort.Command(query.eli()))
+        .flatMap(
+            announcement -> {
+              announcement.setReleasedByDocumentalistAt(Instant.now());
+
+              return updateAnnouncementPort.updateAnnouncement(
+                  new UpdateAnnouncementPort.Command(announcement));
+            });
   }
 }

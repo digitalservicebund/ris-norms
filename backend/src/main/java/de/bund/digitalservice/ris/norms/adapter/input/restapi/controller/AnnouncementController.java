@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResp
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,15 +30,18 @@ public class AnnouncementController {
   private final LoadAnnouncementUseCase loadAnnouncementUseCase;
   private final LoadTargetNormsAffectedByAnnouncementUseCase
       loadTargetNormsAffectedByAnnouncementUseCase;
+  private final ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
 
   public AnnouncementController(
       LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase,
       LoadAnnouncementUseCase loadAnnouncementUseCase,
-      LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase) {
+      LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase,
+      ReleaseAnnouncementUseCase releaseAnnouncementUseCase) {
     this.loadAllAnnouncementsUseCase = loadAllAnnouncementsUseCase;
     this.loadAnnouncementUseCase = loadAnnouncementUseCase;
     this.loadTargetNormsAffectedByAnnouncementUseCase =
         loadTargetNormsAffectedByAnnouncementUseCase;
+    this.releaseAnnouncementUseCase = releaseAnnouncementUseCase;
   }
 
   /**
@@ -96,6 +101,52 @@ public class AnnouncementController {
 
     return loadAnnouncementUseCase
         .loadAnnouncement(new LoadAnnouncementUseCase.Query(eli))
+        .map(announcement -> ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms))
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Releases an {@link Announcement} (and all related {@link Norm}'s) based on its {@link Norm}'s
+   * expression ELI. The ELI's components are interpreted as query parameters.
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param agent DE: "Verkündungsblatt"
+   * @param year DE "Verkündungsjahr"
+   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @return A {@link ResponseEntity} containing the created release.
+   *     <p>Returns HTTP 200 (OK) and the release was successful.
+   *     <p>Returns HTTP 404 (Not Found) if no {@link Announcement} is found.
+   */
+  @PutMapping(
+      path =
+          "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<ReleaseResponseSchema> putRelease(
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype) {
+    final String eli =
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    var announcementOptional =
+        releaseAnnouncementUseCase.releaseAnnouncement(new ReleaseAnnouncementUseCase.Query(eli));
+
+    var affectedNorms =
+        loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
+            new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli));
+
+    return announcementOptional
         .map(announcement -> ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms))
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
