@@ -112,6 +112,12 @@ paths:
           description: eli of the norm
           schema:
             type: string
+        - in: query
+          name: showMetadata
+          schema:
+            type: boolean
+            default: false
+          description: "Should the metadata table be included? (only for Content-Type: text/html)"
       responses:
         '200':
           description: Successful response

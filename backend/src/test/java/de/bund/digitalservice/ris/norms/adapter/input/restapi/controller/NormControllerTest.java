@@ -150,7 +150,30 @@ class NormControllerTest {
           .andExpect(content().string(html));
 
       verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));
+          .transformLegalDocMlToHtml(
+              argThat(query -> query.xml().equals(xml) && !query.showMetadata()));
+    }
+
+    @Test
+    void itCallsNormServiceAndReturnsNormRenderWithMetadata() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<akn:doc></akn:doc>";
+      final String html = "<div></div>";
+
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+
+      // When // Then
+      mockMvc
+          .perform(get("/api/v1/norms/{eli}?showMetadata=true", eli).accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+          .andExpect(content().string(html));
+
+      verify(transformLegalDocMlToHtmlUseCase, times(1))
+          .transformLegalDocMlToHtml(
+              argThat(query -> query.xml().equals(xml) && query.showMetadata()));
     }
   }
 

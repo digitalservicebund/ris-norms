@@ -172,6 +172,7 @@ public class NormController {
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
+   * @param showMetadata Boolean indicating whether to include metadata in the HTML response.
    * @return A {@link ResponseEntity} containing the retrieved norm as rendered html.
    *     <p>Returns HTTP 200 (OK) and the norm as rendered html.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
@@ -184,7 +185,8 @@ public class NormController {
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
-      @PathVariable final String subtype) {
+      @PathVariable final String subtype,
+      @RequestParam(defaultValue = "false") boolean showMetadata) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
@@ -194,7 +196,7 @@ public class NormController {
             xml ->
                 ResponseEntity.ok(
                     this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(xml, false))))
+                        new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata))))
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
