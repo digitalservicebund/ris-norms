@@ -28,6 +28,12 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     exclude: [...configDefaults.exclude, "e2e/**/*.spec.ts"],
+    css: {
+      // Needed so we can reliably test for class names for CSS modules.
+      // Otherwise scoped CSS classes would have an unreliable hash
+      // attached to the class name.
+      modules: { classNameStrategy: "non-scoped" },
+    },
     coverage: {
       provider: "v8",
       reporter: ["lcov"],
