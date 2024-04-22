@@ -5,7 +5,10 @@ import dayjs from "dayjs"
 
 describe("YourComponent", () => {
   it("renders the correct number of date inputs and checks their values", async () => {
-    const dates = ["2023-01-01", "2023-02-01"]
+    const dates = [
+      { date: "2023-01-01", eid: "event-1" },
+      { date: "2023-02-01", eid: "event-2" },
+    ]
     render(RisTemporalDataIntervals, {
       props: { dates },
     })
@@ -15,7 +18,7 @@ describe("YourComponent", () => {
 
     inputs.forEach((input, index) => {
       const inputElement = input as HTMLInputElement
-      const expectedValue = dayjs(dates[index]).format("DD.MM.YYYY")
+      const expectedValue = dayjs(dates[index].date).format("DD.MM.YYYY")
       expect(inputElement.value).toBe(expectedValue)
     })
   })

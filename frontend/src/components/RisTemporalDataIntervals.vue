@@ -6,29 +6,32 @@ import DeleteOutlineIcon from "~icons/ic/outline-delete"
 import SortOutlineIcon from "~icons/ic/outline-arrow-downward"
 import dayjs from "dayjs"
 
+interface DateEntry {
+  date: string
+  eid: string
+}
+
 const dates = defineModel("dates", {
-  type: Array as () => string[],
+  type: Array as () => DateEntry[],
   default: () => [],
 })
-const newDate = ref()
+const newDate = ref<string | undefined>()
 
-function removeDateInput(index: number, event: Event) {
-  event.stopPropagation()
+function removeDateInput(index: number) {
   if (index > -1) {
     dates.value.splice(index, 1)
   }
 }
 
-watch(
-  newDate,
-  (newValue) => {
-    if (newValue && dayjs(newValue, "YYYY-MM-DD", true).isValid()) {
-      dates.value.push(newValue)
-      newDate.value = ""
-    }
-  },
-  { immediate: true },
-)
+watch(newDate, (newDateValue) => {
+  if (newDateValue && dayjs(newDateValue, "YYYY-MM-DD", true).isValid()) {
+    dates.value.push({
+      date: newDateValue,
+      eid: "",
+    })
+    newDate.value = undefined
+  }
+})
 </script>
 
 <template>
@@ -42,7 +45,7 @@ watch(
     </div>
     <form class="p-10">
       <div class="flex flex-col space-y-4">
-        <div v-for="(date, index) in dates" :key="date" class="mb-4">
+        <div v-for="(dateEntry, index) in dates" :key="index" class="mb-4">
           <div class="flex items-center justify-between">
             <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
             <label :for="'date-' + index" class="w-96 flex-none"
@@ -50,7 +53,7 @@ watch(
             >
             <RisDateInput
               :id="'date-' + index"
-              v-model="dates[index]"
+              v-model="dateEntry.date"
               size="small"
               data-testid="date-input-field"
             />
@@ -61,7 +64,7 @@ watch(
               label="Löschen"
               type="button"
               icon-only
-              @click="removeDateInput(index, $event)"
+              @click.prevent="removeDateInput(index)"
             />
           </div>
         </div>
