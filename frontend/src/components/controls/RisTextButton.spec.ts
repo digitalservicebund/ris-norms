@@ -61,6 +61,7 @@ describe("RisTextButton", () => {
     expect(button).not.toHaveClass("ds-button-secondary")
     expect(button).not.toHaveClass("ds-button-tertiary")
     expect(button).not.toHaveClass("ds-button-ghost")
+    expect(button).not.toHaveClass("ds-button-link")
   })
 
   test("shows the secondary variant", () => {
@@ -72,6 +73,7 @@ describe("RisTextButton", () => {
     expect(button).toHaveClass("ds-button-secondary")
     expect(button).not.toHaveClass("ds-button-tertiary")
     expect(button).not.toHaveClass("ds-button-ghost")
+    expect(button).not.toHaveClass("ds-button-link")
   })
 
   test("shows the tertiary variant", () => {
@@ -83,6 +85,7 @@ describe("RisTextButton", () => {
     expect(button).not.toHaveClass("ds-button-secondary")
     expect(button).toHaveClass("ds-button-tertiary")
     expect(button).not.toHaveClass("ds-button-ghost")
+    expect(button).not.toHaveClass("ds-button-link")
   })
 
   test("shows the ghost variant", () => {
@@ -94,6 +97,19 @@ describe("RisTextButton", () => {
     expect(button).not.toHaveClass("ds-button-secondary")
     expect(button).not.toHaveClass("ds-button-tertiary")
     expect(button).toHaveClass("ds-button-ghost")
+    expect(button).not.toHaveClass("ds-button-link")
+  })
+
+  test("shows the link variant", () => {
+    const { getByRole } = render(RisTextButton, {
+      props: { label: "Test", variant: "link" },
+    })
+
+    const button = getByRole("button")
+    expect(button).not.toHaveClass("ds-button-secondary")
+    expect(button).not.toHaveClass("ds-button-tertiary")
+    expect(button).not.toHaveClass("ds-button-ghost")
+    expect(button).toHaveClass("ds-button-link")
   })
 
   test("shows the primary variant by default", () => {
@@ -105,6 +121,7 @@ describe("RisTextButton", () => {
     expect(button).not.toHaveClass("ds-button-secondary")
     expect(button).not.toHaveClass("ds-button-tertiary")
     expect(button).not.toHaveClass("ds-button-ghost")
+    expect(button).not.toHaveClass("ds-button-link")
   })
 
   test("uses the default size", () => {
