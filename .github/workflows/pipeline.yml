@@ -68,7 +68,7 @@ jobs:
          with:
            environment: staging
            version: ${{ github.sha }}
-           deploying_repo: ris-norms/backend
+           deploying_repo: ris-norms
            infra_repo: ris-norms-infra
            deploy_key: ${{ secrets.DEPLOY_KEY }}
            app: ris-norms-staging
