@@ -19,7 +19,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -42,10 +41,7 @@ class NormControllerTest {
   @MockBean private UpdateNormXmlUseCase updateNormXmlUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
-
-  @MockBean
-  @Qualifier("normService")
-  private TimeMachineUseCase timeMachineUseCase;
+  @MockBean private TimeMachineUseCase timeMachineUseCase;
 
   @Nested
   class getNorm {
