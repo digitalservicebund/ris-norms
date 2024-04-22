@@ -20,7 +20,7 @@ test(`see affected document title and xml`, async ({ page }) => {
   await expect(
     page.getByRole("heading", {
       level: 1,
-      name: "Gesetz zur Regelungs des öffenltichen Vereinsrechts (ZF0)",
+      name: "Gesetz zur Regelungs des öffenltichen Vereinsrechts",
     }),
   ).toBeVisible()
 
@@ -28,7 +28,7 @@ test(`see affected document title and xml`, async ({ page }) => {
   const targetLawEditor = page
     .getByRole("region", { name: "Geändertes Gesetz" })
     .getByText(
-      '<akn:meta eId="meta-1" GUID="849a7fcc-fa01-4b64-92d9-4843520d5db1">',
+      '<akn:meta GUID="849a7fcc-fa01-4b64-92d9-4843520d5db1" eId="meta-1">',
     )
   await expect(targetLawEditor).toBeVisible()
 })
@@ -79,7 +79,7 @@ test(`update law with new content`, async ({ page }) => {
 
     // Validate the xml is saved
     const response = await page.request.get(
-      `/api/v1/target-laws/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1`,
+      `/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1`,
       {
         headers: {
           Accept: "application/xml",
@@ -90,7 +90,7 @@ test(`update law with new content`, async ({ page }) => {
   } finally {
     // Reset the xml
     await page.request.put(
-      `/api/v1/target-laws/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1`,
+      `/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1`,
       {
         headers: {
           "Content-Type": "application/xml",

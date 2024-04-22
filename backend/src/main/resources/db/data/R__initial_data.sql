@@ -666,9 +666,9 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRWork>
                 <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
-                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
-                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
                         name="vorherige-version-id" value="49eec691-392b-4d77-abaf-23eb871132ad" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83"
@@ -685,9 +685,9 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRExpression>
                 <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="3485a797-2673-47ae-884a-980b35bd1a7b">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
-                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
-                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee" date="1990-12-20"
                         name="generierung" />
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="84eb9f54-57e5-4633-97b8-f6ee5f2d231d"
@@ -15001,9 +15001,9 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRWork>
                 <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
-                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
-                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
                         name="vorherige-version-id" value="49eec691-392b-4d77-abaf-23eb871132ad" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83"
@@ -15020,9 +15020,9 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRExpression>
                 <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="3485a797-2673-47ae-884a-980b35bd1a7b">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
-                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
-                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee" date="1990-12-20"
                         name="generierung" />
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="84eb9f54-57e5-4633-97b8-f6ee5f2d231d"

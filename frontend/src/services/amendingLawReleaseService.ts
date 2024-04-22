@@ -12,7 +12,7 @@ import { AmendingLawReleaseResponse } from "@/types/amendingLawReleaseResponse"
 export async function putReleaseAmendingLawXml(
   eli: string,
 ): Promise<AmendingLawReleaseResponse> {
-  return await apiFetch(`/amending-laws/${eli}/release`, {
+  return await apiFetch(`/announcements/${eli}/release`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/xml",
@@ -24,7 +24,7 @@ export async function putReleaseAmendingLawXml(
 export async function getAmendingLawReleaseStatus(
   eli: string,
 ): Promise<AmendingLawReleaseResponse> {
-  return await apiFetch(`/amending-laws/${eli}/release`, {
+  return await apiFetch(`/announcements/${eli}/release`, {
     method: "GET",
     headers: {
       "Content-Type": "application/xml",

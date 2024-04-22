@@ -33,7 +33,7 @@ describe("amendingLawReleaseService", () => {
 
       expect(result).toEqual(mockReleaseResponse)
       expect(fetchMock).toHaveBeenCalledWith(
-        `/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release`,
+        `/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release`,
         {
           method: "PUT",
           headers: {
@@ -72,7 +72,7 @@ describe("amendingLawReleaseService", () => {
 
       expect(result).toEqual(mockReleaseStatus)
       expect(fetchMock).toHaveBeenCalledWith(
-        `/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release`,
+        `/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release`,
         {
           method: "GET",
           headers: {

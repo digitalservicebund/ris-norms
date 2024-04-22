@@ -32,9 +32,7 @@ describe("articlesService", () => {
         },
       ])
 
-      expect(fetchMock).toHaveBeenCalledWith(
-        "/amending-laws/example/eli/articles",
-      )
+      expect(fetchMock).toHaveBeenCalledWith("/norms/example/eli/articles")
     })
   })
 
@@ -64,7 +62,7 @@ describe("articlesService", () => {
       })
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/amending-laws/example/eli/articles/example/eid",
+        "/norms/example/eli/articles/example/eid",
       )
     })
   })
@@ -87,7 +85,7 @@ describe("articlesService", () => {
       expect(result).toEqual('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/amending-laws/example/eli/articles/example/eid",
+        "/norms/example/eli/articles/example/eid",
         expect.objectContaining({
           headers: expect.objectContaining({ Accept: "application/xml" }),
         }),
