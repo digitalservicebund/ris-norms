@@ -651,8 +651,8 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
             <akn:identification eId="meta-1_ident-1" GUID="e0548b32-89df-433d-bf28-3337f7753882" source="attributsemantik-noch-undefiniert">
                 <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="65979527-4a22-4c42-8833-d4e1bf61268e">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="f7a087a0-854d-4043-ae55-22d33534491c"
-                        value="eli/bgbl-1/1990/s2954/regelungstext-1" />
-                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bgbl-1/1990/s2954" />
+                        value="eli/bund/bgbl-1/1990/s2954/regelungstext-1" />
+                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bund/bgbl-1/1990/s2954" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1" GUID="49c35c31-563b-40ae-aec1-6312de584200" name="übergreifende-id"
                         value="e9b14511-6253-4023-8d5f-6878c4f50cc0" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="a8a28ba1-d7ad-466e-86ac-dfc8d94ebcd9" date="1990-12-20"
@@ -666,9 +666,9 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRWork>
                 <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1" />
+                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu" />
+                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
                         name="vorherige-version-id" value="49eec691-392b-4d77-abaf-23eb871132ad" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83"
@@ -685,9 +685,9 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRExpression>
                 <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="3485a797-2673-47ae-884a-980b35bd1a7b">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee" date="1990-12-20"
                         name="generierung" />
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="84eb9f54-57e5-4633-97b8-f6ee5f2d231d"
@@ -706,7 +706,22 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:temporalGroup>
             </akn:temporalData>
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
-</akn:proprietary>
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                   <meta:typ>gesetz</meta:typ>
+                   <meta:form>mantelform</meta:form>
+                   <meta:fassung>verkuendungsfassung</meta:fassung>
+                   <meta:art>regelungstext</meta:art>
+                   <meta:initiant>bundesregierung</meta:initiant>
+                   <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+                   <meta:fna>210-5</meta:fna>
+                   <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                   <meta:gesta>nicht-vorhanden</meta:gesta>
+                   <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+                   <meta:federfuehrung>
+                      <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                   </meta:federfuehrung>
+                </meta:legalDocML.de_metadaten>
+            </akn:proprietary>
         </akn:meta>
         <akn:preface eId="einleitung-1" GUID="59a7267f-11bf-464e-a884-15c0bbd17416">
             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="d5ff5e89-7289-481a-9637-ac07858edd35">
@@ -7187,8 +7202,8 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
             <akn:identification eId="meta-1_ident-1" GUID="e0548b32-89df-433d-bf28-3337f7753882" source="attributsemantik-noch-undefiniert">
                 <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="65979527-4a22-4c42-8833-d4e1bf61268e">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="f7a087a0-854d-4043-ae55-22d33534491c"
-                        value="eli/bgbl-1/1990/s2954/regelungstext-1" />
-                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bgbl-1/1990/s2954" />
+                        value="eli/bund/bgbl-1/1990/s2954/regelungstext-1" />
+                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bund/bgbl-1/1990/s2954" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1" GUID="49c35c31-563b-40ae-aec1-6312de584200" name="übergreifende-id"
                         value="e9b14511-6253-4023-8d5f-6878c4f50cc0" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="a8a28ba1-d7ad-466e-86ac-dfc8d94ebcd9" date="1990-12-20"
@@ -7202,9 +7217,9 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
                 </akn:FRBRWork>
                 <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
                         name="vorherige-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83"
@@ -7221,9 +7236,9 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
                 </akn:FRBRExpression>
                 <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="3485a797-2673-47ae-884a-980b35bd1a7b">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee" date="2024-01-05"
                         name="generierung" />
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="84eb9f54-57e5-4633-97b8-f6ee5f2d231d"
@@ -7264,6 +7279,21 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
             </akn:temporalGroup>
             </akn:temporalData>
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                   <meta:typ>gesetz</meta:typ>
+                   <meta:form>mantelform</meta:form>
+                   <meta:fassung>verkuendungsfassung</meta:fassung>
+                   <meta:art>regelungstext</meta:art>
+                   <meta:initiant>bundesregierung</meta:initiant>
+                   <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+                   <meta:fna>210-5</meta:fna>
+                   <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                   <meta:gesta>nicht-vorhanden</meta:gesta>
+                   <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+                   <meta:federfuehrung>
+                      <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                   </meta:federfuehrung>
+                </meta:legalDocML.de_metadaten>
             </akn:proprietary>
             <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-2" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
@@ -13925,7 +13955,7 @@ VALUES ('6ae442b5-6601-4a72-bfa2-50a059348cb3', 'eli/bund/bgbl-1/1964/s593/2017-
                               href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/art-2_abs-1_inhalt-1_text-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_destination-1"
                                    GUID="1e35f163-489d-45f4-892b-d91360857e43"
-                                   href="#eli/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
+                                   href="#eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
                   <akn:force eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_gelzeitnachw-1"
                              GUID="80e80e33-82fe-4c8c-91a0-d1087521dabc"
                              period="#geltungszeitgr-2"/>
@@ -14956,8 +14986,8 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
             <akn:identification eId="meta-1_ident-1" GUID="e0548b32-89df-433d-bf28-3337f7753882" source="attributsemantik-noch-undefiniert">
                 <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="65979527-4a22-4c42-8833-d4e1bf61268e">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="f7a087a0-854d-4043-ae55-22d33534491c"
-                        value="eli/bgbl-1/1990/s2954/regelungstext-1" />
-                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bgbl-1/1990/s2954" />
+                        value="eli/bund/bgbl-1/1990/s2954/regelungstext-1" />
+                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bund/bgbl-1/1990/s2954" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1" GUID="49c35c31-563b-40ae-aec1-6312de584200" name="übergreifende-id"
                         value="e9b14511-6253-4023-8d5f-6878c4f50cc0" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="a8a28ba1-d7ad-466e-86ac-dfc8d94ebcd9" date="1990-12-20"
@@ -14971,9 +15001,9 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRWork>
                 <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1" />
+                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu" />
+                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
                         name="vorherige-version-id" value="49eec691-392b-4d77-abaf-23eb871132ad" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83"
@@ -14990,9 +15020,9 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRExpression>
                 <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="3485a797-2673-47ae-884a-980b35bd1a7b">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee" date="1990-12-20"
                         name="generierung" />
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="84eb9f54-57e5-4633-97b8-f6ee5f2d231d"
@@ -15011,7 +15041,22 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:temporalGroup>
             </akn:temporalData>
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
-</akn:proprietary>
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                   <meta:typ>gesetz</meta:typ>
+                   <meta:form>mantelform</meta:form>
+                   <meta:fassung>verkuendungsfassung</meta:fassung>
+                   <meta:art>regelungstext</meta:art>
+                   <meta:initiant>bundesregierung</meta:initiant>
+                   <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+                   <meta:fna>210-5</meta:fna>
+                   <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                   <meta:gesta>nicht-vorhanden</meta:gesta>
+                   <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+                   <meta:federfuehrung>
+                      <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                   </meta:federfuehrung>
+                </meta:legalDocML.de_metadaten>
+            </akn:proprietary>
         </akn:meta>
         <akn:preface eId="einleitung-1" GUID="59a7267f-11bf-464e-a884-15c0bbd17416">
             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="d5ff5e89-7289-481a-9637-ac07858edd35">
@@ -21492,8 +21537,8 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
             <akn:identification eId="meta-1_ident-1" GUID="e0548b32-89df-433d-bf28-3337f7753882" source="attributsemantik-noch-undefiniert">
                 <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="65979527-4a22-4c42-8833-d4e1bf61268e">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="f7a087a0-854d-4043-ae55-22d33534491c"
-                        value="eli/bgbl-1/1990/s2954/regelungstext-1" />
-                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bgbl-1/1990/s2954" />
+                        value="eli/bund/bgbl-1/1990/s2954/regelungstext-1" />
+                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bund/bgbl-1/1990/s2954" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1" GUID="49c35c31-563b-40ae-aec1-6312de584200" name="übergreifende-id"
                         value="e9b14511-6253-4023-8d5f-6878c4f50cc0" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="a8a28ba1-d7ad-466e-86ac-dfc8d94ebcd9" date="1990-12-20"
@@ -21507,9 +21552,9 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                 </akn:FRBRWork>
                 <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
                         name="vorherige-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83"
@@ -21526,9 +21571,9 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                 </akn:FRBRExpression>
                 <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="3485a797-2673-47ae-884a-980b35bd1a7b">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee" date="2024-01-05"
                         name="generierung" />
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="84eb9f54-57e5-4633-97b8-f6ee5f2d231d"
@@ -21569,6 +21614,21 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
             </akn:temporalGroup>
             </akn:temporalData>
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                   <meta:typ>gesetz</meta:typ>
+                   <meta:form>mantelform</meta:form>
+                   <meta:fassung>verkuendungsfassung</meta:fassung>
+                   <meta:art>regelungstext</meta:art>
+                   <meta:initiant>bundesregierung</meta:initiant>
+                   <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+                   <meta:fna>210-5</meta:fna>
+                   <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                   <meta:gesta>nicht-vorhanden</meta:gesta>
+                   <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+                   <meta:federfuehrung>
+                      <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                   </meta:federfuehrung>
+                </meta:legalDocML.de_metadaten>
             </akn:proprietary>
             <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-2" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
@@ -28230,7 +28290,7 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                               href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/art-2_abs-1_inhalt-1_text-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_destination-1"
                                    GUID="1e35f163-489d-45f4-892b-d91360857e43"
-                                   href="#eli/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
+                                   href="#eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
                   <akn:force eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_gelzeitnachw-1"
                              GUID="80e80e33-82fe-4c8c-91a0-d1087521dabc"
                              period="#geltungszeitgr-2"/>

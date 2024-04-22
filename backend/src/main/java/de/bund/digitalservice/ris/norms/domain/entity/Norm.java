@@ -93,6 +93,27 @@ public class Norm {
   }
 
   /**
+   * Returns the short title as {@link String} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The short title
+   */
+  public Optional<String> getShortTitle() {
+    return NodeParser.getValueFromExpression(
+            "//longTitle/*/shortTitle/*[@refersTo=\"amtliche-abkuerzung\"]", document)
+        .or(() -> NodeParser.getValueFromExpression("//longTitle/*/shortTitle", document));
+  }
+
+  /**
+   * Returns the short title as {@link String} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The short title
+   */
+  public Optional<String> getFna() {
+    return NodeParser.getValueFromExpression(
+        "//meta/proprietary/legalDocML.de_metadaten/fna", document);
+  }
+
+  /**
    * Returns a list of articles as {@link List} from a {@link Document} in a {@link Norm}.
    *
    * @return The list of articles

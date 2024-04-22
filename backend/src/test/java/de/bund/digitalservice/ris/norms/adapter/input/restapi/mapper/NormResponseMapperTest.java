@@ -38,6 +38,25 @@ class NormResponseMapperTest {
                        <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
                     </akn:FRBRExpression>
                 </akn:identification>
+                                <akn:proprietary eId="meta-1_proprietary-1" GUID="cbeef40f-ddc7-4ea5-9d4d-c0077844b58f" source="attributsemantik-noch-undefiniert">
+                                  <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                                    <meta:typ>gesetz</meta:typ>
+                                    <meta:form>stammform</meta:form>
+                                    <meta:fassung>verkuendungsfassung</meta:fassung>
+                                    <meta:art>regelungstext</meta:art>
+                                    <meta:initiant>nicht-vorhanden</meta:initiant>
+                                    <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
+                                    <!-- Die vorliegende Angabe von meta:fna stellt einen beliebigen, exemplarischen Fundstellennachweis dar und besitzt keine fachliche Korrektheit. -->
+                                    <meta:fna>754-28-1</meta:fna>
+                                    <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                                    <meta:gesta>nicht-vorhanden</meta:gesta>
+                                    <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+                                    <meta:federfuehrung>
+                                      <meta:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                                      <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
+                                    </meta:federfuehrung>
+                                  </meta:legalDocML.de_metadaten>
+                                </akn:proprietary>
               </akn:meta>
 
               <akn:preface eId="einleitung-1" GUID="fc10e89f-fde4-44bf-aa98-b6bdea01f0ea">
@@ -67,6 +86,7 @@ class NormResponseMapperTest {
     assertThat(result.getEli())
         .isEqualTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
     assertThat(result.getTitle()).isEqualTo("Gesetz zur Regelungs des öffenltichen Vereinsrechts");
+    assertThat(result.getShortTitle()).isEqualTo("Vereinsgesetz");
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
     assertThat(result.getFrbrNumber()).isEqualTo("s593");
     assertThat(result.getPrintAnnouncementGazette()).isEqualTo("BGBl. I");
@@ -74,6 +94,7 @@ class NormResponseMapperTest {
     assertThat(result.getPublicationDate()).isEqualTo(LocalDate.of(1964, 8, 5));
     assertThat(result.getDigitalAnnouncementMedium()).isNull();
     assertThat(result.getDigitalAnnouncementEdition()).isNull();
+    assertThat(result.getFna()).isEqualTo("754-28-1");
   }
 
   @Test
