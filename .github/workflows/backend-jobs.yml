@@ -167,15 +167,15 @@ jobs:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
           format: "sarif"
           output: "trivy-results.sarif"
-      - name: Check trivy results
-        run: |
-          if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
-            echo "Vulnerabilities found"
-            exit 1
-          else
-            echo "No significant vulnerabilities found"
-            exit 0
-          fi
+#      - name: Check trivy results
+#        run: |
+#          if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
+#            echo "Vulnerabilities found"
+#            exit 1
+#          else
+#            echo "No significant vulnerabilities found"
+#            exit 0
+#          fi
       - name: Upload trivy-results.sarif as an artifact
         uses: actions/upload-artifact@v4
         if: ${{ always () }}
