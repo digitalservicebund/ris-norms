@@ -1,13 +1,18 @@
 import { apiFetch } from "@/services/apiService"
 import { TargetLaw } from "@/types/targetLaw"
+import { FetchOptions } from "ofetch"
 
 /**
  * Load a target law from the api
  *
  * @param eli Eli of the target law
+ * @param options Fetch options for the request
  */
-export async function getTargetLawByEli(eli: string): Promise<TargetLaw> {
-  return await apiFetch(`/target-laws/${eli}`)
+export async function getTargetLawByEli(
+  eli: string,
+  options?: FetchOptions<"json">,
+): Promise<TargetLaw> {
+  return await apiFetch(`/target-laws/${eli}`, options)
 }
 
 /**
