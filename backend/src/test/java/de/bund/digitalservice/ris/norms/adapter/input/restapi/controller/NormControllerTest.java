@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
@@ -26,7 +25,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 /**
  * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
@@ -353,17 +351,7 @@ class NormControllerTest {
     @Test
     void getTimeBoundariesReturnsCorrectData() throws Exception {
       // Given
-      String agent = "bgbl-1";
-      String year = "1964";
-      String naturalIdentifier = "s593";
-      String pointInTime = "1964-08-05";
-      String version = "1";
-      String language = "deu";
-      String subtype = "regelungstext-1";
-      String eli =
-          String.format(
-              "eli/bund/%s/%s/%s/%s/%s/%s/%s",
-              agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
       List<TimeBoundary> timeBoundaries =
           List.of(
@@ -375,33 +363,18 @@ class NormControllerTest {
           .thenReturn(timeBoundaries);
 
       // When // Then
-      MvcResult result =
-          mockMvc
-              .perform(
-                  get(
-                          "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/timeBoundaries",
-                          agent,
-                          year,
-                          naturalIdentifier,
-                          pointInTime,
-                          version,
-                          language,
-                          subtype)
-                      .accept(MediaType.APPLICATION_JSON))
-              .andExpect(status().isOk())
-              .andExpect(jsonPath("$", hasSize(2)))
-              .andExpect(jsonPath("$[0].date", is("2023-12-29")))
-              .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-1")))
-              .andExpect(jsonPath("$[1].date", is("2023-12-30")))
-              .andExpect(jsonPath("$[1].eid", is("meta-1_lebzykl-1_ereignis-2")))
-              .andDo(print()) // This will print the response to the standard output
-              .andReturn(); // Returns the result of the executed request
+      mockMvc
+          .perform(
+              get("/api/v1/norms/{eli}/timeBoundaries", eli).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$", hasSize(2)))
+          .andExpect(jsonPath("$[0].date", is("2023-12-29")))
+          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-1")))
+          .andExpect(jsonPath("$[1].date", is("2023-12-30")))
+          .andExpect(jsonPath("$[1].eid", is("meta-1_lebzykl-1_ereignis-2")));
 
       verify(loadTimeBoundariesUseCase, times(1))
           .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));
-
-      String responseContent = result.getResponse().getContentAsString();
-      System.out.println("Response Content: " + responseContent);
     }
   }
 }
