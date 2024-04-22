@@ -57,6 +57,7 @@ watch(newDate, (newDateValue) => {
               v-model="dateEntry.date"
               size="small"
               data-testid="date-input-field"
+              is-read-only
             />
             <RisTextButton
               :icon="DeleteOutlineIcon"
