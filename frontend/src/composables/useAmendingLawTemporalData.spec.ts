@@ -7,10 +7,10 @@ describe("useAmendingLawTemporalData", () => {
   it("should load both the HTML content and dates", async () => {
     const expectedHtmlContent = `<div><h1>Test Content</h1></div>`
     const mockReleaseDates = [
-      "2023-04-01T00:00:00Z",
-      "2023-05-15T00:00:00Z",
-      "2023-06-20T00:00:00Z",
-      "2023-07-25T00:00:00Z",
+      { date: "2023-04-01T00:00:00Z", eid: "event-1" },
+      { date: "2023-05-15T00:00:00Z", eid: "event-2" },
+      { date: "2023-06-20T00:00:00Z", eid: "event-3" },
+      { date: "2023-07-25T00:00:00Z", eid: "event-4" },
     ]
     const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
 
@@ -20,19 +20,23 @@ describe("useAmendingLawTemporalData", () => {
     ).mockResolvedValue(expectedHtmlContent)
     vi.spyOn(
       amendingLawTemporalDataService,
-      "getAmendingLawTemporalDataIntervals",
+      "getAmendingLawTemporalDataTimeBoundaries",
     ).mockResolvedValue(mockReleaseDates)
 
-    const { dates, htmlContent, loadData } = useAmendingLawTemporalData(eli)
+    const { timeBoundaries, htmlContent, loadData } =
+      useAmendingLawTemporalData(eli)
 
     await loadData()
     expect(htmlContent.value).toBe(expectedHtmlContent)
-    expect(dates.value).toEqual(mockReleaseDates)
+    expect(timeBoundaries.value).toEqual(mockReleaseDates)
   })
 
   it("updates dates and handles the service call", async () => {
     const eli = ref("some-eli")
-    const newDates = ["2024-04-01T00:00:00Z", "2024-05-15T00:00:00Z"]
+    const newDates = [
+      { date: "2024-04-01T00:00:00Z", eid: "new-event-1" },
+      { date: "2024-05-15T00:00:00Z", eid: "new-event-2" },
+    ]
     const mockUpdateService = vi
       .spyOn(
         amendingLawTemporalDataService,
@@ -40,12 +44,12 @@ describe("useAmendingLawTemporalData", () => {
       )
       .mockResolvedValue(newDates)
 
-    const { dates, update } = useAmendingLawTemporalData(eli)
+    const { timeBoundaries, update } = useAmendingLawTemporalData(eli)
 
     await update(newDates)
 
     expect(mockUpdateService).toHaveBeenCalledWith(eli.value, newDates)
 
-    expect(dates.value).toEqual(newDates)
+    expect(timeBoundaries.value).toEqual(newDates)
   })
 })
