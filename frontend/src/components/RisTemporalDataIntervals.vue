@@ -41,6 +41,7 @@ watch(newDate, (newDateValue) => {
         :icon="SortOutlineIcon"
         :label="`Nach Datum sortieren`"
         variant="ghost"
+        disabled
       />
     </div>
     <form class="p-10">

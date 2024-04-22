@@ -38,6 +38,7 @@ async function handleSave() {
         label="Speichern"
         size="small"
         class="h-fit flex-none"
+        disabled
         @click="handleSave"
       />
     </div>
