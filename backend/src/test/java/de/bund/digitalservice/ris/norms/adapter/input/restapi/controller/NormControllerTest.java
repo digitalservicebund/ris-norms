@@ -1,6 +1,8 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -9,7 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -37,6 +41,7 @@ class NormControllerTest {
   @MockBean private LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   @MockBean private UpdateNormXmlUseCase updateNormXmlUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
+  @MockBean private LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
 
   @MockBean
   @Qualifier("normService")
@@ -337,6 +342,39 @@ class NormControllerTest {
                           && query.amendingLawXml().equals("<xml>amending-law</xml>")));
       verify(transformLegalDocMlToHtmlUseCase, times(1))
           .transformLegalDocMlToHtml(argThat(query -> query.xml().equals("<xml>result</xml>")));
+    }
+  }
+
+  @Nested
+  class TimeBoundaries {
+
+    @Test
+    void getTimeBoundariesReturnsCorrectData() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      List<TimeBoundary> timeBoundaries =
+          List.of(
+              new TimeBoundary(LocalDate.parse("2023-12-29"), "meta-1_lebzykl-1_ereignis-1"),
+              new TimeBoundary(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2"));
+
+      when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(
+              new LoadTimeBoundariesUseCase.Query(eli)))
+          .thenReturn(timeBoundaries);
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/{eli}/timeBoundaries", eli).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$", hasSize(2)))
+          .andExpect(jsonPath("$[0].date", is("2023-12-29")))
+          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-1")))
+          .andExpect(jsonPath("$[1].date", is("2023-12-30")))
+          .andExpect(jsonPath("$[1].eid", is("meta-1_lebzykl-1_ereignis-2")));
+
+      verify(loadTimeBoundariesUseCase, times(1))
+          .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));
     }
   }
 }

@@ -567,4 +567,39 @@ class NormTest {
     // then
     assertThat(norm1.hashCode()).isNotEqualTo(norm2.hashCode());
   }
+
+  @Test
+  void extractTimeBoundariesFromXml() {
+    String xml =
+        """
+                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                         http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                     <akn:act name="regelungstext">
+                        <!-- Metadaten -->
+                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                           <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                              <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                  source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                              <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
+                                  source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                           </akn:lifecycle>
+                        </akn:meta>
+                     </akn:act>
+                  </akn:akomaNtoso>
+                """
+            .strip();
+
+    Norm norm = new Norm(toDocument(xml));
+
+    TimeBoundary expectedBoundary1 =
+        new TimeBoundary(LocalDate.parse("2023-12-29"), "meta-1_lebzykl-1_ereignis-1");
+    TimeBoundary expectedBoundary2 =
+        new TimeBoundary(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2");
+
+    List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
+
+    assertThat(actualBoundaries).containsExactly(expectedBoundary1, expectedBoundary2);
+  }
 }

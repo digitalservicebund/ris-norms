@@ -19,11 +19,9 @@ describe("amendingLawTemporalDataService", () => {
 <p>(5) Artikel 1 Nummer 3 Buchstabe b Doppelbuchstabe aa, Nummer 14 Buchstabe b und Artikel 2 Nummer 11 Buchstabe b treten am 1. November 2025 in Kraft.</p>
 </div>
 `
-      const expectedDates: string[] = [
-        "2023-04-01T00:00:00Z",
-        "2023-05-15T00:00:00Z",
-        "2023-06-20T00:00:00Z",
-        "2023-07-25T00:00:00Z",
+      const expectedDates = [
+        { date: "2023-11-01T00:00:00Z", eid: "event-1" },
+        { date: "2023-12-01T00:00:00Z", eid: "event-2" },
       ]
 
       const fetchMock = vi
@@ -37,7 +35,7 @@ describe("amendingLawTemporalDataService", () => {
 
       const {
         getAmendingLawEntryIntoForceHtml,
-        getAmendingLawTemporalDataIntervals,
+        getAmendingLawTemporalDataTimeBoundaries,
       } = await import("./amendingLawTemporalDataService")
 
       const htmlResult = await getAmendingLawEntryIntoForceHtml(
@@ -45,7 +43,9 @@ describe("amendingLawTemporalDataService", () => {
       )
       expect(htmlResult).toBe(mockResponseHtml)
 
-      const datesResult = await getAmendingLawTemporalDataIntervals()
+      const datesResult = await getAmendingLawTemporalDataTimeBoundaries(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      )
       expect(datesResult).toEqual(expectedDates)
     })
   })
@@ -53,7 +53,10 @@ describe("amendingLawTemporalDataService", () => {
   describe("updateAmendingLawTemporalDataIntervals", () => {
     it("updates the temporal data related to an amending law", async () => {
       const eli = "test-eli"
-      const dates = ["2024-04-01T00:00:00Z", "2024-05-15T00:00:00Z"]
+      const dates = [
+        { date: "2024-04-01T00:00:00Z", eid: "event-3" },
+        { date: "2024-05-15T00:00:00Z", eid: "event-4" },
+      ]
       const expectedResponse = dates
 
       const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)

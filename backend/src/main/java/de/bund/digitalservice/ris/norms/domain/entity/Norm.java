@@ -131,6 +131,34 @@ public class Norm {
             });
   }
 
+  /**
+   * Extracts a list of time boundaries (Zeitgrenzen) from the document.
+   *
+   * @return a list of {@link TimeBoundary} containing dates and event IDs.
+   */
+  public List<TimeBoundary> getTimeBoundaries() {
+    String xpathExpression = "//lifecycle/eventRef";
+    final NodeList eventRefs = NodeParser.getNodesFromExpression(xpathExpression, document);
+
+    if (eventRefs.getLength() == 0) {
+      return List.of();
+    }
+
+    List<TimeBoundary> timeBoundaries = new ArrayList<>();
+
+    for (int i = 0; i < eventRefs.getLength(); i++) {
+      Node node = eventRefs.item(i);
+      Optional<String> date = NodeParser.getValueFromExpression("./@date", node);
+      Optional<String> eid = NodeParser.getValueFromExpression("./@eId", node);
+
+      TimeBoundary boundary =
+          TimeBoundary.builder().date(LocalDate.parse(date.orElse(""))).eid(eid.orElse("")).build();
+      timeBoundaries.add(boundary);
+    }
+
+    return timeBoundaries;
+  }
+
   @Override
   public boolean equals(Object object) {
     if (this == object) return true;

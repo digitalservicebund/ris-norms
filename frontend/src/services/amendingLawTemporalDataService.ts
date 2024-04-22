@@ -1,5 +1,5 @@
-// services/amendingLawEntryIntoForceService.js
 import { apiFetch } from "@/services/apiService"
+import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTemporalDataReleaseResponse"
 
 /**
  * Fetches the HTML content of an amending law's entry into force section by ELI.
@@ -24,13 +24,18 @@ export async function getAmendingLawEntryIntoForceHtml(
  *
  * @returns Array of date strings in ISO format
  */
-export async function getAmendingLawTemporalDataIntervals(): Promise<string[]> {
-  return [
-    "2023-04-01T00:00:00Z",
-    "2023-05-15T00:00:00Z",
-    "2023-06-20T00:00:00Z",
-    "2023-07-25T00:00:00Z",
-  ]
+export async function getAmendingLawTemporalDataTimeBoundaries(
+  eli: string,
+): Promise<AmendingLawTemporalDataReleaseResponse[]> {
+  return await apiFetch<AmendingLawTemporalDataReleaseResponse[]>(
+    `/norms/${eli}/timeBoundaries`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    },
+  )
 }
 
 /**
@@ -42,14 +47,17 @@ export async function getAmendingLawTemporalDataIntervals(): Promise<string[]> {
  */
 export async function updateAmendingLawTemporalDataIntervals(
   eli: string,
-  dates: string[],
-): Promise<string[]> {
-  return await apiFetch<string[]>(`/law/${eli}/zeitgrenzen`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
+  dates: AmendingLawTemporalDataReleaseResponse[],
+): Promise<AmendingLawTemporalDataReleaseResponse[]> {
+  return await apiFetch<AmendingLawTemporalDataReleaseResponse[]>(
+    `/law/${eli}/zeitgrenzen`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ dates }),
     },
-    body: JSON.stringify({ dates }),
-  })
+  )
 }

@@ -1,34 +1,41 @@
 import { ref, onMounted, Ref } from "vue"
 import {
   getAmendingLawEntryIntoForceHtml,
-  getAmendingLawTemporalDataIntervals,
+  getAmendingLawTemporalDataTimeBoundaries,
   updateAmendingLawTemporalDataIntervals,
 } from "@/services/amendingLawTemporalDataService"
+import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTemporalDataReleaseResponse"
 
-interface AmendingLawData {
+interface AmendingLawTemporalData {
   htmlContent: Ref<string>
-  dates: Ref<string[]>
-  update: (newDates: string[]) => Promise<void>
+  timeBoundaries: Ref<AmendingLawTemporalDataReleaseResponse[]>
+  update: (
+    newTimeBoundaries: AmendingLawTemporalDataReleaseResponse[],
+  ) => Promise<void>
   loadData: () => Promise<void>
 }
 
-export function useAmendingLawTemporalData(eli: Ref<string>): AmendingLawData {
+export function useAmendingLawTemporalData(
+  eli: Ref<string>,
+): AmendingLawTemporalData {
   const htmlContent = ref<string>("")
-  const dates = ref<string[]>([])
+  const timeBoundaries = ref<AmendingLawTemporalDataReleaseResponse[]>([])
 
   async function loadData() {
     try {
       htmlContent.value = await getAmendingLawEntryIntoForceHtml(eli.value)
-      dates.value = await getAmendingLawTemporalDataIntervals()
+      timeBoundaries.value = await getAmendingLawTemporalDataTimeBoundaries(
+        eli.value,
+      )
     } catch (error) {
       console.error("Error fetching amending law data:", error)
     }
   }
 
-  async function update(newDates: string[]) {
+  async function update(newDates: AmendingLawTemporalDataReleaseResponse[]) {
     try {
       await updateAmendingLawTemporalDataIntervals(eli.value, newDates)
-      dates.value = newDates
+      timeBoundaries.value = newDates
     } catch (error) {
       console.error("Error updating amending law dates:", error)
     }
@@ -38,7 +45,7 @@ export function useAmendingLawTemporalData(eli: Ref<string>): AmendingLawData {
 
   return {
     htmlContent,
-    dates,
+    timeBoundaries: timeBoundaries,
     update,
     loadData,
   }

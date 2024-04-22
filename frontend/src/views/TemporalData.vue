@@ -8,14 +8,15 @@ import dayjs from "dayjs"
 const eli = useEliPathParameter()
 const {
   htmlContent: entryIntoForceArticleHtml,
-  dates: dates,
+  timeBoundaries: dates,
   update,
 } = useAmendingLawTemporalData(eli)
 
 async function handleSave() {
-  const isoDates = dates.value.map((date) =>
-    dayjs(date, "YYYY-MM-DD").toISOString(),
-  )
+  const isoDates = dates.value.map((dateObj) => ({
+    ...dateObj,
+    date: dayjs(dateObj.date).toISOString(),
+  }))
 
   try {
     await update(isoDates)
@@ -37,6 +38,7 @@ async function handleSave() {
         label="Speichern"
         size="small"
         class="h-fit flex-none"
+        disabled
         @click="handleSave"
       />
     </div>

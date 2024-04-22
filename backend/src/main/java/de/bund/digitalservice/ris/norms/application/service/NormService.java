@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUse
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadTimeBoundariesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
@@ -12,6 +13,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormArticle;
+import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +32,7 @@ public class NormService
         LoadNormXmlUseCase,
         LoadNextVersionOfNormUseCase,
         UpdateNormXmlUseCase,
+        LoadTimeBoundariesUseCase,
         TimeMachineUseCase,
         LoadSpecificArticleXmlFromNormUseCase {
   private final LoadNormPort loadNormPort;
@@ -123,5 +126,13 @@ public class NormService
           .map(a -> XmlMapper.toString(a.getNode()))
           .toList();
     }
+  }
+
+  @Override
+  public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query) {
+    return loadNormPort
+        .loadNorm(new LoadNormPort.Command(query.eli()))
+        .map(Norm::getTimeBoundaries)
+        .orElse(List.of());
   }
 }
