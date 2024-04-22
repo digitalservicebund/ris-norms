@@ -678,9 +678,12 @@ class NormTest {
                                   source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
                               <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
                                   source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
-                              <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-09-09"
-                                  source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausserkrafttreten" />
                            </akn:lifecycle>
+                           <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                                       <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                          <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                       </akn:temporalGroup>
+                           </akn:temporalData>
                         </akn:meta>
                      </akn:act>
                   </akn:akomaNtoso>
@@ -689,13 +692,11 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(xml));
 
-    TimeBoundary expectedBoundary1 =
+    TimeBoundary expectedBoundary =
         new TimeBoundary(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2");
-    TimeBoundary expectedBoundary2 =
-        new TimeBoundary(LocalDate.parse("2023-09-09"), "meta-1_lebzykl-1_ereignis-3");
 
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
 
-    assertThat(actualBoundaries).containsExactly(expectedBoundary1, expectedBoundary2);
+    assertThat(actualBoundaries).containsExactly(expectedBoundary);
   }
 }
