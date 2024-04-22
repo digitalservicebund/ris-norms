@@ -33,7 +33,9 @@ async function handleSave() {
     class="grid h-full grid-cols-3 grid-rows-[5rem,1fr] gap-x-32 overflow-hidden p-40"
   >
     <div class="col-span-3 mb-40 flex items-center justify-between">
-      <h1 class="ds-heading-02-reg">Zeitgrenzen anlegen</h1>
+      <h1 class="ds-heading-02-reg" data-testid="temporalDataHeading">
+        Zeitgrenzen anlegen
+      </h1>
       <RisTextButton
         label="Speichern"
         size="small"
