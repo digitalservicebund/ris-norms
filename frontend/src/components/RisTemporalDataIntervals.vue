@@ -68,6 +68,7 @@ watch(newDate, async (newDateValue) => {
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
         icon-only
+        disabled
         @click.prevent="removeDateInput(index)"
       />
     </template>
@@ -79,6 +80,7 @@ watch(newDate, async (newDateValue) => {
       v-model="newDate"
       size="small"
       data-testid="new-date-input-field"
+      is-read-only
     />
   </form>
 </template>
