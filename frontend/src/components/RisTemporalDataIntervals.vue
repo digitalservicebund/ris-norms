@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineModel, ref, watch } from "vue"
+import { defineModel, nextTick, ref, watch } from "vue"
 import RisDateInput from "@/components/controls/RisDateInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import DeleteOutlineIcon from "~icons/ic/outline-delete"
@@ -15,6 +15,7 @@ const dates = defineModel("dates", {
   type: Array as () => DateEntry[],
   default: () => [],
 })
+
 const newDate = ref<string | undefined>()
 
 function removeDateInput(index: number) {
@@ -23,12 +24,16 @@ function removeDateInput(index: number) {
   }
 }
 
-watch(newDate, (newDateValue) => {
+watch(newDate, async (newDateValue) => {
   if (newDateValue && dayjs(newDateValue, "YYYY-MM-DD", true).isValid()) {
     dates.value.push({
       date: newDateValue,
       eid: "",
     })
+
+    // Need to wait for one tick to give the date input some time to update
+    // it's internal state, otherwise we'll keep seeing the previous value.
+    await nextTick()
     newDate.value = undefined
   }
 })

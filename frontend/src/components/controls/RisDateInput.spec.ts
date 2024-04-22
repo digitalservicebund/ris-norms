@@ -80,6 +80,26 @@ describe("DateInput", () => {
     ])
   })
 
+  test("updates when the model is changed to empty string", async () => {
+    const { rerender } = renderComponent({ modelValue: "2024-04-22" })
+
+    const input = screen.getByRole("textbox")
+    expect(input).toHaveValue("22.04.2024")
+
+    await rerender({ modelValue: "" })
+    expect(input).toHaveValue("")
+  })
+
+  test("updates when the model is changed to undefined", async () => {
+    const { rerender } = renderComponent({ modelValue: "2024-04-22" })
+
+    const input = screen.getByRole("textbox")
+    expect(input).toHaveValue("22.04.2024")
+
+    await rerender({ modelValue: undefined })
+    expect(input).toHaveValue("")
+  })
+
   test("removes validation errors on backspace delete", async () => {
     const { emitted } = renderComponent({
       modelValue: "2022-05-13",
