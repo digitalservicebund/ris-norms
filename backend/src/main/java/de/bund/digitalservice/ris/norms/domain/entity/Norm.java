@@ -158,7 +158,8 @@ public class Norm {
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
   public List<TimeBoundary> getTimeBoundaries() {
-    String xpathExpression = "//lifecycle/eventRef";
+    String xpathExpression =
+        "//lifecycle/eventRef[@refersTo='inkrafttreten' or @refersTo='ausserkrafttreten']";
     final NodeList eventRefs = NodeParser.getNodesFromExpression(xpathExpression, document);
 
     if (eventRefs.getLength() == 0) {

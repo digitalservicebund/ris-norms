@@ -678,6 +678,8 @@ class NormTest {
                                   source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
                               <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
                                   source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                              <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-09-09"
+                                  source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausserkrafttreten" />
                            </akn:lifecycle>
                         </akn:meta>
                      </akn:act>
@@ -688,9 +690,9 @@ class NormTest {
     Norm norm = new Norm(toDocument(xml));
 
     TimeBoundary expectedBoundary1 =
-        new TimeBoundary(LocalDate.parse("2023-12-29"), "meta-1_lebzykl-1_ereignis-1");
-    TimeBoundary expectedBoundary2 =
         new TimeBoundary(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2");
+    TimeBoundary expectedBoundary2 =
+        new TimeBoundary(LocalDate.parse("2023-09-09"), "meta-1_lebzykl-1_ereignis-3");
 
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
 
