@@ -1,15 +1,20 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -21,6 +26,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 /**
  * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
@@ -37,6 +43,7 @@ class NormControllerTest {
   @MockBean private LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   @MockBean private UpdateNormXmlUseCase updateNormXmlUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
+  @MockBean private LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
 
   @MockBean
   @Qualifier("normService")
@@ -337,6 +344,64 @@ class NormControllerTest {
                           && query.amendingLawXml().equals("<xml>amending-law</xml>")));
       verify(transformLegalDocMlToHtmlUseCase, times(1))
           .transformLegalDocMlToHtml(argThat(query -> query.xml().equals("<xml>result</xml>")));
+    }
+  }
+
+  @Nested
+  class TimeBoundaries {
+
+    @Test
+    void getTimeBoundariesReturnsCorrectData() throws Exception {
+      // Given
+      String agent = "bgbl-1";
+      String year = "1964";
+      String naturalIdentifier = "s593";
+      String pointInTime = "1964-08-05";
+      String version = "1";
+      String language = "deu";
+      String subtype = "regelungstext-1";
+      String eli =
+          String.format(
+              "eli/bund/%s/%s/%s/%s/%s/%s/%s",
+              agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+      List<TimeBoundary> timeBoundaries =
+          List.of(
+              new TimeBoundary(LocalDate.parse("2023-12-29"), "meta-1_lebzykl-1_ereignis-1"),
+              new TimeBoundary(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2"));
+
+      when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(
+              new LoadTimeBoundariesUseCase.Query(eli)))
+          .thenReturn(timeBoundaries);
+
+      // When // Then
+      MvcResult result =
+          mockMvc
+              .perform(
+                  get(
+                          "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/timeBoundaries",
+                          agent,
+                          year,
+                          naturalIdentifier,
+                          pointInTime,
+                          version,
+                          language,
+                          subtype)
+                      .accept(MediaType.APPLICATION_JSON))
+              .andExpect(status().isOk())
+              .andExpect(jsonPath("$", hasSize(2)))
+              .andExpect(jsonPath("$[0].date", is("2023-12-29")))
+              .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-1")))
+              .andExpect(jsonPath("$[1].date", is("2023-12-30")))
+              .andExpect(jsonPath("$[1].eid", is("meta-1_lebzykl-1_ereignis-2")))
+              .andDo(print()) // This will print the response to the standard output
+              .andReturn(); // Returns the result of the executed request
+
+      verify(loadTimeBoundariesUseCase, times(1))
+          .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));
+
+      String responseContent = result.getResponse().getContentAsString();
+      System.out.println("Response Content: " + responseContent);
     }
   }
 }
