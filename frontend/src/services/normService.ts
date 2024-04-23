@@ -65,3 +65,43 @@ export async function putNormXml(eli: string, xml: string) {
     body: xml,
   })
 }
+
+/**
+ * Load a preview of a norm after the provided amending law is applied to it.
+ *
+ * @param eli Eli of the target norm
+ * @param amendingLawXml XML of the amending law that should be used for creating the preview
+ */
+export async function previewNorm(
+  eli: string,
+  amendingLawXml: string,
+): Promise<string> {
+  return await apiFetch(`/norms/${eli}/preview`, {
+    method: "POST",
+    headers: {
+      Accept: "application/xml",
+      "Content-Type": "application/xml",
+    },
+    body: amendingLawXml,
+  })
+}
+
+/**
+ * Load the rendered HTML preview of the norm after the provided amending law is applied to it.
+ *
+ * @param eli Eli of the target norm
+ * @param amendingLawXml XML of the amending law that should be used for creating the preview
+ */
+export async function previewNormAsHtml(
+  eli: string,
+  amendingLawXml: string,
+): Promise<string> {
+  return await apiFetch(`/norms/${eli}/preview`, {
+    method: "POST",
+    headers: {
+      Accept: "text/html",
+      "Content-Type": "application/xml",
+    },
+    body: amendingLawXml,
+  })
+}
