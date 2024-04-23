@@ -199,7 +199,7 @@ class NormControllerTest {
                   .accept(MediaType.TEXT_HTML))
           .andExpect(status().isOk())
           .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-          .andExpect(content().string(html));
+          .andExpect(content().string("<div>\n" + html + "\n</div>\n"));
 
       verify(transformLegalDocMlToHtmlUseCase, times(1))
           .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));

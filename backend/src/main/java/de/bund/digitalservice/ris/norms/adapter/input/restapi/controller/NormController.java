@@ -115,16 +115,20 @@ public class NormController {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    String result =
+    String articles =
         loadSpecificArticleXmlFromNormUseCase
             .loadSpecificArticles(new LoadSpecificArticleXmlFromNormUseCase.Query(eli, refersTo))
             .stream()
             .map(
                 xml ->
                     this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
+                            new TransformLegalDocMlToHtmlUseCase.Query(xml, false))
+                        + "\n")
             .reduce("", String::concat);
-    return (result.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
+
+    String divWrapped = "<div>\n" + articles + "</div>\n";
+
+    return (articles.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(divWrapped);
   }
 
   /**

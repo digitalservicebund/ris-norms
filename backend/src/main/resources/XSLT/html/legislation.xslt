@@ -2,13 +2,15 @@
 <xsl:stylesheet
         version="2.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
+        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+        exclude-result-prefixes="#all"
+>
 
     <xsl:param name="show-metadata"/>
 
     <xsl:import href="./legislation-metadata.xslt"/>
 
-    <xsl:output method="html" version="5" include-content-type="no" encoding="utf-8" indent="yes" />
+    <xsl:output method="html" version="5" include-content-type="no" encoding="utf-8" indent="yes"/>
 
     <xsl:template match="/akn:akomaNtoso">
         <div>
