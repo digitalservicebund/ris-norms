@@ -16,7 +16,7 @@ fileignoreconfig:
   - filename: ldml-extension/fixtures/SaatG_regelungstext.xml
     checksum: e764b8f5d4bc8b23962edc59f4939ec5a093b29fb9432684be6b0d0a3612da45
   - filename: docker-compose.yaml
-    checksum: b262d9d037e1d661312613239ce4c5cf4a6dfa008d9a8c796a2c931f9b0cfd6f
+    checksum: 252e8ac97929919d356866e02d9d9a0641d466cbe81e4555af54172b0c0bbdc2
   - filename: ldml-extension/fixtures/Wachstumschancengesetz Part 2.xml
     checksum: 238955ed4bf60753a01bd2c53b90dc44cc75487e1dbc2f98a7b76c15437eea14
   - filename: ldml-extension/fixtures/Einkommensteuergesetz.xml

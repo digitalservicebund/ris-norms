@@ -46,6 +46,35 @@ jobs:
      uses: ./.github/workflows/ldml-extension-jobs.yml
      secrets: inherit # e.g. sonar token
 
+   create-docker-image-job:
+      permissions:
+        security-events: write # upload-sarif
+        packages: write
+        id-token: write
+        contents: read
+      uses: ./.github/workflows/create-docker-image-job.yml
+      with:
+        container-registry: ghcr.io
+        container-image-name: ${{ github.repository }}
+        container-image-version: ${{ github.sha }}
+      secrets: inherit # e.g. sonar token
+
+   push-docker-image-job:
+      needs:
+      - backend-jobs
+      - create-docker-image-job
+      permissions:
+        security-events: write # upload-sarif
+        packages: write
+        id-token: write
+        contents: read
+      uses: ./.github/workflows/push-docker-image-job.yml
+      with:
+        container-registry: ghcr.io
+        container-image-name: ${{ github.repository }}
+        container-image-version: ${{ github.sha }}
+      secrets: inherit # e.g. sonar token
+  
   # ######################
   # # Deploy new versions
   # ######################
@@ -58,6 +87,7 @@ jobs:
      needs:
        - frontend-jobs
        - backend-jobs
+       - push-docker-image-job
        - e2e-tests
      permissions:
        id-token: write # Enable OIDC for gitsign
@@ -68,7 +98,7 @@ jobs:
          with:
            environment: staging
            version: ${{ github.sha }}
-           deploying_repo: ris-norms/backend
+           deploying_repo: ris-norms
            infra_repo: ris-norms-infra
            deploy_key: ${{ secrets.DEPLOY_KEY }}
            app: ris-norms-staging
