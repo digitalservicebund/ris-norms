@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    ":disableDependencyDashboard"
+    ":disableDependencyDashboard" // not have a GitHub issue listing the open updates
   ],
   "lockFileMaintenance": {
     "enabled": true,
