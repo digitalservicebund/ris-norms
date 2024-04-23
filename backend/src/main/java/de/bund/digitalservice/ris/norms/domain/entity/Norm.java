@@ -167,25 +167,15 @@ public class Norm {
     }
 
     List<TimeBoundary> timeBoundaries = new ArrayList<>();
-
     for (int i = 0; i < timeIntervalNodes.getLength(); i++) {
       Node node = timeIntervalNodes.item(i);
       String startRef = node.getNodeValue().substring(1);
       String xpathEventRef = String.format("//lifecycle/eventRef[@eId='%s']", startRef);
-      NodeList eventRefNodes = NodeParser.getNodesFromExpression(xpathEventRef, document);
-
-      for (int j = 0; j < eventRefNodes.getLength(); j++) {
-        Node eventNode = eventRefNodes.item(j);
-        Optional<String> date = NodeParser.getValueFromExpression("@date", eventNode);
-        Optional<String> eid = NodeParser.getValueFromExpression("@eId", eventNode);
-
-        TimeBoundary boundary =
-            TimeBoundary.builder()
-                .date(LocalDate.parse(date.orElse("")))
-                .eid(eid.orElse(""))
-                .build();
-        timeBoundaries.add(boundary);
-      }
+      Optional<String> date = NodeParser.getValueFromExpression(xpathEventRef + "/@date", document);
+      Optional<String> eid = NodeParser.getValueFromExpression(xpathEventRef + "/@eId", document);
+      TimeBoundary boundary =
+          TimeBoundary.builder().date(LocalDate.parse(date.orElse(""))).eid(eid.orElse("")).build();
+      timeBoundaries.add(boundary);
     }
 
     return timeBoundaries;
