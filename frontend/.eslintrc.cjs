@@ -65,5 +65,15 @@ module.exports = {
         "playwright/no-skipped-test": "off",
       },
     },
+    {
+      files: ["src/**/*.spec.ts"],
+
+      rules: {
+        // Unit tests are allowed to have multiple components per file as we
+        // might need to create a bunch of wrapper components / advanced
+        // examples to test certain types of behavior (e.g. slots).
+        "vue/one-component-per-file": "off",
+      },
+    },
   ],
 }
