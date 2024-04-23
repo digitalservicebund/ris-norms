@@ -1,0 +1,53 @@
+on:
+  workflow_call:
+    inputs:
+      container-registry:
+        required: true
+        type: string
+      container-image-name:
+        required: true
+        type: string
+      container-image-version:
+        required: true
+        type: string
+
+jobs:
+  push-docker-image:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    permissions:
+      contents: read
+      id-token: write # This is used to complete the identity challenge with sigstore/fulcio..
+      packages: write
+    steps:
+      - uses: actions/cache@v4
+        with:
+          path: /tmp/images
+          key: docker-images-cache-${{ github.run_id }}
+          restore-keys: docker-images-cache-${{ github.run_id }}
+      - name: load image
+        shell: bash
+        run: docker load -i /tmp/images/fullstack-image.tar
+      - name: Log into container registry
+        uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20
+        with:
+          registry: ${{ inputs.container-registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish container image
+        run: docker push ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
+      - name: Install cosign
+        uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20
+      - name: Sign the published Docker image
+        run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
+      - name: Download cosign vulnerability scan record
+        uses: actions/download-artifact@v4
+        with:
+          name: "vuln.json"
+      - name: Attest vulnerability scan
+        run: cosign attest --yes --replace --predicate vuln.json --type vuln ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
+      - name: Send status to Slack
+        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
+        if: ${{ failure() }}
+        with:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
