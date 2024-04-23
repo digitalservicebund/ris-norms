@@ -14,7 +14,7 @@ services:
       - postgres14
       - redis
   postgres14:
-    image: postgres:14-alpine
+    image: postgres:16-alpine
     restart: always
     container_name: postgres14
     volumes:
