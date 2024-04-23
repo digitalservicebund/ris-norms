@@ -16,7 +16,7 @@ const affectedDocuments = useAffectedDocuments(eli)
       <RisAffectedDocumentPanel
         v-for="affectedDocument in affectedDocuments"
         :key="affectedDocument.targetLaw.eli"
-        :title="affectedDocument.targetLaw.title"
+        :title="affectedDocument.targetLaw.title ?? ''"
         :eli="affectedDocument.targetLaw.eli"
         :fna="affectedDocument.targetLaw.fna"
         :short-title="affectedDocument.targetLaw.shortTitle"

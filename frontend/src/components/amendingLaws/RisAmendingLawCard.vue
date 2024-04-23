@@ -6,7 +6,7 @@ const props = defineProps<{
   eli: string
   printAnnouncementGazette?: string
   digitalAnnouncementMedium?: string
-  publicationDate: string
+  publicationDate?: string
   printAnnouncementPage?: string
   digitalAnnouncementEdition?: string
 }>()
@@ -25,9 +25,13 @@ const pageOrEdition = computed(() => {
   }
 })
 
-const publicationYear = computed(() => props.publicationDate.substring(0, 4))
+const publicationYear = computed(() => props.publicationDate?.substring(0, 4))
 
 const publicationDateGerman = computed(() => {
+  if (props.publicationDate == null) {
+    return null
+  }
+
   const options: Intl.DateTimeFormatOptions = {
     day: "2-digit",
     month: "2-digit",

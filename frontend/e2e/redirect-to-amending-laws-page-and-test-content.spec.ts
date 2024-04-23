@@ -13,7 +13,7 @@ test.describe("Redirect and start page content", () => {
         page.getByText(getExpectedHeading(amendingLaw)),
       ).toBeVisible()
       await expect(
-        page.getByText(convertToGermanDate(amendingLaw.publicationDate)),
+        page.getByText(convertToGermanDate(amendingLaw.publicationDate!)),
       ).toBeVisible()
     })
   }

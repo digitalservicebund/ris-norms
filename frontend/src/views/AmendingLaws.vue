@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import RisAmendingLawCard from "@/components/amendingLaws/RisAmendingLawCard.vue"
 import { getAmendingLaws } from "@/services/announcementService"
-import { AmendingLaw } from "@/types/amendingLaw"
+import { Norm } from "@/types/norm"
 import { onMounted, ref } from "vue"
 import { RouterLink } from "vue-router"
 
-const amendingLaws = ref<AmendingLaw[]>([])
+const amendingLaws = ref<Norm[]>([])
 
 onMounted(async () => {
   amendingLaws.value = await getAmendingLaws()

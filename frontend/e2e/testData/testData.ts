@@ -1,10 +1,9 @@
-import { AmendingLaw } from "@/types/amendingLaw"
 import { Article } from "@/types/article"
-import { TargetLaw } from "@/types/targetLaw"
+import { Norm } from "@/types/norm"
 
-export const amendingLaws: (AmendingLaw & {
+export const amendingLaws: (Norm & {
   articles: Article[]
-  targetLaws: (TargetLaw & { zf0Eli: string })[]
+  targetLaws: (Norm & { zf0Eli: string })[]
 })[] = [
   {
     eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
@@ -63,9 +62,9 @@ export const amendingLaws: (AmendingLaw & {
   },
 ]
 
-export function getExpectedHeading(amendingLaw: AmendingLaw): string {
+export function getExpectedHeading(amendingLaw: Norm): string {
   let expectedHeading = ""
-  const publicationYear = amendingLaw.publicationDate.substring(0, 4)
+  const publicationYear = amendingLaw.publicationDate?.substring(0, 4)
 
   if (amendingLaw?.printAnnouncementGazette) {
     expectedHeading = `${amendingLaw.printAnnouncementGazette} ${publicationYear} S. ${amendingLaw.printAnnouncementPage}`

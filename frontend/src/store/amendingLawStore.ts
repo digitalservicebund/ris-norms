@@ -1,10 +1,10 @@
 import { getNormByEli } from "@/services/normService"
-import { AmendingLaw } from "@/types/amendingLaw"
+import { Norm } from "@/types/norm"
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"
 
 export const useAmendingLawStore = defineStore("amending-law", () => {
-  const loadedAmendingLaw = ref<AmendingLaw | undefined>(undefined)
+  const loadedAmendingLaw = ref<Norm | undefined>(undefined)
   const eli = ref<string | undefined>(undefined)
   const loading = ref<boolean>(false)
 

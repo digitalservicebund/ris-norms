@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"
 import { getTargetLawByEli } from "@/services/targetLawsService"
-import { TargetLaw } from "@/types/targetLaw"
+import { Norm } from "@/types/norm"
 
 /**
  * Store that provides access to a single target law.
@@ -13,7 +13,7 @@ export const useTargetLawStore = defineStore("target-law", () => {
   /**
    * The current target law or undefined when it is not yet loaded or does not exist.
    */
-  const targetLaw = ref<TargetLaw | undefined>(undefined)
+  const targetLaw = ref<Norm | undefined>(undefined)
   /**
    * The eli of the current target law.
    */

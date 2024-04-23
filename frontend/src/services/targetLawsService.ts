@@ -1,5 +1,5 @@
 import { apiFetch } from "@/services/apiService"
-import { TargetLaw } from "@/types/targetLaw"
+import { Norm } from "@/types/norm"
 import { FetchOptions } from "ofetch"
 
 /**
@@ -11,7 +11,7 @@ import { FetchOptions } from "ofetch"
 export async function getTargetLawByEli(
   eli: string,
   options?: FetchOptions<"json">,
-): Promise<TargetLaw> {
+): Promise<Norm> {
   return await apiFetch(`/norms/${eli}`, options)
 }
 

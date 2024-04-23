@@ -1,11 +1,11 @@
 import { useArticles } from "@/composables/useArticles"
 import { getTargetLawByEli } from "@/services/targetLawsService"
-import { TargetLaw } from "@/types/targetLaw"
+import { Norm } from "@/types/norm"
 import { DeepReadonly, MaybeRefOrGetter, Ref, readonly, ref, watch } from "vue"
 import { Article } from "@/types/article"
 
 export type TargetLawWithZF0Eli = {
-  targetLaw: TargetLaw
+  targetLaw: Norm
   targetLawZf0Eli: string
 }
 

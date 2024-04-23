@@ -1,6 +1,6 @@
 import { getNormByEli } from "@/services/normService"
 import { useAmendingLawStore } from "@/store/amendingLawStore"
-import { AmendingLaw } from "@/types/amendingLaw"
+import { Norm } from "@/types/norm"
 import { createPinia, setActivePinia } from "pinia"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
@@ -11,7 +11,7 @@ vi.mock("@/services/normService", () => ({
 
 describe("useAmendingLawsStore", () => {
   const eli = "eli/example/2023/1"
-  let mockAmendingLaw: AmendingLaw
+  let mockAmendingLaw: Norm
 
   beforeEach(() => {
     setActivePinia(createPinia())
