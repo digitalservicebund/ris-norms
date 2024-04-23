@@ -8,11 +8,11 @@ scopeconfig:
   - scope: node
 fileignoreconfig:
   - filename: frontend/Dockerfile
-    checksum: 0858645fc55a2f4e54a62604a28e1b8b029c771fb1e723b85b3a7d16a28c2969
+    checksum: 0db2e063587f46b2150f978f8dd9c5ce3d001fa8b89a1b67904f7a8363a6bd2a
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
     checksum: 671174b65f1c34d34870f93a9ef8ad7a1d43271384e09f4bb591c4d99055df92
   - filename: DockerfileApp
-    checksum: 11438d9717f9bd94eb330426379328029085e1775c8f2587507eb450919eb769
+    checksum: 79dcfe570176f7ad6b8341bd0b358b2676355b34ba654c29ae267d54a03f7e64
   - filename: ldml-extension/fixtures/SaatG_regelungstext.xml
     checksum: e764b8f5d4bc8b23962edc59f4939ec5a093b29fb9432684be6b0d0a3612da45
   - filename: docker-compose.yaml
