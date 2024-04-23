@@ -1,8 +1,6 @@
-import {
-  getTargetLawXmlByEli,
-  putTargetLawXml,
-} from "@/services/targetLawsService"
+import { putTargetLawXml } from "@/services/targetLawsService"
 import { MaybeRefOrGetter, Ref, readonly, ref, toValue, watch } from "vue"
+import { getNormXmlByEli } from "@/services/normService"
 
 /**
  * Get the XML of a target law.
@@ -27,7 +25,7 @@ export function useTargetLawXml(eli: MaybeRefOrGetter<string | undefined>): {
     () => toValue(eli),
     async (eli) => {
       if (eli) {
-        targetLawXml.value = await getTargetLawXmlByEli(eli)
+        targetLawXml.value = await getNormXmlByEli(eli)
       }
     },
     { immediate: true },

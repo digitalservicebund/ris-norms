@@ -1,19 +1,6 @@
 import { apiFetch } from "@/services/apiService"
 
 /**
- * Load the xml version of a target law from the api
- *
- * @param eli Eli of the target law
- */
-export async function getTargetLawXmlByEli(eli: string): Promise<string> {
-  return await apiFetch(`/norms/${eli}`, {
-    headers: {
-      Accept: "application/xml",
-    },
-  })
-}
-
-/**
  * Load the rendered html version of a target law from the api
  *
  * @param eli Eli of the target law

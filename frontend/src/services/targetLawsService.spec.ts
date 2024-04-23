@@ -6,34 +6,6 @@ describe("targetLawsService", () => {
     vi.resetAllMocks()
   })
 
-  describe("getTargetLawXmlByEli(eli)", () => {
-    it("provides the data from the api", async () => {
-      const fetchMock = vi
-        .fn()
-        .mockResolvedValueOnce(`<?xml version="1.0" encoding="UTF-8"?></xml>`)
-
-      vi.doMock("./apiService.ts", () => ({
-        apiFetch: fetchMock,
-      }))
-
-      const { getTargetLawXmlByEli } = await import("./targetLawsService")
-
-      const result = await getTargetLawXmlByEli(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-      )
-      expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-        expect.objectContaining({
-          headers: expect.objectContaining({
-            Accept: "application/xml",
-          }),
-        }),
-      )
-    })
-  })
-
   describe("getTargetLawHtmlByEli(eli)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi.fn().mockResolvedValueOnce(`<span></span>`)
