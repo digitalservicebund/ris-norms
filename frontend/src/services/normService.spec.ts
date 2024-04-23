@@ -6,7 +6,7 @@ describe("normService", () => {
     vi.resetAllMocks()
   })
 
-  describe("getNormByEli(eli)", () => {
+  describe("getNormByEli(eli, options)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi.fn().mockResolvedValueOnce({
         eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
@@ -33,6 +33,31 @@ describe("normService", () => {
 
       expect(fetchMock).toHaveBeenCalledWith(
         "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        undefined,
+      )
+    })
+
+    it("passes on request options", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce({})
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { getNormByEli } = await import("./normService")
+
+      const options = {
+        signal: new AbortController().signal,
+      }
+
+      await getNormByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        options,
+      )
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        options,
       )
     })
   })

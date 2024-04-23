@@ -1,8 +1,8 @@
 import { useArticles } from "@/composables/useArticles"
-import { getTargetLawByEli } from "@/services/targetLawsService"
 import { Norm } from "@/types/norm"
 import { DeepReadonly, MaybeRefOrGetter, Ref, readonly, ref, watch } from "vue"
 import { Article } from "@/types/article"
+import { getNormByEli } from "@/services/normService"
 
 export type TargetLawWithZF0Eli = {
   targetLaw: Norm
@@ -48,7 +48,7 @@ export function useAffectedDocuments(
         (articles.value ?? [])
           .filter(isArticleWithAffectedDocument)
           .map(async (article) => ({
-            targetLaw: await getTargetLawByEli(article.affectedDocumentEli, {
+            targetLaw: await getNormByEli(article.affectedDocumentEli, {
               signal: abortController.signal,
             }),
             targetLawZf0Eli: article.affectedDocumentZf0Eli,

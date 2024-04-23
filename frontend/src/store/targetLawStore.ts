@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"
-import { getTargetLawByEli } from "@/services/targetLawsService"
 import { Norm } from "@/types/norm"
+import { getNormByEli } from "@/services/normService"
 
 /**
  * Store that provides access to a single target law.
@@ -34,17 +34,21 @@ export const useTargetLawStore = defineStore("target-law", () => {
     eli.value = newEli
   }
 
-  watch(eli, async (newEli) => {
+  watch(eli, async (newEli, oldEli, onCleanup) => {
     if (newEli) {
-      if (loading.value) {
-        // todo (Malte Laukötter, 2024-03-06): We should cancel a possibly still running call of getTargetLawByEli here. The AbortController-API should allow us to do this.
-        console.warn(
-          "There is already an unfinished call to getTargetLawByEli, we are still creating a new one but this could have created a race condition.",
-        )
-      }
       loading.value = true
       targetLaw.value = undefined
-      targetLaw.value = await getTargetLawByEli(newEli)
+
+      const abortController = new AbortController()
+      onCleanup(() => {
+        abortController.abort()
+        loading.value = false
+      })
+
+      targetLaw.value = await getNormByEli(newEli, {
+        signal: abortController.signal,
+      })
+
       loading.value = false
     }
   })

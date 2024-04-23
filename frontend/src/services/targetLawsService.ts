@@ -1,19 +1,4 @@
 import { apiFetch } from "@/services/apiService"
-import { Norm } from "@/types/norm"
-import { FetchOptions } from "ofetch"
-
-/**
- * Load a target law from the api
- *
- * @param eli Eli of the target law
- * @param options Fetch options for the request
- */
-export async function getTargetLawByEli(
-  eli: string,
-  options?: FetchOptions<"json">,
-): Promise<Norm> {
-  return await apiFetch(`/norms/${eli}`, options)
-}
 
 /**
  * Load the xml version of a target law from the api

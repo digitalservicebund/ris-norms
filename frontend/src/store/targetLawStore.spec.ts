@@ -13,14 +13,14 @@ describe("useTargetLawsStore", () => {
   })
 
   it("loads amending laws correctly", async () => {
-    const getTargetLawByEli = vi.fn().mockResolvedValue({
+    const getNormByEli = vi.fn().mockResolvedValue({
       eli: "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
       title:
         "Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz",
     })
 
-    vi.doMock("@/services/targetLawsService", () => ({
-      getTargetLawByEli,
+    vi.doMock("@/services/normService", () => ({
+      getNormByEli,
     }))
 
     const { useTargetLawStore } = await import("./targetLawStore")
@@ -33,7 +33,7 @@ describe("useTargetLawsStore", () => {
     await nextTick()
 
     expect(store.loading).toBe(true)
-    expect(getTargetLawByEli).toHaveBeenCalledOnce()
+    expect(getNormByEli).toHaveBeenCalledOnce()
 
     await vi.waitUntil(() => !store.loading)
 

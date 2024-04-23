@@ -1,13 +1,18 @@
 import { apiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
+import { FetchOptions } from "ofetch"
 
 /**
  * Load a norm from the API.
  *
  * @param eli Eli of the amending law
+ * @param options Fetch options for the request
  */
-export async function getNormByEli(eli: string): Promise<Norm> {
-  return await apiFetch(`/norms/${eli}`)
+export async function getNormByEli(
+  eli: string,
+  options?: FetchOptions<"json">,
+): Promise<Norm> {
+  return await apiFetch(`/norms/${eli}`, options)
 }
 
 /**
