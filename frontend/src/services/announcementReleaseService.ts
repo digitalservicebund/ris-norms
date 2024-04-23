@@ -2,14 +2,14 @@ import { apiFetch } from "@/services/apiService"
 import { AmendingLawReleaseResponse } from "@/types/amendingLawReleaseResponse"
 
 /**
- * Release the XML of a specific amending law by eli.
+ * Release the XML of a specific announcement by eli.
  *
- * @param eli Eli of the amending law
+ * @param eli Eli of the norm associated with the announcement
  * @returns the publishing timestamp
  * @returns the eli of the amending law
  * @returns the elis of all ZF0
  */
-export async function putReleaseAmendingLawXml(
+export async function putRelease(
   eli: string,
 ): Promise<AmendingLawReleaseResponse> {
   return await apiFetch(`/announcements/${eli}/release`, {
@@ -21,7 +21,15 @@ export async function putReleaseAmendingLawXml(
   })
 }
 
-export async function getAmendingLawReleaseStatus(
+/**
+ * Release the latest release of a specific announcement by eli.
+ *
+ * @param eli Eli of the norm associated with the announcement
+ * @returns the publishing timestamp
+ * @returns the eli of the amending law
+ * @returns the elis of all ZF0
+ */
+export async function getRelease(
   eli: string,
 ): Promise<AmendingLawReleaseResponse> {
   return await apiFetch(`/announcements/${eli}/release`, {
