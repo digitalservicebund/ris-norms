@@ -108,6 +108,37 @@ describe("normService", () => {
       expect(fetchMock).toHaveBeenCalledWith(
         "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
+          query: expect.objectContaining({
+            showMetadata: false,
+          }),
+          headers: expect.objectContaining({
+            Accept: "text/html",
+          }),
+        }),
+      )
+    })
+
+    it("allows showMetadata to be explicitly set to true", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { getNormHtmlByEli } = await import("./normService")
+
+      const result = await getNormHtmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        true,
+      )
+      expect(result).toBe("<div></div>")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        expect.objectContaining({
+          query: expect.objectContaining({
+            showMetadata: true,
+          }),
           headers: expect.objectContaining({
             Accept: "text/html",
           }),

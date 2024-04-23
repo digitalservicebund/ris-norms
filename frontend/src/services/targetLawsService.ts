@@ -1,24 +1,6 @@
 import { apiFetch } from "@/services/apiService"
 
 /**
- * Load the rendered html version of a target law from the api
- *
- * @param eli Eli of the target law
- * @param showMetadata Whether to include metadata in the rendered HTML
-
- */
-export async function getTargetLawHtmlByEli(
-  eli: string,
-  showMetadata: boolean = true,
-): Promise<string> {
-  return await apiFetch(`/norms/${eli}?showMetadata=${showMetadata}`, {
-    headers: {
-      Accept: "text/html",
-    },
-  })
-}
-
-/**
  * Save the XML version of a target law to the API.
  *
  * @param eli ELI of the target law

@@ -15,11 +15,11 @@ import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import {
   previewTargetLaw,
-  getTargetLawHtmlByEli,
   previewTargetLawAsHtml,
 } from "@/services/targetLawsService"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { renderHtmlLaw } from "@/services/lawService"
+import { getNormHtmlByEli } from "@/services/normService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -83,10 +83,7 @@ async function handleGeneratePreview() {
 async function fetchTargetLawHtmlContent() {
   try {
     if (targetLawEli.value) {
-      targetLawHtml.value = await getTargetLawHtmlByEli(
-        targetLawEli.value,
-        false,
-      )
+      targetLawHtml.value = await getNormHtmlByEli(targetLawEli.value)
     }
   } catch (error) {
     console.error("Failed to fetch HTML content:", error)
