@@ -51,15 +51,13 @@ describe("useTargetLawXml", () => {
   describe("update", () => {
     test("should request an update and the XML should be update with the response", async () => {
       const getNormXmlByEli = vi.fn().mockResolvedValue("<xml>1</xml>")
-      const putTargetLawXml = vi
+      const putNormXml = vi
         .fn()
         .mockResolvedValueOnce("<xml some-backend-created-tag>2</xml>")
 
       vi.doMock("@/services/normService", () => ({
         getNormXmlByEli,
-      }))
-      vi.doMock("@/services/targetLawsService", () => ({
-        putTargetLawXml,
+        putNormXml,
       }))
 
       const { useTargetLawXml } = await import("./useTargetLawXml")
@@ -73,7 +71,7 @@ describe("useTargetLawXml", () => {
       await update("<xml>2</xml>")
       expect(xml.value).toBe("<xml some-backend-created-tag>2</xml>")
 
-      expect(putTargetLawXml).toHaveBeenCalledWith(
+      expect(putNormXml).toHaveBeenCalledWith(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         "<xml>2</xml>",
       )
@@ -82,9 +80,7 @@ describe("useTargetLawXml", () => {
     test("should reject if the update fails and the XML should then not be updated", async () => {
       vi.doMock("@/services/normService", () => ({
         getNormXmlByEli: vi.fn().mockResolvedValue("<xml>1</xml>"),
-      }))
-      vi.doMock("@/services/targetLawsService", () => ({
-        putTargetLawXml: vi.fn().mockRejectedValue("404 Not Found"),
+        putNormXml: vi.fn().mockRejectedValue("404 Not Found"),
       }))
 
       const { useTargetLawXml } = await import("./useTargetLawXml")
@@ -101,9 +97,7 @@ describe("useTargetLawXml", () => {
     test("should reject if no ELI exists", async () => {
       vi.doMock("@/services/normService", () => ({
         getNormXmlByEli: vi.fn().mockResolvedValue("<xml>1</xml>"),
-      }))
-      vi.doMock("@/services/targetLawsService", () => ({
-        putTargetLawXml: vi.fn().mockResolvedValue("<xml>2</xml>"),
+        putNormXml: vi.fn().mockResolvedValue("<xml>2</xml>"),
       }))
 
       const { useTargetLawXml } = await import("./useTargetLawXml")

@@ -1,6 +1,5 @@
-import { putTargetLawXml } from "@/services/targetLawsService"
 import { MaybeRefOrGetter, Ref, readonly, ref, toValue, watch } from "vue"
-import { getNormXmlByEli } from "@/services/normService"
+import { getNormXmlByEli, putNormXml } from "@/services/normService"
 
 /**
  * Get the XML of a target law.
@@ -38,7 +37,7 @@ export function useTargetLawXml(eli: MaybeRefOrGetter<string | undefined>): {
       throw new Error("Expected an identifier to exist when calling update.")
     }
 
-    targetLawXml.value = await putTargetLawXml(eliValue, xml)
+    targetLawXml.value = await putNormXml(eliValue, xml)
   }
 
   return { xml: readonly(targetLawXml), update }

@@ -1,27 +1,6 @@
 import { apiFetch } from "@/services/apiService"
 
 /**
- * Save the XML version of a target law to the API.
- *
- * @param eli ELI of the target law
- * @param xml New XML of the target law
- * @returns The newly saved XML
- */
-export async function putTargetLawXml(
-  eli: string,
-  xml: string,
-): Promise<string> {
-  return await apiFetch<string>(`/norms/${eli}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/xml",
-      Accept: "application/xml",
-    },
-    body: xml,
-  })
-}
-
-/**
  * Load a preview of the target law after the provided amending law is applied to it.
  *
  * @param eli Eli of the target law
