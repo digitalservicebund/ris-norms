@@ -55,4 +55,23 @@ public final class NodeParser {
       throw new XmlProcessingException(e.getMessage(), e);
     }
   }
+
+  /**
+   * Get single node using an XPath expression on an input node. Note that it only supports single
+   * node results (not NODELISTs)
+   *
+   * @param xPathExpression an XPath expression used for identifying the node that's returned
+   * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
+   *     Document extends Node)
+   * @return the Node identified by the <code>xPathExpression</code>
+   */
+  public static Node getNodeFromExpression(String xPathExpression, Node sourceNode) {
+    try {
+      final XPathFactory xpathfactory = XPathFactory.newInstance();
+      final XPath xpath = xpathfactory.newXPath();
+      return (Node) xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
+    } catch (XPathExpressionException | NullPointerException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
+    }
+  }
 }

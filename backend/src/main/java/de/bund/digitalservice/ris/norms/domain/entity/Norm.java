@@ -159,23 +159,27 @@ public class Norm {
    */
   public List<TimeBoundary> getTimeBoundaries() {
     NodeList timeIntervalNodes =
-        NodeParser.getNodesFromExpression(
-            "//temporalData/temporalGroup/timeInterval/@start", document);
+        NodeParser.getNodesFromExpression("//temporalData/temporalGroup/timeInterval", document);
 
     if (timeIntervalNodes.getLength() == 0) {
       return List.of();
     }
 
     List<TimeBoundary> timeBoundaries = new ArrayList<>();
+
     for (int i = 0; i < timeIntervalNodes.getLength(); i++) {
-      Node node = timeIntervalNodes.item(i);
-      String startRef = node.getNodeValue().substring(1);
-      String xpathEventRef = String.format("//lifecycle/eventRef[@eId='%s']", startRef);
-      Optional<String> date = NodeParser.getValueFromExpression(xpathEventRef + "/@date", document);
-      Optional<String> eid = NodeParser.getValueFromExpression(xpathEventRef + "/@eId", document);
-      TimeBoundary boundary =
-          TimeBoundary.builder().date(LocalDate.parse(date.orElse(""))).eid(eid.orElse("")).build();
-      timeBoundaries.add(boundary);
+      Node timeIntervalNode = timeIntervalNodes.item(i);
+      String eIdEventRef =
+          timeIntervalNode.getAttributes().getNamedItem("start").getNodeValue().replace("#", "");
+      String eventRefNodeExpression = String.format("//lifecycle/eventRef[@eId='%s']", eIdEventRef);
+      Node eventRefNode = NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
+
+      TimeBoundary timeBoundary =
+          TimeBoundary.builder()
+              .timeIntervalNode(timeIntervalNode)
+              .eventRefNode(eventRefNode)
+              .build();
+      timeBoundaries.add(timeBoundary);
     }
 
     return timeBoundaries;

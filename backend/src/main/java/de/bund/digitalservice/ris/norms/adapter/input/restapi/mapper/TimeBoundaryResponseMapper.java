@@ -19,8 +19,8 @@ public class TimeBoundaryResponseMapper {
    */
   public static TimeBoundaryResponseSchema fromUseCaseData(final TimeBoundary timeBoundary) {
     return TimeBoundaryResponseSchema.builder()
-        .date(timeBoundary.getDate())
-        .eid(timeBoundary.getEid())
+        .date(timeBoundary.getDate().orElse(null))
+        .eid(timeBoundary.getEid().orElse(null))
         .build();
   }
 }

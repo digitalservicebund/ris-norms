@@ -13,7 +13,6 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -319,11 +318,20 @@ class NormControllerTest {
     void getTimeBoundariesReturnsCorrectData() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eventRef =
+          """
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2017-03-16" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+          """
+              .strip();
+
+      final String timeInterval =
+          """
+                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+              """
+              .strip();
 
       List<TimeBoundary> timeBoundaries =
-          List.of(
-              new TimeBoundary(LocalDate.parse("2023-12-29"), "meta-1_lebzykl-1_ereignis-1"),
-              new TimeBoundary(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2"));
+          List.of(new TimeBoundary(XmlMapper.toNode(timeInterval), XmlMapper.toNode(eventRef)));
 
       when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(
               new LoadTimeBoundariesUseCase.Query(eli)))
@@ -334,11 +342,9 @@ class NormControllerTest {
           .perform(
               get("/api/v1/norms/{eli}/timeBoundaries", eli).accept(MediaType.APPLICATION_JSON))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("$", hasSize(2)))
-          .andExpect(jsonPath("$[0].date", is("2023-12-29")))
-          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-1")))
-          .andExpect(jsonPath("$[1].date", is("2023-12-30")))
-          .andExpect(jsonPath("$[1].eid", is("meta-1_lebzykl-1_ereignis-2")));
+          .andExpect(jsonPath("$", hasSize(1)))
+          .andExpect(jsonPath("$[0].date", is("2017-03-16")))
+          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-2")));
 
       verify(loadTimeBoundariesUseCase, times(1))
           .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));

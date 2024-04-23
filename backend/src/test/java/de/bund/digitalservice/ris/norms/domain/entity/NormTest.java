@@ -692,11 +692,10 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(xml));
 
-    TimeBoundary expectedBoundary =
-        new TimeBoundary(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2");
-
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
 
-    assertThat(actualBoundaries).containsExactly(expectedBoundary);
+    assertThat(actualBoundaries.getFirst().getDate().get())
+        .isEqualTo(LocalDate.parse("2023-12-30"));
+    assertThat(actualBoundaries.getFirst().getEid().get()).contains("meta-1_lebzykl-1_ereignis-2");
   }
 }
