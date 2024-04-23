@@ -1,13 +1,18 @@
 import { apiFetch } from "@/services/apiService"
 import { TargetLaw } from "@/types/targetLaw"
+import { FetchOptions } from "ofetch"
 
 /**
  * Load a target law from the api
  *
  * @param eli Eli of the target law
+ * @param options Fetch options for the request
  */
-export async function getTargetLawByEli(eli: string): Promise<TargetLaw> {
-  return await apiFetch(`/target-laws/${eli}`)
+export async function getTargetLawByEli(
+  eli: string,
+  options?: FetchOptions<"json">,
+): Promise<TargetLaw> {
+  return await apiFetch(`/norms/${eli}`, options)
 }
 
 /**
@@ -16,7 +21,7 @@ export async function getTargetLawByEli(eli: string): Promise<TargetLaw> {
  * @param eli Eli of the target law
  */
 export async function getTargetLawXmlByEli(eli: string): Promise<string> {
-  return await apiFetch(`/target-laws/${eli}`, {
+  return await apiFetch(`/norms/${eli}`, {
     headers: {
       Accept: "application/xml",
     },
@@ -34,7 +39,7 @@ export async function getTargetLawHtmlByEli(
   eli: string,
   showMetadata: boolean = true,
 ): Promise<string> {
-  return await apiFetch(`/target-laws/${eli}?showMetadata=${showMetadata}`, {
+  return await apiFetch(`/norms/${eli}?showMetadata=${showMetadata}`, {
     headers: {
       Accept: "text/html",
     },
@@ -52,7 +57,7 @@ export async function putTargetLawXml(
   eli: string,
   xml: string,
 ): Promise<string> {
-  return await apiFetch<string>(`/target-laws/${eli}`, {
+  return await apiFetch<string>(`/norms/${eli}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/xml",
@@ -72,7 +77,7 @@ export async function previewTargetLaw(
   eli: string,
   amendingLawXml: string,
 ): Promise<string> {
-  return await apiFetch(`/target-laws/${eli}/preview`, {
+  return await apiFetch(`/norms/${eli}/preview`, {
     method: "POST",
     headers: {
       Accept: "application/xml",
@@ -92,7 +97,7 @@ export async function previewTargetLawAsHtml(
   eli: string,
   amendingLawXml: string,
 ): Promise<string> {
-  return await apiFetch(`/target-laws/${eli}/preview`, {
+  return await apiFetch(`/norms/${eli}/preview`, {
     method: "POST",
     headers: {
       Accept: "text/html",

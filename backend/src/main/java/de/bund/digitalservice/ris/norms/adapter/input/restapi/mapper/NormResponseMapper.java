@@ -18,15 +18,21 @@ public class NormResponseMapper {
   public static NormResponseSchema fromUseCaseData(final Norm norm) {
     boolean isDigitallyAnnounced = norm.getFRBRnumber().map(s -> !s.startsWith("s")).orElse(false);
 
-    return new NormResponseSchema(
-        norm.getEli().orElse(null),
-        norm.getTitle().orElse(null),
-        norm.getFRBRname().orElse(null),
-        norm.getFRBRnumber().orElse(null),
-        isDigitallyAnnounced ? null : norm.getFRBRname().orElse(null),
-        isDigitallyAnnounced ? norm.getFRBRname().orElse(null) : null,
-        norm.getPublicationDate().orElse(null),
-        isDigitallyAnnounced ? null : norm.getFRBRnumber().map(s -> s.substring(1)).orElse(null),
-        isDigitallyAnnounced ? norm.getFRBRnumber().orElse(null) : null);
+    return NormResponseSchema.builder()
+        .eli(norm.getEli().orElse(null))
+        .title(norm.getTitle().orElse(null))
+        .frbrName(norm.getFRBRname().orElse(null))
+        .frbrNumber(norm.getFRBRnumber().orElse(null))
+        .printAnnouncementGazette(isDigitallyAnnounced ? null : norm.getFRBRname().orElse(null))
+        .digitalAnnouncementMedium(isDigitallyAnnounced ? norm.getFRBRname().orElse(null) : null)
+        .publicationDate(norm.getPublicationDate().orElse(null))
+        .printAnnouncementPage(
+            isDigitallyAnnounced
+                ? null
+                : norm.getFRBRnumber().map(s -> s.substring(1)).orElse(null))
+        .digitalAnnouncementEdition(isDigitallyAnnounced ? norm.getFRBRnumber().orElse(null) : null)
+        .shortTitle(norm.getShortTitle().orElse(null))
+        .fna(norm.getFna().orElse(null))
+        .build();
   }
 }

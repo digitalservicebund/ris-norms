@@ -10,7 +10,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +34,7 @@ public class NormController {
       LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
       UpdateNormXmlUseCase updateNormXmlUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      @Qualifier("normService") TimeMachineUseCase timeMachineUseCase) {
+      TimeMachineUseCase timeMachineUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.updateNormXmlUseCase = updateNormXmlUseCase;

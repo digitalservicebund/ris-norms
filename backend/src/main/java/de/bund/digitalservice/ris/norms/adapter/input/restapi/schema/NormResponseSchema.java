@@ -19,6 +19,10 @@ public class NormResponseSchema {
 
   private String title;
 
+  private String shortTitle;
+
+  private String fna;
+
   private String frbrName;
 
   private String frbrNumber;

@@ -5,7 +5,7 @@ test(`navigate to article editor`, async ({ page }) => {
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles",
   )
-  await page.getByText("Änderungsbefehl prüfen").click()
+  await page.getByText("Änderungsbefehl prüfen").first().click()
 
   await expect(page).toHaveURL(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit`,
@@ -51,7 +51,7 @@ test.describe("article editor", () => {
 
     await expect(
       page.getByText(
-        '<akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">',
+        '<akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">',
       ),
     ).toBeVisible()
   })
@@ -72,7 +72,7 @@ test.describe("article editor", () => {
 
     await expect(
       page.getByText(
-        '<akn:meta eId="meta-1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">',
+        '<akn:meta GUID="7e5837c8-b967-45be-924b-c95956c4aa94" eId="meta-1">',
       ),
     ).toBeVisible()
   })
@@ -110,7 +110,7 @@ test.describe("article editor", () => {
 
       // Validate the xml is saved
       const response = await page.request.get(
-        `/api/v1/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
+        `/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
         {
           headers: {
             Accept: "application/xml",
@@ -121,7 +121,7 @@ test.describe("article editor", () => {
     } finally {
       // Reset the xml
       await page.request.put(
-        `/api/v1/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
+        `/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
         {
           headers: {
             "Content-Type": "application/xml",

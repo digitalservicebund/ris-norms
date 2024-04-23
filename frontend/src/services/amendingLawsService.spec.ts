@@ -32,7 +32,7 @@ describe("amendingLawsService", () => {
       expect(result.publicationDate).toBe("2017-03-15")
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
     })
   })
@@ -74,7 +74,7 @@ describe("amendingLawsService", () => {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
 
-      expect(fetchMock).toHaveBeenCalledWith("/amending-laws")
+      expect(fetchMock).toHaveBeenCalledWith("/announcements")
     })
   })
 
@@ -96,7 +96,7 @@ describe("amendingLawsService", () => {
       expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
           headers: expect.objectContaining({
             Accept: "application/xml",
@@ -122,7 +122,7 @@ describe("amendingLawsService", () => {
       expect(result).toBe("<div></div>")
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
           headers: expect.objectContaining({
             Accept: "text/html",
@@ -151,7 +151,7 @@ describe("amendingLawsService", () => {
       expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
           method: "PUT",
           headers: expect.objectContaining({

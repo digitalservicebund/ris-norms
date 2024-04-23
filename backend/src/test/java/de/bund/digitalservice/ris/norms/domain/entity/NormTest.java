@@ -139,6 +139,67 @@ class NormTest {
   }
 
   @Test
+  void getShortTitle() {
+    // given
+    String normString =
+        """
+              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+              <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                     http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                 <akn:act name="regelungstext">
+                    <!-- Dokumentenkopf Regelungstext -->
+                    <akn:preface eId="einleitung-1" GUID="fc10e89f-fde4-44bf-aa98-b6bdea01f0ea">
+                       <akn:longTitle eId="einleitung-1_doktitel-1" GUID="abbb08de-e7e2-40ab-aba0-079ce786e6d6">
+                          <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="3e7c2134-d82c-44ba-b50d-bad9790375a0">
+                             <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1" GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">Vereinsgesetz</akn:shortTitle>
+                          </akn:p>
+                       </akn:longTitle>
+                    </akn:preface>
+                 </akn:act>
+              </akn:akomaNtoso>
+            """;
+    Norm norm = new Norm(toDocument(normString));
+
+    // when
+    var shortTitle = norm.getShortTitle();
+
+    // then
+    assertThat(shortTitle).contains("Vereinsgesetz");
+  }
+
+  @Test
+  void getShortTitleWithoutParenthesis() {
+    // given
+    String normString =
+        """
+              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+              <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                     http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                 <akn:act name="regelungstext">
+                    <!-- Dokumentenkopf Regelungstext -->
+                    <akn:preface eId="einleitung-1" GUID="fc10e89f-fde4-44bf-aa98-b6bdea01f0ea">
+                       <akn:longTitle eId="einleitung-1_doktitel-1" GUID="abbb08de-e7e2-40ab-aba0-079ce786e6d6">
+                          <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="3e7c2134-d82c-44ba-b50d-bad9790375a0">
+                             <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1" GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( <akn:inline
+                                   eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1" GUID="bdff7240-266e-4ff3-b311-60342bd1afa2" refersTo="amtliche-abkuerzung" name="attributsemantik-noch-undefiniert">Vereinsgesetz</akn:inline>)</akn:shortTitle>
+                          </akn:p>
+                       </akn:longTitle>
+                    </akn:preface>
+                 </akn:act>
+              </akn:akomaNtoso>
+            """;
+    Norm norm = new Norm(toDocument(normString));
+
+    // when
+    var shortTitle = norm.getShortTitle();
+
+    // then
+    assertThat(shortTitle).contains("Vereinsgesetz");
+  }
+
+  @Test
   void getFRBRname() {
     // given
     String normString =
@@ -269,6 +330,39 @@ class NormTest {
 
     // then
     assertThat(actualPublishingDate).isEqualTo(expectedPublishingDate);
+  }
+
+  @Test
+  void getFna() {
+    // given
+    String normString =
+        """
+              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+              <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                     http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                 <akn:act name="regelungstext">
+                    <!-- Metadaten -->
+                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                      <akn:proprietary eId="meta-1_proprietary-1"
+                                            GUID="cbeef40f-ddc7-4ea5-9d4d-c0077844b58f"
+                                            source="attributsemantik-noch-undefiniert">
+                              <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                                 <meta:fna>754-28-1</meta:fna>
+                              </meta:legalDocML.de_metadaten>
+                           </akn:proprietary>
+                    </akn:meta>
+                 </akn:act>
+              </akn:akomaNtoso>
+            """;
+
+    Norm norm = new Norm(toDocument(normString));
+
+    // when
+    var fna = norm.getFna();
+
+    // then
+    assertThat(fna).contains("754-28-1");
   }
 
   @Test
@@ -585,6 +679,11 @@ class NormTest {
                               <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
                                   source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
                            </akn:lifecycle>
+                           <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                                       <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                          <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                       </akn:temporalGroup>
+                           </akn:temporalData>
                         </akn:meta>
                      </akn:act>
                   </akn:akomaNtoso>
@@ -593,13 +692,11 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(xml));
 
-    TimeBoundary expectedBoundary1 =
-        new TimeBoundary(LocalDate.parse("2023-12-29"), "meta-1_lebzykl-1_ereignis-1");
-    TimeBoundary expectedBoundary2 =
+    TimeBoundary expectedBoundary =
         new TimeBoundary(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2");
 
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
 
-    assertThat(actualBoundaries).containsExactly(expectedBoundary1, expectedBoundary2);
+    assertThat(actualBoundaries).containsExactly(expectedBoundary);
   }
 }

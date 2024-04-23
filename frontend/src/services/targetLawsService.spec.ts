@@ -31,7 +31,8 @@ describe("targetLawsService", () => {
       )
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        undefined,
       )
     })
   })
@@ -54,7 +55,7 @@ describe("targetLawsService", () => {
       expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         expect.objectContaining({
           headers: expect.objectContaining({
             Accept: "application/xml",
@@ -80,7 +81,7 @@ describe("targetLawsService", () => {
       expect(result).toBe("<span></span>")
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1?showMetadata=true",
+        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1?showMetadata=true",
         expect.objectContaining({
           headers: expect.objectContaining({
             Accept: "text/html",
@@ -103,7 +104,7 @@ describe("targetLawsService", () => {
       expect(result).toBe("<span></span>")
 
       expect(fetchMock).toHaveBeenCalledWith(
-        `/target-laws/${eli}?showMetadata=false`,
+        `/norms/${eli}?showMetadata=false`,
         expect.objectContaining({
           headers: expect.objectContaining({
             Accept: "text/html",
@@ -130,7 +131,7 @@ describe("targetLawsService", () => {
       expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/target-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
           method: "PUT",
           headers: expect.objectContaining({
@@ -162,7 +163,7 @@ describe("targetLawsService", () => {
       expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview",
+        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview",
         expect.objectContaining({
           method: "POST",
           body: "<xml></xml>",
@@ -192,7 +193,7 @@ describe("targetLawsService", () => {
       expect(result).toBe("<span></span>")
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/target-laws/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview",
+        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview",
         expect.objectContaining({
           method: "POST",
           body: "<xml></xml>",

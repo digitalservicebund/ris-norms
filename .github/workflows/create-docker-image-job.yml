@@ -24,20 +24,20 @@ jobs:
       - name: Build docker image
         run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }} -f DockerfileApp .
       - name: Run Trivy vulnerability image scanner
-        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55
+        uses: aquasecurity/trivy-action@b5f4977b78f81fa3d48865ff0efcc6e279210235
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
           format: "sarif"
           output: "trivy-results.sarif"
-#      - name: Check trivy results
-#        run: |
-#          if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
-#            echo "Vulnerabilities found"
-#            exit 1
-#          else
-#            echo "No significant vulnerabilities found"
-#            exit 0
-#          fi
+      - name: Check trivy results
+        run: |
+          if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
+            echo "Vulnerabilities found"
+            exit 1
+          else
+            echo "No significant vulnerabilities found"
+            exit 0
+          fi
       - name: Upload trivy-results.sarif as an artifact
         uses: actions/upload-artifact@v4
         if: ${{ always () }}
@@ -51,7 +51,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-image-scan
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55
+        uses: aquasecurity/trivy-action@b5f4977b78f81fa3d48865ff0efcc6e279210235
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
           format: "cosign-vuln"
@@ -72,7 +72,7 @@ jobs:
           key: docker-images-cache-${{ github.run_id }}
           restore-keys: docker-images-cache-${{ github.run_id }}
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

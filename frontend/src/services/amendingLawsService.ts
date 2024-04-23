@@ -5,7 +5,7 @@ import { AmendingLaw } from "@/types/amendingLaw"
  * Load all amending laws from the API.
  */
 export async function getAmendingLaws(): Promise<AmendingLaw[]> {
-  return await apiFetch("/amending-laws")
+  return await apiFetch("/announcements")
 }
 
 /**
@@ -14,7 +14,7 @@ export async function getAmendingLaws(): Promise<AmendingLaw[]> {
  * @param eli Eli of the amending law
  */
 export async function getAmendingLawByEli(eli: string): Promise<AmendingLaw> {
-  return await apiFetch(`/amending-laws/${eli}`)
+  return await apiFetch(`/norms/${eli}`)
 }
 
 /**
@@ -23,7 +23,7 @@ export async function getAmendingLawByEli(eli: string): Promise<AmendingLaw> {
  * @param eli Eli of the amending law
  */
 export async function getAmendingLawXmlByEli(eli: string): Promise<string> {
-  return await apiFetch(`/amending-laws/${eli}`, {
+  return await apiFetch(`/norms/${eli}`, {
     headers: {
       Accept: "application/xml",
     },
@@ -36,7 +36,7 @@ export async function getAmendingLawXmlByEli(eli: string): Promise<string> {
  * @param eli Eli of the amending law
  */
 export async function getAmendingLawHtmlByEli(eli: string): Promise<string> {
-  return await apiFetch(`/amending-laws/${eli}`, {
+  return await apiFetch(`/norms/${eli}`, {
     headers: {
       Accept: "text/html",
     },
@@ -51,7 +51,7 @@ export async function getAmendingLawHtmlByEli(eli: string): Promise<string> {
  * @returns the newly saved xml
  */
 export async function putAmendingLawXml(eli: string, xml: string) {
-  return await apiFetch<string>(`/amending-laws/${eli}`, {
+  return await apiFetch<string>(`/norms/${eli}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/xml",

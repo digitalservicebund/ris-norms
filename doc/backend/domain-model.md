@@ -3,34 +3,16 @@
 ```mermaid
 classDiagram
 
-AmendingLaw "1" --> "*" Article: articles
+direction LR
 
-class AmendingLaw{
-    eli: String
-    title: String
-    printAnnouncementGazette: String
-    digitalAnnouncementMedium: String
-    publicationDate: Date
-    printAnnouncementPage: Int
-    digitalAnnouncementEdition: Int
-    xml: String
-    releasedAt: Timestamp | Null
-
-}
-
-class Article{
-    eId: String
-    enumeration: String
-    title: String
-}
-
-Article "1" --> "1" TargetLaw: targetLaw
-Article "1" --> "1" TargetLaw: targetLawZF0
-
-class TargetLaw{
-    eli: String
-    title: String
+class Norm {
     xml: String
 }
 
+class Announcement {
+    releasedByDocumentalistAt: Timestamp | Null
+}
+
+Announcement "0..1" --> "1" Norm: norm
+Norm --> Norm: xml
 ```

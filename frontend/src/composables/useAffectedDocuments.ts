@@ -1,19 +1,22 @@
 import { useArticles } from "@/composables/useArticles"
 import { getTargetLawByEli } from "@/services/targetLawsService"
 import { TargetLaw } from "@/types/targetLaw"
-import {
-  DeepReadonly,
-  MaybeRefOrGetter,
-  Ref,
-  computed,
-  readonly,
-  ref,
-  watch,
-} from "vue"
+import { DeepReadonly, MaybeRefOrGetter, Ref, readonly, ref, watch } from "vue"
+import { Article } from "@/types/article"
 
 export type TargetLawWithZF0Eli = {
   targetLaw: TargetLaw
   targetLawZf0Eli: string
+}
+
+function isArticleWithAffectedDocument(article: Article): article is Article & {
+  affectedDocumentEli: string
+  affectedDocumentZf0Eli: string
+} {
+  return (
+    article.affectedDocumentEli !== null &&
+    article.affectedDocumentZf0Eli !== null
+  )
 }
 
 /**
@@ -33,28 +36,26 @@ export function useAffectedDocuments(
 
   const articles = useArticles(eli)
 
-  const affectedDocumentElis = computed(
-    () =>
-      articles.value?.map((article) => [
-        article.affectedDocumentEli,
-        article.affectedDocumentZf0Eli,
-      ]) ?? [],
-  )
-
   watch(
-    affectedDocumentElis,
-    async (is) => {
+    articles,
+    async (value, oldValue, onCleanup) => {
+      const abortController = new AbortController()
+      onCleanup(() => {
+        abortController.abort()
+      })
+
       targetLaws.value = await Promise.all(
-        is.map(async ([eli, zf0Eli]) => {
-          const targetLaw = await getTargetLawByEli(eli)
-          return {
-            targetLaw,
-            targetLawZf0Eli: zf0Eli,
-          }
-        }),
+        (articles.value ?? [])
+          .filter(isArticleWithAffectedDocument)
+          .map(async (article) => ({
+            targetLaw: await getTargetLawByEli(article.affectedDocumentEli, {
+              signal: abortController.signal,
+            }),
+            targetLawZf0Eli: article.affectedDocumentZf0Eli,
+          })),
       )
     },
-    { immediate: true },
+    { immediate: true, deep: true },
   )
 
   return readonly(targetLaws)

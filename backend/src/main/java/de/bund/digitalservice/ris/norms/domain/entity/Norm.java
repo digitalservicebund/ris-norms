@@ -93,6 +93,27 @@ public class Norm {
   }
 
   /**
+   * Returns the short title as {@link String} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The short title
+   */
+  public Optional<String> getShortTitle() {
+    return NodeParser.getValueFromExpression(
+            "//longTitle/*/shortTitle/*[@refersTo=\"amtliche-abkuerzung\"]", document)
+        .or(() -> NodeParser.getValueFromExpression("//longTitle/*/shortTitle", document));
+  }
+
+  /**
+   * Returns the short title as {@link String} from a {@link Document} in a {@link Norm}.
+   *
+   * @return The short title
+   */
+  public Optional<String> getFna() {
+    return NodeParser.getValueFromExpression(
+        "//meta/proprietary/legalDocML.de_metadaten/fna", document);
+  }
+
+  /**
    * Returns a list of articles as {@link List} from a {@link Document} in a {@link Norm}.
    *
    * @return The list of articles
@@ -137,23 +158,34 @@ public class Norm {
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
   public List<TimeBoundary> getTimeBoundaries() {
-    String xpathExpression = "//lifecycle/eventRef";
-    final NodeList eventRefs = NodeParser.getNodesFromExpression(xpathExpression, document);
+    NodeList timeIntervalNodes =
+        NodeParser.getNodesFromExpression(
+            "//temporalData/temporalGroup/timeInterval/@start", document);
 
-    if (eventRefs.getLength() == 0) {
+    if (timeIntervalNodes.getLength() == 0) {
       return List.of();
     }
 
     List<TimeBoundary> timeBoundaries = new ArrayList<>();
 
-    for (int i = 0; i < eventRefs.getLength(); i++) {
-      Node node = eventRefs.item(i);
-      Optional<String> date = NodeParser.getValueFromExpression("./@date", node);
-      Optional<String> eid = NodeParser.getValueFromExpression("./@eId", node);
+    for (int i = 0; i < timeIntervalNodes.getLength(); i++) {
+      Node node = timeIntervalNodes.item(i);
+      String startRef = node.getNodeValue().substring(1);
+      String xpathEventRef = String.format("//lifecycle/eventRef[@eId='%s']", startRef);
+      NodeList eventRefNodes = NodeParser.getNodesFromExpression(xpathEventRef, document);
 
-      TimeBoundary boundary =
-          TimeBoundary.builder().date(LocalDate.parse(date.orElse(""))).eid(eid.orElse("")).build();
-      timeBoundaries.add(boundary);
+      for (int j = 0; j < eventRefNodes.getLength(); j++) {
+        Node eventNode = eventRefNodes.item(j);
+        Optional<String> date = NodeParser.getValueFromExpression("@date", eventNode);
+        Optional<String> eid = NodeParser.getValueFromExpression("@eId", eventNode);
+
+        TimeBoundary boundary =
+            TimeBoundary.builder()
+                .date(LocalDate.parse(date.orElse("")))
+                .eid(eid.orElse(""))
+                .build();
+        timeBoundaries.add(boundary);
+      }
     }
 
     return timeBoundaries;

@@ -41,13 +41,13 @@ test.describe("Articles page", () => {
         ).toBeVisible()
       }
 
-      const checkChangeCommandButton = page.locator(
-        'text="Änderungsbefehl prüfen"',
-      )
+      const checkChangeCommandButton = page
+        .getByText("Änderungsbefehl prüfen")
+        .first()
       await expect(checkChangeCommandButton).toBeVisible()
 
       // Back
-      await page.click("text=Zurück")
+      await page.getByText("Zurück").click()
       await expect(page).toHaveURL("/amending-laws")
     })
   }
