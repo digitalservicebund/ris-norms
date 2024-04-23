@@ -5,20 +5,20 @@ services:
       context: .
       dockerfile: DockerfileApp
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres16:5432/risnorms
       - REDIS_HOST=redis
       - SPRING_PROFILES_ACTIVE=local
     ports:
       - 8080:8080
     depends_on:
-      - postgres14
+      - postgres16
       - redis
-  postgres14:
+  postgres16:
     image: postgres:16-alpine
     restart: always
-    container_name: postgres14
+    container_name: postgres16
     volumes:
-      - postgres14-data:/var/lib/postgresql/data
+      - postgres16-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=risnorms
       - POSTGRES_PASSWORD=test
@@ -57,4 +57,4 @@ services:
       timeout: 5s
 
 volumes:
-  postgres14-data:
+  postgres16-data:
