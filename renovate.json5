@@ -12,7 +12,11 @@
     {
       "matchUpdateTypes": [
         "minor",
-        "patch"
+        "patch",
+        "patch",
+        "pin", 
+        "pinDigest", 
+        "digest"
       ],
       "schedule": ["every weekday"], // branch creation only on weekdays
       "automerge": true,
