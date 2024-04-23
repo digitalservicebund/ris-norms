@@ -238,7 +238,7 @@ jobs:
         shell: bash
         run: docker load -i /tmp/images/backend-image.tar
       - name: Log into container registry
-        uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20
+        uses: docker/login-action@5f4866a30a54f16a52d2ecb4a3898e9e424939cf
         with:
           registry: ${{ inputs.container-registry }}
           username: ${{ github.actor }}
