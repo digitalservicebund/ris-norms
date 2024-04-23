@@ -78,7 +78,7 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  vulnerability-scan-backend:
+  vulnerability-scan-image:
     runs-on: ubuntu-latest
     needs: reset-trivy-cache
     permissions:
@@ -117,7 +117,7 @@ jobs:
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "cosign-vuln"
-          output: "vuln-backend.json"
+          output: "vuln.json"
       - name: Install cosign
         uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20
       - name: Log into container registry
@@ -127,7 +127,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Attest vulnerability scan
-        run: cosign attest --yes --replace --predicate vuln-backend.json --type vuln ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+        run: cosign attest --yes --replace --predicate vuln.json --type vuln ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
