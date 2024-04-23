@@ -12,7 +12,7 @@ RUN mkdir -p src/main/resources/static
 COPY --from=frontend /frontend/dist src/main/resources/static
 RUN ./gradlew build --profile -x integrationTest -x test -x spotlessMisc
 
-FROM cgr.dev/chainguard/jre@sha256:58565c5cab3a63ff2b84592e1c544418a0ee9d2fa8129f5076a8e3acf7366b01
+FROM cgr.dev/chainguard/jre@sha256:74ce09ffa85cb66a0cbaa43cc61277f5abcca7ba4b876b12186cbc03838bd6bf
 COPY --from=backend /backend/build/libs/ris-norms-backend-*.jar /app/app.jar
 ENV spring.cloud.bootstrap.enabled=true
 EXPOSE 8080
