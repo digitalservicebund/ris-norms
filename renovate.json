@@ -1,6 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":disableDependencyDashboard"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "schedule": ["every weekday"], // branch creation only on weekdays
+      "automerge": true,
+      "platformAutomerge": false, // this would require more repository setup
+      "automergeType": "branch" // only create PRs if tests fail (or stall)
+    }
   ]
 }
