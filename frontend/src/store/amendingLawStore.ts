@@ -1,4 +1,4 @@
-import { getAmendingLawByEli } from "@/services/amendingLawsService"
+import { getNormByEli } from "@/services/normService"
 import { AmendingLaw } from "@/types/amendingLaw"
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"
@@ -22,7 +22,7 @@ export const useAmendingLawStore = defineStore("amending-law", () => {
       }
       loading.value = true
       loadedAmendingLaw.value = undefined
-      loadedAmendingLaw.value = await getAmendingLawByEli(newEli)
+      loadedAmendingLaw.value = await getNormByEli(newEli)
       loading.value = false
     }
   })

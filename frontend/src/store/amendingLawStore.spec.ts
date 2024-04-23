@@ -1,12 +1,12 @@
-import { getAmendingLawByEli } from "@/services/amendingLawsService"
+import { getNormByEli } from "@/services/normService"
 import { useAmendingLawStore } from "@/store/amendingLawStore"
 import { AmendingLaw } from "@/types/amendingLaw"
 import { createPinia, setActivePinia } from "pinia"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
 
-vi.mock("@/services/amendingLawsService", () => ({
-  getAmendingLawByEli: vi.fn(),
+vi.mock("@/services/normService", () => ({
+  getNormByEli: vi.fn(),
 }))
 
 describe("useAmendingLawsStore", () => {
@@ -25,7 +25,7 @@ describe("useAmendingLawsStore", () => {
       digitalAnnouncementEdition: undefined,
     }
 
-    vi.mocked(getAmendingLawByEli).mockResolvedValue(mockAmendingLaw)
+    vi.mocked(getNormByEli).mockResolvedValue(mockAmendingLaw)
   })
 
   it("loads amending laws correctly", async () => {
@@ -35,7 +35,7 @@ describe("useAmendingLawsStore", () => {
     await nextTick()
 
     expect(store.loading).toBe(true)
-    expect(getAmendingLawByEli).toHaveBeenCalledOnce()
+    expect(getNormByEli).toHaveBeenCalledOnce()
 
     await vi.waitUntil(() => !store.loading)
 

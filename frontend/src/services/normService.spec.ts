@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-describe("amendingLawsService", () => {
+describe("normService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
   })
 
-  describe("getAmendingLawByEli(eli)", () => {
+  describe("getNormByEli(eli)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi.fn().mockResolvedValueOnce({
         eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
@@ -21,9 +21,9 @@ describe("amendingLawsService", () => {
         apiFetch: fetchMock,
       }))
 
-      const { getAmendingLawByEli } = await import("./amendingLawsService")
+      const { getNormByEli } = await import("./normService")
 
-      const result = await getAmendingLawByEli(
+      const result = await getNormByEli(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
       expect(result.eli).toBe(
@@ -37,48 +37,7 @@ describe("amendingLawsService", () => {
     })
   })
 
-  describe("getAmendingLaws()", () => {
-    it("provides the data from the api", async () => {
-      const fetchMock = vi.fn().mockResolvedValueOnce([
-        {
-          eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-          printAnnouncementGazette: "bgbl-1",
-          printAnnouncementMedium: undefined,
-          publicationDate: "2017-03-15",
-          printAnnouncementPage: "419",
-          digitalAnnouncementEdition: undefined,
-          articles: [
-            {
-              eid: "article eid 1",
-              title: "article eid 1",
-              enumeration: "1",
-            },
-            {
-              eid: "article eid 2",
-              title: "article eli 2",
-              enumeration: "2",
-            },
-          ],
-        },
-      ])
-
-      vi.doMock("./apiService.ts", () => ({
-        apiFetch: fetchMock,
-      }))
-
-      const { getAmendingLaws } = await import("./amendingLawsService")
-
-      const result = await getAmendingLaws()
-      expect(result.length).toBe(1)
-      expect(result[0].eli).toBe(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-      )
-
-      expect(fetchMock).toHaveBeenCalledWith("/announcements")
-    })
-  })
-
-  describe("getAmendingLawXmlByEli(eli)", () => {
+  describe("getNormXmlByEli(eli)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi
         .fn()
@@ -88,9 +47,9 @@ describe("amendingLawsService", () => {
         apiFetch: fetchMock,
       }))
 
-      const { getAmendingLawXmlByEli } = await import("./amendingLawsService")
+      const { getNormXmlByEli } = await import("./normService")
 
-      const result = await getAmendingLawXmlByEli(
+      const result = await getNormXmlByEli(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
       expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
@@ -106,7 +65,7 @@ describe("amendingLawsService", () => {
     })
   })
 
-  describe("getAmendingLawHtmlByEli(eli)", () => {
+  describe("getNormHtmlByEli(eli)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
 
@@ -114,9 +73,9 @@ describe("amendingLawsService", () => {
         apiFetch: fetchMock,
       }))
 
-      const { getAmendingLawHtmlByEli } = await import("./amendingLawsService")
+      const { getNormHtmlByEli } = await import("./normService")
 
-      const result = await getAmendingLawHtmlByEli(
+      const result = await getNormHtmlByEli(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
       expect(result).toBe("<div></div>")
@@ -132,7 +91,7 @@ describe("amendingLawsService", () => {
     })
   })
 
-  describe("putAmendingLawXml(eli, xml)", () => {
+  describe("putNormXml(eli, xml)", () => {
     it("sends the data to the api", async () => {
       const fetchMock = vi
         .fn()
@@ -142,9 +101,9 @@ describe("amendingLawsService", () => {
         apiFetch: fetchMock,
       }))
 
-      const { putAmendingLawXml } = await import("./amendingLawsService")
+      const { putNormXml } = await import("./normService")
 
-      const result = await putAmendingLawXml(
+      const result = await putNormXml(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         '<?xml version="1.0" encoding="UTF-8"?></xml>',
       )

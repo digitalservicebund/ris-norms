@@ -8,10 +8,10 @@ describe("useAmendingLawHtml", () => {
   })
 
   test("should provide the amending law html", async () => {
-    const getAmendingLawHtmlByEli = vi.fn().mockResolvedValue("<div></div>")
+    const getNormHtmlByEli = vi.fn().mockResolvedValue("<div></div>")
 
-    vi.doMock("@/services/amendingLawsService", () => ({
-      getAmendingLawHtmlByEli,
+    vi.doMock("@/services/normService", () => ({
+      getNormHtmlByEli,
     }))
 
     const { useAmendingLawHtml } = await import("./useAmendingLawHtml")
@@ -26,10 +26,10 @@ describe("useAmendingLawHtml", () => {
   })
 
   test("should load the amending law html when the eli changes", async () => {
-    const getAmendingLawHtmlByEli = vi.fn()
+    const getNormHtmlByEli = vi.fn()
 
-    vi.doMock("@/services/amendingLawsService", () => ({
-      getAmendingLawHtmlByEli,
+    vi.doMock("@/services/normService", () => ({
+      getNormHtmlByEli,
     }))
 
     const { useAmendingLawHtml } = await import("./useAmendingLawHtml")
@@ -45,6 +45,6 @@ describe("useAmendingLawHtml", () => {
     eli.value = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
     await nextTick()
 
-    expect(getAmendingLawHtmlByEli).toBeCalledTimes(2)
+    expect(getNormHtmlByEli).toBeCalledTimes(2)
   })
 })
