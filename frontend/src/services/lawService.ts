@@ -3,7 +3,7 @@ export async function renderHtmlLaw(
   xml: string | undefined,
   showMetadata: boolean = true,
 ): Promise<string> {
-  return await apiFetch(`renderings?showMetadata=${showMetadata}`, {
+  return await apiFetch(`laws/rendering?showMetadata=${showMetadata}`, {
     method: "POST",
     headers: {
       Accept: "text/html",

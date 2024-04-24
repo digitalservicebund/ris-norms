@@ -14,7 +14,7 @@ import { computed, ref, watch, onMounted } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { renderHtmlLaw } from "@/services/renderService"
+import { renderHtmlLaw } from "@/services/lawService"
 import {
   getNormHtmlByEli,
   previewNorm,

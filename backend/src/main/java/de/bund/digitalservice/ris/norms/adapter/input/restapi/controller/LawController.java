@@ -7,16 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controller for rendering HTML of norm documents. This controller provides endpoints for
- * transforming XML representations of norms into HTML.
+ * Controller for law-related actions, including HTML rendering of law documents. This controller
+ * provides endpoints for transforming XML representations of laws into HTML.
  */
 @RestController
-@RequestMapping("/api/v1/renderings")
-public class RenderingController {
+@RequestMapping("/api/v1/laws")
+public class LawController {
 
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
-  public RenderingController(TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
+  public LawController(TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
   }
 
@@ -28,6 +28,7 @@ public class RenderingController {
    * @return A {@link ResponseEntity} containing the HTML rendering of the law document.
    */
   @PostMapping(
+      path = "/rendering",
       consumes = {APPLICATION_XML_VALUE},
       produces = {TEXT_HTML_VALUE})
   public ResponseEntity<String> getHtmlPreview(
