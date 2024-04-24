@@ -65,7 +65,7 @@ paths:
         - name: refersTo
           in: query
           required: false
-          description: Filter by the article's `refersTo` literal (`refersToLiterals.einzelvorschrift` in the specification).
+          description: "Filter by the article's `refersTo` literal (`refersToLiterals.einzelvorschrift` in the specification). Only for Content-Type: text/html"
           schema:
             type: string
       responses:
@@ -77,6 +77,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Article'
+            text/html:
+              schema:
+                type: string
 
   /norms/{eli}/articles/{eid}:
     get:
@@ -217,6 +220,10 @@ components:
           type: string
         title:
           type: string
+        shortTitle:
+          type: string
+        fna:
+          type: string
         frbrName:
           type: string
         frbrNumber:
@@ -248,6 +255,8 @@ components:
           type: string
         affectedDocumentEli:
           type: string
+        affectedDocumentZf0Eli:
+          type: string
 
     ReleaseResponse:
       type: object
@@ -255,15 +264,12 @@ components:
         releaseAt:
           type: string
           format: date-time
-        eliAmendingLaw:
+        amendingLawEli:
           type: string
-        eliTargetLawZF0:
+        zf0Elis:
           type: array
           items:
-            type: object
-            properties:
-              eli:
-                type: string
+            type: string
 
     LegalDocML.de:
       type: object
