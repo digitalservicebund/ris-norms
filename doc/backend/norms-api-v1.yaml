@@ -52,6 +52,59 @@ paths:
               schema:
                 $ref: '#/components/schemas/ReleaseResponse'
 
+  /norms/{eli}:
+    get:
+      summary: Get a specific norm by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: eli of the norm
+          schema:
+            type: string
+        - in: query
+          name: showMetadata
+          schema:
+            type: boolean
+            default: false
+          description: "Should the metadata table be included? (only for Content-Type: text/html)"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Norm'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+            text/html:
+              schema:
+                type: string
+    put:
+      summary: Update a specific norm by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: eli of the norm
+          schema:
+            type: string
+      requestBody:
+        description: The XML of the norm (which may be updated and saved on DB)
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/LegalDocML.de'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+
   /norms/{eli}/articles:
     get:
       summary: Get a list of articles for a specific norm by eli
@@ -105,58 +158,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/Article'
 
-  /norms/{eli}:
+  /norms/{eli}/timeBoundaries:
     get:
-      summary: Get a specific norm by eli
+      summary: Get all time boundaries for a given norm
       parameters:
         - name: eli
           in: path
           required: true
-          description: eli of the norm
+          description: ELI of the norm
           schema:
             type: string
-        - in: query
-          name: showMetadata
-          schema:
-            type: boolean
-            default: false
-          description: "Should the metadata table be included? (only for Content-Type: text/html)"
       responses:
         '200':
           description: Successful response
+
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Norm'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-            text/html:
-              schema:
-                type: string
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeBoundary'
     put:
-      summary: Update a specific norm by eli
+      summary: Update all time boundaries for a given norm
       parameters:
         - name: eli
           in: path
           required: true
-          description: eli of the norm
+          description: ELI of the norm
           schema:
             type: string
       requestBody:
-        description: The XML of the norm (which may be updated and saved on DB)
+        description: The new time boundaries of a norm
         required: true
         content:
-          application/xml:
+          application/json:
             schema:
-              $ref: '#/components/schemas/LegalDocML.de'
+              $ref: '#/components/schemas/TimeBoundary'
       responses:
-        '200':
-          description: Successful response
+        '204':
+          description: Successful update
           content:
-            application/xml:
+            application/json:
               schema:
-                $ref: '#/components/schemas/LegalDocML.de'
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeBoundary'
+        '400':
+          description: Update operation not successful
 
   /norms/{eli}/preview:
     post:
@@ -257,6 +305,15 @@ components:
           type: string
         affectedDocumentZf0Eli:
           type: string
+
+    TimeBoundary:
+      type: object
+      properties:
+        eid:
+          type: string
+        date:
+          type: string
+          format: date
 
     ReleaseResponse:
       type: object
