@@ -7,10 +7,11 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTargetLaw } from "@/composables/useTargetLaw"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { ref, watch } from "vue"
-import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { FetchError } from "ofetch"
 import { getNormHtmlByEli } from "@/services/normService"
+import { Article } from "@/types/article"
+import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTemporalDataReleaseResponse"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -60,21 +61,91 @@ async function handleGeneratePreview() {
     }
   }
 }
+
+const zeitgrenzen: AmendingLawTemporalDataReleaseResponse[] = [
+  {
+    date: "23.10.2023",
+    eid: "unknown-eid-1",
+  },
+  {
+    date: "02.12.2023",
+    eid: "unknown-eid-2",
+  },
+  {
+    date: "03.02.2024",
+    eid: "unknown-eid-3",
+  },
+]
+
+const articles: Article[] = [
+  {
+    eid: "hauptteil-1_art-1",
+    title: "Passpflicht",
+    enumeration: "1",
+  },
+  {
+    eid: "hauptteil-1_art-3",
+    title: "Befreiung von der Passpflichtblablabla",
+    enumeration: "3",
+  },
+]
 </script>
 
 <template>
-  <div v-if="amendingLaw">
-    <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
+  <div
+    v-if="amendingLaw"
+    class="grid-rows-[5rem, 1fr] grid h-[calc(100dvh-5rem)] overflow-hidden bg-gray-100"
+    style="grid-template-columns: 16rem 1fr"
+  >
+    <RisAmendingLawInfoHeader class="col-span-2" :amending-law="amendingLaw" />
 
-    <RouterLink
-      class="ds-link-01-bold -mb-28 inline-flex h-80 items-center gap-12 px-40 text-blue-800"
-      :to="{ name: 'AmendingLawAffectedDocuments' }"
+    <aside
+      class="col-span-1 flex w-full flex-col gap-[1rem] overflow-auto border-r border-gray-400 bg-white p-[1rem]"
+      aria-labelledby="sidebarNavigation"
     >
-      <IconArrowBack class="text-18" alt="" />
-      <span>Zurück</span>
-    </RouterLink>
+      <span id="sidebarNavigation" hidden>SideBar Navigation</span>
 
-    <div class="flex h-[calc(100dvh-5rem)] flex-col p-40">
+      <div>
+        <label for="zeitgrenzeSelect">
+          <span class="ds-label-03-reg">Zeitgrenze</span>
+
+          <select id="zeitgrenzeSelect" class="ds-select ds-select-small">
+            <option
+              v-for="zeitgrenze in zeitgrenzen"
+              :key="zeitgrenze.eid"
+              :value="zeitgrenze.eid"
+            >
+              {{ zeitgrenze.date }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <router-link
+        class="ds-label-01-reg hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+        to=""
+      >
+        Rahmen
+      </router-link>
+
+      <hr class="border-b border-gray-400" />
+
+      <router-link
+        v-for="article in articles"
+        :key="article.eid"
+        class="ds-label-02-reg block hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+        :class="{
+          'font-bold': article.eid === 'hauptteil-1_art-1',
+        }"
+        :to="`./${article.eid}`"
+      >
+        <span class="block overflow-hidden text-ellipsis whitespace-nowrap"
+          >§{{ article.enumeration }} {{ article.title }}</span
+        >
+      </router-link>
+    </aside>
+
+    <div class="flex h-[calc(100dvh-5rem-5rem)] flex-col p-40">
       <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">{{ targetLaw?.title }}</h1>
