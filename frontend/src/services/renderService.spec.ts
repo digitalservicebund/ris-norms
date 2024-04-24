@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-describe("lawService", () => {
+describe("renderService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -16,13 +16,13 @@ describe("lawService", () => {
       }))
 
       const xml = "<law></law>"
-      const { renderHtmlLaw } = await import("./lawService")
+      const { renderHtmlLaw } = await import("./renderService")
 
       const result = await renderHtmlLaw(xml)
       expect(result).toBe(`<html>Metadata shown</html>`)
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "laws/rendering?showMetadata=true",
+        "rendering?showMetadata=true",
         expect.objectContaining({
           method: "POST",
           headers: expect.objectContaining({
@@ -43,13 +43,13 @@ describe("lawService", () => {
       }))
 
       const xml = "<law></law>"
-      const { renderHtmlLaw } = await import("./lawService")
+      const { renderHtmlLaw } = await import("./renderService")
 
       const result = await renderHtmlLaw(xml, true)
       expect(result).toBe(`<html>Metadata explicitly shown</html>`)
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "laws/rendering?showMetadata=true",
+        "rendering?showMetadata=true",
         expect.objectContaining({
           method: "POST",
           headers: expect.objectContaining({
@@ -70,13 +70,13 @@ describe("lawService", () => {
       }))
 
       const xml = "<law></law>"
-      const { renderHtmlLaw } = await import("./lawService")
+      const { renderHtmlLaw } = await import("./renderService")
 
       const result = await renderHtmlLaw(xml, false)
       expect(result).toBe(`<html>Metadata not shown</html>`)
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "laws/rendering?showMetadata=false",
+        "rendering?showMetadata=false",
         expect.objectContaining({
           method: "POST",
           headers: expect.objectContaining({

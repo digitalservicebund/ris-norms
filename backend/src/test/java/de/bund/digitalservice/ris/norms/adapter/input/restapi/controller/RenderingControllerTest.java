@@ -19,9 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
  * Not using SpringBootTest annotation to avoid needing a database connection. Therefore, manually
  * setting up the {@code mockMvc} including the ControllerAdvice
  */
-@WebMvcTest(LawController.class)
+@WebMvcTest(RenderingController.class)
 @Import(SecurityConfig.class)
-class LawControllerTest {
+class RenderingControllerTest {
   @Autowired private MockMvc mockMvc;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
