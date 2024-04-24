@@ -7,9 +7,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -33,6 +36,8 @@ class NormArticleControllerTest {
 
   @MockBean private LoadNormUseCase loadNormUseCase;
   @MockBean private LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
+  @MockBean private LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
+  @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
   @Nested
   class getArticles {
@@ -156,6 +161,34 @@ class NormArticleControllerTest {
                       Objects.equals(
                           argument.eli(),
                           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
+    }
+  }
+
+  @Nested
+  class getArticlesRender {
+
+    @Test
+    void itCallsNormServiceAndReturnsNormRender() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<akn:doc></akn:doc>";
+      final String html = "<div></div>";
+
+      when(loadSpecificArticleXmlFromNormUseCase.loadSpecificArticles(any()))
+          .thenReturn(List.of(xml));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/{eli}/articles?refersTo=something", eli)
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+          .andExpect(content().string("<div>\n" + html + "\n</div>\n"));
+
+      verify(transformLegalDocMlToHtmlUseCase, times(1))
+          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));
     }
   }
 

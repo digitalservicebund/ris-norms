@@ -37,7 +37,6 @@ class NormControllerTest {
 
   @MockBean private LoadNormUseCase loadNormUseCase;
   @MockBean private LoadNormXmlUseCase loadNormXmlUseCase;
-  @MockBean private LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   @MockBean private UpdateNormXmlUseCase updateNormXmlUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
@@ -175,34 +174,6 @@ class NormControllerTest {
       verify(transformLegalDocMlToHtmlUseCase, times(1))
           .transformLegalDocMlToHtml(
               argThat(query -> query.xml().equals(xml) && query.showMetadata()));
-    }
-  }
-
-  @Nested
-  class getArticlesRender {
-
-    @Test
-    void itCallsNormServiceAndReturnsNormRender() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String xml = "<akn:doc></akn:doc>";
-      final String html = "<div></div>";
-
-      when(loadSpecificArticleXmlFromNormUseCase.loadSpecificArticles(any()))
-          .thenReturn(List.of(xml));
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
-
-      // When // Then
-      mockMvc
-          .perform(
-              get("/api/v1/norms/{eli}/articles?refersTo=something", eli)
-                  .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isOk())
-          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-          .andExpect(content().string("<div>\n" + html + "\n</div>\n"));
-
-      verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals(xml)));
     }
   }
 
