@@ -8,7 +8,7 @@ scopeconfig:
   - scope: node
 fileignoreconfig:
   - filename: frontend/Dockerfile
-    checksum: wrong
+    checksum: 0db2e063587f46b2150f978f8dd9c5ce3d001fa8b89a1b67904f7a8363a6bd2a
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
     checksum: 671174b65f1c34d34870f93a9ef8ad7a1d43271384e09f4bb591c4d99055df92
   - filename: DockerfileApp
