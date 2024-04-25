@@ -109,7 +109,9 @@ public class NormController {
   }
 
   /**
-   * Retrieves a norm's html render based on its expression ELI. The ELI's components are
+   * TODO: Check if JavaDocs need to be updated
+   *
+   * <p>Retrieves a norm's html render based on its expression ELI. The ELI's components are
    * interpreted as query parameters.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
