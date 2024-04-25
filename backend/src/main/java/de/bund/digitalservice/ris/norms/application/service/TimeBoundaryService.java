@@ -5,7 +5,9 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
+import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,6 +35,27 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
 
   @Override
   public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
-    return List.of();
+    Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    if (norm.isPresent()) {
+      deleteTimeBoundaries(query.timeBoundaries(), norm.get());
+      addTimeBoundaries(query.timeBoundaries(), norm.get());
+      changeTimeBoundaries(query.timeBoundaries(), norm.get());
+    }
+
+    return norm.map(Norm::getTimeBoundaries).orElse(List.of());
+  }
+
+  private void changeTimeBoundaries(
+      List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
+    throw new UnsupportedOperationException();
+  }
+
+  private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
+    throw new UnsupportedOperationException();
+  }
+
+  private void deleteTimeBoundaries(
+      List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
+    throw new UnsupportedOperationException();
   }
 }

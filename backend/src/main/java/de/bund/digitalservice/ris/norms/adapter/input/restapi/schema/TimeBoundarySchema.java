@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Data
 @SuperBuilder(toBuilder = true)
-public class TimeBoundaryResponseSchema {
+public class TimeBoundarySchema {
   private LocalDate date;
   private String eid;
 }

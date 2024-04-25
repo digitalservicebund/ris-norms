@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TimeBoundaryResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundaryResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundarySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -31,8 +31,8 @@ public class TimeBoundaryController {
    * Retrieves time boundaries for a norm based on its ELI.
    *
    * <p>The method constructs an ELI from the provided path variables, queries the use case to
-   * retrieve time boundaries, and maps the resulting data to {@link TimeBoundaryResponseSchema}. If
-   * no data is found, it returns an HTTP 404 Not Found status.
+   * retrieve time boundaries, and maps the resulting data to {@link TimeBoundarySchema}. If no data
+   * is found, it returns an HTTP 404 Not Found status.
    *
    * @param agent the publishing body ("Verkündungsblatt")
    * @param year the year of announcement ("Verkündungsjahr")
@@ -42,11 +42,11 @@ public class TimeBoundaryController {
    * @param version the version number of the document ("Versionsnummer")
    * @param language the language of the document ("Sprache")
    * @param subtype the type of document ("Dokumentenart")
-   * @return a {@link ResponseEntity} containing a list of {@link TimeBoundaryResponseSchema} or
-   *     HTTP 404 Not Found if no boundaries are available.
+   * @return a {@link ResponseEntity} containing a list of {@link TimeBoundarySchema} or HTTP 404
+   *     Not Found if no boundaries are available.
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<List<TimeBoundaryResponseSchema>> getTimeBoundaries(
+  public ResponseEntity<List<TimeBoundarySchema>> getTimeBoundaries(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
@@ -57,7 +57,7 @@ public class TimeBoundaryController {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    List<TimeBoundaryResponseSchema> result =
+    List<TimeBoundarySchema> result =
         loadTimeBoundariesUseCase
             .loadTimeBoundariesOfNorm(new LoadTimeBoundariesUseCase.Query(eli))
             .stream()
@@ -70,8 +70,8 @@ public class TimeBoundaryController {
    * Updates time boundaries for a norm based on its ELI.
    *
    * <p>The method constructs an ELI from the provided path variables, queries the use case to
-   * update time boundaries, and maps the resulting data to {@link TimeBoundaryResponseSchema}. If
-   * no data is found, it returns an HTTP 404 Not Found status.
+   * update time boundaries, and maps the resulting data to {@link TimeBoundarySchema}. If no data
+   * is found, it returns an HTTP 404 Not Found status.
    *
    * @param agent the publishing body ("Verkündungsblatt")
    * @param year the year of announcement ("Verkündungsjahr")
@@ -81,26 +81,30 @@ public class TimeBoundaryController {
    * @param version the version number of the document ("Versionsnummer")
    * @param language the language of the document ("Sprache")
    * @param subtype the type of document ("Dokumentenart")
-   * @return a {@link ResponseEntity} containing a list of {@link TimeBoundaryResponseSchema} or
-   *     HTTP 404 Not Found if no boundaries are available or a 400 if the update failed.
+   * @param timeBoundaries the time boundaries that should be updated ("GeltungszeitIntervall")
+   * @return a {@link ResponseEntity} containing a list of {@link TimeBoundarySchema} or HTTP 404
+   *     Not Found if no boundaries are available or a 400 if the update failed.
    */
   @PutMapping(
       consumes = {APPLICATION_JSON_VALUE},
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<List<TimeBoundaryResponseSchema>> updateTimeBoundaries(
+  public ResponseEntity<List<TimeBoundarySchema>> updateTimeBoundaries(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
-      @PathVariable final String subtype) {
+      @PathVariable final String subtype,
+      @RequestBody final List<TimeBoundarySchema> timeBoundaries) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    List<TimeBoundaryResponseSchema> result =
+    List<TimeBoundarySchema> result =
         updateTimeBoundariesUseCase
-            .updateTimeBoundariesOfNorm(new UpdateTimeBoundariesUseCase.Query(eli))
+            .updateTimeBoundariesOfNorm(
+                new UpdateTimeBoundariesUseCase.Query(
+                    eli, TimeBoundaryResponseMapper.fromResponseSchema(timeBoundaries)))
             .stream()
             .map(TimeBoundaryResponseMapper::fromUseCaseData)
             .toList();
