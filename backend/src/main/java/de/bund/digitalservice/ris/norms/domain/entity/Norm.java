@@ -15,11 +15,12 @@ import org.w3c.dom.NodeList;
  * Represents an amending law entity with various attributes. This class is annotated with Lombok
  * annotations for generating builders, getters, toString, and constructors.
  */
+@Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Norm {
 
-  @Getter private final Document document;
+  private final Document document;
 
   /**
    * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}.
