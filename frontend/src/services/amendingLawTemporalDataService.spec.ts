@@ -62,11 +62,14 @@ describe("amendingLawTemporalDataService", () => {
       const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
       vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
 
-      const { updateAmendingLawTemporalDataIntervals } = await import(
+      const { updateAmendingLawTemporalDataTimeBoundaries } = await import(
         "./amendingLawTemporalDataService"
       )
 
-      const result = await updateAmendingLawTemporalDataIntervals(eli, dates)
+      const result = await updateAmendingLawTemporalDataTimeBoundaries(
+        eli,
+        dates,
+      )
       expect(result).toEqual(expectedResponse)
     })
   })
