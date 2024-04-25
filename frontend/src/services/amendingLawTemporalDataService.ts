@@ -22,7 +22,7 @@ export async function getAmendingLawEntryIntoForceHtml(
 /**
  * Fetches the temporal data (zeitgrenzen) related to an amending law.
  *
- * @returns Array of date strings in ISO format
+ * @returns An Array of TimeBoundary objects each with a date and eid strings
  */
 export async function getAmendingLawTemporalDataTimeBoundaries(
   eli: string,
@@ -42,15 +42,15 @@ export async function getAmendingLawTemporalDataTimeBoundaries(
  * Updates the temporal data (zeitgrenzen) related to an amending law by ELI.
  *
  * @param eli ELI of the amending law
- * @param dates Array of date strings in ISO format
- * @returns The updated array of dates
- */
+ * @param dates Array of TimeBoundary objects
+ * @returns An updated Array of TimeBoundary objects each with a date and eid strings
+ * */
 export async function updateAmendingLawTemporalDataIntervals(
   eli: string,
   dates: AmendingLawTemporalDataReleaseResponse[],
 ): Promise<AmendingLawTemporalDataReleaseResponse[]> {
   return await apiFetch<AmendingLawTemporalDataReleaseResponse[]>(
-    `/law/${eli}/zeitgrenzen`,
+    `/norms/${eli}/timeBoundaries`,
     {
       method: "PUT",
       headers: {
