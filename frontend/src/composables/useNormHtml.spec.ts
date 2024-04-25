@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
-describe("useAmendingLawHtml", () => {
+describe("useNormHtml", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -14,12 +14,12 @@ describe("useAmendingLawHtml", () => {
       getNormHtmlByEli,
     }))
 
-    const { useAmendingLawHtml } = await import("./useAmendingLawHtml")
+    const { useNormHtml } = await import("./useNormHtml")
 
     const eli = ref(
       "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
     )
-    const html = useAmendingLawHtml(eli)
+    const html = useNormHtml(eli)
     await vi.waitUntil(() => html.value)
 
     expect(html.value).toBe("<div></div>")
@@ -32,12 +32,12 @@ describe("useAmendingLawHtml", () => {
       getNormHtmlByEli,
     }))
 
-    const { useAmendingLawHtml } = await import("./useAmendingLawHtml")
+    const { useNormHtml } = await import("./useNormHtml")
 
     const eli = ref(
       "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
     )
-    useAmendingLawHtml(eli)
+    useNormHtml(eli)
 
     eli.value = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
     await nextTick()
