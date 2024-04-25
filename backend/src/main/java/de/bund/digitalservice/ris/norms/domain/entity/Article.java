@@ -14,7 +14,7 @@ import org.w3c.dom.Node;
  */
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-public class NormArticle {
+public class Article {
   @Getter private final Node node;
 
   /**

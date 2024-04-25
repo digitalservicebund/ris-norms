@@ -421,7 +421,7 @@ class NormTest {
     var secondExpectedHeading = "Inkrafttreten";
 
     // when
-    List<NormArticle> actualArticles = norm.getArticles();
+    List<Article> actualArticles = norm.getArticles();
 
     // then
     assertThat(actualArticles).hasSize(expectedNumberOfArticles);
@@ -456,7 +456,7 @@ class NormTest {
     Norm norm = new Norm(toDocument(normString));
 
     // when
-    List<NormArticle> actualArticles = norm.getArticles();
+    List<Article> actualArticles = norm.getArticles();
 
     // then
     assertThat(actualArticles).isEmpty();

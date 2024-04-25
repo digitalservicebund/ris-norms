@@ -3,8 +3,8 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
+import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormArticle;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ class ArticleResponseMapperTest {
   void itMapsNormArticleCorrectly() {
     // Given
     var article1 =
-        NormArticle.builder()
+        Article.builder()
             .node(
                 XmlMapper.toNode(
                     """
