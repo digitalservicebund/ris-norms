@@ -62,7 +62,7 @@ public class Norm {
         s ->
             s.replace("bgbl-1", "BGBl. I")
                 .replace("bgbl-2", "BGBl. II")
-                .replace("bgbl-3", "BGBl. III"));
+                .replace("banz-at", "BAnz AT"));
   }
 
   /**
