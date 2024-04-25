@@ -109,7 +109,7 @@ public class NormController {
   }
 
   /**
-   * Retrieves a norm's html render based o n its expression ELI. The ELI's components are
+   * Retrieves a norm's html render based on its expression ELI. The ELI's components are
    * interpreted as query parameters.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
@@ -123,6 +123,8 @@ public class NormController {
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
    * @param showMetadata Boolean indicating whether to include metadata in the HTML response.
+   * @param atTimeBoundary ISO date as string indicating which modifications should be applied
+   *     before returning the HTML rendering.
    * @return A {@link ResponseEntity} containing the retrieved norm as rendered html.
    *     <p>Returns HTTP 200 (OK) and the norm as rendered html.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
@@ -136,7 +138,12 @@ public class NormController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @RequestParam(defaultValue = "false") boolean showMetadata) {
+      @RequestParam(defaultValue = "false") boolean showMetadata,
+      // TODO: Should this be "atDate" ?
+      @RequestParam Optional<String> atTimeBoundary) {
+
+    if (atTimeBoundary.isPresent()) return ResponseEntity.badRequest().build();
+
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
