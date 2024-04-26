@@ -8,7 +8,7 @@ const props = defineProps<{
 }>()
 
 const heading = computed(() => {
-  const publicationYear = props.amendingLaw.publicationDate?.substring(0, 4)
+  const publicationYear = props.amendingLaw.frbrDateVerkuendung?.substring(0, 4)
   if (props.amendingLaw.printAnnouncementGazette) {
     return `${props.amendingLaw.printAnnouncementGazette} ${publicationYear} S. ${props.amendingLaw.printAnnouncementPage}`
   } else if (props.amendingLaw.digitalAnnouncementEdition) {

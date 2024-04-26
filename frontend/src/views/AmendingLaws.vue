@@ -29,7 +29,7 @@ onMounted(async () => {
           :print-announcement-page="amendingLaw.printAnnouncementPage"
           :digital-announcement-medium="amendingLaw.digitalAnnouncementMedium"
           :digital-announcement-edition="amendingLaw.digitalAnnouncementEdition"
-          :publication-date="amendingLaw.publicationDate"
+          :frbr-date-verkuendung="amendingLaw.frbrDateVerkuendung"
         />
       </RouterLink>
     </div>

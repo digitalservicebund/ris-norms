@@ -326,7 +326,7 @@ class NormTest {
     LocalDate expectedPublishingDate = LocalDate.of(1964, 8, 5);
 
     // when
-    LocalDate actualPublishingDate = norm.getPublicationDate().get();
+    LocalDate actualPublishingDate = norm.getFBRDateVerkuendung().get();
 
     // then
     assertThat(actualPublishingDate).isEqualTo(expectedPublishingDate);

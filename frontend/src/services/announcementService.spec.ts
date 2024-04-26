@@ -13,7 +13,7 @@ describe("announcementService", () => {
           eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
           printAnnouncementGazette: "bgbl-1",
           printAnnouncementMedium: undefined,
-          publicationDate: "2017-03-15",
+          frbrDateVerkuendung: "2017-03-15",
           printAnnouncementPage: "419",
           digitalAnnouncementEdition: undefined,
           articles: [

@@ -99,7 +99,7 @@ class NormControllerTest {
                   .value(equalTo("Gesetz zur Regelungs des öffenltichen Vereinsrechts")))
           .andExpect(jsonPath("frbrNumber").value(equalTo("s593")))
           .andExpect(jsonPath("frbrName").value(equalTo("BGBl. I")))
-          .andExpect(jsonPath("publicationDate").value(equalTo("1964-08-05")));
+          .andExpect(jsonPath("frbrDateVerkuendung").value(equalTo("1964-08-05")));
     }
   }
 

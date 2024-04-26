@@ -79,7 +79,7 @@ public class Norm {
    *
    * @return The PublicationDate
    */
-  public Optional<LocalDate> getPublicationDate() {
+  public Optional<LocalDate> getFBRDateVerkuendung() {
     return NodeParser.getValueFromExpression("//FRBRWork/FRBRdate/@date", document)
         .map(LocalDate::parse);
   }

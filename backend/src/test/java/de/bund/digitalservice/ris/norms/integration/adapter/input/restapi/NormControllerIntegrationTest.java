@@ -89,7 +89,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Gesetz zur Regelungs des öffenltichen Vereinsrechts"))
         .andExpect(jsonPath("frbrName").value("BGBl. I"))
         .andExpect(jsonPath("frbrNumber").value("s593"))
-        .andExpect(jsonPath("publicationDate").value("1964-08-05"));
+        .andExpect(jsonPath("frbrDateVerkuendung").value("1964-08-05"));
   }
 
   @Test

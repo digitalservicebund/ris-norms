@@ -25,7 +25,7 @@ export interface Norm {
    */
   digitalAnnouncementEdition?: string
   /** When the law was published. Conforms to YYYY-MM-DD. */
-  publicationDate?: string
+  frbrDateVerkuendung?: string
   /** Title of the law */
   title?: string
   /** Short title */

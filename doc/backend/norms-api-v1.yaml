@@ -282,7 +282,7 @@ components:
         digitalAnnouncementMedium:
           type: string
           deprecated: true
-        publicationDate:
+        frbrDateVerkuendung:
           type: string
           format: date
         printAnnouncementPage:
