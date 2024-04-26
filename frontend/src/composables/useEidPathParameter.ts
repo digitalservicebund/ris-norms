@@ -2,7 +2,7 @@ import { ComputedRef, computed } from "vue"
 import { useRoute } from "vue-router"
 
 export function useEidPathParameter(): ComputedRef<string | undefined> {
-  const { params } = useRoute()
+  const route = useRoute()
 
-  return computed(() => params.eid?.toString())
+  return computed(() => route.params.eid?.toString())
 }
