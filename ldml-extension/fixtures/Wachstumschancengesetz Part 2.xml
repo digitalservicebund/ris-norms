@@ -44,6 +44,16 @@
             <!-- 2. -->
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="85e92fc8-b381-47bb-a476-c35fa2794336" date="2023-01-01" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="inkrafttreten"></akn:eventRef>
           </akn:lifecycle>
+          <akn:analysis source="attributsemantik-noch-undefiniert" eId="meta-1_analysis-1" GUID="574fd083-03f8-4fad-9063-be1be66db787">
+            <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="c83d50dc-38d1-495c-a4a4-12d50b7909c3">
+               <akn:textualMod type="substitution" GUID="1378474b-426f-4488-83e1-6adf3be72fea" eId="meta-1_analysis-1_activemod-1_textualmod-1">
+                  <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" href="#hauptteil-1_para-7_abs-1_inhalt-1_text-1_ändbefehl-1" GUID="46928a7e-8665-41bd-923c-9617211239d5"></akn:source>
+                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" href="eli/bund/bgbl-1/2000/s717/regelungstext-1/hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1" GUID="1e15b64a-c408-4146-936f-faaf4d5fb36e"></akn:destination>
+                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-2" href="eli/bund/bgbl-1/2000/s717/regelungstext-1/hauptteil-1_para-2_abs-1_inhalt-1_text-1" GUID="cc8f0bd3-9c76-4542-b53f-b9da420faa16"></akn:destination>
+                  <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2" eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1" GUID="7441cd9c-d0cd-41e1-b702-5355342ee068"></akn:force>
+               </akn:textualMod>
+            </akn:activeModifications>
+          </akn:analysis>
          <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
             <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ee45119b-2485-4115-b587-da54b95e3ebd">
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="a43d0287-920d-4fbb-91d1-42fd7e03fe16" start="#meta-1_lebzykl-1_ereignis-2" refersTo="geltungszeit"></akn:timeInterval>
@@ -166,7 +176,7 @@
                      <akn:content GUID="50ed9b51-a18b-488e-9485-20b04a623bba" eId="hauptteil-1_para-7_abs-1_inhalt-1">
                         <akn:p GUID="873cc6e5-3751-4df5-b619-5bf40b93b245" eId="hauptteil-1_para-7_abs-1_inhalt-1_text-1">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen" eId="hauptteil-1_para-7_abs-1_inhalt-1_text-1_ändbefehl-1" GUID="92790492-5ffa-4e42-9740-867322778cac"> In 
-                           <akn:ref href="eli/bund/bgbl-1/2000/s717/regelungstext-1/hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1" GUID="cdb61a75-8b6a-4981-92da-2cd1017a2323" eId="hauptteil-1_para-7_abs-1_inhalt-1_text-1_ändbefehl-1_ref-1">§ 82a Absatz 1 Satz 1</akn:ref> und <akn:ref href="" GUID="1be4eca0-6f20-4264-a410-ec0c81335fef" eId="hauptteil-1_para-7_abs-1_inhalt-1_text-1_ändbefehl-1_ref-2">§ 82g Satz 1</akn:ref> der 
+                           <akn:ref href="eli/bund/bgbl-1/2000/s717/regelungstext-1/hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1" GUID="cdb61a75-8b6a-4981-92da-2cd1017a2323" eId="hauptteil-1_para-7_abs-1_inhalt-1_text-1_ändbefehl-1_ref-1">§ 82a Absatz 1 Satz 1</akn:ref> und <akn:ref href="eli/bund/bgbl-1/2000/s717/regelungstext-1/hauptteil-1_para-2_abs-1_inhalt-1_text-1" GUID="1be4eca0-6f20-4264-a410-ec0c81335fef" eId="hauptteil-1_para-7_abs-1_inhalt-1_text-1_ändbefehl-1_ref-2">§ 82g Satz 1</akn:ref> der 
                            <akn:affectedDocument href="" GUID="406ec206-26b1-4ab2-bd84-3529e2b5c580" eId="hauptteil-1_para-7_abs-1_inhalt-1_text-1_ändbefehl-1_bezugsdoc-1">Einkommensteuer-Durchführungsverordnung in der Fassung der 
                               Bekanntmachung vom 10. Mai 2000 (BGBl. I S. 717), die zuletzt durch Artikel 10 des Gesetzes vom 2. Juni 2021 
                               (BGBl. I S. 1259) geändert worden ist</akn:affectedDocument>, wird jeweils die Angabe 
