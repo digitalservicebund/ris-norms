@@ -188,14 +188,16 @@ paths:
           schema:
             type: string
       requestBody:
-        description: The new time boundaries of a norm
+        description: List of new time boundaries of a norm
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TimeBoundary'
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeBoundary'
       responses:
-        '204':
+        '200':
           description: Successful update
           content:
             application/json:
@@ -203,8 +205,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TimeBoundary'
-        '400':
-          description: Update operation not successful
 
   /norms/{eli}/preview:
     post:
