@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -143,7 +144,7 @@ public class NormController {
 
     if (atIsoDate.isPresent()) {
       try {
-        java.time.format.DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
+        DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
       } catch (Exception e) {
         return ResponseEntity.badRequest().build();
       }
