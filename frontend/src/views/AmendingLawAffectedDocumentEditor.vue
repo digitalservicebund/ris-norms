@@ -84,7 +84,7 @@ const articles: Article[] = [
     <RisAmendingLawInfoHeader class="col-span-2" :amending-law="amendingLaw" />
 
     <aside
-      class="col-span-1 flex w-full flex-col gap-[1rem] overflow-auto border-r border-gray-400 bg-white p-[1rem]"
+      class="col-span-1 flex h-full w-full flex-col gap-[1rem] overflow-auto border-r border-gray-400 bg-white p-[1rem]"
       aria-labelledby="sidebarNavigation"
     >
       <span id="sidebarNavigation" hidden>SideBar Navigation</span>
@@ -138,9 +138,7 @@ const articles: Article[] = [
       </router-link>
     </aside>
 
-    <div class="h-[calc(100dvh-5rem-5rem)] overflow-hidden p-40">
-      <RouterView></RouterView>
-    </div>
+    <RouterView></RouterView>
   </div>
   <div v-else>Laden...</div>
 </template>
