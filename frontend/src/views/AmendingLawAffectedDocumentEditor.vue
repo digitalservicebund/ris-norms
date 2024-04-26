@@ -3,13 +3,9 @@ import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawIn
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTemporalDataReleaseResponse"
-import { useRoute, useRouter } from "vue-router"
-import { computed, Ref, ref, watch, WritableComputedRef } from "vue"
+import { Ref, ref, watch, WritableComputedRef } from "vue"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
-import { useArticles } from "@/composables/useArticles"
-
-const router = useRouter()
-const route = useRoute()
+import { useZeitgrenzePathParameter } from "@/composables/useZeitgrenzePathParameter"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -44,23 +40,8 @@ const zeitgrenzen: Ref<AmendingLawTemporalDataReleaseResponse[]> = ref([
   },
 ])
 
-// Current selected zeitgrenze that keeps it in sync with the route parameter
-const selectedZeitgrenze: WritableComputedRef<string> = computed({
-  get() {
-    if (Array.isArray(route.params.zeitgrenze)) {
-      return route.params.zeitgrenze[0]
-    }
-
-    return route.params.zeitgrenze
-  },
-  set(zeitgrenze) {
-    router.push({
-      params: {
-        zeitgrenze,
-      },
-    })
-  },
-})
+const selectedZeitgrenze: WritableComputedRef<string> =
+  useZeitgrenzePathParameter()
 
 // choose the first zeitgrenze if none is selected so far
 watch(
