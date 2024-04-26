@@ -2,11 +2,11 @@
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { Article } from "@/types/article"
 import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTemporalDataReleaseResponse"
 import { useRoute, useRouter } from "vue-router"
 import { computed, Ref, ref, watch, WritableComputedRef } from "vue"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
+import { useArticles } from "@/composables/useArticles"
 
 const router = useRouter()
 const route = useRoute()
@@ -73,18 +73,11 @@ watch(
   { immediate: true },
 )
 
-const articles: Article[] = [
-  {
-    eid: "hauptteil-1_art-1",
-    title: "Passpflicht",
-    enumeration: "1",
-  },
-  {
-    eid: "hauptteil-1_art-3",
-    title: "Befreiung von der Passpflichtblablabla",
-    enumeration: "3",
-  },
-]
+// TODO: (Malte Laukötter, 2024-04-26) load based on zeitgrenze and which articles have changes for it
+const articles = useArticles(affectedDocumentEli)
+
+// TODO: (Malte Laukötter, 2024-04-26) implement saving
+function handleSave() {}
 </script>
 
 <template>
@@ -148,6 +141,16 @@ const articles: Article[] = [
           >§{{ article.enumeration }} {{ article.title }}</span
         >
       </router-link>
+
+      <div class="mt-auto">
+        <!-- this is only placed here temporarily -->
+        <button
+          class="ds-button ds-button-full-width ds-button-tertiary"
+          @click="handleSave"
+        >
+          Speichern
+        </button>
+      </div>
     </aside>
 
     <RouterView
