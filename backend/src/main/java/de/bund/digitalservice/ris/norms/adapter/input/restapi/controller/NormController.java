@@ -39,8 +39,8 @@ public class NormController {
    * Retrieves a norm based on its expression ELI. The ELI's components are interpreted as query
    * parameters.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
+   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
    * @param agent DE: "Verkündungsblatt"
    * @param year DE "Verkündungsjahr"
@@ -76,8 +76,8 @@ public class NormController {
    * Retrieves a norm's xml based on its expression ELI. The ELI's components are interpreted as
    * query parameters.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
+   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
    * @param agent DE: "Verkündungsblatt"
    * @param year DE "Verkündungsjahr"
@@ -109,13 +109,11 @@ public class NormController {
   }
 
   /**
-   * TODO: Check if JavaDocs need to be updated
-   *
-   * <p>Retrieves a norm's html render based on its expression ELI. The ELI's components are
+   * Retrieves a norm's html render based on its expression ELI. The ELI's components are
    * interpreted as query parameters.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
+   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
    * @param agent DE: "Verkündungsblatt"
    * @param year DE "Verkündungsjahr"
@@ -125,8 +123,8 @@ public class NormController {
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
    * @param showMetadata Boolean indicating whether to include metadata in the HTML response.
-   * @param atTimeBoundary ISO date as string indicating which modifications should be applied
-   *     before returning the HTML rendering.
+   * @param atIsoDate ISO date string indicating which modifications should be applied before the
+   *     HTML gets rendered and returned.
    * @return A {@link ResponseEntity} containing the retrieved norm as rendered html.
    *     <p>Returns HTTP 200 (OK) and the norm as rendered html.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
@@ -141,12 +139,11 @@ public class NormController {
       @PathVariable final String language,
       @PathVariable final String subtype,
       @RequestParam(defaultValue = "false") boolean showMetadata,
-      // TODO: Should this be "atDate" ?
-      @RequestParam Optional<String> atTimeBoundary) {
+      @RequestParam Optional<String> atIsoDate) {
 
-    if (atTimeBoundary.isPresent()) {
+    if (atIsoDate.isPresent()) {
       try {
-        java.time.format.DateTimeFormatter.ISO_DATE_TIME.parse(atTimeBoundary.get());
+        java.time.format.DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
       } catch (Exception e) {
         return ResponseEntity.badRequest().build();
       }
@@ -169,8 +166,8 @@ public class NormController {
    * Updates the XML representation of an amending law based on its expression ELI. The ELI's
    * components are interpreted as query parameters.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
+   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
    * @param agent DE: "Verkündungsblatt"
    * @param year DE "Verkündungsjahr"
@@ -212,8 +209,8 @@ public class NormController {
   /**
    * Retrieves the xml preview of a norm after an amending law is applied.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
+   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
    * @param agent DE: "Verkündungsblatt"
    * @param year DE "Verkündungsjahr"
@@ -253,8 +250,8 @@ public class NormController {
   /**
    * Retrieves the html preview of a norm after an amending law is applied.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
+   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
    * @param agent DE: "Verkündungsblatt"
    * @param year DE "Verkündungsjahr"

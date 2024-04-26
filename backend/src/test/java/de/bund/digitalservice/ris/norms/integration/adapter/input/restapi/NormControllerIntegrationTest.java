@@ -184,7 +184,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class GetNormsWithParametersShowMetadataOrAtTimeBoundary {
+  class GetNormsWithParametersShowMetadataOrAtIsoDate {
     @Test
     void itCallsNormServiceAndReturnsNormRenderWithMetadata() throws Exception {
       // Given
@@ -246,7 +246,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsBadRequestWhenRenderingAtInvalidTimeBoundary() throws Exception {
+    void itReturnsBadRequestWhenRenderingAtInvalidIsoDate() throws Exception {
       // Given
       final String xml =
           """
@@ -286,7 +286,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
           .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1?atTimeBoundary=NOT_A_DATE")
+              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1?atIsoDate=NOT_A_DATE")
                   .accept(MediaType.TEXT_HTML))
           .andExpect(status().isBadRequest());
     }
