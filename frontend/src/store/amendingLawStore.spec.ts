@@ -20,7 +20,7 @@ describe("useAmendingLawsStore", () => {
       eli: eli,
       printAnnouncementGazette: "example",
       digitalAnnouncementMedium: undefined,
-      publicationDate: "2023-01-01",
+      frbrDateVerkuendung: "2023-01-01",
       printAnnouncementPage: "1",
       digitalAnnouncementEdition: undefined,
     }

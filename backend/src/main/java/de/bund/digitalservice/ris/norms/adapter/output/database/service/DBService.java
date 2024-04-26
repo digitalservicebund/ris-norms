@@ -59,7 +59,7 @@ public class DBService
         .sorted(
             Comparator.comparing(
                     (Announcement announcement) ->
-                        announcement.getNorm().getPublicationDate().orElse(LocalDate.MIN))
+                        announcement.getNorm().getFBRDateVerkuendung().orElse(LocalDate.MIN))
                 .reversed())
         .toList();
   }

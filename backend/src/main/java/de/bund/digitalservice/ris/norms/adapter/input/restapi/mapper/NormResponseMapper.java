@@ -25,7 +25,7 @@ public class NormResponseMapper {
         .frbrNumber(norm.getFRBRnumber().orElse(null))
         .printAnnouncementGazette(isDigitallyAnnounced ? null : norm.getFRBRname().orElse(null))
         .digitalAnnouncementMedium(isDigitallyAnnounced ? norm.getFRBRname().orElse(null) : null)
-        .publicationDate(norm.getPublicationDate().orElse(null))
+        .frbrDateVerkuendung(norm.getFBRDateVerkuendung().orElse(null))
         .printAnnouncementPage(
             isDigitallyAnnounced
                 ? null

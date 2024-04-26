@@ -223,13 +223,13 @@ class NormTest {
         """;
 
     Norm norm = new Norm(toDocument(normString));
-    String expectedPrintAnnouncementGazette = "BGBl. I";
+    String expectedFRBRname = "BGBl. I";
 
     // when
-    String actualAnnouncementGazette = norm.getFRBRname().get();
+    String actualFRBRname = norm.getFRBRname().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedPrintAnnouncementGazette);
+    assertThat(actualFRBRname).isEqualTo(expectedFRBRname);
   }
 
   @Test
@@ -256,13 +256,13 @@ class NormTest {
             """;
 
     Norm norm = new Norm(toDocument(normString));
-    String expectedPrintAnnouncementGazette = "s593";
+    String expectedFRBRname = "s593";
 
     // when
     String actualAnnouncementGazette = norm.getFRBRnumber().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedPrintAnnouncementGazette);
+    assertThat(actualAnnouncementGazette).isEqualTo(expectedFRBRname);
   }
 
   @Test
@@ -289,13 +289,13 @@ class NormTest {
             """;
 
     Norm norm = new Norm(toDocument(normString));
-    String expectedPrintAnnouncementGazette = "BGBl. I";
+    String expectedFRBRname = "BGBl. I";
 
     // when
     String actualAnnouncementGazette = norm.getFRBRname().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedPrintAnnouncementGazette);
+    assertThat(actualAnnouncementGazette).isEqualTo(expectedFRBRname);
   }
 
   @Test
@@ -323,13 +323,13 @@ class NormTest {
                 """;
 
     Norm norm = new Norm(toDocument(normString));
-    LocalDate expectedPublishingDate = LocalDate.of(1964, 8, 5);
+    LocalDate expectedFBRDateVerkuendung = LocalDate.of(1964, 8, 5);
 
     // when
-    LocalDate actualPublishingDate = norm.getPublicationDate().get();
+    LocalDate actualFBRDateVerkuendung = norm.getFBRDateVerkuendung().get();
 
     // then
-    assertThat(actualPublishingDate).isEqualTo(expectedPublishingDate);
+    assertThat(actualFBRDateVerkuendung).isEqualTo(expectedFBRDateVerkuendung);
   }
 
   @Test

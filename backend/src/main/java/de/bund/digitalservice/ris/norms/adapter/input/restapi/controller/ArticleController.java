@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(
     "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/articles")
-public class NormArticleController {
+public class ArticleController {
 
   private final LoadNormUseCase loadNormUseCase;
   private final LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
-  public NormArticleController(
+  public ArticleController(
       LoadNormUseCase loadNormUseCase,
       LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase,
       LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,

@@ -39,7 +39,7 @@ public class NormResponseSchema {
   @Deprecated(forRemoval = true, since = "2024-04-18")
   private String digitalAnnouncementMedium;
 
-  private LocalDate publicationDate;
+  private LocalDate frbrDateVerkuendung;
 
   /**
    * @deprecated use {@link #frbrNumber} instead
