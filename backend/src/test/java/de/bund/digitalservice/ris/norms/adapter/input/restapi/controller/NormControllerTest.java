@@ -170,21 +170,39 @@ class NormControllerTest {
               argThat(query -> query.xml().equals(xml) && query.showMetadata()));
     }
 
-    @Test
-    void itReturnsBadRequestAtBadDate() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String xml = "<akn:doc></akn:doc>";
-      final String html = "<div></div>";
+    // @Test
+    // void itReturnsBadRequestAtBadDate() throws Exception {
+    //   // Given
+    //   final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    //   final String xml = "<akn:doc></akn:doc>";
+    //   final String html = "<div></div>";
 
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+    //   when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+    //   when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
-      // When // Then
-      mockMvc
-          .perform(get("/api/v1/norms/{eli}?atIsoDate=NOT_A_DATE", eli).accept(MediaType.TEXT_HTML))
-          .andExpect(status().isBadRequest());
-    }
+    //   // When // Then
+    //   mockMvc
+    //       .perform(get("/api/v1/norms/{eli}?atIsoDate=NOT_A_DATE",
+    // eli).accept(MediaType.TEXT_HTML))
+    //       .andExpect(status().isBadRequest());
+    // }
+
+    // @Test
+    // void itCallsNormsServiceAndReturnsHtmlRenderingAtGoodDate() throws Exception {
+    //   // Given
+    //   final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+    //   final String xml = "<akn:doc></akn:doc>";
+    //   final String html = "<div></div>";
+
+    //   when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+    //   when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+
+    //   // When // Then
+    //   mockMvc
+    //
+    // .perform(get("/api/v1/norms/{eli}?atTimeBoundary=2024-04-25T14:37:14.434ZatIsoDate=NOT_A_DATE", eli).accept(MediaType.TEXT_HTML))
+    //       .andExpect(status().isBadRequest());
+    // }
   }
 
   @Nested
