@@ -51,10 +51,7 @@ const selectedZeitgrenze: WritableComputedRef<string> = computed({
 watch(
   zeitgrenzen,
   () => {
-    if (
-      selectedZeitgrenze.value === "unknown" &&
-      zeitgrenzen.value.length > 0
-    ) {
+    if (selectedZeitgrenze.value === "" && zeitgrenzen.value.length > 0) {
       selectedZeitgrenze.value = zeitgrenzen.value[0].eid
     }
   },
