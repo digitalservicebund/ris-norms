@@ -6,13 +6,15 @@ import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTempo
 import { Ref, ref, watch, WritableComputedRef } from "vue"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useZeitgrenzePathParameter } from "@/composables/useZeitgrenzePathParameter"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 
 const amendingLaw = useAmendingLaw(amendingLawEli)
 
-const { xml: targetLawXml } = useTargetLawXml(affectedDocumentEli)
+const { xml: targetLawXml, update: updateTargetLawXml } =
+  useTargetLawXml(affectedDocumentEli)
 
 const currentTargetLawXml = ref<string | undefined>("")
 
@@ -58,7 +60,16 @@ watch(
 const articles = useArticles(affectedDocumentEli)
 
 // TODO: (Malte Laukötter, 2024-04-26) implement saving
-function handleSave() {}
+async function handleSave() {
+  try {
+    if (currentTargetLawXml.value) {
+      await updateTargetLawXml(currentTargetLawXml.value)
+    }
+  } catch (error) {
+    alert("Metadaten nicht gespeichert")
+    console.error(error)
+  }
+}
 </script>
 
 <template>
@@ -125,12 +136,14 @@ function handleSave() {}
 
       <div class="mt-auto">
         <!-- this is only placed here temporarily -->
-        <button
-          class="ds-button ds-button-full-width ds-button-tertiary"
+        <RisTextButton
+          :disabled="targetLawXml === currentTargetLawXml"
+          size="small"
+          full-width
+          class="h-fit flex-none self-end"
+          label="Speichern"
           @click="handleSave"
-        >
-          Speichern
-        </button>
+        />
       </div>
     </aside>
 
