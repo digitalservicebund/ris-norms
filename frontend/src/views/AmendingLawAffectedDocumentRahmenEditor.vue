@@ -1,27 +1,23 @@
 <script setup lang="ts">
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
-import { ref, watch } from "vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useNormHtml } from "@/composables/useNormHtml"
 
-const affectedDocumentEli = useEliPathParameter("affectedDocument")
+/**
+ * The xml of the law whose metadata is edited on this view. As both this and the article metadata editor vie both edit
+ * the same xml (which is not yet stored in the database) we provide it from AmendingLawAffectedDocumentEditor. That
+ * view also handles persisting the changes when requested.
+ */
+const xml = defineModel<string>("xml")
 
-const { xml: targetLawXml } = useTargetLawXml(affectedDocumentEli)
+const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const targetLawRender = useNormHtml(affectedDocumentEli)
 
-const currentTargetLawXml = ref("")
-function handleTargetLawXmlChange({ content }: { content: string }) {
-  currentTargetLawXml.value = content
+function handleXmlChange({ content }: { content: string }) {
+  xml.value = content
 }
-
-watch(targetLawXml, (targetLawXml) => {
-  if (targetLawXml) {
-    currentTargetLawXml.value = targetLawXml
-  }
-})
 </script>
 
 <template>
@@ -93,8 +89,8 @@ watch(targetLawXml, (targetLawXml) => {
           <template #xml>
             <RisCodeEditor
               class="flex-grow"
-              :initial-content="targetLawXml"
-              @change="handleTargetLawXmlChange"
+              :initial-content="xml"
+              @change="handleXmlChange"
             />
           </template>
         </RisTabs>

@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
-import { ref, watch } from "vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useNormHtml } from "@/composables/useNormHtml"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 
-const { xml: targetLawXml } = useTargetLawXml(affectedDocumentEli)
-const targetLawRender = useNormHtml(affectedDocumentEli)
+/**
+ * The xml of the law whose metadata is edited on this view. As both this and the rahmen metadata editor view both edit
+ * the same xml (which is not yet stored in the database) we provide it from AmendingLawAffectedDocumentEditor. That
+ * view also handles persisting the changes when requested.
+ */
+const xml = defineModel<string>("xml")
 
-const currentTargetLawXml = ref("")
+// TODO: (Malte Laukötter, 2024-04-26) we only want the render to show the selected article
+const render = useNormHtml(affectedDocumentEli)
+
 function handleTargetLawXmlChange({ content }: { content: string }) {
-  currentTargetLawXml.value = content
+  xml.value = content
 }
-
-watch(targetLawXml, (targetLawXml) => {
-  if (targetLawXml) {
-    currentTargetLawXml.value = targetLawXml
-  }
-})
 </script>
 
 <template>
@@ -36,7 +34,7 @@ watch(targetLawXml, (targetLawXml) => {
       <section class="mt-32 flex flex-col gap-8">
         <RisLawPreview
           class="ds-textarea flex-grow p-2"
-          :content="targetLawRender ?? ''"
+          :content="render ?? ''"
         />
       </section>
 
@@ -81,7 +79,7 @@ watch(targetLawXml, (targetLawXml) => {
           <template #xml>
             <RisCodeEditor
               class="flex-grow"
-              :initial-content="targetLawXml"
+              :initial-content="xml"
               @change="handleTargetLawXmlChange"
             />
           </template>

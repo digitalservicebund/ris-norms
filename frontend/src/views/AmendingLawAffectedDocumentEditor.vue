@@ -6,14 +6,29 @@ import { Article } from "@/types/article"
 import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTemporalDataReleaseResponse"
 import { useRoute, useRouter } from "vue-router"
 import { computed, Ref, ref, watch, WritableComputedRef } from "vue"
+import { useTargetLawXml } from "@/composables/useTargetLawXml"
 
 const router = useRouter()
 const route = useRoute()
 
 const amendingLawEli = useEliPathParameter()
+const affectedDocumentEli = useEliPathParameter("affectedDocument")
 
 const amendingLaw = useAmendingLaw(amendingLawEli)
 
+const { xml: targetLawXml } = useTargetLawXml(affectedDocumentEli)
+
+const currentTargetLawXml = ref<string | undefined>("")
+
+watch(targetLawXml, () => {
+  currentTargetLawXml.value = targetLawXml.value
+})
+
+function handleUpdateXml(newXml: string) {
+  currentTargetLawXml.value = newXml
+}
+
+// TODO: (Malte Laukötter, 2024-04-26) load zeitgrenzen
 const zeitgrenzen: Ref<AmendingLawTemporalDataReleaseResponse[]> = ref([
   {
     date: "23.10.2023",
@@ -135,7 +150,10 @@ const articles: Article[] = [
       </router-link>
     </aside>
 
-    <RouterView></RouterView>
+    <RouterView
+      :xml="currentTargetLawXml"
+      @update:xml="handleUpdateXml"
+    ></RouterView>
   </div>
   <div v-else>Laden...</div>
 </template>
