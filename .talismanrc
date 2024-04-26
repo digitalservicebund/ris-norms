@@ -17,8 +17,6 @@ fileignoreconfig:
     checksum: e764b8f5d4bc8b23962edc59f4939ec5a093b29fb9432684be6b0d0a3612da45
   - filename: docker-compose.yaml
     checksum: 252e8ac97929919d356866e02d9d9a0641d466cbe81e4555af54172b0c0bbdc2
-  - filename: ldml-extension/fixtures/Wachstumschancengesetz Part 2.xml
-    checksum: 238955ed4bf60753a01bd2c53b90dc44cc75487e1dbc2f98a7b76c15437eea14
   - filename: ldml-extension/fixtures/Einkommensteuergesetz.xml
     checksum: d2e1fe169bf768768f2163b0f0accd91f38002092b75f5946b8b0de2daf615e3
   - filename: ldml-extension/fixtures/Wachstumschancengesetz.xml
@@ -26,4 +24,4 @@ fileignoreconfig:
   - filename: ldml-extension/fixtures/Bundesverfassungschutzgesetz.xml
     checksum: bd9f0f269bae29bc814009396ef6bae5b932c24ee5257005439a5d95b8dd91af
   - filename: ldml-extension/fixtures/Wachstumschancengesetz Part 2.xml
-    checksum: c8447cb03e1a7a9273200a4379c0cabc1fb8ad871df75ac3ace9a5c516d369ed
+    checksum: 7b3eaacf63bf14ff39376bd3e03e86900646782e01b46cb55f11ce227ac15ea5
