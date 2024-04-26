@@ -19,7 +19,7 @@ public class TimeBoundaryResponseMapper {
   public static TimeBoundarySchema fromUseCaseData(final TimeBoundary timeBoundary) {
     return TimeBoundarySchema.builder()
         .date(timeBoundary.getDate().orElse(null))
-        .eid(timeBoundary.getEid().orElse(null))
+        .eid(timeBoundary.getEventRefEid().orElse(null))
         .build();
   }
 

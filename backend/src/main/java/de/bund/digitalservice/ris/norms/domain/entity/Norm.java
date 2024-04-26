@@ -7,7 +7,9 @@ import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -184,6 +186,49 @@ public class Norm {
     }
 
     return timeBoundaries;
+  }
+
+  /**
+   * Adds a list of time boundaries (Zeitgrenzen) to the document.
+   *
+   * @param timeBoundaryToAdd a {@link TimeBoundaryChangeData} containing dates and event IDs.
+   */
+  public void addTimeBoundary(TimeBoundaryChangeData timeBoundaryToAdd) {
+    List<String> eventRefIds =
+        getTimeBoundaries().stream()
+            .map(TimeBoundary::getEventRefEid)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .toList();
+
+    String eventRefString = eventRefIds.getFirst();
+    String eventRefBase = eventRefString.substring(0, eventRefString.lastIndexOf('-'));
+    Integer nextPossibleId = calculateNextPossibleId(eventRefIds);
+
+    TimeBoundary lastTimeBoundary = getTimeBoundaries().getLast();
+
+    Node lifecycle = lastTimeBoundary.getEventRefNode().getParentNode();
+
+    // Create new element
+    Element eventRef = document.createElement("akn:eventRef");
+
+    // Set attributes
+    eventRef.setAttribute("eId", eventRefBase + nextPossibleId);
+    eventRef.setAttribute("GUID", UUID.randomUUID().toString());
+    eventRef.setAttribute("date", timeBoundaryToAdd.date().toString());
+    eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
+    eventRef.setAttribute("type", "generation");
+    eventRef.setAttribute("refersTo", "inkrafttreten");
+
+    // Append the element to the document
+    lifecycle.appendChild(eventRef);
+  }
+
+  private static @NotNull Integer calculateNextPossibleId(List<String> eids) {
+    final String lastNumberAsString =
+        Arrays.stream(eids.stream().sorted().toList().getLast().split("-")).toList().getLast();
+
+    return Integer.parseInt(lastNumberAsString) + 1;
   }
 
   @Override

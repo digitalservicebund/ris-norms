@@ -37,11 +37,11 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
   public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
     Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (norm.isPresent()) {
-      deleteTimeBoundaries(query.timeBoundaries(), norm.get());
+      //      deleteTimeBoundaries(query.timeBoundaries(), norm.get());
       addTimeBoundaries(query.timeBoundaries(), norm.get());
-      changeTimeBoundaries(query.timeBoundaries(), norm.get());
+      //      changeTimeBoundaries(query.timeBoundaries(), norm.get());
     }
-
+    // TODO save Norm in database
     return norm.map(Norm::getTimeBoundaries).orElse(List.of());
   }
 
@@ -51,7 +51,11 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
   }
 
   private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
-    throw new UnsupportedOperationException();
+    List<TimeBoundaryChangeData> timeBoundariesToAdd =
+        timeBoundaryChangeData.stream()
+            .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
+            .toList();
+    timeBoundariesToAdd.forEach(norm::addTimeBoundary);
   }
 
   private void deleteTimeBoundaries(

@@ -29,7 +29,7 @@ public class TimeBoundary {
    *
    * @return The eId of the event
    */
-  public Optional<String> getEid() {
+  public Optional<String> getEventRefEid() {
     return NodeParser.getValueFromExpression("./@eId", this.eventRefNode);
   }
 }

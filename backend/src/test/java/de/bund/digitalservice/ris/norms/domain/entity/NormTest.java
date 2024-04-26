@@ -696,6 +696,7 @@ class NormTest {
 
     assertThat(actualBoundaries.getFirst().getDate().get())
         .isEqualTo(LocalDate.parse("2023-12-30"));
-    assertThat(actualBoundaries.getFirst().getEid().get()).contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(actualBoundaries.getFirst().getEventRefEid().get())
+        .contains("meta-1_lebzykl-1_ereignis-2");
   }
 }
