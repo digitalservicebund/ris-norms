@@ -25,10 +25,8 @@ onMounted(async () => {
         <RisAmendingLawCard
           :key="amendingLaw.eli"
           :eli="amendingLaw.eli"
-          :print-announcement-gazette="amendingLaw.printAnnouncementGazette"
-          :print-announcement-page="amendingLaw.printAnnouncementPage"
-          :digital-announcement-medium="amendingLaw.digitalAnnouncementMedium"
-          :digital-announcement-edition="amendingLaw.digitalAnnouncementEdition"
+          :frbr-name="amendingLaw.frbrName"
+          :frbr-number="amendingLaw.frbrNumber"
           :frbr-date-verkuendung="amendingLaw.frbrDateVerkuendung"
         />
       </RouterLink>

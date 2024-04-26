@@ -9,10 +9,12 @@ const props = defineProps<{
 
 const heading = computed(() => {
   const publicationYear = props.amendingLaw.frbrDateVerkuendung?.substring(0, 4)
-  if (props.amendingLaw.printAnnouncementGazette) {
-    return `${props.amendingLaw.printAnnouncementGazette} ${publicationYear} S. ${props.amendingLaw.printAnnouncementPage}`
-  } else if (props.amendingLaw.digitalAnnouncementEdition) {
-    return `${props.amendingLaw.digitalAnnouncementMedium} ${publicationYear} Nr. ${props.amendingLaw.digitalAnnouncementEdition}`
+  if (props.amendingLaw.frbrName && props.amendingLaw.frbrNumber) {
+    if (props.amendingLaw.frbrNumber.startsWith("s")) {
+      return `${props.amendingLaw.frbrName} ${publicationYear} S. ${props.amendingLaw.frbrNumber.replace("s", "")}`
+    } else {
+      return `${props.amendingLaw.frbrName} ${publicationYear} Nr. ${props.amendingLaw.frbrNumber}`
+    }
   } else {
     return ""
   }

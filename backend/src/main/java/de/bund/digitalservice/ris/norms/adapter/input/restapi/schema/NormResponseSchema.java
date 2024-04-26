@@ -27,29 +27,5 @@ public class NormResponseSchema {
 
   private String frbrNumber;
 
-  /**
-   * @deprecated use {@link #frbrName} instead
-   */
-  @Deprecated(forRemoval = true, since = "2024-04-18")
-  private String printAnnouncementGazette;
-
-  /**
-   * @deprecated use {@link #frbrName} instead
-   */
-  @Deprecated(forRemoval = true, since = "2024-04-18")
-  private String digitalAnnouncementMedium;
-
   private LocalDate frbrDateVerkuendung;
-
-  /**
-   * @deprecated use {@link #frbrNumber} instead
-   */
-  @Deprecated(forRemoval = true, since = "2024-04-18")
-  private String printAnnouncementPage;
-
-  /**
-   * @deprecated use {@link #frbrNumber} instead
-   */
-  @Deprecated(forRemoval = true, since = "2024-04-18")
-  private String digitalAnnouncementEdition;
 }
