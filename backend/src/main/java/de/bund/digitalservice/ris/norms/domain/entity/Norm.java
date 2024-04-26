@@ -50,9 +50,9 @@ public class Norm {
   }
 
   /**
-   * Returns an FRBRname as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns a FRBRname as {@link String} from a {@link Document} in a {@link Norm}.
    *
-   * @return The PrintAnnouncementGazette
+   * @return The FRBRname
    */
   public Optional<String> getFRBRname() {
     Optional<String> fRBRname =
@@ -66,18 +66,18 @@ public class Norm {
   }
 
   /**
-   * Returns an AnnouncementPage as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns a FRBRnumber as {@link String} from a {@link Document} in a {@link Norm}.
    *
-   * @return The AnnouncementPage
+   * @return The FRBRnumber
    */
   public Optional<String> getFRBRnumber() {
     return NodeParser.getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
   }
 
   /**
-   * Returns an PublicationDate as {@link LocalDate} from a {@link Document} in a {@link Norm}.
+   * Returns a FBRDateVerkuendun as {@link LocalDate} from a {@link Document} in a {@link Norm}.
    *
-   * @return The PublicationDate
+   * @return The FBRDateVerkuendun
    */
   public Optional<LocalDate> getFBRDateVerkuendung() {
     return NodeParser.getValueFromExpression("//FRBRWork/FRBRdate/@date", document)
