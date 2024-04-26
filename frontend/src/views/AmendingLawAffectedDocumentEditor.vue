@@ -7,6 +7,7 @@ import { Ref, ref, watch, WritableComputedRef } from "vue"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useZeitgrenzePathParameter } from "@/composables/useZeitgrenzePathParameter"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
+import { useArticlesChangedAtZeitgrenze } from "@/composables/useArticlesChangedAtZeitgrenze"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -56,10 +57,11 @@ watch(
   { immediate: true },
 )
 
-// TODO: (Malte Laukötter, 2024-04-26) load based on zeitgrenze and which articles have changes for it
-const articles = useArticles(affectedDocumentEli)
+const articles = useArticlesChangedAtZeitgrenze(
+  affectedDocumentEli,
+  selectedZeitgrenze,
+)
 
-// TODO: (Malte Laukötter, 2024-04-26) implement saving
 async function handleSave() {
   try {
     if (currentTargetLawXml.value) {
