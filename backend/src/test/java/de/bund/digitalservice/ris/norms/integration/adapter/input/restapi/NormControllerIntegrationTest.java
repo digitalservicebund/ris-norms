@@ -335,7 +335,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1?atTimeBoundary=2024-04-25T14:37:14.434Z")
                   .accept(MediaType.TEXT_HTML))
           .andExpect(status().isOk())
-          .andExpect(content().node(hasXPath("//html")));
+          .andExpect(content().node(hasXPath("//div")));
     }
   }
 

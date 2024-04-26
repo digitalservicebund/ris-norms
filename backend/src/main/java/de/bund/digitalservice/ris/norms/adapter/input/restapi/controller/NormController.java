@@ -144,7 +144,13 @@ public class NormController {
       // TODO: Should this be "atDate" ?
       @RequestParam Optional<String> atTimeBoundary) {
 
-    if (atTimeBoundary.isPresent()) return ResponseEntity.badRequest().build();
+    if (atTimeBoundary.isPresent()) {
+      try {
+        java.time.format.DateTimeFormatter.ISO_DATE_TIME.parse(atTimeBoundary.get());
+      } catch (Exception e) {
+        return ResponseEntity.badRequest().build();
+      }
+    }
 
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
