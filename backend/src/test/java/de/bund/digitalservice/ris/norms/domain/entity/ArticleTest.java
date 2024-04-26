@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class NormArticleTest {
+class ArticleTest {
   @Test
   void getGuid() {
     // given
@@ -14,7 +14,7 @@ class NormArticleTest {
                 <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung"></akn:article>
                 """;
 
-    var article = new NormArticle(toNode(articleString));
+    var article = new Article(toNode(articleString));
     var expectedGuid = "cdbfc728-a070-42d9-ba2f-357945afef06";
 
     // when
@@ -37,7 +37,7 @@ class NormArticleTest {
                 </akn:article>
                 """;
 
-    var article = new NormArticle(toNode(articleString));
+    var article = new Article(toNode(articleString));
 
     // when
     var enumeration = article.getEnumeration();
@@ -55,7 +55,7 @@ class NormArticleTest {
                 </akn:article>
                 """;
 
-    var article = new NormArticle(toNode(articleString));
+    var article = new Article(toNode(articleString));
     var expectedEid = "hauptteil-1_art-1";
 
     // when
@@ -75,7 +75,7 @@ class NormArticleTest {
                 </akn:article>
                 """;
 
-    var article = new NormArticle(toNode(articleString));
+    var article = new Article(toNode(articleString));
     var expectedHeading = "Änderung des Vereinsgesetzes";
 
     // when
@@ -109,7 +109,7 @@ class NormArticleTest {
                 </akn:article>
                 """;
 
-    var article = new NormArticle(toNode(articleString));
+    var article = new Article(toNode(articleString));
     var expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // when
@@ -143,7 +143,7 @@ class NormArticleTest {
                     </akn:article>
                     """;
 
-    var article = new NormArticle(toNode(articleString));
+    var article = new Article(toNode(articleString));
     var expectedRefersTo = "hauptaenderung";
 
     // when

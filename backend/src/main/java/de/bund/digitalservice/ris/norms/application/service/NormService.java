@@ -10,8 +10,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseC
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormArticle;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import java.util.Objects;
@@ -109,16 +109,16 @@ public class NormService
 
   @Override
   public List<String> loadSpecificArticles(LoadSpecificArticleXmlFromNormUseCase.Query query) {
-    List<NormArticle> normArticles =
+    List<Article> articles =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(query.eli()))
             .map(Norm::getArticles)
             .orElse(List.of());
 
     if (query.refersTo() == null) {
-      return normArticles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
+      return articles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
     } else {
-      return normArticles.stream()
+      return articles.stream()
           .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
           .map(a -> XmlMapper.toString(a.getNode()))
           .toList();

@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.MockMvc;
  */
 @WebMvcTest(NormArticleController.class)
 @Import(SecurityConfig.class)
-class NormArticleControllerTest {
+class ArticleControllerTest {
 
   @Autowired private MockMvc mockMvc;
 

@@ -15,11 +15,12 @@ import org.w3c.dom.NodeList;
  * Represents an amending law entity with various attributes. This class is annotated with Lombok
  * annotations for generating builders, getters, toString, and constructors.
  */
+@Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Norm {
 
-  @Getter private final Document document;
+  private final Document document;
 
   /**
    * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}.
@@ -118,17 +119,17 @@ public class Norm {
    *
    * @return The list of articles
    */
-  public List<NormArticle> getArticles() {
+  public List<Article> getArticles() {
     final NodeList allArticles = NodeParser.getNodesFromExpression("//body/article", document);
     if (allArticles.getLength() == 0) {
       return List.of();
     }
 
-    List<NormArticle> articles = new ArrayList<>();
+    List<Article> articles = new ArrayList<>();
 
     for (int i = 0; i < allArticles.getLength(); i++) {
       final Node articleNode = allArticles.item(i);
-      NormArticle newArticle = NormArticle.builder().node(articleNode).build();
+      Article newArticle = Article.builder().node(articleNode).build();
       articles.add(newArticle);
     }
     return articles;

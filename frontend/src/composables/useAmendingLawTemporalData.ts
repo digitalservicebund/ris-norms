@@ -2,7 +2,7 @@ import { ref, onMounted, Ref } from "vue"
 import {
   getAmendingLawEntryIntoForceHtml,
   getAmendingLawTemporalDataTimeBoundaries,
-  updateAmendingLawTemporalDataIntervals,
+  updateAmendingLawTemporalDataTimeBoundaries,
 } from "@/services/amendingLawTemporalDataService"
 import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTemporalDataReleaseResponse"
 
@@ -34,7 +34,7 @@ export function useAmendingLawTemporalData(
 
   async function update(newDates: AmendingLawTemporalDataReleaseResponse[]) {
     try {
-      await updateAmendingLawTemporalDataIntervals(eli.value, newDates)
+      await updateAmendingLawTemporalDataTimeBoundaries(eli.value, newDates)
       timeBoundaries.value = newDates
     } catch (error) {
       console.error("Error updating amending law dates:", error)
