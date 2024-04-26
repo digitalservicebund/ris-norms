@@ -10,10 +10,10 @@ export interface Article {
   /** List position of the article */
   enumeration: string
   /** The ELI of the law that is changed by this article */
-  affectedDocumentEli: string
+  affectedDocumentEli?: string
   /**
    * The ELI of the first future version of the law that is changed
    * by this article.
    */
-  affectedDocumentZf0Eli: string
+  affectedDocumentZf0Eli?: string
 }

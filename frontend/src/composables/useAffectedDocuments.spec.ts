@@ -24,12 +24,12 @@ describe("useAffectedDocuments", () => {
       useArticles,
     }))
 
-    const getTargetLawByEli = vi
+    const getNormByEli = vi
       .fn()
       .mockResolvedValue({ title: "affected document", eli: "example/eli" })
 
-    vi.doMock("@/services/targetLawsService", () => ({
-      getTargetLawByEli,
+    vi.doMock("@/services/normService", () => ({
+      getNormByEli,
     }))
 
     const { useAffectedDocuments } = await import("./useAffectedDocuments")
@@ -39,7 +39,7 @@ describe("useAffectedDocuments", () => {
     await vi.waitUntil(() => documents.value.length)
 
     expect(documents.value).toHaveLength(4)
-    expect(getTargetLawByEli).toHaveBeenCalled()
+    expect(getNormByEli).toHaveBeenCalled()
   })
 
   test("should load the affected documents when the ELI changes", async () => {
@@ -69,12 +69,12 @@ describe("useAffectedDocuments", () => {
       useArticles,
     }))
 
-    const getTargetLawByEli = vi
+    const getNormByEli = vi
       .fn()
       .mockResolvedValue({ title: "affected document", eli: "example/eli" })
 
-    vi.doMock("@/services/targetLawsService", () => ({
-      getTargetLawByEli,
+    vi.doMock("@/services/normService", () => ({
+      getNormByEli,
     }))
 
     const { useAffectedDocuments } = await import("./useAffectedDocuments")
@@ -85,6 +85,6 @@ describe("useAffectedDocuments", () => {
     eli.value = "1"
     await nextTick()
 
-    expect(getTargetLawByEli).toHaveBeenCalledTimes(3)
+    expect(getNormByEli).toHaveBeenCalledTimes(3)
   })
 })

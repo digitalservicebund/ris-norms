@@ -1,16 +1,15 @@
-import { AmendingLaw } from "@/types/amendingLaw"
 import { Article } from "@/types/article"
-import { TargetLaw } from "@/types/targetLaw"
+import { Norm } from "@/types/norm"
 
-export const amendingLaws: (AmendingLaw & {
+export const amendingLaws: (Norm & {
   articles: Article[]
-  targetLaws: (TargetLaw & { zf0Eli: string })[]
+  targetLaws: (Norm & { zf0Eli: string })[]
 })[] = [
   {
     eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
     printAnnouncementGazette: "BGBl. I",
     digitalAnnouncementMedium: undefined,
-    publicationDate: "2017-03-15",
+    frbrDateVerkuendung: "2017-03-15",
     printAnnouncementPage: "419",
     digitalAnnouncementEdition: undefined,
     title: "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
@@ -37,7 +36,7 @@ export const amendingLaws: (AmendingLaw & {
     eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
     printAnnouncementGazette: undefined,
     digitalAnnouncementMedium: "BGBl. I",
-    publicationDate: "2023-12-29",
+    frbrDateVerkuendung: "2023-12-29",
     printAnnouncementPage: undefined,
     digitalAnnouncementEdition: "413",
     title: "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
@@ -63,9 +62,9 @@ export const amendingLaws: (AmendingLaw & {
   },
 ]
 
-export function getExpectedHeading(amendingLaw: AmendingLaw): string {
+export function getExpectedHeading(amendingLaw: Norm): string {
   let expectedHeading = ""
-  const publicationYear = amendingLaw.publicationDate.substring(0, 4)
+  const publicationYear = amendingLaw.frbrDateVerkuendung?.substring(0, 4)
 
   if (amendingLaw?.printAnnouncementGazette) {
     expectedHeading = `${amendingLaw.printAnnouncementGazette} ${publicationYear} S. ${amendingLaw.printAnnouncementPage}`

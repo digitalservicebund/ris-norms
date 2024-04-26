@@ -35,6 +35,11 @@ const routes = [
             component: () => import("@/views/AmendingLawOverview.vue"),
           },
           {
+            path: "temporal-data",
+            name: "TemporalData",
+            component: () => import("@/views/TemporalData.vue"),
+          },
+          {
             path: "affected-documents",
             name: "AmendingLawAffectedDocuments",
             component: () => import("@/views/AffectedDocuments.vue"),

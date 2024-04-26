@@ -2,9 +2,7 @@ package de.bund.digitalservice.ris.norms.conventions;
 
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.simpleNameEndingWith;
-import static com.tngtech.archunit.lang.conditions.ArchConditions.beInterfaces;
-import static com.tngtech.archunit.lang.conditions.ArchConditions.bePublic;
-import static com.tngtech.archunit.lang.conditions.ArchConditions.notImplement;
+import static com.tngtech.archunit.lang.conditions.ArchConditions.*;
 
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
@@ -45,6 +43,8 @@ class ArchitectureFitnessTest {
   static final String DOMAIN_LAYER_PACKAGES = BASE_PACKAGE + ".domain..";
   static final String ENTITY_LAYER_PACKAGES = BASE_PACKAGE + ".domain.entity";
   static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value";
+  static final String EXCEPTIONS_LAYER_PACKAGES = BASE_PACKAGE + ".domain.exceptions";
+  static final String UTILS_LAYER_PACKAGES = BASE_PACKAGE + ".utils..";
 
   @BeforeAll
   static void setUp() {
@@ -65,17 +65,50 @@ class ArchitectureFitnessTest {
   }
 
   @Test
-  void domainClassesShouldOnlyDependOnDomainOrSpecificStandardLibraries() {
+  void domainClassesShouldOnlyDependOnDomainUtilsOrSpecificStandardLibraries() {
+    final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
+        new String[] {
+          "kotlin..", "java..", "org.jetbrains.annotations..", "lombok..", "org.w3c.dom.."
+        };
+
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
             .resideInAPackage(DOMAIN_LAYER_PACKAGES)
-            .should()
-            .onlyDependOnClassesThat(
-                resideInAPackage(DOMAIN_LAYER_PACKAGES)
-                    .or(
-                        JavaClass.Predicates.resideInAnyPackage(
-                            "kotlin..", "java..", "org.jetbrains.annotations..", "lombok..")));
+            .should(
+                onlyDependOnClassesThat(
+                    resideInAPackage(DOMAIN_LAYER_PACKAGES)
+                        .or(resideInAPackage(UTILS_LAYER_PACKAGES))
+                        .or(
+                            JavaClass.Predicates.resideInAnyPackage(
+                                DOMAIN_LAYER_ALLOWED_PACKAGES))));
+    rule.check(classes);
+  }
+
+  @Test
+  void utilsClassesShouldOnlyDependOnUtilsOrSpecificStandardLibraries() {
+    final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
+        new String[] {
+          "kotlin..",
+          "java..",
+          "javax.xml..",
+          "org.jetbrains.annotations..",
+          "lombok..",
+          "org.w3c.dom..",
+          "net.sf.saxon..",
+          "org.xml.sax..",
+        };
+
+    ArchRule rule =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage(UTILS_LAYER_PACKAGES)
+            .should(
+                onlyDependOnClassesThat(
+                    resideInAPackage(UTILS_LAYER_PACKAGES)
+                        .or(
+                            JavaClass.Predicates.resideInAnyPackage(
+                                UTILITY_LAYER_ALLOWED_PACKAGES))));
     rule.check(classes);
   }
 
@@ -88,7 +121,10 @@ class ArchitectureFitnessTest {
             .should()
             .resideInAPackage(ENTITY_LAYER_PACKAGES)
             .orShould()
-            .resideInAPackage(VALUE_LAYER_PACKAGES);
+            .resideInAPackage(VALUE_LAYER_PACKAGES)
+            .orShould()
+            .resideInAPackage(EXCEPTIONS_LAYER_PACKAGES);
+
     rule.check(classes);
   }
 
@@ -194,6 +230,8 @@ class ArchitectureFitnessTest {
             .resideInAPackage(DOMAIN_LAYER_PACKAGES)
             .orShould()
             .resideInAnyPackage(APPLICATION_LAYER_PACKAGES)
+            .orShould()
+            .resideInAnyPackage(UTILS_LAYER_PACKAGES)
             .orShould()
             .resideInAnyPackage("kotlin..", "java..", "org.jetbrains.annotations..")
             .orShould()

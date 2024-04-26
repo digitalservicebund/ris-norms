@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
-  title: Amending Laws API
+  title: RIS-Norms API
   version: 1.0.0
-  description: API for managing amending laws, articles, and target laws
+  description: API for managing norms and announcements
 
 paths:
-  /amending-laws:
+  /announcements:
     get:
-      summary: Get a list of all amending laws
+      summary: Get a list of all announcements
       responses:
         '200':
           description: Successful response
@@ -16,11 +16,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AmendingLaw'
+                  $ref: '#/components/schemas/Norm'
 
-  /amending-laws/{eli}:
+  /announcements/{eli}/release:
     get:
-      summary: Get a specific amending law by eli
+      summary: Get the latest release of a specific announcement by the amending law eli
       parameters:
         - name: eli
           in: path
@@ -30,11 +30,51 @@ paths:
             type: string
       responses:
         '200':
+          description: Information about a released an announcement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseResponse'
+    put:
+      summary: Release the XML of a specific announcement by the amending law eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the amending law
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully released an announcement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseResponse'
+
+  /norms/{eli}:
+    get:
+      summary: Get a specific norm by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: eli of the norm
+          schema:
+            type: string
+        - in: query
+          name: showMetadata
+          schema:
+            type: boolean
+            default: false
+          description: "Should the metadata table be included? (only for Content-Type: text/html)"
+      responses:
+        '200':
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AmendingLaw'
+                $ref: '#/components/schemas/Norm'
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
@@ -42,15 +82,16 @@ paths:
               schema:
                 type: string
     put:
-      summary: Update the XML of an specific amending law by eli
+      summary: Update a specific norm by eli
       parameters:
         - name: eli
           in: path
           required: true
-          description: ELI of the amending law
+          description: eli of the norm
           schema:
             type: string
       requestBody:
+        description: The XML of the norm (which may be updated and saved on DB)
         required: true
         content:
           application/xml:
@@ -58,38 +99,26 @@ paths:
               $ref: '#/components/schemas/LegalDocML.de'
       responses:
         '200':
-          description: Successful response with saved XML
+          description: Successful response
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
 
-  /amending-laws/{eli}/release:
-    put:
-      summary: Release the XML of an specific amending law by eli
+  /norms/{eli}/articles:
+    get:
+      summary: Get a list of articles for a specific norm by eli
       parameters:
         - name: eli
           in: path
           required: true
-          description: ELI of the amending law
+          description: ELI of the norm
           schema:
             type: string
-      responses:
-        '200':
-          description: Successfully released an amending law
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReleaseResponse'
-
-  /amending-laws/{eli}/articles:
-    get:
-      summary: Get a list of articles for a specific amending law by eli
-      parameters:
-        - name: eli
-          in: path
-          required: true
-          description: ELI of the amending law
+        - name: refersTo
+          in: query
+          required: false
+          description: "Filter by the article's `refersTo` literal (`refersToLiterals.einzelvorschrift` in the specification). Only for Content-Type: text/html"
           schema:
             type: string
       responses:
@@ -101,15 +130,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Article'
+            text/html:
+              schema:
+                type: string
 
-  /amending-laws/{eli}/articles/{eid}:
+  /norms/{eli}/articles/{eid}:
     get:
-      summary: Get a specific article by eid for a given amending law
+      summary: Get a specific article by eid for a given norm
       parameters:
         - name: eli
           in: path
           required: true
-          description: ELI of the amending law
+          description: ELI of the norm
           schema:
             type: string
         - name: eid
@@ -126,57 +158,55 @@ paths:
               schema:
                 $ref: '#/components/schemas/Article'
 
-  /target-laws/{eli}:
+  /norms/{eli}/timeBoundaries:
     get:
-      summary: Get a specific target law by eli
+      summary: Get all time boundaries for a given norm
       parameters:
         - name: eli
           in: path
           required: true
-          description: eli of the target law
+          description: ELI of the norm
           schema:
             type: string
       responses:
         '200':
           description: Successful response
+
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TargetLaw'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-            text/html:
-              schema:
-                type: string
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeBoundary'
     put:
-      summary: Update a specific target law by eli
+      summary: Update all time boundaries for a given norm
       parameters:
         - name: eli
           in: path
           required: true
-          description: eli of the target law
+          description: ELI of the norm
           schema:
             type: string
       requestBody:
-        description: The XML of the target law (which may be updated and saved on DB)
+        description: List of new time boundaries of a norm
         required: true
         content:
-          application/xml:
+          application/json:
             schema:
-              $ref: '#/components/schemas/LegalDocML.de'
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeBoundary'
       responses:
         '200':
-          description: Successful response
+          description: Successful update
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TargetLaw'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeBoundary'
 
-  /target-laws/{eli}/preview:
+  /norms/{eli}/preview:
     post:
       summary: Call time machine to generate preview of applied amending law
       parameters:
@@ -231,24 +261,36 @@ paths:
 
 components:
   schemas:
-    AmendingLaw:
+    Norm:
       type: object
       properties:
         eli:
           type: string
         title:
           type: string
+        shortTitle:
+          type: string
+        fna:
+          type: string
+        frbrName:
+          type: string
+        frbrNumber:
+          type: string
         printAnnouncementGazette:
           type: string
+          deprecated: true
         digitalAnnouncementMedium:
           type: string
-        publicationDate:
+          deprecated: true
+        frbrDateVerkuendung:
           type: string
           format: date
         printAnnouncementPage:
-          type: integer
+          type: string
+          deprecated: true
         digitalAnnouncementEdition:
-          type: integer
+          type: string
+          deprecated: true
 
     Article:
       type: object
@@ -261,14 +303,17 @@ components:
           type: string
         affectedDocumentEli:
           type: string
+        affectedDocumentZf0Eli:
+          type: string
 
-    TargetLaw:
+    TimeBoundary:
       type: object
       properties:
-        eli:
+        eid:
           type: string
-        title:
+        date:
           type: string
+          format: date
 
     ReleaseResponse:
       type: object
@@ -276,15 +321,12 @@ components:
         releaseAt:
           type: string
           format: date-time
-        eliAmendingLaw:
+        amendingLawEli:
           type: string
-        eliTargetLawZF0:
+        zf0Elis:
           type: array
           items:
-            type: object
-            properties:
-              eli:
-                type: string
+            type: string
 
     LegalDocML.de:
       type: object

@@ -13,13 +13,13 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch, onMounted } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import {
-  previewTargetLaw,
-  getTargetLawHtmlByEli,
-  previewTargetLawAsHtml,
-} from "@/services/targetLawsService"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { renderHtmlLaw } from "@/services/lawService"
+import { renderHtmlLaw } from "@/services/renderService"
+import {
+  getNormHtmlByEli,
+  previewNorm,
+  previewNormAsHtml,
+} from "@/services/normService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -69,8 +69,8 @@ async function handleGeneratePreview() {
   try {
     if (targetLawEli.value) {
       const [xmlContent, htmlContent] = await Promise.all([
-        previewTargetLaw(targetLawEli.value, currentArticleXml.value),
-        previewTargetLawAsHtml(targetLawEli.value, currentArticleXml.value),
+        previewNorm(targetLawEli.value, currentArticleXml.value),
+        previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
       ])
       previewXml.value = xmlContent
       previewHtml.value = htmlContent
@@ -83,10 +83,7 @@ async function handleGeneratePreview() {
 async function fetchTargetLawHtmlContent() {
   try {
     if (targetLawEli.value) {
-      targetLawHtml.value = await getTargetLawHtmlByEli(
-        targetLawEli.value,
-        false,
-      )
+      targetLawHtml.value = await getNormHtmlByEli(targetLawEli.value)
     }
   } catch (error) {
     console.error("Failed to fetch HTML content:", error)

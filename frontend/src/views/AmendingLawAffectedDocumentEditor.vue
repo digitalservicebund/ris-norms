@@ -8,9 +8,9 @@ import { useTargetLaw } from "@/composables/useTargetLaw"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
-import { getTargetLawHtmlByEli } from "@/services/targetLawsService"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { FetchError } from "ofetch"
+import { getNormHtmlByEli } from "@/services/normService"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -47,7 +47,7 @@ async function handleSave() {
 const previewHtml = ref("")
 async function handleGeneratePreview() {
   try {
-    previewHtml.value = await getTargetLawHtmlByEli(affectedDocumentEli.value)
+    previewHtml.value = await getNormHtmlByEli(affectedDocumentEli.value, true)
   } catch (e) {
     if (
       e instanceof FetchError &&
@@ -74,7 +74,7 @@ async function handleGeneratePreview() {
       <span>Zurück</span>
     </RouterLink>
 
-    <div class="flex h-dvh flex-col p-40">
+    <div class="flex h-[calc(100dvh-5rem)] flex-col p-40">
       <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">{{ targetLaw?.title }}</h1>

@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate gradle wrapper
-        uses: gradle/wrapper-validation-action@85cde3f5a1033b2adc2442631c24b530f1183a1a
+        uses: gradle/actions/wrapper-validation@v3
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
@@ -41,7 +41,7 @@ jobs:
           name: performance-report
           path: backend/build/reports/profile/profile*.html
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -61,7 +61,7 @@ jobs:
         working-directory: ./backend
         run: ./gradlew test -x integrationTest
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -81,7 +81,7 @@ jobs:
         working-directory: ./backend
         run: ./gradlew integrationTest -x test
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -107,12 +107,12 @@ jobs:
           retention-days: 3
           path: backend/build/reports/dependency-license/backend-licence-report.csv
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
         if: ${{ failure() && github.ref == 'refs/heads/main'}}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  analyze-backend:
+  analyze-backend-with-sonar-cube:
     needs: [validate-gradle-wrapper-and-setup-gradle]
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
@@ -138,123 +138,17 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew sonar --info
       - name: Check SonarQube Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496
+        uses: sonarsource/sonarqube-quality-gate-action@72f24ebf1f81eda168a979ce14b8203273b7c3ad
         with:
           scanMetadataReportFile: backend/build/sonar/report-task.txt
         timeout-minutes: 3 # Force to fail step after specific time
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  backend-create-docker-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-    steps:
-      - name: Print example variable's
-        run: echo "${{ inputs.example-variable}}"
-      - uses: actions/checkout@v4
-      - name: Build docker image
-        run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }} -f DockerfileApp .
-      - name: Run Trivy vulnerability image scanner
-        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55
-        with:
-          image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
-          format: "sarif"
-          output: "trivy-results.sarif"
-      - name: Check trivy results
-        run: |
-          if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
-            echo "Vulnerabilities found"
-            exit 1
-          else
-            echo "No significant vulnerabilities found"
-            exit 0
-          fi
-      - name: Upload Trivy image scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
-        with:
-          sarif_file: "trivy-results.sarif"
-          category: trivy-image-scan
-      - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55
-        with:
-          image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
-          format: "cosign-vuln"
-          output: "vuln-backend.json"
-      - name: Upload cosign vulnerability scan record
-        uses: actions/upload-artifact@v4
-        with:
-          name: "vuln-backend.json"
-          path: "vuln-backend.json"
-          if-no-files-found: error
-      - name: Save image
-        run: |
-          mkdir /tmp/images
-          docker save -o /tmp/images/backend-image.tar ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
-      - uses: actions/cache@v4
-        with:
-          path: /tmp/images
-          key: docker-backend-images-cache-${{ github.run_id }}
-          restore-keys: docker-backend-images-cache-${{ github.run_id }}
-      - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
-        if: ${{ failure() && github.ref == 'refs/heads/main' }}
-        with:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  backend-push-docker-image:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
-    permissions:
-      contents: read
-      id-token: write # This is used to complete the identity challenge with sigstore/fulcio..
-      packages: write
-    needs:
-      - backend-unit-tests
-      - backend-integration-tests
-      - audit-licenses-backend
-      - analyze-backend
-      - backend-create-docker-image
-    steps:
-      - uses: actions/cache@v4
-        with:
-          path: /tmp/images
-          key: docker-backend-images-cache-${{ github.run_id }}
-          restore-keys: docker-images-cache-${{ github.run_id }}
-      - name: load image
-        shell: bash
-        run: docker load -i /tmp/images/backend-image.tar
-      - name: Log into container registry
-        uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20
-        with:
-          registry: ${{ inputs.container-registry }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish backend container image
-        run: docker push ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
-      - name: Install cosign
-        uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4
-      - name: Sign the published Docker image
-        run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
-      - name: Download cosign vulnerability scan record
-        uses: actions/download-artifact@v4
-        with:
-          name: "vuln-backend.json"
-      - name: Attest vulnerability scan
-        run: cosign attest --yes --replace --predicate vuln-backend.json --type vuln ${{ inputs.container-registry }}/${{ inputs.container-image-name }}/backend:${{ inputs.container-image-version }}
-      - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8 # v1.4.0
-        if: ${{ failure() }}
-        with:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
 
   generate-backend-code-documentation:
     needs: [validate-gradle-wrapper-and-setup-gradle]
@@ -277,7 +171,7 @@ jobs:
           retention-days: 3
           path: backend/build/docs/javadoc/
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -320,7 +214,7 @@ jobs:
             git push origin main &&
             echo "Pushed reports to ${{ github.server_url }}/${{ env.reports-repo }}" >> $GITHUB_STEP_SUMMARY
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

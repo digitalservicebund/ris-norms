@@ -8,7 +8,7 @@ const amendingLawHtml = useAmendingLawHtml(eli)
 </script>
 
 <template>
-  <div>
+  <div class="p-40">
     <h1 class="ds-heading-02-reg mb-40">Verkündung</h1>
     <div class="rounded-sm bg-white px-24 py-24 shadow-md">
       <RisLawPreview

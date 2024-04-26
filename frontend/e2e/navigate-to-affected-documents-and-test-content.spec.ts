@@ -20,8 +20,8 @@ test.describe("Affected documents page", () => {
           .filter({ hasText: targetLaw.title })
 
         await expect(element).toBeVisible()
-        await expect(element.getByText(targetLaw.fna)).toBeVisible()
-        await expect(element.getByText(targetLaw.shortTitle)).toBeVisible()
+        await expect(element.getByText(targetLaw.fna!)).toBeVisible()
+        await expect(element.getByText(targetLaw.shortTitle!)).toBeVisible()
         await expect(element.getByText(targetLaw.eli)).toBeVisible()
 
         // Metadata button

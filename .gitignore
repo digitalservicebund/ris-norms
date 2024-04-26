@@ -1,3 +1,4 @@
 .idea/
 .vscode
-ldml-extension/.DS_Store
+.DS_Store
+lefthook-local.yml

@@ -5,7 +5,7 @@ test(`navigate to article editor`, async ({ page }) => {
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles",
   )
-  await page.getByText("Änderungsbefehl prüfen").click()
+  await page.getByText("Änderungsbefehl prüfen").first().click()
 
   await expect(page).toHaveURL(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit`,
@@ -51,7 +51,7 @@ test.describe("article editor", () => {
 
     await expect(
       page.getByText(
-        '<akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">',
+        '<akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">',
       ),
     ).toBeVisible()
   })
@@ -72,12 +72,17 @@ test.describe("article editor", () => {
 
     await expect(
       page.getByText(
-        '<akn:meta eId="meta-1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">',
+        '<akn:meta GUID="7e5837c8-b967-45be-924b-c95956c4aa94" eId="meta-1">',
       ),
     ).toBeVisible()
   })
 
   test(`update law with new content`, async ({ page }) => {
+    const newXml = amendingLawXml.replace(
+      "Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593)",
+      "TEST",
+    )
+
     try {
       const saveButton = page.getByRole("button", { name: "Speichern" })
       await expect(saveButton).toBeDisabled()
@@ -97,7 +102,7 @@ test.describe("article editor", () => {
         `${process.platform === "darwin" ? "Meta" : "Control"}+a`,
       )
       await editor.press("Backspace")
-      await editor.fill("<xml></xml>")
+      await editor.fill(newXml)
       await expect(saveButton).toBeEnabled()
 
       await saveButton.click()
@@ -105,18 +110,18 @@ test.describe("article editor", () => {
 
       // Validate the xml is saved
       const response = await page.request.get(
-        `/api/v1/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
+        `/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
         {
           headers: {
             Accept: "application/xml",
           },
         },
       )
-      expect(await response.text()).toBe("<xml></xml>")
+      expect(await response.text()).toBe(newXml)
     } finally {
       // Reset the xml
       await page.request.put(
-        `/api/v1/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
+        `/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
         {
           headers: {
             "Content-Type": "application/xml",

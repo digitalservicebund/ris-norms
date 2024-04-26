@@ -10,7 +10,7 @@ import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawIn
           eli: 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1',
           printAnnouncementGazette: 'BGBl. I',
           digitalAnnouncementMedium: undefined,
-          publicationDate: '2017-03-15',
+          frbrDateVerkuendung: '2017-03-15',
           printAnnouncementPage: '419',
           digitalAnnouncementEdition: undefined,
           title:
@@ -24,7 +24,7 @@ import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawIn
           eli: 'eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1',
           printAnnouncementGazette: undefined,
           digitalAnnouncementMedium: 'BGBl. I',
-          publicationDate: '2023-12-29',
+          frbrDateVerkuendung: '2023-12-29',
           printAnnouncementPage: undefined,
           digitalAnnouncementEdition: '413',
           title:

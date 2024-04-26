@@ -1,10 +1,9 @@
-DELETE FROM article;
-DELETE FROM target_law;
-DELETE FROM amending_law;
+DELETE FROM announcements;
+DELETE FROM norms;
 
 -- Clean example
-INSERT INTO amending_law (id, eli, print_announcement_gazette, digital_announcement_medium, publication_date, print_announcement_page, digital_announcement_edition, title, xml)
-VALUES ('e47a5106-c153-4da4-8d94-8cc2ebf9b232', 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1', 'BGBl. I', NULL, '2017-03-15', '419', null, 'Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO norms (guid, eli, xml)
+VALUES ('e47a5106-c153-4da4-8d94-8cc2ebf9b232', 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
 <!--
    This is a modified example from the LDML.de specification.
 -->
@@ -42,7 +41,7 @@ VALUES ('e47a5106-c153-4da4-8d94-8cc2ebf9b232', 'eli/bund/bgbl-1/2017/s419/2017-
             <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4c69a6d2-8988-4581-bfa9-df9e8e24f321">
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="f3805314-bbb6-4def-b82b-8b7f0b126197" value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1" />
                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="5a2c4542-56cc-4c70-8b80-e2041b5b75e1" value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu" />
-               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="e47a5106-c153-4da4-8d94-8cc2ebf9b232" />
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="9063f5e7-c3c5-4ab4-8e15-459b11d7a9f2" href="recht.bund.de/institution/bundesregierung" />
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" GUID="1e8f33a8-d124-48c3-a864-7968701816ee" date="2017-03-15" name="verkuendung" />
@@ -206,8 +205,8 @@ VALUES ('e47a5106-c153-4da4-8d94-8cc2ebf9b232', 'eli/bund/bgbl-1/2017/s419/2017-
    </akn:act>
 </akn:akomaNtoso>');
 
-INSERT INTO target_law (id, eli, title, fna, short_title, xml)
-VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1', 'Gesetz zur Regelungs des öffenltichen Vereinsrechts', '754-28-1', 'Vereinsgesetz', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO norms (guid, eli, xml)
+VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
 <!--
    This is a modified example from the LDML.de specification.
 -->
@@ -246,7 +245,7 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', 'eli/bund/bgbl-1/1964/s593/1964-
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="ad94eb82-1a61-4210-939f-7e423fbc78d4" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu" />
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="76d63725-d669-4189-995d-92b9f8e4dadb" name="vorherige-version-id" value="30c19ca3-cf77-4ff9-8623-0cf60abac28e" />
-               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="519cad64-9102-4808-99ba-ea64988745bd" name="aktuelle-version-id" value="095a0a1e-5e23-438e-bca2-db4fc383e0d8" />
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="519cad64-9102-4808-99ba-ea64988745bd" name="aktuelle-version-id" value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151" />
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3" GUID="849f7a4f-0477-4e00-8631-ca8232b32d2f" name="nachfolgende-version-id" value="a0bdb90e-31ca-4a48-b773-89cf858208fa" />
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="e4334f35-501a-46f0-a8f5-a02d9a03aca3" href="recht.bund.de/institution/bundesregierung" />
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" GUID="1bfbd095-93f3-4674-8096-be18041cbc65" date="1964-08-05" name="verkuendung" />
@@ -412,8 +411,8 @@ VALUES ('d04791fc-dcdc-47e6-aefb-bc2f7aaee151', 'eli/bund/bgbl-1/1964/s593/1964-
 </akn:akomaNtoso>');
 
 -- Jan/Christian example
-INSERT INTO amending_law (id, eli, print_announcement_gazette, digital_announcement_medium, publication_date, print_announcement_page, digital_announcement_edition, title, xml)
-VALUES ('04b02952-280e-4da9-9c00-6ad1f88d6111', 'eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1', NULL,'BGBl. I', '2023-12-29', NULL, '413', 'Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO norms (guid, eli, xml)
+VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
 
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -639,8 +638,8 @@ VALUES ('04b02952-280e-4da9-9c00-6ad1f88d6111', 'eli/bund/bgbl-1/2023/413/2023-1
 </akn:akomaNtoso>
 ');
 
-INSERT INTO target_law (id, eli, title, fna, short_title, xml)
-VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1', 'Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz', '210-5', 'Bundesverfassungsschutzgesetz', '<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+INSERT INTO norms (guid, eli, xml)
+VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1', '<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-metadaten.xsd
                         http://Inhaltsdaten.LegalDocML.de/1.6/ ../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
@@ -649,8 +648,8 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
             <akn:identification eId="meta-1_ident-1" GUID="e0548b32-89df-433d-bf28-3337f7753882" source="attributsemantik-noch-undefiniert">
                 <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="65979527-4a22-4c42-8833-d4e1bf61268e">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="f7a087a0-854d-4043-ae55-22d33534491c"
-                        value="eli/bgbl-1/1990/s2954/regelungstext-1" />
-                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bgbl-1/1990/s2954" />
+                        value="eli/bund/bgbl-1/1990/s2954/regelungstext-1" />
+                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bund/bgbl-1/1990/s2954" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1" GUID="49c35c31-563b-40ae-aec1-6312de584200" name="übergreifende-id"
                         value="e9b14511-6253-4023-8d5f-6878c4f50cc0" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="a8a28ba1-d7ad-466e-86ac-dfc8d94ebcd9" date="1990-12-20"
@@ -664,9 +663,9 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRWork>
                 <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
                         name="vorherige-version-id" value="49eec691-392b-4d77-abaf-23eb871132ad" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83"
@@ -683,9 +682,9 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:FRBRExpression>
                 <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="3485a797-2673-47ae-884a-980b35bd1a7b">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
-                        value="eli/bgbl-1/1990/s2954/1990-12-20/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee" date="1990-12-20"
                         name="generierung" />
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="84eb9f54-57e5-4633-97b8-f6ee5f2d231d"
@@ -704,7 +703,22 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
                 </akn:temporalGroup>
             </akn:temporalData>
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
-</akn:proprietary>
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                   <meta:typ>gesetz</meta:typ>
+                   <meta:form>mantelform</meta:form>
+                   <meta:fassung>verkuendungsfassung</meta:fassung>
+                   <meta:art>regelungstext</meta:art>
+                   <meta:initiant>bundesregierung</meta:initiant>
+                   <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+                   <meta:fna>210-5</meta:fna>
+                   <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                   <meta:gesta>nicht-vorhanden</meta:gesta>
+                   <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+                   <meta:federfuehrung>
+                      <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                   </meta:federfuehrung>
+                </meta:legalDocML.de_metadaten>
+            </akn:proprietary>
         </akn:meta>
         <akn:preface eId="einleitung-1" GUID="59a7267f-11bf-464e-a884-15c0bbd17416">
             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="d5ff5e89-7289-481a-9637-ac07858edd35">
@@ -7173,8 +7187,8 @@ VALUES ('324ac2c1-5d47-4e7e-8297-22acad378bfd', 'eli/bund/bgbl-1/1990/s2954/2022
 ');
 
 -- ZF0
-INSERT INTO target_law (id, eli, title, fna, short_title, xml)
-VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1', 'Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz (ZF0)', '210-5', 'Bundesverfassungsschutzgesetz (ZF0)', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO norms (guid, eli, xml)
+VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd
@@ -7185,8 +7199,8 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
             <akn:identification eId="meta-1_ident-1" GUID="e0548b32-89df-433d-bf28-3337f7753882" source="attributsemantik-noch-undefiniert">
                 <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="65979527-4a22-4c42-8833-d4e1bf61268e">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1" GUID="f7a087a0-854d-4043-ae55-22d33534491c"
-                        value="eli/bgbl-1/1990/s2954/regelungstext-1" />
-                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bgbl-1/1990/s2954" />
+                        value="eli/bund/bgbl-1/1990/s2954/regelungstext-1" />
+                    <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1" GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" value="eli/bund/bgbl-1/1990/s2954" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1" GUID="49c35c31-563b-40ae-aec1-6312de584200" name="übergreifende-id"
                         value="e9b14511-6253-4023-8d5f-6878c4f50cc0" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="a8a28ba1-d7ad-466e-86ac-dfc8d94ebcd9" date="1990-12-20"
@@ -7200,9 +7214,9 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
                 </akn:FRBRWork>
                 <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
                         name="vorherige-version-id" value="77167d15-511d-4927-adf3-3c8b0464423c" />
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="9c086b80-be09-49e6-9230-4932cfe88c83"
@@ -7219,9 +7233,9 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
                 </akn:FRBRExpression>
                 <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="3485a797-2673-47ae-884a-980b35bd1a7b">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
-                        value="eli/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
+                        value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1.xml" />
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee" date="2024-01-05"
                         name="generierung" />
                     <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="84eb9f54-57e5-4633-97b8-f6ee5f2d231d"
@@ -7262,6 +7276,21 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
             </akn:temporalGroup>
             </akn:temporalData>
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
+                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                   <meta:typ>gesetz</meta:typ>
+                   <meta:form>mantelform</meta:form>
+                   <meta:fassung>verkuendungsfassung</meta:fassung>
+                   <meta:art>regelungstext</meta:art>
+                   <meta:initiant>bundesregierung</meta:initiant>
+                   <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+                   <meta:fna>210-5</meta:fna>
+                   <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                   <meta:gesta>nicht-vorhanden</meta:gesta>
+                   <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+                   <meta:federfuehrung>
+                      <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                   </meta:federfuehrung>
+                </meta:legalDocML.de_metadaten>
             </akn:proprietary>
             <akn:proprietary source="attributsemantik-noch-undefiniert" eId="meta-1_proprietary-2" GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f">
                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
@@ -13738,8 +13767,8 @@ VALUES ('a290fd2d-603a-4578-a5c9-1430e3978493', 'eli/bund/bgbl-1/1990/s2954/2023
 </akn:akomaNtoso>
 ');
 
-INSERT INTO target_law (id, eli, title, fna, short_title, xml)
-VALUES ('6ae442b5-6601-4a72-bfa2-50a059348cb3', 'eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1', 'Gesetz zur Regelungs des öffenltichen Vereinsrechts (ZF0)', '210-5', 'Vereinsgesetz (ZF0)', '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO norms (guid, eli, xml)
+VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
 <!--
 	##################################################################################
 	Projekt E-Gesetzgebung
@@ -13807,11 +13836,11 @@ VALUES ('6ae442b5-6601-4a72-bfa2-50a059348cb3', 'eli/bund/bgbl-1/1964/s593/2017-
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
                               GUID="400bbb40-67aa-4cd3-b8b3-6c811947e8bd"
                               name="vorherige-version-id"
-                              value="052b9279-343e-4a6d-901f-74c4e9c6d2ae"/>
+                              value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
                               GUID="6ae442b5-6601-4a72-bfa2-50a059348cb3"
                               name="aktuelle-version-id"
-                              value="b2414c09-5e56-4ceb-87ba-ee9f644f7a90"/>
+                              value="a0bdb90e-31ca-4a48-b773-89cf858208fa"/>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3"
                               GUID="a1e5c767-7742-4edd-a0ca-52318cb555ba"
                               name="nachfolgende-version-id"
@@ -13923,7 +13952,7 @@ VALUES ('6ae442b5-6601-4a72-bfa2-50a059348cb3', 'eli/bund/bgbl-1/1964/s593/2017-
                               href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/art-2_abs-1_inhalt-1_text-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_destination-1"
                                    GUID="1e35f163-489d-45f4-892b-d91360857e43"
-                                   href="#eli/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
+                                   href="#eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
                   <akn:force eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_gelzeitnachw-1"
                              GUID="80e80e33-82fe-4c8c-91a0-d1087521dabc"
                              period="#geltungszeitgr-2"/>
@@ -14298,9 +14327,10 @@ VALUES ('6ae442b5-6601-4a72-bfa2-50a059348cb3', 'eli/bund/bgbl-1/1964/s593/2017-
    </akn:act>
 </akn:akomaNtoso>');
 
--- Articles
-INSERT INTO article (id, enumeration, title, eid, amending_law_id, target_law_id, target_law_zf0_id)
-VALUES ('fda2c91e-1fd4-4e44-8e08-40dc8fdb475c', '1', 'Änderung des Vereinsgesetzes', 'hauptteil-1_art-1', 'e47a5106-c153-4da4-8d94-8cc2ebf9b232', 'd04791fc-dcdc-47e6-aefb-bc2f7aaee151', '6ae442b5-6601-4a72-bfa2-50a059348cb3');
+-- Announcements
 
-INSERT INTO article (id, enumeration, title, eid, amending_law_id, target_law_id, target_law_zf0_id)
-VALUES ('4973d873-c9e6-4250-b783-9d502139c1ae', '1', 'Änderung des Bundesverfassungsschutzgesetzes', 'hauptteil-1_art-1', '04b02952-280e-4da9-9c00-6ad1f88d6111', '324ac2c1-5d47-4e7e-8297-22acad378bfd', 'a290fd2d-603a-4578-a5c9-1430e3978493');
+INSERT INTO announcements (id, eli, released_by_documentalist_at)
+VALUES ('620bbbc5-02d6-4713-95ec-0144741b053e', 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1', NULL);
+
+INSERT INTO announcements (id, eli, released_by_documentalist_at)
+VALUES ('9c2e7385-3a0f-44c0-aa2d-5db2bf265cf9', 'eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1', NULL);

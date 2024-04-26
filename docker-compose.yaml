@@ -1,6 +1,9 @@
 services:
   webapp:
     image: ris-norms-app:001
+    build: 
+      context: .
+      dockerfile: DockerfileApp
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
       - REDIS_HOST=redis
@@ -29,7 +32,7 @@ services:
       start_period: 5s
       timeout: 3s
   redis:
-    image: cgr.dev/chainguard/redis@sha256:cd0eb6030e86577bbf24c18e7d6ff1f84b2bce4b9f1d74f2bd0fba170e728165
+    image: cgr.dev/chainguard/redis@sha256:5c5193e437be1cb5af4f853c814878a83553d95e55421ae5e7227eb58ea7a26a
     extra_hosts:
       - localhost:host-gateway
     container_name: redis

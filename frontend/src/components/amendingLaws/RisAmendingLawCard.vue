@@ -6,7 +6,7 @@ const props = defineProps<{
   eli: string
   printAnnouncementGazette?: string
   digitalAnnouncementMedium?: string
-  publicationDate: string
+  frbrDateVerkuendung?: string
   printAnnouncementPage?: string
   digitalAnnouncementEdition?: string
 }>()
@@ -25,15 +25,24 @@ const pageOrEdition = computed(() => {
   }
 })
 
-const publicationYear = computed(() => props.publicationDate.substring(0, 4))
+const publicationYear = computed(() =>
+  props.frbrDateVerkuendung?.substring(0, 4),
+)
 
-const publicationDateGerman = computed(() => {
+const frbrDateVerkuendungGerman = computed(() => {
+  if (props.frbrDateVerkuendung == null) {
+    return null
+  }
+
   const options: Intl.DateTimeFormatOptions = {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   }
-  return new Date(props.publicationDate).toLocaleDateString("de-DE", options)
+  return new Date(props.frbrDateVerkuendung).toLocaleDateString(
+    "de-DE",
+    options,
+  )
 })
 </script>
 
@@ -45,7 +54,7 @@ const publicationDateGerman = computed(() => {
       </span>
 
       <span class="publication-date ml-40">
-        {{ publicationDateGerman }}
+        {{ frbrDateVerkuendungGerman }}
       </span>
     </div>
 

@@ -8,7 +8,7 @@ describe("RisAmendingLawCard", () => {
       props: {
         eli: "someEli",
         printAnnouncementGazette: "GazetteName",
-        publicationDate: "2021-01-01",
+        frbrDateVerkuendung: "2021-01-01",
         printAnnouncementPage: "456",
       },
     })
@@ -20,7 +20,7 @@ describe("RisAmendingLawCard", () => {
       props: {
         eli: "someEli",
         digitalAnnouncementMedium: "DigitalGazette",
-        publicationDate: "2019-01-01",
+        frbrDateVerkuendung: "2019-01-01",
         digitalAnnouncementEdition: "123",
       },
     })

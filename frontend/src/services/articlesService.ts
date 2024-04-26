@@ -8,7 +8,7 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
  * @param eli ELI of the law we want to get the articles from
  */
 export async function getArticlesByEli(eli: string): Promise<Article[]> {
-  return apiFetch<Article[]>(`/amending-laws/${eli}/articles`)
+  return apiFetch<Article[]>(`/norms/${eli}/articles`)
 }
 
 /**
@@ -20,7 +20,7 @@ export async function getArticleByEliAndEid({
   eli,
   eid,
 }: LawElementIdentifier): Promise<Article> {
-  return apiFetch<Article>(`/amending-laws/${eli}/articles/${eid}`)
+  return apiFetch<Article>(`/norms/${eli}/articles/${eid}`)
 }
 
 /**
@@ -32,7 +32,7 @@ export async function getArticleXmlByEliAndEid({
   eli,
   eid,
 }: LawElementIdentifier): Promise<string> {
-  return apiFetch<string>(`/amending-laws/${eli}/articles/${eid}`, {
+  return apiFetch<string>(`/norms/${eli}/articles/${eid}`, {
     headers: {
       Accept: "application/xml",
     },

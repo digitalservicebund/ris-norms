@@ -35,7 +35,7 @@ const props = withDefaults(
      *
      * @default "primary"
      */
-    variant?: "primary" | "secondary" | "tertiary" | "ghost"
+    variant?: "primary" | "secondary" | "tertiary" | "ghost" | "link"
 
     /**
      * The size of the button.
@@ -98,17 +98,29 @@ const linkBindings = computed(() => {
       'ds-button-secondary': variant === 'secondary',
       'ds-button-tertiary': variant === 'tertiary',
       'ds-button-ghost': variant === 'ghost',
+      [$style['ds-button-link']]: variant === 'link',
       'is-disabled': disabled,
       'ds-button-large': size === 'large',
       'ds-button-small': size === 'small',
       'ds-button-full-width': fullWidth,
     }"
     :disabled="tag === 'button' && disabled === true ? true : undefined"
+    :aria-label="iconOnly ? label : undefined"
     v-bind="linkBindings"
   >
     <component :is="icon" v-if="icon" class="ds-button-icon" alt="" />
-    <span class="ds-button-label" :class="{ 'sr-only': iconOnly }">{{
-      label
-    }}</span>
+    <span
+      v-if="!iconOnly"
+      class="ds-button-label"
+      :class="{ 'sr-only static': iconOnly }"
+    >
+      {{ label }}
+    </span>
   </component>
 </template>
+
+<style module>
+.ds-button-link {
+  @apply border-2 border-solid border-transparent bg-transparent p-4 text-sm text-blue-800 underline hover:border-gray-600 hover:bg-transparent focus:border-gray-600 disabled:bg-transparent disabled:text-gray-600 disabled:hover:border-transparent disabled:focus:border-transparent;
+}
+</style>

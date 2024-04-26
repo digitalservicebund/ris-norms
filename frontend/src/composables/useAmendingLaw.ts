@@ -1,5 +1,5 @@
 import { useAmendingLawStore } from "@/store/amendingLawStore"
-import { AmendingLaw } from "@/types/amendingLaw"
+import { Norm } from "@/types/norm"
 import { storeToRefs } from "pinia"
 import {
   DeepReadonly,
@@ -17,7 +17,7 @@ import {
  */
 export function useAmendingLaw(
   eli: MaybeRefOrGetter<string>,
-): DeepReadonly<Ref<AmendingLaw | undefined>> {
+): DeepReadonly<Ref<Norm | undefined>> {
   const amendingLawStore = useAmendingLawStore()
   const { loadedAmendingLaw } = storeToRefs(amendingLawStore)
 

@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate gradle wrapper
-        uses: gradle/wrapper-validation-action@85cde3f5a1033b2adc2442631c24b530f1183a1a
+        uses: gradle/actions/wrapper-validation@v3
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -82,7 +82,7 @@ jobs:
             ./frontend/test-results/**/*.png
             ./frontend/test-results/**/trace.zip
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@15dd05b628141b7bac0ad26e08c1935cb3ba6bc8
+        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

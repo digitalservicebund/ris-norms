@@ -12,7 +12,7 @@ import {
 
 /**
  * Get the data of all articles inside an amending law.
- * @param identifier A reference to the ELI of the law for which the article data
+ * @param eli A reference to the ELI of the law for which the article data
  *  will be returned. Changing the value of the reference will load the data for the
  *  new ELI.
  * @returns A reference to the articles data or undefined if it is not available (or

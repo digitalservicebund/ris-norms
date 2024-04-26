@@ -4,7 +4,9 @@
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
         xmlns:meta="http://Metadaten.LegalDocML.de/1.6/"
-        xmlns:meta-ds="http://DS.Metadaten.LegalDocML.de/1.6/">
+        xmlns:meta-ds="http://DS.Metadaten.LegalDocML.de/1.6/"
+        exclude-result-prefixes="#all"
+>
 
     <!-- This is just a placeholder implementation for showing how we can separate the xslt for the metadata and "normal render -->
 

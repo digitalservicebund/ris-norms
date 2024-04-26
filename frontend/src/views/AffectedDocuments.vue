@@ -9,14 +9,14 @@ const affectedDocuments = useAffectedDocuments(eli)
 </script>
 
 <template>
-  <div>
+  <div class="p-40">
     <h1 class="ds-heading-02-reg mb-40">Betroffene Normenkomplexe</h1>
 
     <ul>
       <RisAffectedDocumentPanel
         v-for="affectedDocument in affectedDocuments"
         :key="affectedDocument.targetLaw.eli"
-        :title="affectedDocument.targetLaw.title"
+        :title="affectedDocument.targetLaw.title ?? ''"
         :eli="affectedDocument.targetLaw.eli"
         :fna="affectedDocument.targetLaw.fna"
         :short-title="affectedDocument.targetLaw.shortTitle"
