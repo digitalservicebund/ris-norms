@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class DBService
     implements LoadNormPort,
         LoadNormByGuidPort,
-        LoadAnnouncementPort,
+        LoadAnnouncementByNormEliPort,
         LoadAllAnnouncementsPort,
         UpdateNormPort,
         UpdateAnnouncementPort {
@@ -46,7 +46,8 @@ public class DBService
   }
 
   @Override
-  public Optional<Announcement> loadAnnouncement(LoadAnnouncementPort.Command command) {
+  public Optional<Announcement> loadAnnouncementByNormEli(
+      LoadAnnouncementByNormEliPort.Command command) {
     return announcementRepository
         .findByNormDtoEli(command.eli())
         .map(AnnouncementMapper::mapToDomain);

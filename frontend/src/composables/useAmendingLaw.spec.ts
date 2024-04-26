@@ -20,11 +20,9 @@ describe("useAmendingLaw", () => {
           return {
             loadedAmendingLaw: ref({
               eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-              printAnnouncementGazette: "example",
-              digitalAnnouncementMedium: undefined,
+              frbrName: "example",
               frbrDateVerkuendung: "2023-01-01",
-              printAnnouncementPage: "1",
-              digitalAnnouncementEdition: undefined,
+              frbrNumber: "1",
             }),
             loadAmendingLawByEli: vi.fn(),
           }

@@ -9,7 +9,7 @@ import java.util.Optional;
  * Implementations of this interface should provide functionality to load a announcement using the
  * specified command.
  */
-public interface LoadAnnouncementPort {
+public interface LoadAnnouncementByNormEliPort {
 
   /**
    * Loads a {@link Announcement} based on the provided ELI specified in the command.
@@ -19,7 +19,7 @@ public interface LoadAnnouncementPort {
    * @return An {@link Optional} containing the loaded {@link Announcement} if found, or empty if
    *     not found.
    */
-  Optional<Announcement> loadAnnouncement(final Command command);
+  Optional<Announcement> loadAnnouncementByNormEli(final Command command);
 
   /**
    * A record representing the command for loading an announcement. The command includes the ELI

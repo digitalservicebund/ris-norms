@@ -11,11 +11,9 @@ describe("announcementService", () => {
       const fetchMock = vi.fn().mockResolvedValueOnce([
         {
           eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-          printAnnouncementGazette: "bgbl-1",
-          printAnnouncementMedium: undefined,
+          frbrName: "bgbl-1",
           frbrDateVerkuendung: "2017-03-15",
-          printAnnouncementPage: "419",
-          digitalAnnouncementEdition: undefined,
+          frbrNumber: "s419",
           articles: [
             {
               eid: "article eid 1",

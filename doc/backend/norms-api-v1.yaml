@@ -281,21 +281,9 @@ components:
           type: string
         frbrNumber:
           type: string
-        printAnnouncementGazette:
-          type: string
-          deprecated: true
-        digitalAnnouncementMedium:
-          type: string
-          deprecated: true
         frbrDateVerkuendung:
           type: string
           format: date
-        printAnnouncementPage:
-          type: string
-          deprecated: true
-        digitalAnnouncementEdition:
-          type: string
-          deprecated: true
 
     Article:
       type: object

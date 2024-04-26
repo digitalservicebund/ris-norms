@@ -16,21 +16,12 @@ public class NormResponseMapper {
    * @return A new {@link NormResponseSchema} instance mapped from the input {@link Norm}.
    */
   public static NormResponseSchema fromUseCaseData(final Norm norm) {
-    boolean isDigitallyAnnounced = norm.getFRBRnumber().map(s -> !s.startsWith("s")).orElse(false);
-
     return NormResponseSchema.builder()
         .eli(norm.getEli().orElse(null))
         .title(norm.getTitle().orElse(null))
         .frbrName(norm.getFRBRname().orElse(null))
         .frbrNumber(norm.getFRBRnumber().orElse(null))
-        .printAnnouncementGazette(isDigitallyAnnounced ? null : norm.getFRBRname().orElse(null))
-        .digitalAnnouncementMedium(isDigitallyAnnounced ? norm.getFRBRname().orElse(null) : null)
         .frbrDateVerkuendung(norm.getFBRDateVerkuendung().orElse(null))
-        .printAnnouncementPage(
-            isDigitallyAnnounced
-                ? null
-                : norm.getFRBRnumber().map(s -> s.substring(1)).orElse(null))
-        .digitalAnnouncementEdition(isDigitallyAnnounced ? norm.getFRBRnumber().orElse(null) : null)
         .shortTitle(norm.getShortTitle().orElse(null))
         .fna(norm.getFna().orElse(null))
         .build();

@@ -4,28 +4,24 @@ import ExpandMoreIcon from "~icons/ic/baseline-expand-more"
 
 const props = defineProps<{
   eli: string
-  printAnnouncementGazette?: string
-  digitalAnnouncementMedium?: string
+  frbrName?: string
+  frbrNumber?: string
   frbrDateVerkuendung?: string
-  printAnnouncementPage?: string
-  digitalAnnouncementEdition?: string
 }>()
 
 const gazetteOrMediumUpper = computed(() => {
-  return props.printAnnouncementGazette ?? props.digitalAnnouncementMedium ?? ""
+  return props.frbrName ?? ""
 })
 
 const pageOrEdition = computed(() => {
-  if (props.printAnnouncementPage) {
-    return `S. ${props.printAnnouncementPage}`
-  } else if (props.digitalAnnouncementEdition) {
-    return `Nr. ${props.digitalAnnouncementEdition}`
+  if (props.frbrNumber && props.frbrNumber.startsWith("s")) {
+    return `S. ${props.frbrNumber.replace("s", "")}`
   } else {
-    return ""
+    return `Nr. ${props.frbrNumber}`
   }
 })
 
-const publicationYear = computed(() =>
+const frbrDateVerkuendungYear = computed(() =>
   props.frbrDateVerkuendung?.substring(0, 4),
 )
 
@@ -50,7 +46,8 @@ const frbrDateVerkuendungGerman = computed(() => {
   <div class="flex justify-between bg-white p-16 hover:bg-blue-200">
     <div class="flex items-center">
       <span class="ds-label-02-bold w-128 flex-none whitespace-nowrap">
-        {{ gazetteOrMediumUpper }} {{ publicationYear }} {{ pageOrEdition }}
+        {{ gazetteOrMediumUpper }} {{ frbrDateVerkuendungYear }}
+        {{ pageOrEdition }}
       </span>
 
       <span class="publication-date ml-40">

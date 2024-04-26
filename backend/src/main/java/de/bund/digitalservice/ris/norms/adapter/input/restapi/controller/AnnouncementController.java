@@ -7,7 +7,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResp
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
@@ -27,18 +27,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class AnnouncementController {
 
   private final LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
-  private final LoadAnnouncementUseCase loadAnnouncementUseCase;
+  private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
   private final LoadTargetNormsAffectedByAnnouncementUseCase
       loadTargetNormsAffectedByAnnouncementUseCase;
   private final ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
 
   public AnnouncementController(
       LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase,
-      LoadAnnouncementUseCase loadAnnouncementUseCase,
+      LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
       LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase,
       ReleaseAnnouncementUseCase releaseAnnouncementUseCase) {
     this.loadAllAnnouncementsUseCase = loadAllAnnouncementsUseCase;
-    this.loadAnnouncementUseCase = loadAnnouncementUseCase;
+    this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
     this.loadTargetNormsAffectedByAnnouncementUseCase =
         loadTargetNormsAffectedByAnnouncementUseCase;
     this.releaseAnnouncementUseCase = releaseAnnouncementUseCase;
@@ -99,8 +99,8 @@ public class AnnouncementController {
         loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
             new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli));
 
-    return loadAnnouncementUseCase
-        .loadAnnouncement(new LoadAnnouncementUseCase.Query(eli))
+    return loadAnnouncementByNormEliUseCase
+        .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(eli))
         .map(announcement -> ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms))
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());

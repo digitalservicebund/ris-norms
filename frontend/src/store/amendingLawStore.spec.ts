@@ -18,11 +18,9 @@ describe("useAmendingLawsStore", () => {
 
     mockAmendingLaw = {
       eli: eli,
-      printAnnouncementGazette: "example",
-      digitalAnnouncementMedium: undefined,
+      frbrName: "example",
       frbrDateVerkuendung: "2023-01-01",
-      printAnnouncementPage: "1",
-      digitalAnnouncementEdition: undefined,
+      frbrNumber: "1",
     }
 
     vi.mocked(getNormByEli).mockResolvedValue(mockAmendingLaw)
