@@ -4,8 +4,13 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useNormHtml } from "@/composables/useNormHtml"
+import { useArticle } from "@/composables/useArticle"
+import { computed } from "vue"
+import { LawElementIdentifier } from "@/types/lawElementIdentifier"
+import { useEidPathParameter } from "@/composables/useEidPathParameter"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
+const articleEid = useEidPathParameter()
 
 /**
  * The xml of the law whose metadata is edited on this view. As both this and the rahmen metadata editor view both edit
@@ -17,6 +22,13 @@ const xml = defineModel<string>("xml")
 // TODO: (Malte Laukötter, 2024-04-26) we only want the render to show the selected article
 const render = useNormHtml(affectedDocumentEli)
 
+const identifier = computed<LawElementIdentifier | undefined>(() =>
+  affectedDocumentEli.value && articleEid.value
+    ? { eli: affectedDocumentEli.value, eid: articleEid.value }
+    : undefined,
+)
+const article = useArticle(identifier)
+
 function handleTargetLawXmlChange({ content }: { content: string }) {
   xml.value = content
 }
@@ -26,7 +38,9 @@ function handleTargetLawXmlChange({ content }: { content: string }) {
   <div class="flex h-[calc(100dvh-5rem-5rem)] flex-col overflow-hidden p-40">
     <div class="flex gap-16">
       <div class="flex-grow">
-        <h2 class="ds-heading-03-reg">§ 7 Paßversagung</h2>
+        <h2 class="ds-heading-03-reg">
+          § {{ article?.enumeration }} {{ article?.title }}
+        </h2>
       </div>
     </div>
 
