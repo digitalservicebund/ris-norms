@@ -25,3 +25,5 @@ fileignoreconfig:
     checksum: a73821620682403515b7d87d3df3720daa41244d95999a220af2e08944b74ca1
   - filename: ldml-extension/fixtures/Bundesverfassungschutzgesetz.xml
     checksum: bd9f0f269bae29bc814009396ef6bae5b932c24ee5257005439a5d95b8dd91af
+  - filename: ldml-extension/fixtures/Wachstumschancengesetz Part 2.xml
+    checksum: c8447cb03e1a7a9273200a4379c0cabc1fb8ad871df75ac3ace9a5c516d369ed
