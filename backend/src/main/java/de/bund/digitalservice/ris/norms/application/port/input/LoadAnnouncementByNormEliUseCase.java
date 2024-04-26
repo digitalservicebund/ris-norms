@@ -7,7 +7,7 @@ import java.util.Optional;
  * Interface representing the use case for loading an {@link Announcement}. Implementations of this
  * interface should provide functionality to load an {@link Announcement} based on a given query.
  */
-public interface LoadAnnouncementUseCase {
+public interface LoadAnnouncementByNormEliUseCase {
 
   /**
    * Retrieves an {@link Announcement} based on the provided query.
@@ -17,7 +17,7 @@ public interface LoadAnnouncementUseCase {
    * @return An {@link Optional} containing the loaded {@link Announcement} if found, or empty if
    *     not found.
    */
-  Optional<Announcement> loadAnnouncement(Query query);
+  Optional<Announcement> loadAnnouncementByNormEli(Query query);
 
   /**
    * A record representing the query for loading an {@link Announcement}. The query includes the ELI

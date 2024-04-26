@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
@@ -37,7 +37,7 @@ class AnnouncementControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
-  @MockBean private LoadAnnouncementUseCase loadAnnouncementUseCase;
+  @MockBean private LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
 
   @MockBean
   private LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase;
@@ -262,7 +262,8 @@ class AnnouncementControllerTest {
               .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
               .build();
 
-      when(loadAnnouncementUseCase.loadAnnouncement(any())).thenReturn(Optional.of(announcement));
+      when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
+          .thenReturn(Optional.of(announcement));
       when(loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
               any()))
           .thenReturn(List.of(affectedNormZf0));

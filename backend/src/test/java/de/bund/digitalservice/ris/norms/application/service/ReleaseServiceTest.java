@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -18,10 +18,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 class ReleaseServiceTest {
-  private final LoadAnnouncementPort loadAnnouncementPort = mock(LoadAnnouncementPort.class);
+  private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort =
+      mock(LoadAnnouncementByNormEliPort.class);
   private final UpdateAnnouncementPort updateAnnouncementPort = mock(UpdateAnnouncementPort.class);
   private final ReleaseService releaseService =
-      new ReleaseService(loadAnnouncementPort, updateAnnouncementPort);
+      new ReleaseService(loadAnnouncementByNormEliPort, updateAnnouncementPort);
 
   @Test
   void itShouldReleaseAnnouncement() {
@@ -52,7 +53,8 @@ class ReleaseServiceTest {
                     .build())
             .releasedByDocumentalistAt(null)
             .build();
-    when(loadAnnouncementPort.loadAnnouncement(any())).thenReturn(Optional.of(announcement));
+    when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
+        .thenReturn(Optional.of(announcement));
 
     // When
     var instantBeforeRelease = Instant.now();
@@ -61,8 +63,8 @@ class ReleaseServiceTest {
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
     // Then
-    verify(loadAnnouncementPort, times(1))
-        .loadAnnouncement(
+    verify(loadAnnouncementByNormEliPort, times(1))
+        .loadAnnouncementByNormEli(
             argThat(
                 argument ->
                     Objects.equals(
@@ -79,7 +81,8 @@ class ReleaseServiceTest {
   @Test
   void itShouldDoNothingForUnknownAnnouncement() {
     // Given
-    when(loadAnnouncementPort.loadAnnouncement(any())).thenReturn(Optional.empty());
+    when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
+        .thenReturn(Optional.empty());
 
     // When
     Optional<Announcement> result =
@@ -88,8 +91,8 @@ class ReleaseServiceTest {
                 "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
     // Then
-    verify(loadAnnouncementPort, times(1))
-        .loadAnnouncement(
+    verify(loadAnnouncementByNormEliPort, times(1))
+        .loadAnnouncementByNormEli(
             argThat(
                 argument ->
                     Objects.equals(
