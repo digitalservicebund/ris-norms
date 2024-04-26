@@ -332,7 +332,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
           .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1?atTimeBoundary=2024-04-25T14:37:14.434Z")
+              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1?atIsoDate=2024-04-25T14:37:14.434Z")
                   .accept(MediaType.TEXT_HTML))
           .andExpect(status().isOk())
           .andExpect(content().node(hasXPath("//div")));
