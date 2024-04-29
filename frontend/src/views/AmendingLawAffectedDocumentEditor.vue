@@ -2,13 +2,14 @@
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTemporalDataReleaseResponse"
-import { Ref, ref, watch, WritableComputedRef } from "vue"
+import { ref, watch, WritableComputedRef } from "vue"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useZeitgrenzePathParameter } from "@/composables/useZeitgrenzePathParameter"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useArticlesChangedAtZeitgrenze } from "@/composables/useArticlesChangedAtZeitgrenze"
 import { useRouter } from "vue-router"
+import { useAmendingLawTemporalData } from "@/composables/useAmendingLawTemporalData"
+import dayjs from "dayjs"
 
 const router = useRouter()
 const amendingLawEli = useEliPathParameter()
@@ -25,33 +26,19 @@ watch(targetLawXml, () => {
   currentTargetLawXml.value = targetLawXml.value
 })
 
-// TODO: (Malte Laukötter, 2024-04-26) load zeitgrenzen
-const zeitgrenzen: Ref<AmendingLawTemporalDataReleaseResponse[]> = ref([
-  {
-    date: "23.10.2023",
-    eid: "unknown-eid-1",
-  },
-  {
-    date: "02.12.2023",
-    eid: "unknown-eid-2",
-  },
-  {
-    date: "03.02.2024",
-    eid: "unknown-eid-3",
-  },
-])
+const { timeBoundaries } = useAmendingLawTemporalData(amendingLawEli)
 
 const selectedZeitgrenze: WritableComputedRef<string> =
   useZeitgrenzePathParameter()
 
 // choose the first zeitgrenze if none is selected so far
 watch(
-  zeitgrenzen,
+  timeBoundaries,
   () => {
-    if (selectedZeitgrenze.value === "" && zeitgrenzen.value.length > 0) {
+    if (selectedZeitgrenze.value === "" && timeBoundaries.value.length > 0) {
       void router.replace({
         params: {
-          zeitgrenze: zeitgrenzen.value[0].eid,
+          zeitgrenze: timeBoundaries.value[0].eid,
         },
       })
     }
@@ -102,11 +89,11 @@ async function handleSave() {
             class="ds-select ds-select-small"
           >
             <option
-              v-for="zeitgrenze in zeitgrenzen"
-              :key="zeitgrenze.eid"
-              :value="zeitgrenze.eid"
+              v-for="timeBoundary in timeBoundaries"
+              :key="timeBoundary.eid"
+              :value="timeBoundary.eid"
             >
-              {{ zeitgrenze.date }}
+              {{ dayjs(timeBoundary.date).format("DD.MM.YYYY") }}
             </option>
           </select>
         </label>
