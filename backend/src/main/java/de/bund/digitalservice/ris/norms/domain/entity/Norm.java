@@ -15,11 +15,12 @@ import org.w3c.dom.NodeList;
  * Represents an amending law entity with various attributes. This class is annotated with Lombok
  * annotations for generating builders, getters, toString, and constructors.
  */
+@Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Norm {
 
-  @Getter private final Document document;
+  private final Document document;
 
   /**
    * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}.
@@ -49,9 +50,9 @@ public class Norm {
   }
 
   /**
-   * Returns an FRBRname as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns a FRBRname as {@link String} from a {@link Document} in a {@link Norm}.
    *
-   * @return The PrintAnnouncementGazette
+   * @return The FRBRname
    */
   public Optional<String> getFRBRname() {
     Optional<String> fRBRname =
@@ -61,24 +62,24 @@ public class Norm {
         s ->
             s.replace("bgbl-1", "BGBl. I")
                 .replace("bgbl-2", "BGBl. II")
-                .replace("bgbl-3", "BGBl. III"));
+                .replace("banz-at", "BAnz AT"));
   }
 
   /**
-   * Returns an AnnouncementPage as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns a FRBRnumber as {@link String} from a {@link Document} in a {@link Norm}.
    *
-   * @return The AnnouncementPage
+   * @return The FRBRnumber
    */
   public Optional<String> getFRBRnumber() {
     return NodeParser.getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
   }
 
   /**
-   * Returns an PublicationDate as {@link LocalDate} from a {@link Document} in a {@link Norm}.
+   * Returns a FBRDateVerkuendun as {@link LocalDate} from a {@link Document} in a {@link Norm}.
    *
-   * @return The PublicationDate
+   * @return The FBRDateVerkuendun
    */
-  public Optional<LocalDate> getPublicationDate() {
+  public Optional<LocalDate> getFBRDateVerkuendung() {
     return NodeParser.getValueFromExpression("//FRBRWork/FRBRdate/@date", document)
         .map(LocalDate::parse);
   }
@@ -118,17 +119,17 @@ public class Norm {
    *
    * @return The list of articles
    */
-  public List<NormArticle> getArticles() {
+  public List<Article> getArticles() {
     final NodeList allArticles = NodeParser.getNodesFromExpression("//body/article", document);
     if (allArticles.getLength() == 0) {
       return List.of();
     }
 
-    List<NormArticle> articles = new ArrayList<>();
+    List<Article> articles = new ArrayList<>();
 
     for (int i = 0; i < allArticles.getLength(); i++) {
       final Node articleNode = allArticles.item(i);
-      NormArticle newArticle = NormArticle.builder().node(articleNode).build();
+      Article newArticle = Article.builder().node(articleNode).build();
       articles.add(newArticle);
     }
     return articles;
@@ -159,8 +160,7 @@ public class Norm {
    */
   public List<TimeBoundary> getTimeBoundaries() {
     NodeList timeIntervalNodes =
-        NodeParser.getNodesFromExpression(
-            "//temporalData/temporalGroup/timeInterval/@start", document);
+        NodeParser.getNodesFromExpression("//temporalData/temporalGroup/timeInterval", document);
 
     if (timeIntervalNodes.getLength() == 0) {
       return List.of();
@@ -169,23 +169,18 @@ public class Norm {
     List<TimeBoundary> timeBoundaries = new ArrayList<>();
 
     for (int i = 0; i < timeIntervalNodes.getLength(); i++) {
-      Node node = timeIntervalNodes.item(i);
-      String startRef = node.getNodeValue().substring(1);
-      String xpathEventRef = String.format("//lifecycle/eventRef[@eId='%s']", startRef);
-      NodeList eventRefNodes = NodeParser.getNodesFromExpression(xpathEventRef, document);
+      Node timeIntervalNode = timeIntervalNodes.item(i);
+      String eIdEventRef =
+          timeIntervalNode.getAttributes().getNamedItem("start").getNodeValue().replace("#", "");
+      String eventRefNodeExpression = String.format("//lifecycle/eventRef[@eId='%s']", eIdEventRef);
+      Node eventRefNode = NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
 
-      for (int j = 0; j < eventRefNodes.getLength(); j++) {
-        Node eventNode = eventRefNodes.item(j);
-        Optional<String> date = NodeParser.getValueFromExpression("@date", eventNode);
-        Optional<String> eid = NodeParser.getValueFromExpression("@eId", eventNode);
-
-        TimeBoundary boundary =
-            TimeBoundary.builder()
-                .date(LocalDate.parse(date.orElse("")))
-                .eid(eid.orElse(""))
-                .build();
-        timeBoundaries.add(boundary);
-      }
+      TimeBoundary timeBoundary =
+          TimeBoundary.builder()
+              .timeIntervalNode(timeIntervalNode)
+              .eventRefNode(eventRefNode)
+              .build();
+      timeBoundaries.add(timeBoundary);
     }
 
     return timeBoundaries;

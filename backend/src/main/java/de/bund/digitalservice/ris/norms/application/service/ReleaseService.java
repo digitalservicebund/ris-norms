@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import java.time.Instant;
@@ -15,19 +15,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ReleaseService implements ReleaseAnnouncementUseCase {
-  private final LoadAnnouncementPort loadAnnouncementPort;
+  private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
   private final UpdateAnnouncementPort updateAnnouncementPort;
 
   public ReleaseService(
-      LoadAnnouncementPort loadAnnouncementPort, UpdateAnnouncementPort updateAnnouncementPort) {
-    this.loadAnnouncementPort = loadAnnouncementPort;
+      LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
+      UpdateAnnouncementPort updateAnnouncementPort) {
+    this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
     this.updateAnnouncementPort = updateAnnouncementPort;
   }
 
   @Override
   public Optional<Announcement> releaseAnnouncement(ReleaseAnnouncementUseCase.Query query) {
-    return loadAnnouncementPort
-        .loadAnnouncement(new LoadAnnouncementPort.Command(query.eli()))
+    return loadAnnouncementByNormEliPort
+        .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
         .flatMap(
             announcement -> {
               announcement.setReleasedByDocumentalistAt(Instant.now());

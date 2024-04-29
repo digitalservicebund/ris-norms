@@ -147,8 +147,8 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
 
     // When
     final Optional<Announcement> announcementOptional =
-        dbService.loadAnnouncement(
-            new LoadAnnouncementPort.Command(
+        dbService.loadAnnouncementByNormEli(
+            new LoadAnnouncementByNormEliPort.Command(
                 "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
     // Then

@@ -1,17 +1,15 @@
 import RisAmendingLawInfoHeaderInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
-import { AmendingLaw } from "@/types/amendingLaw"
+import { Norm } from "@/types/norm"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, test } from "vitest"
 
 describe("RisAmendingLawInfoHeaderInfoHeader", () => {
   test("renders heading and subtitle of printed announced amending law", () => {
-    const amendingLaw: AmendingLaw = {
+    const amendingLaw: Norm = {
       eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-      printAnnouncementGazette: "BGBl. I",
-      digitalAnnouncementMedium: undefined,
-      publicationDate: "2017-03-15",
-      printAnnouncementPage: "419",
-      digitalAnnouncementEdition: undefined,
+      frbrName: "BGBl. I",
+      frbrDateVerkuendung: "2017-03-15",
+      frbrNumber: "s419",
       title: "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
     }
 
@@ -29,13 +27,11 @@ describe("RisAmendingLawInfoHeaderInfoHeader", () => {
   })
 
   test("renders heading and subtitle of digitally announced amending law", () => {
-    const amendingLaw: AmendingLaw = {
+    const amendingLaw: Norm = {
       eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-      printAnnouncementGazette: undefined,
-      digitalAnnouncementMedium: "BGBl. I",
-      publicationDate: "2023-12-29",
-      printAnnouncementPage: undefined,
-      digitalAnnouncementEdition: "413",
+      frbrName: "BGBl. I",
+      frbrDateVerkuendung: "2023-12-29",
+      frbrNumber: "413",
       title: "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
     }
 

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-describe("amendingLawReleaseService", () => {
+describe("announcementReleaseService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -23,11 +23,9 @@ describe("amendingLawReleaseService", () => {
         apiFetch: fetchMock,
       }))
 
-      const { putReleaseAmendingLawXml } = await import(
-        "./amendingLawReleaseService"
-      )
+      const { putRelease } = await import("./announcementReleaseService")
 
-      const result = await putReleaseAmendingLawXml(
+      const result = await putRelease(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
 
@@ -62,11 +60,9 @@ describe("amendingLawReleaseService", () => {
         apiFetch: fetchMock,
       }))
 
-      const { getAmendingLawReleaseStatus } = await import(
-        "./amendingLawReleaseService"
-      )
+      const { getRelease } = await import("./announcementReleaseService")
 
-      const result = await getAmendingLawReleaseStatus(
+      const result = await getRelease(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
 

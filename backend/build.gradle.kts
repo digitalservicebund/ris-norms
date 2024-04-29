@@ -75,11 +75,6 @@ tasks {
         useJUnitPlatform {
             includeTags("integration")
         }
-
-        // So that running integration test require running unit tests first,
-        // and we won"t even attempt running integration tests when there are
-        // failing unit tests.
-        dependsOn(test)
         finalizedBy(jacocoTestReport)
     }
 

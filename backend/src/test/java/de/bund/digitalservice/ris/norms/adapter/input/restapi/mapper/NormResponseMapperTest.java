@@ -89,11 +89,7 @@ class NormResponseMapperTest {
     assertThat(result.getShortTitle()).isEqualTo("Vereinsgesetz");
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
     assertThat(result.getFrbrNumber()).isEqualTo("s593");
-    assertThat(result.getPrintAnnouncementGazette()).isEqualTo("BGBl. I");
-    assertThat(result.getPrintAnnouncementPage()).isEqualTo("593");
-    assertThat(result.getPublicationDate()).isEqualTo(LocalDate.of(1964, 8, 5));
-    assertThat(result.getDigitalAnnouncementMedium()).isNull();
-    assertThat(result.getDigitalAnnouncementEdition()).isNull();
+    assertThat(result.getFrbrDateVerkuendung()).isEqualTo(LocalDate.of(1964, 8, 5));
     assertThat(result.getFna()).isEqualTo("754-28-1");
   }
 
@@ -160,10 +156,6 @@ class NormResponseMapperTest {
         .isEqualTo("Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts");
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
     assertThat(result.getFrbrNumber()).isEqualTo("413");
-    assertThat(result.getDigitalAnnouncementMedium()).isEqualTo("BGBl. I");
-    assertThat(result.getDigitalAnnouncementEdition()).isEqualTo("413");
-    assertThat(result.getPublicationDate()).isEqualTo(LocalDate.of(2023, 12, 29));
-    assertThat(result.getPrintAnnouncementGazette()).isNull();
-    assertThat(result.getPrintAnnouncementPage()).isNull();
+    assertThat(result.getFrbrDateVerkuendung()).isEqualTo(LocalDate.of(2023, 12, 29));
   }
 }

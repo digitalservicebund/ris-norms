@@ -12,10 +12,11 @@ import org.w3c.dom.Node;
  * Represents an article inside a law with various attributes. This class is annotated with Lombok
  * annotations for generating getters, setters, constructors, and builder methods.
  */
+@Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-public class NormArticle {
-  @Getter private final Node node;
+public class Article {
+  private final Node node;
 
   /**
    * Returns a GUID as {@link UUID} from a {@link Node} in a {@link Norm}.

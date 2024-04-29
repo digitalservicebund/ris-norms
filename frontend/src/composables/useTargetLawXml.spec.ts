@@ -8,10 +8,10 @@ describe("useTargetLawXml", () => {
   })
 
   test("should provide the target law xml", async () => {
-    const getTargetLawXmlByEli = vi.fn().mockResolvedValue("<xml></xml>")
+    const getNormXmlByEli = vi.fn().mockResolvedValue("<xml></xml>")
 
-    vi.doMock("@/services/targetLawsService", () => ({
-      getTargetLawXmlByEli,
+    vi.doMock("@/services/normService", () => ({
+      getNormXmlByEli,
     }))
 
     const { useTargetLawXml } = await import("./useTargetLawXml")
@@ -26,10 +26,10 @@ describe("useTargetLawXml", () => {
   })
 
   test("should load the target law xml when the eli changes", async () => {
-    const getTargetLawXmlByEli = vi.fn()
+    const getNormXmlByEli = vi.fn()
 
-    vi.doMock("@/services/targetLawsService", () => ({
-      getTargetLawXmlByEli,
+    vi.doMock("@/services/normService", () => ({
+      getNormXmlByEli,
     }))
 
     const { useTargetLawXml } = await import("./useTargetLawXml")
@@ -45,19 +45,19 @@ describe("useTargetLawXml", () => {
     eli.value = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
     await nextTick()
 
-    expect(getTargetLawXmlByEli).toBeCalledTimes(2)
+    expect(getNormXmlByEli).toBeCalledTimes(2)
   })
 
   describe("update", () => {
     test("should request an update and the XML should be update with the response", async () => {
-      const getTargetLawXmlByEli = vi.fn().mockResolvedValue("<xml>1</xml>")
-      const putTargetLawXml = vi
+      const getNormXmlByEli = vi.fn().mockResolvedValue("<xml>1</xml>")
+      const putNormXml = vi
         .fn()
         .mockResolvedValueOnce("<xml some-backend-created-tag>2</xml>")
 
-      vi.doMock("@/services/targetLawsService", () => ({
-        getTargetLawXmlByEli,
-        putTargetLawXml,
+      vi.doMock("@/services/normService", () => ({
+        getNormXmlByEli,
+        putNormXml,
       }))
 
       const { useTargetLawXml } = await import("./useTargetLawXml")
@@ -71,16 +71,16 @@ describe("useTargetLawXml", () => {
       await update("<xml>2</xml>")
       expect(xml.value).toBe("<xml some-backend-created-tag>2</xml>")
 
-      expect(putTargetLawXml).toHaveBeenCalledWith(
+      expect(putNormXml).toHaveBeenCalledWith(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         "<xml>2</xml>",
       )
     })
 
     test("should reject if the update fails and the XML should then not be updated", async () => {
-      vi.doMock("@/services/targetLawsService", () => ({
-        getTargetLawXmlByEli: vi.fn().mockResolvedValue("<xml>1</xml>"),
-        putTargetLawXml: vi.fn().mockRejectedValue("404 Not Found"),
+      vi.doMock("@/services/normService", () => ({
+        getNormXmlByEli: vi.fn().mockResolvedValue("<xml>1</xml>"),
+        putNormXml: vi.fn().mockRejectedValue("404 Not Found"),
       }))
 
       const { useTargetLawXml } = await import("./useTargetLawXml")
@@ -95,9 +95,9 @@ describe("useTargetLawXml", () => {
     })
 
     test("should reject if no ELI exists", async () => {
-      vi.doMock("@/services/targetLawsService", () => ({
-        getTargetLawXmlByEli: vi.fn().mockResolvedValue("<xml>1</xml>"),
-        putTargetLawXml: vi.fn().mockResolvedValue("<xml>2</xml>"),
+      vi.doMock("@/services/normService", () => ({
+        getNormXmlByEli: vi.fn().mockResolvedValue("<xml>1</xml>"),
+        putNormXml: vi.fn().mockResolvedValue("<xml>2</xml>"),
       }))
 
       const { useTargetLawXml } = await import("./useTargetLawXml")

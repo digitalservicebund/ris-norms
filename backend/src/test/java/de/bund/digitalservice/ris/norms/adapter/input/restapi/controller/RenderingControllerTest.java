@@ -19,9 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
  * Not using SpringBootTest annotation to avoid needing a database connection. Therefore, manually
  * setting up the {@code mockMvc} including the ControllerAdvice
  */
-@WebMvcTest(LawController.class)
+@WebMvcTest(RenderingController.class)
 @Import(SecurityConfig.class)
-class LawControllerTest {
+class RenderingControllerTest {
   @Autowired private MockMvc mockMvc;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
@@ -37,7 +37,7 @@ class LawControllerTest {
 
     mockMvc
         .perform(
-            post("/api/v1/laws/rendering")
+            post("/api/v1/renderings")
                 .queryParam("showMetadata", String.valueOf(showMetadata))
                 .contentType(MediaType.APPLICATION_XML)
                 .content(xml))
@@ -60,7 +60,7 @@ class LawControllerTest {
 
     mockMvc
         .perform(
-            post("/api/v1/laws/rendering")
+            post("/api/v1/renderings")
                 .queryParam("showMetadata", String.valueOf(showMetadata))
                 .contentType(MediaType.APPLICATION_XML)
                 .content(xml))

@@ -1,7 +1,4 @@
-import {
-  getAmendingLawXmlByEli,
-  putAmendingLawXml,
-} from "@/services/amendingLawsService"
+import { getNormXmlByEli, putNormXml } from "@/services/normService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import {
   DeepReadonly,
@@ -44,7 +41,7 @@ export function useArticleXml(
 
       // TODO: Switch this to article XML once we have that. For now we'll display
       // the entire amending law.
-      articleXml.value = await getAmendingLawXmlByEli(is.eli)
+      articleXml.value = await getNormXmlByEli(is.eli)
     },
     { immediate: true },
   )
@@ -56,7 +53,7 @@ export function useArticleXml(
       throw new Error("Expected an identifier to exist when calling update.")
     }
 
-    articleXml.value = await putAmendingLawXml(id.eli, xml)
+    articleXml.value = await putNormXml(id.eli, xml)
   }
 
   return {

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class DBService
     implements LoadNormPort,
         LoadNormByGuidPort,
-        LoadAnnouncementPort,
+        LoadAnnouncementByNormEliPort,
         LoadAllAnnouncementsPort,
         UpdateNormPort,
         UpdateAnnouncementPort {
@@ -46,7 +46,8 @@ public class DBService
   }
 
   @Override
-  public Optional<Announcement> loadAnnouncement(LoadAnnouncementPort.Command command) {
+  public Optional<Announcement> loadAnnouncementByNormEli(
+      LoadAnnouncementByNormEliPort.Command command) {
     return announcementRepository
         .findByNormDtoEli(command.eli())
         .map(AnnouncementMapper::mapToDomain);
@@ -59,7 +60,7 @@ public class DBService
         .sorted(
             Comparator.comparing(
                     (Announcement announcement) ->
-                        announcement.getNorm().getPublicationDate().orElse(LocalDate.MIN))
+                        announcement.getNorm().getFBRDateVerkuendung().orElse(LocalDate.MIN))
                 .reversed())
         .toList();
   }

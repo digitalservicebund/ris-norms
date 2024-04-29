@@ -223,13 +223,13 @@ class NormTest {
         """;
 
     Norm norm = new Norm(toDocument(normString));
-    String expectedPrintAnnouncementGazette = "BGBl. I";
+    String expectedFRBRname = "BGBl. I";
 
     // when
-    String actualAnnouncementGazette = norm.getFRBRname().get();
+    String actualFRBRname = norm.getFRBRname().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedPrintAnnouncementGazette);
+    assertThat(actualFRBRname).isEqualTo(expectedFRBRname);
   }
 
   @Test
@@ -256,13 +256,13 @@ class NormTest {
             """;
 
     Norm norm = new Norm(toDocument(normString));
-    String expectedPrintAnnouncementGazette = "s593";
+    String expectedFRBRname = "s593";
 
     // when
     String actualAnnouncementGazette = norm.getFRBRnumber().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedPrintAnnouncementGazette);
+    assertThat(actualAnnouncementGazette).isEqualTo(expectedFRBRname);
   }
 
   @Test
@@ -289,13 +289,13 @@ class NormTest {
             """;
 
     Norm norm = new Norm(toDocument(normString));
-    String expectedPrintAnnouncementGazette = "BGBl. I";
+    String expectedFRBRname = "BGBl. I";
 
     // when
     String actualAnnouncementGazette = norm.getFRBRname().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedPrintAnnouncementGazette);
+    assertThat(actualAnnouncementGazette).isEqualTo(expectedFRBRname);
   }
 
   @Test
@@ -323,13 +323,13 @@ class NormTest {
                 """;
 
     Norm norm = new Norm(toDocument(normString));
-    LocalDate expectedPublishingDate = LocalDate.of(1964, 8, 5);
+    LocalDate expectedFBRDateVerkuendung = LocalDate.of(1964, 8, 5);
 
     // when
-    LocalDate actualPublishingDate = norm.getPublicationDate().get();
+    LocalDate actualFBRDateVerkuendung = norm.getFBRDateVerkuendung().get();
 
     // then
-    assertThat(actualPublishingDate).isEqualTo(expectedPublishingDate);
+    assertThat(actualFBRDateVerkuendung).isEqualTo(expectedFBRDateVerkuendung);
   }
 
   @Test
@@ -421,7 +421,7 @@ class NormTest {
     var secondExpectedHeading = "Inkrafttreten";
 
     // when
-    List<NormArticle> actualArticles = norm.getArticles();
+    List<Article> actualArticles = norm.getArticles();
 
     // then
     assertThat(actualArticles).hasSize(expectedNumberOfArticles);
@@ -456,7 +456,7 @@ class NormTest {
     Norm norm = new Norm(toDocument(normString));
 
     // when
-    List<NormArticle> actualArticles = norm.getArticles();
+    List<Article> actualArticles = norm.getArticles();
 
     // then
     assertThat(actualArticles).isEmpty();
@@ -692,11 +692,10 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(xml));
 
-    TimeBoundary expectedBoundary =
-        new TimeBoundary(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2");
-
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
 
-    assertThat(actualBoundaries).containsExactly(expectedBoundary);
+    assertThat(actualBoundaries.getFirst().getDate().get())
+        .isEqualTo(LocalDate.parse("2023-12-30"));
+    assertThat(actualBoundaries.getFirst().getEid().get()).contains("meta-1_lebzykl-1_ereignis-2");
   }
 }

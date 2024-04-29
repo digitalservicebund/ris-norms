@@ -40,7 +40,7 @@ describe("useAmendingLawTemporalData", () => {
     const mockUpdateService = vi
       .spyOn(
         amendingLawTemporalDataService,
-        "updateAmendingLawTemporalDataIntervals",
+        "updateAmendingLawTemporalDataTimeBoundaries",
       )
       .mockResolvedValue(newDates)
 

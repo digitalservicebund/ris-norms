@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import RisAmendingLawCard from "@/components/amendingLaws/RisAmendingLawCard.vue"
-import { getAmendingLaws } from "@/services/amendingLawsService"
-import { AmendingLaw } from "@/types/amendingLaw"
+import { getAmendingLaws } from "@/services/announcementService"
+import { Norm } from "@/types/norm"
 import { onMounted, ref } from "vue"
 import { RouterLink } from "vue-router"
 
-const amendingLaws = ref<AmendingLaw[]>([])
+const amendingLaws = ref<Norm[]>([])
 
 onMounted(async () => {
   amendingLaws.value = await getAmendingLaws()
@@ -25,11 +25,9 @@ onMounted(async () => {
         <RisAmendingLawCard
           :key="amendingLaw.eli"
           :eli="amendingLaw.eli"
-          :print-announcement-gazette="amendingLaw.printAnnouncementGazette"
-          :print-announcement-page="amendingLaw.printAnnouncementPage"
-          :digital-announcement-medium="amendingLaw.digitalAnnouncementMedium"
-          :digital-announcement-edition="amendingLaw.digitalAnnouncementEdition"
-          :publication-date="amendingLaw.publicationDate"
+          :frbr-name="amendingLaw.frbrName"
+          :frbr-number="amendingLaw.frbrNumber"
+          :frbr-date-verkuendung="amendingLaw.frbrDateVerkuendung"
         />
       </RouterLink>
     </div>

@@ -1,18 +1,15 @@
-import { AmendingLaw } from "@/types/amendingLaw"
 import { Article } from "@/types/article"
-import { TargetLaw } from "@/types/targetLaw"
+import { Norm } from "@/types/norm"
 
-export const amendingLaws: (AmendingLaw & {
+export const amendingLaws: (Norm & {
   articles: Article[]
-  targetLaws: (TargetLaw & { zf0Eli: string })[]
+  targetLaws: (Norm & { zf0Eli: string })[]
 })[] = [
   {
     eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-    printAnnouncementGazette: "BGBl. I",
-    digitalAnnouncementMedium: undefined,
-    publicationDate: "2017-03-15",
-    printAnnouncementPage: "419",
-    digitalAnnouncementEdition: undefined,
+    frbrName: "BGBl. I",
+    frbrDateVerkuendung: "2017-03-15",
+    frbrNumber: "s419",
     title: "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
     articles: [
       {
@@ -35,11 +32,9 @@ export const amendingLaws: (AmendingLaw & {
   },
   {
     eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-    printAnnouncementGazette: undefined,
-    digitalAnnouncementMedium: "BGBl. I",
-    publicationDate: "2023-12-29",
-    printAnnouncementPage: undefined,
-    digitalAnnouncementEdition: "413",
+    frbrName: "BGBl. I",
+    frbrDateVerkuendung: "2023-12-29",
+    frbrNumber: "413",
     title: "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
     articles: [
       {
@@ -63,14 +58,14 @@ export const amendingLaws: (AmendingLaw & {
   },
 ]
 
-export function getExpectedHeading(amendingLaw: AmendingLaw): string {
+export function getExpectedHeading(amendingLaw: Norm): string {
   let expectedHeading = ""
-  const publicationYear = amendingLaw.publicationDate.substring(0, 4)
+  const publicationYear = amendingLaw.frbrDateVerkuendung?.substring(0, 4)
 
-  if (amendingLaw?.printAnnouncementGazette) {
-    expectedHeading = `${amendingLaw.printAnnouncementGazette} ${publicationYear} S. ${amendingLaw.printAnnouncementPage}`
-  } else if (amendingLaw?.digitalAnnouncementEdition) {
-    expectedHeading = `${amendingLaw.digitalAnnouncementMedium} ${publicationYear} Nr. ${amendingLaw.digitalAnnouncementEdition}`
+  if (amendingLaw?.frbrNumber?.startsWith("s")) {
+    expectedHeading = `${amendingLaw.frbrName} ${publicationYear} S. ${amendingLaw.frbrNumber?.replace("s", "")}`
+  } else {
+    expectedHeading = `${amendingLaw.frbrName} ${publicationYear} Nr. ${amendingLaw.frbrNumber}`
   }
 
   return expectedHeading

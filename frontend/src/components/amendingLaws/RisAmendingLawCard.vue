@@ -4,36 +4,41 @@ import ExpandMoreIcon from "~icons/ic/baseline-expand-more"
 
 const props = defineProps<{
   eli: string
-  printAnnouncementGazette?: string
-  digitalAnnouncementMedium?: string
-  publicationDate: string
-  printAnnouncementPage?: string
-  digitalAnnouncementEdition?: string
+  frbrName?: string
+  frbrNumber?: string
+  frbrDateVerkuendung?: string
 }>()
 
 const gazetteOrMediumUpper = computed(() => {
-  return props.printAnnouncementGazette ?? props.digitalAnnouncementMedium ?? ""
+  return props.frbrName ?? ""
 })
 
 const pageOrEdition = computed(() => {
-  if (props.printAnnouncementPage) {
-    return `S. ${props.printAnnouncementPage}`
-  } else if (props.digitalAnnouncementEdition) {
-    return `Nr. ${props.digitalAnnouncementEdition}`
+  if (props.frbrNumber && props.frbrNumber.startsWith("s")) {
+    return `S. ${props.frbrNumber.replace("s", "")}`
   } else {
-    return ""
+    return `Nr. ${props.frbrNumber}`
   }
 })
 
-const publicationYear = computed(() => props.publicationDate.substring(0, 4))
+const frbrDateVerkuendungYear = computed(() =>
+  props.frbrDateVerkuendung?.substring(0, 4),
+)
 
-const publicationDateGerman = computed(() => {
+const frbrDateVerkuendungGerman = computed(() => {
+  if (props.frbrDateVerkuendung == null) {
+    return null
+  }
+
   const options: Intl.DateTimeFormatOptions = {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   }
-  return new Date(props.publicationDate).toLocaleDateString("de-DE", options)
+  return new Date(props.frbrDateVerkuendung).toLocaleDateString(
+    "de-DE",
+    options,
+  )
 })
 </script>
 
@@ -41,11 +46,12 @@ const publicationDateGerman = computed(() => {
   <div class="flex justify-between bg-white p-16 hover:bg-blue-200">
     <div class="flex items-center">
       <span class="ds-label-02-bold w-128 flex-none whitespace-nowrap">
-        {{ gazetteOrMediumUpper }} {{ publicationYear }} {{ pageOrEdition }}
+        {{ gazetteOrMediumUpper }} {{ frbrDateVerkuendungYear }}
+        {{ pageOrEdition }}
       </span>
 
       <span class="publication-date ml-40">
-        {{ publicationDateGerman }}
+        {{ frbrDateVerkuendungGerman }}
       </span>
     </div>
 

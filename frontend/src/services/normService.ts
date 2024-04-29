@@ -1,26 +1,26 @@
 import { apiFetch } from "@/services/apiService"
-import { TargetLaw } from "@/types/targetLaw"
+import { Norm } from "@/types/norm"
 import { FetchOptions } from "ofetch"
 
 /**
- * Load a target law from the api
+ * Load a norm from the API.
  *
- * @param eli Eli of the target law
+ * @param eli Eli of the amending law
  * @param options Fetch options for the request
  */
-export async function getTargetLawByEli(
+export async function getNormByEli(
   eli: string,
   options?: FetchOptions<"json">,
-): Promise<TargetLaw> {
+): Promise<Norm> {
   return await apiFetch(`/norms/${eli}`, options)
 }
 
 /**
- * Load the xml version of a target law from the api
+ * Load the xml version of a norm from the API.
  *
- * @param eli Eli of the target law
+ * @param eli Eli of the amending law
  */
-export async function getTargetLawXmlByEli(eli: string): Promise<string> {
+export async function getNormXmlByEli(eli: string): Promise<string> {
   return await apiFetch(`/norms/${eli}`, {
     headers: {
       Accept: "application/xml",
@@ -29,17 +29,19 @@ export async function getTargetLawXmlByEli(eli: string): Promise<string> {
 }
 
 /**
- * Load the rendered html version of a target law from the api
+ * Load the rendered html version of a norm from the api
  *
- * @param eli Eli of the target law
+ * @param eli Eli of the norm
  * @param showMetadata Whether to include metadata in the rendered HTML
-
  */
-export async function getTargetLawHtmlByEli(
+export async function getNormHtmlByEli(
   eli: string,
-  showMetadata: boolean = true,
+  showMetadata: boolean = false,
 ): Promise<string> {
-  return await apiFetch(`/norms/${eli}?showMetadata=${showMetadata}`, {
+  return await apiFetch(`/norms/${eli}`, {
+    query: {
+      showMetadata,
+    },
     headers: {
       Accept: "text/html",
     },
@@ -47,16 +49,13 @@ export async function getTargetLawHtmlByEli(
 }
 
 /**
- * Save the XML version of a target law to the API.
+ * Save the xml version of an norm to the API.
  *
- * @param eli ELI of the target law
- * @param xml New XML of the target law
- * @returns The newly saved XML
+ * @param eli Eli of the norm
+ * @param xml New xml of the norm
+ * @returns the newly saved xml
  */
-export async function putTargetLawXml(
-  eli: string,
-  xml: string,
-): Promise<string> {
+export async function putNormXml(eli: string, xml: string) {
   return await apiFetch<string>(`/norms/${eli}`, {
     method: "PUT",
     headers: {
@@ -68,12 +67,12 @@ export async function putTargetLawXml(
 }
 
 /**
- * Load a preview of the target law after the provided amending law is applied to it.
+ * Load a preview of a norm after the provided amending law is applied to it.
  *
- * @param eli Eli of the target law
+ * @param eli Eli of the target norm
  * @param amendingLawXml XML of the amending law that should be used for creating the preview
  */
-export async function previewTargetLaw(
+export async function previewNorm(
   eli: string,
   amendingLawXml: string,
 ): Promise<string> {
@@ -88,12 +87,12 @@ export async function previewTargetLaw(
 }
 
 /**
- * Load the rendered HTML preview of the target law after the provided amending law is applied to it.
+ * Load the rendered HTML preview of the norm after the provided amending law is applied to it.
  *
- * @param eli Eli of the target law
+ * @param eli Eli of the target norm
  * @param amendingLawXml XML of the amending law that should be used for creating the preview
  */
-export async function previewTargetLawAsHtml(
+export async function previewNormAsHtml(
   eli: string,
   amendingLawXml: string,
 ): Promise<string> {

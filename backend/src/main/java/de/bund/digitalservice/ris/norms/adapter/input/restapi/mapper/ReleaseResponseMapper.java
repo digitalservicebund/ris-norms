@@ -25,8 +25,7 @@ public class ReleaseResponseMapper {
    */
   public static ReleaseResponseSchema fromAnnouncement(
       final Announcement announcement, final List<Norm> affectedNorms) {
-    return de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema
-        .builder()
+    return ReleaseResponseSchema.builder()
         .amendingLawEli(announcement.getNorm().getEli().orElse(null))
         .releaseAt(announcement.getReleasedByDocumentalistAt())
         .zf0Elis(affectedNorms.stream().map(Norm::getEli).flatMap(Optional::stream).toList())

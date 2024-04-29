@@ -8,7 +8,7 @@ import {
   DeepReadonly,
 } from "vue"
 import { useTargetLawStore } from "@/store/targetLawStore"
-import { TargetLaw } from "@/types/targetLaw"
+import { Norm } from "@/types/norm"
 
 /**
  * Get the data of a target law.
@@ -17,7 +17,7 @@ import { TargetLaw } from "@/types/targetLaw"
  */
 export function useTargetLaw(
   eli: MaybeRefOrGetter<string | undefined>,
-): DeepReadonly<Ref<TargetLaw | undefined>> {
+): DeepReadonly<Ref<Norm | undefined>> {
   const targetLawStore = useTargetLawStore()
   const { targetLaw } = storeToRefs(targetLawStore)
 

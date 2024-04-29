@@ -3,10 +3,10 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAnnouncementsPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -19,11 +19,13 @@ import org.junit.jupiter.api.Test;
 class AnnouncementServiceTest {
 
   final LoadAllAnnouncementsPort loadAllAnnouncementsPort = mock(LoadAllAnnouncementsPort.class);
-  final LoadAnnouncementPort loadAnnouncementPort = mock(LoadAnnouncementPort.class);
+  final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort =
+      mock(LoadAnnouncementByNormEliPort.class);
   final NormService normService = mock(NormService.class);
 
-  final AnnouncementService service =
-      new AnnouncementService(loadAllAnnouncementsPort, loadAnnouncementPort, normService);
+  final AnnouncementByNormEliService service =
+      new AnnouncementByNormEliService(
+          loadAllAnnouncementsPort, loadAnnouncementByNormEliPort, normService);
 
   @Nested
   class loadAllAnnouncements {
@@ -100,16 +102,17 @@ class AnnouncementServiceTest {
                       .build())
               .releasedByDocumentalistAt(Instant.now())
               .build();
-      when(loadAnnouncementPort.loadAnnouncement(any())).thenReturn(Optional.of(announcement));
+      when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
+          .thenReturn(Optional.of(announcement));
 
       // When
       var loadedAnnouncement =
-          service.loadAnnouncement(
-              new LoadAnnouncementUseCase.Query(
+          service.loadAnnouncementByNormEli(
+              new LoadAnnouncementByNormEliUseCase.Query(
                   "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
       // Then
-      verify(loadAnnouncementPort, times(1)).loadAnnouncement(any());
+      verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
       assertThat(loadedAnnouncement).contains(announcement);
     }
   }
@@ -211,7 +214,8 @@ class AnnouncementServiceTest {
               .norm(amendingNorm)
               .releasedByDocumentalistAt(Instant.now())
               .build();
-      when(loadAnnouncementPort.loadAnnouncement(any())).thenReturn(Optional.of(announcement));
+      when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
+          .thenReturn(Optional.of(announcement));
       when(normService.loadNextVersionOfNorm(
               argThat(
                   argument ->
@@ -227,7 +231,7 @@ class AnnouncementServiceTest {
                   "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"));
 
       // Then
-      verify(loadAnnouncementPort, times(1)).loadAnnouncement(any());
+      verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
       assertThat(norms).hasSize(1).containsExactly(affectedNormZf0);
     }
   }

@@ -1,5 +1,5 @@
 import { MaybeRefOrGetter, Ref, readonly, ref, toValue, watch } from "vue"
-import { getAmendingLawHtmlByEli } from "@/services/amendingLawsService"
+import { getNormHtmlByEli } from "@/services/normService"
 
 /**
  * Get the rendered HTML of an amending law.
@@ -18,7 +18,7 @@ export function useAmendingLawHtml(
     () => toValue(eli),
     async (eli) => {
       if (eli) {
-        amendingLawHtml.value = await getAmendingLawHtmlByEli(eli)
+        amendingLawHtml.value = await getNormHtmlByEli(eli)
       }
     },
     { immediate: true },

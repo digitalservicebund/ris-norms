@@ -7,9 +7,9 @@ describe("RisAmendingLawCard", () => {
     render(RisAmendingLawCard, {
       props: {
         eli: "someEli",
-        printAnnouncementGazette: "GazetteName",
-        publicationDate: "2021-01-01",
-        printAnnouncementPage: "456",
+        frbrName: "GazetteName",
+        frbrDateVerkuendung: "2021-01-01",
+        frbrNumber: "s456",
       },
     })
     expect(screen.getByText("GazetteName 2021 S. 456")).toBeInTheDocument()
@@ -19,9 +19,9 @@ describe("RisAmendingLawCard", () => {
     render(RisAmendingLawCard, {
       props: {
         eli: "someEli",
-        digitalAnnouncementMedium: "DigitalGazette",
-        publicationDate: "2019-01-01",
-        digitalAnnouncementEdition: "123",
+        frbrName: "DigitalGazette",
+        frbrDateVerkuendung: "2019-01-01",
+        frbrNumber: "123",
       },
     })
     expect(screen.getByText("DigitalGazette 2019 Nr. 123")).toBeInTheDocument()

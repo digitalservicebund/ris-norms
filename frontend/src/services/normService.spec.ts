@@ -1,43 +1,66 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-describe("targetLawsService", () => {
+describe("normService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
   })
 
-  describe("getTargetLawByEli(eli)", () => {
+  describe("getNormByEli(eli, options)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi.fn().mockResolvedValueOnce({
-        eli: "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-        title:
-          "Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz",
+        eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        frbrName: "bgbl-1",
+        frbrDateVerkuendung: "2017-03-15",
+        frbrNumber: "s419",
       })
 
       vi.doMock("./apiService.ts", () => ({
         apiFetch: fetchMock,
       }))
 
-      const { getTargetLawByEli } = await import("./targetLawsService")
+      const { getNormByEli } = await import("./normService")
 
-      const result = await getTargetLawByEli(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+      const result = await getNormByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
       expect(result.eli).toBe(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
-      expect(result.title).toBe(
-        "Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz",
+      expect(result.frbrDateVerkuendung).toBe("2017-03-15")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        undefined,
+      )
+    })
+
+    it("passes on request options", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce({})
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { getNormByEli } = await import("./normService")
+
+      const options = {
+        signal: new AbortController().signal,
+      }
+
+      await getNormByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        options,
       )
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-        undefined,
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        options,
       )
     })
   })
 
-  describe("getTargetLawXmlByEli(eli)", () => {
+  describe("getNormXmlByEli(eli)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi
         .fn()
@@ -47,15 +70,15 @@ describe("targetLawsService", () => {
         apiFetch: fetchMock,
       }))
 
-      const { getTargetLawXmlByEli } = await import("./targetLawsService")
+      const { getNormXmlByEli } = await import("./normService")
 
-      const result = await getTargetLawXmlByEli(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+      const result = await getNormXmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
       expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
           headers: expect.objectContaining({
             Accept: "application/xml",
@@ -65,24 +88,27 @@ describe("targetLawsService", () => {
     })
   })
 
-  describe("getTargetLawHtmlByEli(eli)", () => {
+  describe("getNormHtmlByEli(eli)", () => {
     it("provides the data from the api", async () => {
-      const fetchMock = vi.fn().mockResolvedValueOnce(`<span></span>`)
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
 
       vi.doMock("./apiService.ts", () => ({
         apiFetch: fetchMock,
       }))
 
-      const { getTargetLawHtmlByEli } = await import("./targetLawsService")
+      const { getNormHtmlByEli } = await import("./normService")
 
-      const result = await getTargetLawHtmlByEli(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+      const result = await getNormHtmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
-      expect(result).toBe("<span></span>")
+      expect(result).toBe("<div></div>")
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1?showMetadata=true",
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
+          query: expect.objectContaining({
+            showMetadata: false,
+          }),
           headers: expect.objectContaining({
             Accept: "text/html",
           }),
@@ -90,22 +116,27 @@ describe("targetLawsService", () => {
       )
     })
 
-    it("allows showMetadata to be explicitly set to false", async () => {
-      const fetchMock = vi.fn().mockResolvedValueOnce(`<span></span>`)
+    it("allows showMetadata to be explicitly set to true", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
 
       vi.doMock("./apiService.ts", () => ({
         apiFetch: fetchMock,
       }))
 
-      const { getTargetLawHtmlByEli } = await import("./targetLawsService")
+      const { getNormHtmlByEli } = await import("./normService")
 
-      const eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
-      const result = await getTargetLawHtmlByEli(eli, false)
-      expect(result).toBe("<span></span>")
+      const result = await getNormHtmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        true,
+      )
+      expect(result).toBe("<div></div>")
 
       expect(fetchMock).toHaveBeenCalledWith(
-        `/norms/${eli}?showMetadata=false`,
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
+          query: expect.objectContaining({
+            showMetadata: true,
+          }),
           headers: expect.objectContaining({
             Accept: "text/html",
           }),
@@ -114,17 +145,19 @@ describe("targetLawsService", () => {
     })
   })
 
-  describe("putTargetLawXml(eli, xml)", () => {
-    it("sends the data to the API", async () => {
+  describe("putNormXml(eli, xml)", () => {
+    it("sends the data to the api", async () => {
       const fetchMock = vi
         .fn()
         .mockResolvedValueOnce('<?xml version="1.0" encoding="UTF-8"?></xml>')
 
-      vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
 
-      const { putTargetLawXml } = await import("./targetLawsService")
+      const { putNormXml } = await import("./normService")
 
-      const result = await putTargetLawXml(
+      const result = await putNormXml(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         '<?xml version="1.0" encoding="UTF-8"?></xml>',
       )
@@ -144,7 +177,7 @@ describe("targetLawsService", () => {
     })
   })
 
-  describe("previewTargetLaw(eli, xml)", () => {
+  describe("previewNorm(eli, xml)", () => {
     it("calls the api correctly", async () => {
       const fetchMock = vi
         .fn()
@@ -154,9 +187,9 @@ describe("targetLawsService", () => {
         apiFetch: fetchMock,
       }))
 
-      const { previewTargetLaw } = await import("./targetLawsService")
+      const { previewNorm } = await import("./normService")
 
-      const result = await previewTargetLaw(
+      const result = await previewNorm(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         "<xml></xml>",
       )
@@ -184,9 +217,9 @@ describe("targetLawsService", () => {
         apiFetch: fetchMock,
       }))
 
-      const { previewTargetLawAsHtml } = await import("./targetLawsService")
+      const { previewNormAsHtml } = await import("./normService")
 
-      const result = await previewTargetLawAsHtml(
+      const result = await previewNormAsHtml(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
         "<xml></xml>",
       )

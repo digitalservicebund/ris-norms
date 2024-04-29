@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { ref } from "vue"
 import { useAmendingLawRelease } from "./useAmendingLawRelease"
-import * as amendingLawReleaseService from "@/services/amendingLawReleaseService"
+import * as announcementReleaseService from "@/services/announcementReleaseService"
 
 describe("useAmendingLawRelease", () => {
   beforeEach(() => {
@@ -19,10 +19,9 @@ describe("useAmendingLawRelease", () => {
         ],
       }
 
-      vi.spyOn(
-        amendingLawReleaseService,
-        "getAmendingLawReleaseStatus",
-      ).mockResolvedValue(mockReleaseStatus)
+      vi.spyOn(announcementReleaseService, "getRelease").mockResolvedValue(
+        mockReleaseStatus,
+      )
 
       const eli = ref(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
@@ -48,10 +47,9 @@ describe("useAmendingLawRelease", () => {
         ],
       }
 
-      vi.spyOn(
-        amendingLawReleaseService,
-        "putReleaseAmendingLawXml",
-      ).mockResolvedValue(mockReleaseResponse)
+      vi.spyOn(announcementReleaseService, "putRelease").mockResolvedValue(
+        mockReleaseResponse,
+      )
 
       const eli = ref(
         "eli/bund/bgbl-1/2023/414/2023-12-30/1/deu/regelungstext-1",
