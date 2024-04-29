@@ -87,12 +87,12 @@ async function handleSave() {
     <RisAmendingLawInfoHeader class="col-span-2" :amending-law="amendingLaw" />
 
     <aside
-      class="col-span-1 flex h-full w-full flex-col gap-16 overflow-auto border-r border-gray-400 bg-white p-16"
+      class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white"
       aria-labelledby="sidebarNavigation"
     >
       <span id="sidebarNavigation" hidden>SideBar Navigation</span>
 
-      <div>
+      <div class="px-16 py-8">
         <label for="zeitgrenzeSelect">
           <span class="ds-label-03-reg">Zeitgrenze</span>
 
@@ -113,7 +113,7 @@ async function handleSave() {
       </div>
 
       <router-link
-        class="ds-label-01-reg hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+        class="ds-label-01-reg px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
         exact-active-class="font-bold"
         :to="{
           name: 'AmendingLawAffectedDocumentRahmenEditor',
@@ -123,12 +123,12 @@ async function handleSave() {
         Rahmen
       </router-link>
 
-      <hr class="border-b border-gray-400" />
+      <hr class="mx-16 border-b border-gray-400" />
 
       <router-link
         v-for="article in articles"
         :key="article.eid"
-        class="ds-label-02-reg block hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+        class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
         active-class="font-bold"
         :to="{
           name: 'AmendingLawAffectedDocumentArticleEditor',
