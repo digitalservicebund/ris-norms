@@ -28,10 +28,6 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
     : undefined,
 )
 const article = useArticle(identifier)
-
-function handleTargetLawXmlChange({ content }: { content: string }) {
-  xml.value = content
-}
 </script>
 
 <template>
@@ -88,11 +84,7 @@ function handleTargetLawXmlChange({ content }: { content: string }) {
             </div>
           </template>
           <template #xml>
-            <RisCodeEditor
-              class="flex-grow"
-              :initial-content="xml"
-              @change="handleTargetLawXmlChange"
-            />
+            <RisCodeEditor v-model="xml" class="flex-grow" />
           </template>
         </RisTabs>
       </section>

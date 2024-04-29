@@ -14,10 +14,6 @@ const xml = defineModel<string>("xml")
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const targetLawRender = useNormHtml(affectedDocumentEli)
-
-function handleXmlChange({ content }: { content: string }) {
-  xml.value = content
-}
 </script>
 
 <template>
@@ -84,11 +80,7 @@ function handleXmlChange({ content }: { content: string }) {
             </div>
           </template>
           <template #xml>
-            <RisCodeEditor
-              class="flex-grow"
-              :initial-content="xml"
-              @change="handleXmlChange"
-            />
+            <RisCodeEditor v-model="xml" class="flex-grow" />
           </template>
         </RisTabs>
       </section>

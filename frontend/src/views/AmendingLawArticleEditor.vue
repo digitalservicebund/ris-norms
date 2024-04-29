@@ -49,9 +49,7 @@ async function fetchAmendingLawRenderedHtml() {
     console.error("Error fetching rendered HTML content:", error)
   }
 }
-function handleArticleXMLChange({ content }: { content: string }) {
-  currentArticleXml.value = content
-}
+
 /**
  * Handle the click of the save button.
  */
@@ -184,7 +182,7 @@ watch(articleXml, (articleXml) => {
               <RisCodeEditor
                 class="flex-grow"
                 :readonly="true"
-                :initial-content="targetLawXml ?? ''"
+                :model-value="targetLawXml ?? ''"
               ></RisCodeEditor>
             </template>
           </RisTabs>
@@ -210,7 +208,7 @@ watch(articleXml, (articleXml) => {
               <RisCodeEditor
                 class="flex-grow"
                 :readonly="true"
-                :initial-content="previewXml"
+                :model-value="previewXml"
               ></RisCodeEditor>
             </template>
           </RisTabs>
@@ -244,9 +242,8 @@ watch(articleXml, (articleXml) => {
             </template>
             <template #xml>
               <RisCodeEditor
+                v-model="currentArticleXml"
                 class="flex-grow"
-                :initial-content="currentArticleXml"
-                @change="handleArticleXMLChange"
               ></RisCodeEditor>
             </template>
           </RisTabs>

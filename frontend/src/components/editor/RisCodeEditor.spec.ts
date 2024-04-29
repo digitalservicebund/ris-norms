@@ -12,7 +12,7 @@ describe("RisCodeEditor", () => {
   test("renders initial content", async () => {
     render(RisCodeEditor, {
       props: {
-        initialContent: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
+        modelValue: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
       },
     })
 
@@ -28,7 +28,7 @@ describe("RisCodeEditor", () => {
   test("renders changed content when the initial content changes", async () => {
     const renderResult = render(RisCodeEditor, {
       props: {
-        initialContent: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
+        modelValue: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
       },
     })
     await nextTick()
@@ -38,7 +38,7 @@ describe("RisCodeEditor", () => {
     )
 
     await renderResult.rerender({
-      initialContent: "<xml></xml>",
+      modelValue: "<xml></xml>",
     })
     expect(screen.getByRole("textbox").textContent).toBe("<xml></xml>")
   })
@@ -46,7 +46,7 @@ describe("RisCodeEditor", () => {
   test("changing the content creates a change event", async () => {
     const renderResult = render(RisCodeEditor, {
       props: {
-        initialContent: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
+        modelValue: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
       },
     })
     await nextTick()
@@ -62,18 +62,16 @@ describe("RisCodeEditor", () => {
       '<akn:FRBRuri value="eli/bund/bgbl-1/1990/s2954"/>',
     )
 
-    expect(renderResult.emitted().change.length).toBe(1)
-    expect(renderResult.emitted().change[0]).toEqual([
-      {
-        content: '<akn:FRBRuri value="eli/bund/bgbl-1/1990/s2954"/>',
-      },
+    expect(renderResult.emitted()["update:modelValue"].length).toBe(1)
+    expect(renderResult.emitted()["update:modelValue"][0]).toEqual([
+      '<akn:FRBRuri value="eli/bund/bgbl-1/1990/s2954"/>',
     ])
   })
 
   test("changing the content and then updating the initial content to the same content does not cause a recreation of the editor", async () => {
     const renderResult = render(RisCodeEditor, {
       props: {
-        initialContent: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
+        modelValue: '<akn:FRBRuri value="eli/bund/bgbl-1/1964/s593"/>',
       },
     })
     await nextTick()
@@ -85,7 +83,7 @@ describe("RisCodeEditor", () => {
       changes: { from: 20, to: 45, insert: "eli/bund/bgbl-1/1990/s2954" },
     })
     await renderResult.rerender({
-      initialContent: '<akn:FRBRuri value="eli/bund/bgbl-1/1990/s2954"/>',
+      modelValue: '<akn:FRBRuri value="eli/bund/bgbl-1/1990/s2954"/>',
     })
 
     expect(editorView).toBe(

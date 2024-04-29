@@ -367,8 +367,8 @@ const SAMPLE_AMENDING_LAW = `<?xml version="1.0" encoding="UTF-8"?>
 <template>
   <Story>
     <RisCodeEditor
-      :initial-content="SAMPLE_AMENDING_LAW"
-      @change="logEvent('change', $event)"
+      :model-value="SAMPLE_AMENDING_LAW"
+      @update:model-value="logEvent('change', $event)"
     />
   </Story>
 </template>

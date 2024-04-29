@@ -5,12 +5,13 @@ import { xml } from "@codemirror/lang-xml"
 import { basicSetup, EditorView } from "codemirror"
 import { computed, ref, shallowRef, watch } from "vue"
 
+/**
+ * The xml content of the editor. Triggers an update event when the content changes.
+ */
+const model = defineModel<string>()
+
 const props = withDefaults(
   defineProps<{
-    /**
-     * The initial content of the editor. Changing this will recreate the editor.
-     */
-    initialContent?: string
     /**
      * The readonly state of the editor.
      *
@@ -30,20 +31,6 @@ const props = withDefaults(
     editable: true,
   },
 )
-
-const emit = defineEmits<{
-  /**
-   * Triggers when a change to the text content of the editor happened.
-   */
-  change: [
-    {
-      /**
-       *  the new text content
-       */
-      content: string
-    },
-  ]
-}>()
 
 /**
  * The element that is used for holding the codemirror editor
@@ -68,13 +55,14 @@ const codemirrorVueEditableExtension = useCodemirrorVueEditableExtension(
  * Initialize codemirror when the editor element is available
  */
 watch(
-  [editorElement, () => props.initialContent],
+  [editorElement, model],
   () => {
     if (editorElement.value == null) {
       return
     }
 
-    if (props.initialContent === editorView.value?.state.doc.toString()) {
+    // do not destroy and recreate the editor if it already has the correct content (when e.g. the change of the model originated from the editor itself)
+    if (model.value === editorView.value?.state.doc.toString()) {
       return
     }
 
@@ -83,13 +71,13 @@ watch(
     }
 
     editorView.value = new EditorView({
-      doc: props.initialContent,
+      doc: model.value,
       extensions: [
         basicSetup,
         xml(),
         EditorView.updateListener.of((viewUpdate) => {
           if (viewUpdate.docChanged) {
-            emit("change", { content: viewUpdate.state.doc.toString() })
+            model.value = viewUpdate.state.doc.toString()
           }
         }),
         // Ensure that the editor shows a scrollbar instead of overflowing
