@@ -14,6 +14,21 @@ import org.w3c.dom.Node;
 class TimeMachineServiceTest {
 
   @Nested
+  class applyPassiveMods {
+    @Test
+    void returnUnchangedIfNoPassiveMods() {
+      // given
+      // a norm withbout passive mod and some date
+      // when
+      // applyPassiveMods is called
+      // then
+      // the result is simple the norm again
+    }
+
+    // return unchanged if no passive mods pass the date filter
+  }
+
+  @Nested
   class applyAmendingLawOnTargetLaw {
 
     @Test
