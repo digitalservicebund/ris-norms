@@ -69,13 +69,13 @@ const routes: readonly RouteRecordRaw[] = [
     component: () => import("@/views/AmendingLawAffectedDocumentEditor.vue"),
     children: [
       {
-        path: ":zeitgrenze?",
+        path: ":timeBoundary?",
         name: "AmendingLawAffectedDocumentRahmenEditor",
         component: () =>
           import("@/views/AmendingLawAffectedDocumentRahmenEditor.vue"),
       },
       {
-        path: ":zeitgrenze/:eid",
+        path: ":timeBoundary/:eid",
         name: "AmendingLawAffectedDocumentArticleEditor",
         component: () =>
           import("@/views/AmendingLawAffectedDocumentArticleEditor.vue"),

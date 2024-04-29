@@ -4,9 +4,9 @@ import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { ref, watch, WritableComputedRef } from "vue"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
-import { useZeitgrenzePathParameter } from "@/composables/useZeitgrenzePathParameter"
+import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import { useArticlesChangedAtZeitgrenze } from "@/composables/useArticlesChangedAtZeitgrenze"
+import { useArticlesChangedAtTimeBoundary } from "@/composables/useArticlesChangedAtTimeBoundary"
 import { useRouter } from "vue-router"
 import { useAmendingLawTemporalData } from "@/composables/useAmendingLawTemporalData"
 import dayjs from "dayjs"
@@ -28,17 +28,17 @@ watch(targetLawXml, () => {
 
 const { timeBoundaries } = useAmendingLawTemporalData(amendingLawEli)
 
-const selectedZeitgrenze: WritableComputedRef<string> =
-  useZeitgrenzePathParameter()
+const selectedTimeBoundary: WritableComputedRef<string> =
+  useTimeBoundaryPathParameter()
 
-// choose the first zeitgrenze if none is selected so far
+// choose the first time boundary if none is selected so far
 watch(
   timeBoundaries,
   () => {
-    if (selectedZeitgrenze.value === "" && timeBoundaries.value.length > 0) {
+    if (selectedTimeBoundary.value === "" && timeBoundaries.value.length > 0) {
       void router.replace({
         params: {
-          zeitgrenze: timeBoundaries.value[0].eid,
+          timeBoundary: timeBoundaries.value[0].eid,
         },
       })
     }
@@ -46,13 +46,13 @@ watch(
   { immediate: true },
 )
 
-// TODO: (Malte Laukötter, 2024-04-29) useArticlesChangedAtZeitgrenze needs implementing loading the correct articles
-const articles = useArticlesChangedAtZeitgrenze(
+// TODO: (Malte Laukötter, 2024-04-29) useArticlesChangedAtTimeBoundary needs implementing loading the correct articles
+const articles = useArticlesChangedAtTimeBoundary(
   affectedDocumentEli,
-  selectedZeitgrenze,
+  selectedTimeBoundary,
 )
 
-// TODO: (Malte Laukötter, 2024-04-26) how to handle if a zeitgrenze changes and the currently selected article has no changes for the newly selected zeitgrenze
+// TODO: (Malte Laukötter, 2024-04-26) how to handle if a time boundary changes and the currently selected article has no changes for the newly selected zeitgrenze
 
 async function handleSave() {
   try {
@@ -80,12 +80,12 @@ async function handleSave() {
       <span id="sidebarNavigation" hidden>SideBar Navigation</span>
 
       <div class="px-16 py-8">
-        <label for="zeitgrenzeSelect">
+        <label for="timeBoundarySelect">
           <span class="ds-label-03-reg">Zeitgrenze</span>
 
           <select
-            id="zeitgrenzeSelect"
-            v-model="selectedZeitgrenze"
+            id="timeBoundarySelect"
+            v-model="selectedTimeBoundary"
             class="ds-select ds-select-small"
           >
             <option
@@ -104,7 +104,7 @@ async function handleSave() {
         exact-active-class="font-bold"
         :to="{
           name: 'AmendingLawAffectedDocumentRahmenEditor',
-          params: { zeitgrenze: selectedZeitgrenze },
+          params: { timeBoundary: selectedTimeBoundary },
         }"
       >
         Rahmen
@@ -119,7 +119,7 @@ async function handleSave() {
         active-class="font-bold"
         :to="{
           name: 'AmendingLawAffectedDocumentArticleEditor',
-          params: { eid: article.eid, zeitgrenze: selectedZeitgrenze },
+          params: { eid: article.eid, timeBoundary: selectedTimeBoundary },
         }"
       >
         <span class="block overflow-hidden text-ellipsis whitespace-nowrap"

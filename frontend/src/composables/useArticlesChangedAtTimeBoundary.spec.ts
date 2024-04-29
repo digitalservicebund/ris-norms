@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
-describe("useArticlesChangedAtZeitgrenze", () => {
+describe("useArticlesChangedAtTimeBoundary", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -19,11 +19,11 @@ describe("useArticlesChangedAtZeitgrenze", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useArticlesChangedAtZeitgrenze } = await import(
-      "./useArticlesChangedAtZeitgrenze"
+    const { useArticlesChangedAtTimeBoundary } = await import(
+      "./useArticlesChangedAtTimeBoundary"
     )
 
-    const articles = useArticlesChangedAtZeitgrenze(
+    const articles = useArticlesChangedAtTimeBoundary(
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
       ref("unknown-eid-1"),
     )
@@ -41,39 +41,39 @@ describe("useArticlesChangedAtZeitgrenze", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useArticlesChangedAtZeitgrenze } = await import(
-      "./useArticlesChangedAtZeitgrenze"
+    const { useArticlesChangedAtTimeBoundary } = await import(
+      "./useArticlesChangedAtTimeBoundary"
     )
 
     const eli = ref(
       "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1",
     )
-    const zeitgrenezenEid = ref("unknown-eid-1")
-    useArticlesChangedAtZeitgrenze(eli, zeitgrenezenEid)
+    const timeBoundaryEid = ref("unknown-eid-1")
+    useArticlesChangedAtTimeBoundary(eli, timeBoundaryEid)
 
     eli.value = "eli/bund/bgbl-1/1964/s593/2020-03-15/1/deu/regelungstext-1"
     await nextTick()
 
-    zeitgrenezenEid.value = "unknown-eid-2"
+    timeBoundaryEid.value = "unknown-eid-2"
     await nextTick()
 
-    zeitgrenezenEid.value = "unknown-eid-2"
+    timeBoundaryEid.value = "unknown-eid-2"
     await nextTick()
 
     expect(getArticlesByEli).toBeCalledTimes(3)
   })
 
-  test("should do nothing if zeitgrenze is an empty string", async () => {
+  test("should do nothing if time boundary is an empty string", async () => {
     const getArticlesByEli = vi.fn()
     vi.doMock("@/services/articlesService", () => ({
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useArticlesChangedAtZeitgrenze } = await import(
-      "./useArticlesChangedAtZeitgrenze"
+    const { useArticlesChangedAtTimeBoundary } = await import(
+      "./useArticlesChangedAtTimeBoundary"
     )
 
-    useArticlesChangedAtZeitgrenze(
+    useArticlesChangedAtTimeBoundary(
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
       ref(""),
     )
