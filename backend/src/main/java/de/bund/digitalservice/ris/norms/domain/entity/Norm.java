@@ -7,7 +7,6 @@ import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -229,16 +228,24 @@ public class Norm {
    *     "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
    * @return the next possible eid
    */
-  public @NotNull String calculateNextPossibleEid(List<String> eids) {
-    String eventRefString = eids.getFirst();
-    String eventRefBase = eventRefString.substring(0, eventRefString.lastIndexOf('-'));
+  public static String calculateNextPossibleEid(List<String> eids) {
+    if (eids.isEmpty()) throw new IllegalArgumentException("eids is empty");
 
-    // TODO Make sure that all base refs are the same
+    String eventRefStringFirst = eids.getFirst();
+    String eventRefBase = eventRefStringFirst.substring(0, eventRefStringFirst.lastIndexOf('-'));
+
+    boolean allMatch =
+        eids.stream()
+            .map(eventRefString -> eventRefString.substring(0, eventRefString.lastIndexOf('-')))
+            .allMatch(eventRefBase::equals);
+    if (!allMatch) throw new IllegalArgumentException("Not all eid bases are equal");
 
     final String lastNumberAsString =
         Arrays.stream(eids.stream().sorted().toList().getLast().split("-")).toList().getLast();
 
-    return eventRefBase + Integer.parseInt(lastNumberAsString) + 1;
+    int nextId = Integer.parseInt(lastNumberAsString) + 1;
+
+    return eventRefBase + "-" + nextId;
   }
 
   @Override

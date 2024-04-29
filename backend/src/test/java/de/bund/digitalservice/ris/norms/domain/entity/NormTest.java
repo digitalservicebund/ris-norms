@@ -2,11 +2,10 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import org.junit.jupiter.api.Test;
 
 class NormTest {
@@ -698,5 +697,50 @@ class NormTest {
         .isEqualTo(LocalDate.parse("2023-12-30"));
     assertThat(actualBoundaries.getFirst().getEventRefEid().get())
         .contains("meta-1_lebzykl-1_ereignis-2");
+  }
+
+  @Test
+  void calculateNextPossibleEid() {
+    // given
+    List<String> eids =
+        List.of(
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-4",
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1",
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-2");
+
+    // when
+    String nextPossibleEid = Norm.calculateNextPossibleEid(eids);
+
+    // then
+    assertThat(nextPossibleEid)
+        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-5");
+  }
+
+  @Test
+  void calculateNextPossibleEidEmptyInput() {
+    // given
+    List<String> eids = List.of();
+
+    // when
+    Throwable thrown = catchThrowable(() -> Norm.calculateNextPossibleEid(eids));
+
+    // then
+    assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  void calculateNextPossibleEidDifferentBase() {
+    // given
+    List<String> eids =
+        List.of(
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-4",
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1",
+            "somestring-5");
+
+    // when
+    Throwable thrown = catchThrowable(() -> Norm.calculateNextPossibleEid(eids));
+
+    // then
+    assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
   }
 }
