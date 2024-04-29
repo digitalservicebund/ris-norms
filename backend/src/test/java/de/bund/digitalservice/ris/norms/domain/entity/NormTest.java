@@ -724,7 +724,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(xml));
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
-    assertThat(timeBoundaries.size()).isZero();
+    assertThat(timeBoundaries).isEmpty();
   }
 
   @Test
@@ -832,7 +832,7 @@ class NormTest {
 
     List<String> eventRefEids = norm.getEventRefEids();
 
-    assertThat(eventRefEids).hasSize(0);
+    assertThat(eventRefEids).isEmpty();
   }
 
   @Test
@@ -898,7 +898,7 @@ class NormTest {
 
     List<String> temporalGroupIds = norm.getTemporalGroupEids();
 
-    assertThat(temporalGroupIds).hasSize(0);
+    assertThat(temporalGroupIds).isEmpty();
   }
 
   @Test
@@ -980,7 +980,7 @@ class NormTest {
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
 
     // old one still there
-    assertThat(timeBoundaries.get(0).getDate().get()).isEqualTo(LocalDate.parse("2023-12-30"));
+    assertThat(timeBoundaries.get(0).getDate()).contains(LocalDate.parse("2023-12-30"));
     assertThat(timeBoundaries.get(0).getEventRefEid().get())
         .contains("meta-1_lebzykl-1_ereignis-2");
     assertThat(
@@ -1029,7 +1029,7 @@ class NormTest {
         .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
 
     // new one added
-    assertThat(timeBoundaries.get(1).getDate().get()).isEqualTo(LocalDate.parse("2024-01-02"));
+    assertThat(timeBoundaries.get(1).getDate()).contains(LocalDate.parse("2024-01-02"));
     assertThat(timeBoundaries.get(1).getEventRefEid().get())
         .contains("meta-1_lebzykl-1_ereignis-3");
     assertThat(
