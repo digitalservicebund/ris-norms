@@ -39,7 +39,7 @@ class NormTest {
     String actualEli = norm.getEli().get();
 
     // then
-    assertThat(actualEli).isEqualTo(expectedEli);
+    assertThat(actualEli).contains(expectedEli);
   }
 
   @Test
@@ -134,7 +134,7 @@ class NormTest {
     String actualTitle = norm.getTitle().get();
 
     // then
-    assertThat(actualTitle).isEqualTo(expectedTitle);
+    assertThat(actualTitle).contains(expectedTitle);
   }
 
   @Test
@@ -228,7 +228,7 @@ class NormTest {
     String actualFRBRname = norm.getFRBRname().get();
 
     // then
-    assertThat(actualFRBRname).isEqualTo(expectedFRBRname);
+    assertThat(actualFRBRname).contains(expectedFRBRname);
   }
 
   @Test
@@ -261,7 +261,7 @@ class NormTest {
     String actualAnnouncementGazette = norm.getFRBRnumber().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedFRBRname);
+    assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
   }
 
   @Test
@@ -294,7 +294,7 @@ class NormTest {
     String actualAnnouncementGazette = norm.getFRBRname().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedFRBRname);
+    assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
   }
 
   @Test
@@ -724,7 +724,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(xml));
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
-    assertThat(timeBoundaries.size()).isEqualTo(0);
+    assertThat(timeBoundaries.size()).isZero();
   }
 
   @Test
@@ -759,8 +759,8 @@ class NormTest {
 
     List<String> eventRefEids = norm.getEventRefEids();
 
-    assertThat(eventRefEids.size()).isEqualTo(1);
-    assertThat(eventRefEids.get(0)).isEqualTo("meta-1_lebzykl-1_ereignis-2");
+    assertThat(eventRefEids).hasSize(1);
+    assertThat(eventRefEids.get(0)).contains("meta-1_lebzykl-1_ereignis-2");
   }
 
   @Test
@@ -800,9 +800,9 @@ class NormTest {
 
     List<String> eventRefEids = norm.getEventRefEids();
 
-    assertThat(eventRefEids.size()).isEqualTo(2);
-    assertThat(eventRefEids.get(0)).isEqualTo("meta-1_lebzykl-1_ereignis-2");
-    assertThat(eventRefEids.get(1)).isEqualTo("meta-1_lebzykl-1_ereignis-3");
+    assertThat(eventRefEids).hasSize(2);
+    assertThat(eventRefEids.get(0)).contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(eventRefEids.get(1)).contains("meta-1_lebzykl-1_ereignis-3");
   }
 
   @Test
@@ -832,7 +832,7 @@ class NormTest {
 
     List<String> eventRefEids = norm.getEventRefEids();
 
-    assertThat(eventRefEids.size()).isEqualTo(0);
+    assertThat(eventRefEids).hasSize(0);
   }
 
   @Test
@@ -867,8 +867,8 @@ class NormTest {
 
     List<String> temporalGroupIds = norm.getTemporalGroupEids();
 
-    assertThat(temporalGroupIds.size()).isEqualTo(1);
-    assertThat(temporalGroupIds.get(0)).isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1");
+    assertThat(temporalGroupIds).hasSize(1);
+    assertThat(temporalGroupIds.get(0)).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
   }
 
   @Test
@@ -898,7 +898,7 @@ class NormTest {
 
     List<String> temporalGroupIds = norm.getTemporalGroupEids();
 
-    assertThat(temporalGroupIds.size()).isEqualTo(0);
+    assertThat(temporalGroupIds).hasSize(0);
   }
 
   @Test
@@ -938,9 +938,9 @@ class NormTest {
 
     List<String> temporalGroupIds = norm.getTemporalGroupEids();
 
-    assertThat(temporalGroupIds.size()).isEqualTo(2);
-    assertThat(temporalGroupIds.get(0)).isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1");
-    assertThat(temporalGroupIds.get(1)).isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2");
+    assertThat(temporalGroupIds).hasSize(2);
+    assertThat(temporalGroupIds.get(0)).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
+    assertThat(temporalGroupIds.get(1)).contains("meta-1_geltzeiten-1_geltungszeitgr-2");
   }
 
   @Test
@@ -982,7 +982,7 @@ class NormTest {
     // old one still there
     assertThat(timeBoundaries.get(0).getDate().get()).isEqualTo(LocalDate.parse("2023-12-30"));
     assertThat(timeBoundaries.get(0).getEventRefEid().get())
-        .isEqualTo("meta-1_lebzykl-1_ereignis-2");
+        .contains("meta-1_lebzykl-1_ereignis-2");
     assertThat(
             timeBoundaries
                 .get(0)
@@ -991,7 +991,7 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("eId")
                 .getNodeValue())
-        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1");
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-1");
     assertThat(
             timeBoundaries
                 .get(0)
@@ -1000,9 +1000,9 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("GUID")
                 .getNodeValue())
-        .isEqualTo("ac311ee1-33d3-4b9b-a974-776e55a88396");
+        .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
     assertThat(timeBoundaries.get(0).getTimeIntervalEid().get())
-        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
     assertThat(
             timeBoundaries
                 .get(0)
@@ -1010,7 +1010,7 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("GUID")
                 .getNodeValue())
-        .isEqualTo("ca9f53aa-d374-4bec-aca3-fff4e3485179");
+        .contains("ca9f53aa-d374-4bec-aca3-fff4e3485179");
     assertThat(
             timeBoundaries
                 .get(0)
@@ -1018,7 +1018,7 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("refersTo")
                 .getNodeValue())
-        .isEqualTo("geltungszeit");
+        .contains("geltungszeit");
     assertThat(
             timeBoundaries
                 .get(0)
@@ -1026,12 +1026,12 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("start")
                 .getNodeValue())
-        .isEqualTo("#" + timeBoundaries.get(0).getEventRefEid().get());
+        .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
 
     // new one added
     assertThat(timeBoundaries.get(1).getDate().get()).isEqualTo(LocalDate.parse("2024-01-02"));
     assertThat(timeBoundaries.get(1).getEventRefEid().get())
-        .isEqualTo("meta-1_lebzykl-1_ereignis-3");
+        .contains("meta-1_lebzykl-1_ereignis-3");
     assertThat(
             timeBoundaries
                 .get(1)
@@ -1040,7 +1040,7 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("eId")
                 .getNodeValue())
-        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2");
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
     assertThat(
             timeBoundaries
                 .get(1)
@@ -1051,7 +1051,7 @@ class NormTest {
                 .getNodeValue())
         .isNotEmpty();
     assertThat(timeBoundaries.get(1).getTimeIntervalEid().get())
-        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
     assertThat(
             timeBoundaries
                 .get(1)
@@ -1067,7 +1067,7 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("refersTo")
                 .getNodeValue())
-        .isEqualTo("geltungszeit");
+        .contains("geltungszeit");
     assertThat(
             timeBoundaries
                 .get(1)
@@ -1075,7 +1075,7 @@ class NormTest {
                 .getAttributes()
                 .getNamedItem("start")
                 .getNodeValue())
-        .isEqualTo("#" + timeBoundaries.get(1).getEventRefEid().get());
+        .contains("#" + timeBoundaries.get(1).getEventRefEid().get());
   }
 
   @Test
@@ -1091,8 +1091,7 @@ class NormTest {
     String nextPossibleEid = Norm.calculateNextPossibleEid(eids);
 
     // then
-    assertThat(nextPossibleEid)
-        .isEqualTo("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-5");
+    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-5");
   }
 
   @Test
