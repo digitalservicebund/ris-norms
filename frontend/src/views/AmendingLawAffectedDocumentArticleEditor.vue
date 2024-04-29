@@ -61,10 +61,7 @@ function handleTargetLawXmlChange({ content }: { content: string }) {
           ]"
         >
           <template #editor>
-            <div
-              class="grid gap-x-16 gap-y-8"
-              style="grid-template-columns: max-content 1fr"
-            >
+            <div class="grid grid-cols-[max-content,1fr] gap-x-16 gap-y-8">
               <label
                 for="select-dokumenttyp"
                 class="col-span-2 grid grid-cols-subgrid"

@@ -80,13 +80,12 @@ async function handleSave() {
 <template>
   <div
     v-if="amendingLaw"
-    class="grid-rows-[5rem, 1fr] grid bg-gray-100"
-    style="grid-template-columns: 16rem 1fr"
+    class="grid grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] bg-gray-100"
   >
     <RisAmendingLawInfoHeader class="col-span-2" :amending-law="amendingLaw" />
 
     <aside
-      class="col-span-1 flex h-full w-full flex-col gap-[1rem] overflow-auto border-r border-gray-400 bg-white p-[1rem]"
+      class="col-span-1 flex h-full w-full flex-col gap-16 overflow-auto border-r border-gray-400 bg-white p-16"
       aria-labelledby="sidebarNavigation"
     >
       <span id="sidebarNavigation" hidden>SideBar Navigation</span>
