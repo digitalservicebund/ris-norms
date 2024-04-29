@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.springframework.http.MediaType.*;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TimeBoundaryResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TimeBoundaryMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundarySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import java.util.List;
@@ -61,7 +61,7 @@ public class TimeBoundaryController {
         loadTimeBoundariesUseCase
             .loadTimeBoundariesOfNorm(new LoadTimeBoundariesUseCase.Query(eli))
             .stream()
-            .map(TimeBoundaryResponseMapper::fromUseCaseData)
+            .map(TimeBoundaryMapper::fromUseCaseData)
             .toList();
     return (result.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
   }
@@ -104,9 +104,9 @@ public class TimeBoundaryController {
         updateTimeBoundariesUseCase
             .updateTimeBoundariesOfNorm(
                 new UpdateTimeBoundariesUseCase.Query(
-                    eli, TimeBoundaryResponseMapper.fromResponseSchema(timeBoundaries)))
+                    eli, TimeBoundaryMapper.fromResponseSchema(timeBoundaries)))
             .stream()
-            .map(TimeBoundaryResponseMapper::fromUseCaseData)
+            .map(TimeBoundaryMapper::fromUseCaseData)
             .toList();
     return (result.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
   }

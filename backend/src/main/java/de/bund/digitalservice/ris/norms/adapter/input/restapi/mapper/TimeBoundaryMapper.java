@@ -6,9 +6,9 @@ import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
 import java.util.List;
 
 /** Mapper class for converting between {@link TimeBoundary} and {@link TimeBoundarySchema}. */
-public class TimeBoundaryResponseMapper {
+public class TimeBoundaryMapper {
 
-  private TimeBoundaryResponseMapper() {}
+  private TimeBoundaryMapper() {}
 
   /**
    * Creates a {@link TimeBoundarySchema} instance from a {@link TimeBoundary} entity.
