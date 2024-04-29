@@ -23,10 +23,6 @@ watch(targetLawXml, () => {
   currentTargetLawXml.value = targetLawXml.value
 })
 
-function handleUpdateXml(newXml: string) {
-  currentTargetLawXml.value = newXml
-}
-
 // TODO: (Malte Laukötter, 2024-04-26) load zeitgrenzen
 const zeitgrenzen: Ref<AmendingLawTemporalDataReleaseResponse[]> = ref([
   {
@@ -151,10 +147,7 @@ async function handleSave() {
       </div>
     </aside>
 
-    <RouterView
-      :xml="currentTargetLawXml"
-      @update:xml="handleUpdateXml"
-    ></RouterView>
+    <RouterView v-model:xml="currentTargetLawXml"></RouterView>
   </div>
   <div v-else>Laden...</div>
 </template>
