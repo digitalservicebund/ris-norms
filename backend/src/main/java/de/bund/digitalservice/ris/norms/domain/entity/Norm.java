@@ -201,9 +201,7 @@ public class Norm {
             .map(Optional::get)
             .toList();
 
-    String eventRefString = eventRefIds.getFirst();
-    String eventRefBase = eventRefString.substring(0, eventRefString.lastIndexOf('-'));
-    Integer nextPossibleId = calculateNextPossibleId(eventRefIds);
+    String nextPossibleEid = calculateNextPossibleEid(eventRefIds);
 
     TimeBoundary lastTimeBoundary = getTimeBoundaries().getLast();
 
@@ -213,7 +211,7 @@ public class Norm {
     Element eventRef = document.createElement("akn:eventRef");
 
     // Set attributes
-    eventRef.setAttribute("eId", eventRefBase + nextPossibleId);
+    eventRef.setAttribute("eId", nextPossibleEid);
     eventRef.setAttribute("GUID", UUID.randomUUID().toString());
     eventRef.setAttribute("date", timeBoundaryToAdd.date().toString());
     eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
@@ -224,11 +222,23 @@ public class Norm {
     lifecycle.appendChild(eventRef);
   }
 
-  private static @NotNull Integer calculateNextPossibleId(List<String> eids) {
+  /**
+   * Calculates the next possible eid out of a list of eids
+   *
+   * @param eids List of identifiers within a document
+   *     "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
+   * @return the next possible eid
+   */
+  public @NotNull String calculateNextPossibleEid(List<String> eids) {
+    String eventRefString = eids.getFirst();
+    String eventRefBase = eventRefString.substring(0, eventRefString.lastIndexOf('-'));
+
+    // TODO Make sure that all base refs are the same
+
     final String lastNumberAsString =
         Arrays.stream(eids.stream().sorted().toList().getLast().split("-")).toList().getLast();
 
-    return Integer.parseInt(lastNumberAsString) + 1;
+    return eventRefBase + Integer.parseInt(lastNumberAsString) + 1;
   }
 
   @Override
