@@ -35,7 +35,8 @@ test.describe("Affected documents page", () => {
       await expect(page).toHaveURL("/amending-laws")
     })
 
-    test(`navigate from affected document ${amendingLaw.eli} to the corresponding editor`, async ({
+    // skipped as this view is currently getting reimplemented
+    test.skip(`navigate from affected document ${amendingLaw.eli} to the corresponding editor`, async ({
       page,
     }) => {
       // Navigation

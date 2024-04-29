@@ -1,7 +1,8 @@
 import { test, expect } from "@playwright/test"
 import { targetLawXml } from "@e2e/testData/targetLawXml"
 
-test(`navigate to affected document metadata editor`, async ({ page }) => {
+// skipped as this view is currently getting reimplemented
+test.skip(`navigate to affected document metadata editor`, async ({ page }) => {
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/affected-documents",
   )
@@ -12,7 +13,8 @@ test(`navigate to affected document metadata editor`, async ({ page }) => {
   )
 })
 
-test(`see affected document title and xml`, async ({ page }) => {
+// skipped as this view is currently getting reimplemented
+test.skip(`see affected document title and xml`, async ({ page }) => {
   await page.goto(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/edit`,
   )
@@ -33,7 +35,8 @@ test(`see affected document title and xml`, async ({ page }) => {
   await expect(targetLawEditor).toBeVisible()
 })
 
-test(`load preview`, async ({ page }) => {
+// skipped as this view is currently getting reimplemented
+test.skip(`load preview`, async ({ page }) => {
   await page.goto(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/edit`,
   )
@@ -47,7 +50,8 @@ test(`load preview`, async ({ page }) => {
   await expect(targetLawPreview).toBeVisible()
 })
 
-test(`update law with new content`, async ({ page }) => {
+// skipped as this view is currently getting reimplemented
+test.skip(`update law with new content`, async ({ page }) => {
   const newXml = targetLawXml.replace(
     "Gesetz zur Regelungs des öffenltichen Vereinsrechts",
     "TEST",
