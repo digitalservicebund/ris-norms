@@ -8,7 +8,9 @@ import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useZeitgrenzePathParameter } from "@/composables/useZeitgrenzePathParameter"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useArticlesChangedAtZeitgrenze } from "@/composables/useArticlesChangedAtZeitgrenze"
+import { useRouter } from "vue-router"
 
+const router = useRouter()
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 
@@ -47,7 +49,11 @@ watch(
   zeitgrenzen,
   () => {
     if (selectedZeitgrenze.value === "" && zeitgrenzen.value.length > 0) {
-      selectedZeitgrenze.value = zeitgrenzen.value[0].eid
+      void router.replace({
+        params: {
+          zeitgrenze: zeitgrenzen.value[0].eid,
+        },
+      })
     }
   },
   { immediate: true },
