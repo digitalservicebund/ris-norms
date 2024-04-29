@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	##################################################################################
+	Projekt E-Gesetzgebung
+	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.6 (Dezember 2023)
+	
+	2023 Copyright (C) 2021-2023 Bundesministerium des Innern und für Heimat,
+	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
+	Verwaltungsarbeit
+	
+	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
+	##################################################################################
+-->
+<?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+<!-- Regelungstext des Stammgesetzes nach dem Eintreten der Befristung des Gesetzes. Da der Änderungsbefehl angewendet wurde, wird dieser aus den Metadaten entfernt. Daneben ist der einzige Unterschied
+       zur vorherigen Version ist die Zuweisung der temporalGroup, welche auf das Ereignis des Typen "repeal" zeigt, auf das gesamte Dokument (akn:act). -->
+   <akn:act name="regelungstext">
+<!-- Metadaten -->
+      <akn:meta eId="meta-1" GUID="b54af42f-f3f1-4e41-af4c-1a1d650aefff">
+         <akn:identification eId="meta-1_ident-1"
+                             GUID="8975b7a7-eee9-465a-b4c7-dd7d2d9a970d"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1"
+                          GUID="614815a2-aff5-43dc-8699-5674358d07c5">
+               <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
+                             GUID="57ae1d71-8462-4b8f-9bcd-c4f7f0e15c35"
+                             value="eli/bund/bgbl-1/1964/s593/regelungstext-1"/>
+               <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1"
+                            GUID="0c528ab0-aea6-4836-a3c9-91a28406a7f2"
+                            value="eli/bund/bgbl-1/1964/s593"/>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrwork-1_frbralias-1"
+                              GUID="d556afce-25f0-4a5c-b89a-521bb57ec63b"
+                              name="übergreifende-id"
+                              value="fbccff4a-b7b6-440f-a04b-5b2bef0f7aee"/>
+               <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1"
+                             GUID="b8785cac-b051-4d8b-8339-3dde12b8ec05"
+                             date="1964-08-21"
+                             name="verkuendungsfassung"/>
+               <akn:FRBRauthor eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
+                               GUID="5dfb9b9d-a919-4417-9353-b7e817ee875d"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"
+                                GUID="fc75bd91-a784-4e5f-aefe-bed867bd3f64"
+                                value="de"/>
+               <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
+                               GUID="e1f0d80b-21a3-4618-acae-3d8b4ebde95e"
+                               value="s593"/>
+               <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1"
+                             GUID="1a1c7aff-6c19-4231-a291-5c36bc280c08"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"
+                                GUID="a39c8f1f-a2cf-4312-a1e7-5aa8a023afe9"
+                                value="regelungstext-1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
+                                GUID="53b7d127-2768-4899-b100-5f322fa7aad1">
+               <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                             GUID="5483d9d7-ab51-49bd-a13f-5bae20f6172b"
+                             value="eli/bund/bgbl-1/1964/s593/2017-03-28/1/deu/regelungstext-1"/>
+               <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
+                            GUID="a5e4566e-50cb-4cbc-b494-135aedb5cec6"
+                            value="eli/bund/bgbl-1/1964/s593/2017-03-28/1/deu"/>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
+                              GUID="d91f96bf-7649-48c2-bcd6-c08dfdd54e7c"
+                              name="vorherige-version-id"
+                              value="8de2c22c-d706-498a-9d96-930d7a03d224"/>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
+                              GUID="e78372ae-b3cc-4d8d-836e-729649b0e57a"
+                              name="aktuelle-version-id"
+                              value="9fc43e93-6f20-49d1-b81a-db48cebabac5"/>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-3"
+                              GUID="b0743e07-6032-4770-bcb1-788cfec811fb"
+                              name="nachfolgende-version-id"
+                              value="98ab1404-8eb6-4a2f-8fb8-3b5b2d2a8227"/>
+               <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
+                               GUID="378fa308-00db-49b4-829e-82bd57da22ec"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"
+                             GUID="cad67805-a6a2-439c-9487-d1a6e1e33f09"
+                             date="2017-03-28"
+                             name="aenderung"/>
+               <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"
+                                 GUID="5f3e55be-f419-41fb-804a-d96cebe9fefd"
+                                 language="deu"/>
+               <akn:FRBRversionNumber eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1"
+                                      GUID="4e1a47d9-1963-4fdb-b32f-530c26940a22"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1"
+                                   GUID="896f492b-a29d-4929-a91a-cd3417ec20fe">
+               <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                             GUID="ded9e3bf-608a-4fbd-bf9a-f7e7fdddae09"
+                             value="eli/bund/bgbl-1/1964/s593/2017-03-28/1/deu/regelungstext-1.xml"/>
+               <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                            GUID="50bcb292-706c-40b0-bd5a-8f029c4cda0a"
+                            value="eli/bund/bgbl-1/1964/s593/2017-03-28/1/deu/regelungstext-1.xml"/>
+               <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
+                             GUID="68b115fa-d999-4daf-9f19-359cc56c17c4"
+                             date="2022-08-23"
+                             name="generierung"/>
+               <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"
+                               GUID="9a1210ba-54da-49c9-86fe-9c45a0304988"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"
+                               GUID="e52904d0-9713-4b10-b998-d17dbd3321f2"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:lifecycle eId="meta-1_lebzykl-1"
+                        GUID="a1ce9b04-8071-43c2-be56-10e7049ab500"
+                        source="attributsemantik-noch-undefiniert">
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1"
+                          GUID="e3ac3efd-b9fc-4e84-b494-f28937a89855"
+                          date="1964-08-05"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"
+                          refersTo="ausfertigung"/>
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2"
+                          GUID="7174df87-6418-4d47-ac4e-5fb87c2caa50"
+                          date="1964-09-21"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"
+                          refersTo="inkrafttreten"/>
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3"
+                          GUID="c271d75e-bd26-4f5a-8544-0eea1c410fbf"
+                          date="2017-03-15"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"
+                          refersTo="ausfertigung"/>
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4"
+                          GUID="c47fdb5d-54e1-4a6e-a678-b6127a8d1546"
+                          date="2017-03-16"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"
+                          refersTo="inkrafttreten"/>
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-5"
+                          GUID="d0acc7c7-3c5e-44fa-bcb7-0fe2788876ea"
+                          date="2019-01-01"
+                          source="attributsemantik-noch-undefiniert"
+                          type="repeal"
+                          refersTo="ausserkrafttreten"/>
+         </akn:lifecycle>
+         <!-- Angewendete Änderungsbefehle wurden entfernt, da ihre Haltung redundant wäre -->
+         <akn:temporalData eId="meta-1_geltzeiten-1"
+                           GUID="33875608-d668-4be0-a830-8ec5d0a421c8"
+                           source="attributsemantik-noch-undefiniert">
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
+                               GUID="1a5d8eba-b899-4152-852d-91a7df39e3d9">
+               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
+                                 GUID="6fc42c43-6598-4c95-ac57-da132b047ec1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-2"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2"
+                               GUID="f9428d5d-1f11-48c6-ba2a-a383302f5d5c">
+               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1"
+                                 GUID="cc43ca0b-b305-4db6-baa1-61634c6c7d56"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-4"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3"
+                               GUID="08308b59-4541-4643-8d55-f7950e515553">
+               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1"
+                                 GUID="b382ce1b-7b4f-4bb6-a878-7a37c11c3854"
+                                 refersTo="geltungszeit"
+                                 start="#meta-1_lebzykl-1_ereignis-5"/>
+            </akn:temporalGroup>
+         </akn:temporalData>
+         <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
+         <akn:proprietary eId="meta-1_proprietary-1"
+                          GUID="8f0ec25b-5ba4-4f0b-b89a-045152480ba6"
+                          source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+               <meta:typ>gesetz</meta:typ>
+               <meta:form>stammform</meta:form>
+               <meta:fassung>verkuendungsfassung</meta:fassung>
+               <meta:art>regelungstext</meta:art>
+               <meta:initiant>nicht-vorhanden</meta:initiant>
+               <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
+               <!-- Die vorliegende Angabe von meta:fna stellt einen beliebigen, exemplarischen Fundstellennachweis dar und besitzt keine fachliche Korrektheit. -->
+               <meta:fna>754-28-1</meta:fna>
+               <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+               <meta:gesta>nicht-vorhanden</meta:gesta>
+               <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+               <meta:federfuehrung>
+                  <meta:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                  <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
+               </meta:federfuehrung>
+            </meta:legalDocML.de_metadaten>
+         </akn:proprietary>
+      </akn:meta>
+      <!-- Dokumentenkopf Regelungstext -->
+      <akn:preface eId="einleitung-1" GUID="70f89e11-7c0a-4b56-8df1-610beb4d58b1">
+         <akn:longTitle eId="einleitung-1_doktitel-1"
+                        GUID="abbb08de-e7e2-40ab-aba0-079ce786e6d6">
+            <akn:p eId="einleitung-1_doktitel-1_text-1"
+                   GUID="3e7c2134-d82c-44ba-b50d-bad9790375a0">
+               <akn:docStage eId="einleitung-1_doktitel-1_text-1_docstadium-1"
+                             GUID="3ebe255a-3098-4d2e-913a-fdd6c6b1cc81"/>
+               <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1"
+                                 GUID="fb3411cd-47aa-475e-8492-13b95f0dafd5"/>
+               <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
+                             GUID="ba391398-e340-4d35-925b-9db3b023835e">Gesetz zur Regelungs des öffenltichen Vereinsrechts</akn:docTitle>
+               <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
+                               GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( 
+                  
+                  
+                  <akn:inline eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"
+                              GUID="2a0fc4fc-5699-4c27-8a2f-e6eafab88658"
+                              refersTo="amtliche-abkuerzung"
+                              name="attributsemantik-noch-undefiniert">Vereinsgesetz</akn:inline>)</akn:shortTitle>
+            </akn:p>
+         </akn:longTitle>
+         <akn:block eId="einleitung-1_block-1"
+                    GUID="010d9df0-817a-49b6-a121-d0a1d412a3e3"
+                    name="attributsemantik-noch-undefiniert">
+            <akn:date eId="einleitung-1_block-1_datum-1"
+                      GUID="eef9f291-f33b-4ef2-8286-cd5b16d95174"
+                      refersTo="ausfertigung-datum"
+                      date="1964-08-05">Vom 5. August 1964
+               </akn:date>
+         </akn:block>
+      </akn:preface>
+      <!-- Eingangsformel + Inhaltsübersicht -->
+      <akn:preamble eId="preambel-1" GUID="26f0efcd-a560-4973-8f1b-336a992ddc50">
+<!-- Eingangsformel -->
+         <akn:formula eId="preambel-1_formel-1"
+                      GUID="1b476669-1cbb-4633-a0ed-04783680b841"
+                      refersTo="eingangsformel"
+                      name="attributsemantik-noch-undefiniert">
+            <akn:p eId="preambel-1_formel-1_text-1"
+                   GUID="c1793533-b05a-4fc4-be62-bd6c3449c53a">Der Bundestag hat mit Zustimmung des Bundesrates das folgende Gesetz
+               beschlossen:</akn:p>
+         </akn:formula>
+      </akn:preamble>
+      <!-- Hauptteil -->
+      <akn:body eId="hauptteil-1" GUID="e3303c64-06ff-4f34-8d2b-073b980ee3d3">
+<!-- § 9 -->
+         <akn:article eId="hauptteil-1_para-9"
+                      GUID="b2390631-4ed0-45f6-af24-dd4deeaeae06"
+                      period="#geltungszeitgr-3">
+            <akn:num eId="hauptteil-1_para-9_bezeichnung-1"
+                     GUID="5ef4111b-874d-4843-8467-bbccf6bceb96">
+               <akn:marker eId="hauptteil-1_para-9_bezeichnung-1_zaehlbez-1"
+                           GUID="74054e2d-16b1-437c-a76b-959c0c5c0d65"
+                           name="9"/>§ 9</akn:num>
+            <akn:heading eId="hauptteil-1_para-9_überschrift-1"
+                         GUID="c1717cbd-7785-4127-a9d5-b6423c49ab3d">Kennzeichenverbot</akn:heading>
+            <!-- Absatz (1) -->
+            <akn:paragraph eId="hauptteil-1_para-9_abs-1"
+                           GUID="15f33532-babe-4c6f-817c-ccfd7e369191">
+               <akn:num eId="hauptteil-1_para-9_abs-1_bezeichnung-1"
+                        GUID="5df1db91-e49a-4195-9552-3dddc4304912">
+                  <akn:marker eId="hauptteil-1_para-9_abs-1_bezeichnung-1_zaehlbez-1"
+                              GUID="a4f44bd5-2c28-4b67-80fa-48ce523c63a8"
+                              name="1"/>
+               </akn:num>
+               <akn:list eId="hauptteil-1_para-9_abs-1_untergl-1"
+                         GUID="582db518-f7ad-493f-b8b1-e21e4ebbb014">
+                  <akn:intro eId="hauptteil-1_para-9_abs-1_untergl-1_intro-1"
+                             GUID="f8685276-25df-43a8-81f2-90fe48c30639">
+                     <akn:p eId="hauptteil-1_para-9_abs-1_untergl-1_intro-1_text-1"
+                            GUID="54473d0a-ad82-48c5-b537-7ea9cb49f91d">Kennzeichen des verbotenen Vereins dürfen
+                        für die Dauer der Vollziehbarkeit des Verbots nicht mehr</akn:p>
+                  </akn:intro>
+                  <akn:point eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-1"
+                             GUID="862be77d-ac5b-4dd7-8509-beb2d3620dda">
+                     <akn:num eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-1_bezeichnung-1"
+                              GUID="a5e0f415-85f8-4e67-a944-5de26305f657">
+                        <akn:marker eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"
+                                    GUID="ba713026-b630-46cc-a47d-218921001f7c"
+                                    name="1"/>
+                     </akn:num>
+                     <akn:content eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-1_inhalt-1"
+                                  GUID="d9a79058-1058-477f-957d-0802540a3026">
+                        <akn:p eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
+                               GUID="976fe7d2-fd6e-4428-b3e3-e9bf8ea6bac3">öffentlich, in einer
+                           Versammlung oder</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-2"
+                             GUID="9bf3bfd3-9cc9-4a79-aaed-ca1306bbaa19">
+                     <akn:num eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-2_bezeichnung-1"
+                              GUID="4633e320-e1b0-4e29-a642-f5cb7f65f6c6">
+                        <akn:marker eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                    GUID="1b8a17f8-cee1-488f-bb67-89d6014332f6"
+                                    name="2"/>
+                     </akn:num>
+                     <akn:content eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-2_inhalt-1"
+                                  GUID="c2146cd4-efb0-4dee-b3df-ee153329acc8">
+                        <akn:p eId="hauptteil-1_para-9_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
+                               GUID="e37987b6-5b22-4c0c-b4af-079722c45811">in Schriften,
+                           Schallaufnahmen, Abbildungen oder Darstellungen, die verbreitet werden oder zur Verbreitung
+                           bestimmt sind,</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:wrapUp eId="hauptteil-1_para-9_abs-1_untergl-1_schlusstext-1"
+                              GUID="5d4ecf82-556b-4235-8103-f8ff4cfb13a6">
+                     <akn:p eId="hauptteil-1_para-9_abs-1_untergl-1_schlusstext-1_text-1"
+                            GUID="f5d07efa-ed20-4317-85ff-11501845009d">verwendet werden. Ausgenommen ist eine
+                        Verwendung von Kennzeichen im Rahmen der staatsbürgerlichen Aufklärung, der Abwehr
+                        verfassungswidriger Bestrebungen und ähnlicher
+                        Zwecke.</akn:p>
+                  </akn:wrapUp>
+               </akn:list>
+            </akn:paragraph>
+            <!-- Absatz 2 -->
+            <akn:paragraph eId="hauptteil-1_para-9_abs-2"
+                           GUID="402455e1-4290-4ef6-9046-14c349d4ead3">
+               <akn:num eId="hauptteil-1_para-9_abs-2_bezeichnung-1"
+                        GUID="705fa60b-a782-48a3-b42d-115e20f4a0fc">
+                  <akn:marker eId="hauptteil-1_para-9_abs-2_bezeichnung-1_zaehlbez-1"
+                              GUID="c1aa0c51-99dc-41ec-99dc-4560c173ac1c"
+                              name="2"/>(2) </akn:num>
+               <akn:content eId="hauptteil-1_para-9_abs-2_inhalt-1"
+                            GUID="b516d734-edc0-4497-bd56-950241dbbcc3">
+                  <akn:p eId="hauptteil-1_para-9_abs-2_inhalt-1_text-1"
+                         GUID="5b5cb25e-3d9f-44dc-a49e-c800df5e34f4">Kennzeichen im Sinnde des Absatzes 1 sind insbesondere
+                     Fahnen, Abzeichen, Uniformstücke, Parolen und Grußformen.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+            <!-- Absatz 3 -->
+            <akn:paragraph eId="hauptteil-1_para-9_abs-3"
+                           GUID="87634142-4c46-456e-8f22-631810e868ff">
+               <akn:num eId="hauptteil-1_para-9_abs-3_bezeichnung-1"
+                        GUID="0e865617-4a90-4431-aeca-bdb70408008e">
+                  <akn:marker eId="hauptteil-1_para-9_abs-3_bezeichnung-1_zaehlbez-1"
+                              GUID="981f935e-5cc5-4ec1-886c-501afaca2e43"
+                              name="3"/>(3) </akn:num>
+               <akn:content eId="hauptteil-1_para-9_abs-3_inhalt-1"
+                            GUID="b516ebae-eaa5-4f06-954a-963b4f07fc24">
+                  <akn:p eId="hauptteil-1_para-9_abs-3_inhalt-1_text-1"
+                         GUID="3662b21f-73d9-4a93-b57c-399fea9cd4e6">Absatz 1 gilt entsprechend für Kennzeichen eines
+                     verbotenen Vereins, die in im Wesentlichen gleicher Form von anderen nicht verbotenen
+                     Teilorganisationen oder von selbständigen Vereinen
+                     verwendet werden. Ein Kennzeichen eines verbotenen Vereins wird insbesondere dann
+                     in im Wesentlichen gleicher Form verwendet, wenn bei
+                     ähnlichem äußerem Gesamterscheinungsbild das Kennzeichen des verbotenen Vereins oder
+                     Teile desselben mit einer anderen Orts- oder
+                     Regionalbezeichnung versehen wird.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article eId="hauptteil-1_para-20"
+                      GUID="b1b4bd3b-e007-4d84-af83-b8e36a0ae50b"
+                      period="#geltungszeitgr-3">
+            <akn:num eId="hauptteil-1_para-20_bezeichnung-1"
+                     GUID="f82ab983-5498-49ab-918f-5cf5e730e5ec">
+               <akn:marker eId="hauptteil-1_para-20_bezeichnung-1_zaehlbez-1"
+                           GUID="6ddf9210-a55e-4d68-b585-eff5f65158d5"
+                           name="20"/>§ 20</akn:num>
+            <akn:paragraph eId="hauptteil-1_para-20_abs-1"
+                           GUID="6aa3a7ca-f30a-43b6-950b-b1e942fd1842">
+               <akn:num eId="hauptteil-1_para-20_abs-1_bezeichnung-1"
+                        GUID="e363f12d-7918-435c-b3a1-182c5e03ff43">
+                  <akn:marker eId="hauptteil-1_para-20_abs-1_bezeichnung-1_zaehlbez-1"
+                              GUID="035918a0-1ecf-4f1b-9bba-9d5136ac37a0"
+                              name="1"/>(1) </akn:num>
+               <akn:list eId="hauptteil-1_para-20_abs-1_untergl-1"
+                         GUID="97e930bf-49f8-472a-a1fa-3c3a401caa13">
+                  <akn:intro eId="hauptteil-1_para-20_abs-1_untergl-1_intro-1"
+                             GUID="e2261ee5-feda-4691-b1a0-8a18f43720e7">
+                     <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_intro-1_text-1"
+                            GUID="f5b78960-3376-4f19-a1de-05e24443a141">Wer</akn:p>
+                  </akn:intro>
+                  <akn:point eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1"
+                             GUID="6f1b22e6-2fcc-4e29-b3c1-fd67d8cee45c">
+                     <akn:num eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_bezeichnung-1"
+                              GUID="7947817d-e127-49ca-82c3-a1dfeaa73748">
+                        <akn:marker eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"
+                                    GUID="54b8b81e-e28a-4c1f-92c9-371d3e73e4c4"
+                                    name="1"/>1. </akn:num>
+                     <akn:content eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1"
+                                  GUID="fff000f9-bed8-41eb-b26b-93a5da40ff5f">
+                        <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
+                               GUID="6ad07a0f-46f6-45b5-8d1a-ac79b8f704fe">entgegen einem
+                           vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf
+                           andere Weise aufrechterhält, sich an ihm als
+                           Mitglied beteiligt, für ihn wirbt, ihn unterstützt oder eine Tätigkeit ausübt (§ 18
+                           Satz 2) oder</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2"
+                             GUID="94af45e6-d49b-4bcc-84b9-5e5c01d5a3ba">
+                     <akn:num eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_bezeichnung-1"
+                              GUID="18a496f3-c0e7-4fb3-a41d-5c9fd75374c7">
+                        <akn:marker eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                    GUID="6288c31b-1676-4ca0-b983-dcb61d98fb2f"
+                                    name="2"/>2. </akn:num>
+                     <akn:content eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1"
+                                  GUID="7e835e4b-52eb-4fa1-9698-d7a42589d715">
+                        <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
+                               GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">entgegen § 9 Absatz 1 Satz
+                           2, Absatz 2 oder 3 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation
+                           verwendet,</akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:wrapUp eId="hauptteil-1_para-20_abs-1_untergl-1_schlusstext-1"
+                              GUID="107ed2fd-e041-4ee4-9eee-b559f84a4ce8">
+                     <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_schlusstext-1_text-1"
+                            GUID="53af6200-56c2-4fed-bd27-25ddefe7b204">wird mit Gefängnis bis zu einem Jahr
+                        oder mit Geldstrafe bestraft, wenn die Tat nicht in den §§ 49 b, 90 a, 90 b, 96 a,
+                        128 oder 129 des Strafgesetzbuches, mit schwerer
+                        Strafe bedroht ist.</akn:p>
+                  </akn:wrapUp>
+               </akn:list>
+            </akn:paragraph>
+            <akn:paragraph eId="hauptteil-1_para-20_abs-2"
+                           GUID="f0f31024-8381-4a62-8980-5f432d03a925">
+               <akn:num eId="hauptteil-1_para-20_abs-2_bezeichnung-1"
+                        GUID="c0ea5d8c-8d91-4e0c-812e-429a7a24a1a2">
+                  <akn:marker eId="hauptteil-1_para-20_abs-2_bezeichnung-1_zaehlbez-1"
+                              GUID="958ad5e6-120d-4b46-a677-3842b9b8ee0f"
+                              name="2"/>(2) </akn:num>
+               <akn:content eId="hauptteil-1_para-20_abs-2_inhalt-1"
+                            GUID="8b51c358-ca54-4949-b957-bcbe5e55f33d">
+                  <akn:p eId="hauptteil-1_para-20_abs-2_inhalt-1_text-1"
+                         GUID="924d7140-bdfd-4a50-9b7f-feb006d19aae">In den Fällen des Absatzes 1 Nr. 1 gilt § 90 a Abs. 5
+                     und 6 des Strafgesetzbuches entsprechend.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article eId="hauptteil-1_para-34"
+                      GUID="9aefac39-6322-462f-9b93-7d1a046f2913"
+                      period="#geltungszeitgr-3"
+                      refersTo="geltungszeitregel">
+            <akn:num eId="hauptteil-1_para-34_bezeichnung-1"
+                     GUID="6ef44f75-f570-49f2-8d4d-1deeb5eacdbc">
+               <akn:marker eId="hauptteil-1_para-34_bezeichnung-1_zaehlbez-1"
+                           GUID="82e3f513-4abf-49bb-a348-fece529dad15"
+                           name="34"/>§ 34 </akn:num>
+            <akn:paragraph eId="hauptteil-1_para-34_abs-1"
+                           GUID="33e50f7e-4639-4c56-8f7d-d53a423b305d">
+               <akn:num eId="hauptteil-1_para-34_abs-1_bezeichnung-1"
+                        GUID="573d539f-44e1-47a9-8259-307f8536005e">
+                  <akn:marker eId="hauptteil-1_para-34_abs-1_bezeichnung-1_zaehlbez-1"
+                              GUID="dfc24252-d4c9-4bbd-bc91-b5171a1d6c27"
+                              name="1"/>
+               </akn:num>
+               <akn:content eId="hauptteil-1_para-34_abs-1_inhalt-1"
+                            GUID="1a983020-0a5c-4e20-8d65-7908affd6afc">
+                  <akn:p eId="hauptteil-1_para-34_abs-1_inhalt-1_text-1"
+                         GUID="7f60908e-6cd0-445b-903a-f56dec498743">Dieses Gesetz tritt 
+                     
+                     
+                     <akn:date eId="hauptteil-1_para-34_abs-1_inhalt-1_text-1_datum-1"
+                               GUID="bd2b689f-9333-4bac-8de4-8275141523f9"
+                               date="1964-09-05"
+                               refersTo="inkrafttreten-datum">einen Monat nach seiner Verkündung</akn:date> in Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+         </akn:article>
+      </akn:body>
+      <akn:conclusions eId="schluss-1" GUID="adf7a1cb-33ab-4b42-b1fc-b0b4f1536ecd">
+         <akn:formula eId="schluss-1_formel-1"
+                      GUID="cb33e6f0-b38b-4be9-a0a3-84ce4d7d0097"
+                      refersTo="schlussformel"
+                      name="attributsemantik-noch-undefiniert">
+            <akn:p eId="schluss-1_formel-1_text-1"
+                   GUID="332b89f7-7f46-43eb-b660-9b325ed52b57">Das vorstehende Gesetz wird hiermit verkündet.</akn:p>
+         </akn:formula>
+         <!-- Signaturen -->
+         <akn:blockContainer eId="schluss-1_blockcontainer-1"
+                             GUID="35e11af5-ff7c-4422-af51-87cff3cc7ceb">
+            <akn:p eId="schluss-1_blockcontainer-1_text-1"
+                   GUID="4d783251-b00e-4bf9-9335-0d2d910ab233">
+               <akn:location eId="schluss-1_blockcontainer-1_text-1_ort-1"
+                             GUID="19ffc7e1-add6-40a4-b9af-2f0927e46e9c"
+                             refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den 
+               
+               
+               <akn:date eId="schluss-1_blockcontainer-1_text-1_datum-1"
+                         GUID="7c2b6897-eb89-412d-b955-410bfced8fd1"
+                         refersTo="ausfertigung-datum"
+                         date="1964-08-05">5. August 1964</akn:date>
+            </akn:p>
+            <akn:signature eId="schluss-1_blockcontainer-1_signatur-1"
+                           GUID="b092cd1d-2f77-4fe6-a63d-5bcabeb410ad">
+               <akn:role eId="schluss-1_blockcontainer-1_signatur-1_fktbez-1"
+                         GUID="1cd9ff70-4004-48dc-8c76-7fb295852717"
+                         refersTo="attributsemantik-noch-undefiniert">Der
+                  Bundespräsident</akn:role>
+               <akn:person eId="schluss-1_blockcontainer-1_signatur-1_person-1"
+                           GUID="9550e613-01c2-45e7-969f-f22148d6e565"
+                           refersTo="attributsemantik-noch-undefiniert">Lübke</akn:person>
+            </akn:signature>
+            <akn:signature eId="schluss-1_blockcontainer-1_signatur-2"
+                           GUID="2c6c0dc9-32b6-46ee-a1fa-9b8a0bc7c193">
+               <akn:role eId="schluss-1_blockcontainer-1_signatur-2_fktbez-1"
+                         GUID="bea9417f-96d8-4a0b-a923-4541ed04b921"
+                         refersTo="attributsemantik-noch-undefiniert">Der
+                  Stellvertreter des Bundeskanzlers</akn:role>
+               <akn:person eId="schluss-1_blockcontainer-1_signatur-2_person-1"
+                           GUID="b4ac7cfd-5cb8-417e-9139-70a8c07f4bef"
+                           refersTo="attributsemantik-noch-undefiniert">Mende</akn:person>
+            </akn:signature>
+            <akn:signature eId="schluss-1_blockcontainer-1_signatur-3"
+                           GUID="669a4ce1-2782-4623-8af7-83e7bcf0917a">
+               <akn:role eId="schluss-1_blockcontainer-1_signatur-3_fktbez-1"
+                         GUID="0732a41f-abe1-4774-b6c0-b4934082ca2c"
+                         refersTo="attributsemantik-noch-undefiniert">Der
+                  Bundesminister des Innern</akn:role>
+               <akn:person eId="schluss-1_blockcontainer-1_signatur-3_person-1"
+                           GUID="7d06e151-80b3-48bd-9852-56b9198014bd"
+                           refersTo="attributsemantik-noch-undefiniert">Hermann Höcherl</akn:person>
+            </akn:signature>
+            <akn:signature eId="schluss-1_blockcontainer-1_signatur-4"
+                           GUID="22a6ce3d-3ae9-4189-bfed-d544efe7e50b">
+               <akn:role eId="schluss-1_blockcontainer-1_signatur-4_fktbez-1"
+                         GUID="cacb2add-a766-4f2e-ac4a-7b437b226d0d"
+                         refersTo="attributsemantik-noch-undefiniert">Der
+                  Bundesminister der Justiz</akn:role>
+               <akn:person eId="schluss-1_blockcontainer-1_signatur-4_person-1"
+                           GUID="f57fba35-7cb1-416f-bc34-d8c9bb5a2df8"
+                           refersTo="attributsemantik-noch-undefiniert">Bucher</akn:person>
+            </akn:signature>
+         </akn:blockContainer>
+      </akn:conclusions>
+   </akn:act>
+</akn:akomaNtoso>
