@@ -57,10 +57,13 @@ watch(
   { immediate: true },
 )
 
+// TODO: (Malte Laukötter, 2024-04-29) useArticlesChangedAtZeitgrenze needs implementing loading the correct articles
 const articles = useArticlesChangedAtZeitgrenze(
   affectedDocumentEli,
   selectedZeitgrenze,
 )
+
+// TODO: (Malte Laukötter, 2024-04-26) how to handle if a zeitgrenze changes and the currently selected article has no changes for the newly selected zeitgrenze
 
 async function handleSave() {
   try {
