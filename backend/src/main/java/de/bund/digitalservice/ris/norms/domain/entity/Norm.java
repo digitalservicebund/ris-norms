@@ -188,60 +188,100 @@ public class Norm {
   }
 
   /**
-   * Adds a list of time boundaries (Zeitgrenzen) to the document.
+   * @return List of Strings with all eIds of all eventRef nodes where a related timeInterval exists
+   */
+  public List<String> getEventRefEids() {
+    return getTimeBoundaries().stream()
+        .map(TimeBoundary::getEventRefEid)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .toList();
+  }
+
+  /**
+   * @return List of Strings with all existing eIds of all temporalGroup nodes
+   */
+  public List<String> getTemporalGroupEids() {
+    Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
+    NodeList temporalGroups = temporalData.getChildNodes();
+    List<String> temporalGroupIds = new ArrayList<>();
+    for (int i = 0; i < temporalGroups.getLength(); i++) {
+      Node temporalGroupNode = temporalGroups.item(i);
+      if ("akn:temporalGroup".equals(temporalGroupNode.getNodeName())) {
+        temporalGroupIds.add(temporalGroupNode.getAttributes().getNamedItem("eId").getNodeValue());
+      }
+    }
+    return temporalGroupIds;
+  }
+
+  /**
+   * Adds one time boundary (Zeitgrenze) to the document. New eventRef node as child of lifecycle.
+   * The temporalData node will get a new temporalGroup node as child, which will have a new
+   * timeInterval node as child.
    *
-   * @param timeBoundaryToAdd a {@link TimeBoundaryChangeData} containing dates and event IDs.
+   * @param timeBoundaryToAdd a {@link TimeBoundaryChangeData} containing a date and eid (null in
+   *     this case).
    */
   public void addTimeBoundary(TimeBoundaryChangeData timeBoundaryToAdd) {
-    List<String> eventRefIds =
-        getTimeBoundaries().stream()
-            .map(TimeBoundary::getEventRefEid)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .toList();
 
-    String nextPossibleEid = calculateNextPossibleEid(eventRefIds);
+    // Calculate next possible eventRefEid
+    String nextPossibleEventRefEid = calculateNextPossibleEid(getEventRefEids());
 
-    TimeBoundary lastTimeBoundary = getTimeBoundaries().getLast();
-
-    Node lifecycle = lastTimeBoundary.getEventRefNode().getParentNode();
-
-    // Create new element
+    // Create new eventRef node
     Element eventRef = document.createElement("akn:eventRef");
-
-    // Set attributes
-    eventRef.setAttribute("eId", nextPossibleEid);
+    eventRef.setAttribute("eId", nextPossibleEventRefEid);
     eventRef.setAttribute("GUID", UUID.randomUUID().toString());
     eventRef.setAttribute("date", timeBoundaryToAdd.date().toString());
     eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
     eventRef.setAttribute("type", "generation");
     eventRef.setAttribute("refersTo", "inkrafttreten");
 
-    // Append the element to the document
-    lifecycle.appendChild(eventRef);
+    // Append new eventRef node to lifecycle node
+    getTimeBoundaries().getLast().getEventRefNode().getParentNode().appendChild(eventRef);
+
+    // Calculate next possible temporalGroup Eid
+    String nextPossibleTemporalGroupEid = calculateNextPossibleEid(getTemporalGroupEids());
+
+    // Create new temporalGroup node
+    Element temporalGroup = document.createElement("akn:temporalGroup");
+    temporalGroup.setAttribute("eId", nextPossibleTemporalGroupEid);
+    temporalGroup.setAttribute("GUID", UUID.randomUUID().toString());
+
+    // Create new timeInterval node
+    Element timeInterval = document.createElement("akn:timeInterval");
+    timeInterval.setAttribute("eId", nextPossibleTemporalGroupEid + "_gelzeitintervall-1");
+    timeInterval.setAttribute("GUID", UUID.randomUUID().toString());
+    timeInterval.setAttribute("refersTo", "geltungszeit");
+    timeInterval.setAttribute("start", "#" + nextPossibleEventRefEid);
+
+    // Append new timeInterval node to new temporalGroup node
+    temporalGroup.appendChild(timeInterval);
+
+    // Append new temporalGroup node to temporalData node
+    NodeParser.getNodeFromExpression("//meta/temporalData", document).appendChild(temporalGroup);
   }
 
   /**
-   * Calculates the next possible eid out of a list of eids
+   * Calculates the next possible eId out of a list of eIds
    *
-   * @param eids List of identifiers within a document
+   * @param eIds List of identifiers within a document
    *     "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
    * @return the next possible eid
    */
-  public static String calculateNextPossibleEid(List<String> eids) {
-    if (eids.isEmpty()) throw new IllegalArgumentException("eids is empty");
+  public static String calculateNextPossibleEid(List<String> eIds) {
+    if (eIds.isEmpty()) throw new IllegalArgumentException("eIds is empty");
 
-    String eventRefStringFirst = eids.getFirst();
+    String eventRefStringFirst = eIds.getFirst();
     String eventRefBase = eventRefStringFirst.substring(0, eventRefStringFirst.lastIndexOf('-'));
 
     boolean allMatch =
-        eids.stream()
+        eIds.stream()
             .map(eventRefString -> eventRefString.substring(0, eventRefString.lastIndexOf('-')))
             .allMatch(eventRefBase::equals);
-    if (!allMatch) throw new IllegalArgumentException("Not all eid bases are equal");
+    if (!allMatch) throw new IllegalArgumentException("Not all eId-bases are equal");
 
     final String lastNumberAsString =
-        Arrays.stream(eids.stream().sorted().toList().getLast().split("-")).toList().getLast();
+        Arrays.stream(eIds.stream().sorted().toList().getLast().split("-")).toList().getLast();
 
     int nextId = Integer.parseInt(lastNumberAsString) + 1;
 
