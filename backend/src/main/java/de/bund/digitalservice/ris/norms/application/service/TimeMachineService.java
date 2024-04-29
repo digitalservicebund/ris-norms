@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import org.springframework.stereotype.Service;
@@ -70,5 +71,15 @@ public class TimeMachineService {
       throw new XmlProcessingException(
           "Target Law could not be modified since there is no according paragraph found", e);
     }
+  }
+
+  /**
+   * Applies the passive modifications of the norm.
+   *
+   * @param norm a Norm
+   * @return the Norm with the applied passive modifications
+   */
+  public Norm applyPassiveModifications(Norm norm) {
+    return norm;
   }
 }
