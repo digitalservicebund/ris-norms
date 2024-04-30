@@ -71,6 +71,23 @@ class TimeBoundaryControllerTest {
       verify(loadTimeBoundariesUseCase, times(1))
           .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));
     }
+
+    @Test
+    void getTimeBoundariesReturns404() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/DOESNOTEXIST";
+
+      when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(any())).thenReturn(List.of());
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/{eli}/timeBoundaries", eli).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isNotFound());
+
+      verify(loadTimeBoundariesUseCase, times(1))
+          .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));
+    }
   }
 
   @Nested
@@ -150,6 +167,27 @@ class TimeBoundaryControllerTest {
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("[{\"date\": null, \"eid\": null}]"))
           .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateTimeBoundariesReturns404() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/DOESNOTEXIST";
+
+      when(updateTimeBoundariesUseCase.updateTimeBoundariesOfNorm(any())).thenReturn(List.of());
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/timeBoundaries", eli)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "[{\"date\": \"1964-09-21\", \"eid\": \"meta-1_lebzykl-1_ereignis-2\"}]"))
+          .andExpect(status().isNotFound());
+
+      verify(updateTimeBoundariesUseCase, times(1))
+          .updateTimeBoundariesOfNorm(any(UpdateTimeBoundariesUseCase.Query.class));
     }
   }
 }
