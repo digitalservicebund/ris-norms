@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 /**
  * Global exception handler for handling internal server errors. This class is annotated with {@link
@@ -23,6 +24,18 @@ public class InternalErrorExceptionHandler {
    */
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public void handleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
+
+    log.error("Bad request", e);
+    throw e;
+  }
+
+  /**
+   * Exception handler method for letting Spring handle this exception.
+   *
+   * @param e The exception that occurred.
+   */
+  @ExceptionHandler(HandlerMethodValidationException.class)
+  public void handleHandlerMethodValidationException(final HandlerMethodValidationException e) {
 
     log.error("Bad request", e);
     throw e;
