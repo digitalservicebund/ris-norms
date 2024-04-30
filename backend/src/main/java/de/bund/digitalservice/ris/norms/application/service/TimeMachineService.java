@@ -1,6 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,12 @@ import org.w3c.dom.Node;
 @Service
 public class TimeMachineService {
 
-  XmlDocumentService xmlDocumentService;
+  private final XmlDocumentService xmlDocumentService;
+  private final NormService normService;
 
-  public TimeMachineService(XmlDocumentService xmlDocumentService) {
+  public TimeMachineService(XmlDocumentService xmlDocumentService, NormService normService) {
     this.xmlDocumentService = xmlDocumentService;
+    this.normService = normService;
   }
 
   /**
@@ -74,12 +78,55 @@ public class TimeMachineService {
   }
 
   /**
-   * Applies the passive modifications of the norm.
+   * Applies the passive modifications of the norm. Only applies "aenderungsbefehl-ersetzen".
    *
    * @param norm a Norm
    * @return the Norm with the applied passive modifications
    */
   public Norm applyPassiveModifications(Norm norm) {
+    var passiveModifications = norm.getPassiveModifications();
+
+    var amendingLaws =
+        passiveModifications.stream()
+            .flatMap(passiveModification -> passiveModification.getSourceEli().stream())
+            .flatMap(eli -> normService.loadNorm(new LoadNormUseCase.Query(eli)).stream())
+            .toList();
+
+    // TODO: (Malte Laukötter, 2024-04-30) sort mods by date
+    var mods = amendingLaws.stream().flatMap(amendingLaw -> amendingLaw.getMods().stream());
+
+    mods.forEach(
+        mod -> {
+          if (mod.getTargetEid().isEmpty()
+              || mod.getOldText().isEmpty()
+              || mod.getNewText().isEmpty()) {
+            return;
+          }
+
+          final var targetEid = mod.getTargetEid().get();
+          final var targetNode =
+              NodeParser.getNodeFromExpression(
+                  String.format("//*[@eId='%s']", targetEid), norm.getDocument());
+
+          if (targetNode == null) {
+            return;
+          }
+
+          final var nodeToChange =
+              NodeParser.getNodeFromExpression(
+                  String.format(".//*[contains(text(),'%s')]", mod.getOldText().get()), targetNode);
+
+          if (nodeToChange == null) {
+            return;
+          }
+
+          final var modifiedTextContent =
+              nodeToChange
+                  .getTextContent()
+                  .replaceFirst(mod.getOldText().get(), mod.getNewText().get());
+          nodeToChange.setTextContent(modifiedTextContent);
+        });
+
     return norm;
   }
 }

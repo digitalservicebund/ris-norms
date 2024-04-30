@@ -8,8 +8,11 @@ import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Node;
 
 /**
- * Class representing an akn:mod. DE: Änderungsbefehl Currently only "aenderungsbefehl-ersetzen" is
- * supported.
+ * Class representing an akn:mod.
+ *
+ * <p>DE: Änderungsbefehl
+ *
+ * <p>Currently only "aenderungsbefehl-ersetzen" is supported.
  */
 @Getter
 @AllArgsConstructor
@@ -42,5 +45,16 @@ public class Mod {
    */
   public Optional<String> getNewText() {
     return NodeParser.getValueFromExpression("./quotedText[2]", this.node);
+  }
+
+  /**
+   * Returns the eid of the part of the target law that is modified.
+   *
+   * @return The eid of the element this modification will change.
+   */
+  public Optional<String> getTargetEid() {
+    var optionalHref = NodeParser.getValueFromExpression("./ref/@href", this.node);
+
+    return optionalHref.map(href -> href.split("/")[9]);
   }
 }
