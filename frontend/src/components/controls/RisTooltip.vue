@@ -45,6 +45,11 @@ const slots = useSlots()
 
 const hasChildren = computed(() => Boolean(slots.default))
 
+/**
+ * Manages the visibility of the callout. This gets updates by the component
+ * when the user presses the "dismiss" button, but you can also use it
+ * independently from user actions.
+ */
 const visible = defineModel<boolean>("visible", { default: true })
 </script>
 
@@ -54,8 +59,12 @@ const visible = defineModel<boolean>("visible", { default: true })
       v-if="visible"
       :data-alignment="alignment"
       :data-attachment="attachment"
-      :data-with-children="hasChildren || undefined"
-      class="group absolute inline-block data-[alignment=left]:left-0 data-[alignment=right]:right-0 data-[attachment=bottom]:translate-y-full data-[attachment=top]:-translate-y-[calc(100%+8px)]"
+      class="group inline-block data-[alignment=left]:left-0 data-[alignment=right]:right-0"
+      :class="{
+        absolute: hasChildren,
+        'translate-y-full ': hasChildren && attachment === 'bottom',
+        '-translate-y-[calc(100%+8px)]': hasChildren && attachment === 'top',
+      }"
       role="tooltip"
     >
       <RisCallout
