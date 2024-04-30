@@ -64,6 +64,10 @@ public class TimeBoundaryController {
             .stream()
             .map(TimeBoundaryMapper::fromUseCaseData)
             .toList();
+
+    // Assumptions: According to spec there must always be a temporalData with one temporalGroup
+    // having 1
+    //              temporalInterval in a ReglungstextVerkuendungsfassung
     return (result.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
   }
 
@@ -109,6 +113,10 @@ public class TimeBoundaryController {
             .stream()
             .map(TimeBoundaryMapper::fromUseCaseData)
             .toList();
+
+    // Assumptions: According to spec there must always be a temporalData with one temporalGroup
+    // having 1
+    //              temporalInterval in a ReglungstextVerkuendungsfassung
     return (result.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
   }
 
