@@ -5,10 +5,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,37 @@ class TimeMachineServiceTest {
 
   final TimeMachineService timeMachineService =
       new TimeMachineService(new XmlDocumentService(), normService);
+
+  @Nested
+  class applyTimeMachine {
+    @Test
+    void itAppliesTimeMachine() {
+
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+
+      String amendingLawString =
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>In <akn:ref"
+              + " href=\"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml\">paragraph 2</akn:ref> "
+              + "<akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.</akn:mod></amendingLaw>";
+      String targetLawString =
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw><akn:p eId=\"two\">old text</akn:p></targetLaw>";
+
+      when(normService.loadNormXml(any())).thenReturn(Optional.of(targetLawString));
+
+      // When
+      var xml =
+          timeMachineService.applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLawString));
+
+      // Then
+      verify(normService, times(1))
+          .loadNormXml(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      assertThat(xml)
+          .isPresent()
+          .contains(
+              "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw><akn:p eId=\"two\">new text</akn:p></targetLaw>");
+    }
+  }
 
   @Nested
   class applyPassiveMods {

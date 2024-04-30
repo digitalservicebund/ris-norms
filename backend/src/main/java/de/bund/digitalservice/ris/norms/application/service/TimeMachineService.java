@@ -1,10 +1,13 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -15,7 +18,7 @@ import org.w3c.dom.Node;
  * href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML-details</a>
  */
 @Service
-public class TimeMachineService {
+public class TimeMachineService implements TimeMachineUseCase {
 
   private final XmlDocumentService xmlDocumentService;
   private final NormService normService;
@@ -23,6 +26,13 @@ public class TimeMachineService {
   public TimeMachineService(XmlDocumentService xmlDocumentService, NormService normService) {
     this.xmlDocumentService = xmlDocumentService;
     this.normService = normService;
+  }
+
+  @Override
+  public Optional<String> applyTimeMachine(TimeMachineUseCase.Query query) {
+    return normService
+        .loadNormXml(new LoadNormXmlUseCase.Query(query.targetLawEli()))
+        .map(targetNormXml -> this.apply(query.amendingLawXml(), targetNormXml));
   }
 
   /**
