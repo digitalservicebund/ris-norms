@@ -5,12 +5,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
-
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -60,16 +59,17 @@ class TimeMachineServiceTest {
     }
 
     @Test
-    void applyOnePassiveModification(){
+    void applyOnePassiveModification() {
       // given
       final var xmlDocumentService = mock(XmlDocumentService.class);
       final var normService = mock(NormService.class);
       final var timeMachineService = new TimeMachineService(xmlDocumentService);
 
-      final var norm = Norm.builder()
-          .document(
-              XmlMapper.toDocument(
-                  """
+      final var norm =
+          Norm.builder()
+              .document(
+                  XmlMapper.toDocument(
+                      """
                       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
@@ -87,23 +87,23 @@ class TimeMachineServiceTest {
                               <akn:analysis eId="meta-1_analysis-1"
                        GUID="5a5d264e-431e-4dc1-b971-4bd81af8a0f4"
                        source="attributsemantik-noch-undefiniert">
-            <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1"
-                                      GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
-               <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2"
-                               GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2"
-                               type="substitution">
-                  <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1"
-                              GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
-                  <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1"
-                                   GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd"
-                                   href="#para-20_abs-1/100-126"/>
-                  <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1"
-                             GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb"
-                             period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
-               </akn:textualMod>
-               </akn:passiveModifications>
-               </akn:analysis>
+                                <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1"
+                                                          GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
+                                   <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2"
+                                                   GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2"
+                                                   type="substitution">
+                                      <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1"
+                                                  GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5"
+                                                  href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
+                                      <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1"
+                                                       GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd"
+                                                       href="#para-20_abs-1/100-126"/>
+                                      <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1"
+                                                 GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb"
+                                                 period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                                   </akn:textualMod>
+                                 </akn:passiveModifications>
+                               </akn:analysis>
                             </akn:meta>
 
                             <akn:body eId="hauptteil-1" GUID="6c5d6dc7-f14b-4e1d-8f8b-570a13aeff9c">
@@ -111,84 +111,88 @@ class TimeMachineServiceTest {
                                <akn:article eId="hauptteil-1_para-20"
                       GUID="b1b4bd3b-e007-4d84-af83-b8e36a0ae50b"
                       period="#geltungszeitgr-1">
-            <akn:num eId="hauptteil-1_para-20_bezeichnung-1"
-                     GUID="f82ab983-5498-49ab-918f-5cf5e730e5ec">
-               <akn:marker eId="hauptteil-1_para-20_bezeichnung-1_zaehlbez-1"
-                           GUID="b4b8fb7e-bf8b-45b9-9118-fd797600d2fa"
-                           name="20"/>§ 20</akn:num>
-            <akn:paragraph eId="hauptteil-1_para-20_abs-1"
-                           GUID="6aa3a7ca-f30a-43b6-950b-b1e942fd1842"
-                           period="#geltungszeitgr-2">
-               <akn:num eId="hauptteil-1_para-20_abs-1_bezeichnung-1"
-                        GUID="e363f12d-7918-435c-b3a1-182c5e03ff43">
-                  <akn:marker eId="hauptteil-1_para-20_abs-1_bezeichnung-1_zaehlbez-1"
-                              GUID="e5d8cf58-1ed0-45e4-9450-254738249dda"
-                              name="1"/>(1) </akn:num>
-               <akn:list eId="hauptteil-1_para-20_abs-1_untergl-1"
-                         GUID="97e930bf-49f8-472a-a1fa-3c3a401caa13">
-                  <akn:intro eId="hauptteil-1_para-20_abs-1_untergl-1_intro-1"
-                             GUID="e2261ee5-feda-4691-b1a0-8a18f43720e7">
-                     <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_intro-1_text-1"
-                            GUID="f5b78960-3376-4f19-a1de-05e24443a141">Wer</akn:p>
-                  </akn:intro>
-                  <akn:point eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1"
-                             GUID="6f1b22e6-2fcc-4e29-b3c1-fd67d8cee45c">
-                     <akn:num eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_bezeichnung-1"
-                              GUID="7947817d-e127-49ca-82c3-a1dfeaa73748">
-                        <akn:marker eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"
-                                    GUID="aff56862-ab0e-4db9-add5-26cbaaaa40ef"
-                                    name="1"/>1. </akn:num>
-                     <akn:content eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1"
-                                  GUID="fff000f9-bed8-41eb-b26b-93a5da40ff5f">
-                        <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
-                               GUID="6ad07a0f-46f6-45b5-8d1a-ac79b8f704fe">entgegen einem
-                           vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als
-                           Mitglied beteiligt, für ihn wirbt, ihn unterstützt oder eine Tätigkeit ausübt (§ 18 Satz 2) oder</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2"
-                             GUID="94af45e6-d49b-4bcc-84b9-5e5c01d5a3ba">
-                     <akn:num eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_bezeichnung-1"
-                              GUID="18a496f3-c0e7-4fb3-a41d-5c9fd75374c7">
-                        <akn:marker eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"
-                                    GUID="0e883c7b-3c72-4a41-a182-a44b26763e75"
-                                    name="2"/>2. </akn:num>
-                     <akn:content eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1"
-                                  GUID="7e835e4b-52eb-4fa1-9698-d7a42589d715">
-                        <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                               GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">entgegen § 9
-                           Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:wrapUp eId="hauptteil-1_para-20_abs-1_untergl-1_schlusstext-1"
-                              GUID="107ed2fd-e041-4ee4-9eee-b559f84a4ce8">
-                     <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_schlusstext-1_text-1"
-                            GUID="53af6200-56c2-4fed-bd27-25ddefe7b204">wird mit Gefängnis bis zu
-                        einem Jahr oder mit Geldstrafe bestraft, wenn die Tat nicht in den §§ 49 b, 90 a, 90 b, 96 a, 128 oder 129 des Strafgesetzbuches, mit
-                        schwerer Strafe bedroht ist.</akn:p>
-                  </akn:wrapUp>
-               </akn:list>
-            </akn:paragraph>
+                                    <akn:num eId="hauptteil-1_para-20_bezeichnung-1"
+                                             GUID="f82ab983-5498-49ab-918f-5cf5e730e5ec">
+                                       <akn:marker eId="hauptteil-1_para-20_bezeichnung-1_zaehlbez-1"
+                                                   GUID="b4b8fb7e-bf8b-45b9-9118-fd797600d2fa"
+                                                   name="20"/>§ 20</akn:num>
+                                    <akn:paragraph eId="hauptteil-1_para-20_abs-1"
+                                                   GUID="6aa3a7ca-f30a-43b6-950b-b1e942fd1842"
+                                                   period="#geltungszeitgr-2">
+                                       <akn:num eId="hauptteil-1_para-20_abs-1_bezeichnung-1"
+                                                GUID="e363f12d-7918-435c-b3a1-182c5e03ff43">
+                                          <akn:marker eId="hauptteil-1_para-20_abs-1_bezeichnung-1_zaehlbez-1"
+                                                      GUID="e5d8cf58-1ed0-45e4-9450-254738249dda"
+                                                      name="1"/>(1) </akn:num>
+                                       <akn:list eId="hauptteil-1_para-20_abs-1_untergl-1"
+                                                 GUID="97e930bf-49f8-472a-a1fa-3c3a401caa13">
+                                          <akn:intro eId="hauptteil-1_para-20_abs-1_untergl-1_intro-1"
+                                                     GUID="e2261ee5-feda-4691-b1a0-8a18f43720e7">
+                                             <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_intro-1_text-1"
+                                                    GUID="f5b78960-3376-4f19-a1de-05e24443a141">Wer</akn:p>
+                                          </akn:intro>
+                                          <akn:point eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1"
+                                                     GUID="6f1b22e6-2fcc-4e29-b3c1-fd67d8cee45c">
+                                             <akn:num eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_bezeichnung-1"
+                                                      GUID="7947817d-e127-49ca-82c3-a1dfeaa73748">
+                                                <akn:marker eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"
+                                                            GUID="aff56862-ab0e-4db9-add5-26cbaaaa40ef"
+                                                            name="1"/>1. </akn:num>
+                                             <akn:content eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1"
+                                                          GUID="fff000f9-bed8-41eb-b26b-93a5da40ff5f">
+                                                <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1_text-1"
+                                                       GUID="6ad07a0f-46f6-45b5-8d1a-ac79b8f704fe">entgegen einem
+                                                   vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als
+                                                   Mitglied beteiligt, für ihn wirbt, ihn unterstützt oder eine Tätigkeit ausübt (§ 18 Satz 2) oder</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:point eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2"
+                                                     GUID="94af45e6-d49b-4bcc-84b9-5e5c01d5a3ba">
+                                             <akn:num eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_bezeichnung-1"
+                                                      GUID="18a496f3-c0e7-4fb3-a41d-5c9fd75374c7">
+                                                <akn:marker eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                            GUID="0e883c7b-3c72-4a41-a182-a44b26763e75"
+                                                            name="2"/>2. </akn:num>
+                                             <akn:content eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1"
+                                                          GUID="7e835e4b-52eb-4fa1-9698-d7a42589d715">
+                                                <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
+                                                       GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">entgegen § 9 Abs. 1 Satz 2, Abs. 2
+                                                   Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:wrapUp eId="hauptteil-1_para-20_abs-1_untergl-1_schlusstext-1"
+                                                      GUID="107ed2fd-e041-4ee4-9eee-b559f84a4ce8">
+                                             <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_schlusstext-1_text-1"
+                                                    GUID="53af6200-56c2-4fed-bd27-25ddefe7b204">wird mit Gefängnis bis zu
+                                                einem Jahr oder mit Geldstrafe bestraft, wenn die Tat nicht in den §§ 49 b, 90 a, 90 b, 96 a, 128 oder 129 des Strafgesetzbuches, mit
+                                                schwerer Strafe bedroht ist.</akn:p>
+                                          </akn:wrapUp>
+                                       </akn:list>
+                                    </akn:paragraph>
                                   </akn:article>
-                                  </akn:body>
+                                </akn:body>
 
                          </akn:act>
                       </akn:akomaNtoso>
                       """))
-          .build();
-        
-      var amendingLaw = Norm.builder().document(XmlMapper.toDocument("""
-        <?xml version="1.0" encoding="UTF-8"?>
+              .build();
+
+      var amendingLaw =
+          Norm.builder()
+              .document(
+                  XmlMapper.toDocument(
+                      """
+          <?xml version="1.0" encoding="UTF-8"?>
 <!--
 	##################################################################################
 	Projekt E-Gesetzgebung
 	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.6 (Dezember 2023)
-	
+
 	2023 Copyright (C) 2021-2023 Bundesministerium des Innern und für Heimat,
 	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
 	Verwaltungsarbeit
-	
-	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
+
+          	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
 <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -285,8 +289,8 @@ class TimeMachineServiceTest {
          </akn:identification>
 
       </akn:meta>
-     
-      <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
+
+                <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
 <!-- Artikel 1 : Hauptänderung -->
          <akn:article eId="hauptteil-1_art-1"
                       GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
@@ -351,13 +355,14 @@ class TimeMachineServiceTest {
                </akn:list>
             </akn:paragraph>
          </akn:article>
-         
-      </akn:body>
-      
-   </akn:act>
+
+                </akn:body>
+
+             </akn:act>
 </akn:akomaNtoso>
 
-      """)).build();
+          """))
+              .build();
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -365,11 +370,14 @@ class TimeMachineServiceTest {
       Norm result = timeMachineService.applyPassiveModifications(norm);
 
       // then
-      assertThat(NodeParser.getValueFromExpression("null", norm.getDocument())).contains(null)
-
-      /*
-       * § 9 Absatz 1 Satz 2, Absatz 2 oder 3
-       */
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
     // return unchanged if no passive mods pass the date filter
   }
