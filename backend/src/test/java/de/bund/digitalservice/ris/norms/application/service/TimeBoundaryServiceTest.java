@@ -270,6 +270,8 @@ class TimeBoundaryServiceTest {
       // Then
       verify(dbService, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(dbService, times(1))
+          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), norm)));
       assertThat(timeBoundaries).hasSize(2);
 
       // old one still there

@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
@@ -42,6 +43,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
   @Override
   public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
     Optional<Norm> norm = dbService.loadNorm(new LoadNormPort.Command(query.eli()));
+    Optional<Norm> normResponse = Optional.empty();
     if (norm.isPresent()) {
       //      deleteTimeBoundaries(query.timeBoundaries(), norm.get());
 
@@ -52,9 +54,10 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
           .forEach(tb -> norm.get().addTimeBoundary(tb));
 
       //      changeTimeBoundaries(query.timeBoundaries(), norm.get());
+
+      normResponse = dbService.updateNorm(new UpdateNormPort.Command(norm.get()));
     }
-    // TODO save Norm in database
-    return norm.map(Norm::getTimeBoundaries).orElse(List.of());
+    return normResponse.map(Norm::getTimeBoundaries).orElse(List.of());
   }
 
   private void changeTimeBoundaries(
