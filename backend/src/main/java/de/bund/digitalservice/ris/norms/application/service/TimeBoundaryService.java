@@ -37,12 +37,22 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
         .orElse(List.of());
   }
 
+  /**
+   * @param query The query containing the ELI (European Legislation Identifier) of the norm.
+   * @return a List of TimeBoundaries
+   */
   @Override
   public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
     Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (norm.isPresent()) {
       //      deleteTimeBoundaries(query.timeBoundaries(), norm.get());
-      addTimeBoundaries(query.timeBoundaries(), norm.get());
+
+      // Add TimeBoundaries where eid is null|empty
+      query.timeBoundaries().stream()
+          .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
+          .toList()
+          .forEach(tb -> norm.get().addTimeBoundary(tb));
+
       //      changeTimeBoundaries(query.timeBoundaries(), norm.get());
     }
     // TODO save Norm in database
@@ -52,14 +62,6 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
   private void changeTimeBoundaries(
       List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
     throw new UnsupportedOperationException();
-  }
-
-  private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
-    List<TimeBoundaryChangeData> timeBoundariesToAdd =
-        timeBoundaryChangeData.stream()
-            .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
-            .toList();
-    timeBoundariesToAdd.forEach(norm::addTimeBoundary);
   }
 
   private void deleteTimeBoundaries(
