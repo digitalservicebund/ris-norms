@@ -36,7 +36,7 @@ watch(
   timeBoundaries,
   () => {
     if (selectedTimeBoundary.value === "" && timeBoundaries.value.length > 0) {
-      void router.replace({
+      router.replace({
         params: {
           timeBoundary: timeBoundaries.value[0].eid,
         },
