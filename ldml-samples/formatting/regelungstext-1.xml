@@ -46,9 +46,13 @@
     <akn:preface eId="einleitung-1" GUID="a3399d47-218a-46cf-939c-685f884ed724">
       <akn:longTitle eId="einleitung-1_doktitel-1" GUID="16586e8f-68e1-4191-a4a2-8473f6bdf4e5">
         <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="f312be90-0938-4ab8-a18d-e5b97e9be686">
-          <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="a263ee7a-8fa6-47bf-bce1-c9f1dbaff89a">Mock Formatting Test</akn:docTitle>
+          <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1">Formatting Test Document</akn:docTitle>
+          <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1">(Formatting Test - <akn:inline refersTo="amtliche-abkuerzung" name="attributsemantik-noch-undefiniert" eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1">MFT</akn:inline>)</akn:shortTitle>
         </akn:p>
       </akn:longTitle>
+      <akn:block eId="einleitung-1_block-1" GUID="50b373c9-d7a9-4ea1-a6c9-bee1fa5617c6" name="attributsemantik-noch-undefiniert">
+        <akn:date eId="einleitung-1_block-1_datum-1" GUID="34a9b790-c90f-4177-8023-425062e13f07" refersTo="ausfertigung-datum" date="0001-01-01">0001-01-01</akn:date>
+      </akn:block>
     </akn:preface>
 
     <akn:body eId="hauptteil-1" GUID="2bd1d0a2-ff72-42af-b9ab-2f30cc8d7539">
@@ -64,7 +68,7 @@
           </akn:num>
           <akn:content eId="hauptteil-1_para-1_abs-1_inhalt-1" GUID="c07abae2-921b-47a5-9681-3ff0b2700836">
             <akn:p eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1" GUID="7d7bea1a-182d-42ed-9f44-7844b3bb2d4c">
-              <akn:b eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_fettschrift-1" GUID="c1c593df-c20b-4d11-9c4e-945c7041fd9b">Bold</akn:b> text. <akn:i eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_kursiv-1" GUID="726c9ef9-9cad-40ae-8654-cc058366c400">Italic</akn:i> text. <akn:u eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_u-1" GUID="c30774a1-23b9-453d-a01f-4d873e29fec5">Underlined</akn:u> text. This contains <akn:sub eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_sub-1" GUID="ad66eeaf-0217-4e53-9c48-8bcb325c0d70">subscript</akn:sub> text. This contains <akn:sup eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_sup-1" GUID="7a3eb2b3-9df7-4c21-a9d8-f2b6a1d81597">superscript</akn:sup> text. This text contains a <akn:a href="#" eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_a-1" GUID="0d9de688-e6d0-446d-a164-503420ffbb76">link</akn:a>. <akn:br eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_br-1" GUID="263f863c-99ac-4421-a99f-a430f879ef33"></akn:br><akn:br eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_br-2" GUID="0a5685dd-08f2-41c2-aad9-8b20f85635c5"></akn:br>This text has two preceding line breaks.</akn:p>
+              <akn:b eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_fettschrift-1" GUID="c1c593df-c20b-4d11-9c4e-945c7041fd9b">Bold</akn:b> text. <akn:i eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_kursiv-1" GUID="726c9ef9-9cad-40ae-8654-cc058366c400">Italic</akn:i> text. <akn:u eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_u-1" GUID="c30774a1-23b9-453d-a01f-4d873e29fec5">Underlined</akn:u> text. This contains <akn:sub eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_sub-1" GUID="ad66eeaf-0217-4e53-9c48-8bcb325c0d70">subscript</akn:sub> text. This contains <akn:sup eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_sup-1" GUID="7a3eb2b3-9df7-4c21-a9d8-f2b6a1d81597">superscript</akn:sup> text. This text contains a <akn:a href="#" eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_a-1" GUID="0d9de688-e6d0-446d-a164-503420ffbb76">link</akn:a>. <akn:span eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_span-1" GUID="0ae5920a-34ed-4391-87ec-cafb2780e868">Inline container</akn:span>. <akn:br eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_br-1" GUID="263f863c-99ac-4421-a99f-a430f879ef33"></akn:br><akn:br eId="hauptteil-1_para-1_abs-1_inhalt-1_text-1_br-2" GUID="0a5685dd-08f2-41c2-aad9-8b20f85635c5"></akn:br>This text has two preceding line breaks.</akn:p>
           </akn:content>
         </akn:paragraph>
       </akn:article>
@@ -246,5 +250,20 @@
         </akn:paragraph>
       </akn:article>
     </akn:body>
+
+    <akn:conclusions eId="schluss-1" GUID="5e5944ae-e47a-4d25-8c79-34f7d70f3a4e">
+      <akn:formula eId="schluss-1_formel-1" GUID="fae03812-c3b7-4559-ab59-c0f1aa2ed11b" refersTo="schlussformel" name="attributsemantik-noch-undefiniert">
+        <akn:p eId="schluss-1_formel-1_text-1" GUID="5fe1168a-7559-46f8-9b90-2fc3425ccc5c">Das vorstehende Gesetz wird hiermit ausgefertigt und wird im Bundesgesetzblatt verkündet.</akn:p>
+      </akn:formula>
+      <akn:blockContainer eId="schluss-1_blockcontainer-1" GUID="6cdd7071-9fa3-4e8e-b747-2c65735fdfc8">
+        <akn:p eId="schluss-1_blockcontainer-1_text-1" GUID="6b442a53-e3d6-4794-be74-e1be0ea32d39">
+          <akn:location eId="schluss-1_blockcontainer-1_text-1_ort-1" GUID="034ea8c8-f8e2-4a88-8f80-f540f92a0c7e" refersTo="attributsemantik-noch-undefiniert">Ort</akn:location>, den <akn:date eId="schluss-1_blockcontainer-1_text-1_datum-1" GUID="a7c2d843-e325-4df3-82db-d951c0fbbc1c" refersTo="ausfertigung-datum" date="1900-01-01">01. Januar 2024</akn:date>
+        </akn:p>
+        <akn:signature eId="schluss-1_blockcontainer-1_signatur-1" GUID="653850d4-5db4-4a61-80df-054c21722ed0">
+          <akn:role eId="schluss-1_blockcontainer-1_signatur-1_fktbez-1" GUID="730eba4a-6b8a-4e3c-810b-34e9eb5b57e1" refersTo="attributsemantik-noch-undefiniert">Der Bundespräsident</akn:role>
+          <akn:person eId="schluss-1_blockcontainer-1_signatur-1_person-1" GUID="8c8542b9-8f41-4c66-9e3a-5953b087cc60" refersTo="attributsemantik-noch-undefiniert">Name</akn:person>
+        </akn:signature>
+      </akn:blockContainer>
+    </akn:conclusions>
   </akn:act>
 </akn:akomaNtoso>

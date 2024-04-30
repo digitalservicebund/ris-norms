@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -193,6 +194,53 @@ public class ArticleController {
             .orElse(null);
 
     return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(article, targetLawZf0));
+  }
+
+  /**
+   * Retrieves an article of a norm based on the norms expression ELI and the articles eid. The
+   * ELI's components are interpreted as query parameters.
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
+   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param agent DE: "Verkündungsblatt"
+   * @param year DE "Verkündungsjahr"
+   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @param eid eid of the article
+   * @return A {@link ResponseEntity} containing the retrieved article as rendered HTML.
+   *     <p>Returns HTTP 200 (OK) and the rendered HTML if found.
+   *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
+   */
+  @GetMapping(
+      path = "/{eid}",
+      produces = {TEXT_HTML_VALUE})
+  public ResponseEntity<String> getArticleRender(
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype,
+      @PathVariable final String eid) {
+    final String eli =
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
+        .flatMap(List::stream)
+        .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
+        .findFirst()
+        .map(article -> XmlMapper.toString(article.getNode()))
+        .map(
+            xml ->
+                this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 
   @NotNull

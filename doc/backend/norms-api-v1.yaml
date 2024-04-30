@@ -162,6 +162,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Article'
+            text/html:
+              schema:
+                type: string
 
   /norms/{eli}/timeBoundaries:
     get:
