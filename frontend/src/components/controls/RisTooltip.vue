@@ -11,27 +11,27 @@ withDefaults(
      * Visual variant of the tooltip.
      * @default "neutral"
      */
-    variant: "neutral" | "error" | "warning" | "success"
+    variant?: "neutral" | "error" | "warning" | "success"
 
     /**
      * Whether the tooltip is aligned to the left or the right of the available
      * container. This manages the positioning of the arrow and the tooltip box.
      * @default "left"
      */
-    alignment: "left" | "right"
+    alignment?: "left" | "right"
 
     /**
      * Whether the tooltip is positioned above or below the element in the slot.
      * This also manages the direction of the arrow.
      * @default "top"
      */
-    attachment: "top" | "bottom"
+    attachment?: "top" | "bottom"
 
     /**
      * Shows an icon to hide the callout.
      * @default false
      */
-    allowDismiss: boolean
+    allowDismiss?: boolean
   }>(),
   {
     variant: "neutral",
@@ -52,15 +52,16 @@ const visible = defineModel<boolean>("visible", { default: true })
   <span>
     <span
       v-if="visible"
-      :data-with-children="hasChildren || undefined"
       :data-alignment="alignment"
       :data-attachment="attachment"
+      :data-with-children="hasChildren || undefined"
       class="group absolute inline-block data-[alignment=left]:left-0 data-[alignment=right]:right-0 data-[attachment=bottom]:translate-y-full data-[attachment=top]:-translate-y-[calc(100%+8px)]"
+      role="tooltip"
     >
       <RisCallout
+        :allow-dismiss
         :title
         :variant
-        :allow-dismiss
         visible
         @update:visible="visible = false"
       />

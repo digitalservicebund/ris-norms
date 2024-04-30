@@ -9,7 +9,7 @@ type Tab = {
 const props = withDefaults(
   defineProps<{
     tabs: Tab[]
-    align: "right" | "left"
+    align?: "right" | "left"
   }>(),
   {
     align: "left",
