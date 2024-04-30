@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import java.util.List;
@@ -16,11 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTimeBoundariesUseCase {
   private final LoadNormPort loadNormPort;
-  private final UpdateNormPort updateNormPort;
 
-  public TimeBoundaryService(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
+  public TimeBoundaryService(LoadNormPort loadNormPort) {
     this.loadNormPort = loadNormPort;
-    this.updateNormPort = updateNormPort;
   }
 
   @Override
