@@ -186,6 +186,30 @@ public class Norm {
     return timeBoundaries;
   }
 
+  /**
+   * Extracts a list of passive modifications from the document.
+   *
+   * @return a list of passive modifications.
+   */
+  public List<Node> getPassiveModifications() {
+
+    NodeList passiveModificationNodes =
+        NodeParser.getNodesFromExpression("//passiveModifications/textualMod", document);
+
+    if (passiveModificationNodes.getLength() == 0) {
+      return List.of();
+    }
+
+    List<Node> passiveModifications = new ArrayList<>();
+
+    for (int i = 0; i < passiveModificationNodes.getLength(); i++) {
+      Node passiveModification = passiveModificationNodes.item(i);
+      passiveModifications.add(passiveModification);
+    }
+
+    return passiveModifications;
+  }
+
   @Override
   public boolean equals(Object object) {
     if (this == object) return true;

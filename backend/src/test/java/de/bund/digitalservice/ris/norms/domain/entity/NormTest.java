@@ -759,4 +759,16 @@ class NormTest {
         .isEqualTo(LocalDate.parse("2023-12-30"));
     assertThat(actualBoundaries.getFirst().getEid().get()).contains("meta-1_lebzykl-1_ereignis-2");
   }
+
+  @Test
+  void getOnePassiveModification() {
+    // given
+    Norm norm = NormFixtures.normWithPassiveModifications();
+
+    // when
+    var passiveModifications = norm.getPassiveModifications();
+
+    // then
+    assertThat(passiveModifications).hasSize(1);
+  }
 }
