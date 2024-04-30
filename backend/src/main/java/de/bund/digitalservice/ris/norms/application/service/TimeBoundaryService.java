@@ -1,8 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
@@ -17,12 +17,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTimeBoundariesUseCase {
-  private final LoadNormPort loadNormPort;
-  private final UpdateNormPort updateNormPort;
+  private final DBService dbService;
 
-  public TimeBoundaryService(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
-    this.loadNormPort = loadNormPort;
-    this.updateNormPort = updateNormPort;
+  public TimeBoundaryService(DBService dbService) {
+    this.dbService = dbService;
   }
 
   /**
@@ -31,7 +29,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
    */
   @Override
   public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query) {
-    return loadNormPort
+    return dbService
         .loadNorm(new LoadNormPort.Command(query.eli()))
         .map(Norm::getTimeBoundaries)
         .orElse(List.of());
@@ -43,7 +41,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
    */
   @Override
   public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
-    Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    Optional<Norm> norm = dbService.loadNorm(new LoadNormPort.Command(query.eli()));
     if (norm.isPresent()) {
       //      deleteTimeBoundaries(query.timeBoundaries(), norm.get());
 

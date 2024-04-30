@@ -6,10 +6,9 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTimeBoundariesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTimeBoundariesUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -22,10 +21,9 @@ import org.junit.jupiter.api.Test;
 
 class TimeBoundaryServiceTest {
 
-  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
-  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
+  final DBService dbService = mock(DBService.class);
 
-  final TimeBoundaryService service = new TimeBoundaryService(loadNormPort, updateNormPort);
+  final TimeBoundaryService service = new TimeBoundaryService(dbService);
 
   @Nested
   class loadTimeBoundariesOfNorm {
@@ -68,14 +66,14 @@ class TimeBoundaryServiceTest {
                               </akn:akomaNtoso>
                             """))
               .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(dbService.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
       var timeBoundaries =
           service.loadTimeBoundariesOfNorm(new LoadTimeBoundariesUseCase.Query(eli));
 
       // Then
-      verify(loadNormPort, times(1))
+      verify(dbService, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(timeBoundaries).hasSize(2);
 
@@ -206,14 +204,14 @@ class TimeBoundaryServiceTest {
                                               </akn:akomaNtoso>
                                             """))
               .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(dbService.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
       var timeBoundaries =
           service.loadTimeBoundariesOfNorm(new LoadTimeBoundariesUseCase.Query(eli));
 
       // Then
-      verify(loadNormPort, times(1))
+      verify(dbService, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(timeBoundaries).isEmpty();
     }
@@ -256,7 +254,7 @@ class TimeBoundaryServiceTest {
     @Test
     void itCallsUpdateTimeBoundariesOfNormAndReturnsTimeBoundariesNew() {
       // Given
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(dbService.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
       var timeBoundaryChangeDataOldStays =
@@ -270,7 +268,7 @@ class TimeBoundaryServiceTest {
                   eli, List.of(timeBoundaryChangeDataOldStays, timeBoundaryChangeDataNewDate)));
 
       // Then
-      verify(loadNormPort, times(1))
+      verify(dbService, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(timeBoundaries).hasSize(2);
 
