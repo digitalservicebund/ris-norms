@@ -17,7 +17,7 @@ withDefaults(
      * Shows an icon to hide the callout.
      * @default false
      */
-    allowDismiss: boolean
+    allowDismiss?: boolean
   }>(),
   {
     variant: "neutral",
