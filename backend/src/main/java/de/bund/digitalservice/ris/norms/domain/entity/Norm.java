@@ -191,7 +191,7 @@ public class Norm {
    *
    * @return a list of passive modifications.
    */
-  public List<Node> getPassiveModifications() {
+  public List<PassiveModification> getPassiveModifications() {
 
     NodeList passiveModificationNodes =
         NodeParser.getNodesFromExpression("//passiveModifications/textualMod", document);
@@ -200,11 +200,11 @@ public class Norm {
       return List.of();
     }
 
-    List<Node> passiveModifications = new ArrayList<>();
+    List<PassiveModification> passiveModifications = new ArrayList<>();
 
     for (int i = 0; i < passiveModificationNodes.getLength(); i++) {
-      Node passiveModification = passiveModificationNodes.item(i);
-      passiveModifications.add(passiveModification);
+      Node node = passiveModificationNodes.item(i);
+      passiveModifications.add(PassiveModification.builder().node(node).build());
     }
 
     return passiveModifications;

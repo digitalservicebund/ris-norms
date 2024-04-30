@@ -770,5 +770,7 @@ class NormTest {
 
     // then
     assertThat(passiveModifications).hasSize(1);
+    assertThat(passiveModifications.getFirst().getEid())
+        .contains("meta-1_analysis-1_pasmod-1_textualmod-2");
   }
 }
