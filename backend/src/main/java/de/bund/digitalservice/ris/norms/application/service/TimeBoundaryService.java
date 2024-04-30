@@ -25,6 +25,10 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
     this.updateNormPort = updateNormPort;
   }
 
+  /**
+   * @param query The query containing the ELI (European Legislation Identifier) of the norm.
+   * @return a List of TimeBoundaries
+   */
   @Override
   public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query) {
     return loadNormPort
