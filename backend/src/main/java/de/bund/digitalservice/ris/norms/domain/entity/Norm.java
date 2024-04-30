@@ -121,7 +121,7 @@ public class Norm {
    * @return The list of articles
    */
   public List<Article> getArticles() {
-    final NodeList allArticles = NodeParser.getNodesFromExpression("//body/article", document);
+    final NodeList allArticles = NodeParser.getNodesFromExpression("//body//article", document);
     if (allArticles.getLength() == 0) {
       return List.of();
     }

@@ -1,133 +1,146 @@
 <script setup lang="ts">
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
-import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTargetLaw } from "@/composables/useTargetLaw"
+import { ref, watch, WritableComputedRef } from "vue"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
-import { ref, watch } from "vue"
-import IconArrowBack from "~icons/ic/baseline-arrow-back"
-import RisLawPreview from "@/components/RisLawPreview.vue"
-import { FetchError } from "ofetch"
-import { getNormHtmlByEli } from "@/services/normService"
+import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
+import { useArticlesChangedAtTimeBoundary } from "@/composables/useArticlesChangedAtTimeBoundary"
+import { useRouter } from "vue-router"
+import { useAmendingLawTemporalData } from "@/composables/useAmendingLawTemporalData"
+import dayjs from "dayjs"
 
+const router = useRouter()
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 
 const amendingLaw = useAmendingLaw(amendingLawEli)
 
-const targetLaw = useTargetLaw(affectedDocumentEli)
-
 const { xml: targetLawXml, update: updateTargetLawXml } =
   useTargetLawXml(affectedDocumentEli)
 
-const currentTargetLawXml = ref("")
+const currentTargetLawXml = ref<string | undefined>("")
 
-function handleTargetLawXmlChange({ content }: { content: string }) {
-  currentTargetLawXml.value = content
-}
-
-watch(targetLawXml, (targetLawXml) => {
-  if (targetLawXml) {
-    currentTargetLawXml.value = targetLawXml
-  }
+watch(targetLawXml, () => {
+  currentTargetLawXml.value = targetLawXml.value
 })
 
-/** Save the updated XML to the API on click of the save button. */
+const { timeBoundaries } = useAmendingLawTemporalData(amendingLawEli)
+
+const selectedTimeBoundary: WritableComputedRef<string> =
+  useTimeBoundaryPathParameter()
+
+// choose the first time boundary if none is selected so far
+watch(
+  timeBoundaries,
+  () => {
+    if (selectedTimeBoundary.value === "" && timeBoundaries.value.length > 0) {
+      router.replace({
+        params: {
+          timeBoundary: timeBoundaries.value[0].eid,
+        },
+      })
+    }
+  },
+  { immediate: true },
+)
+
+// TODO: (Malte Laukötter, 2024-04-29) useArticlesChangedAtTimeBoundary needs implementing loading the correct articles
+const articles = useArticlesChangedAtTimeBoundary(
+  affectedDocumentEli,
+  selectedTimeBoundary,
+)
+
+// TODO: (Malte Laukötter, 2024-04-26) how to handle if a time boundary changes and the currently selected article has no changes for the newly selected zeitgrenze
+
 async function handleSave() {
   try {
-    await updateTargetLawXml(currentTargetLawXml.value)
+    if (currentTargetLawXml.value) {
+      await updateTargetLawXml(currentTargetLawXml.value)
+    }
   } catch (error) {
     alert("Metadaten nicht gespeichert")
     console.error(error)
   }
 }
-
-const previewHtml = ref("")
-async function handleGeneratePreview() {
-  try {
-    previewHtml.value = await getNormHtmlByEli(affectedDocumentEli.value, true)
-  } catch (e) {
-    if (
-      e instanceof FetchError &&
-      e.status == 500 &&
-      e.data !== "Internal Server Error"
-    ) {
-      previewHtml.value = e.data
-    } else {
-      throw e
-    }
-  }
-}
 </script>
 
 <template>
-  <div v-if="amendingLaw">
-    <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
+  <div
+    v-if="amendingLaw"
+    class="grid grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] bg-gray-100"
+  >
+    <RisAmendingLawInfoHeader class="col-span-2" :amending-law="amendingLaw" />
 
-    <RouterLink
-      class="ds-link-01-bold -mb-28 inline-flex h-80 items-center gap-12 px-40 text-blue-800"
-      :to="{ name: 'AmendingLawAffectedDocuments' }"
+    <aside
+      class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white"
+      aria-labelledby="sidebarNavigation"
     >
-      <IconArrowBack class="text-18" alt="" />
-      <span>Zurück</span>
-    </RouterLink>
+      <span id="sidebarNavigation" hidden>SideBar Navigation</span>
 
-    <div class="flex h-[calc(100dvh-5rem)] flex-col p-40">
-      <div class="mb-40 flex gap-16">
-        <div class="flex-grow">
-          <h1 class="ds-heading-02-reg">{{ targetLaw?.title }}</h1>
-          <h2 class="ds-heading-03-reg">Metadaten bearbeiten</h2>
-        </div>
+      <div class="px-16 py-8">
+        <label for="timeBoundarySelect">
+          <span class="ds-label-03-reg">Zeitgrenze</span>
 
+          <select
+            id="timeBoundarySelect"
+            v-model="selectedTimeBoundary"
+            class="ds-select ds-select-small"
+          >
+            <option
+              v-for="timeBoundary in timeBoundaries"
+              :key="timeBoundary.eid"
+              :value="timeBoundary.eid"
+            >
+              {{ dayjs(timeBoundary.date).format("DD.MM.YYYY") }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <router-link
+        class="ds-label-01-reg px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+        exact-active-class="font-bold"
+        :to="{
+          name: 'AmendingLawAffectedDocumentRahmenEditor',
+          params: { timeBoundary: selectedTimeBoundary },
+        }"
+      >
+        Rahmen
+      </router-link>
+
+      <hr class="mx-16 border-b border-gray-400" />
+
+      <router-link
+        v-for="article in articles"
+        :key="article.eid"
+        class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+        active-class="font-bold"
+        :to="{
+          name: 'AmendingLawAffectedDocumentArticleEditor',
+          params: { eid: article.eid, timeBoundary: selectedTimeBoundary },
+        }"
+      >
+        <span class="block overflow-hidden text-ellipsis whitespace-nowrap"
+          >§{{ article.enumeration }} {{ article.title }}</span
+        >
+      </router-link>
+
+      <div class="mt-auto">
+        <!-- this is only placed here temporarily -->
         <RisTextButton
           :disabled="targetLawXml === currentTargetLawXml"
           size="small"
+          full-width
           class="h-fit flex-none self-end"
           label="Speichern"
           @click="handleSave"
         />
-
-        <RisTextButton
-          label="Vorschau generieren"
-          size="small"
-          variant="tertiary"
-          class="h-fit flex-none self-end"
-          @click="handleGeneratePreview"
-        />
       </div>
+    </aside>
 
-      <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-32">
-        <section
-          class="flex flex-col gap-8"
-          aria-labelledby="affectedDocumentEditor"
-        >
-          <h3 id="affectedDocumentEditor" class="ds-label-02-bold">
-            Geändertes Gesetz
-          </h3>
-          <RisCodeEditor
-            class="flex-grow"
-            :initial-content="targetLawXml"
-            @change="handleTargetLawXmlChange"
-          />
-        </section>
-
-        <section
-          class="flex flex-col gap-8"
-          aria-labelledby="affectedDocumentPreview"
-        >
-          <h3 id="affectedDocumentPreview" class="ds-label-02-bold">
-            Vorschau
-          </h3>
-
-          <RisLawPreview
-            class="ds-textarea flex-grow p-2"
-            :content="previewHtml"
-          />
-        </section>
-      </div>
-    </div>
+    <RouterView v-model:xml="currentTargetLawXml"></RouterView>
   </div>
   <div v-else>Laden...</div>
 </template>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { useAmendingLawHtml } from "@/composables/useAmendingLawHtml"
+import { useNormHtml } from "@/composables/useNormHtml"
 
 const eli = useEliPathParameter()
-const amendingLawHtml = useAmendingLawHtml(eli)
+const amendingLawHtml = useNormHtml(eli)
 </script>
 
 <template>

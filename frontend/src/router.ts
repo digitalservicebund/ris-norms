@@ -1,5 +1,5 @@
 import { createEliPathParameter } from "@/composables/useEliPathParameter"
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 
 /**
  * The regular expressions for the eId is based on the definitions from LDML.de 1.6 (Section 9.2.11.63, eIdLiterals.einzelvorschrift)
@@ -11,7 +11,7 @@ import { createRouter, createWebHistory } from "vue-router"
 const ARTICLE_EID_ROUTE_PATH =
   ":eid((?:(?:[a-zäöüß0-9]+-[a-zäöüß0-9]+(?:\\.[azäöüß0-9]+\\)*\\)_\\)*(?:(?:para|art\\)+-[a-zäöüß0-9]+(?:\\.[azäöüß0-9]+\\)*\\))"
 
-const routes = [
+const routes: readonly RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
@@ -67,6 +67,20 @@ const routes = [
     path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/edit`,
     name: "AmendingLawAffectedDocumentEditor",
     component: () => import("@/views/AmendingLawAffectedDocumentEditor.vue"),
+    children: [
+      {
+        path: ":timeBoundary?",
+        name: "AmendingLawAffectedDocumentRahmenEditor",
+        component: () =>
+          import("@/views/AmendingLawAffectedDocumentRahmenEditor.vue"),
+      },
+      {
+        path: ":timeBoundary/:eid",
+        name: "AmendingLawAffectedDocumentArticleEditor",
+        component: () =>
+          import("@/views/AmendingLawAffectedDocumentArticleEditor.vue"),
+      },
+    ],
   },
 ]
 

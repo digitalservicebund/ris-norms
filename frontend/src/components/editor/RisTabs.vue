@@ -6,9 +6,15 @@ type Tab = {
   label: string
 }
 
-const props = defineProps<{
-  tabs: Tab[]
-}>()
+const props = withDefaults(
+  defineProps<{
+    tabs: Tab[]
+    align: "right" | "left"
+  }>(),
+  {
+    align: "left",
+  },
+)
 
 const activeTab = defineModel<string | undefined>("activeTab", {
   default: undefined,
@@ -26,8 +32,12 @@ function switchTab(tabId: string) {
 </script>
 <template>
   <div>
-    <ul role="tablist" class="flex gap-16">
-      <li v-for="tab in tabs" :key="tab.id" role="presentation">
+    <ul
+      role="tablist"
+      class="flex gap-16"
+      :class="{ 'float-right': props.align === 'right' }"
+    >
+      <li v-for="tab in tabs" :key="tab.id" class="contents">
         <button
           role="tab"
           :aria-selected="tab.id === activeTab"
