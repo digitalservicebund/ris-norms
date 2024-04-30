@@ -20,6 +20,12 @@ public class NormFixtures {
         .build();
   }
 
+  static Norm normWithMods() {
+    return Norm.builder()
+        .document(XmlMapper.toDocument(NormFixtures.loadNormFile("NormWithMods.xml")))
+        .build();
+  }
+
   private static String loadNormFile(final String fileName) {
     try {
       return IOUtils.toString(

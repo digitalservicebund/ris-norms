@@ -180,6 +180,17 @@ public class Norm {
         .toList();
   }
 
+  /**
+   * Extracts a list of {@link Mod}s from the document.
+   *
+   * @return a list of {@link Mod}s
+   */
+  public List<Mod> getMods() {
+    return NodeParser.getNodesFromExpression("//body//mod", document).stream()
+        .map(Mod::new)
+        .toList();
+  }
+
   @Override
   public boolean equals(Object object) {
     if (this == object) return true;
