@@ -62,12 +62,17 @@ paths:
           description: eli of the norm
           schema:
             type: string
-        - in: query
-          name: showMetadata
+        - name: showMetadata
+          in: query
           schema:
             type: boolean
             default: false
           description: "Should the metadata table be included? (only for Content-Type: text/html)"
+        - name: atIsoDate
+          in: query
+          schema:
+            type: string
+          description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
           description: Successful response
