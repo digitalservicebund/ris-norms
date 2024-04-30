@@ -45,6 +45,12 @@ import RisTextButton from "./RisTextButton.vue"
       </RisCallout>
     </Variant>
 
+    <Variant title="With dismiss button">
+      <RisCallout title="Hello world" variant="neutral" allow-dismiss>
+        <p>Lorem ipsum dolor sit amet.</p>
+      </RisCallout>
+    </Variant>
+
     <Variant title="Custom icon">
       <RisCallout title="Successfully validated" variant="success">
         <template #icon>

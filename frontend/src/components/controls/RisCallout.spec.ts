@@ -1,7 +1,8 @@
-import { describe, expect, test } from "vitest"
-import RisCallout from "./RisCallout.vue"
+import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
+import { describe, expect, test, vi } from "vitest"
 import { defineComponent } from "vue"
+import RisCallout from "./RisCallout.vue"
 
 describe("RisCallout", () => {
   test("renders", () => {
@@ -73,5 +74,53 @@ describe("RisCallout", () => {
     render(component)
 
     expect(screen.getByText("🐸")).toBeInTheDocument()
+  })
+
+  test("shows a dismiss button", () => {
+    render(RisCallout, { props: { title: "Foo", allowDismiss: true } })
+    expect(
+      screen.getByRole("button", { name: "Hinweis schließen" }),
+    ).toBeInTheDocument()
+  })
+
+  test("doesn't show the dismiss button", () => {
+    render(RisCallout, { props: { title: "Foo", allowDismiss: false } })
+    expect(
+      screen.queryByRole("button", { name: "Hinweis schließen" }),
+    ).not.toBeInTheDocument()
+  })
+
+  test("doesn't show the dismiss button by default", () => {
+    render(RisCallout, { props: { title: "Foo", allowDismiss: false } })
+    expect(
+      screen.queryByRole("button", { name: "Hinweis schließen" }),
+    ).not.toBeInTheDocument()
+  })
+
+  test("is hidden on dismiss", async () => {
+    const update = vi.fn()
+    render(RisCallout, {
+      props: { title: "Foo", allowDismiss: true, "onUpdate:visible": update },
+    })
+
+    const user = userEvent.setup()
+    await user.click(screen.getByRole("button", { name: "Hinweis schließen" }))
+
+    expect(update).toHaveBeenCalled()
+  })
+
+  test("is visible based on the model value", () => {
+    render(RisCallout, { props: { title: "Foo", visible: true } })
+    expect(screen.getByText("Foo")).toBeInTheDocument()
+  })
+
+  test("is hidden based on the model value", () => {
+    render(RisCallout, { props: { title: "Foo", visible: false } })
+    expect(screen.queryByText("Foo")).not.toBeInTheDocument()
+  })
+
+  test("is visible by default", () => {
+    render(RisCallout, { props: { title: "Foo" } })
+    expect(screen.getByText("Foo")).toBeInTheDocument()
   })
 })
