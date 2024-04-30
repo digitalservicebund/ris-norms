@@ -111,16 +111,16 @@ describe("RisCallout", () => {
 
   test("is visible based on the model value", () => {
     render(RisCallout, { props: { title: "Foo", visible: true } })
-    expect(screen.getByText("Foo")).toBeInTheDocument()
+    expect(screen.getByText("Foo")).toBeVisible()
   })
 
   test("is hidden based on the model value", () => {
     render(RisCallout, { props: { title: "Foo", visible: false } })
-    expect(screen.queryByText("Foo")).not.toBeInTheDocument()
+    expect(screen.queryByRole("Foo")).not.toBeInTheDocument()
   })
 
   test("is visible by default", () => {
     render(RisCallout, { props: { title: "Foo" } })
-    expect(screen.getByText("Foo")).toBeInTheDocument()
+    expect(screen.getByText("Foo")).toBeVisible()
   })
 })
