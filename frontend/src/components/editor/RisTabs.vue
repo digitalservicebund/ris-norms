@@ -35,11 +35,9 @@ function switchTab(tabId: string) {
     <ul
       role="tablist"
       class="flex gap-16"
-      :class="{
-        'float-right': props.align === 'right',
-      }"
+      :class="{ 'float-right': props.align === 'right' }"
     >
-      <li v-for="tab in tabs" :key="tab.id" role="presentation">
+      <li v-for="tab in tabs" :key="tab.id" class="contents">
         <button
           role="tab"
           :aria-selected="tab.id === activeTab"
