@@ -14,19 +14,18 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.w3c.dom.Node;
 
 class TimeMachineServiceTest {
+  final NormService normService = mock(NormService.class);
+
+  final TimeMachineService timeMachineService =
+      new TimeMachineService(new XmlDocumentService(), normService);
 
   @Nested
   class applyPassiveMods {
     @Test
     void returnUnchangedIfNoPassiveMods() {
       // given
-      final var xmlDocumentService = mock(XmlDocumentService.class);
-      final var normService = mock(NormService.class);
-      final var timeMachineService = new TimeMachineService(xmlDocumentService, normService);
-
       final var norm =
           Norm.builder()
               .document(
@@ -62,10 +61,6 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModification() {
       // given
-      final var xmlDocumentService = mock(XmlDocumentService.class);
-      final var normService = mock(NormService.class);
-      final var timeMachineService = new TimeMachineService(xmlDocumentService, normService);
-
       final var norm =
           Norm.builder()
               .document(
@@ -391,42 +386,8 @@ class TimeMachineServiceTest {
   class applyAmendingLawOnTargetLaw {
 
     @Test
-    void allRelevantMethodsAreCalled() {
-      // given
-      final var xmlDocumentService = mock(XmlDocumentService.class);
-      final var normService = mock(NormService.class);
-      final var timeMachineService = new TimeMachineService(xmlDocumentService, normService);
-
-      String amendingLawString =
-          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>old</akn:mod></amendingLaw>";
-      String targetLawString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw></targetLaw>";
-      Node firstModificationNodeInAmendingLaw = mock(Node.class);
-      Node targetNode = mock(Node.class);
-      XmlDocumentService.ReplacementPair replacementPair =
-          new XmlDocumentService.ReplacementPair("old", "new");
-
-      when(xmlDocumentService.getFirstModification(any()))
-          .thenReturn(firstModificationNodeInAmendingLaw);
-      when(xmlDocumentService.getReplacementPair(any())).thenReturn(replacementPair);
-      when(xmlDocumentService.findTargetLawNodeToBeModified(any(), any())).thenReturn(targetNode);
-      when(targetNode.getTextContent()).thenReturn("old");
-
-      // when
-      timeMachineService.apply(amendingLawString, targetLawString);
-
-      // then
-      verify(xmlDocumentService, times(1)).getFirstModification(any());
-      verify(xmlDocumentService, times(1)).getReplacementPair(any());
-      verify(xmlDocumentService, times(1)).findTargetLawNodeToBeModified(any(), any());
-    }
-
-    @Test
     void oldTextIsReplacedByNewText() {
       // given
-      final var xmlDocumentService = mock(XmlDocumentService.class);
-      final var normService = mock(NormService.class);
-      final var timeMachineService = new TimeMachineService(xmlDocumentService, normService);
-
       String amendingLawString =
           "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>In <akn:ref"
               + " href=\"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml\">paragraph 2</akn:ref> "
@@ -446,9 +407,6 @@ class TimeMachineServiceTest {
     @Test
     void XmlProcessingExceptionIsThrownWhenAmendingLawXmlIsInvalid() {
       // given
-      final var xmlDocumentService = mock(XmlDocumentService.class);
-      final var normService = mock(NormService.class);
-      final var timeMachineService = new TimeMachineService(xmlDocumentService, normService);
       String amendingLawString = "SomeRandomText";
       String targetLawString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw></targetLaw>";
 
@@ -463,9 +421,6 @@ class TimeMachineServiceTest {
     @Test
     void XmlProcessingExceptionIsThrownWhenTargetLawXmlIsInvalid() {
       // given
-      final var xmlDocumentService = mock(XmlDocumentService.class);
-      final var normService = mock(NormService.class);
-      final var timeMachineService = new TimeMachineService(xmlDocumentService, normService);
       String amendingLawString =
           "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw></amendingLaw>";
 
@@ -520,10 +475,6 @@ class TimeMachineServiceTest {
         })
     void throwModificationExceptionOnMissingParts(String modificationNodeText) {
       // given
-      final var xmlDocumentService = mock(XmlDocumentService.class);
-      final var normService = mock(NormService.class);
-      final var timeMachineService = new TimeMachineService(xmlDocumentService, normService);
-
       final String amendingLawXmlText =
           """
           <?xml version="1.0" encoding="UTF-8"?>
@@ -554,10 +505,6 @@ class TimeMachineServiceTest {
     @Test
     void throwModificationExceptionIfAmendingLawHasNoModifications() {
       // given
-      final var xmlDocumentService = mock(XmlDocumentService.class);
-      final var normService = mock(NormService.class);
-      final var timeMachineService = new TimeMachineService(xmlDocumentService, normService);
-
       final String amendingLaw = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>";
       final String targetLaw = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>";
 
@@ -571,23 +518,18 @@ class TimeMachineServiceTest {
     @Test
     void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
       // given
-      final var xmlDocumentService = mock(XmlDocumentService.class);
-      final var normService = mock(NormService.class);
-      final var timeMachineService = new TimeMachineService(xmlDocumentService, normService);
       final String amendingLawXmlText =
           """
                  <?xml version="1.0" encoding="UTF-8"?>
                  <akn:body>
                      <akn:mod>
-                      In <akn:ref
-          href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph
-          2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
-          <akn:quotedText>new</akn:quotedText>.
+                   In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
+                   <akn:quotedText>new</akn:quotedText>.
                      </akn:mod>
 
                      "old" -> "new"
 
-                   </akn:body>
+              </akn:body>
                  """
               .strip();
       final String targetLawXmlText =
