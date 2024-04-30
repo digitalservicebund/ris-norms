@@ -1,4 +1,4 @@
-import { ref, onMounted, Ref } from "vue"
+import { ref, watch, toValue, MaybeRefOrGetter, Ref } from "vue"
 import {
   getAmendingLawEntryIntoForceHtml,
   getAmendingLawTemporalDataTimeBoundaries,
@@ -16,16 +16,16 @@ interface AmendingLawTemporalData {
 }
 
 export function useAmendingLawTemporalData(
-  eli: Ref<string>,
+  eli: MaybeRefOrGetter<string>,
 ): AmendingLawTemporalData {
   const htmlContent = ref<string>("")
   const timeBoundaries = ref<AmendingLawTemporalDataReleaseResponse[]>([])
 
   async function loadData() {
     try {
-      htmlContent.value = await getAmendingLawEntryIntoForceHtml(eli.value)
+      htmlContent.value = await getAmendingLawEntryIntoForceHtml(toValue(eli))
       timeBoundaries.value = await getAmendingLawTemporalDataTimeBoundaries(
-        eli.value,
+        toValue(eli),
       )
     } catch (error) {
       console.error("Error fetching amending law data:", error)
@@ -34,15 +34,18 @@ export function useAmendingLawTemporalData(
 
   async function update(newDates: AmendingLawTemporalDataReleaseResponse[]) {
     try {
-      await updateAmendingLawTemporalDataTimeBoundaries(eli.value, newDates)
+      await updateAmendingLawTemporalDataTimeBoundaries(toValue(eli), newDates)
       timeBoundaries.value = newDates
     } catch (error) {
       console.error("Error updating amending law dates:", error)
     }
   }
 
-  onMounted(loadData)
-
+  watch(
+    () => toValue(eli),
+    () => loadData(),
+    { immediate: true },
+  )
   return {
     htmlContent,
     timeBoundaries: timeBoundaries,
