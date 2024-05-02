@@ -7,20 +7,20 @@ import java.util.Objects;
 import org.apache.commons.io.IOUtils;
 
 public class NormFixtures {
-  static Norm simpleNorm() {
+  public static Norm simpleNorm() {
     return Norm.builder()
         .document(XmlMapper.toDocument(NormFixtures.loadNormFile("SimpleNorm.xml")))
         .build();
   }
 
-  static Norm normWithPassiveModifications() {
+  public static Norm normWithPassiveModifications() {
     return Norm.builder()
         .document(
             XmlMapper.toDocument(NormFixtures.loadNormFile("NormWithPassiveModifications.xml")))
         .build();
   }
 
-  static Norm normWithMods() {
+  public static Norm normWithMods() {
     return Norm.builder()
         .document(XmlMapper.toDocument(NormFixtures.loadNormFile("NormWithMods.xml")))
         .build();
