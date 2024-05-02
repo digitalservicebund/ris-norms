@@ -75,7 +75,6 @@ tasks {
         useJUnitPlatform {
             includeTags("integration")
         }
-        finalizedBy(jacocoTestReport)
     }
 
     check {
@@ -115,7 +114,7 @@ tasks {
             xml.required = true
             html.required = true
         }
-        dependsOn("integrationTest") // All tests are required to run before generating a report.
+        dependsOn("integrationTest", "test") // All tests are required to run before generating a report.
     }
 
     jar { // We have no need for the plain archive, thus skip creation for build speedup!
@@ -126,7 +125,9 @@ tasks {
         dependsOn("jacocoTestReport")
     }
 
-    test { useJUnitPlatform { excludeTags("integration") } }
+    test {
+        useJUnitPlatform { excludeTags("integration") }
+    }
 
     withType(com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask::class) {
         fun isStable(version: String): Boolean {
