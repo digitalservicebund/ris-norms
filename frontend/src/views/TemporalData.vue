@@ -4,7 +4,6 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useAmendingLawTemporalData } from "@/composables/useAmendingLawTemporalData"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import dayjs from "dayjs"
 const eli = useEliPathParameter()
 const {
   htmlContent: entryIntoForceArticleHtml,
@@ -13,13 +12,8 @@ const {
 } = useAmendingLawTemporalData(eli)
 
 async function handleSave() {
-  const isoDates = dates.value.map((dateObj) => ({
-    ...dateObj,
-    date: dayjs(dateObj.date).toISOString(),
-  }))
-
   try {
-    await update(isoDates)
+    await update(dates.value)
     console.log("Dates saved successfully.")
   } catch (error) {
     console.error("Error saving dates:", error)
