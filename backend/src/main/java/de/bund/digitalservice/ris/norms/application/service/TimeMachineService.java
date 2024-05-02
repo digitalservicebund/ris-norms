@@ -4,9 +4,11 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.util.Comparator;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -14,8 +16,8 @@ import org.w3c.dom.Node;
 
 /**
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
- * "modifications" to LDML.de files. For details on LDML.de modifications, cf. <a
- * href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML-details</a>
+ * "modifications" to LDML.de files. For details on LDML.de modifications, cf. <a href=
+ * "https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML-details</a>
  */
 @Service
 public class TimeMachineService implements TimeMachineUseCase {
@@ -96,51 +98,58 @@ public class TimeMachineService implements TimeMachineUseCase {
   public Norm applyPassiveModifications(Norm norm) {
     var passiveModifications = norm.getPassiveModifications();
 
-    var amendingLaws =
-        passiveModifications.stream()
-            //                .sorted(Comparator.comparing(passiveModification -> {
-            //                var temporalGroupEid = passiveModification.getForcePeriodEid();
-            //                String date = norm.getStartDateForTemporalGroup(temporalGroupEid);
-            //                return date;
-            //            }))
-            .flatMap(passiveModification -> passiveModification.getSourceEli().stream())
-            .flatMap(eli -> normService.loadNorm(new LoadNormUseCase.Query(eli)).stream())
-            .toList();
+    passiveModifications.stream()
+        .sorted(
+            Comparator.comparing(
+                    (PassiveModification passiveModification) ->
+                        passiveModification
+                            .getForcePeriodEid()
+                            .flatMap(eid -> norm.getStartDateForTemporalGroup(eid))
+                            .orElseThrow())
+                .reversed())
+        .peek(value -> System.out.println(value.getForcePeriodEid()))
+        .flatMap(
+            (PassiveModification passiveModification) -> {
+              var sourceEli = passiveModification.getSourceEli().orElseThrow();
+              var amendingLaw =
+                  normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
+              var sourceEid = passiveModification.getSourceEid();
+              return amendingLaw.getMods().stream()
+                  .filter(mod -> mod.getEid().equals(sourceEid)); // filter here or
+              // implement getMod(id)
+            })
+        .forEach(
+            mod -> {
+              if (mod.getTargetEid().isEmpty()
+                  || mod.getOldText().isEmpty()
+                  || mod.getNewText().isEmpty()) {
+                return;
+              }
 
-    // TODO: (Malte Laukötter, 2024-04-30) sort mods by date
-    var mods = amendingLaws.stream().flatMap(amendingLaw -> amendingLaw.getMods().stream());
+              final var targetEid = mod.getTargetEid().get();
+              final var targetNode =
+                  NodeParser.getNodeFromExpression(
+                      String.format("//*[@eId='%s']", targetEid), norm.getDocument());
 
-    mods.forEach(
-        mod -> {
-          if (mod.getTargetEid().isEmpty()
-              || mod.getOldText().isEmpty()
-              || mod.getNewText().isEmpty()) {
-            return;
-          }
+              if (targetNode == null) {
+                return;
+              }
 
-          final var targetEid = mod.getTargetEid().get();
-          final var targetNode =
-              NodeParser.getNodeFromExpression(
-                  String.format("//*[@eId='%s']", targetEid), norm.getDocument());
+              final var nodeToChange =
+                  NodeParser.getNodeFromExpression(
+                      String.format(".//*[contains(text(),'%s')]", mod.getOldText().get()),
+                      targetNode);
 
-          if (targetNode == null) {
-            return;
-          }
+              if (nodeToChange == null) {
+                return;
+              }
 
-          final var nodeToChange =
-              NodeParser.getNodeFromExpression(
-                  String.format(".//*[contains(text(),'%s')]", mod.getOldText().get()), targetNode);
-
-          if (nodeToChange == null) {
-            return;
-          }
-
-          final var modifiedTextContent =
-              nodeToChange
-                  .getTextContent()
-                  .replaceFirst(mod.getOldText().get(), mod.getNewText().get());
-          nodeToChange.setTextContent(modifiedTextContent);
-        });
+              final var modifiedTextContent =
+                  nodeToChange
+                      .getTextContent()
+                      .replaceFirst(mod.getOldText().get(), mod.getNewText().get());
+              nodeToChange.setTextContent(modifiedTextContent);
+            });
 
     return norm;
   }
