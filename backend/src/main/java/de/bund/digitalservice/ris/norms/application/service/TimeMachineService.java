@@ -101,15 +101,13 @@ public class TimeMachineService implements TimeMachineUseCase {
   public Norm applyPassiveModifications(Norm norm, Instant date) {
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
-    var passiveModifications = norm.getPassiveModifications();
-
-    passiveModifications.stream()
+    norm.getPassiveModifications().stream()
         .filter(
             (PassiveModification passiveModification) ->
                 Instant.parse(
                         passiveModification
                                 .getForcePeriodEid()
-                                .flatMap(eid -> norm.getStartDateForTemporalGroup(eid))
+                                .flatMap(norm::getStartDateForTemporalGroup)
                                 .orElseThrow()
                             + "T00:00:00.000Z")
                     .isBefore(actualDate))
@@ -118,7 +116,7 @@ public class TimeMachineService implements TimeMachineUseCase {
                 (PassiveModification passiveModification) ->
                     passiveModification
                         .getForcePeriodEid()
-                        .flatMap(eid -> norm.getStartDateForTemporalGroup(eid))
+                        .flatMap(norm::getStartDateForTemporalGroup)
                         .orElseThrow()))
         .flatMap(
             (PassiveModification passiveModification) -> {
@@ -126,9 +124,7 @@ public class TimeMachineService implements TimeMachineUseCase {
               var amendingLaw =
                   normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
               var sourceEid = passiveModification.getSourceEid();
-              return amendingLaw.getMods().stream()
-                  .filter(mod -> mod.getEid().equals(sourceEid)); // filter here or
-              // implement getMod(id)
+              return amendingLaw.getMods().stream().filter(mod -> mod.getEid().equals(sourceEid));
             })
         .forEach(
             mod -> {
