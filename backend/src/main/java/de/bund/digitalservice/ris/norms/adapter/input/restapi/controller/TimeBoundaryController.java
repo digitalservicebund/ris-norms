@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TimeBoundar
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundarySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -101,7 +102,9 @@ public class TimeBoundaryController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @RequestBody @Valid final List<TimeBoundarySchema> timeBoundaries) {
+      @RequestBody @Valid @NotEmpty(message = "Change list must not be empty")
+          final List<TimeBoundarySchema> timeBoundaries) {
+
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 

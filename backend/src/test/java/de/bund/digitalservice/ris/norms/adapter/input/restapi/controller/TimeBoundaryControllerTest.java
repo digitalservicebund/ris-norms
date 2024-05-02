@@ -155,6 +155,21 @@ class TimeBoundaryControllerTest {
     }
 
     @Test
+    void updateTimeBoundariesWithEmptyListReturns400() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/timeBoundaries", eli)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("[]"))
+          .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void updateTimeBoundariesReturnsDateIsNull() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";

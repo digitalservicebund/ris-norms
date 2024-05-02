@@ -25,7 +25,7 @@ public class InternalErrorExceptionHandler {
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public void handleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
 
-    log.error("Bad request", e);
+    log.error("Bad request: {}", e.getMessage(), e);
     throw e;
   }
 
@@ -36,8 +36,7 @@ public class InternalErrorExceptionHandler {
    */
   @ExceptionHandler(HandlerMethodValidationException.class)
   public void handleHandlerMethodValidationException(final HandlerMethodValidationException e) {
-
-    log.error("Bad request", e);
+    log.error("Bad request: {}", e.getMessage(), e);
     throw e;
   }
 
