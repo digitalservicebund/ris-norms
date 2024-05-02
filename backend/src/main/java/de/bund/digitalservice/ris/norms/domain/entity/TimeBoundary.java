@@ -29,7 +29,16 @@ public class TimeBoundary {
    *
    * @return The eId of the event
    */
-  public Optional<String> getEid() {
+  public Optional<String> getEventRefEid() {
     return NodeParser.getValueFromExpression("./@eId", this.eventRefNode);
+  }
+
+  /**
+   * Returns a eId as {@link String} from a {@link Node} in a {@link Norm}.
+   *
+   * @return The eId of the timeInterval
+   */
+  public Optional<String> getTimeIntervalEid() {
+    return NodeParser.getValueFromExpression("./@eId", this.timeIntervalNode);
   }
 }

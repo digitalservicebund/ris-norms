@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
+import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public interface UpdateTimeBoundariesUseCase {
    * A record representing the parameters needed to update time boundaries related to a norm.
    *
    * @param eli The ELI used to identify the norm in the query.
+   * @param timeBoundaries The list of the changed time boundaries.
    */
-  record Query(String eli) {}
+  record Query(String eli, List<TimeBoundaryChangeData> timeBoundaries) {}
 }

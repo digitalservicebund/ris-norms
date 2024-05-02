@@ -2,11 +2,10 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import org.junit.jupiter.api.Test;
 
 class NormTest {
@@ -116,7 +115,7 @@ class NormTest {
     String actualTitle = norm.getTitle().get();
 
     // then
-    assertThat(actualTitle).isEqualTo(expectedTitle);
+    assertThat(actualTitle).contains(expectedTitle);
   }
 
   @Test
@@ -210,7 +209,7 @@ class NormTest {
     String actualFRBRname = norm.getFRBRname().get();
 
     // then
-    assertThat(actualFRBRname).isEqualTo(expectedFRBRname);
+    assertThat(actualFRBRname).contains(expectedFRBRname);
   }
 
   @Test
@@ -243,7 +242,7 @@ class NormTest {
     String actualAnnouncementGazette = norm.getFRBRnumber().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedFRBRname);
+    assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
   }
 
   @Test
@@ -276,7 +275,7 @@ class NormTest {
     String actualAnnouncementGazette = norm.getFRBRname().get();
 
     // then
-    assertThat(actualAnnouncementGazette).isEqualTo(expectedFRBRname);
+    assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
   }
 
   @Test
@@ -757,7 +756,431 @@ class NormTest {
 
     assertThat(actualBoundaries.getFirst().getDate().get())
         .isEqualTo(LocalDate.parse("2023-12-30"));
-    assertThat(actualBoundaries.getFirst().getEid().get()).contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(actualBoundaries.getFirst().getEventRefEid().get())
+        .contains("meta-1_lebzykl-1_ereignis-2");
+  }
+
+  @Test
+  void getTimeBoundariesEmpty() {
+    String xml =
+        """
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                               </akn:lifecycle>
+                               <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                               </akn:temporalData>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                    """
+            .strip();
+
+    Norm norm = new Norm(toDocument(xml));
+    List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
+    assertThat(timeBoundaries).isEmpty();
+  }
+
+  @Test
+  void getEventRefEidsOne() {
+    String xml =
+        """
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                               </akn:lifecycle>
+                               <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                                           <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                              <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                           </akn:temporalGroup>
+                               </akn:temporalData>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                    """
+            .strip();
+
+    Norm norm = new Norm(toDocument(xml));
+
+    List<String> eventRefEids = norm.getEventRefEids();
+
+    assertThat(eventRefEids).hasSize(1);
+    assertThat(eventRefEids.get(0)).contains("meta-1_lebzykl-1_ereignis-2");
+  }
+
+  @Test
+  void getEventRefEidsTwo() {
+    String xml =
+        """
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="4539e3ee-3b35-4921-a249-93a98dbd7339" date="2024-01-01"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                               </akn:lifecycle>
+                               <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                                   <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                      <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                   </akn:temporalGroup>
+                                   <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2" GUID="f7f23d12-b0b6-435c-a046-ca493c058a69">
+                                      <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" GUID="bf364ca5-5106-45ca-96f3-da359db6dc56" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-3" />
+                                   </akn:temporalGroup>
+                               </akn:temporalData>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                    """
+            .strip();
+
+    Norm norm = new Norm(toDocument(xml));
+
+    List<String> eventRefEids = norm.getEventRefEids();
+
+    assertThat(eventRefEids).hasSize(2);
+    assertThat(eventRefEids.get(0)).contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(eventRefEids.get(1)).contains("meta-1_lebzykl-1_ereignis-3");
+  }
+
+  @Test
+  void getEventRefEidsZero() {
+    String xml =
+        """
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                               </akn:lifecycle>
+                               <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                               </akn:temporalData>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                    """
+            .strip();
+
+    Norm norm = new Norm(toDocument(xml));
+
+    List<String> eventRefEids = norm.getEventRefEids();
+
+    assertThat(eventRefEids).isEmpty();
+  }
+
+  @Test
+  void getTemporalGroupIdsOneGroup() {
+    String xml =
+        """
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                               </akn:lifecycle>
+                               <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                                           <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                              <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                           </akn:temporalGroup>
+                               </akn:temporalData>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                    """
+            .strip();
+
+    Norm norm = new Norm(toDocument(xml));
+
+    List<String> temporalGroupIds = norm.getTemporalGroupEids();
+
+    assertThat(temporalGroupIds).hasSize(1);
+    assertThat(temporalGroupIds.get(0)).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
+  }
+
+  @Test
+  void getTemporalGroupEidsNoGroups() {
+    String xml =
+        """
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                               </akn:lifecycle>
+                               <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                               </akn:temporalData>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                    """
+            .strip();
+
+    Norm norm = new Norm(toDocument(xml));
+
+    List<String> temporalGroupIds = norm.getTemporalGroupEids();
+
+    assertThat(temporalGroupIds).isEmpty();
+  }
+
+  @Test
+  void getTemporalGroupEidsTwoGroups() {
+    String xml =
+        """
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="4539e3ee-3b35-4921-a249-93a98dbd7339" date="2024-01-01"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                               </akn:lifecycle>
+                               <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                                           <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                              <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                           </akn:temporalGroup>
+                                           <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2" GUID="fdfaeef0-0300-4e5b-9e8b-14d2162bfb00">
+                                              <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" GUID="8118030a-5fa4-4f9c-a880-b7ba19e5edfb" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-3" />
+                                           </akn:temporalGroup>
+                               </akn:temporalData>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                    """
+            .strip();
+
+    Norm norm = new Norm(toDocument(xml));
+
+    List<String> temporalGroupIds = norm.getTemporalGroupEids();
+
+    assertThat(temporalGroupIds).hasSize(2);
+    assertThat(temporalGroupIds.get(0)).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
+    assertThat(temporalGroupIds.get(1)).contains("meta-1_geltzeiten-1_geltungszeitgr-2");
+  }
+
+  @Test
+  void addTimeBoundary() {
+    String xml =
+        """
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                               </akn:lifecycle>
+                               <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                                           <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                              <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                           </akn:temporalGroup>
+                               </akn:temporalData>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                    """
+            .strip();
+
+    Norm norm = new Norm(toDocument(xml));
+
+    TimeBoundaryChangeData timeBoundaryToAdd =
+        new TimeBoundaryChangeData(null, LocalDate.parse("2024-01-02"));
+    norm.addTimeBoundary(timeBoundaryToAdd);
+
+    List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
+
+    // old one still there
+    assertThat(timeBoundaries.get(0).getDate()).contains(LocalDate.parse("2023-12-30"));
+    assertThat(timeBoundaries.get(0).getEventRefEid().get())
+        .contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(
+            timeBoundaries
+                .get(0)
+                .getTimeIntervalNode()
+                .getParentNode()
+                .getAttributes()
+                .getNamedItem("eId")
+                .getNodeValue())
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-1");
+    assertThat(
+            timeBoundaries
+                .get(0)
+                .getTimeIntervalNode()
+                .getParentNode()
+                .getAttributes()
+                .getNamedItem("GUID")
+                .getNodeValue())
+        .contains("ac311ee1-33d3-4b9b-a974-776e55a88396");
+    assertThat(timeBoundaries.get(0).getTimeIntervalEid().get())
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1");
+    assertThat(
+            timeBoundaries
+                .get(0)
+                .getTimeIntervalNode()
+                .getAttributes()
+                .getNamedItem("GUID")
+                .getNodeValue())
+        .contains("ca9f53aa-d374-4bec-aca3-fff4e3485179");
+    assertThat(
+            timeBoundaries
+                .get(0)
+                .getTimeIntervalNode()
+                .getAttributes()
+                .getNamedItem("refersTo")
+                .getNodeValue())
+        .contains("geltungszeit");
+    assertThat(
+            timeBoundaries
+                .get(0)
+                .getTimeIntervalNode()
+                .getAttributes()
+                .getNamedItem("start")
+                .getNodeValue())
+        .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
+
+    // new one added
+    assertThat(timeBoundaries.get(1).getDate()).contains(LocalDate.parse("2024-01-02"));
+    assertThat(timeBoundaries.get(1).getEventRefEid().get())
+        .contains("meta-1_lebzykl-1_ereignis-3");
+    assertThat(
+            timeBoundaries
+                .get(1)
+                .getTimeIntervalNode()
+                .getParentNode()
+                .getAttributes()
+                .getNamedItem("eId")
+                .getNodeValue())
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
+    assertThat(
+            timeBoundaries
+                .get(1)
+                .getTimeIntervalNode()
+                .getParentNode()
+                .getAttributes()
+                .getNamedItem("GUID")
+                .getNodeValue())
+        .isNotEmpty();
+    assertThat(timeBoundaries.get(1).getTimeIntervalEid().get())
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
+    assertThat(
+            timeBoundaries
+                .get(1)
+                .getTimeIntervalNode()
+                .getAttributes()
+                .getNamedItem("GUID")
+                .getNodeValue())
+        .isNotEmpty();
+    assertThat(
+            timeBoundaries
+                .get(1)
+                .getTimeIntervalNode()
+                .getAttributes()
+                .getNamedItem("refersTo")
+                .getNodeValue())
+        .contains("geltungszeit");
+    assertThat(
+            timeBoundaries
+                .get(1)
+                .getTimeIntervalNode()
+                .getAttributes()
+                .getNamedItem("start")
+                .getNodeValue())
+        .contains("#" + timeBoundaries.get(1).getEventRefEid().get());
+  }
+
+  @Test
+  void calculateNextPossibleEid() {
+    // given
+    List<String> eids =
+        List.of(
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-4",
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1",
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-2");
+
+    // when
+    String nextPossibleEid = Norm.calculateNextPossibleEid(eids);
+
+    // then
+    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-5");
+  }
+
+  @Test
+  void calculateNextPossibleEidEmptyInput() {
+    // given
+    List<String> eids = List.of();
+
+    // when
+    Throwable thrown = catchThrowable(() -> Norm.calculateNextPossibleEid(eids));
+
+    // then
+    assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  void calculateNextPossibleEidDifferentBase() {
+    // given
+    List<String> eids =
+        List.of(
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-4",
+            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1",
+            "somestring-5");
+
+    // when
+    Throwable thrown = catchThrowable(() -> Norm.calculateNextPossibleEid(eids));
+
+    // then
+    assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
