@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Represents an amending law entity with various attributes. This class is annotated with Lombok
