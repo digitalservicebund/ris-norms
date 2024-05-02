@@ -249,8 +249,7 @@ class TimeBoundaryServiceTest {
                                                             </akn:meta>
                                                          </akn:act>
                                                       </akn:akomaNtoso>
-                                                    """
-              .strip();
+                                                    """;
       String xmlAfter =
           """
                                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
@@ -279,13 +278,14 @@ class TimeBoundaryServiceTest {
                                                   </akn:meta>
                                                </akn:act>
                                             </akn:akomaNtoso>
-                                          """
-              .strip();
-      Norm normBefore = new Norm(toDocument(xmlBefore));
-      Norm normAfter = new Norm(toDocument(xmlAfter));
+                                          """;
+
+      var normBefore = Norm.builder().document(XmlMapper.toDocument(xmlBefore)).build();
+      var normAfter = Norm.builder().document(XmlMapper.toDocument(xmlAfter)).build();
 
       // Given
       when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(dbService.updateNorm(any())).thenReturn(Optional.of(normAfter));
 
       // When
       var timeBoundaryChangeDataOldStays =
@@ -293,17 +293,18 @@ class TimeBoundaryServiceTest {
       var timeBoundaryChangeDataNewDate =
           new TimeBoundaryChangeData(null, LocalDate.parse("2024-01-02"));
 
-      service.updateTimeBoundariesOfNorm(
-          new UpdateTimeBoundariesUseCase.Query(
-              eli, List.of(timeBoundaryChangeDataOldStays, timeBoundaryChangeDataNewDate)));
+      var result =
+          service.updateTimeBoundariesOfNorm(
+              new UpdateTimeBoundariesUseCase.Query(
+                  eli, List.of(timeBoundaryChangeDataOldStays, timeBoundaryChangeDataNewDate)));
 
       // Then
       verify(dbService, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(dbService, times(1))
+          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), normAfter)));
 
-      // TODO that should work
-      // verify(dbService, times(1)).updateNorm(argThat(new NormMatcher(normAfter)));
-
+      assertThat(result).isNotEmpty();
     }
 
     @Test
