@@ -1214,7 +1214,7 @@ class NormTest {
   @Test
   void getStartDateForTemporalGroup() {
     // given
-    Norm norm = NormFixtures.normWithPassiveModifications();
+    Norm norm = NormFixtures.normWithMultiplePassiveModifications();
 
     // when
     var date = norm.getStartDateForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");

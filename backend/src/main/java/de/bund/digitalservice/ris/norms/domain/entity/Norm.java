@@ -221,16 +221,21 @@ public class Norm {
   }
 
   /**
-   * @return List of Strings with all existing eIds of all temporalGroup nodes
+   * @param temporalGroupEid EId of a temporal group
+   * @return Start date of the temporal group
    */
   public Optional<String> getStartDateForTemporalGroup(String temporalGroupEid) {
-    var start =
-        NodeParser.getValueFromExpression(
+    return NodeParser.getValueFromExpression(
             String.format(
                 "//meta/temporalData/temporalGroup[@eId='%s']/timeInterval/@start",
                 temporalGroupEid),
-            this.document);
-    return start;
+            this.document)
+        .map(value -> value.replaceFirst("^#", ""))
+        .flatMap(
+            eId ->
+                NodeParser.getValueFromExpression(
+                    String.format("//meta/lifecycle/eventRef[@eId='%s']/@date", eId),
+                    this.document));
   }
 
   /**
