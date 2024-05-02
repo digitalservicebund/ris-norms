@@ -8,6 +8,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -93,21 +95,31 @@ public class TimeMachineService implements TimeMachineUseCase {
    * Applies the passive modifications of the norm. Only applies "aenderungsbefehl-ersetzen".
    *
    * @param norm a Norm
-   * @return the Norm with the applied passive modifications
+   * @param date a date
+   * @return the Norm with the applied passive modifications that are in effect before the date
    */
-  public Norm applyPassiveModifications(Norm norm) {
+  public Norm applyPassiveModifications(Norm norm, Instant date) {
+    var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
+
     var passiveModifications = norm.getPassiveModifications();
 
     passiveModifications.stream()
+        .filter(
+            (PassiveModification passiveModification) ->
+                Instant.parse(
+                        passiveModification
+                                .getForcePeriodEid()
+                                .flatMap(eid -> norm.getStartDateForTemporalGroup(eid))
+                                .orElseThrow()
+                            + "T00:00:00.000Z")
+                    .isBefore(actualDate))
         .sorted(
             Comparator.comparing(
-                    (PassiveModification passiveModification) ->
-                        passiveModification
-                            .getForcePeriodEid()
-                            .flatMap(eid -> norm.getStartDateForTemporalGroup(eid))
-                            .orElseThrow())
-                .reversed())
-        .peek(value -> System.out.println(value.getForcePeriodEid()))
+                (PassiveModification passiveModification) ->
+                    passiveModification
+                        .getForcePeriodEid()
+                        .flatMap(eid -> norm.getStartDateForTemporalGroup(eid))
+                        .orElseThrow()))
         .flatMap(
             (PassiveModification passiveModification) -> {
               var sourceEli = passiveModification.getSourceEli().orElseThrow();

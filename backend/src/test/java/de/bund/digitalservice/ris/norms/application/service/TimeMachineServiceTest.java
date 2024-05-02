@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -65,28 +66,28 @@ class TimeMachineServiceTest {
               .document(
                   XmlMapper.toDocument(
                       """
-          <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                 http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-             <akn:act name="regelungstext">
-                <!-- Metadaten -->
-                <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                   <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                      <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                          <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                          <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                          <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
-                       </akn:FRBRWork>
-                  </akn:identification>
-                </akn:meta>
-             </akn:act>
-          </akn:akomaNtoso>
-          """))
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                                  <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
+                                      <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
+                                      <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
+                                      <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
+                                   </akn:FRBRWork>
+                              </akn:identification>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                      """))
               .build();
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(norm);
+      Norm result = timeMachineService.applyPassiveModifications(norm, Instant.MAX);
 
       // then
       assertThat(result).isEqualTo(norm);
@@ -102,7 +103,7 @@ class TimeMachineServiceTest {
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(norm);
+      Norm result = timeMachineService.applyPassiveModifications(norm, Instant.MAX);
 
       // then
       var changedNodeValue =
@@ -126,7 +127,7 @@ class TimeMachineServiceTest {
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(norm);
+      Norm result = timeMachineService.applyPassiveModifications(norm, Instant.MAX);
 
       // then
       var changedNodeValue =
@@ -140,6 +141,30 @@ class TimeMachineServiceTest {
     }
 
     // filter change mods by date
+    @Test
+    void applyPassiveModificationsBeforeDate() {
+      // given
+      final var norm = NormFixtures.normWithMultiplePassiveModifications();
+
+      final var amendingLaw = NormFixtures.normWithMultipleMods();
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              norm, Instant.parse("2017-03-01T00:00:00.000Z"));
+
+      // then
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+    }
 
     // return unchanged if no passive mods pass the date filter
   }
@@ -282,17 +307,17 @@ class TimeMachineServiceTest {
       // given
       final String amendingLawXmlText =
           """
-                 <?xml version="1.0" encoding="UTF-8"?>
-                 <akn:body>
-                     <akn:mod>
-                   In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
-                   <akn:quotedText>new</akn:quotedText>.
-                     </akn:mod>
+             <?xml version="1.0" encoding="UTF-8"?>
+             <akn:body>
+                 <akn:mod>
+               In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
+               <akn:quotedText>new</akn:quotedText>.
+                 </akn:mod>
 
-                     "old" -> "new"
+                 "old" -> "new"
 
-              </akn:body>
-                 """
+          </akn:body>
+             """
               .strip();
       final String targetLawXmlText =
           """
