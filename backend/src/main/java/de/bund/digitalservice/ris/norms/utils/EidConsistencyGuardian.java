@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -49,9 +50,9 @@ public final class EidConsistencyGuardian {
       final String targetXpath,
       final String targetAttribute) {
     // Traverse the document to find the elements with the specified XPath expression
-    final NodeList nodeList = NodeParser.getNodesFromExpression(elementXPath, rootElement);
-    for (int i = 0; i < nodeList.getLength(); i++) {
-      final Element targetElement = (Element) nodeList.item(i);
+    final List<Node> nodeList = NodeParser.getNodesFromExpression(elementXPath, rootElement);
+    for (Node node : nodeList) {
+      final Element targetElement = (Element) node;
       final String attributeValue = targetElement.getAttribute(attribute);
       // Check if the attribute contains references
       if (!attributeValue.isEmpty()
@@ -64,9 +65,9 @@ public final class EidConsistencyGuardian {
   private static boolean isReferenceValid(
       final String reference, final String targetXpath, final String targetAttribute) {
     // Check if the reference exists within the XML document
-    final NodeList nodeList = NodeParser.getNodesFromExpression(targetXpath, rootElement);
-    for (int i = 0; i < nodeList.getLength(); i++) {
-      Element temporalGroup = (Element) nodeList.item(i);
+    final List<Node> nodeList = NodeParser.getNodesFromExpression(targetXpath, rootElement);
+    for (Node node : nodeList) {
+      Element temporalGroup = (Element) node;
       String eId = temporalGroup.getAttribute(targetAttribute);
       if (reference.contains(eId)) {
         return true;

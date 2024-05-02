@@ -121,19 +121,9 @@ public class Norm {
    * @return The list of articles
    */
   public List<Article> getArticles() {
-    final NodeList allArticles = NodeParser.getNodesFromExpression("//body//article", document);
-    if (allArticles.getLength() == 0) {
-      return List.of();
-    }
-
-    List<Article> articles = new ArrayList<>();
-
-    for (int i = 0; i < allArticles.getLength(); i++) {
-      final Node articleNode = allArticles.item(i);
-      Article newArticle = Article.builder().node(articleNode).build();
-      articles.add(newArticle);
-    }
-    return articles;
+    return NodeParser.getNodesFromExpression("//body//article", document).stream()
+        .map(Article::new)
+        .toList();
   }
 
   /**
@@ -160,31 +150,47 @@ public class Norm {
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
   public List<TimeBoundary> getTimeBoundaries() {
-    NodeList timeIntervalNodes =
+    List<Node> timeIntervalNodes =
         NodeParser.getNodesFromExpression("//temporalData/temporalGroup/timeInterval", document);
 
-    if (timeIntervalNodes.getLength() == 0) {
-      return List.of();
-    }
+    return timeIntervalNodes.stream()
+        .map(
+            node -> {
+              String eIdEventRef =
+                  node.getAttributes().getNamedItem("start").getNodeValue().replace("#", "");
+              String eventRefNodeExpression =
+                  String.format("//lifecycle/eventRef[@eId='%s']", eIdEventRef);
+              Node eventRefNode =
+                  NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
 
-    List<TimeBoundary> timeBoundaries = new ArrayList<>();
+              var timeBoundary =
+                  TimeBoundary.builder().timeIntervalNode(node).eventRefNode(eventRefNode).build();
 
-    for (int i = 0; i < timeIntervalNodes.getLength(); i++) {
-      Node timeIntervalNode = timeIntervalNodes.item(i);
-      String eIdEventRef =
-          timeIntervalNode.getAttributes().getNamedItem("start").getNodeValue().replace("#", "");
-      String eventRefNodeExpression = String.format("//lifecycle/eventRef[@eId='%s']", eIdEventRef);
-      Node eventRefNode = NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
+              return timeBoundary;
+            })
+        .toList();
+  }
 
-      TimeBoundary timeBoundary =
-          TimeBoundary.builder()
-              .timeIntervalNode(timeIntervalNode)
-              .eventRefNode(eventRefNode)
-              .build();
-      timeBoundaries.add(timeBoundary);
-    }
+  /**
+   * Extracts a list of passive modifications from the document.
+   *
+   * @return a list of passive modifications.
+   */
+  public List<PassiveModification> getPassiveModifications() {
+    return NodeParser.getNodesFromExpression("//passiveModifications/textualMod", document).stream()
+        .map(PassiveModification::new)
+        .toList();
+  }
 
-    return timeBoundaries;
+  /**
+   * Extracts a list of {@link Mod}s from the document.
+   *
+   * @return a list of {@link Mod}s
+   */
+  public List<Mod> getMods() {
+    return NodeParser.getNodesFromExpression("//body//mod", document).stream()
+        .map(Mod::new)
+        .toList();
   }
 
   /**
@@ -212,6 +218,24 @@ public class Norm {
       }
     }
     return temporalGroupIds;
+  }
+
+  /**
+   * @param temporalGroupEid EId of a temporal group
+   * @return Start date of the temporal group
+   */
+  public Optional<String> getStartDateForTemporalGroup(String temporalGroupEid) {
+    return NodeParser.getValueFromExpression(
+            String.format(
+                "//meta/temporalData/temporalGroup[@eId='%s']/timeInterval/@start",
+                temporalGroupEid),
+            this.document)
+        .map(value -> value.replaceFirst("^#", ""))
+        .flatMap(
+            eId ->
+                NodeParser.getValueFromExpression(
+                    String.format("//meta/lifecycle/eventRef[@eId='%s']/@date", eId),
+                    this.document));
   }
 
   /**

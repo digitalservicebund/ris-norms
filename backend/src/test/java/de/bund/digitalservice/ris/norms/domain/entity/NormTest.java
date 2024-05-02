@@ -13,30 +13,11 @@ class NormTest {
   @Test
   void getEli() {
     // given
-    String normString =
-        """
-      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-         <akn:act name="regelungstext">
-            <!-- Metadaten -->
-            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-               <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                  <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                  </akn:FRBRExpression>
-              </akn:identification>
-            </akn:meta>
-         </akn:act>
-      </akn:akomaNtoso>
-    """;
-
-    Norm norm = new Norm(toDocument(normString));
+    Norm norm = NormFixtures.simpleNorm();
     String expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // when
-    String actualEli = norm.getEli().get();
+    var actualEli = norm.getEli();
 
     // then
     assertThat(actualEli).contains(expectedEli);
@@ -1200,5 +1181,45 @@ class NormTest {
 
     // then
     assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  void getOnePassiveModification() {
+    // given
+    Norm norm = NormFixtures.normWithPassiveModifications();
+
+    // when
+    var passiveModifications = norm.getPassiveModifications();
+
+    // then
+    assertThat(passiveModifications).hasSize(1);
+    assertThat(passiveModifications.getFirst().getEid())
+        .contains("meta-1_analysis-1_pasmod-1_textualmod-2");
+  }
+
+  @Test
+  void getMods() {
+    // given
+    Norm norm = NormFixtures.normWithMods();
+
+    // when
+    var mods = norm.getMods();
+
+    // then
+    assertThat(mods).hasSize(1);
+    assertThat(mods.getFirst().getEid())
+        .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
+  }
+
+  @Test
+  void getStartDateForTemporalGroup() {
+    // given
+    Norm norm = NormFixtures.normWithMultiplePassiveModifications();
+
+    // when
+    var date = norm.getStartDateForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
+
+    // then
+    assertThat(date).contains("2017-03-23");
   }
 }

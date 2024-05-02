@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 class NodeParserTest {
 
@@ -27,21 +26,19 @@ class NodeParserTest {
   }
 
   @Test
-  void returnEmptyNodeListWhenNoNodesFound() {
+  void returnEmptyListWhenNoNodesFound() {
     Node node = XmlMapper.toDocument("<test>testValue</test>");
     String expression = "/nonExistingNode";
-    NodeList nodes = NodeParser.getNodesFromExpression(expression, node);
-    assertThat(nodes).isNotNull().isInstanceOf(NodeList.class);
-    assertThat(nodes.getLength()).isZero();
+    var nodes = NodeParser.getNodesFromExpression(expression, node);
+    assertThat(nodes).hasSize(0);
   }
 
   @Test
   void getNodeList() {
     Node node = XmlMapper.toDocument("<test>testValue</test>");
     String expression = "/test";
-    NodeList nodes = NodeParser.getNodesFromExpression(expression, node);
-    assertThat(nodes).isNotNull().isInstanceOf(NodeList.class);
-    assertThat(nodes.getLength()).isEqualTo(1);
-    assertThat(nodes.item(0).getNodeName()).isEqualTo("test");
+    var nodes = NodeParser.getNodesFromExpression(expression, node);
+    assertThat(nodes).hasSize(1);
+    assertThat(nodes.getFirst().getNodeName()).isEqualTo("test");
   }
 }

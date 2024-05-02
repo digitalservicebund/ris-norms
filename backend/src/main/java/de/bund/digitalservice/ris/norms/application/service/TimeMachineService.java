@@ -1,23 +1,42 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Comparator;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
- * "modifications" to LDML.de files. For details on LDML.de modifications, cf. <a
- * href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML-details</a>
+ * "modifications" to LDML.de files. For details on LDML.de modifications, cf. <a href=
+ * "https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML-details</a>
  */
 @Service
-public class TimeMachineService {
+public class TimeMachineService implements TimeMachineUseCase {
 
-  XmlDocumentService xmlDocumentService;
+  private final XmlDocumentService xmlDocumentService;
+  private final NormService normService;
 
-  public TimeMachineService(XmlDocumentService xmlDocumentService) {
+  public TimeMachineService(XmlDocumentService xmlDocumentService, NormService normService) {
     this.xmlDocumentService = xmlDocumentService;
+    this.normService = normService;
+  }
+
+  @Override
+  public Optional<String> applyTimeMachine(TimeMachineUseCase.Query query) {
+    return normService
+        .loadNormXml(new LoadNormXmlUseCase.Query(query.targetLawEli()))
+        .map(targetNormXml -> this.apply(query.amendingLawXml(), targetNormXml));
   }
 
   /**
@@ -70,5 +89,76 @@ public class TimeMachineService {
       throw new XmlProcessingException(
           "Target Law could not be modified since there is no according paragraph found", e);
     }
+  }
+
+  /**
+   * Applies the passive modifications of the norm. Only applies "aenderungsbefehl-ersetzen".
+   *
+   * @param norm a Norm
+   * @param date a date
+   * @return the Norm with the applied passive modifications that are in effect before the date
+   */
+  public Norm applyPassiveModifications(Norm norm, Instant date) {
+    var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
+
+    norm.getPassiveModifications().stream()
+        .filter(
+            (PassiveModification passiveModification) ->
+                Instant.parse(
+                        passiveModification
+                                .getForcePeriodEid()
+                                .flatMap(norm::getStartDateForTemporalGroup)
+                                .orElseThrow()
+                            + "T00:00:00.000Z")
+                    .isBefore(actualDate))
+        .sorted(
+            Comparator.comparing(
+                (PassiveModification passiveModification) ->
+                    passiveModification
+                        .getForcePeriodEid()
+                        .flatMap(norm::getStartDateForTemporalGroup)
+                        .orElseThrow()))
+        .flatMap(
+            (PassiveModification passiveModification) -> {
+              var sourceEli = passiveModification.getSourceEli().orElseThrow();
+              var amendingLaw =
+                  normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
+              var sourceEid = passiveModification.getSourceEid();
+              return amendingLaw.getMods().stream().filter(mod -> mod.getEid().equals(sourceEid));
+            })
+        .forEach(
+            mod -> {
+              if (mod.getTargetEid().isEmpty()
+                  || mod.getOldText().isEmpty()
+                  || mod.getNewText().isEmpty()) {
+                return;
+              }
+
+              final var targetEid = mod.getTargetEid().get();
+              final var targetNode =
+                  NodeParser.getNodeFromExpression(
+                      String.format("//*[@eId='%s']", targetEid), norm.getDocument());
+
+              if (targetNode == null) {
+                return;
+              }
+
+              final var nodeToChange =
+                  NodeParser.getNodeFromExpression(
+                      String.format(".//*[contains(text(),'%s')]", mod.getOldText().get()),
+                      targetNode);
+
+              if (nodeToChange == null) {
+                return;
+              }
+
+              final var modifiedTextContent =
+                  nodeToChange
+                      .getTextContent()
+                      .replaceFirst(mod.getOldText().get(), mod.getNewText().get());
+              nodeToChange.setTextContent(modifiedTextContent);
+            });
+
+    return norm;
   }
 }

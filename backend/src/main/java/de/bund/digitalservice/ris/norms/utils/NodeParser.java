@@ -1,6 +1,8 @@
 package de.bund.digitalservice.ris.norms.utils;
 
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import javax.xml.xpath.XPath;
@@ -38,19 +40,33 @@ public final class NodeParser {
   }
 
   /**
-   * Get {@link NodeList} using an XPath expression on an input node.
+   * Get a {@link List} of {@link Node}s using an XPath expression on an input node.
    *
    * @param xPathExpression an XPath expression used for identifying the node that's returned
    * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
    *     Document extends Node)
-   * @return the NodeList identified by the <code>xPathExpression</code>
+   * @return the Nodes identified by the <code>xPathExpression</code>
    */
-  public static NodeList getNodesFromExpression(String xPathExpression, Node sourceNode) {
+  public static List<Node> getNodesFromExpression(String xPathExpression, Node sourceNode) {
     try {
       // should be invoked on every method call since: An XPath object is not thread-safe and not
       // reentrant.
       final XPath xPath = XPathFactory.newInstance().newXPath();
-      return (NodeList) xPath.evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
+      final NodeList nodeList =
+          (NodeList) xPath.evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
+
+      if (nodeList.getLength() == 0) {
+        return List.of();
+      }
+
+      List<Node> nodes = new ArrayList<>();
+
+      for (int i = 0; i < nodeList.getLength(); i++) {
+        Node node = nodeList.item(i);
+        nodes.add(node);
+      }
+
+      return nodes;
     } catch (XPathExpressionException | NoSuchElementException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
