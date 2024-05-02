@@ -72,7 +72,7 @@
                                          href="#hauptteil-1_para-20_abs-1/100-126"/>
                         <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1"
                                    GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fghi"
-                                   period="#meta-1_geltzeiten-1_geltungszeitgr-3"/>
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
                     </akn:textualMod>
                     <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2"
                                     GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2"
@@ -85,7 +85,7 @@
                                          href="#hauptteil-1_para-20_abs-1/100-126"/>
                         <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1"
                                    GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb"
-                                   period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-4"/>
                     </akn:textualMod>
                 </akn:passiveModifications>
             </akn:analysis>
