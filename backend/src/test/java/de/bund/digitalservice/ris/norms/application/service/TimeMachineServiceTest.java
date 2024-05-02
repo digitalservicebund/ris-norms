@@ -116,7 +116,6 @@ class TimeMachineServiceTest {
               "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
 
-    // apply changed mods in correct order
     @Test
     void applyPassiveModificationsInCorrectOrder() {
       // given
