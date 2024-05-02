@@ -62,4 +62,38 @@ describe("RisTabs", () => {
     const secondTab = screen.getByRole("tab", { name: "tab2" })
     expect(secondTab.getAttribute("aria-selected")).toBe("true")
   })
+
+  it("aligns the tabs to the left by default", async () => {
+    const tabs = [
+      { id: "tab1", label: "Tab 1" },
+      { id: "tab2", label: "Tab 2" },
+    ]
+
+    render(RisTabs, {
+      props: { tabs },
+    })
+
+    await nextTick()
+
+    const tabList = screen.getByRole("tablist")
+
+    expect(tabList.classList.contains("float-right")).toBe(false)
+  })
+
+  it("aligns the tabs to the right", async () => {
+    const tabs = [
+      { id: "tab1", label: "Tab 1" },
+      { id: "tab2", label: "Tab 2" },
+    ]
+
+    render(RisTabs, {
+      props: { tabs, align: "right" },
+    })
+
+    await nextTick()
+
+    const tabList = screen.getByRole("tablist")
+
+    expect(tabList.classList.contains("float-right")).toBe(true)
+  })
 })
