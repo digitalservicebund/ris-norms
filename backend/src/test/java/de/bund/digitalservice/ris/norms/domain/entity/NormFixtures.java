@@ -26,6 +26,20 @@ public class NormFixtures {
         .build();
   }
 
+  public static Norm normWithMultiplePassiveModifications() {
+    return Norm.builder()
+        .document(
+            XmlMapper.toDocument(
+                NormFixtures.loadNormFile("NormWithMultiplePassiveModifications.xml")))
+        .build();
+  }
+
+  public static Norm normWithMultipleMods() {
+    return Norm.builder()
+        .document(XmlMapper.toDocument(NormFixtures.loadNormFile("NormWithMultipleMods.xml")))
+        .build();
+  }
+
   private static String loadNormFile(final String fileName) {
     try {
       return IOUtils.toString(
