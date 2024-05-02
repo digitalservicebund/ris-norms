@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -364,28 +363,29 @@ class TimeBoundaryServiceTest {
                                                 </akn:akomaNtoso>
                                               """
               .strip();
-      Norm normBefore = new Norm(toDocument(xmlBefore));
-      Norm normAfter = new Norm(toDocument(xmlAfter));
+
+      var normBefore = Norm.builder().document(XmlMapper.toDocument(xmlBefore)).build();
+      var normAfter = Norm.builder().document(XmlMapper.toDocument(xmlAfter)).build();
 
       // Given
       when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
-      // when(dbService.updateNorm(any())).thenReturn(Optional.of(normAfterUpdate));
+      when(dbService.updateNorm(any())).thenReturn(Optional.of(normAfter));
 
       // When
       var timeBoundaryChangeDataOldStays =
           new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-2", LocalDate.parse("2023-12-30"));
 
-      service.updateTimeBoundariesOfNorm(
-          new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataOldStays)));
+      var result =
+          service.updateTimeBoundariesOfNorm(
+              new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataOldStays)));
 
       // Then
       verify(dbService, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(dbService, times(1))
+          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), normAfter)));
 
-      // TODO this shall work
-      // verify(dbService, times(1)).updateNorm(argThat(argument -> Objects.equals(argument.norm(),
-      // normAfter)));
-
+      assertThat(result).isNotEmpty();
     }
   }
 }
