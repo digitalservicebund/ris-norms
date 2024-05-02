@@ -37,4 +37,14 @@ describe("useElementId", () => {
 
     expect(id1).not.toBe(id2)
   })
+
+  test("returns an ID with the default prefix", () => {
+    const identifier = useElementId("element").value
+    expect(identifier.startsWith("element-")).toBe(true)
+  })
+
+  test("returns an ID with a custom prefix", () => {
+    const identifier = useElementId("test").value
+    expect(identifier.startsWith("test-")).toBe(true)
+  })
 })

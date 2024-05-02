@@ -1,17 +1,21 @@
 import { Ref, readonly, ref } from "vue"
 
-function createUseElementId() {
+function createUseElementId(): (prefix?: string) => Readonly<Ref<string>> {
   /**
    * Used for keeping track of existing IDs in the unlikely event that
    * we generate a duplicate one.
    */
   const currentIds = new Set<string>()
 
-  function getIdentifier() {
+  function getIdentifier(prefix = "element") {
     let id = Math.round(Math.random() * 10 ** 8)
       .toString()
       .padEnd(8, "0")
 
+    id = `${prefix}-${id}`
+
+    // Generate a new ID in the unlikely event that the current one is already
+    // in use.
     if (currentIds.has(id)) id = getIdentifier()
 
     currentIds.add(id)
@@ -19,7 +23,7 @@ function createUseElementId() {
     return id
   }
 
-  return () => readonly(ref(getIdentifier()))
+  return (prefix) => readonly(ref(getIdentifier(prefix)))
 }
 
 /**
@@ -30,4 +34,4 @@ function createUseElementId() {
  * The identifier is guaranteed to be unique for everything currently
  * rendered on the page. It's not suitable as a GUID.
  */
-export const useElementId: () => Readonly<Ref<string>> = createUseElementId()
+export const useElementId = createUseElementId()
