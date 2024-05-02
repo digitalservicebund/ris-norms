@@ -35,7 +35,7 @@ public class Mod {
    * @return The text that will be replaced by this mod
    */
   public Optional<String> getOldText() {
-    return NodeParser.getValueFromExpression("./quotedText[1]", this.node);
+    return NodeParser.getValueFromExpression("normalize-space(./quotedText[1])", this.node);
   }
 
   /**
@@ -44,7 +44,7 @@ public class Mod {
    * @return The text that will replace the old text
    */
   public Optional<String> getNewText() {
-    return NodeParser.getValueFromExpression("./quotedText[2]", this.node);
+    return NodeParser.getValueFromExpression("normalize-space(./quotedText[2])", this.node);
   }
 
   /**

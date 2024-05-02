@@ -56,11 +56,15 @@ class ModTest {
                         die Angabe <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
                                         GUID="694459c4-ef66-4f87-bb78-a332054a2216"
                                         startQuote="„"
-                                        endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die
+                                        endQuote="“">
+                                        § 9 Abs. 1 Satz 2, Abs. 2
+                                        </akn:quotedText> durch die
                         Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
                                         GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196"
                                         startQuote="„"
-                                        endQuote="“">§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:quotedText>
+                                        endQuote="“">
+                                        § 9 Absatz 1 Satz 2, Absatz 2 oder 3
+                                        </akn:quotedText>
                         ersetzt.</akn:mod>
                         """))
             .build();
@@ -88,11 +92,15 @@ class ModTest {
                         die Angabe <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
                                         GUID="694459c4-ef66-4f87-bb78-a332054a2216"
                                         startQuote="„"
-                                        endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die
+                                        endQuote="“">
+                                        § 9 Abs. 1 Satz 2, Abs. 2
+                                        </akn:quotedText> durch die
                         Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
                                         GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196"
                                         startQuote="„"
-                                        endQuote="“">§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:quotedText>
+                                        endQuote="“">
+                                        § 9 Absatz 1 Satz 2, Absatz 2 oder 3
+                                        </akn:quotedText>
                         ersetzt.</akn:mod>
                         """))
             .build();
