@@ -116,6 +116,28 @@ class TimeMachineServiceTest {
     }
 
     // apply changed mods in correct order
+    @Test
+    void applyPassiveModificationsInCorrectOrder() {
+      // given
+      final var norm = NormFixtures.normWithMultiplePassiveModifications();
+
+      final var amendingLaw = NormFixtures.normWithMultipleMods();
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      Norm result = timeMachineService.applyPassiveModifications(norm);
+
+      // then
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              "entgegen § 9 Absatz 1 Satz 2, Absatz 2, 3 oder 4 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+    }
 
     // filter change mods by date
 

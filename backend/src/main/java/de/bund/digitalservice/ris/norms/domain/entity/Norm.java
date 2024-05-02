@@ -221,6 +221,19 @@ public class Norm {
   }
 
   /**
+   * @return List of Strings with all existing eIds of all temporalGroup nodes
+   */
+  public Optional<String> getStartDateForTemporalGroup(String temporalGroupEid) {
+    var start =
+        NodeParser.getValueFromExpression(
+            String.format(
+                "//meta/temporalData/temporalGroup[@eId='%s']/timeInterval/@start",
+                temporalGroupEid),
+            this.document);
+    return start;
+  }
+
+  /**
    * Adds one time boundary (Zeitgrenze) to the document. New eventRef node as child of lifecycle.
    * The temporalData node will get a new temporalGroup node as child, which will have a new
    * timeInterval node as child.

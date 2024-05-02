@@ -98,6 +98,11 @@ public class TimeMachineService implements TimeMachineUseCase {
 
     var amendingLaws =
         passiveModifications.stream()
+            //                .sorted(Comparator.comparing(passiveModification -> {
+            //                var temporalGroupEid = passiveModification.getForcePeriodEid();
+            //                String date = norm.getStartDateForTemporalGroup(temporalGroupEid);
+            //                return date;
+            //            }))
             .flatMap(passiveModification -> passiveModification.getSourceEli().stream())
             .flatMap(eli -> normService.loadNorm(new LoadNormUseCase.Query(eli)).stream())
             .toList();

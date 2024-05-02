@@ -1210,4 +1210,16 @@ class NormTest {
     assertThat(mods.getFirst().getEid())
         .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
   }
+
+  @Test
+  void getStartDateForTemporalGroup() {
+    // given
+    Norm norm = NormFixtures.normWithPassiveModifications();
+
+    // when
+    var date = norm.getStartDateForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
+
+    // then
+    assertThat(date).contains("2017-03-23");
+  }
 }
