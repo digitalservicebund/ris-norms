@@ -213,6 +213,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TimeBoundary'
+        '400':
+          description: Bad Request
+        '404':
+          description: Norm not found
 
   /norms/{eli}/preview:
     post:
