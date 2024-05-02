@@ -66,4 +66,15 @@ public class PassiveModification {
     return this.getSourceHref()
         .map(source -> Arrays.stream(source.split("/")).toList().getLast().replace(".xml", ""));
   }
+
+  /**
+   * Returns eid of the force as {@link String}. This eid identifies the temporal group of this
+   * passive modification.
+   *
+   * @return The force eid of the passive modification
+   */
+  public Optional<String> getForcePeriodEid() {
+    return NodeParser.getValueFromExpression("./force/@period", this.node)
+        .map(value -> value.replaceFirst("^#", ""));
+  }
 }

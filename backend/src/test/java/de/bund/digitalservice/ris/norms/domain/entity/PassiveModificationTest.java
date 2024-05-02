@@ -164,4 +164,35 @@ class PassiveModificationTest {
     assertThat(sourceEid)
         .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
   }
+
+  @Test
+  void getForcePeriodEid() {
+    // given
+    PassiveModification passiveModification =
+        PassiveModification.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                        <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2"
+                                                        GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2"
+                                                        type="substitution">
+                                            <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1"
+                                                        GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5"
+                                                        href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
+                                            <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1"
+                                                             GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd"
+                                                             href="#para-20_abs-1/100-126"/>
+                                            <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1"
+                                                       GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb"
+                                                       period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                                        </akn:textualMod>
+                                        """))
+            .build();
+
+    // when
+    var forcePeriodEid = passiveModification.getForcePeriodEid();
+
+    // then
+    assertThat(forcePeriodEid).contains("meta-1_geltzeiten-1_geltungszeitgr-2");
+  }
 }
