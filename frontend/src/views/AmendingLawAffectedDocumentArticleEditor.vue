@@ -3,11 +3,11 @@ import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
-import { useNormHtml } from "@/composables/useNormHtml"
 import { useArticle } from "@/composables/useArticle"
 import { computed } from "vue"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
+import { useArticleHtml } from "@/composables/useArticleHtml"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const articleEid = useEidPathParameter()
@@ -19,15 +19,13 @@ const articleEid = useEidPathParameter()
  */
 const xml = defineModel<string>("xml")
 
-// TODO: (Malte Laukötter, 2024-04-26) we only want the render to show the selected article
-const render = useNormHtml(affectedDocumentEli)
-
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   affectedDocumentEli.value && articleEid.value
     ? { eli: affectedDocumentEli.value, eid: articleEid.value }
     : undefined,
 )
 const article = useArticle(identifier)
+const render = useArticleHtml(identifier)
 </script>
 
 <template>

@@ -92,4 +92,28 @@ describe("articlesService", () => {
       )
     })
   })
+
+  describe("getArticleRenderByEliAndEid(identifier)", () => {
+    it("provides the data from the api", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce("<div></div>")
+
+      vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
+
+      const { getArticleRenderByEliAndEid } = await import("./articlesService")
+
+      const result = await getArticleRenderByEliAndEid({
+        eli: "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+        eid: "hauptteil-1_art-1",
+      })
+
+      expect(result).toEqual("<div></div>")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_art-1",
+        expect.objectContaining({
+          headers: expect.objectContaining({ Accept: "text/html" }),
+        }),
+      )
+    })
+  })
 })
