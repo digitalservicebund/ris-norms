@@ -7,8 +7,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import org.springframework.stereotype.Service;
 
 /**
@@ -45,13 +44,20 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
     Optional<Norm> norm = dbService.loadNorm(new LoadNormPort.Command(query.eli()));
     Optional<Norm> normResponse = Optional.empty();
     if (norm.isPresent()) {
-      //      deleteTimeBoundaries(query.timeBoundaries(), norm.get());
+
+      // At first time boundaries that shall be deleted need to be selected
+      // if we would delete first, there are cases where the next possible eId could not be safely
+      // calculated
+      // example norm: only one date exists (2023-01-01, id2). That date gets deleted and a new date
+      // (2024-01-01, null)
+      // is being added. Then id3 could not be calculated.
+      List<TimeBoundaryChangeData> timeBoundariesToDelete =
+          selectTimeBoundariesToDelete(query.timeBoundaries(), norm.get());
 
       // Add TimeBoundaries where eid is null|empty
-      query.timeBoundaries().stream()
-          .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
-          .toList()
-          .forEach(tb -> norm.get().addTimeBoundary(tb));
+      addTimeBoundaries(query.timeBoundaries(), norm.get());
+
+      deleteTimeBoundaries(timeBoundariesToDelete, norm.get());
 
       //      changeTimeBoundaries(query.timeBoundaries(), norm.get());
 
@@ -65,8 +71,27 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
     throw new UnsupportedOperationException();
   }
 
-  private void deleteTimeBoundaries(
+  private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
+    timeBoundaryChangeData.stream()
+        .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
+        .toList()
+        .forEach(tb -> norm.addTimeBoundary(tb));
+  }
+
+  private List<TimeBoundaryChangeData> selectTimeBoundariesToDelete(
       List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
-    throw new UnsupportedOperationException();
+    List<TimeBoundaryChangeData> timeBoundariesToDelete = new ArrayList<>();
+    norm.getTimeBoundaries()
+        .forEach(
+            tb ->
+                timeBoundariesToDelete.add(
+                    new TimeBoundaryChangeData(tb.getEventRefEid().get(), tb.getDate().get())));
+    timeBoundariesToDelete.removeAll(timeBoundaryChangeData);
+    return timeBoundariesToDelete;
+  }
+
+  private void deleteTimeBoundaries(
+      List<TimeBoundaryChangeData> timeBoundariesToDelete, Norm norm) {
+    timeBoundariesToDelete.forEach(norm::deleteTimeBoundary);
   }
 }

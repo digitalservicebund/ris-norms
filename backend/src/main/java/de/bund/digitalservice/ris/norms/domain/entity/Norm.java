@@ -286,6 +286,28 @@ public class Norm {
   }
 
   /**
+   * Deletes one time boundary (Zeitgrenze) from the document.
+   *
+   * @param timeBoundaryToDelete
+   */
+  public void deleteTimeBoundary(TimeBoundaryChangeData timeBoundaryToDelete) {
+    // delete eventRef node
+    String eventRefNodeExpression =
+        String.format("//lifecycle/eventRef[@eId='%s']", timeBoundaryToDelete.eid());
+    Node eventRefNode = NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
+    eventRefNode.getParentNode().removeChild(eventRefNode);
+
+    // delete temporalGroup node and its timeInterval node children
+    String timeIntervalNodeExpression =
+        String.format(
+            "//temporalData/temporalGroup/timeInterval[@start='#%s']", timeBoundaryToDelete.eid());
+    Node timeIntervalNode = NodeParser.getNodeFromExpression(timeIntervalNodeExpression, document);
+    Node temporalGroupNode = timeIntervalNode.getParentNode();
+    Node temporalDataNode = temporalGroupNode.getParentNode();
+    temporalDataNode.removeChild(temporalGroupNode);
+  }
+
+  /**
    * Calculates the next possible eId out of a list of eIds
    *
    * @param eIds List of identifiers within a document
