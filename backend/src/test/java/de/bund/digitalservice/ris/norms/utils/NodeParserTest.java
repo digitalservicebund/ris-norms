@@ -30,7 +30,7 @@ class NodeParserTest {
     Node node = XmlMapper.toDocument("<test>testValue</test>");
     String expression = "/nonExistingNode";
     var nodes = NodeParser.getNodesFromExpression(expression, node);
-    assertThat(nodes).hasSize(0);
+    assertThat(nodes).isEmpty();
   }
 
   @Test

@@ -754,8 +754,7 @@ class NormTest {
 
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
 
-    assertThat(actualBoundaries.getFirst().getDate().get())
-        .isEqualTo(LocalDate.parse("2023-12-30"));
+    assertThat(actualBoundaries.getFirst().getDate()).contains(LocalDate.parse("2023-12-30"));
     assertThat(actualBoundaries.getFirst().getEventRefEid().get())
         .contains("meta-1_lebzykl-1_ereignis-2");
   }
