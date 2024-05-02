@@ -33,14 +33,17 @@ export async function getNormXmlByEli(eli: string): Promise<string> {
  *
  * @param eli Eli of the norm
  * @param showMetadata Whether to include metadata in the rendered HTML
+ * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
  */
 export async function getNormHtmlByEli(
   eli: string,
   showMetadata: boolean = false,
+  at?: Date,
 ): Promise<string> {
   return await apiFetch(`/norms/${eli}`, {
     query: {
       showMetadata,
+      atIsoDate: at?.toISOString(),
     },
     headers: {
       Accept: "text/html",

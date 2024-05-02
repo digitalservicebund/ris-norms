@@ -143,6 +143,35 @@ describe("normService", () => {
         }),
       )
     })
+
+    it("provides the data from the api with at-date", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { getNormHtmlByEli } = await import("./normService")
+
+      const date = new Date(Date.UTC(2023, 11, 11, 1, 2, 3, 4))
+      const result = await getNormHtmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        false,
+        date,
+      )
+
+      expect(result).toEqual("<div></div>")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        expect.objectContaining({
+          query: expect.objectContaining({
+            atIsoDate: "2023-12-11T01:02:03.004Z",
+          }),
+          headers: expect.objectContaining({ Accept: "text/html" }),
+        }),
+      )
+    })
   })
 
   describe("putNormXml(eli, xml)", () => {
