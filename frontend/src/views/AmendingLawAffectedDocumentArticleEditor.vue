@@ -8,9 +8,11 @@ import { computed } from "vue"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useArticleHtml } from "@/composables/useArticleHtml"
+import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const articleEid = useEidPathParameter()
+const timeBoundary = useTimeBoundaryPathParameter()
 
 /**
  * The xml of the law whose metadata is edited on this view. As both this and the rahmen metadata editor view both edit
@@ -25,8 +27,11 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
     : undefined,
 )
 const article = useArticle(identifier)
-// TODO: (Malte Laukötter, 2024-05-02) use timeBoundary once it is a date or use it to get a date
-const render = useArticleHtml(affectedDocumentEli, articleEid, new Date())
+const render = useArticleHtml(
+  affectedDocumentEli,
+  articleEid,
+  computed(() => new Date(timeBoundary.value)),
+)
 </script>
 
 <template>

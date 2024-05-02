@@ -38,7 +38,7 @@ watch(
     if (selectedTimeBoundary.value === "" && timeBoundaries.value.length > 0) {
       router.replace({
         params: {
-          timeBoundary: timeBoundaries.value[0].eid,
+          timeBoundary: timeBoundaries.value[0].date,
         },
       })
     }
@@ -91,7 +91,7 @@ async function handleSave() {
             <option
               v-for="timeBoundary in timeBoundaries"
               :key="timeBoundary.eid"
-              :value="timeBoundary.eid"
+              :value="timeBoundary.date"
             >
               {{ dayjs(timeBoundary.date).format("DD.MM.YYYY") }}
             </option>
