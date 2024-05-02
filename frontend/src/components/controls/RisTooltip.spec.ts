@@ -24,6 +24,22 @@ describe("RisTooltip", () => {
     expect(screen.getByRole("button", { name: "Bar" })).toBeInTheDocument()
   })
 
+  test("adds a description to the embedded element", () => {
+    const component = defineComponent({
+      components: { RisTooltip },
+      template: `
+        <RisTooltip title="Foo" v-slot="{ ariaDescribedby }">
+          <button :aria-describedby>Bar</button>
+        </RisTooltip>
+      `,
+    })
+    render(component)
+
+    expect(
+      screen.getByRole("button", { name: "Bar" }),
+    ).toHaveAccessibleDescription("Foo")
+  })
+
   test("displays the title", () => {
     render(RisTooltip, { props: { title: "Foo" } })
     expect(screen.getByRole("tooltip", { name: "Foo" })).toBeInTheDocument()
