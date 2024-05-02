@@ -140,7 +140,6 @@ class TimeMachineServiceTest {
               "entgegen § 9 Absatz 1 Satz 2, Absatz 2, 3 oder 4 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
 
-    // filter change mods by date
     @Test
     void applyPassiveModificationsBeforeDate() {
       // given
@@ -165,8 +164,6 @@ class TimeMachineServiceTest {
           .isEqualToIgnoringWhitespace(
               "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
-
-    // return unchanged if no passive mods pass the date filter
   }
 
   @Nested
