@@ -150,6 +150,9 @@ public class NormController {
       }
     }
 
+    // TODO: (Malte Laukötter, 2024-05-02) apply time machine up to atIsoDate & create a test for
+    // this
+
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 

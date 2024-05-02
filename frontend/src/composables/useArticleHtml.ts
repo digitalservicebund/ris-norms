@@ -1,4 +1,3 @@
-import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import {
   DeepReadonly,
   MaybeRefOrGetter,
@@ -13,25 +12,35 @@ import { getArticleRenderByEliAndEid } from "@/services/articlesService"
 /**
  * Get the rendered html of an article inside an amending law.
  *
- * @param identifier A reference to the ELI/eId combination for which the article XML
- *  will be returned. Changing the value of the reference will load the XML for the
- *  new ELI/eId combination.
+ * @param eli A reference to the ELI of the norm for which the article XML will be returned.
+ * @param eid A reference to the eId of the article for which the article XML will be returned.
+ * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
  * @returns A reference to the article HTML or undefined if it is not available (or
  *  still loading).
  */
 export function useArticleHtml(
-  identifier: MaybeRefOrGetter<LawElementIdentifier | undefined>,
+  eli: MaybeRefOrGetter<string>,
+  eid: MaybeRefOrGetter<string | undefined>,
+  at?: MaybeRefOrGetter<Date>,
 ): DeepReadonly<Ref<string | undefined>> {
   const html = ref<string>()
 
   watch(
-    () => toValue(identifier),
-    async (is, was) => {
-      // Bail if only the object reference has changed, but the contents
-      // are the same
-      if (!is || (is.eli === was?.eli && is.eid === was?.eid)) return
+    () => [toValue(eli), toValue(eid), toValue(at)],
+    async () => {
+      const eidValue = toValue(eid)
 
-      html.value = await getArticleRenderByEliAndEid(is)
+      if (!eidValue) {
+        return
+      }
+
+      html.value = await getArticleRenderByEliAndEid(
+        {
+          eli: toValue(eli),
+          eid: eidValue,
+        },
+        toValue(at),
+      )
     },
     { immediate: true },
   )

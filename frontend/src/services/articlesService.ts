@@ -43,12 +43,16 @@ export async function getArticleXmlByEliAndEid({
  * Load the rendered html version of an article within a specific law from the API.
  *
  * @param identifier The information required for identifying the article
+ * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
  */
-export async function getArticleRenderByEliAndEid({
-  eli,
-  eid,
-}: LawElementIdentifier): Promise<string> {
+export async function getArticleRenderByEliAndEid(
+  { eli, eid }: LawElementIdentifier,
+  at?: Date,
+): Promise<string> {
   return apiFetch<string>(`/norms/${eli}/articles/${eid}`, {
+    query: {
+      atIsoDate: at?.toISOString(),
+    },
     headers: {
       Accept: "text/html",
     },

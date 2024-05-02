@@ -10,7 +10,9 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArtic
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -211,6 +213,8 @@ public class ArticleController {
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
    * @param eid eid of the article
+   * @param atIsoDate ISO date string indicating which modifications should be applied before the
+   *     HTML gets rendered and returned.
    * @return A {@link ResponseEntity} containing the retrieved article as rendered HTML.
    *     <p>Returns HTTP 200 (OK) and the rendered HTML if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
@@ -226,9 +230,21 @@ public class ArticleController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @PathVariable final String eid) {
+      @PathVariable final String eid,
+      @RequestParam Optional<String> atIsoDate) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    if (atIsoDate.isPresent()) {
+      try {
+        DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
+      } catch (Exception e) {
+        return ResponseEntity.badRequest().build();
+      }
+    }
+
+    // TODO: (Malte Laukötter, 2024-05-02) apply time machine up to atIsoDate & create a test for
+    // this
 
     return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
         .flatMap(List::stream)

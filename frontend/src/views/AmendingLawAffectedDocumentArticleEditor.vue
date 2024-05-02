@@ -25,7 +25,8 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
     : undefined,
 )
 const article = useArticle(identifier)
-const render = useArticleHtml(identifier)
+// TODO: (Malte Laukötter, 2024-05-02) use timeBoundary once it is a date or use it to get a date
+const render = useArticleHtml(affectedDocumentEli, articleEid, new Date())
 </script>
 
 <template>

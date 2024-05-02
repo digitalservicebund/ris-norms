@@ -155,6 +155,11 @@ paths:
           description: EID of the article
           schema:
             type: string
+        - name: atIsoDate
+          in: query
+          schema:
+            type: string
+          description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
           description: Successful response
