@@ -57,7 +57,7 @@ export async function updateAmendingLawTemporalDataTimeBoundaries(
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ dates }),
+      body: JSON.stringify(dates),
     },
   )
 }
