@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, useSlots } from "vue"
+import { useElementId } from "@/composables/useElementId"
+import { computed } from "vue"
 import RisCallout from "./RisCallout.vue"
 
 withDefaults(
@@ -41,7 +42,24 @@ withDefaults(
   },
 )
 
-const slots = useSlots()
+const slots = defineSlots<{
+  default(props: {
+    /**
+     * Returns the ID of the tooltip element. This should be used as the
+     * `aria-describedby` element for which the tooltip is used, in order
+     * to ensure correct a11y association and screen reader announcements.
+     *
+     * Example:
+     *
+     * ```html
+     * <RisTooltip v-slot="{ ariaDescribedby }">
+     *   <button :aria-describedby>Button</button>
+     * </RisTooltip>
+     * ```
+     */
+    ariaDescribedby: string
+  }): any // eslint-disable-line @typescript-eslint/no-explicit-any
+}>()
 
 const hasChildren = computed(() => Boolean(slots.default))
 
@@ -51,12 +69,15 @@ const hasChildren = computed(() => Boolean(slots.default))
  * independently from user actions.
  */
 const visible = defineModel<boolean>("visible", { default: true })
+
+const ariaId = useElementId()
 </script>
 
 <template>
   <span>
     <span
       v-if="visible"
+      :id="ariaId"
       :data-alignment="alignment"
       :data-attachment="attachment"
       class="group inline-block data-[alignment=left]:left-0 data-[alignment=right]:right-0"
@@ -81,7 +102,7 @@ const visible = defineModel<boolean>("visible", { default: true })
     </span>
 
     <template v-if="$slots.default">
-      <slot />
+      <slot :aria-describedby="ariaId" />
     </template>
   </span>
 </template>

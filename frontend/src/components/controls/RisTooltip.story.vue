@@ -9,12 +9,13 @@ import RisTooltip from "./RisTooltip.vue"
       <div>
         <div class="mb-16 h-160 w-full bg-gray-100/50"></div>
         <RisTooltip
+          v-slot="{ ariaDescribedby }"
           title="Something went wrong"
           alignment="left"
           attachment="top"
           variant="error"
         >
-          <RisTextButton label="Button" />
+          <RisTextButton :aria-describedby label="Button" />
         </RisTooltip>
       </div>
     </Variant>
@@ -23,12 +24,13 @@ import RisTooltip from "./RisTooltip.vue"
       <div class="flex flex-col items-end">
         <div class="mb-16 h-160 w-full bg-gray-100/50"></div>
         <RisTooltip
+          v-slot="{ ariaDescribedby }"
           title="Something went wrong"
           alignment="right"
           attachment="top"
           variant="error"
         >
-          <RisTextButton label="Button" />
+          <RisTextButton :aria-describedby label="Button" />
         </RisTooltip>
       </div>
     </Variant>
@@ -36,12 +38,13 @@ import RisTooltip from "./RisTooltip.vue"
     <Variant title="Bottom left">
       <div>
         <RisTooltip
+          v-slot="{ ariaDescribedby }"
           title="Something went wrong"
           alignment="left"
           attachment="bottom"
           variant="error"
         >
-          <RisTextButton label="Button" />
+          <RisTextButton :aria-describedby label="Button" />
         </RisTooltip>
         <div class="mt-16 h-160 w-full bg-gray-100/50"></div>
       </div>
@@ -50,12 +53,13 @@ import RisTooltip from "./RisTooltip.vue"
     <Variant title="Bottom right">
       <div class="flex flex-col items-end">
         <RisTooltip
+          v-slot="{ ariaDescribedby }"
           title="Something went wrong"
           alignment="right"
           attachment="bottom"
           variant="error"
         >
-          <RisTextButton label="Button" />
+          <RisTextButton :aria-describedby label="Button" />
         </RisTooltip>
         <div class="mt-16 h-160 w-full bg-gray-100/50"></div>
       </div>
