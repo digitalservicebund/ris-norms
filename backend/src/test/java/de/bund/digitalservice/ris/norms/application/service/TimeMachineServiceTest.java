@@ -55,9 +55,9 @@ class TimeMachineServiceTest {
   }
 
   @Nested
-  class applyPassiveMods {
+  class applyPassiveModifications {
     @Test
-    void returnUnchangedIfNoPassiveMods() {
+    void returnUnchangedIfNoPassiveModifications() {
       // given
       final var norm =
           Norm.builder()
