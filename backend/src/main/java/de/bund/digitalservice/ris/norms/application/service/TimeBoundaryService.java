@@ -45,15 +45,17 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
     Optional<Norm> normResponse = Optional.empty();
     if (norm.isPresent()) {
 
-      // If not selected previously, it would delete the newly added ones
+      // At first time boundaries that shall be deleted need to be selected
+      // if we would delete first, there are cases where the next possible eId could not be safely
+      // calculated
+      // example norm: only one date exists (2023-01-01, id2). That date gets deleted and a new date
+      // (2024-01-01, null)
+      // is being added. Then id3 could not be calculated.
       List<TimeBoundaryChangeData> timeBoundariesToDelete =
           selectTimeBoundariesToDelete(query.timeBoundaries(), norm.get());
 
       // Add TimeBoundaries where eid is null|empty
-      query.timeBoundaries().stream()
-          .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
-          .toList()
-          .forEach(tb -> norm.get().addTimeBoundary(tb));
+      addTimeBoundaries(query.timeBoundaries(), norm.get());
 
       deleteTimeBoundaries(timeBoundariesToDelete, norm.get());
 
@@ -67,6 +69,13 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
   private void changeTimeBoundaries(
       List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
     throw new UnsupportedOperationException();
+  }
+
+  private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
+    timeBoundaryChangeData.stream()
+        .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
+        .toList()
+        .forEach(tb -> norm.addTimeBoundary(tb));
   }
 
   private List<TimeBoundaryChangeData> selectTimeBoundariesToDelete(
