@@ -77,4 +77,9 @@ public class PassiveModification {
     return NodeParser.getValueFromExpression("./force/@period", this.node)
         .map(value -> value.replaceFirst("^#", ""));
   }
+
+  public Optional<String> getDestinationEid() {
+    return NodeParser.getValueFromExpression("./destination/@href", this.node)
+        .flatMap(value -> Arrays.stream(value.replaceFirst("^#", "").split("/")).findFirst());
+  }
 }
