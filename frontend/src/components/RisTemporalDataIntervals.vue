@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineModel, nextTick, ref, watch } from "vue"
+import { defineModel, nextTick, ref, watch, computed } from "vue"
 import RisDateInput from "@/components/controls/RisDateInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import DeleteOutlineIcon from "~icons/ic/outline-delete"
@@ -17,12 +17,9 @@ const dates = defineModel("dates", {
 })
 
 const newDate = ref<string | undefined>()
+const isDeleteDisabled = computed(() => dates.value.length <= 1)
 
 function removeDateInput(index: number) {
-  if (dates.value.length <= 1) {
-    console.warn("Cannot delete the last remaining date entry.")
-    return
-  }
   if (index > -1) {
     dates.value.splice(index, 1)
   }
@@ -70,7 +67,7 @@ watch(newDate, async (newDateValue) => {
         class="shrink-0"
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
-        :disabled="dates.length <= 1"
+        :disabled="isDeleteDisabled"
         icon-only
         @click.prevent="removeDateInput(index)"
       />
