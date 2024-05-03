@@ -147,18 +147,15 @@ public class NormController {
       @RequestParam(defaultValue = "false") boolean showMetadata,
       @RequestParam Optional<String> atIsoDate) {
 
+    final String eli =
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
     if (atIsoDate.isPresent()) {
       try {
         DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
       } catch (Exception e) {
         return ResponseEntity.badRequest().build();
       }
-    }
-
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
-    if (atIsoDate.isPresent()) {
 
       return loadNormUseCase
           .loadNorm(new LoadNormUseCase.Query(eli))
