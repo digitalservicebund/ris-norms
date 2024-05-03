@@ -58,7 +58,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
       // Add TimeBoundaries where eid is null|empty
       addTimeBoundaries(query.timeBoundaries(), norm.get());
 
-      //      deleteTimeBoundaries(timeBoundariesToDelete, norm.get());
+      deleteTimeBoundaries(timeBoundariesToDelete, norm.get());
 
       editTimeBoundaries(query.timeBoundaries(), norm.get());
 
@@ -106,14 +106,21 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
 
   private List<TimeBoundaryChangeData> selectTimeBoundariesToDelete(
       List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
-    List<TimeBoundaryChangeData> timeBoundariesToDelete = new ArrayList<>();
-    norm.getTimeBoundaries()
-        .forEach(
-            tb ->
-                timeBoundariesToDelete.add(
-                    new TimeBoundaryChangeData(tb.getEventRefEid().get(), tb.getDate().get())));
-    timeBoundariesToDelete.removeAll(timeBoundaryChangeData);
-    return timeBoundariesToDelete;
+
+    List<String> allChangeDateEids =
+        timeBoundaryChangeData.stream().map(TimeBoundaryChangeData::eid).toList();
+
+    List<String> allEventRefEidsToDelete =
+        norm.getTimeBoundaries().stream()
+            .map(TimeBoundary::getEventRefEid)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .filter(eid -> !allChangeDateEids.contains(eid))
+            .toList();
+
+    return allEventRefEidsToDelete.stream()
+        .map(eid -> new TimeBoundaryChangeData(eid, null))
+        .toList();
   }
 
   private void deleteTimeBoundaries(
