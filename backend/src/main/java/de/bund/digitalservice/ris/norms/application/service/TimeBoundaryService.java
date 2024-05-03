@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
+import java.time.LocalDate;
 import java.util.*;
 import org.springframework.stereotype.Service;
 
@@ -57,18 +58,43 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
       // Add TimeBoundaries where eid is null|empty
       addTimeBoundaries(query.timeBoundaries(), norm.get());
 
-      deleteTimeBoundaries(timeBoundariesToDelete, norm.get());
+      //      deleteTimeBoundaries(timeBoundariesToDelete, norm.get());
 
-      //      changeTimeBoundaries(query.timeBoundaries(), norm.get());
+      editTimeBoundaries(query.timeBoundaries(), norm.get());
 
       normResponse = dbService.updateNorm(new UpdateNormPort.Command(norm.get()));
     }
     return normResponse.map(Norm::getTimeBoundaries).orElse(List.of());
   }
 
-  private void changeTimeBoundaries(
-      List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
-    throw new UnsupportedOperationException();
+  private void editTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
+
+    List<TimeBoundaryChangeData> datesToUpdate =
+        timeBoundaryChangeData.stream()
+            .filter(tb -> tb.eid() != null && !tb.eid().isEmpty())
+            .toList();
+
+    List<TimeBoundary> timeboundariesToUpdate =
+        norm.getTimeBoundaries().stream()
+            .filter(tb -> tb.getEventRefEid().isPresent())
+            .filter(
+                tb ->
+                    datesToUpdate.stream()
+                        .map(TimeBoundaryChangeData::eid)
+                        .toList()
+                        .contains(tb.getEventRefEid().get()))
+            .toList();
+
+    timeboundariesToUpdate.forEach(
+        tb -> {
+          LocalDate newDate =
+              datesToUpdate.stream()
+                  .filter(date -> date.eid().equals(tb.getEventRefEid().get()))
+                  .map(TimeBoundaryChangeData::date)
+                  .findFirst()
+                  .orElse(LocalDate.MIN);
+          tb.setEventRefDate(newDate);
+        });
   }
 
   private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {

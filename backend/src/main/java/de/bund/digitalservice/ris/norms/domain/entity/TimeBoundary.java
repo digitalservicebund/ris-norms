@@ -41,4 +41,13 @@ public class TimeBoundary {
   public Optional<String> getTimeIntervalEid() {
     return NodeParser.getValueFromExpression("./@eId", this.timeIntervalNode);
   }
+
+  /**
+   * Returns a eId as {@link String} from a {@link Node} in a {@link Norm}.
+   *
+   * @param eventRefDate contains the new date to be set
+   */
+  public void setEventRefDate(LocalDate eventRefDate) {
+    eventRefNode.getAttributes().getNamedItem("date").setNodeValue(eventRefDate.toString());
+  }
 }
