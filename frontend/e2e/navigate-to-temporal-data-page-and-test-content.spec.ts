@@ -26,9 +26,46 @@ test.describe("Temporal Data for an amending law", () => {
   test(`renders correct number of date inputs for the time boundaries`, async ({
     page,
   }) => {
-    const dateInput = page.locator('[data-testid="date-input-field"]')
-    await expect(dateInput).toHaveCount(1)
-    const inputValue = await dateInput.inputValue()
+    const dateInputs = page.locator('[data-testid="date-input-field"]')
+    await expect(dateInputs).toHaveCount(1)
+    const inputValue = await dateInputs.inputValue()
     await expect(inputValue).toBe("16.03.2017")
+  })
+
+  test("can add and save multiple new time boundaries", async ({ page }) => {
+    const newDateInput = page.locator('[data-testid="new-date-input-field"]')
+    await newDateInput.fill("01-05-2023")
+    await newDateInput.fill("02-06-2023")
+    await newDateInput.fill("03-07-2023")
+
+    const saveButton = page.locator("text=Speichern")
+    await saveButton.click()
+    await page.reload()
+
+    const dateInputs = page.locator('[data-testid="date-input-field"]')
+    await expect(dateInputs).toHaveCount(4)
+  })
+
+  test("can delete a date input and verify the remaining inputs", async ({
+    page,
+  }) => {
+    let dateInputs = page.locator('[data-testid="date-input-field"]')
+    const saveButton = page.locator("text=Speichern")
+
+    await expect(dateInputs).toHaveCount(4)
+
+    for (let i = 3; i > 0; i--) {
+      const deleteButton = page.locator(`[data-testid="delete-button-${i}"]`)
+      await deleteButton.click()
+      await saveButton.click()
+      await page.reload()
+
+      dateInputs = page.locator('[data-testid="date-input-field"]')
+      await expect(dateInputs).toHaveCount(i)
+    }
+
+    const deleteButton = page.locator(`[data-testid="delete-button-0"]`)
+    const isDisabled = await deleteButton.isDisabled()
+    expect(isDisabled).toBe(true)
   })
 })
