@@ -68,6 +68,7 @@ watch(newDate, async (newDateValue) => {
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
         :disabled="isDeleteDisabled"
+        :data-testid="`delete-button-${index}`"
         icon-only
         @click.prevent="removeDateInput(index)"
       />
