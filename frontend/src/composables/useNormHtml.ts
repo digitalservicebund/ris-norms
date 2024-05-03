@@ -20,9 +20,8 @@ export function useNormHtml(
     () => [toValue(eli), toValue(at)],
     async () => {
       const eliValue = toValue(eli)
-      const atValue = toValue(at)
-      if (eliValue && atValue) {
-        normHtml.value = await getNormHtmlByEli(eliValue, false, atValue)
+      if (eliValue) {
+        normHtml.value = await getNormHtmlByEli(eliValue, false, toValue(at))
       }
     },
     { immediate: true },
