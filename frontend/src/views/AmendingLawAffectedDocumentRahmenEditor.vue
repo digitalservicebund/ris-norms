@@ -19,7 +19,9 @@ const timeBoundary = useTimeBoundaryPathParameter()
 
 const targetLawRender = useNormHtml(
   affectedDocumentEli,
-  computed(() => new Date(timeBoundary.value)),
+  computed(() =>
+    timeBoundary.value ? new Date(timeBoundary.value) : undefined,
+  ),
 )
 </script>
 

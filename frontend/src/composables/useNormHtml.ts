@@ -12,7 +12,7 @@ import { getNormHtmlByEli } from "@/services/normService"
  */
 export function useNormHtml(
   eli: MaybeRefOrGetter<string | undefined>,
-  at?: MaybeRefOrGetter<Date>,
+  at?: MaybeRefOrGetter<Date | undefined>,
 ): Readonly<Ref<string | undefined>> {
   const normHtml = ref<string>()
 
@@ -20,8 +20,9 @@ export function useNormHtml(
     () => [toValue(eli), toValue(at)],
     async () => {
       const eliValue = toValue(eli)
-      if (eliValue) {
-        normHtml.value = await getNormHtmlByEli(eliValue, false, toValue(at))
+      const atValue = toValue(at)
+      if (eliValue && atValue) {
+        normHtml.value = await getNormHtmlByEli(eliValue, false, atValue)
       }
     },
     { immediate: true },
