@@ -75,7 +75,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
     timeBoundaryChangeData.stream()
         .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
         .toList()
-        .forEach(tb -> norm.addTimeBoundary(tb));
+        .forEach(norm::addTimeBoundary);
   }
 
   private List<TimeBoundaryChangeData> selectTimeBoundariesToDelete(
