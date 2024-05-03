@@ -123,7 +123,19 @@ paths:
         - name: refersTo
           in: query
           required: false
-          description: "Filter by the article's `refersTo` literal (`refersToLiterals.einzelvorschrift` in the specification). Only for Content-Type: text/html"
+          description: "Filter by the article's `refersTo` literal (`refersToLiterals.einzelvorschrift` in the specification). Only for `Content-Type: text/html`"
+          schema:
+            type: string
+        - name: amendedBy
+          in: query
+          required: false
+          description: "Filter the articles to articles amended by the given norm. Must be the eli of the amending norm. Requires amendedAt. Only for `Content-Type: application/json`"
+          schema:
+            type: string
+        - name: amendedAt
+          in: query
+          required: false
+          description: "Filter the articles to articles amended at the given livecycle event. Must be the eid of the livecycle event. Requires amendedBy. Only for `Content-Type: application/json`"
           schema:
             type: string
       responses:
