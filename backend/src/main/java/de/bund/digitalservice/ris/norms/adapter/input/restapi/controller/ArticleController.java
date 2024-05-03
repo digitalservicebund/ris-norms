@@ -57,6 +57,10 @@ public class ArticleController {
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
+   * @param amendedBy Filter the articles to articles amended by the given norm. Must be the eli of
+   *     the amending norm. Requires amendedAt.
+   * @param amendedAt Filter the articles to articles amended at the given livecycle event. Must be
+   *     the eid of the livecycle event. Requires amendedBy.
    * @return A {@link ResponseEntity} containing the retrieved norm.
    *     <p>Returns HTTP 200 (OK) and the norm if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
@@ -69,13 +73,43 @@ public class ArticleController {
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
-      @PathVariable final String subtype) {
+      @PathVariable final String subtype,
+      @RequestParam final Optional<String> amendedBy,
+      @RequestParam final Optional<String> amendedAt) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
+    final var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
+
+    var passiveModificationsAmendedAtAndBy =
+        optionalNorm.stream()
+            .flatMap((Norm norm) -> norm.getPassiveModifications().stream())
+            .filter(passiveModification -> passiveModification.getSourceEli().equals(amendedBy))
+            .filter(
+                passiveModification ->
+                    optionalNorm
+                        .get()
+                        .getStartEventRefForTemporalGroup(
+                            passiveModification.getForcePeriodEid().orElseThrow())
+                        .equals(amendedAt))
+            .toList();
+
     return ResponseEntity.ok(
-        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
+        optionalNorm.map(Norm::getArticles).stream()
             .flatMap(List::stream)
+            .filter(
+                article -> {
+                  if (amendedBy.isEmpty() || amendedAt.isEmpty()) {
+                    return true;
+                  }
+
+                  return passiveModificationsAmendedAtAndBy.stream()
+                      .flatMap(
+                          passiveModification -> passiveModification.getDestinationEid().stream())
+                      .anyMatch(
+                          destinationEid ->
+                              destinationEid.contains(article.getEid().orElseThrow()));
+                })
             .map(
                 article -> {
                   var targetLawZf0 =

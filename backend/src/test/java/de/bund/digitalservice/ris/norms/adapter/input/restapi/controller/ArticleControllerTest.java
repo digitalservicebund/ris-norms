@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArtic
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import java.util.Objects;
@@ -161,6 +162,59 @@ class ArticleControllerTest {
                       Objects.equals(
                           argument.eli(),
                           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itReturnsArticlesFilteredByAmendedByAndAmendedAt() throws Exception {
+      // Given
+      var norm = NormFixtures.normWithMultiplePassiveModifications();
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-4")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").exists())
+          .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-20"))
+          .andExpect(jsonPath("$[1]").doesNotExist());
+    }
+
+    @Test
+    void itReturnsNoArticlesWhenAmendedByDoesNotMatch() throws Exception {
+      // Given
+      var norm = NormFixtures.normWithMultiplePassiveModifications();
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2023-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-2")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").doesNotExist());
+    }
+
+    @Test
+    void itReturnsNoArticlesWhenAmendedAtDoesNotMatch() throws Exception {
+      // Given
+      var norm = NormFixtures.normWithMultiplePassiveModifications();
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-3")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").doesNotExist());
     }
   }
 
