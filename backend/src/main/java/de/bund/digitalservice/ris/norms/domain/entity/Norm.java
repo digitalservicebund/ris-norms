@@ -231,11 +231,16 @@ public class Norm {
                 temporalGroupEid),
             this.document)
         .map(value -> value.replaceFirst("^#", ""))
-        .flatMap(
-            eId ->
-                NodeParser.getValueFromExpression(
-                    String.format("//meta/lifecycle/eventRef[@eId='%s']/@date", eId),
-                    this.document));
+        .flatMap(this::getStartDateForEventRef);
+  }
+
+  /**
+   * @param eId EId of an event ref
+   * @return Start date of the event ref
+   */
+  public Optional<String> getStartDateForEventRef(String eId) {
+    return NodeParser.getValueFromExpression(
+        String.format("//meta/lifecycle/eventRef[@eId='%s']/@date", eId), this.document);
   }
 
   /**

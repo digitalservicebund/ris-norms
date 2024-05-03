@@ -1313,4 +1313,16 @@ class NormTest {
     // then
     assertThat(date).contains("2017-03-23");
   }
+
+  @Test
+  void getStartDateForEventRef() {
+    // given
+    Norm norm = NormFixtures.normWithMultiplePassiveModifications();
+
+    // when
+    var date = norm.getStartDateForEventRef("meta-1_lebzykl-1_ereignis-3");
+
+    // then
+    assertThat(date).contains("2017-03-15");
+  }
 }
