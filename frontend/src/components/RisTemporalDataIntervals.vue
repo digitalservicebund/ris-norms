@@ -19,6 +19,10 @@ const dates = defineModel("dates", {
 const newDate = ref<string | undefined>()
 
 function removeDateInput(index: number) {
+  if (dates.value.length <= 1) {
+    console.warn("Cannot delete the last remaining date entry.")
+    return
+  }
   if (index > -1) {
     dates.value.splice(index, 1)
   }
@@ -66,6 +70,7 @@ watch(newDate, async (newDateValue) => {
         class="shrink-0"
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
+        :disabled="dates.length <= 1"
         icon-only
         @click.prevent="removeDateInput(index)"
       />
