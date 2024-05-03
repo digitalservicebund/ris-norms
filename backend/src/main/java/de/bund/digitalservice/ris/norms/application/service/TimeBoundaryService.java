@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
+import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import java.time.LocalDate;
 import java.util.*;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,8 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
       deleteTimeBoundaries(timeBoundariesToDelete, norm.get());
 
       editTimeBoundaries(query.timeBoundaries(), norm.get());
+
+      EidConsistencyGuardian.correctEids(norm.get().getDocument());
 
       normResponse = dbService.updateNorm(new UpdateNormPort.Command(norm.get()));
     }
