@@ -384,7 +384,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
 
           // expect new
           .andExpect(jsonPath("$[0].date", is("2024-01-01")))
-          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-3")));
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")));
     }
 
     @Test
@@ -450,7 +450,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
 
           // expect new
           .andExpect(jsonPath("$[1].date", is("2024-01-01")))
-          .andExpect(jsonPath("$[1].eventRefEid", is("meta-1_lebzykl-1_ereignis-4")));
+          .andExpect(jsonPath("$[1].eventRefEid", is("meta-1_lebzykl-1_ereignis-3")));
     }
   }
 }
