@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -35,6 +36,7 @@ class NormControllerTest {
   @MockBean private UpdateNormXmlUseCase updateNormXmlUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private TimeMachineUseCase timeMachineUseCase;
+  @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   @Nested
   class getNorm {
@@ -168,6 +170,29 @@ class NormControllerTest {
       verify(transformLegalDocMlToHtmlUseCase, times(1))
           .transformLegalDocMlToHtml(
               argThat(query -> query.xml().equals(xml) && query.showMetadata()));
+    }
+
+    @Test
+    void itCallsNormServiceAndReturnsNormRenderWithAtIsoDate() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String html = "<div></div>";
+
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(NormFixtures.simpleNorm()));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+      when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
+          .thenReturn(NormFixtures.simpleNorm());
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/{eli}?atIsoDate=2024-04-03T00:00:00.000Z", eli)
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+          .andExpect(content().string(html));
+
+      verify(applyPassiveModificationsUseCase, times(1)).applyPassiveModifications(any());
     }
   }
 

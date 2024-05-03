@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -87,7 +88,9 @@ class TimeMachineServiceTest {
               .build();
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(norm, Instant.MAX);
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
 
       // then
       assertThat(result).isEqualTo(norm);
@@ -103,7 +106,9 @@ class TimeMachineServiceTest {
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(norm, Instant.MAX);
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
 
       // then
       var changedNodeValue =
@@ -126,7 +131,9 @@ class TimeMachineServiceTest {
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(norm, Instant.MAX);
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
 
       // then
       var changedNodeValue =
@@ -151,7 +158,8 @@ class TimeMachineServiceTest {
       // when
       Norm result =
           timeMachineService.applyPassiveModifications(
-              norm, Instant.parse("2017-03-01T00:00:00.000Z"));
+              new ApplyPassiveModificationsUseCase.Query(
+                  norm, Instant.parse("2017-03-01T00:00:00.000Z")));
 
       // then
       var changedNodeValue =

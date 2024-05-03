@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
@@ -22,7 +23,7 @@ import org.w3c.dom.Node;
  * "https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML-details</a>
  */
 @Service
-public class TimeMachineService implements TimeMachineUseCase {
+public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModificationsUseCase {
 
   private final XmlDocumentService xmlDocumentService;
   private final NormService normService;
@@ -94,11 +95,15 @@ public class TimeMachineService implements TimeMachineUseCase {
   /**
    * Applies the passive modifications of the norm. Only applies "aenderungsbefehl-ersetzen".
    *
-   * @param norm a Norm
-   * @param date a date
+   * @param query An ApplyPassiveModificationsUsecase.Query containing the norm and a date
    * @return the Norm with the applied passive modifications that are in effect before the date
    */
-  public Norm applyPassiveModifications(Norm norm, Instant date) {
+  public Norm applyPassiveModifications(
+      ApplyPassiveModificationsUseCase.Query query) { // Norm norm, Instant date) {
+
+    var norm = query.norm();
+    var date = query.date();
+
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
     norm.getPassiveModifications().stream()

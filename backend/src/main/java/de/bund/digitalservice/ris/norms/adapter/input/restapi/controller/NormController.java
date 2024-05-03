@@ -5,6 +5,8 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -22,18 +24,21 @@ public class NormController {
   private final UpdateNormXmlUseCase updateNormXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final TimeMachineUseCase timeMachineUseCase;
+  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   public NormController(
       LoadNormUseCase loadNormUseCase,
       LoadNormXmlUseCase loadNormXmlUseCase,
       UpdateNormXmlUseCase updateNormXmlUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      TimeMachineUseCase timeMachineUseCase) {
+      TimeMachineUseCase timeMachineUseCase,
+      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.updateNormXmlUseCase = updateNormXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.timeMachineUseCase = timeMachineUseCase;
+    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
   }
 
   /**
@@ -150,11 +155,26 @@ public class NormController {
       }
     }
 
-    // TODO: (Malte Laukötter, 2024-05-02) apply time machine up to atIsoDate & create a test for
-    // this
-
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    if (atIsoDate.isPresent()) {
+
+      return loadNormUseCase
+          .loadNorm(new LoadNormUseCase.Query(eli))
+          .map(
+              norm ->
+                  applyPassiveModificationsUseCase.applyPassiveModifications(
+                      new ApplyPassiveModificationsUseCase.Query(
+                          norm, Instant.parse(atIsoDate.get()))))
+          .map(
+              norm ->
+                  ResponseEntity.ok(
+                      this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                          new TransformLegalDocMlToHtmlUseCase.Query(
+                              XmlMapper.toString(norm.getDocument()), showMetadata))))
+          .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     return loadNormXmlUseCase
         .loadNormXml(new LoadNormXmlUseCase.Query(eli))
