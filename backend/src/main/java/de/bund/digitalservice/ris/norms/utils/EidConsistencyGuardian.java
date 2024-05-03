@@ -20,8 +20,6 @@ public final class EidConsistencyGuardian {
     // Should not be instantiated as an object
   }
 
-  private static Element rootElement;
-
   /**
    * This method traverses all the XML nodes and checks the eId consistency, making the necessary
    * updates of the index positions and taking care of updating also the references in other parts
@@ -31,14 +29,22 @@ public final class EidConsistencyGuardian {
    * @return the corrected XML
    */
   public static Document correctEids(final Document currentXml) {
-    rootElement = currentXml.getDocumentElement();
+    Element rootElement = currentXml.getDocumentElement();
     // Dead references
     setRemovedReferencesToEmptyStringNew(
-        "//textualMod/force", "period", "//temporalData/temporalGroup", "eId");
+        "//textualMod/force", "period", "//temporalData/temporalGroup", "eId", rootElement);
     setRemovedReferencesToEmptyStringNew(
-        "//proprietary/legalDocML.de_metadaten_ds/*", "start", "//lifecycle/eventRef", "eId");
+        "//proprietary/legalDocML.de_metadaten_ds/*",
+        "start",
+        "//lifecycle/eventRef",
+        "eId",
+        rootElement);
     setRemovedReferencesToEmptyStringNew(
-        "//proprietary/legalDocML.de_metadaten_ds/*", "end", "//lifecycle/eventRef", "eId");
+        "//proprietary/legalDocML.de_metadaten_ds/*",
+        "end",
+        "//lifecycle/eventRef",
+        "eId",
+        rootElement);
     // Check eIds
     updateElementEids(rootElement, null);
     return currentXml;
@@ -48,7 +54,8 @@ public final class EidConsistencyGuardian {
       final String elementXPath,
       final String attribute,
       final String targetXpath,
-      final String targetAttribute) {
+      final String targetAttribute,
+      final Element rootElement) {
     // Traverse the document to find the elements with the specified XPath expression
     final List<Node> nodeList = NodeParser.getNodesFromExpression(elementXPath, rootElement);
     for (Node node : nodeList) {
@@ -56,14 +63,17 @@ public final class EidConsistencyGuardian {
       final String attributeValue = targetElement.getAttribute(attribute);
       // Check if the attribute contains references
       if (!attributeValue.isEmpty()
-          && (!isReferenceValid(attributeValue, targetXpath, targetAttribute))) {
+          && (!isReferenceValid(attributeValue, targetXpath, targetAttribute, rootElement))) {
         targetElement.setAttribute(attribute, "");
       }
     }
   }
 
   private static boolean isReferenceValid(
-      final String reference, final String targetXpath, final String targetAttribute) {
+      final String reference,
+      final String targetXpath,
+      final String targetAttribute,
+      final Element rootElement) {
     // Check if the reference exists within the XML document
     final List<Node> nodeList = NodeParser.getNodesFromExpression(targetXpath, rootElement);
     for (Node node : nodeList) {
@@ -76,6 +86,7 @@ public final class EidConsistencyGuardian {
     return false;
   }
 
+  // TODO it assumes an ordered list of ids in the XML
   private static void updateElementEids(final Element element, final String parentEid) {
     final Map<String, Integer> childTypeCount =
         new HashMap<>(); // Track count of child nodes of each type
@@ -95,7 +106,8 @@ public final class EidConsistencyGuardian {
               determineCorrectEid(childTypeCount.get(childTagName), currentEid, parentEid);
 
           if (!currentEid.equals(correctEid)) {
-            updateReferences(currentEid, correctEid);
+            updateReferences(
+                currentEid, correctEid, element.getOwnerDocument().getDocumentElement());
             childElement.setAttribute("eId", correctEid);
             updateElementEids(
                 childElement, correctEid); // Recursively update child elements with corrected eId
@@ -145,7 +157,8 @@ public final class EidConsistencyGuardian {
     return newEid.toString();
   }
 
-  private static void updateReferences(final String oldEid, final String newEid) {
+  private static void updateReferences(
+      final String oldEid, final String newEid, Element rootElement) {
     // Traverse the entire document to find references to the old eId in attributes
     updateReferencesInAttributes(rootElement, oldEid, newEid);
   }
