@@ -98,8 +98,7 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
    * @param query An ApplyPassiveModificationsUsecase.Query containing the norm and a date
    * @return the Norm with the applied passive modifications that are in effect before the date
    */
-  public Norm applyPassiveModifications(
-      ApplyPassiveModificationsUseCase.Query query) { // Norm norm, Instant date) {
+  public Norm applyPassiveModifications(ApplyPassiveModificationsUseCase.Query query) {
 
     var norm = query.norm();
     var date = query.date();
