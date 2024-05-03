@@ -54,7 +54,7 @@ class TimeBoundaryMapperTest {
 
     // Then
     assertThat(timeBoundarySchema.getDate()).isEqualTo(LocalDate.parse("2023-12-30"));
-    assertThat(timeBoundarySchema.getEid()).isEqualTo("meta-1_lebzykl-1_ereignis-2");
+    assertThat(timeBoundarySchema.getEventRefEid()).isEqualTo("meta-1_lebzykl-1_ereignis-2");
   }
 
   @Nested

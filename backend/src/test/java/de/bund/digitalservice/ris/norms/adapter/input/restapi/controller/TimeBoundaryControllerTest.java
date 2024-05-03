@@ -66,7 +66,7 @@ class TimeBoundaryControllerTest {
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(1)))
           .andExpect(jsonPath("$[0].date", is("2017-03-16")))
-          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-2")));
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")));
 
       verify(loadTimeBoundariesUseCase, times(1))
           .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));
@@ -129,11 +129,11 @@ class TimeBoundaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "[{\"date\": \"1964-09-21\", \"eid\": \"meta-1_lebzykl-1_ereignis-2\"}]"))
+                      "[{\"date\": \"1964-09-21\", \"eventRefEid\": \"meta-1_lebzykl-1_ereignis-2\"}]"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(1)))
           .andExpect(jsonPath("$[0].date", is("1964-09-21")))
-          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-2")));
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")));
 
       verify(updateTimeBoundariesUseCase, times(1))
           .updateTimeBoundariesOfNorm(any(UpdateTimeBoundariesUseCase.Query.class));
@@ -150,7 +150,7 @@ class TimeBoundaryControllerTest {
               put("/api/v1/norms/{eli}/timeBoundaries", eli)
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content("[{\"date\": \"THISISNODATE\", \"eid\": null}]"))
+                  .content("[{\"date\": \"THISISNODATE\", \"eventRefEid\": null}]"))
           .andExpect(status().isBadRequest());
     }
 
@@ -180,7 +180,7 @@ class TimeBoundaryControllerTest {
               put("/api/v1/norms/{eli}/timeBoundaries", eli)
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content("[{\"date\": null, \"eid\": null}]"))
+                  .content("[{\"date\": null, \"eventRefEid\": null}]"))
           .andExpect(status().isBadRequest());
     }
 
@@ -198,7 +198,7 @@ class TimeBoundaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "[{\"date\": \"1964-09-21\", \"eid\": \"meta-1_lebzykl-1_ereignis-2\"}]"))
+                      "[{\"date\": \"1964-09-21\", \"eventRefEid\": \"meta-1_lebzykl-1_ereignis-2\"}]"))
           .andExpect(status().isNotFound());
 
       verify(updateTimeBoundariesUseCase, times(1))

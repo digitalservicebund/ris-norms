@@ -98,9 +98,9 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(2)))
           .andExpect(jsonPath("$[0].date", is("2023-12-30")))
-          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-2")))
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")))
           .andExpect(jsonPath("$[1].date", is("2024-01-01")))
-          .andExpect(jsonPath("$[1].eid", is("meta-1_lebzykl-1_ereignis-3")));
+          .andExpect(jsonPath("$[1].eventRefEid", is("meta-1_lebzykl-1_ereignis-3")));
     }
   }
 
@@ -154,17 +154,17 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "[{\"date\": \"2023-12-30\", \"eid\": \"meta-1_lebzykl-1_ereignis-2\"},{\"date\": \"2024-01-01\", \"eid\": null}]"))
+                      "[{\"date\": \"2023-12-30\", \"eventRefEid\": \"meta-1_lebzykl-1_ereignis-2\"},{\"date\": \"2024-01-01\", \"eventRefEid\": null}]"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(2)))
 
           // still there
           .andExpect(jsonPath("$[0].date", is("2023-12-30")))
-          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-2")))
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")))
 
           // expect new
           .andExpect(jsonPath("$[1].date", is("2024-01-01")))
-          .andExpect(jsonPath("$[1].eid", is("meta-1_lebzykl-1_ereignis-3")));
+          .andExpect(jsonPath("$[1].eventRefEid", is("meta-1_lebzykl-1_ereignis-3")));
     }
 
     @Test
@@ -214,7 +214,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               put("/api/v1/norms/{eli}/timeBoundaries", eli)
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content("[{\"date\": null, \"eid\": null}]"))
+                  .content("[{\"date\": null, \"eventRefEid\": null}]"))
           .andExpect(status().isBadRequest());
     }
 
@@ -265,7 +265,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               put("/api/v1/norms/{eli}/timeBoundaries", eli)
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content("[{\"date\": \"THISISNODATE\", \"eid\": null}]"))
+                  .content("[{\"date\": \"THISISNODATE\", \"eventRefEid\": null}]"))
           .andExpect(status().isBadRequest());
     }
 
@@ -322,13 +322,13 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "[{\"date\": \"2023-12-30\", \"eid\": \"meta-1_lebzykl-1_ereignis-2\"}]"))
+                      "[{\"date\": \"2023-12-30\", \"eventRefEid\": \"meta-1_lebzykl-1_ereignis-2\"}]"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(1)))
 
           // still there
           .andExpect(jsonPath("$[0].date", is("2023-12-30")))
-          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-2")));
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")));
     }
 
     @Test
@@ -378,13 +378,13 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               put("/api/v1/norms/{eli}/timeBoundaries", eli)
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content("[{\"date\": \"2024-01-01\", \"eid\": null}]"))
+                  .content("[{\"date\": \"2024-01-01\", \"eventRefEid\": null}]"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(1)))
 
           // expect new
           .andExpect(jsonPath("$[0].date", is("2024-01-01")))
-          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-3")));
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-3")));
     }
 
     @Test
@@ -440,17 +440,17 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "[{\"date\": \"2023-12-30\", \"eid\": \"meta-1_lebzykl-1_ereignis-2\"},{\"date\": \"2024-01-01\", \"eid\": null}]"))
+                      "[{\"date\": \"2023-12-30\", \"eventRefEid\": \"meta-1_lebzykl-1_ereignis-2\"},{\"date\": \"2024-01-01\", \"eventRefEid\": null}]"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(2)))
 
           // still there
           .andExpect(jsonPath("$[0].date", is("2023-12-30")))
-          .andExpect(jsonPath("$[0].eid", is("meta-1_lebzykl-1_ereignis-2")))
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")))
 
           // expect new
           .andExpect(jsonPath("$[1].date", is("2024-01-01")))
-          .andExpect(jsonPath("$[1].eid", is("meta-1_lebzykl-1_ereignis-4")));
+          .andExpect(jsonPath("$[1].eventRefEid", is("meta-1_lebzykl-1_ereignis-4")));
     }
   }
 }

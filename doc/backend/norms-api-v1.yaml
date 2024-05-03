@@ -314,7 +314,7 @@ components:
     TimeBoundary:
       type: object
       properties:
-        eid:
+        eventRefEid:
           type: string
         date:
           type: string
