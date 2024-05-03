@@ -13,8 +13,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Represents an amending law entity with various attributes. This class is annotated with Lombok
- * annotations for generating builders, getters, toString, and constructors.
+ * Represents an LDML.de norm. This class is annotated with Lombok annotations for generating
+ * builders, getters, toString, and constructors.
  */
 @Getter
 @SuperBuilder(toBuilder = true)
