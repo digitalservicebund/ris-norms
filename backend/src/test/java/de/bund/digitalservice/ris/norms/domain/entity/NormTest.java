@@ -1315,6 +1315,18 @@ class NormTest {
   }
 
   @Test
+  void getStartEventRefForTemporalGroup() {
+    // given
+    Norm norm = NormFixtures.normWithMultiplePassiveModifications();
+
+    // when
+    var eId = norm.getStartEventRefForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
+
+    // then
+    assertThat(eId).contains("meta-1_lebzykl-1_ereignis-4");
+  }
+
+  @Test
   void getStartDateForEventRef() {
     // given
     Norm norm = NormFixtures.normWithMultiplePassiveModifications();
