@@ -2,7 +2,7 @@
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { ref, watch, WritableComputedRef } from "vue"
+import { computed, ref, watch, WritableComputedRef } from "vue"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
@@ -31,6 +31,13 @@ const { timeBoundaries } = useAmendingLawTemporalData(amendingLawEli)
 const selectedTimeBoundary: WritableComputedRef<string> =
   useTimeBoundaryPathParameter()
 
+const selectedTimeBoundaryEid = computed(
+  () =>
+    timeBoundaries.value.find(
+      (boundary) => boundary.date === selectedTimeBoundary.value,
+    )?.eid,
+)
+
 // choose the first time boundary if none is selected so far
 watch(
   timeBoundaries,
@@ -46,10 +53,10 @@ watch(
   { immediate: true },
 )
 
-// TODO: (Malte Laukötter, 2024-04-29) useArticlesChangedAtTimeBoundary needs implementing loading the correct articles
 const articles = useArticlesChangedAtTimeBoundary(
   affectedDocumentEli,
-  selectedTimeBoundary,
+  selectedTimeBoundaryEid,
+  amendingLawEli,
 )
 
 // TODO: (Malte Laukötter, 2024-04-26) how to handle if a time boundary changes and the currently selected article has no changes for the newly selected zeitgrenze

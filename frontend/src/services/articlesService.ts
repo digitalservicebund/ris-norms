@@ -7,8 +7,16 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
  *
  * @param eli ELI of the law we want to get the articles from
  */
-export async function getArticlesByEli(eli: string): Promise<Article[]> {
-  return apiFetch<Article[]>(`/norms/${eli}/articles`)
+export async function getArticlesByEli(
+  eli: string,
+  options?: {
+    amendedAt?: string
+    amendedBy?: string
+  },
+): Promise<Article[]> {
+  return apiFetch<Article[]>(`/norms/${eli}/articles`, {
+    query: { ...options },
+  })
 }
 
 /**

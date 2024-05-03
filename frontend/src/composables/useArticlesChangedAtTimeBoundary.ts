@@ -19,20 +19,22 @@ import { getArticlesByEli } from "@/services/articlesService"
  *  Changing the value of the reference will load the data for the new eid.
  * @returns A reference to the articles data or undefined if it is not available (or
  *  still loading).
- * @deprecated this is not yet correctly implemented
  */
 export function useArticlesChangedAtTimeBoundary(
-  eli: MaybeRefOrGetter<string>,
-  timeBoundary: MaybeRefOrGetter<string>,
+  eli: MaybeRefOrGetter<string | undefined>,
+  timeBoundaryEid: MaybeRefOrGetter<string | undefined>,
+  amendingLawEli: MaybeRefOrGetter<string | undefined>,
 ): DeepReadonly<Ref<Article[] | undefined>> {
   const articles = ref<Article[]>([])
 
   watch(
-    () => [toValue(eli), toValue(timeBoundary)],
-    async ([newEli, newTimeBoundary]) => {
-      if (newTimeBoundary !== "") {
-        // TODO: (Malte Laukötter, 2024-04-26) load based on time boundary, and then write a unit test for it
-        articles.value = await getArticlesByEli(newEli)
+    () => [toValue(eli), toValue(timeBoundaryEid), toValue(amendingLawEli)],
+    async ([newEli, newTimeBoundary, newAmendingLawEli]) => {
+      if (newEli && newTimeBoundary && newAmendingLawEli) {
+        articles.value = await getArticlesByEli(newEli, {
+          amendedAt: newTimeBoundary,
+          amendedBy: newAmendingLawEli,
+        })
       }
     },
     { immediate: true },
