@@ -96,7 +96,7 @@ class XmlMapperTest {
     // when
     var node1 = XmlMapper.toNode(text);
     var asString = XmlMapper.toString(node1);
-    var node2 = XmlMapper.toNode(text);
+    var node2 = XmlMapper.toNode(asString);
 
     // then
     assertThat(node1.isEqualNode(node2)).isTrue();
