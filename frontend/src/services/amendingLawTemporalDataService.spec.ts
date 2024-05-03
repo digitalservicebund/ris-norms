@@ -20,8 +20,8 @@ describe("amendingLawTemporalDataService", () => {
 </div>
 `
       const expectedDates = [
-        { date: "2023-11-01T00:00:00Z", eid: "event-1" },
-        { date: "2023-12-01T00:00:00Z", eid: "event-2" },
+        { date: "2023-11-01T00:00:00Z", eventRefEid: "event-1" },
+        { date: "2023-12-01T00:00:00Z", eventRefEid: "event-2" },
       ]
 
       const fetchMock = vi
@@ -54,8 +54,8 @@ describe("amendingLawTemporalDataService", () => {
     it("updates the temporal data related to an amending law", async () => {
       const eli = "test-eli"
       const dates = [
-        { date: "2024-04-01T00:00:00Z", eid: "event-3" },
-        { date: "2024-05-15T00:00:00Z", eid: "event-4" },
+        { date: "2024-04-01T00:00:00Z", eventRefEid: "event-3" },
+        { date: "2024-05-15T00:00:00Z", eventRefEid: "event-4" },
       ]
       const expectedResponse = dates
 

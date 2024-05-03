@@ -35,7 +35,7 @@ const selectedTimeBoundaryEid = computed(
   () =>
     timeBoundaries.value.find(
       (boundary) => boundary.date === selectedTimeBoundary.value,
-    )?.eid,
+    )?.eventRefEid,
 )
 
 // choose the first time boundary if none is selected so far
@@ -97,7 +97,7 @@ async function handleSave() {
           >
             <option
               v-for="timeBoundary in timeBoundaries"
-              :key="timeBoundary.eid"
+              :key="timeBoundary.eventRefEid"
               :value="timeBoundary.date"
             >
               {{ dayjs(timeBoundary.date).format("DD.MM.YYYY") }}

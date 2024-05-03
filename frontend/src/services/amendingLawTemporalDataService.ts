@@ -22,7 +22,7 @@ export async function getAmendingLawEntryIntoForceHtml(
 /**
  * Fetches the temporal data time boundaries related to an amending law.
  *
- * @returns An Array of TimeBoundary objects each with a date and eid strings
+ * @returns An Array of TimeBoundary objects each with a date and eventRefEid strings
  */
 export async function getAmendingLawTemporalDataTimeBoundaries(
   eli: string,
@@ -43,7 +43,7 @@ export async function getAmendingLawTemporalDataTimeBoundaries(
  *
  * @param eli ELI of the amending law
  * @param dates Array of TimeBoundary objects
- * @returns An updated Array of TimeBoundary objects each with a date and eid strings
+ * @returns An updated Array of TimeBoundary objects each with a date and eventRefEid strings
  * */
 export async function updateAmendingLawTemporalDataTimeBoundaries(
   eli: string,

@@ -8,7 +8,7 @@ import dayjs from "dayjs"
 
 interface DateEntry {
   date: string
-  eid: string
+  eventRefEid: string
 }
 
 const dates = defineModel("dates", {
@@ -29,7 +29,7 @@ watch(newDate, async (newDateValue) => {
   if (newDateValue && dayjs(newDateValue, "YYYY-MM-DD", true).isValid()) {
     dates.value.push({
       date: newDateValue,
-      eid: "",
+      eventRefEid: "",
     })
 
     // Need to wait for one tick to give the date input some time to update

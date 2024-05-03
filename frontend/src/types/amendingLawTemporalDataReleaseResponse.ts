@@ -1,4 +1,4 @@
 export interface AmendingLawTemporalDataReleaseResponse {
   date: string
-  eid: string
+  eventRefEid: string
 }
