@@ -113,42 +113,6 @@ describe("DateInput", () => {
     expect(emitted()["update:validationError"]).toBeTruthy()
   })
 
-  test("does not allow dates in the future", async () => {
-    const { emitted } = renderComponent()
-    const input: HTMLInputElement = screen.queryByLabelText(
-      "aria-label",
-    ) as HTMLInputElement
-    expect(input).toHaveValue("")
-    await userEvent.type(input, "14.05.2099")
-    await nextTick()
-
-    expect(input).toHaveValue("14.05.2099")
-
-    expect(emitted()["update:modelValue"]).not.toBeTruthy()
-
-    expect(emitted()["update:validationError"]).toBeTruthy()
-
-    const array = emitted()["update:validationError"] as ValidationError[][]
-
-    expect(
-      array.filter((element) => element[0] !== undefined)[0][0].message,
-    ).toBe("Das Datum darf nicht in der Zukunft liegen")
-  })
-
-  test("it allows dates in the future if flag is set", async () => {
-    const { emitted } = renderComponent({ isFutureDate: true })
-    const input: HTMLInputElement = screen.queryByLabelText(
-      "aria-label",
-    ) as HTMLInputElement
-    expect(input).toHaveValue("")
-    await userEvent.type(input, "14.05.2099")
-    await nextTick()
-
-    expect(input).toHaveValue("14.05.2099")
-
-    expect(emitted()["update:modelValue"]).toBeTruthy()
-  })
-
   test("does not allow invalid dates", async () => {
     const { emitted } = renderComponent()
     const input: HTMLInputElement = screen.queryByLabelText(

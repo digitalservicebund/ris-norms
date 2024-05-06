@@ -14,7 +14,6 @@ interface Props {
   id: string
   value?: string
   modelValue?: string
-  isFutureDate?: boolean
   hasError?: boolean
   size?: "regular" | "medium" | "small"
   isReadOnly?: boolean
@@ -39,20 +38,12 @@ const isValidDate = computed(() => {
   return dayjs(inputValue.value, "DD.MM.YYYY", true).isValid()
 })
 
-const isInPast = computed(() => {
-  if (props.isFutureDate) return true
-  return dayjs(inputValue.value, "DD.MM.YYYY", true).isBefore(dayjs())
-})
-
 const onMaska = (event: CustomEvent<MaskaDetail>) => {
   inputCompleted.value = event.detail.completed
 }
 
 const effectiveHasError = computed(
-  () =>
-    props.hasError ||
-    (inputCompleted.value && !isInPast.value && !props.isFutureDate) ||
-    (inputCompleted.value && !isValidDate.value),
+  () => props.hasError || (inputCompleted.value && !isValidDate.value),
 )
 
 const conditionalClasses = computed(() => ({
@@ -64,13 +55,7 @@ const conditionalClasses = computed(() => ({
 function validateInput() {
   if (inputCompleted.value) {
     if (isValidDate.value) {
-      // if valid date, check for future dates
-      if (!isInPast.value && !props.isFutureDate && isValidDate.value)
-        emit("update:validationError", {
-          message: "Das Datum darf nicht in der Zukunft liegen",
-          instance: props.id,
-        })
-      else emit("update:validationError", undefined)
+      emit("update:validationError", undefined)
     } else {
       emit("update:validationError", {
         message: "Kein valides Datum",
@@ -107,12 +92,12 @@ watch(
 
 watch(inputValue, (is) => {
   if (is === "") emit("update:modelValue", undefined)
-  isValidDate.value &&
-    isInPast.value &&
+  else if (isValidDate.value) {
     emit(
       "update:modelValue",
       dayjs(is, "DD.MM.YYYY", true).format("YYYY-MM-DD"),
     )
+  }
 })
 
 watch(inputCompleted, (is) => {
