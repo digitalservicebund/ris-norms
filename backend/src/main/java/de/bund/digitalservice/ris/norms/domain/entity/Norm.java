@@ -301,7 +301,7 @@ public class Norm {
   /**
    * Deletes one time boundary (Zeitgrenze) from the document.
    *
-   * @param timeBoundaryToDelete
+   * @param timeBoundaryToDelete the time boundary that should be deleted from the xml
    */
   public void deleteTimeBoundary(TimeBoundaryChangeData timeBoundaryToDelete) {
     // delete eventRef node
@@ -318,27 +318,6 @@ public class Norm {
     Node temporalGroupNode = timeIntervalNode.getParentNode();
     Node temporalDataNode = temporalGroupNode.getParentNode();
     temporalDataNode.removeChild(temporalGroupNode);
-  }
-
-  /**
-   * Changes one time boundary (Zeitgrenze) in the document. The date in eventRef will be changed.
-   *
-   * @param timeBoundaryToChange a {@link TimeBoundaryChangeData} containing a date and eid (null in
-   *     this case).
-   */
-  public void changeTimeBoundary(TimeBoundaryChangeData timeBoundaryToChange) {
-
-    // Calculate next possible eventRefEid
-    String nextPossibleEventRefEid = calculateNextPossibleEid(getEventRefEids());
-
-    // Create new eventRef node
-    Element eventRef = document.createElement("akn:eventRef");
-    eventRef.setAttribute("eId", nextPossibleEventRefEid);
-    eventRef.setAttribute("GUID", UUID.randomUUID().toString());
-    eventRef.setAttribute("date", timeBoundaryToChange.date().toString());
-    eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
-    eventRef.setAttribute("type", "generation");
-    eventRef.setAttribute("refersTo", "inkrafttreten");
   }
 
   /**
