@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import java.time.LocalDate;
 import java.util.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  * component in the Spring context.
  */
 @Service
+@Slf4j
 public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTimeBoundariesUseCase {
   private final DBService dbService;
 
@@ -77,7 +79,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
             .filter(tb -> tb.eid() != null && !tb.eid().isEmpty())
             .toList();
 
-    List<TimeBoundary> timeboundariesToUpdate =
+    List<TimeBoundary> timeBoundariesToUpdate =
         norm.getTimeBoundaries().stream()
             .filter(tb -> tb.getEventRefEid().isPresent())
             .filter(
@@ -88,7 +90,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
                         .contains(tb.getEventRefEid().get()))
             .toList();
 
-    timeboundariesToUpdate.forEach(
+    timeBoundariesToUpdate.forEach(
         tb -> {
           LocalDate newDate =
               datesToUpdate.stream()
@@ -98,6 +100,29 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
                   .orElse(LocalDate.MIN);
           tb.setEventRefDate(newDate);
         });
+
+    logChangeDataWithoutCorrespondingEidInXml(norm, datesToUpdate);
+  }
+
+  private void logChangeDataWithoutCorrespondingEidInXml(
+      Norm norm, List<TimeBoundaryChangeData> datesToUpdate) {
+    List<String> timeBoundaryEids =
+        norm.getTimeBoundaries().stream()
+            .map(TimeBoundary::getEventRefEid)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .toList();
+
+    List<TimeBoundaryChangeData> timeBoundariesListedButNotUpdated =
+        datesToUpdate.stream()
+            .filter(changeData -> changeData.eid() != null && !changeData.eid().isEmpty())
+            .filter(changeData -> changeData.date() != null)
+            .filter(changeData -> !timeBoundaryEids.contains(changeData.eid()))
+            .toList();
+
+    log.error(
+        "The following time boundaries should be changed but the eId was not found: {}",
+        timeBoundariesListedButNotUpdated);
   }
 
   private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
