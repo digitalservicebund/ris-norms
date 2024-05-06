@@ -120,9 +120,11 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
             .filter(changeData -> !timeBoundaryEids.contains(changeData.eid()))
             .toList();
 
-    log.error(
-        "The following time boundaries should be changed but the eId was not found: {}",
-        timeBoundariesListedButNotUpdated);
+    if (!timeBoundariesListedButNotUpdated.isEmpty()) {
+      log.error(
+          "The following time boundaries should be changed but the eId was not found: {}",
+          timeBoundariesListedButNotUpdated);
+    }
   }
 
   private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
