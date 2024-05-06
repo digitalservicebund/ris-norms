@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -14,6 +15,8 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
+import java.util.Objects;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 /**
  * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
@@ -181,7 +185,16 @@ class TimeBoundaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("[{\"date\": null, \"eventRefEid\": null}]"))
-          .andExpect(status().isBadRequest());
+          .andExpect(status().isBadRequest())
+          .andExpect(
+              result ->
+                  Assertions.assertInstanceOf(
+                      HandlerMethodValidationException.class, result.getResolvedException()))
+          .andExpect(
+              result ->
+                  assertEquals(
+                      "400 BAD_REQUEST \"Validation failure\"",
+                      Objects.requireNonNull(result.getResolvedException()).getMessage()));
     }
 
     @Test
