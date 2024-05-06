@@ -147,6 +147,42 @@ class TimeMachineServiceTest {
     }
 
     @Test
+    void applyPassiveModificationsWhereTargetNodeEqualsNodeToChange() {
+      // given
+      final var norm = NormFixtures.normWithPassiveModsWhereTargetNodeEqualsNodeToChange();
+
+      final var amendingLaw = NormFixtures.normWithModsWhereTargetNodeEqualsNodeToChange();
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
+
+      // then
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              """
+                              Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen
+                                                              entsprechend §
+                                                              64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die
+                                                              Angaben, die die
+                                                              Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der
+                                                              Protokolldaten
+                                                              ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der
+                                                              Datenschutzkontrolle, der
+                                                              Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
+                                                              Die
+                                                              Protokolldaten sind nach Ablauf von fünf Jahren zu löschen.
+                              """);
+    }
+
+    @Test
     void applyPassiveModificationsBeforeDate() {
       // given
       final var norm = NormFixtures.normWithMultiplePassiveModifications();

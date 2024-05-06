@@ -149,7 +149,7 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
 
               final var nodeToChange =
                   NodeParser.getNodeFromExpression(
-                      String.format(".//*[text()[contains(.,'%s')]]", mod.getOldText().get()),
+                      String.format("//*[text()[contains(.,'%s')]]", mod.getOldText().get()),
                       targetNode);
 
               if (nodeToChange == null) {
