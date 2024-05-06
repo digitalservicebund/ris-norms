@@ -503,9 +503,9 @@ class TimeBoundaryServiceTest {
 
       // When
       var timeBoundaryChangeDataNewDate1 =
-          new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-2", LocalDate.parse("1970-01-01"));
+          new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-2", LocalDate.parse("1980-01-01"));
       var timeBoundaryChangeDataNewDate2 =
-          new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-3", LocalDate.parse("1970-01-01"));
+          new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-3", LocalDate.parse("1990-01-01"));
 
       service.updateTimeBoundariesOfNorm(
           new UpdateTimeBoundariesUseCase.Query(
@@ -518,10 +518,10 @@ class TimeBoundaryServiceTest {
           .updateNorm(
               argThat(
                   argument ->
-                      LocalDate.parse("1970-01-01")
+                      LocalDate.parse("1980-01-01")
                               .equals(
                                   argument.norm().getTimeBoundaries().getFirst().getDate().get())
-                          && LocalDate.parse("1970-01-01")
+                          && LocalDate.parse("1990-01-01")
                               .equals(argument.norm().getTimeBoundaries().get(1).getDate().get())
                           && argument.norm().getTimeBoundaries().size() == 2));
     }
