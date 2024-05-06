@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-describe("amendingLawTemporalDataService", () => {
+describe("TemporalDataService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -33,25 +33,23 @@ describe("amendingLawTemporalDataService", () => {
         apiFetch: fetchMock,
       }))
 
-      const {
-        getAmendingLawEntryIntoForceHtml,
-        getAmendingLawTemporalDataTimeBoundaries,
-      } = await import("./amendingLawTemporalDataService")
+      const { getEntryIntoForceHtml, getTemporalDataTimeBoundaries } =
+        await import("./temporalDataService")
 
-      const htmlResult = await getAmendingLawEntryIntoForceHtml(
+      const htmlResult = await getEntryIntoForceHtml(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
       expect(htmlResult).toBe(mockResponseHtml)
 
-      const datesResult = await getAmendingLawTemporalDataTimeBoundaries(
+      const datesResult = await getTemporalDataTimeBoundaries(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
       expect(datesResult).toEqual(expectedDates)
     })
   })
 
-  describe("updateAmendingLawTemporalDataIntervals", () => {
-    it("updates the temporal data related to an amending law", async () => {
+  describe("updateTemporalDataIntervals", () => {
+    it("updates the temporal data", async () => {
       const eli = "test-eli"
       const dates = [
         { date: "2024-04-01T00:00:00Z", eventRefEid: "event-3" },
@@ -62,14 +60,11 @@ describe("amendingLawTemporalDataService", () => {
       const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
       vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
 
-      const { updateAmendingLawTemporalDataTimeBoundaries } = await import(
-        "./amendingLawTemporalDataService"
+      const { updateTemporalDataTimeBoundaries } = await import(
+        "./temporalDataService"
       )
 
-      const result = await updateAmendingLawTemporalDataTimeBoundaries(
-        eli,
-        dates,
-      )
+      const result = await updateTemporalDataTimeBoundaries(eli, dates)
       expect(result).toEqual(expectedResponse)
     })
   })

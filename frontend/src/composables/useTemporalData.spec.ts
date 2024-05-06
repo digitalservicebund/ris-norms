@@ -1,11 +1,10 @@
 import { ref } from "vue"
 import { describe, it, expect, vi } from "vitest"
-import { useAmendingLawTemporalData } from "@/composables/useAmendingLawTemporalData"
-import * as amendingLawTemporalDataService from "@/services/amendingLawTemporalDataService"
+import { useTemporalData } from "@/composables/useTemporalData"
+import * as temporalDataService from "@/services/temporalDataService"
 
-describe("useAmendingLawTemporalData", () => {
-  it("should load both the HTML content and dates", async () => {
-    const expectedHtmlContent = `<div><h1>Test Content</h1></div>`
+describe("useTemporalData", () => {
+  it("should load both the time boundaries", async () => {
     const mockReleaseDates = [
       { date: "2023-04-01T00:00:00Z", eventRefEid: "event-1" },
       { date: "2023-05-15T00:00:00Z", eventRefEid: "event-2" },
@@ -15,19 +14,13 @@ describe("useAmendingLawTemporalData", () => {
     const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
 
     vi.spyOn(
-      amendingLawTemporalDataService,
-      "getAmendingLawEntryIntoForceHtml",
-    ).mockResolvedValue(expectedHtmlContent)
-    vi.spyOn(
-      amendingLawTemporalDataService,
-      "getAmendingLawTemporalDataTimeBoundaries",
+      temporalDataService,
+      "getTemporalDataTimeBoundaries",
     ).mockResolvedValue(mockReleaseDates)
 
-    const { timeBoundaries, htmlContent, loadData } =
-      useAmendingLawTemporalData(eli)
+    const { timeBoundaries, loadData } = useTemporalData(eli)
 
     await loadData()
-    expect(htmlContent.value).toBe(expectedHtmlContent)
     expect(timeBoundaries.value).toEqual(mockReleaseDates)
   })
 
@@ -38,15 +31,12 @@ describe("useAmendingLawTemporalData", () => {
       { date: "2024-05-15T00:00:00Z", eventRefEid: "new-event-2" },
     ]
     const mockUpdateService = vi
-      .spyOn(
-        amendingLawTemporalDataService,
-        "updateAmendingLawTemporalDataTimeBoundaries",
-      )
+      .spyOn(temporalDataService, "updateTemporalDataTimeBoundaries")
       .mockResolvedValue(newDates)
 
-    const { timeBoundaries, update } = useAmendingLawTemporalData(eli)
+    const { timeBoundaries, updateTemporalData } = useTemporalData(eli)
 
-    await update(newDates)
+    await updateTemporalData(newDates)
 
     expect(mockUpdateService).toHaveBeenCalledWith(eli.value, newDates)
 

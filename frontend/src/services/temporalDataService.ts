@@ -1,5 +1,5 @@
 import { apiFetch } from "@/services/apiService"
-import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTemporalDataReleaseResponse"
+import { TemporalDataReleaseResponse } from "@/types/temporalDataReleaseResponse"
 
 /**
  * Fetches the HTML content of an amending law's entry into force section by ELI.
@@ -8,9 +8,7 @@ import { AmendingLawTemporalDataReleaseResponse } from "@/types/amendingLawTempo
  * @param eli ELI of the amending law
  * @returns HTML string
  */
-export async function getAmendingLawEntryIntoForceHtml(
-  eli: string,
-): Promise<string> {
+export async function getEntryIntoForceHtml(eli: string): Promise<string> {
   return await apiFetch(`/norms/${eli}/articles`, {
     headers: {
       Accept: "text/html",
@@ -24,10 +22,10 @@ export async function getAmendingLawEntryIntoForceHtml(
  *
  * @returns An Array of TimeBoundary objects each with a date and eventRefEid strings
  */
-export async function getAmendingLawTemporalDataTimeBoundaries(
+export async function getTemporalDataTimeBoundaries(
   eli: string,
-): Promise<AmendingLawTemporalDataReleaseResponse[]> {
-  return await apiFetch<AmendingLawTemporalDataReleaseResponse[]>(
+): Promise<TemporalDataReleaseResponse[]> {
+  return await apiFetch<TemporalDataReleaseResponse[]>(
     `/norms/${eli}/timeBoundaries`,
     {
       method: "GET",
@@ -45,11 +43,11 @@ export async function getAmendingLawTemporalDataTimeBoundaries(
  * @param dates Array of TimeBoundary objects
  * @returns An updated Array of TimeBoundary objects each with a date and eventRefEid strings
  * */
-export async function updateAmendingLawTemporalDataTimeBoundaries(
+export async function updateTemporalDataTimeBoundaries(
   eli: string,
-  dates: AmendingLawTemporalDataReleaseResponse[],
-): Promise<AmendingLawTemporalDataReleaseResponse[]> {
-  return await apiFetch<AmendingLawTemporalDataReleaseResponse[]>(
+  dates: TemporalDataReleaseResponse[],
+): Promise<TemporalDataReleaseResponse[]> {
+  return await apiFetch<TemporalDataReleaseResponse[]>(
     `/norms/${eli}/timeBoundaries`,
     {
       method: "PUT",

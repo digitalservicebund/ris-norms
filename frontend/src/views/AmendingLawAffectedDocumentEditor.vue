@@ -8,7 +8,7 @@ import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathP
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useArticlesChangedAtTimeBoundary } from "@/composables/useArticlesChangedAtTimeBoundary"
 import { useRouter } from "vue-router"
-import { useAmendingLawTemporalData } from "@/composables/useAmendingLawTemporalData"
+import { useTemporalData } from "@/composables/useTemporalData"
 import dayjs from "dayjs"
 
 const router = useRouter()
@@ -26,7 +26,7 @@ watch(targetLawXml, () => {
   currentTargetLawXml.value = targetLawXml.value
 })
 
-const { timeBoundaries } = useAmendingLawTemporalData(amendingLawEli)
+const { timeBoundaries } = useTemporalData(amendingLawEli)
 
 const selectedTimeBoundary: WritableComputedRef<string> =
   useTimeBoundaryPathParameter()
