@@ -7256,7 +7256,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                                     type="substitution">
                         <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1"
                                     GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6"
-                                    href="eli/bund/bgbl-1/2023/413/regelungstext-1/art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
+                                    href="eli/bund/bgbl-1/2023/413/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
                         <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
                                          GUID="94c1e417-e849-4269-8320-9f0173b39626"
                                          href="#para-6_abs-3"/>
