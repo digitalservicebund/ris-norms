@@ -476,7 +476,7 @@ VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-1
                   <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6"
                      href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" />
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/para-6_abs-3/100-126.xml" /><!-- To check-->
+                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3/100-126.xml" /><!-- To check-->
                   <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1" GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
                      period="#meta-1_geltzeiten-1_geltungszeitgr-1" />
                </akn:textualMod>
@@ -7259,7 +7259,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                                     href="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
                         <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
                                          GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                                         href="#para-6_abs-3"/>
+                                         href="#hauptteil-1_abschnitt-erster_para-6_abs-3"/>
                         <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1"
                                    GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
                                    period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
