@@ -23,31 +23,12 @@ test.describe("Navigate to temporal data page and test its rendered content", ()
 })
 
 test.describe("management of Temporal Data for an amending law", () => {
-  const BASE_URL =
-    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data"
-
-  const defaultTimeBoundaries = [
-    { date: "2017-03-16", eventRefEid: "meta-1_lebzykl-1_ereignis-2" },
-  ]
-
-  test.beforeEach(async ({ page }) => {
-    await page.goto(BASE_URL)
-
-    await page.request.put(
-      `/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        data: JSON.stringify(defaultTimeBoundaries),
-      },
-    )
-  })
-
   test(`renders correct number of date inputs for the time boundaries`, async ({
     page,
   }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
+    )
     const saveButton = page.locator("text=Speichern")
     let dateInputs = page.locator('[data-testid="date-input-field"]')
 
@@ -145,5 +126,18 @@ test.describe("management of Temporal Data for an amending law", () => {
     const deleteButton = page.locator(`[data-testid="delete-button-0"]`)
     const isDisabled = await deleteButton.isDisabled()
     expect(isDisabled).toBe(true)
+
+    await page.request.put(
+      `/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        data: JSON.stringify([
+          { date: "2017-03-16", eventRefEid: "meta-1_lebzykl-1_ereignis-2" },
+        ]),
+      },
+    )
   })
 })
