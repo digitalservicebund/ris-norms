@@ -170,7 +170,16 @@ class TimeBoundaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("[]"))
-          .andExpect(status().isBadRequest());
+          .andExpect(status().isBadRequest())
+          .andExpect(
+              result ->
+                  Assertions.assertInstanceOf(
+                      HandlerMethodValidationException.class, result.getResolvedException()))
+          .andExpect(
+              result ->
+                  assertEquals(
+                      "400 BAD_REQUEST \"Validation failure\"",
+                      Objects.requireNonNull(result.getResolvedException()).getMessage()));
     }
 
     @Test
