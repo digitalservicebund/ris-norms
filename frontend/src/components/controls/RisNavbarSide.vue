@@ -138,7 +138,7 @@ export interface LevelTwoMenuItem {
 
 <template>
   <aside aria-labelledby="sidebarNavigation">
-    <span id="sidebarNavigation" hidden>SideBar Navigation</span>
+    <span id="sidebarNavigation" class="sr-only">Navigation</span>
     <router-link
       class="ds-link-01-bold flex h-80 items-center gap-12 border-b border-gray-400 px-14 text-blue-800"
       :to="goBackRoute"

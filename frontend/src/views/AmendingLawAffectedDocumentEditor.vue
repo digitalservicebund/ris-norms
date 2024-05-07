@@ -86,7 +86,7 @@ async function handleSave() {
     >
       <span id="sidebarNavigation" class="sr-only">Inhaltsverzeichnis</span>
 
-      <div class="px-16 py-8">
+      <div class="px-16 pb-20 pt-10">
         <label for="timeBoundarySelect">
           <span class="ds-label-03-reg">Zeitgrenze</span>
 
@@ -108,7 +108,7 @@ async function handleSave() {
 
       <router-link
         class="ds-label-01-reg px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
-        exact-active-class="font-bold"
+        exact-active-class="font-bold underline bg-blue-200"
         :to="{
           name: 'AmendingLawAffectedDocumentRahmenEditor',
           params: { timeBoundary: selectedTimeBoundary },
@@ -117,13 +117,13 @@ async function handleSave() {
         Rahmen
       </router-link>
 
-      <hr class="mx-16 border-b border-gray-400" />
+      <hr class="mx-16 my-8 border-t border-gray-400" />
 
       <router-link
         v-for="article in articles"
         :key="article.eid"
         class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
-        active-class="font-bold"
+        active-class="font-bold underline bg-blue-200"
         :to="{
           name: 'AmendingLawAffectedDocumentArticleEditor',
           params: { eid: article.eid, timeBoundary: selectedTimeBoundary },
