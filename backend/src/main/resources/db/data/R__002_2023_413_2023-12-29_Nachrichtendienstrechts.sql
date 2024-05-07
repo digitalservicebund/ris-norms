@@ -571,7 +571,7 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                                type="substitution">
                   <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1"
                               GUID="5384f580-110b-4f8a-8794-8b85c29aabdf"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
                                    GUID="2c26512f-fb04-45f2-8283-660274e52fdb"
                                    href="#para-9_abs-3"/>
@@ -584,7 +584,7 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                                type="substitution">
                   <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1"
                               GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
+                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1"
                                    GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd"
                                    href="#para-20_abs-1/100-126"/>
@@ -597,7 +597,7 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                              type="endOfEnactment">
                   <akn:source eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_source-1"
                               GUID="f2e2f5ed-9cad-47e8-8bb5-c904bbce96fb"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/art-2_abs-1_inhalt-1_text-1.xml"/>
+                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_inhalt-1_text-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_destination-1"
                                    GUID="1e35f163-489d-45f4-892b-d91360857e43"
                                    href="#eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
@@ -856,8 +856,8 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                      <akn:content eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1"
                                   GUID="7e835e4b-52eb-4fa1-9698-d7a42589d715">
                         <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                               GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">entgegen § 9
-                           Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
+                               GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">entgegen § 9 Abs. 1 Satz 2, Abs. 2
+                           Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
                      </akn:content>
                   </akn:point>
                   <akn:wrapUp eId="hauptteil-1_para-20_abs-1_untergl-1_schlusstext-1"
