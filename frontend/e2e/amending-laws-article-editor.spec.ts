@@ -29,7 +29,7 @@ test.describe("article editor", () => {
 
     await expect(
       page.locator('[data-testid="targetLawHeading"]'),
-    ).toContainText("Gesetz zur Regelungs des öffenltichen Vereinsrechts")
+    ).toContainText("Gesetz zur Regelung des öffentlichen Vereinsrechts")
 
     await expect(
       page.locator('[data-testid="amendingLawHeading"]'),
@@ -39,7 +39,7 @@ test.describe("article editor", () => {
   test(`contents of target law in both xml and html tabs`, async ({ page }) => {
     await expect(
       page.getByText(
-        "Gesetz zur Regelungs des öffenltichen Vereinsrechts ( Vereinsgesetz)",
+        "Gesetz zur Regelung des öffentlichen Vereinsrechts ( Vereinsgesetz)",
       ),
     ).toBeVisible()
 
@@ -139,7 +139,7 @@ test.describe("article editor", () => {
     )
     await page.getByRole("button", { name: "Vorschau generieren" }).click()
     const textContentArea = changedArticlePreivewSection.locator(
-      "text=Gesetz zur Regelungs des öffenltichen Vereinsrechts ( Vereinsgesetz)",
+      "text=Gesetz zur Regelung des öffentlichen Vereinsrechts ( Vereinsgesetz)",
     )
     await expect(textContentArea).toBeVisible()
 

@@ -1,40 +1,50 @@
-import { ref, watch, toValue, MaybeRefOrGetter, Ref } from "vue"
 import {
   getTemporalDataTimeBoundaries,
   updateTemporalDataTimeBoundaries,
 } from "@/services/temporalDataService"
-import { TemporalDataReleaseResponse } from "@/types/temporalDataReleaseResponse"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import { MaybeRefOrGetter, Ref, ref, toValue, watch } from "vue"
 
+/**
+ * Returns the temporal data from the API and offers methods for interacting
+ * with it.
+ *
+ * @param eli ELI of the norm that we want to get the temporal data from
+ * @param options Additional options for how the data is handled
+ */
 export function useTemporalData(eli: MaybeRefOrGetter<string>): {
-  timeBoundaries: Ref<TemporalDataReleaseResponse[]>
+  /** Temporal data contained in that norm. */
+  timeBoundaries: Ref<TemporalDataResponse[]>
+
+  /** Reloads the data from the API. */
   loadData: () => Promise<void>
-  updateTemporalData: (
-    newTimeBoundaries: TemporalDataReleaseResponse[],
-  ) => Promise<void>
+
+  /**
+   * Saves temporal data to the API.
+   *
+   * @param newDates The updated data.
+   */
+  updateTemporalData: (newDates: TemporalDataResponse[]) => Promise<void>
 } {
-  const timeBoundaries = ref<TemporalDataReleaseResponse[]>([])
+  const timeBoundaries = ref<TemporalDataResponse[]>([])
 
   async function loadData() {
-    try {
-      timeBoundaries.value = await getTemporalDataTimeBoundaries(toValue(eli))
-    } catch (error) {
-      console.error("Error fetching temporal data time boundaries:", error)
-    }
+    timeBoundaries.value = await getTemporalDataTimeBoundaries(toValue(eli))
   }
 
-  async function updateTemporalData(newDates: TemporalDataReleaseResponse[]) {
-    try {
-      await updateTemporalDataTimeBoundaries(toValue(eli), newDates)
-      timeBoundaries.value = newDates
-    } catch (error) {
-      console.error("Error updating temporal data:", error)
-    }
+  async function updateTemporalData(newDates: TemporalDataResponse[]) {
+    const response = await updateTemporalDataTimeBoundaries(
+      toValue(eli),
+      newDates,
+    )
+
+    timeBoundaries.value = response
   }
 
   watch(() => eli, loadData, { immediate: true })
 
   return {
-    timeBoundaries: timeBoundaries,
+    timeBoundaries,
     updateTemporalData,
     loadData,
   }

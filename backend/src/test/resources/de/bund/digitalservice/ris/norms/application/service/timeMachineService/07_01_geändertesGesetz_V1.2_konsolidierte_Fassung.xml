@@ -3,11 +3,11 @@
 	##################################################################################
 	Projekt E-Gesetzgebung
 	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.6 (Dezember 2023)
-	
+
 	2023 Copyright (C) 2021-2023 Bundesministerium des Innern und für Heimat,
 	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
 	Verwaltungsarbeit
-	
+
 	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
@@ -15,7 +15,7 @@
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-<!-- Regelungstext des Stammgesetzes nach dem Inkrafttreten der Änderungsbefehle durch das Änderungsgesetz und der damit einhergehenden Anpassung der entsprechenden Textstellen. 
+<!-- Regelungstext des Stammgesetzes nach dem Inkrafttreten der Änderungsbefehle durch das Änderungsgesetz und der damit einhergehenden Anpassung der entsprechenden Textstellen.
       Die Änderungsbefehle müssen nach deren Anwendung nicht mehr in den Metadaten vorhanden sein und wurden daher entfernt. -->
    <akn:act name="regelungstext">
 <!-- Metadaten -->
@@ -223,11 +223,11 @@
                <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1"
                                  GUID="c83abe1e-5fde-4e4e-a9b5-7293505ffeff"/>
                <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
-                             GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelungs des öffenltichen Vereinsrechts</akn:docTitle>
+                             GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
-                               GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( 
-                  
-                  
+                               GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">(
+
+
                   <akn:inline eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"
                               GUID="bdff7240-266e-4ff3-b311-60342bd1afa2"
                               refersTo="amtliche-abkuerzung"
@@ -469,9 +469,9 @@
                <akn:content eId="hauptteil-1_para-34_abs-1_inhalt-1"
                             GUID="1a983020-0a5c-4e20-8d65-7908affd6afc">
                   <akn:p eId="hauptteil-1_para-34_abs-1_inhalt-1_text-1"
-                         GUID="7f60908e-6cd0-445b-903a-f56dec498743">Dieses Gesetz tritt 
-                     
-                     
+                         GUID="7f60908e-6cd0-445b-903a-f56dec498743">Dieses Gesetz tritt
+
+
                      <akn:date eId="hauptteil-1_para-34_abs-1_inhalt-1_text-1_datum-1"
                                GUID="6ff42dc4-2903-4af3-8dcd-c997f550b184"
                                date="1964-09-05"
@@ -495,9 +495,9 @@
                    GUID="3c618852-c362-481f-a2be-f3ac487a20a7">
                <akn:location eId="schluss-1_blockcontainer-1_text-1_ort-1"
                              GUID="19ffc7e1-add6-40a4-b9af-2f0927e46e9c"
-                             refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den 
-               
-               
+                             refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den
+
+
                <akn:date eId="schluss-1_blockcontainer-1_text-1_datum-1"
                          GUID="34cf44aa-73a4-4dee-9827-4d890da7aac7"
                          refersTo="ausfertigung-datum"

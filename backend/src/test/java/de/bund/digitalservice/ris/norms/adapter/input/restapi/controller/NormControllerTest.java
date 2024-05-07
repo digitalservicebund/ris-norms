@@ -75,7 +75,7 @@ class NormControllerTest {
                                                      <akn:longTitle eId="einleitung-1_doktitel-1" GUID="abbb08de-e7e2-40ab-aba0-079ce786e6d6">
                                                         <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="3e7c2134-d82c-44ba-b50d-bad9790375a0">
                                                            <akn:docTitle
-                                                              eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelungs des öffenltichen Vereinsrechts</akn:docTitle>
+                                                              eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                                                         </akn:p>
                                                      </akn:longTitle>
                                                   </akn:preface>
@@ -98,7 +98,7 @@ class NormControllerTest {
                   .value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
           .andExpect(
               jsonPath("title")
-                  .value(equalTo("Gesetz zur Regelungs des öffenltichen Vereinsrechts")))
+                  .value(equalTo("Gesetz zur Regelung des öffentlichen Vereinsrechts")))
           .andExpect(jsonPath("frbrNumber").value(equalTo("s593")))
           .andExpect(jsonPath("frbrName").value(equalTo("BGBl. I")))
           .andExpect(jsonPath("frbrDateVerkuendung").value(equalTo("1964-08-05")));

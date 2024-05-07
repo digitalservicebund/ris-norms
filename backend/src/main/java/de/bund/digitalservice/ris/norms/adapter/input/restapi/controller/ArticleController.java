@@ -4,12 +4,10 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -31,16 +29,19 @@ public class ArticleController {
   private final LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
+  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   public ArticleController(
       LoadNormUseCase loadNormUseCase,
       LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase,
       LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
-      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
+      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
+      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNextVersionOfNormUseCase = loadNextVersionOfNormUseCase;
     this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
+    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
   }
 
   /**
@@ -275,10 +276,27 @@ public class ArticleController {
       } catch (Exception e) {
         return ResponseEntity.badRequest().build();
       }
-    }
 
-    // TODO: (Malte Laukötter, 2024-05-02) apply time machine up to atIsoDate & create a test for
-    // this
+      return loadNormUseCase
+          .loadNorm(new LoadNormUseCase.Query(eli))
+          .map(
+              norm ->
+                  applyPassiveModificationsUseCase.applyPassiveModifications(
+                      new ApplyPassiveModificationsUseCase.Query(
+                          norm, Instant.parse(atIsoDate.get()))))
+          .map(Norm::getArticles)
+          .stream()
+          .flatMap(List::stream)
+          .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
+          .findFirst()
+          .map(article -> XmlMapper.toString(article.getNode()))
+          .map(
+              xml ->
+                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                      new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
+          .map(ResponseEntity::ok)
+          .orElse(ResponseEntity.notFound().build());
+    }
 
     return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
         .flatMap(List::stream)

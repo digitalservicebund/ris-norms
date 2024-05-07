@@ -18,6 +18,7 @@
         "pinDigest",
         "digest"
       ],
+      "timezone": "Europe/Berlin",
       "schedule": ["every weekday before 5:30am and after 6:30am"], // branch creation only on weekdays
       "automerge": true,
       "platformAutomerge": false, // this would require more repository setup
