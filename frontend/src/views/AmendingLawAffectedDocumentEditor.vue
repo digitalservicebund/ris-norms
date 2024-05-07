@@ -84,7 +84,7 @@ async function handleSave() {
       class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white"
       aria-labelledby="sidebarNavigation"
     >
-      <span id="sidebarNavigation" hidden>SideBar Navigation</span>
+      <span id="sidebarNavigation" class="sr-only">Inhaltsverzeichnis</span>
 
       <div class="px-16 py-8">
         <label for="timeBoundarySelect">
