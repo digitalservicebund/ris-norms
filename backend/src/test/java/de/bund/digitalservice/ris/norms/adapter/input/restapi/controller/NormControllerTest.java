@@ -178,10 +178,11 @@ class NormControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String html = "<div></div>";
 
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(NormFixtures.simpleNorm()));
+      when(loadNormUseCase.loadNorm(any()))
+          .thenReturn(Optional.of(NormFixtures.loadFromDisk("SimpleNorm.xml")));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(NormFixtures.simpleNorm());
+          .thenReturn(NormFixtures.loadFromDisk("SimpleNorm.xml"));
 
       // When // Then
       mockMvc
