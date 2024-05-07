@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test"
+import globalSetup from "@e2e/database/globalSetup"
 
 test.describe("Navigate to temporal data page and test its rendered content", () => {
   test.beforeEach(async ({ page }) => {
+    await globalSetup()
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
     )
