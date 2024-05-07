@@ -59,6 +59,7 @@ with the name `SLACK_WEBHOOK_URL`, containing a url for [Incoming Webhooks](http
 
 ## Docker
 
+### Usual setup
 With Docker being installed (Compose Plugin needed) run following to start all containers:
 ```bash
 docker compose up -d
@@ -77,6 +78,28 @@ To stop them:
 ```bash
 docker compose down
 ```
+
+### Run E2E Tests with Playwright
+Be aware: This wipes your local database:
+```bash
+docker volume rm ris-norms_postgres14-data
+
+docker compose build
+
+docker compose up -d
+
+cd frontend
+
+docker build -t ris-norms-playwright -f DockerfilePlaywright .
+
+docker run --name ris-normsplay-wright -it --rm \
+-e E2E_BASE_URL="http://nginx:8081" \
+-e TZ="Europe/Berlin" \
+--network ris-norms_default \
+-v $(pwd)/test-results:/usr/src/app/test-results \
+ris-norms-playwright
+```
+Screenshots for failed tests are stored in `/frontend/test-results/`.
 
 ## Direct
 

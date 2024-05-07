@@ -1,0 +1,2 @@
+FROM cgr.dev/chainguard/nginx:latest
+COPY nginx-playwright.conf /etc/nginx/conf.d/nginx.default.conf
