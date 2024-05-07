@@ -1,5 +1,5 @@
 import { apiFetch } from "@/services/apiService"
-import { TemporalDataReleaseResponse } from "@/types/temporalDataReleaseResponse"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
 
 /**
  * Fetches the HTML content of an amending law's entry into force section by ELI.
@@ -24,8 +24,8 @@ export async function getEntryIntoForceHtml(eli: string): Promise<string> {
  */
 export async function getTemporalDataTimeBoundaries(
   eli: string,
-): Promise<TemporalDataReleaseResponse[]> {
-  return await apiFetch<TemporalDataReleaseResponse[]>(
+): Promise<TemporalDataResponse[]> {
+  return await apiFetch<TemporalDataResponse[]>(
     `/norms/${eli}/timeBoundaries`,
     {
       method: "GET",
@@ -45,9 +45,9 @@ export async function getTemporalDataTimeBoundaries(
  * */
 export async function updateTemporalDataTimeBoundaries(
   eli: string,
-  dates: TemporalDataReleaseResponse[],
-): Promise<TemporalDataReleaseResponse[]> {
-  return await apiFetch<TemporalDataReleaseResponse[]>(
+  dates: TemporalDataResponse[],
+): Promise<TemporalDataResponse[]> {
+  return await apiFetch<TemporalDataResponse[]>(
     `/norms/${eli}/timeBoundaries`,
     {
       method: "PUT",
