@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { computed, ref, watch, WritableComputedRef } from "vue"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
-import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
+import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useArticlesChangedAtTimeBoundary } from "@/composables/useArticlesChangedAtTimeBoundary"
-import { useRouter } from "vue-router"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useTemporalData } from "@/composables/useTemporalData"
+import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import dayjs from "dayjs"
+import { computed, ref, watch, WritableComputedRef } from "vue"
+import { useRouter } from "vue-router"
 
 const router = useRouter()
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
-
 const amendingLaw = useAmendingLaw(amendingLawEli)
 
 const { xml: targetLawXml, update: updateTargetLawXml } =
@@ -27,6 +26,14 @@ watch(targetLawXml, () => {
 })
 
 const { timeBoundaries } = useTemporalData(affectedDocumentEli)
+
+const sortedTimeBoundaries = computed(() =>
+  timeBoundaries.value.toSorted((a, b) => {
+    if (a.date < b.date) return -1
+    else if (a.date > b.date) return 1
+    else return 0
+  }),
+)
 
 const selectedTimeBoundary: WritableComputedRef<string> =
   useTimeBoundaryPathParameter()
@@ -43,11 +50,7 @@ watch(
   timeBoundaries,
   () => {
     if (selectedTimeBoundary.value === "" && timeBoundaries.value.length > 0) {
-      router.replace({
-        params: {
-          timeBoundary: timeBoundaries.value[0].date,
-        },
-      })
+      router.replace({ params: { timeBoundary: timeBoundaries.value[0].date } })
     }
   },
   { immediate: true },
@@ -96,7 +99,7 @@ async function handleSave() {
             class="ds-select ds-select-small"
           >
             <option
-              v-for="timeBoundary in timeBoundaries"
+              v-for="timeBoundary in sortedTimeBoundaries"
               :key="timeBoundary.eventRefEid"
               :value="timeBoundary.date"
             >
