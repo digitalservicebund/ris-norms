@@ -1,5 +1,6 @@
 import { test, expect, Page } from "@playwright/test"
 import { readFileSync } from "fs"
+import globalSetup from "@e2e/database/globalSetup"
 
 test.describe("Publishing flow for an amending law", () => {
   async function verifyPublicationTime(
@@ -32,6 +33,7 @@ test.describe("Publishing flow for an amending law", () => {
   }
 
   test("navigate to publishing page for an amending law", async ({ page }) => {
+    await globalSetup()
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
     )
