@@ -26,7 +26,7 @@ watch(targetLawXml, () => {
   currentTargetLawXml.value = targetLawXml.value
 })
 
-const { timeBoundaries } = useTemporalData(amendingLawEli)
+const { timeBoundaries } = useTemporalData(affectedDocumentEli)
 
 const selectedTimeBoundary: WritableComputedRef<string> =
   useTimeBoundaryPathParameter()
