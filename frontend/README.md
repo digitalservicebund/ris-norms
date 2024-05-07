@@ -42,6 +42,16 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 
 ## Setup Playwright for E2E Tests
 
+Playbook:
+
+- Make sure the backend runs
+- Make sure the frontend runs
+- Install Playwright
+- Let Playwright now where to connect to
+- Run the E2E Test
+
 ```bash
 npx --yes playwright install --with-deps chrome firefox webkit
+
+E2E_BASE_URL=http://localhost:5173 npm run test:e2e
 ```
