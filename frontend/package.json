@@ -23,7 +23,7 @@
     "audit:licences": "license-checker --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./licence-report.csv"
   },
   "engines": {
-    "node": "20.12.2",
+    "node": "20.13.0",
     "npm": "10.7.0"
   },
   "dependencies": {
