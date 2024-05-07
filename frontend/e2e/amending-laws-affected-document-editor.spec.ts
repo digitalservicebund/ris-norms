@@ -22,11 +22,11 @@ test.skip(`see affected document title and xml`, async ({ page }) => {
   await expect(
     page.getByRole("heading", {
       level: 1,
-      name: "Gesetz zur Regelungs des öffenltichen Vereinsrechts",
+      name: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
     }),
   ).toBeVisible()
 
-  // part of the XML of the target law (Gesetz zur Regelungs des öffenltichen Vereinsrechts)
+  // part of the XML of the target law (Gesetz zur Regelung des öffentlichen Vereinsrechts)
   const targetLawEditor = page
     .getByRole("region", { name: "Geändertes Gesetz" })
     .getByText(
@@ -53,7 +53,7 @@ test.skip(`load preview`, async ({ page }) => {
 // skipped as this view is currently getting reimplemented
 test.skip(`update law with new content`, async ({ page }) => {
   const newXml = targetLawXml.replace(
-    "Gesetz zur Regelungs des öffenltichen Vereinsrechts",
+    "Gesetz zur Regelung des öffentlichen Vereinsrechts",
     "TEST",
   )
 

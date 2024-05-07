@@ -101,7 +101,7 @@ const SAMPLE_AMENDING_LAW = `<?xml version="1.0" encoding="UTF-8"?>
             <akn:p GUID="3e7c2134-d82c-44ba-b50d-bad9790375a0" eId="doktitel-1_text-1">
                <akn:docStage/>
                <akn:docProponent/>
-               <akn:docTitle>Gesetz zur Regelungs des öffenltichen Vereinsrechts</akn:docTitle>
+               <akn:docTitle>Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                <akn:shortTitle GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716"
                                eId="doktitel-1_text-1_kurztitel-1">(
 

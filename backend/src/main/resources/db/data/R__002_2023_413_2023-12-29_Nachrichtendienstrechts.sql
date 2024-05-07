@@ -674,7 +674,7 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1"
                                  GUID="d446d041-9b65-4c17-b250-106a808da3e9"/>
                <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
-                             GUID="b842df1f-4d69-4dfc-91aa-bf30d3d80485">Gesetz zur Regelungs des öffenltichen
+                             GUID="b842df1f-4d69-4dfc-91aa-bf30d3d80485">Gesetz zur Regelung des öffentlichen
                   Vereinsrechts</akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
                                GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( <akn:inline eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"

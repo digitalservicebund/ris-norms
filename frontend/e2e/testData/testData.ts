@@ -23,7 +23,7 @@ export const amendingLaws: (Norm & {
     targetLaws: [
       {
         eli: "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1",
-        title: "Gesetz zur Regelungs des öffenltichen Vereinsrechts",
+        title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
         fna: "754-28-1",
         shortTitle: "Vereinsgesetz",
         zf0Eli: "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1",
