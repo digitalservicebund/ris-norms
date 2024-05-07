@@ -47,7 +47,7 @@ Playbook:
 - Make sure the backend runs
 - Make sure the frontend runs
 - Install Playwright
-- Let Playwright now where to connect to
+- Let Playwright know where to connect to
 - Run the E2E Test
 
 ```bash
