@@ -21,7 +21,7 @@ export function useTimeBoundaryPathParameter(): WritableComputedRef<string> {
       return route.params.timeBoundary
     },
     set(timeBoundary) {
-      router.push({
+      router.replace({
         params: {
           timeBoundary,
         },
