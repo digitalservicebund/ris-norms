@@ -1,7 +1,7 @@
 -- First delete announcement because of foreign key
 DELETE FROM announcements where eli = 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1';
 
--- Amending law
+-- Amending law "Vereinsgesetz"
 DELETE FROM norms where guid = 'e47a5106-c153-4da4-8d94-8cc2ebf9b232';
 INSERT INTO norms (guid, eli, xml)
 VALUES ('e47a5106-c153-4da4-8d94-8cc2ebf9b232', 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?>
