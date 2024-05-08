@@ -24,7 +24,7 @@ jobs:
       - name: Build docker image
         run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }} -f DockerfileApp .
       - name: Run Trivy vulnerability image scanner
-        uses: aquasecurity/trivy-action@6f8c23760b7baab9da654a77606e367803441f93
+        uses: aquasecurity/trivy-action@b2cd5ff52c525099076ae4f4178bc8e9b4da89ec
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
           format: "sarif"
@@ -51,7 +51,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-image-scan
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@6f8c23760b7baab9da654a77606e367803441f93
+        uses: aquasecurity/trivy-action@b2cd5ff52c525099076ae4f4178bc8e9b4da89ec
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
           format: "cosign-vuln"
