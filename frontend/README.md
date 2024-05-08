@@ -39,3 +39,37 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
    1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
    2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
 2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+## Setup Playwright for E2E Tests
+
+Playbook:
+
+- Make sure the backend runs [here](../DEVELOPING.md#direct).
+- Make sure the frontend runs [here](../DEVELOPING.md#direct).
+- Install Playwright
+- Let Playwright know where to connect to by using the .env file: `cp .env.local.example .env.local`
+- Run the E2E Test
+
+Prepare your system:
+
+```bash
+npx --yes playwright install --with-deps chrome firefox webkit
+```
+
+Run all tests:
+
+```bash
+npm run test:e2e
+```
+
+Run just 1 specific test:
+
+```bash
+npm run test:e2e -- [testfile]
+```
+
+Debug an e2e test:
+
+```bash
+npm run test:e2e -- [testfile] --debug
+```
