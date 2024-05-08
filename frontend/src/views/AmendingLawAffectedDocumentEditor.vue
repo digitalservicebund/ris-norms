@@ -130,7 +130,7 @@ async function handleSave() {
       <!-- Content links -->
       <RisCallout
         v-if="!articles?.length"
-        title="Keine Aritkel gefunden."
+        title="Keine Artikel gefunden."
         class="mx-16"
       />
 

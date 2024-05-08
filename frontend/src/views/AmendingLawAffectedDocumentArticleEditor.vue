@@ -15,9 +15,10 @@ const articleEid = useEidPathParameter()
 const timeBoundary = useTimeBoundaryPathParameter()
 
 /**
- * The xml of the law whose metadata is edited on this view. As both this and the rahmen metadata editor view both edit
- * the same xml (which is not yet stored in the database) we provide it from AmendingLawAffectedDocumentEditor. That
- * view also handles persisting the changes when requested.
+ * The xml of the law whose metadata is edited on this view. As both this and
+ * the rahmen metadata editor view both edit the same xml (which is not yet
+ * stored in the database) we provide it from AmendingLawAffectedDocumentEditor.
+ * That view also handles persisting the changes when requested.
  */
 const xml = defineModel<string>("xml")
 
@@ -26,7 +27,9 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
     ? { eli: affectedDocumentEli.value, eid: articleEid.value }
     : undefined,
 )
+
 const article = useArticle(identifier)
+
 const render = useArticleHtml(
   affectedDocumentEli,
   articleEid,
