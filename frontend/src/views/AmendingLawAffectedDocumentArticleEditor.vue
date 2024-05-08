@@ -48,14 +48,14 @@ const render = useArticleHtml(
     </div>
 
     <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-32">
-      <section class="mt-32 flex flex-col gap-8">
+      <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
         <RisLawPreview
           class="ds-textarea flex-grow p-2"
           :content="render ?? ''"
         />
       </section>
 
-      <section class="flex flex-col gap-8">
+      <section class="flex flex-col gap-8" aria-label="Metadaten bearbeiten">
         <RisTabs
           align="right"
           :tabs="[
