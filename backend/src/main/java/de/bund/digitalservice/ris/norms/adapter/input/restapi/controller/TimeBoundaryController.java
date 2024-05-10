@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.springframework.http.MediaType.*;
 
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.constraints.UniqueTimeBoundariesDatesConstraint;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.TimeBoundaryMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundarySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
@@ -102,7 +103,10 @@ public class TimeBoundaryController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @RequestBody @Valid @NotEmpty(message = "Change list must not be empty")
+      @RequestBody
+          @Valid
+          @UniqueTimeBoundariesDatesConstraint
+          @NotEmpty(message = "Change list must not be empty")
           final List<TimeBoundarySchema> timeBoundaries) {
 
     final String eli =
