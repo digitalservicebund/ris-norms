@@ -117,8 +117,8 @@ cd frontend
 
 docker build -t ris-norms-playwright -f DockerfilePlaywright .
 
-docker run --name ris-normsplay-wright -it --rm \
--e E2E_BASE_URL="http://nginx:8081" \
+docker run --name ris-norms-playwright -it --rm \
+-e E2E_BASE_URL="http://nginx:8080" \
 -e TZ="Europe/Berlin" \
 --network ris-norms_default \
 -v $(pwd)/test-results:/usr/src/app/test-results \
