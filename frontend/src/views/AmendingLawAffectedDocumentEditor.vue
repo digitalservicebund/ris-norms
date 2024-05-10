@@ -31,13 +31,6 @@ const sortedTimeBoundaries = computed(() =>
 
 const selectedTimeBoundary = useTimeBoundaryPathParameter()
 
-const selectedTimeBoundaryEid = computed(
-  () =>
-    timeBoundaries.value.find(
-      (boundary) => boundary.date === selectedTimeBoundary.value,
-    )?.eventRefEid,
-)
-
 // Choose the first time boundary if none is selected so far
 watch(
   timeBoundaries,
@@ -51,7 +44,7 @@ watch(
 
 const articles = useAffectedArticles(
   affectedDocumentEli,
-  selectedTimeBoundaryEid,
+  undefined,
   amendingLawEli,
 )
 

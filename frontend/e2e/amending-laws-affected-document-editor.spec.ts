@@ -36,28 +36,38 @@ test.describe("navigate to page", () => {
 })
 
 test.describe("sidebar navigation", () => {
-  test("shows the articles affected at that time boundary", async ({
-    page,
-  }) => {
+  test("shows the articles affected by this amending law", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
 
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
 
-    await expect(nav.getByText("Keine Artikel gefunden.")).toBeVisible()
+    // Ensure articles have been loaded before proceeding, this is to avoid
+    // flakyness in getBy...().all().
+    await page.waitForResponse((response) =>
+      response.url().includes("/articles?amendedBy="),
+    )
 
+    let links = await nav.getByRole("link").all()
+    await expect(links[0]).toHaveText("Rahmen") // First is always the entire document
+    await expect(links[1]).toHaveText(
+      "§6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+    )
+
+    // Go to the other time boundary to check if the result is the same (should always
+    // show all affected articles independent from the time boundary).
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
-    // Ensure articles have been loaded before proceeding, this is to avoid
-    // flakyness in getBy...().all().
+    // Wait again ...
     await page.waitForResponse((response) =>
-      response.url().includes("/articles?amendedAt="),
+      response.url().includes("/articles?amendedBy="),
     )
 
-    const links = await nav.getByRole("link").all()
+    // Expect to see the same result again
+    links = await nav.getByRole("link").all()
     await expect(links[0]).toHaveText("Rahmen") // First is always the entire document
     await expect(links[1]).toHaveText(
       "§6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",

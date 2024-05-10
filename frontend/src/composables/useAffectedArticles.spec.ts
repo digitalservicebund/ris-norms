@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
-describe("useArticlesChangedAtTimeBoundary", () => {
+describe("useAffectedArticles", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
