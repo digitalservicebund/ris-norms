@@ -50,12 +50,12 @@ describe("useTimeBoundaryPathParameter", () => {
   })
 
   test("should update route param when changed", async () => {
-    const routerPush = vi.fn()
+    const routerReplace = vi.fn()
 
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn(),
       useRouter: vi.fn().mockReturnValue({
-        push: routerPush,
+        replace: routerReplace,
       }),
     }))
 
@@ -64,7 +64,7 @@ describe("useTimeBoundaryPathParameter", () => {
     )
     const timeBoundary = useTimeBoundaryPathParameter()
     timeBoundary.value = "unknown-eid-2"
-    expect(routerPush).toHaveBeenCalledWith({
+    expect(routerReplace).toHaveBeenCalledWith({
       params: { timeBoundary: "unknown-eid-2" },
     })
   })

@@ -36,7 +36,20 @@ public class InternalErrorExceptionHandler {
    */
   @ExceptionHandler(HandlerMethodValidationException.class)
   public void handleHandlerMethodValidationException(final HandlerMethodValidationException e) {
-    log.error("Bad request: {}", e.getMessage(), e);
+    log.error("Bad request: {}", e.getMessage());
+
+    e.getAllValidationResults()
+        .forEach(
+            validationResults ->
+                validationResults
+                    .getResolvableErrors()
+                    .forEach(
+                        resolvableErrors ->
+                            log.error(
+                                "Validation Error: {}", resolvableErrors.getDefaultMessage())));
+
+    log.error("Stacktrace: ", e);
+
     throw e;
   }
 
@@ -50,7 +63,7 @@ public class InternalErrorExceptionHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<String> handleException(final Exception e) {
 
-    log.error("Internal server error with message: " + e.getMessage(), e);
+    log.error("Internal server error with message: {}", e.getMessage(), e);
 
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
   }

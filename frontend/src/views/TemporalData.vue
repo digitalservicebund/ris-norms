@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import RisTemporalDataIntervals from "@/components/RisTemporalDataIntervals.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { useAmendingLawTemporalData } from "@/composables/useAmendingLawTemporalData"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useEntryIntoForceHtml } from "@/composables/useEntryIntoForceHtml"
+import { useTemporalData } from "@/composables/useTemporalData"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
+
 const eli = useEliPathParameter()
-const {
-  htmlContent: entryIntoForceArticleHtml,
-  timeBoundaries: dates,
-  update,
-} = useAmendingLawTemporalData(eli)
+const { timeBoundaries: dates, updateTemporalData } = useTemporalData(eli)
+const { htmlContent: entryIntoForceArticleHtml } = useEntryIntoForceHtml(eli)
 
 async function handleSave() {
   try {
-    await update(dates.value)
-    console.log("Dates saved successfully.")
+    await updateTemporalData(dates.value)
   } catch (error) {
     console.error("Error saving dates:", error)
   }

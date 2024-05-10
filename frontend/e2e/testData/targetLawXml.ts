@@ -83,7 +83,7 @@ export const targetLawXml = `<?xml version="1.0" encoding="UTF-8"?><!--
             <akn:p GUID="3e7c2134-d82c-44ba-b50d-bad9790375a0" eId="einleitung-1_doktitel-1_text-1">
                <akn:docStage GUID="3b355cab-ce10-45b5-9cde-cc618fbf491f" eId="einleitung-1_doktitel-1_text-1_docstadium-1"/>
                <akn:docProponent GUID="c83abe1e-5fde-4e4e-a9b5-7293505ffeff" eId="einleitung-1_doktitel-1_text-1_docproponent-1"/>
-               <akn:docTitle GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb" eId="einleitung-1_doktitel-1_text-1_doctitel-1">Gesetz zur Regelungs des öffenltichen Vereinsrechts</akn:docTitle>
+               <akn:docTitle GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb" eId="einleitung-1_doktitel-1_text-1_doctitel-1">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                <akn:shortTitle GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716" eId="einleitung-1_doktitel-1_text-1_kurztitel-1">( <akn:inline GUID="bdff7240-266e-4ff3-b311-60342bd1afa2" eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1" name="attributsemantik-noch-undefiniert" refersTo="amtliche-abkuerzung">Vereinsgesetz</akn:inline>)</akn:shortTitle>
             </akn:p>
          </akn:longTitle>

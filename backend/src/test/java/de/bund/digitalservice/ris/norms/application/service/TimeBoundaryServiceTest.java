@@ -6,11 +6,15 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTimeBoundariesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTimeBoundariesUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
+import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 
 class TimeBoundaryServiceTest {
 
@@ -498,9 +503,9 @@ class TimeBoundaryServiceTest {
 
       // When
       var timeBoundaryChangeDataNewDate1 =
-          new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-2", LocalDate.parse("1970-01-01"));
+          new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-2", LocalDate.parse("1980-01-01"));
       var timeBoundaryChangeDataNewDate2 =
-          new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-3", LocalDate.parse("1970-01-01"));
+          new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-3", LocalDate.parse("1990-01-01"));
 
       service.updateTimeBoundariesOfNorm(
           new UpdateTimeBoundariesUseCase.Query(
@@ -513,12 +518,79 @@ class TimeBoundaryServiceTest {
           .updateNorm(
               argThat(
                   argument ->
-                      LocalDate.parse("1970-01-01")
+                      LocalDate.parse("1980-01-01")
                               .equals(
                                   argument.norm().getTimeBoundaries().getFirst().getDate().get())
-                          && LocalDate.parse("1970-01-01")
+                          && LocalDate.parse("1990-01-01")
                               .equals(argument.norm().getTimeBoundaries().get(1).getDate().get())
                           && argument.norm().getTimeBoundaries().size() == 2));
+    }
+
+    @Test
+    void itChangesDateEIdNotFound() {
+      MemoryAppender memoryAppender;
+      Logger logger = (Logger) LoggerFactory.getLogger(TimeBoundaryService.class);
+      memoryAppender = new MemoryAppender();
+      memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
+      logger.setLevel(Level.ALL);
+      logger.addAppender(memoryAppender);
+      memoryAppender.start();
+
+      String eli = "eli/bund/bgbl-1/1964/s593/2000-01-01/1/deu/regelungstext-1";
+
+      var xml =
+          """
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                                  <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="9ccda9b8-b213-43c5-8ee0-ec47c3c602bb" date="2024-03-13"
+                                      source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                               </akn:lifecycle>
+                               <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                                     <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                        <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                     </akn:temporalGroup>
+                                     <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2" GUID="f550bb38-e322-48ac-acf6-6b53e2e174b8">
+                                        <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" GUID="6ea11eeb-31d2-47a5-9cac-7a31a14b86d1" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-3" />
+                                     </akn:temporalGroup>
+                               </akn:temporalData>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                      """;
+
+      var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+
+      // Given
+      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+
+      // When
+      var timeBoundaryChangeDataNewDate1 =
+          new TimeBoundaryChangeData(
+              "meta-1_lebzykl-1_ereignis-1000", LocalDate.parse("1970-01-01"));
+
+      service.updateTimeBoundariesOfNorm(
+          new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataNewDate1)));
+
+      // Then
+      verify(dbService, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(dbService, times(1)).updateNorm(any());
+
+      assertThat(
+              memoryAppender.contains(
+                  "The following time boundaries should be changed but the eId was not found: [TimeBoundaryChangeData[eid=meta-1_lebzykl-1_ereignis-1000, date=1970-01-01]]",
+                  Level.ERROR))
+          .isTrue();
     }
   }
 }

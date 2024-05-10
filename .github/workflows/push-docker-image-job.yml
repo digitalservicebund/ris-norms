@@ -29,7 +29,7 @@ jobs:
         shell: bash
         run: docker load -i /tmp/images/fullstack-image.tar
       - name: Log into container registry
-        uses: docker/login-action@5f4866a30a54f16a52d2ecb4a3898e9e424939cf
+        uses: docker/login-action@7840e6ddd4a9223910798f6a315544257fccd96e
         with:
           registry: ${{ inputs.container-registry }}
           username: ${{ github.actor }}
@@ -37,7 +37,7 @@ jobs:
       - name: Publish container image
         run: docker push ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       - name: Install cosign
-        uses: sigstore/cosign-installer@8c9caa0770665566557753619ac7be56d41f8896
+        uses: sigstore/cosign-installer@8d927bd1a9539c7d4b1d943b3e2c3404f69e6f48
       - name: Sign the published Docker image
         run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       - name: Download cosign vulnerability scan record

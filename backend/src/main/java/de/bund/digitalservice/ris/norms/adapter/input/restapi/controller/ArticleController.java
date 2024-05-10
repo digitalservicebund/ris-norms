@@ -4,12 +4,10 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -31,16 +29,19 @@ public class ArticleController {
   private final LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
+  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   public ArticleController(
       LoadNormUseCase loadNormUseCase,
       LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase,
       LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
-      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
+      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
+      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNextVersionOfNormUseCase = loadNextVersionOfNormUseCase;
     this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
+    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
   }
 
   /**
@@ -81,17 +82,27 @@ public class ArticleController {
 
     final var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
 
-    var passiveModificationsAmendedAtAndBy =
+    // amendedAt and amendedBy refer to passive modifications (i.e. amended at a specific
+    // date or by a specific change law). So we collect a list of all passive modifications
+    // matching both criteria.
+    var passiveModificationsAmendedAtOrBy =
         optionalNorm.stream()
             .flatMap((Norm norm) -> norm.getPassiveModifications().stream())
-            .filter(passiveModification -> passiveModification.getSourceEli().equals(amendedBy))
             .filter(
-                passiveModification ->
-                    optionalNorm
+                passiveModification -> {
+                  if (amendedBy.isEmpty()) return true;
+                  else return passiveModification.getSourceEli().equals(amendedBy);
+                })
+            .filter(
+                passiveModification -> {
+                  if (amendedAt.isEmpty()) return true;
+                  else
+                    return optionalNorm
                         .get()
                         .getStartEventRefForTemporalGroup(
                             passiveModification.getForcePeriodEid().orElseThrow())
-                        .equals(amendedAt))
+                        .equals(amendedAt);
+                })
             .toList();
 
     return ResponseEntity.ok(
@@ -99,15 +110,24 @@ public class ArticleController {
             .flatMap(List::stream)
             .filter(
                 article -> {
-                  if (amendedBy.isEmpty() || amendedAt.isEmpty()) {
+                  // If we don't filter by anything related to passive modifications,
+                  // return all articles.
+                  if (amendedBy.isEmpty() && amendedAt.isEmpty()) {
                     return true;
                   }
 
-                  return passiveModificationsAmendedAtAndBy.stream()
+                  // If we filter by amendedAt or amendedBy: Those properties are found
+                  // in the passive modifications we already collected above. What's left
+                  // now is to only return the articles that are going to be modified by
+                  // those passive modifications.
+                  return passiveModificationsAmendedAtOrBy.stream()
                       .flatMap(
                           passiveModification -> passiveModification.getDestinationEid().stream())
                       .anyMatch(
                           destinationEid ->
+                              // Modifications can be either on the article itself or anywhere
+                              // inside the article, hence the "contains" rather than exact
+                              // matching.
                               destinationEid.contains(article.getEid().orElseThrow()));
                 })
             .map(
@@ -275,10 +295,27 @@ public class ArticleController {
       } catch (Exception e) {
         return ResponseEntity.badRequest().build();
       }
-    }
 
-    // TODO: (Malte Laukötter, 2024-05-02) apply time machine up to atIsoDate & create a test for
-    // this
+      return loadNormUseCase
+          .loadNorm(new LoadNormUseCase.Query(eli))
+          .map(
+              norm ->
+                  applyPassiveModificationsUseCase.applyPassiveModifications(
+                      new ApplyPassiveModificationsUseCase.Query(
+                          norm, Instant.parse(atIsoDate.get()))))
+          .map(Norm::getArticles)
+          .stream()
+          .flatMap(List::stream)
+          .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
+          .findFirst()
+          .map(article -> XmlMapper.toString(article.getNode()))
+          .map(
+              xml ->
+                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                      new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
+          .map(ResponseEntity::ok)
+          .orElse(ResponseEntity.notFound().build());
+    }
 
     return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
         .flatMap(List::stream)

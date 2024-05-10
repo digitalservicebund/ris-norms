@@ -1,8 +1,28 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
+    /**
+     * The HTML content of the norm that should be shown in the preview.
+     *
+     * **Important:** This is going to be rendered as-is as HTML. Make sure
+     * the content is trustworthy and sanitized in order to prevent security
+     * vulnerabilities from rendering manipulated HTML.
+     */
     content: string
+
+    /**
+     * Enable or disable highlighting of mod elements (these used to be amending
+     * commands in the source XML).
+     *
+     * @default false
+     */
     highlightMods?: boolean
+
+    /**
+     * Enable or disable highlighting of the affected document elements.
+     *
+     * @default false
+     */
     highlightAffectedDocument?: boolean
   }>(),
   {

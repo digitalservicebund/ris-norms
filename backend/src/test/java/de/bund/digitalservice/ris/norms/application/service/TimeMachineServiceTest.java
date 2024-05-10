@@ -99,9 +99,9 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModification() {
       // given
-      final var norm = NormFixtures.normWithPassiveModifications();
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.normWithMods();
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -124,9 +124,9 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsInCorrectOrder() {
       // given
-      final var norm = NormFixtures.normWithMultiplePassiveModifications();
+      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.normWithMultipleMods();
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -147,11 +147,48 @@ class TimeMachineServiceTest {
     }
 
     @Test
+    void applyPassiveModificationsWhereTargetNodeEqualsNodeToChange() {
+      // given
+      final var norm =
+          NormFixtures.loadFromDisk("NormWithPassiveModsWhereTargetNodeEqualsNodeToChange.xml");
+
+      final var amendingLaw =
+          NormFixtures.loadFromDisk("NormWithModsWhereTargetNodeEqualsNodeToChange.xml");
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
+
+      // then
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              """
+                              Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen
+                                                              entsprechend §
+                                                              64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die
+                                                              Angaben, die die
+                                                              Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der
+                                                              Protokolldaten
+                                                              ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der
+                                                              Datenschutzkontrolle, der
+                                                              Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
+                                                              Die
+                                                              Protokolldaten sind nach Ablauf von fünf Jahren zu löschen.
+                              """);
+    }
+
+    @Test
     void applyPassiveModificationsBeforeDate() {
       // given
-      final var norm = NormFixtures.normWithMultiplePassiveModifications();
-
-      final var amendingLaw = NormFixtures.normWithMultipleMods();
+      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 

@@ -16,6 +16,8 @@ import org.w3c.dom.NodeList;
  */
 public final class EidConsistencyGuardian {
 
+  private static final String START_ON_NODE = "akn:meta";
+
   private EidConsistencyGuardian() {
     // Should not be instantiated as an object
   }
@@ -30,24 +32,48 @@ public final class EidConsistencyGuardian {
    */
   public static Document correctEids(final Document currentXml) {
     Element rootElement = currentXml.getDocumentElement();
-    // Dead references
-    setRemovedReferencesToEmptyStringNew(
-        "//textualMod/force", "period", "//temporalData/temporalGroup", "eId", rootElement);
-    setRemovedReferencesToEmptyStringNew(
-        "//proprietary/legalDocML.de_metadaten_ds/*",
-        "start",
-        "//lifecycle/eventRef",
-        "eId",
-        rootElement);
-    setRemovedReferencesToEmptyStringNew(
-        "//proprietary/legalDocML.de_metadaten_ds/*",
-        "end",
-        "//lifecycle/eventRef",
-        "eId",
-        rootElement);
-    // Check eIds
-    updateElementEids(rootElement, null);
+    Element startNode = findStartNode(rootElement, START_ON_NODE);
+    if (startNode != null) {
+      // Dead references
+      setRemovedReferencesToEmptyStringNew(
+          "//textualMod/force", "period", "//temporalData/temporalGroup", "eId", rootElement);
+      setRemovedReferencesToEmptyStringNew(
+          "//proprietary/legalDocML.de_metadaten_ds/*",
+          "start",
+          "//lifecycle/eventRef",
+          "eId",
+          rootElement);
+      setRemovedReferencesToEmptyStringNew(
+          "//proprietary/legalDocML.de_metadaten_ds/*",
+          "end",
+          "//lifecycle/eventRef",
+          "eId",
+          rootElement);
+      // Check eIds
+      updateElementEids(startNode, startNode.getAttribute("eId"), rootElement);
+    }
     return currentXml;
+  }
+
+  private static Element findStartNode(Element rootElement, String nodeName) {
+    // Check if the current element is the node we are looking for
+    if (rootElement.getNodeName().equals(nodeName)) {
+      return rootElement;
+    }
+
+    // Otherwise, recursively search through the child nodes
+    NodeList childNodes = rootElement.getChildNodes();
+    for (int i = 0; i < childNodes.getLength(); i++) {
+      Node node = childNodes.item(i);
+      if (node.getNodeType() == Node.ELEMENT_NODE) {
+        Element childElement = (Element) node;
+        Element result = findStartNode(childElement, nodeName);
+        if (result != null) {
+          return result;
+        }
+      }
+    }
+    return null;
   }
 
   private static void setRemovedReferencesToEmptyStringNew(
@@ -86,8 +112,8 @@ public final class EidConsistencyGuardian {
     return false;
   }
 
-  // TODO it assumes an ordered list of ids in the XML
-  private static void updateElementEids(final Element element, final String parentEid) {
+  private static void updateElementEids(
+      final Element element, final String parentEid, Element rootElement) {
     final Map<String, Integer> childTypeCount =
         new HashMap<>(); // Track count of child nodes of each type
     final NodeList childNodes = element.getChildNodes();
@@ -106,17 +132,20 @@ public final class EidConsistencyGuardian {
               determineCorrectEid(childTypeCount.get(childTagName), currentEid, parentEid);
 
           if (!currentEid.equals(correctEid)) {
-            updateReferences(
-                currentEid, correctEid, element.getOwnerDocument().getDocumentElement());
+            updateReferences(currentEid, correctEid, rootElement);
             childElement.setAttribute("eId", correctEid);
             updateElementEids(
-                childElement, correctEid); // Recursively update child elements with corrected eId
+                childElement,
+                correctEid,
+                rootElement); // Recursively update child elements with corrected eId
           } else {
             updateElementEids(
-                childElement, currentEid); // Recursively update child elements with old eId
+                childElement,
+                currentEid,
+                rootElement); // Recursively update child elements with old eId
           }
         } else {
-          updateElementEids(childElement, null);
+          updateElementEids(childElement, null, rootElement);
         }
       }
     }
@@ -168,7 +197,7 @@ public final class EidConsistencyGuardian {
     final NamedNodeMap attributes = element.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
       Node attribute = attributes.item(i);
-      if (attribute.getNodeValue().contains(oldId)) {
+      if (attribute.getNodeValue().equals("#" + oldId)) {
         attribute.setNodeValue(attribute.getNodeValue().replace(oldId, newId));
       }
     }

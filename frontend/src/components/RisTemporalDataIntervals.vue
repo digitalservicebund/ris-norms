@@ -6,17 +6,18 @@ import DeleteOutlineIcon from "~icons/ic/outline-delete"
 import SortOutlineIcon from "~icons/ic/outline-arrow-downward"
 import dayjs from "dayjs"
 
-interface DateEntry {
+type DateEntry = {
   date: string
   eventRefEid: string
 }
 
-const dates = defineModel("dates", {
-  type: Array as () => DateEntry[],
+/** The current list of dates. */
+const dates = defineModel<DateEntry[]>("dates", {
   default: () => [],
 })
 
 const newDate = ref<string | undefined>()
+
 const isDeleteDisabled = computed(() => dates.value.length <= 1)
 
 function removeDateInput(index: number) {

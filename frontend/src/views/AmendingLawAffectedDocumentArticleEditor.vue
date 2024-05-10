@@ -15,9 +15,10 @@ const articleEid = useEidPathParameter()
 const timeBoundary = useTimeBoundaryPathParameter()
 
 /**
- * The xml of the law whose metadata is edited on this view. As both this and the rahmen metadata editor view both edit
- * the same xml (which is not yet stored in the database) we provide it from AmendingLawAffectedDocumentEditor. That
- * view also handles persisting the changes when requested.
+ * The xml of the law whose metadata is edited on this view. As both this and
+ * the rahmen metadata editor view both edit the same xml (which is not yet
+ * stored in the database) we provide it from AmendingLawAffectedDocumentEditor.
+ * That view also handles persisting the changes when requested.
  */
 const xml = defineModel<string>("xml")
 
@@ -26,7 +27,9 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
     ? { eli: affectedDocumentEli.value, eid: articleEid.value }
     : undefined,
 )
+
 const article = useArticle(identifier)
+
 const render = useArticleHtml(
   affectedDocumentEli,
   articleEid,
@@ -45,14 +48,14 @@ const render = useArticleHtml(
     </div>
 
     <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-32">
-      <section class="mt-32 flex flex-col gap-8">
+      <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
         <RisLawPreview
           class="ds-textarea flex-grow p-2"
           :content="render ?? ''"
         />
       </section>
 
-      <section class="flex flex-col gap-8">
+      <section class="flex flex-col gap-8" aria-label="Metadaten bearbeiten">
         <RisTabs
           align="right"
           :tabs="[

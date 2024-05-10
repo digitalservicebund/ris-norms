@@ -3,11 +3,11 @@
 	##################################################################################
 	Projekt E-Gesetzgebung
 	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.6 (Dezember 2023)
-	
+
 	2023 Copyright (C) 2021-2023 Bundesministerium des Innern und für Heimat,
 	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
 	Verwaltungsarbeit
-	
+
 	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
@@ -203,11 +203,11 @@
                <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1"
                                  GUID="fb3411cd-47aa-475e-8492-13b95f0dafd5"/>
                <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
-                             GUID="ba391398-e340-4d35-925b-9db3b023835e">Gesetz zur Regelungs des öffenltichen Vereinsrechts</akn:docTitle>
+                             GUID="ba391398-e340-4d35-925b-9db3b023835e">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
-                               GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( 
-                  
-                  
+                               GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">(
+
+
                   <akn:inline eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"
                               GUID="2a0fc4fc-5699-4c27-8a2f-e6eafab88658"
                               refersTo="amtliche-abkuerzung"
@@ -443,9 +443,9 @@
                <akn:content eId="hauptteil-1_para-34_abs-1_inhalt-1"
                             GUID="1a983020-0a5c-4e20-8d65-7908affd6afc">
                   <akn:p eId="hauptteil-1_para-34_abs-1_inhalt-1_text-1"
-                         GUID="7f60908e-6cd0-445b-903a-f56dec498743">Dieses Gesetz tritt 
-                     
-                     
+                         GUID="7f60908e-6cd0-445b-903a-f56dec498743">Dieses Gesetz tritt
+
+
                      <akn:date eId="hauptteil-1_para-34_abs-1_inhalt-1_text-1_datum-1"
                                GUID="bd2b689f-9333-4bac-8de4-8275141523f9"
                                date="1964-09-05"
@@ -469,9 +469,9 @@
                    GUID="4d783251-b00e-4bf9-9335-0d2d910ab233">
                <akn:location eId="schluss-1_blockcontainer-1_text-1_ort-1"
                              GUID="19ffc7e1-add6-40a4-b9af-2f0927e46e9c"
-                             refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den 
-               
-               
+                             refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den
+
+
                <akn:date eId="schluss-1_blockcontainer-1_text-1_datum-1"
                          GUID="7c2b6897-eb89-412d-b955-410bfced8fd1"
                          refersTo="ausfertigung-datum"
