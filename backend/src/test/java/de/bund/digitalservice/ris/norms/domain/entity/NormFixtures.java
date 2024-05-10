@@ -34,6 +34,14 @@ public class NormFixtures {
         .build();
   }
 
+  public static Norm normWithPassiveModificationsInDifferentArticles() {
+    return Norm.builder()
+        .document(
+            XmlMapper.toDocument(
+                NormFixtures.loadNormFile("NormWithPassiveModificationsInDifferentArticles.xml")))
+        .build();
+  }
+
   public static Norm normWithModsWhereTargetNodeEqualsNodeToChange() {
     return Norm.builder()
         .document(
