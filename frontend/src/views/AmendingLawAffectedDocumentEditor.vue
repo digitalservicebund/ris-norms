@@ -3,7 +3,7 @@ import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawIn
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
-import { useArticlesChangedAtTimeBoundary } from "@/composables/useArticlesChangedAtTimeBoundary"
+import { useAffectedArticles } from "@/composables/useAffectedArticles"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useTemporalData } from "@/composables/useTemporalData"
@@ -49,7 +49,7 @@ watch(
   { immediate: true },
 )
 
-const articles = useArticlesChangedAtTimeBoundary(
+const articles = useAffectedArticles(
   affectedDocumentEli,
   selectedTimeBoundaryEid,
   amendingLawEli,
