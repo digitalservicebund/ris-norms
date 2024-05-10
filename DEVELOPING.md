@@ -57,9 +57,28 @@ with the name `SLACK_WEBHOOK_URL`, containing a url for [Incoming Webhooks](http
 
 # How to run locally
 
-## Docker
+Run dependencies from the root of the project:
+```bash
+docker compose up -d postgres14 redis
+```
 
-### Usual setup
+Run from `./backend`:
+```bash
+./gradlew bootRun
+```
+More info on the backend part [here](./backend/README.md).
+
+Run from `./frontend`:
+```bash
+npm i
+npm run dev
+```
+More info on the frontend part [here](./frontend/README.md).
+
+Visit: [http://localhost:5173](http://localhost:5173)
+
+## Run using Docker
+
 With Docker being installed (Compose Plugin needed) run following to start all containers:
 ```bash
 docker compose up -d
@@ -79,7 +98,13 @@ To stop them:
 docker compose down
 ```
 
-### Run E2E Tests with Playwright
+# Testing
+
+## Unit and Integration tests
+
+Checkout the Frontend section [here](./frontend/README.md#quick-start) and for backend [here](./backend/README.md#tests).
+
+## Run E2E Tests with Playwright inside Docker
 Be aware: This wipes your local database:
 ```bash
 docker volume rm ris-norms_postgres14-data
@@ -99,26 +124,4 @@ docker run --name ris-normsplay-wright -it --rm \
 -v $(pwd)/test-results:/usr/src/app/test-results \
 ris-norms-playwright
 ```
-Screenshots for failed tests are stored in `/frontend/test-results/`.
-
-## Direct
-
-Run dependencies from the root of the project:
-```bash
-docker compose up postgres14 redis
-```
-
-Run from `./backend`:
-```bash
-./gradlew bootRun
-```
-More info on the backend part [here](./backend/README.md).
-
-Run from `./frontend`:
-```bash
-npm i
-npm run dev
-```
-More info on the frontend part [here](./frontend/README.md).
-
-Visit: [http://localhost:5173](http://localhost:5173)
+Screenshots for failed tests are stored in `./frontend/test-results/`.
