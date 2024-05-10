@@ -13,7 +13,7 @@ class NormTest {
   @Test
   void getEli() {
     // given
-    Norm norm = NormFixtures.simpleNorm();
+    Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
     String expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // when
@@ -1277,7 +1277,7 @@ class NormTest {
   @Test
   void getOnePassiveModification() {
     // given
-    Norm norm = NormFixtures.normWithPassiveModifications();
+    Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
     // when
     var passiveModifications = norm.getPassiveModifications();
@@ -1291,7 +1291,7 @@ class NormTest {
   @Test
   void getMods() {
     // given
-    Norm norm = NormFixtures.normWithMods();
+    Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
 
     // when
     var mods = norm.getMods();
@@ -1305,7 +1305,7 @@ class NormTest {
   @Test
   void getStartDateForTemporalGroup() {
     // given
-    Norm norm = NormFixtures.normWithMultiplePassiveModifications();
+    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
     // when
     var date = norm.getStartDateForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
@@ -1317,7 +1317,7 @@ class NormTest {
   @Test
   void getStartEventRefForTemporalGroup() {
     // given
-    Norm norm = NormFixtures.normWithMultiplePassiveModifications();
+    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
     // when
     var eId = norm.getStartEventRefForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
@@ -1329,7 +1329,7 @@ class NormTest {
   @Test
   void getStartDateForEventRef() {
     // given
-    Norm norm = NormFixtures.normWithMultiplePassiveModifications();
+    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
     // when
     var date = norm.getStartDateForEventRef("meta-1_lebzykl-1_ereignis-3");

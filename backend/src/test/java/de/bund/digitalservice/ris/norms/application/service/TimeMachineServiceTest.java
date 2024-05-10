@@ -99,9 +99,9 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModification() {
       // given
-      final var norm = NormFixtures.normWithPassiveModifications();
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.normWithMods();
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -124,9 +124,9 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsInCorrectOrder() {
       // given
-      final var norm = NormFixtures.normWithMultiplePassiveModifications();
+      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.normWithMultipleMods();
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
@@ -149,9 +149,11 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsWhereTargetNodeEqualsNodeToChange() {
       // given
-      final var norm = NormFixtures.normWithPassiveModsWhereTargetNodeEqualsNodeToChange();
+      final var norm =
+          NormFixtures.loadFromDisk("NormWithPassiveModsWhereTargetNodeEqualsNodeToChange.xml");
 
-      final var amendingLaw = NormFixtures.normWithModsWhereTargetNodeEqualsNodeToChange();
+      final var amendingLaw =
+          NormFixtures.loadFromDisk("NormWithModsWhereTargetNodeEqualsNodeToChange.xml");
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
@@ -185,9 +187,8 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsBeforeDate() {
       // given
-      final var norm = NormFixtures.normWithMultiplePassiveModifications();
-
-      final var amendingLaw = NormFixtures.normWithMultipleMods();
+      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 

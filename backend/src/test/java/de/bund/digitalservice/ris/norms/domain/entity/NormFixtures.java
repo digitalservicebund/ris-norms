@@ -7,62 +7,9 @@ import java.util.Objects;
 import org.apache.commons.io.IOUtils;
 
 public class NormFixtures {
-  public static Norm simpleNorm() {
-    return Norm.builder()
-        .document(XmlMapper.toDocument(NormFixtures.loadNormFile("SimpleNorm.xml")))
-        .build();
-  }
 
-  public static Norm normWithPassiveModifications() {
-    return Norm.builder()
-        .document(
-            XmlMapper.toDocument(NormFixtures.loadNormFile("NormWithPassiveModifications.xml")))
-        .build();
-  }
-
-  public static Norm normWithMods() {
-    return Norm.builder()
-        .document(XmlMapper.toDocument(NormFixtures.loadNormFile("NormWithMods.xml")))
-        .build();
-  }
-
-  public static Norm normWithMultiplePassiveModifications() {
-    return Norm.builder()
-        .document(
-            XmlMapper.toDocument(
-                NormFixtures.loadNormFile("NormWithMultiplePassiveModifications.xml")))
-        .build();
-  }
-
-  public static Norm normWithPassiveModificationsInDifferentArticles() {
-    return Norm.builder()
-        .document(
-            XmlMapper.toDocument(
-                NormFixtures.loadNormFile("NormWithPassiveModificationsInDifferentArticles.xml")))
-        .build();
-  }
-
-  public static Norm normWithModsWhereTargetNodeEqualsNodeToChange() {
-    return Norm.builder()
-        .document(
-            XmlMapper.toDocument(
-                NormFixtures.loadNormFile("NormWithModsWhereTargetNodeEqualsNodeToChange.xml")))
-        .build();
-  }
-
-  public static Norm normWithPassiveModsWhereTargetNodeEqualsNodeToChange() {
-    return Norm.builder()
-        .document(
-            XmlMapper.toDocument(
-                NormFixtures.loadNormFile(
-                    "NormWithPassiveModsWhereTargetNodeEqualsNodeToChange.xml")))
-        .build();
-  }
-
-  public static Norm normWithMultipleMods() {
-    return Norm.builder()
-        .document(XmlMapper.toDocument(NormFixtures.loadNormFile("NormWithMultipleMods.xml")))
-        .build();
+  public static Norm loadFromDisk(final String fileName) {
+    return Norm.builder().document(XmlMapper.toDocument(loadNormFile(fileName))).build();
   }
 
   private static String loadNormFile(final String fileName) {

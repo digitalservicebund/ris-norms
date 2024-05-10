@@ -166,7 +166,7 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticlesFilteredByAmendedAt() throws Exception {
       // Given
-      var norm = NormFixtures.normWithMultiplePassiveModifications();
+      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -185,7 +185,7 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticlesFilteredByAmendedBy() throws Exception {
       // Given
-      var norm = NormFixtures.normWithPassiveModificationsInDifferentArticles();
+      var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
 
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -204,7 +204,7 @@ class ArticleControllerTest {
     @Test
     void itReturnsNoArticlesWhenAmendedByDoesNotMatch() throws Exception {
       // Given
-      var norm = NormFixtures.normWithMultiplePassiveModifications();
+      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -221,7 +221,7 @@ class ArticleControllerTest {
     @Test
     void itReturnsNoArticlesWhenAmendedAtDoesNotMatch() throws Exception {
       // Given
-      var norm = NormFixtures.normWithMultiplePassiveModifications();
+      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -655,7 +655,7 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticleRenderAtIsoDate() throws Exception {
       // Given
-      var targetNorm = NormFixtures.normWithMultiplePassiveModifications();
+      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
       // When
       when(loadNormUseCase.loadNorm(

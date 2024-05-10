@@ -169,7 +169,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
   @Test
   void itReturnsArticlesFilteredByAmendedAt() throws Exception {
     // Given
-    var affectedNorm = NormFixtures.normWithMultiplePassiveModifications();
+    var affectedNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
     normRepository.save(NormMapper.mapToDto(affectedNorm));
 
     // When // Then
@@ -186,7 +186,8 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
   @Test
   void itReturnsArticlesFilteredByAmendedBy() throws Exception {
     // Given
-    var affectedNorm = NormFixtures.normWithPassiveModificationsInDifferentArticles();
+    var affectedNorm =
+        NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
     normRepository.save(NormMapper.mapToDto(affectedNorm));
 
     // When // Then
@@ -412,8 +413,8 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
   @Test
   void itReturnsArticleRenderAtIsoDate() throws Exception {
     // Given
-    var amendingNorm = NormFixtures.normWithMultipleMods();
-    var targetNorm = NormFixtures.normWithMultiplePassiveModifications();
+    var amendingNorm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+    var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
     normRepository.save(NormMapper.mapToDto(amendingNorm));
     normRepository.save(NormMapper.mapToDto(targetNorm));
