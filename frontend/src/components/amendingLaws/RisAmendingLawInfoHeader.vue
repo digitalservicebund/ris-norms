@@ -4,6 +4,7 @@ import { Norm } from "@/types/norm"
 import { computed, DeepReadonly } from "vue"
 
 const props = defineProps<{
+  /** The norm whose details should be shown on the header. */
   amendingLaw: DeepReadonly<Norm> | Norm
 }>()
 

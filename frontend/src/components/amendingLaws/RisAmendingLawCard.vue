@@ -3,9 +3,16 @@ import { computed } from "vue"
 import ExpandMoreIcon from "~icons/ic/baseline-expand-more"
 
 const props = defineProps<{
+  /** ELI of the norm. */
   eli: string
+
+  /** Name in the bibliographic record of the norm. */
   frbrName?: string
+
+  /** Number in the bibliographic record of the norm. */
   frbrNumber?: string
+
+  /** Announcement date in the bibliographic record of the norm. */
   frbrDateVerkuendung?: string
 }>()
 

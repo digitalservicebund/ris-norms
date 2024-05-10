@@ -2,13 +2,22 @@
 import { onMounted } from "vue"
 
 type Tab = {
+  /**
+   * ID of the tab. This is used for internal state tracking and for associating
+   * the tab label with the contents.
+   */
   id: string
+
+  /** Label of the tab. */
   label: string
 }
 
 const props = withDefaults(
   defineProps<{
+    /** List of tabs. */
     tabs: Tab[]
+
+    /** Horizontal alignment of the text in the tab list. */
     align?: "right" | "left"
   }>(),
   {
@@ -16,6 +25,7 @@ const props = withDefaults(
   },
 )
 
+/** Currently selected tab. */
 const activeTab = defineModel<string | undefined>("activeTab", {
   default: undefined,
 })

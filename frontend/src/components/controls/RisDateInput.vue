@@ -1,28 +1,39 @@
 <script lang="ts" setup>
+import { ValidationError } from "@/types/validationError"
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
-import { vMaska, MaskaDetail } from "maska"
+import { MaskaDetail, vMaska } from "maska"
 import { computed, ref, watch } from "vue"
 
-export type ValidationError = {
-  code?: string
-  message: string
-  instance: string
-}
-
-interface Props {
+const props = defineProps<{
+  /** HTML element ID of the form field. */
   id: string
-  value?: string
-  modelValue?: string
-  hasError?: boolean
-  size?: "regular" | "medium" | "small"
-  isReadOnly?: boolean
-}
 
-const props = defineProps<Props>()
+  /** Value of the form field. */
+  modelValue?: string
+
+  /** Error validation state of the form field. */
+  hasError?: boolean
+
+  /** Visual size of the form field. */
+  size?: "regular" | "medium" | "small"
+
+  /** Enable or disable editing the form field. */
+  isReadOnly?: boolean
+}>()
 
 const emit = defineEmits<{
+  /**
+   * Emitted when the user changes the value of the form field. Note that this
+   * is only emitted when the value is empty or a valid date. All other states
+   * (e.g. partial dates while typing) are handled internally and not emitted.
+   */
   "update:modelValue": [value?: string]
+
+  /**
+   * Emitted when the form field enters an invalid state based on user
+   * inputs (e.g. the date is invalid).
+   */
   "update:validationError": [value?: ValidationError]
 }>()
 
