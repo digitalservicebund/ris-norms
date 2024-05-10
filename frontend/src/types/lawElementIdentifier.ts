@@ -8,6 +8,8 @@
  * feel free to use a simple string instead.
  */
 export type LawElementIdentifier = {
+  /** ELI of the law. */
   eli: string
+  /** eID of some element inside the law. */
   eid: string
 }

@@ -5,7 +5,10 @@ import { Article } from "@/types/article"
 import { getNormByEli } from "@/services/normService"
 
 export type TargetLawWithZF0Eli = {
+  /** The ELI of the target law. */
   targetLaw: Norm
+
+  /** The ELI of the first future version of the target law. */
   targetLawZf0Eli: string
 }
 

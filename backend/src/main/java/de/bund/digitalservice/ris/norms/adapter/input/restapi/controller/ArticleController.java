@@ -82,17 +82,27 @@ public class ArticleController {
 
     final var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
 
-    var passiveModificationsAmendedAtAndBy =
+    // amendedAt and amendedBy refer to passive modifications (i.e. amended at a specific
+    // date or by a specific change law). So we collect a list of all passive modifications
+    // matching both criteria.
+    var passiveModificationsAmendedAtOrBy =
         optionalNorm.stream()
             .flatMap((Norm norm) -> norm.getPassiveModifications().stream())
-            .filter(passiveModification -> passiveModification.getSourceEli().equals(amendedBy))
             .filter(
-                passiveModification ->
-                    optionalNorm
+                passiveModification -> {
+                  if (amendedBy.isEmpty()) return true;
+                  else return passiveModification.getSourceEli().equals(amendedBy);
+                })
+            .filter(
+                passiveModification -> {
+                  if (amendedAt.isEmpty()) return true;
+                  else
+                    return optionalNorm
                         .get()
                         .getStartEventRefForTemporalGroup(
                             passiveModification.getForcePeriodEid().orElseThrow())
-                        .equals(amendedAt))
+                        .equals(amendedAt);
+                })
             .toList();
 
     return ResponseEntity.ok(
@@ -100,15 +110,24 @@ public class ArticleController {
             .flatMap(List::stream)
             .filter(
                 article -> {
-                  if (amendedBy.isEmpty() || amendedAt.isEmpty()) {
+                  // If we don't filter by anything related to passive modifications,
+                  // return all articles.
+                  if (amendedBy.isEmpty() && amendedAt.isEmpty()) {
                     return true;
                   }
 
-                  return passiveModificationsAmendedAtAndBy.stream()
+                  // If we filter by amendedAt or amendedBy: Those properties are found
+                  // in the passive modifications we already collected above. What's left
+                  // now is to only return the articles that are going to be modified by
+                  // those passive modifications.
+                  return passiveModificationsAmendedAtOrBy.stream()
                       .flatMap(
                           passiveModification -> passiveModification.getDestinationEid().stream())
                       .anyMatch(
                           destinationEid ->
+                              // Modifications can be either on the article itself or anywhere
+                              // inside the article, hence the "contains" rather than exact
+                              // matching.
                               destinationEid.contains(article.getEid().orElseThrow()));
                 })
             .map(

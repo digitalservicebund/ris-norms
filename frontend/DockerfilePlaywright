@@ -1,0 +1,6 @@
+FROM mcr.microsoft.com/playwright:v1.44.0-jammy AS e2etest
+RUN npx --yes playwright install --with-deps chrome firefox webkit
+WORKDIR /usr/src/app
+COPY . .
+RUN npm install
+ENTRYPOINT npm run test:e2e

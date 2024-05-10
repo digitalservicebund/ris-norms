@@ -188,8 +188,7 @@ class TimeMachineServiceTest {
     void applyPassiveModificationsBeforeDate() {
       // given
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-
-      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods");
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 

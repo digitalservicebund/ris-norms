@@ -34,7 +34,7 @@ export const useTargetLawStore = defineStore("target-law", () => {
     eli.value = newEli
   }
 
-  watch(eli, async (newEli, oldEli, onCleanup) => {
+  watch(eli, async (newEli, _, onCleanup) => {
     if (newEli) {
       loading.value = true
       targetLaw.value = undefined
@@ -54,9 +54,16 @@ export const useTargetLawStore = defineStore("target-law", () => {
   })
 
   return {
+    /** The norm that has been loaded, or undefined while loading (or if nothing has been loaded yet.) */
     targetLaw,
+
+    /** ELI of the norm that should be loaded. */
     eli,
+
+    /** Loading state of the store. */
     loading,
+
+    /** Function to manually trigger reloading of the data. */
     loadTargetLawByEli,
   }
 })

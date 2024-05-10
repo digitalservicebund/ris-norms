@@ -167,22 +167,37 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itReturnsArticlesFilteredByAmendedAtAndAmendedBy() throws Exception {
+  void itReturnsArticlesFilteredByAmendedAt() throws Exception {
     // Given
-    var amendingNorm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
     var affectedNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-
-    normRepository.save(NormMapper.mapToDto(amendingNorm));
     normRepository.save(NormMapper.mapToDto(affectedNorm));
 
     // When // Then
     mockMvc
         .perform(
-            get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-4")
+            get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles?amendedAt=meta-1_lebzykl-1_ereignis-4")
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
         .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-20"))
+        .andExpect(jsonPath("$[1]").doesNotExist());
+  }
+
+  @Test
+  void itReturnsArticlesFilteredByAmendedBy() throws Exception {
+    // Given
+    var affectedNorm =
+        NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+    normRepository.save(NormMapper.mapToDto(affectedNorm));
+
+    // When // Then
+    mockMvc
+        .perform(
+            get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").exists())
+        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
         .andExpect(jsonPath("$[1]").doesNotExist());
   }
 

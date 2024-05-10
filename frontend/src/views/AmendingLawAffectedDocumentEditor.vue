@@ -3,7 +3,7 @@ import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawIn
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
-import { useArticlesChangedAtTimeBoundary } from "@/composables/useArticlesChangedAtTimeBoundary"
+import { useAffectedArticles } from "@/composables/useAffectedArticles"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useTemporalData } from "@/composables/useTemporalData"
@@ -31,13 +31,6 @@ const sortedTimeBoundaries = computed(() =>
 
 const selectedTimeBoundary = useTimeBoundaryPathParameter()
 
-const selectedTimeBoundaryEid = computed(
-  () =>
-    timeBoundaries.value.find(
-      (boundary) => boundary.date === selectedTimeBoundary.value,
-    )?.eventRefEid,
-)
-
 // Choose the first time boundary if none is selected so far
 watch(
   timeBoundaries,
@@ -49,9 +42,9 @@ watch(
   { immediate: true },
 )
 
-const articles = useArticlesChangedAtTimeBoundary(
+const articles = useAffectedArticles(
   affectedDocumentEli,
-  selectedTimeBoundaryEid,
+  undefined,
   amendingLawEli,
 )
 
@@ -130,7 +123,7 @@ async function handleSave() {
       <!-- Content links -->
       <RisCallout
         v-if="!articles?.length"
-        title="Keine Aritkel gefunden."
+        title="Keine Artikel gefunden."
         class="mx-16"
       />
 

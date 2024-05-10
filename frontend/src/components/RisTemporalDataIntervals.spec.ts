@@ -1,10 +1,10 @@
-import { describe, it, expect } from "vitest"
+import { describe, it, expect, vi } from "vitest"
 import { render, screen } from "@testing-library/vue"
 import RisTemporalDataIntervals from "./RisTemporalDataIntervals.vue"
 import dayjs from "dayjs"
 import { userEvent } from "@testing-library/user-event"
 
-describe("YourComponent", () => {
+describe("RisTemporalDateIntervals", () => {
   it("renders the correct number of date inputs and checks their values", async () => {
     const dates = [
       { date: "2023-01-01", eid: "event-1" },
@@ -31,6 +31,8 @@ describe("YourComponent", () => {
   })
 
   it("should remove the corresponding date entry when the delete button is clicked", async () => {
+    const user = userEvent.setup()
+
     const dates = [
       { date: "2023-01-01", eid: "event-1" },
       { date: "2023-02-01", eid: "event-2" },
@@ -41,7 +43,7 @@ describe("YourComponent", () => {
     })
 
     expect(screen.getAllByTestId("date-input-field").length).toBe(2)
-    await userEvent.click(screen.getByTestId("delete-button-0"))
+    await user.click(screen.getByTestId("delete-button-0"))
     expect(screen.getAllByTestId("date-input-field").length).toBe(1)
   })
 
@@ -54,4 +56,32 @@ describe("YourComponent", () => {
     const deleteButton = screen.getByTestId("delete-button-0")
     expect(deleteButton).toBeDisabled()
   })
+
+  it.todo(
+    "emits an update when the list of dates is changed, doesn't mutate the model",
+    async () => {
+      const user = userEvent.setup()
+      const onUpdate = vi.fn()
+
+      const dates = [
+        { date: "2023-01-01", eid: "event-1" },
+        { date: "2023-02-01", eid: "event-2" },
+      ]
+
+      render(RisTemporalDataIntervals, {
+        props: { dates, "onUpdate:dates": onUpdate },
+      })
+
+      await user.click(screen.getByTestId("delete-button-0"))
+
+      expect(dates).toStrictEqual([
+        { date: "2023-01-01", eid: "event-1" },
+        { date: "2023-02-01", eid: "event-2" },
+      ])
+
+      expect(onUpdate).toHaveBeenCalledWith([
+        { date: "2023-02-01", eid: "event-2" },
+      ])
+    },
+  )
 })

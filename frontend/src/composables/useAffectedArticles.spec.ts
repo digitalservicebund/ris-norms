@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
-describe("useArticlesChangedAtTimeBoundary", () => {
+describe("useAffectedArticles", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -19,11 +19,9 @@ describe("useArticlesChangedAtTimeBoundary", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useArticlesChangedAtTimeBoundary } = await import(
-      "./useArticlesChangedAtTimeBoundary"
-    )
+    const { useAffectedArticles } = await import("./useAffectedArticles")
 
-    const articles = useArticlesChangedAtTimeBoundary(
+    const articles = useAffectedArticles(
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
       ref("unknown-eid-1"),
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
@@ -36,15 +34,13 @@ describe("useArticlesChangedAtTimeBoundary", () => {
     expect(getArticlesByEli).toHaveBeenCalled()
   })
 
-  test("should load the article when the identifier changes", async () => {
+  test("should load the articles when the identifiers change", async () => {
     const getArticlesByEli = vi.fn()
     vi.doMock("@/services/articlesService", () => ({
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useArticlesChangedAtTimeBoundary } = await import(
-      "./useArticlesChangedAtTimeBoundary"
-    )
+    const { useAffectedArticles } = await import("./useAffectedArticles")
 
     const eli = ref(
       "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1",
@@ -53,7 +49,7 @@ describe("useArticlesChangedAtTimeBoundary", () => {
     const amendingLawEli = ref(
       "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1",
     )
-    useArticlesChangedAtTimeBoundary(eli, timeBoundaryEid, amendingLawEli)
+    useAffectedArticles(eli, timeBoundaryEid, amendingLawEli)
 
     eli.value = "eli/bund/bgbl-1/1964/s593/2020-03-15/1/deu/regelungstext-1"
     await nextTick()
@@ -77,11 +73,9 @@ describe("useArticlesChangedAtTimeBoundary", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useArticlesChangedAtTimeBoundary } = await import(
-      "./useArticlesChangedAtTimeBoundary"
-    )
+    const { useAffectedArticles } = await import("./useAffectedArticles")
 
-    useArticlesChangedAtTimeBoundary(
+    useAffectedArticles(
       ref(""),
       ref("unknown-eid-2"),
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
@@ -90,41 +84,60 @@ describe("useArticlesChangedAtTimeBoundary", () => {
     expect(getArticlesByEli).not.toHaveBeenCalled()
   })
 
-  test("should do nothing if time boundary is an empty string", async () => {
+  test("should do nothing if time boundary and amending law ELI are empty strings", async () => {
     const getArticlesByEli = vi.fn()
     vi.doMock("@/services/articlesService", () => ({
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useArticlesChangedAtTimeBoundary } = await import(
-      "./useArticlesChangedAtTimeBoundary"
-    )
+    const { useAffectedArticles } = await import("./useAffectedArticles")
 
-    useArticlesChangedAtTimeBoundary(
+    useAffectedArticles(
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
       ref(""),
-      ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
+      ref(""),
     )
 
     expect(getArticlesByEli).not.toHaveBeenCalled()
   })
 
-  test("should do nothing if amending law ELI is an empty string", async () => {
+  test("should load the articles if only a time boundary is specified", async () => {
     const getArticlesByEli = vi.fn()
     vi.doMock("@/services/articlesService", () => ({
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useArticlesChangedAtTimeBoundary } = await import(
-      "./useArticlesChangedAtTimeBoundary"
-    )
+    const { useAffectedArticles } = await import("./useAffectedArticles")
 
-    useArticlesChangedAtTimeBoundary(
+    useAffectedArticles(
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
-      ref("unknown-eid-2"),
-      ref(""),
+      ref(undefined),
+      ref("foo"),
     )
 
-    expect(getArticlesByEli).not.toHaveBeenCalled()
+    expect(getArticlesByEli).toHaveBeenCalledWith(
+      "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1",
+      { amendedAt: undefined, amendedBy: "foo" },
+    )
+  })
+
+  test("should load the articles if only an amending law is specified", async () => {
+    const getArticlesByEli = vi.fn()
+    vi.doMock("@/services/articlesService", () => ({
+      getArticlesByEli: getArticlesByEli,
+    }))
+
+    const { useAffectedArticles } = await import("./useAffectedArticles")
+
+    useAffectedArticles(
+      ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
+      ref("foo"),
+      ref(undefined),
+    )
+
+    expect(getArticlesByEli).toHaveBeenCalledWith(
+      "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1",
+      { amendedAt: "foo", amendedBy: undefined },
+    )
   })
 })

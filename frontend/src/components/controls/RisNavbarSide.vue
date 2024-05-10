@@ -4,14 +4,19 @@ import type { RouteLocationRaw, RouteRecordName } from "vue-router"
 import { useRoute } from "vue-router"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 
-interface Props {
+const props = defineProps<{
+  /** List of menu items to be displayed. */
   menuItems: LevelOneMenuItem[]
-  goBackLabel: string
-  goBackRoute: RouteLocationRaw
-}
 
-const props = defineProps<Props>()
+  /** Label of the "Go back" menu item. */
+  goBackLabel: string
+
+  /** Destination of the "Go back" menu item. */
+  goBackRoute: RouteLocationRaw
+}>()
+
 const activeRoute = useRoute()
+
 const enhancedActiveMenuItems = computed(() =>
   props.menuItems
     .filter((item) => !item.isDisabled)

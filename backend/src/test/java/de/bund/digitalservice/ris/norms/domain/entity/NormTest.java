@@ -13,7 +13,7 @@ class NormTest {
   @Test
   void getEli() {
     // given
-    Norm norm = NormFixtures.loadFromDisk("SimpleNorm");
+    Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
     String expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // when
@@ -1317,7 +1317,7 @@ class NormTest {
   @Test
   void getStartEventRefForTemporalGroup() {
     // given
-    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications");
+    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
     // when
     var eId = norm.getStartEventRefForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
