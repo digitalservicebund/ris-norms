@@ -150,6 +150,47 @@ class TimeBoundaryControllerTest {
     }
 
     @Test
+    void updateTimeBoundariesMultipleSameDatesReturns400() throws Exception {
+      // Given
+      MemoryAppender memoryAppender;
+      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      memoryAppender = new MemoryAppender();
+      memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
+      logger.setLevel(Level.ALL);
+      logger.addAppender(memoryAppender);
+      memoryAppender.start();
+
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/timeBoundaries", eli)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "["
+                          + "{\"date\": \"2023-12-30\", \"eventRefEid\": \"meta-1_lebzykl-1_ereignis-2\"},"
+                          + "{\"date\": \"2024-01-01\", \"eventRefEid\": null},"
+                          + "{\"date\": \"2024-01-01\", \"eventRefEid\": null}"
+                          + "]"))
+          .andExpect(status().isBadRequest())
+          .andExpect(
+              result ->
+                  Assertions.assertInstanceOf(
+                      HandlerMethodValidationException.class, result.getResolvedException()))
+          .andExpect(
+              result ->
+                  assertEquals(
+                      "400 BAD_REQUEST \"Validation failure\"",
+                      Objects.requireNonNull(result.getResolvedException()).getMessage()))
+          .andExpect(
+              result ->
+                  assertThat(memoryAppender.contains("All dates must be unique.", Level.ERROR))
+                      .isTrue());
+    }
+
+    @Test
     void updateTimeBoundariesReturnsDateMalformed() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
