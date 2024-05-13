@@ -17,3 +17,5 @@ fileignoreconfig:
     checksum: 252e8ac97929919d356866e02d9d9a0641d466cbe81e4555af54172b0c0bbdc2
   - filename: ldml-extension/fixtures/*.xml
     ignore_detectors: [filecontent]
+  - filename: doc/adr/0009-renovate.md
+    checksum: 172f8d22a6c8114b91ba4e430349c40599d1afa59fb96f49a651c1eac1e551dc
