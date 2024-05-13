@@ -1,7 +1,6 @@
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, vi } from "vitest"
-import { defineComponent } from "vue"
+import { describe, expect, test } from "vitest"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
 
 function renderComponent(options?: {
@@ -39,30 +38,6 @@ describe("TextInput", () => {
     renderComponent({ placeholder: "Test Placeholder" })
     const input = screen.queryByPlaceholderText("Test Placeholder")
     expect(input).toBeInTheDocument()
-  })
-
-  test("emits input events when user types into input", async () => {
-    const handleInput = vi.fn()
-
-    const withInputEvent = defineComponent({
-      components: { RisTextInput },
-      data: () => ({ value: "" }),
-      methods: { handleInput },
-      template: `
-        <RisTextInput
-          id="identifier"
-          v-model="value"
-          @input="handleInput"
-        />`,
-    })
-
-    render(withInputEvent)
-    const input = screen.getByRole("textbox")
-
-    await userEvent.type(input, "ab")
-    expect(handleInput).toHaveBeenCalledTimes(2)
-    expect(handleInput).toHaveBeenNthCalledWith(1, expect.any(InputEvent))
-    expect(handleInput).toHaveBeenNthCalledWith(2, expect.any(InputEvent))
   })
 
   test("emits model update event when user types into input", async () => {

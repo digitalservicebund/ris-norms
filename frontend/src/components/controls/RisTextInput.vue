@@ -13,11 +13,14 @@ const props = withDefaults(
     readOnly?: boolean
     /** Visual size of the form field. */
     size?: "regular" | "medium" | "small"
+    /** Label for the form field. */
+    label?: string
   }>(),
   {
     modelValue: "",
     placeholder: undefined,
     size: "regular",
+    label: undefined,
   },
 )
 
@@ -47,6 +50,10 @@ const tabindex = computed(() => (props.readOnly ? -1 : 0))
 </script>
 
 <template>
+  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+  <label v-if="label" :for="id" class="ds-label">
+    {{ label }}
+  </label>
   <input
     :id="id"
     v-model="localModelValue"
