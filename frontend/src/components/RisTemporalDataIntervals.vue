@@ -20,18 +20,24 @@ const newDate = ref<string | undefined>()
 
 const isDeleteDisabled = computed(() => dates.value.length <= 1)
 
+function addDate(newDateValue: string) {
+  if (newDateValue && dayjs(newDateValue, "YYYY-MM-DD", true).isValid()) {
+    dates.value = [...dates.value, { date: newDateValue, eventRefEid: "" }]
+  }
+}
+
 function removeDateInput(index: number) {
   if (index > -1) {
-    dates.value.splice(index, 1)
+    dates.value = [
+      ...dates.value.slice(0, index),
+      ...dates.value.slice(index + 1),
+    ]
   }
 }
 
 watch(newDate, async (newDateValue) => {
-  if (newDateValue && dayjs(newDateValue, "YYYY-MM-DD", true).isValid()) {
-    dates.value.push({
-      date: newDateValue,
-      eventRefEid: "",
-    })
+  if (newDateValue) {
+    addDate(newDateValue)
 
     // Need to wait for one tick to give the date input some time to update
     // it's internal state, otherwise we'll keep seeing the previous value.
