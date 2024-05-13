@@ -16,6 +16,7 @@ const props = defineProps<{
   modelValue?: DropdownInputModelType
   /** Placeholder text if needed. */
   placeholder?: string
+  /** Optional label for the field */
   label?: string
 }>()
 

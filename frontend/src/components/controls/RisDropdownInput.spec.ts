@@ -4,7 +4,7 @@ import { describe, expect, test } from "vitest"
 import RisDropdowninput, {
   DropdownInputModelType,
   DropdownItem,
-} from "@/components/controls/RisDropdowninput.vue"
+} from "@/components/controls/RisDropdownInput.vue"
 
 function renderComponent(options?: {
   items?: DropdownItem[]

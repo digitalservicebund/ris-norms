@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import RisDropdowninput from "@/components/controls/RisDropdowninput.vue"
-import { DropdownItem } from "./RisDropdowninput.vue"
+import RisDropdowninput from "@/components/controls/RisDropdownInput.vue"
+import { DropdownItem } from "./RisDropdownInput.vue"
 import { logEvent } from "histoire/client"
 import { ref } from "vue"
 
