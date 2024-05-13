@@ -39,6 +39,9 @@ test.describe("management of Temporal Data for an amending law", () => {
   test(`adding, editing, deleting and saving time boundaries`, async ({
     page,
   }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
+    )
     await setupInitialData(page)
 
     // check contents of entry into force article html rendering
