@@ -80,4 +80,5 @@ describe("TextInput", () => {
     expect(input).not.toHaveClass("ds-input-medium")
     expect(input).toHaveClass("ds-input-small")
   })
+  // TODO add test for label
 })
