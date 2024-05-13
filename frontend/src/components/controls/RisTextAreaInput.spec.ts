@@ -108,5 +108,15 @@ describe("TextAreaInput", () => {
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")
     expect(textarea).toHaveAttribute("rows", "5")
   })
-  // TODO add test for label
+
+  test("renders a label when provided and associates it with the textarea", () => {
+    const labelText = "Test Label"
+    renderComponent({ label: labelText, id: "test-id" })
+
+    const labelElement = screen.getByText(labelText) as HTMLLabelElement
+    expect(labelElement).toBeInTheDocument()
+
+    const textarea = screen.getByRole("textbox") as HTMLTextAreaElement
+    expect(labelElement.htmlFor).toBe(textarea.id)
+  })
 })
