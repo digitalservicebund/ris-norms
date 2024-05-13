@@ -50,18 +50,20 @@ const tabindex = computed(() => (props.readOnly ? -1 : 0))
 </script>
 
 <template>
-  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-  <label v-if="label" :for="id" class="ds-label">
-    {{ label }}
-  </label>
-  <input
-    :id="id"
-    v-model="localModelValue"
-    class="ds-input"
-    :class="conditionalClasses"
-    :placeholder="placeholder"
-    :readonly="readOnly"
-    :tabindex="tabindex"
-    type="text"
-  />
+  <div class="grid gap-2">
+    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+    <label v-if="label" :for="id" class="ds-label">
+      {{ label }}
+    </label>
+    <input
+      :id="id"
+      v-model="localModelValue"
+      class="ds-input"
+      :class="conditionalClasses"
+      :placeholder="placeholder"
+      :readonly="readOnly"
+      :tabindex="tabindex"
+      type="text"
+    />
+  </div>
 </template>
