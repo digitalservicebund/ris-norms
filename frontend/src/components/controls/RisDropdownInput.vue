@@ -42,24 +42,26 @@ const hasPlaceholder = computed(() =>
 </script>
 
 <template>
-  <!-- Label should come from the surrounding context, e.g. InputField component -->
-  <!-- eslint-disable vuejs-accessibility/form-control-has-label -->
-  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-  <label v-if="label" :for="id" class="ds-label">
-    {{ label }}
-  </label>
-  <select
-    :id="id"
-    v-model="localModelValue"
-    class="ds-select ds-select-medium"
-    :data-placeholder="hasPlaceholder ? true : undefined"
-    tabindex="0"
-  >
-    <option v-if="placeholder && !localModelValue" disabled value="">
-      {{ placeholder }}
-    </option>
-    <option v-for="item in items" :key="item.value" :value="item.value">
-      {{ item.label }}
-    </option>
-  </select>
+  <div class="grid gap-2">
+    <!-- Label should come from the surrounding context, e.g. InputField component -->
+    <!-- eslint-disable vuejs-accessibility/form-control-has-label -->
+    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+    <label v-if="label" :for="id" class="ds-label">
+      {{ label }}
+    </label>
+    <select
+      :id="id"
+      v-model="localModelValue"
+      class="ds-select ds-select-small"
+      :data-placeholder="hasPlaceholder ? true : undefined"
+      tabindex="0"
+    >
+      <option v-if="placeholder && !localModelValue" disabled value="">
+        {{ placeholder }}
+      </option>
+      <option v-for="item in items" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </option>
+    </select>
+  </div>
 </template>
