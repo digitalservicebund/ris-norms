@@ -110,6 +110,45 @@ paths:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
 
+  /norms/{eli}/list:
+    get:
+      summary: Get a list of elements of specific types for a specific norm by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: true
+          description: Type(s) of elements to list. 
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [article]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    eli:
+                      type: string
+                    title:
+                      type: string
+                    type:
+                      type: string
+                      enum: [article, preamble]
+        '404':
+          description: Norm not found by eli
+          
   /norms/{eli}/articles:
     get:
       summary: Get a list of articles for a specific norm by eli
