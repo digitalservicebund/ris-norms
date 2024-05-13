@@ -12,7 +12,8 @@ const { htmlContent: entryIntoForceArticleHtml } = useEntryIntoForceHtml(eli)
 
 async function handleSave() {
   try {
-    await updateTemporalData(dates.value)
+    const data = await updateTemporalData(dates.value)
+    console.log("Saved dates:", data)
   } catch (error) {
     console.error("Error saving dates:", error)
   }

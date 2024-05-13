@@ -57,31 +57,28 @@ describe("RisTemporalDateIntervals", () => {
     expect(deleteButton).toBeDisabled()
   })
 
-  it.todo(
-    "emits an update when the list of dates is changed, doesn't mutate the model",
-    async () => {
-      const user = userEvent.setup()
-      const onUpdate = vi.fn()
+  it("emits an update when the list of dates is changed, doesn't mutate the model", async () => {
+    const user = userEvent.setup()
+    const onUpdate = vi.fn()
 
-      const dates = [
-        { date: "2023-01-01", eid: "event-1" },
-        { date: "2023-02-01", eid: "event-2" },
-      ]
+    const dates = [
+      { date: "2023-01-01", eid: "event-1" },
+      { date: "2023-02-01", eid: "event-2" },
+    ]
 
-      render(RisTemporalDataIntervals, {
-        props: { dates, "onUpdate:dates": onUpdate },
-      })
+    render(RisTemporalDataIntervals, {
+      props: { dates, "onUpdate:dates": onUpdate },
+    })
 
-      await user.click(screen.getByTestId("delete-button-0"))
+    await user.click(screen.getByTestId("delete-button-0"))
 
-      expect(dates).toStrictEqual([
-        { date: "2023-01-01", eid: "event-1" },
-        { date: "2023-02-01", eid: "event-2" },
-      ])
+    expect(dates).toStrictEqual([
+      { date: "2023-01-01", eid: "event-1" },
+      { date: "2023-02-01", eid: "event-2" },
+    ])
 
-      expect(onUpdate).toHaveBeenCalledWith([
-        { date: "2023-02-01", eid: "event-2" },
-      ])
-    },
-  )
+    expect(onUpdate).toHaveBeenCalledWith([
+      { date: "2023-02-01", eid: "event-2" },
+    ])
+  })
 })
