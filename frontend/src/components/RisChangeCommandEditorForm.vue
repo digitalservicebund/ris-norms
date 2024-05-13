@@ -28,30 +28,36 @@ const timeBoundaries = computed(() => props.timeBoundaries)
 </script>
 
 <template>
-  <form :id="id">
-    <RisTextInput
-      id="TBD1"
-      label="Änderungstyp"
-      model-value="ersetzen"
-      read-only
-    />
-    <RisDropdownInput
-      id="TBD2"
-      label="Zeitgrenze"
-      :items="timeBoundaries"
-      placeholder="Keine Angabe"
-    />
+  <form :id="id" class="grid grid-cols-1 gap-y-20">
+    <div class="grid grid-cols-3 gap-x-80">
+      <RisTextInput
+        id="TBD1"
+        label="Änderungstyp"
+        model-value="ersetzen"
+        read-only
+        size="small"
+      />
+      <RisDropdownInput
+        id="TBD2"
+        label="Zeitgrenze"
+        :items="timeBoundaries"
+        placeholder="Keine Angabe"
+      />
+    </div>
+
     <RisTextInput
       id="TBD3"
       label="ELI Zielgesetz"
       :model-value="eli"
       read-only
+      size="small"
     />
     <RisTextInput
       v-if="commandType == 'replacement'"
       id="TBD4"
       label="zu ersetzende Textstelle"
       :model-value="replaceWith"
+      size="small"
     />
     <RisTextAreaInput
       v-if="commandType == 'replacement'"
@@ -59,13 +65,15 @@ const timeBoundaries = computed(() => props.timeBoundaries)
       label="zu ersetzender Text"
       :model-value="textToBeReplaced"
       read-only
+      :rows="8"
     />
     <RisTextAreaInput
       id="TBD6"
       label="Neuer Text Inhalt"
       :model-value="textThatReplaces"
+      :rows="8"
     />
-    <div>
+    <div class="flex gap-20">
       <RisTextButton label="Vorschau" variant="tertiary" />
       <RisTextButton label="Speichern" />
     </div>
