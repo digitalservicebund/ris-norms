@@ -15,26 +15,19 @@ const dropdownItems: DropdownItem[] = [
 
 <template>
   <Story :layout="{ type: 'grid', width: '400px' }">
-    <Variant title="Default">
+    <Variant title="Default/ with label">
       <RisDropdowninput
-        :label="'Click me'"
+        id="id"
         :items="dropdownItems"
         :model-value="emptyDropdown"
-        @click="logEvent('click', $event)"
-      />
-    </Variant>
-    <Variant title="With Placeholder">
-      <RisDropdowninput
-        :label="'Click me'"
-        :items="dropdownItems"
-        :model-value="emptyDropdown"
+        label="Zeitgrenze"
         placeholder="Placeholder"
         @click="logEvent('click', $event)"
       />
     </Variant>
-    <Variant title="With preselection">
+    <Variant title="With preselection/no label">
       <RisDropdowninput
-        :label="'Click me'"
+        id="id"
         :items="dropdownItems"
         :model-value="preselectedDropdown"
         placeholder="Placeholder"

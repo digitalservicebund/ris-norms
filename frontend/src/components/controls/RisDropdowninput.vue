@@ -8,12 +8,15 @@ export type DropdownItem = {
 }
 
 const props = defineProps<{
+  /** Unique ID for the dro. */
+  id: string
   /** the items for the dropdown. */
   items: DropdownItem[]
   /** Value reflected by choice of item . */
   modelValue?: DropdownInputModelType
   /** Placeholder text if needed. */
   placeholder?: string
+  label?: string
 }>()
 
 const emit = defineEmits<{
@@ -40,7 +43,12 @@ const hasPlaceholder = computed(() =>
 <template>
   <!-- Label should come from the surrounding context, e.g. InputField component -->
   <!-- eslint-disable vuejs-accessibility/form-control-has-label -->
+  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+  <label v-if="label" :for="id" class="ds-label">
+    {{ label }}
+  </label>
   <select
+    :id="id"
     v-model="localModelValue"
     class="ds-select ds-select-medium"
     :data-placeholder="hasPlaceholder ? true : undefined"
