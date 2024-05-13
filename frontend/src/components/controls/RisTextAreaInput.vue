@@ -56,7 +56,7 @@ const localValue = computed({
       :placeholder="placeholder"
       :readonly="readOnly"
       :rows="rows"
-      :tabindex="readOnly ? -1 : Number($attrs.tabindex) || 0"
+      :tabindex="readOnly ? -1 : Number($attrs.tabindex) || undefined"
     ></textarea>
   </div>
 </template>
