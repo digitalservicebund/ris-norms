@@ -44,6 +44,10 @@ const localValue = computed({
 </script>
 
 <template>
+  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+  <label v-if="label" :for="id" class="ds-label">
+    {{ label }}
+  </label>
   <textarea
     :id="id"
     v-model="localValue"
