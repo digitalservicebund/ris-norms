@@ -44,17 +44,19 @@ const localValue = computed({
 </script>
 
 <template>
-  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-  <label v-if="label" :for="id" class="ds-label">
-    {{ label }}
-  </label>
-  <textarea
-    :id="id"
-    v-model="localValue"
-    class="h-unset ds-input resize-y py-12"
-    :placeholder="placeholder"
-    :readonly="readOnly"
-    :rows="rows"
-    :tabindex="readOnly ? -1 : ($attrs.tabindex as number)"
-  ></textarea>
+  <div class="grid gap-2">
+    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+    <label v-if="label" :for="id" class="ds-label">
+      {{ label }}
+    </label>
+    <textarea
+      :id="id"
+      v-model="localValue"
+      class="h-unset ds-input h-auto resize-none py-12"
+      :placeholder="placeholder"
+      :readonly="readOnly"
+      :rows="rows"
+      :tabindex="readOnly ? -1 : Number($attrs.tabindex) || 0"
+    ></textarea>
+  </div>
 </template>
