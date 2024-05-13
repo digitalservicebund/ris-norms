@@ -59,6 +59,43 @@ describe("RisLawPreview", () => {
     })
   })
 
+  test("should have .selected class for selected elements", async () => {
+    render(RisLawPreview, {
+      props: {
+        content:
+          "<div><span class='longTitle'>Test Title</span><div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888510'>MOD</div></div>",
+        selected: [
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+        ],
+      },
+    })
+
+    await waitFor(() => screen.getByText("MOD"))
+    expect(screen.getByText("MOD")).toHaveClass("selected")
+  })
+
+  test("should update selected elements", async () => {
+    const renderResult = render(RisLawPreview, {
+      props: {
+        content:
+          "<div><span class='longTitle'>Test Title</span><div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888510'>MOD</div></div>",
+        selected: [],
+      },
+    })
+
+    await waitFor(() => screen.getByText("MOD"))
+    expect(screen.getByText("MOD")).not.toHaveClass("selected")
+
+    await renderResult.rerender({
+      selected: [
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+      ],
+    })
+
+    await waitFor(() => screen.getByText("MOD"))
+    expect(screen.getByText("MOD")).toHaveClass("selected")
+  })
+
   test("should support changing the content", async () => {
     const handler = vi.fn()
 
@@ -66,6 +103,9 @@ describe("RisLawPreview", () => {
       props: {
         content:
           "<div><span class='longTitle'>Test Title</span><div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888510'>MOD</div></div>",
+        selected: [
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+        ],
       },
       attrs: {
         "onClick:akn:mod": handler,
@@ -74,6 +114,7 @@ describe("RisLawPreview", () => {
 
     await waitFor(() => screen.getByRole("button"))
     await fireEvent.click(screen.getByRole("button", { name: "MOD" }))
+    expect(screen.getByText("MOD")).toHaveClass("selected")
 
     await renderResult.rerender({
       content:
@@ -81,8 +122,9 @@ describe("RisLawPreview", () => {
     })
 
     expect(screen.getByText("Test Title 2")).toBeInTheDocument()
-
     await waitFor(() => screen.getByRole("button"))
+
+    expect(screen.getByText("CHANGED MOD")).toHaveClass("selected")
     await fireEvent.click(screen.getByRole("button", { name: "CHANGED MOD" }))
 
     expect(handler).toHaveBeenCalledTimes(2)

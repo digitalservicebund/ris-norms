@@ -116,6 +116,15 @@ watch(articleXml, (articleXml) => {
     currentArticleXml.value = articleXml
   }
 })
+
+/**
+ * The eid of the currently selected akn:mod element
+ */
+const selectedMod = ref<string | null>(null)
+
+function handleAknModClick({ eid }: { eid: string }) {
+  selectedMod.value = eid
+}
 </script>
 
 <template>
@@ -238,6 +247,8 @@ watch(articleXml, (articleXml) => {
                 :content="renderedHtml"
                 highlight-mods
                 highlight-affected-document
+                :selected="selectedMod ? [selectedMod] : []"
+                @click:akn:mod="handleAknModClick"
               />
             </template>
             <template #xml>

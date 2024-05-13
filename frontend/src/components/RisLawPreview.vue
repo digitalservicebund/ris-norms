@@ -26,10 +26,16 @@ const props = withDefaults(
      * @default false
      */
     highlightAffectedDocument?: boolean
+
+    /**
+     * EIds of the currently selected elements.
+     */
+    selected?: string[]
   }>(),
   {
     highlightMods: false,
     highlightAffectedDocument: false,
+    selected: () => [],
   },
 )
 
@@ -147,6 +153,40 @@ watch(
             )
           })
       })
+  },
+  { immediate: true },
+)
+
+/**
+ * Setup and update the .selected class on selected elements.
+ */
+watch(
+  [() => props.selected, () => props.content],
+  async (value, oldValue, onCleanup) => {
+    // Need to tick in order to give Vue some time to render the HTML first
+    await nextTick()
+
+    const elements = props.selected.map((eid) =>
+      container.value?.querySelector(`[data-eId="${eid}"]`),
+    )
+
+    onCleanup(() => {
+      elements.forEach((element) => {
+        if (!element) {
+          return
+        }
+
+        element.classList.remove("selected")
+      })
+    })
+
+    elements.forEach((element) => {
+      if (!element) {
+        return
+      }
+
+      element.classList.add("selected")
+    })
   },
   { immediate: true },
 )
@@ -275,7 +315,6 @@ watch(
   @apply border border-dotted border-highlight-mod-border bg-highlight-mod-hover px-2;
 }
 
-/* This is currently unused as the .selected class is never applied to elements */
 .highlight-mods :deep(.akn-mod.selected) {
   @apply border border-solid border-highlight-mod-border bg-highlight-mod-selected px-2;
 }
@@ -288,7 +327,6 @@ watch(
   @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
 }
 
-/* This is currently unused as the .selected class is never applied to elements */
 .highlight-affected-document :deep(.akn-affectedDocument.selected) {
   @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
 }
