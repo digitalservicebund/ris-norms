@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+enum ElementType {
+  article,
+}
+
 /** Controller for norm-related list actions. */
 @RestController
 @RequestMapping(
@@ -28,7 +32,8 @@ public class ElementsController {
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<List<ElementsResponseEntrySchema>> getList(
-      @RequestParam final String type) {
+      @RequestParam final ElementType type) {
+
     var entry =
         ElementsResponseEntrySchema.builder()
             .title("dummy title")

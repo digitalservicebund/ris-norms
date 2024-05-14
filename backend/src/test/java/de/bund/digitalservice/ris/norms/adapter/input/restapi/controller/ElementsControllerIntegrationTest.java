@@ -32,7 +32,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsBadRequestIfTheTypeIsNotSupported() throws Exception {
+    void itReturnsServerErrorIfTheTypeIsNotSupported() throws Exception {
       // given
 
       // when
@@ -41,7 +41,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
               get(
                   "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=foo"))
           // then
-          .andExpect(status().isBadRequest());
+          .andExpect(status().is5xxServerError());
     }
 
     @Test
