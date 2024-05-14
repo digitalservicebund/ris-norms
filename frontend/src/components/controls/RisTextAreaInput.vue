@@ -6,7 +6,7 @@ const props = withDefaults(
     /** HTML element ID of the form field. */
     id: string
     /** Value of the form field. */
-    modelValue: string
+    modelValue?: string
     /** Placeholder text if needed. */
     placeholder?: string
     /** If the input field should be read-only */
@@ -17,6 +17,7 @@ const props = withDefaults(
     label?: string
   }>(),
   {
+    modelValue: "",
     placeholder: "",
     readOnly: false,
     rows: 2,

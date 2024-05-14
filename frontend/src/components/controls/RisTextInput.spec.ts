@@ -8,6 +8,7 @@ function renderComponent(options?: {
   placeholder?: string
   readOnly?: boolean
   size?: string
+  label?: string
 }) {
   const user = userEvent.setup()
   const props = {
@@ -16,6 +17,7 @@ function renderComponent(options?: {
     placeholder: options?.placeholder,
     readOnly: options?.readOnly,
     size: options?.size,
+    label: options?.label,
   }
   const utils = render(RisTextInput, { props })
   return { user, props, ...utils }
@@ -80,5 +82,15 @@ describe("TextInput", () => {
     expect(input).not.toHaveClass("ds-input-medium")
     expect(input).toHaveClass("ds-input-small")
   })
-  // TODO add test for label
+
+  test("renders a label when provided and associates it with the text input", () => {
+    const labelText = "Test Label"
+    renderComponent({ label: labelText })
+
+    const labelElement = screen.getByText(labelText) as HTMLLabelElement
+    expect(labelElement).toBeInTheDocument()
+
+    const textInput = screen.getByRole("textbox") as HTMLTextAreaElement
+    expect(labelElement.htmlFor).toBe(textInput.id)
+  })
 })
