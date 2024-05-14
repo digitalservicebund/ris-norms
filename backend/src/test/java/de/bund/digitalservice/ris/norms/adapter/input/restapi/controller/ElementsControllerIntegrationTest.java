@@ -67,6 +67,19 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void itReturnsNotFoundIfNormIsNotFound() throws Exception {
+      // given
+
+      // when
+      mockMvc
+              .perform(
+                      get(
+                              "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
+              // then
+              .andExpect(status().isNotFound());
+    }
+
+    @Test
     void itReturnsEntriesWithAnArticlesInformation() throws Exception {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
