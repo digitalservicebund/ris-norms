@@ -36,7 +36,6 @@ const destinationHrefModel = defineModel<string>("destinationHref")
 const quotedTextSecondModel = defineModel<string | undefined>(
   "quotedTextSecond",
 )
-console.log(quotedTextSecondModel.value)
 
 const timeBoundaries = computed(() => {
   return [
