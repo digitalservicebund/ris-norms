@@ -82,28 +82,31 @@ class ListControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("$[0].type").exists());
     }
 
-    //        @Test
-    //        void itReturnsEntriesWithAnArticlesInformation() throws Exception {
-    //          // given
-    //          // TODO: later we may need a norm of our own as it needs to contain intros and outro
-    //          var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-    //          normRepository.save(NormMapper.mapToDto(norm));
+    //    @Test
+    //    void itReturnsEntriesWithAnArticlesInformation() throws Exception {
+    //      // given
+    //      // TODO: later we may need a norm of our own as it needs to contain intros and outro
+    //      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+    //      normRepository.save(NormMapper.mapToDto(norm));
     //
-    //          // when
-    //          mockMvc
-    //                  .perform(
+    //      // when
+    //      mockMvc
+    //          .perform(
     //
-    //     get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/list"))
-    //                  // then
-    //                  .andExpect(status().isOk()) // TODO Hannnes: Once this test works, we can
-    // remove the one on returning 200 OK
-    //                  .andExpect(jsonPath("$[0]").exists()) // TODO Hannnes: Once this test works,
-    // we can remove the one on returning a non-empty list
-    //                  .andExpect(jsonPath("$[0].title").exists())
-    //                  .andExpect(jsonPath("$[0].eid").exists())
-    //                  .andExpect(jsonPath("$[0].type").exists());
-    //
-    //        }
+    // get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/list?type=articles"))
+    //          // then
+    //          .andExpect(
+    //              status()
+    //                  .isOk()) // TODO Hannnes: Once this test works, we can remove the one on
+    // returning
+    //          // 200 OK
+    //          .andExpect(
+    //              jsonPath("$[0]").exists()) // TODO Hannnes: Once this test works, we can remove
+    // the one on returning a non-empty list
+    //          .andExpect(jsonPath("$[0].title").value("§ 20"))
+    //          .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-20"))
+    //          .andExpect(jsonPath("$[0].type").value("article"));
+    //    }
     //  also check for intro/outro data
   }
 
