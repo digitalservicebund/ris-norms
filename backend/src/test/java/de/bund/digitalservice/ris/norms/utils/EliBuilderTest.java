@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.utils;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class EliBuilderTest {
