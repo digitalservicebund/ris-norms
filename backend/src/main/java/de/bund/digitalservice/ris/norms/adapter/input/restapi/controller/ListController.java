@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ListResponseEntrySchema;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
         "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/list")
 public class ListController {
     @GetMapping(produces = {APPLICATION_JSON_VALUE})
-    public ResponseEntity getList(){
-        return ResponseEntity.ok(List.of("not implemented, yet"));
+    public ResponseEntity<List<ListResponseEntrySchema>> getList(){
+        var entry = ListResponseEntrySchema.builder()
+                .title("dummy title")
+                .eid("dummy eid")
+                .type("dummy type")
+                .build();
+        return ResponseEntity.ok(List.of(entry));
     }
 }
