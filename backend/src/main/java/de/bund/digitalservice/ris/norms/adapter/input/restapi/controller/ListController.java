@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ListRespons
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,7 +17,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
         "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/list")
 public class ListController {
     @GetMapping(produces = {APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<ListResponseEntrySchema>> getList(){
+    public ResponseEntity<List<ListResponseEntrySchema>> getList(
+            @RequestParam final String type
+    ){
         var entry = ListResponseEntrySchema.builder()
                 .title("dummy title")
                 .eid("dummy eid")

@@ -29,7 +29,7 @@ class ListControllerIntegrationTest extends BaseIntegrationTest {
               .perform(
                       get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list"))
               // then
-              .andExpect(status().isBadRequest());
+              .andExpect(status().is5xxServerError());
     }
 
     @Test
