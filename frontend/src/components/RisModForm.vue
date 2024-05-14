@@ -25,10 +25,6 @@ const props = defineProps<{
   quotedTextSecond?: string
 }>()
 
-// TODO unit test for this component
-// TODO textualModType translation
-// TODO remove console logs
-
 const selectedTimeBoundaryModel = defineModel<string | undefined>(
   "selectedTimeBoundary",
 )

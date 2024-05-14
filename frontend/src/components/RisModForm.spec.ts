@@ -2,9 +2,6 @@ import { describe, expect, it } from "vitest"
 import { render, screen } from "@testing-library/vue"
 import RisModForm from "@/components/RisModForm.vue"
 
-// TODO Add test for submit form
-// TODO Add test for Eli watcher
-
 describe("RisModForm", () => {
   const textualModType = "replacement"
   const timeBoundaries = [
