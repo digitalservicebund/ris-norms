@@ -1,21 +1,16 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
-
-import java.util.List;
-import java.util.Optional;
-
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-enum ElementType {
-    article,
-}
+import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 
 /**
  * Controller for norm-related list actions.
@@ -24,6 +19,10 @@ enum ElementType {
 @RequestMapping(
         "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/elements")
 public class ElementsController {
+
+    public enum ElementType {
+        article,
+    }
 
     private final LoadNormUseCase loadNormUseCase;
 
@@ -55,13 +54,13 @@ public class ElementsController {
             @PathVariable final String subtype,
             @RequestParam final ElementType type) {
 
-        // TODO Hannes: Where to put this?
         // get norm
         final String eli =
                 buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
+        // TODO Hannes: Should this go to some service? It's a little heavy for a controller
         var elements = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
-                .flatMap(norm -> NodeParser.getNodesFromExpression("//body//article", norm.getDocument()).stream())
+                .flatMap(norm -> NodeParser.getNodesFromExpression(String.format("//body//%s", type), norm.getDocument()).stream())
                 .flatMap(node -> NodeParser.getValueFromExpression("./@eId", node).stream())
                 .map(eid ->(ElementsResponseEntrySchema) ElementsResponseEntrySchema.builder()
                         .title("dummy title")
