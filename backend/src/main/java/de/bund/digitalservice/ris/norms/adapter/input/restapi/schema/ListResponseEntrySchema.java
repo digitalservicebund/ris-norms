@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 public class ListResponseEntrySchema {
-    private String title;
-    private String eid;
-    private String type; // TODO Hannes: restrict to enums
+  private String title;
+  private String eid;
+  private String type; // TODO Hannes: restrict to enums
 }
