@@ -60,23 +60,20 @@ public class ElementsController {
         final String eli =
                 buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-
-        var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
-
-        if (norm.isEmpty()) return ResponseEntity.notFound().build();
-
-        var articleNodes = NodeParser.getNodesFromExpression("//body//article", norm.get().getDocument());
-
-        var eids = articleNodes.stream().map(node -> NodeParser.getValueFromExpression("./@eId", node)).flatMap(Optional::stream).toList();
-
-        var elements = eids.stream().map(eid ->
-                (ElementsResponseEntrySchema) ElementsResponseEntrySchema.builder()
-                    .title("dummy title")
-                    .eid(eid)
-                    .type("article")
-                    .build())
+        var elements = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
+                .flatMap(norm -> NodeParser.getNodesFromExpression("//body//article", norm.getDocument()).stream())
+                .flatMap(node -> NodeParser.getValueFromExpression("./@eId", node).stream())
+                .map(eid ->(ElementsResponseEntrySchema) ElementsResponseEntrySchema.builder()
+                        .title("dummy title")
+                        .eid(eid)
+                        .type("article")
+                        .build())
                 .toList();
-        return ResponseEntity.ok(elements);
+
+        if (elements.isEmpty())
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(elements);
     }
 
     // TODO: Hannes: This is repeated across many controllers and should be refactored
