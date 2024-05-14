@@ -71,11 +71,11 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
 
       // when
       mockMvc
-              .perform(
-                      get(
-                              "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
-              // then
-              .andExpect(status().isNotFound());
+          .perform(
+              get(
+                  "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
+          // then
+          .andExpect(status().isNotFound());
     }
 
     @Test
