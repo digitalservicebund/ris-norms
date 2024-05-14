@@ -3,7 +3,7 @@ import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 
@@ -24,9 +24,7 @@ const props = defineProps<{
   quotedTextSecond?: string
 }>()
 
-// TODO one test about label is missing
 // TODO unit test for this component
-// TODO logic for inputType
 
 const timeBoundaries = computed(() => {
   return [
@@ -41,14 +39,31 @@ const selectedElement = computed(() => {
   }
   return props.selectedTimeBoundary
 })
+const selectedTimeBoundaryRef = ref(selectedElement.value)
+const destinationHrefEid = computed(() =>
+  props.destinationHref.split("/").slice(-2).join("/"),
+)
+const destinationHrefEidRef = ref(destinationHrefEid.value)
+const destinationHrefEli = computed(() =>
+  props.destinationHref.split("/").slice(0, -2).join("/"),
+)
+const localQuotedTextSecond = ref(props.quotedTextSecond)
+const localDestinationHref = ref(props.destinationHref)
 
-const destinationHrefEid = computed(() => {
-  return props.destinationHref.split("/").slice(-2).join("/")
+watch(
+  () => props.quotedTextSecond,
+  (newVal) => {
+    localQuotedTextSecond.value = newVal
+  },
+)
+
+watch(destinationHrefEidRef, (newVal) => {
+  localDestinationHref.value = `${destinationHrefEli.value}/${newVal}}`
+  console.log(localDestinationHref.value)
 })
 
-const destinationHrefEli = computed(() => {
-  const split = props.destinationHref.split("/")
-  return split.slice(0, split.length - 2).join("/")
+watch(selectedTimeBoundaryRef, (newVal) => {
+  console.log("timeBoundariesRef", newVal)
 })
 </script>
 
@@ -64,8 +79,8 @@ const destinationHrefEli = computed(() => {
       />
       <RisDropdownInput
         id="timeBoundaries"
+        v-model="selectedTimeBoundaryRef"
         label="Zeitgrenze"
-        :model-value="selectedElement"
         :items="timeBoundaries"
       />
     </div>
@@ -80,8 +95,8 @@ const destinationHrefEli = computed(() => {
     <RisTextInput
       v-if="textualModType == 'replacement'"
       id="destinationHrefEid"
+      v-model="destinationHrefEidRef"
       label="zu ersetzende Textstelle"
-      :model-value="destinationHrefEid"
       size="small"
     />
     <RisTextAreaInput
@@ -94,8 +109,8 @@ const destinationHrefEli = computed(() => {
     />
     <RisTextAreaInput
       id="quotedTextSecond"
+      v-model="localQuotedTextSecond"
       label="Neuer Text Inhalt"
-      :model-value="quotedTextSecond"
       :rows="8"
     />
     <div class="flex gap-20">
