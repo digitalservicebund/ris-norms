@@ -91,7 +91,7 @@ const destinationHrefEli = computed(() =>
       data-testid="destinationHrefEli"
     />
     <RisTextInput
-      v-if="textualModType == 'replacement'"
+      v-if="textualModType === 'replacement'"
       id="destinationHrefEid"
       v-model="destinationHrefEid"
       label="zu ersetzende Textstelle"
@@ -99,7 +99,7 @@ const destinationHrefEli = computed(() =>
       data-testid="destinationHrefEid"
     />
     <RisTextAreaInput
-      v-if="textualModType == 'replacement'"
+      v-if="textualModType === 'replacement'"
       id="quotedTextFirst"
       label="zu ersetzender Text"
       :model-value="quotedTextFirst"
