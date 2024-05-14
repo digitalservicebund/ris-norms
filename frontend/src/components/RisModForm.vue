@@ -27,6 +27,7 @@ const props = defineProps<{
 // TODO unit test for this component
 // TODO textualModType translation
 // TODO ICON in Submit Button
+// TODO remove console logs
 
 const timeBoundaries = computed(() => {
   return [
@@ -61,11 +62,11 @@ watch(
 
 watch(destinationHrefEidRef, (newVal) => {
   localDestinationHref.value = `${destinationHrefEli.value}/${newVal}}`
-  console.log(localDestinationHref.value)
+  console.log("localDestinationHref", localDestinationHref.value)
 })
 
 watch(selectedTimeBoundaryRef, (newVal) => {
-  console.log("timeBoundariesRef", newVal)
+  console.log("selectedTimeBoundaryRef", newVal)
 })
 </script>
 

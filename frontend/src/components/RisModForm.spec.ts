@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest"
 import { render, screen } from "@testing-library/vue"
 import RisModForm from "@/components/RisModForm.vue"
 
+// TODO Add test for submit form
+// TODO Add test for Eli watcher
+
 describe("RisModForm", () => {
   const textualModType = "replacement"
   const timeBoundaries = [
@@ -14,7 +17,7 @@ describe("RisModForm", () => {
   const quotedTextFirst = "Bundesministerium des Innern, für Bau und Heimat"
   const quotedTextSecond = "Bundesministerium des Innern und für Heimat"
 
-  it("Should render the form with only mandatory fields", async () => {
+  it("Should render the form with only mandatory fields", () => {
     render(RisModForm, {
       props: {
         id: "risModForm",
@@ -86,7 +89,7 @@ describe("RisModForm", () => {
     expect(quotedTextSecondElement).not.toHaveAttribute("readonly")
   })
 
-  it("Should render the form with optional fields", async () => {
+  it("Should render the form with optional fields", () => {
     render(RisModForm, {
       props: {
         id: "risModForm",
@@ -110,5 +113,56 @@ describe("RisModForm", () => {
       .getByTestId("quotedTextSecond")
       .querySelector("textarea")
     expect(quotedTextSecondElement).toHaveValue(quotedTextSecond)
+  })
+
+  it("Should render the form when timeBoundaries are empty", () => {
+    render(RisModForm, {
+      props: {
+        id: "risModForm",
+        textualModType,
+        timeBoundaries: [],
+        destinationHref,
+      },
+    })
+
+    const formElement = screen.getByTestId("risModForm")
+    expect(formElement).toBeInTheDocument()
+
+    const timeBoundaryOptionElements = screen
+      .getByTestId("timeBoundaries")
+      ?.querySelector("select")
+      ?.querySelectorAll("option")
+    expect(timeBoundaryOptionElements?.length).toBe(1)
+  })
+
+  it("Should render the form when a timeBoundary is pre selected", () => {
+    render(RisModForm, {
+      props: {
+        id: "risModForm",
+        textualModType,
+        timeBoundaries,
+        selectedTimeBoundary: timeBoundaries[1]["value"],
+        destinationHref,
+      },
+    })
+
+    const formElement = screen.getByTestId("risModForm")
+    expect(formElement).toBeInTheDocument()
+
+    const timeBoundariesElement = screen
+      .getByTestId("timeBoundaries")
+      .querySelector("select")
+    expect(timeBoundariesElement).toBeInTheDocument()
+    expect(timeBoundariesElement).toHaveValue(timeBoundaries[1]["value"])
+    expect(timeBoundariesElement).toHaveDisplayValue([
+      timeBoundaries[1]["label"],
+    ])
+    expect(timeBoundariesElement).not.toHaveAttribute("readonly")
+
+    const timeBoundaryOptionElements = screen
+      .getByTestId("timeBoundaries")
+      ?.querySelector("select")
+      ?.querySelectorAll("option")
+    expect(timeBoundaryOptionElements?.item(3)).toHaveValue("no_choice")
   })
 })
