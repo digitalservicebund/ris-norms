@@ -7,8 +7,6 @@ import { useArticle } from "@/composables/useArticle"
 import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTargetLaw } from "@/composables/useTargetLaw"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch, onMounted } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
@@ -20,6 +18,7 @@ import {
   previewNorm,
   previewNormAsHtml,
 } from "@/services/normService"
+import RisModForm from "@/components/RisModForm.vue"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -31,8 +30,6 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
 const article = useArticle(identifier)
 const { xml: articleXml, update: updateArticleXml } = useArticleXml(identifier)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
-const targetLaw = useTargetLaw(targetLawEli)
-const { xml: targetLawXml } = useTargetLawXml(targetLawEli)
 const currentArticleXml = ref("")
 const renderedHtml = ref("")
 const previewXml = ref<string>("")
@@ -162,66 +159,7 @@ function handleAknModClick({ eid }: { eid: string }) {
           @click="handleGeneratePreview"
         />
       </div>
-
-      <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-2 gap-32">
-        <section
-          class="flex flex-col gap-8"
-          aria-labelledby="originalArticleTitle"
-        >
-          <h3
-            id="originalArticleTitle"
-            class="ds-label-02-bold"
-            data-testid="targetLawHeading"
-          >
-            {{ targetLaw?.title }}
-          </h3>
-          <RisTabs
-            :tabs="[
-              { id: 'text', label: 'Text' },
-              { id: 'xml', label: 'XML' },
-            ]"
-          >
-            <template #text>
-              <RisLawPreview
-                class="ds-textarea flex-grow p-2"
-                :content="targetLawHtml"
-              />
-            </template>
-            <template #xml>
-              <RisCodeEditor
-                class="flex-grow"
-                :readonly="true"
-                :model-value="targetLawXml ?? ''"
-              ></RisCodeEditor>
-            </template>
-          </RisTabs>
-        </section>
-        <section
-          class="row-span-2 flex flex-col gap-8"
-          aria-labelledby="changedArticlePreivew"
-        >
-          <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
-          <RisTabs
-            :tabs="[
-              { id: 'text', label: 'Text' },
-              { id: 'xml', label: 'XML' },
-            ]"
-          >
-            <template #text>
-              <RisLawPreview
-                class="ds-textarea flex-grow p-2"
-                :content="previewHtml"
-              />
-            </template>
-            <template #xml>
-              <RisCodeEditor
-                class="flex-grow"
-                :readonly="true"
-                :model-value="previewXml"
-              ></RisCodeEditor>
-            </template>
-          </RisTabs>
-        </section>
+      <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
         <section
           class="flex flex-col gap-8"
           aria-labelledby="changeCommandsEditor"
@@ -255,6 +193,55 @@ function handleAknModClick({ eid }: { eid: string }) {
               <RisCodeEditor
                 v-model="currentArticleXml"
                 class="flex-grow"
+              ></RisCodeEditor>
+            </template>
+          </RisTabs>
+        </section>
+        <section
+          class="flex flex-col gap-8"
+          aria-labelledby="originalArticleTitle"
+        >
+          <h3
+            id="originalArticleTitle"
+            class="ds-label-02-bold"
+            data-testid="targetLawHeading"
+          >
+            Änderungsbefehle bearbeiten
+          </h3>
+          <RisModForm
+            id="risModForm"
+            textual-mod-type="replacement"
+            destination-href="DUMMY/ELI/DUMMY-EID/1-10.xml"
+            quoted-text-first="DUMMY TO BE REPLACED"
+            quoted-text-second="REPLACING DUMMY"
+            :time-boundaries="[
+              { label: '01.01.2011', value: '2011-01-01' },
+              { label: '02.02.2012', value: '2012-02-02' },
+            ]"
+          />
+        </section>
+        <section
+          class="flex flex-col gap-8"
+          aria-labelledby="changedArticlePreivew"
+        >
+          <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
+          <RisTabs
+            :tabs="[
+              { id: 'text', label: 'Text' },
+              { id: 'xml', label: 'XML' },
+            ]"
+          >
+            <template #text>
+              <RisLawPreview
+                class="ds-textarea flex-grow p-2"
+                :content="previewHtml"
+              />
+            </template>
+            <template #xml>
+              <RisCodeEditor
+                class="flex-grow"
+                :readonly="true"
+                :model-value="previewXml"
               ></RisCodeEditor>
             </template>
           </RisTabs>

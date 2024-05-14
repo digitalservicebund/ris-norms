@@ -20,40 +20,14 @@ test.describe("article editor", () => {
     await page.goto(BASE_URL)
   })
 
-  test(`see article number, target law title and amending law title`, async ({
-    page,
-  }) => {
+  test(`see article number and amending law title`, async ({ page }) => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Artikel 1" }),
     ).toBeVisible()
 
     await expect(
-      page.locator('[data-testid="targetLawHeading"]'),
-    ).toContainText("Gesetz zur Regelung des öffentlichen Vereinsrechts")
-
-    await expect(
       page.locator('[data-testid="amendingLawHeading"]'),
     ).toContainText("Änderung des Vereinsgesetzes")
-  })
-
-  test(`contents of target law in both xml and html tabs`, async ({ page }) => {
-    await expect(
-      page.getByText(
-        "Gesetz zur Regelung des öffentlichen Vereinsrechts ( Vereinsgesetz)",
-      ),
-    ).toBeVisible()
-
-    const targetLawSection = page.locator(
-      '[aria-labelledby="originalArticleTitle"]',
-    )
-    const xmlTabButton = targetLawSection.locator('button[aria-label="xml"]')
-    await xmlTabButton.click()
-
-    await expect(
-      page.getByText(
-        '<akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">',
-      ),
-    ).toBeVisible()
   })
 
   test(`contents of amending law in both xml and html tabs`, async ({

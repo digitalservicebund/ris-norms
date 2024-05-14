@@ -115,7 +115,7 @@ watch(selectedTimeBoundaryRef, (newVal) => {
     />
     <div class="flex gap-20">
       <RisTextButton label="Vorschau" variant="tertiary" />
-      <RisTextButton label="Speichern" />
+      <RisTextButton label="Dummy-Save" />
     </div>
   </form>
 </template>
