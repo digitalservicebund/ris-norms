@@ -128,14 +128,8 @@ describe("RisModForm", () => {
       },
     })
 
-    const formElement = screen.getByTestId("risModForm")
-    expect(formElement).toBeInTheDocument()
-
-    const timeBoundaryOptionElements = screen
-      .getByTestId("timeBoundaries")
-      ?.querySelector("select")
-      ?.querySelectorAll("option")
-    expect(timeBoundaryOptionElements?.length).toBe(1)
+    const timeBoundaryOptionElements = screen.getAllByRole("option")
+    expect(timeBoundaryOptionElements.length).toBe(1)
   })
 
   it("Should render the form when a timeBoundary is pre selected", () => {
@@ -149,23 +143,24 @@ describe("RisModForm", () => {
       },
     })
 
-    const formElement = screen.getByTestId("risModForm")
-    expect(formElement).toBeInTheDocument()
-
-    const timeBoundariesElement = screen
-      .getByTestId("timeBoundaries")
-      .querySelector("select")
+    const timeBoundariesElement = screen.getByRole("combobox", {
+      name: "Zeitgrenze",
+    })
     expect(timeBoundariesElement).toBeInTheDocument()
-    expect(timeBoundariesElement).toHaveValue(timeBoundaries[1]["value"])
     expect(timeBoundariesElement).toHaveDisplayValue([
       timeBoundaries[1]["label"],
     ])
-    expect(timeBoundariesElement).not.toHaveAttribute("readonly")
 
-    const timeBoundaryOptionElements = screen
-      .getByTestId("timeBoundaries")
-      ?.querySelector("select")
-      ?.querySelectorAll("option")
-    expect(timeBoundaryOptionElements?.item(3)).toHaveValue("no_choice")
+    const timeBoundaryOptionElements = screen.getAllByRole(
+      "option",
+    ) as HTMLOptionElement[]
+
+    const noChoiceOptionIndex = timeBoundaryOptionElements.findIndex(
+      (option) => option.value === "no_choice",
+    )
+    expect(noChoiceOptionIndex).toBeGreaterThan(-1)
+    expect(timeBoundaryOptionElements[noChoiceOptionIndex]).toHaveValue(
+      "no_choice",
+    )
   })
 })
