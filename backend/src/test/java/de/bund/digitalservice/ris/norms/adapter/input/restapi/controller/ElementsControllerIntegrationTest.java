@@ -45,35 +45,6 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturns200OkWhenTypeParameterIsPresent() throws Exception {
-      // given
-
-      // when
-      mockMvc
-          .perform(
-              get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
-          // then
-          .andExpect(status().isOk());
-    }
-
-    @Test
-    void itReturnsJsonList() throws Exception {
-      // given
-      // when
-      mockMvc
-          .perform(
-              get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
-          // then
-          .andExpect(
-              status()
-                  .isOk()) // TODO Hannnes: Once this test works, we can remove the one on returning
-          // 200 OK
-          .andExpect(jsonPath("$[0]").exists());
-    }
-
-    @Test
     void itReturnsEntriesWithTitleAndEidAndType() throws Exception {
       // given
 
@@ -85,11 +56,11 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           // then
           .andExpect(
               status()
-                  .isOk()) // TODO Hannnes: Once this test works, we can remove the one on returning
+                  .isOk())
           // 200 OK
           .andExpect(
               jsonPath("$[0]")
-                  .exists()) // TODO Hannnes: Once this test works, we can remove the one on
+                  .exists())
           // returning a non-empty list
           .andExpect(jsonPath("$[0].title").exists())
           .andExpect(jsonPath("$[0].eid").exists())
