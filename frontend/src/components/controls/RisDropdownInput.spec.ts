@@ -10,9 +10,11 @@ function renderComponent(options?: {
   items?: DropdownItem[]
   modelValue?: DropdownInputModelType
   placeholder?: string
+  label?: string
 }) {
   const user = userEvent.setup()
   const props = {
+    id: "identifier",
     modelValue: options?.modelValue,
     items: options?.items ?? [
       { label: "testItem1", value: "t1" },
@@ -20,6 +22,7 @@ function renderComponent(options?: {
       { label: "testItem3", value: "t3" },
     ],
     placeholder: options?.placeholder,
+    label: options?.label,
   }
   const utils = render(RisDropdowninput, { props })
   return { user, props, ...utils }
@@ -91,5 +94,16 @@ describe("Dropdown Input", () => {
 
     await user.selectOptions(input, "t2")
     expect(emitted("update:modelValue")).toEqual([["t2"]])
+  })
+
+  test("renders a label when provided and associates it with the dropdown", () => {
+    const labelText = "Test Label"
+    renderComponent({ label: labelText })
+
+    const labelElement = screen.getByText(labelText) as HTMLLabelElement
+    expect(labelElement).toBeInTheDocument()
+
+    const dropdown = screen.getByRole("combobox") as HTMLSelectElement
+    expect(labelElement.htmlFor).toBe(dropdown.id)
   })
 })
