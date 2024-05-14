@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
+package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMappe
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

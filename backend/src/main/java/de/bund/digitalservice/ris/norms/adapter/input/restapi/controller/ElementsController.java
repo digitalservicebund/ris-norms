@@ -7,6 +7,9 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsRes
 import java.util.List;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,15 +61,22 @@ public class ElementsController {
         final String eli =
                 buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-        ElementsResponseEntrySchema element = ElementsResponseEntrySchema.builder()
-                .title("dummy title")
-                .eid("dummy eid")
-                .type("dummy type")
-                .build();
+
 
         return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli))
                 .map(
                         norm -> {
+
+                            var articleNodes = NodeParser.getNodesFromExpression("//body//article", norm.getDocument());
+
+                            var eids = articleNodes.stream().map(node -> NodeParser.getValueFromExpression("./@eId", node)).toList();
+
+                            ElementsResponseEntrySchema element = ElementsResponseEntrySchema.builder()
+                                    .title("dummy title")
+                                    .eid(eids.get(0).get())
+                                    .type("article")
+                                    .build();
+
                             return List.of(element);
                         }
                 )
