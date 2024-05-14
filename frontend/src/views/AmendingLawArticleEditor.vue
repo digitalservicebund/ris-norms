@@ -198,7 +198,7 @@ function handleAknModClick({ eid }: { eid: string }) {
           </RisTabs>
         </section>
         <section
-          class="flex flex-col gap-8"
+          class="mt-32 flex flex-col gap-8"
           aria-labelledby="originalArticleTitle"
         >
           <h3
@@ -221,7 +221,7 @@ function handleAknModClick({ eid }: { eid: string }) {
           />
         </section>
         <section
-          class="flex flex-col gap-8"
+          class="mt-24 flex flex-col gap-8"
           aria-labelledby="changedArticlePreivew"
         >
           <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
