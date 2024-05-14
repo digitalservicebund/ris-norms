@@ -27,63 +27,69 @@ describe("RisModForm", () => {
       },
     })
 
-    const formElement = screen.getByTestId("risModForm")
+    // Form
+    const formElement = screen.getByRole("form")
     expect(formElement).toBeInTheDocument()
 
-    const textualModeTypeElement = screen
-      .getByTestId("textualModeType")
-      .querySelector("input")
+    // Textual Mode Type
+    const textualModeTypeElement = screen.getByRole("textbox", {
+      name: "Änderungstyp",
+    })
     expect(textualModeTypeElement).toBeInTheDocument()
     expect(textualModeTypeElement).toHaveValue("ersetzen")
     expect(textualModeTypeElement).toHaveAttribute("readonly")
 
-    const timeBoundariesElement = screen
-      .getByTestId("timeBoundaries")
-      .querySelector("select")
+    // Time Boundaries
+    const timeBoundariesElement = screen.getByRole("combobox", {
+      name: "Zeitgrenze",
+    })
     expect(timeBoundariesElement).toBeInTheDocument()
     expect(timeBoundariesElement).toHaveValue("no_choice")
     expect(timeBoundariesElement).toHaveDisplayValue(["Keine Angabe"])
     expect(timeBoundariesElement).not.toHaveAttribute("readonly")
 
-    const timeBoundaryOptionElements =
-      timeBoundariesElement?.querySelectorAll("option")
-    expect(timeBoundaryOptionElements?.length).toBe(4)
-    expect(timeBoundaryOptionElements?.item(0)).toHaveValue(
+    const timeBoundaryOptionElements = screen.getAllByRole("option")
+    expect(timeBoundaryOptionElements.length).toBe(4)
+    expect(timeBoundaryOptionElements[0]).toHaveValue(
       timeBoundaries[0]["value"],
     )
-    expect(timeBoundaryOptionElements?.item(1)).toHaveValue(
+    expect(timeBoundaryOptionElements[1]).toHaveValue(
       timeBoundaries[1]["value"],
     )
-    expect(timeBoundaryOptionElements?.item(2)).toHaveValue(
+    expect(timeBoundaryOptionElements[2]).toHaveValue(
       timeBoundaries[2]["value"],
     )
 
-    const destinationHrefEliElement = screen
-      .getByTestId("destinationHrefEli")
-      .querySelector("input")
+    // Destination Href Eli
+    const destinationHrefEliElement = screen.getByRole("textbox", {
+      name: "ELI Zielgesetz",
+    })
     expect(destinationHrefEliElement).toBeInTheDocument()
     expect(destinationHrefEliElement).toHaveValue(
       "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
     )
     expect(destinationHrefEliElement).toHaveAttribute("readonly")
 
-    const destinationHrefEidElement = screen
-      .getByTestId("destinationHrefEid")
-      .querySelector("input")
+    // Destination Href Eid
+    const destinationHrefEidElement = screen.getByRole("textbox", {
+      name: "zu ersetzende Textstelle",
+    })
     expect(destinationHrefEidElement).toBeInTheDocument()
     expect(destinationHrefEidElement).toHaveValue("para-1_abs-1/5-53.xml")
     expect(destinationHrefEidElement).not.toHaveAttribute("readonly")
 
-    const quotedTextFirstElement = screen
-      .getByTestId("quotedTextFirst")
-      .querySelector("textarea")
+    // Quoted Text First
+    const quotedTextFirstElement = screen.getByRole("textbox", {
+      name: "zu ersetzender Text",
+    })
     expect(quotedTextFirstElement).toBeInTheDocument()
     expect(quotedTextFirstElement).toHaveValue("")
     expect(quotedTextFirstElement).toHaveAttribute("readonly")
 
-    const quotedTextSecondElement = screen
-      .getByTestId("quotedTextSecond")
-      .querySelector("textarea")
+    // Quoted Text Second
+    const quotedTextSecondElement = screen.getByRole("textbox", {
+      name: "Neuer Text Inhalt",
+    })
     expect(quotedTextSecondElement).toBeInTheDocument()
     expect(quotedTextSecondElement).toHaveValue("")
     expect(quotedTextSecondElement).not.toHaveAttribute("readonly")
@@ -101,17 +107,14 @@ describe("RisModForm", () => {
       },
     })
 
-    const formElement = screen.getByTestId("risModForm")
-    expect(formElement).toBeInTheDocument()
-
-    const quotedTextFirstElement = screen
-      .getByTestId("quotedTextFirst")
-      .querySelector("textarea")
+    const quotedTextFirstElement = screen.getByRole("textbox", {
+      name: "zu ersetzender Text",
+    })
     expect(quotedTextFirstElement).toHaveValue(quotedTextFirst)
 
-    const quotedTextSecondElement = screen
-      .getByTestId("quotedTextSecond")
-      .querySelector("textarea")
+    const quotedTextSecondElement = screen.getByRole("textbox", {
+      name: "Neuer Text Inhalt",
+    })
     expect(quotedTextSecondElement).toHaveValue(quotedTextSecond)
   })
 
