@@ -53,13 +53,22 @@ const selectedElement = computed({
   },
 })
 
-const destinationHrefEid = computed(() =>
-  destinationHrefModel.value?.split("/").slice(-2).join("/"),
-)
-
 const destinationHrefEli = computed(() =>
   destinationHrefModel.value?.split("/").slice(0, -2).join("/"),
 )
+
+const destinationHrefEid = computed({
+  get() {
+    return destinationHrefModel.value?.split("/").slice(-2).join("/") || ""
+  },
+  set(newValue: string) {
+    if (destinationHrefModel.value) {
+      const parts = destinationHrefModel.value.split("/")
+      parts.splice(-2, 2, ...newValue.split("/"))
+      destinationHrefModel.value = parts.join("/")
+    }
+  },
+})
 </script>
 
 <template>
