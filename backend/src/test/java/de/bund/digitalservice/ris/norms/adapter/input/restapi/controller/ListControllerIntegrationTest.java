@@ -29,7 +29,7 @@ class ListControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsJson() throws Exception {
+    void itReturnsJsonList() throws Exception {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       // when
