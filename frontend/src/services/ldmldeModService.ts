@@ -20,3 +20,10 @@ export function getNewText(aknModNode: Node) {
 export function getDestinationHref(aknModNode: Node) {
   return evaluateXPath(`akn:ref/@href`, aknModNode)?.nodeValue
 }
+
+/**
+ * Provides the type of change of the akn:mod element.
+ */
+export function getChangeType(aknModNode: Node) {
+  return evaluateXPath(`@refersTo`, aknModNode)?.nodeValue
+}
