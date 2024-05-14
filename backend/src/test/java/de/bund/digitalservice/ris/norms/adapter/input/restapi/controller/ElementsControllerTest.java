@@ -42,8 +42,8 @@ public class ElementsControllerTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-  //     TODO Hannes: Support title
-  //     .andExpect(jsonPath("$[0].title").value("§ 20"))
+        //     TODO Hannes: Support title
+        //     .andExpect(jsonPath("$[0].title").value("§ 20"))
         .andExpect(jsonPath("$[0].title").exists())
         .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-20"))
         .andExpect(jsonPath("$[0].type").value("article"))
