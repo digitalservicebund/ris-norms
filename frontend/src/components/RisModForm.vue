@@ -25,6 +25,8 @@ const props = defineProps<{
 }>()
 
 // TODO unit test for this component
+// TODO textualModType translation
+// TODO ICON in Submit Button
 
 const timeBoundaries = computed(() => {
   return [
@@ -68,7 +70,7 @@ watch(selectedTimeBoundaryRef, (newVal) => {
 </script>
 
 <template>
-  <form :id="id" class="grid grid-cols-1 gap-y-20">
+  <form :id="id" class="grid grid-cols-1 gap-y-20" data-testid="risModForm">
     <div class="grid grid-cols-3 gap-x-80">
       <RisTextInput
         id="textualModeType"
@@ -76,12 +78,14 @@ watch(selectedTimeBoundaryRef, (newVal) => {
         model-value="ersetzen"
         read-only
         size="small"
+        data-testid="textualModeType"
       />
       <RisDropdownInput
         id="timeBoundaries"
         v-model="selectedTimeBoundaryRef"
         label="Zeitgrenze"
         :items="timeBoundaries"
+        data-testid="timeBoundaries"
       />
     </div>
 
@@ -91,6 +95,7 @@ watch(selectedTimeBoundaryRef, (newVal) => {
       :model-value="destinationHrefEli"
       read-only
       size="small"
+      data-testid="destinationHrefEli"
     />
     <RisTextInput
       v-if="textualModType == 'replacement'"
@@ -98,6 +103,7 @@ watch(selectedTimeBoundaryRef, (newVal) => {
       v-model="destinationHrefEidRef"
       label="zu ersetzende Textstelle"
       size="small"
+      data-testid="destinationHrefEid"
     />
     <RisTextAreaInput
       v-if="textualModType == 'replacement'"
@@ -106,12 +112,14 @@ watch(selectedTimeBoundaryRef, (newVal) => {
       :model-value="quotedTextFirst"
       read-only
       :rows="8"
+      data-testid="quotedTextFirst"
     />
     <RisTextAreaInput
       id="quotedTextSecond"
       v-model="localQuotedTextSecond"
       label="Neuer Text Inhalt"
       :rows="8"
+      data-testid="quotedTextSecond"
     />
     <div class="flex gap-20">
       <RisTextButton label="Vorschau" variant="tertiary" />
