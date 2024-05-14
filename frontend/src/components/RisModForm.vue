@@ -6,6 +6,7 @@ import RisTextInput from "@/components/controls/RisTextInput.vue"
 import { computed } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
+import CheckIcon from "~icons/ic/check"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -26,7 +27,6 @@ const props = defineProps<{
 
 // TODO unit test for this component
 // TODO textualModType translation
-// TODO ICON in Submit Button
 // TODO remove console logs
 
 const selectedTimeBoundaryModel = defineModel<string | undefined>(
@@ -118,7 +118,7 @@ const destinationHrefEid = computed({
     />
     <div class="flex gap-20">
       <RisTextButton label="Vorschau" variant="tertiary" />
-      <RisTextButton label="Dummy-Save" />
+      <RisTextButton label="Dummy-Save" :icon="CheckIcon" />
     </div>
   </form>
 </template>
