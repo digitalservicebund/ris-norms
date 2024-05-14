@@ -3,7 +3,7 @@ import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
-import { computed, ref, watch } from "vue"
+import { computed } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 
@@ -29,45 +29,37 @@ const props = defineProps<{
 // TODO ICON in Submit Button
 // TODO remove console logs
 
+const selectedTimeBoundaryModel = defineModel<string | undefined>(
+  "selectedTimeBoundary",
+)
+const destinationHrefModel = defineModel<string>("destinationHref")
+const quotedTextSecondModel = defineModel<string | undefined>(
+  "quotedTextSecond",
+)
+console.log(quotedTextSecondModel.value)
+
 const timeBoundaries = computed(() => {
   return [
     ...props.timeBoundaries,
     { label: "Keine Angabe", value: "no_choice" },
   ]
 })
-
-const selectedElement = computed(() => {
-  if (!props.selectedTimeBoundary) {
-    return "no_choice"
-  }
-  return props.selectedTimeBoundary
-})
-const selectedTimeBoundaryRef = ref(selectedElement.value)
-const destinationHrefEid = computed(() =>
-  props.destinationHref.split("/").slice(-2).join("/"),
-)
-const destinationHrefEidRef = ref(destinationHrefEid.value)
-const destinationHrefEli = computed(() =>
-  props.destinationHref.split("/").slice(0, -2).join("/"),
-)
-const localQuotedTextSecond = ref(props.quotedTextSecond)
-const localDestinationHref = ref(props.destinationHref)
-
-watch(
-  () => props.quotedTextSecond,
-  (newVal) => {
-    localQuotedTextSecond.value = newVal
+const selectedElement = computed({
+  get() {
+    return selectedTimeBoundaryModel.value || "no_choice"
   },
+  set(value: string) {
+    selectedTimeBoundaryModel.value = value === "no_choice" ? undefined : value
+  },
+})
+
+const destinationHrefEid = computed(() =>
+  destinationHrefModel.value?.split("/").slice(-2).join("/"),
 )
 
-watch(destinationHrefEidRef, (newVal) => {
-  localDestinationHref.value = `${destinationHrefEli.value}/${newVal}}`
-  console.log("localDestinationHref", localDestinationHref.value)
-})
-
-watch(selectedTimeBoundaryRef, (newVal) => {
-  console.log("selectedTimeBoundaryRef", newVal)
-})
+const destinationHrefEli = computed(() =>
+  destinationHrefModel.value?.split("/").slice(0, -2).join("/"),
+)
 </script>
 
 <template>
@@ -83,7 +75,7 @@ watch(selectedTimeBoundaryRef, (newVal) => {
       />
       <RisDropdownInput
         id="timeBoundaries"
-        v-model="selectedTimeBoundaryRef"
+        v-model="selectedElement"
         label="Zeitgrenze"
         :items="timeBoundaries"
         data-testid="timeBoundaries"
@@ -101,7 +93,7 @@ watch(selectedTimeBoundaryRef, (newVal) => {
     <RisTextInput
       v-if="textualModType == 'replacement'"
       id="destinationHrefEid"
-      v-model="destinationHrefEidRef"
+      v-model="destinationHrefEid"
       label="zu ersetzende Textstelle"
       size="small"
       data-testid="destinationHrefEid"
@@ -117,7 +109,7 @@ watch(selectedTimeBoundaryRef, (newVal) => {
     />
     <RisTextAreaInput
       id="quotedTextSecond"
-      v-model="localQuotedTextSecond"
+      v-model="quotedTextSecondModel"
       label="Neuer Text Inhalt"
       :rows="8"
       data-testid="quotedTextSecond"
