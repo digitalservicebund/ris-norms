@@ -25,9 +25,23 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
           .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list"))
+              get(
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements"))
           // then
           .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    void itReturnsBadRequestIfTheTypeIsNotSupported() throws Exception {
+      // given
+
+      // when
+      mockMvc
+          .perform(
+              get(
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=foo"))
+          // then
+          .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -38,7 +52,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
           .perform(
               get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list?type=article"))
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
           // then
           .andExpect(status().isOk());
     }
@@ -50,7 +64,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
           .perform(
               get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list?type=article"))
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
           // then
           .andExpect(
               status()
@@ -67,7 +81,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
           .perform(
               get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list?type=article"))
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
           // then
           .andExpect(
               status()
@@ -93,7 +107,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
     //      mockMvc
     //          .perform(
     //
-    // get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/list?type=article"))
+    // get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements?type=article"))
     //          // then
     //          .andExpect(
     //              status()
