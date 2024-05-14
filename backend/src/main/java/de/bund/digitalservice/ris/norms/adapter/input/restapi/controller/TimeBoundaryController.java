@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.constraints.UniqueTimeBoundariesDatesConstraint;
@@ -9,7 +10,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -125,30 +125,5 @@ public class TimeBoundaryController {
     // having 1
     //              temporalInterval in a ReglungstextVerkuendungsfassung
     return (result.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
-  }
-
-  @NotNull
-  private static String buildEli(
-      String agent,
-      String year,
-      String naturalIdentifier,
-      String pointInTime,
-      String version,
-      String language,
-      String subtype) {
-    return "eli/bund/"
-        + agent
-        + "/"
-        + year
-        + "/"
-        + naturalIdentifier
-        + "/"
-        + pointInTime
-        + "/"
-        + version
-        + "/"
-        + language
-        + "/"
-        + subtype;
   }
 }

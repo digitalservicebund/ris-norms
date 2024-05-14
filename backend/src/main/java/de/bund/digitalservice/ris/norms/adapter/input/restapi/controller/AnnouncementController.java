@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
@@ -13,7 +14,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnounceme
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -150,30 +150,5 @@ public class AnnouncementController {
         .map(announcement -> ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms))
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
-  }
-
-  @NotNull
-  private static String buildEli(
-      String agent,
-      String year,
-      String naturalIdentifier,
-      String pointInTime,
-      String version,
-      String language,
-      String subtype) {
-    return "eli/bund/"
-        + agent
-        + "/"
-        + year
-        + "/"
-        + naturalIdentifier
-        + "/"
-        + pointInTime
-        + "/"
-        + version
-        + "/"
-        + language
-        + "/"
-        + subtype;
   }
 }
