@@ -5,11 +5,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.service.XmlDocumentService;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,32 +61,22 @@ public class ElementsController {
                 buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
 
+        var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
 
-        return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli))
-                .map(
-                        norm -> {
+        if (norm.isEmpty()) return ResponseEntity.notFound().build();
 
-                            var articleNodes = NodeParser.getNodesFromExpression("//body//article", norm.getDocument());
+        var articleNodes = NodeParser.getNodesFromExpression("//body//article", norm.get().getDocument());
 
-                            var eids = articleNodes.stream().map(node -> NodeParser.getValueFromExpression("./@eId", node)).toList();
+        var eids = articleNodes.stream().map(node -> NodeParser.getValueFromExpression("./@eId", node)).flatMap(Optional::stream).toList();
 
-                            ElementsResponseEntrySchema element = ElementsResponseEntrySchema.builder()
-                                    .title("dummy title")
-                                    .eid(eids.get(0).get())
-                                    .type("article")
-                                    .build();
-
-                            return List.of(element);
-                        }
-                )
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-
-        // get nodes by type
-
-        // map nodes to ElementsResponseEntries
-
-        // return entries
+        var elements = eids.stream().map(eid ->
+                (ElementsResponseEntrySchema) ElementsResponseEntrySchema.builder()
+                    .title("dummy title")
+                    .eid(eid)
+                    .type("article")
+                    .build())
+                .toList();
+        return ResponseEntity.ok(elements);
     }
 
     // TODO: Hannes: This is repeated across many controllers and should be refactored
