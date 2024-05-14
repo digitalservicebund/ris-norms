@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-class ListControllerIntegrationTest extends BaseIntegrationTest {
+class ElementsControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private NormRepository normRepository;
 
   @Nested
-  class getList {
+  class getElements {
 
     @Test
     void itReturnsServerErrorIfTypeParameterIsMissing() throws Exception {
@@ -38,7 +38,7 @@ class ListControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
           .perform(
               get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list?type=articles"))
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list?type=article"))
           // then
           .andExpect(status().isOk());
     }
@@ -50,7 +50,7 @@ class ListControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
           .perform(
               get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list?type=articles"))
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list?type=article"))
           // then
           .andExpect(
               status()
@@ -67,7 +67,7 @@ class ListControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
           .perform(
               get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list?type=articles"))
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/list?type=article"))
           // then
           .andExpect(
               status()
@@ -93,7 +93,7 @@ class ListControllerIntegrationTest extends BaseIntegrationTest {
     //      mockMvc
     //          .perform(
     //
-    // get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/list?type=articles"))
+    // get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/list?type=article"))
     //          // then
     //          .andExpect(
     //              status()

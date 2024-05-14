@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Data
 @SuperBuilder(toBuilder = true)
-public class ListResponseEntrySchema {
+public class ElementsResponseEntrySchema {
   private String title;
   private String eid;
   private String type; // TODO Hannes: restrict to enums
