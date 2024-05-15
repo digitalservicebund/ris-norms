@@ -141,6 +141,7 @@ watch(
             makeElementClickable(
               htmlElement,
               (event) => {
+                event.stopPropagation()
                 emit(`click:akn:${aknElement}`, {
                   eid,
                   guid,

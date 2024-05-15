@@ -75,6 +75,10 @@ function handleAknModClick({ eid }: { eid: string }) {
   selectedMod.value = eid
 }
 
+function handlePreviewClick() {
+  selectedMod.value = ""
+}
+
 const { timeBoundaries } = useTemporalData(eli)
 const {
   textualModType,
@@ -132,6 +136,7 @@ const {
                 highlight-affected-document
                 :selected="selectedMod ? [selectedMod] : []"
                 @click:akn:mod="handleAknModClick"
+                @click="handlePreviewClick"
               />
             </template>
             <template #xml>
