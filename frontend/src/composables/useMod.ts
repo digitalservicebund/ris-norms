@@ -41,7 +41,7 @@ export function useMod(
   }
 
   watch(
-    [() => normDocument, () => toValue(eid)],
+    [() => normDocument.value, () => toValue(eid)],
     () => {
       const eidValue = toValue(eid)
       if (!eidValue || !normDocument.value) {
