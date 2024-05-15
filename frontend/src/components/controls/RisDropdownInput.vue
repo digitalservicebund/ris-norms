@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { computed } from "vue"
 
-export type DropdownInputModelType = string
 export type DropdownItem = {
   label: string
   value: string
@@ -13,7 +12,7 @@ const props = defineProps<{
   /** the items for the dropdown. */
   items: DropdownItem[]
   /** Value reflected by choice of item . */
-  modelValue?: DropdownInputModelType
+  modelValue?: string
   /** Placeholder text if needed. */
   placeholder?: string
   /** Optional label for the field */
@@ -26,7 +25,7 @@ const emit = defineEmits<{
    * is only emitted when the value is empty or a valid date. All other states
    * (e.g. partial dates while typing) are handled internally and not emitted.
    */
-  "update:modelValue": [DropdownInputModelType | undefined]
+  "update:modelValue": [string | undefined]
 }>()
 
 const localModelValue = computed({
