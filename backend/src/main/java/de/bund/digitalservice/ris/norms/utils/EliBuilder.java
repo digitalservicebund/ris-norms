@@ -8,6 +8,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public class EliBuilder {
 
+  // Hide the default constructor
+  private EliBuilder(){}
+
   /**
    * Builds an ELI out of its components
    *
