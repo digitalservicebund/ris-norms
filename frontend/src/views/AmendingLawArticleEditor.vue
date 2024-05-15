@@ -13,16 +13,8 @@ import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { renderHtmlLaw } from "@/services/renderService"
 import RisModForm from "@/components/RisModForm.vue"
-import {
-  getDestinationHref,
-  getQuotedTextSecond,
-  getQuotedTextFirst,
-  getTextualModType,
-  getTimeBoundaryDate,
-} from "@/services/ldmldeModService"
-import { getNodeByEid } from "@/services/ldmldeService"
-import { xmlStringToDocument } from "@/services/xmlService"
 import { useTemporalData } from "@/composables/useTemporalData"
+import { useMod } from "@/composables/useMod"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -81,39 +73,19 @@ watch(articleXml, (articleXml) => {
  * The eid of the currently selected akn:mod element
  */
 const selectedMod = ref<string | null>(null)
-const articleDocument = computed(() =>
-  articleXml.value ? xmlStringToDocument(articleXml.value) : null,
-)
-const selectedModNode = computed(() =>
-  selectedMod.value && articleDocument.value
-    ? getNodeByEid(articleDocument.value, selectedMod.value)
-    : null,
-)
 
 function handleAknModClick({ eid }: { eid: string }) {
   selectedMod.value = eid
 }
 
 const { timeBoundaries } = useTemporalData(eli)
-
-const textualModType = computed(() =>
-  selectedModNode.value ? getTextualModType(selectedModNode.value) ?? "" : "",
-)
-const destinationHref = computed(() =>
-  selectedModNode.value ? getDestinationHref(selectedModNode.value) ?? "" : "",
-)
-const quotedTextFirst = computed(() =>
-  selectedModNode.value ? getQuotedTextFirst(selectedModNode.value) ?? "" : "",
-)
-const quotedTextSecond = computed(() =>
-  selectedModNode.value ? getQuotedTextSecond(selectedModNode.value) ?? "" : "",
-)
-const timeBoundary = computed(() =>
-  selectedMod.value && articleDocument.value
-    ? getTimeBoundaryDate(articleDocument.value, selectedMod.value) ??
-      "no_choice"
-    : "no_choice",
-)
+const {
+  textualModType,
+  destinationHref,
+  quotedTextFirst,
+  quotedTextSecond,
+  timeBoundary,
+} = useMod(selectedMod, articleXml)
 </script>
 
 <template>
