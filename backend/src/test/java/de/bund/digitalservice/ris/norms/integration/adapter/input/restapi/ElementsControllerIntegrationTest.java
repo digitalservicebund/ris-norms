@@ -108,6 +108,39 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("$[0].type").value("preface"))
           .andExpect(jsonPath("$[1]").doesNotExist());
     }
+
+    @Test
+    void itReturnsEntriesWithPrefaceAndArticleInformation() throws Exception {
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get(
+                  "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements?type=preface"))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").exists())
+          .andExpect(jsonPath("$[0].title").exists())
+          // TODO Hannes
+          //          .andExpect(jsonPath("$[0].title").value(">Entwurf eines Zweiten Gesetzes zur
+          //                  Änderung des Vereinsgesetzes"))
+          .andExpect(jsonPath("$[0].eid").value("einleitung-1"))
+          .andExpect(jsonPath("$[0].type").value("preface"))
+          .andExpect(jsonPath("$[1].title").exists())
+          // TODO Hannes
+          //          .andExpect(jsonPath("$[0].title").value("§ 20"))
+          .andExpect(jsonPath("$[1].eid").value("hauptteil-1_para-20"))
+          .andExpect(jsonPath("$[1].type").value("article"))
+          .andExpect(jsonPath("$[2]").exists())
+          .andExpect(jsonPath("$[2].title").exists())
+          // TODO Hannes
+          //          .andExpect(jsonPath("$[0].title").value("§ 20"))
+          .andExpect(jsonPath("$[2].eid").value("hauptteil-1_para-1"))
+          .andExpect(jsonPath("$[2].type").value("article"));
+    }
     // TODO Hannes
     //  check for preamble elements
     //  check for conclusion elements
