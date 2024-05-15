@@ -19,6 +19,7 @@ public class ElementsController {
   /** The types of elements that can be retrieved */
   public enum ElementType {
     article,
+    preface
   }
 
   private final LoadNormUseCase loadNormUseCase;

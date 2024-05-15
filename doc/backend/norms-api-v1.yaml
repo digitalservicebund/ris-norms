@@ -128,7 +128,7 @@ paths:
             type: array
             items:
               type: string
-              enum: [article]
+              enum: [article, preface]
       responses:
         '200':
           description: Successful response
