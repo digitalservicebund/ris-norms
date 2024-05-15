@@ -51,8 +51,7 @@ test.describe("management of Temporal Data for an amending law", () => {
     let dateInputs = page.locator('[data-testid="date-input-field"]')
 
     await expect(dateInputs).toHaveCount(1)
-    const inputValue = await dateInputs.inputValue()
-    expect(inputValue).toBe("16.03.2017")
+    await expect(dateInputs).toHaveValue("16.03.2017")
 
     //   add new time boundaries
     const newDateInput = page.locator('[data-testid="new-date-input-field"]')
@@ -63,14 +62,10 @@ test.describe("management of Temporal Data for an amending law", () => {
     await page.reload()
     await expect(dateInputs).toHaveCount(3)
 
-    const firstDateValue = await dateInputs.nth(0).inputValue()
-    const secondDateValue = await dateInputs.nth(1).inputValue()
-    const thirdDateValue = await dateInputs.nth(2).inputValue()
-
     // validate each date input contains the correct data
-    expect(firstDateValue).toBe("16.03.2017")
-    expect(secondDateValue).toBe("01.05.2023")
-    expect(thirdDateValue).toBe("02.06.2023")
+    await expect(dateInputs.nth(0)).toHaveValue("16.03.2017")
+    await expect(dateInputs.nth(1)).toHaveValue("01.05.2023")
+    await expect(dateInputs.nth(2)).toHaveValue("02.06.2023")
 
     //edit time boundaries
     const dateInputToEdit = page
@@ -80,8 +75,7 @@ test.describe("management of Temporal Data for an amending law", () => {
     await saveButton.click()
     await page.reload()
 
-    const editedValue = await dateInputs.nth(1).inputValue()
-    expect(editedValue).toBe("03.06.2023")
+    await expect(dateInputs.nth(1)).toHaveValue("03.06.2023")
 
     //   delete time boundaries
     for (let i = 2; i > 0; i--) {
@@ -94,9 +88,9 @@ test.describe("management of Temporal Data for an amending law", () => {
     }
 
     const deleteButton = page.locator(`[data-testid="delete-button-0"]`)
-    const isDisabled = await deleteButton.isDisabled()
-    expect(isDisabled).toBe(true)
-    expect(inputValue).toBe("16.03.2017")
+
+    await expect(deleteButton).toBeDisabled()
+    await expect(dateInputs).toHaveValue("16.03.2017")
 
     await setupInitialData(page)
   })
