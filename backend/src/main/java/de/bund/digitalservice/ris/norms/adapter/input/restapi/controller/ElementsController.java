@@ -27,12 +27,19 @@ public class ElementsController {
     conclusions
   }
 
-  private final Map<ElementType, String> typesToXPaths =
+  private final Map<ElementType, String> xPathsForTypeNodes =
       Map.ofEntries(
           Map.entry(ElementType.preface, "//act/preface"),
           Map.entry(ElementType.preamble, "//act/preamble"),
           Map.entry(ElementType.article, "//body/article"),
           Map.entry(ElementType.conclusions, "//act/conclusions"));
+
+  private final Map<String, String> titlesForTypeNodes =
+          Map.ofEntries(
+                  Map.entry(ElementType.preface.name(), "Dokumentenkopf"),
+                  Map.entry(ElementType.preamble.name(), "Eingangsformel"),
+                  Map.entry(ElementType.conclusions.name(), "Schlussteil")
+          );
 
   private final LoadNormUseCase loadNormUseCase;
 
@@ -76,7 +83,7 @@ public class ElementsController {
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     // Calculate the XPath based on the types via a Map defined above
-    var combinedXPaths = String.join("|", Arrays.stream(type).map(typesToXPaths::get).toList());
+    var combinedXPaths = String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
 
     var elements =
         loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
@@ -85,15 +92,24 @@ public class ElementsController {
                     NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
             .flatMap(
                 node -> {
-                  var nodeType = node.getNodeName().replace("akn:", "");
+                  var nodeTypeName = node.getNodeName().replace("akn:", "");
                   var eid = NodeParser.getValueFromExpression("./@eId", node);
+
+                  String title;
+                  if (titlesForTypeNodes.containsKey(nodeTypeName))
+                    title = titlesForTypeNodes.get(nodeTypeName);
+                  else { // we have an article
+                    var num = NodeParser.getValueFromExpression("./num", node).orElseThrow().strip();
+                    var heading = NodeParser.getValueFromExpression("./heading", node).orElseThrow().strip();
+                    title = num + " " + heading;
+                  }
 
                   return Stream.of(
                       (ElementsResponseEntrySchema)
                           ElementsResponseEntrySchema.builder()
-                              .title("dummy title")
+                              .title(title)
                               .eid(eid.orElseThrow())
-                              .type(nodeType)
+                              .type(nodeTypeName)
                               .build());
                 })
             .toList();
