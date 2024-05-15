@@ -54,7 +54,7 @@ public class ElementsController {
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
-   * @param types The type(s) of the elements that should be returned. Elements are returned in the
+   * @param type The type(s) of the elements that should be returned. Elements are returned in the
    *     order of the types, and then in the order of elements in the norm.
    * @return A {@link ResponseEntity} containing the list of elements.
    *     <p>Returns HTTP 200 (OK) if the norm is found. The list might be empty.
