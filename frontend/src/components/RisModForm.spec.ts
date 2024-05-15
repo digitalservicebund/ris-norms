@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import { render, screen } from "@testing-library/vue"
 import RisModForm from "@/components/RisModForm.vue"
+import { userEvent } from "@testing-library/user-event"
 
 describe("RisModForm", () => {
   const textualModType = "replacement"
@@ -158,6 +159,98 @@ describe("RisModForm", () => {
     expect(noChoiceOptionIndex).toBeGreaterThan(-1)
     expect(timeBoundaryOptionElements[noChoiceOptionIndex]).toHaveValue(
       "no_choice",
+    )
+  })
+
+  it("emits an update when the dropdown value is changed", async () => {
+    const user = userEvent.setup()
+    const onUpdateSelectedTimeBoundary = vi.fn()
+
+    const props = {
+      id: "risModForm",
+      textualModType,
+      timeBoundaries,
+      selectedTimeBoundary: timeBoundaries[1]["value"],
+      destinationHref,
+      "onUpdate:selectedTimeBoundary": onUpdateSelectedTimeBoundary,
+    }
+
+    render(RisModForm, {
+      props,
+    })
+
+    const dropdown = screen.getByRole("combobox", {
+      name: "Zeitgrenze",
+    })
+    expect(dropdown).toBeInTheDocument()
+
+    await user.selectOptions(dropdown, timeBoundaries[2].value)
+
+    expect(props.selectedTimeBoundary).toStrictEqual(timeBoundaries[1].value)
+
+    expect(onUpdateSelectedTimeBoundary).toHaveBeenCalledWith(
+      timeBoundaries[2].value,
+    )
+  })
+
+  it("emits an update when the destinationHrefEid input is changed", async () => {
+    const user = userEvent.setup()
+    const onUpdateDestinationHref = vi.fn()
+
+    const props = {
+      id: "risModForm",
+      textualModType,
+      timeBoundaries,
+      destinationHref,
+      "onUpdate:destinationHref": onUpdateDestinationHref,
+    }
+
+    render(RisModForm, {
+      props,
+    })
+
+    const destinationHrefEidInput = screen.getByRole("textbox", {
+      name: "zu ersetzende Textstelle",
+    })
+    expect(destinationHrefEidInput).toBeInTheDocument()
+
+    await user.type(destinationHrefEidInput, "new-value")
+
+    expect(props.destinationHref).toStrictEqual(destinationHref)
+
+    expect(onUpdateDestinationHref).toHaveBeenCalledWith(
+      expect.stringMatching(`${destinationHref}new-value`),
+    )
+  })
+
+  it("emits an update when the quotedTextSecond input is changed", async () => {
+    const user = userEvent.setup()
+    const onUpdateQuotedTextSecond = vi.fn()
+
+    const props = {
+      id: "risModForm",
+      textualModType,
+      timeBoundaries,
+      destinationHref,
+      quotedTextSecond,
+      "onUpdate:quotedTextSecond": onUpdateQuotedTextSecond,
+    }
+
+    render(RisModForm, {
+      props,
+    })
+
+    const quotedTextSecondElement = screen.getByRole("textbox", {
+      name: "Neuer Text Inhalt",
+    })
+    expect(quotedTextSecondElement).toBeInTheDocument()
+
+    await user.type(quotedTextSecondElement, "new-value")
+
+    expect(props.quotedTextSecond).toStrictEqual(quotedTextSecond)
+
+    expect(onUpdateQuotedTextSecond).toHaveBeenCalledWith(
+      expect.stringMatching(`${quotedTextSecond}new-value`),
     )
   })
 })
