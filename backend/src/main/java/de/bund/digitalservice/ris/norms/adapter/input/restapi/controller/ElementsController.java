@@ -5,12 +5,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +23,16 @@ public class ElementsController {
   public enum ElementType {
     article,
     preamble,
-    preface
+    preface,
+    conclusions // TODO Hannes: add all enum values to documentation (Swagger/OpenAPI)
   }
 
-  private final Map<ElementType, String> typesToXPaths = Map.ofEntries(
+  private final Map<ElementType, String> typesToXPaths =
+      Map.ofEntries(
           Map.entry(ElementType.preface, "//act/preface"),
           Map.entry(ElementType.preamble, "//act/preamble"),
-          Map.entry(ElementType.article, "//body/article")
-  );
+          Map.entry(ElementType.article, "//body/article"),
+          Map.entry(ElementType.conclusions, "//act/conclusions"));
 
   private final LoadNormUseCase loadNormUseCase;
 
@@ -76,29 +76,30 @@ public class ElementsController {
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     // Calculate the XPath based on the types via a Map defined above
-    var combinedXPaths = String.join(
-            "|",
-            Arrays.stream(type)
-              .map(typesToXPaths::get)
-              .toList());
+    var combinedXPaths = String.join("|", Arrays.stream(type).map(typesToXPaths::get).toList());
 
     var elements =
         loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
-            .flatMap(norm -> NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
-            .flatMap(node-> {
-                    var nodeType = node.getNodeName().replace("akn:", "");
-                    var eid = NodeParser.getValueFromExpression("./@eId", node);
+            .flatMap(
+                norm ->
+                    NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
+            .flatMap(
+                node -> {
+                  var nodeType = node.getNodeName().replace("akn:", "");
+                  var eid = NodeParser.getValueFromExpression("./@eId", node);
 
-                    return Stream.of((ElementsResponseEntrySchema)
-                            ElementsResponseEntrySchema.builder()
-                                    .title("dummy title")
-                                    .eid(eid.orElseThrow())
-                                    .type(nodeType)
-                                    .build());
-            })
+                  return Stream.of(
+                      (ElementsResponseEntrySchema)
+                          ElementsResponseEntrySchema.builder()
+                              .title("dummy title")
+                              .eid(eid.orElseThrow())
+                              .type(nodeType)
+                              .build());
+                })
             .toList();
 
-// TODO Hannes: We need to discriminate between a non-existing norm and a norm with e.g. no articles
+    // TODO Hannes: We need to discriminate between a non-existing norm and a norm with e.g. no
+    // articles
     if (elements.isEmpty()) return ResponseEntity.notFound().build();
     else return ResponseEntity.ok(elements);
   }
