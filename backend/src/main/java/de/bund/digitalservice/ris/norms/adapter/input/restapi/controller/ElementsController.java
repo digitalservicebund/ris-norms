@@ -28,6 +28,9 @@ public class ElementsController {
     this.loadNormUseCase = loadNormUseCase;
   }
 
+  private final String articleXPath = "//body/article";
+  private final String prefaceXPath = "//act/preface";
+
   /**
    * Retrieves a list of elements inside a norm based on the ELI of the norm and the types of the
    * elements.
@@ -64,14 +67,14 @@ public class ElementsController {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    // TODO Hannes: Should this go to some service? It's a little heavy for a controller
+    // TODO Hannes: we can combine these later: "//body/article|//act/preface"
+    var elementsXPath = String.valueOf(type).equals("article") ? articleXPath : prefaceXPath;
+
     var elements =
         loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
             .flatMap(
                 norm ->
-                    NodeParser.getNodesFromExpression(
-                        String.format("//body//%s", type), norm.getDocument())
-                        .stream())
+                    NodeParser.getNodesFromExpression(elementsXPath, norm.getDocument()).stream())
             .flatMap(node -> NodeParser.getValueFromExpression("./@eId", node).stream())
             .map(
                 eid ->
@@ -79,7 +82,7 @@ public class ElementsController {
                         ElementsResponseEntrySchema.builder()
                             .title("dummy title")
                             .eid(eid)
-                            .type("article")
+                            .type(String.valueOf(type))
                             .build())
             .toList();
 
