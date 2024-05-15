@@ -102,14 +102,14 @@ const {
       <span>Zurück</span>
     </router-link>
 
-    <div class="flex h-dvh flex-col p-40">
+    <div class="flex h-[calc(100dvh-5rem)] flex-col p-40">
       <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
           <h2 class="ds-heading-03-reg">Änderungsbefehle prüfen</h2>
         </div>
       </div>
-      <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
+      <div class="gap grid min-h-0 flex-grow grid-cols-3 grid-rows-1 gap-32">
         <section
           class="col-span-1 flex flex-col gap-8"
           aria-labelledby="changeCommandsEditor"
