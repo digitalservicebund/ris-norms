@@ -46,27 +46,6 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().is5xxServerError());
     }
 
-    // TODO Hannes: This can be removed as a duplicate of "returnMultipleArticles"
-    @Test
-    void itReturnsEntriesWithTitleAndEidAndType() throws Exception {
-      // given
-      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
-      // when
-      mockMvc
-          .perform(
-              get(
-                  "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements?type=article"))
-          // then
-          .andExpect(status().isOk())
-          // 200 OK
-          .andExpect(jsonPath("$[0]").exists())
-          // returning a non-empty list
-          .andExpect(jsonPath("$[0].title").exists())
-          .andExpect(jsonPath("$[0].eid").exists())
-          .andExpect(jsonPath("$[0].type").exists());
-    }
-
     @Test
     void itReturnsNotFoundIfNormIsNotFound() throws Exception {
       // given
