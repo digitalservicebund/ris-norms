@@ -28,8 +28,8 @@ public class ElementsController {
     this.loadNormUseCase = loadNormUseCase;
   }
 
-  private final String articleXPath = "//body/article";
-  private final String prefaceXPath = "//act/preface";
+  private static final String articleXPath = "//body/article";
+  private static final String prefaceXPath = "//act/preface";
 
   /**
    * Retrieves a list of elements inside a norm based on the ELI of the norm and the types of the
