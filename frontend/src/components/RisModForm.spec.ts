@@ -31,7 +31,7 @@ describe("RisModForm", () => {
       name: "Änderungstyp",
     })
     expect(textualModeTypeElement).toBeInTheDocument()
-    expect(textualModeTypeElement).toHaveValue("aenderungsbefehl-ersetzen")
+    expect(textualModeTypeElement).toHaveValue("Ersetzen")
     expect(textualModeTypeElement).toHaveAttribute("readonly")
 
     // Time Boundaries

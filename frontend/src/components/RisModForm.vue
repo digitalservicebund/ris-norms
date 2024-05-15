@@ -66,6 +66,26 @@ const destinationHrefEid = computed({
     }
   },
 })
+
+/**
+ * Provides the human-readable label for the given ModType
+ */
+function modTypeLabel(modType: ModType | "") {
+  switch (modType) {
+    case "aenderungsbefehl-einfuegen":
+      return "Einfügen"
+    case "aenderungsbefehl-ersetzen":
+      return "Ersetzen"
+    case "aenderungsbefehl-streichen":
+      return "Streichen"
+    case "aenderungsbefehl-neufassung":
+      return "Neufassen"
+    case "aenderungsbefehl-ausserkrafttreten":
+      return "Außerkrafttreten"
+    case "":
+      return "Keine Angabe"
+  }
+}
 </script>
 
 <template>
@@ -74,7 +94,7 @@ const destinationHrefEid = computed({
       <RisTextInput
         id="textualModeType"
         label="Änderungstyp"
-        :model-value="textualModType"
+        :model-value="modTypeLabel(textualModType)"
         read-only
         size="small"
       />
