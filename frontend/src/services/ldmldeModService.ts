@@ -1,16 +1,17 @@
 import { evaluateXPath } from "@/services/xmlService"
+import { ModType } from "@/types/ModType"
 
 /**
- * Provides the old text of an akn:mod element.
+ * Provides the old text of an akn:mod element. For "aenderungsbefehl-ersetzen" this is the old text.
  */
-export function getOldText(aknModNode: Node) {
+export function getQuotedTextFirst(aknModNode: Node) {
   return evaluateXPath(`akn:quotedText[1]`, aknModNode)?.textContent
 }
 
 /**
- * Provides the new text of an akn:mod element.
+ * Provides the second quoted text of an akn:mod element. For "aenderungsbefehl-ersetzen" this is the new text.
  */
-export function getNewText(aknModNode: Node) {
+export function getQuotedTextSecond(aknModNode: Node) {
   return evaluateXPath(`akn:quotedText[2]`, aknModNode)?.textContent
 }
 
@@ -22,8 +23,11 @@ export function getDestinationHref(aknModNode: Node) {
 }
 
 /**
- * Provides the type of change of the akn:mod element.
+ * Provides the type of the akn:mod element.
  */
-export function getChangeType(aknModNode: Node) {
-  return evaluateXPath(`@refersTo`, aknModNode)?.nodeValue
+export function getTextualModType(aknModNode: Node) {
+  return evaluateXPath(`@refersTo`, aknModNode)?.nodeValue as
+    | ModType
+    | null
+    | undefined
 }

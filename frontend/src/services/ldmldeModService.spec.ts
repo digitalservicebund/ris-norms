@@ -1,15 +1,15 @@
 import { xmlStringToDocument } from "@/services/xmlService"
 import { describe, expect, it } from "vitest"
 import {
-  getChangeType,
+  getTextualModType,
   getDestinationHref,
-  getNewText,
-  getOldText,
+  getQuotedTextSecond,
+  getQuotedTextFirst,
 } from "@/services/ldmldeModService"
 
 describe("ldmldeModService", () => {
-  describe("getNewText", () => {
-    it("should find new text", () => {
+  describe("getQuotedTextSecond", () => {
+    it("should find second quoted text", () => {
       const node = xmlStringToDocument(`
         <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
           In
@@ -22,12 +22,12 @@ describe("ldmldeModService", () => {
         </akn:mod>
       `).childNodes.item(0)
 
-      expect(getNewText(node)).to.eq("nach Ablauf von fünf Jahren")
+      expect(getQuotedTextSecond(node)).to.eq("nach Ablauf von fünf Jahren")
     })
   })
 
-  describe("getOldText", () => {
-    it("should find old text", () => {
+  describe("getQuotedTextFirst", () => {
+    it("should find first quoted text", () => {
       const node = xmlStringToDocument(`
         <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
           In
@@ -40,7 +40,7 @@ describe("ldmldeModService", () => {
         </akn:mod>
       `).childNodes.item(0)
 
-      expect(getOldText(node)).to.eq(
+      expect(getQuotedTextFirst(node)).to.eq(
         "am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt,",
       )
     })
@@ -66,7 +66,7 @@ describe("ldmldeModService", () => {
     })
   })
 
-  describe("getChangeType", () => {
+  describe("getTextualModType", () => {
     it("should find the correct href", () => {
       const node = xmlStringToDocument(`
         <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
@@ -80,7 +80,7 @@ describe("ldmldeModService", () => {
         </akn:mod>
       `).childNodes.item(0)
 
-      expect(getChangeType(node)).to.eq("aenderungsbefehl-ersetzen")
+      expect(getTextualModType(node)).to.eq("aenderungsbefehl-ersetzen")
     })
   })
 })

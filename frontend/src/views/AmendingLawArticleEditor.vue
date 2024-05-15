@@ -13,6 +13,14 @@ import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { renderHtmlLaw } from "@/services/renderService"
 import RisModForm from "@/components/RisModForm.vue"
+import {
+  getDestinationHref,
+  getQuotedTextSecond,
+  getQuotedTextFirst,
+  getTextualModType,
+} from "@/services/ldmldeModService"
+import { getNodeByEid } from "@/services/ldmldeService"
+import { xmlStringToDocument } from "@/services/xmlService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -72,10 +80,31 @@ watch(articleXml, (articleXml) => {
  * The eid of the currently selected akn:mod element
  */
 const selectedMod = ref<string | null>(null)
+const articleDocument = computed(() =>
+  articleXml.value ? xmlStringToDocument(articleXml.value) : null,
+)
+const selectedModNode = computed(() =>
+  selectedMod.value && articleDocument.value
+    ? getNodeByEid(articleDocument.value, selectedMod.value)
+    : null,
+)
 
 function handleAknModClick({ eid }: { eid: string }) {
   selectedMod.value = eid
 }
+
+const textualModType = computed(() =>
+  selectedModNode.value ? getTextualModType(selectedModNode.value) ?? "" : "",
+)
+const destinationHref = computed(() =>
+  selectedModNode.value ? getDestinationHref(selectedModNode.value) ?? "" : "",
+)
+const quotedTextFirst = computed(() =>
+  selectedModNode.value ? getQuotedTextFirst(selectedModNode.value) ?? "" : "",
+)
+const quotedTextSecond = computed(() =>
+  selectedModNode.value ? getQuotedTextSecond(selectedModNode.value) ?? "" : "",
+)
 </script>
 
 <template>
@@ -150,10 +179,10 @@ function handleAknModClick({ eid }: { eid: string }) {
             <RisModForm
               id="risModForm"
               v-model:selectedTimeBoundary="selectedTimeBoundary"
-              textual-mod-type="replacement"
-              destination-href="DUMMY/ELI/DUMMY-EID/1-10.xml"
-              quoted-text-first="DUMMY TO BE REPLACED"
-              quoted-text-second="REPLACING DUMMY"
+              :textual-mod-type="textualModType"
+              :destination-href="destinationHref"
+              :quoted-text-first="quotedTextFirst"
+              :quoted-text-second="quotedTextSecond"
               :time-boundaries="[
                 { label: '01.01.2011', value: '2011-01-01' },
                 { label: '02.02.2012', value: '2012-02-02' },

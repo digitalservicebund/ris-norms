@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import RisModForm from "@/components/RisModForm.vue"
+import { ModType } from "@/types/ModType"
 
-const textualModType = "replacement"
+const textualModType: ModType = "aenderungsbefehl-ersetzen"
 const timeBoundaries = [
   { label: "31.12.2024", value: "2024-12-31" },
   { label: "01.01.2025", value: "2025-01-01" },

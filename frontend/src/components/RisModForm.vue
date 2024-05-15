@@ -7,12 +7,13 @@ import { computed } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CheckIcon from "~icons/ic/check"
+import { ModType } from "@/types/ModType"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
   id: string
   /** Either replacement, insertion or repeal */
-  textualModType: string
+  textualModType: ModType | ""
   /** the items for the dropdown. */
   timeBoundaries: DropdownItem[]
   /** Optional selected time boundary of the format YYYY-MM-DD */
@@ -72,7 +73,7 @@ const destinationHrefEid = computed({
       <RisTextInput
         id="textualModeType"
         label="Änderungstyp"
-        model-value="ersetzen"
+        :model-value="textualModType"
         read-only
         size="small"
       />
@@ -92,14 +93,14 @@ const destinationHrefEid = computed({
       size="small"
     />
     <RisTextInput
-      v-if="textualModType === 'replacement'"
+      v-if="textualModType === 'aenderungsbefehl-ersetzen'"
       id="destinationHrefEid"
       v-model="destinationHrefEid"
       label="zu ersetzende Textstelle"
       size="small"
     />
     <RisTextAreaInput
-      v-if="textualModType === 'replacement'"
+      v-if="textualModType === 'aenderungsbefehl-ersetzen'"
       id="quotedTextFirst"
       label="zu ersetzender Text"
       :model-value="quotedTextFirst"
