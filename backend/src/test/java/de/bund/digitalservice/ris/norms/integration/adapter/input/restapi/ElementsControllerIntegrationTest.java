@@ -78,28 +78,22 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isOk())
           // preface
           .andExpect(jsonPath("$[0]").exists())
-          .andExpect(jsonPath("$[0].title").exists())
-          // TODO Hannes: expect actual title
+          .andExpect(jsonPath("$[0].title").value("Dokumentenkopf"))
           .andExpect(jsonPath("$[0].eid").value("einleitung-1"))
           .andExpect(jsonPath("$[0].type").value("preface"))
           // preamble
-          .andExpect(jsonPath("$[1].title").exists())
-          // TODO Hannes: expect actual title
+          .andExpect(jsonPath("$[1].title").value("Eingangsformel"))
           .andExpect(jsonPath("$[1].eid").value("preambel-1"))
           .andExpect(jsonPath("$[1].type").value("preamble"))
           // articles
-          .andExpect(jsonPath("$[2].title").exists())
-          // TODO Hannes: expect actual title
+          .andExpect(jsonPath("$[2].title").value("Artikel 1 Änderung des Vereinsgesetzes"))
           .andExpect(jsonPath("$[2].eid").value("hauptteil-1_art-1"))
           .andExpect(jsonPath("$[2].type").value("article"))
-          .andExpect(jsonPath("$[3]").exists())
-          .andExpect(jsonPath("$[3].title").exists())
-          // TODO Hannes: expect actual title
+          .andExpect(jsonPath("$[3].title").value("Artikel 3 Inkrafttreten"))
           .andExpect(jsonPath("$[3].eid").value("hauptteil-1_art-3"))
           .andExpect(jsonPath("$[3].type").value("article"))
           // conclusion
-          .andExpect(jsonPath("$[4].title").exists())
-          // TODO Hannes: expect actual title
+          .andExpect(jsonPath("$[4].title").value("Schlussteil"))
           .andExpect(jsonPath("$[4].eid").value("schluss-1"))
           .andExpect(jsonPath("$[4].type").value("conclusions"));
     }
