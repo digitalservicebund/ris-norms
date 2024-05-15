@@ -198,15 +198,15 @@ class XsltTransformationServiceTest {
       throws IOException {
     var xml = loadTestResource(xmlFile);
     var expectedHtml = loadTestResource(expectedHtmlFile);
-    var xsltResource =
+    var resource =
         new FileUrlResource(
             Objects.requireNonNull(
                 XsltTransformationService.class.getResource("/XSLT/html/legislation.xslt")));
-    var xsltTransformationService = new XsltTransformationService(xsltResource);
 
     var result =
-        xsltTransformationService.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata));
+        new XsltTransformationService(resource)
+            .transformLegalDocMlToHtml(
+                new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata));
 
     assertThat(result).isEqualToIgnoringWhitespace(expectedHtml);
   }
@@ -218,20 +218,22 @@ class XsltTransformationServiceTest {
    */
   @ParameterizedTest(name = "{0}")
   @MethodSource("shouldTransformXmlArgumentsProvider")
-  @Disabled
+  @Disabled("This is not a real test but can be used to regenerate the expected html files.")
   void generateExpectedHtmlForShouldTransformXml(
       String name, String xmlFile, Boolean showMetadata, String expectedHtmlFile)
       throws IOException {
     var xml = loadTestResource(xmlFile);
-    var xsltResource =
+    var resource =
         new FileUrlResource(
             Objects.requireNonNull(
                 XsltTransformationService.class.getResource("/XSLT/html/legislation.xslt")));
-    var xsltTransformationService = new XsltTransformationService(xsltResource);
 
     var result =
-        xsltTransformationService.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata));
+        new XsltTransformationService(resource)
+            .transformLegalDocMlToHtml(
+                new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata));
+
+    assertThat(result).isNotEmpty();
 
     saveTestResource(expectedHtmlFile, result);
   }
@@ -250,7 +252,7 @@ class XsltTransformationServiceTest {
     FileUtils.writeStringToFile(new File(resource.getFile()), result, StandardCharsets.UTF_8);
   }
 
-  static Stream<Arguments> shouldTransformXmlArgumentsProvider() throws IOException {
+  static Stream<Arguments> shouldTransformXmlArgumentsProvider() {
     return Stream.of(
         Arguments.arguments(
             "Bundesverfassungsschutzgesetz",

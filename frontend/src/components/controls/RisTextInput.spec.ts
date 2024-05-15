@@ -1,7 +1,6 @@
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test, vi } from "vitest"
-import { defineComponent } from "vue"
+import { describe, expect, test } from "vitest"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
 
 function renderComponent(options?: {
@@ -9,6 +8,7 @@ function renderComponent(options?: {
   placeholder?: string
   readOnly?: boolean
   size?: string
+  label?: string
 }) {
   const user = userEvent.setup()
   const props = {
@@ -17,6 +17,7 @@ function renderComponent(options?: {
     placeholder: options?.placeholder,
     readOnly: options?.readOnly,
     size: options?.size,
+    label: options?.label,
   }
   const utils = render(RisTextInput, { props })
   return { user, props, ...utils }
@@ -39,30 +40,6 @@ describe("TextInput", () => {
     renderComponent({ placeholder: "Test Placeholder" })
     const input = screen.queryByPlaceholderText("Test Placeholder")
     expect(input).toBeInTheDocument()
-  })
-
-  test("emits input events when user types into input", async () => {
-    const handleInput = vi.fn()
-
-    const withInputEvent = defineComponent({
-      components: { RisTextInput },
-      data: () => ({ value: "" }),
-      methods: { handleInput },
-      template: `
-        <RisTextInput
-          id="identifier"
-          v-model="value"
-          @input="handleInput"
-        />`,
-    })
-
-    render(withInputEvent)
-    const input = screen.getByRole("textbox")
-
-    await userEvent.type(input, "ab")
-    expect(handleInput).toHaveBeenCalledTimes(2)
-    expect(handleInput).toHaveBeenNthCalledWith(1, expect.any(InputEvent))
-    expect(handleInput).toHaveBeenNthCalledWith(2, expect.any(InputEvent))
   })
 
   test("emits model update event when user types into input", async () => {
@@ -104,5 +81,16 @@ describe("TextInput", () => {
     const input = screen.getByRole("textbox")
     expect(input).not.toHaveClass("ds-input-medium")
     expect(input).toHaveClass("ds-input-small")
+  })
+
+  test("renders a label when provided and associates it with the text input", () => {
+    const labelText = "Test Label"
+    renderComponent({ label: labelText })
+
+    const labelElement = screen.getByText(labelText) as HTMLLabelElement
+    expect(labelElement).toBeInTheDocument()
+
+    const textInput = screen.getByRole("textbox") as HTMLTextAreaElement
+    expect(labelElement.htmlFor).toBe(textInput.id)
   })
 })

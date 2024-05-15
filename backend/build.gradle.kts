@@ -52,6 +52,8 @@ dependencies {
     implementation(libs.spring.starter.data.redis)
     implementation(libs.spring.session.data.redis)
     implementation(libs.saxon.he)
+    implementation(libs.bouncycastle.bcprov)
+    implementation(libs.bouncycastle.bcpkix)
 
     compileOnly(libs.lombok)
 

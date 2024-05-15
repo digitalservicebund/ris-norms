@@ -163,10 +163,8 @@ public class Norm {
               Node eventRefNode =
                   NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
 
-              var timeBoundary =
+              return (TimeBoundary)
                   TimeBoundary.builder().timeIntervalNode(node).eventRefNode(eventRefNode).build();
-
-              return timeBoundary;
             })
         .toList();
   }

@@ -11,15 +11,16 @@ const props = withDefaults(
     placeholder?: string
     /** If the input field should be read-only */
     readOnly?: boolean
-    /** Visual size of the form field. */
-    size?: "regular" | "medium" | "small"
+    /** The number of rows for the text area */
+    rows?: number
     /** Label for the form field. */
     label?: string
   }>(),
   {
     modelValue: "",
-    placeholder: undefined,
-    size: "regular",
+    placeholder: "",
+    readOnly: false,
+    rows: 2,
     label: undefined,
   },
 )
@@ -30,23 +31,17 @@ const emit = defineEmits<{
    * is only emitted when the value is empty or a valid date. All other states
    * (e.g. partial dates while typing) are handled internally and not emitted.
    */
-  "update:modelValue": [value: string | undefined]
+  "update:modelValue": [value: string]
 }>()
 
-const localModelValue = computed({
-  get: () => props.modelValue,
-  set: (value) =>
-    value === ""
-      ? emit("update:modelValue", undefined)
-      : emit("update:modelValue", value),
+const localValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value: string) {
+    emit("update:modelValue", value)
+  },
 })
-
-const conditionalClasses = computed(() => ({
-  "ds-input-medium": props.size === "medium",
-  "ds-input-small": props.size === "small",
-}))
-
-const tabindex = computed(() => (props.readOnly ? -1 : 0))
 </script>
 
 <template>
@@ -55,15 +50,14 @@ const tabindex = computed(() => (props.readOnly ? -1 : 0))
     <label v-if="label" :for="id" class="ds-label">
       {{ label }}
     </label>
-    <input
+    <textarea
       :id="id"
-      v-model="localModelValue"
-      class="ds-input"
-      :class="conditionalClasses"
+      v-model="localValue"
+      class="h-unset ds-input h-auto resize-none py-12"
       :placeholder="placeholder"
       :readonly="readOnly"
-      :tabindex="tabindex"
-      type="text"
-    />
+      :rows="rows"
+      :tabindex="readOnly ? -1 : Number($attrs.tabindex) || undefined"
+    ></textarea>
   </div>
 </template>
