@@ -1,20 +1,9 @@
 import { evaluateXPath, xmlStringToDocument } from "@/services/xmlService"
-import { describe, expect, it, vi } from "vitest"
+import { describe, expect, it } from "vitest"
 import {
   getActiveModificationByModEid,
   getNodeByEid,
 } from "@/services/ldmldeService"
-import { useNamespaces } from "xpath"
-
-// The DOM implementation used by our unit tests (jsdom) does not have a good enough xpath support for our tests.
-// Therefore, we need to use a different library to evaluate the xpath.
-vi.mock("@/services/xmlService", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@/services/xmlService")>()),
-  evaluateXPath: (xpath: string, node: Node) =>
-    useNamespaces({
-      akn: "http://Inhaltsdaten.LegalDocML.de/1.6/",
-    })(xpath, node, true),
-}))
 
 describe("ldmldeService", () => {
   describe("getNodeByEid", () => {

@@ -1,9 +1,12 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import {
   evaluateXPath,
   xmlDocumentToString,
   xmlStringToDocument,
 } from "@/services/xmlService"
+
+// the evaluateXPath method is mocked in the vitest-setup, to test it here we unmock it.
+vi.unmock("@/services/xmlService")
 
 describe("xmlService", () => {
   describe("xmlStringToDocument", () => {

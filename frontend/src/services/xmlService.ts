@@ -17,7 +17,7 @@ export function xmlDocumentToString(xmlDoc: Document): string {
  *
  * When using this method in a unit test this method might need to be overwritten by a mock implementation using the library "xpath".
  * The DOM implementation used by our unit tests (jsdom) does not have great xpath support and might fail at certain expressions.
- * For an example of this see ldmldeService.spec.ts
+ * This is done globally using the vitest-setup.ts
  */
 export function evaluateXPath(xpath: string, node: Node) {
   const evaluator = new XPathEvaluator()
