@@ -2,14 +2,11 @@ import { describe, expect, it, vi } from "vitest"
 import { render, screen } from "@testing-library/vue"
 import RisModForm from "@/components/RisModForm.vue"
 import { userEvent } from "@testing-library/user-event"
+import { ModType } from "@/types/ModType"
 
 describe("RisModForm", () => {
-  const textualModType = "replacement"
-  const timeBoundaries = [
-    { label: "31.12.2024", value: "2024-12-31" },
-    { label: "01.01.2025", value: "2025-01-01" },
-    { label: "15.06.2026", value: "2026-06-15" },
-  ]
+  const textualModType: ModType = "aenderungsbefehl-ersetzen"
+  const timeBoundaries = ["2024-12-31", "2025-01-01", "2026-06-15"]
   const destinationHref =
     "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/para-1_abs-1/5-53.xml"
   const quotedTextFirst = "Bundesministerium des Innern, für Bau und Heimat"
@@ -34,7 +31,7 @@ describe("RisModForm", () => {
       name: "Änderungstyp",
     })
     expect(textualModeTypeElement).toBeInTheDocument()
-    expect(textualModeTypeElement).toHaveValue("ersetzen")
+    expect(textualModeTypeElement).toHaveValue("aenderungsbefehl-ersetzen")
     expect(textualModeTypeElement).toHaveAttribute("readonly")
 
     // Time Boundaries
@@ -48,15 +45,9 @@ describe("RisModForm", () => {
 
     const timeBoundaryOptionElements = screen.getAllByRole("option")
     expect(timeBoundaryOptionElements.length).toBe(4)
-    expect(timeBoundaryOptionElements[0]).toHaveValue(
-      timeBoundaries[0]["value"],
-    )
-    expect(timeBoundaryOptionElements[1]).toHaveValue(
-      timeBoundaries[1]["value"],
-    )
-    expect(timeBoundaryOptionElements[2]).toHaveValue(
-      timeBoundaries[2]["value"],
-    )
+    expect(timeBoundaryOptionElements[0]).toHaveValue(timeBoundaries[0])
+    expect(timeBoundaryOptionElements[1]).toHaveValue(timeBoundaries[1])
+    expect(timeBoundaryOptionElements[2]).toHaveValue(timeBoundaries[2])
 
     // Destination Href Eli
     const destinationHrefEliElement = screen.getByRole("textbox", {
@@ -136,7 +127,7 @@ describe("RisModForm", () => {
         id: "risModForm",
         textualModType,
         timeBoundaries,
-        selectedTimeBoundary: timeBoundaries[1]["value"],
+        selectedTimeBoundary: timeBoundaries[1],
         destinationHref,
       },
     })
@@ -145,9 +136,7 @@ describe("RisModForm", () => {
       name: "Zeitgrenze",
     })
     expect(timeBoundariesElement).toBeInTheDocument()
-    expect(timeBoundariesElement).toHaveDisplayValue([
-      timeBoundaries[1]["label"],
-    ])
+    expect(timeBoundariesElement).toHaveDisplayValue(["1.1.2025"])
 
     const timeBoundaryOptionElements = screen.getAllByRole(
       "option",
@@ -170,7 +159,7 @@ describe("RisModForm", () => {
       id: "risModForm",
       textualModType,
       timeBoundaries,
-      selectedTimeBoundary: timeBoundaries[1]["value"],
+      selectedTimeBoundary: timeBoundaries[1],
       destinationHref,
       "onUpdate:selectedTimeBoundary": onUpdateSelectedTimeBoundary,
     }
@@ -184,13 +173,11 @@ describe("RisModForm", () => {
     })
     expect(dropdown).toBeInTheDocument()
 
-    await user.selectOptions(dropdown, timeBoundaries[2].value)
+    await user.selectOptions(dropdown, timeBoundaries[2])
 
-    expect(props.selectedTimeBoundary).toStrictEqual(timeBoundaries[1].value)
+    expect(props.selectedTimeBoundary).toStrictEqual(timeBoundaries[1])
 
-    expect(onUpdateSelectedTimeBoundary).toHaveBeenCalledWith(
-      timeBoundaries[2].value,
-    )
+    expect(onUpdateSelectedTimeBoundary).toHaveBeenCalledWith(timeBoundaries[2])
   })
 
   it("emits an update when the destinationHrefEid input is changed", async () => {

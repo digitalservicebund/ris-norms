@@ -18,15 +18,16 @@ import {
   getQuotedTextSecond,
   getQuotedTextFirst,
   getTextualModType,
+  getTimeBoundaryDate,
 } from "@/services/ldmldeModService"
 import { getNodeByEid } from "@/services/ldmldeService"
 import { xmlStringToDocument } from "@/services/xmlService"
+import { useTemporalData } from "@/composables/useTemporalData"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
 
-const selectedTimeBoundary = ref<string | undefined>(undefined)
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
@@ -93,6 +94,8 @@ function handleAknModClick({ eid }: { eid: string }) {
   selectedMod.value = eid
 }
 
+const { timeBoundaries } = useTemporalData(eli)
+
 const textualModType = computed(() =>
   selectedModNode.value ? getTextualModType(selectedModNode.value) ?? "" : "",
 )
@@ -104,6 +107,12 @@ const quotedTextFirst = computed(() =>
 )
 const quotedTextSecond = computed(() =>
   selectedModNode.value ? getQuotedTextSecond(selectedModNode.value) ?? "" : "",
+)
+const timeBoundary = computed(() =>
+  selectedMod.value && articleDocument.value
+    ? getTimeBoundaryDate(articleDocument.value, selectedMod.value) ??
+      "no_choice"
+    : "no_choice",
 )
 </script>
 
@@ -178,20 +187,17 @@ const quotedTextSecond = computed(() =>
             </h3>
             <RisModForm
               id="risModForm"
-              v-model:selectedTimeBoundary="selectedTimeBoundary"
               :textual-mod-type="textualModType"
               :destination-href="destinationHref"
               :quoted-text-first="quotedTextFirst"
               :quoted-text-second="quotedTextSecond"
-              :time-boundaries="[
-                { label: '01.01.2011', value: '2011-01-01' },
-                { label: '02.02.2012', value: '2012-02-02' },
-              ]"
+              :selected-time-boundary="timeBoundary"
+              :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
             />
           </section>
           <div>
             <section
-              v-if="selectedTimeBoundary"
+              v-if="timeBoundary !== 'no_choice'"
               class="mt-24 flex h-full flex-col gap-8"
               aria-labelledby="changedArticlePreivew"
             >

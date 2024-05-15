@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import RisDropdownInput, {
-  DropdownItem,
-} from "@/components/controls/RisDropdownInput.vue"
+import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
 import { computed } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
@@ -14,8 +12,8 @@ const props = defineProps<{
   id: string
   /** Either replacement, insertion or repeal */
   textualModType: ModType | ""
-  /** the items for the dropdown. */
-  timeBoundaries: DropdownItem[]
+  /** the possible time boundaries in the format YYYY-MM-DD. */
+  timeBoundaries: string[]
   /** Optional selected time boundary of the format YYYY-MM-DD */
   selectedTimeBoundary?: string
   /** Destination Href for mod */
@@ -36,7 +34,10 @@ const quotedTextSecondModel = defineModel<string | undefined>(
 
 const timeBoundaries = computed(() => {
   return [
-    ...props.timeBoundaries,
+    ...props.timeBoundaries.map((date) => ({
+      label: new Date(date).toLocaleDateString("de"),
+      value: date,
+    })),
     { label: "Keine Angabe", value: "no_choice" },
   ]
 })
