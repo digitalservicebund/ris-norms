@@ -1,6 +1,7 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/vue"
+import { render, screen, waitFor } from "@testing-library/vue"
 import { describe, expect, test, vi } from "vitest"
 import RisLawPreview from "./RisLawPreview.vue"
+import { userEvent } from "@testing-library/user-event"
 
 describe("RisLawPreview", () => {
   test("should render provided content", () => {
@@ -25,7 +26,7 @@ describe("RisLawPreview", () => {
     })
 
     await waitFor(() => screen.getByRole("button"))
-    await fireEvent.click(screen.getByRole("button", { name: "MOD" }))
+    await userEvent.click(screen.getByRole("button", { name: "MOD" }))
 
     expect(handler).toHaveBeenCalledWith({
       eid: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
@@ -35,6 +36,7 @@ describe("RisLawPreview", () => {
   })
 
   test("should emit click event when using keyboard navigation", async () => {
+    const user = userEvent.setup()
     const handler = vi.fn()
 
     render(RisLawPreview, {
@@ -48,9 +50,12 @@ describe("RisLawPreview", () => {
     })
 
     await waitFor(() => screen.getByRole("button"))
-    await fireEvent.keyDown(screen.getByRole("button", { name: "MOD" }), {
-      key: "Enter",
-    })
+
+    await user.tab()
+    await user.tab()
+    expect(screen.getByRole("button", { name: "MOD" })).toHaveFocus()
+
+    await user.keyboard("{Enter}")
 
     expect(handler).toHaveBeenCalledWith({
       eid: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
@@ -113,7 +118,7 @@ describe("RisLawPreview", () => {
     })
 
     await waitFor(() => screen.getByRole("button"))
-    await fireEvent.click(screen.getByRole("button", { name: "MOD" }))
+    await userEvent.click(screen.getByRole("button", { name: "MOD" }))
     expect(screen.getByText("MOD")).toHaveClass("selected")
 
     await renderResult.rerender({
@@ -125,7 +130,7 @@ describe("RisLawPreview", () => {
     await waitFor(() => screen.getByRole("button"))
 
     expect(screen.getByText("CHANGED MOD")).toHaveClass("selected")
-    await fireEvent.click(screen.getByRole("button", { name: "CHANGED MOD" }))
+    await userEvent.click(screen.getByRole("button", { name: "CHANGED MOD" }))
 
     expect(handler).toHaveBeenCalledTimes(2)
   })
