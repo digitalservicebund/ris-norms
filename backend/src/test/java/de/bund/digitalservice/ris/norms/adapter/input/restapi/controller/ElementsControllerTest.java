@@ -98,15 +98,15 @@ class ElementsControllerTest {
         .andExpect(jsonPath("$[1].title").exists())
         // TODO Hannes
         //          .andExpect(jsonPath("$[0].title").value("§ 20"))
-        .andExpect(jsonPath("$[1].eid").value("hauptteil-1_para-20"))
+        .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-1"))
         .andExpect(jsonPath("$[1].type").value("article"))
         .andExpect(jsonPath("$[2]").exists())
         .andExpect(jsonPath("$[2].title").exists())
         // TODO Hannes
         //          .andExpect(jsonPath("$[0].title").value("§ 20"))
-        .andExpect(jsonPath("$[2].eid").value("hauptteil-1_para-1"))
+        .andExpect(jsonPath("$[2].eid").value("hauptteil-1_art-3"))
         .andExpect(jsonPath("$[2].type").value("article"));
   }
 
-  // TODO Hannes: Support more than just articles
+  // TODO Hannes: suppor preamble and conclusion
 }
