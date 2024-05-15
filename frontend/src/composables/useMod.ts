@@ -1,4 +1,4 @@
-import { MaybeRefOrGetter, toValue, computed } from "vue"
+import { MaybeRefOrGetter, toValue, computed, ref, watch } from "vue"
 import { xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 import {
@@ -8,12 +8,14 @@ import {
   getTextualModType,
   getTimeBoundaryDate,
 } from "@/services/ldmldeModService"
+import { ModType } from "@/types/ModType"
 
 /**
- * Get data about an akn:mod element.
+ * Get data about an akn:mod element. The data can be overwritten and updates whenever either the eid or xml change.
+ *
  * @param eid a reference to the eid of the akn:mod.
  * @param xml a reference to the xml of the norm containing the akn:mod.
- * @returns References to the different data about the akn:mod element.
+ * @returns References to the data about the akn:mod element.
  */
 export function useMod(
   eid: MaybeRefOrGetter<string | null>,
@@ -23,31 +25,45 @@ export function useMod(
     const xmlValue = toValue(xml)
     return xmlValue ? xmlStringToDocument(xmlValue) : null
   })
-  const modNode = computed(() => {
-    const eidValue = toValue(eid)
-    return eidValue && normDocument.value
-      ? getNodeByEid(normDocument.value, eidValue)
-      : null
-  })
 
-  const textualModType = computed(() =>
-    modNode.value ? getTextualModType(modNode.value) ?? "" : "",
+  const textualModType = ref<ModType | "">("")
+  const destinationHref = ref<string>("")
+  const quotedTextFirst = ref<string>("")
+  const quotedTextSecond = ref<string>("")
+  const timeBoundary = ref<string | undefined>()
+
+  function reset() {
+    textualModType.value = ""
+    destinationHref.value = ""
+    quotedTextFirst.value = ""
+    quotedTextSecond.value = ""
+    timeBoundary.value = undefined
+  }
+
+  watch(
+    [() => normDocument, () => toValue(eid)],
+    () => {
+      const eidValue = toValue(eid)
+      if (!eidValue || !normDocument.value) {
+        reset()
+        return
+      }
+
+      const modNode = getNodeByEid(normDocument.value, eidValue)
+      if (!modNode) {
+        reset()
+        return
+      }
+
+      textualModType.value = getTextualModType(modNode) ?? ""
+      destinationHref.value = getDestinationHref(modNode) ?? ""
+      quotedTextFirst.value = getQuotedTextFirst(modNode) ?? ""
+      quotedTextSecond.value = getQuotedTextSecond(modNode) ?? ""
+      timeBoundary.value =
+        getTimeBoundaryDate(normDocument.value, eidValue) ?? undefined
+    },
+    { immediate: true },
   )
-  const destinationHref = computed(() =>
-    modNode.value ? getDestinationHref(modNode.value) ?? "" : "",
-  )
-  const quotedTextFirst = computed(() =>
-    modNode.value ? getQuotedTextFirst(modNode.value) ?? "" : "",
-  )
-  const quotedTextSecond = computed(() =>
-    modNode.value ? getQuotedTextSecond(modNode.value) ?? "" : "",
-  )
-  const timeBoundary = computed(() => {
-    const eidValue = toValue(eid)
-    return eidValue && normDocument.value
-      ? getTimeBoundaryDate(normDocument.value, eidValue) ?? "no_choice"
-      : "no_choice"
-  })
 
   return {
     textualModType,

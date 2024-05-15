@@ -162,17 +162,17 @@ const {
             </h3>
             <RisModForm
               id="risModForm"
-              :textual-mod-type="textualModType"
-              :destination-href="destinationHref"
+              v-model:textual-mod-type="textualModType"
+              v-model:destination-href="destinationHref"
+              v-model:quoted-text-second="quotedTextSecond"
+              v-model:selected-time-boundary="timeBoundary"
               :quoted-text-first="quotedTextFirst"
-              :quoted-text-second="quotedTextSecond"
-              :selected-time-boundary="timeBoundary"
               :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
             />
           </section>
           <div>
             <section
-              v-if="timeBoundary !== 'no_choice'"
+              v-if="timeBoundary"
               class="mt-24 flex h-full flex-col gap-8"
               aria-labelledby="changedArticlePreivew"
             >
