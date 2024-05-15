@@ -5,7 +5,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +27,16 @@ public class ElementsController {
     preface
   }
 
+  private final Map<ElementType, String> typesToXPaths = Map.ofEntries(
+          Map.entry(ElementType.article, "//body/article"),
+          Map.entry(ElementType.preface, "//act/preface")
+  );
+
   private final LoadNormUseCase loadNormUseCase;
 
   public ElementsController(LoadNormUseCase loadNormUseCase) {
     this.loadNormUseCase = loadNormUseCase;
   }
-
-  private static final String articleXPath = "//body/article";
-  private static final String prefaceXPath = "//act/preface";
 
   /**
    * Retrieves a list of elements inside a norm based on the ELI of the norm and the types of the
@@ -45,7 +52,7 @@ public class ElementsController {
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
-   * @param type The type(s) of the elements that should be returned. Elements are returned in the
+   * @param types The type(s) of the elements that should be returned. Elements are returned in the
    *     order of the types, and then in the order of elements in the norm.
    * @return A {@link ResponseEntity} containing the list of elements.
    *     <p>Returns HTTP 200 (OK) if the norm is found. The list might be empty.
@@ -61,31 +68,35 @@ public class ElementsController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @RequestParam final ElementType type) {
+      @RequestParam final ElementType[] type) {
 
-    // get norm
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    // TODO Hannes: we can combine these later: "//body/article|//act/preface"
-    var elementsXPath = String.valueOf(type).equals("article") ? articleXPath : prefaceXPath;
+    // Calculate the XPath based on the types via a Map defined above
+    var combinedXPaths = String.join(
+            "|",
+            Arrays.stream(type)
+              .map(typesToXPaths::get)
+              .toList());
 
     var elements =
         loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
-            .flatMap(
-                norm ->
-                    NodeParser.getNodesFromExpression(elementsXPath, norm.getDocument()).stream())
-            .flatMap(node -> NodeParser.getValueFromExpression("./@eId", node).stream())
-            .map(
-                eid ->
-                    (ElementsResponseEntrySchema)
-                        ElementsResponseEntrySchema.builder()
-                            .title("dummy title")
-                            .eid(eid)
-                            .type(String.valueOf(type))
-                            .build())
+            .flatMap(norm -> NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
+            .flatMap(node-> {
+                    var nodeType = node.getNodeName().replace("akn:", "");
+                    var eid = NodeParser.getValueFromExpression("./@eId", node);
+
+                    return Stream.of((ElementsResponseEntrySchema)
+                            ElementsResponseEntrySchema.builder()
+                                    .title("dummy title")
+                                    .eid(eid.orElseThrow())
+                                    .type(nodeType)
+                                    .build());
+            })
             .toList();
 
+// TODO Hannes: We need to discriminate between a non-existing norm and a norm with e.g. no articles
     if (elements.isEmpty()) return ResponseEntity.notFound().build();
     else return ResponseEntity.ok(elements);
   }
