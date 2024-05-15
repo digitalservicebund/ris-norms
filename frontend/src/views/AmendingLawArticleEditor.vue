@@ -18,6 +18,7 @@ const eid = useEidPathParameter()
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
 
+const selectedTimeBoundary = ref<string | undefined>(undefined)
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
@@ -98,7 +99,7 @@ function handleAknModClick({ eid }: { eid: string }) {
       </div>
       <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
         <section
-          class="flex flex-col gap-8"
+          class="col-span-1 flex flex-col gap-8"
           aria-labelledby="changeCommandsEditor"
         >
           <h3
@@ -134,55 +135,81 @@ function handleAknModClick({ eid }: { eid: string }) {
             </template>
           </RisTabs>
         </section>
-        <section
-          class="mt-32 flex flex-col gap-8"
-          aria-labelledby="originalArticleTitle"
-        >
-          <h3
-            id="originalArticleTitle"
-            class="ds-label-02-bold"
-            data-testid="targetLawHeading"
+        <div v-if="selectedMod" class="col-span-2 grid grid-cols-2 gap-32">
+          <section
+            class="mt-32 flex flex-col gap-8"
+            aria-labelledby="originalArticleTitle"
           >
-            Änderungsbefehle bearbeiten
-          </h3>
-          <RisModForm
-            id="risModForm"
-            textual-mod-type="replacement"
-            destination-href="DUMMY/ELI/DUMMY-EID/1-10.xml"
-            quoted-text-first="DUMMY TO BE REPLACED"
-            quoted-text-second="REPLACING DUMMY"
-            :time-boundaries="[
-              { label: '01.01.2011', value: '2011-01-01' },
-              { label: '02.02.2012', value: '2012-02-02' },
-            ]"
-          />
-        </section>
-        <section
-          class="mt-24 flex flex-col gap-8"
-          aria-labelledby="changedArticlePreivew"
+            <h3
+              id="originalArticleTitle"
+              class="ds-label-02-bold"
+              data-testid="targetLawHeading"
+            >
+              Änderungsbefehle bearbeiten
+            </h3>
+            <RisModForm
+              id="risModForm"
+              v-model:selectedTimeBoundary="selectedTimeBoundary"
+              textual-mod-type="replacement"
+              destination-href="DUMMY/ELI/DUMMY-EID/1-10.xml"
+              quoted-text-first="DUMMY TO BE REPLACED"
+              quoted-text-second="REPLACING DUMMY"
+              :time-boundaries="[
+                { label: '01.01.2011', value: '2011-01-01' },
+                { label: '02.02.2012', value: '2012-02-02' },
+              ]"
+            />
+          </section>
+          <div>
+            <section
+              v-if="selectedTimeBoundary"
+              class="mt-24 flex h-full flex-col gap-8"
+              aria-labelledby="changedArticlePreivew"
+            >
+              <h3 id="changedArticlePreivew" class="ds-label-02-bold">
+                Vorschau
+              </h3>
+              <RisTabs
+                :tabs="[
+                  { id: 'text', label: 'Text' },
+                  { id: 'xml', label: 'XML' },
+                ]"
+              >
+                <template #text>
+                  <RisLawPreview
+                    class="ds-textarea flex-grow p-2"
+                    :content="previewHtml"
+                  />
+                </template>
+                <template #xml>
+                  <RisCodeEditor
+                    class="flex-grow"
+                    :readonly="true"
+                    :model-value="previewXml"
+                  ></RisCodeEditor>
+                </template>
+              </RisTabs>
+            </section>
+            <div v-else class="gap flex-grow justify-center gap-32 text-center">
+              <p
+                class="mt-[85px] h-fit rounded border-2 border-dashed border-blue-500 px-48 py-24 text-gray-900"
+              >
+                Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten
+                Änderungsbefehls zu sehen
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          v-else
+          class="gap col-span-2 grid flex-grow grid-cols-2 justify-center gap-32 text-center"
         >
-          <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
-          <RisTabs
-            :tabs="[
-              { id: 'text', label: 'Text' },
-              { id: 'xml', label: 'XML' },
-            ]"
+          <p
+            class="mt-[85px] h-fit rounded border-2 border-dashed border-blue-500 px-64 py-24 text-gray-900"
           >
-            <template #text>
-              <RisLawPreview
-                class="ds-textarea flex-grow p-2"
-                :content="previewHtml"
-              />
-            </template>
-            <template #xml>
-              <RisCodeEditor
-                class="flex-grow"
-                :readonly="true"
-                :model-value="previewXml"
-              ></RisCodeEditor>
-            </template>
-          </RisTabs>
-        </section>
+            Wählen sie einen Änderungsbefehl zur Bearbeitung aus.
+          </p>
+        </div>
       </div>
     </div>
   </div>
