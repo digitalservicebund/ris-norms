@@ -16,6 +16,7 @@ import RisModForm from "@/components/RisModForm.vue"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useMod } from "@/composables/useMod"
 import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
+import RisEmptyState from "@/components/RisEmptyState.vue"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -199,25 +200,17 @@ const {
                 </template>
               </RisTabs>
             </section>
-            <div v-else class="gap flex-grow justify-center gap-32 text-center">
-              <p
-                class="mt-[85px] h-fit rounded border-2 border-dashed border-blue-500 px-48 py-24 text-gray-900"
-              >
-                Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten
-                Änderungsbefehls zu sehen
-              </p>
+            <div v-else class="gap flex-grow gap-32">
+              <RisEmptyState
+                text-content="Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten Änderungsbefehls zu sehen."
+              />
             </div>
           </div>
         </div>
-        <div
-          v-else
-          class="gap col-span-2 grid flex-grow grid-cols-2 justify-center gap-32 text-center"
-        >
-          <p
-            class="mt-[85px] h-fit rounded border-2 border-dashed border-blue-500 px-64 py-24 text-gray-900"
-          >
-            Wählen sie einen Änderungsbefehl zur Bearbeitung aus.
-          </p>
+        <div v-else class="gap col-span-2 grid flex-grow grid-cols-2 gap-32">
+          <RisEmptyState
+            text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
+          />
         </div>
       </div>
     </div>
