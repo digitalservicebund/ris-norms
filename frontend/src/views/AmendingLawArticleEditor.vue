@@ -15,10 +15,12 @@ import { renderHtmlLaw } from "@/services/renderService"
 import RisModForm from "@/components/RisModForm.vue"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useMod } from "@/composables/useMod"
+import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
+const selectedMod = useModEidPathParameter()
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
@@ -68,11 +70,6 @@ watch(articleXml, (articleXml) => {
     currentArticleXml.value = articleXml
   }
 })
-
-/**
- * The eid of the currently selected akn:mod element
- */
-const selectedMod = ref<string | null>(null)
 
 function handleAknModClick({ eid }: { eid: string }) {
   selectedMod.value = eid
