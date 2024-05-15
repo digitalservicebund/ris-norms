@@ -119,7 +119,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
           .perform(
               get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements?type=preface"))
+                  "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements?type=preface&type=article"))
           // then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0]").exists())
