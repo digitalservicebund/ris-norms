@@ -41,8 +41,8 @@ const props = withDefaults(
       aria-label="Upload file icon"
     />
     <div>{{ props.textContent }}</div>
-    <div v-if="recommendedAction" class="text-sm font-bold text-blue-800">
-      {{ props.recommendedAction }}
-    </div>
+    <router-link class="ds-link-01-bold items-center text-blue-800" :to="'#'">
+      <span>{{ props.recommendedAction }}</span>
+    </router-link>
   </div>
 </template>
