@@ -5,7 +5,7 @@ const textContent =
 </script>
 
 <template>
-  <Story>
+  <Story :layout="{ type: 'grid', width: '800px' }">
     <Variant title="Simple">
       <RisEmptyState id="risEmptyState" :text-content="textContent" />
     </Variant>
@@ -16,12 +16,12 @@ const textContent =
         text-content="Keine Verkündungen vorhanden"
       />
     </Variant>
-    <Variant title="Extended with Link">
+    <Variant title="Extended with recommended action">
       <RisEmptyState
         id="risEmptyState"
         variant="extended"
         text-content="Keine Verkündungen vorhanden"
-        link-text="Neue Verkündungen hinzufügen"
+        recommended-action="Neue Verkündungen hinzufügen"
       />
     </Variant>
   </Story>
