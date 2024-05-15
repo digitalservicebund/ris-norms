@@ -114,7 +114,7 @@ const destinationHrefEid = computed({
     />
     <div class="flex gap-20">
       <RisTextButton label="Vorschau" variant="tertiary" />
-      <RisTextButton label="Dummy-Save" :icon="CheckIcon" />
+      <RisTextButton label="Speichern" :icon="CheckIcon" />
     </div>
   </form>
 </template>
