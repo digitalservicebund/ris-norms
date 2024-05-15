@@ -70,7 +70,7 @@ const destinationHrefEid = computed({
 
 <template>
   <form :id="id" class="grid grid-cols-1 gap-y-20" role="form">
-    <div class="grid grid-cols-2 gap-x-80">
+    <div class="grid grid-cols-2 gap-x-40">
       <RisTextInput
         id="textualModeType"
         label="Änderungstyp"
