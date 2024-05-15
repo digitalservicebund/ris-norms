@@ -24,12 +24,14 @@ public class ElementsController {
   /** The types of elements that can be retrieved */
   public enum ElementType {
     article,
+    preamble,
     preface
   }
 
   private final Map<ElementType, String> typesToXPaths = Map.ofEntries(
-          Map.entry(ElementType.article, "//body/article"),
-          Map.entry(ElementType.preface, "//act/preface")
+          Map.entry(ElementType.preface, "//act/preface"),
+          Map.entry(ElementType.preamble, "//act/preamble"),
+          Map.entry(ElementType.article, "//body/article")
   );
 
   private final LoadNormUseCase loadNormUseCase;
