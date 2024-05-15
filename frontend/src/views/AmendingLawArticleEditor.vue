@@ -10,14 +10,9 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch, onMounted } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { renderHtmlLaw } from "@/services/renderService"
-import {
-  getNormHtmlByEli,
-  previewNorm,
-  previewNormAsHtml,
-} from "@/services/normService"
+import { getNormHtmlByEli } from "@/services/normService"
 import RisModForm from "@/components/RisModForm.vue"
 
 const eid = useEidPathParameter()
@@ -28,7 +23,7 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
 const article = useArticle(identifier)
-const { xml: articleXml, update: updateArticleXml } = useArticleXml(identifier)
+const { xml: articleXml } = useArticleXml(identifier)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const currentArticleXml = ref("")
 const renderedHtml = ref("")
@@ -50,31 +45,6 @@ async function fetchAmendingLawRenderedHtml() {
 /**
  * Handle the click of the save button.
  */
-async function handleSave() {
-  try {
-    // TODO: (Malte Laukötter, 2024-03-07) this is currently saving the whole amending law, we need to change this to a single article once we have adjusted the provided xml as well
-    await updateArticleXml(currentArticleXml.value)
-  } catch (error) {
-    alert("Änderungsgesetz nicht gespeichert")
-    console.error(error)
-  }
-}
-async function handleGeneratePreview() {
-  if (!targetLawEli.value) return
-  try {
-    if (targetLawEli.value) {
-      const [xmlContent, htmlContent] = await Promise.all([
-        previewNorm(targetLawEli.value, currentArticleXml.value),
-        previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
-      ])
-      previewXml.value = xmlContent
-      previewHtml.value = htmlContent
-    }
-  } catch (error) {
-    alert("Vorschau konnte nicht erstellt werden")
-    console.error(error)
-  }
-}
 async function fetchTargetLawHtmlContent() {
   try {
     if (targetLawEli.value) {
@@ -142,22 +112,6 @@ function handleAknModClick({ eid }: { eid: string }) {
           <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
           <h2 class="ds-heading-03-reg">Änderungsbefehle prüfen</h2>
         </div>
-
-        <RisTextButton
-          label="Speichern"
-          size="small"
-          class="h-fit flex-none self-end"
-          :disabled="articleXml === currentArticleXml"
-          @click="handleSave"
-        />
-
-        <RisTextButton
-          label="Vorschau generieren"
-          size="small"
-          variant="tertiary"
-          class="h-fit flex-none self-end"
-          @click="handleGeneratePreview"
-        />
       </div>
       <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
         <section
