@@ -119,7 +119,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
               + "?type=preface"
               + "&type=preamble"
               + "&type=article"
-              + "&type=conclusion";
+              + "&type=conclusions";
 
       // when
       mockMvc
@@ -151,10 +151,8 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("$[4].title").exists())
           // TODO Hannes: expect actual title
           .andExpect(jsonPath("$[4].eid").value("schluss-1"))
-          .andExpect(jsonPath("$[4].type").value("conclusion"));
+          .andExpect(jsonPath("$[4].type").value("conclusions"));
     }
-    // TODO Hannes
-    //  check for conclusion elements
   }
 
   // TODO Hannes

@@ -87,7 +87,7 @@ class ElementsControllerTest {
             + "?type=preface"
             + "&type=preamble"
             + "&type=article"
-            + "&type=conclusion";
+            + "&type=conclusions";
 
     // when
     mockMvc
@@ -115,12 +115,10 @@ class ElementsControllerTest {
         // TODO Hannes: expect actual title
         .andExpect(jsonPath("$[3].eid").value("hauptteil-1_art-3"))
         .andExpect(jsonPath("$[3].type").value("article"))
-        // conclusion
+        // conclusions
         .andExpect(jsonPath("$[4].title").exists())
         // TODO Hannes: expect actual title
         .andExpect(jsonPath("$[4].eid").value("schluss-1"))
-        .andExpect(jsonPath("$[4].type").value("conclusion"));
+        .andExpect(jsonPath("$[4].type").value("conclusions"));
   }
-
-  // TODO Hannes: support preamble and conclusion
 }
