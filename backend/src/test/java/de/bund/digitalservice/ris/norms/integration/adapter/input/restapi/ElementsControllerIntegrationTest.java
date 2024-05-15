@@ -114,35 +114,39 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       normRepository.save(NormMapper.mapToDto(norm));
+      var url = "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
+              + "?type=preface"
+              + "&type=preamble"
+              + "&type=article";
 
       // when
       mockMvc
           .perform(
-              get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements?type=preface&type=article"))
+              get(url))
           // then
           .andExpect(status().isOk())
+              // preface
           .andExpect(jsonPath("$[0]").exists())
           .andExpect(jsonPath("$[0].title").exists())
-          // TODO Hannes
-          //          .andExpect(jsonPath("$[0].title").value(">Entwurf eines Zweiten Gesetzes zur
-          //                  Änderung des Vereinsgesetzes"))
+              // TODO Hannes: expect actual title
           .andExpect(jsonPath("$[0].eid").value("einleitung-1"))
           .andExpect(jsonPath("$[0].type").value("preface"))
-          .andExpect(jsonPath("$[1].title").exists())
-          // TODO Hannes
-          //          .andExpect(jsonPath("$[0].title").value("§ 20"))
-          .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-1"))
-          .andExpect(jsonPath("$[1].type").value("article"))
-          .andExpect(jsonPath("$[2]").exists())
+              // preamble
+              .andExpect(jsonPath("$[1].title").exists())
+              // TODO Hannes: expect actual title
+              .andExpect(jsonPath("$[1].eid").value("preambel-1"))
+              .andExpect(jsonPath("$[1].type").value("preamble"))
           .andExpect(jsonPath("$[2].title").exists())
-          // TODO Hannes
-          //          .andExpect(jsonPath("$[0].title").value("§ 20"))
-          .andExpect(jsonPath("$[2].eid").value("hauptteil-1_art-3"))
-          .andExpect(jsonPath("$[2].type").value("article"));
+              // TODO Hannes: expect actual title
+          .andExpect(jsonPath("$[2].eid").value("hauptteil-1_art-1"))
+          .andExpect(jsonPath("$[2].type").value("article"))
+          .andExpect(jsonPath("$[3]").exists())
+          .andExpect(jsonPath("$[3].title").exists())
+              // TODO Hannes: expect actual title
+          .andExpect(jsonPath("$[3].eid").value("hauptteil-1_art-3"))
+          .andExpect(jsonPath("$[3].type").value("article"));
     }
     // TODO Hannes
-    //  check for preamble elements
     //  check for conclusion elements
   }
 
