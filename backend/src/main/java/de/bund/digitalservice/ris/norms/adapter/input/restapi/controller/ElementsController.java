@@ -24,7 +24,7 @@ public class ElementsController {
     article,
     preamble,
     preface,
-    conclusions // TODO Hannes: add all enum values to documentation (Swagger/OpenAPI)
+    conclusions
   }
 
   private final Map<ElementType, String> typesToXPaths =

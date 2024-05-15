@@ -128,7 +128,7 @@ paths:
             type: array
             items:
               type: string
-              enum: [article, preface]
+              enum: [preface, preamble, article, conclusions]
       responses:
         '200':
           description: Successful response
@@ -145,7 +145,7 @@ paths:
                       type: string
                     type:
                       type: string
-                      enum: [article]
+                      enum: [preface, preamble, article, conclusions]
         '404':
           description: Norm not found by eli
 
