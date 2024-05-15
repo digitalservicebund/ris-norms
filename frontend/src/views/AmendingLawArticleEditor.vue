@@ -12,7 +12,6 @@ import { computed, ref, watch, onMounted } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { renderHtmlLaw } from "@/services/renderService"
-import { getNormHtmlByEli } from "@/services/normService"
 import RisModForm from "@/components/RisModForm.vue"
 
 const eid = useEidPathParameter()
@@ -24,12 +23,10 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
 )
 const article = useArticle(identifier)
 const { xml: articleXml } = useArticleXml(identifier)
-const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const currentArticleXml = ref("")
 const renderedHtml = ref("")
 const previewXml = ref<string>("")
 const previewHtml = ref<string>("")
-const targetLawHtml = ref("")
 const amendingLawActiveTab = ref("text")
 
 async function fetchAmendingLawRenderedHtml() {
@@ -42,20 +39,7 @@ async function fetchAmendingLawRenderedHtml() {
   }
 }
 
-/**
- * Handle the click of the save button.
- */
-async function fetchTargetLawHtmlContent() {
-  try {
-    if (targetLawEli.value) {
-      targetLawHtml.value = await getNormHtmlByEli(targetLawEli.value)
-    }
-  } catch (error) {
-    console.error("Failed to fetch HTML content:", error)
-  }
-}
 const initialize = async () => {
-  await fetchTargetLawHtmlContent()
   await fetchAmendingLawRenderedHtml()
 }
 onMounted(() => {
@@ -63,7 +47,6 @@ onMounted(() => {
 })
 
 watch(articleXml, fetchAmendingLawRenderedHtml, { immediate: true })
-watch(targetLawEli, fetchTargetLawHtmlContent, { immediate: true })
 watch(currentArticleXml, (newXml, oldXml) => {
   if (newXml !== oldXml && amendingLawActiveTab.value === "text") {
     fetchAmendingLawRenderedHtml()
