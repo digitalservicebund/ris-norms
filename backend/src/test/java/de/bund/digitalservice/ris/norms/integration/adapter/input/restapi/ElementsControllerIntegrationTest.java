@@ -99,7 +99,32 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
     }
   }
 
+  // TODO Hannes:
+  @Nested
+  class getElementsWithAmendedByQueryParameter {
+    @Test
+    void itReturnsBadRequestIfAmendingLawIsNotFound() throws Exception {
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+      var url =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
+              + "?type=preface"
+              + "&type=preamble"
+              + "&type=article"
+              + "&type=conclusions"
+              + "&amendedBy=eli/bund/UNKNOWN_ELI/2017/s419/2017-03-15/1/deu/regelungstext-1";
+
+      // when
+      mockMvc
+          .perform(get(url))
+          // then
+          .andExpect(status().isBadRequest());
+    }
+  }
+
   // TODO Hannes
-  // @Nested
-  // class getElementsWithAmendedByQueryParameter{}
+  // read passive mods
+  // filter by amending law
+  // take the destinations of the remaining passive mods and fiter our elements
 }
