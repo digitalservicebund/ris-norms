@@ -10,28 +10,21 @@ describe("RisEmptyState", () => {
     expect(screen.getByText("Hello, world!")).toBeInTheDocument()
   })
 
-  test("should render text content for extended variant", () => {
+  test("should render text content and recommended action for extended variant", () => {
     render(RisEmptyState, {
       props: {
         textContent: "No announcements available",
         variant: "extended",
+      },
+      slots: {
+        "recommended-action": "Add new announcements",
       },
     })
     expect(screen.getByText("No announcements available")).toBeInTheDocument()
+    expect(screen.queryByText("Add new announcements")).toBeInTheDocument()
   })
 
-  test("should render recommended action for extended variant", () => {
-    render(RisEmptyState, {
-      props: {
-        textContent: "No announcements available",
-        variant: "extended",
-        recommendedAction: "Add new announcements",
-      },
-    })
-    expect(screen.getByText("Add new announcements")).toBeInTheDocument()
-  })
-
-  test("should not render recommended action if not provided", () => {
+  test("should not render recommended action slot if not provided", () => {
     render(RisEmptyState, {
       props: {
         textContent: "No announcements available",
