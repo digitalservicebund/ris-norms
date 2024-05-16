@@ -121,7 +121,6 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
     }
   }
 
-  // TODO Hannes:
   @Nested
   class getElementsWithAmendedByQueryParameter {
     @Test
@@ -169,6 +168,4 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("$[0]").doesNotExist());
     }
   }
-
-
 }

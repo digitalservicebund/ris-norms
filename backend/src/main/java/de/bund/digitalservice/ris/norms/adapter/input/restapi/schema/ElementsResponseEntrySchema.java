@@ -14,5 +14,5 @@ import lombok.experimental.SuperBuilder;
 public class ElementsResponseEntrySchema {
   private String title;
   private String eid;
-  private String type; // TODO Hannes: restrict to enums
+  private String type;
 }
