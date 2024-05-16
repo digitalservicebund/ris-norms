@@ -135,8 +135,8 @@ function modTypeLabel(modType: ModType | "") {
       :rows="8"
     />
     <div class="flex gap-20">
-      <RisTextButton label="Vorschau" variant="tertiary" />
-      <RisTextButton label="Speichern" :icon="CheckIcon" />
+      <RisTextButton label="Vorschau" variant="tertiary" disabled />
+      <RisTextButton label="Speichern" :icon="CheckIcon" disabled />
     </div>
   </form>
 </template>
