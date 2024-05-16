@@ -144,7 +144,6 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isBadRequest());
     }
 
-    @Disabled
     @Test
     void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
       // given
