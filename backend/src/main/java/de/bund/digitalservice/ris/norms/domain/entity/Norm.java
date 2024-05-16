@@ -378,6 +378,41 @@ public class Norm {
   }
 
   /**
+   * Create a new passive modification element
+   *
+   * @param type the type of the textual mod (this is different from the @refersTo property of an
+   *     akn:mod)
+   * @param sourceHref the href our the source of the textual mod
+   * @param destinationHref the href our the destination of the textual mod
+   * @param period the eid of the geltungszeitgruppe of the textual mod
+   * @return the newly create passive modification
+   */
+  public PassiveModification addPassiveModification(
+      String type, String sourceHref, String destinationHref, String period) {
+    var passiveModificationsNode = getOrCreatePassiveModificationsNode();
+
+    var textualMod =
+        createElementWithEidAndGuid("akn:textualMod", "textualmod", passiveModificationsNode);
+    textualMod.setAttribute("type", type);
+    passiveModificationsNode.appendChild(textualMod);
+
+    var source = createElementWithEidAndGuid("akn:source", "source", textualMod);
+    source.setAttribute("href", sourceHref);
+    textualMod.appendChild(source);
+
+    var destination = createElementWithEidAndGuid("akn:destination", "destination", textualMod);
+    destination.setAttribute("href", destinationHref);
+    textualMod.appendChild(destination);
+
+    var force = createElementWithEidAndGuid("akn:force", "gelzeitnachw", textualMod);
+    force.setAttribute("period", period);
+    // TODO: (Malte Laukötter, 2024-05-16) we could verify that the period exists
+    textualMod.appendChild(force);
+
+    return new PassiveModification(textualMod);
+  }
+
+  /**
    * Calculates the next possible eId for the given eIdPartType and parent node.
    *
    * @param parentNode The parent node under which this new eId should be used
