@@ -8,8 +8,6 @@ import CheckIcon from "~icons/ic/check"
 import { ModType } from "@/types/ModType"
 
 const props = defineProps<{
-  /** Unique ID for the dro. */
-  id: string
   /** Either replacement, insertion or repeal */
   textualModType: ModType | ""
   /** the possible time boundaries in the format YYYY-MM-DD. */
@@ -91,7 +89,7 @@ function modTypeLabel(modType: ModType | "") {
 </script>
 
 <template>
-  <form :id="id" class="grid grid-cols-1 gap-y-20" role="form" @submit.prevent>
+  <form id="risModForm" class="grid grid-cols-1 gap-y-20" @submit.prevent>
     <div class="grid grid-cols-2 gap-x-40">
       <RisTextInput
         id="textualModeType"

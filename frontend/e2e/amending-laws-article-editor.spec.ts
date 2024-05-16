@@ -79,7 +79,7 @@ test.describe("Loading amending law and mod details", () => {
     const formTitle = page.locator("text=Änderungsbefehle bearbeiten\n")
     await expect(formTitle).toBeVisible()
 
-    const formElement = page.locator('[role="form"]')
+    const formElement = page.locator('[id="risModForm"]')
     await expect(formElement).toBeVisible()
 
     // Textual Mode Type
@@ -139,7 +139,7 @@ test.describe("Loading amending law and mod details", () => {
 
     await targetElement.click()
 
-    const formElement = page.locator('[role="form"]')
+    const formElement = page.locator('[id="risModForm"]')
     const vorschauButton = formElement.locator("text=Vorschau")
     await expect(vorschauButton).toBeVisible()
     await vorschauButton.click()
