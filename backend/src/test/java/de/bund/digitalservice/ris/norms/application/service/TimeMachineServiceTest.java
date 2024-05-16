@@ -13,6 +13,7 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.time.Instant;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -197,6 +198,33 @@ class TimeMachineServiceTest {
           timeMachineService.applyPassiveModifications(
               new ApplyPassiveModificationsUseCase.Query(
                   norm, Instant.parse("2017-03-01T00:00:00.000Z")));
+
+      // then
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+    }
+
+    @Test
+    void applyOnePassiveModificationWithCustomNorm() {
+      // given
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(
+                  norm,
+                  Instant.MAX,
+                  Map.of(
+                      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1", amendingLaw)));
 
       // then
       var changedNodeValue =

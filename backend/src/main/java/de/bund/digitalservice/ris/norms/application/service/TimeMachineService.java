@@ -125,8 +125,15 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
         .flatMap(
             (PassiveModification passiveModification) -> {
               var sourceEli = passiveModification.getSourceEli().orElseThrow();
-              var amendingLaw =
-                  normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
+
+              Norm amendingLaw;
+              if (query.customNorms().containsKey(sourceEli)) {
+                amendingLaw = query.customNorms().get(sourceEli);
+              } else {
+                amendingLaw =
+                    normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
+              }
+
               var sourceEid = passiveModification.getSourceEid();
               return amendingLaw.getMods().stream().filter(mod -> mod.getEid().equals(sourceEid));
             })

@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.time.Instant;
+import java.util.Map;
 
 /**
  * Interface representing the use case for applying passive changes to a {@link Norm} up until a
@@ -22,6 +23,12 @@ public interface ApplyPassiveModificationsUseCase {
    *
    * @param norm The norm which contains the passive modifications.
    * @param date The date until which the passive modifications are applied.
+   * @param customNorms A map between elis and norms. When looking for norms these norms are used
+   *     instead of the persisted once.
    */
-  record Query(Norm norm, Instant date) {}
+  record Query(Norm norm, Instant date, Map<String, Norm> customNorms) {
+    public Query(Norm norm, Instant date) {
+      this(norm, date, Map.of());
+    }
+  }
 }
