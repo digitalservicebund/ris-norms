@@ -10,7 +10,6 @@ import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Represents an LDML.de norm. This class is annotated with Lombok annotations for generating
@@ -207,15 +206,12 @@ public class Norm {
    */
   public List<String> getTemporalGroupEids() {
     Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
-    NodeList temporalGroups = temporalData.getChildNodes();
-    List<String> temporalGroupIds = new ArrayList<>();
-    for (int i = 0; i < temporalGroups.getLength(); i++) {
-      Node temporalGroupNode = temporalGroups.item(i);
-      if ("akn:temporalGroup".equals(temporalGroupNode.getNodeName())) {
-        temporalGroupIds.add(temporalGroupNode.getAttributes().getNamedItem("eId").getNodeValue());
-      }
-    }
-    return temporalGroupIds;
+    List<Node> temporalGroups = NodeParser.nodeListToList(temporalData.getChildNodes());
+
+    return temporalGroups.stream()
+        .filter(node -> "akn:temporalGroup".equals(node.getNodeName()))
+        .map(node -> node.getAttributes().getNamedItem("eId").getNodeValue())
+        .toList();
   }
 
   /**

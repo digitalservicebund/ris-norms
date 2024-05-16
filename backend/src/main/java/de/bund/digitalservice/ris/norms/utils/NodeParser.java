@@ -81,6 +81,9 @@ public final class NodeParser {
 
   /**
    * Converts a {@link NodeList} into a {@link List} of {@link Node}s.
+   *
+   * @param nodeList the {@link NodeList} to convert
+   * @return The {@link Node}s of the {@link NodeList} as a {@link List}
    */
   public static List<Node> nodeListToList(NodeList nodeList) {
     if (nodeList.getLength() == 0) {
