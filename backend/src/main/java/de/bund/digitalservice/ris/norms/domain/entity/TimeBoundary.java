@@ -43,7 +43,7 @@ public class TimeBoundary {
   }
 
   /**
-   * Returns a eId as {@link String} from a {@link Node} in a {@link Norm}.
+   * Updates the date of the associated akn:eventRef.
    *
    * @param eventRefDate contains the new date to be set
    */
