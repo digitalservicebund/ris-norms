@@ -330,6 +330,54 @@ public class Norm {
   }
 
   /**
+   * Create a new element with both an eId and a GUID. The new element still needs to appended to
+   * the parent node.
+   *
+   * @param tagName the tag name of the new element
+   * @param eidPartName the name for the last part of the eid for the new element
+   * @param parentNode the element of which this newly created element should be a child
+   * @return the newly created element
+   */
+  public Element createElementWithEidAndGuid(String tagName, String eidPartName, Node parentNode) {
+    var newElement = getDocument().createElement(tagName);
+    newElement.setAttribute("eId", calculateNextPossibleEid(parentNode, eidPartName));
+    newElement.setAttribute("GUID", UUID.randomUUID().toString());
+    parentNode.appendChild(newElement);
+    return newElement;
+  }
+
+  /**
+   * Gets the akn:analysis element of the norm, or creates it if it does not yet exist.
+   *
+   * @return the akn:analysis element of the norm
+   */
+  public Node getOrCreateAnalysisNode() {
+    final var metaNode = NodeParser.getNodeFromExpression("//act/meta", getDocument());
+
+    return Optional.ofNullable(NodeParser.getNodeFromExpression("analysis", metaNode))
+        .orElseGet(
+            () -> {
+              final var newElement =
+                  createElementWithEidAndGuid("akn:analysis", "analysis", metaNode);
+              newElement.setAttribute("source", "attributsemantik-noch-undefiniert");
+              return newElement;
+            });
+  }
+
+  /**
+   * Gets the akn:passiveModifications element of the norm, or creates it if it does not yet exist.
+   *
+   * @return the akn:passiveModifications element of the norm
+   */
+  public Node getOrCreatePassiveModificationsNode() {
+    final var analysisNode = getOrCreateAnalysisNode();
+    return Optional.ofNullable(
+            NodeParser.getNodeFromExpression("passiveModifications", analysisNode))
+        .orElseGet(
+            () -> createElementWithEidAndGuid("akn:passiveModifications", "pasmod", analysisNode));
+  }
+
+  /**
    * Calculates the next possible eId for the given eIdPartType and parent node.
    *
    * @param parentNode The parent node under which this new eId should be used

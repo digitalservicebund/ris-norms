@@ -3,9 +3,11 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Node;
 
@@ -1337,6 +1339,88 @@ class NormTest {
 
     // then
     assertThat(date).contains("2017-03-15");
+  }
+
+  @Nested
+  class createElementWithEidAndGuid {
+    @Test
+    void itShouldCreatesANewElement() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      Node parentNode = NodeParser.getNodeFromExpression("//act/meta", norm.getDocument());
+
+      // when
+      Node createdNode = norm.createElementWithEidAndGuid("akn:analysis", "analysis", parentNode);
+
+      // then
+      assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
+          .isEqualTo(createdNode);
+      assertThat(NodeParser.getValueFromExpression("@eId", createdNode))
+          .contains("meta-1_analysis-1");
+    }
+  }
+
+  @Nested
+  class getOrCreateAnalysisNode {
+    @Test
+    void itShouldCreatesTheAnalysisNodeIfItDoesNotExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+      // when
+      final var analysisNode = norm.getOrCreateAnalysisNode();
+
+      // then
+      assertThat(analysisNode).isNotNull();
+      assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
+          .isEqualTo(analysisNode);
+    }
+
+    @Test
+    void itShouldFindTheAnalysisNodeIfItExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      // when
+      final var analysisNode = norm.getOrCreateAnalysisNode();
+
+      // then
+      assertThat(analysisNode).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", analysisNode))
+          .contains("5a5d264e-431e-4dc1-b971-4bd81af8a0f4");
+    }
+  }
+
+  @Nested
+  class getOrCreatePassiveModificationsNode {
+    @Test
+    void itShouldCreatesThePassiveModificationsNodeIfItDoesNotExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+      // when
+      final var passiveModificationsNode = norm.getOrCreatePassiveModificationsNode();
+
+      // then
+      assertThat(passiveModificationsNode).isNotNull();
+      assertThat(
+              NodeParser.getNodeFromExpression("//act//passiveModifications", norm.getDocument()))
+          .isEqualTo(passiveModificationsNode);
+    }
+
+    @Test
+    void itShouldFindThePassiveModificationsNodeIfItExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      // when
+      final var passiveModificationsNode = norm.getOrCreatePassiveModificationsNode();
+
+      // then
+      assertThat(passiveModificationsNode).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", passiveModificationsNode))
+          .contains("77aae58f-06c9-4189-af80-a5f3ada6432c");
+    }
   }
 
   @Test
