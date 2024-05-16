@@ -121,6 +121,31 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           // then
           .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
+      // given
+      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      normRepository.save(NormMapper.mapToDto(targetNorm));
+      var amendingNorm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      normRepository.save(NormMapper.mapToDto(amendingNorm));
+
+      var url =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
+              + "?type=preface"
+              + "&type=preamble"
+              + "&type=article"
+              + "&type=conclusions"
+              + "&amendedBy="
+              + amendingNorm.getEli().orElseThrow(); // amending norm eli
+
+      // when
+      mockMvc
+          .perform(get(url))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").doesNotExist());
+    }
   }
 
   // TODO Hannes
