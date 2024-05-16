@@ -102,7 +102,7 @@ const {
       <span>Zurück</span>
     </router-link>
 
-    <div class="flex h-[calc(100dvh-5rem)] flex-col p-40">
+    <div class="flex min-h-[calc(100dvh-5rem)] flex-col p-40">
       <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
