@@ -46,6 +46,16 @@ public class ActiveModification extends Modification {
   }
 
   /**
+   * Returns the destination character range as {@link String}.
+   *
+   * @return The destination character range of the active modification
+   */
+  public Optional<String> getDestinationCharacterRange() {
+    return this.getDestinationHref()
+        .map(source -> Arrays.stream(source.split("/")).toList().getLast().replace(".xml", ""));
+  }
+
+  /**
    * Returns the source eid as {@link String}.
    *
    * @return The source eid of the active modification
