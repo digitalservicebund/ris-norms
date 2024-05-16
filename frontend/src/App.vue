@@ -4,7 +4,7 @@ import RisNavbar from "@/components/controls/RisNavbar.vue"
 </script>
 
 <template>
-  <RisNavbar class="fixed inset-x-0 top-0" />
+  <RisNavbar class="fixed inset-x-0 top-0 z-10" />
 
   <div class="pt-80">
     <RouterView />
