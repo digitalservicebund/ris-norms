@@ -41,4 +41,27 @@ class NodeParserTest {
     assertThat(nodes).hasSize(1);
     assertThat(nodes.getFirst().getNodeName()).isEqualTo("test");
   }
+
+  @Test
+  void nodeListToList() {
+    Node node = XmlMapper.toDocument("<foo><test>testValue</test></foo>").getFirstChild();
+    var nodes = NodeParser.nodeListToList(node.getChildNodes());
+    assertThat(nodes).hasSize(1);
+  }
+
+  @Test
+  void nodeListToListMultipleElements() {
+    Node node =
+        XmlMapper.toDocument("<foo><test>testValue</test><test>testValue2</test></foo>")
+            .getFirstChild();
+    var nodes = NodeParser.nodeListToList(node.getChildNodes());
+    assertThat(nodes).hasSize(2);
+  }
+
+  @Test
+  void nodeListToListZeroElements() {
+    Node node = XmlMapper.toDocument("<foo></foo>").getFirstChild();
+    var nodes = NodeParser.nodeListToList(node.getChildNodes());
+    assertThat(nodes).hasSize(0);
+  }
 }
