@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
@@ -9,7 +10,6 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -311,30 +311,5 @@ public class NormController {
               return ResponseEntity.ok(html);
             })
         .orElseGet(() -> ResponseEntity.notFound().build());
-  }
-
-  @NotNull
-  private static String buildEli(
-      String agent,
-      String year,
-      String naturalIdentifier,
-      String pointInTime,
-      String version,
-      String language,
-      String subtype) {
-    return "eli/bund/"
-        + agent
-        + "/"
-        + year
-        + "/"
-        + naturalIdentifier
-        + "/"
-        + pointInTime
-        + "/"
-        + version
-        + "/"
-        + language
-        + "/"
-        + subtype;
   }
 }

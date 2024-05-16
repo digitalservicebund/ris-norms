@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
+import { nextTick, ref } from "vue"
 
 describe("useMod", () => {
   beforeEach(() => {
@@ -55,6 +56,78 @@ describe("useMod", () => {
     expect(textualModType.value).toBe("")
     expect(quotedTextFirst.value).toBe("")
     expect(quotedTextSecond.value).toBe("")
-    expect(timeBoundary.value).toBe("no_choice")
+    expect(timeBoundary.value).toBeUndefined()
+  })
+
+  test("should support changing the values of the returned refs", async () => {
+    vi.doMock("@/services/ldmldeModService", () => ({
+      getDestinationHref: vi.fn(),
+      getQuotedTextFirst: vi.fn(),
+      getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
+      getTextualModType: vi.fn(),
+      getTimeBoundaryDate: vi.fn(),
+    }))
+    vi.doMock("@/services/ldmldeService", () => ({
+      getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),
+    }))
+    const { useMod } = await import("./useMod")
+
+    const { quotedTextSecond } = useMod("eid", `<xml></xml>`)
+
+    expect(quotedTextSecond.value).toBe("new text")
+    quotedTextSecond.value = "newer text"
+    expect(quotedTextSecond.value).toBe("newer text")
+  })
+
+  test("should overwrite the changed values when the eid changes", async () => {
+    vi.doMock("@/services/ldmldeModService", () => ({
+      getDestinationHref: vi.fn(),
+      getQuotedTextFirst: vi.fn(),
+      getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
+      getTextualModType: vi.fn(),
+      getTimeBoundaryDate: vi.fn(),
+    }))
+    vi.doMock("@/services/ldmldeService", () => ({
+      getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),
+    }))
+    const { useMod } = await import("./useMod")
+
+    const eid = ref("eid1")
+    const { quotedTextSecond } = useMod(eid, `<xml></xml>`)
+
+    expect(quotedTextSecond.value).toBe("new text")
+
+    quotedTextSecond.value = "newer text"
+    expect(quotedTextSecond.value).toBe("newer text")
+
+    eid.value = "eid2"
+    await nextTick()
+    expect(quotedTextSecond.value).toBe("new text")
+  })
+
+  test("should overwrite the changed values when the xml changes", async () => {
+    vi.doMock("@/services/ldmldeModService", () => ({
+      getDestinationHref: vi.fn(),
+      getQuotedTextFirst: vi.fn(),
+      getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
+      getTextualModType: vi.fn(),
+      getTimeBoundaryDate: vi.fn(),
+    }))
+    vi.doMock("@/services/ldmldeService", () => ({
+      getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),
+    }))
+    const { useMod } = await import("./useMod")
+
+    const xml = ref("<xml></xml>")
+    const { quotedTextSecond } = useMod("eid1", xml)
+
+    expect(quotedTextSecond.value).toBe("new text")
+
+    quotedTextSecond.value = "newer text"
+    expect(quotedTextSecond.value).toBe("newer text")
+
+    xml.value = "<xml>new</xml>"
+    await nextTick()
+    expect(quotedTextSecond.value).toBe("new text")
   })
 })

@@ -66,15 +66,35 @@ const destinationHrefEid = computed({
     }
   },
 })
+
+/**
+ * Provides the human-readable label for the given ModType
+ */
+function modTypeLabel(modType: ModType | "") {
+  switch (modType) {
+    case "aenderungsbefehl-einfuegen":
+      return "Einfügen"
+    case "aenderungsbefehl-ersetzen":
+      return "Ersetzen"
+    case "aenderungsbefehl-streichen":
+      return "Streichen"
+    case "aenderungsbefehl-neufassung":
+      return "Neufassen"
+    case "aenderungsbefehl-ausserkrafttreten":
+      return "Außerkrafttreten"
+    case "":
+      return "Keine Angabe"
+  }
+}
 </script>
 
 <template>
   <form :id="id" class="grid grid-cols-1 gap-y-20" role="form">
-    <div class="grid grid-cols-2 gap-x-80">
+    <div class="grid grid-cols-2 gap-x-40">
       <RisTextInput
         id="textualModeType"
         label="Änderungstyp"
-        :model-value="textualModType"
+        :model-value="modTypeLabel(textualModType)"
         read-only
         size="small"
       />

@@ -16,6 +16,7 @@ import RisModForm from "@/components/RisModForm.vue"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useMod } from "@/composables/useMod"
 import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
+import RisEmptyState from "@/components/RisEmptyState.vue"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -101,7 +102,7 @@ const {
       <span>Zurück</span>
     </router-link>
 
-    <div class="flex h-dvh flex-col p-40">
+    <div class="flex h-[calc(100dvh-5rem)] flex-col p-40">
       <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
@@ -110,7 +111,7 @@ const {
       </div>
       <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
         <section
-          class="col-span-1 flex flex-col gap-8"
+          class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden"
           aria-labelledby="changeCommandsEditor"
         >
           <h3
@@ -147,77 +148,67 @@ const {
             </template>
           </RisTabs>
         </section>
-        <div v-if="selectedMod" class="col-span-2 grid grid-cols-2 gap-32">
-          <section
-            class="mt-32 flex flex-col gap-8"
-            aria-labelledby="originalArticleTitle"
+        <section
+          v-if="selectedMod"
+          class="col-span-1 mt-32 flex h-fit flex-col gap-8"
+          aria-labelledby="originalArticleTitle"
+        >
+          <h3
+            id="originalArticleTitle"
+            class="ds-label-02-bold"
+            data-testid="targetLawHeading"
           >
-            <h3
-              id="originalArticleTitle"
-              class="ds-label-02-bold"
-              data-testid="targetLawHeading"
-            >
-              Änderungsbefehle bearbeiten
-            </h3>
-            <RisModForm
-              id="risModForm"
-              :textual-mod-type="textualModType"
-              :destination-href="destinationHref"
-              :quoted-text-first="quotedTextFirst"
-              :quoted-text-second="quotedTextSecond"
-              :selected-time-boundary="timeBoundary"
-              :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
-            />
-          </section>
-          <div>
-            <section
-              v-if="timeBoundary !== 'no_choice'"
-              class="mt-24 flex h-full flex-col gap-8"
-              aria-labelledby="changedArticlePreivew"
-            >
-              <h3 id="changedArticlePreivew" class="ds-label-02-bold">
-                Vorschau
-              </h3>
-              <RisTabs
-                :tabs="[
-                  { id: 'text', label: 'Text' },
-                  { id: 'xml', label: 'XML' },
-                ]"
-              >
-                <template #text>
-                  <RisLawPreview
-                    class="ds-textarea flex-grow p-2"
-                    :content="previewHtml"
-                  />
-                </template>
-                <template #xml>
-                  <RisCodeEditor
-                    class="flex-grow"
-                    :readonly="true"
-                    :model-value="previewXml"
-                  ></RisCodeEditor>
-                </template>
-              </RisTabs>
-            </section>
-            <div v-else class="gap flex-grow justify-center gap-32 text-center">
-              <p
-                class="mt-[85px] h-fit rounded border-2 border-dashed border-blue-500 px-48 py-24 text-gray-900"
-              >
-                Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten
-                Änderungsbefehls zu sehen
-              </p>
-            </div>
-          </div>
+            Änderungsbefehle bearbeiten
+          </h3>
+          <RisModForm
+            id="risModForm"
+            v-model:textual-mod-type="textualModType"
+            v-model:destination-href="destinationHref"
+            v-model:quoted-text-second="quotedTextSecond"
+            v-model:selected-time-boundary="timeBoundary"
+            :quoted-text-first="quotedTextFirst"
+            :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
+          />
+        </section>
+        <section
+          v-if="selectedMod && timeBoundary"
+          class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden"
+          aria-labelledby="changedArticlePreivew"
+        >
+          <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
+          <RisTabs
+            :tabs="[
+              { id: 'text', label: 'Text' },
+              { id: 'xml', label: 'XML' },
+            ]"
+          >
+            <template #text>
+              <RisLawPreview
+                class="ds-textarea flex-grow p-2"
+                :content="previewHtml"
+              />
+            </template>
+            <template #xml>
+              <RisCodeEditor
+                class="flex-grow"
+                :readonly="true"
+                :model-value="previewXml"
+              ></RisCodeEditor>
+            </template>
+          </RisTabs>
+        </section>
+        <div v-if="selectedMod && !timeBoundary" class="gap flex-grow gap-32">
+          <RisEmptyState
+            text-content="Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten Änderungsbefehls zu sehen."
+          />
         </div>
         <div
-          v-else
-          class="gap col-span-2 grid flex-grow grid-cols-2 justify-center gap-32 text-center"
+          v-if="!selectedMod"
+          class="gap col-span-2 grid flex-grow grid-cols-2 gap-32"
         >
-          <p
-            class="mt-[85px] h-fit rounded border-2 border-dashed border-blue-500 px-64 py-24 text-gray-900"
-          >
-            Wählen sie einen Änderungsbefehl zur Bearbeitung aus.
-          </p>
+          <RisEmptyState
+            text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
+          />
         </div>
       </div>
     </div>
