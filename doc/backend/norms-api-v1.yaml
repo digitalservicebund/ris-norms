@@ -183,6 +183,43 @@ paths:
               schema:
                 type: string
 
+  /norms/{eli}/mods/{eid}:
+    put:
+      summary: Save an amending command and update ZF0
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: the eId of the akn:mod
+          schema:
+            type: string
+      requestBody:
+        description: The updated amending command
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Mod'
+      responses:
+        '200':
+          description: Successful update
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+        '400':
+          description: Bad Request
+        '404':
+          description: Norm not found
+
   /norms/{eli}/timeBoundaries:
     get:
       summary: Get all time boundaries for a given norm
@@ -331,6 +368,20 @@ components:
         date:
           type: string
           format: date
+
+    Mod:
+      type: object
+      properties:
+        refersTo:
+          type: string
+        timeBoundaryEid:
+          type: string
+        destinationHref:
+          type: string
+        oldText:
+          type: string
+        newText:
+          type: string
 
     ReleaseResponse:
       type: object
