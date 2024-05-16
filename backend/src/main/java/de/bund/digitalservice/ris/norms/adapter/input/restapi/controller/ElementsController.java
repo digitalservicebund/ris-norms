@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -85,70 +86,70 @@ public class ElementsController {
       @RequestParam final ElementType[] type,
       @RequestParam final Optional<String> amendedBy) {
 
-    // check amendedBy
-    Optional<Norm> amendingLaw;
-    if (amendedBy.isPresent()) {
-      amendingLaw = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendedBy.orElseThrow()));
-      if (amendingLaw.isEmpty()) return ResponseEntity.badRequest().build();
-    }
-
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    // check amendedBy
+    if (amendedBy.isPresent()
+        && loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendedBy.orElseThrow())).isEmpty())
+      return ResponseEntity.badRequest().build();
 
     // check targetNorm
     var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
     if (targetNorm.isEmpty()) return ResponseEntity.notFound().build();
 
+    return ResponseEntity.ok(getElementsResponseEntrySchemas(type, amendedBy, targetNorm.get(), eli));
+  }
+
+  private @NotNull List<ElementsResponseEntrySchema> getElementsResponseEntrySchemas(
+      ElementType[] type, Optional<String> amendedBy, Norm targetNorm, String eli) {
     // Calculate the XPath based on the types via a Map defined above
     var combinedXPaths =
         String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
 
     // Source ELIs from passive mods
-    var passiveModsSourceEids = targetNorm.get().getPassiveModifications().stream()
+    var passiveModsSourceEids =
+        targetNorm.getPassiveModifications().stream()
             .filter(passiveMod -> passiveMod.getSourceEli() == amendedBy)
-            .map(PassiveModification::getSourceEid).flatMap(Optional::stream).toList();
-
-    // get matching elements
-    var elements =
-        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
-            .flatMap(
-                norm ->
-                    NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
-            .flatMap(
-                node -> {
-                  var nodeTypeName = node.getNodeName().replace("akn:", "");
-                  var eid = NodeParser.getValueFromExpression("./@eId", node);
-
-                  String title;
-                  if (staticTitlesForSomeTypeNodes.containsKey(nodeTypeName.toUpperCase()))
-                    title = staticTitlesForSomeTypeNodes.get(nodeTypeName.toUpperCase());
-                  else { // we have an article
-                    var num =
-                        NodeParser.getValueFromExpression("./num", node).orElseThrow().strip();
-                    var heading =
-                        NodeParser.getValueFromExpression("./heading", node).orElseThrow().strip();
-                    title = num + " " + heading;
-                  }
-
-                  return Stream.of(
-                      (ElementsResponseEntrySchema)
-                          ElementsResponseEntrySchema.builder()
-                              .title(title)
-                              .eid(eid.orElseThrow())
-                              .type(nodeTypeName)
-                              .build());
-                })
-            .filter(
-                element -> {
-                  // no amending law -> all elements are fine
-                  if (amendedBy.isEmpty())
-                    return true;
-
-                  return passiveModsSourceEids.contains(element.getEid());
-                })
+            .map(PassiveModification::getSourceEid)
+            .flatMap(Optional::stream)
             .toList();
 
-    return ResponseEntity.ok(elements);
+    // get matching elements
+    return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
+        .flatMap( // fetch nodes by type
+            norm -> NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
+        .flatMap( // map to response schema
+            node -> {
+              var nodeTypeName = node.getNodeName().replace("akn:", "");
+              var eid = NodeParser.getValueFromExpression("./@eId", node);
+
+              String title;
+              if (staticTitlesForSomeTypeNodes.containsKey(nodeTypeName.toUpperCase()))
+                title = staticTitlesForSomeTypeNodes.get(nodeTypeName.toUpperCase());
+              else { // we have an article
+                var num = NodeParser.getValueFromExpression("./num", node).orElseThrow().strip();
+                var heading =
+                    NodeParser.getValueFromExpression("./heading", node).orElseThrow().strip();
+                title = num + " " + heading;
+              }
+
+              return Stream.of(
+                  (ElementsResponseEntrySchema)
+                      ElementsResponseEntrySchema.builder()
+                          .title(title)
+                          .eid(eid.orElseThrow())
+                          .type(nodeTypeName)
+                          .build());
+            })
+        .filter( // filter by "amendedBy")
+            element -> {
+              // no amending law -> all elements are fine
+              if (amendedBy.isEmpty()) return true;
+
+              return passiveModsSourceEids.contains(element.getEid());
+            })
+        .toList();
   }
 }
 
