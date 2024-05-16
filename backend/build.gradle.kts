@@ -46,7 +46,6 @@ dependencies {
     implementation(libs.spring.cloud.starter.kubernetes.client.config)
     implementation(libs.postgresql)
     implementation(libs.flyway.core)
-    implementation(libs.apache.commons.compress)
     implementation(libs.flyway.postgres)
     implementation(libs.jose4j)
     implementation(libs.spring.starter.data.redis)
