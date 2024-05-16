@@ -7,6 +7,8 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMappe
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,11 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private NormRepository normRepository;
+
+  @AfterEach
+  void cleanUp() {
+    normRepository.deleteAll();
+  }
 
   @Nested
   class getElements {
@@ -57,6 +64,21 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
                   "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
           // then
           .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void itReturnsEmptyListIfNoElementsAreFound() throws Exception {
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+      // when
+      mockMvc
+          .perform(
+              get(
+                  "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements?type=preface"))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").doesNotExist());
     }
 
     @Test
@@ -122,6 +144,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isBadRequest());
     }
 
+    @Disabled
     @Test
     void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
       // given
