@@ -98,6 +98,7 @@ public class ElementsController {
     var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
     if (targetNorm.isEmpty()) return ResponseEntity.notFound().build();
 
+    // get elements and return
     return ResponseEntity.ok(getElementsResponseEntrySchemas(type, amendedBy, targetNorm.get(), eli));
   }
 
