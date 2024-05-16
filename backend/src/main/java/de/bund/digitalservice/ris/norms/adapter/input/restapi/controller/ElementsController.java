@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
@@ -120,32 +121,6 @@ public class ElementsController {
     // articles
     if (elements.isEmpty()) return ResponseEntity.notFound().build();
     else return ResponseEntity.ok(elements);
-  }
-
-  // TODO: Hannes: This is repeated across many controllers and should be refactored
-  @NotNull
-  private static String buildEli(
-      String agent,
-      String year,
-      String naturalIdentifier,
-      String pointInTime,
-      String version,
-      String language,
-      String subtype) {
-    return "eli/bund/"
-        + agent
-        + "/"
-        + year
-        + "/"
-        + naturalIdentifier
-        + "/"
-        + pointInTime
-        + "/"
-        + version
-        + "/"
-        + language
-        + "/"
-        + subtype;
   }
 }
 
