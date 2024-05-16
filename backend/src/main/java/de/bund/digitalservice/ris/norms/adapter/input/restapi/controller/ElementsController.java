@@ -83,8 +83,10 @@ public class ElementsController {
       @RequestParam final ElementType[] type,
       @RequestParam final Optional<String> amendedBy) {
 
-      if (amendedBy.isPresent())
-          return ResponseEntity.badRequest().build();
+      if (amendedBy.isPresent()) {
+          var amendingLaw = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendedBy.orElseThrow()));
+          if (amendingLaw.isEmpty()) return ResponseEntity.badRequest().build();
+      }
 
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
