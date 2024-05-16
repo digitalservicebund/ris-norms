@@ -13,12 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Node;
 
 /**
  * Custom enum converter for converting the string values of the element types enum to lowercase.
@@ -103,10 +103,12 @@ public class ElementsController {
 
     // get elements and return
     return ResponseEntity.ok(
-        getElementsResponseEntrySchemas(type, amendedBy, targetNorm.get(), eli));
+        getElements(type, amendedBy, targetNorm.get(), eli).stream()
+            .map(ElementsResponseMapper::fromElementNode)
+            .toList());
   }
 
-  private @NotNull List<ElementsResponseEntrySchema> getElementsResponseEntrySchemas(
+  private @NotNull List<Node> getElements(
       ElementType[] type, Optional<String> amendedBy, Norm targetNorm, String eli) {
     // Calculate the XPath based on the types via a Map defined above
     var combinedXPaths =
@@ -129,14 +131,15 @@ public class ElementsController {
     return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
         .flatMap( // fetch nodes by type
             norm -> NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
-        .flatMap(node -> Stream.of(ElementsResponseMapper.fromElementNode(node)))
         .filter( // filter by "amendedBy")
             element -> {
               // no amending law -> all elements are fine
               if (amendedBy.isEmpty()) return true;
 
-              return passiveModsSourceEids.stream()
-                  .anyMatch(modEid -> modEid.contains(element.getEid()));
+              // TODO: Really throw?
+              var eId = NodeParser.getValueFromExpression("./@eId", element).orElseThrow();
+
+              return passiveModsSourceEids.stream().anyMatch(modEid -> modEid.contains(eId));
             })
         .toList();
   }

@@ -195,7 +195,6 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    assertThatThrownBy(
-        () -> ElementsResponseMapper.fromElementNode(node));
+    assertThatThrownBy(() -> ElementsResponseMapper.fromElementNode(node));
   }
 }
