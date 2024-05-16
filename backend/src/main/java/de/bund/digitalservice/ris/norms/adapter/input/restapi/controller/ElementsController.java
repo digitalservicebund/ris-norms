@@ -137,6 +137,7 @@ public class ElementsController {
                 title = num + " " + heading;
               }
 
+              // TODO Hannes: move the mapping to the controller
               return Stream.of(
                   (ElementsResponseEntrySchema)
                       ElementsResponseEntrySchema.builder()
