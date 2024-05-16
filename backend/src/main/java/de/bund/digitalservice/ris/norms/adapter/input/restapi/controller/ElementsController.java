@@ -103,6 +103,11 @@ public class ElementsController {
     var combinedXPaths =
         String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
 
+    // Source ELIs from passive mods
+    var passiveModsSourceEids = targetNorm.get().getPassiveModifications().stream()
+            .filter(passiveMod -> passiveMod.getSourceEli() == amendedBy)
+            .map(PassiveModification::getSourceEid).flatMap(Optional::stream).toList();
+
     // get matching elements
     var elements =
         loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
@@ -135,21 +140,14 @@ public class ElementsController {
                 })
             .filter(
                 element -> {
+                  // no amending law -> all elements are fine
                   if (amendedBy.isEmpty())
                     return true;
 
-                  var passiveMods = targetNorm.get().getPassiveModifications();
-                  var passiveModsMatchingTheTargetLaw =
-                      passiveMods.stream()
-                          .filter(passiveMod -> passiveMod.getSourceEli() == amendedBy).toList();
-                  var passiveModsDestinations =
-                      passiveModsMatchingTheTargetLaw.stream().map(PassiveModification::getSourceEid).toList();
-                  return passiveModsDestinations.contains(element.getEid());
+                  return passiveModsSourceEids.contains(element.getEid());
                 })
             .toList();
 
-    // TODO Hannes: We need to discriminate between a non-existing norm and a norm with e.g. no
-    // articles
     return ResponseEntity.ok(elements);
   }
 }
