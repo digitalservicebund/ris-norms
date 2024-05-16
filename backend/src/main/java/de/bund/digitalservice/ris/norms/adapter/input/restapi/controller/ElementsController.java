@@ -9,8 +9,8 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
-
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -65,6 +65,7 @@ public class ElementsController {
    * @param subtype DE: "Dokumentenart"
    * @param type The type(s) of the elements that should be returned. Elements are returned in the
    *     order of the types, and then in the order of elements in the norm.
+   * @param amendedBy Only the elements modified by the norm of the given ELI will be returned.
    * @return A {@link ResponseEntity} containing the list of elements.
    *     <p>Returns HTTP 200 (OK) if the norm is found. The list might be empty.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
@@ -79,7 +80,11 @@ public class ElementsController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @RequestParam final ElementType[] type) {
+      @RequestParam final ElementType[] type,
+      @RequestParam final Optional<String> amendedBy) {
+
+      if (amendedBy.isPresent())
+          return ResponseEntity.badRequest().build();
 
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
@@ -102,8 +107,10 @@ public class ElementsController {
                   if (staticTitlesForSomeTypeNodes.containsKey(nodeTypeName.toUpperCase()))
                     title = staticTitlesForSomeTypeNodes.get(nodeTypeName.toUpperCase());
                   else { // we have an article
-                    var num = NodeParser.getValueFromExpression("./num", node).orElseThrow().strip();
-                    var heading = NodeParser.getValueFromExpression("./heading", node).orElseThrow().strip();
+                    var num =
+                        NodeParser.getValueFromExpression("./num", node).orElseThrow().strip();
+                    var heading =
+                        NodeParser.getValueFromExpression("./heading", node).orElseThrow().strip();
                     title = num + " " + heading;
                   }
 
