@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementsResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -39,12 +40,6 @@ public class ElementsController {
           Map.entry(ElementType.PREAMBLE, "//act/preamble"),
           Map.entry(ElementType.ARTICLE, "//body/article"),
           Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
-
-  private final Map<String, String> staticTitlesForSomeTypeNodes =
-      Map.ofEntries(
-          Map.entry(ElementType.PREFACE.name(), "Dokumentenkopf"),
-          Map.entry(ElementType.PREAMBLE.name(), "Eingangsformel"),
-          Map.entry(ElementType.CONCLUSIONS.name(), "Schlussteil"));
 
   private final LoadNormUseCase loadNormUseCase;
 
@@ -107,11 +102,12 @@ public class ElementsController {
     // Source EIDs from passive mods
     var passiveModsSourceEids =
         targetNorm.getPassiveModifications().stream()
-            .filter(passiveMod -> {
-                if (amendedBy.isEmpty()) return true;
+            .filter(
+                passiveMod -> {
+                  if (amendedBy.isEmpty()) return true;
 
-                return passiveMod.getSourceEli().orElseThrow().equals(amendedBy.get());
-            })
+                  return passiveMod.getSourceEli().orElseThrow().equals(amendedBy.get());
+                })
             .map(PassiveModification::getDestinationEid)
             .flatMap(Optional::stream)
             .toList();
@@ -120,38 +116,14 @@ public class ElementsController {
     return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
         .flatMap( // fetch nodes by type
             norm -> NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
-        .flatMap( // map to response schema
-            node -> {
-              var nodeTypeName = node.getNodeName().replace("akn:", "");
-              var eid = NodeParser.getValueFromExpression("./@eId", node);
-
-              String title;
-              if (staticTitlesForSomeTypeNodes.containsKey(nodeTypeName.toUpperCase()))
-                title = staticTitlesForSomeTypeNodes.get(nodeTypeName.toUpperCase());
-              else { // we have an article
-                        // TODO Hannes: The orElse is not tested
-                var num = NodeParser.getValueFromExpression("./num", node).orElse("").strip();
-                var heading =
-                        // TODO Hannes: The orElse is not tested
-                    NodeParser.getValueFromExpression("./heading", node).orElse("").strip();
-                title = num + " " + heading;
-              }
-
-              // TODO Hannes: move the mapping to the controller
-              return Stream.of(
-                  (ElementsResponseEntrySchema)
-                      ElementsResponseEntrySchema.builder()
-                          .title(title)
-                          .eid(eid.orElseThrow())
-                          .type(nodeTypeName)
-                          .build());
-            })
+        .flatMap(node -> Stream.of(ElementsResponseMapper.fromElementNode(node)))
         .filter( // filter by "amendedBy")
             element -> {
               // no amending law -> all elements are fine
               if (amendedBy.isEmpty()) return true;
 
-              return passiveModsSourceEids.stream().anyMatch(modEid -> modEid.contains(element.getEid()));
+              return passiveModsSourceEids.stream()
+                  .anyMatch(modEid -> modEid.contains(element.getEid()));
             })
         .toList();
   }
