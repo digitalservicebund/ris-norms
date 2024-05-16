@@ -15,12 +15,15 @@ const props = withDefaults(
     size?: "regular" | "medium" | "small"
     /** Label for the form field. */
     label?: string
+    /** On blur handler for the input */
+    blurHandler?: () => void
   }>(),
   {
     modelValue: "",
     placeholder: undefined,
     size: "regular",
     label: undefined,
+    blurHandler: undefined,
   },
 )
 
@@ -64,6 +67,7 @@ const tabindex = computed(() => (props.readOnly ? -1 : 0))
       :readonly="readOnly"
       :tabindex="tabindex"
       type="text"
+      @blur="blurHandler"
     />
   </div>
 </template>

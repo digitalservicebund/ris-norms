@@ -7,6 +7,7 @@ import { useArticle } from "@/composables/useArticle"
 import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
+// import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch, onMounted } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
@@ -17,6 +18,7 @@ import { useTemporalData } from "@/composables/useTemporalData"
 import { useMod } from "@/composables/useMod"
 import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
 import RisEmptyState from "@/components/RisEmptyState.vue"
+import { previewNorm, previewNormAsHtml } from "@/services/normService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -28,6 +30,8 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
 )
 const article = useArticle(identifier)
 const { xml: articleXml } = useArticleXml(identifier)
+const targetLawEli = computed(() => article.value?.affectedDocumentEli)
+// const { xml: targetLawXml } = useTargetLawXml(targetLawEli)
 const currentArticleXml = ref("")
 const renderedHtml = ref("")
 const previewXml = ref<string>("")
@@ -78,6 +82,21 @@ function handleAknModClick({ eid }: { eid: string }) {
 
 function handlePreviewClick() {
   selectedMod.value = ""
+}
+
+async function handleGeneratePreview() {
+  if (!targetLawEli.value) return
+  try {
+    const [xmlContent, htmlContent] = await Promise.all([
+      previewNorm(targetLawEli.value, currentArticleXml.value),
+      previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
+    ])
+    previewXml.value = xmlContent
+    previewHtml.value = htmlContent
+  } catch (error) {
+    alert("Vorschau konnte nicht erstellt werden")
+    console.error(error)
+  }
 }
 
 const { timeBoundaries } = useTemporalData(eli)
@@ -168,6 +187,7 @@ const {
             v-model:selected-time-boundary="timeBoundary"
             :quoted-text-first="quotedTextFirst"
             :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
+            :handle-generate-preview="handleGeneratePreview"
           />
         </section>
         <section
