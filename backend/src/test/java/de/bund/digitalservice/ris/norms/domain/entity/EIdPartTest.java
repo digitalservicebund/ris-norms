@@ -25,4 +25,22 @@ class EIdPartTest {
     // then
     assertThat(type).isEqualTo("1");
   }
+
+  @Test
+  void itShouldHaveAStringRepresentation() {
+    // given
+    EIdPart eIdPart = new EIdPart("text-1");
+    // when // then
+    assertThat(eIdPart).hasToString("text-1");
+  }
+
+  @Test
+  void itShouldCreateNewEidPart() {
+    // given // when
+    EIdPart eIdPart = new EIdPart("text", "1");
+    // then
+    assertThat(eIdPart.getPosition()).isEqualTo("1");
+    assertThat(eIdPart.getType()).isEqualTo("text");
+    assertThat(eIdPart).hasToString("text-1");
+  }
 }

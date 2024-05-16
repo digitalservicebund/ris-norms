@@ -13,9 +13,24 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class EId {
-  private final String eId;
+  private final String value;
 
   public List<EIdPart> getParts() {
-    return Arrays.stream(eId.split("_")).map(EIdPart::new).toList();
+    return Arrays.stream(value.split("_")).map(EIdPart::new).toList();
+  }
+
+  /**
+   * Creates a new eId that includes all the parts of the current eId and the new part at the end.
+   *
+   * @param part the new part to append to the eId
+   * @return a new eId
+   */
+  public EId addPart(EIdPart part) {
+    return new EId(value + "_" + part);
+  }
+
+  @Override
+  public String toString() {
+    return value;
   }
 }

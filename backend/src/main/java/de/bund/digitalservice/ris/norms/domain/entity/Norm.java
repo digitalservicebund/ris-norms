@@ -421,9 +421,7 @@ public class Norm {
    *     position
    */
   public static String calculateNextPossibleEid(Node parentNode, String eidPartType) {
-    var parentNodeEid = NodeParser.getValueFromExpression("@eId", parentNode);
-
-    var lastPostion =
+    var lastPosition =
         NodeParser.nodeListToList(parentNode.getChildNodes()).stream()
             .flatMap(node -> NodeParser.getValueFromExpression("@eId", node).stream())
             .map(EId::new)
@@ -433,8 +431,13 @@ public class Norm {
             .map(Integer::parseInt)
             .max(Comparator.comparingInt(Integer::intValue))
             .orElse(0);
+    var newEidPart = new EIdPart(eidPartType, String.valueOf(lastPosition + 1));
 
-    return parentNodeEid.orElseThrow() + "_" + eidPartType + "-" + (lastPostion + 1);
+    return NodeParser.getValueFromExpression("@eId", parentNode)
+        .map(EId::new)
+        .map(parendEId -> parendEId.addPart(newEidPart))
+        .map(EId::getValue)
+        .orElseThrow();
   }
 
   @Override
