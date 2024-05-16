@@ -200,6 +200,7 @@ const {
         <div v-if="selectedMod && !timeBoundary" class="gap flex-grow gap-32">
           <RisEmptyState
             text-content="Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten Änderungsbefehls zu sehen."
+            class="mt-[85px] h-fit"
           />
         </div>
         <div
@@ -207,7 +208,8 @@ const {
           class="gap col-span-2 grid flex-grow grid-cols-2 gap-32"
         >
           <RisEmptyState
-            text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
+            text-content="Wählenssss sie einen Änderungsbefehl zur Bearbeitung aus."
+            class="mt-[85px] h-fit"
           />
         </div>
       </div>
