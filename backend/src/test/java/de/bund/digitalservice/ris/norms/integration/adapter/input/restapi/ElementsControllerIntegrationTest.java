@@ -67,7 +67,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsEmptyListIfNoElementsAreFound() throws Exception {
+    void itReturnsEmptyListIfNoMatchingElementsAreFound() throws Exception {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));

@@ -83,18 +83,25 @@ public class ElementsController {
       @RequestParam final ElementType[] type,
       @RequestParam final Optional<String> amendedBy) {
 
-      if (amendedBy.isPresent()) {
-          var amendingLaw = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendedBy.orElseThrow()));
-          if (amendingLaw.isEmpty()) return ResponseEntity.badRequest().build();
-      }
+    // check amendedBy
+    if (amendedBy.isPresent()) {
+      var amendingLaw =
+          loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendedBy.orElseThrow()));
+      if (amendingLaw.isEmpty()) return ResponseEntity.badRequest().build();
+    }
 
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    // check targetNorm
+    var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
+    if (targetNorm.isEmpty()) return ResponseEntity.notFound().build();
 
     // Calculate the XPath based on the types via a Map defined above
     var combinedXPaths =
         String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
 
+    // get matching elements
     var elements =
         loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
             .flatMap(
@@ -128,8 +135,7 @@ public class ElementsController {
 
     // TODO Hannes: We need to discriminate between a non-existing norm and a norm with e.g. no
     // articles
-    if (elements.isEmpty()) return ResponseEntity.notFound().build();
-    else return ResponseEntity.ok(elements);
+    return ResponseEntity.ok(elements);
   }
 }
 
