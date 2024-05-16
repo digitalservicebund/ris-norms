@@ -29,6 +29,11 @@ public final class NodeParser {
    */
   public static Optional<String> getValueFromExpression(String xPathExpression, Node sourceNode) {
     try {
+      // text nodes can not be used with xpaths
+      if (sourceNode.getNodeType() == Node.TEXT_NODE) {
+        return Optional.empty();
+      }
+
       // should be invoked on every method call since: An XPath object is not thread-safe and not
       // reentrant.
       final XPath xPath = XPathFactory.newInstance().newXPath();
