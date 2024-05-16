@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 /** Controller for norm-related list actions. */
@@ -21,25 +23,24 @@ public class ElementsController {
 
   /** The types of elements that can be retrieved */
   public enum ElementType {
-    article,
-    preamble,
-    preface,
-    conclusions
+    ARTICLE,
+    CONCLUSIONS,
+    PREAMBLE,
+    PREFACE
   }
 
   private final Map<ElementType, String> xPathsForTypeNodes =
       Map.ofEntries(
-          Map.entry(ElementType.preface, "//act/preface"),
-          Map.entry(ElementType.preamble, "//act/preamble"),
-          Map.entry(ElementType.article, "//body/article"),
-          Map.entry(ElementType.conclusions, "//act/conclusions"));
+          Map.entry(ElementType.PREFACE, "//act/preface"),
+          Map.entry(ElementType.PREAMBLE, "//act/preamble"),
+          Map.entry(ElementType.ARTICLE, "//body/article"),
+          Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
 
   private final Map<String, String> titlesForTypeNodes =
-          Map.ofEntries(
-                  Map.entry(ElementType.preface.name(), "Dokumentenkopf"),
-                  Map.entry(ElementType.preamble.name(), "Eingangsformel"),
-                  Map.entry(ElementType.conclusions.name(), "Schlussteil")
-          );
+      Map.ofEntries(
+          Map.entry(ElementType.PREFACE.name(), "Dokumentenkopf"),
+          Map.entry(ElementType.PREAMBLE.name(), "Eingangsformel"),
+          Map.entry(ElementType.CONCLUSIONS.name(), "Schlussteil"));
 
   private final LoadNormUseCase loadNormUseCase;
 
@@ -83,7 +84,8 @@ public class ElementsController {
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     // Calculate the XPath based on the types via a Map defined above
-    var combinedXPaths = String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
+    var combinedXPaths =
+        String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
 
     var elements =
         loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
@@ -96,8 +98,8 @@ public class ElementsController {
                   var eid = NodeParser.getValueFromExpression("./@eId", node);
 
                   String title;
-                  if (titlesForTypeNodes.containsKey(nodeTypeName))
-                    title = titlesForTypeNodes.get(nodeTypeName);
+                  if (titlesForTypeNodes.containsKey(nodeTypeName.toUpperCase()))
+                    title = titlesForTypeNodes.get(nodeTypeName.toUpperCase());
                   else { // we have an article
                     var num = NodeParser.getValueFromExpression("./num", node).orElseThrow().strip();
                     var heading = NodeParser.getValueFromExpression("./heading", node).orElseThrow().strip();
@@ -144,5 +146,14 @@ public class ElementsController {
         + language
         + "/"
         + subtype;
+  }
+}
+
+@Component
+class MyEnumConverter implements Converter<String, ElementsController.ElementType> {
+
+  @Override
+  public ElementsController.ElementType convert(String value) {
+    return ElementsController.ElementType.valueOf(value.toUpperCase());
   }
 }
