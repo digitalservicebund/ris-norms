@@ -170,8 +170,5 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
     }
   }
 
-  // TODO Hannes
-  // read passive mods
-  // filter by amending law
-  // take the destinations of the remaining passive mods and fiter our elements
+
 }

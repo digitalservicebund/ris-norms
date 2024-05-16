@@ -5,6 +5,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Arrays;
 import java.util.List;
@@ -84,9 +86,9 @@ public class ElementsController {
       @RequestParam final Optional<String> amendedBy) {
 
     // check amendedBy
+    Optional<Norm> amendingLaw;
     if (amendedBy.isPresent()) {
-      var amendingLaw =
-          loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendedBy.orElseThrow()));
+      amendingLaw = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendedBy.orElseThrow()));
       if (amendingLaw.isEmpty()) return ResponseEntity.badRequest().build();
     }
 
@@ -130,6 +132,19 @@ public class ElementsController {
                               .eid(eid.orElseThrow())
                               .type(nodeTypeName)
                               .build());
+                })
+            .filter(
+                element -> {
+                  if (amendedBy.isEmpty())
+                    return true;
+
+                  var passiveMods = targetNorm.get().getPassiveModifications();
+                  var passiveModsMatchingTheTargetLaw =
+                      passiveMods.stream()
+                          .filter(passiveMod -> passiveMod.getSourceEli() == amendedBy).toList();
+                  var passiveModsDestinations =
+                      passiveModsMatchingTheTargetLaw.stream().map(PassiveModification::getSourceEid).toList();
+                  return passiveModsDestinations.contains(element.getEid());
                 })
             .toList();
 
