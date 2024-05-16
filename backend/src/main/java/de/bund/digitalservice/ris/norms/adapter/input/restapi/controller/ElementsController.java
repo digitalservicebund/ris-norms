@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-/** Controller for norm-related list actions. */
+/** Controller for retrieving a norm's elements. */
 @RestController
 @RequestMapping(
     "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/elements")
@@ -37,7 +37,7 @@ public class ElementsController {
           Map.entry(ElementType.ARTICLE, "//body/article"),
           Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
 
-  private final Map<String, String> titlesForTypeNodes =
+  private final Map<String, String> staticTitlesForSomeTypeNodes =
       Map.ofEntries(
           Map.entry(ElementType.PREFACE.name(), "Dokumentenkopf"),
           Map.entry(ElementType.PREAMBLE.name(), "Eingangsformel"),
@@ -99,8 +99,8 @@ public class ElementsController {
                   var eid = NodeParser.getValueFromExpression("./@eId", node);
 
                   String title;
-                  if (titlesForTypeNodes.containsKey(nodeTypeName.toUpperCase()))
-                    title = titlesForTypeNodes.get(nodeTypeName.toUpperCase());
+                  if (staticTitlesForSomeTypeNodes.containsKey(nodeTypeName.toUpperCase()))
+                    title = staticTitlesForSomeTypeNodes.get(nodeTypeName.toUpperCase());
                   else { // we have an article
                     var num = NodeParser.getValueFromExpression("./num", node).orElseThrow().strip();
                     var heading = NodeParser.getValueFromExpression("./heading", node).orElseThrow().strip();
