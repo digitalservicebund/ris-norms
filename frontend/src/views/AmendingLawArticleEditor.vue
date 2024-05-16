@@ -121,7 +121,7 @@ const {
       <span>Zurück</span>
     </router-link>
 
-    <div class="flex h-[calc(100vh-5rem)] flex-col p-40">
+    <div class="flex h-[calc(100vh-5rem)] flex-col px-40 pt-40">
       <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
@@ -130,7 +130,7 @@ const {
       </div>
       <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
         <section
-          class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-32"
+          class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
           aria-labelledby="changeCommandsEditor"
         >
           <h3
@@ -169,7 +169,7 @@ const {
         </section>
         <section
           v-if="selectedMod"
-          class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-32"
+          class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
           aria-labelledby="originalArticleTitle"
         >
           <h3
@@ -192,7 +192,7 @@ const {
         </section>
         <section
           v-if="selectedMod && timeBoundary"
-          class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-32"
+          class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
           aria-labelledby="changedArticlePreivew"
         >
           <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
