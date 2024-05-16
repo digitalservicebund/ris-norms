@@ -89,17 +89,13 @@ public class ElementsController {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    // check amendedBy
-    if (amendedBy.isPresent()
-        && loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendedBy.orElseThrow())).isEmpty())
-      return ResponseEntity.badRequest().build();
-
     // check targetNorm
     var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
     if (targetNorm.isEmpty()) return ResponseEntity.notFound().build();
 
     // get elements and return
-    return ResponseEntity.ok(getElementsResponseEntrySchemas(type, amendedBy, targetNorm.get(), eli));
+    return ResponseEntity.ok(
+        getElementsResponseEntrySchemas(type, amendedBy, targetNorm.get(), eli));
   }
 
   private @NotNull List<ElementsResponseEntrySchema> getElementsResponseEntrySchemas(
@@ -108,11 +104,15 @@ public class ElementsController {
     var combinedXPaths =
         String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
 
-    // Source ELIs from passive mods
+    // Source EIDs from passive mods
     var passiveModsSourceEids =
         targetNorm.getPassiveModifications().stream()
-            .filter(passiveMod -> passiveMod.getSourceEli() == amendedBy)
-            .map(PassiveModification::getSourceEid)
+            .filter(passiveMod -> {
+                if (amendedBy.isEmpty()) return true;
+
+                return passiveMod.getSourceEli().orElseThrow().equals(amendedBy.get());
+            })
+            .map(PassiveModification::getDestinationEid)
             .flatMap(Optional::stream)
             .toList();
 
@@ -129,9 +129,11 @@ public class ElementsController {
               if (staticTitlesForSomeTypeNodes.containsKey(nodeTypeName.toUpperCase()))
                 title = staticTitlesForSomeTypeNodes.get(nodeTypeName.toUpperCase());
               else { // we have an article
-                var num = NodeParser.getValueFromExpression("./num", node).orElseThrow().strip();
+                        // TODO Hannes: The orElse is not tested
+                var num = NodeParser.getValueFromExpression("./num", node).orElse("").strip();
                 var heading =
-                    NodeParser.getValueFromExpression("./heading", node).orElseThrow().strip();
+                        // TODO Hannes: The orElse is not tested
+                    NodeParser.getValueFromExpression("./heading", node).orElse("").strip();
                 title = num + " " + heading;
               }
 
@@ -148,7 +150,7 @@ public class ElementsController {
               // no amending law -> all elements are fine
               if (amendedBy.isEmpty()) return true;
 
-              return passiveModsSourceEids.contains(element.getEid());
+              return passiveModsSourceEids.stream().anyMatch(modEid -> modEid.contains(element.getEid()));
             })
         .toList();
   }

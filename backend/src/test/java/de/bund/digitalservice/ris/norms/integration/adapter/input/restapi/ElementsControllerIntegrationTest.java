@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,25 +123,6 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class getElementsWithAmendedByQueryParameter {
-    @Test
-    void itReturnsBadRequestIfAmendingLawIsNotFound() throws Exception {
-      // given
-      var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
-      var url =
-          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
-              + "?type=preface"
-              + "&type=preamble"
-              + "&type=article"
-              + "&type=conclusions"
-              + "&amendedBy=eli/bund/UNKNOWN_ELI/2017/s419/2017-03-15/1/deu/regelungstext-1";
-
-      // when
-      mockMvc
-          .perform(get(url))
-          // then
-          .andExpect(status().isBadRequest());
-    }
 
     @Test
     void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
@@ -165,6 +147,31 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           // then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0]").doesNotExist());
+    }
+
+    @Test
+    void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
+      var targetNorm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+      normRepository.save(NormMapper.mapToDto(targetNorm));
+
+      var url =
+              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements"
+                      + "?type=preface"
+                      + "&type=preamble"
+                      + "&type=article"
+                      + "&type=conclusions"
+                      + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second mod source eli
+
+      // when
+      mockMvc
+              .perform(get(url))
+              // then
+              .andExpect(status().isOk())
+              .andExpect(jsonPath("$[0].eid").exists())
+              .andExpect(jsonPath("$[0].title").exists())
+              .andExpect(jsonPath("$[0].type").exists())
+              .andExpect(jsonPath("$[1]").doesNotExist());
+
     }
   }
 }
