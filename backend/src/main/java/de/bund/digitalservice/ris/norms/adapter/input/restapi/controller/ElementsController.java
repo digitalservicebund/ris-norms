@@ -20,13 +20,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Custom enum converter for converting the string values of the element types enum to lowercase.
+ * This allows us to use a nicer lowercase spelling in the API requests while adhering to the naming
+ * convention of UPPERCASE enums in Java code.
+ */
+@Component
+class LowercaseEnumConverter implements Converter<String, ElementsController.ElementType> {
+  @Override
+  public ElementsController.ElementType convert(String value) {
+    return ElementsController.ElementType.valueOf(value.toUpperCase());
+  }
+}
+
 /** Controller for retrieving a norm's elements. */
 @RestController
 @RequestMapping(
     "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/elements")
 public class ElementsController {
 
-  /** The types of elements that can be retrieved */
+  /** The types of elements that can be retrieved. */
   public enum ElementType {
     ARTICLE,
     CONCLUSIONS,
@@ -126,14 +139,5 @@ public class ElementsController {
                   .anyMatch(modEid -> modEid.contains(element.getEid()));
             })
         .toList();
-  }
-}
-
-@Component
-class MyEnumConverter implements Converter<String, ElementsController.ElementType> {
-
-  @Override
-  public ElementsController.ElementType convert(String value) {
-    return ElementsController.ElementType.valueOf(value.toUpperCase());
   }
 }
