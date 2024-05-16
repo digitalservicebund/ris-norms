@@ -1292,6 +1292,20 @@ class NormTest {
   }
 
   @Test
+  void getOneActiveModification() {
+    // given
+    Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+    // when
+    var activeModifications = norm.getActiveModifications();
+
+    // then
+    assertThat(activeModifications).hasSize(1);
+    assertThat(activeModifications.getFirst().getEid())
+        .contains("meta-1_analysis-1_activemod-1_textualmod-1");
+  }
+
+  @Test
   void getMods() {
     // given
     Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
