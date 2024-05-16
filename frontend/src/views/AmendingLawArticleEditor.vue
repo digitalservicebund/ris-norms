@@ -208,7 +208,7 @@ const {
           class="gap col-span-2 grid flex-grow grid-cols-2 gap-32"
         >
           <RisEmptyState
-            text-content="Wählenssss sie einen Änderungsbefehl zur Bearbeitung aus."
+            text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
             class="mt-[85px] h-fit"
           />
         </div>
