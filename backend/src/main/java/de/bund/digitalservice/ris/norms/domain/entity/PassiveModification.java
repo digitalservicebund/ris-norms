@@ -54,4 +54,9 @@ public class PassiveModification extends Modification {
     return this.getDestinationHref()
         .flatMap(value -> Arrays.stream(value.replaceFirst("^#", "").split("/")).findFirst());
   }
+
+  public Optional<String> getDestinationCharacterRange() {
+    return this.getDestinationHref()
+        .flatMap(value -> Arrays.stream(value.split("/")).skip(1).findFirst());
+  }
 }

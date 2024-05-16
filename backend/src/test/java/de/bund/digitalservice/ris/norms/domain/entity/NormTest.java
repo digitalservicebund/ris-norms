@@ -1469,7 +1469,6 @@ class NormTest {
     }
   }
 
-
   @Test
   void getActiveModifications() {
     // given
