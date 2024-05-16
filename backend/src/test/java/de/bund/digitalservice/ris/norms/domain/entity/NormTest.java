@@ -2,11 +2,12 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 class NormTest {
 
@@ -1233,45 +1234,45 @@ class NormTest {
   @Test
   void calculateNextPossibleEid() {
     // given
-    List<String> eids =
-        List.of(
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-4",
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1",
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-2");
+    Node parentNode =
+        XmlMapper.toNode(
+            """
+                <akn:temporalData eId="meta-1_geltzeiten-1"
+                                              GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"
+                                              source="attributsemantik-noch-undefiniert">
+                    <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
+                                       GUID="7b13adb9-ef62-43c4-bf1b-155561edf89b">
+                    </akn:temporalGroup>
+                    <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2"
+                                       GUID="7af9337a-3727-424c-a3df-dee918a79b22">
+                    </akn:temporalGroup>
+                </akn:temporalData>
+                """);
 
     // when
-    String nextPossibleEid = Norm.calculateNextPossibleEid(eids);
+    String nextPossibleEid = Norm.calculateNextPossibleEid(parentNode, "geltungszeitgr");
 
     // then
-    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-5");
+    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-3");
   }
 
   @Test
-  void calculateNextPossibleEidEmptyInput() {
+  void calculateNextPossibleEidWhenNoChildNodeOfTypeExists() {
     // given
-    List<String> eids = List.of();
+    Node parentNode =
+        XmlMapper.toNode(
+            """
+                <akn:temporalData eId="meta-1_geltzeiten-1"
+                                              GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"
+                                              source="attributsemantik-noch-undefiniert">
+                </akn:temporalData>
+                """);
 
     // when
-    Throwable thrown = catchThrowable(() -> Norm.calculateNextPossibleEid(eids));
+    String nextPossibleEid = Norm.calculateNextPossibleEid(parentNode, "geltungszeitgr");
 
     // then
-    assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
-  }
-
-  @Test
-  void calculateNextPossibleEidDifferentBase() {
-    // given
-    List<String> eids =
-        List.of(
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-4",
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1",
-            "somestring-5");
-
-    // when
-    Throwable thrown = catchThrowable(() -> Norm.calculateNextPossibleEid(eids));
-
-    // then
-    assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
   }
 
   @Test

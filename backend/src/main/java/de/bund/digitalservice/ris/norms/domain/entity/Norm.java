@@ -266,8 +266,12 @@ public class Norm {
    */
   public void addTimeBoundary(TimeBoundaryChangeData timeBoundaryToAdd) {
 
+    Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
+
     // Calculate next possible eventRefEid
-    String nextPossibleEventRefEid = calculateNextPossibleEid(getEventRefEids());
+    String nextPossibleEventRefEid =
+        calculateNextPossibleEid(
+            getTimeBoundaries().getLast().getEventRefNode().getParentNode(), "ereignis");
 
     // Create new eventRef node
     Element eventRef = document.createElement("akn:eventRef");
@@ -282,7 +286,7 @@ public class Norm {
     getTimeBoundaries().getLast().getEventRefNode().getParentNode().appendChild(eventRef);
 
     // Calculate next possible temporalGroup Eid
-    String nextPossibleTemporalGroupEid = calculateNextPossibleEid(getTemporalGroupEids());
+    String nextPossibleTemporalGroupEid = calculateNextPossibleEid(temporalData, "geltungszeitgr");
 
     // Create new temporalGroup node
     Element temporalGroup = document.createElement("akn:temporalGroup");
@@ -300,7 +304,7 @@ public class Norm {
     temporalGroup.appendChild(timeInterval);
 
     // Append new temporalGroup node to temporalData node
-    NodeParser.getNodeFromExpression("//meta/temporalData", document).appendChild(temporalGroup);
+    temporalData.appendChild(temporalGroup);
   }
 
   /**
@@ -326,30 +330,28 @@ public class Norm {
   }
 
   /**
-   * Calculates the next possible eId out of a list of eIds
+   * Calculates the next possible eId for the given eIdPartType and parent node.
    *
-   * @param eIds List of identifiers within a document
-   *     "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
-   * @return the next possible eid
+   * @param parentNode The parent node under which this new eId should be used
+   * @param eidPartType The name of the new part of the eId
+   * @return The new eId created from the parent node eId, the eidPartType and the next available
+   *     position
    */
-  public static String calculateNextPossibleEid(List<String> eIds) {
-    if (eIds.isEmpty()) throw new IllegalArgumentException("eIds is empty");
+  public static String calculateNextPossibleEid(Node parentNode, String eidPartType) {
+    var parentNodeEid = NodeParser.getValueFromExpression("@eId", parentNode);
 
-    String eventRefStringFirst = eIds.getFirst();
-    String eventRefBase = eventRefStringFirst.substring(0, eventRefStringFirst.lastIndexOf('-'));
+    var lastPostion =
+        NodeParser.nodeListToList(parentNode.getChildNodes()).stream()
+            .flatMap(node -> NodeParser.getValueFromExpression("@eId", node).stream())
+            .map(EId::new)
+            .map(eId -> eId.getParts().getLast())
+            .filter(eIdPart -> eIdPart.getType().equals(eidPartType))
+            .map(EIdPart::getPosition)
+            .map(Integer::parseInt)
+            .max(Comparator.comparingInt(Integer::intValue))
+            .orElse(0);
 
-    boolean allMatch =
-        eIds.stream()
-            .map(eventRefString -> eventRefString.substring(0, eventRefString.lastIndexOf('-')))
-            .allMatch(eventRefBase::equals);
-    if (!allMatch) throw new IllegalArgumentException("Not all eId-bases are equal");
-
-    final String lastNumberAsString =
-        Arrays.stream(eIds.stream().sorted().toList().getLast().split("-")).toList().getLast();
-
-    int nextId = Integer.parseInt(lastNumberAsString) + 1;
-
-    return eventRefBase + "-" + nextId;
+    return parentNodeEid.orElseThrow() + "_" + eidPartType + "-" + (lastPostion + 1);
   }
 
   @Override
