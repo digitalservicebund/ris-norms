@@ -15,15 +15,12 @@ const props = withDefaults(
     size?: "regular" | "medium" | "small"
     /** Label for the form field. */
     label?: string
-    /** On blur handler for the input */
-    blurHandler?: () => void
   }>(),
   {
     modelValue: "",
     placeholder: undefined,
     size: "regular",
     label: undefined,
-    blurHandler: undefined,
   },
 )
 
@@ -34,6 +31,10 @@ const emit = defineEmits<{
    * (e.g. partial dates while typing) are handled internally and not emitted.
    */
   "update:modelValue": [value: string | undefined]
+  /**
+   * Emitted when the input field loses focus.
+   */
+  blur: []
 }>()
 
 const localModelValue = computed({
@@ -67,7 +68,7 @@ const tabindex = computed(() => (props.readOnly ? -1 : 0))
       :readonly="readOnly"
       :tabindex="tabindex"
       type="text"
-      @blur="blurHandler"
+      @blur="$emit('blur')"
     />
   </div>
 </template>

@@ -8,6 +8,8 @@ import CheckIcon from "~icons/ic/check"
 import { ModType } from "@/types/ModType"
 
 const props = defineProps<{
+  /** Unique ID for the dro. */
+  id: string
   /** Either replacement, insertion or repeal */
   textualModType: ModType | ""
   /** the possible time boundaries in the format YYYY-MM-DD. */
@@ -20,10 +22,11 @@ const props = defineProps<{
   quotedTextFirst?: string
   /** This is the text that replaces quotedTextFirst */
   quotedTextSecond?: string
-  /** Pass the preview function handler */
-  handleGeneratePreview?: () => void
 }>()
 
+defineEmits<{
+  "generate-preview": []
+}>()
 const selectedTimeBoundaryModel = defineModel<string | undefined>(
   "selectedTimeBoundary",
 )
@@ -89,7 +92,7 @@ function modTypeLabel(modType: ModType | "") {
 </script>
 
 <template>
-  <form id="risModForm" class="grid grid-cols-1 gap-y-20" @submit.prevent>
+  <form :id="id" class="grid grid-cols-1 gap-y-20" role="form">
     <div class="grid grid-cols-2 gap-x-40">
       <RisTextInput
         id="textualModeType"
@@ -103,7 +106,7 @@ function modTypeLabel(modType: ModType | "") {
         v-model="selectedElement"
         label="Zeitgrenze"
         :items="timeBoundaries"
-        :blur-handler="handleGeneratePreview"
+        @change="$emit('generate-preview')"
       />
     </div>
 
@@ -120,7 +123,7 @@ function modTypeLabel(modType: ModType | "") {
       v-model="destinationHrefEid"
       label="zu ersetzende Textstelle"
       size="small"
-      :blur-handler="handleGeneratePreview"
+      @blur="$emit('generate-preview')"
     />
     <RisTextAreaInput
       v-if="textualModType === 'aenderungsbefehl-ersetzen'"
@@ -135,13 +138,13 @@ function modTypeLabel(modType: ModType | "") {
       v-model="quotedTextSecondModel"
       label="Neuer Text Inhalt"
       :rows="8"
-      :blur-handler="handleGeneratePreview"
+      @blur="$emit('generate-preview')"
     />
     <div class="flex gap-20">
       <RisTextButton
         label="Vorschau"
         variant="tertiary"
-        @click="handleGeneratePreview"
+        @click.prevent="$emit('generate-preview')"
       />
       <RisTextButton label="Speichern" :icon="CheckIcon" disabled />
     </div>

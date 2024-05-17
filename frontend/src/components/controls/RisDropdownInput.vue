@@ -17,8 +17,6 @@ const props = defineProps<{
   placeholder?: string
   /** Optional label for the field */
   label?: string
-  /** On blur handler for the select */
-  blurHandler?: () => void
 }>()
 
 const emit = defineEmits<{
@@ -28,6 +26,10 @@ const emit = defineEmits<{
    * (e.g. partial dates while typing) are handled internally and not emitted.
    */
   "update:modelValue": [string | undefined]
+  /**
+   * Emitted when the user selects an option.
+   */
+  change: []
 }>()
 
 const localModelValue = computed({
@@ -56,7 +58,7 @@ const hasPlaceholder = computed(() =>
       class="ds-select ds-select-small"
       :data-placeholder="hasPlaceholder ? true : undefined"
       tabindex="0"
-      @blur="blurHandler"
+      @change="$emit('change')"
     >
       <option v-if="placeholder && !localModelValue" disabled value="">
         {{ placeholder }}

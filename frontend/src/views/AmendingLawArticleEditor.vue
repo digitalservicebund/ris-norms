@@ -107,6 +107,12 @@ const {
   quotedTextSecond,
   timeBoundary,
 } = useMod(selectedMod, articleXml)
+
+watch(timeBoundary, (newTimeBoundary) => {
+  if (newTimeBoundary) {
+    handleGeneratePreview()
+  }
+})
 </script>
 
 <template>
@@ -187,7 +193,7 @@ const {
             v-model:selected-time-boundary="timeBoundary"
             :quoted-text-first="quotedTextFirst"
             :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
-            :handle-generate-preview="handleGeneratePreview"
+            @generate-preview="handleGeneratePreview"
           />
         </section>
         <section
