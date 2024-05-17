@@ -1,5 +1,5 @@
-import { getArticlesByEli } from "@/services/articlesService"
-import { Article } from "@/types/article"
+import { getElementsByEliAndType } from "@/services/elementsService"
+import { Element, ElementType } from "@/types/element"
 import {
   DeepReadonly,
   MaybeRefOrGetter,
@@ -18,9 +18,8 @@ import {
  * @param eli A reference to the ELI of the law for which the element data
  *  will be returned. Changing the value of the reference will load the data for the
  *  new ELI.
- * @param timeBoundaryEid A reference to the eId of the time boundary for which the
- *  changed elements should be loaded. Changing the value of the reference will load
- *  the data for the new eId.
+ * @param types A reference to the types of the elements that should be loaded.
+ *  Changing the value of the reference will load the data for the new types.
  * @param amendingLawEli A reference to the ELI of the amending law for which the
  *  changed elements should be loaded. Changing the value of the reference will load
  *  the data for the new eId.
@@ -29,21 +28,21 @@ import {
  */
 export function useAffectedElements(
   eli: MaybeRefOrGetter<string | undefined>,
-  timeBoundaryEid: MaybeRefOrGetter<string | undefined>,
-  amendingLawEli: MaybeRefOrGetter<string | undefined>,
-): DeepReadonly<Ref<Article[] | undefined>> {
-  const elements = ref<Article[]>([])
+  types: MaybeRefOrGetter<ElementType[]>,
+  options?: {
+    amendingLawEli?: MaybeRefOrGetter<string | undefined>
+  },
+): DeepReadonly<Ref<Element[] | undefined>> {
+  const elements = ref<Element[]>([])
 
   watchEffect(async () => {
     const eliVal = toValue(eli)
-    const timeBoundaryEidVal = toValue(timeBoundaryEid)
-    const amendingLawEliVal = toValue(amendingLawEli)
+    const typesVal = toValue(types)
+    const amendingLawEliVal = toValue(options?.amendingLawEli)
 
-    // We require the ELI and either the time boundary or the amending law
-    if (!eliVal || !(timeBoundaryEidVal || amendingLawEliVal)) return
+    if (!eliVal || typesVal.length === 0) return
 
-    elements.value = await getArticlesByEli(eliVal, {
-      amendedAt: timeBoundaryEidVal,
+    elements.value = await getElementsByEliAndType(eliVal, typesVal, {
       amendedBy: amendingLawEliVal,
     })
   })

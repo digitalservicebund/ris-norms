@@ -42,10 +42,10 @@ watch(
   { immediate: true },
 )
 
-const articles = useAffectedElements(
+const elements = useAffectedElements(
   affectedDocumentEli,
-  undefined,
-  amendingLawEli,
+  ["article", "conclusions", "preamble", "preface"],
+  { amendingLawEli },
 )
 
 /* -------------------------------------------------- *
@@ -122,23 +122,23 @@ async function handleSave() {
 
       <!-- Content links -->
       <RisCallout
-        v-if="!articles?.length"
+        v-if="!elements?.length"
         title="Keine Artikel gefunden."
         class="mx-16"
       />
 
       <router-link
-        v-for="article in articles"
-        :key="article.eid"
+        v-for="element in elements"
+        :key="element.eid"
         :to="{
           name: 'AmendingLawAffectedDocumentArticleEditor',
-          params: { eid: article.eid, timeBoundary: selectedTimeBoundary },
+          params: { eid: element.eid, timeBoundary: selectedTimeBoundary },
         }"
         active-class="font-bold underline bg-blue-200"
         class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
       >
         <span class="block overflow-hidden text-ellipsis whitespace-nowrap">
-          §{{ article.enumeration }} {{ article.title }}
+          {{ element.title }}
         </span>
       </router-link>
 
