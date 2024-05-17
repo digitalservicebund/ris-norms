@@ -15,6 +15,8 @@ const props = withDefaults(
     rows?: number
     /** Label for the form field. */
     label?: string
+    /** On blur handler for the textarea */
+    blurHandler?: () => void
   }>(),
   {
     modelValue: "",
@@ -22,6 +24,7 @@ const props = withDefaults(
     readOnly: false,
     rows: 2,
     label: undefined,
+    blurHandler: undefined,
   },
 )
 
@@ -58,6 +61,7 @@ const localValue = computed({
       :readonly="readOnly"
       :rows="rows"
       :tabindex="readOnly ? -1 : Number($attrs.tabindex) || undefined"
+      @blur="blurHandler"
     ></textarea>
   </div>
 </template>

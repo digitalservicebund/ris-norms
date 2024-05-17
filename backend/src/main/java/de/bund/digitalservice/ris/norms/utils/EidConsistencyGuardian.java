@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.utils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -62,18 +63,13 @@ public final class EidConsistencyGuardian {
     }
 
     // Otherwise, recursively search through the child nodes
-    NodeList childNodes = rootElement.getChildNodes();
-    for (int i = 0; i < childNodes.getLength(); i++) {
-      Node node = childNodes.item(i);
-      if (node.getNodeType() == Node.ELEMENT_NODE) {
-        Element childElement = (Element) node;
-        Element result = findStartNode(childElement, nodeName);
-        if (result != null) {
-          return result;
-        }
-      }
-    }
-    return null;
+    List<Node> childNodes = NodeParser.nodeListToList(rootElement.getChildNodes());
+    return childNodes.stream()
+        .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
+        .map(node -> findStartNode((Element) node, nodeName))
+        .filter(Objects::nonNull)
+        .findFirst()
+        .orElse(null);
   }
 
   private static void setRemovedReferencesToEmptyStringNew(
@@ -203,12 +199,9 @@ public final class EidConsistencyGuardian {
     }
 
     // Recursively traverse child elements
-    final NodeList childNodes = element.getChildNodes();
-    for (int i = 0; i < childNodes.getLength(); i++) {
-      Node node = childNodes.item(i);
-      if (node.getNodeType() == Node.ELEMENT_NODE) {
-        updateReferencesInAttributes((Element) node, oldId, newId);
-      }
-    }
+    final List<Node> childNodes = NodeParser.nodeListToList(element.getChildNodes());
+    childNodes.stream()
+        .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
+        .forEach(node -> updateReferencesInAttributes((Element) node, oldId, newId));
   }
 }

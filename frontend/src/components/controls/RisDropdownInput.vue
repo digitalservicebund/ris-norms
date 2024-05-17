@@ -17,6 +17,8 @@ const props = defineProps<{
   placeholder?: string
   /** Optional label for the field */
   label?: string
+  /** On blur handler for the select */
+  blurHandler?: () => void
 }>()
 
 const emit = defineEmits<{
@@ -54,6 +56,7 @@ const hasPlaceholder = computed(() =>
       class="ds-select ds-select-small"
       :data-placeholder="hasPlaceholder ? true : undefined"
       tabindex="0"
+      @blur="blurHandler"
     >
       <option v-if="placeholder && !localModelValue" disabled value="">
         {{ placeholder }}

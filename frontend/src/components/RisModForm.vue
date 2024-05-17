@@ -22,6 +22,8 @@ const props = defineProps<{
   quotedTextFirst?: string
   /** This is the text that replaces quotedTextFirst */
   quotedTextSecond?: string
+  /** Pass the preview function handler */
+  handleGeneratePreview?: () => void
 }>()
 
 const selectedTimeBoundaryModel = defineModel<string | undefined>(
@@ -89,7 +91,7 @@ function modTypeLabel(modType: ModType | "") {
 </script>
 
 <template>
-  <form :id="id" class="grid grid-cols-1 gap-y-20" role="form">
+  <form :id="id" class="grid grid-cols-1 gap-y-20" role="form" @submit.prevent>
     <div class="grid grid-cols-2 gap-x-40">
       <RisTextInput
         id="textualModeType"
@@ -103,6 +105,7 @@ function modTypeLabel(modType: ModType | "") {
         v-model="selectedElement"
         label="Zeitgrenze"
         :items="timeBoundaries"
+        :blur-handler="handleGeneratePreview"
       />
     </div>
 
@@ -119,6 +122,7 @@ function modTypeLabel(modType: ModType | "") {
       v-model="destinationHrefEid"
       label="zu ersetzende Textstelle"
       size="small"
+      :blur-handler="handleGeneratePreview"
     />
     <RisTextAreaInput
       v-if="textualModType === 'aenderungsbefehl-ersetzen'"
@@ -133,10 +137,15 @@ function modTypeLabel(modType: ModType | "") {
       v-model="quotedTextSecondModel"
       label="Neuer Text Inhalt"
       :rows="8"
+      :blur-handler="handleGeneratePreview"
     />
     <div class="flex gap-20">
-      <RisTextButton label="Vorschau" variant="tertiary" />
-      <RisTextButton label="Speichern" :icon="CheckIcon" />
+      <RisTextButton
+        label="Vorschau"
+        variant="tertiary"
+        @click="handleGeneratePreview"
+      />
+      <RisTextButton label="Speichern" :icon="CheckIcon" disabled />
     </div>
   </form>
 </template>

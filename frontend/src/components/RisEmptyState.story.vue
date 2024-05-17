@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/RisEmptyState.vue"
+import UploadFileOutlineRounded from "~icons/ic/baseline-upload-file"
+
 const textContent =
   "Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten Änderungsbefehls zu sehen"
 </script>
@@ -9,20 +11,20 @@ const textContent =
     <Variant title="Simple">
       <RisEmptyState id="risEmptyState" :text-content="textContent" />
     </Variant>
-    <Variant title="Extended">
-      <RisEmptyState
-        id="risEmptyState"
-        variant="extended"
-        text-content="Keine Verkündungen vorhanden"
-      />
-    </Variant>
     <Variant title="Extended with recommended action">
       <RisEmptyState
         id="risEmptyState"
         variant="extended"
         text-content="Keine Verkündungen vorhanden"
         recommended-action="Neue Verkündungen hinzufügen"
-      />
+        :icon="UploadFileOutlineRounded"
+      >
+        <template #recommended-action>
+          <p class="ds-link-01-bold items-center text-blue-800" :to="'/upload'">
+            <span>Neue Verkündungen hinzufügen</span>
+          </p>
+        </template>
+      </RisEmptyState>
     </Variant>
   </Story>
 </template>

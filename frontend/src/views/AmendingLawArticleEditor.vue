@@ -7,6 +7,7 @@ import { useArticle } from "@/composables/useArticle"
 import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
+// import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch, onMounted } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
@@ -17,6 +18,7 @@ import { useTemporalData } from "@/composables/useTemporalData"
 import { useMod } from "@/composables/useMod"
 import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
 import RisEmptyState from "@/components/RisEmptyState.vue"
+import { previewNorm, previewNormAsHtml } from "@/services/normService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -28,6 +30,8 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
 )
 const article = useArticle(identifier)
 const { xml: articleXml } = useArticleXml(identifier)
+const targetLawEli = computed(() => article.value?.affectedDocumentEli)
+// const { xml: targetLawXml } = useTargetLawXml(targetLawEli)
 const currentArticleXml = ref("")
 const renderedHtml = ref("")
 const previewXml = ref<string>("")
@@ -80,6 +84,21 @@ function handlePreviewClick() {
   selectedMod.value = ""
 }
 
+async function handleGeneratePreview() {
+  if (!targetLawEli.value) return
+  try {
+    const [xmlContent, htmlContent] = await Promise.all([
+      previewNorm(targetLawEli.value, currentArticleXml.value),
+      previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
+    ])
+    previewXml.value = xmlContent
+    previewHtml.value = htmlContent
+  } catch (error) {
+    alert("Vorschau konnte nicht erstellt werden")
+    console.error(error)
+  }
+}
+
 const { timeBoundaries } = useTemporalData(eli)
 const {
   textualModType,
@@ -102,7 +121,7 @@ const {
       <span>Zurück</span>
     </router-link>
 
-    <div class="flex h-[calc(100dvh-5rem)] flex-col p-40">
+    <div class="flex h-[calc(100vh-5rem)] flex-col px-40 pt-40">
       <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
@@ -111,7 +130,7 @@ const {
       </div>
       <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
         <section
-          class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden"
+          class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
           aria-labelledby="changeCommandsEditor"
         >
           <h3
@@ -150,7 +169,7 @@ const {
         </section>
         <section
           v-if="selectedMod"
-          class="col-span-1 mt-32 flex h-fit flex-col gap-8"
+          class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
           aria-labelledby="originalArticleTitle"
         >
           <h3
@@ -168,11 +187,12 @@ const {
             v-model:selected-time-boundary="timeBoundary"
             :quoted-text-first="quotedTextFirst"
             :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
+            :handle-generate-preview="handleGeneratePreview"
           />
         </section>
         <section
           v-if="selectedMod && timeBoundary"
-          class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden"
+          class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
           aria-labelledby="changedArticlePreivew"
         >
           <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
@@ -200,6 +220,7 @@ const {
         <div v-if="selectedMod && !timeBoundary" class="gap flex-grow gap-32">
           <RisEmptyState
             text-content="Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten Änderungsbefehls zu sehen."
+            class="mt-[85px] h-fit"
           />
         </div>
         <div
@@ -208,6 +229,7 @@ const {
         >
           <RisEmptyState
             text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
+            class="mt-[85px] h-fit"
           />
         </div>
       </div>

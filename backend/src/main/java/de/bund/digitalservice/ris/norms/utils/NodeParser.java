@@ -54,19 +54,7 @@ public final class NodeParser {
       final XPath xPath = XPathFactory.newInstance().newXPath();
       final NodeList nodeList =
           (NodeList) xPath.evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
-
-      if (nodeList.getLength() == 0) {
-        return List.of();
-      }
-
-      List<Node> nodes = new ArrayList<>();
-
-      for (int i = 0; i < nodeList.getLength(); i++) {
-        Node node = nodeList.item(i);
-        nodes.add(node);
-      }
-
-      return nodes;
+      return nodeListToList(nodeList);
     } catch (XPathExpressionException | NoSuchElementException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
@@ -89,5 +77,26 @@ public final class NodeParser {
     } catch (XPathExpressionException | NullPointerException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
+  }
+
+  /**
+   * Converts a {@link NodeList} into a {@link List} of {@link Node}s.
+   *
+   * @param nodeList the {@link NodeList} to convert
+   * @return The {@link Node}s of the {@link NodeList} as a {@link List}
+   */
+  public static List<Node> nodeListToList(NodeList nodeList) {
+    if (nodeList.getLength() == 0) {
+      return List.of();
+    }
+
+    List<Node> nodes = new ArrayList<>();
+
+    for (int i = 0; i < nodeList.getLength(); i++) {
+      Node node = nodeList.item(i);
+      nodes.add(node);
+    }
+
+    return nodes;
   }
 }

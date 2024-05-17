@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class EliBuilderTest {
+class EliBuilderTest {
   @Test
   void itShouldReturnEli() {
     // given
@@ -22,6 +22,6 @@ public class EliBuilderTest {
 
     // then
     Assertions.assertEquals(
-        eli, "eli/bund/agent/year/naturalIdentifier/pointInTime/version/language/subtype");
+        "eli/bund/agent/year/naturalIdentifier/pointInTime/version/language/subtype", eli);
   }
 }
