@@ -1,23 +1,13 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
-
-/** Represents a part of a LDML.de eId. */
-@SuperBuilder(toBuilder = true)
-@AllArgsConstructor
-@EqualsAndHashCode
-public class EIdPart {
-  private final String value;
-
-  @Override
-  public String toString() {
-    return value;
-  }
-
+/**
+ * Represents a part of a LDML.de eId.
+ *
+ * @param value the part of the eId as {@link String}
+ */
+public record EIdPart(String value) {
   public EIdPart(String type, String position) {
-    this.value = type + "-" + position;
+    this(type + "-" + position);
   }
 
   public String getType() {
@@ -26,5 +16,10 @@ public class EIdPart {
 
   public String getPosition() {
     return value.split("-")[1];
+  }
+
+  @Override
+  public String toString() {
+    return value;
   }
 }

@@ -437,7 +437,7 @@ public class Norm {
     return NodeParser.getValueFromExpression("@eId", parentNode)
         .map(EId::new)
         .map(parendEId -> parendEId.addPart(newEidPart))
-        .map(EId::getValue)
+        .map(EId::value)
         .orElseThrow();
   }
 
