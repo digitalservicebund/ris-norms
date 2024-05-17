@@ -348,6 +348,35 @@ paths:
               schema:
                 type: string
 
+  /norms/{eli}/{eid}:
+    get:
+      summary: Get an element of a norm by its EID (currently only in HTML preview format)
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+            example: eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1
+        - name: eid
+          in: path
+          required: true
+          description: EID of the element in the norm
+          schema:
+            type: string
+            example: hauptteil-1_art-3
+      responses:
+        '200':
+          description: An HTML rendering of the element
+          content:
+            application/html:
+              schema:
+                type: string
+        '404':
+          description: Norm or element not found
+
+
   /renderings:
     post:
       summary: Create and return an HTML rendering of the provided LDML.de XML
