@@ -353,7 +353,10 @@ public class NormController {
     if (norm.isEmpty()) return ResponseEntity.notFound().build();
 
     var elementXpath = String.format("//*[@eId='%s']", eid);
+
     var element = NodeParser.getNodeFromExpression(elementXpath, norm.get().getDocument());
+    if (element == null) return ResponseEntity.notFound().build();
+
     var html =
         transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
             new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false));
