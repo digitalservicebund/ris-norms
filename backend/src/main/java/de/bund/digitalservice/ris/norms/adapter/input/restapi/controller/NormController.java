@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormRespons
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.utils.EliBuilder;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -331,7 +332,14 @@ public class NormController {
             agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
-    if (norm.isPresent()) return ResponseEntity.ok().build();
-    return ResponseEntity.notFound().build();
+    if (norm.isEmpty()) return ResponseEntity.notFound().build();
+
+    var elementXpath = String.format("//*[@eId='%s']", eid);
+    var element = NodeParser.getNodeFromExpression(elementXpath, norm.get().getDocument());
+    var html =
+        transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false));
+
+    return ResponseEntity.ok(html);
   }
 }
