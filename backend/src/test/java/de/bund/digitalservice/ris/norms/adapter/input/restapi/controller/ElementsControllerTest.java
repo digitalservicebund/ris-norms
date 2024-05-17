@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import java.util.Optional;
@@ -27,10 +28,12 @@ class ElementsControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadNormUseCase loadNormUseCase;
+  @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
   @Test
   void itReturnsPrefacePreambleArticleAndConclusionDataInElementsResponseEntrySchema()
       throws Exception {
+
     // given
     var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
     when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
