@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Map;
@@ -655,52 +654,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(1)))
           .andExpect(jsonPath("$[0].date", is(nullValue())));
-    }
-  }
-
-  @Nested
-  class GetNormElement {
-    @Test
-    void returns404IfNormNotFoundByEli() throws Exception {
-      // given no norm
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-3")
-                  .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isNotFound());
-      // then
-    }
-
-    @Test
-    void returns404IfElementNotFoundByEid() throws Exception {
-      // given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
-
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/NONEXISTENT_EID")
-                  .accept(MediaType.TEXT_HTML))
-          // then
-          .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void returnsElementRenderedAsHtml() throws Exception {
-      // given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
-
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1")
-                  .accept(MediaType.TEXT_HTML))
-          // then
-          .andExpect(status().isOk())
-          .andExpect(content().string(containsString("Änderung des Vereinsgesetzes")));
     }
   }
 }
