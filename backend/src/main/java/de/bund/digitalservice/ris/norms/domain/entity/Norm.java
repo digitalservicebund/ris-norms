@@ -261,10 +261,10 @@ public class Norm {
    * The temporalData node will get a new temporalGroup node as child, which will have a new
    * timeInterval node as child.
    *
-   * @param timeBoundaryToAdd a {@link TimeBoundaryChangeData} containing a date and eid (null in
-   *     this case).
+   * @param date the {@link LocalDate} for the new time boundary.
+   * @return the newly created {@link TemporalGroup}
    */
-  public void addTimeBoundary(TimeBoundaryChangeData timeBoundaryToAdd) {
+  public TemporalGroup addTimeBoundary(LocalDate date) {
 
     Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
 
@@ -277,7 +277,7 @@ public class Norm {
     Element eventRef = document.createElement("akn:eventRef");
     eventRef.setAttribute("eId", nextPossibleEventRefEid);
     eventRef.setAttribute("GUID", UUID.randomUUID().toString());
-    eventRef.setAttribute("date", timeBoundaryToAdd.date().toString());
+    eventRef.setAttribute("date", date.toString());
     eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
     eventRef.setAttribute("type", "generation");
     eventRef.setAttribute("refersTo", "inkrafttreten");
@@ -305,6 +305,8 @@ public class Norm {
 
     // Append new temporalGroup node to temporalData node
     temporalData.appendChild(temporalGroup);
+
+    return new TemporalGroup(temporalGroup);
   }
 
   /**
@@ -406,7 +408,6 @@ public class Norm {
 
     var force = createElementWithEidAndGuid("akn:force", "gelzeitnachw", textualMod);
     force.setAttribute("period", period);
-    // TODO: (Malte Laukötter, 2024-05-16) we could verify that the period exists
     textualMod.appendChild(force);
 
     return new PassiveModification(textualMod);

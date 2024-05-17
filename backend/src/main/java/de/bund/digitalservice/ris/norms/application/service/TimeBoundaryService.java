@@ -130,7 +130,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
   private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
     timeBoundaryChangeData.stream()
         .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
-        .toList()
+        .map(TimeBoundaryChangeData::date)
         .forEach(norm::addTimeBoundary);
   }
 
