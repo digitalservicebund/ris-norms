@@ -700,7 +700,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.TEXT_HTML))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("paragraph").value("Änderung des Vereinsgesetzes"));
+          .andExpect(content().string(containsString("Änderung des Vereinsgesetzes")));
     }
   }
 }
