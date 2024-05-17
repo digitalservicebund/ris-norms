@@ -50,7 +50,18 @@ Playbook:
 - Let Playwright know where to connect to by using the .env file: `cp .env.local.example .env.local`
 - Run the E2E Test
 
-Prepare your system:
+## Icons
+
+All icons in the [Google Material](https://icon-sets.iconify.design/ic) sets can be used.
+
+To make the icon available in your code:
+
+- Find and select the icon
+- Copy the name (e.g. ic/baseline-upload-file)
+- Use the copied icon name in your import statement using the `~icons/ic` prefix followed by the name. Example:
+  `import UploadFileOutlineRounded from "~icons/ic/baseline-upload-file"`
+
+## Prepare your system:
 
 ```bash
 npx --yes playwright install --with-deps chrome firefox webkit
