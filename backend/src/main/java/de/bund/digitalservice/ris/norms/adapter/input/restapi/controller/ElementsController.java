@@ -54,7 +54,8 @@ public class ElementsController {
       Map.ofEntries(
           Map.entry(ElementType.PREFACE, "//act/preface"),
           Map.entry(ElementType.PREAMBLE, "//act/preamble"),
-          Map.entry(ElementType.ARTICLE, "//body/article"),
+          // TODO: Hannes - Test new XPath of article
+          Map.entry(ElementType.ARTICLE, "//body//article"),
           Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
 
   private final LoadNormUseCase loadNormUseCase;
