@@ -23,7 +23,7 @@ describe("RisModForm", () => {
     })
 
     // Form
-    const formElement = screen.getByRole("form")
+    const formElement = document.querySelector(`#risModForm`)
     expect(formElement).toBeInTheDocument()
 
     // Textual Mode Type
