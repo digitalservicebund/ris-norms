@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementsResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -12,12 +13,25 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Node;
+
+/**
+ * Custom enum converter for converting the string values of the element types enum to lowercase.
+ * This allows us to use a nicer lowercase spelling in the API requests while adhering to the naming
+ * convention of UPPERCASE enums in Java code.
+ */
+@Component
+class LowercaseEnumConverter implements Converter<String, ElementsController.ElementType> {
+  @Override
+  public ElementsController.ElementType convert(String value) {
+    return ElementsController.ElementType.valueOf(value.toUpperCase());
+  }
+}
 
 /** Controller for retrieving a norm's elements. */
 @RestController
@@ -25,7 +39,7 @@ import org.springframework.web.bind.annotation.*;
     "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/elements")
 public class ElementsController {
 
-  /** The types of elements that can be retrieved */
+  /** The types of elements that can be retrieved. */
   public enum ElementType {
     ARTICLE,
     CONCLUSIONS,
@@ -39,12 +53,6 @@ public class ElementsController {
           Map.entry(ElementType.PREAMBLE, "//act/preamble"),
           Map.entry(ElementType.ARTICLE, "//body/article"),
           Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
-
-  private final Map<String, String> staticTitlesForSomeTypeNodes =
-      Map.ofEntries(
-          Map.entry(ElementType.PREFACE.name(), "Dokumentenkopf"),
-          Map.entry(ElementType.PREAMBLE.name(), "Eingangsformel"),
-          Map.entry(ElementType.CONCLUSIONS.name(), "Schlussteil"));
 
   private final LoadNormUseCase loadNormUseCase;
 
@@ -95,10 +103,12 @@ public class ElementsController {
 
     // get elements and return
     return ResponseEntity.ok(
-        getElementsResponseEntrySchemas(type, amendedBy, targetNorm.get(), eli));
+        getElements(type, amendedBy, targetNorm.get(), eli).stream()
+            .map(ElementsResponseMapper::fromElementNode)
+            .toList());
   }
 
-  private @NotNull List<ElementsResponseEntrySchema> getElementsResponseEntrySchemas(
+  private @NotNull List<Node> getElements(
       ElementType[] type, Optional<String> amendedBy, Norm targetNorm, String eli) {
     // Calculate the XPath based on the types via a Map defined above
     var combinedXPaths =
@@ -107,11 +117,12 @@ public class ElementsController {
     // Source EIDs from passive mods
     var passiveModsSourceEids =
         targetNorm.getPassiveModifications().stream()
-            .filter(passiveMod -> {
-                if (amendedBy.isEmpty()) return true;
+            .filter(
+                passiveMod -> {
+                  if (amendedBy.isEmpty()) return true;
 
-                return passiveMod.getSourceEli().orElseThrow().equals(amendedBy.get());
-            })
+                  return passiveMod.getSourceEli().orElseThrow().equals(amendedBy.get());
+                })
             .map(PassiveModification::getDestinationEid)
             .flatMap(Optional::stream)
             .toList();
@@ -120,48 +131,16 @@ public class ElementsController {
     return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
         .flatMap( // fetch nodes by type
             norm -> NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
-        .flatMap( // map to response schema
-            node -> {
-              var nodeTypeName = node.getNodeName().replace("akn:", "");
-              var eid = NodeParser.getValueFromExpression("./@eId", node);
-
-              String title;
-              if (staticTitlesForSomeTypeNodes.containsKey(nodeTypeName.toUpperCase()))
-                title = staticTitlesForSomeTypeNodes.get(nodeTypeName.toUpperCase());
-              else { // we have an article
-                        // TODO Hannes: The orElse is not tested
-                var num = NodeParser.getValueFromExpression("./num", node).orElse("").strip();
-                var heading =
-                        // TODO Hannes: The orElse is not tested
-                    NodeParser.getValueFromExpression("./heading", node).orElse("").strip();
-                title = num + " " + heading;
-              }
-
-              // TODO Hannes: move the mapping to the controller
-              return Stream.of(
-                  (ElementsResponseEntrySchema)
-                      ElementsResponseEntrySchema.builder()
-                          .title(title)
-                          .eid(eid.orElseThrow())
-                          .type(nodeTypeName)
-                          .build());
-            })
         .filter( // filter by "amendedBy")
             element -> {
               // no amending law -> all elements are fine
               if (amendedBy.isEmpty()) return true;
 
-              return passiveModsSourceEids.stream().anyMatch(modEid -> modEid.contains(element.getEid()));
+              // TODO: Really throw?
+              var eId = NodeParser.getValueFromExpression("./@eId", element).orElseThrow();
+
+              return passiveModsSourceEids.stream().anyMatch(modEid -> modEid.contains(eId));
             })
         .toList();
-  }
-}
-
-@Component
-class MyEnumConverter implements Converter<String, ElementsController.ElementType> {
-
-  @Override
-  public ElementsController.ElementType convert(String value) {
-    return ElementsController.ElementType.valueOf(value.toUpperCase());
   }
 }

@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,27 +150,30 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
-      var targetNorm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+      var targetNorm =
+          NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
       normRepository.save(NormMapper.mapToDto(targetNorm));
 
       var url =
-              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements"
-                      + "?type=preface"
-                      + "&type=preamble"
-                      + "&type=article"
-                      + "&type=conclusions"
-                      + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second mod source eli
+          "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements"
+              + "?type=preface"
+              + "&type=preamble"
+              + "&type=article"
+              + "&type=conclusions"
+              + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
+      // mod
+      // source
+      // eli
 
       // when
       mockMvc
-              .perform(get(url))
-              // then
-              .andExpect(status().isOk())
-              .andExpect(jsonPath("$[0].eid").exists())
-              .andExpect(jsonPath("$[0].title").exists())
-              .andExpect(jsonPath("$[0].type").exists())
-              .andExpect(jsonPath("$[1]").doesNotExist());
-
+          .perform(get(url))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0].eid").exists())
+          .andExpect(jsonPath("$[0].title").exists())
+          .andExpect(jsonPath("$[0].type").exists())
+          .andExpect(jsonPath("$[1]").doesNotExist());
     }
   }
 }
