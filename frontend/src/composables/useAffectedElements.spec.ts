@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
-describe("useAffectedArticles", () => {
+describe("useAffectedElements", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -19,9 +19,9 @@ describe("useAffectedArticles", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useAffectedArticles } = await import("./useAffectedArticles")
+    const { useAffectedElements } = await import("./useAffectedElements")
 
-    const articles = useAffectedArticles(
+    const articles = useAffectedElements(
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
       ref("unknown-eid-1"),
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
@@ -40,7 +40,7 @@ describe("useAffectedArticles", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useAffectedArticles } = await import("./useAffectedArticles")
+    const { useAffectedElements } = await import("./useAffectedElements")
 
     const eli = ref(
       "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1",
@@ -49,7 +49,7 @@ describe("useAffectedArticles", () => {
     const amendingLawEli = ref(
       "eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1",
     )
-    useAffectedArticles(eli, timeBoundaryEid, amendingLawEli)
+    useAffectedElements(eli, timeBoundaryEid, amendingLawEli)
 
     eli.value = "eli/bund/bgbl-1/1964/s593/2020-03-15/1/deu/regelungstext-1"
     await nextTick()
@@ -73,9 +73,9 @@ describe("useAffectedArticles", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useAffectedArticles } = await import("./useAffectedArticles")
+    const { useAffectedElements } = await import("./useAffectedElements")
 
-    useAffectedArticles(
+    useAffectedElements(
       ref(""),
       ref("unknown-eid-2"),
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
@@ -90,9 +90,9 @@ describe("useAffectedArticles", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useAffectedArticles } = await import("./useAffectedArticles")
+    const { useAffectedElements } = await import("./useAffectedElements")
 
-    useAffectedArticles(
+    useAffectedElements(
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
       ref(""),
       ref(""),
@@ -107,9 +107,9 @@ describe("useAffectedArticles", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useAffectedArticles } = await import("./useAffectedArticles")
+    const { useAffectedElements } = await import("./useAffectedElements")
 
-    useAffectedArticles(
+    useAffectedElements(
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
       ref(undefined),
       ref("foo"),
@@ -127,9 +127,9 @@ describe("useAffectedArticles", () => {
       getArticlesByEli: getArticlesByEli,
     }))
 
-    const { useAffectedArticles } = await import("./useAffectedArticles")
+    const { useAffectedElements } = await import("./useAffectedElements")
 
-    useAffectedArticles(
+    useAffectedElements(
       ref("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"),
       ref("foo"),
       ref(undefined),
