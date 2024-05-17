@@ -699,9 +699,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1")
                   .accept(MediaType.TEXT_HTML))
           // then
-          .andExpect(status().isOk());
-      // TODO: expect html
-      // TODO: expect "Änderung des Vereinsgesetzes" in text
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("paragraph").value("Änderung des Vereinsgesetzes"));
     }
   }
 }
