@@ -312,4 +312,12 @@ public class NormController {
             })
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
+
+  @GetMapping(
+          path = "/{eid}")
+  public ResponseEntity<String> getElementHtmlPreview(
+          @PathVariable final String eid
+          ){
+    return ResponseEntity.notFound().build();
+  }
 }
