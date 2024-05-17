@@ -11,7 +11,7 @@ const textContent =
     <Variant title="Simple">
       <RisEmptyState id="risEmptyState" :text-content="textContent" />
     </Variant>
-    <Variant title="Extended with recommended action">
+    <Variant title="Extended variant with recommended action">
       <RisEmptyState
         id="risEmptyState"
         variant="extended"
@@ -24,6 +24,15 @@ const textContent =
             <span>Neue Verkündungen hinzufügen</span>
           </p>
         </template>
+      </RisEmptyState>
+    </Variant>
+    <Variant title="Extended variant with no recommended action and no icon">
+      <RisEmptyState
+        id="risEmptyState"
+        variant="extended"
+        text-content="Keine Verkündungen vorhanden"
+        recommended-action="Neue Verkündungen hinzufügen"
+      >
       </RisEmptyState>
     </Variant>
   </Story>
