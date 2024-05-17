@@ -349,18 +349,18 @@ public class NormController {
         EliBuilder.buildEli(
             agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
-    if (norm.isEmpty()) return ResponseEntity.notFound().build();
-
-    var elementXpath = String.format("//*[@eId='%s']", eid);
-
-    var element = NodeParser.getNodeFromExpression(elementXpath, norm.get().getDocument());
-    if (element == null) return ResponseEntity.notFound().build();
-
-    var html =
-        transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false));
-
-    return ResponseEntity.ok(html);
+    return loadNormUseCase
+        .loadNorm(new LoadNormUseCase.Query(eli))
+        .map(
+            norm -> {
+              var elementXpath = String.format("//*[@eId='%s']", eid);
+              return NodeParser.getNodeFromExpression(elementXpath, norm.getDocument());
+            })
+        .map(
+            element ->
+                transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                    new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false)))
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 }
