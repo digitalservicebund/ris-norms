@@ -656,4 +656,19 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("$[0].date", is(nullValue())));
     }
   }
+
+  @Nested
+  class GetNormElement {
+    @Test
+    void returns404IfNormNotFoundByEli() throws Exception {
+      // given no norm
+      // when
+      mockMvc
+              .perform(
+                      get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-3")
+                              .accept(MediaType.TEXT_HTML))
+              .andExpect(status().isNotFound());
+      // then
+    }
+  }
 }
