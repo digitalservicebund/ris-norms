@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 class ElementsControllerIntegrationTest extends BaseIntegrationTest {
@@ -21,6 +23,53 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
   @AfterEach
   void cleanUp() {
     normRepository.deleteAll();
+  }
+
+  // TODO Hannes: Adjust OpenAPI documentation
+  @Nested
+  class GetElement {
+    @Test
+    void returns404IfNormNotFoundByEli() throws Exception {
+      // given no norm
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3")
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isNotFound());
+      // then
+    }
+
+    @Test
+    void returns404IfElementNotFoundByEid() throws Exception {
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID")
+                  .accept(MediaType.TEXT_HTML))
+          // then
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void returnsElementRenderedAsHtml() throws Exception {
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1")
+                  .accept(MediaType.TEXT_HTML))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(content().string(containsString("Änderung des Vereinsgesetzes")));
+    }
   }
 
   @Nested

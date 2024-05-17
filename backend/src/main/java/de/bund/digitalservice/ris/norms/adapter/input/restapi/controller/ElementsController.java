@@ -6,9 +6,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementsResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
+import de.bund.digitalservice.ris.norms.utils.EliBuilder;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -55,9 +58,60 @@ public class ElementsController {
           Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
 
   private final LoadNormUseCase loadNormUseCase;
+  private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
-  public ElementsController(LoadNormUseCase loadNormUseCase) {
+  public ElementsController(
+      LoadNormUseCase loadNormUseCase,
+      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
     this.loadNormUseCase = loadNormUseCase;
+    this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
+  }
+
+  /**
+   * Retrieves a norm's element's HTML preview
+   *
+   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
+   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
+   *
+   * @param agent DE: "Verkündungsblatt"
+   * @param year DE "Verkündungsjahr"
+   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
+   * @param pointInTime DE: "Versionsdatum"
+   * @param version DE: "Versionsnummer"
+   * @param language DE: "Sprache"
+   * @param subtype DE: "Dokumentenart"
+   * @param eid EID of the element to return
+   * @return A {@link ResponseEntity} containing the HTML.
+   *     <p>Returns HTTP 400 (Bad Request) if ELI or EID can not be found
+   */
+  @GetMapping(path = "/{eid}")
+  public ResponseEntity<String> getElementHtmlPreview(
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype,
+      @PathVariable final String eid) {
+
+    var eli =
+        EliBuilder.buildEli(
+            agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    return loadNormUseCase
+        .loadNorm(new LoadNormUseCase.Query(eli))
+        .map(
+            norm -> {
+              var elementXpath = String.format("//*[@eId='%s']", eid);
+              return NodeParser.getNodeFromExpression(elementXpath, norm.getDocument());
+            })
+        .map(
+            element ->
+                transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                    new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false)))
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 
   /**
