@@ -6,6 +6,7 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.utils.EliBuilder;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -313,11 +314,24 @@ public class NormController {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
-  @GetMapping(
-          path = "/{eid}")
+  // TODO Hannes: is this the right controller? If not, the route should be different
+  @GetMapping(path = "/{eid}")
   public ResponseEntity<String> getElementHtmlPreview(
-          @PathVariable final String eid
-          ){
+      @PathVariable final String agent,
+      @PathVariable final String year,
+      @PathVariable final String naturalIdentifier,
+      @PathVariable final String pointInTime,
+      @PathVariable final String version,
+      @PathVariable final String language,
+      @PathVariable final String subtype,
+      @PathVariable final String eid) {
+
+    var eli =
+        EliBuilder.buildEli(
+            agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
+    if (norm.isPresent()) return ResponseEntity.ok().build();
     return ResponseEntity.notFound().build();
   }
 }
