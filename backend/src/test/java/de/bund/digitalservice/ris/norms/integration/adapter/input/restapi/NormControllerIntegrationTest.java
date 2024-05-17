@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Map;
@@ -666,6 +667,21 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
               .perform(
                       get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-3")
+                              .accept(MediaType.TEXT_HTML))
+              .andExpect(status().isNotFound());
+      // then
+    }
+
+    @Test
+    void returns404IfElementNotFoundByEid() throws Exception {
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+              .perform(
+                      get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/NONEXISTENT_EID")
                               .accept(MediaType.TEXT_HTML))
               .andExpect(status().isNotFound());
       // then
