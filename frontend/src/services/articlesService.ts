@@ -3,14 +3,21 @@ import { Article } from "@/types/article"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 
 /**
- * Load the list of articles within a specific law.
+ * Load the list of articles within a specific law. By default, this returns
+ * the list of all articles. You can use the options to narrow this list based
+ * on pending changes in the law, e.g. to only return articles that are going
+ * to be changed by a specific amending law, or only return articles changed
+ * at a specific time boundary.
  *
  * @param eli ELI of the law we want to get the articles from
+ * @param options Optional additional filters and queries
  */
 export async function getArticlesByEli(
   eli: string,
   options?: {
+    /** The eId of the time boundary at which the article was changed. */
     amendedAt?: string
+    /** The ELI of the amending law changing the article. */
     amendedBy?: string
   },
 ): Promise<Article[]> {
