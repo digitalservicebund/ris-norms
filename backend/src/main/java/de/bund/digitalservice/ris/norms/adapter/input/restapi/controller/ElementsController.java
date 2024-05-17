@@ -190,9 +190,7 @@ public class ElementsController {
               // no amending law -> all elements are fine
               if (amendedBy.isEmpty()) return true;
 
-              // TODO: Really throw?
               var eId = NodeParser.getValueFromExpression("./@eId", element).orElseThrow();
-
               return passiveModsSourceEids.stream().anyMatch(modEid -> modEid.contains(eId));
             })
         .toList();
