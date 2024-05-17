@@ -112,26 +112,34 @@ paths:
 
   /norms/{eli}/elements:
     get:
-      summary: Get a list of elements of specific types for a specific norm by eli
+      summary: Get a norm's elements, filtered by the elements' types
       parameters:
         - name: eli
           in: path
           required: true
           description: ELI of the norm
+          example: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
           schema:
             type: string
         - name: type
           in: query
           required: true
-          description: Type(s) of elements to list.
+          description: Type(s) of elements to include in the result.
           schema:
             type: array
             items:
               type: string
               enum: [preface, preamble, article, conclusions]
+        - name: amendedBy
+          in: query
+          required: false
+          description: ELI of an amending law. The result is restricted to elements that are affected by that law. <br>Note that the validity of that ELI is not checked by this endpoint.
+          schema:
+            type: string
+          example: "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
       responses:
         '200':
-          description: Successful response
+          description: Successful response returning list of elements. If none matched, the list is empty.
           content:
             application/json:
               schema:
@@ -147,7 +155,8 @@ paths:
                       type: string
                       enum: [preface, preamble, article, conclusions]
         '404':
-          description: Norm not found by eli
+          description: Norm could not be found by its ELI.
+
 
   /norms/{eli}/articles:
     get:
