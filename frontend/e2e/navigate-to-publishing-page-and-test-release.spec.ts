@@ -2,7 +2,11 @@ import { test, expect, Page } from "@playwright/test"
 import { readFileSync } from "fs"
 import resetDatabase from "@e2e/database/resetDatabase"
 
-test.beforeEach(async () => {
+test.beforeAll(async () => {
+  await resetDatabase()
+})
+
+test.afterAll(async () => {
   await resetDatabase()
 })
 
