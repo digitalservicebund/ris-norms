@@ -95,6 +95,16 @@ describe("Dropdown Input", () => {
     expect(emitted("update:modelValue")).toEqual([["t2"]])
   })
 
+  test("emits change event when selection changes", async () => {
+    const { emitted } = renderComponent({ modelValue: "t1" })
+
+    const input = screen.getByRole("combobox")
+    expect(input).toHaveValue("t1")
+
+    await userEvent.selectOptions(input, "t2")
+    expect(emitted("change")).toBeTruthy()
+  })
+
   test("renders a label when provided and associates it with the dropdown", () => {
     const labelText = "Test Label"
     renderComponent({ label: labelText })
