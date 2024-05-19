@@ -151,9 +151,10 @@ describe("RisModForm", () => {
     )
   })
 
-  it("emits an update when the dropdown value is changed", async () => {
+  it("emits both an update & generate preview events when the dropdown value is changed", async () => {
     const user = userEvent.setup()
     const onUpdateSelectedTimeBoundary = vi.fn()
+    const onGeneratePreview = vi.fn()
 
     const props = {
       id: "risModForm",
@@ -162,6 +163,7 @@ describe("RisModForm", () => {
       selectedTimeBoundary: timeBoundaries[1],
       destinationHref,
       "onUpdate:selectedTimeBoundary": onUpdateSelectedTimeBoundary,
+      "onGenerate-preview": onGeneratePreview,
     }
 
     render(RisModForm, {
@@ -178,6 +180,7 @@ describe("RisModForm", () => {
     expect(props.selectedTimeBoundary).toStrictEqual(timeBoundaries[1])
 
     expect(onUpdateSelectedTimeBoundary).toHaveBeenCalledWith(timeBoundaries[2])
+    expect(onGeneratePreview).toHaveBeenCalled()
   })
 
   it("emits an update when the destinationHrefEid input is changed", async () => {
@@ -210,9 +213,35 @@ describe("RisModForm", () => {
     )
   })
 
+  it("emits a generate preview event when the destinationHrefEid input is changed and then loses focus", async () => {
+    const user = userEvent.setup()
+    const onGeneratePreview = vi.fn()
+
+    const props = {
+      id: "risModForm",
+      textualModType,
+      timeBoundaries,
+      destinationHref,
+      "onGenerate-preview": onGeneratePreview,
+    }
+
+    render(RisModForm, {
+      props,
+    })
+
+    const destinationHrefEidInput = screen.getByRole("textbox", {
+      name: "zu ersetzende Textstelle",
+    })
+
+    await user.type(destinationHrefEidInput, "new-value")
+    await user.tab()
+    expect(onGeneratePreview).toHaveBeenCalled()
+  })
+
   it("emits an update when the quotedTextSecond input is changed", async () => {
     const user = userEvent.setup()
     const onUpdateQuotedTextSecond = vi.fn()
+    const onGeneratePreview = vi.fn()
 
     const props = {
       id: "risModForm",
@@ -221,6 +250,7 @@ describe("RisModForm", () => {
       destinationHref,
       quotedTextSecond,
       "onUpdate:quotedTextSecond": onUpdateQuotedTextSecond,
+      "onGenerate-preview": onGeneratePreview,
     }
 
     render(RisModForm, {
@@ -239,5 +269,59 @@ describe("RisModForm", () => {
     expect(onUpdateQuotedTextSecond).toHaveBeenCalledWith(
       expect.stringMatching(`${quotedTextSecond}new-value`),
     )
+
+    await user.tab()
+    expect(onGeneratePreview).toHaveBeenCalled()
+  })
+
+  it("emits a generate preview event when the quotedTextSecond input is changed and then loses focus", async () => {
+    const user = userEvent.setup()
+    const onGeneratePreview = vi.fn()
+
+    const props = {
+      id: "risModForm",
+      textualModType,
+      timeBoundaries,
+      destinationHref,
+      quotedTextSecond,
+      "onGenerate-preview": onGeneratePreview,
+    }
+
+    render(RisModForm, {
+      props,
+    })
+
+    const quotedTextSecondElement = screen.getByRole("textbox", {
+      name: "Neuer Text Inhalt",
+    })
+
+    await user.type(quotedTextSecondElement, "new-value")
+    await user.tab()
+    expect(onGeneratePreview).toHaveBeenCalled()
+  })
+
+  it("emits generate-preview when the preview button is clicked", async () => {
+    const user = userEvent.setup()
+    const onGeneratePreview = vi.fn()
+
+    render(RisModForm, {
+      props: {
+        id: "risModForm",
+        textualModType,
+        timeBoundaries,
+        destinationHref,
+        quotedTextSecond,
+        "onGenerate-preview": onGeneratePreview,
+      },
+    })
+
+    const previewButton = screen.getByRole("button", {
+      name: "Vorschau",
+    })
+    expect(previewButton).toBeInTheDocument()
+
+    await user.click(previewButton)
+
+    expect(onGeneratePreview).toHaveBeenCalled()
   })
 })
