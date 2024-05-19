@@ -49,6 +49,14 @@ describe("TextInput", () => {
     expect(emitted("update:modelValue")).toEqual([["a"]])
   })
 
+  test("emits blur event when input loses focus", async () => {
+    const { emitted } = renderComponent()
+    const input = screen.getByRole("textbox")
+    await userEvent.type(input, "a")
+    await userEvent.tab()
+    expect(emitted("blur")).toBeTruthy()
+  })
+
   test("renders a read-only input", () => {
     renderComponent({ readOnly: true })
     const input = screen.getByRole("textbox")
