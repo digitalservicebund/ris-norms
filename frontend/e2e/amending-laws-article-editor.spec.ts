@@ -147,23 +147,25 @@ test.describe("Loading amending law and mod details", () => {
     )
     await expect(quotedTextSecondElement).not.toHaveAttribute("readonly")
   })
+})
 
-  test(`rendering the preview on clicking Vorschau`, async ({ page }) => {
+test.describe("Generating preview", () => {
+  const BASE_URL =
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit"
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(BASE_URL)
+  })
+
+  test(`rendering the preview by default when clicking on a command`, async ({
+    page,
+  }) => {
     const amendingLawSection = page.getByRole("region", {
       name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
     })
 
     const targetElement = amendingLawSection.getByText("§ 20 Absatz 1 Satz 2")
     await targetElement.click()
-
-    const modFormSection = page.getByRole("region", {
-      name: "Änderungsbefehle bearbeiten",
-    })
-    const vorschauButton = modFormSection.getByRole("button", {
-      name: "Vorschau",
-    })
-    await expect(vorschauButton).toBeVisible()
-    await vorschauButton.click()
 
     const previewSection = page.getByRole("region", {
       name: "Vorschau",
