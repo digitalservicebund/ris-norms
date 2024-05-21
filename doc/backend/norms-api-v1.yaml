@@ -157,6 +157,41 @@ paths:
         '404':
           description: Norm could not be found by its ELI.
 
+  /norms/{eli}/elements/{eid}:
+    get:
+      summary: Get a single element inside a norm
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          example: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: eId of the element inside the norm
+          example: "hauptteil-1_art-3"
+          schema:
+            type: string
+        - name: atIsoDate
+          in: query
+          required: false
+          description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "The element inside the norm"
+          content:
+            text/html:
+              schema:
+                type: string
+        '400':
+          description: "Some parameter is invalid, e.g. `atIsoDate` could not be parsed into a date."
+        '404':
+          description: "The norm or the element could not be found."
 
   /norms/{eli}/articles:
     get:
