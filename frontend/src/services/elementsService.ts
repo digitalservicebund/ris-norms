@@ -25,3 +25,20 @@ export function getElementsByEliAndType(
     query: { type: types, amendedBy: options?.amendedBy },
   })
 }
+
+/**
+ * Returns any element that can be identified by its ELI and eId as an
+ * HTML-rendered preview.
+ *
+ * @param eli ELI of the law containing the element
+ * @param eid eId of the element
+ * @returns String with the rendered HTML of the elment
+ */
+export function getElementHtmlByEliAndEid(
+  eli: string,
+  eid: string,
+): Promise<string> {
+  return apiFetch<string>(`/norms/${eli}/elements/${eid}`, {
+    headers: { Accept: "text/html" },
+  })
+}
