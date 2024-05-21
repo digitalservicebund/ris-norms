@@ -168,7 +168,7 @@ watch(timeBoundary, (newTimeBoundary) => {
             data-testid="amendingLawHeading"
           >
             <span class="block">Änderungsbefehle</span>
-            <span>{{ article?.title }}</span>
+            <span>{{ amendingLaw?.title }}</span>
           </h3>
           <RisTabs
             v-model:active-tab="amendingLawActiveTab"
