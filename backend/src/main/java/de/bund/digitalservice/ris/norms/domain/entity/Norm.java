@@ -310,16 +310,60 @@ public class Norm {
   }
 
   /**
+   * Deletes the element of the norm identified by the given eId.
+   *
+   * @param eId the eId of the element to delete
+   * @return the deleted element
+   */
+  public Node deleteByEId(String eId) {
+    var node =
+        NodeParser.getNodeFromExpression(String.format("//*[@eId='%s']", eId), this.getDocument());
+    return node.getParentNode().removeChild(node);
+  }
+
+  /**
+   * Deletes the temporal group if it is not referenced anymore in the norm.
+   *
+   * @param eId the eId of the temporal group to delete
+   * @return the deleted temporal group node or empty if nothing was deleted
+   */
+  public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
+    final var nodesUsingTemporalData =
+        NodeParser.getNodesFromExpression(String.format("//*[@period='#%s']", eId), getDocument());
+
+    if (!nodesUsingTemporalData.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(new TemporalGroup(deleteByEId(eId)));
+  }
+
+  /**
+   * Deletes the event ref if it is not referenced anymore in the norm.
+   *
+   * @param eId the eId of the event ref to delete
+   * @return the deleted temporal ref node or empty if nothing was deleted
+   */
+  public Optional<Node> deleteEventRefIfUnused(String eId) {
+    final var nodesUsingTemporalData =
+        NodeParser.getNodesFromExpression(
+            String.format("//*[@refersTo='#%s' or @start='#%s']", eId, eId), getDocument());
+
+    if (!nodesUsingTemporalData.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(deleteByEId(eId));
+  }
+
+  /**
    * Deletes one time boundary (Zeitgrenze) from the document.
    *
    * @param timeBoundaryToDelete the time boundary that should be deleted from the xml
    */
   public void deleteTimeBoundary(TimeBoundaryChangeData timeBoundaryToDelete) {
     // delete eventRef node
-    String eventRefNodeExpression =
-        String.format("//lifecycle/eventRef[@eId='%s']", timeBoundaryToDelete.eid());
-    Node eventRefNode = NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
-    eventRefNode.getParentNode().removeChild(eventRefNode);
+    deleteByEId(timeBoundaryToDelete.eid());
 
     // delete temporalGroup node and its timeInterval node children
     String timeIntervalNodeExpression =

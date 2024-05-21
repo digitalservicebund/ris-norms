@@ -21,4 +21,15 @@ public class TemporalGroup {
   public Optional<String> getEid() {
     return NodeParser.getValueFromExpression("./@eId", this.node);
   }
+
+  /**
+   * Returns the eId of the event ref of the temporal group
+   *
+   * @return The eId of the event ref of this temporal group
+   */
+  public Optional<String> getEventRefEId() {
+    return NodeParser.getValueFromExpression("./timeInterval/@start", this.node)
+        .map(Href::new)
+        .flatMap(Href::getEId);
+  }
 }

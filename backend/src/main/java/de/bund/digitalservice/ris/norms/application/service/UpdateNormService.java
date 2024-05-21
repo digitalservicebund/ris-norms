@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,41 +26,16 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
                 passiveModification.getSourceEli().equals(Optional.of(sourceNormEli)))
         .forEach(
             passiveModification -> {
-              // delete the temporal group if it is not referenced by anything anymore
-              var nodesUsingTemporalData =
-                  NodeParser.getNodesFromExpression(
-                      String.format(
-                          "//*[@period='#%s']",
-                          passiveModification.getForcePeriodEid().orElseThrow()),
-                      norm.getDocument());
-              if (nodesUsingTemporalData.size() == 1) {
-                var temporalGroupNode =
-                    NodeParser.getNodeFromExpression(
-                        String.format(
-                            "//act//temporalGroup[@eId='%s']",
-                            passiveModification.getForcePeriodEid().orElseThrow()),
-                        norm.getDocument());
-                temporalGroupNode.getParentNode().removeChild(temporalGroupNode);
+              norm.deleteByEId(passiveModification.getEid().orElseThrow());
 
-                // delete the event ref if it is not referenced by anything anymore
-                var eventRefEId =
-                    NodeParser.getValueFromExpression("./timeInterval/@start", temporalGroupNode)
-                        .map(href -> href.replace("#", ""));
-                var nodesUsingEventRef =
-                    NodeParser.getNodesFromExpression(
-                        String.format("//*[@refersTo='#%s']", eventRefEId.orElseThrow()),
-                        norm.getDocument());
-                if (nodesUsingEventRef.isEmpty()) {
-                  var eventRefNode =
-                      NodeParser.getNodeFromExpression(
-                          String.format("//act//eventRef[@eId='%s']", eventRefEId.orElseThrow()),
-                          norm.getDocument());
-                  eventRefNode.getParentNode().removeChild(eventRefNode);
-                }
-              }
+              final var temporalGroup =
+                  passiveModification
+                      .getForcePeriodEid()
+                      .flatMap(norm::deleteTemporalGroupIfUnused);
 
-              final var node = passiveModification.getNode();
-              node.getParentNode().removeChild(node);
+              temporalGroup
+                  .flatMap(TemporalGroup::getEventRefEId)
+                  .ifPresent(norm::deleteEventRefIfUnused);
             });
   }
 
@@ -97,29 +72,27 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
             });
 
     // create the passive modifications
-    query.amendingNorm().getActiveModifications().stream()
-        .filter(activeModification -> activeModification.getDestinationEli().equals(norm.getEli()))
-        .forEach(
-            activeModification ->
-                norm.addPassiveModification(
-                    activeModification.getType().orElseThrow(),
-                    new Href.Builder()
-                        .setEli(query.amendingNorm().getEli().orElseThrow())
-                        .setEId(activeModification.getSourceEid().orElseThrow())
-                        .setFileExtension("xml")
-                        .buildAbsolute()
-                        .value(),
-                    new Href.Builder()
-                        .setEId(activeModification.getDestinationEid().orElseThrow())
-                        .setCharacterRange(
-                            activeModification.getDestinationCharacterRange().orElseThrow())
-                        .buildRelative()
-                        .value(),
-                    activeModification
-                        .getForcePeriodEid()
-                        .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
-                        .map(eId -> new Href.Builder().setEId(eId).buildRelative().value())
-                        .orElse(null)));
+    activeModificationsToAdd.forEach(
+        activeModification ->
+            norm.addPassiveModification(
+                activeModification.getType().orElseThrow(),
+                new Href.Builder()
+                    .setEli(query.amendingNorm().getEli().orElseThrow())
+                    .setEId(activeModification.getSourceEid().orElseThrow())
+                    .setFileExtension("xml")
+                    .buildAbsolute()
+                    .value(),
+                new Href.Builder()
+                    .setEId(activeModification.getDestinationEid().orElseThrow())
+                    .setCharacterRange(
+                        activeModification.getDestinationCharacterRange().orElseThrow())
+                    .buildRelative()
+                    .value(),
+                activeModification
+                    .getForcePeriodEid()
+                    .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
+                    .map(eId -> new Href.Builder().setEId(eId).buildRelative().value())
+                    .orElse(null)));
 
     return norm;
   }

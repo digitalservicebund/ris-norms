@@ -1466,6 +1466,89 @@ class NormTest {
     }
   }
 
+  @Nested
+  class deleteByEId {
+    @Test
+    void itShouldDeleteTheNodeOfTheEId() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+      // when
+      norm.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
+
+      // then
+      assertThat(norm.getEli()).isEmpty();
+    }
+  }
+
+  @Nested
+  class deleteTemporalGroupIfUnused {
+    @Test
+    void itShouldDeleteTemporalGroupIfUnused() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      // delete the mod so the temporal group is unused
+      norm.deleteByEId("meta-1_analysis-1_activemod-1");
+
+      // when
+      norm.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
+
+      // then
+      assertThat(norm.getTemporalGroupEids()).isEmpty();
+    }
+
+    @Test
+    void itShouldNotDeleteTemporalGroupIfUsed() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+      // when
+      norm.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
+
+      // then
+      assertThat(norm.getTemporalGroupEids()).hasSize(1);
+    }
+  }
+
+  @Nested
+  class deleteEventRefIfUnused {
+    @Test
+    void itShouldDeleteEventRefIfUnused() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      // delete the mod so the temporal group is unused
+      norm.deleteByEId("meta-1_analysis-1_activemod-1");
+
+      // when
+      norm.deleteEventRefIfUnused("meta-1_lebzykl-1_ereignis-1");
+
+      // then
+      assertThat(
+              NodeParser.getNodeFromExpression(
+                  "//*[@eId='meta-1_lebzykl-1_ereignis-1']", norm.getDocument()))
+          .isNull();
+    }
+
+    @Test
+    void itShouldNotDeleteEventRefIfUsed() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+      assertThat(
+              NodeParser.getNodeFromExpression(
+                  "//*[@eId='meta-1_lebzykl-1_ereignis-2']", norm.getDocument()))
+          .isNotNull();
+      // when
+      norm.deleteEventRefIfUnused("meta-1_lebzykl-1_ereignis-2");
+
+      // then
+      assertThat(
+              NodeParser.getNodeFromExpression(
+                  "//*[@eId='meta-1_lebzykl-1_ereignis-2']", norm.getDocument()))
+          .isNotNull();
+    }
+  }
+
   @Test
   void getActiveModifications() {
     // given
