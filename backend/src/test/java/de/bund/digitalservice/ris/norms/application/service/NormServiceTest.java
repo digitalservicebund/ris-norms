@@ -11,10 +11,13 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUse
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateModUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.ActiveModification;
+import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Objects;
@@ -22,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
 
 class NormServiceTest {
 
@@ -692,5 +696,100 @@ class NormServiceTest {
         .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
     assertThat(xmls).isNotEmpty();
     assertThat(xmls.getFirst()).contains("hauptteil-1_art-3");
+  }
+
+  @Nested
+  class UpdateMod {
+
+    @Test
+    void itCallsLoadNormAndReturnsEmpty() {
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+
+      // When
+      var xml =
+          service.updateMod(
+              new UpdateModUseCase.Query(
+                  eli,
+                  "eid",
+                  "refersTo",
+                  "time-boundary-eid",
+                  "destinanation-href",
+                  "old text",
+                  "new text"));
+
+      // Then
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      assertThat(xml).isEmpty();
+    }
+
+    @Test
+    void itCallsLoadNormAndUpdatesXml() {
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+
+      var norm =
+          Norm.builder()
+              .document(
+                  XmlMapper.toDocument(
+                      """
+                                            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                                            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                                                                      http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                                                <akn:act name="regelungstext">
+                                                    <!-- Metadaten -->
+                                                    <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                                                        <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+                                                            <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
+                                                                <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
+                                                                    <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
+                                                                    <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" GUID="83a4e169-ec57-4981-b191-84afe42130c8" href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml"/>
+                                                                    <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" GUID="9180eb9f-9da2-4fa4-b57f-803d4ddcdbc9" period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                                                                </akn:textualMod>
+                                                            </akn:activeModifications>
+                                                        </akn:analysis>
+                                                    </akn:meta>
+                                                    <akn:body>
+                                                        <akn:mod eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1" GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1" GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird
+                                                                          die Angabe <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1" GUID="694459c4-ef66-4f87-bb78-a332054a2216" startQuote="„" endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die
+                                                                          Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2" GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196" startQuote="„" endQuote="“">§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:quotedText>
+                                                                          ersetzt.</akn:mod>
+                                                    </akn:body>
+                                                </akn:act>
+                                            </akn:akomaNtoso>
+                                          """))
+              .build();
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When
+      var returnedXml =
+          service.updateMod(
+              new UpdateModUseCase.Query(
+                  eli,
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                  "aenderungsbefehl-ersetzen",
+                  "new-time-boundary-eid",
+                  "new-destinanation-href",
+                  "old text",
+                  "new text"));
+
+      // Then
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+
+      assertThat(returnedXml).isPresent();
+      final Document xmlDocument = XmlMapper.toDocument(returnedXml.get());
+      final Norm testNorm = Norm.builder().document(xmlDocument).build();
+
+      final ActiveModification activeModifications = testNorm.getActiveModifications().getFirst();
+      assertThat(activeModifications.getDestinationHref()).contains("new-destinanation-href");
+      assertThat(activeModifications.getForcePeriodEid()).contains("new-time-boundary-eid");
+
+      final Mod mod = testNorm.getMods().getFirst();
+      assertThat(mod.getTargteHref()).contains("new-destinanation-href");
+      assertThat(mod.getNewText()).contains("new text");
+    }
   }
 }
