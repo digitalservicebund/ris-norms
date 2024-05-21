@@ -58,4 +58,23 @@ describe("elementsService", () => {
       })
     })
   })
+
+  describe("getElementHtmlByEliAndEid", () => {
+    it("provides the data from the API", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
+
+      vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
+
+      const { getElementHtmlByEliAndEid } = await import("./elementsService")
+
+      const result = await getElementHtmlByEliAndEid("example/eli", "eid-1")
+
+      expect(result).toEqual(`<div></div>`)
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/norms/example/eli/elements/eid-1",
+        { headers: { Accept: "text/html" } },
+      )
+    })
+  })
 })
