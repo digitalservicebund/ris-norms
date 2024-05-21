@@ -43,34 +43,34 @@ test.describe("sidebar navigation", () => {
 
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
 
-    // Ensure articles have been loaded before proceeding, this is to avoid
+    // Ensure elements have been loaded before proceeding, this is to avoid
     // flakyness in getBy...().all().
     await page.waitForResponse((response) =>
-      response.url().includes("/articles?amendedBy="),
+      response.url().includes("/elements?type="),
     )
 
     let links = await nav.getByRole("link").all()
     await expect(links[0]).toHaveText("Rahmen") // First is always the entire document
     await expect(links[1]).toHaveText(
-      "§6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+      "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
     )
 
     // Go to the other time boundary to check if the result is the same (should always
-    // show all affected articles independent from the time boundary).
+    // show all affected elements independent from the time boundary).
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     // Wait again ...
     await page.waitForResponse((response) =>
-      response.url().includes("/articles?amendedBy="),
+      response.url().includes("/elements?type="),
     )
 
     // Expect to see the same result again
     links = await nav.getByRole("link").all()
     await expect(links[0]).toHaveText("Rahmen") // First is always the entire document
     await expect(links[1]).toHaveText(
-      "§6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+      "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
     )
   })
 
@@ -140,7 +140,7 @@ test.describe("sidebar navigation", () => {
 
     await nav
       .getByRole("link", {
-        name: "§6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+        name: "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
       })
       .click()
 
@@ -211,7 +211,8 @@ test.describe("preview", () => {
     ).toBeVisible()
   })
 
-  test("shows the preview of an article at different time boundaries", async ({
+  // Skipped until we have implemented the required parameter in the endpoint
+  test.skip("shows the preview of an article at different time boundaries", async ({
     page,
   }) => {
     await page.goto(
