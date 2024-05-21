@@ -180,6 +180,17 @@ public class Norm {
   }
 
   /**
+   * Extracts a list of active modifications from the document.
+   *
+   * @return a list of active modifications.
+   */
+  public List<ActiveModification> getActiveModifications() {
+    return NodeParser.getNodesFromExpression("//activeModifications/textualMod", document).stream()
+        .map(ActiveModification::new)
+        .toList();
+  }
+
+  /**
    * Extracts a list of {@link Mod}s from the document.
    *
    * @return a list of {@link Mod}s
