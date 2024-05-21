@@ -211,8 +211,7 @@ test.describe("preview", () => {
     ).toBeVisible()
   })
 
-  // Skipped until we have implemented the required parameter in the endpoint
-  test.skip("shows the preview of an article at different time boundaries", async ({
+  test("shows the preview of an article at different time boundaries", async ({
     page,
   }) => {
     await page.goto(
