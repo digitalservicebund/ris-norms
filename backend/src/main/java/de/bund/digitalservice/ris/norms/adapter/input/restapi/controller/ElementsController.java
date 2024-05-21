@@ -6,6 +6,7 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementsResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
+import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -13,6 +14,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
 import de.bund.digitalservice.ris.norms.utils.EliBuilder;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -61,12 +63,15 @@ public class ElementsController {
 
   private final LoadNormUseCase loadNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
+  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   public ElementsController(
       LoadNormUseCase loadNormUseCase,
-      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
+      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
+      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
+    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
   }
 
   /**
@@ -83,6 +88,8 @@ public class ElementsController {
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
    * @param eid EID of the element to return
+   * @param atIsoDate Render the version of the law valid at the given date (with passive changes
+   *     applied up to that date)
    * @return A {@link ResponseEntity} containing the HTML.
    *     <p>Returns HTTP 400 (Bad Request) if ELI or EID can not be found
    */
@@ -97,7 +104,8 @@ public class ElementsController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @PathVariable final String eid) {
+      @PathVariable final String eid,
+      @RequestParam Optional<String> atIsoDate) {
 
     var eli =
         EliBuilder.buildEli(
@@ -105,6 +113,11 @@ public class ElementsController {
 
     return loadNormUseCase
         .loadNorm(new LoadNormUseCase.Query(eli))
+        .map(
+            norm ->
+                applyPassiveModificationsUseCase.applyPassiveModifications(
+                    new ApplyPassiveModificationsUseCase.Query(
+                        norm, Instant.parse(atIsoDate.get()))))
         .map(
             norm -> {
               var elementXpath = String.format("//*[@eId='%s']", eid);
