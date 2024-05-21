@@ -70,6 +70,24 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isOk())
           .andExpect(content().string(containsString("Änderung des Vereinsgesetzes")));
     }
+
+    @Test
+    void returnElementEidTitleAndType() throws Exception {
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1")
+                  .accept(MediaType.APPLICATION_JSON))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
+          .andExpect(jsonPath("type").value("article"))
+          .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
+    }
   }
 
   @Nested
