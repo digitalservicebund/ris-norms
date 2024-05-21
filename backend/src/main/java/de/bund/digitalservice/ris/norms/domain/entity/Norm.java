@@ -386,11 +386,11 @@ public class Norm {
    *     akn:mod)
    * @param sourceHref the href our the source of the textual mod
    * @param destinationHref the href our the destination of the textual mod
-   * @param period the eid of the geltungszeitgruppe of the textual mod
+   * @param periodHref the href to the geltungszeitgruppe of the textual mod
    * @return the newly create passive modification
    */
   public PassiveModification addPassiveModification(
-      String type, String sourceHref, String destinationHref, String period) {
+      String type, String sourceHref, String destinationHref, String periodHref) {
     var passiveModificationsNode = getOrCreatePassiveModificationsNode();
 
     var textualMod =
@@ -407,7 +407,7 @@ public class Norm {
     textualMod.appendChild(destination);
 
     var force = createElementWithEidAndGuid("akn:force", "gelzeitnachw", textualMod);
-    force.setAttribute("period", period);
+    force.setAttribute("period", periodHref);
     textualMod.appendChild(force);
 
     return new PassiveModification(textualMod);

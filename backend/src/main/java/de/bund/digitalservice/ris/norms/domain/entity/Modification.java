@@ -70,7 +70,8 @@ public abstract class Modification {
    */
   public Optional<String> getForcePeriodEid() {
     return NodeParser.getValueFromExpression("./force/@period", this.node)
-        .map(value -> value.replaceFirst("^#", ""));
+        .map(Href::new)
+        .flatMap(Href::getEId);
   }
 
   /**
@@ -82,6 +83,6 @@ public abstract class Modification {
     NodeParser.getNodeFromExpression("./force", this.node)
         .getAttributes()
         .getNamedItem("period")
-        .setNodeValue(periodEid);
+        .setNodeValue(new Href.Builder().setEId(periodEid).buildRelative().value());
   }
 }

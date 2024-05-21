@@ -1,17 +1,82 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 /**
  * Represents a href within LDML.de.
  *
  * @param value the value of the href as {@link String}
  */
 public record Href(String value) {
+  static final int NUMBER_OF_ELI_PARTS = 9;
+  static final int ABSOLUTE_POSITION_OF_EID = NUMBER_OF_ELI_PARTS;
+  static final int RELATIVE_POSITION_OF_EID = 0;
+  static final int ABSOLUTE_POSITION_OF_CHARACTER_RANGE = ABSOLUTE_POSITION_OF_EID + 1;
+  static final int RELATIVE_POSITION_OF_CHARACTER_RANGE = RELATIVE_POSITION_OF_EID + 1;
+
+  boolean isRelative() {
+    return value.startsWith("#");
+  }
+
+  Optional<String> getEli() {
+    if (isRelative()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(
+            Arrays.stream(value().split("/"))
+                .limit(NUMBER_OF_ELI_PARTS)
+                .collect(Collectors.joining("/")))
+        .map(Href::removeFileExtension);
+  }
+
+  Optional<String> getEId() {
+    if (isRelative()) {
+      var splitHref = value().replaceFirst("^#", "").split("/");
+
+      if (splitHref.length <= RELATIVE_POSITION_OF_EID) {
+        return Optional.empty();
+      }
+
+      return Optional.of(splitHref[RELATIVE_POSITION_OF_EID]);
+    }
+
+    var splitHref = value().split("/");
+
+    if (splitHref.length <= ABSOLUTE_POSITION_OF_EID) {
+      return Optional.empty();
+    }
+
+    return Optional.of(Href.removeFileExtension(splitHref[ABSOLUTE_POSITION_OF_EID]));
+  }
+
+  Optional<String> getCharacterRange() {
+    if (isRelative()) {
+      var splitHref = value().replaceFirst("^#", "").split("/");
+
+      if (splitHref.length <= RELATIVE_POSITION_OF_CHARACTER_RANGE) {
+        return Optional.empty();
+      }
+
+      return Optional.of(splitHref[RELATIVE_POSITION_OF_CHARACTER_RANGE]);
+    }
+
+    var splitHref = value().split("/");
+
+    if (splitHref.length <= ABSOLUTE_POSITION_OF_CHARACTER_RANGE) {
+      return Optional.empty();
+    }
+
+    return Optional.of(Href.removeFileExtension(splitHref[ABSOLUTE_POSITION_OF_CHARACTER_RANGE]));
+  }
 
   /** Builder for creating a new {@link Href}. */
   public static class Builder {
     private String eli;
     private String eId;
-    private String characterCount;
+    private String characterRange;
     private String fileExtension;
 
     /**
@@ -37,13 +102,13 @@ public record Href(String value) {
     }
 
     /**
-     * Sets the character count part of the href.
+     * Sets the character range part of the href.
      *
-     * @param characterCount the character count
+     * @param characterRange the character range
      * @return the builder instance
      */
-    public Builder setCharacterCount(String characterCount) {
-      this.characterCount = characterCount;
+    public Builder setCharacterRange(String characterRange) {
+      this.characterRange = characterRange;
       return this;
     }
 
@@ -70,8 +135,8 @@ public record Href(String value) {
         href += "/" + eId;
       }
 
-      if (characterCount != null) {
-        href += "/" + characterCount;
+      if (characterRange != null) {
+        href += "/" + characterRange;
       }
 
       if (fileExtension != null) {
@@ -89,12 +154,16 @@ public record Href(String value) {
     public Href buildRelative() {
       var href = "#" + eId;
 
-      if (characterCount != null) {
-        href += "/" + characterCount;
+      if (characterRange != null) {
+        href += "/" + characterRange;
       }
 
       return new Href(href);
     }
+  }
+
+  private static String removeFileExtension(String href) {
+    return href.replaceFirst(".xml$", "");
   }
 
   @Override

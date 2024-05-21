@@ -726,7 +726,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .string("new-destination-href"))
           .andExpect(
               xpath("//activeModifications/textualMod/force/@period")
-                  .string("new-time-boundary-eid"))
+                  .string("#new-time-boundary-eid"))
           .andExpect(xpath("//body/mod/ref/@href").string("new-destination-href"))
           .andExpect(xpath("//body/mod/quotedText[2]").string("new test text"));
     }

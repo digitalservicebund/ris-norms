@@ -111,13 +111,14 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
                         .value(),
                     new Href.Builder()
                         .setEId(activeModification.getDestinationEid().orElseThrow())
-                        .setCharacterCount(
+                        .setCharacterRange(
                             activeModification.getDestinationCharacterRange().orElseThrow())
                         .buildRelative()
                         .value(),
                     activeModification
                         .getForcePeriodEid()
                         .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
+                        .map(eId -> new Href.Builder().setEId(eId).buildRelative().value())
                         .orElse(null)));
 
     return norm;

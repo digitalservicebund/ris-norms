@@ -1,8 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Node;
@@ -27,12 +25,7 @@ public class ActiveModification extends Modification {
    * @return The source eli of the active modification
    */
   public Optional<String> getDestinationEli() {
-    return this.getDestinationHref()
-        .map(
-            source ->
-                Arrays.stream(source.split("/"))
-                    .takeWhile(part -> !part.endsWith(".xml"))
-                    .collect(Collectors.joining("/")));
+    return this.getDestinationHref().map(Href::new).flatMap(Href::getEli);
   }
 
   /**
@@ -41,8 +34,7 @@ public class ActiveModification extends Modification {
    * @return The destination eid of the active modification
    */
   public Optional<String> getDestinationEid() {
-    return this.getDestinationHref()
-        .map(source -> Arrays.stream(source.split("/")).toList().getLast().replace(".xml", ""));
+    return this.getDestinationHref().map(Href::new).flatMap(Href::getEId);
   }
 
   /**
@@ -51,8 +43,7 @@ public class ActiveModification extends Modification {
    * @return The destination character range of the active modification
    */
   public Optional<String> getDestinationCharacterRange() {
-    return this.getDestinationHref()
-        .map(source -> Arrays.stream(source.split("/")).toList().getLast().replace(".xml", ""));
+    return this.getDestinationHref().map(Href::new).flatMap(Href::getCharacterRange);
   }
 
   /**
@@ -61,6 +52,6 @@ public class ActiveModification extends Modification {
    * @return The source eid of the active modification
    */
   public Optional<String> getSourceEid() {
-    return this.getSourceHref().map(value -> value.replaceFirst("^#", ""));
+    return this.getSourceHref().map(Href::new).flatMap(Href::getEId);
   }
 }
