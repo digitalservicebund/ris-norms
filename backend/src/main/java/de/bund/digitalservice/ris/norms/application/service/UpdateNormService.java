@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
@@ -102,14 +103,18 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
             activeModification ->
                 norm.addPassiveModification(
                     activeModification.getType().orElseThrow(),
-                    query.amendingNorm().getEli().orElseThrow()
-                        + "/"
-                        + activeModification.getSourceEid().orElseThrow()
-                        + ".xml",
-                    "#"
-                        + activeModification.getDestinationEid().orElseThrow()
-                        + "/"
-                        + activeModification.getDestinationCharacterRange().orElseThrow(),
+                    new Href.Builder()
+                        .setEli(query.amendingNorm().getEli().orElseThrow())
+                        .setEId(activeModification.getSourceEid().orElseThrow())
+                        .setFileExtension("xml")
+                        .buildAbsolute()
+                        .value(),
+                    new Href.Builder()
+                        .setEId(activeModification.getDestinationEid().orElseThrow())
+                        .setCharacterCount(
+                            activeModification.getDestinationCharacterRange().orElseThrow())
+                        .buildRelative()
+                        .value(),
                     activeModification
                         .getForcePeriodEid()
                         .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
