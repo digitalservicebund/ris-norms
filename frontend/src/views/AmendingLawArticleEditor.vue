@@ -19,6 +19,8 @@ import { useMod } from "@/composables/useMod"
 import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import { previewNorm, previewNormAsHtml } from "@/services/normService"
+import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
+import { getNodeByEid } from "@/services/ldmldeService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -38,10 +40,31 @@ const previewXml = ref<string>("")
 const previewHtml = ref<string>("")
 const amendingLawActiveTab = ref("text")
 
+/**
+ * Render a specific article of a norm
+ * @param normXml the xml string of the norm
+ * @param articleEid the eid of the article to render
+ * @returns
+ */
+async function renderArticle(
+  normXml: string,
+  articleEid: string,
+): Promise<string | null> {
+  const xmlDocument = xmlStringToDocument(normXml)
+  const articleNode = getNodeByEid(xmlDocument, articleEid)
+
+  if (!articleNode) {
+    return null
+  }
+
+  return await renderHtmlLaw(xmlNodeToString(articleNode), false)
+}
+
 async function fetchAmendingLawRenderedHtml() {
   try {
-    if (currentArticleXml.value) {
-      renderedHtml.value = await renderHtmlLaw(currentArticleXml.value, false)
+    if (currentArticleXml.value && eid.value) {
+      renderedHtml.value =
+        (await renderArticle(currentArticleXml.value, eid.value)) ?? ""
     }
   } catch (error) {
     console.error("Error fetching rendered HTML content:", error)

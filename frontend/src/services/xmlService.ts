@@ -6,10 +6,10 @@ export function xmlStringToDocument(xmlString: string): Document {
 }
 
 /**
- * Convert a xml document to a text representation of it.
+ * Convert a xml node to a text representation of it.
  */
-export function xmlDocumentToString(xmlDoc: Document): string {
-  return new XMLSerializer().serializeToString(xmlDoc)
+export function xmlNodeToString(node: Node): string {
+  return new XMLSerializer().serializeToString(node)
 }
 
 /**

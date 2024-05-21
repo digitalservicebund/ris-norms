@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest"
 import {
   evaluateXPath,
-  xmlDocumentToString,
+  xmlNodeToString,
   xmlStringToDocument,
 } from "@/services/xmlService"
 
@@ -39,7 +39,7 @@ describe("xmlService", () => {
           </akn:act>
         </akn:akomaNtoso>
       `)
-      const result = xmlDocumentToString(document)
+      const result = xmlNodeToString(document)
       const document2 = xmlStringToDocument(result)
 
       expect(document2.isEqualNode(document)).to.be.true
