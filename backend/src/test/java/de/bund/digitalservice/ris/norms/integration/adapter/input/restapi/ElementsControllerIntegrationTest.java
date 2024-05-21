@@ -112,14 +112,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {
-
       // Given
-      //      var amendingNorm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      //      var targetNorm =
-      // NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-      //
-      //      normRepository.save(NormMapper.mapToDto(amendingNorm));
-      //      normRepository.save(NormMapper.mapToDto(targetNorm));
 
       // When / Then
       mockMvc
