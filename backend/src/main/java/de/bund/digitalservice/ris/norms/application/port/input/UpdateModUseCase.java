@@ -41,11 +41,4 @@ public interface UpdateModUseCase {
       String destinationHref,
       String oldText,
       String newText) {}
-
-  /** This exception indicates that a proposed change to an amending command is not possible. */
-  class InvalidUpdateModException extends Exception {
-    public InvalidUpdateModException(String message) {
-      super(message);
-    }
-  }
 }
