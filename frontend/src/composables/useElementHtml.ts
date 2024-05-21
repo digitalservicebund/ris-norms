@@ -47,8 +47,7 @@ export function useElementHtml(
       )
     ) {
       html.value = await getElementHtmlByEliAndEid(idVal.eli, idVal.eid, {
-        // TODO: Send this to the backend once the parameter is implemented
-        // at: dateVal,
+        at: dateVal,
       })
     }
 
