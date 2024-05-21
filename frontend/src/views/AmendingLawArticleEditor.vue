@@ -163,11 +163,7 @@ watch(targetLawEli, () => {
           class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
           aria-labelledby="changeCommandsEditor"
         >
-          <h3
-            id="changeCommandsEditor"
-            class="ds-label-02-bold"
-            data-testid="amendingLawHeading"
-          >
+          <h3 id="changeCommandsEditor" class="ds-label-02-bold">
             <span class="block">Änderungsbefehle</span>
             <span>{{ amendingLaw?.title }}</span>
           </h3>
@@ -202,11 +198,7 @@ watch(targetLawEli, () => {
           class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
           aria-labelledby="originalArticleTitle"
         >
-          <h3
-            id="originalArticleTitle"
-            class="ds-label-02-bold"
-            data-testid="targetLawHeading"
-          >
+          <h3 id="originalArticleTitle" class="ds-label-02-bold">
             Änderungsbefehle bearbeiten
           </h3>
           <RisModForm

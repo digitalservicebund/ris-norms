@@ -32,22 +32,24 @@ test.describe("Loading amending law and mod details", () => {
     ).toBeVisible()
 
     await expect(
-      page.locator('[data-testid="amendingLawHeading"]'),
-    ).toContainText("Änderung des Vereinsgesetzes")
+      page.getByRole("heading", { level: 2, name: "Änderungsbefehle prüfen" }),
+    ).toBeVisible()
   })
 
   test(`loading contents of amending law in both xml and html tabs`, async ({
     page,
   }) => {
-    const amendingLawSection = page.locator(
-      '[aria-labelledby="changeCommandsEditor"]',
-    )
-    const textContent = amendingLawSection.locator(
-      "text=Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
+
+    const textContent = amendingLawSection.getByText(
+      "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
     )
     await expect(textContent).toBeVisible()
 
-    const xmlTabButton = amendingLawSection.locator('button[aria-label="xml"]')
+    const xmlTabButton = amendingLawSection.getByRole("tab", { name: "xml" })
+    await expect(xmlTabButton).toBeVisible()
     await xmlTabButton.click()
 
     await expect(
@@ -60,44 +62,55 @@ test.describe("Loading amending law and mod details", () => {
   test(`loading empty mod state when no command is selected`, async ({
     page,
   }) => {
-    const textContent = page.locator(
-      "text=Wählen sie einen Änderungsbefehl zur Bearbeitung aus.",
+    const textContent = page.getByText(
+      "Wählen sie einen Änderungsbefehl zur Bearbeitung aus.",
     )
     await expect(textContent).toBeVisible()
   })
 
   test(`loading of mod details with correct input values`, async ({ page }) => {
-    const amendingLawSection = page.locator(
-      '[aria-labelledby="changeCommandsEditor"]',
-    )
-    const targetElement = amendingLawSection.locator(
-      "text=§ 20 Absatz 1 Satz 2",
-    )
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
+
+    const targetElement = amendingLawSection.getByText("§ 20 Absatz 1 Satz 2")
 
     await targetElement.click()
 
-    const formTitle = page.locator("text=Änderungsbefehle bearbeiten\n")
-    await expect(formTitle).toBeVisible()
+    await expect(
+      page.getByRole("heading", {
+        level: 3,
+        name: "Änderungsbefehle bearbeiten",
+      }),
+    ).toBeVisible()
 
-    const formElement = page.locator('[id="risModForm"]')
-    await expect(formElement).toBeVisible()
+    const modFormSection = page.getByRole("region", {
+      name: "Änderungsbefehle bearbeiten",
+    })
+    await expect(modFormSection).toBeVisible()
 
     // Textual Mode Type
-    const textualModeTypeElement = formElement.locator("#textualModeType")
+    const textualModeTypeElement = modFormSection.getByRole("textbox", {
+      name: "Änderungstyp",
+    })
     await expect(textualModeTypeElement).toBeVisible()
     await expect(textualModeTypeElement).toHaveValue("Ersetzen")
     await expect(textualModeTypeElement).toHaveAttribute("readonly", "")
 
     // Time Boundaries
-    const timeBoundariesElement = formElement.locator("#timeBoundaries")
+    const timeBoundariesElement = modFormSection.getByRole("combobox", {
+      name: "Zeitgrenze",
+    })
     await expect(timeBoundariesElement).toBeVisible()
     await expect(timeBoundariesElement).toHaveValue("2017-03-16")
 
     const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
     await expect(timeBoundaryOptionElements).toHaveCount(2)
 
-    // Destination Href Eli
-    const destinationHrefEliElement = formElement.locator("#destinationHrefEli")
+    // // Destination Href Eli
+    const destinationHrefEliElement = modFormSection.getByRole("textbox", {
+      name: "ELI Zielgesetz",
+    })
     await expect(destinationHrefEliElement).toBeVisible()
     await expect(destinationHrefEliElement).toHaveValue(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1",
@@ -105,7 +118,9 @@ test.describe("Loading amending law and mod details", () => {
     await expect(destinationHrefEliElement).toHaveAttribute("readonly", "")
 
     // Destination Href Eid
-    const destinationHrefEidElement = formElement.locator("#destinationHrefEid")
+    const destinationHrefEidElement = modFormSection.getByRole("textbox", {
+      name: "zu ersetzende Textstelle",
+    })
     await expect(destinationHrefEidElement).toBeVisible()
     await expect(destinationHrefEidElement).toHaveValue(
       "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-0.xml",
@@ -113,7 +128,9 @@ test.describe("Loading amending law and mod details", () => {
     await expect(destinationHrefEidElement).not.toHaveAttribute("readonly")
 
     // Quoted Text First
-    const quotedTextFirstElement = formElement.locator("#quotedTextFirst")
+    const quotedTextFirstElement = modFormSection.getByRole("textbox", {
+      name: "zu ersetzender Text",
+    })
     await expect(quotedTextFirstElement).toBeVisible()
     await expect(quotedTextFirstElement).toHaveValue(
       "§ 9 Abs. 1 Satz 2, Abs. 2",
@@ -121,7 +138,9 @@ test.describe("Loading amending law and mod details", () => {
     await expect(quotedTextFirstElement).toHaveAttribute("readonly", "")
 
     // Quoted Text Second
-    const quotedTextSecondElement = formElement.locator("#quotedTextSecond")
+    const quotedTextSecondElement = modFormSection.getByRole("textbox", {
+      name: "Neuer Text Inhalt",
+    })
     await expect(quotedTextSecondElement).toBeVisible()
     await expect(quotedTextSecondElement).toHaveValue(
       "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3",
@@ -130,27 +149,29 @@ test.describe("Loading amending law and mod details", () => {
   })
 
   test(`rendering the preview on clicking Vorschau`, async ({ page }) => {
-    const amendingLawSection = page.locator(
-      '[aria-labelledby="changeCommandsEditor"]',
-    )
-    const targetElement = amendingLawSection.locator(
-      "text=§ 20 Absatz 1 Satz 2",
-    )
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
 
+    const targetElement = amendingLawSection.getByText("§ 20 Absatz 1 Satz 2")
     await targetElement.click()
 
-    const formElement = page.locator('[id="risModForm"]')
-    const vorschauButton = formElement.locator("text=Vorschau")
+    const modFormSection = page.getByRole("region", {
+      name: "Änderungsbefehle bearbeiten",
+    })
+    const vorschauButton = modFormSection.getByRole("button", {
+      name: "Vorschau",
+    })
     await expect(vorschauButton).toBeVisible()
     await vorschauButton.click()
 
-    const previewSection = page.locator(
-      '[aria-labelledby="changedArticlePreivew"]',
-    )
+    const previewSection = page.getByRole("region", {
+      name: "Vorschau",
+    })
 
-    const textContent = previewSection.locator(
-      "text=Gesetz zur Regelung des öffentlichen Vereinsrechts",
+    const previewTextContent = previewSection.getByText(
+      "Gesetz zur Regelung des öffentlichen Vereinsrechts",
     )
-    await expect(textContent).toBeVisible()
+    await expect(previewTextContent).toBeVisible()
   })
 })
