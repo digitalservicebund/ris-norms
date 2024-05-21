@@ -51,7 +51,6 @@ function switchTab(tabId: string) {
         <button
           role="tab"
           :aria-selected="tab.id === activeTab"
-          :aria-label="tab.id"
           class="items-center text-blue-800 hover:underline focus:underline aria-selected:font-bold aria-selected:text-blue-800 aria-selected:underline"
           @click="switchTab(tab.id)"
         >
