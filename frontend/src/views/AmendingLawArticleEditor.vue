@@ -7,7 +7,6 @@ import { useArticle } from "@/composables/useArticle"
 import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-// import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch, onMounted } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
@@ -33,7 +32,6 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
 const article = useArticle(identifier)
 const { xml: articleXml } = useArticleXml(identifier)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
-// const { xml: targetLawXml } = useTargetLawXml(targetLawEli)
 const currentArticleXml = ref("")
 const renderedHtml = ref("")
 const previewXml = ref<string>("")
@@ -131,10 +129,13 @@ const {
   timeBoundary,
 } = useMod(selectedMod, articleXml)
 
-watch(timeBoundary, (newTimeBoundary) => {
-  if (newTimeBoundary) {
+watch(selectedMod, () => {
+  if (selectedMod.value !== "") {
     handleGeneratePreview()
   }
+})
+watch(targetLawEli, () => {
+  handleGeneratePreview()
 })
 </script>
 
@@ -220,7 +221,7 @@ watch(timeBoundary, (newTimeBoundary) => {
           />
         </section>
         <section
-          v-if="selectedMod && timeBoundary"
+          v-if="selectedMod"
           class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
           aria-labelledby="changedArticlePreivew"
         >
@@ -246,16 +247,7 @@ watch(timeBoundary, (newTimeBoundary) => {
             </template>
           </RisTabs>
         </section>
-        <div v-if="selectedMod && !timeBoundary" class="gap flex-grow gap-32">
-          <RisEmptyState
-            text-content="Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten Änderungsbefehls zu sehen."
-            class="mt-[85px] h-fit"
-          />
-        </div>
-        <div
-          v-if="!selectedMod"
-          class="gap col-span-2 grid flex-grow grid-cols-2 gap-32"
-        >
+        <div v-else class="gap col-span-2 grid flex-grow grid-cols-2 gap-32">
           <RisEmptyState
             text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
             class="mt-[85px] h-fit"
