@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.utils.EliBuilder;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -111,13 +112,36 @@ public class ElementsController {
         EliBuilder.buildEli(
             agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
+    if (atIsoDate.isPresent()) {
+      try {
+        DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
+      } catch (Exception e) {
+        return ResponseEntity.badRequest().build();
+      }
+
+      return loadNormUseCase
+          .loadNorm(new LoadNormUseCase.Query(eli))
+          .map(
+              norm ->
+                  applyPassiveModificationsUseCase.applyPassiveModifications(
+                      new ApplyPassiveModificationsUseCase.Query(
+                          norm, Instant.parse(atIsoDate.get()))))
+          .map(
+              norm -> {
+                var elementXpath = String.format("//*[@eId='%s']", eid);
+                return NodeParser.getNodeFromExpression(elementXpath, norm.getDocument());
+              })
+          .map(
+              element ->
+                  transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                      new TransformLegalDocMlToHtmlUseCase.Query(
+                          XmlMapper.toString(element), false)))
+          .map(ResponseEntity::ok)
+          .orElse(ResponseEntity.notFound().build());
+    }
+
     return loadNormUseCase
         .loadNorm(new LoadNormUseCase.Query(eli))
-        .map(
-            norm ->
-                applyPassiveModificationsUseCase.applyPassiveModifications(
-                    new ApplyPassiveModificationsUseCase.Query(
-                        norm, Instant.parse(atIsoDate.get()))))
         .map(
             norm -> {
               var elementXpath = String.format("//*[@eId='%s']", eid);
