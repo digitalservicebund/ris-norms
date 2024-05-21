@@ -73,7 +73,29 @@ describe("elementsService", () => {
 
       expect(fetchMock).toHaveBeenCalledWith(
         "/norms/example/eli/elements/eid-1",
-        { headers: { Accept: "text/html" } },
+        { headers: { Accept: "text/html" }, query: { atIsoDate: undefined } },
+      )
+    })
+
+    it("loads the data with an ISO date", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
+
+      vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
+
+      const { getElementHtmlByEliAndEid } = await import("./elementsService")
+
+      const result = await getElementHtmlByEliAndEid("example/eli", "eid-1", {
+        at: new Date(2024, 3, 5),
+      })
+
+      expect(result).toEqual(`<div></div>`)
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/norms/example/eli/elements/eid-1",
+        {
+          headers: { Accept: "text/html" },
+          query: { atIsoDate: "2024-04-05T00:00:00.000Z" },
+        },
       )
     })
   })

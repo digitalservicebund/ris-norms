@@ -7,32 +7,54 @@ import {
   Ref,
   ref,
   toValue,
-  watch,
+  watchEffect,
 } from "vue"
 
 /**
- * Get the rendered html of an article inside an amending law.
+ * Get the rendered HTML of an element inside an amending law.
  *
- * @param eli A reference to the ELI of the norm for which the article XML will be returned.
- * @param eid A reference to the eId of the article for which the article XML will be returned.
- * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
- * @returns A reference to the article HTML or undefined if it is not available (or
- *  still loading).
+ * @param eli A reference to the ELI of the norm for which the element XML will
+ *  be returned.
+ * @param eid A reference to the eId of the element for which the element XML
+ *  will be returned.
+ * @param options Optional additional filters and queries.
+ * @returns A reference to the element HTML or undefined if it is not available
+ *  (or still loading).
  */
 export function useElementHtml(
-  identifier: MaybeRefOrGetter<LawElementIdentifier>,
+  identifier: MaybeRefOrGetter<LawElementIdentifier | undefined>,
+  options?: {
+    /** If set, applies all modifications until and including that date. */
+    at?: MaybeRefOrGetter<Date | undefined>
+  },
 ): DeepReadonly<Ref<string | undefined>> {
   const html = ref<string>()
+  let oldId: LawElementIdentifier | undefined = undefined
+  let oldDate: Date | undefined = undefined
 
-  watch(
-    () => toValue(identifier),
-    async ({ eli, eid }, oldVal) => {
-      if (!eli || !eid || (eli === oldVal?.eli && eid === oldVal?.eid)) return
+  watchEffect(async () => {
+    const idVal = toValue(identifier)
+    const dateVal = toValue(options?.at)
 
-      html.value = await getElementHtmlByEliAndEid(eli, eid)
-    },
-    { immediate: true },
-  )
+    if (
+      idVal?.eid &&
+      idVal?.eli &&
+      // Check if any of the old properties have changed
+      !(
+        idVal.eid === oldId?.eid &&
+        idVal.eli === oldId?.eli &&
+        dateVal?.toISOString() === oldDate?.toISOString()
+      )
+    ) {
+      html.value = await getElementHtmlByEliAndEid(idVal.eli, idVal.eid, {
+        // TODO: Send this to the backend once the parameter is implemented
+        // at: dateVal,
+      })
+    }
+
+    oldId = idVal
+    oldDate = dateVal
+  })
 
   return readonly(html)
 }

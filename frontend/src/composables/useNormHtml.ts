@@ -7,7 +7,6 @@ import { getNormHtmlByEli } from "@/services/normService"
  * @param eli a reference to the eli for which the norm html render will be returned.
  *  Changing the value of the reference will load the data for the new eli.
  * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
- *
  * @returns A reference to the norm rendered as HTML or undefined if it is not available (or still loading).
  */
 export function useNormHtml(

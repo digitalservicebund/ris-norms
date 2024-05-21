@@ -64,4 +64,31 @@ describe("useElementHtml", () => {
 
     expect(getElementHtmlByEliAndEid).toBeCalledTimes(3)
   })
+
+  test("should load the element when the date changes", async () => {
+    const getElementHtmlByEliAndEid = vi.fn()
+
+    vi.doMock("@/services/elementsService", () => ({
+      getElementHtmlByEliAndEid,
+    }))
+
+    const { useElementHtml } = await import("./useElementHtml")
+
+    const identifier = ref<LawElementIdentifier>({
+      eli: "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+      eid: "hauptteil-1_art-1",
+    })
+
+    const date = ref<Date | undefined>()
+
+    useElementHtml(identifier, { at: date })
+
+    date.value = new Date(2024, 1, 2)
+    await nextTick()
+
+    date.value = new Date(2024, 1, 2)
+    await nextTick()
+
+    expect(getElementHtmlByEliAndEid).toBeCalledTimes(2)
+  })
 })

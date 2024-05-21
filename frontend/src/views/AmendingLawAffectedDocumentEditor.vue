@@ -29,7 +29,7 @@ const sortedTimeBoundaries = computed(() =>
   }),
 )
 
-const selectedTimeBoundary = useTimeBoundaryPathParameter()
+const { timeBoundary: selectedTimeBoundary } = useTimeBoundaryPathParameter()
 
 // Choose the first time boundary if none is selected so far
 watch(
