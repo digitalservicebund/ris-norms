@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useArticle } from "@/composables/useArticle"
-import { computed } from "vue"
-import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
-import { useArticleHtml } from "@/composables/useArticleHtml"
+import { useElementHtml } from "@/composables/useElementHtml"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
+import { LawElementIdentifier } from "@/types/lawElementIdentifier"
+import { computed } from "vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const articleEid = useEidPathParameter()
-const timeBoundary = useTimeBoundaryPathParameter()
+const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
 /**
  * The xml of the law whose metadata is edited on this view. As both this and
@@ -28,13 +28,10 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
     : undefined,
 )
 
+// TODO: This needs to be an endpoint for a single element instead of an article
 const article = useArticle(identifier)
 
-const render = useArticleHtml(
-  affectedDocumentEli,
-  articleEid,
-  computed(() => new Date(timeBoundary.value)),
-)
+const render = useElementHtml(identifier, { at: timeBoundaryAsDate })
 </script>
 
 <template>

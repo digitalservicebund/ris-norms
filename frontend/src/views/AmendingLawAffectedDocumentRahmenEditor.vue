@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormHtml } from "@/composables/useNormHtml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
-import { computed } from "vue"
 
 /**
  * The xml of the law whose metadata is edited on this view. As both this and the article metadata editor vie both edit
@@ -15,14 +14,9 @@ import { computed } from "vue"
 const xml = defineModel<string>("xml")
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
-const timeBoundary = useTimeBoundaryPathParameter()
+const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
-const targetLawRender = useNormHtml(
-  affectedDocumentEli,
-  computed(() =>
-    timeBoundary.value ? new Date(timeBoundary.value) : undefined,
-  ),
-)
+const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
 </script>
 
 <template>
