@@ -48,3 +48,17 @@ export function getElementHtmlByEliAndEid(
     query: { atIsoDate: options?.at?.toISOString() },
   })
 }
+
+/**
+ * Returns any element that can be identified by its ELI and eId.
+ *
+ * @param eli ELI of the law containing the element
+ * @param eid eId of the element
+ * @returns Element inside the norm
+ */
+export function getElementByEliAndEid(
+  eli: string,
+  eid: string,
+): Promise<Element> {
+  return apiFetch<Element>(`/norms/${eli}/elements/${eid}`)
+}

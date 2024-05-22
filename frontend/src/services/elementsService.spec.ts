@@ -99,4 +99,30 @@ describe("elementsService", () => {
       )
     })
   })
+
+  describe("getElementByEliAndEid", () => {
+    it("provides the data from the API", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce({
+        eid: "article-eid",
+        title: "Example",
+        type: "article",
+      })
+
+      vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
+
+      const { getElementByEliAndEid } = await import("./elementsService")
+
+      const result = await getElementByEliAndEid("example/eli", "article-eid")
+
+      expect(result).toEqual({
+        eid: "article-eid",
+        title: "Example",
+        type: "article",
+      })
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/norms/example/eli/elements/article-eid",
+      )
+    })
+  })
 })
