@@ -179,6 +179,7 @@ paths:
           in: query
           required: false
           description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
+          example: "2017-03-01T00:00:00.000Z"
           schema:
             type: string
       responses:
