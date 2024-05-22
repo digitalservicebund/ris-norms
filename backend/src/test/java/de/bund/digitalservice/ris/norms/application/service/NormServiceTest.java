@@ -725,6 +725,7 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      verify(updateNormPort, times(0)).updateNorm(any());
       assertThat(xml).isEmpty();
     }
 
@@ -767,6 +768,9 @@ class NormServiceTest {
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));
       when(updateNormService.updatePassiveModifications(any())).thenReturn(targetNorm);
+      when(updateNormPort.updateNorm(any()))
+          .thenReturn(Optional.of(amendingNorm))
+          .thenReturn(Optional.of(targetNorm));
 
       // When
       var returnedXml =
@@ -801,6 +805,10 @@ class NormServiceTest {
                   argument ->
                       Objects.equals(argument.norm(), targetNorm)
                           && Objects.equals(argument.amendingNorm(), amendingNorm)));
+      verify(updateNormPort, times(1))
+          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), amendingNorm)));
+      verify(updateNormPort, times(1))
+          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), targetNorm)));
 
       assertThat(returnedXml).isPresent();
       final Document xmlDocument = XmlMapper.toDocument(returnedXml.get());

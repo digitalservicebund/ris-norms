@@ -36,7 +36,7 @@ class UpdateNormServiceTest {
       assertThat(passiveModification.getSourceEli())
           .contains("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
       assertThat(passiveModification.getSourceEid())
-          .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1");
+          .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
       assertThat(passiveModification.getDestinationHref())
           .contains("#hauptteil-1_para-20_abs-1/100-126");
       assertThat(passiveModification.getForcePeriodEid())
@@ -68,7 +68,7 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification.getSourceEli())
           .contains("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
       assertThat(newPassiveModification.getSourceEid())
-          .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1");
+          .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
       assertThat(newPassiveModification.getDestinationHref())
           .contains("#hauptteil-1_para-20_abs-1/100-126");
       assertThat(

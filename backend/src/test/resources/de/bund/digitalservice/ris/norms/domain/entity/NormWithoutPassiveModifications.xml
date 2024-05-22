@@ -19,6 +19,10 @@
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
                                   GUID="b82cc174-8fff-43bf-a434-5646de09e807"
                                   value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
+                    <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
+                                   GUID="b82cc174-8fff-43bf-a434-5646de09eaaa"
+                                   name="aktuelle-version-id"
+                                   value="b82cc174-8fff-43bf-a434-5646de09bbbb"/>
                 </akn:FRBRExpression>
             </akn:identification>
             <akn:lifecycle eId="meta-1_lebzykl-1"

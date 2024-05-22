@@ -164,13 +164,14 @@ public class NormService
               mod.setNewText(query.newText());
             });
 
-    // TODO: (Malte Laukötter, 2024-05-22) run validation that change is possible
+    // TODO: (Malte Laukötter, 2024-05-22) run validation that the change is possible
 
     updateNormService.updatePassiveModifications(
         new UpdatePassiveModificationsUseCase.Query(targetNorm, norm));
 
-    // TODO: (Malte Laukötter, 2024-05-22) save norm & targetNorm
+    var savedNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
+    updateNormPort.updateNorm(new UpdateNormPort.Command(targetNorm));
 
-    return Optional.of(XmlMapper.toString(norm.getDocument()));
+    return savedNorm.map(Norm::getDocument).map(XmlMapper::toString);
   }
 }
