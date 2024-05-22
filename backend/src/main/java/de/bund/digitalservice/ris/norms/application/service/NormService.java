@@ -145,8 +145,7 @@ public class NormService
     norm.getActiveModifications().stream()
         .filter(
             activeMod ->
-                activeMod.getSourceEid().isPresent()
-                    && activeMod.getSourceEid().get().equals(query.eid()))
+                activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eid())))
         .findFirst()
         .ifPresent(
             activeMod -> {

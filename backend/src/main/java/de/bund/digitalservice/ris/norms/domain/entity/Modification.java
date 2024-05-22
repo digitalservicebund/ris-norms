@@ -7,11 +7,13 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Node;
 
-/** Class representing a modification. */
+/**
+ * Class representing an akn:textualMod.
+ */
 @Getter
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public abstract class Modification {
+public class Modification {
   private final Node node;
 
   /**

@@ -263,7 +263,11 @@ public class ElementsController {
                 passiveMod -> {
                   if (amendedBy.isEmpty()) return true;
 
-                  return passiveMod.getSourceEli().orElseThrow().equals(amendedBy.get());
+                  return passiveMod
+                      .getSourceHref()
+                      .flatMap(Href::getEli)
+                      .orElseThrow()
+                      .equals(amendedBy.get());
                 })
             .map(PassiveModification::getDestinationHref)
             .flatMap(Optional::stream)

@@ -1450,10 +1450,10 @@ class NormTest {
               "#meta-1_geltzeiten-1_geltungszeitgr-2");
 
       // then
-      assertThat(passiveModification.getSourceEid())
-          .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
-      assertThat(passiveModification.getSourceEli())
-          .contains("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
+      assertThat(passiveModification.getSourceHref())
+          .contains(
+              new Href(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
       assertThat(passiveModification.getType()).contains("substitution");
       assertThat(passiveModification.getDestinationHref())
           .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
@@ -1585,7 +1585,7 @@ class NormTest {
     Norm norm = new Norm(toDocument(normString));
 
     // when
-    final List<ActiveModification> activeModifications = norm.getActiveModifications();
+    final List<Modification> activeModifications = norm.getActiveModifications();
 
     // then
     assertThat(activeModifications).hasSize(2);

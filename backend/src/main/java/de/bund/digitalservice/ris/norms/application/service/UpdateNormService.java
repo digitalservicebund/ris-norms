@@ -24,7 +24,10 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
     norm.getPassiveModifications().stream()
         .filter(
             passiveModification ->
-                passiveModification.getSourceEli().equals(Optional.of(sourceNormEli)))
+                passiveModification
+                    .getSourceHref()
+                    .flatMap(Href::getEli)
+                    .equals(Optional.of(sourceNormEli)))
         .forEach(
             passiveModification -> {
               norm.deleteByEId(passiveModification.getEid().orElseThrow());
@@ -50,7 +53,11 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
     final var activeModificationsToAdd =
         query.amendingNorm().getActiveModifications().stream()
             .filter(
-                activeModification -> activeModification.getDestinationEli().equals(norm.getEli()))
+                activeModification ->
+                    activeModification
+                        .getDestinationHref()
+                        .flatMap(Href::getEli)
+                        .equals(norm.getEli()))
             .toList();
 
     // create temporal groups
@@ -80,14 +87,18 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
                 activeModification.getType().orElseThrow(),
                 new Href.Builder()
                     .setEli(query.amendingNorm().getEli().orElseThrow())
-                    .setEId(activeModification.getSourceEid().orElseThrow())
+                    .setEId(activeModification.getSourceHref().flatMap(Href::getEId).orElseThrow())
                     .setFileExtension("xml")
                     .buildAbsolute()
                     .value(),
                 new Href.Builder()
-                    .setEId(activeModification.getDestinationEid().orElseThrow())
+                    .setEId(
+                        activeModification.getDestinationHref().flatMap(Href::getEId).orElseThrow())
                     .setCharacterRange(
-                        activeModification.getDestinationCharacterRange().orElseThrow())
+                        activeModification
+                            .getDestinationHref()
+                            .flatMap(Href::getCharacterRange)
+                            .orElseThrow())
                     .buildRelative()
                     .value(),
                 activeModification

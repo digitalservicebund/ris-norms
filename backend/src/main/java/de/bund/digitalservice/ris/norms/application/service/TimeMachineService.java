@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModif
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -124,7 +125,8 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
                         .orElseThrow()))
         .flatMap(
             (PassiveModification passiveModification) -> {
-              var sourceEli = passiveModification.getSourceEli().orElseThrow();
+              var sourceEli =
+                  passiveModification.getSourceHref().flatMap(Href::getEli).orElseThrow();
 
               Norm amendingLaw;
               if (query.customNorms().containsKey(sourceEli)) {
@@ -134,7 +136,7 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
                     normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
               }
 
-              var sourceEid = passiveModification.getSourceEid();
+              var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);
               return amendingLaw.getMods().stream().filter(mod -> mod.getEid().equals(sourceEid));
             })
         .forEach(
