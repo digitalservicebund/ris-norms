@@ -1,14 +1,14 @@
-import { describe, it, expect, vi } from "vitest"
-import { render, screen } from "@testing-library/vue"
-import RisTemporalDataIntervals from "./RisTemporalDataIntervals.vue"
-import dayjs from "dayjs"
 import { userEvent } from "@testing-library/user-event"
+import { render, screen } from "@testing-library/vue"
+import dayjs from "dayjs"
+import { describe, expect, it, vi } from "vitest"
+import RisTemporalDataIntervals from "./RisTemporalDataIntervals.vue"
 
 describe("RisTemporalDateIntervals", () => {
   it("renders the correct number of date inputs and checks their values", async () => {
     const dates = [
-      { date: "2023-01-01", eid: "event-1" },
-      { date: "2023-02-01", eid: "event-2" },
+      { date: "2023-01-01", eid: "event-1", eventRefEid: "ref-1" },
+      { date: "2023-02-01", eid: "event-2", eventRefEid: "ref-2" },
     ]
     render(RisTemporalDataIntervals, {
       props: { dates },
@@ -34,8 +34,8 @@ describe("RisTemporalDateIntervals", () => {
     const user = userEvent.setup()
 
     const dates = [
-      { date: "2023-01-01", eid: "event-1" },
-      { date: "2023-02-01", eid: "event-2" },
+      { date: "2023-01-01", eid: "event-1", eventRefEid: "ref-1" },
+      { date: "2023-02-01", eid: "event-2", eventRefEid: "ref-2" },
     ]
 
     render(RisTemporalDataIntervals, {
@@ -48,7 +48,7 @@ describe("RisTemporalDateIntervals", () => {
   })
 
   it("disables the delete button when there is only one date input", async () => {
-    const dates = [{ date: "2023-01-01", eid: "event-1" }]
+    const dates = [{ date: "2023-01-01", eid: "event-1", eventRefEid: "ref-1" }]
     render(RisTemporalDataIntervals, {
       props: { dates },
     })
@@ -62,8 +62,8 @@ describe("RisTemporalDateIntervals", () => {
     const onUpdate = vi.fn()
 
     const dates = [
-      { date: "2023-01-01", eid: "event-1" },
-      { date: "2023-02-01", eid: "event-2" },
+      { date: "2023-01-01", eid: "event-1", eventRefEid: "ref-1" },
+      { date: "2023-02-01", eid: "event-2", eventRefEid: "ref-2" },
     ]
 
     render(RisTemporalDataIntervals, {
@@ -73,12 +73,12 @@ describe("RisTemporalDateIntervals", () => {
     await user.click(screen.getByTestId("delete-button-0"))
 
     expect(dates).toStrictEqual([
-      { date: "2023-01-01", eid: "event-1" },
-      { date: "2023-02-01", eid: "event-2" },
+      { date: "2023-01-01", eid: "event-1", eventRefEid: "ref-1" },
+      { date: "2023-02-01", eid: "event-2", eventRefEid: "ref-2" },
     ])
 
     expect(onUpdate).toHaveBeenCalledWith([
-      { date: "2023-02-01", eid: "event-2" },
+      { date: "2023-02-01", eid: "event-2", eventRefEid: "ref-2" },
     ])
   })
 })
