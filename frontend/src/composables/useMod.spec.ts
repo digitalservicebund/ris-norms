@@ -130,4 +130,34 @@ describe("useMod", () => {
     await nextTick()
     expect(quotedTextSecond.value).toBe("new text")
   })
+
+  test("should update mod data and return the response", async () => {
+    const eli = "test-eli"
+    const eid = "test-eid"
+    const updatedMods = {
+      refersTo: "test-refersTo",
+      timeBoundaryEid: "test-timeBoundaryEid",
+      destinationHref: "test-destinationHref",
+      oldText: "test-oldText",
+      newText: "test-newText",
+    }
+
+    vi.doMock("@/services/ldmldeModService", () => ({
+      getDestinationHref: vi.fn(),
+      getQuotedTextFirst: vi.fn(),
+      getQuotedTextSecond: vi.fn(),
+      getTextualModType: vi.fn(),
+      getTimeBoundaryDate: vi.fn(),
+      updateModData: vi.fn().mockResolvedValue("<xml>response</xml>"),
+    }))
+    const { useMod } = await import("./useMod")
+    const { updateMod } = useMod(eid, `<xml></xml>`)
+
+    const result = await updateMod(eli, eid, updatedMods)
+
+    expect(result).toBe("<xml>response</xml>")
+
+    const { updateModData } = await import("@/services/ldmldeModService")
+    expect(updateModData).toHaveBeenCalledWith(eli, eid, updatedMods)
+  })
 })
