@@ -2,8 +2,8 @@
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
-import { useArticle } from "@/composables/useArticle"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
+import { useElement } from "@/composables/useElement"
 import { useElementHtml } from "@/composables/useElementHtml"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
@@ -28,8 +28,7 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
     : undefined,
 )
 
-// TODO: This needs to be an endpoint for a single element instead of an article
-const article = useArticle(identifier)
+const element = useElement(identifier)
 
 const render = useElementHtml(identifier, { at: timeBoundaryAsDate })
 </script>
@@ -39,7 +38,7 @@ const render = useElementHtml(identifier, { at: timeBoundaryAsDate })
     <div class="flex gap-16">
       <div class="flex-grow">
         <h2 class="ds-heading-03-reg">
-          § {{ article?.enumeration }} {{ article?.title }}
+          {{ element?.title }}
         </h2>
       </div>
     </div>
