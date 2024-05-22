@@ -1,8 +1,10 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.ActiveModification;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class ModificationValidator {
    */
   public void validate(Norm amendingLaw) {
     throwErrorNoDestinationSet(amendingLaw);
-    affectedDocumentExists(amendingLaw);
+    affectedDocumentsExists(amendingLaw);
     nodeWithGivenDestEidExists(amendingLaw);
 
     destNodeHasTextOnlyContent(amendingLaw);
@@ -30,6 +32,33 @@ public class ModificationValidator {
   }
 
   /**
+   * Checks if the target law referenced from a modification command exists
+   *
+   * @param amendingLaw the amending law to be checked
+   */
+  public void affectedDocumentsExists(Norm amendingLaw) {
+    List<String> affectedDocumentElis =
+        amendingLaw.getActiveModifications().stream()
+            .map(ActiveModification::getDestinationEli)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .toList();
+
+    affectedDocumentElis.forEach(
+        eli -> {
+          Optional<Norm> norm = dbService.loadNorm(new LoadNormPort.Command(eli));
+          if (norm.isEmpty()) {
+            throw new XmlProcessingException(
+                "Could not find a norm with the eli %s for the amending law %s"
+                    .formatted(eli, amendingLaw.getEli()),
+                null);
+          }
+        });
+  }
+
+  /**
+   * Checks if the text to be replaced is present in the target law
+   *
    * @param amendingLaw the amending law to be checked
    */
   public void oldTextExistsInTargetLaw(Norm amendingLaw) {
@@ -51,19 +80,6 @@ public class ModificationValidator {
    */
   public void destNodeHasTextOnlyContent(Norm amendingLaw) {
     // TODO no "<>" exists
-  }
-
-  /**
-   * @param amendingLaw the amending law to be checked
-   */
-  public void affectedDocumentExists(Norm amendingLaw) {
-    List<String> affectedDocumentElis =
-        amendingLaw.getActiveModifications().stream()
-            .map(ActiveModification::getDestinationEli)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .toList();
-    // TODO
   }
 
   private void throwErrorNoDestinationSet(Norm amendingLaw) {

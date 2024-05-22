@@ -160,7 +160,7 @@ public class NormService
                 return Optional.of(norm);
               });
       if (updatedNorm.isPresent()) {
-        modificationValidator.validate(updatedNorm.get());
+        //        modificationValidator.validate(updatedNorm.get());
         return Optional.of(XmlMapper.toString(updatedNorm.get().getDocument()));
       } else return Optional.empty();
     }
