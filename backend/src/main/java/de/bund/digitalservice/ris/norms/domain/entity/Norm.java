@@ -262,9 +262,10 @@ public class Norm {
    * timeInterval node as child.
    *
    * @param date the {@link LocalDate} for the new time boundary.
+   * @param eventRefType the {@link EventRefType} for the new time boundary.
    * @return the newly created {@link TemporalGroup}
    */
-  public TemporalGroup addTimeBoundary(LocalDate date) {
+  public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
 
     Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
 
@@ -279,7 +280,7 @@ public class Norm {
     eventRef.setAttribute("GUID", UUID.randomUUID().toString());
     eventRef.setAttribute("date", date.toString());
     eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
-    eventRef.setAttribute("type", "generation");
+    eventRef.setAttribute("type", eventRefType.getValue());
     eventRef.setAttribute("refersTo", "inkrafttreten");
 
     // Append new eventRef node to lifecycle node

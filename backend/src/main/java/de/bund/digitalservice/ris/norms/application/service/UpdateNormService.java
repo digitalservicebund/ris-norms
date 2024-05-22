@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
@@ -65,7 +66,8 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
                           query
                               .amendingNorm()
                               .getStartDateForTemporalGroup(forcePeriodEid)
-                              .orElseThrow()));
+                              .orElseThrow()),
+                      EventRefType.AMENDMENT);
 
               amendingNormTemporalGroupEidsToNormTemporalGroupEids.put(
                   forcePeriodEid, temporalGroup.getEid().orElseThrow());

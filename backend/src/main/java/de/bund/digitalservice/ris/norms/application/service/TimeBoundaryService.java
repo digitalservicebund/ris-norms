@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBServic
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
@@ -131,7 +132,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
     timeBoundaryChangeData.stream()
         .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
         .map(TimeBoundaryChangeData::date)
-        .forEach(norm::addTimeBoundary);
+        .forEach(date -> norm.addTimeBoundary(date, EventRefType.GENERATION));
   }
 
   private List<TimeBoundaryChangeData> selectTimeBoundariesToDelete(

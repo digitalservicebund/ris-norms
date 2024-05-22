@@ -3,8 +3,10 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -57,6 +59,9 @@ class UpdateNormServiceTest {
       assertThat(updatedAmendingLaw.getPassiveModifications()).hasSize(1);
       assertThat(updatedAmendingLaw.getTimeBoundaries())
           .hasSize(4); // 3 existing time-boundaries + 1 new one for the mod
+      var eventRefNode = updatedAmendingLaw.getTimeBoundaries().get(3).getEventRefNode();
+      assertThat(NodeParser.getValueFromExpression("@type", eventRefNode))
+          .contains(EventRefType.AMENDMENT.getValue());
 
       var newPassiveModification = updatedAmendingLaw.getPassiveModifications().getFirst();
       assertThat(newPassiveModification.getType()).contains("substitution");

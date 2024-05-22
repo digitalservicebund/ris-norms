@@ -1035,7 +1035,7 @@ class NormTest {
             .strip();
 
     Norm norm = new Norm(toDocument(xml));
-    norm.addTimeBoundary(LocalDate.parse("2024-01-02"));
+    norm.addTimeBoundary(LocalDate.parse("2024-01-02"), EventRefType.GENERATION);
 
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
 
