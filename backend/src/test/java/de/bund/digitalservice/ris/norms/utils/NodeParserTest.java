@@ -62,6 +62,6 @@ class NodeParserTest {
   void nodeListToListZeroElements() {
     Node node = XmlMapper.toDocument("<foo></foo>").getFirstChild();
     var nodes = NodeParser.nodeListToList(node.getChildNodes());
-    assertThat(nodes).hasSize(0);
+    assertThat(nodes).isEmpty();
   }
 }
