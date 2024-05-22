@@ -1455,7 +1455,8 @@ class NormTest {
       assertThat(passiveModification.getSourceEli())
           .contains("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
       assertThat(passiveModification.getType()).contains("substitution");
-      assertThat(passiveModification.getDestinationEid()).contains("hauptteil-1_para-20_abs-1");
+      assertThat(passiveModification.getDestinationHref())
+          .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
       assertThat(passiveModification.getForcePeriodEid())
           .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
       assertThat(

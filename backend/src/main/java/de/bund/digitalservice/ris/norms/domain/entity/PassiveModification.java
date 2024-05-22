@@ -36,17 +36,4 @@ public class PassiveModification extends Modification {
   public Optional<String> getSourceEid() {
     return this.getSourceHref().flatMap(Href::getEId);
   }
-
-  /**
-   * Returns the destination eid as {@link String}.
-   *
-   * @return The destination eid of the passive modification
-   */
-  public Optional<String> getDestinationEid() {
-    return this.getDestinationHref().flatMap(Href::getEId);
-  }
-
-  public Optional<String> getDestinationCharacterRange() {
-    return this.getDestinationHref().flatMap(Href::getCharacterRange);
-  }
 }

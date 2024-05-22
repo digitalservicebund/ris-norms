@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsRes
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
 import de.bund.digitalservice.ris.norms.utils.EliBuilder;
@@ -264,7 +265,9 @@ public class ElementsController {
 
                   return passiveMod.getSourceEli().orElseThrow().equals(amendedBy.get());
                 })
-            .map(PassiveModification::getDestinationEid)
+            .map(PassiveModification::getDestinationHref)
+            .flatMap(Optional::stream)
+            .map(Href::getEId)
             .flatMap(Optional::stream)
             .toList();
 
