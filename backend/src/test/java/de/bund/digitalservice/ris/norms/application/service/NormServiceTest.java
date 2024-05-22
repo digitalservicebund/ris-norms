@@ -19,6 +19,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.ActiveModification;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,8 +33,10 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
+  final UpdateNormService updateNormService = mock(UpdateNormService.class);
 
-  final NormService service = new NormService(loadNormPort, loadNormByGuidPort, updateNormPort);
+  final NormService service =
+      new NormService(loadNormPort, loadNormByGuidPort, updateNormPort, updateNormService);
 
   @Nested
   class loadNorm {
@@ -728,9 +731,7 @@ class NormServiceTest {
     @Test
     void itCallsLoadNormAndUpdatesXml() {
       // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-
-      var norm =
+      var amendingNorm =
           Norm.builder()
               .document(
                   XmlMapper.toDocument(
@@ -761,34 +762,60 @@ class NormServiceTest {
                                             </akn:akomaNtoso>
                                           """))
               .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any()))
+          .thenReturn(Optional.of(amendingNorm))
+          .thenReturn(Optional.of(targetNorm));
+      when(updateNormService.updatePassiveModifications(any())).thenReturn(targetNorm);
 
       // When
       var returnedXml =
           service.updateMod(
               new UpdateModUseCase.Query(
-                  eli,
+                  "eli/bund/bgbl-1/2023/123/2023-08-05/1/deu/regelungstext-1",
                   "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
                   "aenderungsbefehl-ersetzen",
                   "new-time-boundary-eid",
-                  "new-destinanation-href",
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml",
                   "old text",
                   "new text"));
 
       // Then
       verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+          .loadNorm(
+              argThat(
+                  argument ->
+                      Objects.equals(
+                          argument.eli(),
+                          "eli/bund/bgbl-1/2023/123/2023-08-05/1/deu/regelungstext-1")));
+      verify(loadNormPort, times(1))
+          .loadNorm(
+              argThat(
+                  argument ->
+                      Objects.equals(
+                          argument.eli(),
+                          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
+      verify(updateNormService, times(1))
+          .updatePassiveModifications(
+              argThat(
+                  argument ->
+                      Objects.equals(argument.norm(), targetNorm)
+                          && Objects.equals(argument.amendingNorm(), amendingNorm)));
 
       assertThat(returnedXml).isPresent();
       final Document xmlDocument = XmlMapper.toDocument(returnedXml.get());
       final Norm testNorm = Norm.builder().document(xmlDocument).build();
 
       final ActiveModification activeModifications = testNorm.getActiveModifications().getFirst();
-      assertThat(activeModifications.getDestinationHref()).contains("new-destinanation-href");
+      assertThat(activeModifications.getDestinationHref())
+          .contains(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml");
       assertThat(activeModifications.getForcePeriodEid()).contains("new-time-boundary-eid");
 
       final Mod mod = testNorm.getMods().getFirst();
-      assertThat(mod.getTargteHref()).contains("new-destinanation-href");
+      assertThat(mod.getTargteHref())
+          .contains(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml");
       assertThat(mod.getNewText()).contains("new text");
     }
   }

@@ -16,11 +16,21 @@ public record Href(String value) {
   static final int ABSOLUTE_POSITION_OF_CHARACTER_RANGE = ABSOLUTE_POSITION_OF_EID + 1;
   static final int RELATIVE_POSITION_OF_CHARACTER_RANGE = RELATIVE_POSITION_OF_EID + 1;
 
-  boolean isRelative() {
+  /**
+   * Is the href relative to the current norm?
+   *
+   * @return true when it is a relative href, false if it is absolute
+   */
+  public boolean isRelative() {
     return value.startsWith("#");
   }
 
-  Optional<String> getEli() {
+  /**
+   * Get the eli of the href
+   *
+   * @return The eli of the href or empty if no eli is included.
+   */
+  public Optional<String> getEli() {
     if (isRelative()) {
       return Optional.empty();
     }
@@ -32,7 +42,12 @@ public record Href(String value) {
         .map(Href::removeFileExtension);
   }
 
-  Optional<String> getEId() {
+  /**
+   * Get the eId of the href
+   *
+   * @return The eId of the href or empty if no eid is included.
+   */
+  public Optional<String> getEId() {
     if (isRelative()) {
       var splitHref = value().replaceFirst("^#", "").split("/");
 
@@ -52,7 +67,12 @@ public record Href(String value) {
     return Optional.of(Href.removeFileExtension(splitHref[ABSOLUTE_POSITION_OF_EID]));
   }
 
-  Optional<String> getCharacterRange() {
+  /**
+   * Get the character range of the href
+   *
+   * @return The character range of the href or empty if no character range is included.
+   */
+  public Optional<String> getCharacterRange() {
     if (isRelative()) {
       var splitHref = value().replaceFirst("^#", "").split("/");
 

@@ -7,10 +7,12 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCas
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateModUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
@@ -35,14 +37,17 @@ public class NormService
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
+  private final UpdateNormService updateNormService;
 
   public NormService(
       LoadNormPort loadNormPort,
       LoadNormByGuidPort loadNormByGuidPort,
-      UpdateNormPort updateNormPort) {
+      UpdateNormPort updateNormPort,
+      UpdateNormService updateNormService) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
+    this.updateNormService = updateNormService;
   }
 
   @Override
@@ -119,41 +124,53 @@ public class NormService
   @Override
   public Optional<String> updateMod(UpdateModUseCase.Query query) {
 
-    final Optional<Norm> existingNorm =
+    final Optional<Norm> optionalNorm =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-
-    if (existingNorm.isEmpty()) {
+    if (optionalNorm.isEmpty()) {
       return Optional.empty();
-    } else {
-      return existingNorm.flatMap(
-          norm -> {
-
-            // Edit mod in metadata
-            norm.getActiveModifications().stream()
-                .filter(
-                    activeMod ->
-                        activeMod.getSourceEid().isPresent()
-                            && activeMod.getSourceEid().get().equals(query.eid()))
-                .findFirst()
-                .ifPresent(
-                    activeMod -> {
-                      activeMod.setDestinationHref(query.destinationHref());
-                      activeMod.setForcePeriodEid(query.timeBoundaryEid());
-                    });
-
-            // Edit mod in body
-            norm.getMods().stream()
-                .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
-                .findFirst()
-                .ifPresent(
-                    mod -> {
-                      mod.setTargetHref(query.destinationHref());
-                      mod.setNewText(query.newText());
-                    });
-
-            // Return updated amending law document
-            return Optional.of(XmlMapper.toString(norm.getDocument()));
-          });
     }
+    final var norm = optionalNorm.get();
+
+    final Optional<Norm> optionalTargetNorm =
+        new Href(query.destinationHref())
+            .getEli()
+            .map(LoadNormPort.Command::new)
+            .flatMap(loadNormPort::loadNorm);
+    if (optionalTargetNorm.isEmpty()) {
+      return Optional.empty();
+    }
+    var targetNorm = optionalTargetNorm.get();
+
+    // Edit mod in metadata
+    norm.getActiveModifications().stream()
+        .filter(
+            activeMod ->
+                activeMod.getSourceEid().isPresent()
+                    && activeMod.getSourceEid().get().equals(query.eid()))
+        .findFirst()
+        .ifPresent(
+            activeMod -> {
+              activeMod.setDestinationHref(query.destinationHref());
+              activeMod.setForcePeriodEid(query.timeBoundaryEid());
+            });
+
+    // Edit mod in body
+    norm.getMods().stream()
+        .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
+        .findFirst()
+        .ifPresent(
+            mod -> {
+              mod.setTargetHref(query.destinationHref());
+              mod.setNewText(query.newText());
+            });
+
+    // TODO: (Malte Laukötter, 2024-05-22) run validation that change is possible
+
+    updateNormService.updatePassiveModifications(
+        new UpdatePassiveModificationsUseCase.Query(targetNorm, norm));
+
+    // TODO: (Malte Laukötter, 2024-05-22) save norm & targetNorm
+
+    return Optional.of(XmlMapper.toString(norm.getDocument()));
   }
 }
