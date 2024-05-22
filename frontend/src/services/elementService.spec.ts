@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
-describe("elementsService", () => {
+describe("elementService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -16,7 +16,7 @@ describe("elementsService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getElementsByEliAndType } = await import("./elementsService")
+      const { getElementsByEliAndType } = await import("./elementService")
 
       const result = await getElementsByEliAndType("example/eli", ["article"])
 
@@ -40,7 +40,7 @@ describe("elementsService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getElementsByEliAndType } = await import("./elementsService")
+      const { getElementsByEliAndType } = await import("./elementService")
 
       const result = await getElementsByEliAndType("example/eli", ["article"], {
         amendedBy: "example/eli2",
@@ -65,7 +65,7 @@ describe("elementsService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getElementHtmlByEliAndEid } = await import("./elementsService")
+      const { getElementHtmlByEliAndEid } = await import("./elementService")
 
       const result = await getElementHtmlByEliAndEid("example/eli", "eid-1")
 
@@ -82,7 +82,7 @@ describe("elementsService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getElementHtmlByEliAndEid } = await import("./elementsService")
+      const { getElementHtmlByEliAndEid } = await import("./elementService")
 
       const result = await getElementHtmlByEliAndEid("example/eli", "eid-1", {
         at: new Date(2024, 3, 5),
@@ -110,7 +110,7 @@ describe("elementsService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getElementByEliAndEid } = await import("./elementsService")
+      const { getElementByEliAndEid } = await import("./elementService")
 
       const result = await getElementByEliAndEid("example/eli", "article-eid")
 

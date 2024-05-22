@@ -7,7 +7,7 @@ import {
   toValue,
   watch,
 } from "vue"
-import { getArticleRenderByEliAndEid } from "@/services/articlesService"
+import { getArticleRenderByEliAndEid } from "@/services/articleService"
 
 /**
  * Get the rendered html of an article inside an amending law.

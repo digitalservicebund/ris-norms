@@ -11,7 +11,7 @@ describe("useElementHtml", () => {
   test("should provide the element", async () => {
     const getElementHtmlByEliAndEid = vi.fn().mockResolvedValue("<div></div>")
 
-    vi.doMock("@/services/elementsService", () => ({
+    vi.doMock("@/services/elementService", () => ({
       getElementHtmlByEliAndEid,
     }))
 
@@ -31,7 +31,7 @@ describe("useElementHtml", () => {
   test("should load the element when the identifier changes", async () => {
     const getElementHtmlByEliAndEid = vi.fn()
 
-    vi.doMock("@/services/elementsService", () => ({
+    vi.doMock("@/services/elementService", () => ({
       getElementHtmlByEliAndEid,
     }))
 
@@ -68,7 +68,7 @@ describe("useElementHtml", () => {
   test("should load the element when the date changes", async () => {
     const getElementHtmlByEliAndEid = vi.fn()
 
-    vi.doMock("@/services/elementsService", () => ({
+    vi.doMock("@/services/elementService", () => ({
       getElementHtmlByEliAndEid,
     }))
 

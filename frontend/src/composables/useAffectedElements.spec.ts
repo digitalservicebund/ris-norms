@@ -14,7 +14,7 @@ describe("useAffectedElements", () => {
       .mockReturnValue([
         { eid: "article-1", title: "Heading", type: "article" },
       ])
-    vi.doMock("@/services/elementsService", () => ({ getElementsByEliAndType }))
+    vi.doMock("@/services/elementService", () => ({ getElementsByEliAndType }))
 
     const { useAffectedElements } = await import("./useAffectedElements")
 
@@ -32,7 +32,7 @@ describe("useAffectedElements", () => {
 
   test("should load the elements when the identifiers change", async () => {
     const getElementsByEliAndType = vi.fn()
-    vi.doMock("@/services/elementsService", () => ({ getElementsByEliAndType }))
+    vi.doMock("@/services/elementService", () => ({ getElementsByEliAndType }))
 
     const { useAffectedElements } = await import("./useAffectedElements")
 
@@ -63,7 +63,7 @@ describe("useAffectedElements", () => {
 
   test("should do nothing if ELI is an empty string", async () => {
     const getElementsByEliAndType = vi.fn()
-    vi.doMock("@/services/elementsService", () => ({ getElementsByEliAndType }))
+    vi.doMock("@/services/elementService", () => ({ getElementsByEliAndType }))
 
     const { useAffectedElements } = await import("./useAffectedElements")
 
@@ -74,7 +74,7 @@ describe("useAffectedElements", () => {
 
   test("should do nothing if types are empty", async () => {
     const getElementsByEliAndType = vi.fn()
-    vi.doMock("@/services/elementsService", () => ({ getElementsByEliAndType }))
+    vi.doMock("@/services/elementService", () => ({ getElementsByEliAndType }))
 
     const { useAffectedElements } = await import("./useAffectedElements")
 
@@ -88,7 +88,7 @@ describe("useAffectedElements", () => {
 
   test("should load the elements if an amending law is specified", async () => {
     const getElementsByEliAndType = vi.fn()
-    vi.doMock("@/services/elementsService", () => ({ getElementsByEliAndType }))
+    vi.doMock("@/services/elementService", () => ({ getElementsByEliAndType }))
 
     const { useAffectedElements } = await import("./useAffectedElements")
 

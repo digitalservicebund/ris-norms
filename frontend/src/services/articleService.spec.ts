@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
-describe("articlesService", () => {
+describe("articleService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -19,7 +19,7 @@ describe("articlesService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getArticlesByEli } = await import("./articlesService")
+      const { getArticlesByEli } = await import("./articleService")
 
       const result = await getArticlesByEli("example/eli")
 
@@ -49,7 +49,7 @@ describe("articlesService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getArticlesByEli } = await import("./articlesService")
+      const { getArticlesByEli } = await import("./articleService")
 
       const result = await getArticlesByEli("example/eli", {
         amendedAt: "foo",
@@ -82,7 +82,7 @@ describe("articlesService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getArticleByEliAndEid } = await import("./articlesService")
+      const { getArticleByEliAndEid } = await import("./articleService")
 
       const result = await getArticleByEliAndEid({
         eli: "example/eli",
@@ -110,7 +110,7 @@ describe("articlesService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getArticleXmlByEliAndEid } = await import("./articlesService")
+      const { getArticleXmlByEliAndEid } = await import("./articleService")
 
       const result = await getArticleXmlByEliAndEid({
         eli: "example/eli",
@@ -134,7 +134,7 @@ describe("articlesService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getArticleRenderByEliAndEid } = await import("./articlesService")
+      const { getArticleRenderByEliAndEid } = await import("./articleService")
 
       const result = await getArticleRenderByEliAndEid({
         eli: "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
@@ -157,7 +157,7 @@ describe("articlesService", () => {
 
       vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
 
-      const { getArticleRenderByEliAndEid } = await import("./articlesService")
+      const { getArticleRenderByEliAndEid } = await import("./articleService")
 
       const date = new Date(Date.UTC(2023, 11, 11, 1, 2, 3, 4))
       const result = await getArticleRenderByEliAndEid(

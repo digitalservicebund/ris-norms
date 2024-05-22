@@ -76,9 +76,9 @@ const routes: readonly RouteRecordRaw[] = [
       },
       {
         path: ":timeBoundary/:eid",
-        name: "AmendingLawAffectedDocumentArticleEditor",
+        name: "AmendingLawAffectedDocumentElementEditor",
         component: () =>
-          import("@/views/AmendingLawAffectedDocumentArticleEditor.vue"),
+          import("@/views/AmendingLawAffectedDocumentElementEditor.vue"),
       },
     ],
   },

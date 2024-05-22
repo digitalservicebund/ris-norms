@@ -1,4 +1,4 @@
-import { getElementsByEliAndType } from "@/services/elementsService"
+import { getElementsByEliAndType } from "@/services/elementService"
 import { Element, ElementType } from "@/types/element"
 import {
   DeepReadonly,

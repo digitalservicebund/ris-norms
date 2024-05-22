@@ -131,7 +131,7 @@ async function handleSave() {
         v-for="element in elements"
         :key="element.eid"
         :to="{
-          name: 'AmendingLawAffectedDocumentArticleEditor',
+          name: 'AmendingLawAffectedDocumentElementEditor',
           params: { eid: element.eid, timeBoundary: selectedTimeBoundary },
         }"
         active-class="font-bold underline bg-blue-200"

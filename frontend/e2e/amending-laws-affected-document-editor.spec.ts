@@ -36,7 +36,7 @@ test.describe("navigate to page", () => {
 })
 
 test.describe("sidebar navigation", () => {
-  test("shows the articles affected by this amending law", async ({ page }) => {
+  test("shows the elements affected by this amending law", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
@@ -125,7 +125,7 @@ test.describe("sidebar navigation", () => {
     ).toHaveValue("2023-12-30")
   })
 
-  test("navigates to the selected time boundary of an article", async ({
+  test("navigates to the selected time boundary of an element", async ({
     page,
   }) => {
     await page.goto(
@@ -188,7 +188,7 @@ test.describe("preview", () => {
     await expect(preview).toHaveText(/.*nach Ablauf von fünf Jahren.*/)
   })
 
-  test("displays the title and preview of an article", async ({ page }) => {
+  test("displays the title and preview of an element", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-erster_para-6",
     )
@@ -211,7 +211,7 @@ test.describe("preview", () => {
     ).toBeVisible()
   })
 
-  test("shows the preview of an article at different time boundaries", async ({
+  test("shows the preview of an element at different time boundaries", async ({
     page,
   }) => {
     await page.goto(

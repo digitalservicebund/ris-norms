@@ -11,7 +11,7 @@ import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed } from "vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
-const articleEid = useEidPathParameter()
+const elementEid = useEidPathParameter()
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
 /**
@@ -23,8 +23,8 @@ const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 const xml = defineModel<string>("xml")
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>
-  affectedDocumentEli.value && articleEid.value
-    ? { eli: affectedDocumentEli.value, eid: articleEid.value }
+  affectedDocumentEli.value && elementEid.value
+    ? { eli: affectedDocumentEli.value, eid: elementEid.value }
     : undefined,
 )
 

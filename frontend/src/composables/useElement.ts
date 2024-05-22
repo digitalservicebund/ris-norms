@@ -1,4 +1,4 @@
-import { getElementByEliAndEid } from "@/services/elementsService"
+import { getElementByEliAndEid } from "@/services/elementService"
 import { Element } from "@/types/element"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import {

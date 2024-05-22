@@ -10,7 +10,7 @@ describe("useArticleHtml", () => {
   test("should provide the article", async () => {
     const getArticleRenderByEliAndEid = vi.fn().mockResolvedValue("<div></div>")
 
-    vi.doMock("@/services/articlesService", () => ({
+    vi.doMock("@/services/articleService", () => ({
       getArticleRenderByEliAndEid: getArticleRenderByEliAndEid,
     }))
 
@@ -30,7 +30,7 @@ describe("useArticleHtml", () => {
   test("should load the article when the identifier changes", async () => {
     const getArticleRenderByEliAndEid = vi.fn()
 
-    vi.doMock("@/services/articlesService", () => ({
+    vi.doMock("@/services/articleService", () => ({
       getArticleRenderByEliAndEid: getArticleRenderByEliAndEid,
     }))
 
@@ -54,7 +54,7 @@ describe("useArticleHtml", () => {
   test("should load the article when the date changes", async () => {
     const getArticleRenderByEliAndEid = vi.fn()
 
-    vi.doMock("@/services/articlesService", () => ({
+    vi.doMock("@/services/articleService", () => ({
       getArticleRenderByEliAndEid: getArticleRenderByEliAndEid,
     }))
 

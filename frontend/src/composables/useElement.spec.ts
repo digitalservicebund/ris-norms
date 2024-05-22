@@ -15,7 +15,7 @@ describe("useElement", () => {
       type: "article",
     })
 
-    vi.doMock("@/services/elementsService", () => ({
+    vi.doMock("@/services/elementService", () => ({
       getElementByEliAndEid,
     }))
 
@@ -39,7 +39,7 @@ describe("useElement", () => {
   test("should load the element when the identifier changes", async () => {
     const getElementByEliAndEid = vi.fn()
 
-    vi.doMock("@/services/elementsService", () => ({
+    vi.doMock("@/services/elementService", () => ({
       getElementByEliAndEid,
     }))
 

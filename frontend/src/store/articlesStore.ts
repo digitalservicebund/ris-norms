@@ -1,4 +1,4 @@
-import { getArticlesByEli } from "@/services/articlesService"
+import { getArticlesByEli } from "@/services/articleService"
 import { Article } from "@/types/article"
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"

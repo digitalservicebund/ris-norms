@@ -1,4 +1,4 @@
-import { getElementHtmlByEliAndEid } from "@/services/elementsService"
+import { getElementHtmlByEliAndEid } from "@/services/elementService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import {
   DeepReadonly,
