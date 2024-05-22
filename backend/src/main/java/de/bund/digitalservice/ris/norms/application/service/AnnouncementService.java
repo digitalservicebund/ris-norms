@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  * component in the Spring context.
  */
 @Service
-public class AnnouncementByNormEliService
+public class AnnouncementService
     implements LoadAllAnnouncementsUseCase,
         LoadAnnouncementByNormEliUseCase,
         LoadTargetNormsAffectedByAnnouncementUseCase {
@@ -26,7 +26,7 @@ public class AnnouncementByNormEliService
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
   private final NormService normService;
 
-  public AnnouncementByNormEliService(
+  public AnnouncementService(
       LoadAllAnnouncementsPort loadAllAnnouncementsPort,
       LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
       NormService normService) {
