@@ -173,9 +173,9 @@ public class Norm {
    *
    * @return a list of passive modifications.
    */
-  public List<PassiveModification> getPassiveModifications() {
+  public List<Modification> getPassiveModifications() {
     return NodeParser.getNodesFromExpression("//passiveModifications/textualMod", document).stream()
-        .map(PassiveModification::new)
+        .map(Modification::new)
         .toList();
   }
 
@@ -184,9 +184,9 @@ public class Norm {
    *
    * @return a list of active modifications.
    */
-  public List<ActiveModification> getActiveModifications() {
+  public List<Modification> getActiveModifications() {
     return NodeParser.getNodesFromExpression("//activeModifications/textualMod", document).stream()
-        .map(ActiveModification::new)
+        .map(Modification::new)
         .toList();
   }
 
@@ -434,7 +434,7 @@ public class Norm {
    * @param periodHref the href to the geltungszeitgruppe of the textual mod
    * @return the newly create passive modification
    */
-  public PassiveModification addPassiveModification(
+  public Modification addPassiveModification(
       String type, String sourceHref, String destinationHref, String periodHref) {
     var passiveModificationsNode = getOrCreatePassiveModificationsNode();
 
@@ -455,7 +455,7 @@ public class Norm {
     force.setAttribute("period", periodHref);
     textualMod.appendChild(force);
 
-    return new PassiveModification(textualMod);
+    return new Modification(textualMod);
   }
 
   /**

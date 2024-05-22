@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ActiveModificationTest {
+class ModificationTest {
 
   private static final String COMMON_XML =
       """
@@ -25,17 +25,17 @@ class ActiveModificationTest {
           </akn:textualMod>
           """;
 
-  private ActiveModification activeModification;
+  private Modification modification;
 
   @BeforeEach
   void setUp() {
-    activeModification = ActiveModification.builder().node(XmlMapper.toNode(COMMON_XML)).build();
+    modification = Modification.builder().node(XmlMapper.toNode(COMMON_XML)).build();
   }
 
   @Test
   void getEid() {
     // when
-    var eid = activeModification.getEid();
+    var eid = modification.getEid();
 
     // then
     assertThat(eid).contains("meta-1_analysis-1_activemod-1_textualmod-1");
@@ -44,7 +44,7 @@ class ActiveModificationTest {
   @Test
   void getType() {
     // when
-    var type = activeModification.getType();
+    var type = modification.getType();
 
     // then
     assertThat(type).contains("substitution");
@@ -53,7 +53,7 @@ class ActiveModificationTest {
   @Test
   void getSourceHref() {
     // when
-    var sourceHref = activeModification.getSourceHref();
+    var sourceHref = modification.getSourceHref();
 
     // then
     assertThat(sourceHref)
@@ -63,19 +63,9 @@ class ActiveModificationTest {
   }
 
   @Test
-  void getSourceEid() {
-    // when
-    var sourceEid = activeModification.getSourceEid();
-
-    // then
-    assertThat(sourceEid)
-        .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1");
-  }
-
-  @Test
   void getDestinationHref() {
     // when
-    var destinationHref = activeModification.getDestinationHref();
+    var destinationHref = modification.getDestinationHref();
 
     // then
     assertThat(destinationHref)
@@ -87,9 +77,9 @@ class ActiveModificationTest {
   @Test
   void setDestinationHref() {
     // when
-    activeModification.setDestinationHref(
+    modification.setDestinationHref(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml");
-    var destinationHref = activeModification.getDestinationHref();
+    var destinationHref = modification.getDestinationHref();
 
     // then
     assertThat(destinationHref)
@@ -99,28 +89,9 @@ class ActiveModificationTest {
   }
 
   @Test
-  void getDestinationEli() {
-    // when
-    var destinationEli = activeModification.getDestinationEli();
-
-    // then
-    assertThat(destinationEli)
-        .contains("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
-  }
-
-  @Test
-  void getDestinationEid() {
-    // when
-    var destinationEid = activeModification.getDestinationEid();
-
-    // then
-    assertThat(destinationEid).contains("para-9_abs-3");
-  }
-
-  @Test
   void getForcePeriodEid() {
     // when
-    var forcePeriodEid = activeModification.getForcePeriodEid();
+    var forcePeriodEid = modification.getForcePeriodEid();
 
     // then
     assertThat(forcePeriodEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
@@ -129,19 +100,10 @@ class ActiveModificationTest {
   @Test
   void setForcePeriodEid() {
     // when
-    activeModification.setForcePeriodEid("new-period-eid");
-    var forcePeriodEid = activeModification.getForcePeriodEid();
+    modification.setForcePeriodEid("new-period-eid");
+    var forcePeriodEid = modification.getForcePeriodEid();
 
     // then
     assertThat(forcePeriodEid).contains("new-period-eid");
-  }
-
-  @Test
-  void getDestinationCharacterRange() {
-    // when
-    var destinationCharacterRange = activeModification.getDestinationCharacterRange();
-
-    // then
-    assertThat(destinationCharacterRange).contains("100-126");
   }
 }
