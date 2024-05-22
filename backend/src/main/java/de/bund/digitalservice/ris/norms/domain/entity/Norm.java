@@ -155,10 +155,12 @@ public class Norm {
     return timeIntervalNodes.stream()
         .map(
             node -> {
-              String eIdEventRef =
-                  node.getAttributes().getNamedItem("start").getNodeValue().replace("#", "");
+              String eventRefEId =
+                  new Href(node.getAttributes().getNamedItem("start").getNodeValue())
+                      .getEId()
+                      .orElseThrow();
               String eventRefNodeExpression =
-                  String.format("//lifecycle/eventRef[@eId='%s']", eIdEventRef);
+                  String.format("//lifecycle/eventRef[@eId='%s']", eventRefEId);
               Node eventRefNode =
                   NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
 
@@ -244,7 +246,8 @@ public class Norm {
                 "//meta/temporalData/temporalGroup[@eId='%s']/timeInterval/@start",
                 temporalGroupEid),
             this.document)
-        .map(value -> value.replaceFirst("^#", ""));
+        .map(Href::new)
+        .flatMap(Href::getEId);
   }
 
   /**
