@@ -75,7 +75,7 @@ class ModTest {
   @Test
   void getTargetHref() {
     // when
-    var eid = mod.getTargteHref();
+    var eid = mod.getTargetHref();
 
     // then
     assertThat(eid)
@@ -96,7 +96,7 @@ class ModTest {
   void setTargetHref() {
     // when
     mod.setTargetHref("new-target-href");
-    var eid = mod.getTargteHref();
+    var eid = mod.getTargetHref();
 
     // then
     assertThat(eid).contains("new-target-href");

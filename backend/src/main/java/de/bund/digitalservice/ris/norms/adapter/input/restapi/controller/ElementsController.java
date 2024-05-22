@@ -9,8 +9,9 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsRes
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.EliBuilder;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -262,9 +263,15 @@ public class ElementsController {
                 passiveMod -> {
                   if (amendedBy.isEmpty()) return true;
 
-                  return passiveMod.getSourceEli().orElseThrow().equals(amendedBy.get());
+                  return passiveMod
+                      .getSourceHref()
+                      .flatMap(Href::getEli)
+                      .orElseThrow()
+                      .equals(amendedBy.get());
                 })
-            .map(PassiveModification::getDestinationEid)
+            .map(TextualMod::getDestinationHref)
+            .flatMap(Optional::stream)
+            .map(Href::getEId)
             .flatMap(Optional::stream)
             .toList();
 

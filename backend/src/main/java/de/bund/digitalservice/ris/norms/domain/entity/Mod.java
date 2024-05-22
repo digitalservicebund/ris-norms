@@ -52,7 +52,7 @@ public class Mod {
    *
    * @return The href of the akn:ref of the akn:mod.
    */
-  public Optional<String> getTargteHref() {
+  public Optional<String> getTargetHref() {
     return NodeParser.getValueFromExpression("./ref/@href", this.node);
   }
 
@@ -62,7 +62,7 @@ public class Mod {
    * @return The eid of the element this modification will change.
    */
   public Optional<String> getTargetEid() {
-    return this.getTargteHref().map(href -> href.split("/")[9]);
+    return this.getTargetHref().map(href -> href.split("/")[9]);
   }
 
   /**

@@ -7,10 +7,12 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCas
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateModUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
@@ -36,16 +38,19 @@ public class NormService
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
   private final ModificationValidator modificationValidator;
+  private final UpdateNormService updateNormService;
 
   public NormService(
       LoadNormPort loadNormPort,
       LoadNormByGuidPort loadNormByGuidPort,
       UpdateNormPort updateNormPort,
-      ModificationValidator modificationValidator) {
+      ModificationValidator modificationValidator,
+      UpdateNormService updateNormService) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
     this.modificationValidator = modificationValidator;
+    this.updateNormService = updateNormService;
   }
 
   @Override
@@ -122,47 +127,54 @@ public class NormService
   @Override
   public Optional<String> updateMod(UpdateModUseCase.Query query) {
 
-    final Optional<Norm> existingNorm =
+    final Optional<Norm> optionalNorm =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-
-    Optional<Norm> updatedNorm;
-    if (existingNorm.isEmpty()) {
+    if (optionalNorm.isEmpty()) {
       return Optional.empty();
-    } else {
-      updatedNorm =
-          existingNorm.flatMap(
-              norm -> {
-
-                // Edit mod in metadata
-                norm.getActiveModifications().stream()
-                    .filter(
-                        activeMod ->
-                            activeMod.getSourceEid().isPresent()
-                                && activeMod.getSourceEid().get().equals(query.eid()))
-                    .findFirst()
-                    .ifPresent(
-                        activeMod -> {
-                          activeMod.setDestinationHref(query.destinationHref());
-                          activeMod.setForcePeriodEid(query.timeBoundaryEid());
-                        });
-
-                // Edit mod in body
-                norm.getMods().stream()
-                    .filter(
-                        mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
-                    .findFirst()
-                    .ifPresent(
-                        mod -> {
-                          mod.setTargetHref(query.destinationHref());
-                          mod.setNewText(query.newText());
-                        });
-
-                return Optional.of(norm);
-              });
-      if (updatedNorm.isPresent()) {
-        //        modificationValidator.validate(updatedNorm.get());
-        return Optional.of(XmlMapper.toString(updatedNorm.get().getDocument()));
-      } else return Optional.empty();
     }
+    final var norm = optionalNorm.get();
+
+    final Optional<Norm> optionalTargetNorm =
+        new Href(query.destinationHref())
+            .getEli()
+            .map(LoadNormPort.Command::new)
+            .flatMap(loadNormPort::loadNorm);
+    if (optionalTargetNorm.isEmpty()) {
+      return Optional.empty();
+    }
+    var targetNorm = optionalTargetNorm.get();
+
+    // Edit mod in metadata
+    norm.getActiveModifications().stream()
+        .filter(
+            activeMod ->
+                activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eid())))
+        .findFirst()
+        .ifPresent(
+            activeMod -> {
+              activeMod.setDestinationHref(query.destinationHref());
+              activeMod.setForcePeriodEid(query.timeBoundaryEid());
+            });
+
+    // Edit mod in body
+    norm.getMods().stream()
+        .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
+        .findFirst()
+        .ifPresent(
+            mod -> {
+              mod.setTargetHref(query.destinationHref());
+              mod.setNewText(query.newText());
+            });
+
+    // TODO: (Malte Laukötter, 2024-05-22) run validation that the change is possible
+    // modificationValidator.validate(norm);
+
+    updateNormService.updatePassiveModifications(
+        new UpdatePassiveModificationsUseCase.Query(targetNorm, norm));
+
+    var savedNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
+    updateNormPort.updateNorm(new UpdateNormPort.Command(targetNorm));
+
+    return savedNorm.map(Norm::getDocument).map(XmlMapper::toString);
   }
 }

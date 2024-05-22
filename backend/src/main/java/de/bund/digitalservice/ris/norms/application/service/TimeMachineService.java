@@ -4,8 +4,9 @@ import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModif
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.PassiveModification;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
@@ -107,7 +108,7 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
 
     norm.getPassiveModifications().stream()
         .filter(
-            (PassiveModification passiveModification) ->
+            (TextualMod passiveModification) ->
                 Instant.parse(
                         passiveModification
                                 .getForcePeriodEid()
@@ -117,14 +118,15 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
                     .isBefore(actualDate))
         .sorted(
             Comparator.comparing(
-                (PassiveModification passiveModification) ->
+                (TextualMod passiveModification) ->
                     passiveModification
                         .getForcePeriodEid()
                         .flatMap(norm::getStartDateForTemporalGroup)
                         .orElseThrow()))
         .flatMap(
-            (PassiveModification passiveModification) -> {
-              var sourceEli = passiveModification.getSourceEli().orElseThrow();
+            (TextualMod passiveModification) -> {
+              var sourceEli =
+                  passiveModification.getSourceHref().flatMap(Href::getEli).orElseThrow();
 
               Norm amendingLaw;
               if (query.customNorms().containsKey(sourceEli)) {
@@ -134,7 +136,7 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
                     normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
               }
 
-              var sourceEid = passiveModification.getSourceEid();
+              var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);
               return amendingLaw.getMods().stream().filter(mod -> mod.getEid().equals(sourceEid));
             })
         .forEach(

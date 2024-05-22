@@ -6,7 +6,9 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -91,7 +93,11 @@ public class ArticleController {
             .filter(
                 passiveModification -> {
                   if (amendedBy.isEmpty()) return true;
-                  else return passiveModification.getSourceEli().equals(amendedBy);
+                  else
+                    return passiveModification
+                        .getSourceHref()
+                        .flatMap(Href::getEli)
+                        .equals(amendedBy);
                 })
             .filter(
                 passiveModification -> {
@@ -121,8 +127,10 @@ public class ArticleController {
                   // now is to only return the articles that are going to be modified by
                   // those passive modifications.
                   return passiveModificationsAmendedAtOrBy.stream()
-                      .flatMap(
-                          passiveModification -> passiveModification.getDestinationEid().stream())
+                      .map(TextualMod::getDestinationHref)
+                      .flatMap(Optional::stream)
+                      .map(Href::getEId)
+                      .flatMap(Optional::stream)
                       .anyMatch(
                           destinationEid ->
                               // Modifications can be either on the article itself or anywhere
