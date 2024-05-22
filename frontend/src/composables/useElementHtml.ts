@@ -13,9 +13,9 @@ import {
 /**
  * Get the rendered HTML of an element inside an amending law.
  *
- * @param eli A reference to the ELI of the norm for which the element XML will
+ * @param eli A reference to the ELI of the norm for which the element HTML will
  *  be returned.
- * @param eid A reference to the eId of the element for which the element XML
+ * @param eid A reference to the eId of the element for which the element HTML
  *  will be returned.
  * @param options Optional additional filters and queries.
  * @returns A reference to the element HTML or undefined if it is not available
