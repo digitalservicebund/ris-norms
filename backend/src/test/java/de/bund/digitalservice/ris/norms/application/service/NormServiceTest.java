@@ -18,9 +18,9 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
-import de.bund.digitalservice.ris.norms.domain.entity.Modification;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Objects;
 import java.util.Optional;
@@ -815,7 +815,7 @@ class NormServiceTest {
       final Document xmlDocument = XmlMapper.toDocument(returnedXml.get());
       final Norm testNorm = Norm.builder().document(xmlDocument).build();
 
-      final Modification activeModifications = testNorm.getActiveModifications().getFirst();
+      final TextualMod activeModifications = testNorm.getActiveModifications().getFirst();
       assertThat(activeModifications.getDestinationHref())
           .contains(
               new Href(

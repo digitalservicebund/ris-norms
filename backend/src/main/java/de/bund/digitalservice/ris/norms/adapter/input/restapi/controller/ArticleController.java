@@ -7,8 +7,8 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResp
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Modification;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -127,7 +127,7 @@ public class ArticleController {
                   // now is to only return the articles that are going to be modified by
                   // those passive modifications.
                   return passiveModificationsAmendedAtOrBy.stream()
-                      .map(Modification::getDestinationHref)
+                      .map(TextualMod::getDestinationHref)
                       .flatMap(Optional::stream)
                       .map(Href::getEId)
                       .flatMap(Optional::stream)

@@ -10,8 +10,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModif
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Modification;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.EliBuilder;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -269,7 +269,7 @@ public class ElementsController {
                       .orElseThrow()
                       .equals(amendedBy.get());
                 })
-            .map(Modification::getDestinationHref)
+            .map(TextualMod::getDestinationHref)
             .flatMap(Optional::stream)
             .map(Href::getEId)
             .flatMap(Optional::stream)

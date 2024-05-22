@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ModificationTest {
+class TextualModTest {
 
   private static final String COMMON_XML =
       """
@@ -25,17 +25,17 @@ class ModificationTest {
           </akn:textualMod>
           """;
 
-  private Modification modification;
+  private TextualMod textualMod;
 
   @BeforeEach
   void setUp() {
-    modification = Modification.builder().node(XmlMapper.toNode(COMMON_XML)).build();
+    textualMod = TextualMod.builder().node(XmlMapper.toNode(COMMON_XML)).build();
   }
 
   @Test
   void getEid() {
     // when
-    var eid = modification.getEid();
+    var eid = textualMod.getEid();
 
     // then
     assertThat(eid).contains("meta-1_analysis-1_activemod-1_textualmod-1");
@@ -44,7 +44,7 @@ class ModificationTest {
   @Test
   void getType() {
     // when
-    var type = modification.getType();
+    var type = textualMod.getType();
 
     // then
     assertThat(type).contains("substitution");
@@ -53,7 +53,7 @@ class ModificationTest {
   @Test
   void getSourceHref() {
     // when
-    var sourceHref = modification.getSourceHref();
+    var sourceHref = textualMod.getSourceHref();
 
     // then
     assertThat(sourceHref)
@@ -65,7 +65,7 @@ class ModificationTest {
   @Test
   void getDestinationHref() {
     // when
-    var destinationHref = modification.getDestinationHref();
+    var destinationHref = textualMod.getDestinationHref();
 
     // then
     assertThat(destinationHref)
@@ -77,9 +77,9 @@ class ModificationTest {
   @Test
   void setDestinationHref() {
     // when
-    modification.setDestinationHref(
+    textualMod.setDestinationHref(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml");
-    var destinationHref = modification.getDestinationHref();
+    var destinationHref = textualMod.getDestinationHref();
 
     // then
     assertThat(destinationHref)
@@ -91,7 +91,7 @@ class ModificationTest {
   @Test
   void getForcePeriodEid() {
     // when
-    var forcePeriodEid = modification.getForcePeriodEid();
+    var forcePeriodEid = textualMod.getForcePeriodEid();
 
     // then
     assertThat(forcePeriodEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
@@ -100,8 +100,8 @@ class ModificationTest {
   @Test
   void setForcePeriodEid() {
     // when
-    modification.setForcePeriodEid("new-period-eid");
-    var forcePeriodEid = modification.getForcePeriodEid();
+    textualMod.setForcePeriodEid("new-period-eid");
+    var forcePeriodEid = textualMod.getForcePeriodEid();
 
     // then
     assertThat(forcePeriodEid).contains("new-period-eid");

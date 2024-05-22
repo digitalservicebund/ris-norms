@@ -1585,7 +1585,7 @@ class NormTest {
     Norm norm = new Norm(toDocument(normString));
 
     // when
-    final List<Modification> activeModifications = norm.getActiveModifications();
+    final List<TextualMod> activeModifications = norm.getActiveModifications();
 
     // then
     assertThat(activeModifications).hasSize(2);
