@@ -1,13 +1,13 @@
+import RisTextInput from "@/components/controls/RisTextInput.vue"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, test } from "vitest"
-import RisTextInput from "@/components/controls/RisTextInput.vue"
 
 function renderComponent(options?: {
   modelValue?: string
   placeholder?: string
   readOnly?: boolean
-  size?: string
+  size?: InstanceType<typeof RisTextInput>["$props"]["size"]
   label?: string
 }) {
   const user = userEvent.setup()
