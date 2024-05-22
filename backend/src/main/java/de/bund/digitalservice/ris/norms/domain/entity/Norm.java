@@ -266,46 +266,29 @@ public class Norm {
    * @return the newly created {@link TemporalGroup}
    */
   public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
-
-    Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
-
-    // Calculate next possible eventRefEid
-    String nextPossibleEventRefEid =
-        calculateNextPossibleEid(
-            getTimeBoundaries().getLast().getEventRefNode().getParentNode(), "ereignis");
-
     // Create new eventRef node
-    Element eventRef = document.createElement("akn:eventRef");
-    eventRef.setAttribute("eId", nextPossibleEventRefEid);
-    eventRef.setAttribute("GUID", UUID.randomUUID().toString());
+    final Node livecycle = getTimeBoundaries().getLast().getEventRefNode().getParentNode();
+    final Element eventRef = createElementWithEidAndGuid("akn:eventRef", "ereignis", livecycle);
     eventRef.setAttribute("date", date.toString());
     eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
     eventRef.setAttribute("type", eventRefType.getValue());
     eventRef.setAttribute("refersTo", "inkrafttreten");
-
-    // Append new eventRef node to lifecycle node
-    getTimeBoundaries().getLast().getEventRefNode().getParentNode().appendChild(eventRef);
-
-    // Calculate next possible temporalGroup Eid
-    String nextPossibleTemporalGroupEid = calculateNextPossibleEid(temporalData, "geltungszeitgr");
+    livecycle.appendChild(eventRef);
 
     // Create new temporalGroup node
-    Element temporalGroup = document.createElement("akn:temporalGroup");
-    temporalGroup.setAttribute("eId", nextPossibleTemporalGroupEid);
-    temporalGroup.setAttribute("GUID", UUID.randomUUID().toString());
+    final Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
+    final Element temporalGroup =
+        createElementWithEidAndGuid("akn:temporalGroup", "geltungszeitgr", temporalData);
+    temporalData.appendChild(temporalGroup);
 
     // Create new timeInterval node
-    Element timeInterval = document.createElement("akn:timeInterval");
-    timeInterval.setAttribute("eId", nextPossibleTemporalGroupEid + "_gelzeitintervall-1");
-    timeInterval.setAttribute("GUID", UUID.randomUUID().toString());
+    final Element timeInterval =
+        createElementWithEidAndGuid("akn:timeInterval", "gelzeitintervall", temporalGroup);
     timeInterval.setAttribute("refersTo", "geltungszeit");
-    timeInterval.setAttribute("start", "#" + nextPossibleEventRefEid);
-
-    // Append new timeInterval node to new temporalGroup node
+    final var eventRefEId = eventRef.getAttribute("eId");
+    timeInterval.setAttribute(
+        "start", new Href.Builder().setEId(eventRefEId).buildRelative().value());
     temporalGroup.appendChild(timeInterval);
-
-    // Append new temporalGroup node to temporalData node
-    temporalData.appendChild(temporalGroup);
 
     return new TemporalGroup(temporalGroup);
   }
