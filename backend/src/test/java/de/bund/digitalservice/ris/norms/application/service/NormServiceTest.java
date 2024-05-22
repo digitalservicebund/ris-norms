@@ -32,8 +32,10 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
+  final ModificationValidator modificationValidator = mock(ModificationValidator.class);
 
-  final NormService service = new NormService(loadNormPort, loadNormByGuidPort, updateNormPort);
+  final NormService service =
+      new NormService(loadNormPort, loadNormByGuidPort, updateNormPort, modificationValidator);
 
   @Nested
   class loadNorm {

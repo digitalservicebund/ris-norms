@@ -35,14 +35,17 @@ public class NormService
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
+  private final ModificationValidator modificationValidator;
 
   public NormService(
       LoadNormPort loadNormPort,
       LoadNormByGuidPort loadNormByGuidPort,
-      UpdateNormPort updateNormPort) {
+      UpdateNormPort updateNormPort,
+      ModificationValidator modificationValidator) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
+    this.modificationValidator = modificationValidator;
   }
 
   @Override
@@ -122,38 +125,44 @@ public class NormService
     final Optional<Norm> existingNorm =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
 
+    Optional<Norm> updatedNorm;
     if (existingNorm.isEmpty()) {
       return Optional.empty();
     } else {
-      return existingNorm.flatMap(
-          norm -> {
+      updatedNorm =
+          existingNorm.flatMap(
+              norm -> {
 
-            // Edit mod in metadata
-            norm.getActiveModifications().stream()
-                .filter(
-                    activeMod ->
-                        activeMod.getSourceEid().isPresent()
-                            && activeMod.getSourceEid().get().equals(query.eid()))
-                .findFirst()
-                .ifPresent(
-                    activeMod -> {
-                      activeMod.setDestinationHref(query.destinationHref());
-                      activeMod.setForcePeriodEid(query.timeBoundaryEid());
-                    });
+                // Edit mod in metadata
+                norm.getActiveModifications().stream()
+                    .filter(
+                        activeMod ->
+                            activeMod.getSourceEid().isPresent()
+                                && activeMod.getSourceEid().get().equals(query.eid()))
+                    .findFirst()
+                    .ifPresent(
+                        activeMod -> {
+                          activeMod.setDestinationHref(query.destinationHref());
+                          activeMod.setForcePeriodEid(query.timeBoundaryEid());
+                        });
 
-            // Edit mod in body
-            norm.getMods().stream()
-                .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
-                .findFirst()
-                .ifPresent(
-                    mod -> {
-                      mod.setTargetHref(query.destinationHref());
-                      mod.setNewText(query.newText());
-                    });
+                // Edit mod in body
+                norm.getMods().stream()
+                    .filter(
+                        mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
+                    .findFirst()
+                    .ifPresent(
+                        mod -> {
+                          mod.setTargetHref(query.destinationHref());
+                          mod.setNewText(query.newText());
+                        });
 
-            // Return updated amending law document
-            return Optional.of(XmlMapper.toString(norm.getDocument()));
-          });
+                return Optional.of(norm);
+              });
+      if (updatedNorm.isPresent()) {
+        modificationValidator.validate(updatedNorm.get());
+        return Optional.of(XmlMapper.toString(updatedNorm.get().getDocument()));
+      } else return Optional.empty();
     }
   }
 }
