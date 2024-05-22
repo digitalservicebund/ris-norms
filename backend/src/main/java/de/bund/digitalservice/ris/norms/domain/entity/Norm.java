@@ -347,7 +347,7 @@ public class Norm {
   public Optional<Node> deleteEventRefIfUnused(String eId) {
     final var nodesUsingTemporalData =
         NodeParser.getNodesFromExpression(
-            String.format("//*[@refersTo='#%s' or @start='#%s']", eId, eId), getDocument());
+            String.format("//*[@start='#%s' or @end='#%s']", eId, eId), getDocument());
 
     if (!nodesUsingTemporalData.isEmpty()) {
       return Optional.empty();
