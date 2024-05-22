@@ -26,6 +26,7 @@ const props = defineProps<{
 
 defineEmits<{
   "generate-preview": []
+  "update-mod": []
 }>()
 const selectedTimeBoundaryModel = defineModel<string | undefined>(
   "selectedTimeBoundary",
@@ -146,7 +147,11 @@ function modTypeLabel(modType: ModType | "") {
         variant="tertiary"
         @click.prevent="$emit('generate-preview')"
       />
-      <RisTextButton label="Speichern" :icon="CheckIcon" disabled />
+      <RisTextButton
+        label="Speichern"
+        :icon="CheckIcon"
+        @click.prevent="$emit('update-mod')"
+      />
     </div>
   </form>
 </template>
