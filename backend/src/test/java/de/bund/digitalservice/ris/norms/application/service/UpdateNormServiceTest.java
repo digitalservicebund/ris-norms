@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -33,12 +34,12 @@ class UpdateNormServiceTest {
 
       var passiveModification = updatedAmendingLaw.getPassiveModifications().getFirst();
       assertThat(passiveModification.getType()).contains("substitution");
-      assertThat(passiveModification.getSourceEli())
-          .contains("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
-      assertThat(passiveModification.getSourceEid())
-          .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
+      assertThat(passiveModification.getSourceHref())
+          .contains(
+              new Href(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
       assertThat(passiveModification.getDestinationHref())
-          .contains("#hauptteil-1_para-20_abs-1/100-126");
+          .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
       assertThat(passiveModification.getForcePeriodEid())
           .contains("meta-1_geltzeiten-1_geltungszeitgr-5");
     }
@@ -65,12 +66,12 @@ class UpdateNormServiceTest {
 
       var newPassiveModification = updatedAmendingLaw.getPassiveModifications().getFirst();
       assertThat(newPassiveModification.getType()).contains("substitution");
-      assertThat(newPassiveModification.getSourceEli())
-          .contains("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
-      assertThat(newPassiveModification.getSourceEid())
-          .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
+      assertThat(newPassiveModification.getSourceHref())
+          .contains(
+              new Href(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
       assertThat(newPassiveModification.getDestinationHref())
-          .contains("#hauptteil-1_para-20_abs-1/100-126");
+          .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
       assertThat(
               updatedAmendingLaw.getStartDateForTemporalGroup(
                   newPassiveModification.getForcePeriodEid().orElseThrow()))
@@ -101,7 +102,7 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification1.getSourceEid())
           .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
       assertThat(newPassiveModification1.getDestinationHref())
-          .contains("#hauptteil-1_para-20_abs-1/100-126");
+          .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
       assertThat(
               updatedAmendingLaw.getStartDateForTemporalGroup(
                   newPassiveModification1.getForcePeriodEid().orElseThrow()))
@@ -114,7 +115,7 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification2.getSourceEid())
           .contains("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-2_ändbefehl-1");
       assertThat(newPassiveModification2.getDestinationHref())
-          .contains("#hauptteil-1_para-20_abs-1/100-126");
+          .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
       assertThat(
               updatedAmendingLaw.getStartDateForTemporalGroup(
                   newPassiveModification2.getForcePeriodEid().orElseThrow()))

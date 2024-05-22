@@ -25,7 +25,7 @@ public class PassiveModification extends Modification {
    * @return The source eli of the passive modification
    */
   public Optional<String> getSourceEli() {
-    return this.getSourceHref().map(Href::new).flatMap(Href::getEli);
+    return this.getSourceHref().flatMap(Href::getEli);
   }
 
   /**
@@ -34,7 +34,7 @@ public class PassiveModification extends Modification {
    * @return The source eid of the passive modification
    */
   public Optional<String> getSourceEid() {
-    return this.getSourceHref().map(Href::new).flatMap(Href::getEId);
+    return this.getSourceHref().flatMap(Href::getEId);
   }
 
   /**
@@ -43,10 +43,10 @@ public class PassiveModification extends Modification {
    * @return The destination eid of the passive modification
    */
   public Optional<String> getDestinationEid() {
-    return this.getDestinationHref().map(Href::new).flatMap(Href::getEId);
+    return this.getDestinationHref().flatMap(Href::getEId);
   }
 
   public Optional<String> getDestinationCharacterRange() {
-    return this.getDestinationHref().map(Href::new).flatMap(Href::getCharacterRange);
+    return this.getDestinationHref().flatMap(Href::getCharacterRange);
   }
 }

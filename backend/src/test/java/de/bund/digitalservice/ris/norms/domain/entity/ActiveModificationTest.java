@@ -57,7 +57,9 @@ class ActiveModificationTest {
 
     // then
     assertThat(sourceHref)
-        .contains("#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1");
+        .contains(
+            new Href(
+                "#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"));
   }
 
   @Test
@@ -78,17 +80,22 @@ class ActiveModificationTest {
     // then
     assertThat(destinationHref)
         .contains(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-126.xml");
+            new Href(
+                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-126.xml"));
   }
 
   @Test
   void setDestinationHref() {
     // when
-    activeModification.setDestinationHref("new-destination-href");
+    activeModification.setDestinationHref(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml");
     var destinationHref = activeModification.getDestinationHref();
 
     // then
-    assertThat(destinationHref).contains("new-destination-href");
+    assertThat(destinationHref)
+        .contains(
+            new Href(
+                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml"));
   }
 
   @Test

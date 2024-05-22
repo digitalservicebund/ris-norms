@@ -25,7 +25,7 @@ public class ActiveModification extends Modification {
    * @return The source eli of the active modification
    */
   public Optional<String> getDestinationEli() {
-    return this.getDestinationHref().map(Href::new).flatMap(Href::getEli);
+    return this.getDestinationHref().flatMap(Href::getEli);
   }
 
   /**
@@ -34,7 +34,7 @@ public class ActiveModification extends Modification {
    * @return The destination eid of the active modification
    */
   public Optional<String> getDestinationEid() {
-    return this.getDestinationHref().map(Href::new).flatMap(Href::getEId);
+    return this.getDestinationHref().flatMap(Href::getEId);
   }
 
   /**
@@ -43,7 +43,7 @@ public class ActiveModification extends Modification {
    * @return The destination character range of the active modification
    */
   public Optional<String> getDestinationCharacterRange() {
-    return this.getDestinationHref().map(Href::new).flatMap(Href::getCharacterRange);
+    return this.getDestinationHref().flatMap(Href::getCharacterRange);
   }
 
   /**
@@ -52,6 +52,6 @@ public class ActiveModification extends Modification {
    * @return The source eid of the active modification
    */
   public Optional<String> getSourceEid() {
-    return this.getSourceHref().map(Href::new).flatMap(Href::getEId);
+    return this.getSourceHref().flatMap(Href::getEId);
   }
 }

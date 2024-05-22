@@ -37,8 +37,8 @@ public abstract class Modification {
    *
    * @return The source href of the modification
    */
-  public Optional<String> getSourceHref() {
-    return NodeParser.getValueFromExpression("./source/@href", this.node);
+  public Optional<Href> getSourceHref() {
+    return NodeParser.getValueFromExpression("./source/@href", this.node).map(Href::new);
   }
 
   /**
@@ -46,8 +46,8 @@ public abstract class Modification {
    *
    * @return The destination href of the modification
    */
-  public Optional<String> getDestinationHref() {
-    return NodeParser.getValueFromExpression("./destination/@href", this.node);
+  public Optional<Href> getDestinationHref() {
+    return NodeParser.getValueFromExpression("./destination/@href", this.node).map(Href::new);
   }
 
   /**

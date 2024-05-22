@@ -17,6 +17,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.ActiveModification;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -817,7 +818,8 @@ class NormServiceTest {
       final ActiveModification activeModifications = testNorm.getActiveModifications().getFirst();
       assertThat(activeModifications.getDestinationHref())
           .contains(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml");
+              new Href(
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml"));
       assertThat(activeModifications.getForcePeriodEid()).contains("new-time-boundary-eid");
 
       final Mod mod = testNorm.getMods().getFirst();
