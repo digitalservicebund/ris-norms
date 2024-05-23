@@ -100,6 +100,9 @@ class ElementControllerTest {
           .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
     }
 
+    // TODO Hannes: I think we can't test this as we mock the result, so it does not show that the
+    // atIsoDate was taken into account.
+
     //    @Test
     //    void returnsElementAtGivenIsoDateRenderedAsHtml() throws Exception {
     //
@@ -122,18 +125,17 @@ class ElementControllerTest {
     //              .andExpect(content().string(not(containsString("§ 9 Abs. 1 Satz 2, Abs. 2"))));
     //    }
     //
-    //    @Test
-    //    void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {
-    //      // Given
-    //
-    //      // When / Then
-    //      mockMvc
-    //              .perform(
-    //
-    // get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID")
-    //                              .accept(MediaType.TEXT_HTML))
-    //              .andExpect(status().isBadRequest());
-    //    }
+    @Test
+    void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {
+      // Given
+
+      // When / Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID")
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isBadRequest());
+    }
   }
 
   @Nested
