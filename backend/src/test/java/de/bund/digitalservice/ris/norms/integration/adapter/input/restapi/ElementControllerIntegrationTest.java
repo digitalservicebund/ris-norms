@@ -26,7 +26,6 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     normRepository.deleteAll();
   }
 
-  // TODO Hannes: Adjust OpenAPI documentation
   @Nested
   class GetElement {
     @Test
@@ -261,9 +260,6 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               + "&type=article"
               + "&type=conclusions"
               + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
-      // mod
-      // source
-      // eli
 
       // when
       mockMvc

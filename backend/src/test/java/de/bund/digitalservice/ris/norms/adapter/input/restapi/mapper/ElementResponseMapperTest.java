@@ -4,9 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
 
-public class ElementResponseMapperTest {
+class ElementResponseMapperTest {
   @Test
   void convertsAnArticleNode() {
     // Given
@@ -96,7 +97,7 @@ public class ElementResponseMapperTest {
     var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
-    assertThat(output.getTitle()).isEqualTo("");
+    assertThat(output.getTitle()).isEmpty();
     assertThat(output.getEid()).isEqualTo("hauptteil-1_para-1");
     assertThat(output.getType()).isEqualTo("article");
   }
@@ -177,7 +178,7 @@ public class ElementResponseMapperTest {
     var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
-    assertThat(output.getTitle()).isEqualTo("");
+    assertThat(output.getTitle()).isEmpty();
     assertThat(output.getEid()).isEqualTo("random-1");
     assertThat(output.getType()).isEqualTo("someRandomNode");
   }
@@ -195,6 +196,7 @@ public class ElementResponseMapperTest {
             """);
 
     // When
-    assertThatThrownBy(() -> ElementResponseMapper.fromElementNode(node));
+    assertThatThrownBy(() -> ElementResponseMapper.fromElementNode(node))
+        .isInstanceOf(NoSuchElementException.class);
   }
 }
