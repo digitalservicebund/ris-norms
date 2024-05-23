@@ -6,7 +6,11 @@ import { ModType } from "@/types/ModType"
 
 describe("RisModForm", () => {
   const textualModType: ModType = "aenderungsbefehl-ersetzen"
-  const timeBoundaries = ["2024-12-31", "2025-01-01", "2026-06-15"]
+  const timeBoundaries = [
+    { date: "2024-12-31", eventRefEid: "eid-1" },
+    { date: "2025-01-01", eventRefEid: "eid-2" },
+    { date: "2026-06-15", eventRefEid: "eid-3" },
+  ]
   const destinationHref =
     "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/para-1_abs-1/5-53.xml"
   const quotedTextFirst = "Bundesministerium des Innern, für Bau und Heimat"
@@ -45,9 +49,9 @@ describe("RisModForm", () => {
 
     const timeBoundaryOptionElements = screen.getAllByRole("option")
     expect(timeBoundaryOptionElements.length).toBe(4)
-    expect(timeBoundaryOptionElements[0]).toHaveValue(timeBoundaries[0])
-    expect(timeBoundaryOptionElements[1]).toHaveValue(timeBoundaries[1])
-    expect(timeBoundaryOptionElements[2]).toHaveValue(timeBoundaries[2])
+    expect(timeBoundaryOptionElements[0]).toHaveValue(timeBoundaries[0].date)
+    expect(timeBoundaryOptionElements[1]).toHaveValue(timeBoundaries[1].date)
+    expect(timeBoundaryOptionElements[2]).toHaveValue(timeBoundaries[2].date)
 
     // Destination Href Eli
     const destinationHrefEliElement = screen.getByRole("textbox", {
@@ -175,7 +179,7 @@ describe("RisModForm", () => {
     })
     expect(dropdown).toBeInTheDocument()
 
-    await user.selectOptions(dropdown, timeBoundaries[2])
+    await user.selectOptions(dropdown, timeBoundaries[2].date)
 
     expect(props.selectedTimeBoundary).toStrictEqual(timeBoundaries[1])
 

@@ -13,9 +13,9 @@ const props = defineProps<{
   /** Either replacement, insertion or repeal */
   textualModType: ModType | ""
   /** the possible time boundaries in the format YYYY-MM-DD. */
-  timeBoundaries: string[]
+  timeBoundaries: { date: string; eventRefEid: string }[]
   /** Optional selected time boundary of the format YYYY-MM-DD */
-  selectedTimeBoundary?: string
+  selectedTimeBoundary?: { date: string; eventRefEid: string }
   /** Destination Href for mod */
   destinationHref: string
   /** This is the text that will be replaced */
@@ -28,9 +28,9 @@ defineEmits<{
   "generate-preview": []
   "update-mod": []
 }>()
-const selectedTimeBoundaryModel = defineModel<string | undefined>(
-  "selectedTimeBoundary",
-)
+const selectedTimeBoundaryModel = defineModel<
+  { date: string; eventRefEid: string } | undefined
+>("selectedTimeBoundary")
 const destinationHrefModel = defineModel<string>("destinationHref")
 const quotedTextSecondModel = defineModel<string | undefined>(
   "quotedTextSecond",
@@ -38,19 +38,22 @@ const quotedTextSecondModel = defineModel<string | undefined>(
 
 const timeBoundaries = computed(() => {
   return [
-    ...props.timeBoundaries.map((date) => ({
-      label: new Date(date).toLocaleDateString("de"),
-      value: date,
+    ...props.timeBoundaries.map((boundary) => ({
+      label: new Date(boundary.date).toLocaleDateString("de"),
+      value: boundary.date,
     })),
     { label: "Keine Angabe", value: "no_choice" },
   ]
 })
 const selectedElement = computed({
   get() {
-    return selectedTimeBoundaryModel.value || "no_choice"
+    return selectedTimeBoundaryModel.value?.date || "no_choice"
   },
   set(value: string) {
-    selectedTimeBoundaryModel.value = value === "no_choice" ? undefined : value
+    selectedTimeBoundaryModel.value =
+      value === "no_choice"
+        ? undefined
+        : props.timeBoundaries.find((tb) => tb.date === value)
   },
 })
 
