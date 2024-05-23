@@ -1,15 +1,12 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.controller.ElementController;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Map;
 import org.w3c.dom.Node;
 
-/**
- * Mapper class for converting between {@link Node} and {@link
- * de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema}.
- */
+/** Mapper class for converting between {@link Node} and {@link ElementResponseSchema}. */
 public class ElementResponseMapper {
   // Private constructor to hide the implicit public one and prevent instantiation
   private ElementResponseMapper() {}
@@ -45,13 +42,13 @@ public class ElementResponseMapper {
   }
 
   /**
-   * Creates a {@link ElementsResponseEntrySchema} instance from a {@link Node}.
+   * Creates a {@link ElementResponseSchema} instance from a {@link Node}.
    *
    * @param node The input node to be converted.
-   * @return A new {@link ElementsResponseEntrySchema} instance mapped from the input.
+   * @return A new {@link ElementResponseSchema} instance mapped from the input.
    */
-  public static ElementsResponseEntrySchema fromElementNode(final Node node) {
-    return ElementsResponseEntrySchema.builder()
+  public static ElementResponseSchema fromElementNode(final Node node) {
+    return ElementResponseSchema.builder()
         .title(getNodeTitle(node))
         .eid(NodeParser.getValueFromExpression("./@eId", node).orElseThrow())
         .type(getNodeType(node))

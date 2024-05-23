@@ -5,7 +5,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
@@ -176,7 +176,7 @@ public class ElementController {
   @GetMapping(
       path = "/{eid}",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ElementsResponseEntrySchema> getElementInfo(
+  public ResponseEntity<ElementResponseSchema> getElementInfo(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
@@ -225,7 +225,7 @@ public class ElementController {
    *     <p>Returns HTTP 500 (Server error) if an unsupported type is provided.
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<List<ElementsResponseEntrySchema>> getList(
+  public ResponseEntity<List<ElementResponseSchema>> getList(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
