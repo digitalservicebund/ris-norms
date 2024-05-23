@@ -142,7 +142,7 @@ watch(targetLawEli, () => {
 async function handleSave() {
   const updatedMods = {
     refersTo: selectedMod.value,
-    timeBoundaryEid: timeBoundary.value,
+    timeBoundaryEid: timeBoundary.value?.eventRefEid,
     destinationHref: destinationHref.value,
     oldText: quotedTextFirst.value,
     newText: quotedTextSecond.value,
@@ -231,7 +231,7 @@ async function handleSave() {
             v-model:quoted-text-second="quotedTextSecond"
             v-model:selected-time-boundary="timeBoundary"
             :quoted-text-first="quotedTextFirst"
-            :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
+            :time-boundaries="timeBoundaries"
             @generate-preview="handleGeneratePreview"
             @update-mod="handleSave"
           />
