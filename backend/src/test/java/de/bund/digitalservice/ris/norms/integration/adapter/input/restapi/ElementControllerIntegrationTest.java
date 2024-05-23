@@ -123,7 +123,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class getElements {
+  class getListOfElements {
 
     @Test
     void itReturnsServerErrorIfTypeParameterIsMissing() throws Exception {
