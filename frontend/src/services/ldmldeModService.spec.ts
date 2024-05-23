@@ -126,8 +126,8 @@ describe("ldmldeModService", () => {
 
   describe.skip("updateModData", () => {
     it("should make a PUT request with the correct data", async () => {
-      const eli = "test-eli"
-      const eid = "test-eid"
+      const eli = "eli"
+      const eid = "eid"
       const updatedMods = {
         refersTo: "test-refersTo",
         timeBoundaryEid: "test-timeBoundaryEid",
@@ -135,16 +135,27 @@ describe("ldmldeModService", () => {
         oldText: "test-oldText",
         newText: "test-newText",
       }
-
       const expectedResponse = "<xml>response</xml>"
-      const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
 
+      const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
       vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
 
       const { updateModData } = await import("./ldmldeModService")
 
       const result = await updateModData(eli, eid, updatedMods)
       expect(result).toEqual(expectedResponse)
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        `/api/v1/norms/${eli}/mod/${eid}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/xml",
+          },
+          body: JSON.stringify(updatedMods),
+        },
+      )
     })
   })
 })
