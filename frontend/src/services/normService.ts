@@ -88,7 +88,9 @@ export async function previewNorm(
     body: amendingLawXml,
   })
 }
-
+//  post json and response xml
+// good but declarative
+// use composables ?
 /**
  * Load the rendered HTML preview of the norm after the provided amending law is applied to it.
  *
