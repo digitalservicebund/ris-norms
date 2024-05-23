@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
 /** */
 @Service
 public class ModificationValidator {
+
+  private final DBService dbService;
+
   public ModificationValidator(DBService dbService) {
     this.dbService = dbService;
   }
-
-  private final DBService dbService;
 
   /**
    * @param amendingLaw the amending law to be checked
@@ -82,14 +83,27 @@ public class ModificationValidator {
     // TODO no "<>" exists
   }
 
-  private void throwErrorNoDestinationSet(Norm amendingLaw) {
-    //    List<String> emptyElis =
-    //        amendingLaw.getActiveModifications().stream()
-    //            .filter(am -> am.getDestinationEli().isEmpty())
-    //            .map(ActiveModification::getEid)
-    //            .map(Optional::get)
-    //            .toList();
-    // TODO
+  /**
+   * Throws an error if any of the articles of the passed amendingLaw has an empty affected document
+   * Eli. The error message contains a comma separated list of all article eIds, that are affected.
+   *
+   * @param amendingLaw the amending law to be checked
+   */
+  public void throwErrorNoDestinationSet(Norm amendingLaw) {
+    List<String> emptyEliEids =
+        amendingLaw.getArticles().stream()
+            .filter(a -> a.getAffectedDocumentEli().isEmpty())
+            .map(Article::getEid)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .toList();
+
+    if (!emptyEliEids.isEmpty()) {
+      throw new XmlProcessingException(
+          "Some articles have empty affected document Elis. Here are the according eIds: %s"
+              .formatted(String.join(", ", emptyEliEids)),
+          null);
+    }
   }
 
   /**
