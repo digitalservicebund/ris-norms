@@ -4,7 +4,7 @@ import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementsResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
@@ -34,10 +34,10 @@ import org.w3c.dom.Node;
  * convention of UPPERCASE enums in Java code.
  */
 @Component
-class LowercaseEnumConverter implements Converter<String, ElementsController.ElementType> {
+class LowercaseEnumConverter implements Converter<String, ElementController.ElementType> {
   @Override
-  public ElementsController.ElementType convert(String value) {
-    return ElementsController.ElementType.valueOf(value.toUpperCase());
+  public ElementController.ElementType convert(String value) {
+    return ElementController.ElementType.valueOf(value.toUpperCase());
   }
 }
 
@@ -45,7 +45,7 @@ class LowercaseEnumConverter implements Converter<String, ElementsController.Ele
 @RestController
 @RequestMapping(
     "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/elements")
-public class ElementsController {
+public class ElementController {
 
   /** The types of elements that can be retrieved. */
   public enum ElementType {
@@ -67,7 +67,7 @@ public class ElementsController {
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
-  public ElementsController(
+  public ElementController(
       LoadNormUseCase loadNormUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
       ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
@@ -197,7 +197,7 @@ public class ElementsController {
               var elementXpath = String.format("//*[@eId='%s']", eid);
               return NodeParser.getNodeFromExpression(elementXpath, norm.getDocument());
             })
-        .map(ElementsResponseMapper::fromElementNode)
+        .map(ElementResponseMapper::fromElementNode)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -246,7 +246,7 @@ public class ElementsController {
     // get elements and return
     return ResponseEntity.ok(
         getElements(type, amendedBy, targetNorm.get(), eli).stream()
-            .map(ElementsResponseMapper::fromElementNode)
+            .map(ElementResponseMapper::fromElementNode)
             .toList());
   }
 

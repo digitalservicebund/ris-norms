@@ -22,9 +22,9 @@ import org.springframework.test.web.servlet.MockMvc;
  * Not using SpringBootTest annotation to avoid needing a database connection. Using @Import to load
  * the {@link SecurityConfig} in order to avoid http 401 Unauthorised
  */
-@WebMvcTest(ElementsController.class)
+@WebMvcTest(ElementController.class)
 @Import(SecurityConfig.class)
-class ElementsControllerTest {
+class ElementControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
