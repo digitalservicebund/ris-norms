@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDoc
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import java.util.Optional;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,70 +33,74 @@ class ElementControllerTest {
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
-  @Test
-  void itReturnsPrefacePreambleArticleAndConclusionDataInElementsResponseEntrySchema()
-      throws Exception {
+  @Nested
+  class getListOfElements {
 
-    // given
-    var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-    when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+    @Test
+    void itReturnsPrefacePreambleArticleAndConclusionDataInElementsResponseEntrySchema()
+        throws Exception {
 
-    var url =
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
-            + "?type=preface"
-            + "&type=preamble"
-            + "&type=article"
-            + "&type=conclusions";
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
 
-    // when
-    mockMvc
-        .perform(get(url))
-        // then
-        .andExpect(status().isOk())
-        // preface
-        .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].title").value("Dokumentenkopf"))
-        .andExpect(jsonPath("$[0].eid").value("einleitung-1"))
-        .andExpect(jsonPath("$[0].type").value("preface"))
-        // preamble
-        .andExpect(jsonPath("$[1].title").value("Eingangsformel"))
-        .andExpect(jsonPath("$[1].eid").value("preambel-1"))
-        .andExpect(jsonPath("$[1].type").value("preamble"))
-        // articles
-        .andExpect(jsonPath("$[2].title").value("Artikel 1 Änderung des Vereinsgesetzes"))
-        .andExpect(jsonPath("$[2].eid").value("hauptteil-1_art-1"))
-        .andExpect(jsonPath("$[2].type").value("article"))
-        .andExpect(jsonPath("$[3].title").value("Artikel 3 Inkrafttreten"))
-        .andExpect(jsonPath("$[3].eid").value("hauptteil-1_art-3"))
-        .andExpect(jsonPath("$[3].type").value("article"))
-        // conclusion
-        .andExpect(jsonPath("$[4].title").value("Schlussteil"))
-        .andExpect(jsonPath("$[4].eid").value("schluss-1"))
-        .andExpect(jsonPath("$[4].type").value("conclusions"));
-  }
+      var url =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
+              + "?type=preface"
+              + "&type=preamble"
+              + "&type=article"
+              + "&type=conclusions";
 
-  @Test
-  void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
-    var targetNorm =
-        NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
-    when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(targetNorm));
+      // when
+      mockMvc
+          .perform(get(url))
+          // then
+          .andExpect(status().isOk())
+          // preface
+          .andExpect(jsonPath("$[0]").exists())
+          .andExpect(jsonPath("$[0].title").value("Dokumentenkopf"))
+          .andExpect(jsonPath("$[0].eid").value("einleitung-1"))
+          .andExpect(jsonPath("$[0].type").value("preface"))
+          // preamble
+          .andExpect(jsonPath("$[1].title").value("Eingangsformel"))
+          .andExpect(jsonPath("$[1].eid").value("preambel-1"))
+          .andExpect(jsonPath("$[1].type").value("preamble"))
+          // articles
+          .andExpect(jsonPath("$[2].title").value("Artikel 1 Änderung des Vereinsgesetzes"))
+          .andExpect(jsonPath("$[2].eid").value("hauptteil-1_art-1"))
+          .andExpect(jsonPath("$[2].type").value("article"))
+          .andExpect(jsonPath("$[3].title").value("Artikel 3 Inkrafttreten"))
+          .andExpect(jsonPath("$[3].eid").value("hauptteil-1_art-3"))
+          .andExpect(jsonPath("$[3].type").value("article"))
+          // conclusion
+          .andExpect(jsonPath("$[4].title").value("Schlussteil"))
+          .andExpect(jsonPath("$[4].eid").value("schluss-1"))
+          .andExpect(jsonPath("$[4].type").value("conclusions"));
+    }
 
-    var url =
-        "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements"
-            + "?type=preface"
-            + "&type=preamble"
-            + "&type=article"
-            + "&type=conclusions"
-            + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
+    @Test
+    void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
+      var targetNorm =
+          NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(targetNorm));
 
-    // when
-    mockMvc
-        .perform(get(url))
-        // then
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].eid").exists())
-        .andExpect(jsonPath("$[0].title").exists())
-        .andExpect(jsonPath("$[0].type").exists())
-        .andExpect(jsonPath("$[1]").doesNotExist());
+      var url =
+          "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements"
+              + "?type=preface"
+              + "&type=preamble"
+              + "&type=article"
+              + "&type=conclusions"
+              + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
+
+      // when
+      mockMvc
+          .perform(get(url))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0].eid").exists())
+          .andExpect(jsonPath("$[0].title").exists())
+          .andExpect(jsonPath("$[0].type").exists())
+          .andExpect(jsonPath("$[1]").doesNotExist());
+    }
   }
 }
