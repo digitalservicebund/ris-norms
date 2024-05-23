@@ -52,6 +52,7 @@ class ElementControllerTest {
     void returns404IfElementNotFoundByEid() throws Exception {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // when
       mockMvc
