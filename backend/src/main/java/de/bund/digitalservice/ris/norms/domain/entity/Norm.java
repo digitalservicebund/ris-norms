@@ -303,7 +303,6 @@ public class Norm {
    * @return the selected element
    */
   public Node getByEId(String eId) {
-    // TODO provide unit test
     return NodeParser.getNodeFromExpression(
         String.format("//*[@eId='%s']", eId), this.getDocument());
   }
