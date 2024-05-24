@@ -169,7 +169,7 @@ public class NormService
             });
 
     // TODO: (Malte Laukötter, 2024-05-22) run validation that the change is possible
-    modificationValidator.validate(norm);
+    // modificationValidator.validate(norm);
 
     updateNormService.updatePassiveModifications(
         new UpdatePassiveModificationsUseCase.Query(targetNorm, norm));
