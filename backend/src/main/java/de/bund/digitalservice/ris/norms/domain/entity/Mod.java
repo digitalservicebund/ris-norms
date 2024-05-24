@@ -62,7 +62,11 @@ public class Mod {
    * @return The eid of the element this modification will change.
    */
   public Optional<String> getTargetEid() {
-    return this.getTargetHref().map(href -> href.value().split("/")[9]);
+    Optional<Href> href = this.getTargetHref();
+    if (href.isEmpty()) return Optional.empty();
+    String[] arr = href.get().value().split("/");
+    if (arr.length < 10) return Optional.empty();
+    return Optional.of(arr[9]);
   }
 
   /**
