@@ -239,29 +239,58 @@ class ElementControllerTest {
           .andExpect(jsonPath("$[4].type").value("conclusions"));
     }
 
-    @Test
-    void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
-      var targetNorm =
-          NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(targetNorm));
+    @Nested
+    class givenAnAmendingLaw {
+      @Test
+      void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
+        // given
+        var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+        var amendingNorm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
 
-      var url =
-          "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements"
-              + "?type=preface"
-              + "&type=preamble"
-              + "&type=article"
-              + "&type=conclusions"
-              + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
+        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(targetNorm));
+        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
-      // when
-      mockMvc
-          .perform(get(url))
-          // then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$[0].eid").exists())
-          .andExpect(jsonPath("$[0].title").exists())
-          .andExpect(jsonPath("$[0].type").exists())
-          .andExpect(jsonPath("$[1]").doesNotExist());
+        var url =
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
+                + "?type=preface"
+                + "&type=preamble"
+                + "&type=article"
+                + "&type=conclusions"
+                + "&amendedBy="
+                + amendingNorm.getEli().orElseThrow(); // amending norm eli
+
+        // when
+        mockMvc
+            .perform(get(url))
+            // then
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0]").doesNotExist());
+      }
+
+      @Test
+      void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
+        var targetNorm =
+            NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(targetNorm));
+
+        var url =
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements"
+                + "?type=preface"
+                + "&type=preamble"
+                + "&type=article"
+                + "&type=conclusions"
+                + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
+
+        // when
+        mockMvc
+            .perform(get(url))
+            // then
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].eid").exists())
+            .andExpect(jsonPath("$[0].title").exists())
+            .andExpect(jsonPath("$[0].type").exists())
+            .andExpect(jsonPath("$[1]").doesNotExist());
+      }
     }
   }
 }
