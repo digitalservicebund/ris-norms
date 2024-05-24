@@ -142,7 +142,7 @@ watch(targetLawEli, () => {
 async function handleSave() {
   const updatedMods = {
     refersTo: selectedMod.value,
-    timeBoundaryEid: timeBoundary.value?.eventRefEid,
+    timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
     destinationHref: destinationHref.value,
     oldText: quotedTextFirst.value,
     newText: quotedTextSecond.value,
