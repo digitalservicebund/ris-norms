@@ -245,9 +245,10 @@ class ArticleTest {
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
 
     // when
-    var eid = article.getMod().getEid();
+    var mod = article.getMod();
 
     // then
-    assertThat(eid).isPresent().contains(expectedModEId);
+    assertThat(mod).isPresent();
+    assertThat(mod.get().getEid()).contains(expectedModEId);
   }
 }
