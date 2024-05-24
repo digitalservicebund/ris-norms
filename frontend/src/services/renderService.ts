@@ -1,22 +1,35 @@
 import { apiFetch } from "@/services/apiService"
 
 /**
- * Renders the XML of a law as HTML.
+ * Renders the XML of a norm as HTML.
  *
- * @param xml Source that should be rendered
+ * @param norm XML of the norm that should be rendered
+ * @param customNorms The XMLs of norms which are referenced by the norm (e.g. in passiveModifications) and should be used instead of the data stored.
  * @param showMetadata Enable or disable metadata list at the beginning of the document
- * @returns Rendered HTML string of the law
+ * @param at Passive modifications coming into effect before this date should be applied before rendering the HTML
+ * @returns Rendered HTML string of the norm
  */
 export async function renderHtmlLaw(
-  xml: string | undefined,
+  norm: string | undefined,
   showMetadata: boolean = true,
+  at?: Date,
+  customNorms?: {
+    [eli: string]: string
+  },
 ): Promise<string> {
-  return await apiFetch(`renderings?showMetadata=${showMetadata}`, {
+  return await apiFetch("renderings", {
     method: "POST",
     headers: {
       Accept: "text/html",
-      "Content-Type": "application/xml",
+      "Content-Type": "application/json",
     },
-    body: xml,
+    query: {
+      atIsoDate: at?.toISOString(),
+      showMetadata,
+    },
+    body: {
+      norm,
+      customNorms,
+    },
   })
 }
