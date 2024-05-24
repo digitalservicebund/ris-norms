@@ -64,12 +64,19 @@ class TimeBoundaryControllerTest {
                       """
               .strip();
 
+      final String temporalGroup =
+          """
+                      <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                          <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                       </akn:temporalGroup>
+                      """;
+
       List<TimeBoundary> timeBoundaries =
           List.of(
               new TimeBoundary(
                   XmlMapper.toNode(timeInterval),
                   XmlMapper.toNode(eventRef),
-                  XmlMapper.toNode("")));
+                  XmlMapper.toNode(temporalGroup)));
 
       when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(any())).thenReturn(timeBoundaries);
 
@@ -80,7 +87,8 @@ class TimeBoundaryControllerTest {
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(1)))
           .andExpect(jsonPath("$[0].date", is("2017-03-16")))
-          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")));
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")))
+          .andExpect(jsonPath("$[0].temporalGroupEid", is("meta-1_geltzeiten-1_geltungszeitgr-1")));
 
       verify(loadTimeBoundariesUseCase, times(1))
           .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));
@@ -130,12 +138,20 @@ class TimeBoundaryControllerTest {
                       """
               .strip();
 
+      final String temporalGroup =
+          """
+                      <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                          <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                       </akn:temporalGroup>
+                      """
+              .strip();
+
       List<TimeBoundary> timeBoundaries =
           List.of(
               new TimeBoundary(
                   XmlMapper.toNode(timeInterval1),
                   XmlMapper.toNode(eventRef1),
-                  XmlMapper.toNode("")));
+                  XmlMapper.toNode(temporalGroup)));
 
       when(updateTimeBoundariesUseCase.updateTimeBoundariesOfNorm(any()))
           .thenReturn(timeBoundaries);
@@ -151,7 +167,8 @@ class TimeBoundaryControllerTest {
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(1)))
           .andExpect(jsonPath("$[0].date", is("1964-09-21")))
-          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")));
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")))
+          .andExpect(jsonPath("$[0].temporalGroupEid", is("meta-1_geltzeiten-1_geltungszeitgr-1")));
 
       verify(updateTimeBoundariesUseCase, times(1))
           .updateTimeBoundariesOfNorm(any(UpdateTimeBoundariesUseCase.Query.class));

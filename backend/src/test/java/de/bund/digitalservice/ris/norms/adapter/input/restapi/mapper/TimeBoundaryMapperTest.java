@@ -78,7 +78,10 @@ class TimeBoundaryMapperTest {
       // Given
       List<TimeBoundarySchema> timeBoundaries =
           List.of(
-              new TimeBoundarySchema(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2"));
+              new TimeBoundarySchema(
+                  LocalDate.parse("2023-12-30"),
+                  "meta-1_lebzykl-1_ereignis-2",
+                  "meta-1_geltzeiten-1_geltungszeitgr-1"));
 
       // When
       List<TimeBoundaryChangeData> timeBoundaryChangeData =
@@ -95,8 +98,14 @@ class TimeBoundaryMapperTest {
       // Given
       List<TimeBoundarySchema> timeBoundaries =
           List.of(
-              new TimeBoundarySchema(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2"),
-              new TimeBoundarySchema(LocalDate.parse("2016-01-28"), "meta-1_lebzykl-1_ereignis-1"));
+              new TimeBoundarySchema(
+                  LocalDate.parse("2023-12-30"),
+                  "meta-1_lebzykl-1_ereignis-2",
+                  "meta-1_geltzeiten-1_geltungszeitgr-1"),
+              new TimeBoundarySchema(
+                  LocalDate.parse("2016-01-28"),
+                  "meta-1_lebzykl-1_ereignis-1",
+                  "meta-1_geltzeiten-1_geltungszeitgr-1"));
 
       // When
       List<TimeBoundaryChangeData> timeBoundaryChangeData =
