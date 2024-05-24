@@ -4,8 +4,10 @@ import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.UpdateModResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ModUpdateSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import jakarta.validation.Valid;
@@ -340,8 +342,8 @@ public class NormController {
   @PutMapping(
       path = "/mods/{eid}",
       consumes = {APPLICATION_JSON_VALUE},
-      produces = {APPLICATION_XML_VALUE})
-  public ResponseEntity<String> updateMod(
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<UpdateModResponseSchema> updateMod(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
@@ -364,7 +366,7 @@ public class NormController {
                 modUpdateSchema.getDestinationHref(),
                 modUpdateSchema.getOldText(),
                 modUpdateSchema.getNewText()))
-        .map(UpdateModUseCase.Result::amendingNormXml)
+        .map(UpdateModResponseMapper::fromResult)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }

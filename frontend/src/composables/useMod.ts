@@ -31,7 +31,10 @@ export function useMod(
     eli: MaybeRefOrGetter<string>,
     eid: MaybeRefOrGetter<string>,
     updatedMods: ModData,
-  ) => Promise<string>
+  ) => Promise<{
+    amendingNormXml: string
+    targetNormXml: string
+  }>
 } {
   const normDocument = computed(() => {
     const xmlValue = toValue(xml)

@@ -342,23 +342,24 @@ class NormControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String modEid = "mod-eid-1";
       final String xml = "<law></law>";
+      final String targetNormXml = "<target-norm-xml></target-norm-xml>";
 
       // When
       when(updateModUseCase.updateMod(any()))
-          .thenReturn(
-              Optional.of(new UpdateModUseCase.Result(xml, "<target-norm-xml></target-norm-xml>")));
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(xml, targetNormXml)));
 
       // When // Then
       mockMvc
           .perform(
               put("/api/v1/norms/" + eli + "/mods/" + modEid)
-                  .accept(MediaType.APPLICATION_XML)
+                  .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
                       "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
           .andExpect(status().isOk())
-          .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML))
-          .andExpect(content().string(xml));
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+          .andExpect(jsonPath("amendingNormXml").value(xml))
+          .andExpect(jsonPath("targetNormXml").value(targetNormXml));
     }
 
     @Test
@@ -374,7 +375,7 @@ class NormControllerTest {
       mockMvc
           .perform(
               put("/api/v1/norms/" + eli + "/mods/" + modEid)
-                  .accept(MediaType.APPLICATION_XML)
+                  .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
                       "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))

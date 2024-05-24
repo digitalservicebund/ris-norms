@@ -148,14 +148,18 @@ describe("useMod", () => {
       getQuotedTextSecond: vi.fn(),
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
-      updateModData: vi.fn().mockResolvedValue("<xml>response</xml>"),
+      updateModData: vi.fn().mockResolvedValue({
+        targetNormXml: "<xml>target-norm-zf0-xml</xml>",
+        amendingNormXml: "<xml>amending-norm-xml</xml>",
+      }),
     }))
     const { useMod } = await import("./useMod")
     const { updateMod } = useMod(eid, `<xml></xml>`)
 
     const result = await updateMod(eli, eid, updatedMods)
 
-    expect(result).toBe("<xml>response</xml>")
+    expect(result.amendingNormXml).toBe("<xml>amending-norm-xml</xml>")
+    expect(result.targetNormXml).toBe("<xml>target-norm-zf0-xml</xml>")
 
     const { updateModData } = await import("@/services/ldmldeModService")
     expect(updateModData).toHaveBeenCalledWith(eli, eid, updatedMods)

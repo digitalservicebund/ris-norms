@@ -143,8 +143,11 @@ describe("ldmldeModService", () => {
         oldText: "test-oldText",
         newText: "test-newText",
       }
-      const expectedResponse = "<xml>response</xml>"
 
+      const expectedResponse = {
+        targetNormXml: "<xml>target-norm-zf0-xml</xml>",
+        amendingNormXml: "<xml>amending-norm-xml</xml>",
+      }
       const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
       vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
 

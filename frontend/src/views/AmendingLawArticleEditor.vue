@@ -152,11 +152,8 @@ async function handleSave() {
   }
 
   try {
-    currentArticleXml.value = await updateMod(
-      eli.value,
-      selectedMod.value,
-      updatedMods,
-    )
+    const response = await updateMod(eli.value, selectedMod.value, updatedMods)
+    currentArticleXml.value = response.amendingNormXml
   } catch (error) {
     console.error("Error saving the mod:", error)
   }

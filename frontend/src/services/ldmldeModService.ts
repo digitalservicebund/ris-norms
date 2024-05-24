@@ -76,12 +76,18 @@ export async function updateModData(
   eli: string,
   eid: string,
   updatedMods: ModData,
-): Promise<string> {
-  return await apiFetch<string>(`/norms/${eli}/mods/${eid}`, {
+): Promise<{
+  amendingNormXml: string
+  targetNormXml: string
+}> {
+  return await apiFetch<{
+    amendingNormXml: string
+    targetNormXml: string
+  }>(`/norms/${eli}/mods/${eid}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/xml",
+      Accept: "application/json",
     },
     body: JSON.stringify(updatedMods),
   })

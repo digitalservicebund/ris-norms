@@ -289,6 +289,14 @@ paths:
         '200':
           description: Successful update
           content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  amendingNormXml:
+                    type: string
+                  targetNormXml:
+                    type: string
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
