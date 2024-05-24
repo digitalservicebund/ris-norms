@@ -62,7 +62,7 @@ export function getTimeBoundaryDate(xml: Document, aknModEid: string) {
   const date = getEventRefDate(eventRefNode)
   if (!date) return null
 
-  return { date, eventRefEid }
+  return { date, temporalGroupEid }
 }
 /**
  * Save the updated mod data to the server.
