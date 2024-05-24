@@ -73,4 +73,14 @@ public class Article {
   public Optional<String> getRefersTo() {
     return NodeParser.getValueFromExpression("./@refersTo", this.node);
   }
+
+  /**
+   * Extracts the {@link Mod} for this article.
+   *
+   * @return a {@link Mod}
+   */
+  public Mod getMod() {
+    Node n = NodeParser.getNodeFromExpression("//mod", this.node);
+    return new Mod(n);
+  }
 }
