@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import static java.lang.Integer.parseInt;
+
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -63,7 +65,43 @@ public class ModificationValidator {
    * @param amendingLaw the amending law to be checked
    */
   public void oldTextExistsInTargetLaw(Norm amendingLaw) {
-    // TODO
+    // TODO implement unit test
+    amendingLaw
+        .getArticles()
+        .forEach(
+            article -> {
+              if (article.getAffectedDocumentEli().isEmpty())
+                throw new XmlProcessingException("Error TBD 1", null);
+              if (article.getMod().getOldText().isEmpty())
+                throw new XmlProcessingException("Error TBD 2", null);
+              if (article.getMod().getTargetEid().isEmpty())
+                throw new XmlProcessingException("Error TBD 3", null);
+              if (article.getMod().getTargetHref().isEmpty())
+                throw new XmlProcessingException("Error TBD 4", null);
+              if (article.getMod().getTargetHref().get().getCharacterRange().isEmpty())
+                throw new XmlProcessingException("Error TBD 5", null);
+
+              Optional<Norm> normOptional =
+                  dbService.loadNorm(
+                      new LoadNormPort.Command(article.getAffectedDocumentEli().get()));
+
+              if (normOptional.isEmpty()) throw new XmlProcessingException("Error TBD 6", null);
+
+              String paragraphText =
+                  normOptional
+                      .get()
+                      .getByEId(article.getMod().getTargetEid().get())
+                      .getTextContent();
+
+              String range = article.getMod().getTargetHref().get().getCharacterRange().get();
+              int from = parseInt(range.split("-")[0]);
+              int to = parseInt(range.split("-")[1]);
+
+              String textToBeReplaced = paragraphText.substring(from, to);
+
+              if (!textToBeReplaced.equals(paragraphText))
+                throw new XmlProcessingException("Error TBD 7", null);
+            });
   }
 
   /**
