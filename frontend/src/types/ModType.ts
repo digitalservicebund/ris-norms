@@ -7,7 +7,7 @@ export type ModType =
 
 export interface ModData {
   refersTo: string
-  timeBoundaryEid?: string | undefined
+  timeBoundaryEid?: string
   destinationHref: string
   oldText: string
   newText: string
