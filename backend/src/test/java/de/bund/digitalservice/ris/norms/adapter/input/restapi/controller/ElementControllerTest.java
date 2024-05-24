@@ -35,44 +35,49 @@ class ElementControllerTest {
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   @Nested
-  class GetElement {
-    @Test
-    void returns404IfNormNotFoundByEli() throws Exception {
-      // given no norm
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3")
-                  .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isNotFound());
-      // then
-    }
+  class GetSingleElement {
 
-    @Test
-    void returns404IfElementNotFoundByEid() throws Exception {
-      // given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+    @Nested
+    class ErrorCases {
 
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID")
-                  .accept(MediaType.TEXT_HTML))
-          // then
-          .andExpect(status().isNotFound());
-    }
+      @Test
+      void returns404IfNormNotFoundByEli() throws Exception {
+        // given no norm
+        // when
+        mockMvc
+            .perform(
+                get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3")
+                    .accept(MediaType.TEXT_HTML))
+            .andExpect(status().isNotFound());
+        // then
+      }
 
-    @Test
-    void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {
-      // Given
+      @Test
+      void returns404IfElementNotFoundByEid() throws Exception {
+        // given
+        var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
 
-      // When / Then
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID")
-                  .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isBadRequest());
+        // when
+        mockMvc
+            .perform(
+                get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID")
+                    .accept(MediaType.TEXT_HTML))
+            // then
+            .andExpect(status().isNotFound());
+      }
+
+      @Test
+      void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {
+        // Given
+
+        // When / Then
+        mockMvc
+            .perform(
+                get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID")
+                    .accept(MediaType.TEXT_HTML))
+            .andExpect(status().isBadRequest());
+      }
     }
 
     @Test
@@ -95,7 +100,7 @@ class ElementControllerTest {
     }
 
     @Test
-    void returnElementEidTitleAndType() throws Exception {
+    void returnsJsonWithElementEidTitleAndType() throws Exception {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -140,45 +145,49 @@ class ElementControllerTest {
   }
 
   @Nested
-  class getListOfElements {
+  class GetListOfElements {
 
-    @Test
-    void itReturnsServerErrorIfTypeParameterIsMissing() throws Exception {
-      // given
+    @Nested
+    class ErrorCases {
 
-      // when
-      mockMvc
-          .perform(
-              get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements"))
-          // then
-          .andExpect(status().is5xxServerError());
-    }
+      @Test
+      void itReturnsServerErrorIfTypeParameterIsMissing() throws Exception {
+        // given
 
-    @Test
-    void itReturnsServerErrorIfTheTypeIsNotSupported() throws Exception {
-      // given
+        // when
+        mockMvc
+            .perform(
+                get(
+                    "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements"))
+            // then
+            .andExpect(status().is5xxServerError());
+      }
 
-      // when
-      mockMvc
-          .perform(
-              get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=foo"))
-          // then
-          .andExpect(status().is5xxServerError());
-    }
+      @Test
+      void itReturnsServerErrorIfTheTypeIsNotSupported() throws Exception {
+        // given
 
-    @Test
-    void itReturnsNotFoundIfNormIsNotFound() throws Exception {
-      // given
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.empty());
-      // when
-      mockMvc
-          .perform(
-              get(
-                  "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
-          // then
-          .andExpect(status().isNotFound());
+        // when
+        mockMvc
+            .perform(
+                get(
+                    "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=foo"))
+            // then
+            .andExpect(status().is5xxServerError());
+      }
+
+      @Test
+      void itReturnsNotFoundIfNormIsNotFound() throws Exception {
+        // given
+        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.empty());
+        // when
+        mockMvc
+            .perform(
+                get(
+                    "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
+            // then
+            .andExpect(status().isNotFound());
+      }
     }
 
     @Test
@@ -240,7 +249,8 @@ class ElementControllerTest {
     }
 
     @Nested
-    class givenAnAmendingLaw {
+    class GivenAnAmendingLaw {
+
       @Test
       void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
         // given
