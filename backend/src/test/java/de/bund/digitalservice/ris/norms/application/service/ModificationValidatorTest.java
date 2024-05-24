@@ -104,7 +104,7 @@ class ModificationValidatorTest {
     assertThat(thrown)
         .isInstanceOf(XmlProcessingException.class)
         .hasMessageContaining(
-            "Some articles have empty affected document Elis. Here are the according eIds: hauptteil-1_art-1");
+            "Some articles have empty affected document Elis. Here are the according article eIds: hauptteil-1_art-1");
   }
 
   @Test
