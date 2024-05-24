@@ -64,6 +64,18 @@ class ElementControllerTest {
     }
 
     @Test
+    void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {
+      // Given
+
+      // When / Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID")
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void returnsHtmlRendering() throws Exception {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
@@ -125,17 +137,6 @@ class ElementControllerTest {
     //              .andExpect(content().string(not(containsString("§ 9 Abs. 1 Satz 2, Abs. 2"))));
     //    }
     //
-    @Test
-    void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {
-      // Given
-
-      // When / Then
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID")
-                  .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isBadRequest());
-    }
   }
 
   @Nested
