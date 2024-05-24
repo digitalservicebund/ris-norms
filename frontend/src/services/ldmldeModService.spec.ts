@@ -1,5 +1,5 @@
 import { xmlStringToDocument } from "@/services/xmlService"
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import {
   getTextualModType,
   getDestinationHref,
@@ -121,6 +121,30 @@ describe("ldmldeModService", () => {
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
         ),
       ).to.eq("2023-12-30")
+    })
+  })
+
+  describe.skip("updateModData", () => {
+    it("should make a PUT request with the correct data", async () => {
+      const eli = "test-eli"
+      const eid = "test-eid"
+      const updatedMods = {
+        refersTo: "test-refersTo",
+        timeBoundaryEid: "test-timeBoundaryEid",
+        destinationHref: "test-destinationHref",
+        oldText: "test-oldText",
+        newText: "test-newText",
+      }
+
+      const expectedResponse = "<xml>response</xml>"
+      const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
+
+      vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
+
+      const { updateModData } = await import("./ldmldeModService")
+
+      const result = await updateModData(eli, eid, updatedMods)
+      expect(result).toEqual(expectedResponse)
     })
   })
 })

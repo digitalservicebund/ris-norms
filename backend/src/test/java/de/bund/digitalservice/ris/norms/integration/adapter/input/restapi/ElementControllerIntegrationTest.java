@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-class ElementsControllerIntegrationTest extends BaseIntegrationTest {
+class ElementControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private NormRepository normRepository;
@@ -26,7 +26,6 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
     normRepository.deleteAll();
   }
 
-  // TODO Hannes: Adjust OpenAPI documentation
   @Nested
   class GetElement {
     @Test
@@ -124,7 +123,7 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class getElements {
+  class getListOfElements {
 
     @Test
     void itReturnsServerErrorIfTypeParameterIsMissing() throws Exception {
@@ -261,9 +260,6 @@ class ElementsControllerIntegrationTest extends BaseIntegrationTest {
               + "&type=article"
               + "&type=conclusions"
               + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
-      // mod
-      // source
-      // eli
 
       // when
       mockMvc

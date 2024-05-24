@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Data
 @SuperBuilder(toBuilder = true)
-public class ElementsResponseEntrySchema {
+public class ElementResponseSchema {
   private String title;
   private String eid;
   private String type;

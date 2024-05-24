@@ -4,11 +4,9 @@ import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementsResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementsResponseEntrySchema;
-import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
@@ -34,10 +32,10 @@ import org.w3c.dom.Node;
  * convention of UPPERCASE enums in Java code.
  */
 @Component
-class LowercaseEnumConverter implements Converter<String, ElementsController.ElementType> {
+class LowercaseEnumConverter implements Converter<String, ElementController.ElementType> {
   @Override
-  public ElementsController.ElementType convert(String value) {
-    return ElementsController.ElementType.valueOf(value.toUpperCase());
+  public ElementController.ElementType convert(String value) {
+    return ElementController.ElementType.valueOf(value.toUpperCase());
   }
 }
 
@@ -45,7 +43,7 @@ class LowercaseEnumConverter implements Converter<String, ElementsController.Ele
 @RestController
 @RequestMapping(
     "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/elements")
-public class ElementsController {
+public class ElementController {
 
   /** The types of elements that can be retrieved. */
   public enum ElementType {
@@ -66,14 +64,20 @@ public class ElementsController {
   private final LoadNormUseCase loadNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  private final LoadElementFromNormUseCase loadElementFromNormUseCase;
+  private final LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
 
-  public ElementsController(
+  public ElementController(
       LoadNormUseCase loadNormUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
+      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
+      LoadElementFromNormUseCase loadElementFromNormUseCase,
+      LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
+    this.loadElementFromNormUseCase = loadElementFromNormUseCase;
+    this.loadElementHtmlFromNormUseCase = loadElementHtmlFromNormUseCase;
   }
 
   /**
@@ -141,17 +145,8 @@ public class ElementsController {
           .orElse(ResponseEntity.notFound().build());
     }
 
-    return loadNormUseCase
-        .loadNorm(new LoadNormUseCase.Query(eli))
-        .map(
-            norm -> {
-              var elementXpath = String.format("//*[@eId='%s']", eid);
-              return NodeParser.getNodeFromExpression(elementXpath, norm.getDocument());
-            })
-        .map(
-            element ->
-                transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                    new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false)))
+    return loadElementHtmlFromNormUseCase
+        .loadElementHtmlFromNorm(new LoadElementHtmlFromNormUseCase.Query(eli, eid))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -176,7 +171,7 @@ public class ElementsController {
   @GetMapping(
       path = "/{eid}",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ElementsResponseEntrySchema> getElementInfo(
+  public ResponseEntity<ElementResponseSchema> getElementInfo(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
@@ -190,14 +185,9 @@ public class ElementsController {
         EliBuilder.buildEli(
             agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    return loadNormUseCase
-        .loadNorm(new LoadNormUseCase.Query(eli))
-        .map(
-            norm -> {
-              var elementXpath = String.format("//*[@eId='%s']", eid);
-              return NodeParser.getNodeFromExpression(elementXpath, norm.getDocument());
-            })
-        .map(ElementsResponseMapper::fromElementNode)
+    return loadElementFromNormUseCase
+        .loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid))
+        .map(ElementResponseMapper::fromElementNode)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -225,7 +215,7 @@ public class ElementsController {
    *     <p>Returns HTTP 500 (Server error) if an unsupported type is provided.
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<List<ElementsResponseEntrySchema>> getList(
+  public ResponseEntity<List<ElementResponseSchema>> getElementList(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
@@ -246,7 +236,7 @@ public class ElementsController {
     // get elements and return
     return ResponseEntity.ok(
         getElements(type, amendedBy, targetNorm.get(), eli).stream()
-            .map(ElementsResponseMapper::fromElementNode)
+            .map(ElementResponseMapper::fromElementNode)
             .toList());
   }
 
@@ -257,7 +247,7 @@ public class ElementsController {
         String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
 
     // Source EIDs from passive mods
-    var passiveModsSourceEids =
+    var passiveModsDestinationEids =
         targetNorm.getPassiveModifications().stream()
             .filter(
                 passiveMod -> {
@@ -285,7 +275,7 @@ public class ElementsController {
               if (amendedBy.isEmpty()) return true;
 
               var eId = NodeParser.getValueFromExpression("./@eId", element).orElseThrow();
-              return passiveModsSourceEids.stream().anyMatch(modEid -> modEid.contains(eId));
+              return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
             })
         .toList();
   }

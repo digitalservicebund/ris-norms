@@ -4,9 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
 
-public class ElementsResponseMapperTest {
+class ElementResponseMapperTest {
   @Test
   void convertsAnArticleNode() {
     // Given
@@ -26,7 +27,7 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    var output = ElementsResponseMapper.fromElementNode(node);
+    var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
     assertThat(output.getTitle()).isEqualTo("§ 1 Überschrift des Artikels");
@@ -49,7 +50,7 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    var output = ElementsResponseMapper.fromElementNode(node);
+    var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
     assertThat(output.getTitle()).isEqualTo("Überschrift des Artikels");
@@ -73,7 +74,7 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    var output = ElementsResponseMapper.fromElementNode(node);
+    var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
     assertThat(output.getTitle()).isEqualTo("§ 1");
@@ -93,10 +94,10 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    var output = ElementsResponseMapper.fromElementNode(node);
+    var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
-    assertThat(output.getTitle()).isEqualTo("");
+    assertThat(output.getTitle()).isEmpty();
     assertThat(output.getEid()).isEqualTo("hauptteil-1_para-1");
     assertThat(output.getType()).isEqualTo("article");
   }
@@ -114,7 +115,7 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    var output = ElementsResponseMapper.fromElementNode(node);
+    var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
     assertThat(output.getTitle()).isEqualTo("Dokumentenkopf");
@@ -134,7 +135,7 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    var output = ElementsResponseMapper.fromElementNode(node);
+    var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
     assertThat(output.getTitle()).isEqualTo("Eingangsformel");
@@ -155,7 +156,7 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    var output = ElementsResponseMapper.fromElementNode(node);
+    var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
     assertThat(output.getTitle()).isEqualTo("Schlussteil");
@@ -174,10 +175,10 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    var output = ElementsResponseMapper.fromElementNode(node);
+    var output = ElementResponseMapper.fromElementNode(node);
 
     // Then
-    assertThat(output.getTitle()).isEqualTo("");
+    assertThat(output.getTitle()).isEmpty();
     assertThat(output.getEid()).isEqualTo("random-1");
     assertThat(output.getType()).isEqualTo("someRandomNode");
   }
@@ -195,6 +196,7 @@ public class ElementsResponseMapperTest {
             """);
 
     // When
-    assertThatThrownBy(() -> ElementsResponseMapper.fromElementNode(node));
+    assertThatThrownBy(() -> ElementResponseMapper.fromElementNode(node))
+        .isInstanceOf(NoSuchElementException.class);
   }
 }

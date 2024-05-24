@@ -8,7 +8,7 @@ import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, ref, watch, onMounted } from "vue"
+import { computed, onMounted, ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { renderHtmlLaw } from "@/services/renderService"
@@ -127,6 +127,7 @@ const {
   quotedTextFirst,
   quotedTextSecond,
   timeBoundary,
+  updateMod,
 } = useMod(selectedMod, articleXml)
 
 watch(selectedMod, () => {
@@ -137,6 +138,28 @@ watch(selectedMod, () => {
 watch(targetLawEli, () => {
   handleGeneratePreview()
 })
+
+async function handleSave() {
+  const updatedMods = {
+    refersTo: selectedMod.value,
+    timeBoundaryEid: timeBoundary.value,
+    destinationHref: destinationHref.value,
+    oldText: quotedTextFirst.value,
+    newText: quotedTextSecond.value,
+  }
+
+  try {
+    const responseXml = await updateMod(
+      eli.value,
+      selectedMod.value,
+      updatedMods,
+    )
+    previewXml.value = responseXml
+    previewHtml.value = await renderHtmlLaw(responseXml, false)
+  } catch (error) {
+    console.error("Error saving the mod:", error)
+  }
+}
 </script>
 
 <template>
@@ -210,6 +233,7 @@ watch(targetLawEli, () => {
             :quoted-text-first="quotedTextFirst"
             :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
             @generate-preview="handleGeneratePreview"
+            @update-mod="handleSave"
           />
         </section>
         <section

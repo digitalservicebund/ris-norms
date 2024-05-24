@@ -324,4 +324,29 @@ describe("RisModForm", () => {
 
     expect(onGeneratePreview).toHaveBeenCalled()
   })
+
+  it("emits update-mod when the save button is clicked", async () => {
+    const user = userEvent.setup()
+    const onUpdateMod = vi.fn()
+
+    render(RisModForm, {
+      props: {
+        id: "risModForm",
+        textualModType,
+        timeBoundaries,
+        destinationHref,
+        quotedTextSecond,
+        "onUpdate-mod": onUpdateMod,
+      },
+    })
+
+    const saveButton = screen.getByRole("button", {
+      name: "Speichern",
+    })
+    expect(saveButton).toBeInTheDocument()
+
+    await user.click(saveButton)
+
+    expect(onUpdateMod).toHaveBeenCalled()
+  })
 })
