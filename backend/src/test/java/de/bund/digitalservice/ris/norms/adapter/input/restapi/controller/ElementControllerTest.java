@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
@@ -31,6 +32,7 @@ class ElementControllerTest {
   @MockBean private LoadNormUseCase loadNormUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  @MockBean private LoadElementFromNormUseCase loadElementFromNormUseCase;
 
   @Test
   void itReturnsPrefacePreambleArticleAndConclusionDataInElementsResponseEntrySchema()
