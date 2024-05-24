@@ -474,6 +474,8 @@ components:
         date:
           type: string
           format: date
+        temporalGroupEid:
+          type: string
 
     Mod:
       type: object
