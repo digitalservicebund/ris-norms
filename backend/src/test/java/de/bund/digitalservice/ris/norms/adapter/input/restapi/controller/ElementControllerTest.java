@@ -116,32 +116,6 @@ class ElementControllerTest {
           .andExpect(jsonPath("type").value("article"))
           .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
     }
-
-    // TODO Hannes: I think we can't test this as we mock the result, so it does not show that the
-    // atIsoDate was taken into account.
-
-    //    @Test
-    //    void returnsElementAtGivenIsoDateRenderedAsHtml() throws Exception {
-    //
-    //      // Given
-    //      var amendingNorm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-    //      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-    //
-    //      normRepository.save(NormMapper.mapToDto(amendingNorm));
-    //      normRepository.save(NormMapper.mapToDto(targetNorm));
-    //
-    //      // When / Then
-    //      mockMvc
-    //              .perform(
-    //
-    // get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=2017-03-01T00:00:00.000Z")
-    //                              .accept(MediaType.TEXT_HTML))
-    //              .andExpect(status().isOk())
-    //              .andExpect(content().string(containsString("§ 9 Absatz 1 Satz 2, Absatz 2 oder
-    // 3")))
-    //              .andExpect(content().string(not(containsString("§ 9 Abs. 1 Satz 2, Abs. 2"))));
-    //    }
-    //
   }
 
   @Nested
