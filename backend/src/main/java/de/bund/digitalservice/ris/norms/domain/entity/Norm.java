@@ -297,14 +297,25 @@ public class Norm {
   }
 
   /**
+   * Returns the element of the norm identified by the given eId.
+   *
+   * @param eId the eId of the element to return
+   * @return the selected element
+   */
+  public Node getByEId(String eId) {
+    // TODO provide unit test
+    return NodeParser.getNodeFromExpression(
+        String.format("//*[@eId='%s']", eId), this.getDocument());
+  }
+
+  /**
    * Deletes the element of the norm identified by the given eId.
    *
    * @param eId the eId of the element to delete
    * @return the deleted element
    */
   public Node deleteByEId(String eId) {
-    var node =
-        NodeParser.getNodeFromExpression(String.format("//*[@eId='%s']", eId), this.getDocument());
+    var node = getByEId(eId);
     return node.getParentNode().removeChild(node);
   }
 
