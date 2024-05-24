@@ -364,6 +364,7 @@ public class NormController {
                 modUpdateSchema.getDestinationHref(),
                 modUpdateSchema.getOldText(),
                 modUpdateSchema.getNewText()))
+        .map(UpdateModUseCase.Result::amendingNormXml)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }

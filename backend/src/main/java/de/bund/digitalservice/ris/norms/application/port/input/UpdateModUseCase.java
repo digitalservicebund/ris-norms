@@ -20,7 +20,7 @@ public interface UpdateModUseCase {
    * @return An {@link Optional} containing the saved xml representation of {@link Norm} of the
    *     amending law.
    */
-  Optional<String> updateMod(Query query);
+  Optional<Result> updateMod(Query query);
 
   /**
    * A record representing the query for updating an amending command.
@@ -32,6 +32,8 @@ public interface UpdateModUseCase {
    * @param destinationHref - the ELI + eid + counting of the target law
    * @param oldText - the previous text that should be replaced
    * @param newText - the new text to replace the old one
+   * @param dryRun - if true the updating is executed but the results are discarded and not saved.
+   *     Default: false
    */
   record Query(
       String eli,
@@ -40,5 +42,28 @@ public interface UpdateModUseCase {
       String timeBoundaryEid,
       String destinationHref,
       String oldText,
-      String newText) {}
+      String newText,
+      boolean dryRun) {
+    public Query(
+        String eli,
+        String eid,
+        String refersTo,
+        String timeBoundaryEid,
+        String destinationHref,
+        String oldText,
+        String newText) {
+      this(eli, eid, refersTo, timeBoundaryEid, destinationHref, oldText, newText, false);
+    }
+  }
+
+  /**
+   * The results of updating an amending command. Includes both the updated amending norm and the
+   * updated norm targeted by the mod.
+   *
+   * @param amendingNormXml The xml of the amending norm, in which the akn:mod and
+   *     akn:activeModifications are updated.
+   * @param targetNormXml The xml of the norm targeted by the akn:mod, in which the
+   *     akn:passiveModifications are updated.
+   */
+  record Result(String amendingNormXml, String targetNormXml) {}
 }

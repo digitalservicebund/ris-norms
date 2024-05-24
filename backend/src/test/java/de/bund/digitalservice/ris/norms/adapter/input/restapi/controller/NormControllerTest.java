@@ -344,7 +344,9 @@ class NormControllerTest {
       final String xml = "<law></law>";
 
       // When
-      when(updateModUseCase.updateMod(any())).thenReturn(Optional.of(xml));
+      when(updateModUseCase.updateMod(any()))
+          .thenReturn(
+              Optional.of(new UpdateModUseCase.Result(xml, "<target-norm-xml></target-norm-xml>")));
 
       // When // Then
       mockMvc
