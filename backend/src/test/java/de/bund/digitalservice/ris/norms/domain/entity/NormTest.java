@@ -1621,15 +1621,16 @@ class NormTest {
                           </akn:meta>
                       </akn:act>
                   </akn:akomaNtoso>
-                    """;
+                  """;
 
     Norm norm = new Norm(toDocument(normString));
 
     // when
-    final Node textualMod = norm.getByEId("meta-1_analysis-1_activemod-2_textualmod-1");
+    final Optional<Node> textualMod = norm.getByEId("meta-1_analysis-1_activemod-2_textualmod-1");
 
     // then
-    assertThat(textualMod.getAttributes().getNamedItem("GUID").getNodeValue())
+    assertThat(textualMod).isPresent();
+    assertThat(textualMod.get().getAttributes().getNamedItem("GUID").getNodeValue())
         .contains("8992dd02-ab87-42e8-bee2-86b76f587f81");
   }
 }

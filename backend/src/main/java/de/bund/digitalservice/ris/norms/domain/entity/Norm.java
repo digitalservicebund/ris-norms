@@ -300,9 +300,10 @@ public class Norm {
    * @param eId the eId of the element to return
    * @return the selected element
    */
-  public Node getByEId(String eId) {
-    return NodeParser.getNodeFromExpression(
-        String.format("//*[@eId='%s']", eId), this.getDocument());
+  public Optional<Node> getByEId(String eId) {
+    final var node =
+        NodeParser.getNodeFromExpression(String.format("//*[@eId='%s']", eId), this.getDocument());
+    return node == null ? Optional.empty() : Optional.of(node);
   }
 
   /**
@@ -311,9 +312,9 @@ public class Norm {
    * @param eId the eId of the element to delete
    * @return the deleted element
    */
-  public Node deleteByEId(String eId) {
+  public Optional<Node> deleteByEId(String eId) {
     var node = getByEId(eId);
-    return node.getParentNode().removeChild(node);
+    return node.map(value -> value.getParentNode().removeChild(value));
   }
 
   /**
@@ -330,7 +331,7 @@ public class Norm {
       return Optional.empty();
     }
 
-    return Optional.of(new TemporalGroup(deleteByEId(eId)));
+    return deleteByEId(eId).map(TemporalGroup::new);
   }
 
   /**
@@ -348,7 +349,7 @@ public class Norm {
       return Optional.empty();
     }
 
-    return Optional.of(deleteByEId(eId));
+    return deleteByEId(eId);
   }
 
   /**
