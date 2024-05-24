@@ -247,8 +247,6 @@ class ArticleTest {
     // when
     var eid = article.getMod().getEid();
 
-    // TODO in my eyes this should work but for some reason the mod node is not being selected.
-
     // then
     assertThat(eid).isPresent().contains(expectedModEId);
   }

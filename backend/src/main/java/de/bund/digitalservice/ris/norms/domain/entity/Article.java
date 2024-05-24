@@ -77,10 +77,11 @@ public class Article {
   /**
    * Extracts the {@link Mod} for this article.
    *
-   * @return a {@link Mod}
+   * @return the {@link Mod}
    */
   public Mod getMod() {
-    Node n = NodeParser.getNodeFromExpression("//mod", this.node);
-    return new Mod(n);
+    // TODO why does "//mod" not work? -> unit test fails
+    return new Mod(
+        NodeParser.getNodeFromExpression("./paragraph/list/point/content/p/mod", this.node));
   }
 }
