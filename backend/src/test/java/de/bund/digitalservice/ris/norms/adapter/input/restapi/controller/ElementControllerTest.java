@@ -5,10 +5,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadElementFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import java.util.Optional;
@@ -33,6 +30,7 @@ class ElementControllerTest {
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   @MockBean private LoadElementFromNormUseCase loadElementFromNormUseCase;
+  @MockBean private LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
 
   @Test
   void itReturnsPrefacePreambleArticleAndConclusionDataInElementsResponseEntrySchema()
