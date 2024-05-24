@@ -1,5 +1,5 @@
 import { xmlStringToDocument } from "@/services/xmlService"
-import { describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import {
   getTextualModType,
   getDestinationHref,
@@ -9,6 +9,11 @@ import {
 } from "@/services/ldmldeModService"
 
 describe("ldmldeModService", () => {
+  beforeEach(() => {
+    vi.resetModules()
+    vi.resetAllMocks()
+  })
+
   describe("getQuotedTextSecond", () => {
     it("should find second quoted text", () => {
       const node = xmlStringToDocument(`
@@ -127,7 +132,7 @@ describe("ldmldeModService", () => {
     })
   })
 
-  describe.skip("updateModData", () => {
+  describe("updateModData", () => {
     it("should make a PUT request with the correct data", async () => {
       const eli = "eli"
       const eid = "eid"
@@ -148,17 +153,14 @@ describe("ldmldeModService", () => {
       const result = await updateModData(eli, eid, updatedMods)
       expect(result).toEqual(expectedResponse)
 
-      expect(fetchMock).toHaveBeenCalledWith(
-        `/api/v1/norms/${eli}/mod/${eid}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/xml",
-          },
-          body: JSON.stringify(updatedMods),
+      expect(fetchMock).toHaveBeenCalledWith(`/norms/${eli}/mods/${eid}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/xml",
         },
-      )
+        body: JSON.stringify(updatedMods),
+      })
     })
   })
 })
