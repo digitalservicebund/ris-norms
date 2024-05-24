@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -115,11 +116,27 @@ class ElementControllerTest {
     @Test
     void returnsJsonWithElementEidTitleAndType() throws Exception {
       // given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      when(loadNormUseCase.loadNorm(
-              new LoadNormUseCase.Query(
-                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
-          .thenReturn(Optional.of(norm));
+      var elementNode =
+          """
+              <akn:article eId="hauptteil-1_art-1"
+                              GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
+                              period="#geltungszeitgr-1"
+                              refersTo="hauptaenderung">
+                              <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
+                                  GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
+                                  <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1"
+                                      GUID="81c9c481-9427-4f03-9f51-099aa9b2201e"
+                                      name="1" />Artikel 1 </akn:num>
+                              <akn:heading eId="hauptteil-1_art-1_überschrift-1"
+                                  GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
+                              </akn:heading>
+                          </akn:article>
+              """;
+      when(loadElementFromNormUseCase.loadElementFromNorm(
+              new LoadElementFromNormUseCase.Query(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+                  "hauptteil-1_art-1")))
+          .thenReturn(Optional.of(XmlMapper.toNode(elementNode)));
 
       // when
       mockMvc
