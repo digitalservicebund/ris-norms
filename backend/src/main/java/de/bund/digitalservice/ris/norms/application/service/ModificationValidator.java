@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 
@@ -168,13 +169,42 @@ public class ModificationValidator {
                       .get()
                       .getTextContent();
 
-              String range = article.getMod().get().getTargetHref().get().getCharacterRange().get();
-              int from = parseInt(range.split("-")[0]);
-              int to = parseInt(range.split("-")[1]);
+              // TODO what if paragraphText is empty string?
+
+              // TODO critical part
+              paragraphText = StringUtils.normalizeSpace(paragraphText);
+
+              String[] range =
+                  article.getMod().get().getTargetHref().get().getCharacterRange().get().split("-");
+              // TODO test for that throw
+              if (range.length != 2)
+                throw new XmlProcessingException(
+                    "The character range in mod href is not valid (no range given) in article with eId %s"
+                        .formatted(article.getEid().get()),
+                    null);
+
+              // TODO parseInt could fail
+              int from = parseInt(range[0]);
+              int to = parseInt(range[1]);
+
+              // TODO test for that throw
+              if (from >= to)
+                throw new XmlProcessingException(
+                    "The character range in mod href is not valid (%s >= %s) in article with eId %s"
+                        .formatted(from, to, article.getEid().get()),
+                    null);
+
+              // TODO test for that throw
+              if (paragraphText.length() < to)
+                throw new XmlProcessingException(
+                    "The character range in mod href is not valid (target paragraph is to short) in article with eId %s"
+                        .formatted(article.getEid().get()),
+                    null);
 
               String textToBeReplaced = paragraphText.substring(from, to);
 
-              if (!textToBeReplaced.equals(paragraphText))
+              // TODO test for that throw and improve error message
+              if (!textToBeReplaced.equals(article.getMod().get().getOldText().get()))
                 throw new XmlProcessingException("Error TBD 7", null);
             });
   }

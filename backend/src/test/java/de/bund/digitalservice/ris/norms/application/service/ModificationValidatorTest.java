@@ -12,8 +12,8 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.Objects;
 import java.util.Optional;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ModificationValidatorTest {
@@ -830,6 +830,38 @@ class ModificationValidatorTest {
           .isInstanceOf(XmlProcessingException.class)
           .hasMessageContaining(
               "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId hauptteil-1_art-1");
+    }
+
+    @Test
+    void nodeWithGivenDestEidDoesNotExist() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      when(dbService.loadNorm(any()))
+          .thenReturn(
+              Optional.of(
+                  new Norm(
+                      XmlMapper.toDocument(
+                          "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <test>content</test>"))));
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlProcessingException.class)
+          .hasMessageContaining(
+              "Couldn't load target eId element in target law for article with eId hauptteil-1_art-1");
+    }
+
+    @Test
+    void doesNotThrow() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+      // when/then
+      Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
     }
   }
 }
