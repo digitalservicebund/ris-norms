@@ -1,5 +1,5 @@
 import { evaluateXPath } from "@/services/xmlService"
-import { ModType } from "@/types/ModType"
+import { ModType, ModData } from "@/types/ModType"
 import {
   getActiveModificationByModEid,
   getNodeByEid,
@@ -7,6 +7,7 @@ import {
 import { getForcePeriod } from "@/services/ldmldeTextualModService"
 import { getStartEventRefEid } from "@/services/ldmldeTemporalGroupService"
 import { getEventRefDate } from "@/services/ldmldeEventRefService"
+import { apiFetch } from "@/services/apiService"
 
 /**
  * Provides the old text of an akn:mod element. For "aenderungsbefehl-ersetzen" this is the old text.
@@ -59,4 +60,26 @@ export function getTimeBoundaryDate(xml: Document, aknModEid: string) {
   if (!eventRefNode) return null
 
   return getEventRefDate(eventRefNode)
+}
+/**
+ * Save the updated mod data to the server.
+ *
+ * @param eli - The ELI of the norm.
+ * @param eid - The eId of the akn:mod.
+ * @param updatedMods - A mod object.
+ * @returns An XML of ZF0 in the response when the save operation is complete.
+ */
+export async function updateModData(
+  eli: string,
+  eid: string,
+  updatedMods: ModData,
+): Promise<string> {
+  return await apiFetch<string>(`/norms/${eli}/mod/${eid}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/xml",
+    },
+    body: JSON.stringify(updatedMods),
+  })
 }

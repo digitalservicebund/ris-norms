@@ -26,6 +26,7 @@ const props = defineProps<{
 
 defineEmits<{
   "generate-preview": []
+  "update-mod": []
 }>()
 const selectedTimeBoundaryModel = defineModel<string | undefined>(
   "selectedTimeBoundary",
@@ -92,7 +93,7 @@ function modTypeLabel(modType: ModType | "") {
 </script>
 
 <template>
-  <form :id="id" class="grid grid-cols-1 gap-y-20" role="form">
+  <form :id="id" class="grid grid-cols-1 gap-y-20">
     <div class="grid grid-cols-2 gap-x-40">
       <RisTextInput
         id="textualModeType"
@@ -146,7 +147,11 @@ function modTypeLabel(modType: ModType | "") {
         variant="tertiary"
         @click.prevent="$emit('generate-preview')"
       />
-      <RisTextButton label="Speichern" :icon="CheckIcon" disabled />
+      <RisTextButton
+        label="Speichern"
+        :icon="CheckIcon"
+        @click.prevent="$emit('update-mod')"
+      />
     </div>
   </form>
 </template>

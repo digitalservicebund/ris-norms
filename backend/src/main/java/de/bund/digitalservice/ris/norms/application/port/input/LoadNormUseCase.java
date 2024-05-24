@@ -8,7 +8,6 @@ import java.util.Optional;
  * should provide functionality to load a norm based on a given query.
  */
 public interface LoadNormUseCase {
-
   /**
    * Retrieves a norm based on the provided query.
    *

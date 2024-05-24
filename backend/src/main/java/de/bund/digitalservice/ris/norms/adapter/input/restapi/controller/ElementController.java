@@ -7,6 +7,7 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
@@ -66,14 +67,17 @@ public class ElementController {
   private final LoadNormUseCase loadNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  private final LoadElementFromNormUseCase loadElementFromNormUseCase;
 
   public ElementController(
       LoadNormUseCase loadNormUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
+      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
+      LoadElementFromNormUseCase loadElementFromNormUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
+    this.loadElementFromNormUseCase = loadElementFromNormUseCase;
   }
 
   /**
@@ -190,13 +194,8 @@ public class ElementController {
         EliBuilder.buildEli(
             agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    return loadNormUseCase
-        .loadNorm(new LoadNormUseCase.Query(eli))
-        .map(
-            norm -> {
-              var elementXpath = String.format("//*[@eId='%s']", eid);
-              return NodeParser.getNodeFromExpression(elementXpath, norm.getDocument());
-            })
+    return loadElementFromNormUseCase
+        .loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid))
         .map(ElementResponseMapper::fromElementNode)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
@@ -225,7 +224,7 @@ public class ElementController {
    *     <p>Returns HTTP 500 (Server error) if an unsupported type is provided.
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<List<ElementResponseSchema>> getList(
+  public ResponseEntity<List<ElementResponseSchema>> getElementList(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
@@ -257,7 +256,7 @@ public class ElementController {
         String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
 
     // Source EIDs from passive mods
-    var passiveModsSourceEids =
+    var passiveModsDestinationEids =
         targetNorm.getPassiveModifications().stream()
             .filter(
                 passiveMod -> {
@@ -285,7 +284,7 @@ public class ElementController {
               if (amendedBy.isEmpty()) return true;
 
               var eId = NodeParser.getValueFromExpression("./@eId", element).orElseThrow();
-              return passiveModsSourceEids.stream().anyMatch(modEid -> modEid.contains(eId));
+              return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
             })
         .toList();
   }
