@@ -122,7 +122,7 @@ describe("ldmldeModService", () => {
         ),
       ).to.deep.equal({
         date: "2023-12-30",
-        eventRefEid: "meta-1_lebzykl-1_ereignis-2",
+        temporalGroupEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
       })
     })
   })
