@@ -277,6 +277,8 @@ class ArchitectureFitnessTest {
             .and()
             .doNotHaveSimpleName("Command")
             .and()
+            .doNotHaveSimpleName("Result")
+            .and()
             .areNotAssignableTo(Exception.class)
             .should(ArchCondition.from((haveASingleMethod)))
             .andShould(bePublic());
