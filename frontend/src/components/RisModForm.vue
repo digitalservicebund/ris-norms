@@ -93,7 +93,7 @@ function modTypeLabel(modType: ModType | "") {
 </script>
 
 <template>
-  <form :id="id" class="grid grid-cols-1 gap-y-20" role="form">
+  <form :id="id" class="grid grid-cols-1 gap-y-20">
     <div class="grid grid-cols-2 gap-x-40">
       <RisTextInput
         id="textualModeType"
