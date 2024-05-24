@@ -143,6 +143,61 @@ class ElementControllerTest {
   class getListOfElements {
 
     @Test
+    void itReturnsServerErrorIfTypeParameterIsMissing() throws Exception {
+      // given
+
+      // when
+      mockMvc
+          .perform(
+              get(
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements"))
+          // then
+          .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    void itReturnsServerErrorIfTheTypeIsNotSupported() throws Exception {
+      // given
+
+      // when
+      mockMvc
+          .perform(
+              get(
+                  "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=foo"))
+          // then
+          .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    void itReturnsNotFoundIfNormIsNotFound() throws Exception {
+      // given
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.empty());
+      // when
+      mockMvc
+          .perform(
+              get(
+                  "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
+          // then
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void itReturnsEmptyListIfNoMatchingElementsAreFound() throws Exception {
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get(
+                  "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements?type=preface"))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").doesNotExist());
+    }
+
+    @Test
     void itReturnsPrefacePreambleArticleAndConclusionDataInElementsResponseEntrySchema()
         throws Exception {
 
