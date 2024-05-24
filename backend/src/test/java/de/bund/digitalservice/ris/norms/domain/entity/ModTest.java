@@ -78,7 +78,8 @@ class ModTest {
     var eid = mod.getTargetHref();
 
     // then
-    assertThat(eid)
+    assertThat(eid).isPresent();
+    assertThat(eid.get().value())
         .contains(
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml");
   }
@@ -99,6 +100,7 @@ class ModTest {
     var eid = mod.getTargetHref();
 
     // then
-    assertThat(eid).contains("new-target-href");
+    assertThat(eid).isPresent();
+    assertThat(eid.get().value()).contains("new-target-href");
   }
 }
