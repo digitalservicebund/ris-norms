@@ -47,7 +47,8 @@ class TimeBoundaryMapperTest {
     Norm norm = new Norm(toDocument(xml));
     Node timeIntervalNode = norm.getTimeBoundaries().getFirst().getTimeIntervalNode();
     Node eventRefNode = norm.getTimeBoundaries().getFirst().getEventRefNode();
-    TimeBoundary timeBoundary = new TimeBoundary(timeIntervalNode, eventRefNode);
+    Node temporalGroupNode = norm.getTimeBoundaries().getFirst().getTemporalGroupNode();
+    TimeBoundary timeBoundary = new TimeBoundary(timeIntervalNode, eventRefNode, temporalGroupNode);
 
     // When
     TimeBoundarySchema timeBoundarySchema = TimeBoundaryMapper.fromUseCaseData(timeBoundary);

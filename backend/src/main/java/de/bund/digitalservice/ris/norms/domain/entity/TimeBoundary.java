@@ -14,6 +14,7 @@ import org.w3c.dom.Node;
 public class TimeBoundary {
   @Getter private final Node timeIntervalNode;
   @Getter private final Node eventRefNode;
+  @Getter private final Node temporalGroupNode;
 
   /**
    * Returns a date as {@link LocalDate} from a {@link Node} in a {@link Norm}. h
@@ -40,6 +41,15 @@ public class TimeBoundary {
    */
   public Optional<String> getTimeIntervalEid() {
     return NodeParser.getValueFromExpression("./@eId", this.timeIntervalNode);
+  }
+
+  /**
+   * Returns a temporal group eId as {@link String} from a {@link Node} in a {@link Norm}.
+   *
+   * @return The eId of the temporal group
+   */
+  public Optional<String> getTemporalGroupEid() {
+    return NodeParser.getValueFromExpression("./@eId", this.temporalGroupNode);
   }
 
   /**

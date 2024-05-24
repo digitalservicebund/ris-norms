@@ -65,7 +65,11 @@ class TimeBoundaryControllerTest {
               .strip();
 
       List<TimeBoundary> timeBoundaries =
-          List.of(new TimeBoundary(XmlMapper.toNode(timeInterval), XmlMapper.toNode(eventRef)));
+          List.of(
+              new TimeBoundary(
+                  XmlMapper.toNode(timeInterval),
+                  XmlMapper.toNode(eventRef),
+                  XmlMapper.toNode("")));
 
       when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(any())).thenReturn(timeBoundaries);
 
@@ -127,7 +131,11 @@ class TimeBoundaryControllerTest {
               .strip();
 
       List<TimeBoundary> timeBoundaries =
-          List.of(new TimeBoundary(XmlMapper.toNode(timeInterval1), XmlMapper.toNode(eventRef1)));
+          List.of(
+              new TimeBoundary(
+                  XmlMapper.toNode(timeInterval1),
+                  XmlMapper.toNode(eventRef1),
+                  XmlMapper.toNode("")));
 
       when(updateTimeBoundariesUseCase.updateTimeBoundariesOfNorm(any()))
           .thenReturn(timeBoundaries);
