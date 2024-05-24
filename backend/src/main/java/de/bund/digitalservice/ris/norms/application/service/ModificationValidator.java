@@ -8,7 +8,9 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -30,12 +32,83 @@ public class ModificationValidator {
    */
   public void validate(Norm amendingLaw) {
     throwErrorNoDestinationSet(amendingLaw);
+    destinationEliIsConsistent(amendingLaw);
+    destinationHrefIsConsistent(amendingLaw);
     affectedDocumentsExists(amendingLaw);
     nodeWithGivenDestEidExists(amendingLaw);
 
     destNodeHasTextOnlyContent(amendingLaw);
     modHasValidDestRangeForDestNode(amendingLaw);
     oldTextExistsInTargetLaw(amendingLaw);
+  }
+
+  /**
+   * Checks whether an reference to a target law in an amending law is consistent in
+   * akn:activeModifications - destination and akn:mod
+   *
+   * @param amendingLaw the amending law to be checked
+   */
+  public void destinationEliIsConsistent(Norm amendingLaw) {
+    Set<String> affectedDocumentElis =
+        amendingLaw.getArticles().stream()
+            .map(Article::getAffectedDocumentEli)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toSet());
+
+    Set<String> activeModificationsDestinationElis =
+        amendingLaw.getActiveModifications().stream()
+            .map(TextualMod::getDestinationHref)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .map(Href::getEli)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toSet());
+
+    Set<String> aknModElis =
+        amendingLaw.getArticles().stream()
+            .map(Article::getMod)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .map(Mod::getTargetHref)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .map(Href::getEli)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toSet());
+
+    if (!affectedDocumentElis.equals(activeModificationsDestinationElis)
+        && !activeModificationsDestinationElis.equals(aknModElis))
+      throw new XmlProcessingException("Elis are not consistent", null);
+  }
+
+  /**
+   * Checks whether an reference to a target law in an amending law is consistent in
+   * akn:activeModifications - destination and akn:mod
+   *
+   * @param amendingLaw the amending law to be checked
+   */
+  public void destinationHrefIsConsistent(Norm amendingLaw) {
+    Set<Href> activeModificationsDestinationElis =
+        amendingLaw.getActiveModifications().stream()
+            .map(TextualMod::getDestinationHref)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toSet());
+
+    Set<Href> aknModElis =
+        amendingLaw.getArticles().stream()
+            .map(Article::getMod)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .map(Mod::getTargetHref)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toSet());
+    if (!activeModificationsDestinationElis.equals(aknModElis))
+      throw new XmlProcessingException("Eids are not consistent", null);
   }
 
   /**

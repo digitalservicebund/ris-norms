@@ -94,7 +94,7 @@ class ModificationValidatorTest {
                 new Norm(
                     XmlMapper.toDocument(
                         """
-    <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+    <?xml version="1.0" encoding="UTF-8"?>
     <wrap>
       <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
                           GUID="4c69a6d2-8988-4581-bfa9-df9e8e24f321">
@@ -863,5 +863,59 @@ class ModificationValidatorTest {
       // when/then
       Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
     }
+  }
+
+  @Test
+  void destinationEliIsConsistent() {
+    // given
+    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+    // when/then
+    Assertions.assertDoesNotThrow(() -> underTest.destinationEliIsConsistent(amendingLaw));
+  }
+
+  @Test
+  void ThrowExceptionIfDestinationEliIsNotConsistent() {
+    // given
+    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistentEli.xml");
+    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+    // when
+    Throwable thrown = catchThrowable(() -> underTest.destinationEliIsConsistent(amendingLaw));
+
+    // then
+    assertThat(thrown)
+        .isInstanceOf(XmlProcessingException.class)
+        .hasMessageContaining("Elis are not consistent");
+  }
+
+  @Test
+  void destinationHrefIsConsistent() {
+    // given
+    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+    // when/then
+    Assertions.assertDoesNotThrow(() -> underTest.destinationHrefIsConsistent(amendingLaw));
+  }
+
+  @Test
+  void ThrowExceptionIfDestinationEidIsNotConsistent() {
+    // given
+    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistenEid.xml");
+    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+    // when
+    Throwable thrown = catchThrowable(() -> underTest.destinationHrefIsConsistent(amendingLaw));
+
+    // then
+    assertThat(thrown)
+        .isInstanceOf(XmlProcessingException.class)
+        .hasMessageContaining("Eids are not consistent");
   }
 }
