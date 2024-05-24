@@ -9,10 +9,13 @@ import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Node;
 
 /** */
 @Service
+@Slf4j
 public class ModificationValidator {
 
   private final DBService dbService;
@@ -55,6 +58,43 @@ public class ModificationValidator {
                 "Could not find a norm with the eli %s for the amending law %s"
                     .formatted(eli, amendingLaw.getEli()),
                 null);
+          }
+        });
+  }
+
+  /**
+   * Checks whether an eid that is referenced in an amending law exists in the target law
+   *
+   * @param amendingLaw the amending law to be checked
+   */
+  public void nodeWithGivenDestEidExists(Norm amendingLaw) {
+    // TODO log error or throw exception when eId is empty
+    List<Href> affectedDocumentElis =
+        amendingLaw.getActiveModifications().stream()
+            .map(TextualMod::getDestinationHref)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .toList();
+
+    affectedDocumentElis.forEach(
+        destination -> {
+          if (destination.getEli().isPresent()) {
+            Optional<Norm> targetNorm =
+                dbService.loadNorm(new LoadNormPort.Command(destination.getEli().get()));
+            if (destination.getEId().isPresent() && targetNorm.isPresent()) {
+              List<Node> targetLawNode = targetNorm.get().getNodeByEid(destination.getEId().get());
+              if (targetLawNode.size() > 1) {
+                throw new XmlProcessingException(
+                    "To many matching eIds for %s in target norm %s"
+                        .formatted(
+                            destination.getEId().orElse(""), targetNorm.get().getEli().orElse("")),
+                    null);
+              }
+              if (targetLawNode.isEmpty()) {
+                throw new XmlProcessingException("No matching eIds found", null);
+              }
+              log.info("EId found");
+            }
           }
         });
   }
@@ -165,18 +205,5 @@ public class ModificationValidator {
               .formatted(String.join(", ", articleEidsWhereAffectedDocumentEliIsEmpty)),
           null);
     }
-  }
-
-  /**
-   * @param amendingLaw the amending law to be checked
-   */
-  public void nodeWithGivenDestEidExists(Norm amendingLaw) {
-    //    List<String> affectedDocumentEids =
-    //        amendingLaw.getActiveModifications().stream()
-    //            .map(ActiveModification::getDestinationEid)
-    //            .filter(Optional::isPresent)
-    //            .map(Optional::get)
-    //            .toList();
-    // TODO
   }
 }

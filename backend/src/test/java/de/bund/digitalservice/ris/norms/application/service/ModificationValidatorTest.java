@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.Objects;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class ModificationValidatorTest {
@@ -53,6 +54,66 @@ class ModificationValidatorTest {
 
     // then
     assertThat(thrown).isInstanceOf(XmlProcessingException.class);
+  }
+
+  @Test
+  void nodeWithGivenDestEidExists() {
+    // given
+    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+    // when/then
+    Assertions.assertDoesNotThrow(() -> underTest.nodeWithGivenDestEidExists(amendingLaw));
+  }
+
+  @Test
+  void nodeWithGivenDestEidDoesNotExists() {
+    // given
+    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+    final Norm targetLaw = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+    // when
+    Throwable thrown = catchThrowable(() -> underTest.nodeWithGivenDestEidExists(amendingLaw));
+
+    // then
+    assertThat(thrown)
+        .isInstanceOf(XmlProcessingException.class)
+        .hasMessageContaining("No matching eIds found");
+  }
+
+  @Test
+  void moreThanOneNodeWithGivenDestEidExists() {
+    // given
+    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+    when(dbService.loadNorm(any()))
+        .thenReturn(
+            Optional.of(
+                new Norm(
+                    XmlMapper.toDocument(
+                        """
+    <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+    <wrap>
+      <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
+                          GUID="4c69a6d2-8988-4581-bfa9-df9e8e24f321">
+          <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                        GUID="f3805314-bbb6-4def-b82b-8b7f0b126197"
+                        value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"/>
+      </akn:FRBRExpression>
+      <test eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test>
+      <test2 eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test2>
+      </wrap>
+    """))));
+
+    // when
+    Throwable thrown = catchThrowable(() -> underTest.nodeWithGivenDestEidExists(amendingLaw));
+
+    // then
+    assertThat(thrown)
+        .isInstanceOf(XmlProcessingException.class)
+        .hasMessageContaining(
+            "To many matching eIds for hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1 in target norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
   }
 
   @Test

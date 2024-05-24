@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpression;
+
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -120,9 +122,7 @@ public class Norm {
    * @return The list of articles
    */
   public List<Article> getArticles() {
-    return NodeParser.getNodesFromExpression("//body//article", document).stream()
-        .map(Article::new)
-        .toList();
+    return getNodesFromExpression("//body//article", document).stream().map(Article::new).toList();
   }
 
   /**
@@ -150,7 +150,7 @@ public class Norm {
    */
   public List<TimeBoundary> getTimeBoundaries() {
     List<Node> timeIntervalNodes =
-        NodeParser.getNodesFromExpression("//temporalData/temporalGroup/timeInterval", document);
+        getNodesFromExpression("//temporalData/temporalGroup/timeInterval", document);
 
     return timeIntervalNodes.stream()
         .map(
@@ -176,7 +176,7 @@ public class Norm {
    * @return a list of passive modifications.
    */
   public List<TextualMod> getPassiveModifications() {
-    return NodeParser.getNodesFromExpression("//passiveModifications/textualMod", document).stream()
+    return getNodesFromExpression("//passiveModifications/textualMod", document).stream()
         .map(TextualMod::new)
         .toList();
   }
@@ -187,7 +187,7 @@ public class Norm {
    * @return a list of active modifications.
    */
   public List<TextualMod> getActiveModifications() {
-    return NodeParser.getNodesFromExpression("//activeModifications/textualMod", document).stream()
+    return getNodesFromExpression("//activeModifications/textualMod", document).stream()
         .map(TextualMod::new)
         .toList();
   }
@@ -198,9 +198,7 @@ public class Norm {
    * @return a list of {@link Mod}s
    */
   public List<Mod> getMods() {
-    return NodeParser.getNodesFromExpression("//body//mod", document).stream()
-        .map(Mod::new)
-        .toList();
+    return getNodesFromExpression("//body//mod", document).stream().map(Mod::new).toList();
   }
 
   /**
@@ -326,7 +324,7 @@ public class Norm {
    */
   public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
     final var nodesUsingTemporalData =
-        NodeParser.getNodesFromExpression(String.format("//*[@period='#%s']", eId), getDocument());
+        getNodesFromExpression(String.format("//*[@period='#%s']", eId), getDocument());
 
     if (!nodesUsingTemporalData.isEmpty()) {
       return Optional.empty();
@@ -343,7 +341,7 @@ public class Norm {
    */
   public Optional<Node> deleteEventRefIfUnused(String eId) {
     final var nodesUsingTemporalData =
-        NodeParser.getNodesFromExpression(
+        getNodesFromExpression(
             String.format("//*[@start='#%s' or @end='#%s']", eId, eId), getDocument());
 
     if (!nodesUsingTemporalData.isEmpty()) {
@@ -480,6 +478,10 @@ public class Norm {
         .map(parendEId -> parendEId.addPart(newEidPart))
         .map(EId::value)
         .orElseThrow();
+  }
+
+  public List<Node> getNodeByEid(String eId) {
+    return getNodesFromExpression("//*[@eId='%s']".formatted(eId), document);
   }
 
   @Override
