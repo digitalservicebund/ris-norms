@@ -62,7 +62,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void itReturnsEmptyIfNoNormIsFound() {
+    void itReturnsEmptyOptionalIfNoNormIsFound() {
       // Given
       var eli = "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
@@ -77,7 +77,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void itReturnsEmptyIfNoElementIsFound() {
+    void itReturnsEmptyOptionalIfNoElementIsFound() {
       // Given
       var eli = "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1000";
