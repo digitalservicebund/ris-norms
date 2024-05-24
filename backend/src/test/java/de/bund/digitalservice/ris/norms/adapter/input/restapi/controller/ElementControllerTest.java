@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -91,15 +90,12 @@ class ElementControllerTest {
     @Test
     void returnsHtmlRendering() throws Exception {
       // given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      when(loadNormUseCase.loadNorm(
-              new LoadNormUseCase.Query(
-                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
-          .thenReturn(Optional.of(norm));
-
-      var renderedHtml = "renderedHtml";
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn(renderedHtml);
+      var elementHtml = "<div></div>";
+      when(loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
+              new LoadElementHtmlFromNormUseCase.Query(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+                  "hauptteil-1_art-1")))
+          .thenReturn(Optional.of(elementHtml));
 
       // when
       mockMvc
@@ -108,7 +104,7 @@ class ElementControllerTest {
                   .accept(MediaType.TEXT_HTML))
           // then
           .andExpect(status().isOk())
-          .andExpect(content().string(renderedHtml));
+          .andExpect(content().string(elementHtml));
     }
 
     @Test
