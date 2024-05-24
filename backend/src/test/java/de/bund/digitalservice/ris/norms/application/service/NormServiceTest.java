@@ -829,7 +829,8 @@ class NormServiceTest {
       assertThat(activeModifications.getForcePeriodEid()).contains("new-time-boundary-eid");
 
       final Mod mod = testNorm.getMods().getFirst();
-      assertThat(mod.getTargetHref())
+      assertThat(mod.getTargetHref()).isPresent();
+      assertThat(mod.getTargetHref().get().value())
           .contains(
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml");
       assertThat(mod.getNewText()).contains("new text");
