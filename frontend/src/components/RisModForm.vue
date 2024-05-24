@@ -6,6 +6,7 @@ import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CheckIcon from "~icons/ic/check"
 import { ModType } from "@/types/ModType"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -13,9 +14,9 @@ const props = defineProps<{
   /** Either replacement, insertion or repeal */
   textualModType: ModType | ""
   /** the possible time boundaries in the format YYYY-MM-DD. */
-  timeBoundaries: { date: string; eventRefEid: string }[]
+  timeBoundaries: TemporalDataResponse[]
   /** Optional selected time boundary of the format YYYY-MM-DD */
-  selectedTimeBoundary?: { date: string; eventRefEid: string }
+  selectedTimeBoundary?: { date: string; temporalGroupEid: string }
   /** Destination Href for mod */
   destinationHref: string
   /** This is the text that will be replaced */
@@ -28,9 +29,9 @@ defineEmits<{
   "generate-preview": []
   "update-mod": []
 }>()
-const selectedTimeBoundaryModel = defineModel<
-  { date: string; eventRefEid: string } | undefined
->("selectedTimeBoundary")
+const selectedTimeBoundaryModel = defineModel<TemporalDataResponse | undefined>(
+  "selectedTimeBoundary",
+)
 const destinationHrefModel = defineModel<string>("destinationHref")
 const quotedTextSecondModel = defineModel<string | undefined>(
   "quotedTextSecond",
