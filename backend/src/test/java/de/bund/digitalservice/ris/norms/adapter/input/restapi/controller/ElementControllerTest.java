@@ -42,7 +42,11 @@ class ElementControllerTest {
 
       @Test
       void returns404IfNormNotFoundByEli() throws Exception {
-        // given no norm
+        // given
+        when(loadNormUseCase.loadNorm(
+                new LoadNormUseCase.Query(
+                    "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")))
+            .thenReturn(Optional.empty());
         // when
         mockMvc
             .perform(
@@ -56,7 +60,10 @@ class ElementControllerTest {
       void returns404IfElementNotFoundByEid() throws Exception {
         // given
         var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+        when(loadNormUseCase.loadNorm(
+                new LoadNormUseCase.Query(
+                    "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
+            .thenReturn(Optional.of(norm));
 
         // when
         mockMvc
@@ -84,7 +91,11 @@ class ElementControllerTest {
     void returnsHtmlRendering() throws Exception {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(
+              new LoadNormUseCase.Query(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(norm));
+
       var renderedHtml = "renderedHtml";
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
           .thenReturn(renderedHtml);
@@ -103,7 +114,10 @@ class ElementControllerTest {
     void returnsJsonWithElementEidTitleAndType() throws Exception {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(
+              new LoadNormUseCase.Query(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(norm));
 
       // when
       mockMvc
@@ -145,7 +159,7 @@ class ElementControllerTest {
         mockMvc
             .perform(
                 get(
-                    "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=foo"))
+                    "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=NOT_SUPPORTED"))
             // then
             .andExpect(status().is5xxServerError());
       }
@@ -153,7 +167,10 @@ class ElementControllerTest {
       @Test
       void itReturnsNotFoundIfNormIsNotFound() throws Exception {
         // given
-        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.empty());
+        when(loadNormUseCase.loadNorm(
+                new LoadNormUseCase.Query(
+                    "eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1")))
+            .thenReturn(Optional.empty());
         // when
         mockMvc
             .perform(
@@ -168,7 +185,10 @@ class ElementControllerTest {
     void itReturnsEmptyListIfNoMatchingElementsAreFound() throws Exception {
       // given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(
+              new LoadNormUseCase.Query(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(norm));
 
       // when
       mockMvc
@@ -186,7 +206,10 @@ class ElementControllerTest {
 
       // given
       var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(
+              new LoadNormUseCase.Query(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(norm));
 
       var url =
           "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
@@ -229,10 +252,15 @@ class ElementControllerTest {
       void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
         // given
         var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-        var amendingNorm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+        when(loadNormUseCase.loadNorm(
+                new LoadNormUseCase.Query(
+                    "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
+            .thenReturn(Optional.of(targetNorm));
 
-        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(targetNorm));
-        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+        var amendingNorm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+        when(loadNormUseCase.loadNorm(
+                new LoadNormUseCase.Query(amendingNorm.getEli().orElseThrow())))
+            .thenReturn(Optional.of(amendingNorm));
 
         var url =
             "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
@@ -255,7 +283,15 @@ class ElementControllerTest {
       void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
         var targetNorm =
             NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
-        when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(targetNorm));
+        when(loadNormUseCase.loadNorm(
+                new LoadNormUseCase.Query(
+                    "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")))
+            .thenReturn(Optional.of(targetNorm));
+        var amendingNorm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+        when(loadNormUseCase.loadNorm(
+                new LoadNormUseCase.Query(
+                    "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")))
+            .thenReturn(Optional.of(amendingNorm));
 
         var url =
             "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements"
