@@ -43,6 +43,7 @@ public class ModificationValidator {
    * @param amendingLaw the amending law to be checked
    */
   public void affectedDocumentsExists(Norm amendingLaw) {
+    // TODO maybe obsolete due to oldTextExistsInTargetLaw()
     List<String> affectedDocumentElis =
         amendingLaw.getArticles().stream()
             .map(Article::getAffectedDocumentEli)
@@ -105,35 +106,69 @@ public class ModificationValidator {
    * @param amendingLaw the amending law to be checked
    */
   public void oldTextExistsInTargetLaw(Norm amendingLaw) {
-    // TODO implement unit test
     amendingLaw
         .getArticles()
         .forEach(
             article -> {
+              if (article.getEid().isEmpty())
+                throw new XmlProcessingException("Article eId is empty.", null);
               if (article.getAffectedDocumentEli().isEmpty())
-                throw new XmlProcessingException("Error TBD 1", null);
-              if (article.getMod().getOldText().isEmpty())
-                throw new XmlProcessingException("Error TBD 2", null);
-              if (article.getMod().getTargetEid().isEmpty())
-                throw new XmlProcessingException("Error TBD 3", null);
-              if (article.getMod().getTargetHref().isEmpty())
-                throw new XmlProcessingException("Error TBD 4", null);
-              if (article.getMod().getTargetHref().get().getCharacterRange().isEmpty())
-                throw new XmlProcessingException("Error TBD 5", null);
+                throw new XmlProcessingException(
+                    "AffectedDocument href is empty in article with eId %s"
+                        .formatted(article.getEid().get()),
+                    null);
+              if (article.getMod().isEmpty())
+                throw new XmlProcessingException(
+                    "There is no mod in article with eId %s".formatted(article.getEid().get()),
+                    null);
+              if (article.getMod().get().getOldText().isEmpty())
+                throw new XmlProcessingException(
+                    "quotedText[1] (the old, to be replaced, text) is empty in article with eId %s"
+                        .formatted(article.getEid().get()),
+                    null);
+              if (article.getMod().get().getTargetHref().isEmpty())
+                throw new XmlProcessingException(
+                    "mod href is empty in article with eId %s".formatted(article.getEid().get()),
+                    null);
+              if (article.getMod().get().getTargetEid().isEmpty())
+                throw new XmlProcessingException(
+                    "The eId in mod href is empty in article with eId %s"
+                        .formatted(article.getEid().get()),
+                    null);
+              if (article.getMod().get().getTargetHref().get().getCharacterRange().isEmpty())
+                throw new XmlProcessingException(
+                    "The character range in mod href is empty in article with eId %s"
+                        .formatted(article.getEid().get()),
+                    null);
 
               Optional<Norm> normOptional =
                   dbService.loadNorm(
                       new LoadNormPort.Command(article.getAffectedDocumentEli().get()));
 
-              if (normOptional.isEmpty()) throw new XmlProcessingException("Error TBD 6", null);
+              // TODO this may obsoletes affectedDocumentsExists()
+              if (normOptional.isEmpty())
+                throw new XmlProcessingException(
+                    "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId %s"
+                        .formatted(article.getEid().get()),
+                    null);
+
+              if (normOptional
+                  .get()
+                  .getByEId(article.getMod().get().getTargetEid().get())
+                  .isEmpty())
+                throw new XmlProcessingException(
+                    "Couldn't load target eId element in target law for article with eId %s"
+                        .formatted(article.getEid().get()),
+                    null);
 
               String paragraphText =
                   normOptional
                       .get()
-                      .getByEId(article.getMod().getTargetEid().get())
+                      .getByEId(article.getMod().get().getTargetEid().get())
+                      .get()
                       .getTextContent();
 
-              String range = article.getMod().getTargetHref().get().getCharacterRange().get();
+              String range = article.getMod().get().getTargetHref().get().getCharacterRange().get();
               int from = parseInt(range.split("-")[0]);
               int to = parseInt(range.split("-")[1]);
 
