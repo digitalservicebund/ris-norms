@@ -6,10 +6,7 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadElementFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
@@ -68,16 +65,19 @@ public class ElementController {
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   private final LoadElementFromNormUseCase loadElementFromNormUseCase;
+  private final LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
 
   public ElementController(
       LoadNormUseCase loadNormUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
       ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
-      LoadElementFromNormUseCase loadElementFromNormUseCase) {
+      LoadElementFromNormUseCase loadElementFromNormUseCase,
+      LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
     this.loadElementFromNormUseCase = loadElementFromNormUseCase;
+    this.loadElementHtmlFromNormUseCase = loadElementHtmlFromNormUseCase;
   }
 
   /**
@@ -145,17 +145,8 @@ public class ElementController {
           .orElse(ResponseEntity.notFound().build());
     }
 
-    return loadNormUseCase
-        .loadNorm(new LoadNormUseCase.Query(eli))
-        .map(
-            norm -> {
-              var elementXpath = String.format("//*[@eId='%s']", eid);
-              return NodeParser.getNodeFromExpression(elementXpath, norm.getDocument());
-            })
-        .map(
-            element ->
-                transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                    new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false)))
+    return loadElementHtmlFromNormUseCase
+        .loadElementHtmlFromNorm(new LoadElementHtmlFromNormUseCase.Query(eli, eid))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
