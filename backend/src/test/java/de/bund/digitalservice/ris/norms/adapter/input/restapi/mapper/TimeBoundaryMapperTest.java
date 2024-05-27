@@ -47,7 +47,8 @@ class TimeBoundaryMapperTest {
     Norm norm = new Norm(toDocument(xml));
     Node timeIntervalNode = norm.getTimeBoundaries().getFirst().getTimeIntervalNode();
     Node eventRefNode = norm.getTimeBoundaries().getFirst().getEventRefNode();
-    TimeBoundary timeBoundary = new TimeBoundary(timeIntervalNode, eventRefNode);
+    Node temporalGroupNode = norm.getTimeBoundaries().getFirst().getTemporalGroupNode();
+    TimeBoundary timeBoundary = new TimeBoundary(timeIntervalNode, eventRefNode, temporalGroupNode);
 
     // When
     TimeBoundarySchema timeBoundarySchema = TimeBoundaryMapper.fromUseCaseData(timeBoundary);
@@ -77,7 +78,10 @@ class TimeBoundaryMapperTest {
       // Given
       List<TimeBoundarySchema> timeBoundaries =
           List.of(
-              new TimeBoundarySchema(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2"));
+              new TimeBoundarySchema(
+                  LocalDate.parse("2023-12-30"),
+                  "meta-1_lebzykl-1_ereignis-2",
+                  "meta-1_geltzeiten-1_geltungszeitgr-1"));
 
       // When
       List<TimeBoundaryChangeData> timeBoundaryChangeData =
@@ -94,8 +98,14 @@ class TimeBoundaryMapperTest {
       // Given
       List<TimeBoundarySchema> timeBoundaries =
           List.of(
-              new TimeBoundarySchema(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2"),
-              new TimeBoundarySchema(LocalDate.parse("2016-01-28"), "meta-1_lebzykl-1_ereignis-1"));
+              new TimeBoundarySchema(
+                  LocalDate.parse("2023-12-30"),
+                  "meta-1_lebzykl-1_ereignis-2",
+                  "meta-1_geltzeiten-1_geltungszeitgr-1"),
+              new TimeBoundarySchema(
+                  LocalDate.parse("2016-01-28"),
+                  "meta-1_lebzykl-1_ereignis-1",
+                  "meta-1_geltzeiten-1_geltungszeitgr-1"));
 
       // When
       List<TimeBoundaryChangeData> timeBoundaryChangeData =

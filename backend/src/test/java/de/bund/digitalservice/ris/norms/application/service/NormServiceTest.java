@@ -774,10 +774,12 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));
-      when(updateNormService.updatePassiveModifications(any())).thenReturn(targetNorm);
+      Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(zf0Norm));
+      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any()))
           .thenReturn(Optional.of(amendingNorm))
-          .thenReturn(Optional.of(targetNorm));
+          .thenReturn(Optional.of(zf0Norm));
 
       // When
       var returnedXml =
@@ -806,16 +808,22 @@ class NormServiceTest {
                       Objects.equals(
                           argument.eli(),
                           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
+      verify(loadNormByGuidPort, times(1))
+          .loadNormByGuid(
+              argThat(
+                  argument ->
+                      Objects.equals(
+                          argument.guid().toString(), "8de2c22c-d706-498a-9d96-930d7a03d224")));
       verify(updateNormService, times(1))
           .updatePassiveModifications(
               argThat(
                   argument ->
-                      Objects.equals(argument.norm(), targetNorm)
+                      Objects.equals(argument.zf0Norm(), zf0Norm)
                           && Objects.equals(argument.amendingNorm(), amendingNorm)));
       verify(updateNormPort, times(1))
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), amendingNorm)));
       verify(updateNormPort, times(1))
-          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), targetNorm)));
+          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
       assertThat(returnedXml).isPresent();
       final Document xmlDocument = XmlMapper.toDocument(returnedXml.get());

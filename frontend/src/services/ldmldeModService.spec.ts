@@ -1,5 +1,5 @@
 import { xmlStringToDocument } from "@/services/xmlService"
-import { describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import {
   getTextualModType,
   getDestinationHref,
@@ -9,6 +9,11 @@ import {
 } from "@/services/ldmldeModService"
 
 describe("ldmldeModService", () => {
+  beforeEach(() => {
+    vi.resetModules()
+    vi.resetAllMocks()
+  })
+
   describe("getQuotedTextSecond", () => {
     it("should find second quoted text", () => {
       const node = xmlStringToDocument(`
@@ -120,14 +125,17 @@ describe("ldmldeModService", () => {
           xml,
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
         ),
-      ).to.eq("2023-12-30")
+      ).to.deep.equal({
+        date: "2023-12-30",
+        temporalGroupEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
+      })
     })
   })
 
-  describe.skip("updateModData", () => {
+  describe("updateModData", () => {
     it("should make a PUT request with the correct data", async () => {
-      const eli = "test-eli"
-      const eid = "test-eid"
+      const eli = "eli"
+      const eid = "eid"
       const updatedMods = {
         refersTo: "test-refersTo",
         timeBoundaryEid: "test-timeBoundaryEid",
@@ -135,16 +143,24 @@ describe("ldmldeModService", () => {
         oldText: "test-oldText",
         newText: "test-newText",
       }
-
       const expectedResponse = "<xml>response</xml>"
-      const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
 
+      const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
       vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
 
       const { updateModData } = await import("./ldmldeModService")
 
       const result = await updateModData(eli, eid, updatedMods)
       expect(result).toEqual(expectedResponse)
+
+      expect(fetchMock).toHaveBeenCalledWith(`/norms/${eli}/mods/${eid}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/xml",
+        },
+        body: JSON.stringify(updatedMods),
+      })
     })
   })
 })

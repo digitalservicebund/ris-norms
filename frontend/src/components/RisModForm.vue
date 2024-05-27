@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
-import { computed } from "vue"
+import { computed, ref } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CheckIcon from "~icons/ic/check"
 import { ModType } from "@/types/ModType"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -13,9 +14,9 @@ const props = defineProps<{
   /** Either replacement, insertion or repeal */
   textualModType: ModType | ""
   /** the possible time boundaries in the format YYYY-MM-DD. */
-  timeBoundaries: string[]
+  timeBoundaries: TemporalDataResponse[]
   /** Optional selected time boundary of the format YYYY-MM-DD */
-  selectedTimeBoundary?: string
+  selectedTimeBoundary?: { date: string; temporalGroupEid: string }
   /** Destination Href for mod */
   destinationHref: string
   /** This is the text that will be replaced */
@@ -28,7 +29,7 @@ defineEmits<{
   "generate-preview": []
   "update-mod": []
 }>()
-const selectedTimeBoundaryModel = defineModel<string | undefined>(
+const selectedTimeBoundaryModel = defineModel<TemporalDataResponse | undefined>(
   "selectedTimeBoundary",
 )
 const destinationHrefModel = defineModel<string>("destinationHref")
@@ -38,21 +39,28 @@ const quotedTextSecondModel = defineModel<string | undefined>(
 
 const timeBoundaries = computed(() => {
   return [
-    ...props.timeBoundaries.map((date) => ({
-      label: new Date(date).toLocaleDateString("de"),
-      value: date,
+    ...props.timeBoundaries.map((boundary) => ({
+      label: new Date(boundary.date).toLocaleDateString("de"),
+      value: boundary.date,
     })),
     { label: "Keine Angabe", value: "no_choice" },
   ]
 })
 const selectedElement = computed({
   get() {
-    return selectedTimeBoundaryModel.value || "no_choice"
+    return selectedTimeBoundaryModel.value?.date || "no_choice"
   },
   set(value: string) {
-    selectedTimeBoundaryModel.value = value === "no_choice" ? undefined : value
+    selectedTimeBoundaryModel.value =
+      value === "no_choice"
+        ? undefined
+        : props.timeBoundaries.find((tb) => tb.date === value)
   },
 })
+
+const temporaryEid = ref(
+  destinationHrefModel.value?.split("/").slice(-2).join("/") || "",
+)
 
 const destinationHrefEli = computed(() =>
   destinationHrefModel.value?.split("/").slice(0, -2).join("/"),
@@ -60,12 +68,18 @@ const destinationHrefEli = computed(() =>
 
 const destinationHrefEid = computed({
   get() {
-    return destinationHrefModel.value?.split("/").slice(-2).join("/") || ""
+    return temporaryEid.value
   },
   set(newValue: string) {
+    temporaryEid.value = newValue
     if (destinationHrefModel.value) {
       const parts = destinationHrefModel.value.split("/")
-      parts.splice(-2, 2, ...newValue.split("/"))
+      const newParts = newValue.split("/")
+      if (newParts.length === 2) {
+        parts.splice(-2, 2, ...newParts)
+      } else if (newParts.length === 1) {
+        parts.splice(-2, 2, newParts[0], "")
+      }
       destinationHrefModel.value = parts.join("/")
     }
   },

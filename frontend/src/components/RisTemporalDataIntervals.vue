@@ -5,14 +5,10 @@ import RisTextButton from "@/components/controls/RisTextButton.vue"
 import DeleteOutlineIcon from "~icons/ic/outline-delete"
 import SortOutlineIcon from "~icons/ic/outline-arrow-downward"
 import dayjs from "dayjs"
-
-type DateEntry = {
-  date: string
-  eventRefEid: string
-}
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
 
 /** The current list of dates. */
-const dates = defineModel<DateEntry[]>("dates", {
+const dates = defineModel<TemporalDataResponse[]>("dates", {
   default: () => [],
 })
 

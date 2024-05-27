@@ -42,9 +42,10 @@ class TimeBoundaryTest {
     Norm norm = new Norm(toDocument(xml));
     Node timeIntervalNode = norm.getTimeBoundaries().getFirst().getTimeIntervalNode();
     Node eventRefNode = norm.getTimeBoundaries().getFirst().getEventRefNode();
+    Node temporalGroupNode = norm.getTimeBoundaries().getFirst().getTemporalGroupNode();
 
     // when
-    TimeBoundary tb = new TimeBoundary(timeIntervalNode, eventRefNode);
+    TimeBoundary tb = new TimeBoundary(timeIntervalNode, eventRefNode, temporalGroupNode);
 
     // then
     assertThat(tb.getDate()).contains(LocalDate.parse("2023-12-30"));
@@ -57,9 +58,10 @@ class TimeBoundaryTest {
     Norm norm = new Norm(toDocument(xml));
     Node timeIntervalNode = norm.getTimeBoundaries().getFirst().getTimeIntervalNode();
     Node eventRefNode = norm.getTimeBoundaries().getFirst().getEventRefNode();
+    Node temporalGroupNode = norm.getTimeBoundaries().getFirst().getTemporalGroupNode();
 
     // when
-    TimeBoundary tb = new TimeBoundary(timeIntervalNode, eventRefNode);
+    TimeBoundary tb = new TimeBoundary(timeIntervalNode, eventRefNode, temporalGroupNode);
 
     // then
     assertThat(tb.getEventRefEid()).contains("meta-1_lebzykl-1_ereignis-2");
@@ -72,9 +74,10 @@ class TimeBoundaryTest {
     Norm norm = new Norm(toDocument(xml));
     Node timeIntervalNode = norm.getTimeBoundaries().getFirst().getTimeIntervalNode();
     Node eventRefNode = norm.getTimeBoundaries().getFirst().getEventRefNode();
+    Node temporalGroupNode = norm.getTimeBoundaries().getFirst().getTemporalGroupNode();
 
     // when
-    TimeBoundary tb = new TimeBoundary(timeIntervalNode, eventRefNode);
+    TimeBoundary tb = new TimeBoundary(timeIntervalNode, eventRefNode, temporalGroupNode);
 
     // then
     assertThat(tb.getTimeIntervalEid())

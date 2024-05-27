@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpdateNormService implements UpdatePassiveModificationsUseCase {
   /**
-   * Remove passive modifications form the norm, who originate from the norm with the given source.
+   * Remove passive modifications form the zf0Norm, who originate from the zf0Norm with the given
+   * source.
    *
-   * @param norm the norm from which to remove passive modifications
+   * @param norm the zf0Norm from which to remove passive modifications
    * @param sourceNormEli the eli which the removed passive modifications should have as a source
    */
   private void removePassiveModificationsThatStemFromSource(Norm norm, String sourceNormEli) {
@@ -45,9 +46,9 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
 
   @Override
   public Norm updatePassiveModifications(Query query) {
-    var norm = query.norm();
+    var norm = query.zf0Norm();
 
-    // clean up existing passive modifications stemming from the amending norm
+    // clean up existing passive modifications stemming from the amending zf0Norm
     removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getEli().orElseThrow());
 
     final var activeModificationsToAdd =
@@ -57,7 +58,8 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
                     activeModification
                         .getDestinationHref()
                         .flatMap(Href::getEli)
-                        .equals(norm.getEli()))
+                        .filter(eli -> eli.equals(query.targetNormEli()))
+                        .isPresent())
             .toList();
 
     // create temporal groups

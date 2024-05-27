@@ -9,9 +9,10 @@ import static org.mockito.Mockito.times;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTimeBoundariesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTimeBoundariesUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
@@ -26,9 +27,10 @@ import org.slf4j.LoggerFactory;
 
 class TimeBoundaryServiceTest {
 
-  final DBService dbService = mock(DBService.class);
+  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
 
-  final TimeBoundaryService service = new TimeBoundaryService(dbService);
+  final TimeBoundaryService service = new TimeBoundaryService(loadNormPort, updateNormPort);
 
   @Nested
   class loadTimeBoundariesOfNorm {
@@ -71,14 +73,14 @@ class TimeBoundaryServiceTest {
                               </akn:akomaNtoso>
                             """))
               .build();
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
       var timeBoundaries =
           service.loadTimeBoundariesOfNorm(new LoadTimeBoundariesUseCase.Query(eli));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(timeBoundaries).hasSize(2);
 
@@ -209,14 +211,14 @@ class TimeBoundaryServiceTest {
                                               </akn:akomaNtoso>
                                             """))
               .build();
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
       var timeBoundaries =
           service.loadTimeBoundariesOfNorm(new LoadTimeBoundariesUseCase.Query(eli));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(timeBoundaries).isEmpty();
     }
@@ -279,8 +281,8 @@ class TimeBoundaryServiceTest {
       var normAfter = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
-      when(dbService.updateNorm(any())).thenReturn(Optional.of(normAfter));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(normAfter));
 
       // When
       var timeBoundaryChangeDataOldStays =
@@ -291,9 +293,9 @@ class TimeBoundaryServiceTest {
               new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataOldStays)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1))
+      verify(updateNormPort, times(1))
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), normAfter)));
 
       assertThat(result).isNotEmpty();
@@ -353,7 +355,7 @@ class TimeBoundaryServiceTest {
       var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
       // When
       var timeBoundaryChangeDataOldStays =
           new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-2", LocalDate.parse("2023-12-30"));
@@ -365,9 +367,9 @@ class TimeBoundaryServiceTest {
               eli, List.of(timeBoundaryChangeDataOldStays, timeBoundaryChangeDataNewDate)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1))
+      verify(updateNormPort, times(1))
           .updateNorm(
               argThat(
                   argument ->
@@ -439,7 +441,7 @@ class TimeBoundaryServiceTest {
       var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
 
       // When
       var timeBoundaryChangeDataOldStays =
@@ -449,9 +451,9 @@ class TimeBoundaryServiceTest {
           new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataOldStays)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1))
+      verify(updateNormPort, times(1))
           .updateNorm(
               argThat(
                   argument ->
@@ -499,7 +501,7 @@ class TimeBoundaryServiceTest {
       var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
 
       // When
       var timeBoundaryChangeDataNewDate1 =
@@ -512,9 +514,9 @@ class TimeBoundaryServiceTest {
               eli, List.of(timeBoundaryChangeDataNewDate1, timeBoundaryChangeDataNewDate2)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1))
+      verify(updateNormPort, times(1))
           .updateNorm(
               argThat(
                   argument ->
@@ -571,7 +573,7 @@ class TimeBoundaryServiceTest {
       var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
 
       // When
       var timeBoundaryChangeDataNewDate1 =
@@ -582,9 +584,9 @@ class TimeBoundaryServiceTest {
           new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataNewDate1)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1)).updateNorm(any());
+      verify(updateNormPort, times(1)).updateNorm(any());
 
       assertThat(
               memoryAppender.contains(

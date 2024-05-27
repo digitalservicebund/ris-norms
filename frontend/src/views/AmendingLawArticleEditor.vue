@@ -78,8 +78,11 @@ onMounted(() => {
 
 watch(articleXml, fetchAmendingLawRenderedHtml, { immediate: true })
 watch(currentArticleXml, (newXml, oldXml) => {
-  if (newXml !== oldXml && amendingLawActiveTab.value === "text") {
-    fetchAmendingLawRenderedHtml()
+  if (newXml !== oldXml) {
+    if (amendingLawActiveTab.value === "text") {
+      fetchAmendingLawRenderedHtml()
+    }
+    handleGeneratePreview()
   }
 })
 watch(amendingLawActiveTab, (newActiveTab, oldActiveTab) => {
@@ -142,20 +145,18 @@ watch(targetLawEli, () => {
 async function handleSave() {
   const updatedMods = {
     refersTo: selectedMod.value,
-    timeBoundaryEid: timeBoundary.value,
+    timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
     destinationHref: destinationHref.value,
     oldText: quotedTextFirst.value,
     newText: quotedTextSecond.value,
   }
 
   try {
-    const responseXml = await updateMod(
+    currentArticleXml.value = await updateMod(
       eli.value,
       selectedMod.value,
       updatedMods,
     )
-    previewXml.value = responseXml
-    previewHtml.value = await renderHtmlLaw(responseXml, false)
   } catch (error) {
     console.error("Error saving the mod:", error)
   }
@@ -231,7 +232,7 @@ async function handleSave() {
             v-model:quoted-text-second="quotedTextSecond"
             v-model:selected-time-boundary="timeBoundary"
             :quoted-text-first="quotedTextFirst"
-            :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
+            :time-boundaries="timeBoundaries"
             @generate-preview="handleGeneratePreview"
             @update-mod="handleSave"
           />

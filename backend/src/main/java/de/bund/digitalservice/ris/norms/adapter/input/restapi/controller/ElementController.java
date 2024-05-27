@@ -12,13 +12,9 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.EliBuilder;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
@@ -62,22 +58,19 @@ public class ElementController {
           Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
 
   private final LoadNormUseCase loadNormUseCase;
-  private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   private final LoadElementFromNormUseCase loadElementFromNormUseCase;
   private final LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
+  private final LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
 
   public ElementController(
       LoadNormUseCase loadNormUseCase,
-      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
       LoadElementFromNormUseCase loadElementFromNormUseCase,
-      LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase) {
+      LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase,
+      LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase) {
     this.loadNormUseCase = loadNormUseCase;
-    this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
-    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
     this.loadElementFromNormUseCase = loadElementFromNormUseCase;
     this.loadElementHtmlFromNormUseCase = loadElementHtmlFromNormUseCase;
+    this.loadElementHtmlAtDateFromNormUseCase = loadElementHtmlAtDateFromNormUseCase;
   }
 
   /**
@@ -124,23 +117,10 @@ public class ElementController {
         return ResponseEntity.badRequest().build();
       }
 
-      return loadNormUseCase
-          .loadNorm(new LoadNormUseCase.Query(eli))
-          .map(
-              norm ->
-                  applyPassiveModificationsUseCase.applyPassiveModifications(
-                      new ApplyPassiveModificationsUseCase.Query(
-                          norm, Instant.parse(atIsoDate.get()))))
-          .map(
-              norm -> {
-                var elementXpath = String.format("//*[@eId='%s']", eid);
-                return NodeParser.getNodeFromExpression(elementXpath, norm.getDocument());
-              })
-          .map(
-              element ->
-                  transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                      new TransformLegalDocMlToHtmlUseCase.Query(
-                          XmlMapper.toString(element), false)))
+      return loadElementHtmlAtDateFromNormUseCase
+          .loadElementHtmlAtDateFromNorm(
+              new LoadElementHtmlAtDateFromNormUseCase.Query(
+                  eli, eid, Instant.parse(atIsoDate.get())))
           .map(ResponseEntity::ok)
           .orElse(ResponseEntity.notFound().build());
     }

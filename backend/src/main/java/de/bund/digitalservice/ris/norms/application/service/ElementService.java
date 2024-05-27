@@ -1,8 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadElementFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadElementHtmlFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -18,19 +16,26 @@ import org.w3c.dom.Node;
  * related to articles), you should use a more specific service.
  */
 @Service
-public class ElementService implements LoadElementFromNormUseCase, LoadElementHtmlFromNormUseCase {
+public class ElementService
+    implements LoadElementFromNormUseCase,
+        LoadElementHtmlFromNormUseCase,
+        LoadElementHtmlAtDateFromNormUseCase {
   private final LoadNormPort loadNormPort;
   private final XsltTransformationService xsltTransformationService;
+  private final TimeMachineService timeMachineService;
 
   public ElementService(
-      LoadNormPort loadNormPort, XsltTransformationService xsltTransformationService) {
+      LoadNormPort loadNormPort,
+      XsltTransformationService xsltTransformationService,
+      TimeMachineService timeMachineService) {
     this.loadNormPort = loadNormPort;
     this.xsltTransformationService = xsltTransformationService;
+    this.timeMachineService = timeMachineService;
   }
 
   @Override
   public Optional<Node> loadElementFromNorm(final LoadElementFromNormUseCase.Query query) {
-    var xPath = String.format("//*[@eId='%s']", query.eid());
+    var xPath = getXPathForEid(query.eid());
 
     return loadNormPort
         .loadNorm(new LoadNormPort.Command(query.eli()))
@@ -44,5 +49,25 @@ public class ElementService implements LoadElementFromNormUseCase, LoadElementHt
         .map(XmlMapper::toString)
         .map(rawXml -> new TransformLegalDocMlToHtmlUseCase.Query(rawXml, false))
         .map(xsltTransformationService::transformLegalDocMlToHtml);
+  }
+
+  @Override
+  public Optional<String> loadElementHtmlAtDateFromNorm(
+      final LoadElementHtmlAtDateFromNormUseCase.Query query) {
+    return loadNormPort
+        .loadNorm(new LoadNormPort.Command(query.eli()))
+        .map(norm -> new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()))
+        .map(timeMachineService::applyPassiveModifications)
+        .map(
+            norm ->
+                NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument()))
+        .map(
+            element ->
+                new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false))
+        .map(xsltTransformationService::transformLegalDocMlToHtml);
+  }
+
+  private String getXPathForEid(String eid) {
+    return String.format("//*[@eId='%s']", eid);
   }
 }
