@@ -325,13 +325,25 @@ public class ArticleController {
           .orElse(ResponseEntity.notFound().build());
     }
 
-    return getArticleHtml(eli, eid)
+    return getArticleHtml(eli, eid, atIsoDate)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
-  private Optional<String> getArticleHtml(String eli, String eid) {
-    return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
+  private Optional<String> getArticleHtml(String eli, String eid, Optional<String> atIsoDate) {
+    return loadNormUseCase
+        .loadNorm(new LoadNormUseCase.Query(eli))
+        .map(
+            norm -> {
+              if (atIsoDate.isEmpty()) return norm; // no date given -> use the norm unchanged
+              else {
+                return applyPassiveModificationsUseCase.applyPassiveModifications(
+                    new ApplyPassiveModificationsUseCase.Query(
+                        norm, Instant.parse(atIsoDate.get())));
+              }
+            })
+        .map(Norm::getArticles)
+        .stream()
         .flatMap(List::stream)
         .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
         .findFirst()
