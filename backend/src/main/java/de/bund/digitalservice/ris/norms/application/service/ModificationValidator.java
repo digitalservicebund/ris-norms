@@ -180,21 +180,20 @@ public class ModificationValidator {
    * @param amendingLaw the amending law to be checked
    */
   public void destinationHrefIsConsistent(Norm amendingLaw) {
-    // TODO rename variables
-    Set<Href> activeModificationsDestinationElis =
+    Set<Href> activeModificationsDestinationHrefs =
         amendingLaw.getActiveModifications().stream()
             .map(TextualMod::getDestinationHref)
             .flatMap(Optional::stream)
             .collect(Collectors.toSet());
 
-    Set<Href> aknModElis =
+    Set<Href> aknModHrefs =
         amendingLaw.getArticles().stream()
             .map(Article::getMod)
             .flatMap(Optional::stream)
             .map(Mod::getTargetHref)
             .flatMap(Optional::stream)
             .collect(Collectors.toSet());
-    if (!activeModificationsDestinationElis.equals(aknModElis))
+    if (!activeModificationsDestinationHrefs.equals(aknModHrefs))
       throw new XmlContentException("Eids are not consistent", null);
   }
 
