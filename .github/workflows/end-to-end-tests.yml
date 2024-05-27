@@ -82,7 +82,7 @@ jobs:
             ./frontend/test-results/**/*.png
             ./frontend/test-results/**/trace.zip
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
+        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
