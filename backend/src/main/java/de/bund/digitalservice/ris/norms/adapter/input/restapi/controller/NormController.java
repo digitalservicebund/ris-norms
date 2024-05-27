@@ -338,7 +338,7 @@ public class NormController {
    *     found.
    */
   @PutMapping(
-      path = "/mod/{eid}",
+      path = "/mods/{eid}",
       consumes = {APPLICATION_JSON_VALUE},
       produces = {APPLICATION_XML_VALUE})
   public ResponseEntity<String> updateMod(

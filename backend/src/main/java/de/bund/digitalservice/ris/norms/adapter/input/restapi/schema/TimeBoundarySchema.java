@@ -18,4 +18,6 @@ public class TimeBoundarySchema {
   private LocalDate date;
 
   private String eventRefEid;
+
+  private String temporalGroupEid;
 }

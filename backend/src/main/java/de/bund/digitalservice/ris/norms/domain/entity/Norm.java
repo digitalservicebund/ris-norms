@@ -149,14 +149,15 @@ public class Norm {
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
   public List<TimeBoundary> getTimeBoundaries() {
-    List<Node> timeIntervalNodes =
-        NodeParser.getNodesFromExpression("//temporalData/temporalGroup/timeInterval", document);
+    List<Node> temporalGroupNodes =
+        NodeParser.getNodesFromExpression("//temporalData/temporalGroup", document);
 
-    return timeIntervalNodes.stream()
+    return temporalGroupNodes.stream()
         .map(
             node -> {
+              Node timeIntervalNode = NodeParser.getNodeFromExpression("./timeInterval", node);
               String eventRefEId =
-                  new Href(node.getAttributes().getNamedItem("start").getNodeValue())
+                  new Href(timeIntervalNode.getAttributes().getNamedItem("start").getNodeValue())
                       .getEId()
                       .orElseThrow();
               String eventRefNodeExpression =
@@ -165,7 +166,11 @@ public class Norm {
                   NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
 
               return (TimeBoundary)
-                  TimeBoundary.builder().timeIntervalNode(node).eventRefNode(eventRefNode).build();
+                  TimeBoundary.builder()
+                      .temporalGroupNode(node)
+                      .timeIntervalNode(timeIntervalNode)
+                      .eventRefNode(eventRefNode)
+                      .build();
             })
         .toList();
   }
