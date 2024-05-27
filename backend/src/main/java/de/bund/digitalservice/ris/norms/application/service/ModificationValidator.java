@@ -43,6 +43,100 @@ public class ModificationValidator {
     oldTextExistsInTargetLaw(amendingLaw);
   }
 
+  private String getTextualModEId(TextualMod tm) {
+    return tm.getEid().orElseThrow(() -> new XmlContentException("TextualMod eId id empty.", null));
+  }
+
+  private String getArticleAffectedDocumentEli(Article a, String articleEId) {
+    return a.getAffectedDocumentEli()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "AffectedDocument href is empty in article with eId %s".formatted(articleEId),
+                    null));
+  }
+
+  private String getArticleEId(Article a) {
+    return a.getEid().orElseThrow(() -> new XmlContentException("Article eId id empty.", null));
+  }
+
+  private Mod getArticleMod(Article a, String articleEId) {
+    return a.getMod()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "Empty aknMod for article with eId %s".formatted(articleEId), null));
+  }
+
+  private Href getModTargetHref(Mod m, String articleEId) {
+    return m.getTargetHref()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "aknMod href is empty in article with eId %s".formatted(articleEId), null));
+  }
+
+  private String getHrefEli(Href h, String articleEId) {
+    return h.getEli()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "The Eli in aknMod href is empty in article with eId %s".formatted(articleEId),
+                    null));
+  }
+
+  /**
+   * Throws an error if any of the articles of the passed amendingLaw has an empty affected document
+   * Eli. The error message contains a comma separated list of all article eIds, that are affected.
+   *
+   * @param amendingLaw the amending law to be checked
+   */
+  public void throwErrorNoDestinationSet(Norm amendingLaw) {
+    validateActiveModificationsEli(amendingLaw);
+    validateArticlesEli(amendingLaw);
+  }
+
+  private void validateActiveModificationsEli(Norm amendingLaw) {
+    amendingLaw
+        .getActiveModifications()
+        .forEach(
+            tm ->
+                tm.getDestinationHref()
+                    .orElseThrow(
+                        () ->
+                            new XmlContentException(
+                                "ActiveModification Destination Href is empty where textualMod eId is %s"
+                                    .formatted(getTextualModEId(tm)),
+                                null))
+                    .getEli()
+                    .orElseThrow(
+                        () ->
+                            // TODO add unit test for this throw
+                            new XmlContentException(
+                                "ActiveModification Destination Href holds an empty Eli where textualMod eId is %s"
+                                    .formatted(getTextualModEId(tm)),
+                                null)));
+  }
+
+  private void validateArticlesEli(Norm amendingLaw) {
+    amendingLaw
+        .getArticles()
+        .forEach(
+            article -> {
+              String articleEId = getArticleEId(article);
+              validateAknModEli(article, articleEId);
+              validateAffectedDocumentEli(article, articleEId);
+            });
+  }
+
+  private void validateAknModEli(Article article, String articleEId) {
+    getHrefEli(getModTargetHref(getArticleMod(article, articleEId), articleEId), articleEId);
+  }
+
+  private void validateAffectedDocumentEli(Article article, String articleEId) {
+    getArticleAffectedDocumentEli(article, articleEId);
+  }
+
   /**
    * Checks whether an reference to a target law in an amending law is consistent in
    * akn:activeModifications - destination and akn:mod
@@ -336,28 +430,5 @@ public class ModificationValidator {
    */
   public void destNodeHasTextOnlyContent(Norm amendingLaw) {
     // TODO no "<>" exists
-  }
-
-  /**
-   * Throws an error if any of the articles of the passed amendingLaw has an empty affected document
-   * Eli. The error message contains a comma separated list of all article eIds, that are affected.
-   *
-   * @param amendingLaw the amending law to be checked
-   */
-  public void throwErrorNoDestinationSet(Norm amendingLaw) {
-    // TODO need to test for the other two Elis, too.
-    List<String> articleEidsWhereAffectedDocumentEliIsEmpty =
-        amendingLaw.getArticles().stream()
-            .filter(a -> a.getAffectedDocumentEli().isEmpty())
-            .map(Article::getEid)
-            .flatMap(Optional::stream)
-            .toList();
-
-    if (!articleEidsWhereAffectedDocumentEliIsEmpty.isEmpty()) {
-      throw new XmlContentException(
-          "Some articles have empty affected document Elis. Here are the according article eIds: %s"
-              .formatted(String.join(", ", articleEidsWhereAffectedDocumentEliIsEmpty)),
-          null);
-    }
   }
 }
