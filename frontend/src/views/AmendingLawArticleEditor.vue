@@ -78,8 +78,11 @@ onMounted(() => {
 
 watch(articleXml, fetchAmendingLawRenderedHtml, { immediate: true })
 watch(currentArticleXml, (newXml, oldXml) => {
-  if (newXml !== oldXml && amendingLawActiveTab.value === "text") {
-    fetchAmendingLawRenderedHtml()
+  if (newXml !== oldXml) {
+    if (amendingLawActiveTab.value === "text") {
+      fetchAmendingLawRenderedHtml()
+    }
+    handleGeneratePreview()
   }
 })
 watch(amendingLawActiveTab, (newActiveTab, oldActiveTab) => {
