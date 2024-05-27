@@ -325,6 +325,12 @@ public class ArticleController {
           .orElse(ResponseEntity.notFound().build());
     }
 
+    return getArticleHtml(eli, eid)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  private Optional<String> getArticleHtml(String eli, String eid) {
     return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
         .flatMap(List::stream)
         .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
@@ -333,8 +339,6 @@ public class ArticleController {
         .map(
             xml ->
                 this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false)));
   }
 }
