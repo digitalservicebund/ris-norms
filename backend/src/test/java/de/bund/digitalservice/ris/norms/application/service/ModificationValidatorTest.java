@@ -148,7 +148,7 @@ class ModificationValidatorTest {
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining("Empty aknMod for article with eId hauptteil-1_art-1");
+          .hasMessageContaining("There is no mod in article with eId hauptteil-1_art-1");
     }
   }
 
