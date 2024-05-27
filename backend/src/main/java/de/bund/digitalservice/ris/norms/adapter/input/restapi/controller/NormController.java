@@ -334,6 +334,7 @@ public class NormController {
    * @param subtype the type of document ("Dokumentenart")
    * @param eid the eId of the akn:mod within the amending law
    * @param modUpdateSchema the amending command to update
+   * @param dryRun Should the save operation only be previewed and not actually persisted?
    * @return A {@link ResponseEntity} containing the updated xml of the amending law.
    *     <p>Returns HTTP 200 (OK) if both amending law and zf0 successfully uddated.
    *     <p>Returns HTTP 404 (Not Found) if amending law, target law or node within target law not
@@ -352,7 +353,8 @@ public class NormController {
       @PathVariable final String language,
       @PathVariable final String subtype,
       @PathVariable final String eid,
-      @RequestBody @Valid final ModUpdateSchema modUpdateSchema) {
+      @RequestBody @Valid final ModUpdateSchema modUpdateSchema,
+      @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
@@ -365,7 +367,8 @@ public class NormController {
                 modUpdateSchema.getTimeBoundaryEid(),
                 modUpdateSchema.getDestinationHref(),
                 modUpdateSchema.getOldText(),
-                modUpdateSchema.getNewText()))
+                modUpdateSchema.getNewText(),
+                dryRun))
         .map(UpdateModResponseMapper::fromResult)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());

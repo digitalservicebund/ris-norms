@@ -70,12 +70,14 @@ export function getTimeBoundaryDate(xml: Document, aknModEid: string) {
  * @param eli - The ELI of the norm.
  * @param eid - The eId of the akn:mod.
  * @param updatedMods - A mod object.
+ * @param dryRun - Should the save operation only be previewed and not actually persisted?
  * @returns An XML of ZF0 in the response when the save operation is complete.
  */
 export async function updateModData(
   eli: string,
   eid: string,
   updatedMods: ModData,
+  dryRun: boolean = false,
 ): Promise<{
   amendingNormXml: string
   targetNormXml: string
@@ -88,6 +90,9 @@ export async function updateModData(
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+    },
+    query: {
+      dryRun,
     },
     body: JSON.stringify(updatedMods),
   })

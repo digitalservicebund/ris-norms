@@ -35,6 +35,14 @@ export function useMod(
     amendingNormXml: string
     targetNormXml: string
   }>
+  previewUpdateMod: (
+    eli: MaybeRefOrGetter<string>,
+    eid: MaybeRefOrGetter<string>,
+    updatedMods: ModData,
+  ) => Promise<{
+    amendingNormXml: string
+    targetNormXml: string
+  }>
 } {
   const normDocument = computed(() => {
     const xmlValue = toValue(xml)
@@ -95,7 +103,23 @@ export function useMod(
     eid: MaybeRefOrGetter<string>,
     updatedMods: ModData,
   ) {
-    return await updateModData(toValue(eli), toValue(eid), updatedMods)
+    return await updateModData(toValue(eli), toValue(eid), updatedMods, false)
+  }
+
+  /**
+   * Preview the update of the mod data.
+   *
+   * @param eli - The ELI of the norm.
+   * @param eid - The eId of the akn:mod.
+   * @param updatedMods - The updated mod data.
+   * @returns A promise that resolves when the preview operation is complete.
+   */
+  async function previewUpdateMod(
+    eli: MaybeRefOrGetter<string>,
+    eid: MaybeRefOrGetter<string>,
+    updatedMods: ModData,
+  ) {
+    return await updateModData(toValue(eli), toValue(eid), updatedMods, true)
   }
 
   return {
@@ -105,5 +129,6 @@ export function useMod(
     quotedTextSecond,
     timeBoundary,
     updateMod,
+    previewUpdateMod,
   }
 }

@@ -162,6 +162,40 @@ describe("useMod", () => {
     expect(result.targetNormXml).toBe("<xml>target-norm-zf0-xml</xml>")
 
     const { updateModData } = await import("@/services/ldmldeModService")
-    expect(updateModData).toHaveBeenCalledWith(eli, eid, updatedMods)
+    expect(updateModData).toHaveBeenCalledWith(eli, eid, updatedMods, false)
+  })
+
+  test("should preview update mod data and return the response", async () => {
+    const eli = "test-eli"
+    const eid = "test-eid"
+    const updatedMods = {
+      refersTo: "test-refersTo",
+      timeBoundaryEid: "test-timeBoundaryEid",
+      destinationHref: "test-destinationHref",
+      oldText: "test-oldText",
+      newText: "test-newText",
+    }
+
+    vi.doMock("@/services/ldmldeModService", () => ({
+      getDestinationHref: vi.fn(),
+      getQuotedTextFirst: vi.fn(),
+      getQuotedTextSecond: vi.fn(),
+      getTextualModType: vi.fn(),
+      getTimeBoundaryDate: vi.fn(),
+      updateModData: vi.fn().mockResolvedValue({
+        targetNormXml: "<xml>target-norm-zf0-xml</xml>",
+        amendingNormXml: "<xml>amending-norm-xml</xml>",
+      }),
+    }))
+    const { useMod } = await import("./useMod")
+    const { previewUpdateMod } = useMod(eid, `<xml></xml>`)
+
+    const result = await previewUpdateMod(eli, eid, updatedMods)
+
+    expect(result.amendingNormXml).toBe("<xml>amending-norm-xml</xml>")
+    expect(result.targetNormXml).toBe("<xml>target-norm-zf0-xml</xml>")
+
+    const { updateModData } = await import("@/services/ldmldeModService")
+    expect(updateModData).toHaveBeenCalledWith(eli, eid, updatedMods, true)
   })
 })

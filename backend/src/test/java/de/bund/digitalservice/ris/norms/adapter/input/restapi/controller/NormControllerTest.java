@@ -360,6 +360,36 @@ class NormControllerTest {
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("amendingNormXml").value(xml))
           .andExpect(jsonPath("targetNormXml").value(targetNormXml));
+
+      verify(updateModUseCase, times(1)).updateMod(argThat(query -> !query.dryRun()));
+    }
+
+    @Test
+    void itCallsUpdateModUseCaseWithDryRunAndReturnsXml() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+      final String xml = "<law></law>";
+      final String targetNormXml = "<target-norm-xml></target-norm-xml>";
+
+      // When
+      when(updateModUseCase.updateMod(any()))
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(xml, targetNormXml)));
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/" + modEid + "?dryRun=true")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
+          .andExpect(status().isOk())
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+          .andExpect(jsonPath("amendingNormXml").value(xml))
+          .andExpect(jsonPath("targetNormXml").value(targetNormXml));
+
+      verify(updateModUseCase, times(1)).updateMod(argThat(query -> query.dryRun()));
     }
 
     @Test

@@ -156,14 +156,17 @@ describe("ldmldeModService", () => {
       const result = await updateModData(eli, eid, updatedMods)
       expect(result).toEqual(expectedResponse)
 
-      expect(fetchMock).toHaveBeenCalledWith(`/norms/${eli}/mods/${eid}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/xml",
-        },
-        body: JSON.stringify(updatedMods),
-      })
+      expect(fetchMock).toHaveBeenCalledWith(
+        `/norms/${eli}/mods/${eid}`,
+        expect.objectContaining({
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/xml",
+          },
+          body: JSON.stringify(updatedMods),
+        }),
+      )
     })
   })
 })
