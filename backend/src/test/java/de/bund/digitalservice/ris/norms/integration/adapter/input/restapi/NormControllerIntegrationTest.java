@@ -667,6 +667,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
       normRepository.save(
           NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
 
       // When
       mockMvc
@@ -693,7 +695,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
       mockMvc
           .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
                   .accept(MediaType.APPLICATION_XML))
           .andExpect(status().isOk())
           .andExpect(

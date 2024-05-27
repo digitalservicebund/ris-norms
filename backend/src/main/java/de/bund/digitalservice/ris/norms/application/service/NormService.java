@@ -131,15 +131,23 @@ public class NormService
     }
     final var norm = optionalNorm.get();
 
-    final Optional<Norm> optionalTargetNorm =
-        new Href(query.destinationHref())
-            .getEli()
-            .map(LoadNormPort.Command::new)
-            .flatMap(loadNormPort::loadNorm);
-    if (optionalTargetNorm.isEmpty()) {
+    final var targetLawEliOptional = new Href(query.destinationHref()).getEli();
+    if (targetLawEliOptional.isEmpty()) {
       return Optional.empty();
     }
-    var targetNorm = optionalTargetNorm.get();
+
+    final var targetLawEli = targetLawEliOptional.get();
+
+    final Optional<Norm> optionalZf0Norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(targetLawEli))
+            .flatMap(Norm::getNextVersionGuid)
+            .flatMap(n -> loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(n)));
+    if (optionalZf0Norm.isEmpty()) {
+      return Optional.empty();
+    }
+
+    var zf0Norm = optionalZf0Norm.get();
 
     // Edit mod in metadata
     norm.getActiveModifications().stream()
@@ -166,10 +174,10 @@ public class NormService
     // TODO: (Malte Laukötter, 2024-05-22) run validation that the change is possible
 
     updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(targetNorm, norm));
+        new UpdatePassiveModificationsUseCase.Query(zf0Norm, norm, targetLawEli));
 
     var savedNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
-    updateNormPort.updateNorm(new UpdateNormPort.Command(targetNorm));
+    updateNormPort.updateNorm(new UpdateNormPort.Command(zf0Norm));
 
     return savedNorm.map(Norm::getDocument).map(XmlMapper::toString);
   }

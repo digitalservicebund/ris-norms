@@ -9,20 +9,22 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 public interface UpdatePassiveModificationsUseCase {
 
   /**
-   * Update the passive modifications of the norm.
+   * Update the passive modifications of the zf0Norm.
    *
-   * @param query The query contains the norm and the norm whose active modifications should be used
-   *     to update the passive modifications.
+   * @param query The query contains the zf0Norm and the zf0Norm whose active modifications should
+   *     be used to update the passive modifications.
    * @return A {@link Norm} with the update passive modifications
    */
   Norm updatePassiveModifications(Query query);
 
   /**
-   * A record representing the query for updating the passive modifications of a norm.
+   * A record representing the query for updating the passive modifications of a zf0Norm.
    *
-   * @param norm The norm to update.
-   * @param amendingNorm The norm containing activeModifications, that should be used to update the
-   *     norm.
+   * @param zf0Norm The zf0Norm to update.
+   * @param amendingNorm The zf0Norm containing activeModifications, that should be used to update
+   *     the zf0Norm.
+   * @param targetNormEli the eli of the target norm to filter the active mods out of the amending
+   *     law.
    */
-  record Query(Norm norm, Norm amendingNorm) {}
+  record Query(Norm zf0Norm, Norm amendingNorm, String targetNormEli) {}
 }
