@@ -9,8 +9,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -313,29 +311,5 @@ public class ArticleController {
         .loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid, atIsoDate))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
-  }
-
-  private Optional<String> getArticleHtml(String eli, String eid, Optional<String> atIsoDate) {
-    return loadNormUseCase
-        .loadNorm(new LoadNormUseCase.Query(eli))
-        .map(
-            norm -> {
-              if (atIsoDate.isEmpty()) return norm; // no date given -> use the norm unchanged
-              else {
-                return applyPassiveModificationsUseCase.applyPassiveModifications(
-                    new ApplyPassiveModificationsUseCase.Query(
-                        norm, Instant.parse(atIsoDate.get())));
-              }
-            })
-        .map(Norm::getArticles)
-        .stream()
-        .flatMap(List::stream)
-        .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
-        .findFirst()
-        .map(article -> XmlMapper.toString(article.getNode()))
-        .map(
-            xml ->
-                this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false)));
   }
 }

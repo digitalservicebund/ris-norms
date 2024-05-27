@@ -9,14 +9,17 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
+/** Service for loading a norm's articles */
+@Service
 public class ArticleService implements LoadArticleHtmlUseCase {
 
   LoadNormPort loadNormPort;
   TimeMachineService timeMachineService;
   XsltTransformationService xsltTransformationService;
 
-  private ArticleService(
+  public ArticleService(
       LoadNormPort loadNormPort,
       TimeMachineService timeMachineService,
       XsltTransformationService xsltTransformationService) {
@@ -29,7 +32,7 @@ public class ArticleService implements LoadArticleHtmlUseCase {
   @Override
   public Optional<String> loadArticleHtml(final Query query) {
     return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.normEli()))
+        .loadNorm(new LoadNormPort.Command(query.eli()))
         .map(
             norm -> {
               if (query.atIsoDate().isEmpty())
@@ -45,8 +48,7 @@ public class ArticleService implements LoadArticleHtmlUseCase {
         .flatMap(List::stream)
         // TODO: Hannes split into separate filter steps
         .filter(
-            article ->
-                article.getEid().isPresent() && article.getEid().get().equals(query.articleEid()))
+            article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
         .findFirst()
         .map(article -> XmlMapper.toString(article.getNode()))
         .map(
