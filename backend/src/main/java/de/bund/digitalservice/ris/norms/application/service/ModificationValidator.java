@@ -25,7 +25,6 @@ public class ModificationValidator {
 
   public ModificationValidator(DBService dbService) {
     // TODO use specific port
-    // TODO create new, other exception
     this.dbService = dbService;
   }
 
