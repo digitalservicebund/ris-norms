@@ -9,7 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBServic
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -54,7 +54,7 @@ class ModificationValidatorTest {
     Throwable thrown = catchThrowable(() -> underTest.affectedDocumentsExists(amendingLaw));
 
     // then
-    assertThat(thrown).isInstanceOf(XmlProcessingException.class);
+    assertThat(thrown).isInstanceOf(XmlContentException.class);
   }
 
   @Test
@@ -80,7 +80,7 @@ class ModificationValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlProcessingException.class)
+        .isInstanceOf(XmlContentException.class)
         .hasMessageContaining("No matching eIds found");
   }
 
@@ -112,7 +112,7 @@ class ModificationValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlProcessingException.class)
+        .isInstanceOf(XmlContentException.class)
         .hasMessageContaining(
             "To many matching eIds for hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1 in target norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
   }
@@ -164,7 +164,7 @@ class ModificationValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlProcessingException.class)
+        .isInstanceOf(XmlContentException.class)
         .hasMessageContaining(
             "Some articles have empty affected document Elis. Here are the according article eIds: hauptteil-1_art-1");
   }
@@ -213,7 +213,7 @@ class ModificationValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlProcessingException.class)
+        .isInstanceOf(XmlContentException.class)
         .hasMessageContaining(
             "Some textual modifications have broken destination ranges. Here are the according textualMod eIds: meta-1_analysis-1_activemod-1_textualmod-1");
   }
@@ -253,7 +253,7 @@ class ModificationValidatorTest {
 
       // then
       assertThat(thrown)
-          .isInstanceOf(XmlProcessingException.class)
+          .isInstanceOf(XmlContentException.class)
           .hasMessageContaining("Article eId is empty.");
     }
 
@@ -305,7 +305,7 @@ class ModificationValidatorTest {
 
       // then
       assertThat(thrown)
-          .isInstanceOf(XmlProcessingException.class)
+          .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
               "AffectedDocument href is empty in article with eId hauptteil-1_art-1");
     }
@@ -374,7 +374,7 @@ class ModificationValidatorTest {
 
       // then
       assertThat(thrown)
-          .isInstanceOf(XmlProcessingException.class)
+          .isInstanceOf(XmlContentException.class)
           .hasMessageContaining("There is no mod in article with eId hauptteil-1_art-1");
     }
 
@@ -482,7 +482,7 @@ class ModificationValidatorTest {
 
       // then
       assertThat(thrown)
-          .isInstanceOf(XmlProcessingException.class)
+          .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
               "quotedText[1] (the old, to be replaced, text) is empty in article with eId hauptteil-1_art-1");
     }
@@ -592,7 +592,7 @@ class ModificationValidatorTest {
 
       // then
       assertThat(thrown)
-          .isInstanceOf(XmlProcessingException.class)
+          .isInstanceOf(XmlContentException.class)
           .hasMessageContaining("mod href is empty in article with eId hauptteil-1_art-1");
     }
 
@@ -701,7 +701,7 @@ class ModificationValidatorTest {
 
       // then
       assertThat(thrown)
-          .isInstanceOf(XmlProcessingException.class)
+          .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
               "The eId in mod href is empty in article with eId hauptteil-1_art-1");
     }
@@ -811,7 +811,7 @@ class ModificationValidatorTest {
 
       // then
       assertThat(thrown)
-          .isInstanceOf(XmlProcessingException.class)
+          .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
               "The character range in mod href is empty in article with eId hauptteil-1_art-1");
     }
@@ -827,7 +827,7 @@ class ModificationValidatorTest {
 
       // then
       assertThat(thrown)
-          .isInstanceOf(XmlProcessingException.class)
+          .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
               "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId hauptteil-1_art-1");
     }
@@ -848,7 +848,7 @@ class ModificationValidatorTest {
 
       // then
       assertThat(thrown)
-          .isInstanceOf(XmlProcessingException.class)
+          .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
               "Couldn't load target eId element in target law for article with eId hauptteil-1_art-1");
     }
@@ -888,7 +888,7 @@ class ModificationValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlProcessingException.class)
+        .isInstanceOf(XmlContentException.class)
         .hasMessageContaining("Elis are not consistent");
   }
 
@@ -915,7 +915,7 @@ class ModificationValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlProcessingException.class)
+        .isInstanceOf(XmlContentException.class)
         .hasMessageContaining("Eids are not consistent");
   }
 }
