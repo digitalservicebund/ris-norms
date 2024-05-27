@@ -481,7 +481,14 @@ public class Norm {
         .orElseThrow();
   }
 
+  /**
+   * TBD
+   *
+   * @param eId
+   * @return TBD
+   */
   public List<Node> getNodeByEid(String eId) {
+    // TODO maybe obsolete due to getByEId()?
     return getNodesFromExpression("//*[@eId='%s']".formatted(eId), document);
   }
 
