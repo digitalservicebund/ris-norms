@@ -35,12 +35,22 @@ public class ModificationValidator {
     throwErrorNoDestinationSet(amendingLaw);
     destinationEliIsConsistent(amendingLaw);
     destinationHrefIsConsistent(amendingLaw);
-    affectedDocumentsExists(amendingLaw);
     nodeWithGivenDestEidExists(amendingLaw);
 
     destNodeHasTextOnlyContent(amendingLaw);
     modHasValidDestRangeForDestNode(amendingLaw);
     oldTextExistsInTargetLaw(amendingLaw);
+  }
+
+  private Norm getTargetLaw(String affectedDocumentEli, String articleEId) {
+    return dbService
+        .loadNorm(new LoadNormPort.Command(affectedDocumentEli))
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId %s"
+                        .formatted(articleEId),
+                    null));
   }
 
   private String getTextualModEId(TextualMod tm) {
@@ -198,32 +208,6 @@ public class ModificationValidator {
   }
 
   /**
-   * Checks if the target law referenced from a modification command exists
-   *
-   * @param amendingLaw the amending law to be checked
-   */
-  public void affectedDocumentsExists(Norm amendingLaw) {
-    // TODO maybe obsolete due to oldTextExistsInTargetLaw()
-    // TODO not needed as already checked by NormService beforehand
-    List<String> affectedDocumentElis =
-        amendingLaw.getArticles().stream()
-            .map(Article::getAffectedDocumentEli)
-            .flatMap(Optional::stream)
-            .toList();
-
-    affectedDocumentElis.forEach(
-        eli ->
-            dbService
-                .loadNorm(new LoadNormPort.Command(eli))
-                .orElseThrow(
-                    () ->
-                        new XmlContentException(
-                            "Could not find a norm with the eli %s for the amending law %s"
-                                .formatted(eli, amendingLaw.getEli()),
-                            null)));
-  }
-
-  /**
    * Checks whether an eid that is referenced in an amending law exists in the target law
    *
    * @param amendingLaw the amending law to be checked
@@ -323,17 +307,7 @@ public class ModificationValidator {
                                   "The character range in mod href is empty in article with eId %s"
                                       .formatted(articleEId),
                                   null));
-
-              // TODO this may obsoletes affectedDocumentsExists()
-              Norm targetLaw =
-                  dbService
-                      .loadNorm(new LoadNormPort.Command(affectedDocumentEli))
-                      .orElseThrow(
-                          () ->
-                              new XmlContentException(
-                                  "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId %s"
-                                      .formatted(articleEId),
-                                  null));
+              Norm targetLaw = getTargetLaw(affectedDocumentEli, articleEId);
 
               // TODO put here nodeWithGivenDestEidExists() to check if there is exactly 1 node with
               // that eId
