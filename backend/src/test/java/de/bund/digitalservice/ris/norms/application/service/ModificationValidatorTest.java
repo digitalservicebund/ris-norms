@@ -925,8 +925,7 @@ class ModificationValidatorTest {
   @Test
   void ThrowExceptionIfDestinationEidIsNotConsistent() {
     // given
-    // TODO rename and fix typo in xml name -> NormWithInconsistentEid
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistenEid.xml");
+    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistentEid.xml");
     final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
     when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
