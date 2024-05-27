@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -90,10 +91,11 @@ class HrefTest {
       var href = new Href("#para-20_abs-1/100-126");
 
       // when
-      var characterRange = href.getCharacterRange();
+      Optional<CharacterRange> characterRange = href.getCharacterRange();
 
       // then
-      assertThat(characterRange).contains("100-126");
+      assertThat(characterRange).isPresent();
+      assertThat(characterRange.get().characterRange()).contains("100-126");
     }
 
     @Test
@@ -116,10 +118,11 @@ class HrefTest {
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml");
 
       // when
-      var characterRange = href.getCharacterRange();
+      Optional<CharacterRange> characterRange = href.getCharacterRange();
 
       // then
-      assertThat(characterRange).contains("100-126");
+      assertThat(characterRange).isPresent();
+      assertThat(characterRange.get().characterRange()).contains("100-126");
     }
 
     @Test
@@ -145,7 +148,7 @@ class HrefTest {
           new Href.Builder()
               .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
               .setEId("para-20_abs-1")
-              .setCharacterRange("100-126")
+              .setCharacterRange(new CharacterRange.Builder().withStart(100).withEnd(126).build())
               .setFileExtension("xml")
               .buildRelative();
 
@@ -174,7 +177,7 @@ class HrefTest {
           new Href.Builder()
               .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
               .setEId("para-20_abs-1")
-              .setCharacterRange("100-126")
+              .setCharacterRange(new CharacterRange.Builder().withStart(100).withEnd(126).build())
               .setFileExtension("xml")
               .buildAbsolute();
 

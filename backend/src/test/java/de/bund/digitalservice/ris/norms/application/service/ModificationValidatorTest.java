@@ -152,55 +152,6 @@ class ModificationValidatorTest {
     }
   }
 
-  @Test
-  void validDestinationRange() {
-
-    // given
-    // TODO is this okay or shall this be in a separate file?
-    var amendingLawXml =
-        """
-              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-              <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                  <akn:act name="regelungstext">
-                      <!-- Metadaten -->
-                      <akn:meta eId="meta-1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">
-                          <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1"
-                                        source="attributsemantik-noch-undefiniert">
-                              <akn:activeModifications eId="meta-1_analysis-1_activemod-1"
-                                                       GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
-                                  <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-1"
-                                                  GUID="2e5533d3-d0e3-43ba-aa1a-5859d108eb46" type="substitution">
-                                      <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1"
-                                                  GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6"
-                                                  href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
-                                      <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
-                                                       GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                                                       href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1/THIS_DOES_NOT_WORK.xml"/>
-                                      <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
-                                                 GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
-                                                 period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
-                                  </akn:textualMod>
-                              </akn:activeModifications>
-                          </akn:analysis>
-                      </akn:meta>
-                  </akn:act>
-              </akn:akomaNtoso>
-            """;
-
-    Norm amendingLaw = new Norm(XmlMapper.toDocument(amendingLawXml));
-
-    // when
-    Throwable thrown = catchThrowable(() -> underTest.modHasValidDestRangeForDestNode(amendingLaw));
-
-    // then
-    assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
-        .hasMessageContaining(
-            "Some textual modifications have broken destination ranges. Here are the according textualMod eIds: meta-1_analysis-1_activemod-1_textualmod-1");
-  }
-
   @Nested
   class oldTextExistsInTargetLaw {
 

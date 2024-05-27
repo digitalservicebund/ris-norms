@@ -72,7 +72,7 @@ public record Href(String value) {
    *
    * @return The character range of the href or empty if no character range is included.
    */
-  public Optional<String> getCharacterRange() {
+  public Optional<CharacterRange> getCharacterRange() {
     if (isRelative()) {
       var splitHref = value().replaceFirst("^#", "").split("/");
 
@@ -80,7 +80,7 @@ public record Href(String value) {
         return Optional.empty();
       }
 
-      return Optional.of(splitHref[RELATIVE_POSITION_OF_CHARACTER_RANGE]);
+      return Optional.of(new CharacterRange(splitHref[RELATIVE_POSITION_OF_CHARACTER_RANGE]));
     }
 
     var splitHref = value().split("/");
@@ -89,14 +89,16 @@ public record Href(String value) {
       return Optional.empty();
     }
 
-    return Optional.of(Href.removeFileExtension(splitHref[ABSOLUTE_POSITION_OF_CHARACTER_RANGE]));
+    return Optional.of(
+        new CharacterRange(
+            Href.removeFileExtension(splitHref[ABSOLUTE_POSITION_OF_CHARACTER_RANGE])));
   }
 
   /** Builder for creating a new {@link Href}. */
   public static class Builder {
     private String eli;
     private String eId;
-    private String characterRange;
+    private CharacterRange characterRange;
     private String fileExtension;
 
     /**
@@ -127,7 +129,7 @@ public record Href(String value) {
      * @param characterRange the character range
      * @return the builder instance
      */
-    public Builder setCharacterRange(String characterRange) {
+    public Builder setCharacterRange(CharacterRange characterRange) {
       this.characterRange = characterRange;
       return this;
     }

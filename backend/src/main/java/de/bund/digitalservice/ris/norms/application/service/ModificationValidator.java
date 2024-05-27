@@ -1,15 +1,11 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import static java.lang.Integer.parseInt;
-
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +33,6 @@ public class ModificationValidator {
     destinationHrefIsConsistent(amendingLaw);
 
     destNodeHasTextOnlyContent(amendingLaw);
-    modHasValidDestRangeForDestNode(amendingLaw);
     oldTextExistsInTargetLaw(amendingLaw);
   }
 
@@ -261,7 +256,7 @@ public class ModificationValidator {
                                   "The eId in mod href is empty in article with eId %s"
                                       .formatted(articleEId),
                                   null));
-              String characterRange =
+              CharacterRange characterRange =
                   targetHref
                       .getCharacterRange()
                       .orElseThrow(
@@ -290,36 +285,45 @@ public class ModificationValidator {
 
               // TODO what if paragraphText is empty string?
 
-              // TODO move to a new CharacterRange class
-              String[] range = characterRange.split("-");
               // TODO test for that throw
-              if (range.length != 2)
-                throw new XmlContentException(
-                    "The character range in mod href is not valid (no range given) in article with eId %s"
-                        .formatted(articleEId),
-                    null);
-
-              // TODO parseInt could fail -> partly covered by modHasValidDestRangeForDestNode()
-              int from = parseInt(range[0]);
-              int to = parseInt(range[1]);
+              int start =
+                  characterRange
+                      .getStart()
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "The character range in mod href is not valid (no start given) in article with eId %s"
+                                      .formatted(articleEId),
+                                  null));
 
               // TODO test for that throw
-              if (from >= to)
+              int end =
+                  characterRange
+                      .getEnd()
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "The character range in mod href is not valid (no end given) in article with eId %s"
+                                      .formatted(articleEId),
+                                  null));
+
+              // TODO test for that throw
+              if (!characterRange.isEndGreaterEqualsStart())
                 throw new XmlContentException(
                     "The character range in mod href is not valid (%s >= %s) in article with eId %s"
-                        .formatted(from, to, articleEId),
+                        .formatted(start, end, articleEId),
                     null);
 
               // TODO test for that throw
               // TODO add test when text to be replaced is at the end
               // TODO this is most probably not correct -> <=
-              if (paragraphText.length() < to)
+              if (paragraphText.length() < end)
                 throw new XmlContentException(
                     "The character range in mod href is not valid (target paragraph is to short) in article with eId %s"
                         .formatted(articleEId),
                     null);
 
-              String textToBeReplaced = paragraphText.substring(from, to);
+              String textToBeReplaced = paragraphText.substring(start, end);
 
               // TODO test for that throw and improve error message
               if (!textToBeReplaced.equals(oldText))
@@ -334,40 +338,6 @@ public class ModificationValidator {
       throw new XmlContentException(
           "To many matching eIds (%s) for article %s in target norm %s"
               .formatted(targetHrefEId, articleEId, affectedDocumentEli),
-          null);
-    }
-  }
-
-  /**
-   * Throws an error if any of the textualModifications of the passed amendingLaw has a broken
-   * destination href character range. The error message contains a comma separated list of all
-   * textualMod eIds, that are affected. Pre-assumption: For this to work, the textualMod needs to
-   * have a valid eId.
-   *
-   * @param amendingLaw the amending law to be checked
-   */
-  public void modHasValidDestRangeForDestNode(Norm amendingLaw) {
-    final String regex = "^\\d*-\\d*$";
-    final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-
-    // TODO also check article -> mod
-    List<String> textualModEidsWhereDestRangeIsBroken =
-        amendingLaw.getActiveModifications().stream()
-            .filter(
-                tm ->
-                    (tm.getDestinationHref().isEmpty()
-                            || tm.getDestinationHref().get().getCharacterRange().isEmpty()
-                            || !pattern
-                                .matcher(tm.getDestinationHref().get().getCharacterRange().get())
-                                .hasMatch())
-                        && tm.getEid().isPresent())
-            .map(am -> am.getEid().get())
-            .toList();
-
-    if (!textualModEidsWhereDestRangeIsBroken.isEmpty()) {
-      throw new XmlContentException(
-          "Some textual modifications have broken destination ranges. Here are the according textualMod eIds: %s"
-              .formatted(String.join(", ", textualModEidsWhereDestRangeIsBroken)),
           null);
     }
   }
