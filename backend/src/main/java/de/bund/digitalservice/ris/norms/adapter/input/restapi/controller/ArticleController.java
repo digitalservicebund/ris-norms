@@ -6,7 +6,6 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
@@ -226,7 +225,7 @@ public class ArticleController {
   @GetMapping(
       path = "/{eid}",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ArticleResponseSchema> getArticleResponse(
+  public ResponseEntity<ArticleResponseSchema> getArticle(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
@@ -238,7 +237,11 @@ public class ArticleController {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    var optionalArticle = getArticle(eli, eid);
+    var optionalArticle =
+        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
+            .flatMap(List::stream)
+            .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
+            .findFirst();
 
     if (optionalArticle.isEmpty()) {
       return ResponseEntity.notFound().build();
@@ -255,13 +258,6 @@ public class ArticleController {
             .orElse(null);
 
     return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(article, targetLawZf0));
-  }
-
-  private Optional<Article> getArticle(String eli, String eid) {
-    return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
-        .flatMap(List::stream)
-        .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
-        .findFirst();
   }
 
   /**
@@ -307,6 +303,26 @@ public class ArticleController {
       } catch (Exception e) {
         return ResponseEntity.badRequest().build();
       }
+
+      return loadNormUseCase
+          .loadNorm(new LoadNormUseCase.Query(eli))
+          .map(
+              norm ->
+                  applyPassiveModificationsUseCase.applyPassiveModifications(
+                      new ApplyPassiveModificationsUseCase.Query(
+                          norm, Instant.parse(atIsoDate.get()))))
+          .map(Norm::getArticles)
+          .stream()
+          .flatMap(List::stream)
+          .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
+          .findFirst()
+          .map(article -> XmlMapper.toString(article.getNode()))
+          .map(
+              xml ->
+                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                      new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
+          .map(ResponseEntity::ok)
+          .orElse(ResponseEntity.notFound().build());
     }
 
     return getArticleHtml(eli, eid, atIsoDate)
