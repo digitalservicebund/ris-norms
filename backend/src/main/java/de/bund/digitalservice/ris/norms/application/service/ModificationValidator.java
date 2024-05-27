@@ -119,15 +119,15 @@ public class ModificationValidator {
             .toList();
 
     affectedDocumentElis.forEach(
-        eli -> {
-          Optional<Norm> norm = dbService.loadNorm(new LoadNormPort.Command(eli));
-          if (norm.isEmpty()) {
-            throw new XmlContentException(
-                "Could not find a norm with the eli %s for the amending law %s"
-                    .formatted(eli, amendingLaw.getEli()),
-                null);
-          }
-        });
+        eli ->
+            dbService
+                .loadNorm(new LoadNormPort.Command(eli))
+                .orElseThrow(
+                    () ->
+                        new XmlContentException(
+                            "Could not find a norm with the eli %s for the amending law %s"
+                                .formatted(eli, amendingLaw.getEli()),
+                            null)));
   }
 
   /**
@@ -176,77 +176,97 @@ public class ModificationValidator {
         .getArticles()
         .forEach(
             article -> {
-              if (article.getEid().isEmpty())
-                throw new XmlContentException("Article eId is empty.", null);
-              if (article.getAffectedDocumentEli().isEmpty())
-                throw new XmlContentException(
-                    "AffectedDocument href is empty in article with eId %s"
-                        .formatted(article.getEid().get()),
-                    null);
-              if (article.getMod().isEmpty())
-                throw new XmlContentException(
-                    "There is no mod in article with eId %s".formatted(article.getEid().get()),
-                    null);
-              if (article.getMod().get().getOldText().isEmpty())
-                throw new XmlContentException(
-                    "quotedText[1] (the old, to be replaced, text) is empty in article with eId %s"
-                        .formatted(article.getEid().get()),
-                    null);
-              if (article.getMod().get().getTargetHref().isEmpty())
-                throw new XmlContentException(
-                    "mod href is empty in article with eId %s".formatted(article.getEid().get()),
-                    null);
-              if (article.getMod().get().getTargetHref().get().getEId().isEmpty())
-                throw new XmlContentException(
-                    "The eId in mod href is empty in article with eId %s"
-                        .formatted(article.getEid().get()),
-                    null);
-              if (article.getMod().get().getTargetHref().get().getCharacterRange().isEmpty())
-                throw new XmlContentException(
-                    "The character range in mod href is empty in article with eId %s"
-                        .formatted(article.getEid().get()),
-                    null);
-
-              Optional<Norm> normOptional =
-                  dbService.loadNorm(
-                      new LoadNormPort.Command(article.getAffectedDocumentEli().get()));
+              String articleEId =
+                  article
+                      .getEid()
+                      .orElseThrow(() -> new XmlContentException("Article eId is empty.", null));
+              String affectedDocumentEli =
+                  article
+                      .getAffectedDocumentEli()
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "AffectedDocument href is empty in article with eId %s"
+                                      .formatted(articleEId),
+                                  null));
+              Mod mod =
+                  article
+                      .getMod()
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "There is no mod in article with eId %s".formatted(articleEId),
+                                  null));
+              String oldText =
+                  mod.getOldText()
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "quotedText[1] (the old, to be replaced, text) is empty in article with eId %s"
+                                      .formatted(articleEId),
+                                  null));
+              Href targetHref =
+                  mod.getTargetHref()
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "mod href is empty in article with eId %s".formatted(articleEId),
+                                  null));
+              String targetHrefEId =
+                  targetHref
+                      .getEId()
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "The eId in mod href is empty in article with eId %s"
+                                      .formatted(articleEId),
+                                  null));
+              String characterRange =
+                  targetHref
+                      .getCharacterRange()
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "The character range in mod href is empty in article with eId %s"
+                                      .formatted(articleEId),
+                                  null));
 
               // TODO this may obsoletes affectedDocumentsExists()
-              if (normOptional.isEmpty())
-                throw new XmlContentException(
-                    "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId %s"
-                        .formatted(article.getEid().get()),
-                    null);
+              Norm targetLaw =
+                  dbService
+                      .loadNorm(new LoadNormPort.Command(affectedDocumentEli))
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId %s"
+                                      .formatted(articleEId),
+                                  null));
 
-              if (normOptional
-                  .get()
-                  .getByEId(article.getMod().get().getTargetHref().get().getEId().get())
-                  .isEmpty())
-                throw new XmlContentException(
-                    "Couldn't load target eId element in target law for article with eId %s"
-                        .formatted(article.getEid().get()),
-                    null);
+              // TODO put here nodeWithGivenDestEidExists() to check if there is exactly 1 node with
+              // that eId
 
-              String paragraphText =
-                  normOptional
-                      .get()
-                      .getByEId(article.getMod().get().getTargetHref().get().getEId().get())
-                      .get()
-                      .getTextContent();
+              Node targetNode =
+                  targetLaw
+                      .getByEId(targetHrefEId)
+                      .orElseThrow(
+                          () ->
+                              new XmlContentException(
+                                  "Couldn't load target eId element in target law for article with eId %s"
+                                      .formatted(articleEId),
+                                  null));
+
+              // normalizeSpace removes double spaces and new lines
+              String paragraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
 
               // TODO what if paragraphText is empty string?
 
-              // TODO critical part
-              paragraphText = StringUtils.normalizeSpace(paragraphText);
-
               // TODO move to a new CharacterRange class
-              String[] range =
-                  article.getMod().get().getTargetHref().get().getCharacterRange().get().split("-");
+              String[] range = characterRange.split("-");
               // TODO test for that throw
               if (range.length != 2)
                 throw new XmlContentException(
                     "The character range in mod href is not valid (no range given) in article with eId %s"
-                        .formatted(article.getEid().get()),
+                        .formatted(articleEId),
                     null);
 
               // TODO parseInt could fail -> partly covered by modHasValidDestRangeForDestNode()
@@ -257,7 +277,7 @@ public class ModificationValidator {
               if (from >= to)
                 throw new XmlContentException(
                     "The character range in mod href is not valid (%s >= %s) in article with eId %s"
-                        .formatted(from, to, article.getEid().get()),
+                        .formatted(from, to, articleEId),
                     null);
 
               // TODO test for that throw
@@ -266,13 +286,13 @@ public class ModificationValidator {
               if (paragraphText.length() < to)
                 throw new XmlContentException(
                     "The character range in mod href is not valid (target paragraph is to short) in article with eId %s"
-                        .formatted(article.getEid().get()),
+                        .formatted(articleEId),
                     null);
 
               String textToBeReplaced = paragraphText.substring(from, to);
 
               // TODO test for that throw and improve error message
-              if (!textToBeReplaced.equals(article.getMod().get().getOldText().get()))
+              if (!textToBeReplaced.equals(oldText))
                 throw new XmlContentException("Error TBD 7", null);
             });
   }
