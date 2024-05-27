@@ -138,7 +138,7 @@ public class ModificationValidator {
   }
 
   /**
-   * Checks whether an reference to a target law in an amending law is consistent in
+   * Checks whether a reference to a target law in an amending law is consistent in
    * akn:activeModifications - destination and akn:mod
    *
    * @param amendingLaw the amending law to be checked
@@ -174,7 +174,7 @@ public class ModificationValidator {
   }
 
   /**
-   * Checks whether an reference to a target law in an amending law is consistent in
+   * Checks whether a reference to a target law in an amending law is consistent in
    * akn:activeModifications - destination and akn:mod
    *
    * @param amendingLaw the amending law to be checked
