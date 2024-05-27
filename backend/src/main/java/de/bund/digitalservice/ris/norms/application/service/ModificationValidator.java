@@ -53,31 +53,25 @@ public class ModificationValidator {
     Set<String> affectedDocumentElis =
         amendingLaw.getArticles().stream()
             .map(Article::getAffectedDocumentEli)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .collect(Collectors.toSet());
 
     Set<String> activeModificationsDestinationElis =
         amendingLaw.getActiveModifications().stream()
             .map(TextualMod::getDestinationHref)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .map(Href::getEli)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .collect(Collectors.toSet());
 
     Set<String> aknModElis =
         amendingLaw.getArticles().stream()
             .map(Article::getMod)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .map(Mod::getTargetHref)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .map(Href::getEli)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .collect(Collectors.toSet());
 
     if (!affectedDocumentElis.equals(activeModificationsDestinationElis)
@@ -96,18 +90,15 @@ public class ModificationValidator {
     Set<Href> activeModificationsDestinationElis =
         amendingLaw.getActiveModifications().stream()
             .map(TextualMod::getDestinationHref)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .collect(Collectors.toSet());
 
     Set<Href> aknModElis =
         amendingLaw.getArticles().stream()
             .map(Article::getMod)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .map(Mod::getTargetHref)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .collect(Collectors.toSet());
     if (!activeModificationsDestinationElis.equals(aknModElis))
       throw new XmlContentException("Eids are not consistent", null);
@@ -124,8 +115,7 @@ public class ModificationValidator {
     List<String> affectedDocumentElis =
         amendingLaw.getArticles().stream()
             .map(Article::getAffectedDocumentEli)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .toList();
 
     affectedDocumentElis.forEach(
@@ -150,8 +140,7 @@ public class ModificationValidator {
     List<Href> affectedDocumentElis =
         amendingLaw.getActiveModifications().stream()
             .map(TextualMod::getDestinationHref)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .toList();
 
     affectedDocumentElis.forEach(
@@ -341,8 +330,7 @@ public class ModificationValidator {
         amendingLaw.getArticles().stream()
             .filter(a -> a.getAffectedDocumentEli().isEmpty())
             .map(Article::getEid)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .toList();
 
     if (!articleEidsWhereAffectedDocumentEliIsEmpty.isEmpty()) {
