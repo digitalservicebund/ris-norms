@@ -10,7 +10,6 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,6 +37,7 @@ class ArticleControllerTest {
   @MockBean private LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  @MockBean private LoadArticleHtmlUseCase loadArticleHtmlUseCase;
 
   @Nested
   class getArticles {
@@ -537,8 +537,7 @@ class ArticleControllerTest {
 
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<div></div>");
+      when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenReturn(Optional.of("<div></div>"));
 
       // When // Then
       mockMvc
@@ -547,14 +546,6 @@ class ArticleControllerTest {
                   .accept(MediaType.TEXT_HTML))
           .andExpect(status().isOk())
           .andExpect(content().string("<div></div>"));
-
-      verify(loadNormUseCase, times(1))
-          .loadNorm(
-              argThat(
-                  argument ->
-                      Objects.equals(
-                          argument.eli(),
-                          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")));
     }
 
     @Test
@@ -613,6 +604,7 @@ class ArticleControllerTest {
 
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenReturn(Optional.empty());
 
       // When // Then
       mockMvc
@@ -620,14 +612,6 @@ class ArticleControllerTest {
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-4523")
                   .accept(MediaType.TEXT_HTML))
           .andExpect(status().isNotFound());
-
-      verify(loadNormUseCase, times(1))
-          .loadNorm(
-              argThat(
-                  argument ->
-                      Objects.equals(
-                          argument.eli(),
-                          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")));
     }
 
     @Test
@@ -655,20 +639,8 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticleRenderAtIsoDate() throws Exception {
       // Given
-      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-
-      // When
-      when(loadNormUseCase.loadNorm(
-              new LoadNormUseCase.Query(
-                  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")))
-          .thenReturn(Optional.of(targetNorm));
-
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<div></div>");
-
-      when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(targetNorm);
-
+      when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenReturn(Optional.of("<div></div>"));
+      // when
       // Then
       mockMvc
           .perform(
@@ -676,19 +648,6 @@ class ArticleControllerTest {
                   .accept(MediaType.TEXT_HTML))
           .andExpect(status().isOk())
           .andExpect(content().string("<div></div>"));
-
-      verify(loadNormUseCase)
-          .loadNorm(
-              new LoadNormUseCase.Query(
-                  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"));
-
-      verify(applyPassiveModificationsUseCase)
-          .applyPassiveModifications(
-              new ApplyPassiveModificationsUseCase.Query(
-                  targetNorm, Instant.parse("2017-03-01T00:00:00.000Z")));
-
-      verify(transformLegalDocMlToHtmlUseCase)
-          .transformLegalDocMlToHtml(new TransformLegalDocMlToHtmlUseCase.Query(any(), false));
     }
 
     @Test

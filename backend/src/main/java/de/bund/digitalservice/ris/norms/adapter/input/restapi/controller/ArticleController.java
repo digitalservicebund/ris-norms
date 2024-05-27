@@ -32,18 +32,21 @@ public class ArticleController {
   private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
 
   public ArticleController(
       LoadNormUseCase loadNormUseCase,
       LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase,
       LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
+      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
+      LoadArticleHtmlUseCase loadArticleHtmlUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNextVersionOfNormUseCase = loadNextVersionOfNormUseCase;
     this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
+    this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
   }
 
   /**
@@ -306,7 +309,8 @@ public class ArticleController {
       }
     }
 
-    return getArticleHtml(eli, eid, atIsoDate)
+    return loadArticleHtmlUseCase
+        .loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid, atIsoDate))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
