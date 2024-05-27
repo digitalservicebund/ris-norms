@@ -489,6 +489,7 @@ public class Norm {
    */
   public List<Node> getNodeByEid(String eId) {
     // TODO maybe obsolete due to getByEId()?
+    // TODO oh it's a list on purpose. Then at least getNodesByEid plural and wrapped optional
     return getNodesFromExpression("//*[@eId='%s']".formatted(eId), document);
   }
 
