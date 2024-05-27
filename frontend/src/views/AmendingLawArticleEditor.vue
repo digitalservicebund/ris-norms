@@ -110,13 +110,34 @@ function handlePreviewClick() {
 
 async function handleGeneratePreview() {
   if (!targetLawEli.value) return
+
   try {
-    const [xmlContent, htmlContent] = await Promise.all([
-      previewNorm(targetLawEli.value, currentArticleXml.value),
-      previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
-    ])
-    previewXml.value = xmlContent
-    previewHtml.value = htmlContent
+    if (timeBoundary.value) {
+      const response = await previewUpdateMod(eli.value, selectedMod.value, {
+        refersTo: selectedMod.value,
+        timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
+        destinationHref: destinationHref.value,
+        oldText: quotedTextFirst.value,
+        newText: quotedTextSecond.value,
+      })
+
+      previewXml.value = response.targetNormXml
+      previewHtml.value = await renderHtmlLaw(
+        previewXml.value,
+        false,
+        new Date(timeBoundary.value.date),
+        {
+          [eli.value]: response.amendingNormXml,
+        },
+      )
+    } else {
+      const [xmlContent, htmlContent] = await Promise.all([
+        previewNorm(targetLawEli.value, currentArticleXml.value),
+        previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
+      ])
+      previewXml.value = xmlContent
+      previewHtml.value = htmlContent
+    }
   } catch (error) {
     alert("Vorschau konnte nicht erstellt werden")
     console.error(error)
@@ -131,6 +152,7 @@ const {
   quotedTextSecond,
   timeBoundary,
   updateMod,
+  previewUpdateMod,
 } = useMod(selectedMod, articleXml)
 
 watch(selectedMod, () => {
@@ -154,6 +176,7 @@ async function handleSave() {
   try {
     const response = await updateMod(eli.value, selectedMod.value, updatedMods)
     currentArticleXml.value = response.amendingNormXml
+    previewXml.value = response.targetNormXml
   } catch (error) {
     console.error("Error saving the mod:", error)
   }
