@@ -149,13 +149,11 @@ async function handleSave() {
   }
 
   try {
-    const responseXml = await updateMod(
+    currentArticleXml.value = await updateMod(
       eli.value,
       selectedMod.value,
       updatedMods,
     )
-    previewXml.value = responseXml
-    previewHtml.value = await renderHtmlLaw(responseXml, false)
   } catch (error) {
     console.error("Error saving the mod:", error)
   }
