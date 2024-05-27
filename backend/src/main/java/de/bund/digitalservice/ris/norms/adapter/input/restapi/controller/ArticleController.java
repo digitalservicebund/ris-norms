@@ -304,26 +304,6 @@ public class ArticleController {
       } catch (Exception e) {
         return ResponseEntity.badRequest().build();
       }
-
-      return loadNormUseCase
-          .loadNorm(new LoadNormUseCase.Query(eli))
-          .map(
-              norm ->
-                  applyPassiveModificationsUseCase.applyPassiveModifications(
-                      new ApplyPassiveModificationsUseCase.Query(
-                          norm, Instant.parse(atIsoDate.get()))))
-          .map(Norm::getArticles)
-          .stream()
-          .flatMap(List::stream)
-          .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
-          .findFirst()
-          .map(article -> XmlMapper.toString(article.getNode()))
-          .map(
-              xml ->
-                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                      new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
-          .map(ResponseEntity::ok)
-          .orElse(ResponseEntity.notFound().build());
     }
 
     return getArticleHtml(eli, eid, atIsoDate)
