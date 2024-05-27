@@ -24,6 +24,8 @@ public class ModificationValidator {
   private final DBService dbService;
 
   public ModificationValidator(DBService dbService) {
+    // TODO use specific port
+    // TODO create new, other exception
     this.dbService = dbService;
   }
 
@@ -91,6 +93,7 @@ public class ModificationValidator {
    * @param amendingLaw the amending law to be checked
    */
   public void destinationHrefIsConsistent(Norm amendingLaw) {
+    // TODO rename variables
     Set<Href> activeModificationsDestinationElis =
         amendingLaw.getActiveModifications().stream()
             .map(TextualMod::getDestinationHref)
@@ -118,6 +121,7 @@ public class ModificationValidator {
    */
   public void affectedDocumentsExists(Norm amendingLaw) {
     // TODO maybe obsolete due to oldTextExistsInTargetLaw()
+    // TODO not needed as already checked by NormService beforehand
     List<String> affectedDocumentElis =
         amendingLaw.getArticles().stream()
             .map(Article::getAffectedDocumentEli)
@@ -247,6 +251,7 @@ public class ModificationValidator {
               // TODO critical part
               paragraphText = StringUtils.normalizeSpace(paragraphText);
 
+              // TODO move to a new CharacterRange class
               String[] range =
                   article.getMod().get().getTargetHref().get().getCharacterRange().get().split("-");
               // TODO test for that throw
@@ -256,7 +261,7 @@ public class ModificationValidator {
                         .formatted(article.getEid().get()),
                     null);
 
-              // TODO parseInt could fail
+              // TODO parseInt could fail -> partly covered by modHasValidDestRangeForDestNode()
               int from = parseInt(range[0]);
               int to = parseInt(range[1]);
 
@@ -268,6 +273,8 @@ public class ModificationValidator {
                     null);
 
               // TODO test for that throw
+              // TODO add test when text to be replaced is at the end
+              // TODO this is most probably not correct -> <=
               if (paragraphText.length() < to)
                 throw new XmlProcessingException(
                     "The character range in mod href is not valid (target paragraph is to short) in article with eId %s"
@@ -294,6 +301,7 @@ public class ModificationValidator {
     final String regex = "^\\d*-\\d*$";
     final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 
+    // TODO also check article -> mod
     List<String> textualModEidsWhereDestRangeIsBroken =
         amendingLaw.getActiveModifications().stream()
             .filter(
@@ -329,6 +337,7 @@ public class ModificationValidator {
    * @param amendingLaw the amending law to be checked
    */
   public void throwErrorNoDestinationSet(Norm amendingLaw) {
+    // TODO need to test for the other two Elis, too.
     List<String> articleEidsWhereAffectedDocumentEliIsEmpty =
         amendingLaw.getArticles().stream()
             .filter(a -> a.getAffectedDocumentEli().isEmpty())
