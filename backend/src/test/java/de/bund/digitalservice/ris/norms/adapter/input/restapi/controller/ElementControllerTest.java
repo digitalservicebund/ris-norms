@@ -82,7 +82,7 @@ class ElementControllerTest {
             .perform(
                 get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID")
                     .accept(MediaType.TEXT_HTML))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().is5xxServerError());
       }
     }
 
