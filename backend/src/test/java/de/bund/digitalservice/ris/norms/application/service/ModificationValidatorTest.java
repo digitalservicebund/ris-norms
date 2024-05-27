@@ -32,17 +32,6 @@ class ModificationValidatorTest {
   }
 
   @Test
-  void nodeWithGivenDestEidExists() {
-    // given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
-
-    // when/then
-    Assertions.assertDoesNotThrow(() -> underTest.nodeWithGivenDestEidExists(amendingLaw));
-  }
-
-  @Test
   void nodeWithGivenDestEidDoesNotExists() {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -50,12 +39,13 @@ class ModificationValidatorTest {
     when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.nodeWithGivenDestEidExists(amendingLaw));
+    Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
 
     // then
     assertThat(thrown)
         .isInstanceOf(XmlContentException.class)
-        .hasMessageContaining("No matching eIds found");
+        .hasMessageContaining(
+            "Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) element in target law (eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1) for article with eId hauptteil-1_art-1");
   }
 
   @Test
@@ -78,17 +68,17 @@ class ModificationValidatorTest {
       </akn:FRBRExpression>
       <test eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test>
       <test2 eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test2>
-      </wrap>
+    </wrap>
     """))));
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.nodeWithGivenDestEidExists(amendingLaw));
+    Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
 
     // then
     assertThat(thrown)
         .isInstanceOf(XmlContentException.class)
         .hasMessageContaining(
-            "To many matching eIds for hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1 in target norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
+            "To many matching eIds (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) for article hauptteil-1_art-1 in target norm eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
   }
 
   @Nested
@@ -823,27 +813,6 @@ class ModificationValidatorTest {
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
               "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId hauptteil-1_art-1");
-    }
-
-    @Test
-    void nodeWithGivenDestEidDoesNotExist() {
-      // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      when(dbService.loadNorm(any()))
-          .thenReturn(
-              Optional.of(
-                  new Norm(
-                      XmlMapper.toDocument(
-                          "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <test>content</test>"))));
-
-      // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
-
-      // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "Couldn't load target eId element in target law for article with eId hauptteil-1_art-1");
     }
 
     @Test

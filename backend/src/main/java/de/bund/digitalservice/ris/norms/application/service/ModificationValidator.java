@@ -35,7 +35,6 @@ public class ModificationValidator {
     throwErrorNoDestinationSet(amendingLaw);
     destinationEliIsConsistent(amendingLaw);
     destinationHrefIsConsistent(amendingLaw);
-    nodeWithGivenDestEidExists(amendingLaw);
 
     destNodeHasTextOnlyContent(amendingLaw);
     modHasValidDestRangeForDestNode(amendingLaw);
@@ -208,42 +207,6 @@ public class ModificationValidator {
   }
 
   /**
-   * Checks whether an eid that is referenced in an amending law exists in the target law
-   *
-   * @param amendingLaw the amending law to be checked
-   */
-  public void nodeWithGivenDestEidExists(Norm amendingLaw) {
-    // TODO log error or throw exception when eId is empty
-    List<Href> affectedDocumentElis =
-        amendingLaw.getActiveModifications().stream()
-            .map(TextualMod::getDestinationHref)
-            .flatMap(Optional::stream)
-            .toList();
-
-    affectedDocumentElis.forEach(
-        destination -> {
-          if (destination.getEli().isPresent()) {
-            Optional<Norm> targetNorm =
-                dbService.loadNorm(new LoadNormPort.Command(destination.getEli().get()));
-            if (destination.getEId().isPresent() && targetNorm.isPresent()) {
-              List<Node> targetLawNode = targetNorm.get().getNodeByEid(destination.getEId().get());
-              if (targetLawNode.size() > 1) {
-                throw new XmlContentException(
-                    "To many matching eIds for %s in target norm %s"
-                        .formatted(
-                            destination.getEId().orElse(""), targetNorm.get().getEli().orElse("")),
-                    null);
-              }
-              if (targetLawNode.isEmpty()) {
-                throw new XmlContentException("No matching eIds found", null);
-              }
-              log.info("EId found");
-            }
-          }
-        });
-  }
-
-  /**
    * Checks if the text to be replaced is present in the target law
    *
    * @param amendingLaw the amending law to be checked
@@ -309,8 +272,8 @@ public class ModificationValidator {
                                   null));
               Norm targetLaw = getTargetLaw(affectedDocumentEli, articleEId);
 
-              // TODO put here nodeWithGivenDestEidExists() to check if there is exactly 1 node with
-              // that eId
+              validateNumberOfNodesWithEid(
+                  articleEId, targetLaw, targetHrefEId, affectedDocumentEli);
 
               Node targetNode =
                   targetLaw
@@ -318,8 +281,8 @@ public class ModificationValidator {
                       .orElseThrow(
                           () ->
                               new XmlContentException(
-                                  "Couldn't load target eId element in target law for article with eId %s"
-                                      .formatted(articleEId),
+                                  "Couldn't load target eId (%s) element in target law (%s) for article with eId %s"
+                                      .formatted(targetHrefEId, affectedDocumentEli, articleEId),
                                   null));
 
               // normalizeSpace removes double spaces and new lines
@@ -362,6 +325,17 @@ public class ModificationValidator {
               if (!textToBeReplaced.equals(oldText))
                 throw new XmlContentException("Error TBD 7", null);
             });
+  }
+
+  private void validateNumberOfNodesWithEid(
+      String articleEId, Norm targetLaw, String targetHrefEId, String affectedDocumentEli) {
+    int numberOfNodesWithEid = targetLaw.getNumberOfNodesWithEid(targetHrefEId);
+    if (numberOfNodesWithEid > 1) {
+      throw new XmlContentException(
+          "To many matching eIds (%s) for article %s in target norm %s"
+              .formatted(targetHrefEId, articleEId, affectedDocumentEli),
+          null);
+    }
   }
 
   /**

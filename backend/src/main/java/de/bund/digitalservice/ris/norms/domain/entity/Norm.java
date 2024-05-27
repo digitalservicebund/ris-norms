@@ -295,6 +295,16 @@ public class Norm {
   }
 
   /**
+   * Searches for a given eId and returns the number of matches.
+   *
+   * @param eId the eId of the element to search for.
+   * @return the number of nodes for a given eId.
+   */
+  public int getNumberOfNodesWithEid(String eId) {
+    return getNodesFromExpression("//*[@eId='%s']".formatted(eId), document).size();
+  }
+
+  /**
    * Returns the element of the norm identified by the given eId.
    *
    * @param eId the eId of the element to return
@@ -479,18 +489,6 @@ public class Norm {
         .map(parendEId -> parendEId.addPart(newEidPart))
         .map(EId::value)
         .orElseThrow();
-  }
-
-  /**
-   * TBD
-   *
-   * @param eId
-   * @return TBD
-   */
-  public List<Node> getNodeByEid(String eId) {
-    // TODO maybe obsolete due to getByEId()?
-    // TODO oh it's a list on purpose. Then at least getNodesByEid plural and wrapped optional
-    return getNodesFromExpression("//*[@eId='%s']".formatted(eId), document);
   }
 
   @Override
