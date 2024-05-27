@@ -257,6 +257,7 @@ public class ArticleController {
                         new LoadNextVersionOfNormUseCase.Query(affectedDocumentEli)))
             .orElse(null);
 
+    // The response type is richer than the domain "Norm" type, hence the separate mapper
     return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(article, targetLawZf0));
   }
 
