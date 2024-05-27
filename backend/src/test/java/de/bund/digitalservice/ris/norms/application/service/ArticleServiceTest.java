@@ -18,6 +18,8 @@ class ArticleServiceTest {
   final ArticleService articleService =
       new ArticleService(loadNormPort, timeMachineService, xsltTransformationService);
 
+  // TODO Hannes: Nest
+
   @Test
   void returnResult() {
     // given
@@ -28,7 +30,7 @@ class ArticleServiceTest {
         articleService.loadArticleHtml(
             new LoadArticleHtmlUseCase.Query(eli, eid, Optional.empty()));
     // then
-    assertThat(result.isPresent());
+    assertThat(result).isPresent();
   }
 
   @Test
@@ -42,7 +44,7 @@ class ArticleServiceTest {
         articleService.loadArticleHtml(
             new LoadArticleHtmlUseCase.Query(eli, eid, Optional.empty()));
     // then
-    assertThat(result.isEmpty());
+    assertThat(result).isEmpty();
   }
 
   @Test
@@ -58,6 +60,6 @@ class ArticleServiceTest {
         articleService.loadArticleHtml(
             new LoadArticleHtmlUseCase.Query(eli, eid, Optional.empty()));
     // then
-    assertThat(result.isEmpty());
+    assertThat(result).isEmpty();
   }
 }
