@@ -80,8 +80,7 @@ public class Article {
    * @return the {@link Mod}
    */
   public Optional<Mod> getMod() {
-    // TODO why does "//mod" not work? -> unit test fails
-    Node n = NodeParser.getNodeFromExpression("./paragraph/list/point/content/p/mod", this.node);
+    Node n = NodeParser.getNodeFromExpression("./*//mod", this.node);
     if (n == null) return Optional.empty();
     return Optional.of(new Mod(n));
   }
