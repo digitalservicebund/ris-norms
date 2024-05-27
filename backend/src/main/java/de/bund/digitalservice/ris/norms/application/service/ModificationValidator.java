@@ -208,7 +208,7 @@ public class ModificationValidator {
                 throw new XmlProcessingException(
                     "mod href is empty in article with eId %s".formatted(article.getEid().get()),
                     null);
-              if (article.getMod().get().getTargetEid().isEmpty())
+              if (article.getMod().get().getTargetHref().get().getEId().isEmpty())
                 throw new XmlProcessingException(
                     "The eId in mod href is empty in article with eId %s"
                         .formatted(article.getEid().get()),
@@ -232,7 +232,7 @@ public class ModificationValidator {
 
               if (normOptional
                   .get()
-                  .getByEId(article.getMod().get().getTargetEid().get())
+                  .getByEId(article.getMod().get().getTargetHref().get().getEId().get())
                   .isEmpty())
                 throw new XmlProcessingException(
                     "Couldn't load target eId element in target law for article with eId %s"
@@ -242,7 +242,7 @@ public class ModificationValidator {
               String paragraphText =
                   normOptional
                       .get()
-                      .getByEId(article.getMod().get().getTargetEid().get())
+                      .getByEId(article.getMod().get().getTargetHref().get().getEId().get())
                       .get()
                       .getTextContent();
 

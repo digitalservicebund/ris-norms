@@ -57,19 +57,6 @@ public class Mod {
   }
 
   /**
-   * Returns the eid of the part of the target law that is modified.
-   *
-   * @return The eid of the element this modification will change.
-   */
-  public Optional<String> getTargetEid() {
-    Optional<Href> href = this.getTargetHref();
-    if (href.isEmpty()) return Optional.empty();
-    String[] arr = href.get().value().split("/");
-    if (arr.length < 10) return Optional.empty();
-    return Optional.of(arr[9]);
-  }
-
-  /**
    * Updates the href attribute of akn:ref node within the akn:mode of the body.
    *
    * @param newHref - the new ELI + eId of the target law

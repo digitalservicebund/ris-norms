@@ -85,15 +85,6 @@ class ModTest {
   }
 
   @Test
-  void getTargetEid() {
-    // when
-    var eid = mod.getTargetEid();
-
-    // then
-    assertThat(eid).contains("para-20_abs-1");
-  }
-
-  @Test
   void setTargetHref() {
     // when
     mod.setTargetHref("new-target-href");
