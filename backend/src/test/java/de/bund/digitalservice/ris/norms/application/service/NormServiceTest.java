@@ -836,7 +836,8 @@ class NormServiceTest {
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml");
       assertThat(mod.getNewText()).contains("new text");
 
-      assertThat(result.get().targetNormXml()).isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
+      assertThat(result.get().targetNormZf0Xml())
+          .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }
   }
 }

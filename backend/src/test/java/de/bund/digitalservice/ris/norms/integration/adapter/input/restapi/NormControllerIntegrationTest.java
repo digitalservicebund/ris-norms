@@ -711,14 +711,14 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       XmlMatcher.xml(
                           hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
           .andExpect(
-              jsonPath("targetNormXml")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
                               "//passiveModifications/textualMod/destination/@href",
                               equalTo("#para-20_abs-1/100-130")))))
           .andExpect(
-              jsonPath("targetNormXml")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
@@ -785,14 +785,14 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       XmlMatcher.xml(
                           hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
           .andExpect(
-              jsonPath("targetNormXml")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
                               "//passiveModifications/textualMod/destination/@href",
                               equalTo("#para-20_abs-1/100-130")))))
           .andExpect(
-              jsonPath("targetNormXml")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(

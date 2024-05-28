@@ -145,7 +145,7 @@ describe("ldmldeModService", () => {
       }
 
       const expectedResponse = {
-        targetNormXml: "<xml>target-norm-zf0-xml</xml>",
+        targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
         amendingNormXml: "<xml>amending-norm-xml</xml>",
       }
       const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
@@ -162,7 +162,7 @@ describe("ldmldeModService", () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Accept: "application/xml",
+            Accept: "application/json",
           },
           body: JSON.stringify(updatedMods),
         }),

@@ -149,7 +149,7 @@ describe("useMod", () => {
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
       updateModData: vi.fn().mockResolvedValue({
-        targetNormXml: "<xml>target-norm-zf0-xml</xml>",
+        targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
         amendingNormXml: "<xml>amending-norm-xml</xml>",
       }),
     }))
@@ -159,7 +159,7 @@ describe("useMod", () => {
     const result = await updateMod(eli, eid, updatedMods)
 
     expect(result.amendingNormXml).toBe("<xml>amending-norm-xml</xml>")
-    expect(result.targetNormXml).toBe("<xml>target-norm-zf0-xml</xml>")
+    expect(result.targetNormZf0Xml).toBe("<xml>target-norm-zf0-xml</xml>")
 
     const { updateModData } = await import("@/services/ldmldeModService")
     expect(updateModData).toHaveBeenCalledWith(eli, eid, updatedMods, false)
@@ -183,7 +183,7 @@ describe("useMod", () => {
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
       updateModData: vi.fn().mockResolvedValue({
-        targetNormXml: "<xml>target-norm-zf0-xml</xml>",
+        targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
         amendingNormXml: "<xml>amending-norm-xml</xml>",
       }),
     }))
@@ -193,7 +193,7 @@ describe("useMod", () => {
     const result = await previewUpdateMod(eli, eid, updatedMods)
 
     expect(result.amendingNormXml).toBe("<xml>amending-norm-xml</xml>")
-    expect(result.targetNormXml).toBe("<xml>target-norm-zf0-xml</xml>")
+    expect(result.targetNormZf0Xml).toBe("<xml>target-norm-zf0-xml</xml>")
 
     const { updateModData } = await import("@/services/ldmldeModService")
     expect(updateModData).toHaveBeenCalledWith(eli, eid, updatedMods, true)

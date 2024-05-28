@@ -119,9 +119,9 @@ async function handleGeneratePreview() {
       newText: quotedTextSecond.value,
     })
 
-    previewXml.value = response.targetNormXml
+    previewXml.value = response.targetNormZf0Xml
     previewHtml.value = await renderHtmlLaw(
-      previewXml.value,
+      response.targetNormZf0Xml,
       false,
       timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
       {
@@ -166,7 +166,7 @@ async function handleSave() {
   try {
     const response = await updateMod(eli.value, selectedMod.value, updatedMods)
     currentArticleXml.value = response.amendingNormXml
-    previewXml.value = response.targetNormXml
+    previewXml.value = response.targetNormZf0Xml
   } catch (error) {
     console.error("Error saving the mod:", error)
   }

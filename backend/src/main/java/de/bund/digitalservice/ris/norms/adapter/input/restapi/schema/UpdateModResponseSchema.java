@@ -12,6 +12,6 @@ public class UpdateModResponseSchema {
   /** The xml of the amending norm. */
   private String amendingNormXml;
 
-  /** The xml of the norm targeted by the new mod. */
-  private String targetNormXml;
+  /** The xml of the zf0-version of the norm targeted by the new mod. */
+  private String targetNormZf0Xml;
 }

@@ -19,7 +19,7 @@ public class UpdateModResponseMapper {
   public static UpdateModResponseSchema fromResult(final UpdateModUseCase.Result result) {
     return UpdateModResponseSchema.builder()
         .amendingNormXml(result.amendingNormXml())
-        .targetNormXml(result.targetNormXml())
+        .targetNormZf0Xml(result.targetNormZf0Xml())
         .build();
   }
 }

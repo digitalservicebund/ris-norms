@@ -33,7 +33,7 @@ export function useMod(
     updatedMods: ModData,
   ) => Promise<{
     amendingNormXml: string
-    targetNormXml: string
+    targetNormZf0Xml: string
   }>
   previewUpdateMod: (
     eli: MaybeRefOrGetter<string>,
@@ -41,7 +41,7 @@ export function useMod(
     updatedMods: ModData,
   ) => Promise<{
     amendingNormXml: string
-    targetNormXml: string
+    targetNormZf0Xml: string
   }>
 } {
   const normDocument = computed(() => {

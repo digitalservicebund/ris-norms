@@ -62,8 +62,8 @@ public interface UpdateModUseCase {
    *
    * @param amendingNormXml The xml of the amending norm, in which the akn:mod and
    *     akn:activeModifications are updated.
-   * @param targetNormXml The xml of the norm targeted by the akn:mod, in which the
-   *     akn:passiveModifications are updated.
+   * @param targetNormZf0Xml The xml of the norm targeted by the akn:mod, in which the
+   *     akn:passiveModifications are updated. (This is the zf0 version of the target norm)
    */
-  record Result(String amendingNormXml, String targetNormXml) {}
+  record Result(String amendingNormXml, String targetNormZf0Xml) {}
 }

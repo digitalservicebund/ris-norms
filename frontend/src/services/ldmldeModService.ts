@@ -80,11 +80,11 @@ export async function updateModData(
   dryRun: boolean = false,
 ): Promise<{
   amendingNormXml: string
-  targetNormXml: string
+  targetNormZf0Xml: string
 }> {
   return await apiFetch<{
     amendingNormXml: string
-    targetNormXml: string
+    targetNormZf0Xml: string
   }>(`/norms/${eli}/mods/${eid}`, {
     method: "PUT",
     headers: {

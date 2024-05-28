@@ -359,7 +359,7 @@ class NormControllerTest {
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("amendingNormXml").value(xml))
-          .andExpect(jsonPath("targetNormXml").value(targetNormXml));
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormXml));
 
       verify(updateModUseCase, times(1)).updateMod(argThat(query -> !query.dryRun()));
     }
@@ -387,7 +387,7 @@ class NormControllerTest {
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("amendingNormXml").value(xml))
-          .andExpect(jsonPath("targetNormXml").value(targetNormXml));
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormXml));
 
       verify(updateModUseCase, times(1)).updateMod(argThat(query -> query.dryRun()));
     }
