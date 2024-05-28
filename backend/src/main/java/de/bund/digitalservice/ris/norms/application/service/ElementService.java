@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import javax.annotation.Nullable;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 
@@ -133,22 +134,7 @@ public class ElementService
 
     // Source EIDs from passive mods
     var passiveModsDestinationEids =
-        norm.getPassiveModifications().stream()
-            .filter(
-                passiveMod -> {
-                  if (query.amendedBy() == null) return true;
-
-                  return passiveMod
-                      .getSourceHref()
-                      .flatMap(Href::getEli)
-                      .orElseThrow()
-                      .equals(query.amendedBy());
-                })
-            .map(TextualMod::getDestinationHref)
-            .flatMap(Optional::stream)
-            .map(Href::getEId)
-            .flatMap(Optional::stream)
-            .toList();
+        getDestinationEidsFromPassiveMods(norm.getPassiveModifications(), query.amendedBy());
 
     return NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream()
         .filter( // filter by "amendedBy")
@@ -164,5 +150,25 @@ public class ElementService
 
   private String getXPathForEid(String eid) {
     return String.format("//*[@eId='%s']", eid);
+  }
+
+  private List<String> getDestinationEidsFromPassiveMods(
+      List<TextualMod> mods, @Nullable String amendedBy) {
+    return mods.stream()
+        .filter(
+            passiveMod -> {
+              if (amendedBy == null) return true;
+
+              return passiveMod
+                  .getSourceHref()
+                  .flatMap(Href::getEli)
+                  .orElseThrow()
+                  .equals(amendedBy);
+            })
+        .map(TextualMod::getDestinationHref)
+        .flatMap(Optional::stream)
+        .map(Href::getEId)
+        .flatMap(Optional::stream)
+        .toList();
   }
 }
