@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -125,37 +126,42 @@ public class NormService
   }
 
   @Override
-  public Optional<String> updateMod(UpdateModUseCase.Query query) {
+  public Optional<String> updateMod(UpdateModUseCase.Query query) throws InvalidUpdateModException {
 
     // TODO query.oldText is not being handled
+    // TODO query.refersTo is not being handled
 
-    final Optional<Norm> optionalNorm =
+    final Optional<Norm> optionalAmendingLaw =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    if (optionalNorm.isEmpty()) {
+    if (optionalAmendingLaw.isEmpty()) {
+      // TODO throw InvalidUpdateModException?
       return Optional.empty();
     }
-    final var norm = optionalNorm.get();
+    final var amendingLaw = optionalAmendingLaw.get();
 
     final var targetLawEliOptional = new Href(query.destinationHref()).getEli();
     if (targetLawEliOptional.isEmpty()) {
+      // TODO throw InvalidUpdateModException?
       return Optional.empty();
     }
 
     final var targetLawEli = targetLawEliOptional.get();
 
-    final Optional<Norm> optionalZf0Norm =
+    final Optional<Norm> optionalTargetLaw =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(targetLawEli))
             .flatMap(Norm::getNextVersionGuid)
-            .flatMap(n -> loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(n)));
-    if (optionalZf0Norm.isEmpty()) {
+            .flatMap(
+                guid -> loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(guid)));
+    if (optionalTargetLaw.isEmpty()) {
+      // TODO throw InvalidUpdateModException?
       return Optional.empty();
     }
 
-    var zf0Norm = optionalZf0Norm.get();
+    var targetLaw = optionalTargetLaw.get();
 
     // Edit mod in metadata
-    norm.getActiveModifications().stream()
+    amendingLaw.getActiveModifications().stream()
         .filter(
             activeMod ->
                 activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eid())))
@@ -167,7 +173,7 @@ public class NormService
             });
 
     // Edit mod in body
-    norm.getMods().stream()
+    amendingLaw.getMods().stream()
         .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
         .findFirst()
         .ifPresent(
@@ -176,14 +182,17 @@ public class NormService
               mod.setNewText(query.newText());
             });
 
-    // TODO: (Malte Laukötter, 2024-05-22) run validation that the change is possible
-    // modificationValidator.validate(norm);
+    try {
+      modificationValidator.validate(amendingLaw);
+    } catch (XmlContentException e) {
+      throw new UpdateModUseCase.InvalidUpdateModException(e.getMessage());
+    }
 
     updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(zf0Norm, norm, targetLawEli));
+        new UpdatePassiveModificationsUseCase.Query(targetLaw, amendingLaw, targetLawEli));
 
-    var savedNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
-    updateNormPort.updateNorm(new UpdateNormPort.Command(zf0Norm));
+    var savedNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(amendingLaw));
+    updateNormPort.updateNorm(new UpdateNormPort.Command(targetLaw));
 
     return savedNorm.map(Norm::getDocument).map(XmlMapper::toString);
   }

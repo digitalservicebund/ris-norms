@@ -20,7 +20,7 @@ public interface UpdateModUseCase {
    * @return An {@link Optional} containing the saved xml representation of {@link Norm} of the
    *     amending law.
    */
-  Optional<String> updateMod(Query query);
+  Optional<String> updateMod(Query query) throws InvalidUpdateModException;
 
   /**
    * A record representing the query for updating an amending command.
@@ -41,4 +41,11 @@ public interface UpdateModUseCase {
       String destinationHref,
       String oldText,
       String newText) {}
+
+  /** This exception indicates that a proposed change to a mod is not allowed */
+  class InvalidUpdateModException extends Exception {
+    public InvalidUpdateModException(String message) {
+      super(message);
+    }
+  }
 }

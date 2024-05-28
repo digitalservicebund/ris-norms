@@ -354,17 +354,22 @@ public class NormController {
 
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-    return updateModUseCase
-        .updateMod(
-            new UpdateModUseCase.Query(
-                eli,
-                eid,
-                modUpdateSchema.getRefersTo(),
-                modUpdateSchema.getTimeBoundaryEid(),
-                modUpdateSchema.getDestinationHref(),
-                modUpdateSchema.getOldText(),
-                modUpdateSchema.getNewText()))
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+
+    try {
+      return updateModUseCase
+          .updateMod(
+              new UpdateModUseCase.Query(
+                  eli,
+                  eid,
+                  modUpdateSchema.getRefersTo(),
+                  modUpdateSchema.getTimeBoundaryEid(),
+                  modUpdateSchema.getDestinationHref(),
+                  modUpdateSchema.getOldText(),
+                  modUpdateSchema.getNewText()))
+          .map(ResponseEntity::ok)
+          .orElseGet(() -> ResponseEntity.notFound().build());
+    } catch (UpdateModUseCase.InvalidUpdateModException e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
   }
 }
