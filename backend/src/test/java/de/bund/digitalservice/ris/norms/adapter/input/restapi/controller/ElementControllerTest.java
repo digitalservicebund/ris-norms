@@ -270,8 +270,7 @@ class ElementControllerTest {
             .thenReturn(Optional.of(targetNorm));
 
         var amendingNorm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-        when(loadNormUseCase.loadNorm(
-                new LoadNormUseCase.Query(amendingNorm.getEli().orElseThrow())))
+        when(loadNormUseCase.loadNorm(new LoadNormUseCase.Query(amendingNorm.getEli())))
             .thenReturn(Optional.of(amendingNorm));
 
         var url =
@@ -281,7 +280,7 @@ class ElementControllerTest {
                 + "&type=article"
                 + "&type=conclusions"
                 + "&amendedBy="
-                + amendingNorm.getEli().orElseThrow(); // amending norm eli
+                + amendingNorm.getEli(); // amending norm eli
 
         // when
         mockMvc

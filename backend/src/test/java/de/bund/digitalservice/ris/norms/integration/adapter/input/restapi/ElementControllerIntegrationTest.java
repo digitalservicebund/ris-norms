@@ -237,7 +237,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               + "&type=article"
               + "&type=conclusions"
               + "&amendedBy="
-              + amendingNorm.getEli().orElseThrow(); // amending norm eli
+              + amendingNorm.getEli(); // amending norm eli
 
       // when
       mockMvc

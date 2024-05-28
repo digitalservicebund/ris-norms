@@ -88,12 +88,12 @@ public class NormService
     var updatedNorm = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
 
     if (updatedNorm.getEli().isEmpty()
-        || !existingNorm.get().getEli().orElseThrow().equals(updatedNorm.getEli().get())) {
+        || !existingNorm.get().getEli().equals(updatedNorm.getEli())) {
       throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the ELI is not supported.");
     }
 
     if (updatedNorm.getGuid().isEmpty()
-        || !existingNorm.get().getGuid().orElseThrow().equals(updatedNorm.getGuid().get())) {
+        || !existingNorm.get().getGuid().equals(updatedNorm.getGuid())) {
       throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the GUID is not supported.");
     }
 

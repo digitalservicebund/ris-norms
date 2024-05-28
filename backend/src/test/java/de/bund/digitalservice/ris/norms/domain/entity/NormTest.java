@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -23,11 +24,11 @@ class NormTest {
     var actualEli = norm.getEli();
 
     // then
-    assertThat(actualEli).contains(expectedEli);
+    assertThat(actualEli).isEqualTo(expectedEli);
   }
 
   @Test
-  void getOptionalEmptyEliWhenItDoesntExist() {
+  void getErrorWhenEliItDoesntExist() {
     // given
     String normString =
         """
@@ -43,8 +44,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(normString));
 
-    Optional<String> optionalEli = norm.getEli();
-    assertThat(optionalEli).isEmpty();
+    assertThrows(NoSuchElementException.class, norm::getEli);
   }
 
   @Test
@@ -1478,7 +1478,7 @@ class NormTest {
       norm.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
 
       // then
-      assertThat(norm.getEli()).isEmpty();
+      assertThrows(NoSuchElementException.class, norm::getEli);
     }
   }
 

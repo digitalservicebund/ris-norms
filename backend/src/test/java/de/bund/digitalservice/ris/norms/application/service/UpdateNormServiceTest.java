@@ -27,8 +27,7 @@ class UpdateNormServiceTest {
       // When
       var updatedZfoLaw =
           updateNormService.updatePassiveModifications(
-              new UpdatePassiveModificationsUseCase.Query(
-                  zf0Law, amendingLaw, targetLaw.getEli().get()));
+              new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLaw.getEli()));
 
       // Then
       assertThat(updatedZfoLaw.getPassiveModifications()).hasSize(1);
@@ -57,8 +56,7 @@ class UpdateNormServiceTest {
       // When
       var updatedZf0Law =
           updateNormService.updatePassiveModifications(
-              new UpdatePassiveModificationsUseCase.Query(
-                  zf0Law, amendingLaw, targetLaw.getEli().get()));
+              new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLaw.getEli()));
 
       // Then
       assertThat(updatedZf0Law.getPassiveModifications()).hasSize(1);
@@ -93,8 +91,7 @@ class UpdateNormServiceTest {
       // When
       var updatedZfoLaw =
           updateNormService.updatePassiveModifications(
-              new UpdatePassiveModificationsUseCase.Query(
-                  zf0Law, amendingLaw, targetLaw.getEli().get()));
+              new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLaw.getEli()));
 
       // Then
       assertThat(updatedZfoLaw.getPassiveModifications()).hasSize(2);

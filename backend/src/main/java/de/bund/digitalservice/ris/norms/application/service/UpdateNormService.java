@@ -49,7 +49,7 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
     var norm = query.zf0Norm();
 
     // clean up existing passive modifications stemming from the amending zf0Norm
-    removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getEli().orElseThrow());
+    removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getEli());
 
     final var activeModificationsToAdd =
         query.amendingNorm().getActiveModifications().stream()
@@ -88,7 +88,7 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
             norm.addPassiveModification(
                 activeModification.getType().orElseThrow(),
                 new Href.Builder()
-                    .setEli(query.amendingNorm().getEli().orElseThrow())
+                    .setEli(query.amendingNorm().getEli())
                     .setEId(activeModification.getSourceHref().flatMap(Href::getEId).orElseThrow())
                     .setFileExtension("xml")
                     .buildAbsolute()
