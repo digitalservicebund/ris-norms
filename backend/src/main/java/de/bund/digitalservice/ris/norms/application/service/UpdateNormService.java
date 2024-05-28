@@ -69,15 +69,18 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
         .distinct()
         .forEach(
             forcePeriodEid -> {
-              final var temporalGroup =
-                  norm.addTimeBoundary(
-                      LocalDate.parse(
-                          query
-                              .amendingNorm()
-                              .getStartDateForTemporalGroup(forcePeriodEid)
-                              .orElseThrow()),
-                      EventRefType.AMENDMENT);
+              final var startDate =
+                  query
+                      .amendingNorm()
+                      .getStartDateForTemporalGroup(forcePeriodEid)
+                      .map(LocalDate::parse);
 
+              if (startDate.isEmpty()) {
+                return;
+              }
+
+              final var temporalGroup =
+                  norm.addTimeBoundary(startDate.get(), EventRefType.AMENDMENT);
               amendingNormTemporalGroupEidsToNormTemporalGroupEids.put(
                   forcePeriodEid, temporalGroup.getEid().orElseThrow());
             });

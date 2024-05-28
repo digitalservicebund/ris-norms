@@ -236,6 +236,32 @@ class TimeMachineServiceTest {
           .isEqualToIgnoringWhitespace(
               "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
+
+    @Test
+    void applyPassiveModificationWithoutForcePeriod() {
+      // given
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      norm.deleteByEId("meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1");
+
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
+
+      // then
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+    }
   }
 
   @Nested

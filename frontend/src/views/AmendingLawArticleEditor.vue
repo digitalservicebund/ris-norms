@@ -17,7 +17,6 @@ import { useTemporalData } from "@/composables/useTemporalData"
 import { useMod } from "@/composables/useMod"
 import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import { previewNorm, previewNormAsHtml } from "@/services/normService"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 
@@ -112,32 +111,23 @@ async function handleGeneratePreview() {
   if (!targetLawEli.value) return
 
   try {
-    if (timeBoundary.value) {
-      const response = await previewUpdateMod(eli.value, selectedMod.value, {
-        refersTo: selectedMod.value,
-        timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
-        destinationHref: destinationHref.value,
-        oldText: quotedTextFirst.value,
-        newText: quotedTextSecond.value,
-      })
+    const response = await previewUpdateMod(eli.value, selectedMod.value, {
+      refersTo: selectedMod.value,
+      timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
+      destinationHref: destinationHref.value,
+      oldText: quotedTextFirst.value,
+      newText: quotedTextSecond.value,
+    })
 
-      previewXml.value = response.targetNormXml
-      previewHtml.value = await renderHtmlLaw(
-        previewXml.value,
-        false,
-        new Date(timeBoundary.value.date),
-        {
-          [eli.value]: response.amendingNormXml,
-        },
-      )
-    } else {
-      const [xmlContent, htmlContent] = await Promise.all([
-        previewNorm(targetLawEli.value, currentArticleXml.value),
-        previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
-      ])
-      previewXml.value = xmlContent
-      previewHtml.value = htmlContent
-    }
+    previewXml.value = response.targetNormXml
+    previewHtml.value = await renderHtmlLaw(
+      previewXml.value,
+      false,
+      timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
+      {
+        [eli.value]: response.amendingNormXml,
+      },
+    )
   } catch (error) {
     alert("Vorschau konnte nicht erstellt werden")
     console.error(error)

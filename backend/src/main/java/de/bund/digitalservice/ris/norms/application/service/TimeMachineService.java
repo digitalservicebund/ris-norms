@@ -108,14 +108,16 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
 
     norm.getPassiveModifications().stream()
         .filter(
-            (TextualMod passiveModification) ->
-                Instant.parse(
-                        passiveModification
-                                .getForcePeriodEid()
-                                .flatMap(norm::getStartDateForTemporalGroup)
-                                .orElseThrow()
-                            + "T00:00:00.000Z")
-                    .isBefore(actualDate))
+            (TextualMod passiveModification) -> {
+              final var startDate =
+                  passiveModification
+                      .getForcePeriodEid()
+                      .flatMap(norm::getStartDateForTemporalGroup)
+                      .map(dateString -> Instant.parse(dateString + "T00:00:00.000Z"));
+
+              // when no start date exists we always want to apply the mod
+              return startDate.isEmpty() || startDate.get().isBefore(actualDate);
+            })
         .sorted(
             Comparator.comparing(
                 (TextualMod passiveModification) ->
