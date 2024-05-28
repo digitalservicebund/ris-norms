@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Optional;
@@ -18,12 +17,10 @@ import org.w3c.dom.Node;
 public class ModificationValidator {
 
   private final LoadNormPort loadNormPort;
-  private final UpdateNormPort updateNormPort;
 
-  public ModificationValidator(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
+  public ModificationValidator(LoadNormPort loadNormPort) {
 
     this.loadNormPort = loadNormPort;
-    this.updateNormPort = updateNormPort;
   }
 
   /**

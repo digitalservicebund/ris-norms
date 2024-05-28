@@ -5,7 +5,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -18,9 +17,7 @@ import org.junit.jupiter.api.Test;
 class ModificationValidatorTest {
 
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
-  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
-  private final ModificationValidator underTest =
-      new ModificationValidator(loadNormPort, updateNormPort);
+  private final ModificationValidator underTest = new ModificationValidator(loadNormPort);
 
   @Test
   void normDoesNotExist() {
