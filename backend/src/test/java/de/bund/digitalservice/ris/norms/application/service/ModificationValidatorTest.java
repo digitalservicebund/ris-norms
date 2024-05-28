@@ -29,7 +29,10 @@ class ModificationValidatorTest {
     Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
 
     // then
-    assertThat(thrown).isInstanceOf(XmlContentException.class);
+    assertThat(thrown)
+        .isInstanceOf(XmlContentException.class)
+        .hasMessageContaining(
+            "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId hauptteil-1_art-1");
   }
 
   @Test
