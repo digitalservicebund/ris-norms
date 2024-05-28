@@ -29,7 +29,6 @@ public class ArticleController {
   private final LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
 
   public ArticleController(
@@ -43,7 +42,6 @@ public class ArticleController {
     this.loadNextVersionOfNormUseCase = loadNextVersionOfNormUseCase;
     this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
-    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
     this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
   }
 
