@@ -102,6 +102,25 @@ class ModificationValidatorTest {
     }
 
     @Test
+    void brokenActiveModificationDestinationHref() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingLaw
+          .getActiveModifications()
+          .getFirst()
+          .setDestinationHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
+    }
+
+    @Test
     void emptyAffectedDocumentHref() {
 
       // given

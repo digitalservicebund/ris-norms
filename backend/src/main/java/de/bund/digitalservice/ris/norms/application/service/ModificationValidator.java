@@ -60,9 +60,8 @@ public class ModificationValidator {
                     .getEli()
                     .orElseThrow(
                         () ->
-                            // TODO add unit test for this throw
                             new XmlContentException(
-                                "ActiveModification Destination Href holds an empty Eli where textualMod eId is %s"
+                                "ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is %s"
                                     .formatted(getTextualModEId(tm)),
                                 null)));
   }
