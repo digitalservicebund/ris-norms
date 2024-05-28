@@ -1,12 +1,14 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
@@ -357,6 +359,170 @@ class ElementServiceTest {
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
       verify(timeMachineService)
           .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(norm, date));
+    }
+  }
+
+  @Nested
+  class loadElementsByTypeFromNorm {
+    @Test
+    void returnsAllSupportedTypesFromANorm() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When
+      var elements =
+          service.loadElementsByTypeFromNorm(
+              new LoadElementsByTypeFromNormUseCase.Query(
+                  "fake/eli", new String[] {"preface", "preamble", "article", "conclusions"}));
+
+      // Then
+      assertThat(elements).hasSize(5);
+      assertThat(elements.getFirst().getNodeName()).isEqualTo("akn:preface");
+      assertThat(elements.get(1).getNodeName()).isEqualTo("akn:preamble");
+      assertThat(elements.get(2).getNodeName()).isEqualTo("akn:article");
+      assertThat(elements.get(3).getNodeName()).isEqualTo("akn:article");
+      assertThat(elements.get(4).getNodeName()).isEqualTo("akn:conclusions");
+
+      verify(loadNormPort).loadNorm(new LoadNormPort.Command("fake/eli"));
+    }
+
+    @Test
+    void returnsASubsetOfTypesFromANorm() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When
+      var elements =
+          service.loadElementsByTypeFromNorm(
+              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", new String[] {"article"}));
+
+      // Then
+      assertThat(elements).hasSize(2);
+      assertThat(elements.getFirst().getNodeName()).isEqualTo("akn:article");
+      assertThat(elements.get(1).getNodeName()).isEqualTo("akn:article");
+    }
+
+    @Test
+    void returnsEmptyListIfTypeIsNotInNorm() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When
+      var elements =
+          service.loadElementsByTypeFromNorm(
+              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", new String[] {"preface"}));
+
+      // Then
+      assertThat(elements).isEmpty();
+    }
+
+    @Test
+    void returnsEmptyListIfTypesAreEmpty() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When
+      var elements =
+          service.loadElementsByTypeFromNorm(
+              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", new String[] {}));
+
+      // Then
+      assertThat(elements).isEmpty();
+    }
+
+    @Test
+    void throwsWhenAttemptingToLoadUnsupportedType() {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When / Then
+      assertThatThrownBy(
+              () -> service.loadElementsByTypeFromNorm(
+                  new LoadElementsByTypeFromNormUseCase.Query(
+                      "fake/eli", new String[] {"invalid_type"})))
+          .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
+    }
+
+    @Test
+    void throwsWhenNormDoesNotExist() {
+      // Given
+      // Nothing given -> Loading should fail
+
+      // When / Then
+      assertThatThrownBy(
+              () -> service.loadElementsByTypeFromNorm(
+                  new LoadElementsByTypeFromNormUseCase.Query(
+                      "fake/eli", new String[] {"article"})))
+          .isInstanceOf(LoadElementsByTypeFromNormUseCase.NormNotFoundException.class);
+    }
+
+    @Test
+    void filtersReturnedElementsByAmendingNorm() throws Exception {
+      // Given
+      var targetNorm =
+          NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+      var targetNormEli = targetNorm.getEli();
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli)))
+          .thenReturn(Optional.of(targetNorm));
+
+      // When
+      var elements =
+          service.loadElementsByTypeFromNorm(
+              new LoadElementsByTypeFromNormUseCase.Query(
+                  targetNormEli,
+                  new String[] {"preface", "preamble", "article", "conclusions"},
+                  "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"));
+
+      // Then
+      assertThat(elements).hasSize(1);
+      assertThat(elements.getFirst().getNodeName()).isEqualTo("akn:article");
+    }
+
+    @Test
+    void returnsEmptyListIfNoElementIsAffectedByTheAmendingNorm() throws Exception {
+      // Given
+      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      var targetNormEli = targetNorm.getEli();
+      when(loadNormPort.loadNorm(
+              new LoadNormPort.Command(
+                  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(targetNorm));
+
+      // When
+      var elements =
+          service.loadElementsByTypeFromNorm(
+              new LoadElementsByTypeFromNormUseCase.Query(
+                  targetNormEli,
+                  new String[] {"preface", "preamble", "article", "conclusions"},
+                  "fake/eli"));
+
+      // Then
+      assertThat(elements).isEmpty();
+    }
+  }
+
+  @Nested
+  class elementType {
+    @Test
+    void returnsTheEnumValueForSupportedTypes() {
+      // When
+      var type = ElementService.ElementType.fromLabel("article");
+
+      // Then
+      assertThat(type).isEqualTo(ElementService.ElementType.ARTICLE);
+    }
+
+    @Test
+    void throwsWhenAttemptingToGetTheValueForAnUnsupportedType() {
+      // When / Then
+      assertThatThrownBy(
+              () -> ElementService.ElementType.fromLabel("invalid_type"))
+          .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
     }
   }
 }

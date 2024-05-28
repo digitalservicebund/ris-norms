@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.controller.ElementController;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
+import de.bund.digitalservice.ris.norms.application.service.ElementService;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Map;
 import org.w3c.dom.Node;
@@ -11,13 +11,11 @@ public class ElementResponseMapper {
   // Private constructor to hide the implicit public one and prevent instantiation
   private ElementResponseMapper() {}
 
-  // TODO: Is this referring to enums from the controller allowed?
-  // Will be moved to service either way I guess
   private static final Map<String, String> staticNodeTitles =
       Map.ofEntries(
-          Map.entry(ElementController.ElementType.PREFACE.name(), "Dokumentenkopf"),
-          Map.entry(ElementController.ElementType.PREAMBLE.name(), "Eingangsformel"),
-          Map.entry(ElementController.ElementType.CONCLUSIONS.name(), "Schlussteil"));
+          Map.entry(ElementService.ElementType.PREFACE.name(), "Dokumentenkopf"),
+          Map.entry(ElementService.ElementType.PREAMBLE.name(), "Eingangsformel"),
+          Map.entry(ElementService.ElementType.CONCLUSIONS.name(), "Schlussteil"));
 
   private static String getNodeType(Node node) {
     return node.getNodeName().replace("akn:", "");

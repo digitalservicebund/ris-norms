@@ -2,9 +2,14 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
@@ -19,10 +24,50 @@ import org.w3c.dom.Node;
 public class ElementService
     implements LoadElementFromNormUseCase,
         LoadElementHtmlFromNormUseCase,
-        LoadElementHtmlAtDateFromNormUseCase {
+        LoadElementHtmlAtDateFromNormUseCase,
+        LoadElementsByTypeFromNormUseCase {
   private final LoadNormPort loadNormPort;
   private final XsltTransformationService xsltTransformationService;
   private final TimeMachineService timeMachineService;
+
+  /** The types of elements that can be retrieved from a norm. */
+  public enum ElementType {
+    ARTICLE("article"),
+    CONCLUSIONS("conclusions"),
+    PREAMBLE("preamble"),
+    PREFACE("preface");
+
+    public final String label;
+
+    ElementType(String label) {
+      this.label = label;
+    }
+
+    /**
+     * Infers the enum value based on the provided label.
+     *
+     * @param label Label to infer the enum value from.
+     * @return Enum value for that label
+     * @throws LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException If no value exists
+     *     for that label.
+     */
+    public static ElementType fromLabel(String label) throws UnsupportedElementTypeException {
+      for (ElementType type : values()) {
+        if (type.label.equals(label)) {
+          return type;
+        }
+      }
+
+      throw new UnsupportedElementTypeException(label + " is not supported");
+    }
+  }
+
+  private final Map<ElementType, String> xPathsForTypes =
+      Map.ofEntries(
+          Map.entry(ElementType.PREFACE, "//act/preface"),
+          Map.entry(ElementType.PREAMBLE, "//act/preamble"),
+          Map.entry(ElementType.ARTICLE, "//body//article"),
+          Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
 
   public ElementService(
       LoadNormPort loadNormPort,
@@ -65,6 +110,56 @@ public class ElementService
             element ->
                 new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false))
         .map(xsltTransformationService::transformLegalDocMlToHtml);
+  }
+
+  @Override
+  public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query)
+      throws UnsupportedElementTypeException, NormNotFoundException {
+    // No need to do anything if no types are requested
+    if (query.elementType().length == 0) return List.of();
+
+    var combinedXPaths =
+        String.join(
+            "|",
+            Arrays.stream(query.elementType())
+                .map(ElementType::fromLabel)
+                .map(xPathsForTypes::get)
+                .toList());
+
+    var norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli() + " does not exist"));
+
+    // Source EIDs from passive mods
+    var passiveModsDestinationEids =
+        norm.getPassiveModifications().stream()
+            .filter(
+                passiveMod -> {
+                  if (query.amendedBy() == null) return true;
+
+                  return passiveMod
+                      .getSourceHref()
+                      .flatMap(Href::getEli)
+                      .orElseThrow()
+                      .equals(query.amendedBy());
+                })
+            .map(TextualMod::getDestinationHref)
+            .flatMap(Optional::stream)
+            .map(Href::getEId)
+            .flatMap(Optional::stream)
+            .toList();
+
+    return NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream()
+        .filter( // filter by "amendedBy")
+            element -> {
+              // no amending law -> all elements are fine
+              if (query.amendedBy() == null) return true;
+
+              var eId = NodeParser.getValueFromExpression("./@eId", element).orElseThrow();
+              return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
+            })
+        .toList();
   }
 
   private String getXPathForEid(String eid) {
