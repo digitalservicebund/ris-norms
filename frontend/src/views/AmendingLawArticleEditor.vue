@@ -108,7 +108,7 @@ function handlePreviewClick() {
 }
 
 async function handleGeneratePreview() {
-  if (!targetLawEli.value) return
+  if (!targetLawEli.value || !selectedMod.value) return
 
   try {
     const response = await previewUpdateMod(eli.value, selectedMod.value, {
