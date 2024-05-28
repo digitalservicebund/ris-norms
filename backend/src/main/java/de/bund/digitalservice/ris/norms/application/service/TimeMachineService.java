@@ -2,21 +2,15 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
-import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 /**
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
@@ -24,73 +18,12 @@ import org.w3c.dom.Node;
  * "https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML-details</a>
  */
 @Service
-public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModificationsUseCase {
+public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
-  private final XmlDocumentService xmlDocumentService;
   private final NormService normService;
 
-  public TimeMachineService(XmlDocumentService xmlDocumentService, NormService normService) {
-    this.xmlDocumentService = xmlDocumentService;
+  public TimeMachineService(NormService normService) {
     this.normService = normService;
-  }
-
-  @Override
-  public Optional<String> applyTimeMachine(TimeMachineUseCase.Query query) {
-    return normService
-        .loadNormXml(new LoadNormXmlUseCase.Query(query.targetLawEli()))
-        .map(targetNormXml -> this.apply(query.amendingLawXml(), targetNormXml));
-  }
-
-  /**
-   * Applies the modifications of the amending law onto the target law.
-   *
-   * @param amendingLawString a Document that contains LDML.de modifications to be applied on the
-   *     target law
-   * @param targetLawString The Document that the modifications will be applied to
-   * @return the Document that results in applying the amending law's modifications to the target
-   *     law
-   */
-  public String apply(final String amendingLawString, final String targetLawString) {
-
-    final Document amendingLaw = XmlMapper.toDocument(amendingLawString);
-    final Document targetLaw = XmlMapper.toDocument(targetLawString);
-
-    final Node firstModificationNodeInAmendingLaw =
-        xmlDocumentService.getFirstModification(amendingLaw);
-
-    final Document appliedTargetLaw =
-        applyOneSubstitutionModification(firstModificationNodeInAmendingLaw, targetLaw);
-
-    return XmlMapper.toString(appliedTargetLaw);
-  }
-
-  /**
-   * Applies one substitution modification
-   *
-   * @param modificationNode the node containing the substitution
-   * @param targetLaw the document version of the target law
-   * @return the <code>targetLaw</code> with the applied modification
-   */
-  private Document applyOneSubstitutionModification(Node modificationNode, Document targetLaw) {
-    final Document targetLawClone = xmlDocumentService.cloneDocument(targetLaw);
-
-    final XmlDocumentService.ReplacementPair replacementPair =
-        xmlDocumentService.getReplacementPair(modificationNode);
-
-    final Node targetLawNodeToBeModified =
-        xmlDocumentService.findTargetLawNodeToBeModified(targetLawClone, modificationNode);
-
-    try {
-      final String modifiedTextContent =
-          targetLawNodeToBeModified
-              .getTextContent()
-              .replaceFirst(replacementPair.oldText(), replacementPair.newText());
-      targetLawNodeToBeModified.setTextContent(modifiedTextContent);
-      return targetLawClone;
-    } catch (NullPointerException e) {
-      throw new XmlProcessingException(
-          "Target Law could not be modified since there is no according paragraph found", e);
-    }
   }
 
   /**
@@ -103,19 +36,24 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
 
     var norm = query.norm();
     var date = query.date();
+    var customNorms =
+        query.customNorms().stream()
+            .collect(Collectors.toMap(Norm::getEli, customNorm -> customNorm));
 
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
     norm.getPassiveModifications().stream()
         .filter(
-            (TextualMod passiveModification) ->
-                Instant.parse(
-                        passiveModification
-                                .getForcePeriodEid()
-                                .flatMap(norm::getStartDateForTemporalGroup)
-                                .orElseThrow()
-                            + "T00:00:00.000Z")
-                    .isBefore(actualDate))
+            (TextualMod passiveModification) -> {
+              final var startDate =
+                  passiveModification
+                      .getForcePeriodEid()
+                      .flatMap(norm::getStartDateForTemporalGroup)
+                      .map(dateString -> Instant.parse(dateString + "T00:00:00.000Z"));
+
+              // when no start date exists we do not want to apply the mod
+              return startDate.isPresent() && startDate.get().isBefore(actualDate);
+            })
         .sorted(
             Comparator.comparing(
                 (TextualMod passiveModification) ->
@@ -129,8 +67,8 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
                   passiveModification.getSourceHref().flatMap(Href::getEli).orElseThrow();
 
               Norm amendingLaw;
-              if (query.customNorms().containsKey(sourceEli)) {
-                amendingLaw = query.customNorms().get(sourceEli);
+              if (customNorms.containsKey(sourceEli)) {
+                amendingLaw = customNorms.get(sourceEli);
               } else {
                 amendingLaw =
                     normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();

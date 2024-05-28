@@ -27,8 +27,9 @@ public class Norm {
    *
    * @return An Eli
    */
-  public Optional<String> getEli() {
-    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document);
+  public String getEli() {
+    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
+        .orElseThrow();
   }
 
   /**

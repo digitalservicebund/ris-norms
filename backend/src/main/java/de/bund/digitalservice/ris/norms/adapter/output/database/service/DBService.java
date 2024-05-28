@@ -68,40 +68,28 @@ public class DBService
   @Override
   public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
     var normXml = XmlMapper.toString(command.norm().getDocument());
-    return command
-        .norm()
-        .getEli()
-        .flatMap(
-            eli ->
-                normRepository
-                    .findByEli(eli)
-                    .map(
-                        normDto -> {
-                          normDto.setXml(normXml);
-                          // we do not update the GUID or ELI as they may not change
-                          return NormMapper.mapToDomain(normRepository.save(normDto));
-                        }));
+    return normRepository
+        .findByEli(command.norm().getEli())
+        .map(
+            normDto -> {
+              normDto.setXml(normXml);
+              // we do not update the GUID or ELI as they may not change
+              return NormMapper.mapToDomain(normRepository.save(normDto));
+            });
   }
 
   @Override
   public Optional<Announcement> updateAnnouncement(UpdateAnnouncementPort.Command command) {
     var announcement = command.announcement();
-    return command
-        .announcement()
-        .getNorm()
-        .getEli()
-        .flatMap(
-            eli ->
-                announcementRepository
-                    .findByNormDtoEli(eli)
-                    .map(
-                        announcementDto -> {
-                          announcementDto.setReleasedByDocumentalistAt(
-                              announcement.getReleasedByDocumentalistAt());
-                          // It is not possible to change the norm associated with an announcement.
-                          // Therefore, we don't update that relationship.
-                          return AnnouncementMapper.mapToDomain(
-                              announcementRepository.save(announcementDto));
-                        }));
+    return announcementRepository
+        .findByNormDtoEli(command.announcement().getNorm().getEli())
+        .map(
+            announcementDto -> {
+              announcementDto.setReleasedByDocumentalistAt(
+                  announcement.getReleasedByDocumentalistAt());
+              // It is not possible to change the norm associated with an announcement.
+              // Therefore, we don't update that relationship.
+              return AnnouncementMapper.mapToDomain(announcementRepository.save(announcementDto));
+            });
   }
 }

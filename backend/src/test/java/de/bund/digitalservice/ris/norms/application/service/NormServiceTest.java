@@ -712,7 +712,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
-      var xml =
+      var result =
           service.updateMod(
               new UpdateModUseCase.Query(
                   eli,
@@ -727,7 +727,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(xml).isEmpty();
+      assertThat(result).isEmpty();
     }
 
     @Test
@@ -776,7 +776,7 @@ class NormServiceTest {
           .thenReturn(Optional.of(zf0Norm));
 
       // When
-      var returnedXml =
+      var result =
           service.updateMod(
               new UpdateModUseCase.Query(
                   "eli/bund/bgbl-1/2023/123/2023-08-05/1/deu/regelungstext-1",
@@ -819,22 +819,25 @@ class NormServiceTest {
       verify(updateNormPort, times(1))
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
-      assertThat(returnedXml).isPresent();
-      final Document xmlDocument = XmlMapper.toDocument(returnedXml.get());
-      final Norm testNorm = Norm.builder().document(xmlDocument).build();
+      assertThat(result).isPresent();
+      final Document amendingXmlDocument = XmlMapper.toDocument(result.get().amendingNormXml());
+      final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
-      final TextualMod activeModifications = testNorm.getActiveModifications().getFirst();
+      final TextualMod activeModifications = resultAmendingNorm.getActiveModifications().getFirst();
       assertThat(activeModifications.getDestinationHref())
           .contains(
               new Href(
                   "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml"));
       assertThat(activeModifications.getForcePeriodEid()).contains("new-time-boundary-eid");
 
-      final Mod mod = testNorm.getMods().getFirst();
+      final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetHref())
           .contains(
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml");
       assertThat(mod.getNewText()).contains("new text");
+
+      assertThat(result.get().targetNormZf0Xml())
+          .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }
   }
 }

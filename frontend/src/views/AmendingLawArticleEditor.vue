@@ -17,7 +17,6 @@ import { useTemporalData } from "@/composables/useTemporalData"
 import { useMod } from "@/composables/useMod"
 import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import { previewNorm, previewNormAsHtml } from "@/services/normService"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 
@@ -109,14 +108,24 @@ function handlePreviewClick() {
 }
 
 async function handleGeneratePreview() {
-  if (!targetLawEli.value) return
+  if (!targetLawEli.value || !selectedMod.value) return
+
   try {
-    const [xmlContent, htmlContent] = await Promise.all([
-      previewNorm(targetLawEli.value, currentArticleXml.value),
-      previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
-    ])
-    previewXml.value = xmlContent
-    previewHtml.value = htmlContent
+    const response = await previewUpdateMod(eli.value, selectedMod.value, {
+      refersTo: selectedMod.value,
+      timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
+      destinationHref: destinationHref.value,
+      oldText: quotedTextFirst.value,
+      newText: quotedTextSecond.value,
+    })
+
+    previewXml.value = response.targetNormZf0Xml
+    previewHtml.value = await renderHtmlLaw(
+      response.targetNormZf0Xml,
+      false,
+      timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
+      [response.amendingNormXml],
+    )
   } catch (error) {
     alert("Vorschau konnte nicht erstellt werden")
     console.error(error)
@@ -131,6 +140,7 @@ const {
   quotedTextSecond,
   timeBoundary,
   updateMod,
+  previewUpdateMod,
 } = useMod(selectedMod, articleXml)
 
 watch(selectedMod, () => {
@@ -152,11 +162,9 @@ async function handleSave() {
   }
 
   try {
-    currentArticleXml.value = await updateMod(
-      eli.value,
-      selectedMod.value,
-      updatedMods,
-    )
+    const response = await updateMod(eli.value, selectedMod.value, updatedMods)
+    currentArticleXml.value = response.amendingNormXml
+    previewXml.value = response.targetNormZf0Xml
   } catch (error) {
     console.error("Error saving the mod:", error)
   }

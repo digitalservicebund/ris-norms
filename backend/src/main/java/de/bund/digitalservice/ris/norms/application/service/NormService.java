@@ -88,12 +88,12 @@ public class NormService
     var updatedNorm = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
 
     if (updatedNorm.getEli().isEmpty()
-        || !existingNorm.get().getEli().orElseThrow().equals(updatedNorm.getEli().get())) {
+        || !existingNorm.get().getEli().equals(updatedNorm.getEli())) {
       throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the ELI is not supported.");
     }
 
     if (updatedNorm.getGuid().isEmpty()
-        || !existingNorm.get().getGuid().orElseThrow().equals(updatedNorm.getGuid().get())) {
+        || !existingNorm.get().getGuid().equals(updatedNorm.getGuid())) {
       throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the GUID is not supported.");
     }
 
@@ -122,7 +122,7 @@ public class NormService
   }
 
   @Override
-  public Optional<String> updateMod(UpdateModUseCase.Query query) {
+  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
 
     final Optional<Norm> optionalNorm =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
@@ -176,9 +176,13 @@ public class NormService
     updateNormService.updatePassiveModifications(
         new UpdatePassiveModificationsUseCase.Query(zf0Norm, norm, targetLawEli));
 
-    var savedNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
-    updateNormPort.updateNorm(new UpdateNormPort.Command(zf0Norm));
+    if (!query.dryRun()) {
+      updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
+      updateNormPort.updateNorm(new UpdateNormPort.Command(zf0Norm));
+    }
 
-    return savedNorm.map(Norm::getDocument).map(XmlMapper::toString);
+    return Optional.of(
+        new UpdateModUseCase.Result(
+            XmlMapper.toString(norm.getDocument()), XmlMapper.toString(zf0Norm.getDocument())));
   }
 }

@@ -289,6 +289,14 @@ paths:
         '200':
           description: Successful update
           content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  amendingNormXml:
+                    type: string
+                  targetNormXml:
+                    type: string
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
@@ -349,34 +357,6 @@ paths:
         '404':
           description: Norm not found
 
-  /norms/{eli}/preview:
-    post:
-      summary: Call time machine to generate preview of applied amending law
-      parameters:
-        - name: eli
-          in: path
-          required: true
-          description: ELI identifier of the target law
-          schema:
-            type: string
-      requestBody:
-        description: The XML of the amending law (which may be updated and not saved on DB)
-        required: true
-        content:
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/LegalDocML.de'
-      responses:
-        '200':
-          description: Successful response with preview of amended law
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-            text/html:
-              schema:
-                type: string
-
   /norms/{eli}/{eid}:
     get:
       summary: Get an element of a norm by its EID (currently only in HTML preview format)
@@ -411,18 +391,27 @@ paths:
       summary: Create and return an HTML rendering of the provided LDML.de XML
       parameters:
         - in: query
-          name: show_metadata
+          name: showMetadata
           schema:
             type: boolean
-            default: true
+            default: false
           description: Should the metadata table be included?
+        - name: atIsoDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+            default: "the current date"
+          description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (Only when providing application/json)"
       requestBody:
-        description: The LDML.de XML
         required: true
         content:
           application/xml:
             schema:
               $ref: '#/components/schemas/LegalDocML.de'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenderRequest'
       responses:
         '200':
           description: HTML rendering the provided LDML.de XML
@@ -503,6 +492,20 @@ components:
           type: array
           items:
             type: string
+
+    RenderRequest:
+      type: object
+      properties:
+        norm:
+          description: The xml of the norm which should be rendered.
+          type: string
+          format: LegalDocML.de XML
+        customNorms:
+          type: object
+          additionalProperties:
+            description: The xmls of norms which are referenced by the norm (e.g. in passiveModifications) and should not be loaded from the database.
+            type: string
+            format: LegalDocML.de XML
 
     LegalDocML.de:
       type: object
