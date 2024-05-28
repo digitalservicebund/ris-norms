@@ -172,7 +172,6 @@ public class ModificationValidator {
 
               // normalizeSpace removes double spaces and new lines
               String paragraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
-              // TODO what if paragraphText is empty string?
 
               int start = getCharacterRangeStart(characterRange, articleEId);
               int end = getCharacterRangeEnd(characterRange, articleEId);
