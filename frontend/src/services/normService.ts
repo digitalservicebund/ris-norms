@@ -33,14 +33,17 @@ export async function getNormXmlByEli(eli: string): Promise<string> {
  *
  * @param eli Eli of the norm
  * @param showMetadata Whether to include metadata in the rendered HTML
+ * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
  */
 export async function getNormHtmlByEli(
   eli: string,
   showMetadata: boolean = false,
+  at?: Date,
 ): Promise<string> {
   return await apiFetch(`/norms/${eli}`, {
     query: {
       showMetadata,
+      atIsoDate: at?.toISOString(),
     },
     headers: {
       Accept: "text/html",
@@ -63,45 +66,5 @@ export async function putNormXml(eli: string, xml: string) {
       Accept: "application/xml",
     },
     body: xml,
-  })
-}
-
-/**
- * Load a preview of a norm after the provided amending law is applied to it.
- *
- * @param eli Eli of the target norm
- * @param amendingLawXml XML of the amending law that should be used for creating the preview
- */
-export async function previewNorm(
-  eli: string,
-  amendingLawXml: string,
-): Promise<string> {
-  return await apiFetch(`/norms/${eli}/preview`, {
-    method: "POST",
-    headers: {
-      Accept: "application/xml",
-      "Content-Type": "application/xml",
-    },
-    body: amendingLawXml,
-  })
-}
-
-/**
- * Load the rendered HTML preview of the norm after the provided amending law is applied to it.
- *
- * @param eli Eli of the target norm
- * @param amendingLawXml XML of the amending law that should be used for creating the preview
- */
-export async function previewNormAsHtml(
-  eli: string,
-  amendingLawXml: string,
-): Promise<string> {
-  return await apiFetch(`/norms/${eli}/preview`, {
-    method: "POST",
-    headers: {
-      Accept: "text/html",
-      "Content-Type": "application/xml",
-    },
-    body: amendingLawXml,
   })
 }

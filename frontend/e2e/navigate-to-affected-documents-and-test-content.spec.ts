@@ -34,27 +34,5 @@ test.describe("Affected documents page", () => {
       await page.getByText("Zurück").click()
       await expect(page).toHaveURL("/amending-laws")
     })
-
-    // skipped as this view is currently getting reimplemented
-    test.skip(`navigate from affected document ${amendingLaw.eli} to the corresponding editor`, async ({
-      page,
-    }) => {
-      // Navigation
-      await page.goto(`/amending-laws/${amendingLaw.eli}/affected-documents`)
-
-      for (const targetLaw of amendingLaw.targetLaws) {
-        const link = page
-          .getByRole("listitem")
-          .filter({ hasText: targetLaw.title })
-          .getByRole("link", { name: "Metadaten bearbeiten" })
-
-        await link.click()
-        await expect(page).toHaveURL(
-          `/amending-laws/${amendingLaw.eli}/affected-documents/${targetLaw.zf0Eli}/edit`,
-        )
-
-        await page.goBack()
-      }
-    })
   }
 })

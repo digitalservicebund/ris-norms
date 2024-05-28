@@ -48,13 +48,42 @@ public class Mod {
   }
 
   /**
+   * Returns the href of the target law that is modified.
+   *
+   * @return The href of the akn:ref of the akn:mod.
+   */
+  public Optional<String> getTargetHref() {
+    return NodeParser.getValueFromExpression("./ref/@href", this.node);
+  }
+
+  /**
    * Returns the eid of the part of the target law that is modified.
    *
    * @return The eid of the element this modification will change.
    */
   public Optional<String> getTargetEid() {
-    var optionalHref = NodeParser.getValueFromExpression("./ref/@href", this.node);
+    return this.getTargetHref().map(href -> href.split("/")[9]);
+  }
 
-    return optionalHref.map(href -> href.split("/")[9]);
+  /**
+   * Updates the href attribute of akn:ref node within the akn:mode of the body.
+   *
+   * @param newHref - the new ELI + eId of the target law
+   */
+  public void setTargetHref(final String newHref) {
+    NodeParser.getNodeFromExpression("./ref", this.node)
+        .getAttributes()
+        .getNamedItem("href")
+        .setNodeValue(newHref);
+  }
+
+  /**
+   * Updates the quoted text that will be used to replace the old text once the mod is applied.
+   *
+   * @param newText - the replacing text
+   */
+  public void setNewText(final String newText) {
+    final Node newTextNode = NodeParser.getNodeFromExpression("./quotedText[2]", this.node);
+    newTextNode.setTextContent(newText);
   }
 }

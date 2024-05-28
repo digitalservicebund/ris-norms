@@ -1,13 +1,19 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.UpdateModResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModRequestSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import jakarta.validation.Valid;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,19 +27,22 @@ public class NormController {
   private final LoadNormXmlUseCase loadNormXmlUseCase;
   private final UpdateNormXmlUseCase updateNormXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  private final TimeMachineUseCase timeMachineUseCase;
+  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  private final UpdateModUseCase updateModUseCase;
 
   public NormController(
       LoadNormUseCase loadNormUseCase,
       LoadNormXmlUseCase loadNormXmlUseCase,
       UpdateNormXmlUseCase updateNormXmlUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      TimeMachineUseCase timeMachineUseCase) {
+      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
+      UpdateModUseCase updateModUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.updateNormXmlUseCase = updateNormXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
-    this.timeMachineUseCase = timeMachineUseCase;
+    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
+    this.updateModUseCase = updateModUseCase;
   }
 
   /**
@@ -142,16 +151,31 @@ public class NormController {
       @RequestParam(defaultValue = "false") boolean showMetadata,
       @RequestParam Optional<String> atIsoDate) {
 
+    final String eli =
+        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
     if (atIsoDate.isPresent()) {
       try {
         DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
       } catch (Exception e) {
         return ResponseEntity.badRequest().build();
       }
-    }
 
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+      return loadNormUseCase
+          .loadNorm(new LoadNormUseCase.Query(eli))
+          .map(
+              norm ->
+                  applyPassiveModificationsUseCase.applyPassiveModifications(
+                      new ApplyPassiveModificationsUseCase.Query(
+                          norm, Instant.parse(atIsoDate.get()))))
+          .map(
+              norm ->
+                  ResponseEntity.ok(
+                      this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                          new TransformLegalDocMlToHtmlUseCase.Query(
+                              XmlMapper.toString(norm.getDocument()), showMetadata))))
+          .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     return loadNormXmlUseCase
         .loadNormXml(new LoadNormXmlUseCase.Query(eli))
@@ -208,27 +232,30 @@ public class NormController {
   }
 
   /**
-   * Retrieves the xml preview of a norm after an amending law is applied.
+   * Update an amending command of an amending law and consecutively creates/updates all ZF0 of all
+   * affected documents.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
-   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
-   * @param amendingLaw DE: Änderungsgesetz (as XML)
-   * @return A {@link ResponseEntity} containing the retrieved preview.
-   *     <p>Returns HTTP 400 (Bad Request) if the amending law is missing in the request.
+   * @param agent the publishing body ("Verkündungsblatt")
+   * @param year the year of announcement ("Verkündungsjahr")
+   * @param naturalIdentifier the natural identifier, typically page number or announcement number
+   *     ("Seitenzahl / Verkündungsnummer")
+   * @param pointInTime the version date of the document ("Versionsdatum")
+   * @param version the version number of the document ("Versionsnummer")
+   * @param language the language of the document ("Sprache")
+   * @param subtype the type of document ("Dokumentenart")
+   * @param eid the eId of the akn:mod within the amending law
+   * @param updateModRequestSchema the amending command to update
+   * @param dryRun Should the save operation only be previewed and not actually persisted?
+   * @return A {@link ResponseEntity} containing the updated xml of the amending law.
+   *     <p>Returns HTTP 200 (OK) if both amending law and zf0 successfully uddated.
+   *     <p>Returns HTTP 404 (Not Found) if amending law, target law or node within target law not
+   *     found.
    */
-  @PostMapping(
-      path = "/preview",
-      consumes = {APPLICATION_XML_VALUE},
-      produces = {APPLICATION_XML_VALUE})
-  public ResponseEntity<String> getPreview(
+  @PutMapping(
+      path = "/mods/{eid}",
+      consumes = {APPLICATION_JSON_VALUE},
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<UpdateModResponseSchema> updateMod(
       @PathVariable final String agent,
       @PathVariable final String year,
       @PathVariable final String naturalIdentifier,
@@ -236,85 +263,25 @@ public class NormController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @RequestBody final String amendingLaw) {
+      @PathVariable final String eid,
+      @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
+      @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
-    Optional<String> targetLawPreview =
-        timeMachineUseCase.applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLaw));
-    return targetLawPreview
+    return updateModUseCase
+        .updateMod(
+            new UpdateModUseCase.Query(
+                eli,
+                eid,
+                updateModRequestSchema.getRefersTo(),
+                updateModRequestSchema.getTimeBoundaryEid(),
+                updateModRequestSchema.getDestinationHref(),
+                updateModRequestSchema.getOldText(),
+                updateModRequestSchema.getNewText(),
+                dryRun))
+        .map(UpdateModResponseMapper::fromResult)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
-  }
-
-  /**
-   * Retrieves the html preview of a norm after an amending law is applied.
-   *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a href=
-   * "https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
-   * @param amendingLaw DE: Änderungsgesetz (as XML)
-   * @return A {@link ResponseEntity} containing the retrieved preview.
-   *     <p>Returns HTTP 400 (Bad Request) if the amending law is missing in the request.
-   */
-  @PostMapping(
-      path = "/preview",
-      consumes = {APPLICATION_XML_VALUE},
-      produces = {TEXT_HTML_VALUE})
-  public ResponseEntity<String> getHtmlPreview(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
-      @PathVariable final String subtype,
-      @RequestBody final String amendingLaw) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
-    return timeMachineUseCase
-        .applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLaw))
-        .map(
-            xml -> {
-              var html =
-                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                      new TransformLegalDocMlToHtmlUseCase.Query(xml, false));
-              return ResponseEntity.ok(html);
-            })
-        .orElseGet(() -> ResponseEntity.notFound().build());
-  }
-
-  @NotNull
-  private static String buildEli(
-      String agent,
-      String year,
-      String naturalIdentifier,
-      String pointInTime,
-      String version,
-      String language,
-      String subtype) {
-    return "eli/bund/"
-        + agent
-        + "/"
-        + year
-        + "/"
-        + naturalIdentifier
-        + "/"
-        + pointInTime
-        + "/"
-        + version
-        + "/"
-        + language
-        + "/"
-        + subtype;
   }
 }

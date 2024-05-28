@@ -24,7 +24,7 @@ jobs:
       - name: Build docker image
         run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }} -f DockerfileApp .
       - name: Run Trivy vulnerability image scanner
-        uses: aquasecurity/trivy-action@7088d18dcb87884bc7b5a4000d5517d758e9aa13
+        uses: aquasecurity/trivy-action@841fb371db7b5cd339e5b2d55c92f5dbd730ac9f
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
           format: "sarif"
@@ -51,7 +51,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-image-scan
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@7088d18dcb87884bc7b5a4000d5517d758e9aa13
+        uses: aquasecurity/trivy-action@841fb371db7b5cd339e5b2d55c92f5dbd730ac9f
         with:
           image-ref: ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
           format: "cosign-vuln"
@@ -72,7 +72,7 @@ jobs:
           key: docker-images-cache-${{ github.run_id }}
           restore-keys: docker-images-cache-${{ github.run_id }}
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
+        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

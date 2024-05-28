@@ -5,11 +5,14 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUse
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateModUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
@@ -29,18 +32,22 @@ public class NormService
         LoadNormXmlUseCase,
         LoadNextVersionOfNormUseCase,
         UpdateNormXmlUseCase,
-        LoadSpecificArticleXmlFromNormUseCase {
+        LoadSpecificArticleXmlFromNormUseCase,
+        UpdateModUseCase {
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
+  private final UpdateNormService updateNormService;
 
   public NormService(
       LoadNormPort loadNormPort,
       LoadNormByGuidPort loadNormByGuidPort,
-      UpdateNormPort updateNormPort) {
+      UpdateNormPort updateNormPort,
+      UpdateNormService updateNormService) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
+    this.updateNormService = updateNormService;
   }
 
   @Override
@@ -81,12 +88,12 @@ public class NormService
     var updatedNorm = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
 
     if (updatedNorm.getEli().isEmpty()
-        || !existingNorm.get().getEli().orElseThrow().equals(updatedNorm.getEli().get())) {
+        || !existingNorm.get().getEli().equals(updatedNorm.getEli())) {
       throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the ELI is not supported.");
     }
 
     if (updatedNorm.getGuid().isEmpty()
-        || !existingNorm.get().getGuid().orElseThrow().equals(updatedNorm.getGuid().get())) {
+        || !existingNorm.get().getGuid().equals(updatedNorm.getGuid())) {
       throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the GUID is not supported.");
     }
 
@@ -112,5 +119,70 @@ public class NormService
           .map(a -> XmlMapper.toString(a.getNode()))
           .toList();
     }
+  }
+
+  @Override
+  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
+
+    final Optional<Norm> optionalNorm =
+        loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    if (optionalNorm.isEmpty()) {
+      return Optional.empty();
+    }
+    final var norm = optionalNorm.get();
+
+    final var targetLawEliOptional = new Href(query.destinationHref()).getEli();
+    if (targetLawEliOptional.isEmpty()) {
+      return Optional.empty();
+    }
+
+    final var targetLawEli = targetLawEliOptional.get();
+
+    final Optional<Norm> optionalZf0Norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(targetLawEli))
+            .flatMap(Norm::getNextVersionGuid)
+            .flatMap(n -> loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(n)));
+    if (optionalZf0Norm.isEmpty()) {
+      return Optional.empty();
+    }
+
+    var zf0Norm = optionalZf0Norm.get();
+
+    // Edit mod in metadata
+    norm.getActiveModifications().stream()
+        .filter(
+            activeMod ->
+                activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eid())))
+        .findFirst()
+        .ifPresent(
+            activeMod -> {
+              activeMod.setDestinationHref(query.destinationHref());
+              activeMod.setForcePeriodEid(query.timeBoundaryEid());
+            });
+
+    // Edit mod in body
+    norm.getMods().stream()
+        .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
+        .findFirst()
+        .ifPresent(
+            mod -> {
+              mod.setTargetHref(query.destinationHref());
+              mod.setNewText(query.newText());
+            });
+
+    // TODO: (Malte Laukötter, 2024-05-22) run validation that the change is possible
+
+    updateNormService.updatePassiveModifications(
+        new UpdatePassiveModificationsUseCase.Query(zf0Norm, norm, targetLawEli));
+
+    if (!query.dryRun()) {
+      updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
+      updateNormPort.updateNorm(new UpdateNormPort.Command(zf0Norm));
+    }
+
+    return Optional.of(
+        new UpdateModUseCase.Result(
+            XmlMapper.toString(norm.getDocument()), XmlMapper.toString(zf0Norm.getDocument())));
   }
 }

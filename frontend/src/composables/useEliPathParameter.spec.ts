@@ -161,3 +161,78 @@ describe("useEliPathParameter", () => {
     )
   })
 })
+
+describe("createEliPathParameter", () => {
+  beforeEach(() => {
+    vi.resetModules()
+    vi.resetAllMocks()
+  })
+
+  test("creates a valid path", async () => {
+    const getPath = vi
+      .fn()
+      .mockResolvedValue(
+        "eli/:eliJurisdiction(bund)" +
+          "/:eliAgent(bgbl-1|bgbl-2|banz-at)" +
+          "/:eliYear([12][0-9]{3})" +
+          "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)" +
+          "/:eliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})" +
+          "/:eliVersion([0-9]+)" +
+          "/:eliLanguage(deu)" +
+          "/:eliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)",
+      )
+
+    vi.doMock("@/services/normService", () => ({
+      getPath,
+    }))
+
+    const { createEliPathParameter } = await import("./useEliPathParameter")
+    const path = createEliPathParameter()
+
+    const expectedPath =
+      "eli/:eliJurisdiction(bund)" +
+      "/:eliAgent(bgbl-1|bgbl-2|banz-at)" +
+      "/:eliYear([12][0-9]{3})" +
+      "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)" +
+      "/:eliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})" +
+      "/:eliVersion([0-9]+)" +
+      "/:eliLanguage(deu)" +
+      "/:eliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)"
+
+    expect(path).toBe(expectedPath)
+  })
+
+  test("creates a path with a prefix", async () => {
+    const getPath = vi.fn((prefix) =>
+      Promise.resolve(
+        `eli/:${prefix}EliJurisdiction(bund)` +
+          `/:${prefix}EliAgent(bgbl-1|bgbl-2|banz-at)` +
+          `/:${prefix}EliYear([12][0-9]{3})` +
+          `/:${prefix}EliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)` +
+          `/:${prefix}EliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})` +
+          `/:${prefix}EliVersion([0-9]+)` +
+          `/:${prefix}EliLanguage(deu)` +
+          `/:${prefix}EliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)`,
+      ),
+    )
+
+    vi.doMock("@/services/normService", () => ({
+      getPath,
+    }))
+
+    const { createEliPathParameter } = await import("./useEliPathParameter")
+    const path = createEliPathParameter("test")
+
+    const expectedPath =
+      "eli/:testEliJurisdiction(bund)" +
+      "/:testEliAgent(bgbl-1|bgbl-2|banz-at)" +
+      "/:testEliYear([12][0-9]{3})" +
+      "/:testEliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)" +
+      "/:testEliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})" +
+      "/:testEliVersion([0-9]+)" +
+      "/:testEliLanguage(deu)" +
+      "/:testEliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)"
+
+    expect(path).toBe(expectedPath)
+  })
+})

@@ -2,29 +2,33 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 class NormTest {
 
   @Test
   void getEli() {
     // given
-    Norm norm = NormFixtures.simpleNorm();
+    Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
     String expectedEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
     // when
     var actualEli = norm.getEli();
 
     // then
-    assertThat(actualEli).contains(expectedEli);
+    assertThat(actualEli).isEqualTo(expectedEli);
   }
 
   @Test
-  void getOptionalEmptyEliWhenItDoesntExist() {
+  void getErrorWhenEliItDoesntExist() {
     // given
     String normString =
         """
@@ -40,8 +44,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(normString));
 
-    Optional<String> optionalEli = norm.getEli();
-    assertThat(optionalEli).isEmpty();
+    assertThrows(NoSuchElementException.class, norm::getEli);
   }
 
   @Test
@@ -95,7 +98,7 @@ class NormTest {
                          <akn:docStage eId="einleitung-1_doktitel-1_text-1_docstadium-1" GUID="3b355cab-ce10-45b5-9cde-cc618fbf491f" />
                          <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1" GUID="c83abe1e-5fde-4e4e-a9b5-7293505ffeff" />
                          <akn:docTitle
-                            eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelungs des öffenltichen Vereinsrechts</akn:docTitle>
+                            eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                          <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1" GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( <akn:inline
                                eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1" GUID="bdff7240-266e-4ff3-b311-60342bd1afa2" refersTo="amtliche-abkuerzung" name="attributsemantik-noch-undefiniert">Vereinsgesetz</akn:inline>)</akn:shortTitle>
                       </akn:p>
@@ -109,7 +112,7 @@ class NormTest {
         """;
 
     Norm norm = new Norm(toDocument(normString));
-    String expectedTitle = "Gesetz zur Regelungs des öffenltichen Vereinsrechts";
+    String expectedTitle = "Gesetz zur Regelung des öffentlichen Vereinsrechts";
 
     // when
     String actualTitle = norm.getTitle().get();
@@ -1032,10 +1035,7 @@ class NormTest {
             .strip();
 
     Norm norm = new Norm(toDocument(xml));
-
-    TimeBoundaryChangeData timeBoundaryToAdd =
-        new TimeBoundaryChangeData(null, LocalDate.parse("2024-01-02"));
-    norm.addTimeBoundary(timeBoundaryToAdd);
+    norm.addTimeBoundary(LocalDate.parse("2024-01-02"), EventRefType.GENERATION);
 
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
 
@@ -1233,51 +1233,51 @@ class NormTest {
   @Test
   void calculateNextPossibleEid() {
     // given
-    List<String> eids =
-        List.of(
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-4",
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1",
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-2");
+    Node parentNode =
+        XmlMapper.toNode(
+            """
+                <akn:temporalData eId="meta-1_geltzeiten-1"
+                                              GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"
+                                              source="attributsemantik-noch-undefiniert">
+                    <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
+                                       GUID="7b13adb9-ef62-43c4-bf1b-155561edf89b">
+                    </akn:temporalGroup>
+                    <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2"
+                                       GUID="7af9337a-3727-424c-a3df-dee918a79b22">
+                    </akn:temporalGroup>
+                </akn:temporalData>
+                """);
 
     // when
-    String nextPossibleEid = Norm.calculateNextPossibleEid(eids);
+    String nextPossibleEid = Norm.calculateNextPossibleEid(parentNode, "geltungszeitgr");
 
     // then
-    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-5");
+    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-3");
   }
 
   @Test
-  void calculateNextPossibleEidEmptyInput() {
+  void calculateNextPossibleEidWhenNoChildNodeOfTypeExists() {
     // given
-    List<String> eids = List.of();
+    Node parentNode =
+        XmlMapper.toNode(
+            """
+                <akn:temporalData eId="meta-1_geltzeiten-1"
+                                              GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"
+                                              source="attributsemantik-noch-undefiniert">
+                </akn:temporalData>
+                """);
 
     // when
-    Throwable thrown = catchThrowable(() -> Norm.calculateNextPossibleEid(eids));
+    String nextPossibleEid = Norm.calculateNextPossibleEid(parentNode, "geltungszeitgr");
 
     // then
-    assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
-  }
-
-  @Test
-  void calculateNextPossibleEidDifferentBase() {
-    // given
-    List<String> eids =
-        List.of(
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-4",
-            "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1",
-            "somestring-5");
-
-    // when
-    Throwable thrown = catchThrowable(() -> Norm.calculateNextPossibleEid(eids));
-
-    // then
-    assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
   }
 
   @Test
   void getOnePassiveModification() {
     // given
-    Norm norm = NormFixtures.normWithPassiveModifications();
+    Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
     // when
     var passiveModifications = norm.getPassiveModifications();
@@ -1289,9 +1289,23 @@ class NormTest {
   }
 
   @Test
+  void getOneActiveModification() {
+    // given
+    Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+    // when
+    var activeModifications = norm.getActiveModifications();
+
+    // then
+    assertThat(activeModifications).hasSize(1);
+    assertThat(activeModifications.getFirst().getEid())
+        .contains("meta-1_analysis-1_activemod-1_textualmod-1");
+  }
+
+  @Test
   void getMods() {
     // given
-    Norm norm = NormFixtures.normWithMods();
+    Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
 
     // when
     var mods = norm.getMods();
@@ -1305,12 +1319,275 @@ class NormTest {
   @Test
   void getStartDateForTemporalGroup() {
     // given
-    Norm norm = NormFixtures.normWithMultiplePassiveModifications();
+    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
     // when
     var date = norm.getStartDateForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
 
     // then
     assertThat(date).contains("2017-03-23");
+  }
+
+  @Test
+  void getStartEventRefForTemporalGroup() {
+    // given
+    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+
+    // when
+    var eId = norm.getStartEventRefForTemporalGroup("meta-1_geltzeiten-1_geltungszeitgr-2");
+
+    // then
+    assertThat(eId).contains("meta-1_lebzykl-1_ereignis-4");
+  }
+
+  @Test
+  void getStartDateForEventRef() {
+    // given
+    Norm norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+
+    // when
+    var date = norm.getStartDateForEventRef("meta-1_lebzykl-1_ereignis-3");
+
+    // then
+    assertThat(date).contains("2017-03-15");
+  }
+
+  @Nested
+  class createElementWithEidAndGuid {
+    @Test
+    void itShouldCreatesANewElement() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      Node parentNode = NodeParser.getNodeFromExpression("//act/meta", norm.getDocument());
+
+      // when
+      Node createdNode = norm.createElementWithEidAndGuid("akn:analysis", "analysis", parentNode);
+
+      // then
+      assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
+          .isEqualTo(createdNode);
+      assertThat(NodeParser.getValueFromExpression("@eId", createdNode))
+          .contains("meta-1_analysis-1");
+    }
+  }
+
+  @Nested
+  class getOrCreateAnalysisNode {
+    @Test
+    void itShouldCreatesTheAnalysisNodeIfItDoesNotExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+      // when
+      final var analysisNode = norm.getOrCreateAnalysisNode();
+
+      // then
+      assertThat(analysisNode).isNotNull();
+      assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
+          .isEqualTo(analysisNode);
+    }
+
+    @Test
+    void itShouldFindTheAnalysisNodeIfItExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      // when
+      final var analysisNode = norm.getOrCreateAnalysisNode();
+
+      // then
+      assertThat(analysisNode).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", analysisNode))
+          .contains("5a5d264e-431e-4dc1-b971-4bd81af8a0f4");
+    }
+  }
+
+  @Nested
+  class getOrCreatePassiveModificationsNode {
+    @Test
+    void itShouldCreatesThePassiveModificationsNodeIfItDoesNotExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+      // when
+      final var passiveModificationsNode = norm.getOrCreatePassiveModificationsNode();
+
+      // then
+      assertThat(passiveModificationsNode).isNotNull();
+      assertThat(
+              NodeParser.getNodeFromExpression("//act//passiveModifications", norm.getDocument()))
+          .isEqualTo(passiveModificationsNode);
+    }
+
+    @Test
+    void itShouldFindThePassiveModificationsNodeIfItExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      // when
+      final var passiveModificationsNode = norm.getOrCreatePassiveModificationsNode();
+
+      // then
+      assertThat(passiveModificationsNode).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", passiveModificationsNode))
+          .contains("77aae58f-06c9-4189-af80-a5f3ada6432c");
+    }
+  }
+
+  @Nested
+  class addPassiveModification {
+    @Test
+    void itShouldCreateANewPassiveModification() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      // when
+      final var passiveModification =
+          norm.addPassiveModification(
+              "substitution",
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml",
+              "#hauptteil-1_para-20_abs-1/100-126",
+              "#meta-1_geltzeiten-1_geltungszeitgr-2");
+
+      // then
+      assertThat(passiveModification.getSourceHref())
+          .contains(
+              new Href(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
+      assertThat(passiveModification.getType()).contains("substitution");
+      assertThat(passiveModification.getDestinationHref())
+          .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
+      assertThat(passiveModification.getForcePeriodEid())
+          .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
+      assertThat(
+              NodeParser.getNodeFromExpression(
+                  String.format("//*[@eId='%s']", passiveModification.getEid().orElseThrow()),
+                  norm.getDocument()))
+          .isEqualTo(passiveModification.getNode());
+    }
+  }
+
+  @Nested
+  class deleteByEId {
+    @Test
+    void itShouldDeleteTheNodeOfTheEId() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+      // when
+      norm.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
+
+      // then
+      assertThrows(NoSuchElementException.class, norm::getEli);
+    }
+  }
+
+  @Nested
+  class deleteTemporalGroupIfUnused {
+    @Test
+    void itShouldDeleteTemporalGroupIfUnused() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      // delete the mod so the temporal group is unused
+      norm.deleteByEId("meta-1_analysis-1_activemod-1");
+
+      // when
+      norm.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
+
+      // then
+      assertThat(norm.getTemporalGroupEids()).isEmpty();
+    }
+
+    @Test
+    void itShouldNotDeleteTemporalGroupIfUsed() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+      // when
+      norm.deleteTemporalGroupIfUnused("meta-1_geltzeiten-1_geltungszeitgr-1");
+
+      // then
+      assertThat(norm.getTemporalGroupEids()).hasSize(1);
+    }
+  }
+
+  @Nested
+  class deleteEventRefIfUnused {
+    @Test
+    void itShouldDeleteEventRefIfUnused() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      // delete the mod so the temporal group is unused
+      norm.deleteByEId("meta-1_analysis-1_activemod-1");
+
+      // when
+      norm.deleteEventRefIfUnused("meta-1_lebzykl-1_ereignis-1");
+
+      // then
+      assertThat(
+              NodeParser.getNodeFromExpression(
+                  "//*[@eId='meta-1_lebzykl-1_ereignis-1']", norm.getDocument()))
+          .isNull();
+    }
+
+    @Test
+    void itShouldNotDeleteEventRefIfUsed() {
+      // given
+      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+      assertThat(
+              NodeParser.getNodeFromExpression(
+                  "//*[@eId='meta-1_lebzykl-1_ereignis-2']", norm.getDocument()))
+          .isNotNull();
+      // when
+      norm.deleteEventRefIfUnused("meta-1_lebzykl-1_ereignis-2");
+
+      // then
+      assertThat(
+              NodeParser.getNodeFromExpression(
+                  "//*[@eId='meta-1_lebzykl-1_ereignis-2']", norm.getDocument()))
+          .isNotNull();
+    }
+  }
+
+  @Test
+  void getActiveModifications() {
+    // given
+    String normString =
+        """
+                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+              <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                                        http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                  <akn:act name="regelungstext">
+                      <!-- Metadaten -->
+                      <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                          <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
+                              <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
+                                  <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
+                                      <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
+                                      <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" GUID="83a4e169-ec57-4981-b191-84afe42130c8" href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml"/>
+                                      <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" GUID="9180eb9f-9da2-4fa4-b57f-803d4ddcdbc9" period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                                  </akn:textualMod>
+                              </akn:activeModifications>
+                              <akn:activeModifications eId="meta-1_analysis-1_activemod-2" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3a2">
+                                  <akn:textualMod eId="meta-1_analysis-1_activemod-2_textualmod-1" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
+                                      <akn:source eId="meta-1_analysis-1_activemod-2_textualmod-1_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
+                                      <akn:destination eId="meta-1_analysis-1_activemod-2_textualmod-1_destination-1" GUID="83a4e169-ec57-4981-b191-84afe42130c8" href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml"/>
+                                      <akn:force eId="meta-1_analysis-1_activemod-2_textualmod-1_gelzeitnachw-1" GUID="9180eb9f-9da2-4fa4-b57f-803d4ddcdbc9" period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                                  </akn:textualMod>
+                              </akn:activeModifications>
+                          </akn:analysis>
+                      </akn:meta>
+                  </akn:act>
+              </akn:akomaNtoso>
+                """;
+
+    Norm norm = new Norm(toDocument(normString));
+
+    // when
+    final List<TextualMod> activeModifications = norm.getActiveModifications();
+
+    // then
+    assertThat(activeModifications).hasSize(2);
   }
 }

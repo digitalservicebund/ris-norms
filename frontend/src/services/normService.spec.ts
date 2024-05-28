@@ -143,6 +143,35 @@ describe("normService", () => {
         }),
       )
     })
+
+    it("provides the data from the api with at-date", async () => {
+      const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
+
+      vi.doMock("./apiService.ts", () => ({
+        apiFetch: fetchMock,
+      }))
+
+      const { getNormHtmlByEli } = await import("./normService")
+
+      const date = new Date(Date.UTC(2023, 11, 11, 1, 2, 3, 4))
+      const result = await getNormHtmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        false,
+        date,
+      )
+
+      expect(result).toEqual("<div></div>")
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        expect.objectContaining({
+          query: expect.objectContaining({
+            atIsoDate: "2023-12-11T01:02:03.004Z",
+          }),
+          headers: expect.objectContaining({ Accept: "text/html" }),
+        }),
+      )
+    })
   })
 
   describe("putNormXml(eli, xml)", () => {
@@ -172,68 +201,6 @@ describe("normService", () => {
             Accept: "application/xml",
           }),
           body: '<?xml version="1.0" encoding="UTF-8"?></xml>',
-        }),
-      )
-    })
-  })
-
-  describe("previewNorm(eli, xml)", () => {
-    it("calls the api correctly", async () => {
-      const fetchMock = vi
-        .fn()
-        .mockResolvedValueOnce(`<?xml version="1.0" encoding="UTF-8"?></xml>`)
-
-      vi.doMock("./apiService.ts", () => ({
-        apiFetch: fetchMock,
-      }))
-
-      const { previewNorm } = await import("./normService")
-
-      const result = await previewNorm(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-        "<xml></xml>",
-      )
-      expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview",
-        expect.objectContaining({
-          method: "POST",
-          body: "<xml></xml>",
-          headers: expect.objectContaining({
-            Accept: "application/xml",
-            "Content-Type": "application/xml",
-          }),
-        }),
-      )
-    })
-  })
-
-  describe("previewTargetLawAsHtml(eli, xml)", () => {
-    it("calls the api correctly", async () => {
-      const fetchMock = vi.fn().mockResolvedValueOnce(`<span></span>`)
-
-      vi.doMock("./apiService.ts", () => ({
-        apiFetch: fetchMock,
-      }))
-
-      const { previewNormAsHtml } = await import("./normService")
-
-      const result = await previewNormAsHtml(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-        "<xml></xml>",
-      )
-      expect(result).toBe("<span></span>")
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview",
-        expect.objectContaining({
-          method: "POST",
-          body: "<xml></xml>",
-          headers: expect.objectContaining({
-            Accept: "text/html",
-            "Content-Type": "application/xml",
-          }),
         }),
       )
     })

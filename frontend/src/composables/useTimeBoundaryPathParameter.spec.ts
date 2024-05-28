@@ -9,30 +9,22 @@ describe("useTimeBoundaryPathParameter", () => {
 
   test("should provide a valid time boundary", async () => {
     vi.doMock("vue-router", () => ({
-      useRoute: vi.fn().mockReturnValue(
-        reactive({
-          params: {
-            timeBoundary: "unknown-eid-1",
-          },
-        }),
-      ),
+      useRoute: vi
+        .fn()
+        .mockReturnValue(reactive({ params: { timeBoundary: "2024-05-10" } })),
       useRouter: vi.fn(),
     }))
 
     const { useTimeBoundaryPathParameter } = await import(
       "./useTimeBoundaryPathParameter"
     )
-    const timeBoundary = useTimeBoundaryPathParameter()
+    const { timeBoundary } = useTimeBoundaryPathParameter()
 
-    expect(timeBoundary.value).toBe("unknown-eid-1")
+    expect(timeBoundary.value).toBe("2024-05-10")
   })
 
   test("should react to route param changes", async () => {
-    const route = reactive({
-      params: {
-        timeBoundary: "unknown-eid-1",
-      },
-    })
+    const route = reactive({ params: { timeBoundary: "2024-05-10" } })
 
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue(route),
@@ -42,30 +34,46 @@ describe("useTimeBoundaryPathParameter", () => {
     const { useTimeBoundaryPathParameter } = await import(
       "./useTimeBoundaryPathParameter"
     )
-    const timeBoundary = useTimeBoundaryPathParameter()
+    const { timeBoundary } = useTimeBoundaryPathParameter()
 
-    expect(timeBoundary.value).toBe("unknown-eid-1")
-    route.params.timeBoundary = "unknown-eid-2"
-    expect(timeBoundary.value).toBe("unknown-eid-2")
+    expect(timeBoundary.value).toBe("2024-05-10")
+    route.params.timeBoundary = "2024-05-11"
+    expect(timeBoundary.value).toBe("2024-05-11")
   })
 
   test("should update route param when changed", async () => {
-    const routerPush = vi.fn()
+    const routerReplace = vi.fn()
 
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn(),
       useRouter: vi.fn().mockReturnValue({
-        push: routerPush,
+        replace: routerReplace,
       }),
     }))
 
     const { useTimeBoundaryPathParameter } = await import(
       "./useTimeBoundaryPathParameter"
     )
-    const timeBoundary = useTimeBoundaryPathParameter()
-    timeBoundary.value = "unknown-eid-2"
-    expect(routerPush).toHaveBeenCalledWith({
-      params: { timeBoundary: "unknown-eid-2" },
+    const { timeBoundary } = useTimeBoundaryPathParameter()
+    timeBoundary.value = "2024-05-11"
+    expect(routerReplace).toHaveBeenCalledWith({
+      params: { timeBoundary: "2024-05-11" },
     })
+  })
+
+  test("returns the current value as a date", async () => {
+    vi.doMock("vue-router", () => ({
+      useRoute: vi
+        .fn()
+        .mockReturnValue(reactive({ params: { timeBoundary: "2024-05-10" } })),
+      useRouter: vi.fn(),
+    }))
+
+    const { useTimeBoundaryPathParameter } = await import(
+      "./useTimeBoundaryPathParameter"
+    )
+    const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
+
+    expect(timeBoundaryAsDate.value).toEqual(new Date("2024-05-10"))
   })
 })

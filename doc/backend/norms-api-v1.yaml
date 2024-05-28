@@ -110,6 +110,85 @@ paths:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
 
+  /norms/{eli}/elements:
+    get:
+      summary: Get a norm's elements, filtered by the elements' types
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          example: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: true
+          description: Type(s) of elements to include in the result.
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [preface, preamble, article, conclusions]
+        - name: amendedBy
+          in: query
+          required: false
+          description: ELI of an amending law. The result is restricted to elements that are affected by that law. <br>Note that the validity of that ELI is not checked by this endpoint.
+          schema:
+            type: string
+          example: "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+      responses:
+        '200':
+          description: Successful response returning list of elements. If none matched, the list is empty.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ElementResponse'
+        '404':
+          description: Norm could not be found by its ELI.
+
+  /norms/{eli}/elements/{eid}:
+    get:
+      summary: Get a single element inside a norm
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          example: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: eId of the element inside the norm
+          example: "hauptteil-1_art-3"
+          schema:
+            type: string
+        - name: atIsoDate
+          in: query
+          required: false
+          description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
+          example: "2017-03-01T00:00:00.000Z"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "The element inside the norm"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElementResponse'
+            text/html:
+              schema:
+                type: string
+        '400':
+          description: "Some parameter is invalid, e.g. `atIsoDate` could not be parsed into a date."
+        '404':
+          description: "The norm or the element could not be found."
+
   /norms/{eli}/articles:
     get:
       summary: Get a list of articles for a specific norm by eli
@@ -123,7 +202,19 @@ paths:
         - name: refersTo
           in: query
           required: false
-          description: "Filter by the article's `refersTo` literal (`refersToLiterals.einzelvorschrift` in the specification). Only for Content-Type: text/html"
+          description: "Filter by the article's `refersTo` literal (`refersToLiterals.einzelvorschrift` in the specification). Only for `Content-Type: text/html`"
+          schema:
+            type: string
+        - name: amendedBy
+          in: query
+          required: false
+          description: "Filter the articles to articles amended by the given norm. Must be the eli of the amending norm. Requires amendedAt. Only for `Content-Type: application/json`"
+          schema:
+            type: string
+        - name: amendedAt
+          in: query
+          required: false
+          description: "Filter the articles to articles amended at the given livecycle event. Must be the eid of the livecycle event. Requires amendedBy. Only for `Content-Type: application/json`"
           schema:
             type: string
       responses:
@@ -155,6 +246,11 @@ paths:
           description: EID of the article
           schema:
             type: string
+        - name: atIsoDate
+          in: query
+          schema:
+            type: string
+          description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
           description: Successful response
@@ -165,6 +261,49 @@ paths:
             text/html:
               schema:
                 type: string
+
+  /norms/{eli}/mods/{eid}:
+    put:
+      summary: Save an amending command and update ZF0
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: the eId of the akn:mod
+          schema:
+            type: string
+      requestBody:
+        description: The updated amending command
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Mod'
+      responses:
+        '200':
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  amendingNormXml:
+                    type: string
+                  targetNormXml:
+                    type: string
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+        '400':
+          description: Bad Request
+        '404':
+          description: Norm not found
 
   /norms/{eli}/timeBoundaries:
     get:
@@ -218,51 +357,61 @@ paths:
         '404':
           description: Norm not found
 
-  /norms/{eli}/preview:
-    post:
-      summary: Call time machine to generate preview of applied amending law
+  /norms/{eli}/{eid}:
+    get:
+      summary: Get an element of a norm by its EID (currently only in HTML preview format)
       parameters:
         - name: eli
           in: path
           required: true
-          description: ELI identifier of the target law
+          description: ELI of the norm
           schema:
             type: string
-      requestBody:
-        description: The XML of the amending law (which may be updated and not saved on DB)
-        required: true
-        content:
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/LegalDocML.de'
+            example: eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1
+        - name: eid
+          in: path
+          required: true
+          description: EID of the element in the norm
+          schema:
+            type: string
+            example: hauptteil-1_art-3
       responses:
         '200':
-          description: Successful response with preview of amended law
+          description: An HTML rendering of the element
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
-            text/html:
+            application/html:
               schema:
                 type: string
+        '404':
+          description: Norm or element not found
+
 
   /renderings:
     post:
       summary: Create and return an HTML rendering of the provided LDML.de XML
       parameters:
         - in: query
-          name: show_metadata
+          name: showMetadata
           schema:
             type: boolean
-            default: true
+            default: false
           description: Should the metadata table be included?
+        - name: atIsoDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+            default: "the current date"
+          description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (Only when providing application/json)"
       requestBody:
-        description: The LDML.de XML
         required: true
         content:
           application/xml:
             schema:
               $ref: '#/components/schemas/LegalDocML.de'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenderRequest'
       responses:
         '200':
           description: HTML rendering the provided LDML.de XML
@@ -309,11 +458,27 @@ components:
     TimeBoundary:
       type: object
       properties:
-        eid:
+        eventRefEid:
           type: string
         date:
           type: string
           format: date
+        temporalGroupEid:
+          type: string
+
+    Mod:
+      type: object
+      properties:
+        refersTo:
+          type: string
+        timeBoundaryEid:
+          type: string
+        destinationHref:
+          type: string
+        oldText:
+          type: string
+        newText:
+          type: string
 
     ReleaseResponse:
       type: object
@@ -328,9 +493,34 @@ components:
           items:
             type: string
 
+    RenderRequest:
+      type: object
+      properties:
+        norm:
+          description: The xml of the norm which should be rendered.
+          type: string
+          format: LegalDocML.de XML
+        customNorms:
+          type: object
+          additionalProperties:
+            description: The xmls of norms which are referenced by the norm (e.g. in passiveModifications) and should not be loaded from the database.
+            type: string
+            format: LegalDocML.de XML
+
     LegalDocML.de:
       type: object
       xml:
         name: akomaNtoso
         namespace: 'http://Inhaltsdaten.LegalDocML.de/1.6'
         prefix: akn
+
+    ElementResponse:
+      type: object
+      properties:
+        eli:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+          enum: [ preface, preamble, article, conclusions ]

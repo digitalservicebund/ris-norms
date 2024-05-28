@@ -29,7 +29,7 @@ public class NormMapper {
   public static NormDto mapToDto(final Norm norm) {
     return NormDto.builder()
         .xml(XmlMapper.toString(norm.getDocument()))
-        .eli(norm.getEli().orElseThrow())
+        .eli(norm.getEli())
         .guid(norm.getGuid().orElseThrow())
         .build();
   }

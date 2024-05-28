@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormHtml } from "@/composables/useNormHtml"
+import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 
 /**
  * The xml of the law whose metadata is edited on this view. As both this and the article metadata editor vie both edit
@@ -13,7 +14,9 @@ import { useNormHtml } from "@/composables/useNormHtml"
 const xml = defineModel<string>("xml")
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
-const targetLawRender = useNormHtml(affectedDocumentEli)
+const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
+
+const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
 </script>
 
 <template>
@@ -25,14 +28,14 @@ const targetLawRender = useNormHtml(affectedDocumentEli)
     </div>
 
     <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-32">
-      <section class="mt-32 flex flex-col gap-8">
+      <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
         <RisLawPreview
           class="ds-textarea flex-grow p-2"
           :content="targetLawRender ?? ''"
         />
       </section>
 
-      <section class="flex flex-col gap-8">
+      <section class="flex flex-col gap-8" aria-label="Metadaten bearbeiten">
         <RisTabs
           align="right"
           :tabs="[

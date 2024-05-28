@@ -5,13 +5,12 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,6 +37,7 @@ class ArticleControllerTest {
   @MockBean private LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   @MockBean private LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
+  @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   @Nested
   class getArticles {
@@ -161,6 +161,78 @@ class ArticleControllerTest {
                       Objects.equals(
                           argument.eli(),
                           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itReturnsArticlesFilteredByAmendedAt() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedAt=meta-1_lebzykl-1_ereignis-4")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").exists())
+          .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-20"))
+          .andExpect(jsonPath("$[1]").doesNotExist());
+    }
+
+    @Test
+    void itReturnsArticlesFilteredByAmendedBy() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").exists())
+          .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
+          .andExpect(jsonPath("$[1]").doesNotExist());
+    }
+
+    @Test
+    void itReturnsNoArticlesWhenAmendedByDoesNotMatch() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2023-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-2")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").doesNotExist());
+    }
+
+    @Test
+    void itReturnsNoArticlesWhenAmendedAtDoesNotMatch() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-3")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$[0]").doesNotExist());
     }
   }
 
@@ -578,6 +650,55 @@ class ArticleControllerTest {
                       Objects.equals(
                           argument.eli(),
                           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itReturnsArticleRenderAtIsoDate() throws Exception {
+      // Given
+      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+
+      // When
+      when(loadNormUseCase.loadNorm(
+              new LoadNormUseCase.Query(
+                  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(targetNorm));
+
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
+          .thenReturn("<div></div>");
+
+      when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
+          .thenReturn(targetNorm);
+
+      // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2017-03-01T00:00:00.000Z")
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(content().string("<div></div>"));
+
+      verify(loadNormUseCase)
+          .loadNorm(
+              new LoadNormUseCase.Query(
+                  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"));
+
+      verify(applyPassiveModificationsUseCase)
+          .applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(
+                  targetNorm, Instant.parse("2017-03-01T00:00:00.000Z")));
+
+      verify(transformLegalDocMlToHtmlUseCase)
+          .transformLegalDocMlToHtml(new TransformLegalDocMlToHtmlUseCase.Query(any(), false));
+    }
+
+    @Test
+    void itReturnsNothingIfIsoDateIsInvalid() throws Exception {
+      // When / Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=thisIsNotADate")
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isBadRequest());
     }
   }
 }

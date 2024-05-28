@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -34,7 +35,8 @@ class NormControllerTest {
   @MockBean private LoadNormXmlUseCase loadNormXmlUseCase;
   @MockBean private UpdateNormXmlUseCase updateNormXmlUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  @MockBean private TimeMachineUseCase timeMachineUseCase;
+  @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  @MockBean private UpdateModUseCase updateModUseCase;
 
   @Nested
   class getNorm {
@@ -73,7 +75,7 @@ class NormControllerTest {
                                                      <akn:longTitle eId="einleitung-1_doktitel-1" GUID="abbb08de-e7e2-40ab-aba0-079ce786e6d6">
                                                         <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="3e7c2134-d82c-44ba-b50d-bad9790375a0">
                                                            <akn:docTitle
-                                                              eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelungs des öffenltichen Vereinsrechts</akn:docTitle>
+                                                              eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                                                         </akn:p>
                                                      </akn:longTitle>
                                                   </akn:preface>
@@ -96,7 +98,7 @@ class NormControllerTest {
                   .value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
           .andExpect(
               jsonPath("title")
-                  .value(equalTo("Gesetz zur Regelungs des öffenltichen Vereinsrechts")))
+                  .value(equalTo("Gesetz zur Regelung des öffentlichen Vereinsrechts")))
           .andExpect(jsonPath("frbrNumber").value(equalTo("s593")))
           .andExpect(jsonPath("frbrName").value(equalTo("BGBl. I")))
           .andExpect(jsonPath("frbrDateVerkuendung").value(equalTo("1964-08-05")));
@@ -168,6 +170,30 @@ class NormControllerTest {
       verify(transformLegalDocMlToHtmlUseCase, times(1))
           .transformLegalDocMlToHtml(
               argThat(query -> query.xml().equals(xml) && query.showMetadata()));
+    }
+
+    @Test
+    void itCallsNormServiceAndReturnsNormRenderWithAtIsoDate() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String html = "<div></div>";
+
+      when(loadNormUseCase.loadNorm(any()))
+          .thenReturn(Optional.of(NormFixtures.loadFromDisk("SimpleNorm.xml")));
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
+      when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
+          .thenReturn(NormFixtures.loadFromDisk("SimpleNorm.xml"));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/{eli}?atIsoDate=2024-04-03T00:00:00.000Z", eli)
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+          .andExpect(content().string(html));
+
+      verify(applyPassiveModificationsUseCase, times(1)).applyPassiveModifications(any());
     }
   }
 
@@ -243,66 +269,82 @@ class NormControllerTest {
   }
 
   @Nested
-  class getPreview {
+  class updateMod {
 
     @Test
-    void itReturnsPreview() throws Exception {
+    void itCallsUpdateModUseCaseAndReturnsXml() throws Exception {
       // Given
-      when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(Optional.of("<xml>result</xml>"));
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+      final String xml = "<law></law>";
+      final String targetNormXml = "<target-norm-xml></target-norm-xml>";
+
+      // When
+      when(updateModUseCase.updateMod(any()))
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(xml, targetNormXml)));
 
       // When // Then
       mockMvc
           .perform(
-              post("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview")
-                  .contentType(MediaType.APPLICATION_XML)
-                  .content("<xml>amending-law</xml>")
-                  .accept(MediaType.APPLICATION_XML))
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
           .andExpect(status().isOk())
-          .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML))
-          .andExpect(content().string("<xml>result</xml>"));
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+          .andExpect(jsonPath("amendingNormXml").value(xml))
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormXml));
 
-      verify(timeMachineUseCase, times(1))
-          .applyTimeMachine(
-              argThat(
-                  query ->
-                      query
-                              .targetLawEli()
-                              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
-                          && query.amendingLawXml().equals("<xml>amending-law</xml>")));
+      verify(updateModUseCase, times(1)).updateMod(argThat(query -> !query.dryRun()));
     }
-  }
-
-  @Nested
-  class getHtmlPreview {
 
     @Test
-    void itReturnsPreview() throws Exception {
+    void itCallsUpdateModUseCaseWithDryRunAndReturnsXml() throws Exception {
       // Given
-      when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(Optional.of("<xml>result</xml>"));
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<html></html>");
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+      final String xml = "<law></law>";
+      final String targetNormXml = "<target-norm-xml></target-norm-xml>";
+
+      // When
+      when(updateModUseCase.updateMod(any()))
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(xml, targetNormXml)));
 
       // When // Then
       mockMvc
           .perform(
-              post("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview")
-                  .contentType(MediaType.APPLICATION_XML)
-                  .content("<xml>amending-law</xml>")
-                  .accept(MediaType.TEXT_HTML))
+              put("/api/v1/norms/" + eli + "/mods/" + modEid + "?dryRun=true")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
           .andExpect(status().isOk())
-          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-          .andExpect(content().string("<html></html>"));
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+          .andExpect(jsonPath("amendingNormXml").value(xml))
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormXml));
 
-      verify(timeMachineUseCase, times(1))
-          .applyTimeMachine(
-              argThat(
-                  query ->
-                      query
-                              .targetLawEli()
-                              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
-                          && query.amendingLawXml().equals("<xml>amending-law</xml>")));
-      verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals("<xml>result</xml>")));
+      verify(updateModUseCase, times(1)).updateMod(argThat(query -> query.dryRun()));
+    }
+
+    @Test
+    void itCallsUpdateModUseCaseAndReturnsEmpty() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+
+      // When
+      when(updateModUseCase.updateMod(any())).thenReturn(Optional.empty());
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
+          .andExpect(status().isNotFound());
     }
   }
 }

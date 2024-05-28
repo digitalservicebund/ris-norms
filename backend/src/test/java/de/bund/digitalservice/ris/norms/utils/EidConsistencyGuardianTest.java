@@ -16,14 +16,16 @@ class EidConsistencyGuardianTest {
     var sampleXml =
         """
                 <root>
-                   <parentA eId="parent-1">
-                       <childA eId="parent-1_child-1"></childA>
-                       <childA eId="parent-1_child-2"></childA>
-                   </parentA>
-                   <parentA eId="parent-2">
-                       <childA eId="parent-2_child-1"></childA>
-                       <childA eId="parent-2_child-2"></childA>
-                   </parentA>
+                  <akn:meta>
+                     <parentA eId="parent-1">
+                         <childA eId="parent-1_child-1"></childA>
+                         <childA eId="parent-1_child-2"></childA>
+                     </parentA>
+                     <parentA eId="parent-2">
+                         <childA eId="parent-2_child-1"></childA>
+                         <childA eId="parent-2_child-2"></childA>
+                     </parentA>
+                  </akn:meta>
                 </root>
                 """;
 
@@ -41,19 +43,21 @@ class EidConsistencyGuardianTest {
   }
 
   @Test
-  void itCorrectsEids() {
+  void itCorrectsEidGaps() {
 
     var sampleXml =
         """
                 <root>
-                   <parentA eId="parent-1">
-                       <childA eId="parent-1_child-1"></childA>
-                       <childA eId="parent-1_child-2"></childA>
-                   </parentA>
-                   <parentA eId="parent-3">
-                       <childA eId="parent-3_child-1"></childA>
-                       <childA eId="parent-3_child-4"></childA>
-                   </parentA>
+                  <akn:meta>
+                     <parentA eId="parent-1">
+                         <childA eId="parent-1_child-1"></childA>
+                         <childA eId="parent-1_child-2"></childA>
+                     </parentA>
+                     <parentA eId="parent-3">
+                         <childA eId="parent-3_child-1"></childA>
+                         <childA eId="parent-3_child-4"></childA>
+                     </parentA>
+                  </akn:meta>
                 </root>
                 """;
 
@@ -65,16 +69,192 @@ class EidConsistencyGuardianTest {
     var expectedXml =
         """
                 <root>
-                   <parentA eId="parent-1">
-                       <childA eId="parent-1_child-1"></childA>
-                       <childA eId="parent-1_child-2"></childA>
-                   </parentA>
-                   <parentA eId="parent-2">
-                       <childA eId="parent-2_child-1"></childA>
-                       <childA eId="parent-2_child-2"></childA>
-                   </parentA>
+                  <akn:meta>
+                     <parentA eId="parent-1">
+                         <childA eId="parent-1_child-1"></childA>
+                         <childA eId="parent-1_child-2"></childA>
+                     </parentA>
+                     <parentA eId="parent-2">
+                         <childA eId="parent-2_child-1"></childA>
+                         <childA eId="parent-2_child-2"></childA>
+                     </parentA>
+                  </akn:meta>
                 </root>
                 """;
+
+    final Diff diff =
+        DiffBuilder.compare(Input.from(correctedDocument))
+            .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
+            .ignoreWhitespace()
+            .build();
+    assertThat(diff.hasDifferences()).isFalse();
+  }
+
+  @Test
+  void itCorrectsEidOrder() {
+
+    var sampleXml =
+        """
+                    <root>
+                      <akn:meta>
+                         <parentA eId="parent-2">
+                             <childA eId="parent-2_child-1"></childA>
+                             <childA eId="parent-2_child-2"></childA>
+                         </parentA>
+                         <parentA eId="parent-1">
+                             <childA eId="parent-1_child-1"></childA>
+                             <childA eId="parent-1_child-2"></childA>
+                         </parentA>
+                      </akn:meta>
+                    </root>
+                    """;
+
+    // When
+    final Document document = XmlMapper.toDocument(sampleXml);
+    final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
+
+    // Then
+    var expectedXml =
+        """
+                    <root>
+                      <akn:meta>
+                         <parentA eId="parent-1">
+                             <childA eId="parent-1_child-1"></childA>
+                             <childA eId="parent-1_child-2"></childA>
+                         </parentA>
+                         <parentA eId="parent-2">
+                             <childA eId="parent-2_child-1"></childA>
+                             <childA eId="parent-2_child-2"></childA>
+                         </parentA>
+                      </akn:meta>
+                    </root>
+                    """;
+
+    final Diff diff =
+        DiffBuilder.compare(Input.from(correctedDocument))
+            .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
+            .ignoreWhitespace()
+            .build();
+
+    assertThat(diff.hasDifferences()).isFalse();
+  }
+
+  @Test
+  void itCorrectsEidGapsAndOrder() {
+
+    var sampleXml =
+        """
+                    <root>
+                      <akn:meta>
+                         <parentA eId="parent-2">
+                             <childA eId="parent-2_child-2"></childA>
+                             <childA eId="parent-2_child-1"></childA>
+                         </parentA>
+                         <parentA eId="parent-1">
+                             <childA eId="parent-1_child-3"></childA>
+                             <childA eId="parent-1_child-1"></childA>
+                         </parentA>
+                         <parentA eId="parent-3">
+                             <childA eId="parent-2_child-1"></childA>
+                             <childA eId="parent-2_child-2"></childA>
+                         </parentA>
+                      </akn:meta>
+                    </root>
+                    """;
+
+    // When
+    final Document document = XmlMapper.toDocument(sampleXml);
+    final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
+
+    // Then
+    var expectedXml =
+        """
+                    <root>
+                    <akn:meta>
+                       <parentA eId="parent-1">
+                           <childA eId="parent-1_child-1"></childA>
+                           <childA eId="parent-1_child-2"></childA>
+                       </parentA>
+                       <parentA eId="parent-2">
+                           <childA eId="parent-2_child-1"></childA>
+                           <childA eId="parent-2_child-2"></childA>
+                       </parentA>
+                       <parentA eId="parent-3">
+                           <childA eId="parent-3_child-1"></childA>
+                           <childA eId="parent-3_child-2"></childA>
+                       </parentA>
+                    </akn:meta>
+                    </root>
+                    """;
+
+    final Diff diff =
+        DiffBuilder.compare(Input.from(correctedDocument))
+            .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
+            .ignoreWhitespace()
+            .build();
+
+    assertThat(diff.hasDifferences()).isFalse();
+  }
+
+  @Test
+  void itCorrectsOnlyMeta() {
+
+    var sampleXml =
+        """
+                    <root>
+                      <akn:meta>
+                         <parentA eId="parent-1">
+                             <childA eId="parent-1_child-1"></childA>
+                             <childA eId="parent-1_child-2"></childA>
+                         </parentA>
+                         <parentA eId="parent-3">
+                             <childA eId="parent-3_child-1"></childA>
+                             <childA eId="parent-3_child-4"></childA>
+                         </parentA>
+                      </akn:meta>
+                      <akn:body>
+                         <parentA eId="parent-1">
+                             <childA eId="parent-1_child-1"></childA>
+                             <childA eId="parent-1_child-2"></childA>
+                         </parentA>
+                         <parentA eId="parent-3">
+                             <childA eId="parent-3_child-1"></childA>
+                             <childA eId="parent-3_child-4"></childA>
+                         </parentA>
+                      </akn:body>
+                    </root>
+                    """;
+
+    // When
+    final Document document = XmlMapper.toDocument(sampleXml);
+    final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
+
+    // Then
+    var expectedXml =
+        """
+                    <root>
+                      <akn:meta>
+                         <parentA eId="parent-1">
+                             <childA eId="parent-1_child-1"></childA>
+                             <childA eId="parent-1_child-2"></childA>
+                         </parentA>
+                         <parentA eId="parent-2">
+                             <childA eId="parent-2_child-1"></childA>
+                             <childA eId="parent-2_child-2"></childA>
+                         </parentA>
+                      </akn:meta>
+                      <akn:body>
+                         <parentA eId="parent-1">
+                             <childA eId="parent-1_child-1"></childA>
+                             <childA eId="parent-1_child-2"></childA>
+                         </parentA>
+                         <parentA eId="parent-3">
+                             <childA eId="parent-3_child-1"></childA>
+                             <childA eId="parent-3_child-4"></childA>
+                         </parentA>
+                      </akn:body>
+                    </root>
+                    """;
 
     final Diff diff =
         DiffBuilder.compare(Input.from(correctedDocument))

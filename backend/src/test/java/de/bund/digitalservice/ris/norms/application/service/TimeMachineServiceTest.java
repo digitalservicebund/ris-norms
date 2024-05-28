@@ -1,60 +1,24 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.port.input.TimeMachineUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.time.Instant;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 class TimeMachineServiceTest {
   final NormService normService = mock(NormService.class);
 
-  final TimeMachineService timeMachineService =
-      new TimeMachineService(new XmlDocumentService(), normService);
-
-  @Nested
-  class applyTimeMachine {
-    @Test
-    void itAppliesTimeMachine() {
-
-      // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-
-      String amendingLawString =
-          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>In <akn:ref"
-              + " href=\"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml\">paragraph 2</akn:ref> "
-              + "<akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.</akn:mod></amendingLaw>";
-      String targetLawString =
-          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw><akn:p eId=\"two\">old text</akn:p></targetLaw>";
-
-      when(normService.loadNormXml(any())).thenReturn(Optional.of(targetLawString));
-
-      // When
-      var xml =
-          timeMachineService.applyTimeMachine(new TimeMachineUseCase.Query(eli, amendingLawString));
-
-      // Then
-      verify(normService, times(1))
-          .loadNormXml(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xml)
-          .isPresent()
-          .contains(
-              "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw><akn:p eId=\"two\">new text</akn:p></targetLaw>");
-    }
-  }
+  final TimeMachineService timeMachineService = new TimeMachineService(normService);
 
   @Nested
   class applyPassiveModifications {
@@ -87,7 +51,9 @@ class TimeMachineServiceTest {
               .build();
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(norm, Instant.MAX);
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
 
       // then
       assertThat(result).isEqualTo(norm);
@@ -96,14 +62,16 @@ class TimeMachineServiceTest {
     @Test
     void applyOnePassiveModification() {
       // given
-      final var norm = NormFixtures.normWithPassiveModifications();
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.normWithMods();
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(norm, Instant.MAX);
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
 
       // then
       var changedNodeValue =
@@ -119,14 +87,16 @@ class TimeMachineServiceTest {
     @Test
     void applyPassiveModificationsInCorrectOrder() {
       // given
-      final var norm = NormFixtures.normWithMultiplePassiveModifications();
+      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
 
-      final var amendingLaw = NormFixtures.normWithMultipleMods();
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Norm result = timeMachineService.applyPassiveModifications(norm, Instant.MAX);
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
 
       // then
       var changedNodeValue =
@@ -140,18 +110,56 @@ class TimeMachineServiceTest {
     }
 
     @Test
+    void applyPassiveModificationsWhereTargetNodeEqualsNodeToChange() {
+      // given
+      final var norm =
+          NormFixtures.loadFromDisk("NormWithPassiveModsWhereTargetNodeEqualsNodeToChange.xml");
+
+      final var amendingLaw =
+          NormFixtures.loadFromDisk("NormWithModsWhereTargetNodeEqualsNodeToChange.xml");
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
+
+      // then
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              """
+                              Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen
+                                                              entsprechend §
+                                                              64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die
+                                                              Angaben, die die
+                                                              Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der
+                                                              Protokolldaten
+                                                              ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der
+                                                              Datenschutzkontrolle, der
+                                                              Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
+                                                              Die
+                                                              Protokolldaten sind nach Ablauf von fünf Jahren zu löschen.
+                              """);
+    }
+
+    @Test
     void applyPassiveModificationsBeforeDate() {
       // given
-      final var norm = NormFixtures.normWithMultiplePassiveModifications();
-
-      final var amendingLaw = NormFixtures.normWithMultipleMods();
+      final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
       Norm result =
           timeMachineService.applyPassiveModifications(
-              norm, Instant.parse("2017-03-01T00:00:00.000Z"));
+              new ApplyPassiveModificationsUseCase.Query(
+                  norm, Instant.parse("2017-03-01T00:00:00.000Z")));
 
       // then
       var changedNodeValue =
@@ -163,182 +171,54 @@ class TimeMachineServiceTest {
           .isEqualToIgnoringWhitespace(
               "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
-  }
-
-  @Nested
-  class applyAmendingLawOnTargetLaw {
 
     @Test
-    void oldTextIsReplacedByNewText() {
+    void applyOnePassiveModificationWithCustomNorm() {
       // given
-      String amendingLawString =
-          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw><akn:mod>In <akn:ref"
-              + " href=\"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml\">paragraph 2</akn:ref> "
-              + "<akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.</akn:mod></amendingLaw>";
-      String targetLawString =
-          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw><akn:p eId=\"two\">old text</akn:p></targetLaw>";
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
       // when
-      String result = timeMachineService.apply(amendingLawString, targetLawString);
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX, Set.of(amendingLaw)));
 
       // then
-      assertThat(result)
-          .isEqualTo(
-              "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw><akn:p eId=\"two\">new text</akn:p></targetLaw>");
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
 
     @Test
-    void XmlProcessingExceptionIsThrownWhenAmendingLawXmlIsInvalid() {
+    void doNotApplyPassiveModificationWithoutForcePeriod() {
       // given
-      String amendingLawString = "SomeRandomText";
-      String targetLawString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><targetLaw></targetLaw>";
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      norm.deleteByEId("meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1");
+
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      Throwable thrown =
-          catchThrowable(() -> timeMachineService.apply(amendingLawString, targetLawString));
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
 
       // then
-      assertThat(thrown).isInstanceOf(XmlProcessingException.class);
-    }
-
-    @Test
-    void XmlProcessingExceptionIsThrownWhenTargetLawXmlIsInvalid() {
-      // given
-      String amendingLawString =
-          "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amendingLaw></amendingLaw>";
-
-      String targetLawString = "randomString";
-
-      // when
-      Throwable thrown =
-          catchThrowable(() -> timeMachineService.apply(amendingLawString, targetLawString));
-
-      // then
-      assertThat(thrown).isInstanceOf(XmlProcessingException.class);
-    }
-
-    @ParameterizedTest
-    @ValueSource(
-        strings = {
-          """
-                 only one quotedText
-
-                 <akn:mod>
-                   In <akn:ref
-            href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph
-            2</akn:ref> replace with <akn:quotedText>new</akn:quotedText>.
-                 </akn:mod>
-               """,
-          """
-                 eId THREE not found in target law
-
-                 <akn:mod>
-                   In <akn:ref
-            href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/THREE/9-34.xml">paragraph
-            2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
-            <akn:quotedText>new</akn:quotedText>.
-                 </akn:mod>
-               """,
-          """
-                 no href attribute in "ref" tag
-
-                 <akn:mod>
-                   In <akn:ref>paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
-            <akn:quotedText>new</akn:quotedText>.
-                 </akn:mod>
-               """,
-          """
-                 can't get eId from href
-
-                 <akn:mod>
-                   In <akn:ref href="invalid-eli-href">paragraph 2</akn:ref> replace
-            <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
-                 </akn:mod>
-               """
-        })
-    void throwModificationExceptionOnMissingParts(String modificationNodeText) {
-      // given
-      final String amendingLawXmlText =
-          """
-          <?xml version="1.0" encoding="UTF-8"?>
-          <akn:body>
-          """
-              + modificationNodeText
-              + """
-
-                </akn:body>
-              """;
-      final String targetLawXmlText =
-          """
-          <?xml version="1.0" encoding="UTF-8"?>
-          <akn:body>
-              <akn:p eId="one">old text</akn:p>
-              <akn:p eId="two">old text</akn:p>
-            </akn:body>
-          """;
-
-      // when
-      Throwable thrown =
-          catchThrowable(() -> timeMachineService.apply(amendingLawXmlText, targetLawXmlText));
-
-      // then
-      assertThat(thrown).isInstanceOf(XmlProcessingException.class);
-    }
-
-    @Test
-    void throwModificationExceptionIfAmendingLawHasNoModifications() {
-      // given
-      final String amendingLaw = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><amending/>";
-      final String targetLaw = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><target/>";
-
-      // when
-      Throwable thrown = catchThrowable(() -> timeMachineService.apply(amendingLaw, targetLaw));
-
-      // then
-      assertThat(thrown).isInstanceOf(XmlProcessingException.class);
-    }
-
-    @Test
-    void targetLawToContainTheNewTextInPlaceOfTheOldOne() {
-      // given
-      final String amendingLawXmlText =
-          """
-             <?xml version="1.0" encoding="UTF-8"?>
-             <akn:body>
-                 <akn:mod>
-               In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with
-               <akn:quotedText>new</akn:quotedText>.
-                 </akn:mod>
-
-                 "old" -> "new"
-
-          </akn:body>
-             """
-              .strip();
-      final String targetLawXmlText =
-          """
-          <?xml version="1.0" encoding="UTF-8"?>
-          <akn:body>
-              <akn:p eId="one">old text</akn:p>
-              <akn:p eId="two">old text</akn:p>
-            </akn:body>
-          """;
-
-      final String expectedResultingLawXmlText =
-          """
-          <?xml version="1.0" encoding="UTF-8"?>
-          <akn:body>
-              <akn:p eId="one">old text</akn:p>
-              <akn:p eId="two">new text</akn:p>
-            </akn:body>
-          """
-              .replaceAll("[\\n ]", "");
-
-      // when applying the TimeMachine
-      final String resultingLaw = timeMachineService.apply(amendingLawXmlText, targetLawXmlText);
-
-      // the result contains the new text in place of the old text
-      assertThat(resultingLaw.replaceAll("[\\n ]", "")).isEqualTo(expectedResultingLawXmlText);
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              "entgegen § 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
   }
 }

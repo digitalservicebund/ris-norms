@@ -1,17 +1,19 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
+import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,16 +31,19 @@ public class ArticleController {
   private final LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
+  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
 
   public ArticleController(
       LoadNormUseCase loadNormUseCase,
       LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase,
       LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
-      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase) {
+      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
+      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNextVersionOfNormUseCase = loadNextVersionOfNormUseCase;
     this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
+    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
   }
 
   /**
@@ -55,6 +60,10 @@ public class ArticleController {
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
+   * @param amendedBy Filter the articles to articles amended by the given norm. Must be the eli of
+   *     the amending norm. Requires amendedAt.
+   * @param amendedAt Filter the articles to articles amended at the given livecycle event. Must be
+   *     the eid of the livecycle event. Requires amendedBy.
    * @return A {@link ResponseEntity} containing the retrieved norm.
    *     <p>Returns HTTP 200 (OK) and the norm if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
@@ -67,13 +76,68 @@ public class ArticleController {
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
-      @PathVariable final String subtype) {
+      @PathVariable final String subtype,
+      @RequestParam final Optional<String> amendedBy,
+      @RequestParam final Optional<String> amendedAt) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
+    final var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
+
+    // amendedAt and amendedBy refer to passive modifications (i.e. amended at a specific
+    // date or by a specific change law). So we collect a list of all passive modifications
+    // matching both criteria.
+    var passiveModificationsAmendedAtOrBy =
+        optionalNorm.stream()
+            .flatMap((Norm norm) -> norm.getPassiveModifications().stream())
+            .filter(
+                passiveModification -> {
+                  if (amendedBy.isEmpty()) return true;
+                  else
+                    return passiveModification
+                        .getSourceHref()
+                        .flatMap(Href::getEli)
+                        .equals(amendedBy);
+                })
+            .filter(
+                passiveModification -> {
+                  if (amendedAt.isEmpty()) return true;
+                  else
+                    return optionalNorm
+                        .get()
+                        .getStartEventRefForTemporalGroup(
+                            passiveModification.getForcePeriodEid().orElseThrow())
+                        .equals(amendedAt);
+                })
+            .toList();
+
     return ResponseEntity.ok(
-        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
+        optionalNorm.map(Norm::getArticles).stream()
             .flatMap(List::stream)
+            .filter(
+                article -> {
+                  // If we don't filter by anything related to passive modifications,
+                  // return all articles.
+                  if (amendedBy.isEmpty() && amendedAt.isEmpty()) {
+                    return true;
+                  }
+
+                  // If we filter by amendedAt or amendedBy: Those properties are found
+                  // in the passive modifications we already collected above. What's left
+                  // now is to only return the articles that are going to be modified by
+                  // those passive modifications.
+                  return passiveModificationsAmendedAtOrBy.stream()
+                      .map(TextualMod::getDestinationHref)
+                      .flatMap(Optional::stream)
+                      .map(Href::getEId)
+                      .flatMap(Optional::stream)
+                      .anyMatch(
+                          destinationEid ->
+                              // Modifications can be either on the article itself or anywhere
+                              // inside the article, hence the "contains" rather than exact
+                              // matching.
+                              destinationEid.contains(article.getEid().orElseThrow()));
+                })
             .map(
                 article -> {
                   var targetLawZf0 =
@@ -211,6 +275,8 @@ public class ArticleController {
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
    * @param eid eid of the article
+   * @param atIsoDate ISO date string indicating which modifications should be applied before the
+   *     HTML gets rendered and returned.
    * @return A {@link ResponseEntity} containing the retrieved article as rendered HTML.
    *     <p>Returns HTTP 200 (OK) and the rendered HTML if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
@@ -226,9 +292,38 @@ public class ArticleController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @PathVariable final String eid) {
+      @PathVariable final String eid,
+      @RequestParam Optional<String> atIsoDate) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+
+    if (atIsoDate.isPresent()) {
+      try {
+        DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
+      } catch (Exception e) {
+        return ResponseEntity.badRequest().build();
+      }
+
+      return loadNormUseCase
+          .loadNorm(new LoadNormUseCase.Query(eli))
+          .map(
+              norm ->
+                  applyPassiveModificationsUseCase.applyPassiveModifications(
+                      new ApplyPassiveModificationsUseCase.Query(
+                          norm, Instant.parse(atIsoDate.get()))))
+          .map(Norm::getArticles)
+          .stream()
+          .flatMap(List::stream)
+          .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
+          .findFirst()
+          .map(article -> XmlMapper.toString(article.getNode()))
+          .map(
+              xml ->
+                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                      new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
+          .map(ResponseEntity::ok)
+          .orElse(ResponseEntity.notFound().build());
+    }
 
     return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
         .flatMap(List::stream)
@@ -241,30 +336,5 @@ public class ArticleController {
                     new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
-  }
-
-  @NotNull
-  private static String buildEli(
-      String agent,
-      String year,
-      String naturalIdentifier,
-      String pointInTime,
-      String version,
-      String language,
-      String subtype) {
-    return "eli/bund/"
-        + agent
-        + "/"
-        + year
-        + "/"
-        + naturalIdentifier
-        + "/"
-        + pointInTime
-        + "/"
-        + version
-        + "/"
-        + language
-        + "/"
-        + subtype;
   }
 }

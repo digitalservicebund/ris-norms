@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.utils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -16,11 +17,11 @@ import org.w3c.dom.NodeList;
  */
 public final class EidConsistencyGuardian {
 
+  private static final String START_ON_NODE = "akn:meta";
+
   private EidConsistencyGuardian() {
     // Should not be instantiated as an object
   }
-
-  private static Element rootElement;
 
   /**
    * This method traverses all the XML nodes and checks the eId consistency, making the necessary
@@ -31,24 +32,52 @@ public final class EidConsistencyGuardian {
    * @return the corrected XML
    */
   public static Document correctEids(final Document currentXml) {
-    rootElement = currentXml.getDocumentElement();
-    // Dead references
-    setRemovedReferencesToEmptyStringNew(
-        "//textualMod/force", "period", "//temporalData/temporalGroup", "eId");
-    setRemovedReferencesToEmptyStringNew(
-        "//proprietary/legalDocML.de_metadaten_ds/*", "start", "//lifecycle/eventRef", "eId");
-    setRemovedReferencesToEmptyStringNew(
-        "//proprietary/legalDocML.de_metadaten_ds/*", "end", "//lifecycle/eventRef", "eId");
-    // Check eIds
-    updateElementEids(rootElement, null);
+    Element rootElement = currentXml.getDocumentElement();
+    Element startNode = findStartNode(rootElement, START_ON_NODE);
+    if (startNode != null) {
+      // Dead references
+      setRemovedReferencesToEmptyStringNew(
+          "//textualMod/force", "period", "//temporalData/temporalGroup", "eId", rootElement);
+      setRemovedReferencesToEmptyStringNew(
+          "//proprietary/legalDocML.de_metadaten_ds/*",
+          "start",
+          "//lifecycle/eventRef",
+          "eId",
+          rootElement);
+      setRemovedReferencesToEmptyStringNew(
+          "//proprietary/legalDocML.de_metadaten_ds/*",
+          "end",
+          "//lifecycle/eventRef",
+          "eId",
+          rootElement);
+      // Check eIds
+      updateElementEids(startNode, startNode.getAttribute("eId"), rootElement);
+    }
     return currentXml;
+  }
+
+  private static Element findStartNode(Element rootElement, String nodeName) {
+    // Check if the current element is the node we are looking for
+    if (rootElement.getNodeName().equals(nodeName)) {
+      return rootElement;
+    }
+
+    // Otherwise, recursively search through the child nodes
+    List<Node> childNodes = NodeParser.nodeListToList(rootElement.getChildNodes());
+    return childNodes.stream()
+        .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
+        .map(node -> findStartNode((Element) node, nodeName))
+        .filter(Objects::nonNull)
+        .findFirst()
+        .orElse(null);
   }
 
   private static void setRemovedReferencesToEmptyStringNew(
       final String elementXPath,
       final String attribute,
       final String targetXpath,
-      final String targetAttribute) {
+      final String targetAttribute,
+      final Element rootElement) {
     // Traverse the document to find the elements with the specified XPath expression
     final List<Node> nodeList = NodeParser.getNodesFromExpression(elementXPath, rootElement);
     for (Node node : nodeList) {
@@ -56,14 +85,17 @@ public final class EidConsistencyGuardian {
       final String attributeValue = targetElement.getAttribute(attribute);
       // Check if the attribute contains references
       if (!attributeValue.isEmpty()
-          && (!isReferenceValid(attributeValue, targetXpath, targetAttribute))) {
+          && (!isReferenceValid(attributeValue, targetXpath, targetAttribute, rootElement))) {
         targetElement.setAttribute(attribute, "");
       }
     }
   }
 
   private static boolean isReferenceValid(
-      final String reference, final String targetXpath, final String targetAttribute) {
+      final String reference,
+      final String targetXpath,
+      final String targetAttribute,
+      final Element rootElement) {
     // Check if the reference exists within the XML document
     final List<Node> nodeList = NodeParser.getNodesFromExpression(targetXpath, rootElement);
     for (Node node : nodeList) {
@@ -76,7 +108,8 @@ public final class EidConsistencyGuardian {
     return false;
   }
 
-  private static void updateElementEids(final Element element, final String parentEid) {
+  private static void updateElementEids(
+      final Element element, final String parentEid, Element rootElement) {
     final Map<String, Integer> childTypeCount =
         new HashMap<>(); // Track count of child nodes of each type
     final NodeList childNodes = element.getChildNodes();
@@ -95,16 +128,20 @@ public final class EidConsistencyGuardian {
               determineCorrectEid(childTypeCount.get(childTagName), currentEid, parentEid);
 
           if (!currentEid.equals(correctEid)) {
-            updateReferences(currentEid, correctEid);
+            updateReferences(currentEid, correctEid, rootElement);
             childElement.setAttribute("eId", correctEid);
             updateElementEids(
-                childElement, correctEid); // Recursively update child elements with corrected eId
+                childElement,
+                correctEid,
+                rootElement); // Recursively update child elements with corrected eId
           } else {
             updateElementEids(
-                childElement, currentEid); // Recursively update child elements with old eId
+                childElement,
+                currentEid,
+                rootElement); // Recursively update child elements with old eId
           }
         } else {
-          updateElementEids(childElement, null);
+          updateElementEids(childElement, null, rootElement);
         }
       }
     }
@@ -145,7 +182,8 @@ public final class EidConsistencyGuardian {
     return newEid.toString();
   }
 
-  private static void updateReferences(final String oldEid, final String newEid) {
+  private static void updateReferences(
+      final String oldEid, final String newEid, Element rootElement) {
     // Traverse the entire document to find references to the old eId in attributes
     updateReferencesInAttributes(rootElement, oldEid, newEid);
   }
@@ -155,18 +193,15 @@ public final class EidConsistencyGuardian {
     final NamedNodeMap attributes = element.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
       Node attribute = attributes.item(i);
-      if (attribute.getNodeValue().contains(oldId)) {
+      if (attribute.getNodeValue().equals("#" + oldId)) {
         attribute.setNodeValue(attribute.getNodeValue().replace(oldId, newId));
       }
     }
 
     // Recursively traverse child elements
-    final NodeList childNodes = element.getChildNodes();
-    for (int i = 0; i < childNodes.getLength(); i++) {
-      Node node = childNodes.item(i);
-      if (node.getNodeType() == Node.ELEMENT_NODE) {
-        updateReferencesInAttributes((Element) node, oldId, newId);
-      }
-    }
+    final List<Node> childNodes = NodeParser.nodeListToList(element.getChildNodes());
+    childNodes.stream()
+        .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
+        .forEach(node -> updateReferencesInAttributes((Element) node, oldId, newId));
   }
 }

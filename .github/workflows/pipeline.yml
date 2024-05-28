@@ -92,7 +92,7 @@ jobs:
      permissions:
        id-token: write # Enable OIDC for gitsign
      steps:
-       - uses: chainguard-dev/actions/setup-gitsign@879951750358a8aea4a85f4fbbbc3f7b9d297ecd
+       - uses: chainguard-dev/actions/setup-gitsign@e82b4e5ae10182af72972addcb3fedf7454621c8
        - name: Deploy new images
          uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
          with:
@@ -143,7 +143,7 @@ jobs:
        - name: Checkout code
          uses: actions/checkout@v4
        - name: Run Trivy vulnerability scanner in repo mode
-         uses: aquasecurity/trivy-action@7088d18dcb87884bc7b5a4000d5517d758e9aa13
+         uses: aquasecurity/trivy-action@841fb371db7b5cd339e5b2d55c92f5dbd730ac9f
          with:
            scan-type: "fs"
            format: "sarif"

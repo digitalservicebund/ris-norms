@@ -23,9 +23,8 @@ class AnnouncementServiceTest {
       mock(LoadAnnouncementByNormEliPort.class);
   final NormService normService = mock(NormService.class);
 
-  final AnnouncementByNormEliService service =
-      new AnnouncementByNormEliService(
-          loadAllAnnouncementsPort, loadAnnouncementByNormEliPort, normService);
+  final AnnouncementService service =
+      new AnnouncementService(loadAllAnnouncementsPort, loadAnnouncementByNormEliPort, normService);
 
   @Nested
   class loadAllAnnouncements {

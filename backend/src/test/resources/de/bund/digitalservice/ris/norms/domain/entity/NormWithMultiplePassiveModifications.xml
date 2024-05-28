@@ -5,16 +5,71 @@
     <akn:act name="regelungstext">
         <!-- Metadaten -->
         <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f"
+            <akn:identification GUID="e0548b32-89df-433d-bf28-3337f7753882" eId="meta-1_ident-1"
                                 source="attributsemantik-noch-undefiniert">
-                <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                    <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"
-                                    GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593"/>
-                    <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327"
-                                  value="BGBl. I"/>
-                    <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a"
-                                  date="1964-08-05" name="verkuendungsfassung"/>
+                <akn:FRBRWork GUID="65979527-4a22-4c42-8833-d4e1bf61268e" eId="meta-1_ident-1_frbrwork-1">
+                    <akn:FRBRthis GUID="f7a087a0-854d-4043-ae55-22d33534491c" eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
+                                  value="eli/bund/bgbl-1/1990/s2954/regelungstext-1"/>
+                    <akn:FRBRuri GUID="ff394b68-3b79-4fe5-a5cb-c830dd193e0c" eId="meta-1_ident-1_frbrwork-1_frbruri-1"
+                                 value="eli/bund/bgbl-1/1990/s2954"/>
+                    <akn:FRBRalias GUID="49c35c31-563b-40ae-aec1-6312de584200"
+                                   eId="meta-1_ident-1_frbrwork-1_frbralias-1" name="übergreifende-id"
+                                   value="e9b14511-6253-4023-8d5f-6878c4f50cc0"/>
+                    <akn:FRBRdate GUID="a8a28ba1-d7ad-466e-86ac-dfc8d94ebcd9" date="1990-12-20"
+                                  eId="meta-1_ident-1_frbrwork-1_frbrdate-1" name="verkuendungsfassung"/>
+                    <akn:FRBRauthor GUID="659b24ec-67ed-4a22-9dbf-ed6292df0273"
+                                    eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
+                                    href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRcountry GUID="f0d73f13-4ae6-4709-bb8b-b1cd4e725015"
+                                     eId="meta-1_ident-1_frbrwork-1_frbrcountry-1" value="de"/>
+                    <akn:FRBRnumber GUID="a741f1cc-50a0-4804-9d9b-e8f8c21340d8"
+                                    eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" value="s2954"/>
+                    <akn:FRBRname GUID="4e339d68-47f2-49cc-b0aa-2b399a588571" eId="meta-1_ident-1_frbrwork-1_frbrname-1"
+                                  value="bgbl-1"/>
+                    <akn:FRBRsubtype GUID="9087ed75-faf3-420c-afbe-da0af7152a09"
+                                     eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" value="regelungstext-1"/>
                 </akn:FRBRWork>
+                <akn:FRBRExpression GUID="fbaf99a3-249e-4eff-87bc-a704d8be0d18" eId="meta-1_ident-1_frbrexpression-1">
+                    <akn:FRBRthis GUID="5bab7a19-8165-40eb-a7e7-a4e9dfe6b3fc"
+                                  eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                                  value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"/>
+                    <akn:FRBRuri GUID="af634c88-ad5f-45b3-99ac-6b2d42b45d1d"
+                                 eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
+                                 value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu"/>
+                    <akn:FRBRalias GUID="af17d907-a88a-4081-a13a-fd4522cd5d1e"
+                                   eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="vorherige-version-id"
+                                   value="49eec691-392b-4d77-abaf-23eb871132ad"/>
+                    <akn:FRBRalias GUID="9c086b80-be09-49e6-9230-4932cfe88c83"
+                                   eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="aktuelle-version-id"
+                                   value="77167d15-511d-4927-adf3-3c8b0464423c"/>
+                    <akn:FRBRalias GUID="960b4c01-c81f-40b1-92c6-d0d223410a49"
+                                   eId="meta-1_ident-1_frbrexpression-1_frbralias-3" name="nachfolgende-version-id"
+                                   value="b0f315a1-620b-4eaf-922c-ea46a7d10c8b"/>
+                    <akn:FRBRauthor GUID="edfa3b7d-cd57-4c0e-92e2-fa188c470b2b"
+                                    eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
+                                    href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRdate GUID="d9e2bf81-2be6-4b99-8101-b551cd273ca2" date="1990-12-20"
+                                  eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" name="verkuendung"/>
+                    <akn:FRBRlanguage GUID="0ce6d9b4-7641-47b4-8163-0914d634567f"
+                                      eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" language="deu"/>
+                    <akn:FRBRversionNumber GUID="4fb34a00-8a92-44bd-bc5f-c0fb6cfe791e"
+                                           eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1" value="1"/>
+                </akn:FRBRExpression>
+                <akn:FRBRManifestation GUID="3485a797-2673-47ae-884a-980b35bd1a7b"
+                                       eId="meta-1_ident-1_frbrmanifestation-1">
+                    <akn:FRBRthis GUID="810aa0ae-2aca-470d-9913-5afae54b00e0"
+                                  eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                  value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRuri GUID="a0596502-d5fd-4d2e-b42f-29bc43b63c76"
+                                 eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                 value="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRdate GUID="eb8ea1a5-4f95-4ef0-8056-8ad624f23fee" date="1990-12-20"
+                                  eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" name="generierung"/>
+                    <akn:FRBRauthor GUID="84eb9f54-57e5-4633-97b8-f6ee5f2d231d"
+                                    eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" href="recht.bund.de"/>
+                    <akn:FRBRformat GUID="6e453631-d290-4dbb-9310-27007fed31ac"
+                                    eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>
+                </akn:FRBRManifestation>
             </akn:identification>
             <akn:lifecycle eId="meta-1_lebzykl-1"
                            GUID="f551699c-7848-4a0d-ab11-1ef44f309504"
@@ -198,6 +253,58 @@
                             </akn:p>
                         </akn:wrapUp>
                     </akn:list>
+                </akn:paragraph>
+            </akn:article>
+
+            <akn:article GUID="aa1b7398-9bf7-4ac1-8c50-d7fe3c5d9172" eId="hauptteil-1_para-1" period="#geltungszeitgr-1"
+                         refersTo="stammform">
+                <akn:num GUID="7b338a03-8c9d-41bd-a09c-6692ec0a0db1" eId="hauptteil-1_bezeichnung-1">
+                    <akn:marker GUID="2d6a4d00-d298-46ed-aafb-19ae579a666a" eId="hauptteil-1_bezeichnung-1_zaehlbez-1"
+                                name="1"/>
+                    § 1
+                </akn:num>
+                <akn:heading GUID="6c705fe3-aa48-40da-b40b-0b11038c58d7" eId="hauptteil-1_überschrift-1">
+                    Zusammenarbeitspflicht
+                </akn:heading>
+                <akn:paragraph GUID="81366f50-18fd-4775-8925-91720db260ac" eId="hauptteil-1_abs-1">
+                    <akn:num GUID="b7a56c9a-e24a-472d-9548-2f202a14c00f" eId="hauptteil-1_abs-1_bezeichnung-1">
+                        <akn:marker GUID="c9bbdc72-0415-4fbd-868a-24560d06b323"
+                                    eId="hauptteil-1_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                        (1)
+                    </akn:num>
+                    <akn:content GUID="ebb15a7e-4cca-4715-8486-371a8de4346e" eId="hauptteil-1_abs-1_inhalt-1">
+                        <akn:p GUID="ec280a55-a38a-48df-944a-e56fed42d5fb" eId="hauptteil-1_abs-1_inhalt-1_text-1">
+                            Der Verfassungsschutz dient dem Schutz der freiheitlichen demokratischen Grundordnung, des
+                            Bestandes und der
+                            Sicherheit des Bundes und
+                            der Länder.
+                        </akn:p>
+                    </akn:content>
+                </akn:paragraph>
+                <akn:paragraph GUID="6057cb44-4267-4cb5-b421-2f6a01006aa5" eId="hauptteil-1_abs-2">
+                    <akn:num GUID="761fe79c-7e76-4df9-9879-a7565efb00fa" eId="hauptteil-1_abs-2_bezeichnung-1">
+                        <akn:marker GUID="4a59e5ef-1171-4ac8-965e-7790daba48cb"
+                                    eId="hauptteil-1_abs-2_bezeichnung-1_zaehlbez-1" name="2"/>
+                        (2)
+                    </akn:num>
+                    <akn:content GUID="51627e8f-d4b7-4812-866a-36c67d568f45" eId="hauptteil-1_abs-2_inhalt-2">
+                        <akn:p GUID="20f9666f-05c0-431c-b179-64d25bbd91f6" eId="hauptteil-1_abs-2_inhalt-2_text-1">
+                            Der Bund und die Länder sind verpflichtet, in Angelegenheiten des Verfassungsschutzes
+                            zusammenzuarbeiten.
+                        </akn:p>
+                    </akn:content>
+                </akn:paragraph>
+                <akn:paragraph GUID="c7b21b26-2e70-4d0a-ab57-1fdfa6e22500" eId="hauptteil-1_abs-3">
+                    <akn:num GUID="5211270b-1d05-4c60-b028-8da8dcbcc7b2" eId="hauptteil-1_abs-3_bezeichnung-1">
+                        <akn:marker GUID="398cae9d-b3ac-42f9-ad94-aba5ab9f738c"
+                                    eId="hauptteil-1_abs-3_bezeichnung-1_zaehlbez-1" name="3"/>
+                        (3)
+                    </akn:num>
+                    <akn:content GUID="181430c8-03f5-4015-a06d-c115423220c2" eId="hauptteil-1_abs-3_inhalt-3">
+                        <akn:p GUID="96503362-cd13-4e81-9ae2-8228ecf47914" eId="hauptteil-1_abs-3_inhalt-3_text-1">
+                            Die Zusammenarbeit besteht auch in gegenseitiger Unterstützung und Hilfeleistung.
+                        </akn:p>
+                    </akn:content>
                 </akn:paragraph>
             </akn:article>
         </akn:body>

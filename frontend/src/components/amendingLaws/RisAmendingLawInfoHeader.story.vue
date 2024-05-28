@@ -3,7 +3,7 @@ import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawIn
 </script>
 
 <template>
-  <Story>
+  <Story :layout="{ type: 'grid', width: '800px' }">
     <Variant title="Announced printed">
       <RisAmendingLawInfoHeader
         :amending-law="{

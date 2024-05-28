@@ -1,4 +1,4 @@
-import { getArticlesByEli } from "@/services/articlesService"
+import { getArticlesByEli } from "@/services/articleService"
 import { Article } from "@/types/article"
 import { defineStore } from "pinia"
 import { ref, watch } from "vue"
@@ -28,9 +28,16 @@ export const useArticlesStore = defineStore("articles", () => {
   })
 
   return {
+    /** List of articles. */
     loadedArticles,
+
+    /** ELI of the norm from which the articles are loaded. */
     eli,
+
+    /** Loading state of the store. */
     loading,
+
+    /** Function to manually trigger reloading of the data. */
     loadArticlesByEli,
   }
 })

@@ -1,10 +1,16 @@
 import { test, expect } from "@playwright/test"
-import { amendingLawXml } from "@e2e/testData/amendingLawXml"
 
-test(`navigate to article editor`, async ({ page }) => {
+test(`navigate to article editor using side navigation`, async ({ page }) => {
   await page.goto(
-    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles",
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
   )
+
+  await page.getByText("Artikelübersicht").click()
+
+  await expect(page).toHaveURL(
+    `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles`,
+  )
+
   await page.getByText("Änderungsbefehl prüfen").first().click()
 
   await expect(page).toHaveURL(
@@ -12,7 +18,7 @@ test(`navigate to article editor`, async ({ page }) => {
   )
 })
 
-test.describe("article editor", () => {
+test.describe("Loading amending law and mod details", () => {
   const BASE_URL =
     "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit"
 
@@ -20,55 +26,33 @@ test.describe("article editor", () => {
     await page.goto(BASE_URL)
   })
 
-  test(`see article number, target law title and amending law title`, async ({
-    page,
-  }) => {
+  test(`see article number and amending law title`, async ({ page }) => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Artikel 1" }),
     ).toBeVisible()
 
     await expect(
-      page.locator('[data-testid="targetLawHeading"]'),
-    ).toContainText("Gesetz zur Regelungs des öffenltichen Vereinsrechts")
-
-    await expect(
-      page.locator('[data-testid="amendingLawHeading"]'),
-    ).toContainText("Änderung des Vereinsgesetzes")
-  })
-
-  test(`contents of target law in both xml and html tabs`, async ({ page }) => {
-    await expect(
-      page.getByText(
-        "Gesetz zur Regelungs des öffenltichen Vereinsrechts ( Vereinsgesetz)",
-      ),
-    ).toBeVisible()
-
-    const targetLawSection = page.locator(
-      '[aria-labelledby="originalArticleTitle"]',
-    )
-    const xmlTabButton = targetLawSection.locator('button[aria-label="xml"]')
-    await xmlTabButton.click()
-
-    await expect(
-      page.getByText(
-        '<akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">',
-      ),
+      page.getByRole("heading", { level: 2, name: "Änderungsbefehle prüfen" }),
     ).toBeVisible()
   })
 
-  test(`contents of amending law in both xml and html tabs`, async ({
+  test(`load amending law xml and html render in their respective tabs`, async ({
     page,
   }) => {
-    const amendingLawSection = page.locator(
-      '[aria-labelledby="changeCommandsEditor"]',
-    )
-    const textContent = amendingLawSection.locator(
-      "text=Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
-    )
-    await expect(textContent).toBeVisible()
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
 
-    const xmlTabButton = amendingLawSection.locator('button[aria-label="xml"]')
-    await xmlTabButton.click()
+    await expect(
+      amendingLawSection.getByText(
+        "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+      ),
+    ).toBeVisible()
+
+    await expect(
+      amendingLawSection.getByRole("tab", { name: "xml" }),
+    ).toBeVisible()
+    await amendingLawSection.getByRole("tab", { name: "xml" }).click()
 
     await expect(
       page.getByText(
@@ -77,82 +61,248 @@ test.describe("article editor", () => {
     ).toBeVisible()
   })
 
-  test(`update law with new content`, async ({ page }) => {
-    const newXml = amendingLawXml.replace(
-      "Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593)",
-      "TEST",
+  test(`loading empty mod state when no command is selected`, async ({
+    page,
+  }) => {
+    const textContent = page.getByText(
+      "Wählen sie einen Änderungsbefehl zur Bearbeitung aus.",
     )
-
-    try {
-      const saveButton = page.getByRole("button", { name: "Speichern" })
-      await expect(saveButton).toBeDisabled()
-      const amendingLawSection = page.locator(
-        '[aria-labelledby="changeCommandsEditor"]',
-      )
-      const xmlTabButton = amendingLawSection.locator(
-        'button[aria-label="xml"]',
-      )
-      await xmlTabButton.click()
-
-      const editor = amendingLawSection.locator(".cm-editor .cm-content")
-      await expect(editor).toBeVisible()
-
-      // eslint-disable-next-line playwright/no-conditional-in-test -- we need to know if we are running on macos (which uses the darwin nodejs build) to use the correct key for selecting everything in the editor
-      await editor.press(
-        `${process.platform === "darwin" ? "Meta" : "Control"}+a`,
-      )
-      await editor.press("Backspace")
-      await editor.fill(newXml)
-      await expect(saveButton).toBeEnabled()
-
-      await saveButton.click()
-      await expect(saveButton).toBeDisabled()
-
-      // Validate the xml is saved
-      const response = await page.request.get(
-        `/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
-        {
-          headers: {
-            Accept: "application/xml",
-          },
-        },
-      )
-      expect(await response.text()).toBe(newXml)
-    } finally {
-      // Reset the xml
-      await page.request.put(
-        `/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1`,
-        {
-          headers: {
-            "Content-Type": "application/xml",
-            Accept: "application/xml",
-          },
-          data: amendingLawXml,
-        },
-      )
-    }
+    await expect(textContent).toBeVisible()
   })
 
-  test("preview is rendered", async ({ page }) => {
-    const changedArticlePreivewSection = page.locator(
-      '[aria-labelledby="changedArticlePreivew"]',
-    )
-    await page.getByRole("button", { name: "Vorschau generieren" }).click()
-    const textContentArea = changedArticlePreivewSection.locator(
-      "text=Gesetz zur Regelungs des öffenltichen Vereinsrechts ( Vereinsgesetz)",
-    )
-    await expect(textContentArea).toBeVisible()
+  test(`loading of mod details with correct input values`, async ({ page }) => {
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
 
-    const xmlTabButton = changedArticlePreivewSection.locator(
-      'button[aria-label="xml"]',
-    )
-    await xmlTabButton.click()
+    await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
 
     await expect(
-      page.getByLabel("Vorschau").getByText(
-        // meta tag of the target law, but in another format (eId and GUID are reordered) than the original target law
-        '<akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">',
+      page.getByRole("heading", {
+        level: 3,
+        name: "Änderungsbefehle bearbeiten",
+      }),
+    ).toBeVisible()
+
+    const modFormSection = page.getByRole("region", {
+      name: "Änderungsbefehle bearbeiten",
+    })
+    await expect(modFormSection).toBeVisible()
+
+    // Textual Mode Type
+    const textualModeTypeElement = modFormSection.getByRole("textbox", {
+      name: "Änderungstyp",
+    })
+    await expect(textualModeTypeElement).toBeVisible()
+    await expect(textualModeTypeElement).toHaveValue("Ersetzen")
+    await expect(textualModeTypeElement).toHaveAttribute("readonly", "")
+
+    // Time Boundaries
+    const timeBoundariesElement = modFormSection.getByRole("combobox", {
+      name: "Zeitgrenze",
+    })
+    await expect(timeBoundariesElement).toBeVisible()
+    await expect(timeBoundariesElement).toHaveValue("2017-03-16")
+
+    const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
+    await expect(timeBoundaryOptionElements).toHaveCount(2)
+
+    // // Destination Href Eli
+    const destinationHrefEliElement = modFormSection.getByRole("textbox", {
+      name: "ELI Zielgesetz",
+    })
+    await expect(destinationHrefEliElement).toBeVisible()
+    await expect(destinationHrefEliElement).toHaveValue(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1",
+    )
+    await expect(destinationHrefEliElement).toHaveAttribute("readonly", "")
+
+    // Destination Href Eid
+    const destinationHrefEidElement = modFormSection.getByRole("textbox", {
+      name: "zu ersetzende Textstelle",
+    })
+    await expect(destinationHrefEidElement).toBeVisible()
+    await expect(destinationHrefEidElement).toHaveValue(
+      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-0.xml",
+    )
+    await expect(destinationHrefEidElement).not.toHaveAttribute("readonly")
+
+    // Quoted Text First
+    const quotedTextFirstElement = modFormSection.getByRole("textbox", {
+      name: "zu ersetzender Text",
+    })
+    await expect(quotedTextFirstElement).toBeVisible()
+    await expect(quotedTextFirstElement).toHaveValue(
+      "§ 9 Abs. 1 Satz 2, Abs. 2",
+    )
+    await expect(quotedTextFirstElement).toHaveAttribute("readonly", "")
+
+    // Quoted Text Second
+    const quotedTextSecondElement = modFormSection.getByRole("textbox", {
+      name: "Neuer Text Inhalt",
+    })
+    await expect(quotedTextSecondElement).toBeVisible()
+    await expect(quotedTextSecondElement).toHaveValue(
+      "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3",
+    )
+    await expect(quotedTextSecondElement).not.toHaveAttribute("readonly")
+  })
+})
+
+test.describe("Generating preview", () => {
+  const BASE_URL =
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit"
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(BASE_URL)
+  })
+
+  test(`rendering the preview by default when clicking on a command`, async ({
+    page,
+  }) => {
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
+    await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
+    const previewSection = page.getByRole("region", {
+      name: "Vorschau",
+    })
+    await expect(
+      previewSection.getByText(
+        "Gesetz zur Regelung des öffentlichen Vereinsrechts",
       ),
     ).toBeVisible()
+  })
+})
+
+test.describe("Update mod details", () => {
+  const BASE_URL =
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit"
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(BASE_URL)
+  })
+
+  test(`editing and saving the quotedTextSecondElement`, async ({ page }) => {
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
+
+    await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
+
+    const modFormSection = page.getByRole("region", {
+      name: "Änderungsbefehle bearbeiten",
+    })
+
+    await modFormSection
+      .getByRole("textbox", { name: "Neuer Text Inhalt" })
+      .fill("testing new text")
+    await modFormSection.getByRole("button", { name: "Speichern" }).click()
+
+    const previewSection = page.getByRole("region", {
+      name: "Vorschau",
+    })
+
+    await expect(previewSection.getByText("testing new text")).toBeVisible()
+
+    // reset to original value
+    await modFormSection
+      .getByRole("textbox", { name: "Neuer Text Inhalt" })
+      .fill("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")
+    await modFormSection.getByRole("button", { name: "Speichern" }).click()
+  })
+
+  test(`editing and saving the eid mod change`, async ({ page }) => {
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
+
+    await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
+
+    const modFormSection = page.getByRole("region", {
+      name: "Änderungsbefehle bearbeiten",
+    })
+
+    await modFormSection
+      .getByRole("textbox", { name: "zu ersetzende Textstelle" })
+      .fill(
+        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-5.xml",
+      )
+    await modFormSection.getByRole("button", { name: "Speichern" }).click()
+    await amendingLawSection.getByRole("tab", { name: "xml" }).click()
+    await expect(
+      amendingLawSection.getByText(
+        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-5.xml",
+      ),
+    ).toBeVisible()
+
+    // reset to original value
+    await modFormSection
+      .getByRole("textbox", { name: "zu ersetzende Textstelle" })
+      .fill(
+        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-0.xml",
+      )
+    await modFormSection.getByRole("button", { name: "Speichern" }).click()
+  })
+
+  test(`selecting and saving the time boundary`, async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
+    )
+
+    await page
+      .getByRole("textbox", { name: "Zeitgrenze hinzufügen" })
+      .fill("10.10.2023")
+    await page.getByRole("button", { name: "Speichern" }).click()
+
+    await page.goto(
+      "amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+    )
+
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
+
+    await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
+
+    const modFormSection = page.getByRole("region", {
+      name: "Änderungsbefehle bearbeiten",
+    })
+
+    await page
+      .getByRole("combobox", { name: "Zeitgrenze" })
+      .selectOption("2023-10-10")
+
+    await modFormSection.getByRole("button", { name: "Speichern" }).click()
+    await amendingLawSection.getByRole("tab", { name: "xml" }).click()
+    await expect(
+      amendingLawSection.getByText('date="2023-10-10"'),
+    ).toBeVisible()
+
+    // reset to original value
+    await page
+      .getByRole("combobox", { name: "Zeitgrenze" })
+      .selectOption("2017-03-16")
+
+    await modFormSection.getByRole("button", { name: "Speichern" }).click()
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
+    )
+
+    await page.request.put(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        data: JSON.stringify([
+          { date: "2017-03-16", eventRefEid: "meta-1_lebzykl-1_ereignis-2" },
+        ]),
+      },
+    )
+
+    await page.reload()
   })
 })

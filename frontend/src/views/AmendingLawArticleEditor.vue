@@ -7,88 +7,68 @@ import { useArticle } from "@/composables/useArticle"
 import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTargetLaw } from "@/composables/useTargetLaw"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, ref, watch, onMounted } from "vue"
+import { computed, onMounted, ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { renderHtmlLaw } from "@/services/renderService"
-import {
-  getNormHtmlByEli,
-  previewNorm,
-  previewNormAsHtml,
-} from "@/services/normService"
+import RisModForm from "@/components/RisModForm.vue"
+import { useTemporalData } from "@/composables/useTemporalData"
+import { useMod } from "@/composables/useMod"
+import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
+import RisEmptyState from "@/components/RisEmptyState.vue"
+import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
+import { getNodeByEid } from "@/services/ldmldeService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
 const amendingLaw = useAmendingLaw(eli)
+const selectedMod = useModEidPathParameter()
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
 const article = useArticle(identifier)
-const { xml: articleXml, update: updateArticleXml } = useArticleXml(identifier)
+const { xml: articleXml } = useArticleXml(identifier)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
-const targetLaw = useTargetLaw(targetLawEli)
-const { xml: targetLawXml } = useTargetLawXml(targetLawEli)
 const currentArticleXml = ref("")
 const renderedHtml = ref("")
 const previewXml = ref<string>("")
 const previewHtml = ref<string>("")
-const targetLawHtml = ref("")
 const amendingLawActiveTab = ref("text")
+
+/**
+ * Render a specific article of a norm
+ * @param normXml the xml string of the norm
+ * @param articleEid the eid of the article to render
+ * @returns
+ */
+async function renderArticle(
+  normXml: string,
+  articleEid: string,
+): Promise<string | null> {
+  const xmlDocument = xmlStringToDocument(normXml)
+  const articleNode = getNodeByEid(xmlDocument, articleEid)
+
+  if (!articleNode) {
+    return null
+  }
+
+  return await renderHtmlLaw(xmlNodeToString(articleNode), false)
+}
 
 async function fetchAmendingLawRenderedHtml() {
   try {
-    if (currentArticleXml.value) {
-      renderedHtml.value = await renderHtmlLaw(currentArticleXml.value, false)
+    if (currentArticleXml.value && eid.value) {
+      renderedHtml.value =
+        (await renderArticle(currentArticleXml.value, eid.value)) ?? ""
     }
   } catch (error) {
     console.error("Error fetching rendered HTML content:", error)
   }
 }
 
-/**
- * Handle the click of the save button.
- */
-async function handleSave() {
-  try {
-    // TODO: (Malte Laukötter, 2024-03-07) this is currently saving the whole amending law, we need to change this to a single article once we have adjusted the provided xml as well
-    await updateArticleXml(currentArticleXml.value)
-  } catch (error) {
-    alert("Änderungsgesetz nicht gespeichert")
-    console.error(error)
-  }
-}
-async function handleGeneratePreview() {
-  if (!targetLawEli.value) return
-  try {
-    if (targetLawEli.value) {
-      const [xmlContent, htmlContent] = await Promise.all([
-        previewNorm(targetLawEli.value, currentArticleXml.value),
-        previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
-      ])
-      previewXml.value = xmlContent
-      previewHtml.value = htmlContent
-    }
-  } catch (error) {
-    alert("Vorschau konnte nicht erstellt werden")
-    console.error(error)
-  }
-}
-async function fetchTargetLawHtmlContent() {
-  try {
-    if (targetLawEli.value) {
-      targetLawHtml.value = await getNormHtmlByEli(targetLawEli.value)
-    }
-  } catch (error) {
-    console.error("Failed to fetch HTML content:", error)
-  }
-}
 const initialize = async () => {
-  await fetchTargetLawHtmlContent()
   await fetchAmendingLawRenderedHtml()
 }
 onMounted(() => {
@@ -96,10 +76,12 @@ onMounted(() => {
 })
 
 watch(articleXml, fetchAmendingLawRenderedHtml, { immediate: true })
-watch(targetLawEli, fetchTargetLawHtmlContent, { immediate: true })
 watch(currentArticleXml, (newXml, oldXml) => {
-  if (newXml !== oldXml && amendingLawActiveTab.value === "text") {
-    fetchAmendingLawRenderedHtml()
+  if (newXml !== oldXml) {
+    if (amendingLawActiveTab.value === "text") {
+      fetchAmendingLawRenderedHtml()
+    }
+    handleGeneratePreview()
   }
 })
 watch(amendingLawActiveTab, (newActiveTab, oldActiveTab) => {
@@ -116,6 +98,77 @@ watch(articleXml, (articleXml) => {
     currentArticleXml.value = articleXml
   }
 })
+
+function handleAknModClick({ eid }: { eid: string }) {
+  selectedMod.value = eid
+}
+
+function handlePreviewClick() {
+  selectedMod.value = ""
+}
+
+async function handleGeneratePreview() {
+  if (!targetLawEli.value || !selectedMod.value) return
+
+  try {
+    const response = await previewUpdateMod(eli.value, selectedMod.value, {
+      refersTo: selectedMod.value,
+      timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
+      destinationHref: destinationHref.value,
+      oldText: quotedTextFirst.value,
+      newText: quotedTextSecond.value,
+    })
+
+    previewXml.value = response.targetNormZf0Xml
+    previewHtml.value = await renderHtmlLaw(
+      response.targetNormZf0Xml,
+      false,
+      timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
+      [response.amendingNormXml],
+    )
+  } catch (error) {
+    alert("Vorschau konnte nicht erstellt werden")
+    console.error(error)
+  }
+}
+
+const { timeBoundaries } = useTemporalData(eli)
+const {
+  textualModType,
+  destinationHref,
+  quotedTextFirst,
+  quotedTextSecond,
+  timeBoundary,
+  updateMod,
+  previewUpdateMod,
+} = useMod(selectedMod, articleXml)
+
+watch(selectedMod, () => {
+  if (selectedMod.value !== "") {
+    handleGeneratePreview()
+  }
+})
+watch(targetLawEli, () => {
+  handleGeneratePreview()
+})
+
+async function handleSave() {
+  const updatedMods = {
+    refersTo: selectedMod.value,
+    timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
+    destinationHref: destinationHref.value,
+    oldText: quotedTextFirst.value,
+    newText: quotedTextSecond.value,
+  }
+
+  try {
+    const response = await updateMod(eli.value, selectedMod.value, updatedMods)
+    currentArticleXml.value = response.amendingNormXml
+    previewXml.value = response.targetNormZf0Xml
+  } catch (error) {
+    console.error("Error saving the mod:", error)
+  }
+}
 </script>
 
 <template>
@@ -130,43 +183,24 @@ watch(articleXml, (articleXml) => {
       <span>Zurück</span>
     </router-link>
 
-    <div class="flex h-dvh flex-col p-40">
+    <div class="flex h-[calc(100vh-5rem)] flex-col px-40 pt-40">
       <div class="mb-40 flex gap-16">
         <div class="flex-grow">
           <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
           <h2 class="ds-heading-03-reg">Änderungsbefehle prüfen</h2>
         </div>
-
-        <RisTextButton
-          label="Speichern"
-          size="small"
-          class="h-fit flex-none self-end"
-          :disabled="articleXml === currentArticleXml"
-          @click="handleSave"
-        />
-
-        <RisTextButton
-          label="Vorschau generieren"
-          size="small"
-          variant="tertiary"
-          class="h-fit flex-none self-end"
-          @click="handleGeneratePreview"
-        />
       </div>
-
-      <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-2 gap-32">
+      <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
         <section
-          class="flex flex-col gap-8"
-          aria-labelledby="originalArticleTitle"
+          class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
+          aria-labelledby="changeCommandsEditor"
         >
-          <h3
-            id="originalArticleTitle"
-            class="ds-label-02-bold"
-            data-testid="targetLawHeading"
-          >
-            {{ targetLaw?.title }}
+          <h3 id="changeCommandsEditor" class="ds-label-02-bold">
+            <span class="block">Änderungsbefehle</span>
+            <span>{{ amendingLaw?.title }}</span>
           </h3>
           <RisTabs
+            v-model:active-tab="amendingLawActiveTab"
             :tabs="[
               { id: 'text', label: 'Text' },
               { id: 'xml', label: 'XML' },
@@ -175,20 +209,45 @@ watch(articleXml, (articleXml) => {
             <template #text>
               <RisLawPreview
                 class="ds-textarea flex-grow p-2"
-                :content="targetLawHtml"
+                :content="renderedHtml"
+                highlight-mods
+                highlight-affected-document
+                :selected="selectedMod ? [selectedMod] : []"
+                @click:akn:mod="handleAknModClick"
+                @click="handlePreviewClick"
               />
             </template>
             <template #xml>
               <RisCodeEditor
+                v-model="currentArticleXml"
                 class="flex-grow"
-                :readonly="true"
-                :model-value="targetLawXml ?? ''"
               ></RisCodeEditor>
             </template>
           </RisTabs>
         </section>
         <section
-          class="row-span-2 flex flex-col gap-8"
+          v-if="selectedMod"
+          class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
+          aria-labelledby="originalArticleTitle"
+        >
+          <h3 id="originalArticleTitle" class="ds-label-02-bold">
+            Änderungsbefehle bearbeiten
+          </h3>
+          <RisModForm
+            id="risModForm"
+            v-model:textual-mod-type="textualModType"
+            v-model:destination-href="destinationHref"
+            v-model:quoted-text-second="quotedTextSecond"
+            v-model:selected-time-boundary="timeBoundary"
+            :quoted-text-first="quotedTextFirst"
+            :time-boundaries="timeBoundaries"
+            @generate-preview="handleGeneratePreview"
+            @update-mod="handleSave"
+          />
+        </section>
+        <section
+          v-if="selectedMod"
+          class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
           aria-labelledby="changedArticlePreivew"
         >
           <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
@@ -213,41 +272,12 @@ watch(articleXml, (articleXml) => {
             </template>
           </RisTabs>
         </section>
-        <section
-          class="flex flex-col gap-8"
-          aria-labelledby="changeCommandsEditor"
-        >
-          <h3
-            id="changeCommandsEditor"
-            class="ds-label-02-bold"
-            data-testid="amendingLawHeading"
-          >
-            <span class="block">Änderungsbefehle</span>
-            <span>{{ article?.title }}</span>
-          </h3>
-          <RisTabs
-            v-model:active-tab="amendingLawActiveTab"
-            :tabs="[
-              { id: 'text', label: 'Text' },
-              { id: 'xml', label: 'XML' },
-            ]"
-          >
-            <template #text>
-              <RisLawPreview
-                class="ds-textarea flex-grow p-2"
-                :content="renderedHtml"
-                highlight-mods
-                highlight-affected-document
-              />
-            </template>
-            <template #xml>
-              <RisCodeEditor
-                v-model="currentArticleXml"
-                class="flex-grow"
-              ></RisCodeEditor>
-            </template>
-          </RisTabs>
-        </section>
+        <div v-else class="gap col-span-2 grid flex-grow grid-cols-2 gap-32">
+          <RisEmptyState
+            text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
+            class="mt-[85px] h-fit"
+          />
+        </div>
       </div>
     </div>
   </div>

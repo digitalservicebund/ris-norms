@@ -16,7 +16,7 @@ describe("useArticle", () => {
       affectedDocumentEli: "example/eli",
     })
 
-    vi.doMock("@/services/articlesService", () => ({
+    vi.doMock("@/services/articleService", () => ({
       getArticleByEliAndEid,
     }))
 
@@ -34,7 +34,7 @@ describe("useArticle", () => {
   test("should load the article when the identifier changes", async () => {
     const getArticleByEliAndEid = vi.fn()
 
-    vi.doMock("@/services/articlesService", () => ({
+    vi.doMock("@/services/articleService", () => ({
       getArticleByEliAndEid,
     }))
 

@@ -1,35 +1,39 @@
 <script setup lang="ts">
-import { defineModel, nextTick, ref, watch } from "vue"
+import { defineModel, nextTick, ref, watch, computed } from "vue"
 import RisDateInput from "@/components/controls/RisDateInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import DeleteOutlineIcon from "~icons/ic/outline-delete"
 import SortOutlineIcon from "~icons/ic/outline-arrow-downward"
 import dayjs from "dayjs"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
 
-interface DateEntry {
-  date: string
-  eid: string
-}
-
-const dates = defineModel("dates", {
-  type: Array as () => DateEntry[],
+/** The current list of dates. */
+const dates = defineModel<TemporalDataResponse[]>("dates", {
   default: () => [],
 })
 
 const newDate = ref<string | undefined>()
 
+const isDeleteDisabled = computed(() => dates.value.length <= 1)
+
+function addDate(newDateValue: string) {
+  if (newDateValue && dayjs(newDateValue, "YYYY-MM-DD", true).isValid()) {
+    dates.value = [...dates.value, { date: newDateValue, eventRefEid: "" }]
+  }
+}
+
 function removeDateInput(index: number) {
   if (index > -1) {
-    dates.value.splice(index, 1)
+    dates.value = [
+      ...dates.value.slice(0, index),
+      ...dates.value.slice(index + 1),
+    ]
   }
 }
 
 watch(newDate, async (newDateValue) => {
-  if (newDateValue && dayjs(newDateValue, "YYYY-MM-DD", true).isValid()) {
-    dates.value.push({
-      date: newDateValue,
-      eid: "",
-    })
+  if (newDateValue) {
+    addDate(newDateValue)
 
     // Need to wait for one tick to give the date input some time to update
     // it's internal state, otherwise we'll keep seeing the previous value.
@@ -59,7 +63,6 @@ watch(newDate, async (newDateValue) => {
         v-model="dateEntry.date"
         size="small"
         data-testid="date-input-field"
-        is-read-only
       />
       <RisTextButton
         :icon="DeleteOutlineIcon"
@@ -67,8 +70,9 @@ watch(newDate, async (newDateValue) => {
         class="shrink-0"
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
+        :disabled="isDeleteDisabled"
+        :data-testid="`delete-button-${index}`"
         icon-only
-        disabled
         @click.prevent="removeDateInput(index)"
       />
     </template>
@@ -80,7 +84,6 @@ watch(newDate, async (newDateValue) => {
       v-model="newDate"
       size="small"
       data-testid="new-date-input-field"
-      is-read-only
     />
   </form>
 </template>

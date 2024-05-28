@@ -59,7 +59,7 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
-    path: `/amending-laws/${createEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
+    path: `/amending-laws/${createEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit/:modEid?`,
     name: "AmendingLawArticleEditor",
     component: () => import("@/views/AmendingLawArticleEditor.vue"),
   },
@@ -76,9 +76,9 @@ const routes: readonly RouteRecordRaw[] = [
       },
       {
         path: ":timeBoundary/:eid",
-        name: "AmendingLawAffectedDocumentArticleEditor",
+        name: "AmendingLawAffectedDocumentElementEditor",
         component: () =>
-          import("@/views/AmendingLawAffectedDocumentArticleEditor.vue"),
+          import("@/views/AmendingLawAffectedDocumentElementEditor.vue"),
       },
     ],
   },

@@ -31,7 +31,7 @@ describe("RisTabs", () => {
 
     await nextTick()
 
-    const firstTab = screen.getByRole("tab", { name: "tab1" })
+    const firstTab = screen.getByRole("tab", { name: "Tab 1" })
     expect(firstTab.getAttribute("aria-selected")).toBe("true")
   })
 
@@ -45,7 +45,7 @@ describe("RisTabs", () => {
       props: { tabs },
     })
 
-    const secondTab = screen.getByRole("tab", { name: "tab2" })
+    const secondTab = screen.getByRole("tab", { name: "Tab 2" })
     expect(secondTab.ariaSelected).toBe("false")
     await fireEvent.click(secondTab)
 
@@ -54,12 +54,46 @@ describe("RisTabs", () => {
 
   it("changes the tab status after updating the activeTab model", async () => {
     const parentComponent = render(ParentComponent)
-    const firstTab = screen.getByRole("tab", { name: "tab1" })
+    const firstTab = screen.getByRole("tab", { name: "Tab 1" })
     expect(firstTab.getAttribute("aria-selected")).toBe("true")
     await parentComponent.rerender({
       activeTab: "tab2",
     })
-    const secondTab = screen.getByRole("tab", { name: "tab2" })
+    const secondTab = screen.getByRole("tab", { name: "Tab 2" })
     expect(secondTab.getAttribute("aria-selected")).toBe("true")
+  })
+
+  it("aligns the tabs to the left by default", async () => {
+    const tabs = [
+      { id: "tab1", label: "Tab 1" },
+      { id: "tab2", label: "Tab 2" },
+    ]
+
+    render(RisTabs, {
+      props: { tabs },
+    })
+
+    await nextTick()
+
+    const tabList = screen.getByRole("tablist")
+
+    expect(tabList.classList.contains("float-right")).toBe(false)
+  })
+
+  it("aligns the tabs to the right", async () => {
+    const tabs = [
+      { id: "tab1", label: "Tab 1" },
+      { id: "tab2", label: "Tab 2" },
+    ]
+
+    render(RisTabs, {
+      props: { tabs, align: "right" },
+    })
+
+    await nextTick()
+
+    const tabList = screen.getByRole("tablist")
+
+    expect(tabList.classList.contains("float-right")).toBe(true)
   })
 })

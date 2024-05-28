@@ -1,21 +1,56 @@
 <script setup lang="ts">
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { ref, watch, WritableComputedRef } from "vue"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
-import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
+import RisCallout from "@/components/controls/RisCallout.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import { useArticlesChangedAtTimeBoundary } from "@/composables/useArticlesChangedAtTimeBoundary"
-import { useRouter } from "vue-router"
-import { useAmendingLawTemporalData } from "@/composables/useAmendingLawTemporalData"
+import { useAmendingLaw } from "@/composables/useAmendingLaw"
+import { useAffectedElements } from "@/composables/useAffectedElements"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useTargetLawXml } from "@/composables/useTargetLawXml"
+import { useTemporalData } from "@/composables/useTemporalData"
+import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import dayjs from "dayjs"
+import { computed, ref, watch } from "vue"
 
-const router = useRouter()
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
-
 const amendingLaw = useAmendingLaw(amendingLawEli)
+
+/* -------------------------------------------------- *
+ * Sidebar                                            *
+ * -------------------------------------------------- */
+
+const { timeBoundaries } = useTemporalData(affectedDocumentEli)
+
+const sortedTimeBoundaries = computed(() =>
+  timeBoundaries.value.toSorted((a, b) => {
+    if (a.date < b.date) return -1
+    else if (a.date > b.date) return 1
+    else return 0
+  }),
+)
+
+const { timeBoundary: selectedTimeBoundary } = useTimeBoundaryPathParameter()
+
+// Choose the first time boundary if none is selected so far
+watch(
+  timeBoundaries,
+  (val) => {
+    if (!selectedTimeBoundary.value && val.length) {
+      selectedTimeBoundary.value = val[0].date
+    }
+  },
+  { immediate: true },
+)
+
+const elements = useAffectedElements(
+  affectedDocumentEli,
+  ["article", "conclusions", "preamble", "preface"],
+  { amendingLawEli },
+)
+
+/* -------------------------------------------------- *
+ * XML editor                                         *
+ * -------------------------------------------------- */
 
 const { xml: targetLawXml, update: updateTargetLawXml } =
   useTargetLawXml(affectedDocumentEli)
@@ -26,39 +61,11 @@ watch(targetLawXml, () => {
   currentTargetLawXml.value = targetLawXml.value
 })
 
-const { timeBoundaries } = useAmendingLawTemporalData(amendingLawEli)
-
-const selectedTimeBoundary: WritableComputedRef<string> =
-  useTimeBoundaryPathParameter()
-
-// choose the first time boundary if none is selected so far
-watch(
-  timeBoundaries,
-  () => {
-    if (selectedTimeBoundary.value === "" && timeBoundaries.value.length > 0) {
-      router.replace({
-        params: {
-          timeBoundary: timeBoundaries.value[0].eid,
-        },
-      })
-    }
-  },
-  { immediate: true },
-)
-
-// TODO: (Malte Laukötter, 2024-04-29) useArticlesChangedAtTimeBoundary needs implementing loading the correct articles
-const articles = useArticlesChangedAtTimeBoundary(
-  affectedDocumentEli,
-  selectedTimeBoundary,
-)
-
-// TODO: (Malte Laukötter, 2024-04-26) how to handle if a time boundary changes and the currently selected article has no changes for the newly selected zeitgrenze
-
 async function handleSave() {
+  if (!currentTargetLawXml.value) return
+
   try {
-    if (currentTargetLawXml.value) {
-      await updateTargetLawXml(currentTargetLawXml.value)
-    }
+    await updateTargetLawXml(currentTargetLawXml.value)
   } catch (error) {
     alert("Metadaten nicht gespeichert")
     console.error(error)
@@ -77,9 +84,10 @@ async function handleSave() {
       class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white"
       aria-labelledby="sidebarNavigation"
     >
-      <span id="sidebarNavigation" hidden>SideBar Navigation</span>
+      <span id="sidebarNavigation" class="sr-only">Inhaltsverzeichnis</span>
 
-      <div class="px-16 py-8">
+      <!-- Time boundary selection -->
+      <div class="px-16 pb-20 pt-10">
         <label for="timeBoundarySelect">
           <span class="ds-label-03-reg">Zeitgrenze</span>
 
@@ -89,9 +97,9 @@ async function handleSave() {
             class="ds-select ds-select-small"
           >
             <option
-              v-for="timeBoundary in timeBoundaries"
-              :key="timeBoundary.eid"
-              :value="timeBoundary.eid"
+              v-for="timeBoundary in sortedTimeBoundaries"
+              :key="timeBoundary.eventRefEid"
+              :value="timeBoundary.date"
             >
               {{ dayjs(timeBoundary.date).format("DD.MM.YYYY") }}
             </option>
@@ -99,42 +107,50 @@ async function handleSave() {
         </label>
       </div>
 
+      <!-- Frame link -->
       <router-link
-        class="ds-label-01-reg px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
-        exact-active-class="font-bold"
         :to="{
           name: 'AmendingLawAffectedDocumentRahmenEditor',
           params: { timeBoundary: selectedTimeBoundary },
         }"
+        class="ds-label-01-reg px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+        exact-active-class="font-bold underline bg-blue-200"
       >
         Rahmen
       </router-link>
+      <hr class="mx-16 my-8 border-t border-gray-400" />
 
-      <hr class="mx-16 border-b border-gray-400" />
+      <!-- Content links -->
+      <RisCallout
+        v-if="!elements?.length"
+        title="Keine Artikel gefunden."
+        class="mx-16"
+      />
 
       <router-link
-        v-for="article in articles"
-        :key="article.eid"
-        class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
-        active-class="font-bold"
+        v-for="element in elements"
+        :key="element.eid"
         :to="{
-          name: 'AmendingLawAffectedDocumentArticleEditor',
-          params: { eid: article.eid, timeBoundary: selectedTimeBoundary },
+          name: 'AmendingLawAffectedDocumentElementEditor',
+          params: { eid: element.eid, timeBoundary: selectedTimeBoundary },
         }"
+        active-class="font-bold underline bg-blue-200"
+        class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
       >
-        <span class="block overflow-hidden text-ellipsis whitespace-nowrap"
-          >§{{ article.enumeration }} {{ article.title }}</span
-        >
+        <span class="block overflow-hidden text-ellipsis whitespace-nowrap">
+          {{ element.title }}
+        </span>
       </router-link>
 
+      <!-- Save button -->
       <div class="mt-auto">
         <!-- this is only placed here temporarily -->
         <RisTextButton
           :disabled="targetLawXml === currentTargetLawXml"
-          size="small"
-          full-width
           class="h-fit flex-none self-end"
+          full-width
           label="Speichern"
+          size="small"
           @click="handleSave"
         />
       </div>
@@ -142,5 +158,6 @@ async function handleSave() {
 
     <RouterView v-model:xml="currentTargetLawXml"></RouterView>
   </div>
+
   <div v-else>Laden...</div>
 </template>

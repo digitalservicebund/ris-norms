@@ -1,26 +1,21 @@
+import { ValidationError } from "@/types/validationError"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
-import { nextTick } from "vue"
-import RisDateInput, { ValidationError } from "./RisDateInput.vue"
 import { describe, expect, test } from "vitest"
+import { nextTick } from "vue"
+import RisDateInput from "./RisDateInput.vue"
 
 function renderComponent(options?: {
-  ariaLabel?: string
-  isFutureDate?: boolean
-  value?: string
   modelValue?: string
-  placeholder?: string
   validationError?: ValidationError
+  isReadOnly?: boolean
 }) {
   const user = userEvent.setup()
   const props = {
     id: "identifier",
-    value: options?.value,
     modelValue: options?.modelValue,
-    ariaLabel: options?.ariaLabel ?? "aria-label",
-    isFutureDate: options?.isFutureDate ?? false,
-    placeholder: options?.placeholder,
     validationError: options?.validationError,
+    isReadOnly: options?.isReadOnly,
   }
   const utils = render(RisDateInput, { props })
   return { user, props, ...utils }
@@ -29,24 +24,15 @@ function renderComponent(options?: {
 describe("DateInput", () => {
   test("shows an date input element", () => {
     renderComponent()
-    const input = screen.queryByLabelText("aria-label") as HTMLInputElement
+    const input = screen.getByRole<HTMLInputElement>("textbox")
 
     expect(input).toBeInTheDocument()
     expect(input?.type).toBe("text")
   })
 
-  test("shows input with an aria label", () => {
-    renderComponent({
-      ariaLabel: "test-label",
-    })
-    const input = screen.queryByLabelText("test-label") as HTMLInputElement
-
-    expect(input).toBeInTheDocument()
-  })
-
   test("allows to type date inside input", async () => {
     renderComponent()
-    const input = screen.queryByLabelText("aria-label") as HTMLInputElement
+    const input = screen.getByRole("textbox")
 
     await userEvent.type(input, "12.05.2020")
 
@@ -55,7 +41,7 @@ describe("DateInput", () => {
 
   test("displays modelValue in correct format", async () => {
     renderComponent({ modelValue: "2022-05-13" })
-    const input = screen.queryByLabelText("aria-label") as HTMLInputElement
+    const input = screen.getByRole("textbox")
 
     expect(input).toHaveValue("13.05.2022")
   })
@@ -64,9 +50,7 @@ describe("DateInput", () => {
     const { emitted } = renderComponent({
       modelValue: "2022-05-13T18:08:14.036Z",
     })
-    const input: HTMLInputElement = screen.queryByLabelText(
-      "aria-label",
-    ) as HTMLInputElement
+    const input = screen.getByRole("textbox")
     expect(input).toHaveValue("13.05.2022")
     await userEvent.clear(input)
     await userEvent.type(input, "14.05.2022")
@@ -104,56 +88,16 @@ describe("DateInput", () => {
     const { emitted } = renderComponent({
       modelValue: "2022-05-13",
     })
-    const input: HTMLInputElement = screen.queryByLabelText(
-      "aria-label",
-    ) as HTMLInputElement
+    const input = screen.getByRole("textbox")
     expect(input).toHaveValue("13.05.2022")
     await userEvent.type(input, "{backspace}")
 
     expect(emitted()["update:validationError"]).toBeTruthy()
   })
 
-  test("does not allow dates in the future", async () => {
-    const { emitted } = renderComponent()
-    const input: HTMLInputElement = screen.queryByLabelText(
-      "aria-label",
-    ) as HTMLInputElement
-    expect(input).toHaveValue("")
-    await userEvent.type(input, "14.05.2099")
-    await nextTick()
-
-    expect(input).toHaveValue("14.05.2099")
-
-    expect(emitted()["update:modelValue"]).not.toBeTruthy()
-
-    expect(emitted()["update:validationError"]).toBeTruthy()
-
-    const array = emitted()["update:validationError"] as ValidationError[][]
-
-    expect(
-      array.filter((element) => element[0] !== undefined)[0][0].message,
-    ).toBe("Das Datum darf nicht in der Zukunft liegen")
-  })
-
-  test("it allows dates in the future if flag is set", async () => {
-    const { emitted } = renderComponent({ isFutureDate: true })
-    const input: HTMLInputElement = screen.queryByLabelText(
-      "aria-label",
-    ) as HTMLInputElement
-    expect(input).toHaveValue("")
-    await userEvent.type(input, "14.05.2099")
-    await nextTick()
-
-    expect(input).toHaveValue("14.05.2099")
-
-    expect(emitted()["update:modelValue"]).toBeTruthy()
-  })
-
   test("does not allow invalid dates", async () => {
     const { emitted } = renderComponent()
-    const input: HTMLInputElement = screen.queryByLabelText(
-      "aria-label",
-    ) as HTMLInputElement
+    const input = screen.getByRole("textbox")
     await userEvent.type(input, "29.02.2001")
     await nextTick()
 
@@ -172,7 +116,7 @@ describe("DateInput", () => {
 
   test("does not allow letters", async () => {
     renderComponent()
-    const input = screen.queryByLabelText("aria-label") as HTMLInputElement
+    const input = screen.getByRole("textbox")
 
     await userEvent.type(input, "AB.CD.EFGH")
     await nextTick()
@@ -182,7 +126,7 @@ describe("DateInput", () => {
 
   test("does not allow incomplete dates", async () => {
     const { emitted } = renderComponent()
-    const input = screen.queryByLabelText("aria-label") as HTMLInputElement
+    const input = screen.getByRole("textbox")
 
     await userEvent.type(input, "03")
     await userEvent.type(input, "{tab}")
@@ -197,5 +141,15 @@ describe("DateInput", () => {
         },
       ],
     ])
+  })
+
+  test("sets the input to readonly", () => {
+    renderComponent({ isReadOnly: true })
+    expect(screen.getByRole("textbox")).toHaveAttribute("readonly")
+  })
+
+  test("sets the input to editable", () => {
+    renderComponent({ isReadOnly: false })
+    expect(screen.getByRole("textbox")).not.toHaveAttribute("readonly")
   })
 })

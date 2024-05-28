@@ -3,7 +3,10 @@ import { computed, type Component } from "vue"
 import { RouteLocationRaw, RouterLink } from "vue-router"
 
 type LinkButtonHref = {
+  /** Target URL of the link. */
   href: string
+
+  /** Target window of the link. */
   target?: string
 }
 

@@ -3,11 +3,11 @@
 	##################################################################################
 	Projekt E-Gesetzgebung
 	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.6 (Dezember 2023)
-	
+
 	2023 Copyright (C) 2021-2023 Bundesministerium des Innern und für Heimat,
 	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
 	Verwaltungsarbeit
-	
+
 	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
@@ -248,7 +248,7 @@
                <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1"
                                  GUID="d446d041-9b65-4c17-b250-106a808da3e9"/>
                <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
-                             GUID="b842df1f-4d69-4dfc-91aa-bf30d3d80485">Gesetz zur Regelungs des öffenltichen
+                             GUID="b842df1f-4d69-4dfc-91aa-bf30d3d80485">Gesetz zur Regelung des öffentlichen
                   Vereinsrechts</akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
                                GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( <akn:inline eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"

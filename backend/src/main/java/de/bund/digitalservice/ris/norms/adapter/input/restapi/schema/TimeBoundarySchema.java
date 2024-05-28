@@ -17,5 +17,7 @@ public class TimeBoundarySchema {
   @NotNull(message = "Date must not be null")
   private LocalDate date;
 
-  private String eid;
+  private String eventRefEid;
+
+  private String temporalGroupEid;
 }

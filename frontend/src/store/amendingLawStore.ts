@@ -28,9 +28,16 @@ export const useAmendingLawStore = defineStore("amending-law", () => {
   })
 
   return {
+    /** The norm that has been loaded, or undefined while loading (or if nothing has been loaded yet.) */
     loadedAmendingLaw,
+
+    /** ELI of the norm . */
     eli,
+
+    /** Loading state of the store. */
     loading,
+
+    /** Function to manually trigger reloading of the data. */
     loadAmendingLawByEli,
   }
 })
