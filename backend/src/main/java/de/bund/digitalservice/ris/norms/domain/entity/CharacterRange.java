@@ -1,8 +1,5 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import java.util.Optional;
-import java.util.regex.Pattern;
-
 /**
  * Represents a character range within LDML.de.
  *
@@ -13,27 +10,15 @@ public record CharacterRange(String characterRange) {
   static final int ABSOLUTE_POSITION_OF_END = 1;
 
   /**
-   * Checks if character range is valid.
-   *
-   * @return boolean
-   */
-  public boolean isNotValid() {
-    final String regex = "^\\d+-\\d+$";
-    final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-    return !pattern.matcher(characterRange()).matches();
-  }
-
-  /**
    * Returns true if start and end are properly configured
    *
    * @return boolean
    */
-  public boolean isEndGreaterEqualsStart() {
-    if (isNotValid()) return false;
+  public boolean isEndGreaterStart() {
     String[] splitCharacterRange = characterRange().split("-");
     int start = Integer.parseInt(splitCharacterRange[ABSOLUTE_POSITION_OF_START]);
     int end = Integer.parseInt(splitCharacterRange[ABSOLUTE_POSITION_OF_END]);
-    return start <= end;
+    return start < end;
   }
 
   /**
@@ -41,10 +26,9 @@ public record CharacterRange(String characterRange) {
    *
    * @return Optional Integer of the start value
    */
-  public Optional<Integer> getStart() {
-    if (isNotValid()) return Optional.empty();
+  public Integer getStart() {
     String[] splitCharacterRange = characterRange().split("-");
-    return Optional.of(Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_START]));
+    return Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_START]);
   }
 
   /**
@@ -52,10 +36,9 @@ public record CharacterRange(String characterRange) {
    *
    * @return Optional Integer of the start value
    */
-  public Optional<Integer> getEnd() {
-    if (isNotValid()) return Optional.empty();
+  public Integer getEnd() {
     String[] splitCharacterRange = characterRange().split("-");
-    return Optional.of(Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_END]));
+    return Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_END]);
   }
 
   /** Builder for creating a new {@link CharacterRange}. */

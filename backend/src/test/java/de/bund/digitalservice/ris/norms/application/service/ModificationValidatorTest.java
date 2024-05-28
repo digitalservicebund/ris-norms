@@ -5,6 +5,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -782,6 +784,172 @@ class ModificationValidatorTest {
 
       // when/then
       Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+    }
+
+    @Test
+    void throwsExceptionWhenCharacterRangeIsNotSet() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingLaw
+          .getMods()
+          .forEach(
+              mod ->
+                  mod.setTargetHref(
+                      new Href.Builder()
+                          .setCharacterRange(new CharacterRange(""))
+                          .buildRelative()
+                          .value()));
+
+      amendingLaw
+          .getActiveModifications()
+          .forEach(
+              textMod ->
+                  textMod.setDestinationHref(
+                      new Href.Builder()
+                          .setCharacterRange(new CharacterRange(""))
+                          .buildRelative()
+                          .value()));
+
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "The character range in mod href is empty in article with eId hauptteil-1_art-1");
+    }
+
+    @Test
+    void throwsExceptionWhenCharacterRangeStartEqualsEnd() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingLaw
+          .getMods()
+          .forEach(
+              mod ->
+                  mod.setTargetHref(
+                      new Href.Builder()
+                          .setCharacterRange(new CharacterRange("20-20.xml"))
+                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                          .setEId(
+                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                          .buildAbsolute()
+                          .value()));
+
+      amendingLaw
+          .getActiveModifications()
+          .forEach(
+              textMod ->
+                  textMod.setDestinationHref(
+                      new Href.Builder()
+                          .setCharacterRange(new CharacterRange("20-20.xml"))
+                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                          .setEId(
+                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                          .buildAbsolute()
+                          .value()));
+
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "The character range in mod href is not valid in article with eId hauptteil-1_art-1. Make sure start is smaller than end 20 < 20.");
+    }
+
+    @Test
+    void throwsExceptionWhenCharacterRangeStartIsNotSet() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingLaw
+          .getMods()
+          .forEach(
+              mod ->
+                  mod.setTargetHref(
+                      new Href.Builder()
+                          .setCharacterRange(new CharacterRange("-20.xml"))
+                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                          .setEId(
+                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                          .buildAbsolute()
+                          .value()));
+
+      amendingLaw
+          .getActiveModifications()
+          .forEach(
+              textMod ->
+                  textMod.setDestinationHref(
+                      new Href.Builder()
+                          .setCharacterRange(new CharacterRange("-20.xml"))
+                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                          .setEId(
+                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                          .buildAbsolute()
+                          .value()));
+
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "The range (-20) given at article with eId hauptteil-1_art-1 is not valid");
+    }
+
+    @Test
+    void throwsExceptionWhenCharacterRangeEndIsNotSet() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingLaw
+          .getMods()
+          .forEach(
+              mod ->
+                  mod.setTargetHref(
+                      new Href.Builder()
+                          .setCharacterRange(new CharacterRange("0-.xml"))
+                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                          .setEId(
+                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                          .buildAbsolute()
+                          .value()));
+
+      amendingLaw
+          .getActiveModifications()
+          .forEach(
+              textMod ->
+                  textMod.setDestinationHref(
+                      new Href.Builder()
+                          .setCharacterRange(new CharacterRange("0-.xml"))
+                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                          .setEId(
+                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                          .buildAbsolute()
+                          .value()));
+
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "The range (0-) given at article with eId hauptteil-1_art-1 is not valid");
     }
   }
 

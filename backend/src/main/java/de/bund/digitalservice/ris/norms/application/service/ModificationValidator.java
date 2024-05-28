@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -184,6 +185,16 @@ public class ModificationValidator {
             });
   }
 
+  private void isValidCharacterRange(CharacterRange characterRange, String articleEId) {
+    final String regex = "^\\d+-\\d+$";
+    final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+    if (!pattern.matcher(characterRange.characterRange()).matches())
+      throw new XmlContentException(
+          "The range (%s) given at article with eId %s is not valid"
+              .formatted(characterRange.characterRange(), articleEId),
+          null);
+  }
+
   private void validateNumberOfNodesWithEid(
       String articleEId, Norm targetLaw, String targetHrefEId, String affectedDocumentEli) {
     int numberOfNodesWithEid = targetLaw.getNumberOfNodesWithEid(targetHrefEId);
@@ -196,11 +207,10 @@ public class ModificationValidator {
   }
 
   private void validateCharacterRange(CharacterRange cr, int start, int end, String articleEId) {
-    // TODO test for that throw
-    if (!cr.isEndGreaterEqualsStart())
+    if (!cr.isEndGreaterStart())
       throw new XmlContentException(
-          "The character range in mod href is not valid (%s >= %s) in article with eId %s"
-              .formatted(start, end, articleEId),
+          "The character range in mod href is not valid in article with eId %s. Make sure start is smaller than end %s < %s."
+              .formatted(articleEId, start, end),
           null);
   }
 
@@ -326,24 +336,12 @@ public class ModificationValidator {
   }
 
   private int getCharacterRangeStart(CharacterRange cr, String articleEId) {
-    // TODO test for that throw
-    return cr.getStart()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "The character range in mod href is not valid (no start given) in article with eId %s"
-                        .formatted(articleEId),
-                    null));
+    isValidCharacterRange(cr, articleEId);
+    return cr.getStart();
   }
 
   private int getCharacterRangeEnd(CharacterRange cr, String articleEId) {
-    // TODO test for that throw
-    return cr.getEnd()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "The character range in mod href is not valid (no end given) in article with eId %s"
-                        .formatted(articleEId),
-                    null));
+    isValidCharacterRange(cr, articleEId);
+    return cr.getEnd();
   }
 }

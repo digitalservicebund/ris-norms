@@ -9,50 +9,50 @@ public class CharacterRangeTest {
 
   @Nested
   class isNotValid {
-    @Test
-    void itShouldDetectEmptyStrings() {
-      // given
-      var characterRange = new CharacterRange("");
-
-      // when // then
-      assertThat(characterRange.isNotValid()).isTrue();
-    }
-
-    @Test
-    void itShouldDetectInvalidRangesOne() {
-      // given
-      var characterRange = new CharacterRange("1");
-
-      // when // then
-      assertThat(characterRange.isNotValid()).isTrue();
-    }
-
-    @Test
-    void itShouldDetectInvalidRangesTwo() {
-      // given
-      var characterRange = new CharacterRange("1-");
-
-      // when // then
-      assertThat(characterRange.isNotValid()).isTrue();
-    }
-
-    @Test
-    void itShouldDetectValidRange() {
-      // given
-      var characterRange = new CharacterRange("1-2");
-
-      // when // then
-      assertThat(characterRange.isNotValid()).isFalse();
-    }
-
-    @Test
-    void itShouldDetectValidRangeLargerNumbers() {
-      // given
-      var characterRange = new CharacterRange("10-200");
-
-      // when // then
-      assertThat(characterRange.isNotValid()).isFalse();
-    }
+    //    @Test
+    //    void itShouldDetectEmptyStrings() {
+    //      // given
+    //      var characterRange = new CharacterRange("");
+    //
+    //      // when // then
+    //      assertThat(characterRange.isNotValid()).isTrue();
+    //    }
+    //
+    //    @Test
+    //    void itShouldDetectInvalidRangesOne() {
+    //      // given
+    //      var characterRange = new CharacterRange("1");
+    //
+    //      // when // then
+    //      assertThat(characterRange.isNotValid()).isTrue();
+    //    }
+    //
+    //    @Test
+    //    void itShouldDetectInvalidRangesTwo() {
+    //      // given
+    //      var characterRange = new CharacterRange("1-");
+    //
+    //      // when // then
+    //      assertThat(characterRange.isNotValid()).isTrue();
+    //    }
+    //
+    //    @Test
+    //    void itShouldDetectValidRange() {
+    //      // given
+    //      var characterRange = new CharacterRange("1-2");
+    //
+    //      // when // then
+    //      assertThat(characterRange.isNotValid()).isFalse();
+    //    }
+    //
+    //    @Test
+    //    void itShouldDetectValidRangeLargerNumbers() {
+    //      // given
+    //      var characterRange = new CharacterRange("10-200");
+    //
+    //      // when // then
+    //      assertThat(characterRange.isNotValid()).isFalse();
+    //    }
   }
 
   @Nested
@@ -63,16 +63,7 @@ public class CharacterRangeTest {
       var characterRange = new CharacterRange("200-100");
 
       // when // then
-      assertThat(characterRange.isEndGreaterEqualsStart()).isFalse();
-    }
-
-    @Test
-    void itShouldDetectStartEqualsEnd() {
-      // given
-      var characterRange = new CharacterRange("100-100");
-
-      // when // then
-      assertThat(characterRange.isEndGreaterEqualsStart()).isTrue();
+      assertThat(characterRange.isEndGreaterStart()).isFalse();
     }
 
     @Test
@@ -81,7 +72,7 @@ public class CharacterRangeTest {
       var characterRange = new CharacterRange("100-101");
 
       // when // then
-      assertThat(characterRange.isEndGreaterEqualsStart()).isTrue();
+      assertThat(characterRange.isEndGreaterStart()).isTrue();
     }
   }
 
@@ -95,15 +86,6 @@ public class CharacterRangeTest {
       // then
       assertThat(characterRangeStart).isPresent().contains(100);
     }
-
-    @Test
-    void itShouldReturnEmpty() {
-      // given //when
-      var characterRangeStart = new CharacterRange("100-").getStart();
-
-      // then
-      assertThat(characterRangeStart).isEmpty();
-    }
   }
 
   @Nested
@@ -115,15 +97,6 @@ public class CharacterRangeTest {
 
       // then
       assertThat(characterRangeEnd).isPresent().contains(200);
-    }
-
-    @Test
-    void itShouldReturnEmpty() {
-      // given //when
-      var characterRangeEnd = new CharacterRange("100-").getEnd();
-
-      // then
-      assertThat(characterRangeEnd).isEmpty();
     }
   }
 
