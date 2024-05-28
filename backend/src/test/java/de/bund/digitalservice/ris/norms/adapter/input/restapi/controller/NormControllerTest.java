@@ -35,7 +35,6 @@ class NormControllerTest {
   @MockBean private LoadNormXmlUseCase loadNormXmlUseCase;
   @MockBean private UpdateNormXmlUseCase updateNormXmlUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  @MockBean private TimeMachineUseCase timeMachineUseCase;
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   @MockBean private UpdateModUseCase updateModUseCase;
 
@@ -266,70 +265,6 @@ class NormControllerTest {
 
       verify(updateNormXmlUseCase, times(1))
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
-    }
-  }
-
-  @Nested
-  class getPreview {
-
-    @Test
-    void itReturnsPreview() throws Exception {
-      // Given
-      when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(Optional.of("<xml>result</xml>"));
-
-      // When // Then
-      mockMvc
-          .perform(
-              post("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview")
-                  .contentType(MediaType.APPLICATION_XML)
-                  .content("<xml>amending-law</xml>")
-                  .accept(MediaType.APPLICATION_XML))
-          .andExpect(status().isOk())
-          .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML))
-          .andExpect(content().string("<xml>result</xml>"));
-
-      verify(timeMachineUseCase, times(1))
-          .applyTimeMachine(
-              argThat(
-                  query ->
-                      query
-                              .targetLawEli()
-                              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
-                          && query.amendingLawXml().equals("<xml>amending-law</xml>")));
-    }
-  }
-
-  @Nested
-  class getHtmlPreview {
-
-    @Test
-    void itReturnsPreview() throws Exception {
-      // Given
-      when(timeMachineUseCase.applyTimeMachine(any())).thenReturn(Optional.of("<xml>result</xml>"));
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<html></html>");
-
-      // When // Then
-      mockMvc
-          .perform(
-              post("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/preview")
-                  .contentType(MediaType.APPLICATION_XML)
-                  .content("<xml>amending-law</xml>")
-                  .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isOk())
-          .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-          .andExpect(content().string("<html></html>"));
-
-      verify(timeMachineUseCase, times(1))
-          .applyTimeMachine(
-              argThat(
-                  query ->
-                      query
-                              .targetLawEli()
-                              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
-                          && query.amendingLawXml().equals("<xml>amending-law</xml>")));
-      verify(transformLegalDocMlToHtmlUseCase, times(1))
-          .transformLegalDocMlToHtml(argThat(query -> query.xml().equals("<xml>result</xml>")));
     }
   }
 
