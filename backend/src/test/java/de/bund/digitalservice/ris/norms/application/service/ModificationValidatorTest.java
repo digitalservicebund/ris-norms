@@ -19,72 +19,6 @@ class ModificationValidatorTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   private final ModificationValidator underTest = new ModificationValidator(loadNormPort);
 
-  @Test
-  void normDoesNotExist() {
-    // given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-
-    // when
-    Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
-
-    // then
-    assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
-        .hasMessageContaining(
-            "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId hauptteil-1_art-1");
-  }
-
-  @Test
-  void nodeWithGivenDestEidDoesNotExists() {
-    // given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
-
-    // when
-    Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
-
-    // then
-    assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
-        .hasMessageContaining(
-            "Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) element in target law (eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1) for article with eId hauptteil-1_art-1");
-  }
-
-  @Test
-  void moreThanOneNodeWithGivenDestEidExists() {
-    // given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    when(loadNormPort.loadNorm(any()))
-        .thenReturn(
-            Optional.of(
-                new Norm(
-                    XmlMapper.toDocument(
-                        """
-    <?xml version="1.0" encoding="UTF-8"?>
-    <wrap>
-      <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
-                          GUID="4c69a6d2-8988-4581-bfa9-df9e8e24f321">
-          <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                        GUID="f3805314-bbb6-4def-b82b-8b7f0b126197"
-                        value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"/>
-      </akn:FRBRExpression>
-      <test eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test>
-      <test2 eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test2>
-    </wrap>
-    """))));
-
-    // when
-    Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
-
-    // then
-    assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
-        .hasMessageContaining(
-            "To many matching eIds (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) for article hauptteil-1_art-1 in target norm eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
-  }
-
   @Nested
   class noDestinationEli {
 
@@ -787,6 +721,56 @@ class ModificationValidatorTest {
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
               "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId hauptteil-1_art-1");
+    }
+
+    @Test
+    void moreThanOneNodeWithGivenDestEidExists() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      when(loadNormPort.loadNorm(any()))
+          .thenReturn(
+              Optional.of(
+                  new Norm(
+                      XmlMapper.toDocument(
+                          """
+                          <?xml version="1.0" encoding="UTF-8"?>
+                          <wrap>
+                            <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
+                                                GUID="4c69a6d2-8988-4581-bfa9-df9e8e24f321">
+                                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                                              GUID="f3805314-bbb6-4def-b82b-8b7f0b126197"
+                                              value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"/>
+                            </akn:FRBRExpression>
+                            <test eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test>
+                            <test2 eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test2>
+                          </wrap>
+                          """))));
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "To many matching eIds (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) for article hauptteil-1_art-1 in target norm eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+    }
+
+    @Test
+    void nodeWithGivenDestEidDoesNotExists() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm targetLaw = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) element in target law (eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1) for article with eId hauptteil-1_art-1");
     }
 
     @Test
