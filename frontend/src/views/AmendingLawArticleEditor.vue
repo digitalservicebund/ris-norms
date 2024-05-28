@@ -124,9 +124,7 @@ async function handleGeneratePreview() {
       response.targetNormZf0Xml,
       false,
       timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
-      {
-        [eli.value]: response.amendingNormXml,
-      },
+      [response.amendingNormXml],
     )
   } catch (error) {
     alert("Vorschau konnte nicht erstellt werden")

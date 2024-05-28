@@ -146,10 +146,9 @@ describe("renderService", () => {
 
       const { renderHtmlLaw } = await import("./renderService")
 
-      const result = await renderHtmlLaw("<law></law>", true, undefined, {
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1":
-          "<xml>other-norm</xml>",
-      })
+      const result = await renderHtmlLaw("<law></law>", true, undefined, [
+        "<xml>other-norm</xml>",
+      ])
       expect(result).toBe(`<html></html>`)
 
       expect(fetchMock).toHaveBeenCalledWith(
@@ -165,10 +164,7 @@ describe("renderService", () => {
           }),
           body: expect.objectContaining({
             norm: "<law></law>",
-            customNorms: {
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1":
-                "<xml>other-norm</xml>",
-            },
+            customNorms: ["<xml>other-norm</xml>"],
           }),
         }),
       )

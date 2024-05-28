@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -103,6 +104,9 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
 
     var norm = query.norm();
     var date = query.date();
+    var customNorms =
+        query.customNorms().stream()
+            .collect(Collectors.toMap(Norm::getEli, customNorm -> customNorm));
 
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
@@ -131,8 +135,8 @@ public class TimeMachineService implements TimeMachineUseCase, ApplyPassiveModif
                   passiveModification.getSourceHref().flatMap(Href::getEli).orElseThrow();
 
               Norm amendingLaw;
-              if (query.customNorms().containsKey(sourceEli)) {
-                amendingLaw = query.customNorms().get(sourceEli);
+              if (customNorms.containsKey(sourceEli)) {
+                amendingLaw = customNorms.get(sourceEli);
               } else {
                 amendingLaw =
                     normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();

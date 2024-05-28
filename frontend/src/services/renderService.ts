@@ -13,9 +13,7 @@ export async function renderHtmlLaw(
   norm: string | undefined,
   showMetadata: boolean = true,
   at?: Date,
-  customNorms?: {
-    [eli: string]: string
-  },
+  customNorms?: string[],
 ): Promise<string> {
   return await apiFetch("renderings", {
     method: "POST",

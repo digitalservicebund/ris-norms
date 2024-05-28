@@ -13,9 +13,9 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.time.Instant;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -220,11 +220,7 @@ class TimeMachineServiceTest {
       // when
       Norm result =
           timeMachineService.applyPassiveModifications(
-              new ApplyPassiveModificationsUseCase.Query(
-                  norm,
-                  Instant.MAX,
-                  Map.of(
-                      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1", amendingLaw)));
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX, Set.of(amendingLaw)));
 
       // then
       var changedNodeValue =

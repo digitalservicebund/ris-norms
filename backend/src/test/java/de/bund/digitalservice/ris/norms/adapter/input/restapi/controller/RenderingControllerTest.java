@@ -211,9 +211,7 @@ class RenderingControllerTest {
                     """
                         {
                           "norm": "<law>original-law</law>",
-                          "customNorms": {
-                            "eli/bla": "<law>amending-law</law>"
-                          }
+                          "customNorms": ["<law>amending-law</law>"]
                         }
                         """))
         .andExpect(status().isOk())
@@ -221,16 +219,15 @@ class RenderingControllerTest {
 
     verify(applyPassiveModificationsUseCase, times(1))
         .applyPassiveModifications(
-            AdditionalMatchers.and(
-                argThat(query -> query.customNorms().containsKey("eli/bla")),
-                argThat(
-                    query ->
-                        query
-                            .customNorms()
-                            .get("eli/bla")
-                            .getDocument()
-                            .getFirstChild()
-                            .getTextContent()
-                            .equals("amending-law"))));
+            argThat(
+                query ->
+                    query
+                        .customNorms()
+                        .iterator()
+                        .next()
+                        .getDocument()
+                        .getFirstChild()
+                        .getTextContent()
+                        .equals("amending-law")));
   }
 }

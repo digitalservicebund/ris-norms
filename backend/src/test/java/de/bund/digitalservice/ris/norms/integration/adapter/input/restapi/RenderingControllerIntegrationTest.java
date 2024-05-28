@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -37,9 +38,8 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
           "norm",
           XmlMapper.toString(
               NormFixtures.loadFromDisk("NormWithPassiveModifications.xml").getDocument()));
-      var customNormsJson = new JsonObject();
-      customNormsJson.addProperty(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      var customNormsJson = new JsonArray();
+      customNormsJson.add(
           XmlMapper.toString(NormFixtures.loadFromDisk("NormWithMods.xml").getDocument()));
       jsonPayload.add("customNorms", customNormsJson);
 

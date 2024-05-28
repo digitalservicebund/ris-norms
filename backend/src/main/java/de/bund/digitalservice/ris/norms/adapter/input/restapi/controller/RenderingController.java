@@ -8,8 +8,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDoc
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,13 +52,10 @@ public class RenderingController {
       @RequestParam Optional<Instant> atIsoDate) {
     final var norm =
         Norm.builder().document(XmlMapper.toDocument(previewRequestSchema.getNorm())).build();
-    final Map<String, Norm> customNorms =
-        previewRequestSchema.getCustomNorms().entrySet().stream()
-            .collect(
-                Collectors.toMap(
-                    Map.Entry::getKey,
-                    entry ->
-                        Norm.builder().document(XmlMapper.toDocument(entry.getValue())).build()));
+    final Set<Norm> customNorms =
+        previewRequestSchema.getCustomNorms().stream()
+            .map(xml -> new Norm(XmlMapper.toDocument(xml)))
+            .collect(Collectors.toSet());
 
     var normWithAppliedModifications =
         applyPassiveModificationsUseCase.applyPassiveModifications(
