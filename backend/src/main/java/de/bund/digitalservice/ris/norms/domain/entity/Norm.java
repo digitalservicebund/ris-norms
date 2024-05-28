@@ -19,6 +19,8 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Norm {
+  private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
+      "attributsemantik-noch-undefiniert";
 
   private final Document document;
 
@@ -279,7 +281,7 @@ public class Norm {
     final Node livecycle = getTimeBoundaries().getLast().getEventRefNode().getParentNode();
     final Element eventRef = createElementWithEidAndGuid("akn:eventRef", "ereignis", livecycle);
     eventRef.setAttribute("date", date.toString());
-    eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
+    eventRef.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
     eventRef.setAttribute("type", eventRefType.getValue());
     eventRef.setAttribute("refersTo", "inkrafttreten");
     livecycle.appendChild(eventRef);
@@ -412,7 +414,7 @@ public class Norm {
             () -> {
               final var newElement =
                   createElementWithEidAndGuid("akn:analysis", "analysis", getMetaNode());
-              newElement.setAttribute("source", "attributsemantik-noch-undefiniert");
+              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
               return newElement;
             });
   }
@@ -441,7 +443,7 @@ public class Norm {
             () -> {
               final var newElement =
                   createElementWithEidAndGuid("akn:temporalData", "analysis", getMetaNode());
-              newElement.setAttribute("source", "attributsemantik-noch-undefiniert");
+              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
               return newElement;
             });
   }
