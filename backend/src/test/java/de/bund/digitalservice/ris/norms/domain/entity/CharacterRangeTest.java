@@ -1,7 +1,9 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -81,10 +83,22 @@ public class CharacterRangeTest {
     @Test
     void itShouldReturnStart() {
       // given //when
-      var characterRangeStart = new CharacterRange("100-200").getStart();
+      var characterRangeStart = new CharacterRange("100-200").getStart("someArticleId");
 
       // then
-      assertThat(characterRangeStart).isPresent().contains(100);
+      assertThat(characterRangeStart).isEqualTo(100);
+    }
+
+    @Test
+    void itShouldThrowAnError() {
+      // given //when
+      Throwable thrown = catchThrowable(() -> new CharacterRange("-200").getEnd("someArticleId"));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "The range (-200) given at article with eId someArticleId is not valid");
     }
   }
 
@@ -93,10 +107,22 @@ public class CharacterRangeTest {
     @Test
     void itShouldReturnEnd() {
       // given //when
-      var characterRangeEnd = new CharacterRange("100-200").getEnd();
+      var characterRangeEnd = new CharacterRange("100-200").getEnd("someArticleId");
 
       // then
-      assertThat(characterRangeEnd).isPresent().contains(200);
+      assertThat(characterRangeEnd).isEqualTo(200);
+    }
+
+    @Test
+    void itShouldThrowAnError() {
+      // given //when
+      Throwable thrown = catchThrowable(() -> new CharacterRange("100-").getEnd("someArticleId"));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "The range (100-) given at article with eId someArticleId is not valid");
     }
   }
 

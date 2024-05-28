@@ -1,5 +1,8 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import java.util.regex.Pattern;
+
 /**
  * Represents a character range within LDML.de.
  *
@@ -26,7 +29,8 @@ public record CharacterRange(String characterRange) {
    *
    * @return Optional Integer of the start value
    */
-  public Integer getStart() {
+  public Integer getStart(String articleEid) {
+    isValidCharacterRange(articleEid);
     String[] splitCharacterRange = characterRange().split("-");
     return Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_START]);
   }
@@ -36,9 +40,20 @@ public record CharacterRange(String characterRange) {
    *
    * @return Optional Integer of the start value
    */
-  public Integer getEnd() {
+  public Integer getEnd(String articleEid) {
+    isValidCharacterRange(articleEid);
     String[] splitCharacterRange = characterRange().split("-");
     return Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_END]);
+  }
+
+  private void isValidCharacterRange(String articleEId) {
+    final String regex = "^\\d+-\\d+$";
+    final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+    if (!pattern.matcher(characterRange()).matches())
+      throw new XmlContentException(
+          "The range (%s) given at article with eId %s is not valid"
+              .formatted(characterRange(), articleEId),
+          null);
   }
 
   /** Builder for creating a new {@link CharacterRange}. */

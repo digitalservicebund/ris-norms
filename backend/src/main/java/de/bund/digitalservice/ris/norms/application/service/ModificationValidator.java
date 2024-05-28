@@ -5,7 +5,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Optional;
 import java.util.Set;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -185,16 +184,6 @@ public class ModificationValidator {
             });
   }
 
-  private void isValidCharacterRange(CharacterRange characterRange, String articleEId) {
-    final String regex = "^\\d+-\\d+$";
-    final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-    if (!pattern.matcher(characterRange.characterRange()).matches())
-      throw new XmlContentException(
-          "The range (%s) given at article with eId %s is not valid"
-              .formatted(characterRange.characterRange(), articleEId),
-          null);
-  }
-
   private void validateNumberOfNodesWithEid(
       String articleEId, Norm targetLaw, String targetHrefEId, String affectedDocumentEli) {
     int numberOfNodesWithEid = targetLaw.getNumberOfNodesWithEid(targetHrefEId);
@@ -336,12 +325,10 @@ public class ModificationValidator {
   }
 
   private int getCharacterRangeStart(CharacterRange cr, String articleEId) {
-    isValidCharacterRange(cr, articleEId);
-    return cr.getStart();
+    return cr.getStart(articleEId);
   }
 
   private int getCharacterRangeEnd(CharacterRange cr, String articleEId) {
-    isValidCharacterRange(cr, articleEId);
-    return cr.getEnd();
+    return cr.getEnd(articleEId);
   }
 }
