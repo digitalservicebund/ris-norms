@@ -51,8 +51,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                       .flatMap(norm::getStartDateForTemporalGroup)
                       .map(dateString -> Instant.parse(dateString + "T00:00:00.000Z"));
 
-              // when no start date exists we always want to apply the mod
-              return startDate.isEmpty() || startDate.get().isBefore(actualDate);
+              // when no start date exists we do not want to apply the mod
+              return startDate.isPresent() && startDate.get().isBefore(actualDate);
             })
         .sorted(
             Comparator.comparing(

@@ -196,7 +196,7 @@ class TimeMachineServiceTest {
     }
 
     @Test
-    void applyPassiveModificationWithoutForcePeriod() {
+    void doNotApplyPassiveModificationWithoutForcePeriod() {
       // given
       final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       norm.deleteByEId("meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1");
@@ -218,7 +218,7 @@ class TimeMachineServiceTest {
       assertThat(changedNodeValue).isPresent();
       assertThat(changedNodeValue.get())
           .isEqualToIgnoringWhitespace(
-              "entgegen § 9 Absatz 1 Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+              "entgegen § 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
   }
 }
