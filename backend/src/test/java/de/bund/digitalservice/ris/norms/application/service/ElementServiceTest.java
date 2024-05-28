@@ -442,9 +442,10 @@ class ElementServiceTest {
 
       // When / Then
       assertThatThrownBy(
-              () -> service.loadElementsByTypeFromNorm(
-                  new LoadElementsByTypeFromNormUseCase.Query(
-                      "fake/eli", new String[] {"invalid_type"})))
+              () ->
+                  service.loadElementsByTypeFromNorm(
+                      new LoadElementsByTypeFromNormUseCase.Query(
+                          "fake/eli", new String[] {"invalid_type"})))
           .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
     }
 
@@ -455,9 +456,10 @@ class ElementServiceTest {
 
       // When / Then
       assertThatThrownBy(
-              () -> service.loadElementsByTypeFromNorm(
-                  new LoadElementsByTypeFromNormUseCase.Query(
-                      "fake/eli", new String[] {"article"})))
+              () ->
+                  service.loadElementsByTypeFromNorm(
+                      new LoadElementsByTypeFromNormUseCase.Query(
+                          "fake/eli", new String[] {"article"})))
           .isInstanceOf(LoadElementsByTypeFromNormUseCase.NormNotFoundException.class);
     }
 
@@ -520,8 +522,7 @@ class ElementServiceTest {
     @Test
     void throwsWhenAttemptingToGetTheValueForAnUnsupportedType() {
       // When / Then
-      assertThatThrownBy(
-              () -> ElementService.ElementType.fromLabel("invalid_type"))
+      assertThatThrownBy(() -> ElementService.ElementType.fromLabel("invalid_type"))
           .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
     }
   }
