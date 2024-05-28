@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,7 +25,11 @@ class ArticleServiceTest {
   void returnResult() {
     // given
     var eli = "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1";
-    var eid = "meta-1";
+    var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+    var eid = "hauptteil-1_art-1";
+    when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+    when(timeMachineService.applyPassiveModifications(any())).thenReturn(norm);
+    when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
     // when
     var result =
         articleService.loadArticleHtml(
