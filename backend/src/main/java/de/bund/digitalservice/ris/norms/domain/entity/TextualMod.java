@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -50,16 +51,29 @@ public class TextualMod {
     return NodeParser.getValueFromExpression("./destination/@href", this.node).map(Href::new);
   }
 
+  private Node getOrCreateDestinationNode() {
+    return NodeParser.getNodeFromExpression("./destination", this.node)
+        .orElseGet(
+            () -> {
+              var newElement = getNode().getOwnerDocument().createElement("akn:destination");
+              newElement.setAttribute(
+                  "eId",
+                  new EId(this.getEid().orElseThrow())
+                      .addPart(new EIdPart("destination", "1"))
+                      .value());
+              newElement.setAttribute("GUID", UUID.randomUUID().toString());
+              getNode().appendChild(newElement);
+              return newElement;
+            });
+  }
+
   /**
    * Updates the href attribute of the destination node within the modification
    *
    * @param destinationHref - the new destination href of the modification
    */
   public void setDestinationHref(final String destinationHref) {
-    NodeParser.getNodeFromExpression("./destination", this.node)
-        .getAttributes()
-        .getNamedItem("href")
-        .setNodeValue(destinationHref);
+    getOrCreateDestinationNode().getAttributes().getNamedItem("href").setNodeValue(destinationHref);
   }
 
   /**
@@ -74,13 +88,29 @@ public class TextualMod {
         .flatMap(Href::getEId);
   }
 
+  private Node getOrCreateForceNode() {
+    return NodeParser.getNodeFromExpression("./force", getNode())
+        .orElseGet(
+            () -> {
+              var newElement = getNode().getOwnerDocument().createElement("akn:force");
+              newElement.setAttribute(
+                  "eId",
+                  new EId(this.getEid().orElseThrow())
+                      .addPart(new EIdPart("gelzeitnachw", "1"))
+                      .value());
+              newElement.setAttribute("GUID", UUID.randomUUID().toString());
+              getNode().appendChild(newElement);
+              return newElement;
+            });
+  }
+
   /**
    * Updates the period attribute of the force node within the modification
    *
    * @param periodEid - the eId of the new referenced temporal group
    */
   public void setForcePeriodEid(final String periodEid) {
-    NodeParser.getNodeFromExpression("./force", this.node)
+    getOrCreateForceNode()
         .getAttributes()
         .getNamedItem("period")
         .setNodeValue(new Href.Builder().setEId(periodEid).buildRelative().value());

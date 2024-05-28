@@ -72,6 +72,7 @@ public class Mod {
    */
   public void setTargetHref(final String newHref) {
     NodeParser.getNodeFromExpression("./ref", this.node)
+        .orElseThrow()
         .getAttributes()
         .getNamedItem("href")
         .setNodeValue(newHref);
@@ -83,7 +84,8 @@ public class Mod {
    * @param newText - the replacing text
    */
   public void setNewText(final String newText) {
-    final Node newTextNode = NodeParser.getNodeFromExpression("./quotedText[2]", this.node);
+    final Node newTextNode =
+        NodeParser.getNodeFromExpression("./quotedText[2]", this.node).orElseThrow();
     newTextNode.setTextContent(newText);
   }
 }

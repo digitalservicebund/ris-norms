@@ -39,7 +39,7 @@ public class ElementService
 
     return loadNormPort
         .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(norm -> NodeParser.getNodeFromExpression(xPath, norm.getDocument()));
+        .flatMap(norm -> NodeParser.getNodeFromExpression(xPath, norm.getDocument()));
   }
 
   @Override
@@ -58,7 +58,7 @@ public class ElementService
         .loadNorm(new LoadNormPort.Command(query.eli()))
         .map(norm -> new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()))
         .map(timeMachineService::applyPassiveModifications)
-        .map(
+        .flatMap(
             norm ->
                 NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument()))
         .map(

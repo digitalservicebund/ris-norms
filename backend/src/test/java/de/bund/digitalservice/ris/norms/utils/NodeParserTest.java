@@ -26,6 +26,23 @@ class NodeParserTest {
   }
 
   @Test
+  void returnNodeWhenFound() {
+    Node node = XmlMapper.toDocument("<test>testValue</test>");
+    String expression = "/test";
+    Optional<Node> result = NodeParser.getNodeFromExpression(expression, node);
+    assertThat(result).isPresent();
+    assertThat(result.get().getTextContent()).isEqualTo("testValue");
+  }
+
+  @Test
+  void returnEmptyOptionalWhenNoNodeIsFound() {
+    Node node = XmlMapper.toDocument("<test>testValue</test>");
+    String expression = "/bla";
+    Optional<Node> result = NodeParser.getNodeFromExpression(expression, node);
+    assertThat(result).isEmpty();
+  }
+
+  @Test
   void returnEmptyListWhenNoNodesFound() {
     Node node = XmlMapper.toDocument("<test>testValue</test>");
     String expression = "/nonExistingNode";

@@ -19,6 +19,8 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Norm {
+  private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
+      "attributsemantik-noch-undefiniert";
 
   private final Document document;
 
@@ -156,7 +158,8 @@ public class Norm {
     return temporalGroupNodes.stream()
         .map(
             node -> {
-              Node timeIntervalNode = NodeParser.getNodeFromExpression("./timeInterval", node);
+              Node timeIntervalNode =
+                  NodeParser.getNodeFromExpression("./timeInterval", node).orElseThrow();
               String eventRefEId =
                   new Href(timeIntervalNode.getAttributes().getNamedItem("start").getNodeValue())
                       .getEId()
@@ -164,7 +167,7 @@ public class Norm {
               String eventRefNodeExpression =
                   String.format("//lifecycle/eventRef[@eId='%s']", eventRefEId);
               Node eventRefNode =
-                  NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
+                  NodeParser.getNodeFromExpression(eventRefNodeExpression, document).orElseThrow();
 
               return (TimeBoundary)
                   TimeBoundary.builder()
@@ -224,11 +227,10 @@ public class Norm {
    * @return List of Strings with all existing eIds of all temporalGroup nodes
    */
   public List<String> getTemporalGroupEids() {
-    Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
-    List<Node> temporalGroups = NodeParser.nodeListToList(temporalData.getChildNodes());
+    List<Node> temporalGroups =
+        NodeParser.getNodesFromExpression("//meta/temporalData/temporalGroup", document);
 
     return temporalGroups.stream()
-        .filter(node -> "akn:temporalGroup".equals(node.getNodeName()))
         .map(node -> node.getAttributes().getNamedItem("eId").getNodeValue())
         .toList();
   }
@@ -279,13 +281,13 @@ public class Norm {
     final Node livecycle = getTimeBoundaries().getLast().getEventRefNode().getParentNode();
     final Element eventRef = createElementWithEidAndGuid("akn:eventRef", "ereignis", livecycle);
     eventRef.setAttribute("date", date.toString());
-    eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
+    eventRef.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
     eventRef.setAttribute("type", eventRefType.getValue());
     eventRef.setAttribute("refersTo", "inkrafttreten");
     livecycle.appendChild(eventRef);
 
     // Create new temporalGroup node
-    final Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
+    final Node temporalData = getOrCreateTemporalDataNode();
     final Element temporalGroup =
         createElementWithEidAndGuid("akn:temporalGroup", "geltungszeitgr", temporalData);
     temporalData.appendChild(temporalGroup);
@@ -306,19 +308,19 @@ public class Norm {
    * Deletes the element of the norm identified by the given eId.
    *
    * @param eId the eId of the element to delete
-   * @return the deleted element
+   * @return the deleted element or empty if nothing to delete was found
    */
-  public Node deleteByEId(String eId) {
-    var node =
-        NodeParser.getNodeFromExpression(String.format("//*[@eId='%s']", eId), this.getDocument());
-    return node.getParentNode().removeChild(node);
+  public Optional<Node> deleteByEId(String eId) {
+    return NodeParser.getNodeFromExpression(
+            String.format("//*[@eId='%s']", eId), this.getDocument())
+        .map(node -> node.getParentNode().removeChild(node));
   }
 
   /**
    * Deletes the temporal group if it is not referenced anymore in the norm.
    *
    * @param eId the eId of the temporal group to delete
-   * @return the deleted temporal group node or empty if nothing was deleted
+   * @return the deleted temporal group or empty if nothing was deleted
    */
   public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
     final var nodesUsingTemporalData =
@@ -328,7 +330,7 @@ public class Norm {
       return Optional.empty();
     }
 
-    return Optional.of(new TemporalGroup(deleteByEId(eId)));
+    return deleteByEId(eId).map(TemporalGroup::new);
   }
 
   /**
@@ -346,7 +348,7 @@ public class Norm {
       return Optional.empty();
     }
 
-    return Optional.of(deleteByEId(eId));
+    return deleteByEId(eId);
   }
 
   /**
@@ -362,8 +364,14 @@ public class Norm {
     String timeIntervalNodeExpression =
         String.format(
             "//temporalData/temporalGroup/timeInterval[@start='#%s']", timeBoundaryToDelete.eid());
-    Node timeIntervalNode = NodeParser.getNodeFromExpression(timeIntervalNodeExpression, document);
-    Node temporalGroupNode = timeIntervalNode.getParentNode();
+    Optional<Node> timeIntervalNode =
+        NodeParser.getNodeFromExpression(timeIntervalNodeExpression, document);
+
+    if (timeIntervalNode.isEmpty()) {
+      return;
+    }
+
+    Node temporalGroupNode = timeIntervalNode.get().getParentNode();
     Node temporalDataNode = temporalGroupNode.getParentNode();
     temporalDataNode.removeChild(temporalGroupNode);
   }
@@ -386,19 +394,27 @@ public class Norm {
   }
 
   /**
+   * Gets the akn:meta element of the norm. Throws if no akn:meta node exists as this should never
+   * be the case (without it the norm can't have an eli).
+   *
+   * @return the akn:meta element of the norm
+   */
+  private Node getMetaNode() {
+    return NodeParser.getNodeFromExpression("//act/meta", getDocument()).orElseThrow();
+  }
+
+  /**
    * Gets the akn:analysis element of the norm, or creates it if it does not yet exist.
    *
    * @return the akn:analysis element of the norm
    */
   public Node getOrCreateAnalysisNode() {
-    final var metaNode = NodeParser.getNodeFromExpression("//act/meta", getDocument());
-
-    return Optional.ofNullable(NodeParser.getNodeFromExpression("analysis", metaNode))
+    return NodeParser.getNodeFromExpression("//meta/analysis", getDocument())
         .orElseGet(
             () -> {
               final var newElement =
-                  createElementWithEidAndGuid("akn:analysis", "analysis", metaNode);
-              newElement.setAttribute("source", "attributsemantik-noch-undefiniert");
+                  createElementWithEidAndGuid("akn:analysis", "analysis", getMetaNode());
+              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
               return newElement;
             });
   }
@@ -409,11 +425,27 @@ public class Norm {
    * @return the akn:passiveModifications element of the norm
    */
   public Node getOrCreatePassiveModificationsNode() {
-    final var analysisNode = getOrCreateAnalysisNode();
-    return Optional.ofNullable(
-            NodeParser.getNodeFromExpression("passiveModifications", analysisNode))
+    return NodeParser.getNodeFromExpression("//meta/analysis/passiveModifications", getDocument())
         .orElseGet(
-            () -> createElementWithEidAndGuid("akn:passiveModifications", "pasmod", analysisNode));
+            () ->
+                createElementWithEidAndGuid(
+                    "akn:passiveModifications", "pasmod", getOrCreateAnalysisNode()));
+  }
+
+  /**
+   * Gets the akn:temporalData element of the norm, or creates it if it does not yet exist.
+   *
+   * @return the akn:temporalData element of the norm
+   */
+  public Node getOrCreateTemporalDataNode() {
+    return NodeParser.getNodeFromExpression("//meta/temporalData", getDocument())
+        .orElseGet(
+            () -> {
+              final var newElement =
+                  createElementWithEidAndGuid("akn:temporalData", "analysis", getMetaNode());
+              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+              return newElement;
+            });
   }
 
   /**
