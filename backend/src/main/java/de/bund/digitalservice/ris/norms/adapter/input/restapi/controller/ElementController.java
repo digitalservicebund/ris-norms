@@ -13,7 +13,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.EliBuilder;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
@@ -104,29 +103,21 @@ public class ElementController {
       @PathVariable final String language,
       @PathVariable final String subtype,
       @PathVariable final String eid,
-      @RequestParam Optional<String> atIsoDate) {
+      @RequestParam Optional<Instant> atIsoDate) {
 
     var eli =
         EliBuilder.buildEli(
             agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    if (atIsoDate.isPresent()) {
-      try {
-        DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
-      } catch (Exception e) {
-        return ResponseEntity.badRequest().build();
-      }
-
-      return loadElementHtmlAtDateFromNormUseCase
-          .loadElementHtmlAtDateFromNorm(
-              new LoadElementHtmlAtDateFromNormUseCase.Query(
-                  eli, eid, Instant.parse(atIsoDate.get())))
-          .map(ResponseEntity::ok)
-          .orElse(ResponseEntity.notFound().build());
-    }
-
-    return loadElementHtmlFromNormUseCase
-        .loadElementHtmlFromNorm(new LoadElementHtmlFromNormUseCase.Query(eli, eid))
+    return atIsoDate
+        .map(
+            date ->
+                loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(
+                    new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)))
+        .orElseGet(
+            () ->
+                loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
+                    new LoadElementHtmlFromNormUseCase.Query(eli, eid)))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
