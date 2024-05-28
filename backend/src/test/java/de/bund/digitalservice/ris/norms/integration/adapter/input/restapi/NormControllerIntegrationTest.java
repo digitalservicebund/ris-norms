@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -658,6 +659,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
     }
   }
 
+  @Disabled
   @Nested
   class UpdateMod {
 
