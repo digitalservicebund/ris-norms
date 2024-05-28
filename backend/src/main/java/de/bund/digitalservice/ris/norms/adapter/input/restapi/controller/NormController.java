@@ -5,8 +5,8 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.UpdateModResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ModUpdateSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -333,7 +333,7 @@ public class NormController {
    * @param language the language of the document ("Sprache")
    * @param subtype the type of document ("Dokumentenart")
    * @param eid the eId of the akn:mod within the amending law
-   * @param modUpdateSchema the amending command to update
+   * @param updateModRequestSchema the amending command to update
    * @param dryRun Should the save operation only be previewed and not actually persisted?
    * @return A {@link ResponseEntity} containing the updated xml of the amending law.
    *     <p>Returns HTTP 200 (OK) if both amending law and zf0 successfully uddated.
@@ -353,7 +353,7 @@ public class NormController {
       @PathVariable final String language,
       @PathVariable final String subtype,
       @PathVariable final String eid,
-      @RequestBody @Valid final ModUpdateSchema modUpdateSchema,
+      @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
     final String eli =
@@ -363,11 +363,11 @@ public class NormController {
             new UpdateModUseCase.Query(
                 eli,
                 eid,
-                modUpdateSchema.getRefersTo(),
-                modUpdateSchema.getTimeBoundaryEid(),
-                modUpdateSchema.getDestinationHref(),
-                modUpdateSchema.getOldText(),
-                modUpdateSchema.getNewText(),
+                updateModRequestSchema.getRefersTo(),
+                updateModRequestSchema.getTimeBoundaryEid(),
+                updateModRequestSchema.getDestinationHref(),
+                updateModRequestSchema.getOldText(),
+                updateModRequestSchema.getNewText(),
                 dryRun))
         .map(UpdateModResponseMapper::fromResult)
         .map(ResponseEntity::ok)

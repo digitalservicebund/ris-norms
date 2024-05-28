@@ -5,15 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
-/**
- * Class representing the controller schema of an amending command. All properties required but the
- * time boundary because the flow for updating a mod is at the end bound to also applying the time
- * machine.
- */
+/** Class representing the controller schema for updating an akn:mod element. */
 @AllArgsConstructor
 @Data
 @SuperBuilder(toBuilder = true)
-public class ModUpdateSchema {
+public class UpdateModRequestSchema {
 
   @NotNull private String refersTo;
   private String timeBoundaryEid;
