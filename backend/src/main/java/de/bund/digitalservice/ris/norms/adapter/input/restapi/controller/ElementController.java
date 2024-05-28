@@ -166,7 +166,8 @@ public class ElementController {
       List<ElementResponseSchema> elements =
           loadElementsByTypeFromNormUseCase
               .loadElementsByTypeFromNorm(
-                  new LoadElementsByTypeFromNormUseCase.Query(eli, type, amendedBy.orElse(null)))
+                  new LoadElementsByTypeFromNormUseCase.Query(
+                      eli, Arrays.asList(type), amendedBy.orElse(null)))
               .stream()
               .map(ElementResponseMapper::fromElementNode)
               .toList();

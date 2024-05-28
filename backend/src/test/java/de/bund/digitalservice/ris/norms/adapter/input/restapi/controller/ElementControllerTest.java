@@ -206,7 +206,7 @@ class ElementControllerTest {
       when(loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
               new LoadElementsByTypeFromNormUseCase.Query(
                   "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-                  eq(new String[] {"preface"}))))
+                  eq(List.of("preface")))))
           .thenReturn(List.of());
 
       // when
@@ -227,7 +227,7 @@ class ElementControllerTest {
       when(loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
               new LoadElementsByTypeFromNormUseCase.Query(
                   "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-                  eq(new String[] {"preface", "preamble", "article", "conclusions"}))))
+                  eq(List.of("preface", "preamble", "article", "conclusions")))))
           .thenReturn(List.of());
 
       var url =
@@ -251,7 +251,7 @@ class ElementControllerTest {
         when(loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
                 new LoadElementsByTypeFromNormUseCase.Query(
                     "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-                    eq(new String[] {"preface", "preamble", "article", "conclusions"}),
+                    eq(List.of("preface", "preamble", "article", "conclusions")),
                     "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")))
             .thenReturn(List.of());
 

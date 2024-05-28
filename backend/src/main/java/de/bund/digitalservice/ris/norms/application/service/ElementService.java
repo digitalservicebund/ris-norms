@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -117,12 +116,12 @@ public class ElementService
   public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query)
       throws UnsupportedElementTypeException, NormNotFoundException {
     // No need to do anything if no types are requested
-    if (query.elementType().length == 0) return List.of();
+    if (query.elementType().isEmpty()) return List.of();
 
     var combinedXPaths =
         String.join(
             "|",
-            Arrays.stream(query.elementType())
+            query.elementType().stream()
                 .map(ElementType::fromLabel)
                 .map(xPathsForTypes::get)
                 .toList());

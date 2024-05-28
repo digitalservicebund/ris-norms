@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -374,7 +375,7 @@ class ElementServiceTest {
       var elements =
           service.loadElementsByTypeFromNorm(
               new LoadElementsByTypeFromNormUseCase.Query(
-                  "fake/eli", new String[] {"preface", "preamble", "article", "conclusions"}));
+                  "fake/eli", List.of("preface", "preamble", "article", "conclusions")));
 
       // Then
       assertThat(elements).hasSize(5);
@@ -396,7 +397,7 @@ class ElementServiceTest {
       // When
       var elements =
           service.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", new String[] {"article"}));
+              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article")));
 
       // Then
       assertThat(elements).hasSize(2);
@@ -413,7 +414,7 @@ class ElementServiceTest {
       // When
       var elements =
           service.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", new String[] {"preface"}));
+              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("preface")));
 
       // Then
       assertThat(elements).isEmpty();
@@ -428,7 +429,7 @@ class ElementServiceTest {
       // When
       var elements =
           service.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", new String[] {}));
+              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of()));
 
       // Then
       assertThat(elements).isEmpty();
@@ -445,7 +446,7 @@ class ElementServiceTest {
               () ->
                   service.loadElementsByTypeFromNorm(
                       new LoadElementsByTypeFromNormUseCase.Query(
-                          "fake/eli", new String[] {"invalid_type"})))
+                          "fake/eli", List.of("invalid_type"))))
           .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
     }
 
@@ -458,8 +459,7 @@ class ElementServiceTest {
       assertThatThrownBy(
               () ->
                   service.loadElementsByTypeFromNorm(
-                      new LoadElementsByTypeFromNormUseCase.Query(
-                          "fake/eli", new String[] {"article"})))
+                      new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"))))
           .isInstanceOf(LoadElementsByTypeFromNormUseCase.NormNotFoundException.class);
     }
 
@@ -477,7 +477,7 @@ class ElementServiceTest {
           service.loadElementsByTypeFromNorm(
               new LoadElementsByTypeFromNormUseCase.Query(
                   targetNormEli,
-                  new String[] {"preface", "preamble", "article", "conclusions"},
+                  List.of("preface", "preamble", "article", "conclusions"),
                   "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"));
 
       // Then
@@ -500,7 +500,7 @@ class ElementServiceTest {
           service.loadElementsByTypeFromNorm(
               new LoadElementsByTypeFromNormUseCase.Query(
                   targetNormEli,
-                  new String[] {"preface", "preamble", "article", "conclusions"},
+                  List.of("preface", "preamble", "article", "conclusions"),
                   "fake/eli"));
 
       // Then
