@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -15,14 +16,17 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ModificationValidatorTest {
-  private final DBService dbService = mock(DBService.class);
-  private final ModificationValidator underTest = new ModificationValidator(dbService);
+
+  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
+  private final ModificationValidator underTest =
+      new ModificationValidator(loadNormPort, updateNormPort);
 
   @Test
   void normDoesNotExist() {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    when(dbService.loadNorm(any())).thenReturn(Optional.empty());
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
@@ -36,7 +40,7 @@ class ModificationValidatorTest {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
     final Norm targetLaw = NormFixtures.loadFromDisk("SimpleNorm.xml");
-    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
@@ -52,7 +56,7 @@ class ModificationValidatorTest {
   void moreThanOneNodeWithGivenDestEidExists() {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    when(dbService.loadNorm(any()))
+    when(loadNormPort.loadNorm(any()))
         .thenReturn(
             Optional.of(
                 new Norm(
@@ -754,7 +758,7 @@ class ModificationValidatorTest {
     void normDoesNotExist() {
       // given
       final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      when(dbService.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // when
       Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
@@ -771,7 +775,7 @@ class ModificationValidatorTest {
       // given
       final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when/then
       Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
@@ -783,7 +787,7 @@ class ModificationValidatorTest {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
     final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when/then
     Assertions.assertDoesNotThrow(() -> underTest.destinationEliIsConsistent(amendingLaw));
@@ -794,7 +798,7 @@ class ModificationValidatorTest {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistentEli.xml");
     final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationEliIsConsistent(amendingLaw));
@@ -810,7 +814,7 @@ class ModificationValidatorTest {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
     final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when/then
     Assertions.assertDoesNotThrow(() -> underTest.destinationHrefIsConsistent(amendingLaw));
@@ -821,7 +825,7 @@ class ModificationValidatorTest {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistentEid.xml");
     final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    when(dbService.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationHrefIsConsistent(amendingLaw));

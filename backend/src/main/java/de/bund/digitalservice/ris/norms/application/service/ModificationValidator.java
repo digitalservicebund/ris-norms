@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Optional;
@@ -17,11 +17,13 @@ import org.w3c.dom.Node;
 @Slf4j
 public class ModificationValidator {
 
-  private final DBService dbService;
+  private final LoadNormPort loadNormPort;
+  private final UpdateNormPort updateNormPort;
 
-  public ModificationValidator(DBService dbService) {
-    // TODO use specific port
-    this.dbService = dbService;
+  public ModificationValidator(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
+
+    this.loadNormPort = loadNormPort;
+    this.updateNormPort = updateNormPort;
   }
 
   /**
@@ -49,7 +51,7 @@ public class ModificationValidator {
   }
 
   private Norm getTargetLaw(String affectedDocumentEli, String articleEId) {
-    return dbService
+    return loadNormPort
         .loadNorm(new LoadNormPort.Command(affectedDocumentEli))
         .orElseThrow(
             () ->
