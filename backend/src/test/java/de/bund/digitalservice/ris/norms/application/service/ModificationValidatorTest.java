@@ -381,6 +381,26 @@ class ModificationValidatorTest {
     }
 
     @Test
+    void oldTextNotTheSameInTargetLaw() {
+
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingLaw.getMods().forEach(mod -> mod.setOldText("not the same text as in target law"));
+
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "The replacement text '§ 9 Abs. 1 Satz 2, Abs. 2' in the target law does not equal the replacement text 'not the same text as in target law' in the article with eId hauptteil-1_art-1");
+    }
+
+    @Test
     void targetHrefIsEmpty() {
 
       // given

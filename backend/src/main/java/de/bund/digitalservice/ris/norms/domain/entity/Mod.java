@@ -39,6 +39,15 @@ public class Mod {
   }
 
   /**
+   * Sets a quoted text that should be replaced by this mod as {@link String}.
+   *
+   * @param replacementText the text that should be replaced by this modification
+   */
+  public void setOldText(String replacementText) {
+    NodeParser.getNodeFromExpression("./quotedText[1]", this.node).setTextContent(replacementText);
+  }
+
+  /**
    * Returns the quoted text that will be the new text after the mod is applied as {@link String}.
    *
    * @return The text that will replace the old text

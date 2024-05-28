@@ -158,7 +158,7 @@ public class ModificationValidator {
               String articleEId = getArticleEId(article);
               String affectedDocumentEli = getArticleAffectedDocumentEli(article, articleEId);
               Mod mod = getArticleMod(article, articleEId);
-              String oldText = getModOldText(mod, articleEId);
+              String amendingLawOldText = getModOldText(mod, articleEId);
               Href targetHref = getModTargetHref(mod, articleEId);
               String targetHrefEId = getHrefEid(targetHref, articleEId);
               CharacterRange characterRange = getHrefCharacterRange(targetHref, articleEId);
@@ -179,8 +179,8 @@ public class ModificationValidator {
               validateCharacterRange(characterRange, start, end, articleEId);
               validateParagraphTextLength(paragraphText, end, articleEId);
 
-              String textToBeReplaced = paragraphText.substring(start, end);
-              validateParagraphEquals(textToBeReplaced, oldText, articleEId);
+              String targetLawOldText = paragraphText.substring(start, end);
+              validateParagraphEquals(targetLawOldText, amendingLawOldText, articleEId);
             });
   }
 
@@ -214,12 +214,12 @@ public class ModificationValidator {
           null);
   }
 
-  private void validateParagraphEquals(String textToBeReplaced, String oldText, String articleEId) {
-    // TODO test for that throw
-    if (!textToBeReplaced.equals(oldText))
+  private void validateParagraphEquals(
+      String targetLawOldText, String amendingLawOldText, String articleEId) {
+    if (!targetLawOldText.equals(amendingLawOldText))
       throw new XmlContentException(
-          "The to be replaced text does not equal the old text in article with eId %s"
-              .formatted(articleEId),
+          "The replacement text '%s' in the target law does not equal the replacement text '%s' in the article with eId %s"
+              .formatted(targetLawOldText, amendingLawOldText, articleEId),
           null);
   }
 
