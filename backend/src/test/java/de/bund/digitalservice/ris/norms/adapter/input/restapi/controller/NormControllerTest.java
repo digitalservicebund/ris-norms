@@ -349,7 +349,7 @@ class NormControllerTest {
       // When // Then
       mockMvc
           .perform(
-              put("/api/v1/norms/" + eli + "/mod/" + modEid)
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
                   .accept(MediaType.APPLICATION_XML)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
@@ -371,7 +371,7 @@ class NormControllerTest {
       // When // Then
       mockMvc
           .perform(
-              put("/api/v1/norms/" + eli + "/mod/" + modEid)
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
                   .accept(MediaType.APPLICATION_XML)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(

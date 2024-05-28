@@ -26,7 +26,7 @@ export function useMod(
   destinationHref: Ref<string>
   quotedTextFirst: Ref<string>
   quotedTextSecond: Ref<string>
-  timeBoundary: Ref<string | undefined>
+  timeBoundary: Ref<{ date: string; temporalGroupEid: string } | undefined>
   updateMod: (
     eli: MaybeRefOrGetter<string>,
     eid: MaybeRefOrGetter<string>,
@@ -42,7 +42,9 @@ export function useMod(
   const destinationHref = ref<string>("")
   const quotedTextFirst = ref<string>("")
   const quotedTextSecond = ref<string>("")
-  const timeBoundary = ref<string | undefined>()
+  const timeBoundary = ref<
+    { date: string; temporalGroupEid: string } | undefined
+  >()
 
   function reset() {
     textualModType.value = ""

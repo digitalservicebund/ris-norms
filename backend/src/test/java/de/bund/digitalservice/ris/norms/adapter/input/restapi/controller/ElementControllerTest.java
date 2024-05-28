@@ -29,10 +29,9 @@ class ElementControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadNormUseCase loadNormUseCase;
-  @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   @MockBean private LoadElementFromNormUseCase loadElementFromNormUseCase;
   @MockBean private LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
+  @MockBean private LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
 
   @Nested
   class GetSingleElement {

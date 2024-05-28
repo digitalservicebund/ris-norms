@@ -21,18 +21,20 @@ class UpdateNormServiceTest {
 
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // When
-      var updatedAmendingLaw =
+      var updatedZfoLaw =
           updateNormService.updatePassiveModifications(
-              new UpdatePassiveModificationsUseCase.Query(targetLaw, amendingLaw));
+              new UpdatePassiveModificationsUseCase.Query(
+                  zf0Law, amendingLaw, targetLaw.getEli().get()));
 
       // Then
-      assertThat(updatedAmendingLaw.getPassiveModifications()).hasSize(1);
-      assertThat(updatedAmendingLaw.getTimeBoundaries()).hasSize(4);
+      assertThat(updatedZfoLaw.getPassiveModifications()).hasSize(1);
+      assertThat(updatedZfoLaw.getTimeBoundaries()).hasSize(4);
 
-      var passiveModification = updatedAmendingLaw.getPassiveModifications().getFirst();
+      var passiveModification = updatedZfoLaw.getPassiveModifications().getFirst();
       assertThat(passiveModification.getType()).contains("substitution");
       assertThat(passiveModification.getSourceHref())
           .contains(
@@ -50,21 +52,23 @@ class UpdateNormServiceTest {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // When
-      var updatedAmendingLaw =
+      var updatedZf0Law =
           updateNormService.updatePassiveModifications(
-              new UpdatePassiveModificationsUseCase.Query(targetLaw, amendingLaw));
+              new UpdatePassiveModificationsUseCase.Query(
+                  zf0Law, amendingLaw, targetLaw.getEli().get()));
 
       // Then
-      assertThat(updatedAmendingLaw.getPassiveModifications()).hasSize(1);
-      assertThat(updatedAmendingLaw.getTimeBoundaries())
+      assertThat(updatedZf0Law.getPassiveModifications()).hasSize(1);
+      assertThat(updatedZf0Law.getTimeBoundaries())
           .hasSize(4); // 3 existing time-boundaries + 1 new one for the mod
-      var eventRefNode = updatedAmendingLaw.getTimeBoundaries().get(3).getEventRefNode();
+      var eventRefNode = updatedZf0Law.getTimeBoundaries().get(3).getEventRefNode();
       assertThat(NodeParser.getValueFromExpression("@type", eventRefNode))
           .contains(EventRefType.AMENDMENT.getValue());
 
-      var newPassiveModification = updatedAmendingLaw.getPassiveModifications().getFirst();
+      var newPassiveModification = updatedZf0Law.getPassiveModifications().getFirst();
       assertThat(newPassiveModification.getType()).contains("substitution");
       assertThat(newPassiveModification.getSourceHref())
           .contains(
@@ -73,7 +77,7 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification.getDestinationHref())
           .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
       assertThat(
-              updatedAmendingLaw.getStartDateForTemporalGroup(
+              updatedZf0Law.getStartDateForTemporalGroup(
                   newPassiveModification.getForcePeriodEid().orElseThrow()))
           .contains("2023-12-30");
     }
@@ -84,18 +88,20 @@ class UpdateNormServiceTest {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // When
-      var updatedAmendingLaw =
+      var updatedZfoLaw =
           updateNormService.updatePassiveModifications(
-              new UpdatePassiveModificationsUseCase.Query(targetLaw, amendingLaw));
+              new UpdatePassiveModificationsUseCase.Query(
+                  zf0Law, amendingLaw, targetLaw.getEli().get()));
 
       // Then
-      assertThat(updatedAmendingLaw.getPassiveModifications()).hasSize(2);
-      assertThat(updatedAmendingLaw.getTimeBoundaries())
+      assertThat(updatedZfoLaw.getPassiveModifications()).hasSize(2);
+      assertThat(updatedZfoLaw.getTimeBoundaries())
           .hasSize(4); // 3 existing time-boundaries + 1 new one for both mods
 
-      var newPassiveModification1 = updatedAmendingLaw.getPassiveModifications().getFirst();
+      var newPassiveModification1 = updatedZfoLaw.getPassiveModifications().getFirst();
       assertThat(newPassiveModification1.getType()).contains("substitution");
       assertThat(newPassiveModification1.getSourceHref())
           .contains(
@@ -104,11 +110,11 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification1.getDestinationHref())
           .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
       assertThat(
-              updatedAmendingLaw.getStartDateForTemporalGroup(
+              updatedZfoLaw.getStartDateForTemporalGroup(
                   newPassiveModification1.getForcePeriodEid().orElseThrow()))
           .contains("2023-12-30");
 
-      var newPassiveModification2 = updatedAmendingLaw.getPassiveModifications().get(1);
+      var newPassiveModification2 = updatedZfoLaw.getPassiveModifications().get(1);
       assertThat(newPassiveModification2.getType()).contains("substitution");
       assertThat(newPassiveModification2.getSourceHref())
           .contains(
@@ -117,7 +123,7 @@ class UpdateNormServiceTest {
       assertThat(newPassiveModification2.getDestinationHref())
           .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
       assertThat(
-              updatedAmendingLaw.getStartDateForTemporalGroup(
+              updatedZfoLaw.getStartDateForTemporalGroup(
                   newPassiveModification2.getForcePeriodEid().orElseThrow()))
           .contains("2023-12-30");
     }

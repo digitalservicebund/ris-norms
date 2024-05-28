@@ -119,11 +119,8 @@ class ArchitectureFitnessTest {
             .that()
             .resideInAPackage(DOMAIN_LAYER_PACKAGES)
             .should()
-            .resideInAPackage(ENTITY_LAYER_PACKAGES)
-            .orShould()
-            .resideInAPackage(VALUE_LAYER_PACKAGES)
-            .orShould()
-            .resideInAPackage(EXCEPTIONS_LAYER_PACKAGES);
+            .resideInAnyPackage(
+                ENTITY_LAYER_PACKAGES, VALUE_LAYER_PACKAGES, EXCEPTIONS_LAYER_PACKAGES);
 
     rule.check(classes);
   }
@@ -220,22 +217,14 @@ class ArchitectureFitnessTest {
   }
 
   @Test
-  void applicationPackageShouldDependOnlyOnDomainAndSpecificExtras() {
+  void applicationPackageShouldNotDependOnAdapterPackage() {
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
             .resideInAPackage(APPLICATION_LAYER_PACKAGES)
             .should()
             .onlyDependOnClassesThat()
-            .resideInAPackage(DOMAIN_LAYER_PACKAGES)
-            .orShould()
-            .resideInAnyPackage(APPLICATION_LAYER_PACKAGES)
-            .orShould()
-            .resideInAnyPackage(UTILS_LAYER_PACKAGES)
-            .orShould()
-            .resideInAnyPackage("kotlin..", "java..", "org.jetbrains.annotations..")
-            .orShould()
-            .resideInAnyPackage("org.springframework.stereotype..", "org.slf4j..");
+            .resideOutsideOfPackage(ADAPTER_LAYER_PACKAGES);
     rule.check(classes);
   }
 
@@ -246,11 +235,8 @@ class ArchitectureFitnessTest {
             .that()
             .resideInAPackage(APPLICATION_LAYER_PACKAGES)
             .should()
-            .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES)
-            .orShould()
-            .resideInAPackage(OUTPUT_PORT_LAYER_PACKAGES)
-            .orShould()
-            .resideInAPackage(SERVICE_LAYER_PACKAGES);
+            .resideInAnyPackage(
+                INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES, SERVICE_LAYER_PACKAGES);
     rule.check(classes);
   }
 

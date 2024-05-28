@@ -20,7 +20,7 @@ export async function getEntryIntoForceHtml(eli: string): Promise<string> {
 /**
  * Fetches the temporal data time boundaries related to an amending law.
  *
- * @returns An Array of TimeBoundary objects each with a date and eventRefEid strings
+ * @returns An Array of TimeBoundary objects each with a date, eventRefEid and temporalGroupEid strings
  */
 export async function getTemporalDataTimeBoundaries(
   eli: string,
@@ -41,7 +41,7 @@ export async function getTemporalDataTimeBoundaries(
  *
  * @param eli ELI of the amending law
  * @param dates Array of TimeBoundary objects
- * @returns An updated Array of TimeBoundary objects each with a date and eventRefEid strings
+ * @returns An updated Array of TimeBoundary objects each with a date, eventRefEid, and temporalgroupEid strings
  * */
 export async function updateTemporalDataTimeBoundaries(
   eli: string,

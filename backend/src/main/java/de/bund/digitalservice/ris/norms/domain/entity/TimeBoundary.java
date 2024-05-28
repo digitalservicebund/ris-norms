@@ -12,8 +12,10 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class TimeBoundary {
+  private static final String EID_XPATH = "./@eId";
   @Getter private final Node timeIntervalNode;
   @Getter private final Node eventRefNode;
+  @Getter private final Node temporalGroupNode;
 
   /**
    * Returns a date as {@link LocalDate} from a {@link Node} in a {@link Norm}. h
@@ -30,7 +32,7 @@ public class TimeBoundary {
    * @return The eId of the event
    */
   public Optional<String> getEventRefEid() {
-    return NodeParser.getValueFromExpression("./@eId", this.eventRefNode);
+    return NodeParser.getValueFromExpression(EID_XPATH, this.eventRefNode);
   }
 
   /**
@@ -39,7 +41,16 @@ public class TimeBoundary {
    * @return The eId of the timeInterval
    */
   public Optional<String> getTimeIntervalEid() {
-    return NodeParser.getValueFromExpression("./@eId", this.timeIntervalNode);
+    return NodeParser.getValueFromExpression(EID_XPATH, this.timeIntervalNode);
+  }
+
+  /**
+   * Returns a temporal group eId as {@link String} from a {@link Node} in a {@link Norm}.
+   *
+   * @return The eId of the temporal group
+   */
+  public Optional<String> getTemporalGroupEid() {
+    return NodeParser.getValueFromExpression(EID_XPATH, this.temporalGroupNode);
   }
 
   /**

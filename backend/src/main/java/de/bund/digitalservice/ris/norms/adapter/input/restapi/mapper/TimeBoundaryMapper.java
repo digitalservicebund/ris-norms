@@ -20,6 +20,7 @@ public class TimeBoundaryMapper {
     return TimeBoundarySchema.builder()
         .date(timeBoundary.getDate().orElse(null))
         .eventRefEid(timeBoundary.getEventRefEid().orElse(null))
+        .temporalGroupEid(timeBoundary.getTemporalGroupEid().orElse(null))
         .build();
   }
 
