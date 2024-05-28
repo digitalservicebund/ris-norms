@@ -15,6 +15,6 @@ public interface LoadArticleHtmlUseCase {
    * @param eid EID of the article to load from the norm
    * @param atIsoDate Apply the norm's passive mods up to this date before loading the article
    */
-  // TODO Hannes: remove the optional parameter. It's stupid to provide one even if not needed
+  // TODO Hannes: remove the optional parameter. Use the multiple constructors pattern.
   record Query(String eli, String eid, Optional<String> atIsoDate) {}
 }
