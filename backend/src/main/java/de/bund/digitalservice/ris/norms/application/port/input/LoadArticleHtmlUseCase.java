@@ -4,11 +4,9 @@ import java.time.Instant;
 import java.util.Optional;
 import org.springframework.lang.Nullable;
 
-/** Use case for loading a norm's articles */
+/** Use case for loading a norm's article */
 public interface LoadArticleHtmlUseCase {
   Optional<String> loadArticleHtml(Query query);
-
-  // TODO Hannes: tests missing
 
   /**
    * Query for loading a norm's article via the use case
