@@ -27,7 +27,6 @@ public class ArticleService implements LoadArticleHtmlUseCase {
     this.xsltTransformationService = xsltTransformationService;
   }
 
-  // TODO Hannes: Untested
   @Override
   public Optional<String> loadArticleHtml(final Query query) {
     return loadNormPort
