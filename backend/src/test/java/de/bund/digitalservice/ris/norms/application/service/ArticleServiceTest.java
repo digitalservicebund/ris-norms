@@ -36,7 +36,6 @@ class ArticleServiceTest {
       // when
       var result =
               articleService.loadArticleHtml(
-                      // TODO Hannes: remove null once we have both constructors
                       new LoadArticleHtmlUseCase.Query(eli, eid));
       // then
       assertThat(result).isPresent();
@@ -51,7 +50,6 @@ class ArticleServiceTest {
       // when
       var result =
               articleService.loadArticleHtml(
-                      // TODO Hannes: remove null once we have both constructors
                       new LoadArticleHtmlUseCase.Query(eli, eid));
       // then
       assertThat(result).isEmpty();
@@ -68,7 +66,6 @@ class ArticleServiceTest {
       // when
       var result =
               articleService.loadArticleHtml(
-                      // TODO Hannes: remove null once we have both constructors
                       new LoadArticleHtmlUseCase.Query(eli, eid));
       // then
       assertThat(result).isEmpty();
