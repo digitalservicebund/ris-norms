@@ -39,17 +39,13 @@ public class Norm {
    *
    * @return An GUID of the document
    */
-  public Optional<UUID> getGuid() {
-    return NodeParser.getValueFromExpression(
-            "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document)
-        .flatMap(
-            guid -> {
-              try {
-                return Optional.of(UUID.fromString(guid));
-              } catch (IllegalArgumentException e) {
-                return Optional.empty();
-              }
-            });
+  public UUID getGuid() {
+    var guid =
+        NodeParser.getValueFromExpression(
+                "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document)
+            .orElseThrow();
+
+    return UUID.fromString(guid);
   }
 
   /**
