@@ -70,18 +70,29 @@ export function getTimeBoundaryDate(xml: Document, aknModEid: string) {
  * @param eli - The ELI of the norm.
  * @param eid - The eId of the akn:mod.
  * @param updatedMods - A mod object.
+ * @param dryRun - Should the save operation only be previewed and not actually persisted?
  * @returns An XML of ZF0 in the response when the save operation is complete.
  */
 export async function updateModData(
   eli: string,
   eid: string,
   updatedMods: ModData,
-): Promise<string> {
-  return await apiFetch<string>(`/norms/${eli}/mods/${eid}`, {
+  dryRun: boolean = false,
+): Promise<{
+  amendingNormXml: string
+  targetNormZf0Xml: string
+}> {
+  return await apiFetch<{
+    amendingNormXml: string
+    targetNormZf0Xml: string
+  }>(`/norms/${eli}/mods/${eid}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/xml",
+      Accept: "application/json",
+    },
+    query: {
+      dryRun,
     },
     body: JSON.stringify(updatedMods),
   })

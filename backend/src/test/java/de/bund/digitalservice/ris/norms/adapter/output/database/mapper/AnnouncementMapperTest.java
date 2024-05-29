@@ -91,8 +91,7 @@ class AnnouncementMapperTest {
 
     // Then
     assertThat(announcementDto).isNotNull();
-    assertThat(announcementDto.getNormDto().getEli())
-        .isEqualTo(announcement.getNorm().getEli().get());
+    assertThat(announcementDto.getNormDto().getEli()).isEqualTo(announcement.getNorm().getEli());
     assertThat(announcementDto.getReleasedByDocumentalistAt())
         .isEqualTo(announcement.getReleasedByDocumentalistAt());
   }

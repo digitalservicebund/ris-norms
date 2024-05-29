@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -23,11 +24,11 @@ class NormTest {
     var actualEli = norm.getEli();
 
     // then
-    assertThat(actualEli).contains(expectedEli);
+    assertThat(actualEli).isEqualTo(expectedEli);
   }
 
   @Test
-  void getOptionalEmptyEliWhenItDoesntExist() {
+  void getErrorWhenEliItDoesntExist() {
     // given
     String normString =
         """
@@ -43,8 +44,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(normString));
 
-    Optional<String> optionalEli = norm.getEli();
-    assertThat(optionalEli).isEmpty();
+    assertThrows(NoSuchElementException.class, norm::getEli);
   }
 
   @Test
@@ -1358,14 +1358,15 @@ class NormTest {
     void itShouldCreatesANewElement() {
       // given
       Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      Node parentNode = NodeParser.getNodeFromExpression("//act/meta", norm.getDocument());
+      Node parentNode =
+          NodeParser.getNodeFromExpression("//act/meta", norm.getDocument()).orElseThrow();
 
       // when
       Node createdNode = norm.createElementWithEidAndGuid("akn:analysis", "analysis", parentNode);
 
       // then
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-          .isEqualTo(createdNode);
+          .contains(createdNode);
       assertThat(NodeParser.getValueFromExpression("@eId", createdNode))
           .contains("meta-1_analysis-1");
     }
@@ -1384,7 +1385,7 @@ class NormTest {
       // then
       assertThat(analysisNode).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-          .isEqualTo(analysisNode);
+          .contains(analysisNode);
     }
 
     @Test
@@ -1416,7 +1417,7 @@ class NormTest {
       assertThat(passiveModificationsNode).isNotNull();
       assertThat(
               NodeParser.getNodeFromExpression("//act//passiveModifications", norm.getDocument()))
-          .isEqualTo(passiveModificationsNode);
+          .contains(passiveModificationsNode);
     }
 
     @Test
@@ -1431,6 +1432,37 @@ class NormTest {
       assertThat(passiveModificationsNode).isNotNull();
       assertThat(NodeParser.getValueFromExpression("@GUID", passiveModificationsNode))
           .contains("77aae58f-06c9-4189-af80-a5f3ada6432c");
+    }
+  }
+
+  @Nested
+  class getOrCreateTemporalDataNode {
+    @Test
+    void itShouldCreatesTheTemporalDataNodeIfItDoesNotExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+      // when
+      final var temporalDataNode = norm.getOrCreateTemporalDataNode();
+
+      // then
+      assertThat(temporalDataNode).isNotNull();
+      assertThat(NodeParser.getNodeFromExpression("//act//temporalData", norm.getDocument()))
+          .contains(temporalDataNode);
+    }
+
+    @Test
+    void itShouldFindTheTemporalDataNodeIfItExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      // when
+      final var temporalDataNode = norm.getOrCreateTemporalDataNode();
+
+      // then
+      assertThat(temporalDataNode).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", temporalDataNode))
+          .contains("2fcdfa3e-1460-4ef4-b22b-5ff4a897538f");
     }
   }
 
@@ -1463,7 +1495,7 @@ class NormTest {
               NodeParser.getNodeFromExpression(
                   String.format("//*[@eId='%s']", passiveModification.getEid().orElseThrow()),
                   norm.getDocument()))
-          .isEqualTo(passiveModification.getNode());
+          .contains(passiveModification.getNode());
     }
   }
 
@@ -1478,7 +1510,7 @@ class NormTest {
       norm.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
 
       // then
-      assertThat(norm.getEli()).isEmpty();
+      assertThrows(NoSuchElementException.class, norm::getEli);
     }
   }
 
@@ -1527,7 +1559,7 @@ class NormTest {
       assertThat(
               NodeParser.getNodeFromExpression(
                   "//*[@eId='meta-1_lebzykl-1_ereignis-1']", norm.getDocument()))
-          .isNull();
+          .isEmpty();
     }
 
     @Test

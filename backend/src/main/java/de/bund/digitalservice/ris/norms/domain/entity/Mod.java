@@ -26,7 +26,7 @@ public class Mod {
    * @return The eId of the mod
    */
   public Optional<String> getEid() {
-    return NodeParser.getValueFromExpression("./@eId", this.node);
+    return EId.fromNode(getNode()).map(EId::value);
   }
 
   /**
@@ -44,7 +44,9 @@ public class Mod {
    * @param replacementText the text that should be replaced by this modification
    */
   public void setOldText(String replacementText) {
-    NodeParser.getNodeFromExpression("./quotedText[1]", this.node).setTextContent(replacementText);
+    NodeParser.getNodeFromExpression("./quotedText[1]", this.node)
+        .orElseThrow()
+        .setTextContent(replacementText);
   }
 
   /**
@@ -72,6 +74,7 @@ public class Mod {
    */
   public void setTargetHref(final String newHref) {
     NodeParser.getNodeFromExpression("./ref", this.node)
+        .orElseThrow()
         .getAttributes()
         .getNamedItem("href")
         .setNodeValue(newHref);
@@ -83,7 +86,8 @@ public class Mod {
    * @param newText - the replacing text
    */
   public void setNewText(final String newText) {
-    final Node newTextNode = NodeParser.getNodeFromExpression("./quotedText[2]", this.node);
+    final Node newTextNode =
+        NodeParser.getNodeFromExpression("./quotedText[2]", this.node).orElseThrow();
     newTextNode.setTextContent(newText);
   }
 }

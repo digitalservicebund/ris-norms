@@ -4,13 +4,13 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.XmlMatcher;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -440,122 +440,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class GetNormPreview {
-
-    @Test
-    void itAppliesTimeMachine() throws Exception {
-      // Given
-      final String xml =
-          """
-               <?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-                    <!-- Metadaten -->
-                    <akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">
-                       <akn:identification GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d" eId="meta-1_ident-1_frbrexpression-1">
-                             <akn:FRBRthis GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
-                             <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
-                             <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
-                             <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
-                          </akn:FRBRExpression>
-                      </akn:identification>
-                    </akn:meta>
-                    <akn:body>
-                       <akn:p eId="one">old text</akn:p>
-                       <akn:p eId="two">old text</akn:p>
-                   </akn:body>
-                 </akn:act>
-               </akn:akomaNtoso>""";
-
-      // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
-      normRepository.save(NormMapper.mapToDto(norm));
-
-      var amendingNormXml =
-          """
-               <?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:body>
-                    <akn:mod>
-                      In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
-                    </akn:mod>
-                    "old" -> "new"
-                 </akn:body>
-               </akn:akomaNtoso>""";
-
-      // When // Then
-      mockMvc
-          .perform(
-              post("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/preview")
-                  .contentType(MediaType.APPLICATION_XML)
-                  .content(amendingNormXml)
-                  .accept(MediaType.APPLICATION_XML))
-          .andExpect(status().isOk())
-          .andExpect(
-              xpath(
-                      "//akn:p[@eId=\"one\"]",
-                      Map.of("akn", "http://Inhaltsdaten.LegalDocML.de/1.6/"))
-                  .string("old text"))
-          .andExpect(
-              xpath(
-                      "//akn:p[@eId=\"two\"]",
-                      Map.of("akn", "http://Inhaltsdaten.LegalDocML.de/1.6/"))
-                  .string("new text"));
-    }
-
-    @Test
-    void itAppliesTimeMachineAndRendersHtml() throws Exception {
-      // Given
-      final String xml =
-          """
-               <?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:act name="regelungstext">
-                    <!-- Metadaten -->
-                    <akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">
-                       <akn:identification GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
-                          <akn:FRBRExpression GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d" eId="meta-1_ident-1_frbrexpression-1">
-                             <akn:FRBRthis GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"/>
-                             <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
-                             <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
-                             <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
-                          </akn:FRBRExpression>
-                      </akn:identification>
-                    </akn:meta>
-                    <akn:body>
-                       <akn:p eId="one">old text</akn:p>
-                       <akn:p eId="two">old text</akn:p>
-                   </akn:body>
-                 </akn:act>
-               </akn:akomaNtoso>""";
-
-      // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
-      normRepository.save(NormMapper.mapToDto(norm));
-
-      var amendingNormXml =
-          """
-               <?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?><akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                 <akn:body>
-                    <akn:mod>
-                      In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/two/9-34.xml">paragraph 2</akn:ref> replace <akn:quotedText>old</akn:quotedText> with <akn:quotedText>new</akn:quotedText>.
-                    </akn:mod>
-                    "old" -> "new"
-                 </akn:body>
-               </akn:akomaNtoso>""";
-
-      // When // Then
-      mockMvc
-          .perform(
-              post("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/preview")
-                  .contentType(MediaType.APPLICATION_XML)
-                  .content(amendingNormXml)
-                  .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isOk())
-          .andExpect(xpath("//*[@data-eId=\"one\"]").string("old text"))
-          .andExpect(xpath("//*[@data-eId=\"two\"]").string("new text"));
-    }
-  }
-
-  @Nested
   class GetNormTimeBoundaries {
 
     @Test
@@ -676,24 +560,56 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
           .perform(
               put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
-                  .accept(MediaType.APPLICATION_XML)
+                  .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
                       "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"meta-1_geltzeiten-1_geltungszeitgr-1\", \"destinationHref\": \"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
           // Then
           .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
           .andExpect(
-              xpath("//activeModifications/textualMod/destination/@href")
-                  .string(
-                      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml"))
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/destination/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
           .andExpect(
-              xpath("//activeModifications/textualMod/force/@period")
-                  .string("#meta-1_geltzeiten-1_geltungszeitgr-1"))
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
           .andExpect(
-              xpath("//body//mod/ref/@href")
-                  .string(
-                      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml"))
-          .andExpect(xpath("//body//mod/quotedText[2]").string("new test text"));
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod/ref/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/destination/@href",
+                              equalTo("#para-20_abs-1/100-130")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/source/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml")))));
 
       mockMvc
           .perform(
@@ -702,11 +618,81 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isOk())
           .andExpect(
               xpath("//passiveModifications/textualMod/destination/@href")
-                  .string("#para-20_abs-1/100-130"))
+                  .string("#para-20_abs-1/100-130"));
+    }
+
+    @Test
+    void itReturnsUpdatedNormButDoesNotSaveIt() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1?dryRun=true")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"meta-1_geltzeiten-1_geltungszeitgr-1\", \"destinationHref\": \"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
           .andExpect(
-              xpath("//passiveModifications/textualMod/source/@href")
-                  .string(
-                      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/destination/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod/ref/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/destination/@href",
+                              equalTo("#para-20_abs-1/100-130")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/source/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml")))));
+
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(
+              xpath("//passiveModifications/textualMod/destination/@href")
+                  .string("#hauptteil-1_para-20_abs-1/100-126"));
     }
   }
 }

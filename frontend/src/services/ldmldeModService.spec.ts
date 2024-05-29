@@ -143,8 +143,11 @@ describe("ldmldeModService", () => {
         oldText: "test-oldText",
         newText: "test-newText",
       }
-      const expectedResponse = "<xml>response</xml>"
 
+      const expectedResponse = {
+        targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
+        amendingNormXml: "<xml>amending-norm-xml</xml>",
+      }
       const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
       vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
 
@@ -153,14 +156,17 @@ describe("ldmldeModService", () => {
       const result = await updateModData(eli, eid, updatedMods)
       expect(result).toEqual(expectedResponse)
 
-      expect(fetchMock).toHaveBeenCalledWith(`/norms/${eli}/mods/${eid}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/xml",
-        },
-        body: JSON.stringify(updatedMods),
-      })
+      expect(fetchMock).toHaveBeenCalledWith(
+        `/norms/${eli}/mods/${eid}`,
+        expect.objectContaining({
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(updatedMods),
+        }),
+      )
     })
   })
 })

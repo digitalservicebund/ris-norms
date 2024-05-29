@@ -27,8 +27,7 @@ class UpdateNormServiceTest {
       // When
       var updatedZfoLaw =
           updateNormService.updatePassiveModifications(
-              new UpdatePassiveModificationsUseCase.Query(
-                  zf0Law, amendingLaw, targetLaw.getEli().get()));
+              new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLaw.getEli()));
 
       // Then
       assertThat(updatedZfoLaw.getPassiveModifications()).hasSize(1);
@@ -52,14 +51,15 @@ class UpdateNormServiceTest {
 
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      Norm zf0Law = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
 
       // When
       var updatedZf0Law =
           updateNormService.updatePassiveModifications(
               new UpdatePassiveModificationsUseCase.Query(
-                  zf0Law, amendingLaw, targetLaw.getEli().get()));
+                  zf0Law,
+                  amendingLaw,
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
       // Then
       assertThat(updatedZf0Law.getPassiveModifications()).hasSize(1);
@@ -95,8 +95,7 @@ class UpdateNormServiceTest {
       // When
       var updatedZfoLaw =
           updateNormService.updatePassiveModifications(
-              new UpdatePassiveModificationsUseCase.Query(
-                  zf0Law, amendingLaw, targetLaw.getEli().get()));
+              new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLaw.getEli()));
 
       // Then
       assertThat(updatedZfoLaw.getPassiveModifications()).hasSize(2);
@@ -128,6 +127,38 @@ class UpdateNormServiceTest {
               updatedZfoLaw.getStartDateForTemporalGroup(
                   newPassiveModification2.getForcePeriodEid().orElseThrow()))
           .contains("2023-12-30");
+    }
+
+    @Test
+    void itAddsPassiveModificationWithoutForcePeriodIfNoneExist() {
+
+      // Given
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingLaw.deleteByEId("meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1");
+      Norm zf0Law = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+
+      // When
+      var updatedZf0Law =
+          updateNormService.updatePassiveModifications(
+              new UpdatePassiveModificationsUseCase.Query(
+                  zf0Law,
+                  amendingLaw,
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
+
+      // Then
+      assertThat(updatedZf0Law.getPassiveModifications()).hasSize(1);
+      assertThat(updatedZf0Law.getTimeBoundaries()).hasSize(3); // 3 existing time-boundaries
+
+      var newPassiveModification = updatedZf0Law.getPassiveModifications().getFirst();
+      assertThat(newPassiveModification.getType()).contains("substitution");
+      assertThat(newPassiveModification.getSourceHref())
+          .contains(
+              new Href(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
+      assertThat(newPassiveModification.getDestinationHref())
+          .contains(
+              new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"));
+      assertThat(newPassiveModification.getForcePeriodEid()).isEmpty();
     }
   }
 }

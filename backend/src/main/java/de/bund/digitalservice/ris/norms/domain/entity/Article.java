@@ -42,7 +42,7 @@ public class Article {
    * @return The eId of the article
    */
   public Optional<String> getEid() {
-    return NodeParser.getValueFromExpression("./@eId", this.node);
+    return EId.fromNode(getNode()).map(EId::value);
   }
 
   /**
@@ -68,7 +68,7 @@ public class Article {
    * Returns the refersTo attribute of the affected article as {@link String} from a {@link Node} in
    * a {@link Norm}.
    *
-   * @return The ELI of the affected document of the article
+   * @return The refersTo attribute of the article
    */
   public Optional<String> getRefersTo() {
     return NodeParser.getValueFromExpression("./@refersTo", this.node);
@@ -80,8 +80,7 @@ public class Article {
    * @return the {@link Mod}
    */
   public Optional<Mod> getMod() {
-    Node n = NodeParser.getNodeFromExpression("./*//mod", this.node);
-    if (n == null) return Optional.empty();
-    return Optional.of(new Mod(n));
+    Optional<Node> n = NodeParser.getNodeFromExpression("./*//mod", this.node);
+    return n.map(Mod::new);
   }
 }

@@ -720,7 +720,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
-      var xml =
+      var result =
           service.updateMod(
               new UpdateModUseCase.Query(
                   eli,
@@ -735,7 +735,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(xml).isEmpty();
+      assertThat(result).isEmpty();
     }
 
     @Test
@@ -743,7 +743,7 @@ class NormServiceTest {
         throws UpdateModUseCase.InvalidUpdateModException {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String eli = amendingLaw.getEli().orElseThrow();
+      String eli = amendingLaw.getEli();
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // When
@@ -770,7 +770,7 @@ class NormServiceTest {
         throws UpdateModUseCase.InvalidUpdateModException {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String amendingLawEli = amendingLaw.getEli().orElseThrow();
+      String amendingLawEli = amendingLaw.getEli();
       Norm targetLaw =
           NormFixtures.loadFromDisk("SimpleNorm.xml"); // <- getNextVersionGuid().isEmpty()
       String targetLawEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
@@ -806,7 +806,7 @@ class NormServiceTest {
         throws UpdateModUseCase.InvalidUpdateModException {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String amendingLawEli = amendingLaw.getEli().orElseThrow();
+      String amendingLawEli = amendingLaw.getEli();
       Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       String targetLawEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       String nextVersionGuid =
@@ -845,7 +845,7 @@ class NormServiceTest {
     void itThrowsInvalidUpdateModExceptionOnXmlContentExceptionFromValidator() {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String amendingLawEli = amendingLaw.getEli().orElseThrow();
+      String amendingLawEli = amendingLaw.getEli();
       Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       String targetLawEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       String nextVersionGuid = "8de2c22c-d706-498a-9d96-930d7a03d224";
@@ -931,7 +931,7 @@ class NormServiceTest {
     void itCallsLoadNormAndUpdatesXml() throws UpdateModUseCase.InvalidUpdateModException {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String amendingLawEli = amendingLaw.getEli().orElseThrow();
+      String amendingLawEli = amendingLaw.getEli();
       Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       String targetLawEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       String nextVersionGuid = "8de2c22c-d706-498a-9d96-930d7a03d224";
@@ -1019,17 +1019,20 @@ class NormServiceTest {
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), targetLawZF0)));
 
       assertThat(returnedXml).isPresent();
-      final Document xmlDocument = XmlMapper.toDocument(returnedXml.get());
-      final Norm testNorm = Norm.builder().document(xmlDocument).build();
+      final Document amendingXmlDocument =
+          XmlMapper.toDocument(returnedXml.get().amendingNormXml());
+      final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
-      final TextualMod activeModifications = testNorm.getActiveModifications().getFirst();
+      final TextualMod activeModifications = resultAmendingNorm.getActiveModifications().getFirst();
       assertThat(activeModifications.getDestinationHref()).contains(new Href(newDestinationHref));
       assertThat(activeModifications.getForcePeriodEid()).contains(newTimeBoundaryEid);
 
-      final Mod mod = testNorm.getMods().getFirst();
+      final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetHref()).isPresent();
       assertThat(mod.getTargetHref().get().value()).contains(newDestinationHref);
       assertThat(mod.getNewText()).contains(newText);
+      assertThat(returnedXml.get().targetNormZf0Xml())
+          .isEqualTo(XmlMapper.toString(targetLawZF0.getDocument()));
     }
   }
 }
