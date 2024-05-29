@@ -21,7 +21,7 @@ public class TextualMod {
    * @return The eId of the modification
    */
   public Optional<String> getEid() {
-    return NodeParser.getValueFromExpression("./@eId", this.node);
+    return EId.fromNode(getNode()).map(EId::value);
   }
 
   /**

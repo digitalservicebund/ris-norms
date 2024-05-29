@@ -39,17 +39,13 @@ public class Norm {
    *
    * @return An GUID of the document
    */
-  public Optional<UUID> getGuid() {
-    return NodeParser.getValueFromExpression(
-            "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document)
-        .flatMap(
-            guid -> {
-              try {
-                return Optional.of(UUID.fromString(guid));
-              } catch (IllegalArgumentException e) {
-                return Optional.empty();
-              }
-            });
+  public UUID getGuid() {
+    var guid =
+        NodeParser.getValueFromExpression(
+                "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document)
+            .orElseThrow();
+
+    return UUID.fromString(guid);
   }
 
   /**
@@ -493,8 +489,7 @@ public class Norm {
   public static String calculateNextPossibleEid(Node parentNode, String eidPartType) {
     var lastPosition =
         NodeParser.nodeListToList(parentNode.getChildNodes()).stream()
-            .flatMap(node -> NodeParser.getValueFromExpression("@eId", node).stream())
-            .map(EId::new)
+            .flatMap(node -> EId.fromNode(node).stream())
             .map(eId -> eId.getParts().getLast())
             .filter(eIdPart -> eIdPart.getType().equals(eidPartType))
             .map(EIdPart::getPosition)
@@ -503,8 +498,7 @@ public class Norm {
             .orElse(0);
     var newEidPart = new EIdPart(eidPartType, String.valueOf(lastPosition + 1));
 
-    return NodeParser.getValueFromExpression("@eId", parentNode)
-        .map(EId::new)
+    return EId.fromNode(parentNode)
         .map(parendEId -> parendEId.addPart(newEidPart))
         .map(EId::value)
         .orElseThrow();

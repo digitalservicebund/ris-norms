@@ -75,7 +75,7 @@ class NormTest {
     Norm norm = new Norm(toDocument(normString));
 
     // when
-    UUID actualGuid = norm.getGuid().get();
+    UUID actualGuid = norm.getGuid();
 
     // then
     assertThat(actualGuid).isEqualTo(UUID.fromString("ba44d2ae-0e73-44ba-850a-932ab2fa553f"));

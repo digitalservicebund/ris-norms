@@ -194,7 +194,7 @@ sonar {
 licenseReport {
     allowedLicensesFile = File("$projectDir/../allowed-licenses.json")
     renderers = arrayOf<ReportRenderer>(CsvReportRenderer("backend-licence-report.csv"))
-    filters = arrayOf<DependencyFilter>(LicenseBundleNormalizer(null, true))
+    filters = arrayOf<DependencyFilter>(LicenseBundleNormalizer())
 }
 
 checkstyle {

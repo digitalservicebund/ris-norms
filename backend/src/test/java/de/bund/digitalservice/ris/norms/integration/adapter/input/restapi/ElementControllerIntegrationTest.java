@@ -139,7 +139,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsServerErrorIfTheTypeIsNotSupported() throws Exception {
+    void itReturnsBadRequestIfTheTypeIsNotSupported() throws Exception {
       // given
 
       // when
@@ -148,7 +148,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               get(
                   "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=foo"))
           // then
-          .andExpect(status().is5xxServerError());
+          .andExpect(status().isBadRequest());
     }
 
     @Test

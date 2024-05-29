@@ -549,7 +549,7 @@ class ArticleControllerTest {
     }
 
     @Test
-    void itReturnsNothingIfArticleDoesNotExists() throws Exception {
+    void itReturnsNotFoundIfArticleDoesNotExists() throws Exception {
       // Given
       var norm =
           Norm.builder()
@@ -615,7 +615,7 @@ class ArticleControllerTest {
     }
 
     @Test
-    void itReturnsNothingIfNormDoesNotExists() throws Exception {
+    void itReturnsNotFoundIfNormDoesNotExists() throws Exception {
       // Given
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.empty());
@@ -651,7 +651,7 @@ class ArticleControllerTest {
     }
 
     @Test
-    void itReturnsNothingIfIsoDateIsInvalid() throws Exception {
+    void itReturnsBadRequestIfIsoDateIsInvalid() throws Exception {
       // When / Then
       mockMvc
           .perform(

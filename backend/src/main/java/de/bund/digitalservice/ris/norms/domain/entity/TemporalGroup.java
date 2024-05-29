@@ -19,7 +19,7 @@ public class TemporalGroup {
    * @return The eId of the temporal group
    */
   public Optional<String> getEid() {
-    return NodeParser.getValueFromExpression("./@eId", this.node);
+    return EId.fromNode(getNode()).map(EId::value);
   }
 
   /**

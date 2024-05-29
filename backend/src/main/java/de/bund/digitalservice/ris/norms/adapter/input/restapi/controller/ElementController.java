@@ -7,69 +7,31 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.EliBuilder;
-import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.Instant;
 import java.util.*;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.Node;
-
-/**
- * Custom enum converter for converting the string values of the element types enum to lowercase.
- * This allows us to use a nicer lowercase spelling in the API requests while adhering to the naming
- * convention of UPPERCASE enums in Java code.
- */
-@Component
-class LowercaseEnumConverter implements Converter<String, ElementController.ElementType> {
-  @Override
-  public ElementController.ElementType convert(String value) {
-    return ElementController.ElementType.valueOf(value.toUpperCase());
-  }
-}
 
 /** Controller for retrieving a norm's elements. */
 @RestController
 @RequestMapping(
     "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/elements")
 public class ElementController {
-
-  /** The types of elements that can be retrieved. */
-  public enum ElementType {
-    ARTICLE,
-    CONCLUSIONS,
-    PREAMBLE,
-    PREFACE
-  }
-
-  private final Map<ElementType, String> xPathsForTypeNodes =
-      Map.ofEntries(
-          Map.entry(ElementType.PREFACE, "//act/preface"),
-          Map.entry(ElementType.PREAMBLE, "//act/preamble"),
-          // TODO: Hannes - Test new XPath of article
-          Map.entry(ElementType.ARTICLE, "//body//article"),
-          Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
-
-  private final LoadNormUseCase loadNormUseCase;
   private final LoadElementFromNormUseCase loadElementFromNormUseCase;
   private final LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
   private final LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
+  private final LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase;
 
   public ElementController(
-      LoadNormUseCase loadNormUseCase,
       LoadElementFromNormUseCase loadElementFromNormUseCase,
       LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase,
-      LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase) {
-    this.loadNormUseCase = loadNormUseCase;
+      LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase,
+      LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase) {
     this.loadElementFromNormUseCase = loadElementFromNormUseCase;
     this.loadElementHtmlFromNormUseCase = loadElementHtmlFromNormUseCase;
     this.loadElementHtmlAtDateFromNormUseCase = loadElementHtmlAtDateFromNormUseCase;
+    this.loadElementsByTypeFromNormUseCase = loadElementsByTypeFromNormUseCase;
   }
 
   /**
@@ -194,60 +156,27 @@ public class ElementController {
       @PathVariable final String version,
       @PathVariable final String language,
       @PathVariable final String subtype,
-      @RequestParam final ElementType[] type,
+      @RequestParam final String[] type,
       @RequestParam final Optional<String> amendedBy) {
 
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    // check targetNorm
-    var targetNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
-    if (targetNorm.isEmpty()) return ResponseEntity.notFound().build();
+    try {
+      List<ElementResponseSchema> elements =
+          loadElementsByTypeFromNormUseCase
+              .loadElementsByTypeFromNorm(
+                  new LoadElementsByTypeFromNormUseCase.Query(
+                      eli, Arrays.asList(type), amendedBy.orElse(null)))
+              .stream()
+              .map(ElementResponseMapper::fromElementNode)
+              .toList();
 
-    // get elements and return
-    return ResponseEntity.ok(
-        getElements(type, amendedBy, targetNorm.get(), eli).stream()
-            .map(ElementResponseMapper::fromElementNode)
-            .toList());
-  }
-
-  private @NotNull List<Node> getElements(
-      ElementType[] type, Optional<String> amendedBy, Norm targetNorm, String eli) {
-    // Calculate the XPath based on the types via a Map defined above
-    var combinedXPaths =
-        String.join("|", Arrays.stream(type).map(xPathsForTypeNodes::get).toList());
-
-    // Source EIDs from passive mods
-    var passiveModsDestinationEids =
-        targetNorm.getPassiveModifications().stream()
-            .filter(
-                passiveMod -> {
-                  if (amendedBy.isEmpty()) return true;
-
-                  return passiveMod
-                      .getSourceHref()
-                      .flatMap(Href::getEli)
-                      .orElseThrow()
-                      .equals(amendedBy.get());
-                })
-            .map(TextualMod::getDestinationHref)
-            .flatMap(Optional::stream)
-            .map(Href::getEId)
-            .flatMap(Optional::stream)
-            .toList();
-
-    // get matching elements
-    return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).stream()
-        .flatMap( // fetch nodes by type
-            norm -> NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream())
-        .filter( // filter by "amendedBy")
-            element -> {
-              // no amending law -> all elements are fine
-              if (amendedBy.isEmpty()) return true;
-
-              var eId = NodeParser.getValueFromExpression("./@eId", element).orElseThrow();
-              return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
-            })
-        .toList();
+      return ResponseEntity.ok(elements);
+    } catch (LoadElementsByTypeFromNormUseCase.NormNotFoundException e) {
+      return ResponseEntity.notFound().build();
+    } catch (LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 }

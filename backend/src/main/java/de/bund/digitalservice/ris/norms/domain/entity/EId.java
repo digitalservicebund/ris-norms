@@ -1,7 +1,10 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import org.w3c.dom.Node;
 
 /**
  * Represents an LDML.de eId.
@@ -26,5 +29,15 @@ public record EId(String value) {
   @Override
   public String toString() {
     return value;
+  }
+
+  /**
+   * Get the EId of a node's @eId property.
+   *
+   * @param node the node with an @eId property
+   * @return the eId of the node or empty if no eId could be found.
+   */
+  public static Optional<EId> fromNode(Node node) {
+    return NodeParser.getValueFromExpression("./@eId", node).map(EId::new);
   }
 }
