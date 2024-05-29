@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.application.service.ElementService;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Map;
 import org.w3c.dom.Node;
@@ -48,7 +49,7 @@ public class ElementResponseMapper {
   public static ElementResponseSchema fromElementNode(final Node node) {
     return ElementResponseSchema.builder()
         .title(getNodeTitle(node))
-        .eid(NodeParser.getValueFromExpression("./@eId", node).orElseThrow())
+        .eid(EId.fromNode(node).map(EId::value).orElseThrow())
         .type(getNodeType(node))
         .build();
   }

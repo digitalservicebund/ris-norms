@@ -42,7 +42,7 @@ public class Article {
    * @return The eId of the article
    */
   public Optional<String> getEid() {
-    return NodeParser.getValueFromExpression("./@eId", this.node);
+    return EId.fromNode(getNode()).map(EId::value);
   }
 
   /**

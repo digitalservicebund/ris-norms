@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
@@ -141,7 +142,7 @@ public class ElementService
               // no amending law -> all elements are fine
               if (query.amendedBy() == null) return true;
 
-              var eId = NodeParser.getValueFromExpression("./@eId", element).orElseThrow();
+              var eId = EId.fromNode(element).map(EId::value).orElseThrow();
               return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
             })
         .toList();
