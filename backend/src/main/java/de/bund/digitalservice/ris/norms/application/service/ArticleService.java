@@ -43,9 +43,7 @@ public class ArticleService implements LoadArticleHtmlUseCase {
         .map(Norm::getArticles)
         .stream()
         .flatMap(List::stream)
-        // TODO: Hannes split into separate filter steps
-        .filter(
-            article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
+        .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
         .findFirst()
         .map(article -> XmlMapper.toString(article.getNode()))
         .map(
