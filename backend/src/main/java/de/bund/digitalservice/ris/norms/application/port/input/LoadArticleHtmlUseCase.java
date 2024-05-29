@@ -17,6 +17,9 @@ public interface LoadArticleHtmlUseCase {
    * @param eid EID of the article to load from the norm
    * @param atIsoDate Apply the norm's passive mods up to this date before loading the article
    */
-  // TODO Hannes:Do we need the the multiple constructors pattern, here?
-  record Query(String eli, String eid, @Nullable Instant atIsoDate){};
+  record Query(String eli, String eid, @Nullable Instant atIsoDate){
+    public Query(String eli, String eid) {
+      this(eli, eid, null);
+    }
+  };
 }
