@@ -6,7 +6,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDoc
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -39,8 +38,7 @@ public class ArticleService implements LoadArticleHtmlUseCase {
                 return norm; // no date given -> use the norm unchanged
               else {
                 return timeMachineService.applyPassiveModifications(
-                    new ApplyPassiveModificationsUseCase.Query(
-                        norm, Instant.parse(query.atIsoDate().get())));
+                    new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate().get()));
               }
             })
         .map(Norm::getArticles)

@@ -9,7 +9,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
-import java.time.format.DateTimeFormatter;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -292,17 +292,9 @@ public class ArticleController {
       @PathVariable final String language,
       @PathVariable final String subtype,
       @PathVariable final String eid,
-      @RequestParam Optional<String> atIsoDate) {
+      @RequestParam Optional<Instant> atIsoDate) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
-    if (atIsoDate.isPresent()) {
-      try {
-        DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
-      } catch (Exception e) {
-        return ResponseEntity.badRequest().build();
-      }
-    }
 
     return loadArticleHtmlUseCase
         .loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid, atIsoDate))

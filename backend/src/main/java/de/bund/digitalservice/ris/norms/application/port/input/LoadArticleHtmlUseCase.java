@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /** Use case for loading a norm's articles */
@@ -16,5 +17,5 @@ public interface LoadArticleHtmlUseCase {
    * @param atIsoDate Apply the norm's passive mods up to this date before loading the article
    */
   // TODO Hannes: remove the optional parameter. Use the multiple constructors pattern.
-  record Query(String eli, String eid, Optional<String> atIsoDate) {}
+  record Query(String eli, String eid, Optional<Instant> atIsoDate) {}
 }
