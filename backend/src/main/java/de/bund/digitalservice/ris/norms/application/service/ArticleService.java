@@ -33,8 +33,7 @@ public class ArticleService implements LoadArticleHtmlUseCase {
         .loadNorm(new LoadNormPort.Command(query.eli()))
         .map(
             norm -> {
-              if (query.atIsoDate() == null)
-                return norm; // no date given -> use the norm unchanged
+              if (query.atIsoDate() == null) return norm; // no date given -> use the norm unchanged
               else {
                 return timeMachineService.applyPassiveModifications(
                     new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate()));
@@ -43,7 +42,8 @@ public class ArticleService implements LoadArticleHtmlUseCase {
         .map(Norm::getArticles)
         .stream()
         .flatMap(List::stream)
-        .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
+        .filter(
+            article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
         .findFirst()
         .map(article -> XmlMapper.toString(article.getNode()))
         .map(

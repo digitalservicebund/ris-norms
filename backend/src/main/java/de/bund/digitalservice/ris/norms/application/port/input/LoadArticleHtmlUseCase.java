@@ -13,11 +13,12 @@ public interface LoadArticleHtmlUseCase {
    *
    * @param eli ELI of the norm to load the article from
    * @param eid EID of the article to load from the norm
-   * @param atIsoDate (Optional) Apply the norm's passive mods up to this date before loading the article
+   * @param atIsoDate (Optional) Apply the norm's passive mods up to this date before loading the
+   *     article
    */
-  record Query(String eli, String eid, @Nullable Instant atIsoDate){
+  record Query(String eli, String eid, @Nullable Instant atIsoDate) {
     public Query(String eli, String eid) {
       this(eli, eid, null);
     }
-  };
+  }
 }

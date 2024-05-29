@@ -9,7 +9,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleHtmlUs
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +18,7 @@ class ArticleServiceTest {
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
   final XsltTransformationService xsltTransformationService = mock(XsltTransformationService.class);
   final ArticleService articleService =
-          new ArticleService(loadNormPort, timeMachineService, xsltTransformationService);
+      new ArticleService(loadNormPort, timeMachineService, xsltTransformationService);
 
   @Nested
   class loadArticleHtml {
@@ -34,9 +33,7 @@ class ArticleServiceTest {
       when(timeMachineService.applyPassiveModifications(any())).thenReturn(norm);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
       // when
-      var result =
-              articleService.loadArticleHtml(
-                      new LoadArticleHtmlUseCase.Query(eli, eid));
+      var result = articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid));
       // then
       assertThat(result).isPresent();
     }
@@ -48,9 +45,7 @@ class ArticleServiceTest {
       var eid = "meta-1";
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
       // when
-      var result =
-              articleService.loadArticleHtml(
-                      new LoadArticleHtmlUseCase.Query(eli, eid));
+      var result = articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid));
       // then
       assertThat(result).isEmpty();
     }
@@ -64,9 +59,7 @@ class ArticleServiceTest {
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       // when
-      var result =
-              articleService.loadArticleHtml(
-                      new LoadArticleHtmlUseCase.Query(eli, eid));
+      var result = articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid));
       // then
       assertThat(result).isEmpty();
     }
