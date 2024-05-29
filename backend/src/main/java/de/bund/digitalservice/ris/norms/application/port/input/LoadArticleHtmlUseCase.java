@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import java.time.Instant;
 import java.util.Optional;
+import org.springframework.lang.Nullable;
 
 /** Use case for loading a norm's articles */
 public interface LoadArticleHtmlUseCase {
@@ -16,6 +17,6 @@ public interface LoadArticleHtmlUseCase {
    * @param eid EID of the article to load from the norm
    * @param atIsoDate Apply the norm's passive mods up to this date before loading the article
    */
-  // TODO Hannes: remove the optional parameter. Use the multiple constructors pattern.
-  record Query(String eli, String eid, Optional<Instant> atIsoDate) {}
+  // TODO Hannes:Do we need the the multiple constructors pattern, here?
+  record Query(String eli, String eid, @Nullable Instant atIsoDate){};
 }

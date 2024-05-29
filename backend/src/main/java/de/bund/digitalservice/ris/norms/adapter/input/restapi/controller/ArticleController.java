@@ -297,7 +297,7 @@ public class ArticleController {
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
     return loadArticleHtmlUseCase
-        .loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid, atIsoDate))
+        .loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid, atIsoDate.orElse(null)))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

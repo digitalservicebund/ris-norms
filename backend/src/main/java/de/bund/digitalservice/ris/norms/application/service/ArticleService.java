@@ -33,11 +33,11 @@ public class ArticleService implements LoadArticleHtmlUseCase {
         .loadNorm(new LoadNormPort.Command(query.eli()))
         .map(
             norm -> {
-              if (query.atIsoDate().isEmpty())
+              if (query.atIsoDate() == null)
                 return norm; // no date given -> use the norm unchanged
               else {
                 return timeMachineService.applyPassiveModifications(
-                    new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate().get()));
+                    new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate()));
               }
             })
         .map(Norm::getArticles)
