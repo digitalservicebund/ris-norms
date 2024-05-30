@@ -11,7 +11,7 @@ const { isFetching, error, data: amendingLaws } = useAmendingLaws()
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100 p-40">
     <h1 class="ds-heading-02-reg mb-40">Vorgänge</h1>
-    <div class="flex flex-col gap-8">
+    <div>
       <div v-if="error" class="w-1/2">
         <RisCallout
           title="Die Liste der Verkündungen konnte nicht geladen werden."
@@ -21,7 +21,7 @@ const { isFetching, error, data: amendingLaws } = useAmendingLaws()
         </RisCallout>
       </div>
       <RisLoadingSpinner v-if="isFetching" />
-      <div v-else>
+      <div v-else class="flex flex-col gap-8">
         <RouterLink
           v-for="amendingLaw in amendingLaws"
           :key="amendingLaw.eli"
