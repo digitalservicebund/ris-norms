@@ -109,7 +109,7 @@ public class Norm {
    * @return The FNA
    * @deprecated Use {@link #getProprietary()} instead.
    */
-  @Deprecated
+  @Deprecated(forRemoval = true)
   public Optional<String> getFna() {
     return NodeParser.getValueFromExpression(
         "//meta/proprietary/legalDocML.de_metadaten/fna", document);
