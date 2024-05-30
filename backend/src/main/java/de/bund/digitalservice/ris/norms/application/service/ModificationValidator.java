@@ -162,6 +162,10 @@ public class ModificationValidator {
               Href targetHref = getModTargetHref(mod, articleEId);
               String targetHrefEId = getHrefEid(targetHref, articleEId);
               CharacterRange characterRange = getHrefCharacterRange(targetHref, articleEId);
+
+              // TODO this is not correct. It would need to lookup the getNextVersionGuid ZF0. As
+              // this is wrong and dangerous, let's not load anything here and get it instead as a
+              // parameter. The NormService is doing it anyways already.
               Norm targetLaw = getTargetLaw(affectedDocumentEli, articleEId);
 
               validateNumberOfNodesWithEid(
