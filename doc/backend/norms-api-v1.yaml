@@ -362,6 +362,8 @@ paths:
 
   /norms/{eli}/metadata/{timeBoundaryEid}:
     get:
+      tags:
+        - under construction
       summary: Get the metadata of a norm at the specified time boundary
       parameters:
         - name: eli
@@ -386,6 +388,8 @@ paths:
         '404':
           description: If the norm or the time boundary doesn't exist.
     put:
+      tags:
+        - under construction
       summary: Replace the metadata of a norm at the specified time boundary
       parameters:
         - name: eli
