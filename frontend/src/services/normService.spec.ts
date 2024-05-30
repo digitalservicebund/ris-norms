@@ -205,4 +205,100 @@ describe("normService", () => {
       )
     })
   })
+
+  describe("useGetNormHtmlByEli(eli, showMetadata, at)", () => {
+    it("provides the HTML data from the api", async () => {
+      const mockHtml = "<div></div>"
+
+      const useFetchMock = {
+        text: vi.fn().mockReturnValue(mockHtml),
+      }
+
+      vi.doMock("@/services/apiService", () => ({
+        useApiFetch: vi.fn().mockReturnValue(useFetchMock),
+      }))
+
+      const { useGetNormHtmlByEli } = await import("@/services/normService")
+
+      const result = useGetNormHtmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+
+      expect(result).toBe(mockHtml)
+
+      const { useApiFetch } = await import("@/services/apiService")
+      expect(useApiFetch).toHaveBeenCalledWith(
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1?showMetadata=false",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Accept: "text/html",
+          }),
+        }),
+      )
+    })
+
+    it("allows showMetadata to be explicitly set to true", async () => {
+      const mockHtml = "<div></div>"
+
+      const useFetchMock = {
+        text: vi.fn().mockReturnValue(mockHtml),
+      }
+
+      vi.doMock("@/services/apiService", () => ({
+        useApiFetch: vi.fn().mockReturnValue(useFetchMock),
+      }))
+
+      const { useGetNormHtmlByEli } = await import("@/services/normService")
+
+      const result = useGetNormHtmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        true,
+      )
+
+      expect(result).toBe(mockHtml)
+
+      const { useApiFetch } = await import("@/services/apiService")
+      expect(useApiFetch).toHaveBeenCalledWith(
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1?showMetadata=true",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Accept: "text/html",
+          }),
+        }),
+      )
+    })
+
+    it("provides the HTML data from the api with at-date", async () => {
+      const mockHtml = "<div></div>"
+
+      const useFetchMock = {
+        text: vi.fn().mockReturnValue(mockHtml),
+      }
+
+      vi.doMock("@/services/apiService", () => ({
+        useApiFetch: vi.fn().mockReturnValue(useFetchMock),
+      }))
+
+      const { useGetNormHtmlByEli } = await import("@/services/normService")
+
+      const date = new Date(Date.UTC(2023, 11, 11, 1, 2, 3, 4))
+      const result = useGetNormHtmlByEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        false,
+        date,
+      )
+
+      expect(result).toBe(mockHtml)
+
+      const { useApiFetch } = await import("@/services/apiService")
+      expect(useApiFetch).toHaveBeenCalledWith(
+        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1?showMetadata=false&atIsoDate=2023-12-11T01%3A02%3A03.004Z",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Accept: "text/html",
+          }),
+        }),
+      )
+    })
+  })
 })
