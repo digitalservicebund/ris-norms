@@ -286,7 +286,6 @@ public class NormController {
           .map(ResponseEntity::ok)
           .orElseGet(() -> ResponseEntity.notFound().build());
     } catch (UpdateModUseCase.InvalidUpdateModException e) {
-      // TODO .body(e.getMessage());
       return ResponseEntity.badRequest().build();
     }
   }

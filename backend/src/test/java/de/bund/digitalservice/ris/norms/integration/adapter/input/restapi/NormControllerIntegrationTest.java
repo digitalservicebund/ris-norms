@@ -635,5 +635,47 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
               xpath("//passiveModifications/textualMod/destination/@href")
                   .string("#" + eId + "/" + characterCount));
     }
+
+    @Test
+    void itDoesNotUpdateAMod() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      String path =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
+      String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String characterCount = "9-35"; // 9-34 would be correct -> This is wrong on purpose
+      String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
+      String oldText = "THIS_IS_NOT_BEING_HANDLED";
+      String newText = "new test text"; // This is not being validated
+
+      // When
+      mockMvc
+          .perform(
+              put(path)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"oldText\": \""
+                          + oldText
+                          + "\", \"newText\": \""
+                          + newText
+                          + "\"}"))
+          // Then
+          .andExpect(status().isBadRequest());
+    }
   }
 }
