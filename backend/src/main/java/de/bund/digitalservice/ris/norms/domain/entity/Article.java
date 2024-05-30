@@ -65,6 +65,17 @@ public class Article {
   }
 
   /**
+   * Sets a new href for the affected document
+   *
+   * @param href The ELI of the affected document of the article
+   */
+  public void setAffectedDocumentEli(String href) {
+    Optional<Node> articleAffectedDocument =
+        NodeParser.getNodeFromExpression(".//affectedDocument/@href", this.node);
+    articleAffectedDocument.ifPresent(value -> value.setTextContent(href));
+  }
+
+  /**
    * Returns the refersTo attribute of the affected article as {@link String} from a {@link Node} in
    * a {@link Norm}.
    *
