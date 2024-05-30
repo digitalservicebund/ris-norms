@@ -372,7 +372,7 @@ paths:
             type: string
         - name: atDate
           in: path
-          required: true
+          required: false
           description: eId of the time boundary at which the metadata should be loaded
           schema:
             type: string
@@ -391,7 +391,7 @@ paths:
       parameters:
         - name: eli
           in: path
-          required: true
+          required: false
           description: ELI of the norm
           schema:
             type: string
