@@ -851,7 +851,6 @@ class NormServiceTest {
       String nextVersionGuid = "8de2c22c-d706-498a-9d96-930d7a03d224";
       Norm targetLawZF0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       String validatorExceptionMessage = "This is the validator message.";
-      String oldCharacterRange = "9-34";
       String newCharacterRange = "20-25";
       String timeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
@@ -893,34 +892,33 @@ class NormServiceTest {
       verify(modificationValidator, times(1))
           .validate(
               argThat(
-                  argumentAmendingLaw -> {
-                    return Objects.equals(
-                            argumentAmendingLaw
-                                .getActiveModifications()
-                                .getFirst()
-                                .getDestinationHref()
-                                .orElseThrow()
-                                .value(),
-                            newDestinationHref)
-                        && Objects.equals(
-                            argumentAmendingLaw
-                                .getActiveModifications()
-                                .getFirst()
-                                .getForcePeriodEid()
-                                .orElseThrow(),
-                            timeBoundaryEid)
-                        && Objects.equals(
-                            argumentAmendingLaw
-                                .getMods()
-                                .getFirst()
-                                .getTargetHref()
-                                .orElseThrow()
-                                .value(),
-                            newDestinationHref)
-                        && Objects.equals(
-                            argumentAmendingLaw.getMods().getFirst().getNewText().orElseThrow(),
-                            newText);
-                  }),
+                  argumentAmendingLaw ->
+                      Objects.equals(
+                              argumentAmendingLaw
+                                  .getActiveModifications()
+                                  .getFirst()
+                                  .getDestinationHref()
+                                  .orElseThrow()
+                                  .value(),
+                              newDestinationHref)
+                          && Objects.equals(
+                              argumentAmendingLaw
+                                  .getActiveModifications()
+                                  .getFirst()
+                                  .getForcePeriodEid()
+                                  .orElseThrow(),
+                              timeBoundaryEid)
+                          && Objects.equals(
+                              argumentAmendingLaw
+                                  .getMods()
+                                  .getFirst()
+                                  .getTargetHref()
+                                  .orElseThrow()
+                                  .value(),
+                              newDestinationHref)
+                          && Objects.equals(
+                              argumentAmendingLaw.getMods().getFirst().getNewText().orElseThrow(),
+                              newText)),
               any());
       verify(updateNormPort, times(0)).updateNorm(any());
       assertThat(thrown)
@@ -937,8 +935,6 @@ class NormServiceTest {
       String targetLawEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       String nextVersionGuid = "8de2c22c-d706-498a-9d96-930d7a03d224";
       Norm targetLawZF0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      String validatorExceptionMessage = "This is the validator message.";
-      String oldCharacterRange = "9-34";
       String newCharacterRange = "20-25";
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
@@ -979,34 +975,33 @@ class NormServiceTest {
       verify(modificationValidator, times(1))
           .validate(
               argThat(
-                  argumentAmendingLaw -> {
-                    return Objects.equals(
-                            argumentAmendingLaw
-                                .getActiveModifications()
-                                .getFirst()
-                                .getDestinationHref()
-                                .orElseThrow()
-                                .value(),
-                            newDestinationHref)
-                        && Objects.equals(
-                            argumentAmendingLaw
-                                .getActiveModifications()
-                                .getFirst()
-                                .getForcePeriodEid()
-                                .orElseThrow(),
-                            newTimeBoundaryEid)
-                        && Objects.equals(
-                            argumentAmendingLaw
-                                .getMods()
-                                .getFirst()
-                                .getTargetHref()
-                                .orElseThrow()
-                                .value(),
-                            newDestinationHref)
-                        && Objects.equals(
-                            argumentAmendingLaw.getMods().getFirst().getNewText().orElseThrow(),
-                            newText);
-                  }),
+                  argumentAmendingLaw ->
+                      Objects.equals(
+                              argumentAmendingLaw
+                                  .getActiveModifications()
+                                  .getFirst()
+                                  .getDestinationHref()
+                                  .orElseThrow()
+                                  .value(),
+                              newDestinationHref)
+                          && Objects.equals(
+                              argumentAmendingLaw
+                                  .getActiveModifications()
+                                  .getFirst()
+                                  .getForcePeriodEid()
+                                  .orElseThrow(),
+                              newTimeBoundaryEid)
+                          && Objects.equals(
+                              argumentAmendingLaw
+                                  .getMods()
+                                  .getFirst()
+                                  .getTargetHref()
+                                  .orElseThrow()
+                                  .value(),
+                              newDestinationHref)
+                          && Objects.equals(
+                              argumentAmendingLaw.getMods().getFirst().getNewText().orElseThrow(),
+                              newText)),
               any());
 
       verify(updateNormService, times(1))
