@@ -31,7 +31,6 @@ public class ModificationValidator {
     destinationEliIsConsistent(amendingLaw);
     destinationHrefIsConsistent(amendingLaw);
     oldTextExistsInTargetLaw(amendingLaw);
-    destNodeHasTextOnlyContent(amendingLaw);
   }
 
   /**
@@ -175,15 +174,15 @@ public class ModificationValidator {
                   getTargetNode(targetLaw, targetHrefEId, affectedDocumentEli, articleEId);
 
               // normalizeSpace removes double spaces and new lines
-              String paragraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
+              String targetParagraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
 
-              int start = getCharacterRangeStart(characterRange, articleEId);
-              int end = getCharacterRangeEnd(characterRange, articleEId);
+              int modStart = getCharacterRangeStart(characterRange, articleEId);
+              int modEnd = getCharacterRangeEnd(characterRange, articleEId);
 
-              validateCharacterRange(characterRange, start, end, articleEId);
-              validateParagraphTextLength(paragraphText, end, articleEId);
+              validateStartIsBeforeEnd(characterRange, modStart, modEnd, articleEId);
+              checkIfReplacementEndIsWithinText(targetParagraphText, modEnd, articleEId);
 
-              String targetLawOldText = paragraphText.substring(start, end);
+              String targetLawOldText = targetParagraphText.substring(modStart, modEnd);
               validateParagraphEquals(targetLawOldText, amendingLawOldText, articleEId);
             });
   }
@@ -199,7 +198,7 @@ public class ModificationValidator {
     }
   }
 
-  private void validateCharacterRange(CharacterRange cr, int start, int end, String articleEId) {
+  private void validateStartIsBeforeEnd(CharacterRange cr, int start, int end, String articleEId) {
     if (!cr.isEndGreaterStart())
       throw new XmlContentException(
           "The character range in mod href is not valid in article with eId %s. Make sure start is smaller than end %s < %s."
@@ -207,15 +206,17 @@ public class ModificationValidator {
           null);
   }
 
-  private void validateParagraphTextLength(String paragraphText, int end, String articleEId) {
-    // TODO test for that throw
-    // TODO add test when text to be replaced is at the end
-    // TODO this is most probably not correct -> <=
-    if (paragraphText.length() < end)
+  private void checkIfReplacementEndIsWithinText(
+      String targetParagraphText, int modEnd, String articleEId) {
+    // counting is null based e.g. 0 is the position of the first character; spaces are counted
+    // see
+    // https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/1.6/Spezifikation/LegalDocML.de_1.6.pdf?ref_type=tags page 85
+    if (targetParagraphText.length() < modEnd) {
       throw new XmlContentException(
           "The character range in mod href is not valid (target paragraph is to short) in article with eId %s"
               .formatted(articleEId),
           null);
+    }
   }
 
   private void validateParagraphEquals(
@@ -225,13 +226,6 @@ public class ModificationValidator {
           "The replacement text '%s' in the target law does not equal the replacement text '%s' in the article with eId %s"
               .formatted(targetLawOldText, amendingLawOldText, articleEId),
           null);
-  }
-
-  /**
-   * @param amendingLaw the amending law to be checked
-   */
-  public void destNodeHasTextOnlyContent(Norm amendingLaw) {
-    // TODO no "<>" exists
   }
 
   private Node getTargetNode(

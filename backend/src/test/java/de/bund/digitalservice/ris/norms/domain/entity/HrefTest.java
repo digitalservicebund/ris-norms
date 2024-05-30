@@ -150,7 +150,7 @@ class HrefTest {
               .setEId("para-20_abs-1")
               .setCharacterRange(new CharacterRange.Builder().withStart(100).withEnd(126).build())
               .setFileExtension("xml")
-              .buildRelative();
+              .buildInternalReference();
 
       // then
       assertThat(href).hasToString("#para-20_abs-1/100-126");
@@ -164,7 +164,7 @@ class HrefTest {
               .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
               .setEId("para-20_abs-1")
               .setFileExtension("xml")
-              .buildRelative();
+              .buildInternalReference();
 
       // then
       assertThat(href).hasToString("#para-20_abs-1");

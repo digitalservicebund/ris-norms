@@ -173,7 +173,7 @@ public record Href(String value) {
      *
      * @return a new {@link Href} instance
      */
-    public Href buildRelative() {
+    public Href buildInternalReference() {
       var href = "#" + eId;
 
       if (characterRange != null) {

@@ -292,7 +292,7 @@ public class Norm {
     timeInterval.setAttribute("refersTo", "geltungszeit");
     final var eventRefEId = eventRef.getAttribute("eId");
     timeInterval.setAttribute(
-        "start", new Href.Builder().setEId(eventRefEId).buildRelative().value());
+        "start", new Href.Builder().setEId(eventRefEId).buildInternalReference().value());
     temporalGroup.appendChild(timeInterval);
 
     return new TemporalGroup(temporalGroup);

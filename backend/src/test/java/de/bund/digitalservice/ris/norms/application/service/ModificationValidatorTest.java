@@ -115,6 +115,44 @@ class ModificationValidatorTest {
   class oldTextExistsInTargetLaw {
 
     @Test
+    void itWorksWithoutException() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      // 112 paragraph length
+      amendingLaw
+          .getActiveModifications()
+          .getFirst()
+          .setDestinationHref(
+              new Href.Builder()
+                  .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                  .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                  .setCharacterRange(new CharacterRange("1-112"))
+                  .buildAbsolute()
+                  .value());
+
+      amendingLaw
+          .getMods()
+          .forEach(
+              mod -> {
+                mod.setTargetHref(
+                    new Href.Builder()
+                        .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                        .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                        .setCharacterRange(new CharacterRange("9-112"))
+                        .buildAbsolute()
+                        .value());
+                mod.setOldText(
+                    "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+              });
+
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+      // when/then
+      Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+    }
+
+    @Test
     void articleEIdIsEmpty() {
 
       // given
@@ -817,7 +855,7 @@ class ModificationValidatorTest {
                   mod.setTargetHref(
                       new Href.Builder()
                           .setCharacterRange(new CharacterRange(""))
-                          .buildRelative()
+                          .buildInternalReference()
                           .value()));
 
       amendingLaw
@@ -827,7 +865,7 @@ class ModificationValidatorTest {
                   textMod.setDestinationHref(
                       new Href.Builder()
                           .setCharacterRange(new CharacterRange(""))
-                          .buildRelative()
+                          .buildInternalReference()
                           .value()));
 
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -970,6 +1008,50 @@ class ModificationValidatorTest {
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
               "The range (0-) given at article with eId hauptteil-1_art-1 is not valid");
+    }
+
+    @Test
+    void ThrowsExceptionWhenCharacterRangeEndIsTooHigh() {
+      // given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      // 112 paragraph length
+      amendingLaw
+          .getActiveModifications()
+          .getFirst()
+          .setDestinationHref(
+              new Href.Builder()
+                  .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                  .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                  .setCharacterRange(new CharacterRange("1-113"))
+                  .buildAbsolute()
+                  .value());
+
+      amendingLaw
+          .getMods()
+          .forEach(
+              mod -> {
+                mod.setTargetHref(
+                    new Href.Builder()
+                        .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                        .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+                        .setCharacterRange(new CharacterRange("9-113"))
+                        .buildAbsolute()
+                        .value());
+                mod.setOldText(
+                    "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+              });
+
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "The character range in mod href is not valid (target paragraph is to short) in article with eId hauptteil-1_art-1");
     }
   }
 
