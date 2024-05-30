@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -14,4 +16,13 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 public class Proprietary {
   private final Node node;
+
+  /**
+   * Returns the FNA ("Fundstellennachweis A") of the norm.
+   *
+   * @return FNA or empty if it doesn't exist.
+   */
+  Optional<String> getFna() {
+    return NodeParser.getValueFromExpression("//legalDocML.de_metadaten/fna", node);
+  }
 }
