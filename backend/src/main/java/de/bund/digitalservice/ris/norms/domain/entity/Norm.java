@@ -116,6 +116,15 @@ public class Norm {
   }
 
   /**
+   * Returns the proprietary metadata of the {@link Norm}.
+   *
+   * @return Proprietary metadata or empty if none exists.
+   */
+  public Optional<Proprietary> getProprietary() {
+    return NodeParser.getNodeFromExpression("//meta/proprietary", document).map(Proprietary::new);
+  }
+
+  /**
    * Returns a list of articles as {@link List} from a {@link Document} in a {@link Norm}.
    *
    * @return The list of articles

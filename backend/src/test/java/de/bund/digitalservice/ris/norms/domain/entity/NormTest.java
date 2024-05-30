@@ -348,6 +348,48 @@ class NormTest {
     assertThat(fna).contains("754-28-1");
   }
 
+  @Nested
+  class proprietary {
+    @Test
+    void getProprietary() {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+
+      // When
+      var result = norm.getProprietary();
+
+      // Then
+      assertThat(result).isPresent();
+    }
+
+    @Test
+    void returnsEmptyOptionalIfProprietaryDoesntExist() {
+      // Given
+      var normXml =
+          """
+              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+              <akn:akomaNtoso
+                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+                <akn:act name="regelungstext">
+                  <!-- Metadaten -->
+                  <akn:meta eId="meta-1" GUID="000">
+                  </akn:meta>
+                </akn:act>
+              </akn:akomaNtoso>
+              """;
+
+      var norm = new Norm(XmlMapper.toDocument(normXml));
+
+      // When
+      var result = norm.getProprietary();
+
+      // Then
+      assertThat(result).isEmpty();
+    }
+  }
+
   @Test
   void getAllArticles() {
     // given
