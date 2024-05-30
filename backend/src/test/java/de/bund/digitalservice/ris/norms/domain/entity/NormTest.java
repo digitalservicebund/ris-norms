@@ -386,7 +386,7 @@ class NormTest {
       var result = norm.getProprietary();
 
       // Then
-      assertThat(result.isEmpty());
+      assertThat(result).isEmpty();
     }
   }
 
