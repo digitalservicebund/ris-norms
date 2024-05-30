@@ -18,6 +18,8 @@ public class ProprietaryResponseMapper {
    * @return Converted data
    */
   public static ProprietaryResponseSchema fromProprietary(Proprietary proprietary) {
-    return ProprietaryResponseSchema.builder().fna(new ProprietaryResponseSchema.Fna("")).build();
+    return ProprietaryResponseSchema.builder()
+        .fna(new ProprietaryResponseSchema.Fna(proprietary.getFna().orElse(null)))
+        .build();
   }
 }
