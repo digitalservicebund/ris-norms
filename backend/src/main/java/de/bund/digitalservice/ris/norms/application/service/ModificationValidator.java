@@ -154,7 +154,6 @@ public class ModificationValidator {
               String amendingLawOldText = getModOldText(mod, articleEId);
               Href targetHref = getModTargetHref(mod, articleEId);
               String targetHrefEId = getHrefEid(targetHref, articleEId);
-              CharacterRange characterRange = getHrefCharacterRange(targetHref, articleEId);
 
               validateNumberOfNodesWithEid(
                   articleEId, targetLaw, targetHrefEId, affectedDocumentEli);
@@ -165,14 +164,17 @@ public class ModificationValidator {
               // normalizeSpace removes double spaces and new lines
               String targetParagraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
 
-              int modStart = getCharacterRangeStart(characterRange, articleEId);
-              int modEnd = getCharacterRangeEnd(characterRange, articleEId);
+              if (mod.usesQuotedText()) {
+                CharacterRange characterRange = getHrefCharacterRange(targetHref, articleEId);
+                int modStart = getCharacterRangeStart(characterRange, articleEId);
+                int modEnd = getCharacterRangeEnd(characterRange, articleEId);
 
-              validateStartIsBeforeEnd(characterRange, modStart, modEnd, articleEId);
-              checkIfReplacementEndIsWithinText(targetParagraphText, modEnd, articleEId);
+                validateStartIsBeforeEnd(characterRange, modStart, modEnd, articleEId);
+                checkIfReplacementEndIsWithinText(targetParagraphText, modEnd, articleEId);
 
-              String targetLawOldText = targetParagraphText.substring(modStart, modEnd);
-              validateParagraphEquals(targetLawOldText, amendingLawOldText, articleEId);
+                String targetLawOldText = targetParagraphText.substring(modStart, modEnd);
+                validateQuotedTextEquals(targetLawOldText, amendingLawOldText, articleEId);
+              }
             });
   }
 
@@ -208,7 +210,7 @@ public class ModificationValidator {
     }
   }
 
-  private void validateParagraphEquals(
+  private void validateQuotedTextEquals(
       String targetLawOldText, String amendingLawOldText, String articleEId) {
     if (!targetLawOldText.equals(amendingLawOldText))
       throw new XmlContentException(

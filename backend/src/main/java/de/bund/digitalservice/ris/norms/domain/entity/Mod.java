@@ -90,4 +90,16 @@ public class Mod {
         NodeParser.getNodeFromExpression("./quotedText[2]", this.node).orElseThrow();
     newTextNode.setTextContent(newText);
   }
+
+  /**
+   * Checks weather a quotedText was used for a substitution
+   *
+   * <p>If not it is probably a quotedStructure
+   *
+   * @return is it using a quotedText structure
+   */
+  public boolean usesQuotedText() {
+    final Optional<Node> newTextNode = NodeParser.getNodeFromExpression("./quotedText", this.node);
+    return newTextNode.isPresent();
+  }
 }
