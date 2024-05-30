@@ -4,22 +4,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ModificationValidatorTest {
 
-  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
-  private final ModificationValidator underTest = new ModificationValidator(loadNormPort);
+  private final ModificationValidator underTest = new ModificationValidator();
 
   @Nested
   class noDestinationEli {
@@ -146,10 +143,10 @@ class ModificationValidatorTest {
               });
 
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when/then
-      Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Assertions.assertDoesNotThrow(
+          () -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
     }
 
     @Test
@@ -178,9 +175,11 @@ class ModificationValidatorTest {
                       """;
 
       Norm amendingLaw = new Norm(XmlMapper.toDocument(amendingLawXml));
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -230,9 +229,11 @@ class ModificationValidatorTest {
               """;
 
       Norm amendingLaw = new Norm(XmlMapper.toDocument(amendingLawXml));
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -299,9 +300,11 @@ class ModificationValidatorTest {
                   """;
 
       Norm amendingLaw = new Norm(XmlMapper.toDocument(amendingLawXml));
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -407,9 +410,11 @@ class ModificationValidatorTest {
               """;
 
       Norm amendingLaw = new Norm(XmlMapper.toDocument(amendingLawXml));
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -426,10 +431,10 @@ class ModificationValidatorTest {
       amendingLaw.getMods().forEach(mod -> mod.setOldText("not the same text as in target law"));
 
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -537,9 +542,11 @@ class ModificationValidatorTest {
               """;
 
       Norm amendingLaw = new Norm(XmlMapper.toDocument(amendingLawXml));
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -646,9 +653,11 @@ class ModificationValidatorTest {
               """;
 
       Norm amendingLaw = new Norm(XmlMapper.toDocument(amendingLawXml));
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -756,9 +765,11 @@ class ModificationValidatorTest {
                   """;
 
       Norm amendingLaw = new Norm(XmlMapper.toDocument(amendingLawXml));
+      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -768,31 +779,13 @@ class ModificationValidatorTest {
     }
 
     @Test
-    void normDoesNotExist() {
-      // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-
-      // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
-
-      // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId hauptteil-1_art-1");
-    }
-
-    @Test
     void moreThanOneNodeWithGivenDestEidExists() {
       // given
       final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      when(loadNormPort.loadNorm(any()))
-          .thenReturn(
-              Optional.of(
-                  new Norm(
-                      XmlMapper.toDocument(
-                          """
+      final Norm targetLaw =
+          new Norm(
+              XmlMapper.toDocument(
+                  """
                           <?xml version="1.0" encoding="UTF-8"?>
                           <wrap>
                             <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
@@ -804,10 +797,11 @@ class ModificationValidatorTest {
                             <test eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test>
                             <test2 eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test2>
                           </wrap>
-                          """))));
+                          """));
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -821,10 +815,10 @@ class ModificationValidatorTest {
       // given
       final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Norm targetLaw = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -838,10 +832,10 @@ class ModificationValidatorTest {
       // given
       final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when/then
-      Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Assertions.assertDoesNotThrow(
+          () -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
     }
 
     @Test
@@ -869,10 +863,10 @@ class ModificationValidatorTest {
                           .value()));
 
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -912,10 +906,10 @@ class ModificationValidatorTest {
                           .value()));
 
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -955,10 +949,10 @@ class ModificationValidatorTest {
                           .value()));
 
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -998,10 +992,10 @@ class ModificationValidatorTest {
                           .value()));
 
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -1042,10 +1036,10 @@ class ModificationValidatorTest {
               });
 
       final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw));
+      Throwable thrown =
+          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
       assertThat(thrown)
@@ -1059,8 +1053,6 @@ class ModificationValidatorTest {
   void destinationEliIsConsistent() {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when/then
     Assertions.assertDoesNotThrow(() -> underTest.destinationEliIsConsistent(amendingLaw));
@@ -1070,8 +1062,6 @@ class ModificationValidatorTest {
   void ThrowExceptionIfDestinationEliIsNotConsistent() {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistentEli.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationEliIsConsistent(amendingLaw));
@@ -1086,8 +1076,6 @@ class ModificationValidatorTest {
   void destinationHrefIsConsistent() {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when/then
     Assertions.assertDoesNotThrow(() -> underTest.destinationHrefIsConsistent(amendingLaw));
@@ -1097,8 +1085,6 @@ class ModificationValidatorTest {
   void ThrowExceptionIfDestinationEidIsNotConsistent() {
     // given
     final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistentEid.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(targetLaw));
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationHrefIsConsistent(amendingLaw));

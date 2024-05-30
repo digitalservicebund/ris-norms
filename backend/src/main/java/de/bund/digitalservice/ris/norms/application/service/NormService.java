@@ -182,7 +182,7 @@ public class NormService
             });
 
     try {
-      modificationValidator.validate(amendingLaw);
+      modificationValidator.validate(amendingLaw, targetLaw);
     } catch (XmlContentException e) {
       throw new UpdateModUseCase.InvalidUpdateModException(e.getMessage());
     }

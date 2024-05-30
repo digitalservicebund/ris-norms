@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Optional;
@@ -16,21 +15,15 @@ import org.w3c.dom.Node;
 @Slf4j
 public class ModificationValidator {
 
-  private final LoadNormPort loadNormPort;
-
-  public ModificationValidator(LoadNormPort loadNormPort) {
-
-    this.loadNormPort = loadNormPort;
-  }
-
   /**
    * @param amendingLaw the amending law to be checked
+   * @param targetLaw the target law needed to look up the old, to replace text
    */
-  public void validate(Norm amendingLaw) {
+  public void validate(Norm amendingLaw, Norm targetLaw) {
     throwErrorNoDestinationSet(amendingLaw);
     destinationEliIsConsistent(amendingLaw);
     destinationHrefIsConsistent(amendingLaw);
-    oldTextExistsInTargetLaw(amendingLaw);
+    oldTextExistsInTargetLaw(amendingLaw, targetLaw);
   }
 
   /**
@@ -148,8 +141,9 @@ public class ModificationValidator {
    * Checks if the text to be replaced is present in the target law
    *
    * @param amendingLaw the amending law to be checked
+   * @param targetLaw the target law needed to look up the old, to replace text
    */
-  public void oldTextExistsInTargetLaw(Norm amendingLaw) {
+  public void oldTextExistsInTargetLaw(Norm amendingLaw, Norm targetLaw) {
     amendingLaw
         .getArticles()
         .forEach(
@@ -161,11 +155,6 @@ public class ModificationValidator {
               Href targetHref = getModTargetHref(mod, articleEId);
               String targetHrefEId = getHrefEid(targetHref, articleEId);
               CharacterRange characterRange = getHrefCharacterRange(targetHref, articleEId);
-
-              // TODO this is not correct. It would need to lookup the getNextVersionGuid ZF0. As
-              // this is wrong and dangerous, let's not load anything here and get it instead as a
-              // parameter. The NormService is doing it anyways already.
-              Norm targetLaw = getTargetLaw(affectedDocumentEli, articleEId);
 
               validateNumberOfNodesWithEid(
                   articleEId, targetLaw, targetHrefEId, affectedDocumentEli);
@@ -237,17 +226,6 @@ public class ModificationValidator {
                 new XmlContentException(
                     "Couldn't load target eId (%s) element in target law (%s) for article with eId %s"
                         .formatted(targetHrefEId, affectedDocumentEli, articleEId),
-                    null));
-  }
-
-  private Norm getTargetLaw(String affectedDocumentEli, String articleEId) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(affectedDocumentEli))
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "Couldn't load target law by Eli: The affectedDocument href may hold an invalid value in article with eId %s"
-                        .formatted(articleEId),
                     null));
   }
 

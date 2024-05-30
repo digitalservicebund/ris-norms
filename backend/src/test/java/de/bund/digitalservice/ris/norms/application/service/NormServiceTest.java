@@ -866,7 +866,7 @@ class NormServiceTest {
       when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(targetLawZF0));
       doThrow(new XmlContentException(validatorExceptionMessage, null))
           .when(modificationValidator)
-          .validate(any());
+          .validate(any(), any());
 
       // When
       var thrown =
@@ -920,7 +920,8 @@ class NormServiceTest {
                         && Objects.equals(
                             argumentAmendingLaw.getMods().getFirst().getNewText().orElseThrow(),
                             newText);
-                  }));
+                  }),
+              any());
       verify(updateNormPort, times(0)).updateNorm(any());
       assertThat(thrown)
           .isInstanceOf(UpdateModUseCase.InvalidUpdateModException.class)
@@ -1005,7 +1006,8 @@ class NormServiceTest {
                         && Objects.equals(
                             argumentAmendingLaw.getMods().getFirst().getNewText().orElseThrow(),
                             newText);
-                  }));
+                  }),
+              any());
 
       verify(updateNormService, times(1))
           .updatePassiveModifications(
