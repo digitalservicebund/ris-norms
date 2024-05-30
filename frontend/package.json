@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@codemirror/lang-xml": "^6.1.0",
+    "@vueuse/core": "^10.10.0",
     "codemirror": "^6.0.1",
     "dayjs": "^1.11.10",
     "maska": "^2.1.11",
