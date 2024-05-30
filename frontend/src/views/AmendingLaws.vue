@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import RisAmendingLawCard from "@/components/amendingLaws/RisAmendingLawCard.vue"
-import { useAmendingLaws } from "@/services/announcementService"
+import { useGetAmendingLaws } from "@/services/announcementService"
 import { RouterLink } from "vue-router"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
 
-const { isFetching, error, data: amendingLaws } = useAmendingLaws()
+const { isFetching, error, data: amendingLaws } = useGetAmendingLaws()
 </script>
 
 <template>
