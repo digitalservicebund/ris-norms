@@ -6,9 +6,9 @@ describe("announcementService", () => {
     vi.resetAllMocks()
   })
 
-  describe("getAmendingLaws()", () => {
+  describe("useAmendingLaws()", () => {
     it("provides the data from the api", async () => {
-      const fetchMock = vi.fn().mockResolvedValueOnce([
+      const mockData = [
         {
           eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
           frbrName: "bgbl-1",
@@ -27,21 +27,33 @@ describe("announcementService", () => {
             },
           ],
         },
-      ])
+      ]
 
-      vi.doMock("./apiService.ts", () => ({
-        apiFetch: fetchMock,
+      const useFetchMock = {
+        data: { value: mockData },
+        error: { value: null },
+        isFetching: { value: false },
+      }
+
+      vi.doMock("@/services/apiService", () => ({
+        useApiFetch: vi.fn().mockReturnValue({
+          json: vi.fn().mockReturnValue(useFetchMock),
+        }),
       }))
 
-      const { getAmendingLaws } = await import("./announcementService")
+      const { useAmendingLaws } = await import("@/services/announcementService")
 
-      const result = await getAmendingLaws()
-      expect(result.length).toBe(1)
-      expect(result[0].eli).toBe(
+      const result = useAmendingLaws()
+
+      const data = result.data.value!
+
+      expect(data.length).toBe(1)
+      expect(data[0].eli).toBe(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
       )
 
-      expect(fetchMock).toHaveBeenCalledWith("/announcements")
+      const { useApiFetch } = await import("@/services/apiService")
+      expect(useApiFetch).toHaveBeenCalledWith("/announcements")
     })
   })
 })
