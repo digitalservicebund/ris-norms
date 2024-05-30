@@ -104,10 +104,12 @@ public class Norm {
   }
 
   /**
-   * Returns the short title as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns the FNA as {@link String} of a {@link Norm}.
    *
-   * @return The short title
+   * @return The FNA
+   * @deprecated Use {@link #getProprietary()} instead.
    */
+  @Deprecated
   public Optional<String> getFna() {
     return NodeParser.getValueFromExpression(
         "//meta/proprietary/legalDocML.de_metadaten/fna", document);
