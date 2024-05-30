@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -225,7 +226,7 @@ public class NormController {
       return updateNormXmlUseCase
           .updateNormXml(new UpdateNormXmlUseCase.Query(eli, xml))
           .map(ResponseEntity::ok)
-          .orElseGet(() -> ResponseEntity.notFound().build());
+          .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     } catch (UpdateNormXmlUseCase.InvalidUpdateException e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
@@ -284,7 +285,7 @@ public class NormController {
                   dryRun))
           .map(UpdateModResponseMapper::fromResult)
           .map(ResponseEntity::ok)
-          .orElseGet(() -> ResponseEntity.notFound().build());
+          .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     } catch (UpdateModUseCase.InvalidUpdateModException e) {
       return ResponseEntity.badRequest().build();
     }
