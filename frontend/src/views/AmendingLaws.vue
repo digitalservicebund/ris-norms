@@ -22,7 +22,6 @@ const { isFetching, error, data: amendingLaws } = useAmendingLaws()
       </div>
       <RisLoadingSpinner v-if="isFetching" />
       <div v-else>
-        <div v-if="error" class="text-red-500">{{ error.message }}</div>
         <RouterLink
           v-for="amendingLaw in amendingLaws"
           :key="amendingLaw.eli"
