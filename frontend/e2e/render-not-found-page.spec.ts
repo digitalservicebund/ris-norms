@@ -10,4 +10,19 @@ test.describe("404 Page", () => {
       page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
     ).toBeVisible()
   })
+
+  test(`should display 404 page when API response is 404`, async ({ page }) => {
+    await page.route("/api/v1/announcements", (route) => {
+      route.fulfill({
+        status: 404,
+        body: "Not Found",
+      })
+    })
+
+    await page.goto("/amending-laws")
+
+    await expect(
+      page.getByRole("heading", { name: /404 - Seite nicht gefunden/ }),
+    ).toBeVisible()
+  })
 })
