@@ -21,8 +21,8 @@ public class ProprietaryService implements LoadProprietaryFromNormUseCase {
   @Override
   public Optional<Proprietary> loadProprietaryFromNorm(Query query)
       throws LoadElementsByTypeFromNormUseCase.NormNotFoundException {
-    var norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
 
+    var norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (norm.isEmpty())
       throw new LoadElementsByTypeFromNormUseCase.NormNotFoundException(query.eli());
 
