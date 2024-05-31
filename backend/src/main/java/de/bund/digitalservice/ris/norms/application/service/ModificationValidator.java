@@ -46,15 +46,15 @@ public class ModificationValidator {
                     .orElseThrow(
                         () ->
                             new XmlContentException(
-                                "ActiveModification Destination Href is empty where textualMod eId is %s"
-                                    .formatted(getTextualModEId(tm)),
+                                "For amendingLaw with Eli (%s): ActiveModification Destination Href is empty where textualMod eId is %s"
+                                    .formatted(amendingLaw.getEli(), getTextualModEId(tm)),
                                 null))
                     .getEli()
                     .orElseThrow(
                         () ->
                             new XmlContentException(
-                                "ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is %s"
-                                    .formatted(getTextualModEId(tm)),
+                                "For amendingLaw with Eli (%s): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is %s"
+                                    .formatted(amendingLaw.getEli(), getTextualModEId(tm)),
                                 null)));
   }
 
@@ -63,18 +63,24 @@ public class ModificationValidator {
         .getArticles()
         .forEach(
             article -> {
-              String articleEId = getArticleEId(article);
-              validateAknModEli(article, articleEId);
-              validateAffectedDocumentEli(article, articleEId);
+              String amendingLawEli = amendingLaw.getEli();
+              String articleEId = getArticleEId(amendingLawEli, article);
+              validateAknModEli(amendingLawEli, article, articleEId);
+              validateAffectedDocumentEli(amendingLawEli, article, articleEId);
             });
   }
 
-  private void validateAknModEli(Article article, String articleEId) {
-    getHrefEli(getModTargetHref(getArticleMod(article, articleEId), articleEId), articleEId);
+  private void validateAknModEli(String amendingLawEli, Article article, String articleEId) {
+    getHrefEli(
+        amendingLawEli,
+        getModTargetHref(
+            amendingLawEli, getArticleMod(amendingLawEli, article, articleEId), articleEId),
+        articleEId);
   }
 
-  private void validateAffectedDocumentEli(Article article, String articleEId) {
-    getArticleAffectedDocumentEli(article, articleEId);
+  private void validateAffectedDocumentEli(
+      String amendingLawEli, Article article, String articleEId) {
+    getArticleAffectedDocumentEli(amendingLawEli, article, articleEId);
   }
 
   /**
@@ -110,7 +116,9 @@ public class ModificationValidator {
 
     if (!affectedDocumentElis.equals(activeModificationsDestinationElis)
         && !activeModificationsDestinationElis.equals(aknModElis))
-      throw new XmlContentException("Elis are not consistent", null);
+      throw new XmlContentException(
+          "For amendingLaw with Eli (%s): Elis are not consistent".formatted(amendingLaw.getEli()),
+          null);
   }
 
   /**
@@ -134,7 +142,9 @@ public class ModificationValidator {
             .flatMap(Optional::stream)
             .collect(Collectors.toSet());
     if (!activeModificationsDestinationHrefs.equals(aknModHrefs))
-      throw new XmlContentException("Eids are not consistent", null);
+      throw new XmlContentException(
+          "For amendingLaw with Eli (%s): Eids are not consistent".formatted(amendingLaw.getEli()),
+          null);
   }
 
   /**
@@ -148,157 +158,194 @@ public class ModificationValidator {
         .getArticles()
         .forEach(
             article -> {
-              String articleEId = getArticleEId(article);
-              String affectedDocumentEli = getArticleAffectedDocumentEli(article, articleEId);
-              Mod mod = getArticleMod(article, articleEId);
-              String amendingLawOldText = getModOldText(mod, articleEId);
-              Href targetHref = getModTargetHref(mod, articleEId);
-              String targetHrefEId = getHrefEid(targetHref, articleEId);
+              String amendingLawEli = amendingLaw.getEli();
+              String articleEId = getArticleEId(amendingLawEli, article);
+              String affectedDocumentEli =
+                  getArticleAffectedDocumentEli(amendingLawEli, article, articleEId);
+              Mod mod = getArticleMod(amendingLawEli, article, articleEId);
+              String amendingLawOldText = getModOldText(amendingLawEli, mod, articleEId);
+              Href targetHref = getModTargetHref(amendingLawEli, mod, articleEId);
+              String targetHrefEId = getHrefEid(amendingLawEli, targetHref, articleEId);
 
               validateNumberOfNodesWithEid(
-                  articleEId, targetLaw, targetHrefEId, affectedDocumentEli);
+                  amendingLawEli, articleEId, targetLaw, targetHrefEId, affectedDocumentEli);
 
               Node targetNode =
-                  getTargetNode(targetLaw, targetHrefEId, affectedDocumentEli, articleEId);
+                  getTargetNode(
+                      amendingLawEli, targetLaw, targetHrefEId, affectedDocumentEli, articleEId);
 
               // normalizeSpace removes double spaces and new lines
               String targetParagraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
 
               if (mod.usesQuotedText()) {
-                CharacterRange characterRange = getHrefCharacterRange(targetHref, articleEId);
+                CharacterRange characterRange =
+                    getHrefCharacterRange(amendingLawEli, targetHref, articleEId);
                 int modStart = getCharacterRangeStart(characterRange, articleEId);
                 int modEnd = getCharacterRangeEnd(characterRange, articleEId);
 
-                validateStartIsBeforeEnd(characterRange, modStart, modEnd, articleEId);
-                checkIfReplacementEndIsWithinText(targetParagraphText, modEnd, articleEId);
+                validateStartIsBeforeEnd(
+                    amendingLawEli, characterRange, modStart, modEnd, articleEId);
+                checkIfReplacementEndIsWithinText(
+                    amendingLawEli, targetParagraphText, modEnd, articleEId);
 
                 String targetLawOldText = targetParagraphText.substring(modStart, modEnd);
-                validateQuotedTextEquals(targetLawOldText, amendingLawOldText, articleEId);
+                validateQuotedTextEquals(
+                    amendingLawEli, targetLawOldText, amendingLawOldText, articleEId);
               }
             });
   }
 
   private void validateNumberOfNodesWithEid(
-      String articleEId, Norm targetLaw, String targetHrefEId, String affectedDocumentEli) {
+      String amendingLawEli,
+      String articleEId,
+      Norm targetLaw,
+      String targetHrefEId,
+      String affectedDocumentEli) {
     int numberOfNodesWithEid = targetLaw.getNumberOfNodesWithEid(targetHrefEId);
     if (numberOfNodesWithEid > 1) {
       throw new XmlContentException(
-          "To many matching eIds (%s) for article %s in target norm %s"
-              .formatted(targetHrefEId, articleEId, affectedDocumentEli),
+          "For amendingLaw with Eli (%s): To many matching eIds (%s) for article %s in target norm %s"
+              .formatted(amendingLawEli, targetHrefEId, articleEId, affectedDocumentEli),
           null);
     }
   }
 
-  private void validateStartIsBeforeEnd(CharacterRange cr, int start, int end, String articleEId) {
+  private void validateStartIsBeforeEnd(
+      String amendingLawEli, CharacterRange cr, int start, int end, String articleEId) {
     if (!cr.isEndGreaterStart())
       throw new XmlContentException(
-          "The character range in mod href is not valid in article with eId %s. Make sure start is smaller than end %s < %s."
-              .formatted(articleEId, start, end),
+          "For amendingLaw with Eli (%s): The character range in mod href is not valid in article with eId %s. Make sure start is smaller than end %s < %s."
+              .formatted(amendingLawEli, articleEId, start, end),
           null);
   }
 
   private void checkIfReplacementEndIsWithinText(
-      String targetParagraphText, int modEnd, String articleEId) {
+      String amendingLawEli, String targetParagraphText, int modEnd, String articleEId) {
     // counting is null based e.g. 0 is the position of the first character; spaces are counted
     // see
     // https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/1.6/Spezifikation/LegalDocML.de_1.6.pdf?ref_type=tags page 85
     if (targetParagraphText.length() < modEnd) {
       throw new XmlContentException(
-          "The character range in mod href is not valid (target paragraph is to short) in article with eId %s"
-              .formatted(articleEId),
+          "For amendingLaw with Eli (%s): The character range in mod href is not valid (target paragraph is to short) in article with eId %s"
+              .formatted(amendingLawEli, articleEId),
           null);
     }
   }
 
   private void validateQuotedTextEquals(
-      String targetLawOldText, String amendingLawOldText, String articleEId) {
+      String amendingLawEli,
+      String targetLawOldText,
+      String amendingLawOldText,
+      String articleEId) {
     if (!targetLawOldText.equals(amendingLawOldText))
       throw new XmlContentException(
-          "The replacement text '%s' in the target law does not equal the replacement text '%s' in the article with eId %s"
-              .formatted(targetLawOldText, amendingLawOldText, articleEId),
+          "For amendingLaw with Eli (%s): The replacement text '%s' in the target law does not equal the replacement text '%s' in the article with eId %s"
+              .formatted(amendingLawEli, targetLawOldText, amendingLawOldText, articleEId),
           null);
   }
 
   private Node getTargetNode(
-      Norm targetLaw, String targetHrefEId, String affectedDocumentEli, String articleEId) {
+      String amendingLawEli,
+      Norm targetLaw,
+      String targetHrefEId,
+      String affectedDocumentEli,
+      String articleEId) {
     return targetLaw
         .getByEId(targetHrefEId)
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "Couldn't load target eId (%s) element in target law (%s) for article with eId %s"
-                        .formatted(targetHrefEId, affectedDocumentEli, articleEId),
+                    "For amendingLaw with Eli (%s): Couldn't load target eId (%s) element in target law (%s) for article with eId %s"
+                        .formatted(amendingLawEli, targetHrefEId, affectedDocumentEli, articleEId),
                     null));
   }
 
   private String getTextualModEId(TextualMod tm) {
-    return tm.getEid().orElseThrow(() -> new XmlContentException("TextualMod eId id empty.", null));
+    return tm.getEid()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For amendingLaw with Eli (%s): TextualMod eId id empty.", null));
   }
 
-  private String getArticleAffectedDocumentEli(Article a, String articleEId) {
+  private String getArticleAffectedDocumentEli(
+      String amendingLawEli, Article a, String articleEId) {
     return a.getAffectedDocumentEli()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "AffectedDocument href is empty in article with eId %s".formatted(articleEId),
+                    "For amendingLaw with Eli (%s): AffectedDocument href is empty in article with eId %s"
+                        .formatted(amendingLawEli, articleEId),
                     null));
   }
 
-  private String getArticleEId(Article a) {
-    return a.getEid().orElseThrow(() -> new XmlContentException("Article eId is empty.", null));
+  private String getArticleEId(String amendingLawEli, Article a) {
+    return a.getEid()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For amendingLaw with Eli (%s): Article eId is empty."
+                        .formatted(amendingLawEli),
+                    null));
   }
 
-  private Mod getArticleMod(Article a, String articleEId) {
+  private Mod getArticleMod(String amendingLawEli, Article a, String articleEId) {
     return a.getMod()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "There is no mod in article with eId %s".formatted(articleEId), null));
+                    "For amendingLaw with Eli (%s): There is no mod in article with eId %s"
+                        .formatted(amendingLawEli, articleEId),
+                    null));
   }
 
-  private String getModOldText(Mod m, String articleEId) {
+  private String getModOldText(String amendingLawEli, Mod m, String articleEId) {
     return m.getOldText()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "quotedText[1] (the old, to be replaced, text) is empty in article with eId %s"
-                        .formatted(articleEId),
+                    "For amendingLaw with Eli (%s): quotedText[1] (the old, to be replaced, text) is empty in article with eId %s"
+                        .formatted(amendingLawEli, articleEId),
                     null));
   }
 
-  private Href getModTargetHref(Mod m, String articleEId) {
+  private Href getModTargetHref(String amendingLawEli, Mod m, String articleEId) {
     return m.getTargetHref()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "mod href is empty in article with eId %s".formatted(articleEId), null));
+                    "For amendingLaw with Eli (%s): mod href is empty in article with eId %s"
+                        .formatted(amendingLawEli, articleEId),
+                    null));
   }
 
-  private CharacterRange getHrefCharacterRange(Href h, String articleEId) {
+  private CharacterRange getHrefCharacterRange(String amendingLawEli, Href h, String articleEId) {
     return h.getCharacterRange()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "The character range in mod href is empty in article with eId %s"
-                        .formatted(articleEId),
+                    "For amendingLaw with Eli (%s): The character range in mod href is empty in article with eId %s"
+                        .formatted(amendingLawEli, articleEId),
                     null));
   }
 
-  private String getHrefEid(Href h, String articleEId) {
+  private String getHrefEid(String amendingLawEli, Href h, String articleEId) {
     return h.getEId()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "The eId in mod href is empty in article with eId %s".formatted(articleEId),
+                    "For amendingLaw with Eli (%s): The eId in mod href is empty in article with eId %s"
+                        .formatted(amendingLawEli, articleEId),
                     null));
   }
 
-  private String getHrefEli(Href h, String articleEId) {
+  private String getHrefEli(String amendingLawEli, Href h, String articleEId) {
     return h.getEli()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "The Eli in aknMod href is empty in article with eId %s".formatted(articleEId),
+                    "For amendingLaw with Eli (%s): The Eli in aknMod href is empty in article with eId %s"
+                        .formatted(amendingLawEli, articleEId),
                     null));
   }
 

@@ -49,6 +49,8 @@ public record CharacterRange(String characterRange) {
   private void isValidCharacterRange(String articleEId) {
     final String regex = "^\\d+-\\d+$";
     final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+
+    // TODO discuss: I don't see throwing the Exception here
     if (!pattern.matcher(characterRange()).matches())
       throw new XmlContentException(
           "The range (%s) given at article with eId %s is not valid"

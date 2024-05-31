@@ -31,7 +31,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "ActiveModification Destination Href is empty where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href is empty where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
     }
 
     @Test
@@ -50,7 +50,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
     }
 
     @Test
@@ -67,7 +67,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "AffectedDocument href is empty in article with eId hauptteil-1_art-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): AffectedDocument href is empty in article with eId hauptteil-1_art-1");
     }
   }
 
@@ -124,6 +124,18 @@ class ModificationValidatorTest {
                                       xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
                           <akn:act name="regelungstext">
                               <!-- Metadaten -->
+                                  <akn:meta eId="meta-1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">
+                                      <akn:identification eId="meta-1_ident-1"
+                                                          GUID="be8ecb75-0f1a-4209-b3a4-17d55bdffb47"
+                                                          source="attributsemantik-noch-undefiniert">
+                                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
+                                                              GUID="4c69a6d2-8988-4581-bfa9-df9e8e24f321">
+                                              <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                                                            GUID="f3805314-bbb6-4def-b82b-8b7f0b126197"
+                                                            value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"/>
+                                          </akn:FRBRExpression>
+                                      </akn:identification>
+                                  </akn:meta>
                               <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
                                   <!-- Artikel 1 : Hauptänderung -->
                                   <akn:article eId=""
@@ -146,7 +158,8 @@ class ModificationValidatorTest {
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining("Article eId is empty.");
+          .hasMessageContaining(
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Article eId is empty.");
     }
 
     @Test
@@ -170,7 +183,8 @@ class ModificationValidatorTest {
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining("There is no mod in article with eId hauptteil-1_art-1");
+          .hasMessageContaining(
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): There is no mod in article with eId hauptteil-1_art-1");
     }
 
     @Test
@@ -190,7 +204,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "quotedText[1] (the old, to be replaced, text) is empty in article with eId hauptteil-1_art-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): quotedText[1] (the old, to be replaced, text) is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
@@ -210,7 +224,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "The replacement text '§ 9 Abs. 1 Satz 2, Abs. 2' in the target law does not equal the replacement text 'not the same text as in target law' in the article with eId hauptteil-1_art-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The replacement text '§ 9 Abs. 1 Satz 2, Abs. 2' in the target law does not equal the replacement text 'not the same text as in target law' in the article with eId hauptteil-1_art-1");
     }
 
     @Test
@@ -229,7 +243,8 @@ class ModificationValidatorTest {
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining("mod href is empty in article with eId hauptteil-1_art-1");
+          .hasMessageContaining(
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): mod href is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
@@ -253,7 +268,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "The eId in mod href is empty in article with eId hauptteil-1_art-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The eId in mod href is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
@@ -277,7 +292,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "The character range in mod href is empty in article with eId hauptteil-1_art-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
@@ -309,7 +324,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "To many matching eIds (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) for article hauptteil-1_art-1 in target norm eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): To many matching eIds (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) for article hauptteil-1_art-1 in target norm eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
     }
 
     @Test
@@ -326,7 +341,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) element in target law (eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1) for article with eId hauptteil-1_art-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) element in target law (eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1) for article with eId hauptteil-1_art-1");
     }
 
     @Test
@@ -380,7 +395,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "The character range in mod href is empty in article with eId hauptteil-1_art-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
@@ -423,7 +438,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "The character range in mod href is not valid in article with eId hauptteil-1_art-1. Make sure start is smaller than end 20 < 20.");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid in article with eId hauptteil-1_art-1. Make sure start is smaller than end 20 < 20.");
     }
 
     @Test
@@ -463,6 +478,8 @@ class ModificationValidatorTest {
           catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
+      // TODO Add to log: "For amendingLaw with Eli
+      // (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1):"
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
@@ -506,6 +523,8 @@ class ModificationValidatorTest {
           catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
 
       // then
+      // TODO Add to log: "For amendingLaw with Eli
+      // (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1):"
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
@@ -553,7 +572,7 @@ class ModificationValidatorTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "The character range in mod href is not valid (target paragraph is to short) in article with eId hauptteil-1_art-1");
+              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid (target paragraph is to short) in article with eId hauptteil-1_art-1");
     }
   }
 
@@ -577,7 +596,8 @@ class ModificationValidatorTest {
     // then
     assertThat(thrown)
         .isInstanceOf(XmlContentException.class)
-        .hasMessageContaining("Elis are not consistent");
+        .hasMessageContaining(
+            "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Elis are not consistent");
   }
 
   @Test
@@ -600,6 +620,7 @@ class ModificationValidatorTest {
     // then
     assertThat(thrown)
         .isInstanceOf(XmlContentException.class)
-        .hasMessageContaining("Eids are not consistent");
+        .hasMessageContaining(
+            "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Eids are not consistent");
   }
 }
