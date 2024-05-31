@@ -363,6 +363,9 @@ paths:
   /norms/{eli}/proprietary/{atDate}:
     get:
       summary: Get the proprietary metadata of a norm at the specified time boundary
+      tags:
+        - under construction
+      summary: Get the metadata of a norm at the specified time boundary
       parameters:
         - name: eli
           in: path
@@ -379,7 +382,7 @@ paths:
             format: date
       responses:
         '200':
-          description: List of proprietary metadata at that time boundary
+          description: List of proprietary metadata at that date
           content:
             'application/json':
               schema:
@@ -387,7 +390,9 @@ paths:
         '404':
           description: If the norm or the time boundary doesn't exist.
     put:
-      summary: Replace the proprietary metadata of a norm at the specified time boundary
+      summary: Replace the proprietary metadata of a norm at the specified date
+      tags:
+        - under construction
       parameters:
         - name: eli
           in: path
