@@ -181,14 +181,14 @@ public class NormService
               mod.setNewText(query.newText());
             });
 
+    updateNormService.updatePassiveModifications(
+        new UpdatePassiveModificationsUseCase.Query(targetLaw, amendingLaw, targetLawEli));
+
     try {
       modificationValidator.validate(amendingLaw, targetLaw);
     } catch (XmlContentException e) {
       throw new UpdateModUseCase.InvalidUpdateModException(e.getMessage());
     }
-
-    updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(targetLaw, amendingLaw, targetLawEli));
 
     if (!query.dryRun()) {
       updateNormPort.updateNorm(new UpdateNormPort.Command(amendingLaw));
