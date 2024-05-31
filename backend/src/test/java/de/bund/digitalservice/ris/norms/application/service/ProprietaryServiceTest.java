@@ -17,8 +17,7 @@ class ProprietaryServiceTest {
   final ProprietaryService proprietaryService = new ProprietaryService(loadNormPort);
 
   @Test
-  void throwsNormNotFoundExceptionIfNormNotFound()
-      throws LoadElementsByTypeFromNormUseCase.NormNotFoundException {
+  void throwsNormNotFoundExceptionIfNormNotFound() {
     // given
     var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
     // when
