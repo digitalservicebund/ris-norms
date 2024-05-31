@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -59,8 +60,14 @@ public class ModificationValidator {
   }
 
   private void validateArticlesEli(Norm amendingLaw) {
-    amendingLaw
-        .getArticles()
+    amendingLaw.getArticles().stream()
+        .filter(
+            article -> {
+              String articleRefersTo =
+                  getArticleRefersTo(
+                      amendingLaw.getEli(), article, getArticleEId(amendingLaw.getEli(), article));
+              return Objects.equals(articleRefersTo, "hauptaenderung");
+            })
         .forEach(
             article -> {
               String amendingLawEli = amendingLaw.getEli();
@@ -154,8 +161,14 @@ public class ModificationValidator {
    * @param targetLaw the target law needed to look up the old, to replace text
    */
   public void oldTextExistsInTargetLaw(Norm amendingLaw, Norm targetLaw) {
-    amendingLaw
-        .getArticles()
+    amendingLaw.getArticles().stream()
+        .filter(
+            article -> {
+              String articleRefersTo =
+                  getArticleRefersTo(
+                      amendingLaw.getEli(), article, getArticleEId(amendingLaw.getEli(), article));
+              return Objects.equals(articleRefersTo, "hauptaenderung");
+            })
         .forEach(
             article -> {
               String amendingLawEli = amendingLaw.getEli();
@@ -266,6 +279,17 @@ public class ModificationValidator {
             () ->
                 new XmlContentException(
                     "For amendingLaw with Eli (%s): TextualMod eId id empty.", null));
+  }
+
+  private String getArticleRefersTo(String amendingLawEli, Article a, String articleEId) {
+    // TODO test for that throw
+    return a.getRefersTo()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For amendingLaw with Eli (%s): RefersTo is empty in article with eId %s"
+                        .formatted(amendingLawEli, articleEId),
+                    null));
   }
 
   private String getArticleAffectedDocumentEli(
