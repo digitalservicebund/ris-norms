@@ -364,14 +364,13 @@ public class ModificationValidator {
                     null));
   }
 
-  private String getHrefEli(String amendingLawEli, Href h, String articleEId) {
-    return h.getEli()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For amendingLaw with Eli (%s): The Eli in aknMod href is empty in article with eId %s"
-                        .formatted(amendingLawEli, articleEId),
-                    null));
+  private void getHrefEli(String amendingLawEli, Href h, String articleEId) {
+    if (h.getEli().isEmpty()) {
+      throw new XmlContentException(
+          "For amendingLaw with Eli (%s): The Eli in aknMod href is empty in article with eId %s"
+              .formatted(amendingLawEli, articleEId),
+          null);
+    }
   }
 
   private int getCharacterRangeStart(CharacterRange cr, String articleEId) {
