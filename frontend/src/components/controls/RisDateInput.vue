@@ -4,6 +4,7 @@ import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
 import { MaskaDetail, vMaska } from "maska"
 import { computed, ref, watch } from "vue"
+import IconErrorOutline from "~icons/ic/baseline-error-outline"
 
 const props = defineProps<{
   /** HTML element ID of the form field. */
@@ -12,14 +13,20 @@ const props = defineProps<{
   /** Value of the form field. */
   modelValue?: string
 
-  /** Error validation state of the form field. */
-  hasError?: boolean
-
   /** Visual size of the form field. */
   size?: "regular" | "medium" | "small"
 
   /** Enable or disable editing the form field. */
   isReadOnly?: boolean
+
+  /** Label of the form field. */
+  label?: string
+
+  /** Validation error and message to display. */
+  validationError?: ValidationError
+
+  /** Label position: 'above' or 'left' */
+  labelPosition?: "above" | "left"
 }>()
 
 const emit = defineEmits<{
@@ -43,6 +50,22 @@ const inputValue = ref(
   props.modelValue ? dayjs(props.modelValue).format("DD.MM.YYYY") : undefined,
 )
 
+const localValidationError = ref<ValidationError | undefined>()
+
+watch(
+  () => props.validationError,
+  (newVal) => {
+    localValidationError.value = newVal
+  },
+  { immediate: true },
+)
+
+const errorMessage = computed(() => {
+  if (!localValidationError.value) return undefined
+  const { message } = localValidationError.value
+  return message
+})
+
 dayjs.extend(customParseFormat)
 
 const isValidDate = computed(() => {
@@ -54,36 +77,44 @@ const onMaska = (event: CustomEvent<MaskaDetail>) => {
 }
 
 const effectiveHasError = computed(
-  () => props.hasError || (inputCompleted.value && !isValidDate.value),
+  () => props.validationError || (inputCompleted.value && !isValidDate.value),
 )
 
 const conditionalClasses = computed(() => ({
   "has-error": effectiveHasError.value,
   "ds-input-medium": props.size === "medium",
   "ds-input-small": props.size === "small",
+  "label-left": props.labelPosition === "left",
 }))
 
 function validateInput() {
   if (inputCompleted.value) {
     if (isValidDate.value) {
+      localValidationError.value = undefined
       emit("update:validationError", undefined)
     } else {
-      emit("update:validationError", {
+      const validationError = {
         message: "Kein valides Datum",
         instance: props.id,
-      })
+      }
+      localValidationError.value = validationError
+      emit("update:validationError", validationError)
     }
   } else if (inputValue.value) {
-    emit("update:validationError", {
+    const validationError = {
       message: "Unvollständiges Datum",
       instance: props.id,
-    })
+    }
+    localValidationError.value = validationError
+    emit("update:validationError", validationError)
   } else {
+    localValidationError.value = undefined
     emit("update:validationError", undefined)
   }
 }
 
 function backspaceDelete() {
+  localValidationError.value = undefined
   emit("update:validationError", undefined)
   if (inputValue.value === "") emit("update:modelValue", inputValue.value)
 }
@@ -117,17 +148,44 @@ watch(inputCompleted, (is) => {
 </script>
 
 <template>
-  <input
-    :id="id"
-    v-model="inputValue"
-    v-maska
-    class="ds-input"
-    :class="conditionalClasses"
-    data-maska="##.##.####"
-    placeholder="TT.MM.JJJJ"
-    :readonly="isReadOnly"
-    @blur="onBlur"
-    @keydown.delete="backspaceDelete"
-    @maska="onMaska"
-  />
+  <div
+    :class="
+      props.labelPosition === 'left' ? 'flex items-center gap-8' : 'grid gap-2'
+    "
+  >
+    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+    <label
+      v-if="label"
+      :for="id"
+      :class="[
+        'ds-label',
+        { 'mb-24': props.labelPosition === 'left' && effectiveHasError },
+      ]"
+    >
+      {{ label }}
+    </label>
+    <div class="flex flex-col">
+      <input
+        :id="id"
+        v-model="inputValue"
+        v-maska
+        class="ds-input"
+        :class="conditionalClasses"
+        data-maska="##.##.####"
+        placeholder="TT.MM.JJJJ"
+        :readonly="isReadOnly"
+        @blur="onBlur"
+        @keydown.delete="backspaceDelete"
+        @maska="onMaska"
+      />
+      <div
+        v-if="effectiveHasError"
+        class="mt-4 flex items-center text-sm text-red-800"
+      >
+        <IconErrorOutline class="mr-4 text-red-800" />
+
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
 </template>
