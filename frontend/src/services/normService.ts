@@ -1,7 +1,6 @@
-import { apiFetch, useApiFetch } from "@/services/apiService"
+import { apiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
 import { FetchOptions } from "ofetch"
-import { UseFetchReturn } from "@vueuse/core/index"
 
 /**
  * Load a norm from the API.
@@ -50,33 +49,6 @@ export async function getNormHtmlByEli(
       Accept: "text/html",
     },
   })
-}
-
-/**
- * Load the rendered html version of a norm from the api using useFetch
- *
- * @param eli Eli of the norm
- * @param showMetadata Whether to include metadata in the rendered HTML
- * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
- */
-export function useGetNormHtmlByEli(
-  eli: string,
-  showMetadata: boolean = false,
-  at?: Date,
-): UseFetchReturn<string> {
-  const queryParams = new URLSearchParams()
-  queryParams.append("showMetadata", String(showMetadata))
-  if (at instanceof Date) {
-    queryParams.append("atIsoDate", at.toISOString())
-  }
-
-  const url = `/norms/${eli}?${queryParams.toString()}`
-
-  return useApiFetch(url, {
-    headers: {
-      Accept: "text/html",
-    },
-  }).text()
 }
 
 /**
