@@ -21,65 +21,65 @@ class ModificationValidatorTest {
     @Test
     void emptyActiveModificationDestinationHref() {
       // given
-      final Norm amendingLaw =
+      final Norm amendingNorm =
           NormFixtures.loadFromDisk("NormWithEmptyActiveModificationDestinationHref.xml");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingLaw));
+      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingNorm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href is empty where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href is empty where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
     }
 
     @Test
     void brokenActiveModificationDestinationHref() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
           .getActiveModifications()
           .getFirst()
           .setDestinationHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingLaw));
+      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingNorm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
     }
 
     @Test
     void emptyAffectedDocumentHref() {
 
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw.getArticles().getFirst().setAffectedDocumentEli("");
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm.getArticles().getFirst().setAffectedDocumentEli("");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingLaw));
+      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingNorm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): AffectedDocument href is empty in article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): AffectedDocument href is empty in article with eId hauptteil-1_art-1");
     }
   }
 
   @Nested
-  class oldTextExistsInTargetLaw {
+  class oldTextExistsInZf0Norm {
 
     @Test
     void itWorksWithoutException() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       // 112 paragraph length
-      amendingLaw
+      amendingNorm
           .getActiveModifications()
           .getFirst()
           .setDestinationHref(
@@ -90,7 +90,7 @@ class ModificationValidatorTest {
                   .buildAbsolute()
                   .value());
 
-      amendingLaw
+      amendingNorm
           .getMods()
           .forEach(
               mod -> {
@@ -105,18 +105,17 @@ class ModificationValidatorTest {
                     "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
               });
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when/then
-      Assertions.assertDoesNotThrow(
-          () -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+      Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
     }
 
     @Test
     void articleEIdIsEmpty() {
 
       // given
-      var amendingLawXml =
+      var amendingNormXml =
           """
                       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
@@ -148,158 +147,158 @@ class ModificationValidatorTest {
                       </akn:akomaNtoso>
                       """;
 
-      Norm amendingLaw = new Norm(XmlMapper.toDocument(amendingLawXml));
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      Norm amendingNorm = new Norm(XmlMapper.toDocument(amendingNormXml));
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Article eId is empty.");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Article eId is empty.");
     }
 
     @Test
     void noModInArticle() {
 
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       Node mod =
-          amendingLaw
+          amendingNorm
               .getByEId(
                   "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
               .get();
       mod.getParentNode().removeChild(mod);
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): There is no mod in article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): There is no mod in article with eId hauptteil-1_art-1");
     }
 
     @Test
     void oldTextIsEmpty() {
 
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw.getMods().getFirst().setOldText("");
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm.getMods().getFirst().setOldText("");
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): quotedText[1] (the old, to be replaced, text) is empty in article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): quotedText[1] (the old, to be replaced, text) is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
-    void oldTextNotTheSameInTargetLaw() {
+    void oldTextNotTheSameInZf0Norm() {
 
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw.getMods().forEach(mod -> mod.setOldText("not the same text as in target law"));
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm.getMods().forEach(mod -> mod.setOldText("not the same text as in target law"));
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The replacement text '§ 9 Abs. 1 Satz 2, Abs. 2' in the target law does not equal the replacement text 'not the same text as in target law' in the article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The replacement text '§ 9 Abs. 1 Satz 2, Abs. 2' in the target law does not equal the replacement text 'not the same text as in target law' in the article with eId hauptteil-1_art-1");
     }
 
     @Test
     void modTargetHrefIsEmpty() {
 
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw.getMods().forEach(mod -> mod.setTargetHref(""));
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm.getMods().forEach(mod -> mod.setTargetHref(""));
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): mod href is empty in article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): mod href is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
     void targetHrefEidIsEmpty() {
 
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
           .getMods()
           .forEach(
               mod ->
                   mod.setTargetHref("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/"));
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The eId in mod href is empty in article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The eId in mod href is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
     void modHrefCharacterRangeIsEmpty() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
           .getMods()
           .forEach(
               mod ->
                   mod.setTargetHref(
                       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1/"));
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
     void moreThanOneNodeWithGivenDestEidExists() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Norm targetLaw =
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm zf0Norm =
           new Norm(
               XmlMapper.toDocument(
                   """
@@ -318,48 +317,47 @@ class ModificationValidatorTest {
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): To many matching eIds (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) for article hauptteil-1_art-1 in target norm eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): To many matching eIds (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) for article hauptteil-1_art-1 in target norm eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
     }
 
     @Test
     void nodeWithGivenDestEidDoesNotExists() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Norm targetLaw = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) element in target law (eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1) for article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) element in target law (eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1) for article with eId hauptteil-1_art-1");
     }
 
     @Test
     void doesNotThrow() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when/then
-      Assertions.assertDoesNotThrow(
-          () -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+      Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
     }
 
     @Test
     void throwsExceptionWhenCharacterRangeIsNotSet() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
           .getMods()
           .forEach(
               mod ->
@@ -372,7 +370,7 @@ class ModificationValidatorTest {
                           .buildInternalReference()
                           .value()));
 
-      amendingLaw
+      amendingNorm
           .getActiveModifications()
           .forEach(
               textMod ->
@@ -385,24 +383,24 @@ class ModificationValidatorTest {
                           .buildAbsolute()
                           .value()));
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1");
     }
 
     @Test
     void throwsExceptionWhenCharacterRangeStartEqualsEnd() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
           .getMods()
           .forEach(
               mod ->
@@ -415,7 +413,7 @@ class ModificationValidatorTest {
                           .buildAbsolute()
                           .value()));
 
-      amendingLaw
+      amendingNorm
           .getActiveModifications()
           .forEach(
               textMod ->
@@ -428,24 +426,24 @@ class ModificationValidatorTest {
                           .buildAbsolute()
                           .value()));
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid in article with eId hauptteil-1_art-1. Make sure start is smaller than end 20 < 20.");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid in article with eId hauptteil-1_art-1. Make sure start is smaller than end 20 < 20.");
     }
 
     @Test
     void throwsExceptionWhenCharacterRangeStartIsNotSet() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
           .getMods()
           .forEach(
               mod ->
@@ -458,7 +456,7 @@ class ModificationValidatorTest {
                           .buildAbsolute()
                           .value()));
 
-      amendingLaw
+      amendingNorm
           .getActiveModifications()
           .forEach(
               textMod ->
@@ -471,14 +469,14 @@ class ModificationValidatorTest {
                           .buildAbsolute()
                           .value()));
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
-      // TODO Add to log: "For amendingLaw with Eli
+      // TODO Add to log: "For amendingNorm with Eli
       // (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1):"
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
@@ -489,8 +487,8 @@ class ModificationValidatorTest {
     @Test
     void throwsExceptionWhenCharacterRangeEndIsNotSet() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingLaw
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
           .getMods()
           .forEach(
               mod ->
@@ -503,7 +501,7 @@ class ModificationValidatorTest {
                           .buildAbsolute()
                           .value()));
 
-      amendingLaw
+      amendingNorm
           .getActiveModifications()
           .forEach(
               textMod ->
@@ -516,14 +514,14 @@ class ModificationValidatorTest {
                           .buildAbsolute()
                           .value()));
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
-      // TODO Add to log: "For amendingLaw with Eli
+      // TODO Add to log: "For amendingNorm with Eli
       // (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1):"
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
@@ -534,9 +532,9 @@ class ModificationValidatorTest {
     @Test
     void ThrowsExceptionWhenCharacterRangeEndIsTooHigh() {
       // given
-      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       // 112 paragraph length
-      amendingLaw
+      amendingNorm
           .getActiveModifications()
           .getFirst()
           .setDestinationHref(
@@ -547,7 +545,7 @@ class ModificationValidatorTest {
                   .buildAbsolute()
                   .value());
 
-      amendingLaw
+      amendingNorm
           .getMods()
           .forEach(
               mod -> {
@@ -562,65 +560,65 @@ class ModificationValidatorTest {
                     "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
               });
 
-      final Norm targetLaw = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInTargetLaw(amendingLaw, targetLaw));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid (target paragraph is to short) in article with eId hauptteil-1_art-1");
+              "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid (target paragraph is to short) in article with eId hauptteil-1_art-1");
     }
   }
 
   @Test
   void destinationEliIsConsistent() {
     // given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+    final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
 
     // when/then
-    Assertions.assertDoesNotThrow(() -> underTest.destinationEliIsConsistent(amendingLaw));
+    Assertions.assertDoesNotThrow(() -> underTest.destinationEliIsConsistent(amendingNorm));
   }
 
   @Test
   void ThrowExceptionIfDestinationEliIsNotConsistent() {
     // given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistentEli.xml");
+    final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithInconsistentEli.xml");
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.destinationEliIsConsistent(amendingLaw));
+    Throwable thrown = catchThrowable(() -> underTest.destinationEliIsConsistent(amendingNorm));
 
     // then
     assertThat(thrown)
         .isInstanceOf(XmlContentException.class)
         .hasMessageContaining(
-            "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Elis are not consistent");
+            "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Elis are not consistent");
   }
 
   @Test
   void destinationHrefIsConsistent() {
     // given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+    final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
 
     // when/then
-    Assertions.assertDoesNotThrow(() -> underTest.destinationHrefIsConsistent(amendingLaw));
+    Assertions.assertDoesNotThrow(() -> underTest.destinationHrefIsConsistent(amendingNorm));
   }
 
   @Test
   void ThrowExceptionIfDestinationEidIsNotConsistent() {
     // given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithInconsistentEid.xml");
+    final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithInconsistentEid.xml");
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.destinationHrefIsConsistent(amendingLaw));
+    Throwable thrown = catchThrowable(() -> underTest.destinationHrefIsConsistent(amendingNorm));
 
     // then
     assertThat(thrown)
         .isInstanceOf(XmlContentException.class)
         .hasMessageContaining(
-            "For amendingLaw with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Eids are not consistent");
+            "For amendingNorm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Eids are not consistent");
   }
 }

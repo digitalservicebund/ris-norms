@@ -891,6 +891,7 @@ class NormServiceTest {
               argThat(argument -> Objects.equals(argument.guid().toString(), nextVersionGuid)));
       verify(modificationValidator, times(1))
           .validate(
+              any(),
               argThat(
                   argumentAmendingLaw ->
                       Objects.equals(
@@ -918,8 +919,7 @@ class NormServiceTest {
                               newDestinationHref)
                           && Objects.equals(
                               argumentAmendingLaw.getMods().getFirst().getNewText().orElseThrow(),
-                              newText)),
-              any());
+                              newText)));
       verify(updateNormPort, times(0)).updateNorm(any());
       assertThat(thrown)
           .isInstanceOf(UpdateModUseCase.InvalidUpdateModException.class)
@@ -974,6 +974,7 @@ class NormServiceTest {
               argThat(argument -> Objects.equals(argument.guid().toString(), nextVersionGuid)));
       verify(modificationValidator, times(1))
           .validate(
+              any(),
               argThat(
                   argumentAmendingLaw ->
                       Objects.equals(
@@ -1001,8 +1002,7 @@ class NormServiceTest {
                               newDestinationHref)
                           && Objects.equals(
                               argumentAmendingLaw.getMods().getFirst().getNewText().orElseThrow(),
-                              newText)),
-              any());
+                              newText)));
 
       verify(updateNormService, times(1))
           .updatePassiveModifications(

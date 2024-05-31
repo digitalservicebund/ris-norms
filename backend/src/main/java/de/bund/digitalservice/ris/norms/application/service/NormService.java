@@ -130,38 +130,38 @@ public class NormService
     // TODO query.oldText is not being handled
     // TODO query.refersTo is not being handled
 
-    final Optional<Norm> optionalAmendingLaw =
+    final Optional<Norm> optionalAmendingNorm =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    if (optionalAmendingLaw.isEmpty()) {
+    if (optionalAmendingNorm.isEmpty()) {
       // TODO throw InvalidUpdateModException?
       return Optional.empty();
     }
-    final var amendingLaw = optionalAmendingLaw.get();
+    final var amendingNorm = optionalAmendingNorm.get();
 
-    final var targetLawEliOptional = new Href(query.destinationHref()).getEli();
-    if (targetLawEliOptional.isEmpty()) {
+    final var optionalTargetNormEli = new Href(query.destinationHref()).getEli();
+    if (optionalTargetNormEli.isEmpty()) {
       // TODO throw InvalidUpdateModException?
       return Optional.empty();
     }
 
-    final var targetLawEli = targetLawEliOptional.get();
+    final var targetNormEli = optionalTargetNormEli.get();
 
-    final Optional<Norm> optionalTargetLaw =
+    final Optional<Norm> optionalZf0Norm =
         loadNormPort
-            .loadNorm(new LoadNormPort.Command(targetLawEli))
+            .loadNorm(new LoadNormPort.Command(targetNormEli))
             .flatMap(Norm::getNextVersionGuid)
             .flatMap(
                 guid -> loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(guid)));
-    if (optionalTargetLaw.isEmpty()) {
+    if (optionalZf0Norm.isEmpty()) {
       // TODO throw InvalidUpdateModException?
       return Optional.empty();
     }
 
-    var targetLaw = optionalTargetLaw.get();
+    var zf0Norm = optionalZf0Norm.get();
 
     // TODO shall we move the following two modifications to the UpdateNormService?
     // Edit mod in metadata
-    amendingLaw.getActiveModifications().stream()
+    amendingNorm.getActiveModifications().stream()
         .filter(
             activeMod ->
                 activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eid())))
@@ -173,7 +173,7 @@ public class NormService
             });
 
     // Edit mod in body
-    amendingLaw.getMods().stream()
+    amendingNorm.getMods().stream()
         .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
         .findFirst()
         .ifPresent(
@@ -183,22 +183,22 @@ public class NormService
             });
 
     updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(targetLaw, amendingLaw, targetLawEli));
+        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli));
 
     try {
-      modificationValidator.validate(amendingLaw, targetLaw);
+      modificationValidator.validate(zf0Norm, amendingNorm);
     } catch (XmlContentException e) {
       throw new UpdateModUseCase.InvalidUpdateModException(e.getMessage());
     }
 
     if (!query.dryRun()) {
-      updateNormPort.updateNorm(new UpdateNormPort.Command(amendingLaw));
-      updateNormPort.updateNorm(new UpdateNormPort.Command(targetLaw));
+      updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
+      updateNormPort.updateNorm(new UpdateNormPort.Command(zf0Norm));
     }
 
     return Optional.of(
         new UpdateModUseCase.Result(
-            XmlMapper.toString(amendingLaw.getDocument()),
-            XmlMapper.toString(targetLaw.getDocument())));
+            XmlMapper.toString(amendingNorm.getDocument()),
+            XmlMapper.toString(zf0Norm.getDocument())));
   }
 }
