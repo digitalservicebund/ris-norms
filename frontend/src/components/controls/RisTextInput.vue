@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
+import IconErrorOutline from "~icons/ic/baseline-error-outline"
 
 const props = withDefaults(
   defineProps<{
@@ -15,12 +16,18 @@ const props = withDefaults(
     size?: "regular" | "medium" | "small"
     /** Label for the form field. */
     label?: string
+    /** Validation error and message to display. */
+    validationError?: { message: string }
+    /** Label position: 'above' or 'left' */
+    labelPosition?: "above" | "left"
   }>(),
   {
     modelValue: "",
     placeholder: undefined,
     size: "regular",
     label: undefined,
+    validationError: undefined,
+    labelPosition: "above",
   },
 )
 
@@ -45,30 +52,69 @@ const localModelValue = computed({
       : emit("update:modelValue", value),
 })
 
+const effectiveHasError = computed(() => {
+  return props.validationError || !!localValidationError.value
+})
+
 const conditionalClasses = computed(() => ({
+  "has-error": effectiveHasError.value,
   "ds-input-medium": props.size === "medium",
   "ds-input-small": props.size === "small",
+  "label-left": props.labelPosition === "left",
 }))
 
 const tabindex = computed(() => (props.readOnly ? -1 : 0))
+const localValidationError = ref(props.validationError)
+
+watch(
+  () => props.validationError,
+  (newVal) => {
+    localValidationError.value = newVal
+  },
+  { immediate: true },
+)
+
+const errorMessage = computed(() => {
+  return localValidationError.value?.message
+})
 </script>
 
 <template>
-  <div class="grid gap-2">
+  <div
+    :class="
+      props.labelPosition === 'left' ? 'flex items-center gap-8' : 'grid gap-2'
+    "
+  >
     <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-    <label v-if="label" :for="id" class="ds-label">
+    <label
+      v-if="label"
+      :for="id"
+      :class="[
+        'ds-label',
+        { 'mb-24': props.labelPosition === 'left' && localValidationError },
+      ]"
+    >
       {{ label }}
     </label>
-    <input
-      :id="id"
-      v-model="localModelValue"
-      class="ds-input"
-      :class="conditionalClasses"
-      :placeholder="placeholder"
-      :readonly="readOnly"
-      :tabindex="tabindex"
-      type="text"
-      @blur="$emit('blur')"
-    />
+    <div class="flex flex-col">
+      <input
+        :id="id"
+        v-model="localModelValue"
+        class="ds-input"
+        :class="conditionalClasses"
+        :placeholder="placeholder"
+        :readonly="readOnly"
+        :tabindex="tabindex"
+        type="text"
+        @blur="$emit('blur')"
+      />
+      <div
+        v-if="localValidationError"
+        class="mt-4 flex items-center text-sm text-red-800"
+      >
+        <IconErrorOutline class="mr-2 text-red-800" />
+        {{ errorMessage }}
+      </div>
+    </div>
   </div>
 </template>
