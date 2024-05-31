@@ -34,7 +34,7 @@ class ProprietaryServiceTest {
   // TODO: fna not found
 
   @Test
-  void returnFna() throws Exception {
+  void returnFna() throws LoadElementsByTypeFromNormUseCase.NormNotFoundException {
     // given
     var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
     var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
