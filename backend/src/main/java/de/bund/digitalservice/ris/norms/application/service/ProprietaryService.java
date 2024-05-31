@@ -18,6 +18,8 @@ public class ProprietaryService implements LoadProprietaryFromNormUseCase {
     this.loadNormPort = loadNormPort;
   }
 
+  // TODO Hannes: Why have an Optional if we throw otherwise? Still think exceptions are wrong,
+  // here.
   @Override
   public Optional<Proprietary> loadProprietaryFromNorm(Query query)
       throws LoadElementsByTypeFromNormUseCase.NormNotFoundException {
