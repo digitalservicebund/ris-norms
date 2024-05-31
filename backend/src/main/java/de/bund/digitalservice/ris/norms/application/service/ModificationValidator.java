@@ -15,6 +15,7 @@ import org.w3c.dom.Node;
 @Service
 @Slf4j
 public class ModificationValidator {
+  // TODO rename ModificationValidatorService?
 
   /**
    * @param amendingLaw the amending law to be checked

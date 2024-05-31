@@ -159,6 +159,7 @@ public class NormService
 
     var targetLaw = optionalTargetLaw.get();
 
+    // TODO shall we move the following two modifications to the UpdateNormService?
     // Edit mod in metadata
     amendingLaw.getActiveModifications().stream()
         .filter(
