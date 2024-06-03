@@ -76,7 +76,7 @@ class ProprietaryControllerTest {
             get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
         // then
         .andExpect(status().isOk())
-        // TODO Hannes: Is this what we want?
+        .andExpect(jsonPath("fna").exists())
         .andExpect(jsonPath("fna.value").doesNotExist());
   }
 
@@ -95,7 +95,7 @@ class ProprietaryControllerTest {
             get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
         // then
         .andExpect(status().isOk())
-        // TODO Hannes: Is this what we want?
+        .andExpect(jsonPath("fna").exists())
         .andExpect(jsonPath("fna.value").doesNotExist());
   }
 }
