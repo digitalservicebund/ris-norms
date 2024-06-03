@@ -97,6 +97,15 @@ public class ProprietaryController {
       @PathVariable final LocalDate atDate) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-    return ResponseEntity.notFound().build();
+
+    try {
+      var proprietary =
+          proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
+
+      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary));
+
+    } catch (NormNotFoundException e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 }
