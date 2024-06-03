@@ -82,6 +82,11 @@ const routes: readonly RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import("@/views/404NotFound.vue"),
+  },
 ]
 
 const router = createRouter({
