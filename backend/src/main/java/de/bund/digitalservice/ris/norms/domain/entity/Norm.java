@@ -25,13 +25,19 @@ public class Norm {
   private final Document document;
 
   /**
-   * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}. It tries to extract
+   * it first from the expression level, otherwise it tries to extract it from the manifestation
+   * level.
    *
    * @return An Eli
    */
   public String getEli() {
     return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
-        .orElseThrow();
+        .orElseGet(
+            () ->
+                NodeParser.getValueFromExpression("//FRBRManifestation/FRBRthis/@value", document)
+                    .map(m -> m.replace(".xml", ""))
+                    .orElseThrow());
   }
 
   /**
@@ -122,6 +128,15 @@ public class Norm {
    */
   public Optional<Proprietary> getProprietary() {
     return NodeParser.getNodeFromExpression("//meta/proprietary", document).map(Proprietary::new);
+  }
+
+  /**
+   * Returns a {@link Meta} instance from a {@link Document} in a {@link Norm}.
+   *
+   * @return the meta node as {@link Meta}
+   */
+  public Meta getMeta() {
+    return new Meta(NodeParser.getMandatoryNodeFromExpression("//act/meta", document));
   }
 
   /**

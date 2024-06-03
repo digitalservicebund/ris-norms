@@ -16,6 +16,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseC
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -35,9 +36,17 @@ class NormServiceTest {
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final UpdateNormService updateNormService = mock(UpdateNormService.class);
+  final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
+  final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
 
   final NormService service =
-      new NormService(loadNormPort, loadNormByGuidPort, updateNormPort, updateNormService);
+      new NormService(
+          loadNormPort,
+          loadNormByGuidPort,
+          updateNormPort,
+          updateNormService,
+          loadZf0Service,
+          updateOrSaveNormPort);
 
   @Nested
   class loadNorm {
@@ -769,7 +778,7 @@ class NormServiceTest {
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(zf0Norm));
+      when(loadZf0Service.loadZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any()))
           .thenReturn(Optional.of(amendingNorm))
@@ -802,12 +811,12 @@ class NormServiceTest {
                       Objects.equals(
                           argument.eli(),
                           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
-      verify(loadNormByGuidPort, times(1))
-          .loadNormByGuid(
+      verify(loadZf0Service, times(1))
+          .loadZf0(
               argThat(
                   argument ->
-                      Objects.equals(
-                          argument.guid().toString(), "8de2c22c-d706-498a-9d96-930d7a03d224")));
+                      Objects.equals(argument.amendingLaw(), amendingNorm)
+                          && Objects.equals(argument.targetLaw(), targetNorm)));
       verify(updateNormService, times(1))
           .updatePassiveModifications(
               argThat(
@@ -816,8 +825,8 @@ class NormServiceTest {
                           && Objects.equals(argument.amendingNorm(), amendingNorm)));
       verify(updateNormPort, times(1))
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), amendingNorm)));
-      verify(updateNormPort, times(1))
-          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
+      verify(updateOrSaveNormPort, times(1))
+          .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
       assertThat(result).isPresent();
       final Document amendingXmlDocument = XmlMapper.toDocument(result.get().amendingNormXml());
