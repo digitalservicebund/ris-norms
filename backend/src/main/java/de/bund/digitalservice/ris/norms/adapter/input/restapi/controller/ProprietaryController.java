@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFr
 import de.bund.digitalservice.ris.norms.application.service.ProprietaryService;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,14 +60,16 @@ public class ProprietaryController {
     try {
       var proprietary =
           proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
+
       if (proprietary.isEmpty()) {
-        // TODO Hannes: Decide what to return, write test and implement
-        // all
+        var proprietaryWithAllEmptyValues =
+            Proprietary.builder().node(XmlMapper.toNode("<proprietary></proprietary>")).build();
+        return ResponseEntity.ok(
+            ProprietaryResponseMapper.fromProprietary(proprietaryWithAllEmptyValues));
       }
 
       return ResponseEntity.ok(
           ProprietaryResponseMapper.fromProprietary(proprietary.orElseThrow()));
-
     } catch (NormNotFoundException e) {
       return ResponseEntity.notFound().build();
     }
