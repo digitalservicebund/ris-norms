@@ -5,7 +5,7 @@ COPY frontend .
 RUN npm ci
 RUN npm run-script build
 
-FROM gradle:8.7-jdk21 as backend
+FROM gradle:8.8-jdk21 as backend
 WORKDIR /backend
 COPY backend .
 RUN mkdir -p src/main/resources/static
