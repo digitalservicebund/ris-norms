@@ -60,7 +60,7 @@ public class ProprietaryController {
       var proprietary =
           proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
       if (proprietary.isEmpty()) {
-        // TODO Hannes
+        // TODO Hannes: Decide what to return, write test and implement
       }
 
       return ResponseEntity.ok(
