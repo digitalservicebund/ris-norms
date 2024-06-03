@@ -53,7 +53,7 @@
                </akn:textualMod>
                <akn:textualMod type="substitution" GUID="a9447c63-fd78-44b9-9426-48ea9e86cf68" eId="meta-1_analysis-1_activemod-1_textualmod-2">
                   <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1" GUID="c509c75e-4813-491a-a973-9b23e2b8be03"></akn:source>
-                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-71_abs-2" GUID="e1d7e59f-5c59-4834-847d-3dc1dbc26259"></akn:destination>
+                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-71_abs-2.xml" GUID="e1d7e59f-5c59-4834-847d-3dc1dbc26259"></akn:destination>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2" eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" GUID="5d66169e-3af1-453b-8009-b5d62ad16aee"></akn:force>
                </akn:textualMod>
             </akn:activeModifications>
