@@ -94,4 +94,27 @@ class ModTest {
     assertThat(eid).isPresent();
     assertThat(eid.get().value()).contains("new-target-href");
   }
+
+  @Test
+  void usesQuotedText() {
+    // when
+    var isQuoted = mod.usesQuotedText();
+
+    // then
+    assertThat(isQuoted).isTrue();
+  }
+
+  @Test
+  void setOldText() {
+    // given
+    var oldText = mod.getOldText();
+    assertThat(oldText).contains("§ 9 Abs. 1 Satz 2, Abs. 2");
+
+    // when
+    mod.setOldText("new old text");
+
+    // then
+    var updatedText = mod.getOldText();
+    assertThat(updatedText).contains("new old text");
+  }
 }
