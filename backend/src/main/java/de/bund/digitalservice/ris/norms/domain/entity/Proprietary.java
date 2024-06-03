@@ -22,7 +22,7 @@ public class Proprietary {
    *
    * @return FNA or empty if it doesn't exist.
    */
-  Optional<String> getFna() {
+  public Optional<String> getFna() {
     return NodeParser.getValueFromExpression("//legalDocML.de_metadaten/fna", node);
   }
 }

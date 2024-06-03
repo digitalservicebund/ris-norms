@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundar
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -107,6 +108,7 @@ public class TimeBoundaryController {
           @Valid
           @UniqueTimeBoundariesDatesConstraint
           @NotEmpty(message = "Change list must not be empty")
+          @Size(max = 100, message = "A maximum of 100 time boundaries is supported")
           final List<TimeBoundarySchema> timeBoundaries) {
 
     final String eli =

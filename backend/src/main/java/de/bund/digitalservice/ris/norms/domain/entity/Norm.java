@@ -25,13 +25,19 @@ public class Norm {
   private final Document document;
 
   /**
-   * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}. It tries to extract
+   * it first from the expression level, otherwise it tries to extract it from the manifestation
+   * level.
    *
    * @return An Eli
    */
   public String getEli() {
     return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
-        .orElseThrow();
+        .orElseGet(
+            () ->
+                NodeParser.getValueFromExpression("//FRBRManifestation/FRBRthis/@value", document)
+                    .map(m -> m.replace(".xml", ""))
+                    .orElseThrow());
   }
 
   /**
@@ -104,10 +110,12 @@ public class Norm {
   }
 
   /**
-   * Returns the short title as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns the FNA as {@link String} of a {@link Norm}.
    *
-   * @return The short title
+   * @return The FNA
+   * @deprecated Use {@link #getProprietary()} instead.
    */
+  @Deprecated(forRemoval = true)
   public Optional<String> getFna() {
     return NodeParser.getValueFromExpression(
         "//meta/proprietary/legalDocML.de_metadaten/fna", document);
@@ -116,10 +124,22 @@ public class Norm {
   /**
    * Returns the proprietary metadata of the {@link Norm}.
    *
-   * @return Proprietary metadata or empty if none exists.
+   * @return Proprietary metadata.
    */
-  public Optional<Proprietary> getProprietary() {
-    return NodeParser.getNodeFromExpression("//meta/proprietary", document).map(Proprietary::new);
+  public Proprietary getProprietary() {
+    return NodeParser.getNodeFromExpression("//meta/proprietary", document)
+        .map(Proprietary::new)
+        .orElse(
+            Proprietary.builder().node(XmlMapper.toNode("<proprietary></proprietary>")).build());
+  }
+
+  /**
+   * Returns a {@link Meta} instance from a {@link Document} in a {@link Norm}.
+   *
+   * @return the meta node as {@link Meta}
+   */
+  public Meta getMeta() {
+    return new Meta(NodeParser.getMandatoryNodeFromExpression("//act/meta", document));
   }
 
   /**

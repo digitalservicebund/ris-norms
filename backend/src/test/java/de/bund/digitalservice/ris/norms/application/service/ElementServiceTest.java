@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -460,7 +461,7 @@ class ElementServiceTest {
               () ->
                   service.loadElementsByTypeFromNorm(
                       new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"))))
-          .isInstanceOf(LoadElementsByTypeFromNormUseCase.NormNotFoundException.class);
+          .isInstanceOf(NormNotFoundException.class);
     }
 
     @Test

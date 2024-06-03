@@ -546,13 +546,85 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   class UpdateMod {
 
     @Test
-    void itUpdatesAMod() throws Exception {
+    void itUpdatesAModWithExistingZf0() throws Exception {
       // When
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
       normRepository.save(
           NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
       normRepository.save(
           NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"meta-1_geltzeiten-1_geltungszeitgr-1\", \"destinationHref\": \"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/destination/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod/ref/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/destination/@href",
+                              equalTo("#para-20_abs-1/100-130")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/source/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml")))));
+
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(
+              xpath("//passiveModifications/textualMod/destination/@href")
+                  .string("#para-20_abs-1/100-130"));
+    }
+
+    @Test
+    void itUpdatesAModWithZf0Creation() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
 
       // When
       mockMvc
