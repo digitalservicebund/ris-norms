@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.time.LocalDate;
+import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 /** Retrieve proprietary data of a {@link Norm}. */
 @RestController
 @RequestMapping(
-    "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/proprietary")
+    "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/proprietary/{atDate}")
 public class ProprietaryController {
 
   private final ProprietaryService proprietaryService;
@@ -42,6 +43,7 @@ public class ProprietaryController {
    * @param version DE: "Versionsnummer"
    * @param language DE: "Sprache"
    * @param subtype DE: "Dokumentenart"
+   * @param atDate Date for which to return the proprietary
    * @return {@link Proprietary} of the Norm identified by the ElI
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
@@ -52,49 +54,8 @@ public class ProprietaryController {
       @PathVariable final String pointInTime,
       @PathVariable final String version,
       @PathVariable final String language,
-      @PathVariable final String subtype) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
-    try {
-      var proprietary =
-          proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
-
-      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary));
-
-    } catch (NormNotFoundException e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  /**
-   * Return proprietary data of {@link Norm} at a given date
-   *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
-   * @param atDate Date at which to return the proprietary
-   * @return {@link Proprietary} of the Norm identified by the ElI
-   */
-  @GetMapping(
-      path = "/{atDate}",
-      produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ProprietaryResponseSchema> getProprietaryAtDate(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
       @PathVariable final String subtype,
-      @PathVariable final LocalDate atDate) {
+      @PathVariable final Optional<LocalDate> atDate) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
