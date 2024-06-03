@@ -91,7 +91,6 @@ public class Article {
    * @return the {@link Mod}
    */
   public Optional<Mod> getMod() {
-    Optional<Node> node = NodeParser.getNodeFromExpression("./*//mod", this.node);
-    return node.map(Mod::new);
+    return NodeParser.getNodeFromExpression("./*//mod", this.node).map(Mod::new);
   }
 }

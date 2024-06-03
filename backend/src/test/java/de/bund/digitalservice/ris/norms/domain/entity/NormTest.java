@@ -1750,7 +1750,7 @@ class NormTest {
           norm.getNumberOfNodesWithEid("meta-1_analysis-1_activemod-3_textualmod-1");
 
       // then
-      assertThat(textualMod).isEqualTo(0);
+      assertThat(textualMod).isZero();
     }
 
     @Test
