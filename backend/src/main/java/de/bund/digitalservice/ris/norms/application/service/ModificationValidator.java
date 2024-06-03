@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -25,8 +26,8 @@ public class ModificationValidator {
     throwErrorNoDestinationSet(amendingNorm);
     destinationEliIsConsistent(amendingNorm);
     destinationHrefIsConsistent(amendingNorm);
+    characterRangeIsConsistent(amendingNorm, zf0Norm);
     oldTextExistsInZf0Norm(amendingNorm, zf0Norm);
-    validatePassiveModificationsEId(amendingNorm, zf0Norm);
   }
 
   /**
@@ -93,7 +94,7 @@ public class ModificationValidator {
         amendingNormEli,
         getModTargetHref(
             amendingNormEli, getArticleMod(amendingNormEli, article, articleEId), articleEId),
-        articleEId);
+        "The Eli in aknMod href is empty in article with eId %s".formatted(articleEId));
   }
 
   private void validateAffectedDocumentEli(
@@ -164,181 +165,169 @@ public class ModificationValidator {
   }
 
   /**
+   * The character range is noted in three places: (1) in amending law activeModifications
+   * destination href, (2) in amending law content mod href and (3) in zf0 passiveModifications
+   * destination href. All 3 places need to be equal. This method checks for equality for all of
+   * them and throws an exception otherwise.
+   *
+   * @param amendingNorm the amending norm to be checked
+   * @param zf0Norm the target zf0 norm to be checked
+   */
+  public void characterRangeIsConsistent(Norm amendingNorm, Norm zf0Norm) {
+    // TODO implement logic
+    // TODO provide test
+  }
+
+  /**
    * Checks if the text to be replaced is present in the target law
    *
    * @param amendingNorm the amending law to be checked
    * @param zf0Norm the target law needed to look up the old, to replace text
    */
   public void oldTextExistsInZf0Norm(Norm amendingNorm, Norm zf0Norm) {
-    amendingNorm.getArticles().stream()
-        .filter(
-            article -> {
-              String articleRefersTo =
-                  getArticleRefersTo(
-                      amendingNorm.getEli(),
-                      article,
-                      getArticleEId(amendingNorm.getEli(), article));
-              return Objects.equals(articleRefersTo, "hauptaenderung");
-            })
-        .forEach(
-            article -> {
-              String amendingNormEli = amendingNorm.getEli();
-              String articleEId = getArticleEId(amendingNormEli, article);
-              String affectedDocumentEli =
-                  getArticleAffectedDocumentEli(amendingNormEli, article, articleEId);
-              Mod mod = getArticleMod(amendingNormEli, article, articleEId);
-              String amendingNormOldText = getModOldText(amendingNormEli, mod, articleEId);
-              Href targetHref = getModTargetHref(amendingNormEli, mod, articleEId);
-              String targetHrefEId = getHrefEid(amendingNormEli, targetHref, articleEId);
+    List<Article> articles =
+        amendingNorm.getArticles().stream()
+            .filter(
+                article -> {
+                  String articleRefersTo =
+                      getArticleRefersTo(
+                          amendingNorm.getEli(),
+                          article,
+                          getArticleEId(amendingNorm.getEli(), article));
+                  return Objects.equals(articleRefersTo, "hauptaenderung");
+                })
+            .toList();
 
-              validateNumberOfNodesWithEid(
-                  amendingNormEli, articleEId, zf0Norm, targetHrefEId, affectedDocumentEli);
+    List<TextualMod> passiveMods = zf0Norm.getPassiveModifications().stream().toList();
 
-              Node targetNode =
-                  getTargetNodeFromAmendingNorm(
-                      amendingNormEli, zf0Norm, targetHrefEId, affectedDocumentEli, articleEId);
+    if (articles.size() != passiveMods.size()) throw new XmlContentException("TBD 1", null);
 
-              // normalizeSpace removes double spaces and new lines
-              String targetParagraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
-
-              if (mod.usesQuotedText()) {
-                CharacterRange characterRange =
-                    getHrefCharacterRange(
-                        amendingNormEli,
-                        targetHref,
-                        "The character range in mod href is empty in article with eId %s"
-                            .formatted(articleEId));
-                validateQuotedText(
-                    amendingNormEli,
-                    amendingNormOldText,
-                    targetParagraphText,
-                    characterRange,
-                    articleEId);
-              }
-            });
+    String amendingNormEli = amendingNorm.getEli();
+    String zf0NormEli = zf0Norm.getEli();
+    articles.forEach(
+        article -> validateEachArticle(zf0Norm, amendingNormEli, zf0NormEli, article, passiveMods));
   }
 
-  /**
-   * Checks all passive modifications for ZF0 norm, whether the destination href eId is present.
-   *
-   * @param amendingNorm the amending norm to be checked
-   * @param zf0Norm the target norm to be checked
-   */
-  public void validatePassiveModificationsEId(Norm amendingNorm, Norm zf0Norm) {
-    String zf0NormEli = zf0Norm.getEli();
-    zf0Norm
-        .getPassiveModifications()
-        .forEach(
-            tm -> {
-              // we are doing the same thing as in oldTextExistsInZf0Norm() but backwards
+  private void validateEachArticle(
+      Norm zf0Norm,
+      String amendingNormEli,
+      String zf0NormEli,
+      Article article,
+      List<TextualMod> passiveMods) {
+    String articleEId = getArticleEId(amendingNormEli, article);
+    Mod articleMod = getArticleMod(amendingNormEli, article, articleEId);
+    Href articleModTargetHref = getModTargetHref(amendingNormEli, articleMod, articleEId);
+    String articleModTargetHrefEId =
+        getHrefEId(
+            amendingNormEli,
+            articleModTargetHref,
+            "The eId in mod href is empty in article with eId %s".formatted(articleEId));
 
-              // TODO move to getter and test for that throw
-              String textualModEId =
-                  tm.getEid().orElseThrow(() -> new XmlContentException("TBD", null));
+    TextualMod passiveMod = getTextualModMatching(passiveMods, articleModTargetHrefEId);
 
-              // Check akn:source
-              Href sourceHref = getTextualModSourceHref(zf0NormEli, tm, textualModEId);
-              String amendingNormEli =
-                  sourceHref.getEli().orElseThrow(() -> new XmlContentException("TBD", null));
+    // TODO test for that throw
+    String passiveModEId = getTextualModEId(zf0NormEli, passiveMod);
 
-              if (!Objects.equals(amendingNorm.getEli(), amendingNormEli))
-                throw new XmlContentException("TBD", null);
+    // Check akn:source
+    Href passiveModSourceHref = getTextualModSourceHref(zf0NormEli, passiveMod, passiveModEId);
 
-              String sourceModEId =
-                  sourceHref.getEId().orElseThrow(() -> new XmlContentException("TBD", null));
-              Mod sourceMod =
-                  amendingNorm.getMods().stream()
-                      .filter(
-                          m ->
-                              m.getEid().isPresent()
-                                  && Objects.equals(m.getEid().get(), (sourceModEId)))
-                      .findFirst()
-                      .orElseThrow(() -> new XmlContentException("TBD", null));
-              String amendingNormOldText =
-                  sourceMod.getOldText().orElseThrow(() -> new XmlContentException("TBD", null));
+    // TODO compose message
+    // TODO test for that throw
+    String passiveModSourceHrefEli = getHrefEli(zf0NormEli, passiveModSourceHref, "TBD 2");
 
-              // Check akn:destination
-              Href destinationHref =
-                  tm.getDestinationHref()
-                      .orElseThrow(
-                          () ->
-                              // TODO test for that throw
-                              new XmlContentException(
-                                  "For norm with Eli (%s): PassiveModification Destination Href is empty where textualMod eId is %s"
-                                      .formatted(zf0NormEli, getTextualModEId(zf0NormEli, tm)),
-                                  null));
-              String destinationHrefEId =
-                  destinationHref
-                      .getEId()
-                      .orElseThrow(
-                          () ->
-                              // TODO test for that throw
-                              new XmlContentException(
-                                  "For norm with Eli (%s): PassiveModification Destination Href holds an empty (more general: invalid) eId where textualMod eId is %s"
-                                      .formatted(zf0NormEli, getTextualModEId(zf0NormEli, tm)),
-                                  null));
+    // TODO compose message
+    // TODO test for that throw
+    if (!Objects.equals(amendingNormEli, passiveModSourceHrefEli))
+      throw new XmlContentException("TBD 3", null);
 
-              Node targetNode =
-                  getTargetNodeFromZf0Norm(
-                      zf0Norm, destinationHrefEId, getTextualModEId(zf0NormEli, tm));
+    // TODO compose message
+    // TODO test for that throw
+    String passiveModSourceHrefEId = getHrefEId(zf0NormEli, passiveModSourceHref, "TBD 4");
 
-              // normalizeSpace removes double spaces and new lines
-              String targetParagraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
+    // TODO move to getter
+    String articleModEId =
+        articleMod.getEid().orElseThrow(() -> new XmlContentException("TBD 5", null));
 
-              // TODO compare oldText with substring of  targetParagraphText
-              if (sourceMod.usesQuotedText()) {
-                CharacterRange characterRange =
-                    getHrefCharacterRange(
-                        zf0NormEli,
-                        destinationHref,
-                        "The character range in passiveModifications textualMod destination href is empty where eId is %s"
-                            .formatted(destinationHrefEId));
+    // TODO compose message
+    // TODO test for that throw
+    if (!Objects.equals(articleModEId, passiveModSourceHrefEId))
+      throw new XmlContentException("TBD 6", null);
 
-                // TODO articleEId is not a valid argument anymore
-                String articleEId = "TBD";
+    // Check akn:destination
+    Href passiveModDestinationHref =
+        getTextualModDestinationHref(zf0NormEli, passiveMod, passiveModSourceHrefEId);
 
-                validateQuotedText(
-                    amendingNormEli,
-                    amendingNormOldText,
-                    targetParagraphText,
-                    characterRange,
-                    articleEId);
-              }
+    // TODO test for that throw
+    String passiveModDestinationHrefEId =
+        getHrefEId(
+            zf0NormEli,
+            passiveModDestinationHref,
+            "PassiveModification TextualMod Destination Href holds an empty (more general: invalid) eId where TextualMod eId is %s"
+                .formatted(passiveModEId));
 
-              // Check akn:force
-              // TODO check timeBoundaries
-            });
+    // TODO articleModTargetHrefEId == passiveModDestinationHrefEId?
+
+    // Check akn:force
+    // TODO check timeBoundaries
+
+    // TODO fix test
+    // TODO test for that throw
+    validateNumberOfNodesWithEid(zf0NormEli, zf0Norm, passiveModDestinationHrefEId);
+
+    String affectedDocumentEli =
+        getArticleAffectedDocumentEli(amendingNormEli, article, articleEId);
+    Node targetNode =
+        getTargetNodeFromAmendingNorm(
+            amendingNormEli, zf0Norm, articleModTargetHrefEId, affectedDocumentEli, articleEId);
+
+    // normalizeSpace removes double spaces and new lines
+    String targetParagraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
+
+    if (articleMod.usesQuotedText()) {
+      String amendingNormOldText =
+          getModOldText(
+              amendingNormEli,
+              articleMod,
+              "quotedText[1] (the old, to be replaced, text) is empty in article with eId %s"
+                  .formatted(articleEId));
+
+      validateQuotedText(
+          amendingNormEli,
+          amendingNormOldText,
+          targetParagraphText,
+          articleEId,
+          articleModTargetHref,
+          "The character range in mod href is empty in article with eId %s".formatted(articleEId));
+    }
+  }
+
+  private void validateNumberOfNodesWithEid(String eli, Norm norm, String eId) {
+    if (norm.getNumberOfNodesWithEid(eId) > 1) {
+      throw new XmlContentException(
+          "For norm with Eli (%s): Too many elements with the same eId %s.".formatted(eli, eId),
+          null);
+    }
   }
 
   private void validateQuotedText(
-      String amendingNormEli,
+      String eli,
       String amendingNormOldText,
       String targetParagraphText,
-      CharacterRange characterRange,
-      String articleEId) {
+      String articleEId,
+      Href href,
+      String message) {
+
+    // TODO test for that throw
+    CharacterRange characterRange = getHrefCharacterRange(eli, href, message);
+
     int modStart = getCharacterRangeStart(characterRange, articleEId);
     int modEnd = getCharacterRangeEnd(characterRange, articleEId);
 
-    validateStartIsBeforeEnd(amendingNormEli, characterRange, modStart, modEnd, articleEId);
-    checkIfReplacementEndIsWithinText(amendingNormEli, targetParagraphText, modEnd, articleEId);
+    validateStartIsBeforeEnd(eli, characterRange, modStart, modEnd, articleEId);
+    checkIfReplacementEndIsWithinText(eli, targetParagraphText, modEnd, articleEId);
 
     String zf0NormOldText = targetParagraphText.substring(modStart, modEnd);
-    validateQuotedTextEquals(amendingNormEli, zf0NormOldText, amendingNormOldText, articleEId);
-  }
-
-  private void validateNumberOfNodesWithEid(
-      String amendingNormEli,
-      String articleEId,
-      Norm zf0Norm,
-      String targetHrefEId,
-      String affectedDocumentEli) {
-    int numberOfNodesWithEid = zf0Norm.getNumberOfNodesWithEid(targetHrefEId);
-    if (numberOfNodesWithEid > 1) {
-      throw new XmlContentException(
-          "For norm with Eli (%s): To many matching eIds (%s) for article %s in target norm %s"
-              .formatted(amendingNormEli, targetHrefEId, articleEId, affectedDocumentEli),
-          null);
-    }
+    validateQuotedTextEquals(eli, zf0NormOldText, amendingNormOldText, articleEId);
   }
 
   private void validateStartIsBeforeEnd(
@@ -391,16 +380,83 @@ public class ModificationValidator {
                     null));
   }
 
-  private Node getTargetNodeFromZf0Norm(Norm zf0Norm, String targetHrefEId, String textualModEId) {
-    return zf0Norm
-        .getByEId(targetHrefEId)
+  private String getArticleRefersTo(String eli, Article a, String articleEId) {
+    // TODO test for that throw
+    return a.getRefersTo()
         .orElseThrow(
             () ->
-                // TODO test for that throw
                 new XmlContentException(
-                    "For norm with Eli (%s): Couldn't load target eId (%s) element for passiveModifications textualMod with eId %s"
-                        .formatted(zf0Norm.getEli(), targetHrefEId, textualModEId),
+                    "For norm with Eli (%s): RefersTo is empty in article with eId %s"
+                        .formatted(eli, articleEId),
                     null));
+  }
+
+  private String getArticleAffectedDocumentEli(String eli, Article a, String articleEId) {
+    return a.getAffectedDocumentEli()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
+                        .formatted(eli, articleEId),
+                    null));
+  }
+
+  private String getArticleEId(String eli, Article a) {
+    return a.getEid()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): Article eId is empty.".formatted(eli), null));
+  }
+
+  private Mod getArticleMod(String eli, Article a, String articleEId) {
+    return a.getMod()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): There is no mod in article with eId %s"
+                        .formatted(eli, articleEId),
+                    null));
+  }
+
+  private String getModOldText(String eli, Mod m, String message) {
+    return m.getOldText()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): %s".formatted(eli, message), null));
+  }
+
+  private Href getModTargetHref(String eli, Mod m, String articleEId) {
+    return m.getTargetHref()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): mod href is empty in article with eId %s"
+                        .formatted(eli, articleEId),
+                    null));
+  }
+
+  private TextualMod getTextualModMatching(
+      List<TextualMod> passiveMods, String articleModTargetHrefEId) {
+    List<TextualMod> passiveModsMatching =
+        passiveMods.stream()
+            .filter(
+                pm -> {
+                  Href destinationHref =
+                      pm.getDestinationHref()
+                          .orElseThrow(() -> new XmlContentException("TBD 8", null));
+                  String destinationHrefEId =
+                      destinationHref
+                          .getEId()
+                          .orElseThrow(() -> new XmlContentException("TBD 9", null));
+                  return Objects.equals(destinationHrefEId, articleModTargetHrefEId);
+                })
+            .toList();
+
+    if (passiveModsMatching.size() > 1) throw new XmlContentException("TBD 10", null);
+    if (passiveModsMatching.isEmpty()) throw new XmlContentException("TBD 11", null);
+    return passiveModsMatching.getFirst();
   }
 
   private String getTextualModEId(String eli, TextualMod tm) {
@@ -411,75 +467,25 @@ public class ModificationValidator {
                     "For norm with Eli (%s): TextualMod eId empty.".formatted(eli), null));
   }
 
-  private String getArticleRefersTo(String amendingNormEli, Article a, String articleEId) {
-    // TODO test for that throw
-    return a.getRefersTo()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): RefersTo is empty in article with eId %s"
-                        .formatted(amendingNormEli, articleEId),
-                    null));
-  }
-
-  private String getArticleAffectedDocumentEli(
-      String amendingNormEli, Article a, String articleEId) {
-    return a.getAffectedDocumentEli()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
-                        .formatted(amendingNormEli, articleEId),
-                    null));
-  }
-
-  private String getArticleEId(String amendingNormEli, Article a) {
-    return a.getEid()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): Article eId is empty.".formatted(amendingNormEli),
-                    null));
-  }
-
-  private Mod getArticleMod(String amendingNormEli, Article a, String articleEId) {
-    return a.getMod()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): There is no mod in article with eId %s"
-                        .formatted(amendingNormEli, articleEId),
-                    null));
-  }
-
-  private String getModOldText(String amendingNormEli, Mod m, String articleEId) {
-    return m.getOldText()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): quotedText[1] (the old, to be replaced, text) is empty in article with eId %s"
-                        .formatted(amendingNormEli, articleEId),
-                    null));
-  }
-
-  private Href getModTargetHref(String amendingNormEli, Mod m, String articleEId) {
-    return m.getTargetHref()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): mod href is empty in article with eId %s"
-                        .formatted(amendingNormEli, articleEId),
-                    null));
-  }
-
-  private Href getTextualModSourceHref(String zf0NormEli, TextualMod tm, String textualModEId) {
+  private Href getTextualModSourceHref(String eli, TextualMod tm, String textualModEId) {
     // TODO test for that throw
     return tm.getSourceHref()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "For norm with Eli (%s): textualMod source href is empty where textualMod eId is %s"
-                        .formatted(zf0NormEli, textualModEId),
+                    "For norm with Eli (%s): PassiveModification TextualMod Source Href is empty where textualMod eId is %s"
+                        .formatted(eli, textualModEId),
+                    null));
+  }
+
+  private Href getTextualModDestinationHref(String eli, TextualMod tm, String textualModEId) {
+    // TODO test for that throw
+    return tm.getDestinationHref()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): PassiveModification TextualMod Destination Href is empty where textualMod eId is %s"
+                        .formatted(eli, textualModEId),
                     null));
   }
 
@@ -491,23 +497,20 @@ public class ModificationValidator {
                     "For norm with Eli (%s): %s".formatted(eli, message), null));
   }
 
-  private String getHrefEid(String amendingNormEli, Href h, String articleEId) {
+  private String getHrefEId(String eli, Href h, String message) {
     return h.getEId()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "For norm with Eli (%s): The eId in mod href is empty in article with eId %s"
-                        .formatted(amendingNormEli, articleEId),
-                    null));
+                    "For norm with Eli (%s): %s".formatted(eli, message), null));
   }
 
-  private void getHrefEli(String amendingNormEli, Href h, String articleEId) {
-    if (h.getEli().isEmpty()) {
-      throw new XmlContentException(
-          "For norm with Eli (%s): The Eli in aknMod href is empty in article with eId %s"
-              .formatted(amendingNormEli, articleEId),
-          null);
-    }
+  private String getHrefEli(String eli, Href h, String message) {
+    return h.getEli()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): %s".formatted(eli, message), null));
   }
 
   private int getCharacterRangeStart(CharacterRange cr, String articleEId) {
