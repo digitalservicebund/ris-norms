@@ -25,8 +25,8 @@ public class ModificationValidator {
     throwErrorNoDestinationSet(amendingNorm);
     destinationEliIsConsistent(amendingNorm);
     destinationHrefIsConsistent(amendingNorm);
-    validatePassiveModificationsEId(zf0Norm);
     oldTextExistsInZf0Norm(amendingNorm, zf0Norm);
+    validatePassiveModificationsEId(amendingNorm, zf0Norm);
   }
 
   /**
@@ -164,63 +164,6 @@ public class ModificationValidator {
   }
 
   /**
-   * Checks all passive modifications for ZF0 norm, whether the destination href eId is present.
-   *
-   * @param zf0Norm the target norm to be checked
-   */
-  public void validatePassiveModificationsEId(Norm zf0Norm) {
-    String zf0NormEli = zf0Norm.getEli();
-    zf0Norm
-        .getPassiveModifications()
-        .forEach(
-            tm -> {
-              // we are doing the same thing as in oldTextExistsInZf0Norm() but backwards
-
-              // Check akn:source
-              // TODO get quotedText[1] from source as oldText
-
-              // Check akn:destination
-              Href destinationHref =
-                  tm.getDestinationHref()
-                      .orElseThrow(
-                          () ->
-                              // TODO test for that throw
-                              new XmlContentException(
-                                  "For norm with Eli (%s): PassiveModification Destination Href is empty where textualMod eId is %s"
-                                      .formatted(zf0NormEli, getTextualModEId(zf0NormEli, tm)),
-                                  null));
-              String destinationHrefEId =
-                  destinationHref
-                      .getEId()
-                      .orElseThrow(
-                          () ->
-                              // TODO test for that throw
-                              new XmlContentException(
-                                  "For norm with Eli (%s): PassiveModification Destination Href holds an empty (more general: invalid) eId where textualMod eId is %s"
-                                      .formatted(zf0NormEli, getTextualModEId(zf0NormEli, tm)),
-                                  null));
-              CharacterRange characterRange =
-                  getHrefCharacterRange(
-                      zf0NormEli,
-                      destinationHref,
-                      "The character range in passiveModifications textualMod destination href is empty where eId is %s"
-                          .formatted(destinationHrefEId));
-
-              Node targetNode =
-                  getTargetNodeFromZf0Norm(
-                      zf0Norm, destinationHrefEId, getTextualModEId(zf0NormEli, tm));
-
-              // normalizeSpace removes double spaces and new lines
-              String targetParagraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
-
-              // TODO compare oldText with substring of  targetParagraphText
-
-              // Check akn:force
-              // TODO check timeBoundaries
-            });
-  }
-
-  /**
    * Checks if the text to be replaced is present in the target law
    *
    * @param amendingNorm the amending law to be checked
@@ -265,19 +208,119 @@ public class ModificationValidator {
                         targetHref,
                         "The character range in mod href is empty in article with eId %s"
                             .formatted(articleEId));
-                int modStart = getCharacterRangeStart(characterRange, articleEId);
-                int modEnd = getCharacterRangeEnd(characterRange, articleEId);
-
-                validateStartIsBeforeEnd(
-                    amendingNormEli, characterRange, modStart, modEnd, articleEId);
-                checkIfReplacementEndIsWithinText(
-                    amendingNormEli, targetParagraphText, modEnd, articleEId);
-
-                String zf0NormOldText = targetParagraphText.substring(modStart, modEnd);
-                validateQuotedTextEquals(
-                    amendingNormEli, zf0NormOldText, amendingNormOldText, articleEId);
+                validateQuotedText(
+                    amendingNormEli,
+                    amendingNormOldText,
+                    targetParagraphText,
+                    characterRange,
+                    articleEId);
               }
             });
+  }
+
+  /**
+   * Checks all passive modifications for ZF0 norm, whether the destination href eId is present.
+   *
+   * @param amendingNorm the amending norm to be checked
+   * @param zf0Norm the target norm to be checked
+   */
+  public void validatePassiveModificationsEId(Norm amendingNorm, Norm zf0Norm) {
+    String zf0NormEli = zf0Norm.getEli();
+    zf0Norm
+        .getPassiveModifications()
+        .forEach(
+            tm -> {
+              // we are doing the same thing as in oldTextExistsInZf0Norm() but backwards
+
+              // Check akn:source
+              Href sourceHref =
+                  tm.getSourceHref().orElseThrow(() -> new XmlContentException("TBD", null));
+              String amendingNormEli =
+                  sourceHref.getEli().orElseThrow(() -> new XmlContentException("TBD", null));
+
+              if (!Objects.equals(amendingNorm.getEli(), amendingNormEli))
+                throw new XmlContentException("TBD", null);
+
+              String sourceModEId =
+                  sourceHref.getEId().orElseThrow(() -> new XmlContentException("TBD", null));
+              Mod sourceMod =
+                  amendingNorm.getMods().stream()
+                      .filter(
+                          m ->
+                              m.getEid().isPresent()
+                                  && Objects.equals(m.getEid().get(), (sourceModEId)))
+                      .findFirst()
+                      .orElseThrow(() -> new XmlContentException("TBD", null));
+              String amendingNormOldText =
+                  sourceMod.getOldText().orElseThrow(() -> new XmlContentException("TBD", null));
+
+              // Check akn:destination
+              Href destinationHref =
+                  tm.getDestinationHref()
+                      .orElseThrow(
+                          () ->
+                              // TODO test for that throw
+                              new XmlContentException(
+                                  "For norm with Eli (%s): PassiveModification Destination Href is empty where textualMod eId is %s"
+                                      .formatted(zf0NormEli, getTextualModEId(zf0NormEli, tm)),
+                                  null));
+              String destinationHrefEId =
+                  destinationHref
+                      .getEId()
+                      .orElseThrow(
+                          () ->
+                              // TODO test for that throw
+                              new XmlContentException(
+                                  "For norm with Eli (%s): PassiveModification Destination Href holds an empty (more general: invalid) eId where textualMod eId is %s"
+                                      .formatted(zf0NormEli, getTextualModEId(zf0NormEli, tm)),
+                                  null));
+
+              Node targetNode =
+                  getTargetNodeFromZf0Norm(
+                      zf0Norm, destinationHrefEId, getTextualModEId(zf0NormEli, tm));
+
+              // normalizeSpace removes double spaces and new lines
+              String targetParagraphText = StringUtils.normalizeSpace(targetNode.getTextContent());
+
+              // TODO compare oldText with substring of  targetParagraphText
+              if (sourceMod.usesQuotedText()) {
+                CharacterRange characterRange =
+                    getHrefCharacterRange(
+                        zf0NormEli,
+                        destinationHref,
+                        "The character range in passiveModifications textualMod destination href is empty where eId is %s"
+                            .formatted(destinationHrefEId));
+
+                // TODO articleEId is not a valid argument anymore
+                String articleEId = "TBD";
+
+                validateQuotedText(
+                    amendingNormEli,
+                    amendingNormOldText,
+                    targetParagraphText,
+                    characterRange,
+                    articleEId);
+              }
+
+              // Check akn:force
+              // TODO check timeBoundaries
+            });
+  }
+
+  private void validateQuotedText(
+      String amendingNormEli,
+      String amendingNormOldText,
+      String targetParagraphText,
+      CharacterRange characterRange,
+      String articleEId) {
+    int modStart = getCharacterRangeStart(characterRange, articleEId);
+    int modEnd = getCharacterRangeEnd(characterRange, articleEId);
+
+    validateStartIsBeforeEnd(amendingNormEli, characterRange, modStart, modEnd, articleEId);
+    checkIfReplacementEndIsWithinText(amendingNormEli, targetParagraphText, modEnd, articleEId);
+
+    String zf0NormOldText = targetParagraphText.substring(modStart, modEnd);
+    validateQuotedTextEquals(amendingNormEli, zf0NormOldText, amendingNormOldText, articleEId);
   }
 
   private void validateNumberOfNodesWithEid(
