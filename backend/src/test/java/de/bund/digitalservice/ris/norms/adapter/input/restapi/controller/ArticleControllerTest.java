@@ -10,7 +10,6 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,6 +37,7 @@ class ArticleControllerTest {
   @MockBean private LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  @MockBean private LoadArticleHtmlUseCase loadArticleHtmlUseCase;
 
   @Nested
   class getArticles {
@@ -122,16 +122,16 @@ class ArticleControllerTest {
                           """))
               .build();
 
-      // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
       when(loadNextVersionOfNormUseCase.loadNextVersionOfNorm(any()))
           .thenReturn(Optional.of(normZf0));
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles")
                   .accept(MediaType.APPLICATION_JSON))
+          // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0]").exists())
           .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
@@ -167,15 +167,14 @@ class ArticleControllerTest {
     void itReturnsArticlesFilteredByAmendedAt() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-
-      // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedAt=meta-1_lebzykl-1_ereignis-4")
                   .accept(MediaType.APPLICATION_JSON))
+          // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0]").exists())
           .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-20"))
@@ -186,15 +185,14 @@ class ArticleControllerTest {
     void itReturnsArticlesFilteredByAmendedBy() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
-
-      // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")
                   .accept(MediaType.APPLICATION_JSON))
+          // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0]").exists())
           .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
@@ -205,15 +203,14 @@ class ArticleControllerTest {
     void itReturnsNoArticlesWhenAmendedByDoesNotMatch() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-
-      // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2023-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-2")
                   .accept(MediaType.APPLICATION_JSON))
+          // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0]").doesNotExist());
     }
@@ -222,15 +219,14 @@ class ArticleControllerTest {
     void itReturnsNoArticlesWhenAmendedAtDoesNotMatch() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-
-      // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-3")
                   .accept(MediaType.APPLICATION_JSON))
+          // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0]").doesNotExist());
     }
@@ -250,11 +246,12 @@ class ArticleControllerTest {
           .thenReturn(List.of(xml));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/{eli}/articles?refersTo=something", eli)
                   .accept(MediaType.TEXT_HTML))
+          // Then
           .andExpect(status().isOk())
           .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
           .andExpect(content().string("<div>\n" + html + "\n</div>\n"));
@@ -347,16 +344,16 @@ class ArticleControllerTest {
                           """))
               .build();
 
-      // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
       when(loadNextVersionOfNormUseCase.loadNextVersionOfNorm(any()))
           .thenReturn(Optional.of(normZf0));
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1")
                   .accept(MediaType.APPLICATION_JSON))
+          // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
           .andExpect(
@@ -439,11 +436,12 @@ class ArticleControllerTest {
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-4523")
                   .accept(MediaType.APPLICATION_JSON))
+          // Then
           .andExpect(status().isNotFound());
 
       verify(loadNormUseCase, times(1))
@@ -461,11 +459,12 @@ class ArticleControllerTest {
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.empty());
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1")
                   .accept(MediaType.APPLICATION_JSON))
+          // Then
           .andExpect(status().isNotFound());
 
       verify(loadNormUseCase, times(1))
@@ -537,24 +536,16 @@ class ArticleControllerTest {
 
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<div></div>");
+      when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenReturn(Optional.of("<div></div>"));
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1")
                   .accept(MediaType.TEXT_HTML))
+          // Then
           .andExpect(status().isOk())
           .andExpect(content().string("<div></div>"));
-
-      verify(loadNormUseCase, times(1))
-          .loadNorm(
-              argThat(
-                  argument ->
-                      Objects.equals(
-                          argument.eli(),
-                          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")));
     }
 
     @Test
@@ -613,21 +604,15 @@ class ArticleControllerTest {
 
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenReturn(Optional.empty());
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-4523")
                   .accept(MediaType.TEXT_HTML))
+          // Then
           .andExpect(status().isNotFound());
-
-      verify(loadNormUseCase, times(1))
-          .loadNorm(
-              argThat(
-                  argument ->
-                      Objects.equals(
-                          argument.eli(),
-                          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")));
     }
 
     @Test
@@ -636,11 +621,12 @@ class ArticleControllerTest {
       // When
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.empty());
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1")
                   .accept(MediaType.APPLICATION_JSON))
+          // Then
           .andExpect(status().isNotFound());
 
       verify(loadNormUseCase, times(1))
@@ -655,50 +641,26 @@ class ArticleControllerTest {
     @Test
     void itReturnsArticleRenderAtIsoDate() throws Exception {
       // Given
-      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-
-      // When
-      when(loadNormUseCase.loadNorm(
-              new LoadNormUseCase.Query(
-                  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")))
-          .thenReturn(Optional.of(targetNorm));
-
-      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
-          .thenReturn("<div></div>");
-
-      when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
-          .thenReturn(targetNorm);
-
-      // Then
+      when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenReturn(Optional.of("<div></div>"));
+      // when
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2017-03-01T00:00:00.000Z")
                   .accept(MediaType.TEXT_HTML))
+          // Then
           .andExpect(status().isOk())
           .andExpect(content().string("<div></div>"));
-
-      verify(loadNormUseCase)
-          .loadNorm(
-              new LoadNormUseCase.Query(
-                  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"));
-
-      verify(applyPassiveModificationsUseCase)
-          .applyPassiveModifications(
-              new ApplyPassiveModificationsUseCase.Query(
-                  targetNorm, Instant.parse("2017-03-01T00:00:00.000Z")));
-
-      verify(transformLegalDocMlToHtmlUseCase)
-          .transformLegalDocMlToHtml(new TransformLegalDocMlToHtmlUseCase.Query(any(), false));
     }
 
     @Test
-    void itReturnsBadRequestIfIsoDateIsInvalid() throws Exception {
-      // When / Then
+    void itReturnsServerErrorIfIsoDateIsInvalid() throws Exception {
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=thisIsNotADate")
                   .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isBadRequest());
+          // Then
+          .andExpect(status().isInternalServerError());
     }
   }
 }
