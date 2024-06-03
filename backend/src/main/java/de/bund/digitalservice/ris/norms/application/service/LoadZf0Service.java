@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -29,11 +30,15 @@ public class LoadZf0Service implements LoadZf0UseCase {
 
   private final UpdateNormService updateNormService;
   private final LoadNormByGuidPort loadNormByGuidPort;
+  private final UpdateOrSaveNormPort updateOrSaveNormPort;
 
   public LoadZf0Service(
-      final UpdateNormService updateNormService, final LoadNormByGuidPort loadNormByGuidPort) {
+      final UpdateNormService updateNormService,
+      final LoadNormByGuidPort loadNormByGuidPort,
+      final UpdateOrSaveNormPort updateOrSaveNormPort) {
     this.updateNormService = updateNormService;
     this.loadNormByGuidPort = loadNormByGuidPort;
+    this.updateOrSaveNormPort = updateOrSaveNormPort;
   }
 
   @Override
@@ -62,6 +67,9 @@ public class LoadZf0Service implements LoadZf0UseCase {
     updateNormService.updatePassiveModifications(
         new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNorm.getEli()));
 
+    if (query.persistZf0()) {
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+    }
     return zf0Norm;
   }
 

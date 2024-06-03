@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -20,7 +21,9 @@ class LoadZf0ServiceTest {
 
   final UpdateNormService updateNormService = new UpdateNormService();
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
-  final LoadZf0Service createZf0Service = new LoadZf0Service(updateNormService, loadNormByGuidPort);
+  final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  final LoadZf0Service createZf0Service =
+      new LoadZf0Service(updateNormService, loadNormByGuidPort, updateOrSaveNormPort);
 
   @Test
   void itLoadsZf0FromDB() {

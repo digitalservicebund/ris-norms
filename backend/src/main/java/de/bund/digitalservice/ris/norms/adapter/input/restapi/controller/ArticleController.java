@@ -26,22 +26,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticleController {
 
   private final LoadNormUseCase loadNormUseCase;
-  private final LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
+  private final LoadZf0UseCase loadZf0UseCase;
 
   public ArticleController(
       LoadNormUseCase loadNormUseCase,
-      LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase,
       LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      LoadArticleHtmlUseCase loadArticleHtmlUseCase) {
+      LoadArticleHtmlUseCase loadArticleHtmlUseCase,
+      LoadZf0UseCase loadZf0UseCase) {
     this.loadNormUseCase = loadNormUseCase;
-    this.loadNextVersionOfNormUseCase = loadNextVersionOfNormUseCase;
     this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
+    this.loadZf0UseCase = loadZf0UseCase;
   }
 
   /**
@@ -142,11 +142,13 @@ public class ArticleController {
                       article
                           .getAffectedDocumentEli()
                           .flatMap(
-                              affectedDocumentEli ->
-                                  loadNextVersionOfNormUseCase.loadNextVersionOfNorm(
-                                      new LoadNextVersionOfNormUseCase.Query(affectedDocumentEli)))
+                              eliTargetLaw ->
+                                  loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
+                          .map(
+                              targetLaw ->
+                                  loadZf0UseCase.loadZf0(
+                                      new LoadZf0UseCase.Query(optionalNorm.get(), targetLaw)))
                           .orElse(null);
-
                   return ArticleResponseMapper.fromNormArticle(article, targetLawZf0);
                 })
             .toList());
@@ -235,8 +237,9 @@ public class ArticleController {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
+    var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
     var optionalArticle =
-        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
+        optionalNorm.map(Norm::getArticles).stream()
             .flatMap(List::stream)
             .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
             .findFirst();
@@ -250,9 +253,10 @@ public class ArticleController {
         article
             .getAffectedDocumentEli()
             .flatMap(
-                affectedDocumentEli ->
-                    loadNextVersionOfNormUseCase.loadNextVersionOfNorm(
-                        new LoadNextVersionOfNormUseCase.Query(affectedDocumentEli)))
+                eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
+            .map(
+                targetLaw ->
+                    loadZf0UseCase.loadZf0(new LoadZf0UseCase.Query(optionalNorm.get(), targetLaw)))
             .orElse(null);
 
     // The response type is richer than the domain "Norm" type, hence the separate mapper
