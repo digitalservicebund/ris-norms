@@ -17,4 +17,15 @@ class ProprietaryTest {
     // Then
     assertThat(fna).contains("754-28-1");
   }
+
+  @Test
+  void returnsEmptyOptionalIfFnaIsMissing() {
+    // given
+    var norm = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
+    var proprietary = norm.getProprietary().orElseThrow();
+    // when
+    var fna = proprietary.getFna();
+    // then
+    assertThat(fna).isEmpty();
+  }
 }
