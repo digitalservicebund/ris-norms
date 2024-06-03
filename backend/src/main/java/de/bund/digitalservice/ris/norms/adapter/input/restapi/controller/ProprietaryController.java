@@ -62,14 +62,16 @@ public class ProprietaryController {
           proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
 
       if (proprietary.isEmpty()) {
-        var proprietaryWithAllEmptyValues =
-            Proprietary.builder().node(XmlMapper.toNode("<proprietary></proprietary>")).build();
         return ResponseEntity.ok(
-            ProprietaryResponseMapper.fromProprietary(proprietaryWithAllEmptyValues));
+            ProprietaryResponseMapper.fromProprietary(
+                Proprietary.builder()
+                    .node(XmlMapper.toNode("<proprietary></proprietary>"))
+                    .build()));
       }
 
       return ResponseEntity.ok(
           ProprietaryResponseMapper.fromProprietary(proprietary.orElseThrow()));
+
     } catch (NormNotFoundException e) {
       return ResponseEntity.notFound().build();
     }
