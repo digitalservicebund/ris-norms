@@ -26,8 +26,7 @@ public class FRBRExpression extends FRBR {
    * @return the uuid
    */
   public Optional<UUID> getFRBRaliasPreviousVersionId() {
-    return NodeParser.getNodeFromExpression("./FRBRalias[@name='vorherige-version-id']", getNode())
-        .map(m -> m.getAttributes().getNamedItem(VALUE_ATTIBUTE).getNodeValue())
+    return NodeParser.getValueFromExpression("./FRBRalias[@name='vorherige-version-id']/@value", getNode())
         .map(UUID::fromString);
   }
 
