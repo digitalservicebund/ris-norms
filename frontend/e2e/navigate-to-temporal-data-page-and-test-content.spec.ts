@@ -94,4 +94,41 @@ test.describe("management of Temporal Data for an amending law", () => {
 
     await setupInitialData(page)
   })
+
+  test(`at most 100 time boundaries can be added`, async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
+    )
+    await setupInitialData(page)
+
+    // check contents of entry into force article html rendering
+    await expect(page.getByText("Artikel 3Inkrafttreten")).toBeVisible()
+
+    await expect(
+      page.getByRole("textbox", {
+        name: "Zeitgrenze 1",
+      }),
+    ).toBeVisible()
+
+    // add new time boundaries 2 to 100
+    for (let i = 2; i <= 100; i++) {
+      await page
+        .getByRole("textbox", {
+          name: "Zeitgrenze hinzufügen",
+        })
+        .fill("01.05.2023")
+    }
+
+    await expect(page.getByRole("textbox")).toHaveCount(100)
+
+    await expect(
+      page.getByRole("textbox", {
+        name: "Zeitgrenze 100",
+      }),
+    ).toBeVisible()
+
+    await expect(
+      page.getByRole("textbox", { name: "Zeitgrenze hinzufügen" }),
+    ).toBeHidden()
+  })
 })
