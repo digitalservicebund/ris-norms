@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
 import java.time.LocalDate;
 import java.util.*;
 import lombok.AllArgsConstructor;
@@ -25,13 +26,19 @@ public class Norm {
   private final Document document;
 
   /**
-   * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}. It tries to extract
+   * it first from the expression level, otherwise it tries to extract it from the manifestation
+   * level.
    *
    * @return An Eli
    */
   public String getEli() {
     return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
-        .orElseThrow();
+        .orElseGet(
+            () ->
+                NodeParser.getValueFromExpression("//FRBRManifestation/FRBRthis/@value", document)
+                    .map(m -> m.replace(".xml", ""))
+                    .orElseThrow());
   }
 
   /**
@@ -122,6 +129,18 @@ public class Norm {
    */
   public Optional<Proprietary> getProprietary() {
     return NodeParser.getNodeFromExpression("//meta/proprietary", document).map(Proprietary::new);
+  }
+
+  /**
+   * Returns a {@link Meta} instance from a {@link Document} in a {@link Norm}.
+   *
+   * @return the meta node as {@link Meta}
+   */
+  public Meta getMeta() throws MandatoryNodeNotFound {
+    final String xpath = "//act/meta";
+    return NodeParser.getNodeFromExpression(xpath, document)
+        .map(node -> new Meta(node, getEli()))
+        .orElseThrow(() -> new MandatoryNodeNotFound(xpath));
   }
 
   /**
