@@ -358,7 +358,7 @@ class NormTest {
       var result = norm.getProprietary();
 
       // Then
-      assertThat(result).isNot(null);
+      assertThat(result).isInstanceOf(Proprietary.class);
     }
 
     @Test
@@ -385,7 +385,7 @@ class NormTest {
       var result = norm.getProprietary();
 
       // Then
-      assertThat(result).isNot(null);
+      assertThat(result).isInstanceOf(Proprietary.class);
     }
   }
 
