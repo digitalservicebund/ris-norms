@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.w3c.dom.Node;
 
 class NormTest {
-
   @Test
   void getEli() {
     // given
@@ -415,11 +414,11 @@ class NormTest {
       var result = norm.getProprietary();
 
       // Then
-      assertThat(result).isPresent();
+      assertThat(result).isInstanceOf(Proprietary.class);
     }
 
     @Test
-    void returnsEmptyOptionalIfProprietaryDoesntExist() {
+    void returnsProprietaryEvenIfDoesNotExistInNorm() {
       // Given
       var normXml =
           """
@@ -442,7 +441,7 @@ class NormTest {
       var result = norm.getProprietary();
 
       // Then
-      assertThat(result).isEmpty();
+      assertThat(result).isInstanceOf(Proprietary.class);
     }
   }
 

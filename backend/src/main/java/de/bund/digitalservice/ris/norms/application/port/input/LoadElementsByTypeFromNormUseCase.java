@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.application.service.ElementService;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.w3c.dom.Node;
@@ -32,13 +33,6 @@ public interface LoadElementsByTypeFromNormUseCase {
   record Query(String eli, List<String> elementType, @Nullable String amendedBy) {
     public Query(String eli, List<String> elementType) {
       this(eli, elementType, null);
-    }
-  }
-
-  /** Indicates that the requested norm does not exist. */
-  class NormNotFoundException extends Exception {
-    public NormNotFoundException(String message) {
-      super(message);
     }
   }
 

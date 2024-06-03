@@ -124,10 +124,13 @@ public class Norm {
   /**
    * Returns the proprietary metadata of the {@link Norm}.
    *
-   * @return Proprietary metadata or empty if none exists.
+   * @return Proprietary metadata.
    */
-  public Optional<Proprietary> getProprietary() {
-    return NodeParser.getNodeFromExpression("//meta/proprietary", document).map(Proprietary::new);
+  public Proprietary getProprietary() {
+    return NodeParser.getNodeFromExpression("//meta/proprietary", document)
+        .map(Proprietary::new)
+        .orElse(
+            Proprietary.builder().node(XmlMapper.toNode("<proprietary></proprietary>")).build());
   }
 
   /**

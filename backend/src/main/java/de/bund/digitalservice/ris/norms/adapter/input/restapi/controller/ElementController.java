@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResp
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.utils.EliBuilder;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.time.Instant;
 import java.util.*;
 import org.springframework.http.ResponseEntity;
@@ -173,7 +174,7 @@ public class ElementController {
               .toList();
 
       return ResponseEntity.ok(elements);
-    } catch (LoadElementsByTypeFromNormUseCase.NormNotFoundException e) {
+    } catch (NormNotFoundException e) {
       return ResponseEntity.notFound().build();
     } catch (LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException e) {
       return ResponseEntity.badRequest().build();

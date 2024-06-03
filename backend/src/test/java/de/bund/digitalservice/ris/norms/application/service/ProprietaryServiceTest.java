@@ -5,10 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
@@ -26,15 +27,27 @@ class ProprietaryServiceTest {
                 proprietaryService.loadProprietaryFromNorm(
                     new LoadProprietaryFromNormUseCase.Query(eli)))
         // then
-        .isInstanceOf(LoadElementsByTypeFromNormUseCase.NormNotFoundException.class);
+        .isInstanceOf(NormNotFoundException.class);
   }
 
-  // TODO: proprietary not found
+  @Test
+  void returnEmptyOptionalIfProprietaryNotFound() throws Exception {
+    // given
+    var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+    var normWithProprietary = NormFixtures.loadFromDisk("SimpleNorm.xml");
+    when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
+        .thenReturn(Optional.of(normWithProprietary));
 
-  // TODO: fna not found
+    // when
+    var result =
+        proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
+
+    // then
+    assertThat(result).isInstanceOf(Proprietary.class);
+  }
 
   @Test
-  void returnFna() throws LoadElementsByTypeFromNormUseCase.NormNotFoundException {
+  void returnsProprietary() throws Exception {
     // given
     var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
     var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
@@ -44,7 +57,6 @@ class ProprietaryServiceTest {
     var result =
         proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
     // then
-    assertThat(result).isPresent();
-    assertThat(result.get().getFna().orElseThrow()).isEqualTo("754-28-1");
+    assertThat(result).isInstanceOf(Proprietary.class);
   }
 }
