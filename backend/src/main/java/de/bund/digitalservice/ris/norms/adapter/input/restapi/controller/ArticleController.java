@@ -9,9 +9,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -31,19 +29,19 @@ public class ArticleController {
   private final LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
 
   public ArticleController(
       LoadNormUseCase loadNormUseCase,
       LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase,
       LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
+      LoadArticleHtmlUseCase loadArticleHtmlUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNextVersionOfNormUseCase = loadNextVersionOfNormUseCase;
     this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
-    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
+    this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
   }
 
   /**
@@ -257,6 +255,7 @@ public class ArticleController {
                         new LoadNextVersionOfNormUseCase.Query(affectedDocumentEli)))
             .orElse(null);
 
+    // The response type is richer than the domain "Norm" type, hence the separate mapper
     return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(article, targetLawZf0));
   }
 
@@ -293,47 +292,12 @@ public class ArticleController {
       @PathVariable final String language,
       @PathVariable final String subtype,
       @PathVariable final String eid,
-      @RequestParam Optional<String> atIsoDate) {
+      @RequestParam Optional<Instant> atIsoDate) {
     final String eli =
         buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
 
-    if (atIsoDate.isPresent()) {
-      try {
-        DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
-      } catch (Exception e) {
-        return ResponseEntity.badRequest().build();
-      }
-
-      return loadNormUseCase
-          .loadNorm(new LoadNormUseCase.Query(eli))
-          .map(
-              norm ->
-                  applyPassiveModificationsUseCase.applyPassiveModifications(
-                      new ApplyPassiveModificationsUseCase.Query(
-                          norm, Instant.parse(atIsoDate.get()))))
-          .map(Norm::getArticles)
-          .stream()
-          .flatMap(List::stream)
-          .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
-          .findFirst()
-          .map(article -> XmlMapper.toString(article.getNode()))
-          .map(
-              xml ->
-                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                      new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
-          .map(ResponseEntity::ok)
-          .orElse(ResponseEntity.notFound().build());
-    }
-
-    return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
-        .flatMap(List::stream)
-        .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
-        .findFirst()
-        .map(article -> XmlMapper.toString(article.getNode()))
-        .map(
-            xml ->
-                this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
+    return loadArticleHtmlUseCase
+        .loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid, atIsoDate.orElse(null)))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
