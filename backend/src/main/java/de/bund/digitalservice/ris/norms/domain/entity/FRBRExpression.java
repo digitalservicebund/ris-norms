@@ -26,7 +26,8 @@ public class FRBRExpression extends FRBR {
    * @return the uuid
    */
   public Optional<UUID> getFRBRaliasPreviousVersionId() {
-    return NodeParser.getValueFromExpression("./FRBRalias[@name='vorherige-version-id']/@value", getNode())
+    return NodeParser.getValueFromExpression(
+            "./FRBRalias[@name='vorherige-version-id']/@value", getNode())
         .map(UUID::fromString);
   }
 
@@ -59,9 +60,8 @@ public class FRBRExpression extends FRBR {
    * @return the uuid
    */
   public UUID getFRBRaliasCurrentVersionId() {
-    final String xpath = "./FRBRalias[@name='aktuelle-version-id']";
-    return NodeParser.getNodeFromExpression(xpath, getNode())
-        .map(m -> m.getAttributes().getNamedItem(VALUE_ATTIBUTE).getNodeValue())
+    final String xpath = "./FRBRalias[@name='aktuelle-version-id']/@value";
+    return NodeParser.getValueFromExpression(xpath, getNode())
         .map(UUID::fromString)
         .orElseThrow(() -> new MandatoryNodeNotFound(xpath, getNodeName(), getNormEli()));
   }
@@ -85,9 +85,8 @@ public class FRBRExpression extends FRBR {
    * @return the uuid
    */
   public UUID getFRBRaliasNextVersionId() {
-    final String xpath = "./FRBRalias[@name='nachfolgende-version-id']";
-    return NodeParser.getNodeFromExpression(xpath, getNode())
-        .map(m -> m.getAttributes().getNamedItem(VALUE_ATTIBUTE).getNodeValue())
+    final String xpath = "./FRBRalias[@name='nachfolgende-version-id']/@value";
+    return NodeParser.getValueFromExpression(xpath, getNode())
         .map(UUID::fromString)
         .orElseThrow(() -> new MandatoryNodeNotFound(xpath, getNodeName(), getNormEli()));
   }
