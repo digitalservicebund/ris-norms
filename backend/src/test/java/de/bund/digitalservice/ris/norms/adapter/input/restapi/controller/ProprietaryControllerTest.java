@@ -4,12 +4,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.service.ProprietaryService;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ class ProprietaryControllerTest {
     // given
     var eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
     when(proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli)))
-        .thenThrow(new LoadElementsByTypeFromNormUseCase.NormNotFoundException(eli));
+        .thenThrow(new NormNotFoundException(eli));
     // when
     mockMvc
         .perform(

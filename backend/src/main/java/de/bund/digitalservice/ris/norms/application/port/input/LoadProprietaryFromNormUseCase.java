@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.util.Optional;
 
 /** Use case for getting {@link Proprietary} metadata from a {@link Norm}. */
@@ -13,10 +14,9 @@ public interface LoadProprietaryFromNormUseCase {
    *
    * @param query Query used for identifying the element.
    * @return Proprietary metadata of the norm if it has any.
-   * @throws LoadElementsByTypeFromNormUseCase.NormNotFoundException if the norm doesn't exist
+   * @throws NormNotFoundException if the norm doesn't exist
    */
-  Optional<Proprietary> loadProprietaryFromNorm(Query query)
-      throws LoadElementsByTypeFromNormUseCase.NormNotFoundException;
+  Optional<Proprietary> loadProprietaryFromNorm(Query query) throws NormNotFoundException;
 
   /**
    * Contains the parameters needed for loading proprietary metadata from a norm.
