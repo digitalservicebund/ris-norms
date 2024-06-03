@@ -232,9 +232,12 @@ public class ModificationValidator {
             tm -> {
               // we are doing the same thing as in oldTextExistsInZf0Norm() but backwards
 
+              // TODO move to getter and test for that throw
+              String textualModEId =
+                  tm.getEid().orElseThrow(() -> new XmlContentException("TBD", null));
+
               // Check akn:source
-              Href sourceHref =
-                  tm.getSourceHref().orElseThrow(() -> new XmlContentException("TBD", null));
+              Href sourceHref = getTextualModSourceHref(zf0NormEli, tm, textualModEId);
               String amendingNormEli =
                   sourceHref.getEli().orElseThrow(() -> new XmlContentException("TBD", null));
 
@@ -466,6 +469,17 @@ public class ModificationValidator {
                 new XmlContentException(
                     "For norm with Eli (%s): mod href is empty in article with eId %s"
                         .formatted(amendingNormEli, articleEId),
+                    null));
+  }
+
+  private Href getTextualModSourceHref(String zf0NormEli, TextualMod tm, String textualModEId) {
+    // TODO test for that throw
+    return tm.getSourceHref()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): textualMod source href is empty where textualMod eId is %s"
+                        .formatted(zf0NormEli, textualModEId),
                     null));
   }
 
