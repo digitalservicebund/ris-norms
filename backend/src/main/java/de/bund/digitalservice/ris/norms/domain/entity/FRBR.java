@@ -19,7 +19,6 @@ import org.w3c.dom.Node;
 public abstract class FRBR {
   private final Node node;
   private final String normEli;
-  private final String nodeName;
 
   /**
    * Returns the Eli as {@link String} from the FRBRThis of the specific FRBR level.
@@ -29,7 +28,7 @@ public abstract class FRBR {
   public String getEli() {
     final String xpath = "./FRBRthis/@value";
     return NodeParser.getValueFromExpression(xpath, node)
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, this.nodeName, this.normEli));
+        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, node.getNodeName(), this.normEli));
   }
 
   /**
@@ -40,7 +39,7 @@ public abstract class FRBR {
   public void setEli(final String eli) {
     final String xpath = "./FRBRthis/@value";
     NodeParser.getNodeFromExpression("./FRBRthis", node)
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, this.nodeName, this.normEli))
+        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, node.getNodeName(), this.normEli))
         .getAttributes()
         .getNamedItem("value")
         .setNodeValue(eli);
@@ -54,7 +53,7 @@ public abstract class FRBR {
   public String getFBRDate() {
     final String xpath = "./FRBRdate/@date";
     return NodeParser.getValueFromExpression(xpath, node)
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, this.nodeName, this.normEli));
+        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, node.getNodeName(), this.normEli));
   }
 
   /**
@@ -68,7 +67,7 @@ public abstract class FRBR {
     final NamedNodeMap attributes =
         NodeParser.getNodeFromExpression(xpath, node)
             .map(Node::getAttributes)
-            .orElseThrow(() -> new MandatoryNodeNotFound(xpath, this.nodeName, this.normEli));
+            .orElseThrow(() -> new MandatoryNodeNotFound(xpath, node.getNodeName(), this.normEli));
     attributes.getNamedItem("date").setNodeValue(date);
     attributes.getNamedItem("name").setNodeValue(name);
   }

@@ -16,8 +16,6 @@ public class Meta {
   private final Node node;
   private final String normEli;
 
-  private static final String NODE_NAME = Meta.class.getSimpleName();
-
   /**
    * Returns a {@link FRBRExpression} instance from a {@link Node} in a {@link Meta}.
    *
@@ -27,7 +25,7 @@ public class Meta {
     final String xpath = "./identification/FRBRExpression";
     return NodeParser.getNodeFromExpression(xpath, node)
         .map(expressionNode -> new FRBRExpression(expressionNode, normEli))
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, NODE_NAME, this.normEli));
+        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, node.getNodeName(), this.normEli));
   }
 
   /**
@@ -39,6 +37,6 @@ public class Meta {
     final String xpath = "./identification/FRBRManifestation";
     return NodeParser.getNodeFromExpression(xpath, node)
         .map(manifestationNode -> new FRBRManifestation(manifestationNode, normEli))
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, NODE_NAME, this.normEli));
+        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, node.getNodeName(), this.normEli));
   }
 }

@@ -17,7 +17,7 @@ public class FRBRExpression extends FRBR {
   private static final String VALUE_ATTIBUTE = "value";
 
   public FRBRExpression(final Node node, final String normEli) {
-    super(node, normEli, FRBRExpression.class.getSimpleName());
+    super(node, normEli);
   }
 
   /**
@@ -63,7 +63,7 @@ public class FRBRExpression extends FRBR {
     final String xpath = "./FRBRalias[@name='aktuelle-version-id']/@value";
     return NodeParser.getValueFromExpression(xpath, getNode())
         .map(UUID::fromString)
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, getNodeName(), getNormEli()));
+        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, getNode().getNodeName(), getNormEli()));
   }
 
   /**
@@ -88,7 +88,7 @@ public class FRBRExpression extends FRBR {
     final String xpath = "./FRBRalias[@name='nachfolgende-version-id']/@value";
     return NodeParser.getValueFromExpression(xpath, getNode())
         .map(UUID::fromString)
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, getNodeName(), getNormEli()));
+        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, getNode().getNodeName(), getNormEli()));
   }
 
   /**

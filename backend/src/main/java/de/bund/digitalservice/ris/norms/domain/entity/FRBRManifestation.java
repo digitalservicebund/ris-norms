@@ -10,6 +10,6 @@ import org.w3c.dom.Node;
 public class FRBRManifestation extends FRBR {
 
   public FRBRManifestation(final Node node, final String normEli) {
-    super(node, FRBRManifestation.class.getSimpleName(), normEli);
+    super(node, normEli);
   }
 }
