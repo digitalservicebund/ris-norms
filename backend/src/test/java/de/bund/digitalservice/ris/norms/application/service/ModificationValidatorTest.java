@@ -6,9 +6,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.w3c.dom.Node;
 
 class ModificationValidatorTest {
@@ -226,36 +230,26 @@ class ModificationValidatorTest {
               "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The replacement text '§ 9 Abs. 1 Satz 2, Abs. 2' in the target law does not equal the replacement text 'not the same text as in target law' in the article with eId hauptteil-1_art-1");
     }
 
-    @Test
-    void modTargetHrefIsEmpty() {
-
-      // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm.getMods().forEach(mod -> mod.setTargetHref(""));
-
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
-
-      // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): mod href is empty in article with eId hauptteil-1_art-1");
+    private static Stream<Arguments> provideParametersForModTargetHref() {
+      return Stream.of(
+          Arguments.of(
+              "",
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): mod href is empty in article with eId hauptteil-1_art-1"),
+          Arguments.of(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/",
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The eId in mod href is empty in article with eId hauptteil-1_art-1"),
+          Arguments.of(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1/",
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1"));
     }
 
-    @Test
-    void targetHrefEidIsEmpty() {
+    @ParameterizedTest
+    @MethodSource("provideParametersForModTargetHref")
+    void modTargetHref(String targetHref, String message) {
 
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm
-          .getMods()
-          .forEach(
-              mod ->
-                  mod.setTargetHref("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/"));
+      amendingNorm.getMods().forEach(mod -> mod.setTargetHref(targetHref));
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
@@ -264,34 +258,7 @@ class ModificationValidatorTest {
           catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The eId in mod href is empty in article with eId hauptteil-1_art-1");
-    }
-
-    @Test
-    void modHrefCharacterRangeIsEmpty() {
-      // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm
-          .getMods()
-          .forEach(
-              mod ->
-                  mod.setTargetHref(
-                      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1/"));
-
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
-
-      // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1");
+      assertThat(thrown).isInstanceOf(XmlContentException.class).hasMessageContaining(message);
     }
 
     @Test
@@ -396,51 +363,26 @@ class ModificationValidatorTest {
               "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1");
     }
 
-    @Test
-    void throwsExceptionWhenCharacterRangeStartEqualsEnd() {
-      // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm
-          .getMods()
-          .forEach(
-              mod ->
-                  mod.setTargetHref(
-                      new Href.Builder()
-                          .setCharacterRange(new CharacterRange("20-20.xml"))
-                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-                          .setEId(
-                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-                          .buildAbsolute()
-                          .value()));
+    private static Stream<Arguments> provideParametersForThrowsExceptionWhenCharacterRange() {
+      return Stream.of(
+          Arguments.of(
+              "20-20.xml",
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid in article with eId hauptteil-1_art-1. Make sure start is smaller than end 20 < 20."),
+          Arguments.of(
+              "-20.xml",
 
-      amendingNorm
-          .getActiveModifications()
-          .forEach(
-              textMod ->
-                  textMod.setDestinationHref(
-                      new Href.Builder()
-                          .setCharacterRange(new CharacterRange("20-20.xml"))
-                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-                          .setEId(
-                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-                          .buildAbsolute()
-                          .value()));
+              // TODO Add to log: "For norm with Eli"
+              "The range (-20) given at article with eId hauptteil-1_art-1 is not valid"),
+          Arguments.of(
+              "0-.xml",
 
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
-
-      // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid in article with eId hauptteil-1_art-1. Make sure start is smaller than end 20 < 20.");
+              // TODO Add to log: "For norm with Eli"
+              "The range (0-) given at article with eId hauptteil-1_art-1 is not valid"));
     }
 
-    @Test
-    void throwsExceptionWhenCharacterRangeStartIsNotSet() {
+    @ParameterizedTest
+    @MethodSource("provideParametersForThrowsExceptionWhenCharacterRange")
+    void throwsExceptionWhenCharacterRange(String cr, String message) {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       amendingNorm
@@ -449,7 +391,7 @@ class ModificationValidatorTest {
               mod ->
                   mod.setTargetHref(
                       new Href.Builder()
-                          .setCharacterRange(new CharacterRange("-20.xml"))
+                          .setCharacterRange(new CharacterRange(cr))
                           .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
                           .setEId(
                               "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
@@ -462,7 +404,7 @@ class ModificationValidatorTest {
               textMod ->
                   textMod.setDestinationHref(
                       new Href.Builder()
-                          .setCharacterRange(new CharacterRange("-20.xml"))
+                          .setCharacterRange(new CharacterRange(cr))
                           .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
                           .setEId(
                               "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
@@ -476,57 +418,7 @@ class ModificationValidatorTest {
           catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
 
       // then
-      // TODO Add to log: "For norm with Eli"
-      // (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1):"
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "The range (-20) given at article with eId hauptteil-1_art-1 is not valid");
-    }
-
-    @Test
-    void throwsExceptionWhenCharacterRangeEndIsNotSet() {
-      // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm
-          .getMods()
-          .forEach(
-              mod ->
-                  mod.setTargetHref(
-                      new Href.Builder()
-                          .setCharacterRange(new CharacterRange("0-.xml"))
-                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-                          .setEId(
-                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-                          .buildAbsolute()
-                          .value()));
-
-      amendingNorm
-          .getActiveModifications()
-          .forEach(
-              textMod ->
-                  textMod.setDestinationHref(
-                      new Href.Builder()
-                          .setCharacterRange(new CharacterRange("0-.xml"))
-                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-                          .setEId(
-                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-                          .buildAbsolute()
-                          .value()));
-
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
-
-      // then
-      // TODO Add to log: "For norm with Eli"
-      // (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1):"
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "The range (0-) given at article with eId hauptteil-1_art-1 is not valid");
+      assertThat(thrown).isInstanceOf(XmlContentException.class).hasMessageContaining(message);
     }
 
     @Test
