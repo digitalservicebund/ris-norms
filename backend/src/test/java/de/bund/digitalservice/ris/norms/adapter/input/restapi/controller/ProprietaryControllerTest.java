@@ -47,8 +47,8 @@ class ProprietaryControllerTest {
   void returnsProprietaryResponseSchema() throws Exception {
     // given
     var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-    var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-    var proprietary = norm.getProprietary();
+    var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+    var proprietary = normWithProprietary.getProprietary();
     when(proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli)))
         .thenReturn(proprietary);
 
@@ -59,6 +59,25 @@ class ProprietaryControllerTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna.value").value("754-28-1"));
+  }
+
+  @Test
+  void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
+    // given
+    var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+    var normWithInvalidProprietary = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
+    var proprietary = normWithInvalidProprietary.getProprietary();
+    when(proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli)))
+        .thenReturn(proprietary);
+
+    // when
+    mockMvc
+        .perform(
+            get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
+        // then
+        .andExpect(status().isOk())
+        // TODO Hannes: Is this what we want?
+        .andExpect(jsonPath("fna.value").doesNotExist());
   }
   // TODO Hannes: returns fallback if not found
 }
