@@ -57,11 +57,8 @@ class ProprietaryControllerTest {
         .perform(
             get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
         // then
-        .andExpect(status().isOk());
-
-    // response content (expect via jsonPath)
-    // returns proprietary (all metadata tested for correct value)
-
-    // returns fallback if not found
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("fna.value").value("754-28-1"));
   }
+  // TODO Hannes: returns fallback if not found
 }
