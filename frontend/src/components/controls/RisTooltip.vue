@@ -83,7 +83,7 @@ const ariaId = useElementId("tooltip")
       class="group inline-block data-[alignment=left]:left-0 data-[alignment=right]:right-0"
       :class="{
         absolute: hasChildren,
-        'translate-y-full ': hasChildren && attachment === 'bottom',
+        'translate-y-full': hasChildren && attachment === 'bottom',
         '-translate-y-[calc(100%+8px)]': hasChildren && attachment === 'top',
       }"
       role="tooltip"

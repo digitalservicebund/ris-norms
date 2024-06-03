@@ -72,6 +72,7 @@ paths:
           in: query
           schema:
             type: string
+            format: date-time
           description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
@@ -174,6 +175,7 @@ paths:
           example: "2017-03-01T00:00:00.000Z"
           schema:
             type: string
+            format: date-time
       responses:
         '200':
           description: "The element inside the norm"
@@ -250,6 +252,7 @@ paths:
           in: query
           schema:
             type: string
+            format: date-time
           description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
@@ -357,6 +360,63 @@ paths:
         '404':
           description: Norm not found
 
+  /norms/{eli}/proprietary/{atDate}:
+    get:
+      summary: Get the proprietary metadata of a norm at the specified time boundary
+      tags:
+        - under construction
+      summary: Get the metadata of a norm at the specified time boundary
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: atDate
+          in: path
+          required: false
+          description: eId of the time boundary at which the metadata should be loaded
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: List of proprietary metadata at that date
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Metadata'
+        '404':
+          description: If the norm or the time boundary doesn't exist.
+    put:
+      summary: Replace the proprietary metadata of a norm at the specified date
+      tags:
+        - under construction
+      parameters:
+        - name: eli
+          in: path
+          required: false
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: atDate
+          in: path
+          required: true
+          description: eId of the time boundary at which the metadata should be updated
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Metadata was updated successfully. Returns the updated metadata.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Metadata'
+        '404':
+          description: If the norm or the time boundary doesn't exist.
+
   /norms/{eli}/{eid}:
     get:
       summary: Get an element of a norm by its EID (currently only in HTML preview format)
@@ -379,7 +439,7 @@ paths:
         '200':
           description: An HTML rendering of the element
           content:
-            application/html:
+            text/html:
               schema:
                 type: string
         '404':
@@ -524,3 +584,13 @@ components:
         type:
           type: string
           enum: [ preface, preamble, article, conclusions ]
+
+    Metadata:
+      type: object
+      properties:
+        fna:
+          type: object
+          properties:
+            value:
+              type: string
+              description: FNA of the norm

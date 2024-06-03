@@ -74,11 +74,15 @@ public final class NodeParser {
    *     Document extends Node)
    * @return the Node identified by the <code>xPathExpression</code>
    */
-  public static Node getNodeFromExpression(String xPathExpression, Node sourceNode) {
+  public static Optional<Node> getNodeFromExpression(String xPathExpression, Node sourceNode) {
     try {
       final XPathFactory xpathfactory = XPathFactory.newInstance();
       final XPath xpath = xpathfactory.newXPath();
-      return (Node) xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
+      final var result = xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
+      if (result instanceof Node node) {
+        return Optional.of(node);
+      }
+      return Optional.empty();
     } catch (XPathExpressionException | NullPointerException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }

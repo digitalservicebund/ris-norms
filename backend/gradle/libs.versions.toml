@@ -25,7 +25,7 @@ spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
-spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.1"
+spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.2"
 spring-security-test = "org.springframework.security:spring-security-test:6.3.0"
 spring-session-data-redis = { module = "org.springframework.session:spring-session-data-redis" }
 spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
@@ -34,7 +34,7 @@ testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", ve
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
 
 [plugins]
-dependency-license-report = "com.github.jk1.dependency-license-report:2.7"
+dependency-license-report = "com.github.jk1.dependency-license-report:2.8"
 sonarqube = "org.sonarqube:5.0.0.4638"
 spotless = "com.diffplug.spotless:6.25.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

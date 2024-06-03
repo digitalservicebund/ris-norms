@@ -90,24 +90,25 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                   NodeParser.getNodeFromExpression(
                       String.format("//*[@eId='%s']", targetEid), norm.getDocument());
 
-              if (targetNode == null) {
+              if (targetNode.isEmpty()) {
                 return;
               }
 
               final var nodeToChange =
                   NodeParser.getNodeFromExpression(
                       String.format("//*[text()[contains(.,'%s')]]", mod.getOldText().get()),
-                      targetNode);
+                      targetNode.get());
 
-              if (nodeToChange == null) {
+              if (nodeToChange.isEmpty()) {
                 return;
               }
 
               final var modifiedTextContent =
                   nodeToChange
+                      .get()
                       .getTextContent()
                       .replaceFirst(mod.getOldText().get(), mod.getNewText().get());
-              nodeToChange.setTextContent(modifiedTextContent);
+              nodeToChange.get().setTextContent(modifiedTextContent);
             });
 
     return norm;

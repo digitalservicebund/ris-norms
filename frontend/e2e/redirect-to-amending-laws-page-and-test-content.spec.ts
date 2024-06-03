@@ -17,6 +17,22 @@ test.describe("Redirect and start page content", () => {
       ).toBeVisible()
     })
   }
+  test("should display a loading error message when the API call fails", async ({
+    page,
+  }) => {
+    await page.route("**/api/v1/announcements", (route) => {
+      route.fulfill({
+        status: 500,
+        body: JSON.stringify({ message: "Internal Server Error" }),
+      })
+    })
+
+    await page.goto("/")
+
+    await expect(
+      page.getByText("Die Liste der Verkündungen konnte nicht geladen werden."),
+    ).toBeVisible()
+  })
 })
 
 function convertToGermanDate(isoDate: string): string {

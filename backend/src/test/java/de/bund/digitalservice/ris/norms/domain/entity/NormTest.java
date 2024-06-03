@@ -75,7 +75,7 @@ class NormTest {
     Norm norm = new Norm(toDocument(normString));
 
     // when
-    UUID actualGuid = norm.getGuid().get();
+    UUID actualGuid = norm.getGuid();
 
     // then
     assertThat(actualGuid).isEqualTo(UUID.fromString("ba44d2ae-0e73-44ba-850a-932ab2fa553f"));
@@ -346,6 +346,48 @@ class NormTest {
 
     // then
     assertThat(fna).contains("754-28-1");
+  }
+
+  @Nested
+  class proprietary {
+    @Test
+    void getProprietary() {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+
+      // When
+      var result = norm.getProprietary();
+
+      // Then
+      assertThat(result).isPresent();
+    }
+
+    @Test
+    void returnsEmptyOptionalIfProprietaryDoesntExist() {
+      // Given
+      var normXml =
+          """
+              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+              <akn:akomaNtoso
+                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+                <akn:act name="regelungstext">
+                  <!-- Metadaten -->
+                  <akn:meta eId="meta-1" GUID="000">
+                  </akn:meta>
+                </akn:act>
+              </akn:akomaNtoso>
+              """;
+
+      var norm = new Norm(XmlMapper.toDocument(normXml));
+
+      // When
+      var result = norm.getProprietary();
+
+      // Then
+      assertThat(result).isEmpty();
+    }
   }
 
   @Test
@@ -1358,14 +1400,15 @@ class NormTest {
     void itShouldCreatesANewElement() {
       // given
       Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      Node parentNode = NodeParser.getNodeFromExpression("//act/meta", norm.getDocument());
+      Node parentNode =
+          NodeParser.getNodeFromExpression("//act/meta", norm.getDocument()).orElseThrow();
 
       // when
       Node createdNode = norm.createElementWithEidAndGuid("akn:analysis", "analysis", parentNode);
 
       // then
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-          .isEqualTo(createdNode);
+          .contains(createdNode);
       assertThat(NodeParser.getValueFromExpression("@eId", createdNode))
           .contains("meta-1_analysis-1");
     }
@@ -1384,7 +1427,7 @@ class NormTest {
       // then
       assertThat(analysisNode).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-          .isEqualTo(analysisNode);
+          .contains(analysisNode);
     }
 
     @Test
@@ -1416,7 +1459,7 @@ class NormTest {
       assertThat(passiveModificationsNode).isNotNull();
       assertThat(
               NodeParser.getNodeFromExpression("//act//passiveModifications", norm.getDocument()))
-          .isEqualTo(passiveModificationsNode);
+          .contains(passiveModificationsNode);
     }
 
     @Test
@@ -1431,6 +1474,37 @@ class NormTest {
       assertThat(passiveModificationsNode).isNotNull();
       assertThat(NodeParser.getValueFromExpression("@GUID", passiveModificationsNode))
           .contains("77aae58f-06c9-4189-af80-a5f3ada6432c");
+    }
+  }
+
+  @Nested
+  class getOrCreateTemporalDataNode {
+    @Test
+    void itShouldCreatesTheTemporalDataNodeIfItDoesNotExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+
+      // when
+      final var temporalDataNode = norm.getOrCreateTemporalDataNode();
+
+      // then
+      assertThat(temporalDataNode).isNotNull();
+      assertThat(NodeParser.getNodeFromExpression("//act//temporalData", norm.getDocument()))
+          .contains(temporalDataNode);
+    }
+
+    @Test
+    void itShouldFindTheTemporalDataNodeIfItExist() {
+      // given
+      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      // when
+      final var temporalDataNode = norm.getOrCreateTemporalDataNode();
+
+      // then
+      assertThat(temporalDataNode).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", temporalDataNode))
+          .contains("2fcdfa3e-1460-4ef4-b22b-5ff4a897538f");
     }
   }
 
@@ -1463,7 +1537,7 @@ class NormTest {
               NodeParser.getNodeFromExpression(
                   String.format("//*[@eId='%s']", passiveModification.getEid().orElseThrow()),
                   norm.getDocument()))
-          .isEqualTo(passiveModification.getNode());
+          .contains(passiveModification.getNode());
     }
   }
 
@@ -1527,7 +1601,7 @@ class NormTest {
       assertThat(
               NodeParser.getNodeFromExpression(
                   "//*[@eId='meta-1_lebzykl-1_ereignis-1']", norm.getDocument()))
-          .isNull();
+          .isEmpty();
     }
 
     @Test
