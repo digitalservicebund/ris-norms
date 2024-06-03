@@ -215,25 +215,28 @@
                     <akn:num GUID="8acfa447-cdd5-4209-8a8f-52026e670a31" eId="hauptteil-1_para-11_abs-1_bezeichnung-1"><akn:marker name="1" GUID="19933170-f403-434f-868c-3cc4c020d8cb" eId="hauptteil-1_para-11_abs-1_bezeichnung-1_zaehlbez-1"></akn:marker></akn:num>
                     <akn:list GUID="bd77a96e-a767-480a-836e-1ef7ea0ac537" eId="hauptteil-1_para-11_abs-1_untergl-1">
                         <akn:intro GUID="71cac91e-38bf-4b75-8701-3a9008977cf7" eId="hauptteil-1_para-11_abs-1_untergl-1_intro-1"><akn:p GUID="05fa855b-e83f-4ac1-8d35-7d24173083a2" eId="hauptteil-1_para-11_abs-1_untergl-1_intro-1_text-1">
-                            Das Umwandlungssteuergesetz vom 7. Dezember 2006 (BGBl. I S. 2782, 2791), das zuletzt durch Artikel 34 Absatz 8 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist, wird wie folgt geändert:
+                            Das <akn:affectedDocument href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1" GUID="a198b868-0ede-4b0d-a759-eb5a829aae81" eId="hauptteil-1_para-11_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1"> vom 7. Dezember 2006 (BGBl. I S. 2782, 2791), das zuletzt durch Artikel 34 Absatz 8 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:
                         </akn:p></akn:intro>
                         <akn:point GUID="81a11c64-1827-456c-b662-14ff7f645bd7" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1">
                             <akn:num GUID="6725cfbc-94ab-44a0-9a06-8adc5d52fc47" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_bezeichnung-1"><akn:marker name="1" GUID="72ff9eac-4ddc-4ede-af79-d2130a97dd60" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"></akn:marker>1.</akn:num>
                             <akn:list GUID="27282132-136c-4df1-8bb7-a135afced654" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1">
                                 <akn:intro GUID="134793d9-7678-4af2-9dac-f314697f943c" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_intro-1"><akn:p GUID="c7966d1f-9aa1-4fe3-9bea-331d0cae07db" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_intro-1_text-1">
-                                    § 15 Absatz 2 wird wie folgt geändert:
+                                    <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-15_abs-2.xml" GUID="0d8cdcbb-29fc-4e94-a697-57422f664f95" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_intro-1_text-1_ref-1">§ 15 Absatz 2 wird wie folgt geändert:</akn:ref>
                                 </akn:p></akn:intro>
                                 <akn:point GUID="36ff8fcb-4828-4548-be28-0373c7e3e9e2" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1">
                                     <akn:num GUID="edca222d-f23e-495a-8419-32daa119c08c" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1"><akn:marker name="a" GUID="cdcf2794-ed1d-47f9-b7f0-47065c6c9891" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"></akn:marker>a)</akn:num>
                                     <akn:content GUID="dd7cca4a-4b1f-4bc2-971f-053cad9cbe0b" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1"><akn:p GUID="ccc65174-571c-4039-8e65-949761fcee0c" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1">
-                                        In Satz 2 werden nach dem Wort „vollzogen“ die Wörter „oder vorbereitet“ eingefügt.
+                                       <akn:mod GUID="fc56ab94-6f00-435a-8b02-69dcd180828f" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-einfuegen">
+                                          In <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-15_abs-2/302-443.xml" GUID="6ab6c29c-88ba-415a-ae13-4e05acba1d5a" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1"> Satz 2</akn:ref>  werden nach dem Wort <akn:quotedText eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-1" GUID="25234249-339a-49ad-911c-2b1783917dc8" startQuote="„" endQuote="“">vollzogen</akn:quotedText> die Wörter <akn:quotedText eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2" GUID="2515db83-2088-4d91-b80d-90f81a334bce" startQuote="„" endQuote="“">oder vorbereitet</akn:quotedText> eingefügt.
+                                       </akn:mod> 
                                     </akn:p></akn:content>
                                 </akn:point>
                                 <akn:point GUID="78ac89a9-4dde-483a-9b5b-70d7de9f8cf4" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2">
                                     <akn:num GUID="bd457a3c-5542-413b-975a-239b3bf199b5" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1"><akn:marker name="b" GUID="d4a20509-0125-436f-83cb-375d160238b6" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"></akn:marker>b)</akn:num>
                                     <akn:content GUID="1878c3dc-0c46-48bf-946e-f3b56932381b" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1"><akn:p GUID="6ceb1172-3f90-4b27-9891-b2c9538c6bec" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1">
-                                        Die Sätze 3 und 4 werden durch die folgenden Sätze ersetzt:
-                                        „Als außenstehende Personen gelten Personen, die nicht ununterbrochen fünf Jahre vor der Spaltung an der 
+                                       <akn:mod GUID="45352185-9cda-4cef-867b-2df508ace8a4" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+                                       <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-15_abs-2/221-998.xml" GUID="79ea3bd6-a074-4903-bf87-6caa1d205330" eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"> Sätze 3 und 4</akn:ref> werden durch die folgenden Sätze ersetzt:
+                                       <akn:quotedText eId="hauptteil-1_para-11_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1" GUID="d53991a3-16d3-4481-9f3a-05687e9697b2" startQuote="„" endQuote="“">Als außenstehende Personen gelten Personen, die nicht ununterbrochen fünf Jahre vor der Spaltung an der 
 übertragenden Körperschaft beteiligt waren. In den Fällen der Vorbereitung einer Veräußerung kommt Satz 2 
 nur zur Anwendung, wenn innerhalb von fünf Jahren nach dem steuerlichen Übertragungsstichtag eine 
 Veräußerung mindestens eines Anteils an einer an der Spaltung beteiligten Körperschaft an außenstehende 
@@ -249,7 +252,8 @@ außenstehende Personen im Sinne des Satzes 2, wenn die Spaltung zu einer Wertve
 dieser Personen führt. Verbundene Unternehmen im Sinne des § 271 Absatz 2 des Handelsgesetzbuchs 
 gelten nicht als außenstehende Personen im Sinne dieses Absatzes; als Veräußerung eines Anteils an 
 einer an der Spaltung beteiligten Körperschaft im Sinne des Satzes 4 gilt auch die mittelbare Veräußerung 
-dieses Anteils durch ein verbundenes Unternehmen.“
+dieses Anteils durch ein verbundenes Unternehmen.</akn:quotedText>
+                                       </akn:mod> 
                                     </akn:p></akn:content>
                                 </akn:point>
                             </akn:list>
