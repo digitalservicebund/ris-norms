@@ -61,11 +61,11 @@ class LoadZf0ServiceTest {
     assertThat(frbrExpressionZf0Law.getEli())
         .contains(amendingLaw.getFBRDateVerkuendung().orElseThrow().toString());
     assertThat(frbrExpressionZf0Law.getFBRDate())
-        .isEqualTo(amendingLaw.getFBRDateVerkuendung().orElseThrow());
+        .isEqualTo(amendingLaw.getFBRDateVerkuendung().map(LocalDate::toString).orElseThrow());
 
     final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
     assertThat(frbrManifestationZf0Law.getEli()).contains(frbrExpressionZf0Law.getEli());
-    assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now());
+    assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
 
     assertThat(targetLaw.getPassiveModifications()).isEmpty();
     assertThat(zf0Norm.getPassiveModifications()).hasSize(1);

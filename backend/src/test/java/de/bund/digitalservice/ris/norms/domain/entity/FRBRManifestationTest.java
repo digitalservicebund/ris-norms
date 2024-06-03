@@ -102,7 +102,7 @@ class FRBRManifestationTest {
     final Norm norm = new Norm(toDocument(normString));
     final FRBRManifestation frbrManifestation = norm.getMeta().getFRBRManifestation();
 
-    assertThat(frbrManifestation.getFBRDate()).hasToString("1964-08-05");
+    assertThat(frbrManifestation.getFBRDate()).isEqualTo("1964-08-05");
   }
 
   @Test
@@ -165,6 +165,6 @@ class FRBRManifestationTest {
     final FRBRManifestation frbrManifestation = norm.getMeta().getFRBRManifestation();
     frbrManifestation.setFBRDate("2002-02-02", "test");
 
-    assertThat(frbrManifestation.getFBRDate()).hasToString("2002-02-02");
+    assertThat(frbrManifestation.getFBRDate()).isEqualTo("2002-02-02");
   }
 }

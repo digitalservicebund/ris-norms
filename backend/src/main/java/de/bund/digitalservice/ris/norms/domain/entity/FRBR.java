@@ -51,10 +51,9 @@ public abstract class FRBR {
    *
    * @return The FBRDate
    */
-  public LocalDate getFBRDate() {
+  public String getFBRDate() {
     final String xpath = "./FRBRdate/@date";
     return NodeParser.getValueFromExpression(xpath, node)
-        .map(LocalDate::parse)
         .orElseThrow(() -> new MandatoryNodeNotFound(xpath, this.nodeName, this.normEli));
   }
 
