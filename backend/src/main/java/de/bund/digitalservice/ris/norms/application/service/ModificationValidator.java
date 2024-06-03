@@ -200,6 +200,8 @@ public class ModificationValidator {
 
     List<TextualMod> passiveMods = zf0Norm.getPassiveModifications().stream().toList();
 
+    // TODO compose message
+    // TODO test for that throw
     if (articles.size() != passiveMods.size()) throw new XmlContentException("TBD 1", null);
 
     String amendingNormEli = amendingNorm.getEli();
