@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ class ProprietaryServiceTest {
         proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
 
     // then
-    assertThat(result).isEmpty();
+    assertThat(result).isInstanceOf(Proprietary.class);
   }
 
   @Test
@@ -56,6 +57,6 @@ class ProprietaryServiceTest {
     var result =
         proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
     // then
-    assertThat(result).isPresent();
+    assertThat(result).isInstanceOf(Proprietary.class);
   }
 }

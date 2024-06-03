@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.w3c.dom.Node;
 
 class NormTest {
-
   @Test
   void getEli() {
     // given
@@ -359,11 +358,11 @@ class NormTest {
       var result = norm.getProprietary();
 
       // Then
-      assertThat(result).isPresent();
+      assertThat(result).isNot(null);
     }
 
     @Test
-    void returnsEmptyOptionalIfProprietaryDoesntExist() {
+    void returnsProprietaryEvenIfDoesNotExistInNorm() {
       // Given
       var normXml =
           """
@@ -386,7 +385,7 @@ class NormTest {
       var result = norm.getProprietary();
 
       // Then
-      assertThat(result).isEmpty();
+      assertThat(result).isNot(null);
     }
   }
 
