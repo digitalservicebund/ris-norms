@@ -7,6 +7,8 @@ import SortOutlineIcon from "~icons/ic/outline-arrow-downward"
 import dayjs from "dayjs"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 
+const MAX_DATES = 100
+
 /** The current list of dates. */
 const dates = defineModel<TemporalDataResponse[]>("dates", {
   default: () => [],
@@ -78,12 +80,18 @@ watch(newDate, async (newDateValue) => {
     </template>
 
     <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-    <label for="new-date">Zeitgrenze hinzufügen</label>
-    <RisDateInput
-      id="new-date"
-      v-model="newDate"
-      size="small"
-      data-testid="new-date-input-field"
-    />
+    <label
+      v-if="dates.length < MAX_DATES"
+      for="new-date"
+      class="col-span-2 grid grid-cols-subgrid items-center"
+    >
+      <span>Zeitgrenze hinzufügen</span>
+      <RisDateInput
+        id="new-date"
+        v-model="newDate"
+        size="small"
+        data-testid="new-date-input-field"
+      />
+    </label>
   </form>
 </template>

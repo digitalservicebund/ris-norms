@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
@@ -25,7 +26,8 @@ public class DBService
         LoadAnnouncementByNormEliPort,
         LoadAllAnnouncementsPort,
         UpdateNormPort,
-        UpdateAnnouncementPort {
+        UpdateAnnouncementPort,
+        UpdateOrSaveNormPort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
@@ -76,6 +78,17 @@ public class DBService
               // we do not update the GUID or ELI as they may not change
               return NormMapper.mapToDomain(normRepository.save(normDto));
             });
+  }
+
+  @Override
+  public Norm updateOrSave(UpdateOrSaveNormPort.Command command) {
+    final Optional<Norm> updatedNorm = updateNorm(new UpdateNormPort.Command(command.norm()));
+    if (updatedNorm.isEmpty()) {
+      final NormDto normDto = NormMapper.mapToDto(command.norm());
+      return NormMapper.mapToDomain(normRepository.save(normDto));
+    } else {
+      return updatedNorm.get();
+    }
   }
 
   @Override
