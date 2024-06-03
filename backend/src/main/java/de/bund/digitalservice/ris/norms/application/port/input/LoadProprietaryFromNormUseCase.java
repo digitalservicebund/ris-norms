@@ -10,8 +10,6 @@ public interface LoadProprietaryFromNormUseCase {
   /**
    * Retrieves the {@link Proprietary} metadata from a {@link Norm}.
    *
-   * <p>TODO: Move exception to a different location.
-   *
    * @param query Query used for identifying the element.
    * @return Proprietary metadata of the norm if it has any.
    * @throws NormNotFoundException if the norm doesn't exist
