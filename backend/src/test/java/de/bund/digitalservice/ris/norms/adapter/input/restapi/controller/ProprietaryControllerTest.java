@@ -107,4 +107,24 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("fna.value").doesNotExist());
     }
   }
+
+  @Nested
+  class getProprietaryAtDate {
+    @Test
+    void returns404IfNormNotFound() throws Exception {
+      // given
+      var eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var atDateString = "2024-06-03";
+      when(proprietaryService.loadProprietaryFromNorm(
+              new LoadProprietaryFromNormUseCase.Query(eli)))
+          .thenThrow(new NormNotFoundException(eli));
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isNotFound());
+    }
+  }
 }
