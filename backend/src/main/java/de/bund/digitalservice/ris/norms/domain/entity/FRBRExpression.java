@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.Getter;
@@ -16,8 +15,8 @@ public class FRBRExpression extends FRBR {
 
   private static final String VALUE_ATTIBUTE = "value";
 
-  public FRBRExpression(final Node node, final String normEli) {
-    super(node, normEli);
+  public FRBRExpression(final Node node) {
+    super(node);
   }
 
   /**
@@ -60,10 +59,9 @@ public class FRBRExpression extends FRBR {
    * @return the uuid
    */
   public UUID getFRBRaliasCurrentVersionId() {
-    final String xpath = "./FRBRalias[@name='aktuelle-version-id']/@value";
-    return NodeParser.getValueFromExpression(xpath, getNode())
-        .map(UUID::fromString)
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, getNode().getNodeName(), getNormEli()));
+    return UUID.fromString(
+        NodeParser.getValueFromMandatoryNodeFromExpression(
+            "./FRBRalias[@name='aktuelle-version-id']/@value", getNode()));
   }
 
   /**
@@ -72,8 +70,7 @@ public class FRBRExpression extends FRBR {
    * @param uuid the new uuid
    */
   public void setFRBRaliasCurrentVersionId(final UUID uuid) {
-    NodeParser.getNodeFromExpression("./FRBRalias[@name='aktuelle-version-id']", getNode())
-        .orElseThrow()
+    NodeParser.getMandatoryNodeFromExpression("./FRBRalias[@name='aktuelle-version-id']", getNode())
         .getAttributes()
         .getNamedItem(VALUE_ATTIBUTE)
         .setNodeValue(uuid.toString());
@@ -85,10 +82,9 @@ public class FRBRExpression extends FRBR {
    * @return the uuid
    */
   public UUID getFRBRaliasNextVersionId() {
-    final String xpath = "./FRBRalias[@name='nachfolgende-version-id']/@value";
-    return NodeParser.getValueFromExpression(xpath, getNode())
-        .map(UUID::fromString)
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath, getNode().getNodeName(), getNormEli()));
+    return UUID.fromString(
+        NodeParser.getValueFromMandatoryNodeFromExpression(
+            "./FRBRalias[@name='nachfolgende-version-id']/@value", getNode()));
   }
 
   /**
@@ -97,8 +93,8 @@ public class FRBRExpression extends FRBR {
    * @param uuid the new uuid
    */
   public void setFRBRaliasNextVersionId(final UUID uuid) {
-    NodeParser.getNodeFromExpression("./FRBRalias[@name='nachfolgende-version-id']", getNode())
-        .orElseThrow()
+    NodeParser.getMandatoryNodeFromExpression(
+            "./FRBRalias[@name='nachfolgende-version-id']", getNode())
         .getAttributes()
         .getNamedItem(VALUE_ATTIBUTE)
         .setNodeValue(uuid.toString());

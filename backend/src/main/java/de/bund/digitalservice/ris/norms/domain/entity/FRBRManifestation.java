@@ -9,7 +9,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 public class FRBRManifestation extends FRBR {
 
-  public FRBRManifestation(final Node node, final String normEli) {
-    super(node, normEli);
+  public FRBRManifestation(final Node node) {
+    super(node);
   }
 }

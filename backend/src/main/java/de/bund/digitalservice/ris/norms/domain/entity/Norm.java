@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
 import java.time.LocalDate;
 import java.util.*;
 import lombok.AllArgsConstructor;
@@ -136,11 +135,8 @@ public class Norm {
    *
    * @return the meta node as {@link Meta}
    */
-  public Meta getMeta() throws MandatoryNodeNotFound {
-    final String xpath = "//act/meta";
-    return NodeParser.getNodeFromExpression(xpath, document)
-        .map(node -> new Meta(node, getEli()))
-        .orElseThrow(() -> new MandatoryNodeNotFound(xpath));
+  public Meta getMeta() {
+    return new Meta(NodeParser.getMandatoryNodeFromExpression("//act/meta", document));
   }
 
   /**
