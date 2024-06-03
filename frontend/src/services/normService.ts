@@ -2,6 +2,7 @@ import { apiFetch, useApiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
 import { FetchOptions } from "ofetch"
 import { UseFetchReturn } from "@vueuse/core/index"
+import { computed, MaybeRefOrGetter, unref } from "vue"
 
 /**
  * Load a norm from the API.
@@ -60,19 +61,24 @@ export async function getNormHtmlByEli(
  * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
  */
 export function useGetNormHtmlByEli(
-  eli: string,
+  eli: MaybeRefOrGetter<string | undefined>,
   showMetadata: boolean = false,
-  at?: Date,
+  at?: MaybeRefOrGetter<Date | undefined>,
 ): UseFetchReturn<string> {
-  const queryParams = new URLSearchParams()
-  queryParams.append("showMetadata", String(showMetadata))
-  if (at instanceof Date) {
-    queryParams.append("atIsoDate", at.toISOString())
-  }
+  const url = computed(() => {
+    const queryParams = new URLSearchParams()
+    queryParams.append("showMetadata", String(showMetadata))
 
-  const url = `/norms/${eli}?${queryParams.toString()}`
+    const atValue = unref(at)
+    if (atValue instanceof Date) {
+      queryParams.append("atIsoDate", atValue.toISOString())
+    }
 
-  return useApiFetch(url, {
+    const eliValue = unref(eli)
+    return `/norms/${eliValue}?${queryParams.toString()}`
+  })
+
+  return useApiFetch(url.value, {
     headers: {
       Accept: "text/html",
     },

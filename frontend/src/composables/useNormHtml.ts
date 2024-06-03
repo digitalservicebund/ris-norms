@@ -57,11 +57,7 @@ export function useNormHtmlByEli(
     { immediate: true },
   )
 
-  const { data, error, isFetching } = useGetNormHtmlByEli(
-    eliRef.value ?? "",
-    false,
-    atRef.value,
-  )
+  const { data, error, isFetching } = useGetNormHtmlByEli(eliRef, false, atRef)
 
   const normHtml = computed(() => data.value ?? undefined)
 
