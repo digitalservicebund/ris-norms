@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,49 +24,53 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     normRepository.deleteAll();
   }
 
-  @Test
-  void return404IfNormNotFound() throws Exception {
-    // given no norm
-    // when
-    mockMvc
-        .perform(
-            get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary")
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-        // then
-        .andExpect(status().isNotFound());
-  }
+  @Nested
+  class getProprietary {
 
-  @Test
-  void returnEmptyValuesIfNormHasNoProprietary() throws Exception {
-    // given
-    var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-    var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
-    normRepository.save(NormMapper.mapToDto(norm));
+    @Test
+    void return404IfNormNotFound() throws Exception {
+      // given no norm
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary")
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isNotFound());
+    }
 
-    // when
-    mockMvc
-        .perform(
-            get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
-        // then
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").exists())
-        .andExpect(jsonPath("fna.value").doesNotExist());
-  }
+    @Test
+    void returnEmptyValuesIfNormHasNoProprietary() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
 
-  @Test
-  void returnEmptyValuesForInvalidProprietary() throws Exception {
-    // given
-    var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-    var norm = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
-    normRepository.save(NormMapper.mapToDto(norm));
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("fna").exists())
+          .andExpect(jsonPath("fna.value").doesNotExist());
+    }
 
-    // when
-    mockMvc
-        .perform(
-            get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
-        // then
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").exists())
-        .andExpect(jsonPath("fna.value").doesNotExist());
+    @Test
+    void returnEmptyValuesForInvalidProprietary() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var norm = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("fna").exists())
+          .andExpect(jsonPath("fna.value").doesNotExist());
+    }
   }
 }
