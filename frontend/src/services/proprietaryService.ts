@@ -1,6 +1,6 @@
 import { Proprietary } from "@/types/proprietary"
 import { UseFetchReturn } from "@vueuse/core"
-import { MaybeRefOrGetter, computed, toValue, watchEffect } from "vue"
+import { MaybeRefOrGetter, computed, toValue } from "vue"
 import { useApiFetch } from "./apiService"
 
 /**
@@ -13,18 +13,12 @@ import { useApiFetch } from "./apiService"
 export function useGetProprietary(
   eli: MaybeRefOrGetter<string | undefined>,
 ): UseFetchReturn<Proprietary> {
-  const url = computed(() => {
-    const eliVal = toValue(eli)
-    return eliVal ? `/norms/${eli}/proprietary` : ""
-  })
+  const url = computed(() => `/norms/${toValue(eli)}/proprietary`)
 
-  const proprietaryFetch = useApiFetch<Proprietary>(url, {
-    immediate: false,
+  return useApiFetch<Proprietary>(url, {
+    beforeFetch(ctx) {
+      if (!toValue(eli)) ctx.cancel()
+    },
+    refetch: true,
   }).json()
-
-  watchEffect(() => {
-    if (url.value) proprietaryFetch.execute()
-  })
-
-  return proprietaryFetch
 }
