@@ -5,7 +5,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 /**
  * Interface representing the use case for loading a ZF0 version of a target law in the form of a
  * {@link Norm}. If not present, it will be created anew but only in memory. Therefore, if needed it
- * should be persisted separately.
+ * should be persisted separately. TEST
  */
 public interface LoadZf0UseCase {
   /**
