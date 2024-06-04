@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
+import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
 import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -11,8 +12,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -79,10 +78,9 @@ public class LoadZf0Service implements LoadZf0UseCase {
     frbrExpression.setFRBRaliasNextVersionId(UUID.randomUUID());
 
     // 2. new eli of zfo
-    final Matcher matcher =
-        Pattern.compile("\\d{4}-\\d{2}-\\d{2}").matcher(frbrExpression.getEli());
-    final String zf0Eli = matcher.replaceFirst(announcementDateAmendingLaw);
-    frbrExpression.setEli(zf0Eli);
+    final Eli zf0Eli = new Eli(frbrExpression.getEli());
+    zf0Eli.setPointInTime(announcementDateAmendingLaw);
+    frbrExpression.setEli(zf0Eli.getValue());
 
     // 3. FRBRDate --> announcement date of amending law + @name="aenderung"
     frbrExpression.setFBRDate(announcementDateAmendingLaw, "aenderung");
@@ -93,10 +91,9 @@ public class LoadZf0Service implements LoadZf0UseCase {
     final FRBRManifestation frbrManifestation = zf0Norm.getMeta().getFRBRManifestation();
 
     // 1.replace date of eli parts
-    final Matcher matcher =
-        Pattern.compile("\\d{4}-\\d{2}-\\d{2}").matcher(frbrManifestation.getEli());
-    final String zf0Eli = matcher.replaceFirst(announcementDateAmendingLaw);
-    frbrManifestation.setEli(zf0Eli);
+    final Eli zf0Eli = new Eli(frbrManifestation.getEli());
+    zf0Eli.setPointInTime(announcementDateAmendingLaw);
+    frbrManifestation.setEli(zf0Eli.getValue());
 
     // 2. FRBRdate --> current system date + @name="generierung"
     frbrManifestation.setFBRDate(LocalDate.now().toString(), "generierung");
