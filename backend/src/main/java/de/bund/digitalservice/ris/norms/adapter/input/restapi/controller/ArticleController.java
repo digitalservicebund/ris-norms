@@ -147,7 +147,8 @@ public class ArticleController {
                           .map(
                               targetLaw ->
                                   loadZf0UseCase.loadZf0(
-                                      new LoadZf0UseCase.Query(optionalNorm.get(), targetLaw)))
+                                      new LoadZf0UseCase.Query(
+                                          optionalNorm.get(), targetLaw, true)))
                           .orElse(null);
                   return ArticleResponseMapper.fromNormArticle(article, targetLawZf0);
                 })
@@ -256,7 +257,8 @@ public class ArticleController {
                 eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
             .map(
                 targetLaw ->
-                    loadZf0UseCase.loadZf0(new LoadZf0UseCase.Query(optionalNorm.get(), targetLaw)))
+                    loadZf0UseCase.loadZf0(
+                        new LoadZf0UseCase.Query(optionalNorm.get(), targetLaw, true)))
             .orElse(null);
 
     // The response type is richer than the domain "Norm" type, hence the separate mapper

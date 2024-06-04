@@ -25,7 +25,7 @@ public interface LoadZf0UseCase {
    */
   record Query(Norm amendingLaw, Norm targetLaw, boolean persistZf0) {
     public Query(Norm amendingLaw, Norm targetLaw) {
-      this(amendingLaw, targetLaw, true);
+      this(amendingLaw, targetLaw, false);
     }
   }
 }

@@ -145,7 +145,7 @@ public class NormService
     final Norm targetLaw =
         loadNormPort.loadNorm(new LoadNormPort.Command(targetLawEliOptional.get())).orElseThrow();
 
-    final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(norm, targetLaw, false));
+    final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(norm, targetLaw));
 
     // Edit mod in metadata
     norm.getActiveModifications().stream()

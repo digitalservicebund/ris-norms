@@ -2,13 +2,16 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAnnouncementsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -24,15 +27,18 @@ public class AnnouncementService
         LoadTargetNormsAffectedByAnnouncementUseCase {
   private final LoadAllAnnouncementsPort loadAllAnnouncementsPort;
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
-  private final NormService normService;
+  private final LoadNormPort loadNormPort;
+  private final LoadZf0Service loadZf0Service;
 
   public AnnouncementService(
       LoadAllAnnouncementsPort loadAllAnnouncementsPort,
       LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
-      NormService normService) {
+      LoadNormPort loadNormPort,
+      LoadZf0Service loadZf0Service) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
-    this.normService = normService;
+    this.loadNormPort = loadNormPort;
+    this.loadZf0Service = loadZf0Service;
   }
 
   @Override
@@ -50,17 +56,36 @@ public class AnnouncementService
   @Override
   public List<Norm> loadTargetNormsAffectedByAnnouncement(
       LoadTargetNormsAffectedByAnnouncementUseCase.Query query) {
-    return this.loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(query.eli()))
-        .stream()
-        .map(Announcement::getNorm)
-        .flatMap(norm -> norm.getArticles().stream())
-        .flatMap(article -> article.getAffectedDocumentEli().stream())
+    final Optional<Norm> optionalAmendingNorm =
+        this.loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(query.eli()))
+            .map(Announcement::getNorm);
+
+    return optionalAmendingNorm
         .flatMap(
-            affectedDocumentEli ->
-                normService
-                    .loadNextVersionOfNorm(
-                        new LoadNextVersionOfNormUseCase.Query(affectedDocumentEli))
-                    .stream())
-        .toList();
+            m -> {
+              List<Norm> norms =
+                  m.getArticles().stream()
+                      .map(
+                          a -> {
+                            final Optional<String> optionalTargetLawEli =
+                                a.getAffectedDocumentEli();
+                            final Optional<Norm> optionalTargetLaw =
+                                optionalTargetLawEli.flatMap(
+                                    targetLawEli ->
+                                        loadNormPort.loadNorm(
+                                            new LoadNormPort.Command(targetLawEli)));
+                            return optionalTargetLaw
+                                .map(
+                                    targetLaw ->
+                                        loadZf0Service.loadZf0(
+                                            new LoadZf0UseCase.Query(
+                                                optionalAmendingNorm.get(), targetLaw, true)))
+                                .orElse(null);
+                          })
+                      .filter(Objects::nonNull)
+                      .toList();
+              return Optional.of(norms);
+            })
+        .orElse(Collections.emptyList());
   }
 }
