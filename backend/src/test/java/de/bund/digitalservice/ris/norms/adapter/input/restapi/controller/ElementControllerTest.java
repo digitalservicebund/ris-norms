@@ -35,6 +35,7 @@ class ElementControllerTest {
   @MockBean private LoadElementFromNormUseCase loadElementFromNormUseCase;
   @MockBean private LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
   @MockBean private LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase;
+  @MockBean private LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
 
   @Nested
   class GetSingleElement {

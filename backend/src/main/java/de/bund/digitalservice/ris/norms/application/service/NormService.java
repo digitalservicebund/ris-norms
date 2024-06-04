@@ -189,6 +189,7 @@ public class NormService
 
     return Optional.of(
         new UpdateModUseCase.Result(
+            // TODO return saved entity
             XmlMapper.toString(amendingNorm.getDocument()),
             XmlMapper.toString(zf0Norm.getDocument())));
   }
