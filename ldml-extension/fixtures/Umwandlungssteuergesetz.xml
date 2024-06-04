@@ -23,7 +23,7 @@
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="85e064f4-f56f-4cef-86a4-6801cc71c712" value="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1"></akn:FRBRthis>
                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="e8f52739-79c1-4e59-9db2-004180c8b29c" value="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu"></akn:FRBRuri>
                <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="c2e78146-833b-4d78-a055-27f05eeaf018" name="aktuelle-version-id" value="a3fc5402-0edc-4ed6-a9fe-027307d20d78"></akn:FRBRalias>
-               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2fd1cd57-d43c-4f95-82ee-cfc6f890741c" name="nachfolgende-version-id" value="5d84cd1d-3575-4a03-bb6c-f17834e392fe"></akn:FRBRalias>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2fd1cd57-d43c-4f95-82ee-cfc6f890741c" name="nachfolgende-version-id" value="336e3d60-663d-43dd-b0f6-5df76557c001"></akn:FRBRalias>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="6aace8d0-001f-4829-9794-79857835ee45" href="recht.bund.de/institution/bundesregierung"></akn:FRBRauthor>
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" GUID="a6dc32d0-140d-4147-88b2-d64639b91742" date="2021-06-02" name="verkuendung"></akn:FRBRdate>
                <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" GUID="b872861e-0add-4bbb-ba90-a5edb3c40038" language="deu"></akn:FRBRlanguage>
