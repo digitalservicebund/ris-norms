@@ -8,8 +8,8 @@ import RisTabs from "@/components/editor/RisTabs.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormHtml } from "@/composables/useNormHtml"
+import { useProprietary } from "@/composables/useProprietary"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
-import { useGetProprietary } from "@/services/proprietaryService"
 
 /**
  * The xml of the law whose metadata is edited on this view. As both this and the article metadata editor vie both edit
@@ -21,7 +21,7 @@ const xml = defineModel<string>("xml")
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
-const { data, isFetching, error } = useGetProprietary(affectedDocumentEli, {
+const { data, isFetching, error } = useProprietary(affectedDocumentEli, {
   atDate: timeBoundaryAsDate,
 })
 
