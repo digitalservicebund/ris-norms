@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormHtml } from "@/composables/useNormHtml"
+import { useProprietary } from "@/composables/useProprietary"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
-import { useGetProprietary } from "@/services/proprietaryService"
 
 /**
  * The xml of the law whose metadata is edited on this view. As both this and the article metadata editor vie both edit
@@ -19,7 +21,7 @@ const xml = defineModel<string>("xml")
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
-const { data } = useGetProprietary(affectedDocumentEli, {
+const { data, isFetching, error } = useProprietary(affectedDocumentEli, {
   atDate: timeBoundaryAsDate,
 })
 
@@ -54,7 +56,16 @@ const fnaId = useElementId()
           ]"
         >
           <template #editor>
+            <div v-if="isFetching" class="my-16 flex justify-center">
+              <RisLoadingSpinner />
+            </div>
+            <RisCallout
+              v-else-if="error"
+              variant="error"
+              title="Die Daten konnten nicht geladen werden."
+            />
             <div
+              v-else
               class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-8"
             >
               <h2 class="ds-label-02-bold col-span-2">Sachgebiet</h2>

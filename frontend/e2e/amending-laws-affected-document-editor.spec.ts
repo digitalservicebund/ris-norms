@@ -43,16 +43,13 @@ test.describe("sidebar navigation", () => {
 
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
 
-    // Ensure elements have been loaded before proceeding, this is to avoid
-    // flakyness in getBy...().all().
-    await page.waitForResponse((response) =>
-      response.url().includes("/elements?type="),
-    )
-
-    let links = await nav.getByRole("link").all()
-    await expect(links[0]).toHaveText("Rahmen") // First is always the entire document
-    await expect(links[1]).toHaveText(
-      "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+    const links = nav.getByRole("link")
+    await expect(links).toHaveText(
+      [
+        "Rahmen",
+        "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+      ],
+      { useInnerText: true },
     )
 
     // Go to the other time boundary to check if the result is the same (should always
@@ -67,10 +64,12 @@ test.describe("sidebar navigation", () => {
     )
 
     // Expect to see the same result again
-    links = await nav.getByRole("link").all()
-    await expect(links[0]).toHaveText("Rahmen") // First is always the entire document
-    await expect(links[1]).toHaveText(
-      "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+    await expect(links).toHaveText(
+      [
+        "Rahmen",
+        "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+      ],
+      { useInnerText: true },
     )
   })
 
@@ -81,22 +80,16 @@ test.describe("sidebar navigation", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
     )
 
-    // Ensure time boundaries have been loaded before proceeding, this is to avoid
-    // flakyness in getBy...().all().
-    await page.waitForResponse((response) =>
-      response.url().endsWith("/timeBoundaries"),
-    )
-
     const select = page.getByRole("combobox", { name: "Zeitgrenze" })
-    const options = await select.getByRole("option").all()
+    const options = select.getByRole("option")
 
     // First entry selected by default
     await expect(select).toHaveValue("1970-01-01")
 
     // Time boundaries available as options
-    expect(options.length).toBe(2)
-    await expect(options[0]).toHaveText("01.01.1970")
-    await expect(options[1]).toHaveText("30.12.2023")
+    await expect(options).toHaveText(["01.01.1970", "30.12.2023"], {
+      useInnerText: true,
+    })
   })
 
   test("navigates to the selected time boundary of the whole document", async ({
@@ -339,15 +332,41 @@ test.describe("metadata reading", () => {
       name: "Metadaten bearbeiten",
     })
 
+    await page.waitForResponse((response) =>
+      response.url().includes("/proprietary/"),
+    )
+
     const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
     dropdown.selectOption("2023-12-30")
 
     await page.waitForResponse((response) =>
-      response.url().includes("/proprietary/2023-12-30"),
+      response.url().includes("/proprietary/"),
     )
 
     await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
       "210-5",
     )
+  })
+
+  test("displays an error if the data could not be loaded", async ({
+    page,
+  }) => {
+    await page.route(/\/proprietary\/2023-12-30$/, (request) => {
+      request.abort()
+    })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten bearbeiten",
+    })
+
+    await expect(
+      editorRegion.getByText("Die Daten konnten nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
   })
 })
