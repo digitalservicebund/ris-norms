@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -19,7 +21,7 @@ const xml = defineModel<string>("xml")
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
-const { data } = useGetProprietary(affectedDocumentEli, {
+const { data, isFetching, error } = useGetProprietary(affectedDocumentEli, {
   atDate: timeBoundaryAsDate,
 })
 
@@ -54,7 +56,16 @@ const fnaId = useElementId()
           ]"
         >
           <template #editor>
+            <div v-if="isFetching" class="my-16 flex justify-center">
+              <RisLoadingSpinner />
+            </div>
+            <RisCallout
+              v-else-if="error"
+              variant="error"
+              title="Die Daten konnten nicht geladen werden."
+            />
             <div
+              v-else
               class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-8"
             >
               <h2 class="ds-label-02-bold col-span-2">Sachgebiet</h2>

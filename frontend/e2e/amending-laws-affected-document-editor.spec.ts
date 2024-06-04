@@ -350,4 +350,24 @@ test.describe("metadata reading", () => {
       "210-5",
     )
   })
+
+  test("displays an error if the data could not be loaded", async ({
+    page,
+  }) => {
+    await page.route(/\/proprietary\/2023-12-30$/, (request) => {
+      request.abort()
+    })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten bearbeiten",
+    })
+
+    await expect(
+      editorRegion.getByText("Die Daten konnten nicht geladen werden."),
+    ).toBeVisible()
+  })
 })
