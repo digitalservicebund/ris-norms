@@ -1,11 +1,11 @@
 import { Proprietary } from "@/types/proprietary"
 import { UseFetchReturn } from "@vueuse/core"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
-import { useApiFetch } from "./apiService"
+import { INVALID_URL, useApiFetch } from "./apiService"
 
 /**
  * Returns the proprietary metadata of a norm from the API. Reloads when the
- * ELI changes.
+ * parameters changes.
  *
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
@@ -32,15 +32,17 @@ export function useGetProprietary(
   })
 
   const url = computed(() => {
+    const eliVal = toValue(eli)
+    if (!eliVal) return INVALID_URL
+
     let result = `/norms/${toValue(eli)}/proprietary`
     if (dateAsString.value) result += `/${dateAsString.value}`
-
     return result
   })
 
   return useApiFetch<Proprietary>(url, {
-    beforeFetch(ctx) {
-      if (!toValue(eli)) ctx.cancel()
+    beforeFetch({ url, cancel }) {
+      if (url === INVALID_URL) cancel()
     },
     refetch: true,
   }).json()
