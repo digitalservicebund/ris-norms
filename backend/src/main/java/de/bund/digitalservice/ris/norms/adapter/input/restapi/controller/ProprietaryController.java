@@ -1,12 +1,12 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
-import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ProprietaryResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.service.ProprietaryService;
+import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
@@ -35,30 +35,16 @@ public class ProprietaryController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
+   * @param eli Eli of the request
    * @return {@link Proprietary} of the Norm identified by the ElI
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ProprietaryResponseSchema> getProprietary(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
-      @PathVariable final String subtype) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+  public ResponseEntity<ProprietaryResponseSchema> getProprietary(final Eli eli) {
 
     try {
       var proprietary =
-          proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
+          proprietaryService.loadProprietaryFromNorm(
+              new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
 
       return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary));
 
@@ -73,13 +59,7 @@ public class ProprietaryController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
+   * @param eli Eli of the request
    * @param atDate Date at which to return the proprietary
    * @return {@link Proprietary} of the Norm identified by the ElI
    */
@@ -87,20 +67,12 @@ public class ProprietaryController {
       path = "/{atDate}",
       produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<ProprietaryResponseSchema> getProprietaryAtDate(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
-      @PathVariable final String subtype,
-      @PathVariable final LocalDate atDate) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
+      final Eli eli, @PathVariable final LocalDate atDate) {
 
     try {
       var proprietary =
-          proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
+          proprietaryService.loadProprietaryFromNorm(
+              new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
 
       return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary));
 

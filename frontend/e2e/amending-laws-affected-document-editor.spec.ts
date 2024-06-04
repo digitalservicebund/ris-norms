@@ -308,3 +308,46 @@ test.describe("XML editing", () => {
     }
   })
 })
+
+test.describe("metadata reading", () => {
+  test("displays metadata on the frame", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten bearbeiten",
+    })
+
+    await page.waitForResponse((response) =>
+      response.url().includes("/proprietary/"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
+      "210-5",
+    )
+  })
+
+  test("displays metadata on the frame at different time boundaries", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten bearbeiten",
+    })
+
+    const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
+    dropdown.selectOption("2023-12-30")
+
+    await page.waitForResponse((response) =>
+      response.url().includes("/proprietary/2023-12-30"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
+      "210-5",
+    )
+  })
+})

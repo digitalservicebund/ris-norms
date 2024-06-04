@@ -102,6 +102,14 @@ class NormControllerTest {
           .andExpect(jsonPath("frbrNumber").value(equalTo("s593")))
           .andExpect(jsonPath("frbrName").value(equalTo("BGBl. I")))
           .andExpect(jsonPath("frbrDateVerkuendung").value(equalTo("1964-08-05")));
+
+      verify(loadNormUseCase, times(1))
+          .loadNorm(
+              argThat(
+                  query ->
+                      query
+                          .eli()
+                          .equals("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
     }
   }
 
