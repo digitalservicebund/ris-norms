@@ -36,8 +36,8 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3")
                   .accept(MediaType.TEXT_HTML))
+          // then
           .andExpect(status().isNotFound());
-      // then
     }
 
     @Test
