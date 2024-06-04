@@ -8,7 +8,7 @@ describe("proprietaryService", () => {
     vi.resetModules()
   })
 
-  describe("useProprietary(eli)", () => {
+  describe("useProprietary(eli, options)", () => {
     it("provides the data from the API", async () => {
       const fixtures: Proprietary = {
         fna: { value: "foo" },
@@ -79,6 +79,84 @@ describe("proprietaryService", () => {
 
       eli.value = "fake/eli/2"
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
+    })
+
+    it("loads with a date string", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetProprietary } = await import(
+        "@/services/proprietaryService"
+      )
+
+      const eli = ref("fake/eli/1")
+      useGetProprietary(eli, { atDate: "2024-04-06" })
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/2024-04-06",
+          expect.any(Object),
+        ),
+      )
+    })
+
+    it("loads with a date object", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetProprietary } = await import(
+        "@/services/proprietaryService"
+      )
+
+      const eli = ref("fake/eli/1")
+      useGetProprietary(eli, { atDate: new Date(2024, 6, 4) })
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/2024-07-04",
+          expect.any(Object),
+        ),
+      )
+    })
+
+    it("reloads when the date changes", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetProprietary } = await import(
+        "@/services/proprietaryService"
+      )
+
+      const eli = ref("fake/eli/1")
+      const date = ref("2024-06-04")
+      useGetProprietary(eli, { atDate: date })
+      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
+
+      date.value = "2024-06-10"
+      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
+    })
+
+    it("doesn't append a date if there is none", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetProprietary } = await import(
+        "@/services/proprietaryService"
+      )
+
+      const eli = ref("fake/eli/1")
+      useGetProprietary(eli, { atDate: undefined })
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary",
+          expect.any(Object),
+        ),
+      )
     })
   })
 })
