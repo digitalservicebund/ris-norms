@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -33,7 +34,6 @@ class ElementControllerTest {
   @MockBean private LoadNormUseCase loadNormUseCase;
   @MockBean private LoadElementFromNormUseCase loadElementFromNormUseCase;
   @MockBean private LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
-  @MockBean private LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
   @MockBean private LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase;
 
   @Nested
@@ -187,8 +187,7 @@ class ElementControllerTest {
       void itReturnsNotFoundIfNormIsNotFound() throws Exception {
         // given
         when(loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(any()))
-            .thenThrow(
-                new LoadElementsByTypeFromNormUseCase.NormNotFoundException("Norm not found"));
+            .thenThrow(new NormNotFoundException("Norm not found"));
 
         // when
         mockMvc

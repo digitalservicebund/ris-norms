@@ -362,10 +362,7 @@ paths:
 
   /norms/{eli}/proprietary/{atDate}:
     get:
-      summary: Get the proprietary metadata of a norm at the specified time boundary
-      tags:
-        - under construction
-      summary: Get the metadata of a norm at the specified time boundary
+      summary: Get the proprietary metadata of a norm at the specified date
       parameters:
         - name: eli
           in: path
@@ -376,7 +373,7 @@ paths:
         - name: atDate
           in: path
           required: false
-          description: eId of the time boundary at which the metadata should be loaded
+          description: date at which the metadata should be loaded
           schema:
             type: string
             format: date
@@ -388,7 +385,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Metadata'
         '404':
-          description: If the norm or the time boundary doesn't exist.
+          description: If the norm does not exist.
     put:
       summary: Replace the proprietary metadata of a norm at the specified date
       tags:

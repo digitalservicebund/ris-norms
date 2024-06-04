@@ -637,7 +637,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itDoesNotUpdateAMod() throws Exception {
+    void itReturnsBadRequestAndDoesNotSaveIt() throws Exception {
       // When
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
       normRepository.save(

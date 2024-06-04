@@ -16,13 +16,13 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseC
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,6 +37,8 @@ class NormServiceTest {
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final ModificationValidator modificationValidator = mock(ModificationValidator.class);
   final UpdateNormService updateNormService = mock(UpdateNormService.class);
+  final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
+  final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
 
   final NormService service =
       new NormService(
@@ -44,7 +46,9 @@ class NormServiceTest {
           loadNormByGuidPort,
           updateNormPort,
           modificationValidator,
-          updateNormService);
+          updateNormService,
+          loadZf0Service,
+          updateOrSaveNormPort);
 
   @Nested
   class loadNorm {
@@ -713,8 +717,7 @@ class NormServiceTest {
   class UpdateMod {
 
     @Test
-    void itCallsLoadNormAndReturnsEmptyBecauseEliNotFound()
-        throws UpdateModUseCase.InvalidUpdateModException {
+    void itCallsLoadNormAndReturnsEmptyBecauseEliNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -739,8 +742,7 @@ class NormServiceTest {
     }
 
     @Test
-    void itReturnsEmptyBecauseDestinationHrefIsRelative()
-        throws UpdateModUseCase.InvalidUpdateModException {
+    void itReturnsEmptyBecauseDestinationHrefIsRelative() {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       String eli = amendingLaw.getEli();
@@ -766,168 +768,7 @@ class NormServiceTest {
     }
 
     @Test
-    void itReturnsEmptyBecauseTargetLawHasNoNextVersionGuid()
-        throws UpdateModUseCase.InvalidUpdateModException {
-      // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String amendingLawEli = amendingLaw.getEli();
-      Norm targetLaw =
-          NormFixtures.loadFromDisk("SimpleNorm.xml"); // <- getNextVersionGuid().isEmpty()
-      String targetLawEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      when(loadNormPort.loadNorm(any()))
-          .thenReturn(Optional.of(amendingLaw))
-          .thenReturn(Optional.of(targetLaw));
-
-      // When
-      var xml =
-          service.updateMod(
-              new UpdateModUseCase.Query(
-                  amendingLawEli,
-                  "eid",
-                  "refersTo",
-                  "time-boundary-eid",
-                  targetLawEli
-                      + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-                  "old text",
-                  "new text"));
-
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingLawEli)));
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetLawEli)));
-      verify(loadNormByGuidPort, times(0)).loadNormByGuid(any());
-      verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(xml).isEmpty();
-    }
-
-    @Test
-    void itReturnsEmptyBecauseTargetLawByNextVersionGuidNotFound()
-        throws UpdateModUseCase.InvalidUpdateModException {
-      // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String amendingLawEli = amendingLaw.getEli();
-      Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      String targetLawEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      String nextVersionGuid =
-          "8de2c22c-d706-498a-9d96-930d7a03d224"; // <- this GUID is referenced by targetLaw but not
-      // found
-      when(loadNormPort.loadNorm(any()))
-          .thenReturn(Optional.of(amendingLaw))
-          .thenReturn(Optional.of(targetLaw));
-
-      // When
-      var xml =
-          service.updateMod(
-              new UpdateModUseCase.Query(
-                  amendingLawEli,
-                  "eid",
-                  "refersTo",
-                  "time-boundary-eid",
-                  targetLawEli
-                      + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-                  "old text",
-                  "new text"));
-
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingLawEli)));
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetLawEli)));
-      verify(loadNormByGuidPort, times(1))
-          .loadNormByGuid(
-              argThat(argument -> Objects.equals(argument.guid().toString(), nextVersionGuid)));
-      verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(xml).isEmpty();
-    }
-
-    @Test
-    void itThrowsInvalidUpdateModExceptionOnXmlContentExceptionFromValidator() {
-      // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String amendingLawEli = amendingLaw.getEli();
-      Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-      String targetLawEli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      String nextVersionGuid = "8de2c22c-d706-498a-9d96-930d7a03d224";
-      Norm targetLawZF0 = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      String validatorExceptionMessage = "This is the validator message.";
-      String newCharacterRange = "20-25";
-      String timeBoundaryEid = "#time-boundary-eid";
-      String newDestinationHref =
-          targetLawEli
-              + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/"
-              + newCharacterRange
-              + ".xml";
-      String newText = "new text";
-      when(loadNormPort.loadNorm(any()))
-          .thenReturn(Optional.of(amendingLaw))
-          .thenReturn(Optional.of(targetLaw));
-      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(targetLawZF0));
-      doThrow(new XmlContentException(validatorExceptionMessage, null))
-          .when(modificationValidator)
-          .validate(any(), any());
-
-      // When
-      var thrown =
-          catchThrowable(
-              () ->
-                  service.updateMod(
-                      new UpdateModUseCase.Query(
-                          amendingLawEli,
-                          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1", // <- this matters now
-                          "refersTo",
-                          timeBoundaryEid, // <- this will be set
-                          newDestinationHref, // <- this will be set in ActivMods AND mod
-                          "old text",
-                          newText)));
-
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingLawEli)));
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetLawEli)));
-      verify(loadNormByGuidPort, times(1))
-          .loadNormByGuid(
-              argThat(argument -> Objects.equals(argument.guid().toString(), nextVersionGuid)));
-      verify(modificationValidator, times(1))
-          .validate(
-              any(),
-              argThat(
-                  argumentAmendingLaw ->
-                      Objects.equals(
-                              argumentAmendingLaw
-                                  .getActiveModifications()
-                                  .getFirst()
-                                  .getDestinationHref()
-                                  .orElseThrow()
-                                  .value(),
-                              newDestinationHref)
-                          && Objects.equals(
-                              argumentAmendingLaw
-                                  .getActiveModifications()
-                                  .getFirst()
-                                  .getForcePeriodEid()
-                                  .orElseThrow(),
-                              timeBoundaryEid)
-                          && Objects.equals(
-                              argumentAmendingLaw
-                                  .getMods()
-                                  .getFirst()
-                                  .getTargetHref()
-                                  .orElseThrow()
-                                  .value(),
-                              newDestinationHref)
-                          && Objects.equals(
-                              argumentAmendingLaw.getMods().getFirst().getNewText().orElseThrow(),
-                              newText)));
-      verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(thrown)
-          .isInstanceOf(UpdateModUseCase.InvalidUpdateModException.class)
-          .hasMessageContaining(validatorExceptionMessage);
-    }
-
-    @Test
-    void itCallsLoadNormAndUpdatesXml() throws UpdateModUseCase.InvalidUpdateModException {
+    void itCallsLoadNormAndUpdatesXml() {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       String amendingLawEli = amendingLaw.getEli();
@@ -946,7 +787,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
           .thenReturn(Optional.of(amendingLaw))
           .thenReturn(Optional.of(targetLaw));
-      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(targetLawZF0));
+      when(loadZf0Service.loadZf0(any())).thenReturn(targetLawZF0);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(targetLawZF0);
       when(updateNormPort.updateNorm(any()))
           .thenReturn(Optional.of(amendingLaw))
@@ -962,16 +803,15 @@ class NormServiceTest {
                   newTimeBoundaryEid, // <- this will be set
                   newDestinationHref, // <- this will be set in ActivMods AND mod
                   "old text",
-                  newText));
+                  newText,
+                  false));
 
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingLawEli)));
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetLawEli)));
-      verify(loadNormByGuidPort, times(1))
-          .loadNormByGuid(
-              argThat(argument -> Objects.equals(argument.guid().toString(), nextVersionGuid)));
+      verify(loadZf0Service, times(1)).loadZf0(any());
       verify(modificationValidator, times(1))
           .validate(
               any(),
@@ -1012,8 +852,10 @@ class NormServiceTest {
                           && Objects.equals(argument.amendingNorm(), amendingLaw)));
       verify(updateNormPort, times(1))
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), amendingLaw)));
+      verify(updateOrSaveNormPort, times(1))
+          .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), targetLawZF0)));
       verify(updateNormPort, times(1))
-          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), targetLawZF0)));
+          .updateNorm(argThat(argument -> Objects.equals(argument.norm(), amendingLaw)));
 
       assertThat(returnedXml).isPresent();
       final Document amendingXmlDocument =

@@ -22,8 +22,8 @@
             <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="21777967-2f44-49be-845d-d73c0ffb4d5b">
                <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="85e064f4-f56f-4cef-86a4-6801cc71c712" value="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1"></akn:FRBRthis>
                <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1" GUID="e8f52739-79c1-4e59-9db2-004180c8b29c" value="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu"></akn:FRBRuri>
-               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="c2e78146-833b-4d78-a055-27f05eeaf018" name="aktuelle-version-id" value="53d31e3c-5c46-4e96-8017-b0db064561a2"></akn:FRBRalias>
-               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2fd1cd57-d43c-4f95-82ee-cfc6f890741c" name="nachfolgende-version-id" value="5d84cd1d-3575-4a03-bb6c-f17834e392fe"></akn:FRBRalias>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="c2e78146-833b-4d78-a055-27f05eeaf018" name="aktuelle-version-id" value="a3fc5402-0edc-4ed6-a9fe-027307d20d78"></akn:FRBRalias>
+               <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2fd1cd57-d43c-4f95-82ee-cfc6f890741c" name="nachfolgende-version-id" value="336e3d60-663d-43dd-b0f6-5df76557c001"></akn:FRBRalias>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" GUID="6aace8d0-001f-4829-9794-79857835ee45" href="recht.bund.de/institution/bundesregierung"></akn:FRBRauthor>
                <akn:FRBRdate eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" GUID="a6dc32d0-140d-4147-88b2-d64639b91742" date="2021-06-02" name="verkuendung"></akn:FRBRdate>
                <akn:FRBRlanguage eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" GUID="b872861e-0add-4bbb-ba90-a5edb3c40038" language="deu"></akn:FRBRlanguage>
@@ -45,7 +45,7 @@
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="85e92fc8-b381-47bb-a476-c35fa2794336" date="2002-10-25" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="neufassung"></akn:eventRef>
             <!-- Neufassung 2-->
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4" GUID="42c9fdcd-6335-4e84-9ab7-b2c955f5cbaf" date="2006-12-07" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="neufassung"></akn:eventRef>
-            <!-- Letzte Änderung --> 
+            <!-- Letzte Änderung -->
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-5" GUID="85e92fc8-b381-47bb-a476-c35fa2794337" date="2023-12-23" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="inkrafttreten"></akn:eventRef>
          </akn:lifecycle>
          <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
@@ -89,7 +89,7 @@
       <akn:preface eId="einleitung-1" GUID="803123ed-9705-4e0f-8a7c-a648084e1638">
          <akn:longTitle eId="einleitung-1_doktitel-1" GUID="9610fccb-c35a-4756-81fb-0bb8fa111000">
             <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a80af8c8-c844-4b75-824f-cdbf2f666d07">
-               <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Umwandlungssteuergesetz             
+               <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Umwandlungssteuergesetz
                </akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1" GUID="f25432ed-590e-4bfc-bd6f-2ded9c586dba">
                   <akn:inline refersTo="amtliche-abkuerzung" name="attributsemantik-noch-undefiniert" eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1" GUID="3d5ecf29-792c-4854-99e4-0cf18b5c0c9c">UmwStG 2006</akn:inline>
@@ -279,7 +279,7 @@
                      </akn:p>
                   </akn:content>
                </akn:paragraph>
-            </akn:article>   
+            </akn:article>
                <!-- §16-->
                <akn:article eId="hauptteil-1_para-16" GUID="cd51af28-5db1-4d4c-ae23-ac5b3742613e" period="#geltungszeitgr-3">
                   <akn:num eId="hauptteil-1_para-16_bezeichnung-1" GUID="80d8f934-8f58-4ae8-a8f9-843f66390fec">

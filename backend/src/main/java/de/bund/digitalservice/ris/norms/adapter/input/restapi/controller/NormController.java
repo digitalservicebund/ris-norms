@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModRe
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import jakarta.validation.Valid;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -286,7 +287,7 @@ public class NormController {
           .map(UpdateModResponseMapper::fromResult)
           .map(ResponseEntity::ok)
           .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    } catch (UpdateModUseCase.InvalidUpdateModException e) {
+    } catch (XmlContentException e) {
       return ResponseEntity.badRequest().build();
     }
   }
