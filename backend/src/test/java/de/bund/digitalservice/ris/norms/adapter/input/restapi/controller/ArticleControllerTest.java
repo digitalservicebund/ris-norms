@@ -33,11 +33,10 @@ class ArticleControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadNormUseCase loadNormUseCase;
-  @MockBean private LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   @MockBean private LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   @MockBean private LoadArticleHtmlUseCase loadArticleHtmlUseCase;
+  @MockBean private LoadZf0UseCase loadZf0UseCase;
 
   @Nested
   class getArticles {
@@ -123,8 +122,7 @@ class ArticleControllerTest {
               .build();
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(loadNextVersionOfNormUseCase.loadNextVersionOfNorm(any()))
-          .thenReturn(Optional.of(normZf0));
+      when(loadZf0UseCase.loadZf0(any())).thenReturn(normZf0);
 
       // When
       mockMvc
@@ -154,13 +152,8 @@ class ArticleControllerTest {
                       Objects.equals(
                           argument.eli(),
                           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")));
-      verify(loadNextVersionOfNormUseCase, times(1))
-          .loadNextVersionOfNorm(
-              argThat(
-                  argument ->
-                      Objects.equals(
-                          argument.eli(),
-                          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
+      verify(loadZf0UseCase, times(1))
+          .loadZf0(argThat(argument -> Objects.equals(argument.amendingLaw(), norm)));
     }
 
     @Test
@@ -345,8 +338,7 @@ class ArticleControllerTest {
               .build();
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(loadNextVersionOfNormUseCase.loadNextVersionOfNorm(any()))
-          .thenReturn(Optional.of(normZf0));
+      when(loadZf0UseCase.loadZf0(any())).thenReturn(normZf0);
 
       // When
       mockMvc
@@ -370,13 +362,8 @@ class ArticleControllerTest {
                       Objects.equals(
                           argument.eli(),
                           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")));
-      verify(loadNextVersionOfNormUseCase, times(1))
-          .loadNextVersionOfNorm(
-              argThat(
-                  argument ->
-                      Objects.equals(
-                          argument.eli(),
-                          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
+      verify(loadZf0UseCase, times(1))
+          .loadZf0(argThat(argument -> Objects.equals(argument.amendingLaw(), norm)));
     }
 
     @Test

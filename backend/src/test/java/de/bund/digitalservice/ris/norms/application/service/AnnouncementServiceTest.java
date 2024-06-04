@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementB
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAnnouncementsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -21,10 +22,12 @@ class AnnouncementServiceTest {
   final LoadAllAnnouncementsPort loadAllAnnouncementsPort = mock(LoadAllAnnouncementsPort.class);
   final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort =
       mock(LoadAnnouncementByNormEliPort.class);
-  final NormService normService = mock(NormService.class);
+  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
 
   final AnnouncementService service =
-      new AnnouncementService(loadAllAnnouncementsPort, loadAnnouncementByNormEliPort, normService);
+      new AnnouncementService(
+          loadAllAnnouncementsPort, loadAnnouncementByNormEliPort, loadNormPort, loadZf0Service);
 
   @Nested
   class loadAllAnnouncements {
@@ -215,13 +218,10 @@ class AnnouncementServiceTest {
               .build();
       when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
           .thenReturn(Optional.of(announcement));
-      when(normService.loadNextVersionOfNorm(
-              argThat(
-                  argument ->
-                      argument
-                          .eli()
-                          .equals("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"))))
-          .thenReturn(Optional.of(affectedNormZf0));
+      // Should return target law but we dont care what is returned, since we also mock the loadZf0
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(loadZf0Service.loadZf0(argThat(argument -> argument.amendingLaw().equals(amendingNorm))))
+          .thenReturn(affectedNormZf0);
 
       // When
       var norms =
