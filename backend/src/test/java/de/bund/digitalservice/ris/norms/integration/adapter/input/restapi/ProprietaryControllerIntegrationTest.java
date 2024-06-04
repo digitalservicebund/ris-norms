@@ -72,5 +72,22 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("fna").exists())
           .andExpect(jsonPath("fna.value").doesNotExist());
     }
+
+    @Test
+    void returnProprietary() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("fna").exists())
+          .andExpect(jsonPath("fna.value").value("754-28-1"));
+    }
   }
 }
