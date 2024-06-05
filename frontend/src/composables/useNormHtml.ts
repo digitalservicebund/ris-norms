@@ -4,6 +4,7 @@ import { getNormHtmlByEli } from "@/services/normService"
 /**
  * Get the rendered HTML of a norm.
  *
+ * @deprecated This function is deprecated and should not be used in new code.
  * @param eli a reference to the eli for which the norm html render will be returned.
  *  Changing the value of the reference will load the data for the new eli.
  * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
