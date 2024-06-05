@@ -152,14 +152,14 @@ watch(
       : undefined
   },
 )
-// dont send out the emit event if not empty string but is not valid because dates obkect mever gets current state of input and thinks old stuff int here.
-watch(inputValue, (newValue) => {
-  if (newValue === "") {
+
+watch(inputValue, (is) => {
+  if (is === "") {
     emit("update:modelValue", undefined)
   } else if (isValidDate.value) {
     emit(
       "update:modelValue",
-      dayjs(newValue, "DD.MM.YYYY", true).format("YYYY-MM-DD"),
+      dayjs(is, "DD.MM.YYYY", true).format("YYYY-MM-DD"),
     )
   }
 })
