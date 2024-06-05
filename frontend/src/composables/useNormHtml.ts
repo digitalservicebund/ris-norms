@@ -54,19 +54,11 @@ export function useNormHtmlByEli(
   error: Readonly<Ref<Error | null>>
   isFetching: Readonly<Ref<boolean>>
 } {
-  const eliRef = ref(toValue(eli))
-  const atRef = ref(toValue(at))
-
-  watch(
-    () => [toValue(eli), toValue(at)],
-    () => {
-      eliRef.value = toValue(eli)
-      atRef.value = toValue(at)
-    },
-    { immediate: true },
+  const { data, error, isFetching } = useGetNormHtmlByEli(
+    toValue(eli),
+    false,
+    toValue(at),
   )
-
-  const { data, error, isFetching } = useGetNormHtmlByEli(eliRef, false, atRef)
 
   const normHtml = computed(() => data.value ?? undefined)
 
