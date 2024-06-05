@@ -59,7 +59,12 @@ public class LoadZf0Service implements LoadZf0UseCase {
     final Norm zf0Norm = Norm.builder().document(cloneDocument(targetNorm.getDocument())).build();
 
     final String announcementDateAmendingLaw =
-        amendingNorm.getFBRDateVerkuendung().orElseThrow().format(DateTimeFormatter.ISO_LOCAL_DATE);
+        amendingNorm
+            .getMeta()
+            .getFRBRWork()
+            .getFBRDateVerkuendung()
+            .orElseThrow()
+            .format(DateTimeFormatter.ISO_LOCAL_DATE);
 
     updateFRBRExpression(zf0Norm, targetNorm, announcementDateAmendingLaw);
     updateFRBRManifestation(zf0Norm, announcementDateAmendingLaw);

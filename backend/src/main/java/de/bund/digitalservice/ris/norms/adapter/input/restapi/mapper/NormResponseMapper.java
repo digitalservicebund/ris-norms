@@ -19,9 +19,9 @@ public class NormResponseMapper {
     return NormResponseSchema.builder()
         .eli(norm.getEli())
         .title(norm.getTitle().orElse(null))
-        .frbrName(norm.getFRBRname().orElse(null))
-        .frbrNumber(norm.getFRBRnumber().orElse(null))
-        .frbrDateVerkuendung(norm.getFBRDateVerkuendung().orElse(null))
+        .frbrName(norm.getMeta().getFRBRWork().getFRBRname().orElse(null))
+        .frbrNumber(norm.getMeta().getFRBRWork().getFRBRnumber().orElse(null))
+        .frbrDateVerkuendung(norm.getMeta().getFRBRWork().getFBRDateVerkuendung().orElse(null))
         .shortTitle(norm.getShortTitle().orElse(null))
         .fna(norm.getFna().orElse(null))
         .build();

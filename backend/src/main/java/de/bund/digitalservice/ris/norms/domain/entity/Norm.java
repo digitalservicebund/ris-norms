@@ -55,41 +55,6 @@ public class Norm {
   }
 
   /**
-   * Returns a FRBRname as {@link String} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The FRBRname
-   */
-  public Optional<String> getFRBRname() {
-    Optional<String> fRBRname =
-        NodeParser.getValueFromExpression("//FRBRWork/FRBRname/@value", document);
-
-    return fRBRname.map(
-        s ->
-            s.replace("bgbl-1", "BGBl. I")
-                .replace("bgbl-2", "BGBl. II")
-                .replace("banz-at", "BAnz AT"));
-  }
-
-  /**
-   * Returns a FRBRnumber as {@link String} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The FRBRnumber
-   */
-  public Optional<String> getFRBRnumber() {
-    return NodeParser.getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
-  }
-
-  /**
-   * Returns a FBRDateVerkuendun as {@link LocalDate} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The FBRDateVerkuendun
-   */
-  public Optional<LocalDate> getFBRDateVerkuendung() {
-    return NodeParser.getValueFromExpression("//FRBRWork/FRBRdate/@date", document)
-        .map(LocalDate::parse);
-  }
-
-  /**
    * Returns the title as {@link String} from a {@link Document} in a {@link Norm}.
    *
    * @return The title

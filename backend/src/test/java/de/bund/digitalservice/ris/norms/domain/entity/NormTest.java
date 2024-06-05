@@ -209,7 +209,7 @@ class NormTest {
     String expectedFRBRname = "BGBl. I";
 
     // when
-    String actualFRBRname = norm.getFRBRname().get();
+    String actualFRBRname = norm.getMeta().getFRBRWork().getFRBRname().get();
 
     // then
     assertThat(actualFRBRname).contains(expectedFRBRname);
@@ -242,7 +242,7 @@ class NormTest {
     String expectedFRBRname = "s593";
 
     // when
-    String actualAnnouncementGazette = norm.getFRBRnumber().get();
+    String actualAnnouncementGazette = norm.getMeta().getFRBRWork().getFRBRnumber().get();
 
     // then
     assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
@@ -275,7 +275,7 @@ class NormTest {
     String expectedFRBRname = "BGBl. I";
 
     // when
-    String actualAnnouncementGazette = norm.getFRBRname().get();
+    String actualAnnouncementGazette = norm.getMeta().getFRBRWork().getFRBRname().get();
 
     // then
     assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
@@ -309,7 +309,7 @@ class NormTest {
     LocalDate expectedFBRDateVerkuendung = LocalDate.of(1964, 8, 5);
 
     // when
-    LocalDate actualFBRDateVerkuendung = norm.getFBRDateVerkuendung().get();
+    LocalDate actualFBRDateVerkuendung = norm.getMeta().getFRBRWork().getFBRDateVerkuendung().get();
 
     // then
     assertThat(actualFBRDateVerkuendung).isEqualTo(expectedFBRDateVerkuendung);

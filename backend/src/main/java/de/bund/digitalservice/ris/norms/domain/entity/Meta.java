@@ -15,6 +15,16 @@ public class Meta {
   private final Node node;
 
   /**
+   * Returns a {@link FRBRWork} instance from a {@link Node} in a {@link Meta}.
+   *
+   * @return the FRBRWork node as {@link FRBRWork}
+   */
+  public FRBRWork getFRBRWork() {
+    return new FRBRWork(
+        NodeParser.getMandatoryNodeFromExpression("./identification/FRBRWork", node));
+  }
+
+  /**
    * Returns a {@link FRBRExpression} instance from a {@link Node} in a {@link Meta}.
    *
    * @return the FRBRExpression node as {@link FRBRExpression}
