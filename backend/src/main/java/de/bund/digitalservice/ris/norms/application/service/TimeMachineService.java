@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
@@ -43,6 +44,11 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
+    try {
+      norm.getMeta();
+    } catch (final MandatoryNodeNotFound e) {
+      return norm;
+    }
     norm.getMeta()
         .getAnalysis()
         .map(analysis -> analysis.getPassiveModifications().stream())
