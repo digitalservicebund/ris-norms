@@ -20,7 +20,7 @@ export function useGetProprietary(
      */
     atDate?: MaybeRefOrGetter<string | Date | undefined>
   },
-): UseFetchReturn<Proprietary> {
+): Pick<UseFetchReturn<Proprietary>, "data" | "error" | "isFetching"> {
   const dateAsString = computed(() => {
     const atDateVal = toValue(options?.atDate)
 

@@ -21,7 +21,7 @@ const xml = defineModel<string>("xml")
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
-const { data, isFetching, error } = useProprietary(affectedDocumentEli, {
+const { data, isFetching, fetchError } = useProprietary(affectedDocumentEli, {
   atDate: timeBoundaryAsDate,
 })
 
@@ -60,7 +60,7 @@ const fnaId = useElementId()
               <RisLoadingSpinner />
             </div>
             <RisCallout
-              v-else-if="error"
+              v-else-if="fetchError"
               variant="error"
               title="Die Daten konnten nicht geladen werden."
             />

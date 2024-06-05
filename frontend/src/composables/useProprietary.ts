@@ -1,5 +1,6 @@
 import { useGetProprietary } from "@/services/proprietaryService"
-import { MaybeRefOrGetter } from "vue"
+import { Proprietary } from "@/types/proprietary"
+import { MaybeRefOrGetter, Ref, ref } from "vue"
 
 /**
  * Exposes functionality to read and change proprietary metadata of a norm.
@@ -17,6 +18,20 @@ export function useProprietary(
      */
     atDate?: MaybeRefOrGetter<string | Date | undefined>
   },
-) {
-  return useGetProprietary(eli, options)
+): {
+  data: Ref<Proprietary | null>
+  fetchError: Ref<unknown>
+  isFetching: Ref<boolean>
+  isSaving: Ref<boolean>
+  saveError: Ref<unknown>
+} {
+  const getResult = useGetProprietary(eli, options)
+
+  return {
+    data: getResult.data,
+    fetchError: getResult.error,
+    isFetching: getResult.isFetching,
+    isSaving: ref(false),
+    saveError: ref(undefined),
+  }
 }

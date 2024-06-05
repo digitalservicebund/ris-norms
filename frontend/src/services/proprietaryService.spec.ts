@@ -1,11 +1,27 @@
 import { Proprietary } from "@/types/proprietary"
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest"
 import { ref } from "vue"
 
 describe("proprietaryService", () => {
+  beforeAll(() => {
+    vi.useFakeTimers()
+  })
+
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
+  })
+
+  afterAll(() => {
+    vi.useRealTimers()
   })
 
   describe("useProprietary(eli, options)", () => {
@@ -157,6 +173,48 @@ describe("proprietaryService", () => {
           expect.any(Object),
         ),
       )
+    })
+
+    it("sets the loading state", async () => {
+      vi.spyOn(window, "fetch").mockReturnValue(
+        new Promise<Response>((resolve) => {
+          setTimeout(() => {
+            resolve(new Response("{}"))
+          }, 1000)
+        }),
+      )
+
+      const { useGetProprietary } = await import(
+        "@/services/proprietaryService"
+      )
+
+      const eli = ref("fake/eli")
+      const { isFetching } = useGetProprietary(eli)
+      await vi.waitFor(() => expect(isFetching.value).toBeTruthy())
+
+      vi.advanceTimersToNextTimer()
+      await vi.waitFor(() => expect(isFetching.value).toBeFalsy())
+    })
+
+    it("sets the error state", async () => {
+      vi.spyOn(window, "fetch").mockReturnValue(
+        new Promise<Response>((_, reject) => {
+          setTimeout(() => {
+            reject(new Response("{}"))
+          }, 1000)
+        }),
+      )
+
+      const { useGetProprietary } = await import(
+        "@/services/proprietaryService"
+      )
+
+      const eli = ref("fake/eli")
+      const { error } = useGetProprietary(eli)
+      await vi.waitFor(() => expect(error.value).toBeFalsy())
+
+      vi.advanceTimersToNextTimer()
+      await vi.waitFor(() => expect(error.value).toBeTruthy())
     })
   })
 })
