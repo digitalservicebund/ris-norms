@@ -8,26 +8,74 @@ import RisTabs from "@/components/editor/RisTabs.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormHtml } from "@/composables/useNormHtml"
-import { useProprietary } from "@/composables/useProprietary"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
-
-/**
- * The xml of the law whose metadata is edited on this view. As both this and the article metadata editor vie both edit
- * the same xml (which is not yet stored in the database) we provide it from AmendingLawAffectedDocumentEditor. That
- * view also handles persisting the changes when requested.
- */
-const xml = defineModel<string>("xml")
+import { useProprietaryService } from "@/services/proprietaryService"
+import { Proprietary } from "@/types/proprietary"
+import { produce } from "immer"
+import { ref, watch } from "vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
-const { data, isFetching, fetchError } = useProprietary(affectedDocumentEli, {
-  atDate: timeBoundaryAsDate,
-})
+/**
+ * The xml of the law whose metadata is edited on this view. As both this
+ * and the article metadata editor vie both edit the same xml (which is not
+ * yet stored in the database) we provide it from AmendingLawAffectedDocumentEditor.
+ * That view also handles persisting the changes when requested.
+ */
+const xml = defineModel<string>("xml")
 
 const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
 
-const fnaId = useElementId()
+/* -------------------------------------------------- *
+ * API handling                                       *
+ * -------------------------------------------------- */
+
+const localData = ref<Proprietary | null>(null)
+
+const {
+  data,
+  isFetching,
+  error: fetchError,
+} = useProprietaryService(
+  affectedDocumentEli,
+  { atDate: timeBoundaryAsDate },
+  { refetch: true },
+)
+
+watch(data, (newData) => {
+  localData.value = newData
+})
+
+const {
+  data: savedData,
+  // TODO: Add isSaving,
+  // TODO: Add error: saveError,
+  // TODO: Add execute: save,
+} = useProprietaryService(
+  affectedDocumentEli,
+  { atDate: timeBoundaryAsDate },
+  { refetch: false, immediate: false },
+).put(localData)
+
+watch(savedData, (newData) => {
+  localData.value = newData
+})
+
+/* -------------------------------------------------- *
+ * Metadata form                                      *
+ * -------------------------------------------------- */
+
+const [fnaId] = Array(1)
+  .fill(null)
+  .map(() => useElementId())
+
+function setFna(value: string) {
+  localData.value = produce(localData.value, (draft) => {
+    if (!draft) return
+    draft.fna.value = value
+  })
+}
 </script>
 
 <template>
@@ -72,9 +120,10 @@ const fnaId = useElementId()
               <label :for="fnaId">Sachgebiet FNA-Nummer</label>
               <RisTextInput
                 :id="fnaId"
-                :model-value="data?.fna.value"
+                :model-value="localData?.fna.value"
                 size="small"
                 read-only
+                @update:model-value="setFna($event ?? '')"
               />
             </div>
           </template>
