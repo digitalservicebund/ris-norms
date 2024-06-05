@@ -814,7 +814,7 @@ class NormServiceTest {
 
       // Then
       verify(modificationValidator, times(1))
-          .validate(
+          .oldTextExistsInZf0Norm(
               argThat(eli -> eli.equals(amendingNormEli)),
               argThat(zf0 -> Objects.equals(zf0, zf0Norm)),
               argThat(m -> m.equals(mod)));

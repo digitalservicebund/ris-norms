@@ -188,7 +188,7 @@ public class NormService
             .findFirst()
             .orElseThrow();
 
-    modificationValidator.validate(amendingNormEli, zf0Norm, selectedMod);
+    modificationValidator.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, selectedMod);
 
     if (!query.dryRun()) {
       updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));

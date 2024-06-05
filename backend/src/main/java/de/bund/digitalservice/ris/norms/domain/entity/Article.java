@@ -91,6 +91,7 @@ public class Article {
    * @return the {@link Mod}
    */
   public Optional<Mod> getMod() {
+    // TODO one article can have multiple mods
     return NodeParser.getNodeFromExpression("./*//mod", this.node).map(Mod::new);
   }
 }

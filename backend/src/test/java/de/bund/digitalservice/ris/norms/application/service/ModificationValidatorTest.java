@@ -2,10 +2,15 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -16,8 +21,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.w3c.dom.Node;
 
 class ModificationValidatorTest {
-
-  private final ModificationValidator underTest = new ModificationValidator();
+  private final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  private final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
+  private final ModificationValidator underTest =
+      new ModificationValidator(loadNormPort, loadZf0Service);
 
   @Nested
   class noDestinationEli {
@@ -486,5 +493,17 @@ class ModificationValidatorTest {
         .isInstanceOf(XmlContentException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Eids are not consistent");
+  }
+
+  @Test
+  void validateXmlConsistency() {
+    // given
+    final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+    final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+    when(loadZf0Service.loadZf0(any())).thenReturn(zf0Norm);
+
+    // when/then
+    Assertions.assertDoesNotThrow(() -> underTest.validate(amendingNorm));
   }
 }
