@@ -217,6 +217,7 @@ class MetaTest {
             .build();
 
     assertThat(meta.getOrCreateTemporalDataNode()).isNotNull();
+    assertThat(meta.getTemporalData()).isNotNull();
   }
 
   @Test
@@ -294,6 +295,7 @@ class MetaTest {
     final Analysis analysis = meta.getOrCreateAnalysis();
 
     assertThat(analysis).isNotNull();
+    assertThat(meta.getAnalysis()).isNotEmpty();
   }
 
   @Test

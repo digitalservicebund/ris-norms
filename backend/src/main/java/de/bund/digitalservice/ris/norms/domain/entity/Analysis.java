@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -35,5 +36,18 @@ public class Analysis {
     return NodeParser.getNodesFromExpression("./passiveModifications/textualMod", node).stream()
         .map(TextualMod::new)
         .toList();
+  }
+
+  /**
+   * Gets the akn:passiveModifications element of the norm, or creates it if it does not yet exist.
+   *
+   * @return the akn:passiveModifications element of the norm
+   */
+  public Node getOrCreatePassiveModificationsNode() {
+    return NodeParser.getNodeFromExpression("./passiveModifications", node)
+        .orElseGet(
+            () ->
+                NodeCreator.createElementWithEidAndGuid(
+                    "akn:passiveModifications", "pasmod", node));
   }
 }

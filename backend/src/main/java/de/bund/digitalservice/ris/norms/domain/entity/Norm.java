@@ -340,21 +340,6 @@ public class Norm {
   }
 
   /**
-   * Gets the akn:passiveModifications element of the norm, or creates it if it does not yet exist.
-   *
-   * @return the akn:passiveModifications element of the norm
-   */
-  public Node getOrCreatePassiveModificationsNode() {
-    return NodeParser.getNodeFromExpression("//meta/analysis/passiveModifications", getDocument())
-        .orElseGet(
-            () ->
-                NodeCreator.createElementWithEidAndGuid(
-                    "akn:passiveModifications",
-                    "pasmod",
-                    getMeta().getOrCreateAnalysis().getNode()));
-  }
-
-  /**
    * Create a new passive modification element
    *
    * @param type the type of the textual mod (this is different from the @refersTo property of an
@@ -366,7 +351,8 @@ public class Norm {
    */
   public TextualMod addPassiveModification(
       String type, String sourceHref, String destinationHref, String periodHref) {
-    var passiveModificationsNode = getOrCreatePassiveModificationsNode();
+    var passiveModificationsNode =
+        getMeta().getOrCreateAnalysis().getOrCreatePassiveModificationsNode();
 
     var textualMod =
         NodeCreator.createElementWithEidAndGuid(

@@ -1446,38 +1446,6 @@ class NormTest {
   }
 
   @Nested
-  class getOrCreatePassiveModificationsNode {
-    @Test
-    void itShouldCreatesThePassiveModificationsNodeIfItDoesNotExist() {
-      // given
-      final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
-
-      // when
-      final var passiveModificationsNode = norm.getOrCreatePassiveModificationsNode();
-
-      // then
-      assertThat(passiveModificationsNode).isNotNull();
-      assertThat(
-              NodeParser.getNodeFromExpression("//act//passiveModifications", norm.getDocument()))
-          .contains(passiveModificationsNode);
-    }
-
-    @Test
-    void itShouldFindThePassiveModificationsNodeIfItExist() {
-      // given
-      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      final var passiveModificationsNode = norm.getOrCreatePassiveModificationsNode();
-
-      // then
-      assertThat(passiveModificationsNode).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", passiveModificationsNode))
-          .contains("77aae58f-06c9-4189-af80-a5f3ada6432c");
-    }
-  }
-
-  @Nested
   class getOrCreateTemporalDataNode {
     @Test
     void itShouldCreatesTheTemporalDataNodeIfItDoesNotExist() {
