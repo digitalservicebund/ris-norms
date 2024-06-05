@@ -9,14 +9,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 
 /** */
 @Service
-@Slf4j
 public class ModificationValidator {
   // TODO rename ModificationValidatorService?
 
