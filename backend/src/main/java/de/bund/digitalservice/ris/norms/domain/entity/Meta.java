@@ -43,4 +43,22 @@ public class Meta {
     return new FRBRManifestation(
         NodeParser.getMandatoryNodeFromExpression("./identification/FRBRManifestation", node));
   }
+
+  /**
+   * Returns a {@link TemporalData} instance from a {@link Node} in a {@link Meta}.
+   *
+   * @return the TemporalData node as {@link TemporalData}
+   */
+  public TemporalData getTemporalData() {
+    return new TemporalData(NodeParser.getMandatoryNodeFromExpression("./temporalData", node));
+  }
+
+  /**
+   * Returns a {@link Lifecycle} instance from a {@link Node} in a {@link Meta}.
+   *
+   * @return the Lifecycle node as {@link Lifecycle}
+   */
+  public Lifecycle getLifecycle() {
+    return new Lifecycle(NodeParser.getMandatoryNodeFromExpression("./lifecycle", node));
+  }
 }

@@ -7,11 +7,12 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Node;
 
-/** Class representing a temporal group. */
+/** Class representing a akn:temporalGroup. */
+@Getter
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class TemporalGroup {
-  @Getter private final Node node;
+  private final Node node;
 
   /**
    * Returns the eId of the TemporalGroup as {@link String}.
@@ -23,13 +24,13 @@ public class TemporalGroup {
   }
 
   /**
-   * Returns the eId of the event ref of the temporal group
+   * Returns a {@link TimeInterval} instance from a {@link Node} in a {@link Meta}.
    *
-   * @return The eId of the event ref of this temporal group
+   * @return the TimeInterval node as {@link TimeInterval}
    */
-  public Optional<String> getEventRefEId() {
-    return NodeParser.getValueFromExpression("./timeInterval/@start", this.node)
-        .map(Href::new)
-        .flatMap(Href::getEId);
+  public TimeInterval getTimeInterval() {
+    return NodeParser.getNodeFromExpression("./timeInterval", node)
+        .map(TimeInterval::new)
+        .orElseThrow();
   }
 }

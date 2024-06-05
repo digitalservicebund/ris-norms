@@ -16,7 +16,10 @@ import ch.qos.logback.classic.LoggerContext;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
+import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
+import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
+import de.bund.digitalservice.ris.norms.domain.entity.TimeInterval;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
@@ -74,9 +77,9 @@ class TimeBoundaryControllerTest {
       List<TimeBoundary> timeBoundaries =
           List.of(
               new TimeBoundary(
-                  XmlMapper.toNode(timeInterval),
-                  XmlMapper.toNode(eventRef),
-                  XmlMapper.toNode(temporalGroup)));
+                  new TimeInterval(XmlMapper.toNode(timeInterval)),
+                  new EventRef(XmlMapper.toNode(eventRef)),
+                  new TemporalGroup(XmlMapper.toNode(temporalGroup))));
 
       when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(any())).thenReturn(timeBoundaries);
 
@@ -149,9 +152,9 @@ class TimeBoundaryControllerTest {
       List<TimeBoundary> timeBoundaries =
           List.of(
               new TimeBoundary(
-                  XmlMapper.toNode(timeInterval1),
-                  XmlMapper.toNode(eventRef1),
-                  XmlMapper.toNode(temporalGroup)));
+                  new TimeInterval(XmlMapper.toNode(timeInterval1)),
+                  new EventRef(XmlMapper.toNode(eventRef1)),
+                  new TemporalGroup(XmlMapper.toNode(temporalGroup))));
 
       when(updateTimeBoundariesUseCase.updateTimeBoundariesOfNorm(any()))
           .thenReturn(timeBoundaries);

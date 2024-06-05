@@ -142,28 +142,22 @@ public class Norm {
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
   public List<TimeBoundary> getTimeBoundaries() {
-    List<Node> temporalGroupNodes =
-        NodeParser.getNodesFromExpression("//temporalData/temporalGroup", document);
-
-    return temporalGroupNodes.stream()
+    final List<TemporalGroup> temporalGroups = getMeta().getTemporalData().getTemporalGroups();
+    return temporalGroups.stream()
         .map(
-            node -> {
-              Node timeIntervalNode =
-                  NodeParser.getNodeFromExpression("./timeInterval", node).orElseThrow();
-              String eventRefEId =
-                  new Href(timeIntervalNode.getAttributes().getNamedItem("start").getNodeValue())
-                      .getEId()
+            temporalGroup -> {
+              final TimeInterval timeInterval = temporalGroup.getTimeInterval();
+              final String eventRefEId = timeInterval.getEventRefEId().orElseThrow();
+              final EventRef eventRef =
+                  getMeta().getLifecycle().getEventRefs().stream()
+                      .filter(f -> Objects.equals(f.getEid().value(), eventRefEId))
+                      .findFirst()
                       .orElseThrow();
-              String eventRefNodeExpression =
-                  String.format("//lifecycle/eventRef[@eId='%s']", eventRefEId);
-              Node eventRefNode =
-                  NodeParser.getNodeFromExpression(eventRefNodeExpression, document).orElseThrow();
-
               return (TimeBoundary)
                   TimeBoundary.builder()
-                      .temporalGroupNode(node)
-                      .timeIntervalNode(timeIntervalNode)
-                      .eventRefNode(eventRefNode)
+                      .temporalGroup(temporalGroup)
+                      .timeInterval(timeInterval)
+                      .eventRef(eventRef)
                       .build();
             })
         .toList();
@@ -217,11 +211,10 @@ public class Norm {
    * @return List of Strings with all existing eIds of all temporalGroup nodes
    */
   public List<String> getTemporalGroupEids() {
-    List<Node> temporalGroups =
-        NodeParser.getNodesFromExpression("//meta/temporalData/temporalGroup", document);
-
-    return temporalGroups.stream()
-        .map(node -> node.getAttributes().getNamedItem("eId").getNodeValue())
+    return getMeta().getTemporalData().getTemporalGroups().stream()
+        .map(
+            temporalGroup ->
+                temporalGroup.getNode().getAttributes().getNamedItem("eId").getNodeValue())
         .toList();
   }
 
@@ -268,7 +261,7 @@ public class Norm {
    */
   public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
     // Create new eventRef node
-    final Node livecycle = getTimeBoundaries().getLast().getEventRefNode().getParentNode();
+    final Node livecycle = getTimeBoundaries().getLast().getEventRef().getNode().getParentNode();
     final Element eventRef = createElementWithEidAndGuid("akn:eventRef", "ereignis", livecycle);
     eventRef.setAttribute("date", date.toString());
     eventRef.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);

@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -9,21 +8,13 @@ import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Node;
 
 /** Class representing a time boundary. */
+@Getter
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class TimeBoundary {
-  @Getter private final Node timeIntervalNode;
-  @Getter private final Node eventRefNode;
-  @Getter private final Node temporalGroupNode;
-
-  /**
-   * Returns a date as {@link LocalDate} from a {@link Node} in a {@link Norm}. h
-   *
-   * @return The date of the event
-   */
-  public Optional<LocalDate> getDate() {
-    return NodeParser.getValueFromExpression("./@date", this.eventRefNode).map(LocalDate::parse);
-  }
+  private final TimeInterval timeInterval;
+  private final EventRef eventRef;
+  private final TemporalGroup temporalGroup;
 
   /**
    * Returns a eId as {@link String} from a {@link Node} in a {@link Norm}.
@@ -31,7 +22,7 @@ public class TimeBoundary {
    * @return The eId of the eventRef
    */
   public Optional<String> getEventRefEid() {
-    return EId.fromNode(getEventRefNode()).map(EId::value);
+    return EId.fromNode(eventRef.getNode()).map(EId::value);
   }
 
   /**
@@ -40,7 +31,7 @@ public class TimeBoundary {
    * @return The eId of the timeInterval
    */
   public Optional<String> getTimeIntervalEid() {
-    return EId.fromNode(getTimeIntervalNode()).map(EId::value);
+    return EId.fromNode(timeInterval.getNode()).map(EId::value);
   }
 
   /**
@@ -49,7 +40,7 @@ public class TimeBoundary {
    * @return The eId of the temporal group
    */
   public Optional<String> getTemporalGroupEid() {
-    return EId.fromNode(getTemporalGroupNode()).map(EId::value);
+    return EId.fromNode(temporalGroup.getNode()).map(EId::value);
   }
 
   /**
@@ -58,6 +49,6 @@ public class TimeBoundary {
    * @param eventRefDate contains the new date to be set
    */
   public void setEventRefDate(LocalDate eventRefDate) {
-    eventRefNode.getAttributes().getNamedItem("date").setNodeValue(eventRefDate.toString());
+    eventRef.getNode().getAttributes().getNamedItem("date").setNodeValue(eventRefDate.toString());
   }
 }
