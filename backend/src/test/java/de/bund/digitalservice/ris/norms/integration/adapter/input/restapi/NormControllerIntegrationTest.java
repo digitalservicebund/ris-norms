@@ -675,7 +675,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                           + newText
                           + "\"}"))
           // Then
-          .andExpect(status().isBadRequest());
+          .andExpect(status().isUnprocessableEntity());
     }
   }
 }

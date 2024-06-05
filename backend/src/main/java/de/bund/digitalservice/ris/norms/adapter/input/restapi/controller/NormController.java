@@ -10,7 +10,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModRe
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import jakarta.validation.Valid;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -197,23 +196,19 @@ public class NormController {
       @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
-    try {
-      return updateModUseCase
-          .updateMod(
-              new UpdateModUseCase.Query(
-                  eli.getValue(),
-                  eid,
-                  updateModRequestSchema.getRefersTo(),
-                  updateModRequestSchema.getTimeBoundaryEid(),
-                  updateModRequestSchema.getDestinationHref(),
-                  updateModRequestSchema.getOldText(),
-                  updateModRequestSchema.getNewText(),
-                  dryRun))
-          .map(UpdateModResponseMapper::fromResult)
-          .map(ResponseEntity::ok)
-          .orElseGet(() -> ResponseEntity.notFound().build());
-    } catch (XmlContentException e) {
-      return ResponseEntity.badRequest().build();
-    }
+    return updateModUseCase
+        .updateMod(
+            new UpdateModUseCase.Query(
+                eli.getValue(),
+                eid,
+                updateModRequestSchema.getRefersTo(),
+                updateModRequestSchema.getTimeBoundaryEid(),
+                updateModRequestSchema.getDestinationHref(),
+                updateModRequestSchema.getOldText(),
+                updateModRequestSchema.getNewText(),
+                dryRun))
+        .map(UpdateModResponseMapper::fromResult)
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 }
