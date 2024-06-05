@@ -8,9 +8,7 @@ export const initializeApiService = (router: Router) => {
   routerInstance = router
 }
 
-/**
- * Fetch data from the backend api
- */
+/** Fetch data from the backend api. */
 export const apiFetch = ofetch.create({
   baseURL: "/api/v1",
   headers: {
@@ -28,9 +26,7 @@ export const apiFetch = ofetch.create({
   },
 })
 
-/**
- * Fetch data from the backend api using useFetch
-//  */
+/** Fetch data from the backend api using useFetch. */
 export const useApiFetch = createFetch({
   baseUrl: "/api/v1",
   options: {
@@ -54,3 +50,19 @@ export const useApiFetch = createFetch({
     },
   },
 })
+
+/**
+ * Special string that can be used in places where you want to express that
+ * a URL should not be fetched or used in any way, but you are still required
+ * to provide a string value (e.g. when providing a computed URL to useFetch).
+ * Example:
+ *
+ * ```ts
+ * const url = computed(() => someCondition ? 'example.com' : INVALID_URL)
+ * useFetch(url, {
+ *   beforeFetch(ctx) {
+ *     if (url === INVALID_URL) ctx.abort()
+ *   }
+ * })
+ */
+export const INVALID_URL = "__invalid_url__"
