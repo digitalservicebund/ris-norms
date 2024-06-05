@@ -2,7 +2,9 @@
 import RisDateInput from "@/components/controls/RisDateInput.vue"
 import { ref } from "vue"
 
-const dateEntry = ref("2022-01-01")
+const dateEntryOne = ref("2022-01-01")
+const dateEntryTwo = ref("2022-01-01")
+const dateEntryThree = ref("2022-01-01")
 
 const externalValidationError = {
   message: "Extesrsnes Fehler",
@@ -15,7 +17,7 @@ const externalValidationError = {
     <Variant title="Valid Date">
       <RisDateInput
         id="test-id"
-        v-model="dateEntry"
+        v-model="dateEntryOne"
         size="small"
         label="Zeitgrenze 1"
       ></RisDateInput>
@@ -24,7 +26,7 @@ const externalValidationError = {
     <Variant title="External Validation Error">
       <RisDateInput
         id="test-id"
-        v-model="dateEntry"
+        v-model="dateEntryTwo"
         size="small"
         label="Zeitgrenze 1"
         :validation-error="externalValidationError"
@@ -34,7 +36,7 @@ const externalValidationError = {
     <Variant title="External Validation Error">
       <RisDateInput
         id="test-id"
-        v-model="dateEntry"
+        v-model="dateEntryThree"
         size="small"
         label="Zeitgrenze 1"
         :validation-error="externalValidationError"
