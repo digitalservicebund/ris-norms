@@ -51,7 +51,7 @@ public class CharacterRangeTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "The range (-200) given at article with eId someArticleId is not valid");
+              "The range (-200) given at mod with eId someArticleId is not valid");
     }
   }
 
@@ -75,7 +75,7 @@ public class CharacterRangeTest {
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "The range (100-) given at article with eId someArticleId is not valid");
+              "The range (100-) given at mod with eId someArticleId is not valid");
     }
 
     @Test
@@ -86,8 +86,7 @@ public class CharacterRangeTest {
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "The range (1) given at article with eId someArticleId is not valid");
+          .hasMessageContaining("The range (1) given at mod with eId someArticleId is not valid");
     }
 
     @Test

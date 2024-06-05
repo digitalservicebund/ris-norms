@@ -19,15 +19,15 @@ public class ModificationValidator {
   // TODO rename ModificationValidatorService?
 
   /**
+   * @param amendingNormEli the amending norm eli
    * @param zf0Norm the target law needed to look up the old, to replace text
-   * @param amendingNorm the amending law to be checked
+   * @param mod the amending norm mod to be checked
    */
-  public void validate(Norm zf0Norm, Norm amendingNorm) {
-    throwErrorNoDestinationSet(amendingNorm);
-    destinationEliIsConsistent(amendingNorm);
-    destinationHrefIsConsistent(amendingNorm);
-    characterRangeIsConsistent(amendingNorm, zf0Norm);
-    oldTextExistsInZf0Norm(amendingNorm, zf0Norm);
+  public void validate(String amendingNormEli, Norm zf0Norm, Mod mod) {
+    //    throwErrorNoDestinationSet(amendingNorm);
+    //    destinationEliIsConsistent(amendingNorm);
+    //    destinationHrefIsConsistent(amendingNorm);
+    oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod);
   }
 
   /**
@@ -165,49 +165,51 @@ public class ModificationValidator {
   }
 
   /**
-   * The character range is noted in three places: (1) in amending law activeModifications
-   * destination href, (2) in amending law content mod href and (3) in zf0 passiveModifications
-   * destination href. All 3 places need to be equal. This method checks for equality for all of
-   * them and throws an exception otherwise.
-   *
-   * @param amendingNorm the amending norm to be checked
-   * @param zf0Norm the target zf0 norm to be checked
-   */
-  public void characterRangeIsConsistent(Norm amendingNorm, Norm zf0Norm) {
-    // TODO implement logic
-    // TODO provide test
-  }
-
-  /**
    * Checks if the text to be replaced is present in the target law
    *
-   * @param amendingNorm the amending law to be checked
+   * @param amendingNormEli the amending Norm Eli
    * @param zf0Norm the target law needed to look up the old, to replace text
+   * @param mod the amending law mod to be checked
    */
-  public void oldTextExistsInZf0Norm(Norm amendingNorm, Norm zf0Norm) {
-    List<Article> articles =
-        amendingNorm.getArticles().stream()
-            .filter(
-                article -> {
-                  String articleRefersTo =
-                      getArticleRefersTo(
-                          amendingNorm.getEli(),
-                          article,
-                          getArticleEId(amendingNorm.getEli(), article));
-                  return Objects.equals(articleRefersTo, "hauptaenderung");
-                })
-            .toList();
-
-    List<TextualMod> passiveMods = zf0Norm.getPassiveModifications().stream().toList();
+  public void oldTextExistsInZf0Norm(String amendingNormEli, Norm zf0Norm, Mod mod) {
+    if (!mod.usesQuotedText()) {
+      throw new XmlContentException("TODO 2", null);
+    }
 
     // TODO compose message
-    // TODO test for that throw
-    if (articles.size() != passiveMods.size()) throw new XmlContentException("TBD 1", null);
+    // TODO put to getter
+    // Test for that throw
+    String modEId = mod.getEid().orElseThrow(() -> new XmlContentException("TODO 1", null));
 
-    String amendingNormEli = amendingNorm.getEli();
-    String zf0NormEli = zf0Norm.getEli();
-    articles.forEach(
-        article -> validateEachArticle(zf0Norm, amendingNormEli, zf0NormEli, article, passiveMods));
+    Href articleModTargetHref = getModTargetHref(amendingNormEli, mod, modEId);
+
+    String articleModTargetHrefEId =
+        getHrefEId(
+            amendingNormEli,
+            articleModTargetHref,
+            "The eId in mod href is empty in article with eId %s".formatted(modEId));
+
+    Node zf0TargetNode =
+        getTargetNodeFromZF0Norm(
+            amendingNormEli, zf0Norm, articleModTargetHrefEId, amendingNormEli, modEId);
+
+    // normalizeSpace removes double spaces and new lines
+    String targetParagraphText = StringUtils.normalizeSpace(zf0TargetNode.getTextContent());
+
+    String amendingNormOldText =
+        getModOldText(
+            amendingNormEli,
+            mod,
+            "quotedText[1] (the old, to be replaced, text) is empty in article mod with eId %s"
+                .formatted(modEId));
+
+    validateQuotedText(
+        amendingNormEli,
+        amendingNormOldText,
+        targetParagraphText,
+        modEId,
+        articleModTargetHref,
+        "The character range in mod href is empty in article with eId %s".formatted(modEId));
   }
 
   private void validateEachArticle(
@@ -279,7 +281,7 @@ public class ModificationValidator {
     String affectedDocumentEli =
         getArticleAffectedDocumentEli(amendingNormEli, article, articleEId);
     Node targetNode =
-        getTargetNodeFromAmendingNorm(
+        getTargetNodeFromZF0Norm(
             amendingNormEli, zf0Norm, articleModTargetHrefEId, affectedDocumentEli, articleEId);
 
     // normalizeSpace removes double spaces and new lines
@@ -315,70 +317,70 @@ public class ModificationValidator {
       String eli,
       String amendingNormOldText,
       String targetParagraphText,
-      String articleEId,
+      String modEId,
       Href href,
       String message) {
 
     // TODO test for that throw
     CharacterRange characterRange = getHrefCharacterRange(eli, href, message);
 
-    int modStart = getCharacterRangeStart(characterRange, articleEId);
-    int modEnd = getCharacterRangeEnd(characterRange, articleEId);
+    int modStart = getCharacterRangeStart(characterRange, modEId);
+    int modEnd = getCharacterRangeEnd(characterRange, modEId);
 
-    validateStartIsBeforeEnd(eli, characterRange, modStart, modEnd, articleEId);
-    checkIfReplacementEndIsWithinText(eli, targetParagraphText, modEnd, articleEId);
+    validateStartIsBeforeEnd(eli, characterRange, modStart, modEnd, modEId);
+    checkIfReplacementEndIsWithinText(eli, targetParagraphText, modEnd, modEId);
 
     String zf0NormOldText = targetParagraphText.substring(modStart, modEnd);
-    validateQuotedTextEquals(eli, zf0NormOldText, amendingNormOldText, articleEId);
+    validateQuotedTextEquals(eli, zf0NormOldText, amendingNormOldText, modEId);
   }
 
   private void validateStartIsBeforeEnd(
-      String amendingNormEli, CharacterRange cr, int start, int end, String articleEId) {
+      String amendingNormEli, CharacterRange cr, int start, int end, String modEId) {
     if (!cr.isEndGreaterStart())
       throw new XmlContentException(
-          "For norm with Eli (%s): The character range in mod href is not valid in article with eId %s. Make sure start is smaller than end %s < %s."
-              .formatted(amendingNormEli, articleEId, start, end),
+          "For norm with Eli (%s): The character range in mod href is not valid in mod with eId %s. Make sure start is smaller than end %s < %s."
+              .formatted(amendingNormEli, modEId, start, end),
           null);
   }
 
   private void checkIfReplacementEndIsWithinText(
-      String amendingNormEli, String targetParagraphText, int modEnd, String articleEId) {
+      String amendingNormEli, String targetParagraphText, int modEnd, String modEId) {
     // counting is null based e.g. 0 is the position of the first character; spaces are counted
     // see
     // https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/1.6/Spezifikation/LegalDocML.de_1.6.pdf?ref_type=tags page 85
     if (targetParagraphText.length() < modEnd) {
       throw new XmlContentException(
-          "For norm with Eli (%s): The character range in mod href is not valid (target paragraph is to short) in article with eId %s"
-              .formatted(amendingNormEli, articleEId),
+          "For norm with Eli (%s): The character range in mod href is not valid (target paragraph is to short) in mod with eId %s"
+              .formatted(amendingNormEli, modEId),
           null);
     }
   }
 
   private void validateQuotedTextEquals(
-      String amendingNormEli,
-      String zf0NormOldText,
-      String amendingNormOldText,
-      String articleEId) {
+      String amendingNormEli, String zf0NormOldText, String amendingNormOldText, String modEId) {
     if (!zf0NormOldText.equals(amendingNormOldText))
       throw new XmlContentException(
-          "For norm with Eli (%s): The replacement text '%s' in the target law does not equal the replacement text '%s' in the article with eId %s"
-              .formatted(amendingNormEli, zf0NormOldText, amendingNormOldText, articleEId),
+          "For norm with Eli (%s): The replacement text '%s' in the target law does not equal the replacement text '%s' in the mod with eId %s"
+              .formatted(amendingNormEli, zf0NormOldText, amendingNormOldText, modEId),
           null);
   }
 
-  private Node getTargetNodeFromAmendingNorm(
+  private Node getTargetNodeFromZF0Norm(
       String amendingNormEli,
       Norm zf0Norm,
       String targetHrefEId,
       String affectedDocumentEli,
-      String articleEId) {
+      String modEId) {
+
+    validateNumberOfNodesWithEid(zf0Norm.getEli(), zf0Norm, targetHrefEId);
+
     return zf0Norm
         .getByEId(targetHrefEId)
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "For norm with Eli (%s): Couldn't load target eId (%s) element in target law (%s) for article with eId %s"
-                        .formatted(amendingNormEli, targetHrefEId, affectedDocumentEli, articleEId),
+                    "For norm with Eli (%s): Couldn't load target eId (%s) element in zf0 (%s) for mod with eId %s"
+                        .formatted(amendingNormEli, targetHrefEId, affectedDocumentEli, modEId),
                     null));
   }
 
@@ -422,6 +424,8 @@ public class ModificationValidator {
   }
 
   private String getModOldText(String eli, Mod m, String message) {
+    // TODO check is test in place?
+    // TODO this is not normalized?
     return m.getOldText()
         .orElseThrow(
             () ->
@@ -429,13 +433,13 @@ public class ModificationValidator {
                     "For norm with Eli (%s): %s".formatted(eli, message), null));
   }
 
-  private Href getModTargetHref(String eli, Mod m, String articleEId) {
+  private Href getModTargetHref(String eli, Mod m, String modEId) {
     return m.getTargetHref()
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "For norm with Eli (%s): mod href is empty in article with eId %s"
-                        .formatted(eli, articleEId),
+                    "For norm with Eli (%s): mod href is empty in article mod with eId %s"
+                        .formatted(eli, modEId),
                     null));
   }
 
@@ -515,11 +519,11 @@ public class ModificationValidator {
                     "For norm with Eli (%s): %s".formatted(eli, message), null));
   }
 
-  private int getCharacterRangeStart(CharacterRange cr, String articleEId) {
-    return cr.getStart(articleEId);
+  private int getCharacterRangeStart(CharacterRange cr, String modEId) {
+    return cr.getStart(modEId);
   }
 
-  private int getCharacterRangeEnd(CharacterRange cr, String articleEId) {
-    return cr.getEnd(articleEId);
+  private int getCharacterRangeEnd(CharacterRange cr, String modEId) {
+    return cr.getEnd(modEId);
   }
 }

@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -80,135 +79,30 @@ class ModificationValidatorTest {
   class oldTextExistsInZf0Norm {
 
     @Test
-    void itWorksWithoutException() {
-      // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      // 112 paragraph length
-      amendingNorm
-          .getActiveModifications()
-          .getFirst()
-          .setDestinationHref(
-              new Href.Builder()
-                  .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-                  .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-                  .setCharacterRange(new CharacterRange("1-112"))
-                  .buildAbsolute()
-                  .value());
-
-      amendingNorm
-          .getMods()
-          .forEach(
-              mod -> {
-                mod.setTargetHref(
-                    new Href.Builder()
-                        .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-                        .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-                        .setCharacterRange(new CharacterRange("9-112"))
-                        .buildAbsolute()
-                        .value());
-                mod.setOldText(
-                    "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
-              });
-
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when/then
-      Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
-    }
-
-    @Test
-    void articleEIdIsEmpty() {
-
-      // given
-      var amendingNormXml =
-          """
-                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                      xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                          <akn:act name="regelungstext">
-                              <!-- Metadaten -->
-                                  <akn:meta eId="meta-1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">
-                                      <akn:identification eId="meta-1_ident-1"
-                                                          GUID="be8ecb75-0f1a-4209-b3a4-17d55bdffb47"
-                                                          source="attributsemantik-noch-undefiniert">
-                                          <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
-                                                              GUID="4c69a6d2-8988-4581-bfa9-df9e8e24f321">
-                                              <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                                                            GUID="f3805314-bbb6-4def-b82b-8b7f0b126197"
-                                                            value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"/>
-                                          </akn:FRBRExpression>
-                                      </akn:identification>
-                                  </akn:meta>
-                              <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                                  <!-- Artikel 1 : Hauptänderung -->
-                                  <akn:article eId=""
-                                               GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
-                                               period="#geltungszeitgr-1"
-                                               refersTo="hauptaenderung">
-                                  </akn:article>
-                              </akn:body>
-                          </akn:act>
-                      </akn:akomaNtoso>
-                      """;
-
-      Norm amendingNorm = new Norm(XmlMapper.toDocument(amendingNormXml));
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
-
-      // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Article eId is empty.");
-    }
-
-    @Test
-    void noModInArticle() {
-
-      // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      Node mod =
-          amendingNorm
-              .getByEId(
-                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
-              .get();
-      mod.getParentNode().removeChild(mod);
-
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
-
-      // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): There is no mod in article with eId hauptteil-1_art-1");
-    }
-
-    @Test
     void oldTextIsEmpty() {
 
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm.getMods().getFirst().setOldText("");
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      mod.setOldText("");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): quotedText[1] (the old, to be replaced, text) is empty in article with eId hauptteil-1_art-1");
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): quotedText[1] (the old, to be replaced, text) is empty in article mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
     }
 
     @Test
@@ -216,26 +110,33 @@ class ModificationValidatorTest {
 
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm.getMods().forEach(mod -> mod.setOldText("not the same text as in target law"));
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      mod.setOldText("not the same text as in target law");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The replacement text '§ 9 Abs. 1 Satz 2, Abs. 2' in the target law does not equal the replacement text 'not the same text as in target law' in the article with eId hauptteil-1_art-1");
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The replacement text '§ 9 Abs. 1 Satz 2, Abs. 2' in the target law does not equal the replacement text 'not the same text as in target law' in the mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
     }
 
     private static Stream<Arguments> provideParametersForModTargetHref() {
       return Stream.of(
           Arguments.of(
               "",
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): mod href is empty in article with eId hauptteil-1_art-1"),
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): mod href is empty in article mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"),
           Arguments.of(
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/",
               "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The eId in mod href is empty in article with eId hauptteil-1_art-1"),
@@ -250,24 +151,36 @@ class ModificationValidatorTest {
 
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm.getMods().forEach(mod -> mod.setTargetHref(targetHref));
-
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      mod.setTargetHref(targetHref);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
 
       // then
       assertThat(thrown).isInstanceOf(XmlContentException.class).hasMessageContaining(message);
     }
 
-    @Disabled
     @Test
     void moreThanOneNodeWithGivenDestEidExists() {
       // TODO repair test and activate again
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
       final Norm zf0Norm =
           new Norm(
               XmlMapper.toDocument(
@@ -287,7 +200,7 @@ class ModificationValidatorTest {
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
 
       // then
       assertThat(thrown)
@@ -296,51 +209,102 @@ class ModificationValidatorTest {
               "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Too many elements with the same eId hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1.");
     }
 
-    @Disabled
     @Test
     void nodeWithGivenDestEidDoesNotExists() {
       // TODO repair test and activate again
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) element in target law (eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1) for article with eId hauptteil-1_art-1");
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1) element in zf0 (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1) for mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
     }
 
     @Test
-    void doesNotThrow() {
+    void validationSuccessful() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when/then
-      Assertions.assertDoesNotThrow(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
+      Assertions.assertDoesNotThrow(
+          () -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
     }
+
+    @Test
+    void validationSuccessfulUntilEndOfParagraph() {
+      // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      final String amendingNormEli = amendingNorm.getEli();
+      final String href =
+          new Href.Builder()
+              .setEli(amendingNormEli)
+              .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+              .setCharacterRange(new CharacterRange("9-112"))
+              .buildAbsolute()
+              .value();
+
+      // 112 paragraph length
+      amendingNorm.getActiveModifications().getFirst().setDestinationHref(href);
+
+      mod.setTargetHref(href);
+      mod.setOldText(
+          "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      // when/then
+      Assertions.assertDoesNotThrow(
+          () -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+    }
+
+    // TODO add test for full paragraph
 
     @Test
     void throwsExceptionWhenCharacterRangeIsNotSet() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm
-          .getMods()
-          .forEach(
-              mod ->
-                  mod.setTargetHref(
-                      new Href.Builder()
-                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-                          .setEId(
-                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-                          .setCharacterRange(new CharacterRange(""))
-                          .buildInternalReference()
-                          .value()));
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      mod.setTargetHref(
+          new Href.Builder()
+              .setEli(amendingNormEli)
+              .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+              .setCharacterRange(new CharacterRange(""))
+              .buildInternalReference()
+              .value());
 
       amendingNorm
           .getActiveModifications()
@@ -359,7 +323,7 @@ class ModificationValidatorTest {
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
 
       // then
       assertThat(thrown)
@@ -372,36 +336,39 @@ class ModificationValidatorTest {
       return Stream.of(
           Arguments.of(
               "20-20.xml",
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid in article with eId hauptteil-1_art-1. Make sure start is smaller than end 20 < 20."),
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid in mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1. Make sure start is smaller than end 20 < 20."),
           Arguments.of(
               "-20.xml",
 
               // TODO Add to log: "For norm with Eli"
-              "The range (-20) given at article with eId hauptteil-1_art-1 is not valid"),
+              "The range (-20) given at mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 is not valid"),
           Arguments.of(
               "0-.xml",
 
               // TODO Add to log: "For norm with Eli"
-              "The range (0-) given at article with eId hauptteil-1_art-1 is not valid"));
+              "The range (0-) given at mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 is not valid"));
     }
 
     @ParameterizedTest
     @MethodSource("provideParametersForThrowsExceptionWhenCharacterRange")
-    void throwsExceptionWhenCharacterRange(String cr, String message) {
+    void throwsExceptionWhenCharacterRangeIsMalformed(String cr, String message) {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      amendingNorm
-          .getMods()
-          .forEach(
-              mod ->
-                  mod.setTargetHref(
-                      new Href.Builder()
-                          .setCharacterRange(new CharacterRange(cr))
-                          .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-                          .setEId(
-                              "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-                          .buildAbsolute()
-                          .value()));
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+
+      mod.setTargetHref(
+          new Href.Builder()
+              .setCharacterRange(new CharacterRange(cr))
+              .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+              .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+              .buildAbsolute()
+              .value());
 
       amendingNorm
           .getActiveModifications()
@@ -420,7 +387,7 @@ class ModificationValidatorTest {
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
 
       // then
       assertThat(thrown).isInstanceOf(XmlContentException.class).hasMessageContaining(message);
@@ -430,6 +397,13 @@ class ModificationValidatorTest {
     void ThrowsExceptionWhenCharacterRangeEndIsTooHigh() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
       // 112 paragraph length
       amendingNorm
           .getActiveModifications()
@@ -442,32 +416,27 @@ class ModificationValidatorTest {
                   .buildAbsolute()
                   .value());
 
-      amendingNorm
-          .getMods()
-          .forEach(
-              mod -> {
-                mod.setTargetHref(
-                    new Href.Builder()
-                        .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
-                        .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-                        .setCharacterRange(new CharacterRange("9-113"))
-                        .buildAbsolute()
-                        .value());
-                mod.setOldText(
-                    "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
-              });
+      mod.setTargetHref(
+          new Href.Builder()
+              .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+              .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+              .setCharacterRange(new CharacterRange("9-113"))
+              .buildAbsolute()
+              .value());
+      mod.setOldText(
+          "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNorm, zf0Norm));
+          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
 
       // then
       assertThat(thrown)
           .isInstanceOf(XmlContentException.class)
           .hasMessageContaining(
-              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid (target paragraph is to short) in article with eId hauptteil-1_art-1");
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid (target paragraph is to short) in mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
     }
   }
 

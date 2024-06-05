@@ -29,8 +29,8 @@ public record CharacterRange(String characterRange) {
    *
    * @return Optional Integer of the start value
    */
-  public Integer getStart(String articleEid) {
-    isValidCharacterRange(articleEid);
+  public Integer getStart(String modEid) {
+    isValidCharacterRange(modEid);
     String[] splitCharacterRange = characterRange().split("-");
     return Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_START]);
   }
@@ -40,21 +40,21 @@ public record CharacterRange(String characterRange) {
    *
    * @return Optional Integer of the start value
    */
-  public Integer getEnd(String articleEid) {
-    isValidCharacterRange(articleEid);
+  public Integer getEnd(String modEid) {
+    isValidCharacterRange(modEid);
     String[] splitCharacterRange = characterRange().split("-");
     return Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_END]);
   }
 
-  private void isValidCharacterRange(String articleEId) {
+  private void isValidCharacterRange(String modEId) {
     final String regex = "^\\d+-\\d+$";
     final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 
     // TODO discuss: I don't see throwing the Exception here
     if (!pattern.matcher(characterRange()).matches())
       throw new XmlContentException(
-          "The range (%s) given at article with eId %s is not valid"
-              .formatted(characterRange(), articleEId),
+          "The range (%s) given at mod with eId %s is not valid"
+              .formatted(characterRange(), modEId),
           null);
   }
 

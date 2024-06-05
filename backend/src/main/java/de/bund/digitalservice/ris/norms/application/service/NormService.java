@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
+import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
@@ -142,6 +143,7 @@ public class NormService
       return Optional.empty();
     }
     final var amendingNorm = amendingNormOptional.get();
+    final var amendingNormEli = amendingNorm.getEli();
 
     final var targetNormEliOptional = new Href(query.destinationHref()).getEli();
     if (targetNormEliOptional.isEmpty()) {
@@ -180,7 +182,13 @@ public class NormService
         new UpdatePassiveModificationsUseCase.Query(
             zf0Norm, amendingNorm, targetNormEliOptional.get()));
 
-    modificationValidator.validate(zf0Norm, amendingNorm);
+    Mod selectedMod =
+        amendingNorm.getMods().stream()
+            .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(query.eid()))
+            .findFirst()
+            .orElseThrow();
+
+    modificationValidator.validate(amendingNormEli, zf0Norm, selectedMod);
 
     if (!query.dryRun()) {
       updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
