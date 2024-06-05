@@ -65,6 +65,17 @@ public class Article {
   }
 
   /**
+   * Sets a new href for the affected document
+   *
+   * @param href The ELI of the affected document of the article
+   */
+  public void setAffectedDocumentEli(String href) {
+    Optional<Node> articleAffectedDocument =
+        NodeParser.getNodeFromExpression(".//affectedDocument/@href", this.node);
+    articleAffectedDocument.ifPresent(value -> value.setTextContent(href));
+  }
+
+  /**
    * Returns the refersTo attribute of the affected article as {@link String} from a {@link Node} in
    * a {@link Norm}.
    *
@@ -72,5 +83,15 @@ public class Article {
    */
   public Optional<String> getRefersTo() {
     return NodeParser.getValueFromExpression("./@refersTo", this.node);
+  }
+
+  /**
+   * Extracts the {@link Mod} for this article.
+   *
+   * @return the {@link Mod}
+   */
+  public Optional<Mod> getMod() {
+    // TODO one article can have multiple mods
+    return NodeParser.getNodeFromExpression("./*//mod", this.node).map(Mod::new);
   }
 }

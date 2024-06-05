@@ -99,6 +99,7 @@ class ArchitectureFitnessTest {
           "org.w3c.dom..",
           "net.sf.saxon..",
           "org.xml.sax..",
+          "org.slf4j..",
         };
 
     ArchRule rule =

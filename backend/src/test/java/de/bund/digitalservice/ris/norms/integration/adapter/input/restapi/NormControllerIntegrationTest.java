@@ -14,6 +14,8 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -545,8 +547,9 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   @Nested
   class UpdateMod {
 
-    @Test
-    void itUpdatesAModWithExistingZf0() throws Exception {
+    @ParameterizedTest
+    @ValueSource(strings = {"", "?dryRun=true"})
+    void itUpdatesAMod(String queryParameters) throws Exception {
       // When
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
       normRepository.save(
@@ -554,14 +557,35 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       normRepository.save(
           NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
 
+      String path =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
+      String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String characterCount = "9-34";
+      String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
+      String oldText = "THIS_IS_NOT_BEING_HANDLED";
+      String newText = "new test text";
+
       // When
       mockMvc
           .perform(
-              put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              put(path + queryParameters)
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"meta-1_geltzeiten-1_geltungszeitgr-1\", \"destinationHref\": \"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"oldText\": \""
+                          + oldText
+                          + "\", \"newText\": \""
+                          + newText
+                          + "\"}"))
           // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("amendingNormXml", notNullValue()))
@@ -571,35 +595,28 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       XmlMatcher.xml(
                           hasXPath(
                               "//activeModifications/textualMod/destination/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
+                              equalTo(destinationHref)))))
           .andExpect(
               jsonPath("amendingNormXml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
                               "//activeModifications/textualMod/force/@period",
-                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
+                              equalTo("#" + timeBoundaryEId)))))
           .andExpect(
               jsonPath("amendingNormXml")
                   .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//body//mod/ref/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
+                      XmlMatcher.xml(hasXPath("//body//mod/ref/@href", equalTo(destinationHref)))))
           .andExpect(
               jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
+                  .value(XmlMatcher.xml(hasXPath("//body//mod/quotedText[2]", equalTo(newText)))))
           .andExpect(
               jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
                               "//passiveModifications/textualMod/destination/@href",
-                              equalTo("#para-20_abs-1/100-130")))))
+                              equalTo("#" + eId + "/" + characterCount)))))
           .andExpect(
               jsonPath("targetNormZf0Xml")
                   .value(
@@ -616,83 +633,11 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isOk())
           .andExpect(
               xpath("//passiveModifications/textualMod/destination/@href")
-                  .string("#para-20_abs-1/100-130"));
+                  .string("#" + eId + "/" + characterCount));
     }
 
     @Test
-    void itUpdatesAModWithZf0Creation() throws Exception {
-      // When
-      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
-      normRepository.save(
-          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
-
-      // When
-      mockMvc
-          .perform(
-              put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
-                  .accept(MediaType.APPLICATION_JSON)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"meta-1_geltzeiten-1_geltungszeitgr-1\", \"destinationHref\": \"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
-          // Then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("amendingNormXml", notNullValue()))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//activeModifications/textualMod/destination/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//activeModifications/textualMod/force/@period",
-                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//body//mod/ref/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
-          .andExpect(
-              jsonPath("targetNormZf0Xml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//passiveModifications/textualMod/destination/@href",
-                              equalTo("#para-20_abs-1/100-130")))))
-          .andExpect(
-              jsonPath("targetNormZf0Xml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//passiveModifications/textualMod/source/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml")))));
-
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
-                  .accept(MediaType.APPLICATION_XML))
-          .andExpect(status().isOk())
-          .andExpect(
-              xpath("//passiveModifications/textualMod/destination/@href")
-                  .string("#para-20_abs-1/100-130"));
-    }
-
-    @Test
-    void itReturnsUpdatedNormButDoesNotSaveIt() throws Exception {
+    void itReturnsBadRequestAndDoesNotSaveIt() throws Exception {
       // When
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
       normRepository.save(
@@ -700,69 +645,37 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       normRepository.save(
           NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
 
+      String path =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
+      String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String characterCount = "9-35"; // 9-34 would be correct -> This is wrong on purpose
+      String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
+      String oldText = "THIS_IS_NOT_BEING_HANDLED";
+      String newText = "new test text"; // This is not being validated
+
       // When
       mockMvc
           .perform(
-              put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1?dryRun=true")
+              put(path)
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"meta-1_geltzeiten-1_geltungszeitgr-1\", \"destinationHref\": \"eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"oldText\": \""
+                          + oldText
+                          + "\", \"newText\": \""
+                          + newText
+                          + "\"}"))
           // Then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("amendingNormXml", notNullValue()))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//activeModifications/textualMod/destination/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//activeModifications/textualMod/force/@period",
-                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//body//mod/ref/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-130.xml")))))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
-          .andExpect(
-              jsonPath("targetNormZf0Xml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//passiveModifications/textualMod/destination/@href",
-                              equalTo("#para-20_abs-1/100-130")))))
-          .andExpect(
-              jsonPath("targetNormZf0Xml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//passiveModifications/textualMod/source/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml")))));
-
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")
-                  .accept(MediaType.APPLICATION_XML))
-          .andExpect(status().isOk())
-          .andExpect(
-              xpath("//passiveModifications/textualMod/destination/@href")
-                  .string("#hauptteil-1_para-20_abs-1/100-126"));
+          .andExpect(status().isUnprocessableEntity());
     }
   }
 }

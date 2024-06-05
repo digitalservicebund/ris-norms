@@ -78,18 +78,10 @@ class ModTest {
     var eid = mod.getTargetHref();
 
     // then
-    assertThat(eid)
+    assertThat(eid).isPresent();
+    assertThat(eid.get().value())
         .contains(
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml");
-  }
-
-  @Test
-  void getTargetEid() {
-    // when
-    var eid = mod.getTargetEid();
-
-    // then
-    assertThat(eid).contains("para-20_abs-1");
   }
 
   @Test
@@ -99,6 +91,30 @@ class ModTest {
     var eid = mod.getTargetHref();
 
     // then
-    assertThat(eid).contains("new-target-href");
+    assertThat(eid).isPresent();
+    assertThat(eid.get().value()).contains("new-target-href");
+  }
+
+  @Test
+  void usesQuotedText() {
+    // when
+    var isQuoted = mod.usesQuotedText();
+
+    // then
+    assertThat(isQuoted).isTrue();
+  }
+
+  @Test
+  void setOldText() {
+    // given
+    var oldText = mod.getOldText();
+    assertThat(oldText).contains("§ 9 Abs. 1 Satz 2, Abs. 2");
+
+    // when
+    mod.setOldText("new old text");
+
+    // then
+    var updatedText = mod.getOldText();
+    assertThat(updatedText).contains("new old text");
   }
 }

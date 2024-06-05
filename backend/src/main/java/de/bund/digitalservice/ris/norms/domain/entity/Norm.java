@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpression;
+
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
@@ -112,9 +114,7 @@ public class Norm {
    * @return The list of articles
    */
   public List<Article> getArticles() {
-    return NodeParser.getNodesFromExpression("//body//article", document).stream()
-        .map(Article::new)
-        .toList();
+    return getNodesFromExpression("//body//article", document).stream().map(Article::new).toList();
   }
 
   /**
@@ -150,7 +150,7 @@ public class Norm {
    * @return a list of passive modifications.
    */
   public List<TextualMod> getPassiveModifications() {
-    return NodeParser.getNodesFromExpression("//passiveModifications/textualMod", document).stream()
+    return getNodesFromExpression("//passiveModifications/textualMod", document).stream()
         .map(TextualMod::new)
         .toList();
   }
@@ -161,7 +161,7 @@ public class Norm {
    * @return a list of active modifications.
    */
   public List<TextualMod> getActiveModifications() {
-    return NodeParser.getNodesFromExpression("//activeModifications/textualMod", document).stream()
+    return getNodesFromExpression("//activeModifications/textualMod", document).stream()
         .map(TextualMod::new)
         .toList();
   }
@@ -172,9 +172,7 @@ public class Norm {
    * @return a list of {@link Mod}s
    */
   public List<Mod> getMods() {
-    return NodeParser.getNodesFromExpression("//body//mod", document).stream()
-        .map(Mod::new)
-        .toList();
+    return getNodesFromExpression("//body//mod", document).stream().map(Mod::new).toList();
   }
 
   /**
@@ -265,10 +263,31 @@ public class Norm {
     timeInterval.setAttribute("refersTo", "geltungszeit");
     final var eventRefEId = eventRef.getAttribute("eId");
     timeInterval.setAttribute(
-        "start", new Href.Builder().setEId(eventRefEId).buildRelative().value());
+        "start", new Href.Builder().setEId(eventRefEId).buildInternalReference().value());
     temporalGroup.appendChild(timeInterval);
 
     return new TemporalGroup(temporalGroup);
+  }
+
+  /**
+   * Searches for a given eId and returns the number of matches.
+   *
+   * @param eId the eId of the element to search for.
+   * @return the number of nodes for a given eId.
+   */
+  public int getNumberOfNodesWithEid(String eId) {
+    return getNodesFromExpression("//*[@eId='%s']".formatted(eId), document).size();
+  }
+
+  /**
+   * Returns the element of the norm identified by the given eId.
+   *
+   * @param eId the eId of the element to return
+   * @return the selected element
+   */
+  public Optional<Node> getNodeByEId(String eId) {
+    return NodeParser.getNodeFromExpression(
+        String.format("//*[@eId='%s']", eId), this.getDocument());
   }
 
   /**
@@ -278,9 +297,8 @@ public class Norm {
    * @return the deleted element or empty if nothing to delete was found
    */
   public Optional<Node> deleteByEId(String eId) {
-    return NodeParser.getNodeFromExpression(
-            String.format("//*[@eId='%s']", eId), this.getDocument())
-        .map(node -> node.getParentNode().removeChild(node));
+    var node = getNodeByEId(eId);
+    return node.map(n -> n.getParentNode().removeChild(n));
   }
 
   /**
@@ -291,7 +309,7 @@ public class Norm {
    */
   public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
     final var nodesUsingTemporalData =
-        NodeParser.getNodesFromExpression(String.format("//*[@period='#%s']", eId), getDocument());
+        getNodesFromExpression(String.format("//*[@period='#%s']", eId), getDocument());
 
     if (!nodesUsingTemporalData.isEmpty()) {
       return Optional.empty();
@@ -308,7 +326,7 @@ public class Norm {
    */
   public Optional<Node> deleteEventRefIfUnused(String eId) {
     final var nodesUsingTemporalData =
-        NodeParser.getNodesFromExpression(
+        getNodesFromExpression(
             String.format("//*[@start='#%s' or @end='#%s']", eId, eId), getDocument());
 
     if (!nodesUsingTemporalData.isEmpty()) {
