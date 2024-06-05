@@ -69,32 +69,3 @@ describe("useNormHtml", () => {
     expect(getNormHtmlByEli).toBeCalledTimes(2)
   })
 })
-
-describe("useNormHtmlByEli", () => {
-  beforeEach(() => {
-    vi.resetModules()
-    vi.resetAllMocks()
-  })
-
-  test("should provide the norm html", async () => {
-    const mockData = ref("<div></div>")
-    const mockError = ref(null)
-    const mockIsFetching = ref(false)
-
-    vi.doMock("@/services/normService", () => ({
-      useGetNormHtmlByEli: vi.fn().mockReturnValue({
-        data: mockData,
-        error: mockError,
-        isFetching: mockIsFetching,
-      }),
-    }))
-
-    const { useNormHtmlByEli } = await import("./useNormHtml")
-    const eli = ref(
-      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-    )
-    const { normHtml } = useNormHtmlByEli(eli)
-    await vi.waitUntil(() => normHtml.value)
-    expect(normHtml.value).toBe("<div></div>")
-  })
-})

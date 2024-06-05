@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { useNormHtmlByEli } from "@/composables/useNormHtml"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import { useGetNormHtmlByEli } from "@/services/normService"
 
 const eli = useEliPathParameter()
-const { isFetching, error, normHtml: amendingLawHtml } = useNormHtmlByEli(eli)
+const { isFetching, error, data: amendingLawHtml } = useGetNormHtmlByEli(eli)
 </script>
 
 <template>

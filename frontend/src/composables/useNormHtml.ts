@@ -1,13 +1,5 @@
-import {
-  MaybeRefOrGetter,
-  Ref,
-  readonly,
-  ref,
-  toValue,
-  watch,
-  computed,
-} from "vue"
-import { getNormHtmlByEli, useGetNormHtmlByEli } from "@/services/normService"
+import { MaybeRefOrGetter, Ref, readonly, ref, toValue, watch } from "vue"
+import { getNormHtmlByEli } from "@/services/normService"
 
 /**
  * Get the rendered HTML of a norm.
@@ -36,35 +28,4 @@ export function useNormHtml(
   )
 
   return readonly(normHtml)
-}
-
-/**
- * Get the rendered HTML of a norm.
- *
- * @param eli a reference to the eli for which the norm html render will be returned.
- *  Changing the value of the reference will load the data for the new eli.
- * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
- * @returns A reference to the norm rendered as HTML or undefined if it is not available (or still loading).
- */
-export function useNormHtmlByEli(
-  eli: MaybeRefOrGetter<string | undefined>,
-  at?: MaybeRefOrGetter<Date | undefined>,
-): {
-  normHtml: Readonly<Ref<string | undefined>>
-  error: Readonly<Ref<Error | null>>
-  isFetching: Readonly<Ref<boolean>>
-} {
-  const { data, error, isFetching } = useGetNormHtmlByEli(
-    toValue(eli),
-    false,
-    toValue(at),
-  )
-
-  const normHtml = computed(() => data.value ?? undefined)
-
-  return {
-    normHtml: readonly(normHtml),
-    error: readonly(error),
-    isFetching: readonly(isFetching),
-  }
 }
