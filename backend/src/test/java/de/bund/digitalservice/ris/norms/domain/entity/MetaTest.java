@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class MetaTest {
@@ -239,13 +240,13 @@ class MetaTest {
                       """))
             .build();
 
-    final Analysis analysis = meta.getAnalysis();
+    final Optional<Analysis> analysis = meta.getAnalysis();
 
-    assertThat(analysis).isNotNull();
+    assertThat(analysis).isNotEmpty();
   }
 
   @Test
-  void getAnalysisNotFound() {
+  void getAnalysisEmpty() {
 
     final Meta meta =
         Meta.builder()
@@ -265,7 +266,9 @@ class MetaTest {
                       """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getAnalysis);
+    final Optional<Analysis> analysis = meta.getAnalysis();
+
+    assertThat(analysis).isEmpty();
   }
 
   @Test

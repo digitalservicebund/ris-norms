@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -9,6 +10,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -135,7 +137,12 @@ public class ElementService
 
     // Source EIDs from passive mods
     var passiveModsDestinationEids =
-        getDestinationEidsFromPassiveMods(norm.getPassiveModifications(), query.amendedBy());
+        getDestinationEidsFromPassiveMods(
+            norm.getMeta()
+                .getAnalysis()
+                .map(Analysis::getPassiveModifications)
+                .orElse(Collections.emptyList()),
+            query.amendedBy());
 
     return NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream()
         .filter( // filter by "amendedBy")

@@ -21,6 +21,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 
 /**
@@ -157,7 +158,11 @@ public class NormService
 
     // TODO shall we move the following two modifications to the UpdateNormService?
     // Edit mod in metadata
-    amendingNorm.getActiveModifications().stream()
+    amendingNorm
+        .getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getActiveModifications().stream())
+        .orElse(Stream.empty())
         .filter(
             activeMod ->
                 activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eid())))

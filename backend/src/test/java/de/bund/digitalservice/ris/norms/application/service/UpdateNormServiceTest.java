@@ -3,11 +3,15 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
+import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -30,10 +34,16 @@ class UpdateNormServiceTest {
               new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLaw.getEli()));
 
       // Then
-      assertThat(updatedZfoLaw.getPassiveModifications()).hasSize(1);
+      final List<TextualMod> passiveModifications =
+          updatedZfoLaw
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getPassiveModifications)
+              .orElse(Collections.emptyList());
+      assertThat(passiveModifications).hasSize(1);
       assertThat(updatedZfoLaw.getTimeBoundaries()).hasSize(4);
 
-      var passiveModification = updatedZfoLaw.getPassiveModifications().getFirst();
+      var passiveModification = passiveModifications.getFirst();
       assertThat(passiveModification.getType()).contains("substitution");
       assertThat(passiveModification.getSourceHref())
           .contains(
@@ -62,14 +72,20 @@ class UpdateNormServiceTest {
                   "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
       // Then
-      assertThat(updatedZf0Law.getPassiveModifications()).hasSize(1);
+      final List<TextualMod> passiveModifications =
+          updatedZf0Law
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getPassiveModifications)
+              .orElse(Collections.emptyList());
+      assertThat(passiveModifications).hasSize(1);
       assertThat(updatedZf0Law.getTimeBoundaries())
           .hasSize(4); // 3 existing time-boundaries + 1 new one for the mod
       var eventRefNode = updatedZf0Law.getTimeBoundaries().get(3).getEventRef().getNode();
       assertThat(NodeParser.getValueFromExpression("@type", eventRefNode))
           .contains(EventRefType.AMENDMENT.getValue());
 
-      var newPassiveModification = updatedZf0Law.getPassiveModifications().getFirst();
+      var newPassiveModification = passiveModifications.getFirst();
       assertThat(newPassiveModification.getType()).contains("substitution");
       assertThat(newPassiveModification.getSourceHref())
           .contains(
@@ -98,11 +114,17 @@ class UpdateNormServiceTest {
               new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLaw.getEli()));
 
       // Then
-      assertThat(updatedZfoLaw.getPassiveModifications()).hasSize(2);
+      final List<TextualMod> passiveModifications =
+          updatedZfoLaw
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getPassiveModifications)
+              .orElse(Collections.emptyList());
+      assertThat(passiveModifications).hasSize(2);
       assertThat(updatedZfoLaw.getTimeBoundaries())
           .hasSize(4); // 3 existing time-boundaries + 1 new one for both mods
 
-      var newPassiveModification1 = updatedZfoLaw.getPassiveModifications().getFirst();
+      var newPassiveModification1 = passiveModifications.getFirst();
       assertThat(newPassiveModification1.getType()).contains("substitution");
       assertThat(newPassiveModification1.getSourceHref())
           .contains(
@@ -115,7 +137,13 @@ class UpdateNormServiceTest {
                   newPassiveModification1.getForcePeriodEid().orElseThrow()))
           .contains("2023-12-30");
 
-      var newPassiveModification2 = updatedZfoLaw.getPassiveModifications().get(1);
+      final TextualMod newPassiveModification2 =
+          updatedZfoLaw
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getPassiveModifications)
+              .orElse(Collections.emptyList())
+              .get(1);
       assertThat(newPassiveModification2.getType()).contains("substitution");
       assertThat(newPassiveModification2.getSourceHref())
           .contains(
@@ -146,10 +174,22 @@ class UpdateNormServiceTest {
                   "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
       // Then
-      assertThat(updatedZf0Law.getPassiveModifications()).hasSize(1);
+      assertThat(
+              updatedZf0Law
+                  .getMeta()
+                  .getAnalysis()
+                  .map(Analysis::getPassiveModifications)
+                  .orElse(Collections.emptyList()))
+          .hasSize(1);
       assertThat(updatedZf0Law.getTimeBoundaries()).hasSize(3); // 3 existing time-boundaries
 
-      var newPassiveModification = updatedZf0Law.getPassiveModifications().getFirst();
+      var newPassiveModification =
+          updatedZf0Law
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getPassiveModifications)
+              .orElse(Collections.emptyList())
+              .getFirst();
       assertThat(newPassiveModification.getType()).contains("substitution");
       assertThat(newPassiveModification.getSourceHref())
           .contains(

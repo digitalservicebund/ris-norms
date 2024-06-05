@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -87,8 +88,8 @@ public class Meta {
    *
    * @return the Analysis node as {@link Analysis}
    */
-  public Analysis getAnalysis() {
-    return new Analysis(NodeParser.getMandatoryNodeFromExpression("./analysis", node));
+  public Optional<Analysis> getAnalysis() {
+    return NodeParser.getNodeFromExpression("./analysis", node).map(Analysis::new);
   }
 
   /**
@@ -97,13 +98,13 @@ public class Meta {
    * @return the akn:analysis element of the norm
    */
   public Analysis getOrCreateAnalysis() {
-    try {
-      return getAnalysis();
-    } catch (final MandatoryNodeNotFound e) {
-      final var newElement =
-          NodeCreator.createElementWithEidAndGuid("akn:analysis", "analysis", node);
-      newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-      return new Analysis(newElement);
-    }
+    return getAnalysis()
+        .orElseGet(
+            () -> {
+              final var newElement =
+                  NodeCreator.createElementWithEidAndGuid("akn:analysis", "analysis", node);
+              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+              return new Analysis(newElement);
+            });
   }
 }

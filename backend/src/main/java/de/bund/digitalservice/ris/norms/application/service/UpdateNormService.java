@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 
 /** Service for updating norms. */
@@ -21,7 +22,11 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
    * @param sourceNormEli the eli which the removed passive modifications should have as a source
    */
   private void removePassiveModificationsThatStemFromSource(Norm norm, String sourceNormEli) {
-    norm.getPassiveModifications().stream()
+
+    norm.getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getPassiveModifications().stream())
+        .orElse(Stream.empty())
         .filter(
             passiveModification ->
                 passiveModification
@@ -51,7 +56,12 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
     removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getEli());
 
     final var activeModificationsToAdd =
-        query.amendingNorm().getActiveModifications().stream()
+        query
+            .amendingNorm()
+            .getMeta()
+            .getAnalysis()
+            .map(analysis -> analysis.getActiveModifications().stream())
+            .orElse(Stream.empty())
             .filter(
                 activeModification ->
                     activeModification

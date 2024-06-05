@@ -145,28 +145,6 @@ public class Norm {
   }
 
   /**
-   * Extracts a list of passive modifications from the document.
-   *
-   * @return a list of passive modifications.
-   */
-  public List<TextualMod> getPassiveModifications() {
-    return getNodesFromExpression("//passiveModifications/textualMod", document).stream()
-        .map(TextualMod::new)
-        .toList();
-  }
-
-  /**
-   * Extracts a list of active modifications from the document.
-   *
-   * @return a list of active modifications.
-   */
-  public List<TextualMod> getActiveModifications() {
-    return getNodesFromExpression("//activeModifications/textualMod", document).stream()
-        .map(TextualMod::new)
-        .toList();
-  }
-
-  /**
    * Extracts a list of {@link Mod}s from the document.
    *
    * @return a list of {@link Mod}s

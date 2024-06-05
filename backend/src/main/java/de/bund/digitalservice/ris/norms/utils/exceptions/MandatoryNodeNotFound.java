@@ -10,14 +10,16 @@ import lombok.Getter;
 public class MandatoryNodeNotFound extends RuntimeException {
 
   public MandatoryNodeNotFound(String xpath) {
-    super(String.format("Element '%s' not found", xpath));
+    super(String.format("Element with xpath '%s' not found", xpath));
   }
 
   public MandatoryNodeNotFound(String xpath, String normEli) {
-    super(String.format("Element '%s' not found in norm '%s'", xpath, normEli));
+    super(String.format("Element with xpath '%s' not found in norm '%s'", xpath, normEli));
   }
 
   public MandatoryNodeNotFound(String xpath, String nodeName, String normEli) {
-    super(String.format("Element '%s' not found in '%s' of norm '%s'", xpath, nodeName, normEli));
+    super(
+        String.format(
+            "Element with xpath '%s' not found in '%s' of norm '%s'", xpath, nodeName, normEli));
   }
 }

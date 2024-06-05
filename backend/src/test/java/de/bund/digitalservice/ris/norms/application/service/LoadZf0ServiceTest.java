@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
 class LoadZf0ServiceTest {
@@ -22,7 +23,7 @@ class LoadZf0ServiceTest {
   final UpdateNormService updateNormService = new UpdateNormService();
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
-  final LoadZf0Service createZf0Service =
+  final LoadZf0Service loadZf0Service =
       new LoadZf0Service(updateNormService, loadNormByGuidPort, updateOrSaveNormPort);
 
   @Test
@@ -36,7 +37,7 @@ class LoadZf0ServiceTest {
 
     // When
     final Norm zf0NormLoaded =
-        createZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingLaw, targetLaw));
+        loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingLaw, targetLaw));
 
     // Then
     assertThat(zf0Law).isEqualTo(zf0NormLoaded);
@@ -50,7 +51,7 @@ class LoadZf0ServiceTest {
     final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
 
     // When
-    final Norm zf0Norm = createZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingLaw, targetLaw));
+    final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingLaw, targetLaw));
 
     // Then
     final FRBRExpression frbrExpressionTargetLaw = targetLaw.getMeta().getFRBRExpression();
@@ -70,10 +71,36 @@ class LoadZf0ServiceTest {
     assertThat(frbrManifestationZf0Law.getEli()).contains(frbrExpressionZf0Law.getEli());
     assertThat(frbrManifestationZf0Law.getFBRDate()).isEqualTo(LocalDate.now().toString());
 
-    assertThat(targetLaw.getPassiveModifications()).isEmpty();
-    assertThat(zf0Norm.getPassiveModifications()).hasSize(1);
-    final TextualMod activeMod = amendingLaw.getActiveModifications().getFirst();
-    final TextualMod passiveMod = zf0Norm.getPassiveModifications().getFirst();
+    assertThat(
+            targetLaw
+                .getMeta()
+                .getAnalysis()
+                .map(analysis -> analysis.getPassiveModifications().stream())
+                .orElse(Stream.empty()))
+        .isEmpty();
+    assertThat(
+            zf0Norm
+                .getMeta()
+                .getAnalysis()
+                .map(analysis -> analysis.getPassiveModifications().stream())
+                .orElse(Stream.empty()))
+        .hasSize(1);
+    final TextualMod activeMod =
+        amendingLaw
+            .getMeta()
+            .getAnalysis()
+            .map(analysis -> analysis.getActiveModifications().stream())
+            .orElse(Stream.empty())
+            .toList()
+            .getFirst();
+    final TextualMod passiveMod =
+        zf0Norm
+            .getMeta()
+            .getAnalysis()
+            .map(analysis -> analysis.getPassiveModifications().stream())
+            .orElse(Stream.empty())
+            .toList()
+            .getFirst();
     assertThat(passiveMod.getType()).isEqualTo(activeMod.getType());
     assertThat(passiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
         .isEqualTo(amendingLaw.getEli());

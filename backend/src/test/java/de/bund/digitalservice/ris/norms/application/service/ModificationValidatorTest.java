@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
@@ -50,7 +51,10 @@ class ModificationValidatorTest {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       amendingNorm
-          .getActiveModifications()
+          .getMeta()
+          .getAnalysis()
+          .map(Analysis::getActiveModifications)
+          .orElse(Collections.emptyList())
           .getFirst()
           .setDestinationHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
 
@@ -279,7 +283,13 @@ class ModificationValidatorTest {
               .value();
 
       // 112 paragraph length
-      amendingNorm.getActiveModifications().getFirst().setDestinationHref(href);
+      amendingNorm
+          .getMeta()
+          .getAnalysis()
+          .map(Analysis::getActiveModifications)
+          .orElse(Collections.emptyList())
+          .getFirst()
+          .setDestinationHref(href);
 
       mod.setTargetHref(href);
       mod.setOldText(
@@ -314,7 +324,10 @@ class ModificationValidatorTest {
               .value());
 
       amendingNorm
-          .getActiveModifications()
+          .getMeta()
+          .getAnalysis()
+          .map(Analysis::getActiveModifications)
+          .orElse(Collections.emptyList())
           .forEach(
               textMod ->
                   textMod.setDestinationHref(
@@ -378,7 +391,10 @@ class ModificationValidatorTest {
               .value());
 
       amendingNorm
-          .getActiveModifications()
+          .getMeta()
+          .getAnalysis()
+          .map(Analysis::getActiveModifications)
+          .orElse(Collections.emptyList())
           .forEach(
               textMod ->
                   textMod.setDestinationHref(
@@ -413,7 +429,10 @@ class ModificationValidatorTest {
       final Mod mod = new Mod(modNode);
       // 112 paragraph length
       amendingNorm
-          .getActiveModifications()
+          .getMeta()
+          .getAnalysis()
+          .map(Analysis::getActiveModifications)
+          .orElse(Collections.emptyList())
           .getFirst()
           .setDestinationHref(
               new Href.Builder()

@@ -1358,34 +1358,6 @@ class NormTest {
   }
 
   @Test
-  void getOnePassiveModification() {
-    // given
-    Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-    // when
-    var passiveModifications = norm.getPassiveModifications();
-
-    // then
-    assertThat(passiveModifications).hasSize(1);
-    assertThat(passiveModifications.getFirst().getEid())
-        .contains("meta-1_analysis-1_pasmod-1_textualmod-2");
-  }
-
-  @Test
-  void getOneActiveModification() {
-    // given
-    Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
-
-    // when
-    var activeModifications = norm.getActiveModifications();
-
-    // then
-    assertThat(activeModifications).hasSize(1);
-    assertThat(activeModifications.getFirst().getEid())
-        .contains("meta-1_analysis-1_activemod-1_textualmod-1");
-  }
-
-  @Test
   void getMods() {
     // given
     Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -1470,20 +1442,6 @@ class NormTest {
       assertThat(analysis).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
           .contains(analysis.getNode());
-    }
-
-    @Test
-    void itShouldFindTheAnalysisNodeIfItExist() {
-      // given
-      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      final var analysis = norm.getMeta().getAnalysis();
-
-      // then
-      assertThat(analysis).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", analysis.getNode()))
-          .contains("5a5d264e-431e-4dc1-b971-4bd81af8a0f4");
     }
   }
 
@@ -1664,47 +1622,6 @@ class NormTest {
                   "//*[@eId='meta-1_lebzykl-1_ereignis-2']", norm.getDocument()))
           .isNotNull();
     }
-  }
-
-  @Test
-  void getActiveModifications() {
-    // given
-    String normString =
-        """
-                        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                    <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                              http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                        <akn:act name="regelungstext">
-                            <!-- Metadaten -->
-                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                                <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
-                                    <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
-                                        <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
-                                            <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
-                                            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" GUID="83a4e169-ec57-4981-b191-84afe42130c8" href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml"/>
-                                            <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" GUID="9180eb9f-9da2-4fa4-b57f-803d4ddcdbc9" period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
-                                        </akn:textualMod>
-                                    </akn:activeModifications>
-                                    <akn:activeModifications eId="meta-1_analysis-1_activemod-2" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3a2">
-                                        <akn:textualMod eId="meta-1_analysis-1_activemod-2_textualmod-1" GUID="8992dd02-ab87-42e8-bee2-86b76f587f81" type="substitution">
-                                            <akn:source eId="meta-1_analysis-1_activemod-2_textualmod-1_source-1" GUID="7537d65c-2a3b-440c-80ec-257073b1d1d3" href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
-                                            <akn:destination eId="meta-1_analysis-1_activemod-2_textualmod-1_destination-1" GUID="83a4e169-ec57-4981-b191-84afe42130c8" href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml"/>
-                                            <akn:force eId="meta-1_analysis-1_activemod-2_textualmod-1_gelzeitnachw-1" GUID="9180eb9f-9da2-4fa4-b57f-803d4ddcdbc9" period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
-                                        </akn:textualMod>
-                                    </akn:activeModifications>
-                                </akn:analysis>
-                            </akn:meta>
-                        </akn:act>
-                    </akn:akomaNtoso>
-                      """;
-
-    Norm norm = new Norm(toDocument(normString));
-
-    // when
-    final List<TextualMod> activeModifications = norm.getActiveModifications();
-
-    // then
-    assertThat(activeModifications).hasSize(2);
   }
 
   @Test

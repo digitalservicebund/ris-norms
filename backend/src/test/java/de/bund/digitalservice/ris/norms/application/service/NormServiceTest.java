@@ -17,8 +17,14 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
+import de.bund.digitalservice.ris.norms.domain.entity.Mod;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -879,7 +885,13 @@ class NormServiceTest {
           XmlMapper.toDocument(returnedXml.get().amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
-      final TextualMod activeModifications = resultAmendingNorm.getActiveModifications().getFirst();
+      final TextualMod activeModifications =
+          resultAmendingNorm
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getActiveModifications)
+              .orElse(Collections.emptyList())
+              .getFirst();
       assertThat(activeModifications.getDestinationHref()).contains(new Href(newDestinationHref));
       assertThat(activeModifications.getForcePeriodEid()).contains(newTimeBoundaryEid);
 

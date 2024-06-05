@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,7 +43,10 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
-    norm.getPassiveModifications().stream()
+    norm.getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getPassiveModifications().stream())
+        .orElse(Stream.empty())
         .filter(
             (TextualMod passiveModification) -> {
               final var startDate =

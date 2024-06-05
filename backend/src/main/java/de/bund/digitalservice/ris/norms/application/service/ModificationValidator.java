@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -80,7 +81,10 @@ public class ModificationValidator {
 
   private void validateActiveModificationsEli(Norm amendingNorm) {
     amendingNorm
-        .getActiveModifications()
+        .getMeta()
+        .getAnalysis()
+        .map(Analysis::getActiveModifications)
+        .orElse(Collections.emptyList())
         .forEach(
             tm ->
                 tm.getDestinationHref()
@@ -152,7 +156,12 @@ public class ModificationValidator {
             .collect(Collectors.toSet());
 
     Set<String> activeModificationsDestinationElis =
-        amendingNorm.getActiveModifications().stream()
+        amendingNorm
+            .getMeta()
+            .getAnalysis()
+            .map(Analysis::getActiveModifications)
+            .orElse(Collections.emptyList())
+            .stream()
             .map(TextualMod::getDestinationHref)
             .flatMap(Optional::stream)
             .map(Href::getEli)
@@ -183,7 +192,12 @@ public class ModificationValidator {
    */
   public void destinationHrefIsConsistent(Norm amendingNorm) {
     Set<Href> activeModificationsDestinationHrefs =
-        amendingNorm.getActiveModifications().stream()
+        amendingNorm
+            .getMeta()
+            .getAnalysis()
+            .map(Analysis::getActiveModifications)
+            .orElse(Collections.emptyList())
+            .stream()
             .map(TextualMod::getDestinationHref)
             .flatMap(Optional::stream)
             .collect(Collectors.toSet());
