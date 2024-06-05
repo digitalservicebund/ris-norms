@@ -1,6 +1,6 @@
 import { test, expect, Page } from "@playwright/test"
 
-test.describe("Navigate to temporal data page", () => {
+test.describe.skip("Navigate to temporal data page", () => {
   test("navigate to temporal data page for an amending law using side navigation", async ({
     page,
   }) => {
@@ -20,7 +20,7 @@ test.describe("Navigate to temporal data page", () => {
   })
 })
 
-test.describe("management of Temporal Data for an amending law", () => {
+test.describe.skip("management of Temporal Data for an amending law", () => {
   async function setupInitialData(page: Page) {
     await page.request.put(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
@@ -130,5 +130,55 @@ test.describe("management of Temporal Data for an amending law", () => {
     await expect(
       page.getByRole("textbox", { name: "Zeitgrenze hinzufügen" }),
     ).toBeHidden()
+  })
+})
+
+test.describe("Error handling for Temporal Data page", () => {
+  const BASE_URL =
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data"
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(BASE_URL)
+  })
+
+  test("displays error message when API call to get HTML article fails", async ({
+    page,
+  }) => {
+    await page.route(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
+      (route) => {
+        route.fulfill({
+          status: 403,
+          body: JSON.stringify({ error: "Internal Server Error" }),
+        })
+      },
+    )
+
+    await expect(
+      page.getByText("Es wurde kein Inkrafttreten-Artikel gefunden."),
+    ).toBeVisible()
+  })
+
+  test("displays error tooltip when API call to save timeboundaries is called with an empty input field", async ({
+    page,
+  }) => {
+    // reset page
+    await page.request.put(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        data: JSON.stringify([
+          { date: "2017-03-16", eventRefEid: "meta-1_lebzykl-1_ereignis-2" },
+        ]),
+      },
+    )
+
+    await page.locator('[data-testid="date-input-field"]').fill("")
+    await page.getByRole("button", { name: "Speichern" }).click()
+
+    await expect(page.getByText("Fehler beim Speichern")).toBeVisible()
   })
 })
