@@ -46,10 +46,9 @@ public class LoadZf0Service implements LoadZf0UseCase {
     final Norm targetNorm = query.targetLaw();
 
     final Optional<Norm> optionalZf0LawDB =
-        targetNorm
-            .getNextVersionGuid()
-            .flatMap(
-                guid -> loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(guid)));
+        loadNormByGuidPort.loadNormByGuid(
+            new LoadNormByGuidPort.Command(
+                targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()));
 
     if (optionalZf0LawDB.isPresent()) {
       return optionalZf0LawDB.get();
