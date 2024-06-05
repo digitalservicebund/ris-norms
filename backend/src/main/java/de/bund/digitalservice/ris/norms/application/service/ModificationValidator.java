@@ -375,7 +375,7 @@ public class ModificationValidator {
     validateNumberOfNodesWithEid(zf0Norm.getEli(), zf0Norm, targetHrefEId);
 
     return zf0Norm
-        .getByEId(targetHrefEId)
+        .getNodeByEId(targetHrefEId)
         .orElseThrow(
             () ->
                 new XmlContentException(

@@ -343,7 +343,7 @@ public class Norm {
    * @param eId the eId of the element to return
    * @return the selected element
    */
-  public Optional<Node> getByEId(String eId) {
+  public Optional<Node> getNodeByEId(String eId) {
     return NodeParser.getNodeFromExpression(
         String.format("//*[@eId='%s']", eId), this.getDocument());
   }
@@ -355,7 +355,7 @@ public class Norm {
    * @return the deleted element or empty if nothing to delete was found
    */
   public Optional<Node> deleteByEId(String eId) {
-    var node = getByEId(eId);
+    var node = getNodeByEId(eId);
     return node.map(n -> n.getParentNode().removeChild(n));
   }
 

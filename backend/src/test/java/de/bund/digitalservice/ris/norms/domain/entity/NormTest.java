@@ -1721,7 +1721,7 @@ class NormTest {
   }
 
   @Test
-  void getByEId() {
+  void getNodeByEId() {
     // given
     String normString =
         """
@@ -1755,7 +1755,8 @@ class NormTest {
     Norm norm = new Norm(toDocument(normString));
 
     // when
-    final Optional<Node> textualMod = norm.getByEId("meta-1_analysis-1_activemod-2_textualmod-1");
+    final Optional<Node> textualMod =
+        norm.getNodeByEId("meta-1_analysis-1_activemod-2_textualmod-1");
 
     // then
     assertThat(textualMod).isPresent();
