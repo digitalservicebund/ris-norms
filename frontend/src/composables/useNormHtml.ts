@@ -12,6 +12,7 @@ import { getNormHtmlByEli, useGetNormHtmlByEli } from "@/services/normService"
 /**
  * Get the rendered HTML of a norm.
  *
+ * @deprecated This function is deprecated and should not be used in new code.
  * @param eli a reference to the eli for which the norm html render will be returned.
  *  Changing the value of the reference will load the data for the new eli.
  * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
@@ -37,6 +38,14 @@ export function useNormHtml(
   return readonly(normHtml)
 }
 
+/**
+ * Get the rendered HTML of a norm.
+ *
+ * @param eli a reference to the eli for which the norm html render will be returned.
+ *  Changing the value of the reference will load the data for the new eli.
+ * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
+ * @returns A reference to the norm rendered as HTML or undefined if it is not available (or still loading).
+ */
 export function useNormHtmlByEli(
   eli: MaybeRefOrGetter<string | undefined>,
   at?: MaybeRefOrGetter<Date | undefined>,
