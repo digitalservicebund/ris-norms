@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Node;
@@ -17,6 +18,7 @@ import org.w3c.dom.Node;
 @Getter
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
+@EqualsAndHashCode
 public class Mod {
   private final Node node;
 
