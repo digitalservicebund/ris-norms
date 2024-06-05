@@ -27,6 +27,9 @@ const props = defineProps<{
 
   /** Label position: 'above' or 'left' */
   labelPosition?: "above" | "left"
+
+  /** Whether the field should be validated as empty. */
+  validateEmpty?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -77,7 +80,10 @@ const onMaska = (event: CustomEvent<MaskaDetail>) => {
 }
 
 const effectiveHasError = computed(
-  () => props.validationError || (inputCompleted.value && !isValidDate.value),
+  () =>
+    props.validationError ||
+    (inputCompleted.value && !isValidDate.value) ||
+    (props.validateEmpty && inputValue.value === ""),
 )
 
 const conditionalClasses = computed(() => ({
@@ -88,7 +94,14 @@ const conditionalClasses = computed(() => ({
 }))
 
 function validateInput() {
-  if (inputCompleted.value) {
+  if (props.validateEmpty && inputValue.value === "") {
+    const validationError = {
+      message: "Das Datum darf nicht leer sein",
+      instance: props.id,
+    }
+    localValidationError.value = validationError
+    emit("update:validationError", validationError)
+  } else if (inputCompleted.value) {
     if (isValidDate.value) {
       localValidationError.value = undefined
       emit("update:validationError", undefined)
@@ -114,9 +127,17 @@ function validateInput() {
 }
 
 function backspaceDelete() {
-  localValidationError.value = undefined
-  emit("update:validationError", undefined)
-  if (inputValue.value === "") emit("update:modelValue", inputValue.value)
+  if (inputValue.value === "") {
+    const error = {
+      message: "Das Datum darf nicht leer sein",
+      instance: props.id,
+    }
+    localValidationError.value = error
+    emit("update:validationError", error)
+  } else {
+    localValidationError.value = undefined
+    emit("update:validationError", undefined)
+  }
 }
 
 function onBlur() {
@@ -131,13 +152,14 @@ watch(
       : undefined
   },
 )
-
-watch(inputValue, (is) => {
-  if (is === "") emit("update:modelValue", undefined)
-  else if (isValidDate.value) {
+// dont send out the emit event if not empty string but is not valid because dates obkect mever gets current state of input and thinks old stuff int here.
+watch(inputValue, (newValue) => {
+  if (newValue === "") {
+    emit("update:modelValue", undefined)
+  } else if (isValidDate.value) {
     emit(
       "update:modelValue",
-      dayjs(is, "DD.MM.YYYY", true).format("YYYY-MM-DD"),
+      dayjs(newValue, "DD.MM.YYYY", true).format("YYYY-MM-DD"),
     )
   }
 })
@@ -180,7 +202,7 @@ watch(inputCompleted, (is) => {
       />
       <div
         v-if="effectiveHasError"
-        class="mt-4 flex items-center text-sm text-red-800"
+        class="mt-4 flex items-start text-sm text-red-800"
       >
         <IconErrorOutline class="mr-4 text-red-800" />
 
