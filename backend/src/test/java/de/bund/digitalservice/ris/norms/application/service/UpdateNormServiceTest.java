@@ -65,7 +65,7 @@ class UpdateNormServiceTest {
       assertThat(updatedZf0Law.getPassiveModifications()).hasSize(1);
       assertThat(updatedZf0Law.getTimeBoundaries())
           .hasSize(4); // 3 existing time-boundaries + 1 new one for the mod
-      var eventRefNode = updatedZf0Law.getTimeBoundaries().get(3).getEventRefNode();
+      var eventRefNode = updatedZf0Law.getTimeBoundaries().get(3).getEventRef().getNode();
       assertThat(NodeParser.getValueFromExpression("@type", eventRefNode))
           .contains(EventRefType.AMENDMENT.getValue());
 

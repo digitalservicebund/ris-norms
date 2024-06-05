@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpression;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -21,8 +22,6 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Norm {
-  private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
-      "attributsemantik-noch-undefiniert";
 
   private final Document document;
 
@@ -54,41 +53,6 @@ public class Norm {
             .orElseThrow();
 
     return UUID.fromString(guid);
-  }
-
-  /**
-   * Returns a FRBRname as {@link String} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The FRBRname
-   */
-  public Optional<String> getFRBRname() {
-    Optional<String> fRBRname =
-        NodeParser.getValueFromExpression("//FRBRWork/FRBRname/@value", document);
-
-    return fRBRname.map(
-        s ->
-            s.replace("bgbl-1", "BGBl. I")
-                .replace("bgbl-2", "BGBl. II")
-                .replace("banz-at", "BAnz AT"));
-  }
-
-  /**
-   * Returns a FRBRnumber as {@link String} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The FRBRnumber
-   */
-  public Optional<String> getFRBRnumber() {
-    return NodeParser.getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
-  }
-
-  /**
-   * Returns a FBRDateVerkuendun as {@link LocalDate} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The FBRDateVerkuendun
-   */
-  public Optional<LocalDate> getFBRDateVerkuendung() {
-    return NodeParser.getValueFromExpression("//FRBRWork/FRBRdate/@date", document)
-        .map(LocalDate::parse);
   }
 
   /**
@@ -177,28 +141,22 @@ public class Norm {
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
   public List<TimeBoundary> getTimeBoundaries() {
-    List<Node> temporalGroupNodes =
-        NodeParser.getNodesFromExpression("//temporalData/temporalGroup", document);
-
-    return temporalGroupNodes.stream()
+    final List<TemporalGroup> temporalGroups = getMeta().getTemporalData().getTemporalGroups();
+    return temporalGroups.stream()
         .map(
-            node -> {
-              Node timeIntervalNode =
-                  NodeParser.getNodeFromExpression("./timeInterval", node).orElseThrow();
-              String eventRefEId =
-                  new Href(timeIntervalNode.getAttributes().getNamedItem("start").getNodeValue())
-                      .getEId()
+            temporalGroup -> {
+              final TimeInterval timeInterval = temporalGroup.getTimeInterval();
+              final String eventRefEId = timeInterval.getEventRefEId().orElseThrow();
+              final EventRef eventRef =
+                  getMeta().getLifecycle().getEventRefs().stream()
+                      .filter(f -> Objects.equals(f.getEid().value(), eventRefEId))
+                      .findFirst()
                       .orElseThrow();
-              String eventRefNodeExpression =
-                  String.format("//lifecycle/eventRef[@eId='%s']", eventRefEId);
-              Node eventRefNode =
-                  NodeParser.getNodeFromExpression(eventRefNodeExpression, document).orElseThrow();
-
               return (TimeBoundary)
                   TimeBoundary.builder()
-                      .temporalGroupNode(node)
-                      .timeIntervalNode(timeIntervalNode)
-                      .eventRefNode(eventRefNode)
+                      .temporalGroup(temporalGroup)
+                      .timeInterval(timeInterval)
+                      .eventRef(eventRef)
                       .build();
             })
         .toList();
@@ -250,11 +208,10 @@ public class Norm {
    * @return List of Strings with all existing eIds of all temporalGroup nodes
    */
   public List<String> getTemporalGroupEids() {
-    List<Node> temporalGroups =
-        NodeParser.getNodesFromExpression("//meta/temporalData/temporalGroup", document);
-
-    return temporalGroups.stream()
-        .map(node -> node.getAttributes().getNamedItem("eId").getNodeValue())
+    return getMeta().getTemporalData().getTemporalGroups().stream()
+        .map(
+            temporalGroup ->
+                temporalGroup.getNode().getAttributes().getNamedItem("eId").getNodeValue())
         .toList();
   }
 
@@ -301,23 +258,26 @@ public class Norm {
    */
   public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
     // Create new eventRef node
-    final Node livecycle = getTimeBoundaries().getLast().getEventRefNode().getParentNode();
-    final Element eventRef = createElementWithEidAndGuid("akn:eventRef", "ereignis", livecycle);
+    final Node livecycle = getTimeBoundaries().getLast().getEventRef().getNode().getParentNode();
+    final Element eventRef =
+        NodeCreator.createElementWithEidAndGuid("akn:eventRef", "ereignis", livecycle);
     eventRef.setAttribute("date", date.toString());
-    eventRef.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+    eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
     eventRef.setAttribute("type", eventRefType.getValue());
     eventRef.setAttribute("refersTo", "inkrafttreten");
     livecycle.appendChild(eventRef);
 
     // Create new temporalGroup node
-    final Node temporalData = getOrCreateTemporalDataNode();
+    final TemporalData temporalData = getMeta().getTemporalData();
     final Element temporalGroup =
-        createElementWithEidAndGuid("akn:temporalGroup", "geltungszeitgr", temporalData);
-    temporalData.appendChild(temporalGroup);
+        NodeCreator.createElementWithEidAndGuid(
+            "akn:temporalGroup", "geltungszeitgr", temporalData.getNode());
+    temporalData.getNode().appendChild(temporalGroup);
 
     // Create new timeInterval node
     final Element timeInterval =
-        createElementWithEidAndGuid("akn:timeInterval", "gelzeitintervall", temporalGroup);
+        NodeCreator.createElementWithEidAndGuid(
+            "akn:timeInterval", "gelzeitintervall", temporalGroup);
     timeInterval.setAttribute("refersTo", "geltungszeit");
     final var eventRefEId = eventRef.getAttribute("eId");
     timeInterval.setAttribute(
@@ -420,49 +380,6 @@ public class Norm {
   }
 
   /**
-   * Create a new element with both an eId and a GUID. The new element still needs to appended to
-   * the parent node.
-   *
-   * @param tagName the tag name of the new element
-   * @param eidPartName the name for the last part of the eid for the new element
-   * @param parentNode the element of which this newly created element should be a child
-   * @return the newly created element
-   */
-  public Element createElementWithEidAndGuid(String tagName, String eidPartName, Node parentNode) {
-    var newElement = getDocument().createElement(tagName);
-    newElement.setAttribute("eId", calculateNextPossibleEid(parentNode, eidPartName));
-    newElement.setAttribute("GUID", UUID.randomUUID().toString());
-    parentNode.appendChild(newElement);
-    return newElement;
-  }
-
-  /**
-   * Gets the akn:meta element of the norm. Throws if no akn:meta node exists as this should never
-   * be the case (without it the norm can't have an eli).
-   *
-   * @return the akn:meta element of the norm
-   */
-  private Node getMetaNode() {
-    return NodeParser.getNodeFromExpression("//act/meta", getDocument()).orElseThrow();
-  }
-
-  /**
-   * Gets the akn:analysis element of the norm, or creates it if it does not yet exist.
-   *
-   * @return the akn:analysis element of the norm
-   */
-  public Node getOrCreateAnalysisNode() {
-    return NodeParser.getNodeFromExpression("//meta/analysis", getDocument())
-        .orElseGet(
-            () -> {
-              final var newElement =
-                  createElementWithEidAndGuid("akn:analysis", "analysis", getMetaNode());
-              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-              return newElement;
-            });
-  }
-
-  /**
    * Gets the akn:passiveModifications element of the norm, or creates it if it does not yet exist.
    *
    * @return the akn:passiveModifications element of the norm
@@ -471,24 +388,10 @@ public class Norm {
     return NodeParser.getNodeFromExpression("//meta/analysis/passiveModifications", getDocument())
         .orElseGet(
             () ->
-                createElementWithEidAndGuid(
-                    "akn:passiveModifications", "pasmod", getOrCreateAnalysisNode()));
-  }
-
-  /**
-   * Gets the akn:temporalData element of the norm, or creates it if it does not yet exist.
-   *
-   * @return the akn:temporalData element of the norm
-   */
-  public Node getOrCreateTemporalDataNode() {
-    return NodeParser.getNodeFromExpression("//meta/temporalData", getDocument())
-        .orElseGet(
-            () -> {
-              final var newElement =
-                  createElementWithEidAndGuid("akn:temporalData", "analysis", getMetaNode());
-              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-              return newElement;
-            });
+                NodeCreator.createElementWithEidAndGuid(
+                    "akn:passiveModifications",
+                    "pasmod",
+                    getMeta().getOrCreateAnalysis().getNode()));
   }
 
   /**
@@ -506,49 +409,25 @@ public class Norm {
     var passiveModificationsNode = getOrCreatePassiveModificationsNode();
 
     var textualMod =
-        createElementWithEidAndGuid("akn:textualMod", "textualmod", passiveModificationsNode);
+        NodeCreator.createElementWithEidAndGuid(
+            "akn:textualMod", "textualmod", passiveModificationsNode);
     textualMod.setAttribute("type", type);
     passiveModificationsNode.appendChild(textualMod);
 
-    var source = createElementWithEidAndGuid("akn:source", "source", textualMod);
+    var source = NodeCreator.createElementWithEidAndGuid("akn:source", "source", textualMod);
     source.setAttribute("href", sourceHref);
     textualMod.appendChild(source);
 
-    var destination = createElementWithEidAndGuid("akn:destination", "destination", textualMod);
+    var destination =
+        NodeCreator.createElementWithEidAndGuid("akn:destination", "destination", textualMod);
     destination.setAttribute("href", destinationHref);
     textualMod.appendChild(destination);
 
-    var force = createElementWithEidAndGuid("akn:force", "gelzeitnachw", textualMod);
+    var force = NodeCreator.createElementWithEidAndGuid("akn:force", "gelzeitnachw", textualMod);
     force.setAttribute("period", periodHref);
     textualMod.appendChild(force);
 
     return new TextualMod(textualMod);
-  }
-
-  /**
-   * Calculates the next possible eId for the given eIdPartType and parent node.
-   *
-   * @param parentNode The parent node under which this new eId should be used
-   * @param eidPartType The name of the new part of the eId
-   * @return The new eId created from the parent node eId, the eidPartType and the next available
-   *     position
-   */
-  public static String calculateNextPossibleEid(Node parentNode, String eidPartType) {
-    var lastPosition =
-        NodeParser.nodeListToList(parentNode.getChildNodes()).stream()
-            .flatMap(node -> EId.fromNode(node).stream())
-            .map(eId -> eId.getParts().getLast())
-            .filter(eIdPart -> eIdPart.getType().equals(eidPartType))
-            .map(EIdPart::getPosition)
-            .map(Integer::parseInt)
-            .max(Comparator.comparingInt(Integer::intValue))
-            .orElse(0);
-    var newEidPart = new EIdPart(eidPartType, String.valueOf(lastPosition + 1));
-
-    return EId.fromNode(parentNode)
-        .map(parendEId -> parendEId.addPart(newEidPart))
-        .map(EId::value)
-        .orElseThrow();
   }
 
   @Override

@@ -4,7 +4,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModi
 import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +38,7 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
                       .flatMap(norm::deleteTemporalGroupIfUnused);
 
               temporalGroup
-                  .flatMap(TemporalGroup::getEventRefEId)
+                  .flatMap(m -> m.getTimeInterval().getEventRefEId())
                   .ifPresent(norm::deleteEventRefIfUnused);
             });
   }

@@ -4,6 +4,7 @@ import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
@@ -209,7 +210,7 @@ class NormTest {
     String expectedFRBRname = "BGBl. I";
 
     // when
-    String actualFRBRname = norm.getFRBRname().get();
+    String actualFRBRname = norm.getMeta().getFRBRWork().getFRBRname().get();
 
     // then
     assertThat(actualFRBRname).contains(expectedFRBRname);
@@ -242,7 +243,7 @@ class NormTest {
     String expectedFRBRname = "s593";
 
     // when
-    String actualAnnouncementGazette = norm.getFRBRnumber().get();
+    String actualAnnouncementGazette = norm.getMeta().getFRBRWork().getFRBRnumber().get();
 
     // then
     assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
@@ -275,7 +276,7 @@ class NormTest {
     String expectedFRBRname = "BGBl. I";
 
     // when
-    String actualAnnouncementGazette = norm.getFRBRname().get();
+    String actualAnnouncementGazette = norm.getMeta().getFRBRWork().getFRBRname().get();
 
     // then
     assertThat(actualAnnouncementGazette).contains(expectedFRBRname);
@@ -306,13 +307,11 @@ class NormTest {
                     """;
 
     Norm norm = new Norm(toDocument(normString));
-    LocalDate expectedFBRDateVerkuendung = LocalDate.of(1964, 8, 5);
-
     // when
-    LocalDate actualFBRDateVerkuendung = norm.getFBRDateVerkuendung().get();
+    String actualFBRDateVerkuendung = norm.getMeta().getFRBRWork().getFBRDate();
 
     // then
-    assertThat(actualFBRDateVerkuendung).isEqualTo(expectedFBRDateVerkuendung);
+    assertThat(actualFBRDateVerkuendung).isEqualTo("1964-08-05");
   }
 
   @Test
@@ -854,7 +853,8 @@ class NormTest {
 
     List<TimeBoundary> actualBoundaries = norm.getTimeBoundaries();
 
-    assertThat(actualBoundaries.getFirst().getDate()).contains(LocalDate.parse("2023-12-30"));
+    assertThat(actualBoundaries.getFirst().getEventRef().getDate())
+        .contains(LocalDate.parse("2023-12-30"));
     assertThat(actualBoundaries.getFirst().getEventRefEid().get())
         .contains("meta-1_lebzykl-1_ereignis-2");
   }
@@ -1137,13 +1137,15 @@ class NormTest {
     List<TimeBoundary> timeBoundaries = norm.getTimeBoundaries();
 
     // old one still there
-    assertThat(timeBoundaries.get(0).getDate()).contains(LocalDate.parse("2023-12-30"));
+    assertThat(timeBoundaries.get(0).getEventRef().getDate())
+        .contains(LocalDate.parse("2023-12-30"));
     assertThat(timeBoundaries.get(0).getEventRefEid().get())
         .contains("meta-1_lebzykl-1_ereignis-2");
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getParentNode()
                 .getAttributes()
                 .getNamedItem("eId")
@@ -1152,7 +1154,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getParentNode()
                 .getAttributes()
                 .getNamedItem("GUID")
@@ -1163,7 +1166,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getAttributes()
                 .getNamedItem("GUID")
                 .getNodeValue())
@@ -1171,7 +1175,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getAttributes()
                 .getNamedItem("refersTo")
                 .getNodeValue())
@@ -1179,20 +1184,23 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getAttributes()
                 .getNamedItem("start")
                 .getNodeValue())
         .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
 
     // new one added
-    assertThat(timeBoundaries.get(1).getDate()).contains(LocalDate.parse("2024-01-02"));
+    assertThat(timeBoundaries.get(1).getEventRef().getDate())
+        .contains(LocalDate.parse("2024-01-02"));
     assertThat(timeBoundaries.get(1).getEventRefEid().get())
         .contains("meta-1_lebzykl-1_ereignis-3");
     assertThat(
             timeBoundaries
                 .get(1)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getParentNode()
                 .getAttributes()
                 .getNamedItem("eId")
@@ -1201,7 +1209,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(1)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getParentNode()
                 .getAttributes()
                 .getNamedItem("GUID")
@@ -1212,7 +1221,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(1)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getAttributes()
                 .getNamedItem("GUID")
                 .getNodeValue())
@@ -1220,7 +1230,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(1)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getAttributes()
                 .getNamedItem("refersTo")
                 .getNodeValue())
@@ -1228,7 +1239,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(1)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getAttributes()
                 .getNamedItem("start")
                 .getNodeValue())
@@ -1278,13 +1290,15 @@ class NormTest {
 
     // old one still there
     assertThat(timeBoundaries).hasSize(1);
-    assertThat(timeBoundaries.get(0).getDate()).contains(LocalDate.parse("2023-12-30"));
+    assertThat(timeBoundaries.get(0).getEventRef().getDate())
+        .contains(LocalDate.parse("2023-12-30"));
     assertThat(timeBoundaries.get(0).getEventRefEid().get())
         .contains("meta-1_lebzykl-1_ereignis-2");
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getParentNode()
                 .getAttributes()
                 .getNamedItem("eId")
@@ -1293,7 +1307,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getParentNode()
                 .getAttributes()
                 .getNamedItem("GUID")
@@ -1304,7 +1319,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getAttributes()
                 .getNamedItem("GUID")
                 .getNodeValue())
@@ -1312,7 +1328,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getAttributes()
                 .getNamedItem("refersTo")
                 .getNodeValue())
@@ -1320,7 +1337,8 @@ class NormTest {
     assertThat(
             timeBoundaries
                 .get(0)
-                .getTimeIntervalNode()
+                .getTimeInterval()
+                .getNode()
                 .getAttributes()
                 .getNamedItem("start")
                 .getNodeValue())
@@ -1346,7 +1364,8 @@ class NormTest {
                             """);
 
     // when
-    String nextPossibleEid = Norm.calculateNextPossibleEid(parentNode, "geltungszeitgr");
+    final String nextPossibleEid =
+        NodeCreator.calculateNextPossibleEid(parentNode, "geltungszeitgr");
 
     // then
     assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-3");
@@ -1365,7 +1384,8 @@ class NormTest {
                             """);
 
     // when
-    String nextPossibleEid = Norm.calculateNextPossibleEid(parentNode, "geltungszeitgr");
+    final String nextPossibleEid =
+        NodeCreator.calculateNextPossibleEid(parentNode, "geltungszeitgr");
 
     // then
     assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
@@ -1459,7 +1479,8 @@ class NormTest {
           NodeParser.getNodeFromExpression("//act/meta", norm.getDocument()).orElseThrow();
 
       // when
-      Node createdNode = norm.createElementWithEidAndGuid("akn:analysis", "analysis", parentNode);
+      final Node createdNode =
+          NodeCreator.createElementWithEidAndGuid("akn:analysis", "analysis", parentNode);
 
       // then
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
@@ -1477,12 +1498,12 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
 
       // when
-      final var analysisNode = norm.getOrCreateAnalysisNode();
+      final var analysis = norm.getMeta().getOrCreateAnalysis();
 
       // then
-      assertThat(analysisNode).isNotNull();
+      assertThat(analysis).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-          .contains(analysisNode);
+          .contains(analysis.getNode());
     }
 
     @Test
@@ -1491,11 +1512,11 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      final var analysisNode = norm.getOrCreateAnalysisNode();
+      final var analysis = norm.getMeta().getAnalysis();
 
       // then
-      assertThat(analysisNode).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", analysisNode))
+      assertThat(analysis).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", analysis.getNode()))
           .contains("5a5d264e-431e-4dc1-b971-4bd81af8a0f4");
     }
   }
@@ -1540,12 +1561,12 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
 
       // when
-      final var temporalDataNode = norm.getOrCreateTemporalDataNode();
+      final var temporalData = norm.getMeta().getOrCreateTemporalDataNode();
 
       // then
-      assertThat(temporalDataNode).isNotNull();
+      assertThat(temporalData).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act//temporalData", norm.getDocument()))
-          .contains(temporalDataNode);
+          .contains(temporalData.getNode());
     }
 
     @Test
@@ -1554,11 +1575,11 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      final var temporalDataNode = norm.getOrCreateTemporalDataNode();
+      final var temporalData = norm.getMeta().getTemporalData();
 
       // then
-      assertThat(temporalDataNode).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", temporalDataNode))
+      assertThat(temporalData).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getNode()))
           .contains("2fcdfa3e-1460-4ef4-b22b-5ff4a897538f");
     }
   }

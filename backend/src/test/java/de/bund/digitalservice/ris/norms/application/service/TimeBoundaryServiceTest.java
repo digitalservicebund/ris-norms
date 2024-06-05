@@ -85,13 +85,15 @@ class TimeBoundaryServiceTest {
       assertThat(timeBoundaries).hasSize(2);
 
       // handle 1st time boundary
-      assertThat(timeBoundaries.getFirst().getDate()).contains(LocalDate.parse("2023-12-30"));
+      assertThat(timeBoundaries.getFirst().getEventRef().getDate())
+          .contains(LocalDate.parse("2023-12-30"));
       assertThat(timeBoundaries.getFirst().getEventRefEid().get())
           .contains("meta-1_lebzykl-1_ereignis-2");
       assertThat(
               timeBoundaries
                   .getFirst()
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getParentNode()
                   .getAttributes()
                   .getNamedItem("eId")
@@ -100,7 +102,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .getFirst()
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getParentNode()
                   .getAttributes()
                   .getNamedItem("GUID")
@@ -111,7 +114,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .getFirst()
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("GUID")
                   .getNodeValue())
@@ -119,7 +123,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(0)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("refersTo")
                   .getNodeValue())
@@ -127,20 +132,23 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(0)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("start")
                   .getNodeValue())
           .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
 
       // handle 2nd time boundary
-      assertThat(timeBoundaries.get(1).getDate()).contains(LocalDate.parse("2024-01-01"));
+      assertThat(timeBoundaries.get(1).getEventRef().getDate())
+          .contains(LocalDate.parse("2024-01-01"));
       assertThat(timeBoundaries.get(1).getEventRefEid().get())
           .contains("meta-1_lebzykl-1_ereignis-3");
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getParentNode()
                   .getAttributes()
                   .getNamedItem("eId")
@@ -149,7 +157,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getParentNode()
                   .getAttributes()
                   .getNamedItem("GUID")
@@ -160,7 +169,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("GUID")
                   .getNodeValue())
@@ -168,7 +178,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("refersTo")
                   .getNodeValue())
@@ -176,7 +187,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("start")
                   .getNodeValue())
@@ -374,10 +386,22 @@ class TimeBoundaryServiceTest {
               argThat(
                   argument ->
                       Objects.equals(
-                              argument.norm().getTimeBoundaries().getFirst().getDate().get(),
+                              argument
+                                  .norm()
+                                  .getTimeBoundaries()
+                                  .getFirst()
+                                  .getEventRef()
+                                  .getDate()
+                                  .get(),
                               LocalDate.parse("2023-12-30"))
                           && Objects.equals(
-                              argument.norm().getTimeBoundaries().getLast().getDate().get(),
+                              argument
+                                  .norm()
+                                  .getTimeBoundaries()
+                                  .getLast()
+                                  .getEventRef()
+                                  .getDate()
+                                  .get(),
                               LocalDate.parse("2024-01-02"))
                           && argument.norm().getTimeBoundaries().size() == 2));
     }
@@ -458,7 +482,13 @@ class TimeBoundaryServiceTest {
               argThat(
                   argument ->
                       Objects.equals(
-                              argument.norm().getTimeBoundaries().getLast().getDate().get(),
+                              argument
+                                  .norm()
+                                  .getTimeBoundaries()
+                                  .getLast()
+                                  .getEventRef()
+                                  .getDate()
+                                  .get(),
                               LocalDate.parse("2023-12-30"))
                           && argument.norm().getTimeBoundaries().size() == 1));
     }
@@ -522,9 +552,22 @@ class TimeBoundaryServiceTest {
                   argument ->
                       LocalDate.parse("1980-01-01")
                               .equals(
-                                  argument.norm().getTimeBoundaries().getFirst().getDate().get())
+                                  argument
+                                      .norm()
+                                      .getTimeBoundaries()
+                                      .getFirst()
+                                      .getEventRef()
+                                      .getDate()
+                                      .get())
                           && LocalDate.parse("1990-01-01")
-                              .equals(argument.norm().getTimeBoundaries().get(1).getDate().get())
+                              .equals(
+                                  argument
+                                      .norm()
+                                      .getTimeBoundaries()
+                                      .get(1)
+                                      .getEventRef()
+                                      .getDate()
+                                      .get())
                           && argument.norm().getTimeBoundaries().size() == 2));
     }
 
