@@ -16,8 +16,6 @@ import org.w3c.dom.Node;
 /** */
 @Service
 public class ModificationValidator {
-  // TODO rename ModificationValidatorService?
-
   private final LoadNormPort loadNormPort;
   private final LoadZf0Service loadZf0Service;
 
@@ -27,6 +25,8 @@ public class ModificationValidator {
   }
 
   /**
+   * Checks an amending law xml for consistency errors.
+   *
    * @param amendingNorm the amending norm to be checked
    */
   public void validate(Norm amendingNorm) {
@@ -64,12 +64,6 @@ public class ModificationValidator {
           Norm zf0Norm = getZF0Norm(amendingNorm, getModTargetHref(amendingNormEli, mod, modEId));
           oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod);
         });
-  }
-
-  private Norm getZF0Norm(Norm amendingNorm, Href href) {
-    final Norm targetNorm =
-        loadNormPort.loadNorm(new LoadNormPort.Command(href.toString())).orElseThrow();
-    return loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
   }
 
   /**
@@ -215,14 +209,12 @@ public class ModificationValidator {
    */
   public void oldTextExistsInZf0Norm(String amendingNormEli, Norm zf0Norm, Mod mod) {
     if (!mod.usesQuotedText()) {
+      // TODO test for that throw
+      // TODO compose message
       throw new XmlContentException("TODO 2", null);
     }
 
-    // TODO compose message
-    // TODO put to getter
-    // Test for that throw
-    String modEId = mod.getEid().orElseThrow(() -> new XmlContentException("TODO 1", null));
-
+    String modEId = getModEId(mod);
     Href articleModTargetHref = getModTargetHref(amendingNormEli, mod, modEId);
 
     String articleModTargetHrefEId =
@@ -252,14 +244,6 @@ public class ModificationValidator {
         modEId,
         articleModTargetHref,
         "The character range in mod href is empty in article with eId %s".formatted(modEId));
-  }
-
-  private void validateNumberOfNodesWithEid(String eli, Norm norm, String eId) {
-    if (norm.getNumberOfNodesWithEid(eId) > 1) {
-      throw new XmlContentException(
-          "For norm with Eli (%s): Too many elements with the same eId %s.".formatted(eli, eId),
-          null);
-    }
   }
 
   private void validateQuotedText(
@@ -314,6 +298,12 @@ public class ModificationValidator {
           null);
   }
 
+  private Norm getZF0Norm(Norm amendingNorm, Href href) {
+    final Norm targetNorm =
+        loadNormPort.loadNorm(new LoadNormPort.Command(href.toString())).orElseThrow();
+    return loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
+  }
+
   private Node getTargetNodeFromZF0Norm(
       String amendingNormEli,
       Norm zf0Norm,
@@ -333,6 +323,14 @@ public class ModificationValidator {
                     null));
   }
 
+  private void validateNumberOfNodesWithEid(String eli, Norm norm, String eId) {
+    if (norm.getNumberOfNodesWithEid(eId) > 1) {
+      throw new XmlContentException(
+          "For norm with Eli (%s): Too many elements with the same eId %s.".formatted(eli, eId),
+          null);
+    }
+  }
+
   private String getArticleRefersTo(String eli, Article a, String articleEId) {
     // TODO test for that throw
     return a.getRefersTo()
@@ -344,14 +342,13 @@ public class ModificationValidator {
                     null));
   }
 
-  private String getArticleAffectedDocumentEli(String eli, Article a, String articleEId) {
-    return a.getAffectedDocumentEli()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
-                        .formatted(eli, articleEId),
-                    null));
+  private void getArticleAffectedDocumentEli(String eli, Article a, String articleEId) {
+    if (a.getAffectedDocumentEli().isEmpty()) {
+      throw new XmlContentException(
+          "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
+              .formatted(eli, articleEId),
+          null);
+    }
   }
 
   private String getArticleEId(String eli, Article a) {
@@ -422,12 +419,10 @@ public class ModificationValidator {
                     "For norm with Eli (%s): %s".formatted(eli, message), null));
   }
 
-  private String getHrefEli(String eli, Href h, String message) {
-    return h.getEli()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): %s".formatted(eli, message), null));
+  private void getHrefEli(String eli, Href h, String message) {
+    if (h.getEli().isEmpty()) {
+      throw new XmlContentException("For norm with Eli (%s): %s".formatted(eli, message), null);
+    }
   }
 
   private int getCharacterRangeStart(CharacterRange cr, String modEId) {
