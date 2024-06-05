@@ -83,7 +83,7 @@ public class NormService
   @Override
   public Optional<Norm> loadNextVersionOfNorm(LoadNextVersionOfNormUseCase.Query query) {
     return loadNorm(new LoadNormUseCase.Query(query.eli()))
-        .flatMap(Norm::getNextVersionGuid)
+        .map(n -> n.getMeta().getFRBRExpression().getFRBRaliasNextVersionId())
         .flatMap(
             nextVersionGuid -> loadNormByGuid(new LoadNormByGuidUseCase.Query(nextVersionGuid)));
   }

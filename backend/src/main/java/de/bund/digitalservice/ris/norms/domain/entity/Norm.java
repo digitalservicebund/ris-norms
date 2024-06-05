@@ -42,9 +42,9 @@ public class Norm {
   }
 
   /**
-   * Returns an GUID as {@link UUID} from a {@link Document} in a {@link Norm}.
+   * Returns the current version GUID as {@link UUID} from the {@link Norm}.
    *
-   * @return An GUID of the document
+   * @return An GUID of the norm (of the expression level)
    */
   public UUID getGuid() {
     var guid =
@@ -115,24 +115,6 @@ public class Norm {
    */
   public List<Article> getArticles() {
     return getNodesFromExpression("//body//article", document).stream().map(Article::new).toList();
-  }
-
-  /**
-   * Returns the GUID of the next version as {@link UUID} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The GUID of the next version of the norm.
-   */
-  public Optional<UUID> getNextVersionGuid() {
-    return NodeParser.getValueFromExpression(
-            "//FRBRExpression/FRBRalias[@name='nachfolgende-version-id']/@value", document)
-        .flatMap(
-            guid -> {
-              try {
-                return Optional.of(UUID.fromString(guid));
-              } catch (IllegalArgumentException e) {
-                return Optional.empty();
-              }
-            });
   }
 
   /**
