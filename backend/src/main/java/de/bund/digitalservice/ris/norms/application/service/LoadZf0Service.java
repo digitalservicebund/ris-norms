@@ -10,7 +10,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 import javax.xml.parsers.DocumentBuilder;
@@ -58,13 +57,7 @@ public class LoadZf0Service implements LoadZf0UseCase {
 
     final Norm zf0Norm = Norm.builder().document(cloneDocument(targetNorm.getDocument())).build();
 
-    final String announcementDateAmendingLaw =
-        amendingNorm
-            .getMeta()
-            .getFRBRWork()
-            .getFBRDateVerkuendung()
-            .orElseThrow()
-            .format(DateTimeFormatter.ISO_LOCAL_DATE);
+    final String announcementDateAmendingLaw = amendingNorm.getMeta().getFRBRWork().getFBRDate();
 
     updateFRBRExpression(zf0Norm, targetNorm, announcementDateAmendingLaw);
     updateFRBRManifestation(zf0Norm, announcementDateAmendingLaw);

@@ -4,6 +4,7 @@ import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
@@ -306,13 +307,11 @@ class NormTest {
                 """;
 
     Norm norm = new Norm(toDocument(normString));
-    LocalDate expectedFBRDateVerkuendung = LocalDate.of(1964, 8, 5);
-
     // when
-    LocalDate actualFBRDateVerkuendung = norm.getMeta().getFRBRWork().getFBRDateVerkuendung().get();
+    String actualFBRDateVerkuendung = norm.getMeta().getFRBRWork().getFBRDate();
 
     // then
-    assertThat(actualFBRDateVerkuendung).isEqualTo(expectedFBRDateVerkuendung);
+    assertThat(actualFBRDateVerkuendung).isEqualTo("1964-08-05");
   }
 
   @Test
@@ -1365,7 +1364,8 @@ class NormTest {
                 """);
 
     // when
-    String nextPossibleEid = Norm.calculateNextPossibleEid(parentNode, "geltungszeitgr");
+    final String nextPossibleEid =
+        NodeCreator.calculateNextPossibleEid(parentNode, "geltungszeitgr");
 
     // then
     assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-3");
@@ -1384,7 +1384,8 @@ class NormTest {
                 """);
 
     // when
-    String nextPossibleEid = Norm.calculateNextPossibleEid(parentNode, "geltungszeitgr");
+    final String nextPossibleEid =
+        NodeCreator.calculateNextPossibleEid(parentNode, "geltungszeitgr");
 
     // then
     assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
@@ -1478,7 +1479,8 @@ class NormTest {
           NodeParser.getNodeFromExpression("//act/meta", norm.getDocument()).orElseThrow();
 
       // when
-      Node createdNode = norm.createElementWithEidAndGuid("akn:analysis", "analysis", parentNode);
+      final Node createdNode =
+          NodeCreator.createElementWithEidAndGuid("akn:analysis", "analysis", parentNode);
 
       // then
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
@@ -1496,12 +1498,12 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
 
       // when
-      final var analysisNode = norm.getOrCreateAnalysisNode();
+      final var analysis = norm.getMeta().getOrCreateAnalysis();
 
       // then
-      assertThat(analysisNode).isNotNull();
+      assertThat(analysis).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
-          .contains(analysisNode);
+          .contains(analysis.getNode());
     }
 
     @Test
@@ -1510,11 +1512,11 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      final var analysisNode = norm.getOrCreateAnalysisNode();
+      final var analysis = norm.getMeta().getAnalysis();
 
       // then
-      assertThat(analysisNode).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", analysisNode))
+      assertThat(analysis).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", analysis.getNode()))
           .contains("5a5d264e-431e-4dc1-b971-4bd81af8a0f4");
     }
   }
@@ -1559,12 +1561,12 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
 
       // when
-      final var temporalDataNode = norm.getOrCreateTemporalDataNode();
+      final var temporalData = norm.getMeta().getOrCreateTemporalDataNode();
 
       // then
-      assertThat(temporalDataNode).isNotNull();
+      assertThat(temporalData).isNotNull();
       assertThat(NodeParser.getNodeFromExpression("//act//temporalData", norm.getDocument()))
-          .contains(temporalDataNode);
+          .contains(temporalData.getNode());
     }
 
     @Test
@@ -1573,11 +1575,11 @@ class NormTest {
       final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when
-      final var temporalDataNode = norm.getOrCreateTemporalDataNode();
+      final var temporalData = norm.getMeta().getTemporalData();
 
       // then
-      assertThat(temporalDataNode).isNotNull();
-      assertThat(NodeParser.getValueFromExpression("@GUID", temporalDataNode))
+      assertThat(temporalData).isNotNull();
+      assertThat(NodeParser.getValueFromExpression("@GUID", temporalData.getNode()))
           .contains("2fcdfa3e-1460-4ef4-b22b-5ff4a897538f");
     }
   }

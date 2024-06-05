@@ -9,7 +9,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -62,12 +61,7 @@ public class DBService
         .sorted(
             Comparator.comparing(
                     (Announcement announcement) ->
-                        announcement
-                            .getNorm()
-                            .getMeta()
-                            .getFRBRWork()
-                            .getFBRDateVerkuendung()
-                            .orElse(LocalDate.MIN))
+                        announcement.getNorm().getMeta().getFRBRWork().getFBRDate())
                 .reversed())
         .toList();
   }

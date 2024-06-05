@@ -62,16 +62,9 @@ class LoadZf0ServiceTest {
         .isEqualTo(frbrExpressionTargetLaw.getFRBRaliasNextVersionId());
     assertThat(frbrExpressionZf0Law.getFRBRaliasNextVersionId()).isNotNull();
     assertThat(frbrExpressionZf0Law.getEli())
-        .contains(
-            amendingLaw.getMeta().getFRBRWork().getFBRDateVerkuendung().orElseThrow().toString());
+        .contains(amendingLaw.getMeta().getFRBRWork().getFBRDate());
     assertThat(frbrExpressionZf0Law.getFBRDate())
-        .isEqualTo(
-            amendingLaw
-                .getMeta()
-                .getFRBRWork()
-                .getFBRDateVerkuendung()
-                .map(LocalDate::toString)
-                .orElseThrow());
+        .isEqualTo(amendingLaw.getMeta().getFRBRWork().getFBRDate());
 
     final FRBRManifestation frbrManifestationZf0Law = zf0Norm.getMeta().getFRBRManifestation();
     assertThat(frbrManifestationZf0Law.getEli()).contains(frbrExpressionZf0Law.getEli());
