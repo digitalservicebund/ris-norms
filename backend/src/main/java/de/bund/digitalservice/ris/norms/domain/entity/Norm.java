@@ -166,14 +166,13 @@ public class Norm {
    * @param temporalGroupEid EId of a temporal group
    * @return eid of the event ref of the start of the temporal group
    */
-  public Optional<String> getStartEventRefForTemporalGroup(String temporalGroupEid) {
-    return NodeParser.getValueFromExpression(
-            String.format(
-                "//meta/temporalData/temporalGroup[@eId='%s']/timeInterval/@start",
-                temporalGroupEid),
-            this.document)
-        .map(Href::new)
-        .flatMap(Href::getEId);
+  public Optional<String> getStartEventRefForTemporalGroup(final String temporalGroupEid) {
+    return getMeta().getTemporalData().getTemporalGroups().stream()
+        .filter(
+            temporalGroup ->
+                temporalGroup.getEid().map(eid -> eid.equals(temporalGroupEid)).orElse(false))
+        .findFirst()
+        .flatMap(m -> m.getTimeInterval().getEventRefEId());
   }
 
   /**
@@ -181,8 +180,11 @@ public class Norm {
    * @return Start date of the event ref
    */
   public Optional<String> getStartDateForEventRef(String eId) {
-    return NodeParser.getValueFromExpression(
-        String.format("//meta/lifecycle/eventRef[@eId='%s']/@date", eId), this.document);
+    return getMeta().getLifecycle().getEventRefs().stream()
+        .filter(eventRef -> Objects.equals(eventRef.getEid().value(), eId))
+        .findFirst()
+        .flatMap(EventRef::getDate)
+        .map(LocalDate::toString);
   }
 
   /**
