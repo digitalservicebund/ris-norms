@@ -12,6 +12,7 @@ bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref 
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
+# CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.32"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.12.0"
