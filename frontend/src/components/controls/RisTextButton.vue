@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, type Component } from "vue"
 import { RouteLocationRaw, RouterLink } from "vue-router"
+import RisLoadingSpinner from "./RisLoadingSpinner.vue"
 
 type LinkButtonHref = {
   /** Target URL of the link. */
@@ -69,6 +70,13 @@ const props = withDefaults(
      * app or an external link.
      */
     to?: RouteLocationRaw | LinkButtonHref
+
+    /**
+     * Shows a loading state on the button.
+     *
+     * @default false
+     */
+    loading?: boolean
   }>(),
   {
     icon: undefined,
@@ -95,7 +103,7 @@ const linkBindings = computed(() => {
   <component
     :is="tag"
     :class="{
-      'ds-button': true,
+      'ds-button relative': true,
       'ds-button-with-icon': !!icon,
       'ds-button-with-icon-only': iconOnly,
       'ds-button-secondary': variant === 'secondary',
@@ -107,8 +115,9 @@ const linkBindings = computed(() => {
       'ds-button-small': size === 'small',
       'ds-button-full-width': fullWidth,
     }"
-    :disabled="tag === 'button' && disabled === true ? true : undefined"
+    :disabled="tag === 'button' && (disabled || loading) ? true : undefined"
     :aria-label="iconOnly ? label : undefined"
+    :aria-busy="loading || undefined"
     v-bind="linkBindings"
   >
     <component :is="icon" v-if="icon" class="ds-button-icon" alt="" />
@@ -118,6 +127,18 @@ const linkBindings = computed(() => {
       :class="{ 'sr-only static': iconOnly }"
     >
       {{ label }}
+    </span>
+
+    <span
+      v-if="loading"
+      class="absolute inset-4 flex items-center justify-center text-inherit"
+      :class="[
+        variant === 'tertiary' || variant === 'ghost'
+          ? 'bg-white'
+          : 'bg-inherit',
+      ]"
+    >
+      <RisLoadingSpinner class="h-[1.5em] w-[1.5em] border-current" />
     </span>
   </component>
 </template>

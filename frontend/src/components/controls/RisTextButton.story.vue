@@ -89,5 +89,13 @@ import { logEvent } from "histoire/client"
         @click="logEvent('click', $event)"
       />
     </Variant>
+
+    <Variant title="Loading">
+      <RisTextButton
+        :label="'Click me'"
+        loading
+        @click="logEvent('click', $event)"
+      />
+    </Variant>
   </Story>
 </template>
