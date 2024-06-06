@@ -16,9 +16,7 @@ const { isFetching, error, data: amendingLawHtml } = useGetNormHtmlByEli(eli)
       <RisCallout
         title="Die Liste der Verkündungen konnte nicht geladen werden."
         variant="error"
-      >
-        <p>Lösungsvorschlag</p>
-      </RisCallout>
+      />
     </div>
     <RisLoadingSpinner v-else-if="isFetching" />
     <div v-else class="rounded-sm bg-white px-24 py-24 shadow-md">
