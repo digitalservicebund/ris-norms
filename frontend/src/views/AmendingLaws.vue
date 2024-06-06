@@ -16,9 +16,7 @@ const { isFetching, error, data: amendingLaws } = useGetAmendingLaws()
         <RisCallout
           title="Die Liste der Verkündungen konnte nicht geladen werden."
           variant="error"
-        >
-          <p>Lösungsvorschlag</p>
-        </RisCallout>
+        />
       </div>
       <RisLoadingSpinner v-if="isFetching" />
       <div v-else class="flex flex-col gap-8">

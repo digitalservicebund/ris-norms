@@ -1,7 +1,8 @@
 import { Proprietary } from "@/types/proprietary"
-import { UseFetchReturn } from "@vueuse/core"
+import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
 import { INVALID_URL, useApiFetch } from "./apiService"
+import dayjs from "dayjs"
 
 /**
  * Returns the proprietary metadata of a norm from the API. Reloads when the
@@ -9,9 +10,10 @@ import { INVALID_URL, useApiFetch } from "./apiService"
  *
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
  * @returns Reactive fetch wrapper
  */
-export function useGetProprietary(
+export function useProprietaryService(
   eli: MaybeRefOrGetter<string | undefined>,
   options?: {
     /**
@@ -20,7 +22,11 @@ export function useGetProprietary(
      */
     atDate?: MaybeRefOrGetter<string | Date | undefined>
   },
-): UseFetchReturn<Proprietary> {
+  fetchOptions: Pick<UseFetchOptions, "immediate" | "refetch"> = {},
+): Pick<
+  UseFetchReturn<Proprietary>,
+  "data" | "error" | "isFetching" | "get" | "put" | "execute"
+> {
   const dateAsString = computed(() => {
     const atDateVal = toValue(options?.atDate)
 
@@ -28,7 +34,7 @@ export function useGetProprietary(
 
     return typeof atDateVal === "string"
       ? atDateVal
-      : atDateVal.toISOString().substring(0, 10)
+      : dayjs(atDateVal).format("YYYY-MM-DD")
   })
 
   const url = computed(() => {
@@ -44,6 +50,6 @@ export function useGetProprietary(
     beforeFetch({ url, cancel }) {
       if (url === INVALID_URL) cancel()
     },
-    refetch: true,
+    ...fetchOptions,
   }).json()
 }

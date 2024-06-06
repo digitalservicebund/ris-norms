@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { Page, expect, test } from "@playwright/test"
 import {
   verfassungsschutzgesetz as currentXml,
   changedVerfassungsschutzgesetz as newXml,
@@ -368,5 +368,103 @@ test.describe("metadata reading", () => {
     ).toBeVisible()
 
     await page.unrouteAll()
+  })
+})
+
+test.describe("metadata editing", () => {
+  test.describe("editing individual fields", () => {
+    // Creating a shared page allows us to stay in the same page/context while
+    // editing all metadata fields (as a user would) without relading the page
+    // after each edit while still using separate test cases and keeping each
+    // individual test small.
+    let sharedPage: Page
+
+    test.beforeAll(async ({ browser }) => {
+      sharedPage = await browser.newPage()
+      await sharedPage.goto(
+        "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      )
+    })
+
+    test("can edit the FNA", async () => {
+      const fnaTextbox = sharedPage.getByRole("textbox", {
+        name: "Sachgebiet FNA-Nummer",
+      })
+
+      await fnaTextbox.fill("123-4")
+      await expect(fnaTextbox).toHaveValue("123-4")
+    })
+  })
+
+  // Skipped while waiting for the backend functionality to be implemented
+  test.skip("persists changes across page loads after saving successfully", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    const saved = page.waitForResponse(
+      (response) =>
+        response.request().method() === "PUT" &&
+        response.request().url().endsWith("/proprietary/2023-12-30"),
+    )
+
+    const fnaTextbox = page.getByRole("textbox", {
+      name: "Sachgebiet FNA-Nummer",
+    })
+    await expect(fnaTextbox).toHaveValue("210-5")
+    await fnaTextbox.fill("123-4")
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+    await saved
+
+    await page.reload()
+    await expect(fnaTextbox).toHaveValue("123-4")
+  })
+
+  test("updates with metadata from the backend after saving", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    await page.route(/\/proprietary\/2023-12-30$/, (route) => {
+      // Mocking the response instead of getting the real response from the backend
+      // to force a state where the value returned from the backend is different from
+      // the state in the UI. In real-world use, this should almost never happen,
+      // but we still want to test it.
+      if (route.request().method() === "PUT")
+        route.fulfill({ status: 200, json: { fna: { value: "600-1" } } })
+      else route.continue()
+    })
+
+    const fnaTextbox = page.getByRole("textbox", {
+      name: "Sachgebiet FNA-Nummer",
+    })
+    await expect(fnaTextbox).toHaveValue("210-5")
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+    await expect(fnaTextbox).toHaveValue("600-1")
+
+    await page.unroute(/\/proprietary\/2023-12-30$/)
+  })
+
+  test("displays an error if the data could not be saved", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    await page.route(/\/proprietary\/2023-12-30$/, (route) => {
+      if (route.request().method() === "PUT") route.abort("failed")
+      else route.continue()
+    })
+
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+
+    await expect(
+      page.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
+    ).toBeVisible()
+
+    await page.unroute(/\/proprietary\/2023-12-30$/)
   })
 })

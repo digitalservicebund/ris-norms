@@ -2,32 +2,82 @@
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
+import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormHtml } from "@/composables/useNormHtml"
-import { useProprietary } from "@/composables/useProprietary"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
-
-/**
- * The xml of the law whose metadata is edited on this view. As both this and the article metadata editor vie both edit
- * the same xml (which is not yet stored in the database) we provide it from AmendingLawAffectedDocumentEditor. That
- * view also handles persisting the changes when requested.
- */
-const xml = defineModel<string>("xml")
+import { useProprietaryService } from "@/services/proprietaryService"
+import { Proprietary } from "@/types/proprietary"
+import { produce } from "immer"
+import { ref, watch } from "vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
-const { data, isFetching, error } = useProprietary(affectedDocumentEli, {
-  atDate: timeBoundaryAsDate,
-})
+/**
+ * The xml of the law whose metadata is edited on this view. As both this
+ * and the article metadata editor vie both edit the same xml (which is not
+ * yet stored in the database) we provide it from AmendingLawAffectedDocumentEditor.
+ * That view also handles persisting the changes when requested.
+ */
+const xml = defineModel<string>("xml")
 
 const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
 
-const fnaId = useElementId()
+/* -------------------------------------------------- *
+ * API handling                                       *
+ * -------------------------------------------------- */
+
+const localData = ref<Proprietary | null>(null)
+
+const {
+  data,
+  isFetching,
+  error: fetchError,
+} = useProprietaryService(
+  affectedDocumentEli,
+  { atDate: timeBoundaryAsDate },
+  { refetch: true },
+)
+
+watch(data, (newData) => {
+  localData.value = newData
+})
+
+const {
+  data: savedData,
+  isFetching: isSaving,
+  error: saveError,
+  execute: save,
+} = useProprietaryService(
+  affectedDocumentEli,
+  { atDate: timeBoundaryAsDate },
+  { refetch: false, immediate: false },
+).put(localData)
+
+watch(savedData, (newData) => {
+  localData.value = newData
+})
+
+/* -------------------------------------------------- *
+ * Metadata form                                      *
+ * -------------------------------------------------- */
+
+const [fnaId] = Array(1)
+  .fill(null)
+  .map(() => useElementId())
+
+function setFna(value: string) {
+  localData.value = produce(localData.value, (draft) => {
+    if (!draft) return
+    draft.fna.value = value
+  })
+}
 </script>
 
 <template>
@@ -59,25 +109,48 @@ const fnaId = useElementId()
             <div v-if="isFetching" class="my-16 flex justify-center">
               <RisLoadingSpinner />
             </div>
+
             <RisCallout
-              v-else-if="error"
+              v-else-if="fetchError"
               variant="error"
               title="Die Daten konnten nicht geladen werden."
             />
-            <div
+
+            <form
               v-else
               class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-8"
+              @submit.prevent
             >
-              <h2 class="ds-label-02-bold col-span-2">Sachgebiet</h2>
-              <label :for="fnaId">Sachgebiet FNA-Nummer</label>
-              <RisTextInput
-                :id="fnaId"
-                :model-value="data?.fna.value"
-                size="small"
-                read-only
-              />
-            </div>
+              <fieldset class="contents">
+                <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
+                <label :for="fnaId">Sachgebiet FNA-Nummer</label>
+                <RisTextInput
+                  :id="fnaId"
+                  :model-value="localData?.fna.value"
+                  size="small"
+                  @update:model-value="setFna($event ?? '')"
+                />
+              </fieldset>
+
+              <footer class="relative col-span-2 mt-32">
+                <RisTooltip
+                  v-slot="{ ariaDescribedby }"
+                  title="Speichern fehlgeschlagen"
+                  variant="error"
+                  :visible="!!saveError"
+                  allow-dismiss
+                >
+                  <RisTextButton
+                    :aria-describedby
+                    :loading="isSaving"
+                    label="Metadaten speichern"
+                    @click="save()"
+                  />
+                </RisTooltip>
+              </footer>
+            </form>
           </template>
+
           <template #xml>
             <RisCodeEditor v-model="xml" class="flex-grow" />
           </template>
