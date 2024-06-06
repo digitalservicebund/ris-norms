@@ -3,11 +3,10 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Eli;
-import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
-import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -29,14 +28,17 @@ public class LoadZf0Service implements LoadZf0UseCase {
   private final UpdateNormService updateNormService;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
+  private final LoadNormPort loadNormPort;
 
   public LoadZf0Service(
       final UpdateNormService updateNormService,
       final LoadNormByGuidPort loadNormByGuidPort,
-      final UpdateOrSaveNormPort updateOrSaveNormPort) {
+      final UpdateOrSaveNormPort updateOrSaveNormPort,
+      final LoadNormPort loadNormPort) {
     this.updateNormService = updateNormService;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
+    this.loadNormPort = loadNormPort;
   }
 
   @Override
@@ -67,6 +69,22 @@ public class LoadZf0Service implements LoadZf0UseCase {
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
     return zf0Norm;
+  }
+
+  Norm loadZf0(Norm amendingLaw, Mod mod) {
+    Optional<String> targetNormEliOptional = mod.getTargetHref().flatMap(Href::getEli);
+    String targetNormEli;
+    if (targetNormEliOptional.isPresent()) {
+      targetNormEli = targetNormEliOptional.get();
+    } else
+      throw new XmlContentException(
+          "Cannot read target norm eli from mod %s .".formatted(mod.getEid()), null);
+
+    final Norm targetNorm =
+        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli)).orElseThrow();
+
+    var query = new LoadZf0UseCase.Query(amendingLaw, targetNorm);
+    return loadZf0(query);
   }
 
   private void updateFRBRExpression(

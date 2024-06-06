@@ -63,7 +63,7 @@ public class ModificationValidator {
         mod -> {
           String modEId = getModEId(mod);
           Norm zf0Norm = getZF0Norm(amendingNorm, getModTargetHref(amendingNormEli, mod, modEId));
-          oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod);
+          validateSubstitutionMod(amendingNormEli, mod);
         });
   }
 
@@ -215,21 +215,32 @@ public class ModificationValidator {
   }
 
   /**
+   * Checks if a substitution mod is consistent
+   *
+   * @param amendingLawEli the amending Norm Eli
+   * @param mod the amending law mod to be checked
+   */
+  public void validateSubstitutionMod(String amendingLawEli, Mod mod) {
+    if (mod.usesQuotedText()) {
+      validateQuotedTextSubstitutions(amendingLawEli, mod);
+    }
+    // other case <akn:quotedStructure>
+  }
+
+  /**
    * Checks if the text to be replaced is present in the target law
    *
    * @param amendingNormEli the amending Norm Eli
-   * @param zf0Norm the target law needed to look up the old, to replace text
    * @param mod the amending law mod to be checked
    */
-  public void oldTextExistsInZf0Norm(String amendingNormEli, Norm zf0Norm, Mod mod) {
-    if (!mod.usesQuotedText()) {
-      // TODO test for that throw
-      // TODO compose message
-      throw new XmlContentException("TODO 2", null);
-    }
-
+  private void validateQuotedTextSubstitutions(String amendingNormEli, Mod mod) {
     String modEId = getModEId(mod);
     Href articleModTargetHref = getModTargetHref(amendingNormEli, mod, modEId);
+    Norm amendingLaw =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(amendingNormEli))
+            .orElseThrow(() -> new XmlContentException("Could not load norm", null));
+    Norm zf0Norm = loadZf0Service.loadZf0(amendingLaw, mod);
 
     String articleModTargetHrefEId =
         getHrefEId(

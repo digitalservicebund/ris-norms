@@ -104,10 +104,12 @@ class ModificationValidatorTest {
       mod.setOldText("");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+          catchThrowable(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
 
       // then
       assertThat(thrown)
@@ -131,10 +133,12 @@ class ModificationValidatorTest {
       mod.setOldText("not the same text as in target law");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+          catchThrowable(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
 
       // then
       assertThat(thrown)
@@ -171,10 +175,12 @@ class ModificationValidatorTest {
       final Mod mod = new Mod(modNode);
       mod.setTargetHref(targetHref);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+          catchThrowable(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
 
       // then
       assertThat(thrown).isInstanceOf(XmlContentException.class).hasMessageContaining(message);
@@ -208,10 +214,12 @@ class ModificationValidatorTest {
                             <test2 eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">content</test2>
                           </wrap>
                           """));
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+          catchThrowable(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
 
       // then
       assertThat(thrown)
@@ -233,10 +241,12 @@ class ModificationValidatorTest {
               .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+          catchThrowable(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
 
       // then
       assertThat(thrown)
@@ -257,10 +267,11 @@ class ModificationValidatorTest {
               .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when/then
-      Assertions.assertDoesNotThrow(
-          () -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+      Assertions.assertDoesNotThrow(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
     }
 
     @Test
@@ -296,10 +307,11 @@ class ModificationValidatorTest {
           "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when/then
-      Assertions.assertDoesNotThrow(
-          () -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+      Assertions.assertDoesNotThrow(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
     }
 
     // TODO add test for full paragraph
@@ -340,10 +352,12 @@ class ModificationValidatorTest {
                           .value()));
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+          catchThrowable(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
 
       // then
       assertThat(thrown)
@@ -407,10 +421,12 @@ class ModificationValidatorTest {
                           .value()));
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+          catchThrowable(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
 
       // then
       assertThat(thrown).isInstanceOf(XmlContentException.class).hasMessageContaining(message);
@@ -453,10 +469,12 @@ class ModificationValidatorTest {
           "§ 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
 
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
 
       // when
       Throwable thrown =
-          catchThrowable(() -> underTest.oldTextExistsInZf0Norm(amendingNormEli, zf0Norm, mod));
+          catchThrowable(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
 
       // then
       assertThat(thrown)
@@ -520,7 +538,7 @@ class ModificationValidatorTest {
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
     final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
     when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
-    when(loadZf0Service.loadZf0(any())).thenReturn(zf0Norm);
+    when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
 
     // when/then
     Assertions.assertDoesNotThrow(() -> underTest.validate(amendingNorm));
