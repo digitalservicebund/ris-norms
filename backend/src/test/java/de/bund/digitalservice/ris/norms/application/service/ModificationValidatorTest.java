@@ -242,7 +242,6 @@ class ModificationValidatorTest {
 
     @Test
     void moreThanOneNodeWithGivenDestEidExists() {
-      // TODO repair test and activate again
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final String amendingNormEli = amendingNorm.getEli();
@@ -284,7 +283,6 @@ class ModificationValidatorTest {
 
     @Test
     void nodeWithGivenDestEidDoesNotExists() {
-      // TODO repair test and activate again
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
       final String amendingNormEli = amendingNorm.getEli();
@@ -427,13 +425,9 @@ class ModificationValidatorTest {
               "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid in mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1. Make sure start is smaller than end 20 < 20."),
           Arguments.of(
               "-20.xml",
-
-              // TODO Add to log: "For norm with Eli"
               "The range (-20) given at mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 is not valid"),
           Arguments.of(
               "0-.xml",
-
-              // TODO Add to log: "For norm with Eli"
               "The range (0-) given at mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 is not valid"),
           Arguments.of(
               "",
