@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
@@ -59,12 +58,7 @@ public class ModificationValidator {
             .map(Optional::get)
             .toList();
 
-    mods.forEach(
-        mod -> {
-          String modEId = getModEId(mod);
-          Norm zf0Norm = getZF0Norm(amendingNorm, getModTargetHref(amendingNormEli, mod, modEId));
-          validateSubstitutionMod(amendingNormEli, mod);
-        });
+    mods.forEach(mod -> validateSubstitutionMod(amendingNormEli, mod));
   }
 
   /**
@@ -321,12 +315,6 @@ public class ModificationValidator {
           "For norm with Eli (%s): The replacement text '%s' in the target law does not equal the replacement text '%s' in the mod with eId %s"
               .formatted(amendingNormEli, zf0NormOldText, amendingNormOldText, modEId),
           null);
-  }
-
-  private Norm getZF0Norm(Norm amendingNorm, Href href) {
-    final Norm targetNorm =
-        loadNormPort.loadNorm(new LoadNormPort.Command(href.toString())).orElseThrow();
-    return loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
   }
 
   private Node getTargetNodeFromZF0Norm(
