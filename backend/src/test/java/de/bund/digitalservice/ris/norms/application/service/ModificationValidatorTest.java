@@ -380,7 +380,10 @@ class ModificationValidatorTest {
               "0-.xml",
 
               // TODO Add to log: "For norm with Eli"
-              "The range (0-) given at mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 is not valid"));
+              "The range (0-) given at mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 is not valid"),
+          Arguments.of(
+              "",
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is empty in article with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"));
     }
 
     @ParameterizedTest

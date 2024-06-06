@@ -273,7 +273,6 @@ public class ModificationValidator {
       Href href,
       String message) {
 
-    // TODO test for that throw
     CharacterRange characterRange = getHrefCharacterRange(eli, href, message);
 
     int modStart = getCharacterRangeStart(characterRange, modEId);
