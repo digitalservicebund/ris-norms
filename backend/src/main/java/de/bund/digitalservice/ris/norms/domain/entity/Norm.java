@@ -118,6 +118,15 @@ public class Norm {
   }
 
   /**
+   * Extracts a list of {@link Mod}s from the document.
+   *
+   * @return a list of {@link Mod}s
+   */
+  public List<Mod> getMods() {
+    return getNodesFromExpression("//body//mod", document).stream().map(Mod::new).toList();
+  }
+
+  /**
    * Extracts a list of time boundaries (Zeitgrenzen) from the document.
    *
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
@@ -141,26 +150,6 @@ public class Norm {
                       .eventRef(eventRef)
                       .build();
             })
-        .toList();
-  }
-
-  /**
-   * Extracts a list of {@link Mod}s from the document.
-   *
-   * @return a list of {@link Mod}s
-   */
-  public List<Mod> getMods() {
-    return getNodesFromExpression("//body//mod", document).stream().map(Mod::new).toList();
-  }
-
-  /**
-   * @return List of Strings with all eIds of all eventRef nodes where a related timeInterval exists
-   */
-  public List<String> getEventRefEids() {
-    return getTimeBoundaries().stream()
-        .map(TimeBoundary::getEventRefEid)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
         .toList();
   }
 
