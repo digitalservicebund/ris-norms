@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -90,8 +91,7 @@ public class Article {
    *
    * @return the {@link Mod}
    */
-  public Optional<Mod> getMod() {
-    // TODO one article can have multiple mods
-    return NodeParser.getNodeFromExpression("./*//mod", this.node).map(Mod::new);
+  public List<Mod> getMods() {
+    return NodeParser.getNodesFromExpression("./*//mod", this.node).stream().map(Mod::new).toList();
   }
 }

@@ -52,12 +52,7 @@ public class ModificationValidator {
                 })
             .toList();
 
-    List<Mod> mods =
-        articles.stream()
-            .map(Article::getMod)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .toList();
+    List<Mod> mods = articles.stream().map(Article::getMods).flatMap(List::stream).toList();
 
     mods.forEach(mod -> validateSubstitutionMod(amendingNormEli, mod));
   }
@@ -125,11 +120,18 @@ public class ModificationValidator {
   }
 
   private void validateAknModEli(String amendingNormEli, Article article, String articleEId) {
-    getHrefEli(
-        amendingNormEli,
-        getModTargetHref(
-            amendingNormEli, getArticleMod(amendingNormEli, article, articleEId), articleEId),
-        "The Eli in aknMod href is empty in article with eId %s".formatted(articleEId));
+    List<Mod> mods = getArticleMod(amendingNormEli, article, articleEId);
+    mods.forEach(mod -> getModTargetHref(amendingNormEli, mod, articleEId));
+    mods.forEach(
+        mod -> {
+          Optional<String> eli = getModTargetHref(amendingNormEli, mod, articleEId).getEli();
+          if (eli.isEmpty()) {
+            throw new XmlContentException(
+                "For norm with Eli (%s): The Eli in aknMod href is empty in article with eId %s"
+                    .formatted(amendingNormEli, articleEId),
+                null);
+          }
+        });
   }
 
   private void validateAffectedDocumentEli(
@@ -165,8 +167,8 @@ public class ModificationValidator {
 
     Set<String> aknModElis =
         amendingNorm.getArticles().stream()
-            .map(Article::getMod)
-            .flatMap(Optional::stream)
+            .map(Article::getMods)
+            .flatMap(List::stream)
             .map(Mod::getTargetHref)
             .flatMap(Optional::stream)
             .map(Href::getEli)
@@ -199,8 +201,8 @@ public class ModificationValidator {
 
     Set<Href> aknModHrefs =
         amendingNorm.getArticles().stream()
-            .map(Article::getMod)
-            .flatMap(Optional::stream)
+            .map(Article::getMods)
+            .flatMap(List::stream)
             .map(Mod::getTargetHref)
             .flatMap(Optional::stream)
             .collect(Collectors.toSet());
@@ -371,14 +373,14 @@ public class ModificationValidator {
                     "For norm with Eli (%s): Article eId is empty.".formatted(eli), null));
   }
 
-  private Mod getArticleMod(String eli, Article a, String articleEId) {
-    return a.getMod()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): There is no mod in article with eId %s"
-                        .formatted(eli, articleEId),
-                    null));
+  private List<Mod> getArticleMod(String eli, Article a, String articleEId) {
+    List<Mod> modsInArticle = a.getMods();
+    if (modsInArticle.isEmpty()) {
+      throw new XmlContentException(
+          "For norm with Eli (%s): There is no mod in article with eId %s"
+              .formatted(eli, articleEId),
+          null);
+    } else return modsInArticle;
   }
 
   private String getModEId(Mod mod) {
@@ -432,12 +434,6 @@ public class ModificationValidator {
             () ->
                 new XmlContentException(
                     "For norm with Eli (%s): %s".formatted(eli, message), null));
-  }
-
-  private void getHrefEli(String eli, Href h, String message) {
-    if (h.getEli().isEmpty()) {
-      throw new XmlContentException("For norm with Eli (%s): %s".formatted(eli, message), null);
-    }
   }
 
   private int getCharacterRangeStart(CharacterRange cr, String modEId) {
