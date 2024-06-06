@@ -195,15 +195,21 @@ public class NormService
 
     modificationValidator.validateSubstitutionMod(amendingNormEli, selectedMod);
 
+    Optional<Norm> updatedAmendingNorm = Optional.of(amendingNorm);
+    Norm updatedZf0Norm = zf0Norm;
     if (!query.dryRun()) {
-      updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+      updatedAmendingNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
+      updatedZf0Norm = updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
 
-    return Optional.of(
-        new UpdateModUseCase.Result(
-            // TODO return saved entity
-            XmlMapper.toString(amendingNorm.getDocument()),
-            XmlMapper.toString(zf0Norm.getDocument())));
+    if (updatedAmendingNorm.isPresent()) {
+      return Optional.of(
+          new UpdateModUseCase.Result(
+              XmlMapper.toString(updatedAmendingNorm.get().getDocument()),
+              XmlMapper.toString(updatedZf0Norm.getDocument())));
+    } else {
+      return Optional.of(
+          new UpdateModUseCase.Result("", XmlMapper.toString(updatedZf0Norm.getDocument())));
+    }
   }
 }
