@@ -248,7 +248,7 @@ public class ModificationValidator {
             amendingNormEli, zf0Norm, articleModTargetHrefEId, amendingNormEli, modEId);
 
     // normalizeSpace removes double spaces and new lines
-    String targetParagraphText = StringUtils.normalizeSpace(zf0TargetNode.getTextContent());
+    String targetParagraphOldText = StringUtils.normalizeSpace(zf0TargetNode.getTextContent());
 
     String amendingNormOldText =
         getModOldText(
@@ -260,7 +260,7 @@ public class ModificationValidator {
     validateQuotedText(
         amendingNormEli,
         amendingNormOldText,
-        targetParagraphText,
+        targetParagraphOldText,
         modEId,
         articleModTargetHref,
         "The character range in mod href is empty in article with eId %s".formatted(modEId));
@@ -269,7 +269,7 @@ public class ModificationValidator {
   private void validateQuotedText(
       String eli,
       String amendingNormOldText,
-      String targetParagraphText,
+      String targetParagraphOldText,
       String modEId,
       Href href,
       String message) {
@@ -280,9 +280,9 @@ public class ModificationValidator {
     int modEnd = getCharacterRangeEnd(characterRange, modEId);
 
     validateStartIsBeforeEnd(eli, characterRange, modStart, modEnd, modEId);
-    checkIfReplacementEndIsWithinText(eli, targetParagraphText, modEnd, modEId);
+    checkIfReplacementEndIsWithinText(eli, targetParagraphOldText, modEnd, modEId);
 
-    String zf0NormOldText = targetParagraphText.substring(modStart, modEnd);
+    String zf0NormOldText = targetParagraphOldText.substring(modStart, modEnd);
     validateQuotedTextEquals(eli, zf0NormOldText, amendingNormOldText, modEId);
   }
 
@@ -382,7 +382,6 @@ public class ModificationValidator {
   }
 
   private String getModEId(Mod mod) {
-    // TODO provide test
     return mod.getEid()
         .orElseThrow(
             () ->
@@ -390,14 +389,14 @@ public class ModificationValidator {
                     "Eid in mod %s is empty".formatted(XmlMapper.toString(mod.getNode())), null));
   }
 
-  private String getModOldText(String eli, Mod m, String message) {
-    // TODO check is test in place?
-    // TODO this is not normalized?
-    return m.getOldText()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): %s".formatted(eli, message), null));
+  private String getModOldText(String eli, Mod mod, String message) {
+    String oldText =
+        mod.getOldText()
+            .orElseThrow(
+                () ->
+                    new XmlContentException(
+                        "For norm with Eli (%s): %s".formatted(eli, message), null));
+    return StringUtils.normalizeSpace(oldText);
   }
 
   private Href getModTargetHref(String eli, Mod m, String modEId) {
