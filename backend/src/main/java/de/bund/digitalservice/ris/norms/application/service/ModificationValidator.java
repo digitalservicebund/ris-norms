@@ -409,11 +409,12 @@ public class ModificationValidator {
                     null));
   }
 
-  private String getTextualModEId(String eli, TextualMod tm) {
-    return tm.getEid()
+  private String getTextualModEId(String eli, TextualMod textualMod) {
+    return textualMod
+        .getEid()
         .orElseThrow(
-            () -> // TODO repair test
-            new XmlContentException(
+            () ->
+                new XmlContentException(
                     "For norm with Eli (%s): TextualMod eId empty.".formatted(eli), null));
   }
 

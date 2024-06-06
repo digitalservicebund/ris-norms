@@ -90,6 +90,39 @@ class ModificationValidatorTest {
     }
 
     @Test
+    void activeModificationTextualModHasNoEid() {
+      // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
+          .getMeta()
+          .getAnalysis()
+          .map(Analysis::getActiveModifications)
+          .orElse(Collections.emptyList())
+          .getFirst()
+          .setDestinationHref("");
+
+      amendingNorm
+          .getMeta()
+          .getAnalysis()
+          .map(Analysis::getActiveModifications)
+          .orElse(Collections.emptyList())
+          .getFirst()
+          .getNode()
+          .getAttributes()
+          .getNamedItem("eId")
+          .setTextContent("");
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): TextualMod eId empty.");
+    }
+
+    @Test
     void emptyAffectedDocumentHref() {
 
       // given
