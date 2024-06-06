@@ -154,17 +154,6 @@ public class Norm {
   }
 
   /**
-   * @return List of Strings with all existing eIds of all temporalGroup nodes
-   */
-  public List<String> getTemporalGroupEids() {
-    return getMeta().getTemporalData().getTemporalGroups().stream()
-        .map(
-            temporalGroup ->
-                temporalGroup.getNode().getAttributes().getNamedItem("eId").getNodeValue())
-        .toList();
-  }
-
-  /**
    * @param temporalGroupEid EId of a temporal group
    * @return Start date of the temporal group
    */
