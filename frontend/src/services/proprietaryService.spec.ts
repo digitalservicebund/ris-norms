@@ -9,6 +9,7 @@ import {
   vi,
 } from "vitest"
 import { ref } from "vue"
+import { flushPromises } from "@vue/test-utils"
 
 describe("proprietaryService", () => {
   beforeAll(() => {
@@ -60,7 +61,8 @@ describe("proprietaryService", () => {
 
       const eli = ref("")
       useProprietaryService(eli)
-      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(0))
+      await flushPromises()
+      expect(fetchSpy).not.toHaveBeenCalled()
     })
 
     it("does not reload if the ELI has no value", async () => {
@@ -77,7 +79,8 @@ describe("proprietaryService", () => {
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
       eli.value = ""
-      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
+      await flushPromises()
+      expect(fetchSpy).toHaveBeenCalledTimes(1)
     })
 
     it("reloads with a new ELI value", async () => {

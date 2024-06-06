@@ -46,10 +46,5 @@ export function useProprietaryService(
     return result
   })
 
-  return useApiFetch<Proprietary>(url, {
-    beforeFetch({ url, cancel }) {
-      if (url === INVALID_URL) cancel()
-    },
-    ...fetchOptions,
-  }).json()
+  return useApiFetch<Proprietary>(url, { ...fetchOptions }).json()
 }
