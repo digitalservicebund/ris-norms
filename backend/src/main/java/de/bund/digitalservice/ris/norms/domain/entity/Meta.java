@@ -115,7 +115,7 @@ public class Meta {
    *
    * @return the akn:proprietary element of the norm
    */
-  public Proprietary getProprietary() {
+  public Proprietary getOrCreateProprietary() {
     return NodeParser.getNodeFromExpression("./proprietary", node)
         .map(Proprietary::new)
         .orElseGet(

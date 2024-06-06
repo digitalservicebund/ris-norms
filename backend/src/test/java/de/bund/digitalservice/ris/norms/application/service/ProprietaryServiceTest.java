@@ -31,7 +31,7 @@ class ProprietaryServiceTest {
   }
 
   @Test
-  void returnEmptyOptionalIfProprietaryNotFound() throws Exception {
+  void returnNewProprietaryNodeIfProprietaryNotFound() throws Exception {
     // given
     var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
     var normWithProprietary = NormFixtures.loadFromDisk("SimpleNorm.xml");

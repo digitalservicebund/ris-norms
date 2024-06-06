@@ -23,7 +23,7 @@ public class NormResponseMapper {
         .frbrNumber(norm.getMeta().getFRBRWork().getFRBRnumber().orElse(null))
         .frbrDateVerkuendung(norm.getMeta().getFRBRWork().getFBRDate())
         .shortTitle(norm.getShortTitle().orElse(null))
-        .fna(norm.getMeta().getProprietary().getFna().orElse(null))
+        .fna(norm.getMeta().getOrCreateProprietary().getFna().orElse(null))
         .build();
   }
 }

@@ -53,7 +53,7 @@ class ProprietaryControllerTest {
       // given
       var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-      var proprietary = normWithProprietary.getMeta().getProprietary();
+      var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
       when(proprietaryService.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
@@ -72,7 +72,7 @@ class ProprietaryControllerTest {
       // given
       var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
-      var proprietary = normWithInvalidProprietary.getMeta().getProprietary();
+      var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(proprietaryService.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
@@ -92,7 +92,7 @@ class ProprietaryControllerTest {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      var proprietary = normWithInvalidProprietary.getMeta().getProprietary();
+      var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(proprietaryService.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
@@ -133,7 +133,7 @@ class ProprietaryControllerTest {
       var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       var atDateString = "2024-06-03";
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-      var proprietary = normWithProprietary.getMeta().getProprietary();
+      var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
       when(proprietaryService.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
@@ -154,7 +154,7 @@ class ProprietaryControllerTest {
       var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       var atDateString = "2024-06-03";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
-      var proprietary = normWithInvalidProprietary.getMeta().getProprietary();
+      var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(proprietaryService.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
@@ -176,7 +176,7 @@ class ProprietaryControllerTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var atDateString = "2024-06-03";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("SimpleNorm.xml");
-      var proprietary = normWithInvalidProprietary.getMeta().getProprietary();
+      var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
       when(proprietaryService.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);

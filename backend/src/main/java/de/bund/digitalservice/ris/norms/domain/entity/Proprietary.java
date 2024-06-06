@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.time.LocalDate;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,11 +19,42 @@ public class Proprietary {
   private final Node node;
 
   /**
-   * Returns the FNA ("Fundstellennachweis A") of the norm.
+   * Retrieves the optional {@link MetadatenDe} instance from the {@link Proprietary}.
+   *
+   * @return an optional with a {@link MetadatenDe}
+   */
+  public Optional<MetadatenDe> getMetadatenDe() {
+    return NodeParser.getNodeFromExpression("./legalDocML.de_metadaten", node)
+        .map(MetadatenDe::new);
+  }
+
+  /**
+   * Retrieves the optional {@link MetadatenDs} instance from the {@link Proprietary}.
+   *
+   * @return an optional with a {@link MetadatenDs}
+   */
+  public Optional<MetadatenDs> getMetadatenDs() {
+    return NodeParser.getNodeFromExpression("./legalDocML.de_metadaten_ds", node)
+        .map(MetadatenDs::new);
+  }
+
+  /**
+   * Returns the FNA ("Fundstellennachweis A") of the norm from the MetadatenDe block
    *
    * @return FNA or empty if it doesn't exist.
    */
   public Optional<String> getFna() {
-    return NodeParser.getValueFromExpression("//legalDocML.de_metadaten/fna", node);
+    return getMetadatenDe().flatMap(MetadatenDe::getFna);
+  }
+
+  /**
+   * Returns the FNA ("Fundstellennachweis A") of the norm from the MetadatenDs block at a specific
+   * date, if empty it will get the one from MetadatenDe.
+   *
+   * @param date - the specific date of the time boundary.
+   * @return FNA or empty if present neither in the MetadatenDe nor in the MetadatenDS block.
+   */
+  public Optional<String> getFna(final LocalDate date) {
+    return getMetadatenDs().flatMap(m -> m.getFnaAt(date)).or(this::getFna);
   }
 }

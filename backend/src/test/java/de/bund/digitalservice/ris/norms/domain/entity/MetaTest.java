@@ -343,7 +343,7 @@ class MetaTest {
   }
 
   @Test
-  void getProprietary() {
+  void getOrCreateProprietary() {
     final Meta meta =
         Meta.builder()
             .node(
@@ -363,7 +363,7 @@ class MetaTest {
                                          """))
             .build();
 
-    assertThat(meta.getProprietary()).isNotNull();
+    assertThat(meta.getOrCreateProprietary()).isNotNull();
   }
 
   @Test
@@ -387,7 +387,7 @@ class MetaTest {
     var norm = new Norm(XmlMapper.toDocument(normXml));
 
     // When
-    var result = norm.getMeta().getProprietary();
+    var result = norm.getMeta().getOrCreateProprietary();
 
     // Then
     assertThat(result).isInstanceOf(Proprietary.class);
