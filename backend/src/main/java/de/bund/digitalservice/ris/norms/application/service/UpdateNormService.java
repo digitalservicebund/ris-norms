@@ -97,29 +97,35 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
     // create the passive modifications
     activeModificationsToAdd.forEach(
         activeModification ->
-            norm.addPassiveModification(
-                activeModification.getType().orElseThrow(),
-                new Href.Builder()
-                    .setEli(query.amendingNorm().getEli())
-                    .setEId(activeModification.getSourceHref().flatMap(Href::getEId).orElseThrow())
-                    .setFileExtension("xml")
-                    .buildAbsolute()
-                    .value(),
-                new Href.Builder()
-                    .setEId(
-                        activeModification.getDestinationHref().flatMap(Href::getEId).orElseThrow())
-                    .setCharacterRange(
-                        activeModification
-                            .getDestinationHref()
-                            .flatMap(Href::getCharacterRange)
-                            .orElseThrow())
-                    .buildInternalReference()
-                    .value(),
-                activeModification
-                    .getForcePeriodEid()
-                    .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
-                    .map(eId -> new Href.Builder().setEId(eId).buildInternalReference().value())
-                    .orElse(null)));
+            norm.getMeta()
+                .getOrCreateAnalysis()
+                .addPassiveModification(
+                    activeModification.getType().orElseThrow(),
+                    new Href.Builder()
+                        .setEli(query.amendingNorm().getEli())
+                        .setEId(
+                            activeModification.getSourceHref().flatMap(Href::getEId).orElseThrow())
+                        .setFileExtension("xml")
+                        .buildAbsolute()
+                        .value(),
+                    new Href.Builder()
+                        .setEId(
+                            activeModification
+                                .getDestinationHref()
+                                .flatMap(Href::getEId)
+                                .orElseThrow())
+                        .setCharacterRange(
+                            activeModification
+                                .getDestinationHref()
+                                .flatMap(Href::getCharacterRange)
+                                .orElseThrow())
+                        .buildInternalReference()
+                        .value(),
+                    activeModification
+                        .getForcePeriodEid()
+                        .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
+                        .map(eId -> new Href.Builder().setEId(eId).buildInternalReference().value())
+                        .orElse(null)));
 
     return norm;
   }

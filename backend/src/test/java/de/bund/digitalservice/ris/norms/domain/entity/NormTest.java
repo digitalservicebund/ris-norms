@@ -1477,39 +1477,6 @@ class NormTest {
   }
 
   @Nested
-  class addPassiveModification {
-    @Test
-    void itShouldCreateANewPassiveModification() {
-      // given
-      final Norm norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-
-      // when
-      final var passiveModification =
-          norm.addPassiveModification(
-              "substitution",
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml",
-              "#hauptteil-1_para-20_abs-1/100-126",
-              "#meta-1_geltzeiten-1_geltungszeitgr-2");
-
-      // then
-      assertThat(passiveModification.getSourceHref())
-          .contains(
-              new Href(
-                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
-      assertThat(passiveModification.getType()).contains("substitution");
-      assertThat(passiveModification.getDestinationHref())
-          .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
-      assertThat(passiveModification.getForcePeriodEid())
-          .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
-      assertThat(
-              NodeParser.getNodeFromExpression(
-                  String.format("//*[@eId='%s']", passiveModification.getEid().orElseThrow()),
-                  norm.getDocument()))
-          .contains(passiveModification.getNode());
-    }
-  }
-
-  @Nested
   class deleteByEId {
     @Test
     void itShouldDeleteTheNodeOfTheEId() {

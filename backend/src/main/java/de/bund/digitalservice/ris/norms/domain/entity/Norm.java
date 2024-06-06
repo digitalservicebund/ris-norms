@@ -339,43 +339,6 @@ public class Norm {
     temporalDataNode.removeChild(temporalGroupNode);
   }
 
-  /**
-   * Create a new passive modification element
-   *
-   * @param type the type of the textual mod (this is different from the @refersTo property of an
-   *     akn:mod)
-   * @param sourceHref the href our the source of the textual mod
-   * @param destinationHref the href our the destination of the textual mod
-   * @param periodHref the href to the geltungszeitgruppe of the textual mod
-   * @return the newly create passive modification
-   */
-  public TextualMod addPassiveModification(
-      String type, String sourceHref, String destinationHref, String periodHref) {
-    var passiveModificationsNode =
-        getMeta().getOrCreateAnalysis().getOrCreatePassiveModificationsNode();
-
-    var textualMod =
-        NodeCreator.createElementWithEidAndGuid(
-            "akn:textualMod", "textualmod", passiveModificationsNode);
-    textualMod.setAttribute("type", type);
-    passiveModificationsNode.appendChild(textualMod);
-
-    var source = NodeCreator.createElementWithEidAndGuid("akn:source", "source", textualMod);
-    source.setAttribute("href", sourceHref);
-    textualMod.appendChild(source);
-
-    var destination =
-        NodeCreator.createElementWithEidAndGuid("akn:destination", "destination", textualMod);
-    destination.setAttribute("href", destinationHref);
-    textualMod.appendChild(destination);
-
-    var force = NodeCreator.createElementWithEidAndGuid("akn:force", "gelzeitnachw", textualMod);
-    force.setAttribute("period", periodHref);
-    textualMod.appendChild(force);
-
-    return new TextualMod(textualMod);
-  }
-
   @Override
   public boolean equals(Object object) {
     if (this == object) return true;
