@@ -16,8 +16,8 @@ public class MetadatenDs {
   private final Node node;
 
   /**
-   * Retrieves the FNA value at a specific date. It looks for the one value which a @start attribute
-   * >= date and @end attribute <= date.
+   * Retrieves the FNA value at a specific date. It looks for the one value where @start attribute
+   * is equals or before the given date and the @end attribute is equals or after the given date.
    *
    * @param date - the specific date
    * @return the optional fna value
