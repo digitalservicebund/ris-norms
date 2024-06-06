@@ -33,11 +33,32 @@ class ModificationValidatorTest {
     @Test
     void emptyActiveModificationDestinationHref() {
       // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
+          .getNodeByEId("hauptteil-1_art-1")
+          .get()
+          .getAttributes()
+          .getNamedItem("refersTo")
+          .setTextContent("");
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): RefersTo is empty in article with eId hauptteil-1_art-1");
+    }
+
+    @Test
+    void emptyArticleRefersTo() {
+      // given
       final Norm amendingNorm =
           NormFixtures.loadFromDisk("NormWithEmptyActiveModificationDestinationHref.xml");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingNorm));
+      Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
 
       // then
       assertThat(thrown)
@@ -59,7 +80,7 @@ class ModificationValidatorTest {
           .setDestinationHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingNorm));
+      Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
 
       // then
       assertThat(thrown)
@@ -76,7 +97,7 @@ class ModificationValidatorTest {
       amendingNorm.getArticles().getFirst().setAffectedDocumentEli("");
 
       // when
-      Throwable thrown = catchThrowable(() -> underTest.throwErrorNoDestinationSet(amendingNorm));
+      Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
 
       // then
       assertThat(thrown)

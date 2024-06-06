@@ -30,7 +30,7 @@ public class ModificationValidator {
    * @param amendingNorm the amending norm to be checked
    */
   public void validate(Norm amendingNorm) {
-    throwErrorNoDestinationSet(amendingNorm);
+    destinationIsSet(amendingNorm);
     destinationEliIsConsistent(amendingNorm);
     destinationHrefIsConsistent(amendingNorm);
     checkAllMods(amendingNorm);
@@ -68,7 +68,7 @@ public class ModificationValidator {
    *
    * @param amendingNorm the amending law to be checked
    */
-  public void throwErrorNoDestinationSet(Norm amendingNorm) {
+  public void destinationIsSet(Norm amendingNorm) {
     validateActiveModificationsEli(amendingNorm);
     validateArticlesEli(amendingNorm);
   }
@@ -344,7 +344,6 @@ public class ModificationValidator {
   }
 
   private String getArticleRefersTo(String eli, Article a, String articleEId) {
-    // TODO test for that throw
     return a.getRefersTo()
         .orElseThrow(
             () ->
