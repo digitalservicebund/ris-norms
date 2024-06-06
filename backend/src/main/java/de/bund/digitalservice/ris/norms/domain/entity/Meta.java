@@ -107,4 +107,21 @@ public class Meta {
               return new Analysis(newElement);
             });
   }
+
+  /**
+   * Gets the akn:proprietary element of the norm, or creates it if it does not yet exist.
+   *
+   * @return the akn:proprietary element of the norm
+   */
+  public Proprietary getProprietary() {
+    return NodeParser.getNodeFromExpression("./proprietary", node)
+        .map(Proprietary::new)
+        .orElseGet(
+            () -> {
+              final var newElement =
+                  NodeCreator.createElementWithEidAndGuid("akn:proprietary", "proprietary", node);
+              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+              return new Proprietary(newElement);
+            });
+  }
 }

@@ -76,30 +76,6 @@ public class Norm {
   }
 
   /**
-   * Returns the FNA as {@link String} of a {@link Norm}.
-   *
-   * @return The FNA
-   * @deprecated Use {@link #getProprietary()} instead.
-   */
-  @Deprecated(forRemoval = true)
-  public Optional<String> getFna() {
-    return NodeParser.getValueFromExpression(
-        "//meta/proprietary/legalDocML.de_metadaten/fna", document);
-  }
-
-  /**
-   * Returns the proprietary metadata of the {@link Norm}.
-   *
-   * @return Proprietary metadata.
-   */
-  public Proprietary getProprietary() {
-    return NodeParser.getNodeFromExpression("//meta/proprietary", document)
-        .map(Proprietary::new)
-        .orElse(
-            Proprietary.builder().node(XmlMapper.toNode("<proprietary></proprietary>")).build());
-  }
-
-  /**
    * Returns a {@link Meta} instance from a {@link Document} in a {@link Norm}.
    *
    * @return the meta node as {@link Meta}

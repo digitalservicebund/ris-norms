@@ -341,4 +341,55 @@ class MetaTest {
 
     assertThrows(MandatoryNodeNotFound.class, meta::getLifecycle);
   }
+
+  @Test
+  void getProprietary() {
+    final Meta meta =
+        Meta.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                         <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                                            <akn:proprietary eId="meta-1_proprietary-1"
+                                                             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                             source="attributsemantik-noch-undefiniert">
+                                                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                                                    <meta:typ>gesetz</meta:typ>
+                                                    <meta:fna>754-28-1</meta:fna>
+                                                    <meta:fassung>verkuendungsfassung</meta:fassung>
+                                                </meta:legalDocML.de_metadaten>
+                                            </akn:proprietary>
+                                          </akn:meta>
+                                         """))
+            .build();
+
+    assertThat(meta.getProprietary()).isNotNull();
+  }
+
+  @Test
+  void returnsProprietaryEvenIfDoesNotExistInNorm() {
+    // Given
+    var normXml =
+        """
+                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                  <akn:akomaNtoso
+                    xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+                    <akn:act name="regelungstext">
+                      <!-- Metadaten -->
+                      <akn:meta eId="meta-1" GUID="000">
+                      </akn:meta>
+                    </akn:act>
+                  </akn:akomaNtoso>
+                  """;
+
+    var norm = new Norm(XmlMapper.toDocument(normXml));
+
+    // When
+    var result = norm.getMeta().getProprietary();
+
+    // Then
+    assertThat(result).isInstanceOf(Proprietary.class);
+  }
 }

@@ -10,7 +10,7 @@ class ProprietaryResponseMapperTest {
   void convertsProprietaryToResponseSchema() {
     // Given
     var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-    var proprietary = norm.getProprietary();
+    var proprietary = norm.getMeta().getProprietary();
 
     // When
     var converted = ProprietaryResponseMapper.fromProprietary(proprietary);

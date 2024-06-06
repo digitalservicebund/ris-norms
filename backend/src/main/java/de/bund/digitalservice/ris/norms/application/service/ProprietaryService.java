@@ -23,6 +23,6 @@ public class ProprietaryService implements LoadProprietaryFromNormUseCase {
     var norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (norm.isEmpty()) throw new NormNotFoundException(query.eli());
 
-    return norm.get().getProprietary();
+    return norm.get().getMeta().getProprietary();
   }
 }
