@@ -2,7 +2,9 @@
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
+import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useElementId } from "@/composables/useElementId"
@@ -49,9 +51,9 @@ watch(data, (newData) => {
 
 const {
   data: savedData,
-  // TODO: Add isSaving,
-  // TODO: Add error: saveError,
-  // TODO: Add execute: save,
+  isFetching: isSaving,
+  error: saveError,
+  execute: save,
 } = useProprietaryService(
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
@@ -107,26 +109,48 @@ function setFna(value: string) {
             <div v-if="isFetching" class="my-16 flex justify-center">
               <RisLoadingSpinner />
             </div>
+
             <RisCallout
               v-else-if="fetchError"
               variant="error"
               title="Die Daten konnten nicht geladen werden."
             />
-            <div
+
+            <form
               v-else
               class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-8"
+              @submit.prevent
             >
-              <h2 class="ds-label-02-bold col-span-2">Sachgebiet</h2>
-              <label :for="fnaId">Sachgebiet FNA-Nummer</label>
-              <RisTextInput
-                :id="fnaId"
-                :model-value="localData?.fna.value"
-                size="small"
-                read-only
-                @update:model-value="setFna($event ?? '')"
-              />
-            </div>
+              <fieldset class="contents">
+                <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
+                <label :for="fnaId">Sachgebiet FNA-Nummer</label>
+                <RisTextInput
+                  :id="fnaId"
+                  :model-value="localData?.fna.value"
+                  size="small"
+                  @update:model-value="setFna($event ?? '')"
+                />
+              </fieldset>
+
+              <footer class="relative col-span-2 mt-32">
+                <RisTooltip
+                  v-slot="{ ariaDescribedby }"
+                  title="Speichern fehlgeschlagen"
+                  variant="error"
+                  :visible="!!saveError"
+                  allow-dismiss
+                >
+                  <RisTextButton
+                    :aria-describedby
+                    :loading="isSaving"
+                    label="Metadaten speichern"
+                    @click="save()"
+                  />
+                </RisTooltip>
+              </footer>
+            </form>
           </template>
+
           <template #xml>
             <RisCodeEditor v-model="xml" class="flex-grow" />
           </template>
