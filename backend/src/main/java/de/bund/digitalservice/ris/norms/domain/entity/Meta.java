@@ -17,6 +17,8 @@ public class Meta {
   private static final String ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT =
       "attributsemantik-noch-undefiniert";
 
+  private static final String SOURCE_ATTIBUTE = "source";
+
   private final Node node;
 
   /**
@@ -69,7 +71,7 @@ public class Meta {
     } catch (final MandatoryNodeNotFound e) {
       final var newElement =
           NodeCreator.createElementWithEidAndGuid("akn:temporalData", "analysis", node);
-      newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+      newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
       return new TemporalData(newElement);
     }
   }
@@ -103,7 +105,7 @@ public class Meta {
             () -> {
               final var newElement =
                   NodeCreator.createElementWithEidAndGuid("akn:analysis", "analysis", node);
-              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+              newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
               return new Analysis(newElement);
             });
   }
@@ -120,7 +122,7 @@ public class Meta {
             () -> {
               final var newElement =
                   NodeCreator.createElementWithEidAndGuid("akn:proprietary", "proprietary", node);
-              newElement.setAttribute("source", ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+              newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
               return new Proprietary(newElement);
             });
   }
