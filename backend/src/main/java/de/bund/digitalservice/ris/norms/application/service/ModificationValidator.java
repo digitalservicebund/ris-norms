@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Collections;
 import java.util.List;
@@ -380,10 +381,13 @@ public class ModificationValidator {
                     null));
   }
 
-  private String getModEId(Mod m) {
-    // TODO compose message
+  private String getModEId(Mod mod) {
     // TODO provide test
-    return m.getEid().orElseThrow(() -> new XmlContentException("TODO 3", null));
+    return mod.getEid()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "Eid in mod %s is empty".formatted(XmlMapper.toString(mod.getNode())), null));
   }
 
   private String getModOldText(String eli, Mod m, String message) {
