@@ -2,6 +2,7 @@ import { Proprietary } from "@/types/proprietary"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
 import { INVALID_URL, useApiFetch } from "./apiService"
+import dayjs from "dayjs"
 
 /**
  * Returns the proprietary metadata of a norm from the API. Reloads when the
@@ -33,7 +34,7 @@ export function useProprietaryService(
 
     return typeof atDateVal === "string"
       ? atDateVal
-      : atDateVal.toISOString().substring(0, 10)
+      : dayjs(atDateVal).format("YYYY-MM-DD")
   })
 
   const url = computed(() => {
