@@ -366,7 +366,44 @@ class ModificationValidatorTest {
       Assertions.assertDoesNotThrow(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
     }
 
-    // TODO add test for full paragraph
+    @Test
+    void validationSuccessfulStartingAt0() {
+      // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Node modNode =
+          amendingNorm
+              .getNodeByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      final String amendingNormEli = amendingNorm.getEli();
+      final String href =
+          new Href.Builder()
+              .setEli(amendingNormEli)
+              .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+              .setCharacterRange(new CharacterRange("0-34"))
+              .buildAbsolute()
+              .value();
+
+      // 112 paragraph length
+      amendingNorm
+          .getMeta()
+          .getAnalysis()
+          .map(Analysis::getActiveModifications)
+          .orElse(Collections.emptyList())
+          .getFirst()
+          .setDestinationHref(href);
+
+      mod.setTargetHref(href);
+      mod.setOldText("entgegen § 9 Abs. 1 Satz 2, Abs. 2");
+
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+
+      // when/then
+      Assertions.assertDoesNotThrow(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
+    }
 
     @Test
     void throwsExceptionWhenCharacterRangeIsNotSet() {
