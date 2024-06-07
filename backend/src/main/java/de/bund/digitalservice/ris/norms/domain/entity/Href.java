@@ -169,7 +169,7 @@ public record Href(String value) {
     }
 
     /**
-     * Creates a relative Href with the information provided to this builder.
+     * Creates an internal reference Href with the information provided to this builder.
      *
      * @return a new {@link Href} instance
      */
