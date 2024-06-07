@@ -332,7 +332,7 @@ class NormControllerTest {
           .andExpect(jsonPath("amendingNormXml").value(xml))
           .andExpect(jsonPath("targetNormZf0Xml").value(targetNormXml));
 
-      verify(updateModUseCase, times(1)).updateMod(argThat(query -> query.dryRun()));
+      verify(updateModUseCase, times(1)).updateMod(argThat(UpdateModUseCase.Query::dryRun));
     }
 
     @Test
