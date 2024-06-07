@@ -112,10 +112,9 @@
                              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                              source="attributsemantik-noch-undefiniert">
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
-                    <meta:typ>gesetz</meta:typ>
+                    <!-- typ, art, subtyp removed for testing purposes-->
                     <meta:form>stammform</meta:form>
                     <meta:fassung>verkuendungsfassung</meta:fassung>
-                    <meta:art>rechtsetzungsdokument</meta:art>
                     <meta:initiant>nicht-vorhanden</meta:initiant>
                     <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
                     <!-- FNA removed for testing purposes -->
