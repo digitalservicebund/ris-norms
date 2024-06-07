@@ -375,5 +375,27 @@ class NormControllerTest {
                       "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}"))
           .andExpect(status().isUnprocessableEntity());
     }
+
+    @Test
+    void itCallsUpdateModUseCaseAndReturnsUnprocessableEntityWithMessage() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+
+      // When
+      when(updateModUseCase.updateMod(any()))
+          .thenThrow(new XmlContentException("error exception", null));
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}"))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(content().string("Error message: error exception"));
+    }
   }
 }
