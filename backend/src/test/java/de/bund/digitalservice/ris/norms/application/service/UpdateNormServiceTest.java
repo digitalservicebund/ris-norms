@@ -2,13 +2,9 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateActiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
-import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Collections;
 import java.util.List;
@@ -199,6 +195,43 @@ class UpdateNormServiceTest {
           .contains(
               new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"));
       assertThat(newPassiveModification.getForcePeriodEid()).isEmpty();
+    }
+  }
+
+  @Nested
+  class updateActiveModifications {
+    @Test
+    void itChangesDestinationHrefAndTimeBoundaryEId() {
+
+      // Given
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      String targetNormEli = targetNorm.getEli();
+      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String newCharacterRange = "20-25";
+      String newDestinationHref =
+          targetNormEli
+              + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/"
+              + newCharacterRange
+              + ".xml";
+      String newTimeBoundaryEid = "#time-boundary-eid";
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw, eId, newDestinationHref, newTimeBoundaryEid));
+
+      // Then
+      final TextualMod activeModifications =
+          updatedAmendingNorm
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getActiveModifications)
+              .orElse(Collections.emptyList())
+              .getFirst();
+      assertThat(activeModifications.getDestinationHref()).contains(new Href(newDestinationHref));
+      assertThat(activeModifications.getForcePeriodEid()).contains(newTimeBoundaryEid);
     }
   }
 }

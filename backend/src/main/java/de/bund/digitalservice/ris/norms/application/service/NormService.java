@@ -1,14 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateModUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
@@ -21,7 +13,6 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 
 /**
@@ -152,24 +143,13 @@ public class NormService
 
     final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
-    // TODO shall we move the following two modifications to the UpdateNormService?
     // Edit mod in metadata
-    amendingNorm
-        .getMeta()
-        .getAnalysis()
-        .map(analysis -> analysis.getActiveModifications().stream())
-        .orElse(Stream.empty())
-        .filter(
-            activeMod ->
-                activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eid())))
-        .findFirst()
-        .ifPresent(
-            activeMod -> {
-              activeMod.setDestinationHref(query.destinationHref());
-              activeMod.setForcePeriodEid(query.timeBoundaryEid());
-            });
+    updateNormService.updateActiveModifications(
+        new UpdateActiveModificationsUseCase.Query(
+            amendingNorm, query.eid(), query.destinationHref(), query.timeBoundaryEid()));
 
     // Edit mod in body
+    // TODO move the following modification to the UpdateNormService
     amendingNorm.getMods().stream()
         .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
         .findFirst()

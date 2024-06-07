@@ -17,14 +17,10 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -793,6 +789,7 @@ class NormServiceTest {
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));
       when(loadZf0Service.loadZf0(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
@@ -824,6 +821,7 @@ class NormServiceTest {
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       String targetNormEli = targetNorm.getEli();
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
       String newCharacterRange = "20-25";
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
@@ -836,6 +834,7 @@ class NormServiceTest {
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));
       when(loadZf0Service.loadZf0(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
@@ -845,7 +844,7 @@ class NormServiceTest {
           service.updateMod(
               new UpdateModUseCase.Query(
                   amendingNormEli,
-                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                  eId,
                   "refersTo",
                   newTimeBoundaryEid, // <- this will be set
                   newDestinationHref, // <- this will be set in ActivMods AND mod
@@ -858,6 +857,14 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
       verify(loadZf0Service, times(1)).loadZf0(any());
+      verify(updateNormService, times(1))
+          .updateActiveModifications(
+              argThat(
+                  argument ->
+                      Objects.equals(argument.amendingNorm(), amendingNorm)
+                          && Objects.equals(argument.eId(), eId)
+                          && Objects.equals(argument.timeBoundaryEid(), newTimeBoundaryEid)
+                          && Objects.equals(argument.destinationHref(), newDestinationHref)));
       verify(updateNormService, times(1))
           .updatePassiveModifications(
               argThat(
@@ -873,16 +880,6 @@ class NormServiceTest {
       final Document amendingXmlDocument =
           XmlMapper.toDocument(returnedXml.get().amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
-
-      final TextualMod activeModifications =
-          resultAmendingNorm
-              .getMeta()
-              .getAnalysis()
-              .map(Analysis::getActiveModifications)
-              .orElse(Collections.emptyList())
-              .getFirst();
-      assertThat(activeModifications.getDestinationHref()).contains(new Href(newDestinationHref));
-      assertThat(activeModifications.getForcePeriodEid()).contains(newTimeBoundaryEid);
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetHref()).isPresent();
