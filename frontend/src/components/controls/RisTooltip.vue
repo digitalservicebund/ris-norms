@@ -9,6 +9,11 @@ withDefaults(
     title: string
 
     /**
+     * Content of the tooltip.
+     */
+    content?: string
+
+    /**
      * Visual variant of the tooltip.
      * @default "neutral"
      */
@@ -35,6 +40,7 @@ withDefaults(
     allowDismiss?: boolean
   }>(),
   {
+    content: "",
     variant: "neutral",
     alignment: "left",
     attachment: "top",
@@ -94,7 +100,9 @@ const ariaId = useElementId("tooltip")
         :variant
         visible
         @update:visible="visible = false"
-      />
+      >
+        {{ content }}
+      </RisCallout>
       <span
         :data-variant="variant"
         class="absolute inline-block border-8 border-x-transparent data-[variant=error]:border-y-red-200 data-[variant=neutral]:border-y-blue-200 data-[variant=success]:border-y-green-200 data-[variant=warning]:border-y-yellow-200 group-data-[alignment=left]:left-24 group-data-[alignment=right]:right-20 group-data-[attachment=bottom]:-top-8 group-data-[attachment=bottom]:border-t-0 group-data-[attachment=top]:border-b-0"

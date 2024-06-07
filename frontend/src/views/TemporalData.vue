@@ -8,14 +8,23 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
 import { useGetEntryIntoForceHtml } from "@/services/temporalDataService"
+import { ref, watch } from "vue"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
 
 const eli = useEliPathParameter()
+const dates = ref<TemporalDataResponse[]>([])
 const {
-  timeBoundaries: dates,
+  timeBoundaries,
   saveTemporalData,
   saveError,
+  isSaving,
+  isFetching: isFetchingTemporalData,
+  isSavingFinished,
 } = useTemporalData(eli)
-console.log(saveError)
+
+watch(timeBoundaries, () => {
+  dates.value = timeBoundaries.value
+})
 
 const {
   data: entryIntoForceArticleHtml,
@@ -37,7 +46,7 @@ async function handleSave() {
   <div
     class="grid h-full grid-cols-3 grid-rows-[5rem,1fr] gap-x-32 overflow-hidden p-40"
   >
-    <template v-if="isFetchingEntryIntoForce">
+    <template v-if="isFetchingEntryIntoForce || isFetchingTemporalData">
       <div class="col-span-3 flex items-center justify-center">
         <RisLoadingSpinner />
       </div>
@@ -60,17 +69,19 @@ async function handleSave() {
 
         <RisTooltip
           v-slot="{ ariaDescribedby }"
-          :visible="!!saveError"
-          title="Fehler beim Speichern"
+          :visible="isSavingFinished"
+          :title="saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'"
+          :content="saveError ? `${saveError.name}: ${saveError.message}` : ''"
           alignment="right"
           attachment="top"
-          variant="error"
+          :variant="saveError ? 'error' : 'success'"
         >
           <RisTextButton
             :aria-describedby="ariaDescribedby"
             label="Speichern"
             size="small"
             class="h-fit flex-none"
+            :disabled="isSaving"
             @click="handleSave"
           />
         </RisTooltip>
