@@ -340,7 +340,7 @@ test.describe("metadata reading", () => {
     dropdown.selectOption("2023-12-30")
 
     await page.waitForResponse((response) =>
-      response.url().includes("/proprietary/"),
+      response.url().endsWith("/proprietary/2023-12-30"),
     )
 
     await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
