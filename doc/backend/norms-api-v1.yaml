@@ -534,8 +534,6 @@ components:
           type: string
         destinationHref:
           type: string
-        oldText:
-          type: string
         newText:
           type: string
 

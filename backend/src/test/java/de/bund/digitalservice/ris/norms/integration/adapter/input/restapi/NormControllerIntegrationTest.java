@@ -565,7 +565,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
       String characterCount = "9-34";
       String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
-      String oldText = "THIS_IS_NOT_BEING_HANDLED";
       String newText = "new test text";
 
       // When
@@ -581,8 +580,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                           + timeBoundaryEId
                           + "\", \"destinationHref\": \""
                           + destinationHref
-                          + "\", \"oldText\": \""
-                          + oldText
                           + "\", \"newText\": \""
                           + newText
                           + "\"}"))
@@ -653,7 +650,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
       String characterCount = "9-35"; // 9-34 would be correct -> This is wrong on purpose
       String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
-      String oldText = "THIS_IS_NOT_BEING_HANDLED";
       String newText = "new test text"; // This is not being validated
 
       // When
@@ -669,8 +665,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                           + timeBoundaryEId
                           + "\", \"destinationHref\": \""
                           + destinationHref
-                          + "\", \"oldText\": \""
-                          + oldText
                           + "\", \"newText\": \""
                           + newText
                           + "\"}"))

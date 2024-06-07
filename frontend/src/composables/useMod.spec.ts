@@ -138,7 +138,6 @@ describe("useMod", () => {
       refersTo: "test-refersTo",
       timeBoundaryEid: "test-timeBoundaryEid",
       destinationHref: "test-destinationHref",
-      oldText: "test-oldText",
       newText: "test-newText",
     }
 
@@ -172,7 +171,6 @@ describe("useMod", () => {
       refersTo: "test-refersTo",
       timeBoundaryEid: "test-timeBoundaryEid",
       destinationHref: "test-destinationHref",
-      oldText: "test-oldText",
       newText: "test-newText",
     }
 

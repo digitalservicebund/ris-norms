@@ -134,9 +134,6 @@ public class NormService
 
   @Override
   public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
-
-    // TODO query.oldText is not being handled
-
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (amendingNormOptional.isEmpty()) {
