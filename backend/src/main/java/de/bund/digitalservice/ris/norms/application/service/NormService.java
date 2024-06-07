@@ -1,20 +1,13 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateModUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
+import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
@@ -39,6 +32,7 @@ public class NormService
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
+  private final ModificationValidator modificationValidator;
   private final UpdateNormService updateNormService;
   private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
@@ -47,12 +41,14 @@ public class NormService
       LoadNormPort loadNormPort,
       LoadNormByGuidPort loadNormByGuidPort,
       UpdateNormPort updateNormPort,
+      ModificationValidator modificationValidator,
       UpdateNormService updateNormService,
       LoadZf0Service loadZf0Service,
       UpdateOrSaveNormPort updateOrSaveNormPort) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
+    this.modificationValidator = modificationValidator;
     this.updateNormService = updateNormService;
     this.loadZf0Service = loadZf0Service;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -79,7 +75,7 @@ public class NormService
   @Override
   public Optional<Norm> loadNextVersionOfNorm(LoadNextVersionOfNormUseCase.Query query) {
     return loadNorm(new LoadNormUseCase.Query(query.eli()))
-        .flatMap(Norm::getNextVersionGuid)
+        .map(n -> n.getMeta().getFRBRExpression().getFRBRaliasNextVersionId())
         .flatMap(
             nextVersionGuid -> loadNormByGuid(new LoadNormByGuidUseCase.Query(nextVersionGuid)));
   }
@@ -129,38 +125,31 @@ public class NormService
 
   @Override
   public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
-
-    final Optional<Norm> optionalNorm =
+    final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    if (optionalNorm.isEmpty()) {
+    if (amendingNormOptional.isEmpty()) {
       return Optional.empty();
     }
-    final var norm = optionalNorm.get();
+    final var amendingNorm = amendingNormOptional.get();
+    final var amendingNormEli = amendingNorm.getEli();
 
-    final var targetLawEliOptional = new Href(query.destinationHref()).getEli();
-    if (targetLawEliOptional.isEmpty()) {
+    final var targetNormEliOptional = new Href(query.destinationHref()).getEli();
+    if (targetNormEliOptional.isEmpty()) {
       return Optional.empty();
     }
 
-    final Norm targetLaw =
-        loadNormPort.loadNorm(new LoadNormPort.Command(targetLawEliOptional.get())).orElseThrow();
+    final Norm targetNorm =
+        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEliOptional.get())).orElseThrow();
 
-    final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(norm, targetLaw));
+    final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
     // Edit mod in metadata
-    norm.getActiveModifications().stream()
-        .filter(
-            activeMod ->
-                activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eid())))
-        .findFirst()
-        .ifPresent(
-            activeMod -> {
-              activeMod.setDestinationHref(query.destinationHref());
-              activeMod.setForcePeriodEid(query.timeBoundaryEid());
-            });
+    updateNormService.updateActiveModifications(
+        new UpdateActiveModificationsUseCase.Query(
+            amendingNorm, query.eid(), query.destinationHref(), query.timeBoundaryEid()));
 
     // Edit mod in body
-    norm.getMods().stream()
+    amendingNorm.getMods().stream()
         .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
         .findFirst()
         .ifPresent(
@@ -169,18 +158,33 @@ public class NormService
               mod.setNewText(query.newText());
             });
 
-    // TODO: (Malte Laukötter, 2024-05-22) run validation that the change is possible
-
     updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(zf0Norm, norm, targetLawEliOptional.get()));
+        new UpdatePassiveModificationsUseCase.Query(
+            zf0Norm, amendingNorm, targetNormEliOptional.get()));
 
+    Mod selectedMod =
+        amendingNorm.getMods().stream()
+            .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(query.eid()))
+            .findFirst()
+            .orElseThrow();
+
+    modificationValidator.validateSubstitutionMod(amendingNormEli, selectedMod);
+
+    Optional<Norm> updatedAmendingNorm = Optional.of(amendingNorm);
+    Norm updatedZf0Norm = zf0Norm;
     if (!query.dryRun()) {
-      updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+      updatedAmendingNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
+      updatedZf0Norm = updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
 
-    return Optional.of(
-        new UpdateModUseCase.Result(
-            XmlMapper.toString(norm.getDocument()), XmlMapper.toString(zf0Norm.getDocument())));
+    if (updatedAmendingNorm.isPresent()) {
+      return Optional.of(
+          new UpdateModUseCase.Result(
+              XmlMapper.toString(updatedAmendingNorm.get().getDocument()),
+              XmlMapper.toString(updatedZf0Norm.getDocument())));
+    } else {
+      return Optional.of(
+          new UpdateModUseCase.Result("", XmlMapper.toString(updatedZf0Norm.getDocument())));
+    }
   }
 }

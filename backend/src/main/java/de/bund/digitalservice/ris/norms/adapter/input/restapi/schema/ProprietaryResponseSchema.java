@@ -9,13 +9,16 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 public class ProprietaryResponseSchema {
-  private Fna fna;
+  private SimpleValue fna;
+  private SimpleValue art;
+  private SimpleValue typ;
+  private SimpleValue subtyp;
 
-  /** Nested schema for FNAs. */
+  /** Nested schema for simple values. */
   @AllArgsConstructor
   @Data
   @SuperBuilder(toBuilder = true)
-  public static class Fna {
+  public static class SimpleValue {
     private String value;
   }
 }

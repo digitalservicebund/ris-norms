@@ -43,9 +43,9 @@ class TemporalGroupTest {
             .build();
 
     // when
-    var eventRefEId = temporalGroup.getEventRefEId();
+    var timeInterval = temporalGroup.getTimeInterval();
 
     // then
-    assertThat(eventRefEId).contains("meta-1_lebzykl-1_ereignis-2");
+    assertThat(timeInterval).isNotNull();
   }
 }

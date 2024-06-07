@@ -1,19 +1,21 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateActiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 
 /** Service for updating norms. */
 @Service
-public class UpdateNormService implements UpdatePassiveModificationsUseCase {
+public class UpdateNormService
+    implements UpdatePassiveModificationsUseCase, UpdateActiveModificationsUseCase {
   /**
    * Remove passive modifications form the zf0Norm, who originate from the zf0Norm with the given
    * source.
@@ -22,7 +24,11 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
    * @param sourceNormEli the eli which the removed passive modifications should have as a source
    */
   private void removePassiveModificationsThatStemFromSource(Norm norm, String sourceNormEli) {
-    norm.getPassiveModifications().stream()
+
+    norm.getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getPassiveModifications().stream())
+        .orElse(Stream.empty())
         .filter(
             passiveModification ->
                 passiveModification
@@ -39,20 +45,25 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
                       .flatMap(norm::deleteTemporalGroupIfUnused);
 
               temporalGroup
-                  .flatMap(TemporalGroup::getEventRefEId)
+                  .flatMap(m -> m.getTimeInterval().getEventRefEId())
                   .ifPresent(norm::deleteEventRefIfUnused);
             });
   }
 
   @Override
-  public Norm updatePassiveModifications(Query query) {
+  public Norm updatePassiveModifications(UpdatePassiveModificationsUseCase.Query query) {
     var norm = query.zf0Norm();
 
     // clean up existing passive modifications stemming from the amending zf0Norm
     removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getEli());
 
     final var activeModificationsToAdd =
-        query.amendingNorm().getActiveModifications().stream()
+        query
+            .amendingNorm()
+            .getMeta()
+            .getAnalysis()
+            .map(analysis -> analysis.getActiveModifications().stream())
+            .orElse(Stream.empty())
             .filter(
                 activeModification ->
                     activeModification
@@ -88,30 +99,55 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
     // create the passive modifications
     activeModificationsToAdd.forEach(
         activeModification ->
-            norm.addPassiveModification(
-                activeModification.getType().orElseThrow(),
-                new Href.Builder()
-                    .setEli(query.amendingNorm().getEli())
-                    .setEId(activeModification.getSourceHref().flatMap(Href::getEId).orElseThrow())
-                    .setFileExtension("xml")
-                    .buildAbsolute()
-                    .value(),
-                new Href.Builder()
-                    .setEId(
-                        activeModification.getDestinationHref().flatMap(Href::getEId).orElseThrow())
-                    .setCharacterRange(
-                        activeModification
-                            .getDestinationHref()
-                            .flatMap(Href::getCharacterRange)
-                            .orElseThrow())
-                    .buildRelative()
-                    .value(),
-                activeModification
-                    .getForcePeriodEid()
-                    .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
-                    .map(eId -> new Href.Builder().setEId(eId).buildRelative().value())
-                    .orElse(null)));
+            norm.getMeta()
+                .getOrCreateAnalysis()
+                .addPassiveModification(
+                    activeModification.getType().orElseThrow(),
+                    new Href.Builder()
+                        .setEli(query.amendingNorm().getEli())
+                        .setEId(
+                            activeModification.getSourceHref().flatMap(Href::getEId).orElseThrow())
+                        .setFileExtension("xml")
+                        .buildAbsolute()
+                        .value(),
+                    new Href.Builder()
+                        .setEId(
+                            activeModification
+                                .getDestinationHref()
+                                .flatMap(Href::getEId)
+                                .orElseThrow())
+                        .setCharacterRange(
+                            activeModification
+                                .getDestinationHref()
+                                .flatMap(Href::getCharacterRange)
+                                .orElseThrow())
+                        .buildInternalReference()
+                        .value(),
+                    activeModification
+                        .getForcePeriodEid()
+                        .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
+                        .map(eId -> new Href.Builder().setEId(eId).buildInternalReference().value())
+                        .orElse(null)));
 
+    return norm;
+  }
+
+  @Override
+  public Norm updateActiveModifications(UpdateActiveModificationsUseCase.Query query) {
+    var norm = query.amendingNorm();
+    norm.getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getActiveModifications().stream())
+        .orElse(Stream.empty())
+        .filter(
+            activeMod ->
+                activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eId())))
+        .findFirst()
+        .ifPresent(
+            activeMod -> {
+              activeMod.setDestinationHref(query.destinationHref());
+              activeMod.setForcePeriodEid(query.timeBoundaryEid());
+            });
     return norm;
   }
 }

@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -65,6 +66,17 @@ public class Article {
   }
 
   /**
+   * Sets a new href for the affected document
+   *
+   * @param href The ELI of the affected document of the article
+   */
+  public void setAffectedDocumentEli(String href) {
+    Optional<Node> articleAffectedDocument =
+        NodeParser.getNodeFromExpression(".//affectedDocument/@href", this.node);
+    articleAffectedDocument.ifPresent(value -> value.setTextContent(href));
+  }
+
+  /**
    * Returns the refersTo attribute of the affected article as {@link String} from a {@link Node} in
    * a {@link Norm}.
    *
@@ -72,5 +84,14 @@ public class Article {
    */
   public Optional<String> getRefersTo() {
     return NodeParser.getValueFromExpression("./@refersTo", this.node);
+  }
+
+  /**
+   * Extracts the {@link Mod} for this article.
+   *
+   * @return the {@link Mod}
+   */
+  public List<Mod> getMods() {
+    return NodeParser.getNodesFromExpression("./*//mod", this.node).stream().map(Mod::new).toList();
   }
 }

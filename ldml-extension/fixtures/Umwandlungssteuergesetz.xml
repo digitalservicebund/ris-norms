@@ -30,7 +30,7 @@
                <akn:FRBRversionNumber eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1" GUID="22170c7e-8c51-4d7c-9917-16d5ea7494fc" value="1"></akn:FRBRversionNumber>
             </akn:FRBRExpression>
             <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
-               <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="4c881fca-0e36-440e-a5f9-513079ccc77f" value="eli/bund/bgbl-1/2006/s2782/1/deu/regelungstext-1.xml"></akn:FRBRthis>
+               <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="4c881fca-0e36-440e-a5f9-513079ccc77f" value="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1.xml"></akn:FRBRthis>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="d0491f91-d599-46d4-ba61-c7426b607e4f" value="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-1.xml"></akn:FRBRuri>
                <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="1d52860f-0990-4fd4-8b2f-32da6f99c612" date="2023-12-23" name="generierung"></akn:FRBRdate>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="1d015a20-823e-496e-808d-27c8fec85b51" href="recht.bund.de"></akn:FRBRauthor>

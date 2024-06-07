@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,9 +41,8 @@ public class FRBRExpression extends FRBR {
         .orElseGet(
             () -> {
               final Element newElement =
-                  getNode().getOwnerDocument().createElement("akn:FRBRalias");
-              newElement.setAttribute("eId", "meta-1_ident-1_frbrexpression-1_frbralias-1");
-              newElement.setAttribute("GUID", UUID.randomUUID().toString());
+                  NodeCreator.createElementWithEidAndGuid(
+                      "akn:FRBRalias", "meta-1_ident-1_frbrexpression-1_frbralias-1", getNode());
               newElement.setAttribute("name", "vorherige-version-id");
               newElement.setAttribute(VALUE_ATTIBUTE, uuid.toString());
               getNode().appendChild(newElement);

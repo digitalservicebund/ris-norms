@@ -19,10 +19,9 @@ public class ProprietaryService implements LoadProprietaryFromNormUseCase {
 
   @Override
   public Proprietary loadProprietaryFromNorm(Query query) throws NormNotFoundException {
-
-    var norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    if (norm.isEmpty()) throw new NormNotFoundException(query.eli());
-
-    return norm.get().getProprietary();
+    return loadNormPort
+        .loadNorm(new LoadNormPort.Command(query.eli()))
+        .map(m -> m.getMeta().getOrCreateProprietary())
+        .orElseThrow(() -> new NormNotFoundException((query.eli())));
   }
 }

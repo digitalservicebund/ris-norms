@@ -63,9 +63,7 @@ async function handleSave() {
 
     <template v-else-if="entryIntoForceArticleHtml">
       <div class="col-span-3 mb-40 flex items-center justify-between">
-        <h1 class="ds-heading-02-reg" data-testid="temporalDataHeading">
-          Zeitgrenzen anlegen
-        </h1>
+        <h1 class="ds-heading-02-reg">Zeitgrenzen anlegen</h1>
 
         <RisTooltip
           v-slot="{ ariaDescribedby }"

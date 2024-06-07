@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { Page, expect, test } from "@playwright/test"
 import {
   verfassungsschutzgesetz as currentXml,
   changedVerfassungsschutzgesetz as newXml,
@@ -43,16 +43,13 @@ test.describe("sidebar navigation", () => {
 
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
 
-    // Ensure elements have been loaded before proceeding, this is to avoid
-    // flakyness in getBy...().all().
-    await page.waitForResponse((response) =>
-      response.url().includes("/elements?type="),
-    )
-
-    let links = await nav.getByRole("link").all()
-    await expect(links[0]).toHaveText("Rahmen") // First is always the entire document
-    await expect(links[1]).toHaveText(
-      "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+    const links = nav.getByRole("link")
+    await expect(links).toHaveText(
+      [
+        "Rahmen",
+        "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+      ],
+      { useInnerText: true },
     )
 
     // Go to the other time boundary to check if the result is the same (should always
@@ -67,10 +64,12 @@ test.describe("sidebar navigation", () => {
     )
 
     // Expect to see the same result again
-    links = await nav.getByRole("link").all()
-    await expect(links[0]).toHaveText("Rahmen") // First is always the entire document
-    await expect(links[1]).toHaveText(
-      "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+    await expect(links).toHaveText(
+      [
+        "Rahmen",
+        "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+      ],
+      { useInnerText: true },
     )
   })
 
@@ -81,22 +80,16 @@ test.describe("sidebar navigation", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
     )
 
-    // Ensure time boundaries have been loaded before proceeding, this is to avoid
-    // flakyness in getBy...().all().
-    await page.waitForResponse((response) =>
-      response.url().endsWith("/timeBoundaries"),
-    )
-
     const select = page.getByRole("combobox", { name: "Zeitgrenze" })
-    const options = await select.getByRole("option").all()
+    const options = select.getByRole("option")
 
     // First entry selected by default
     await expect(select).toHaveValue("1970-01-01")
 
     // Time boundaries available as options
-    expect(options.length).toBe(2)
-    await expect(options[0]).toHaveText("01.01.1970")
-    await expect(options[1]).toHaveText("30.12.2023")
+    await expect(options).toHaveText(["01.01.1970", "30.12.2023"], {
+      useInnerText: true,
+    })
   })
 
   test("navigates to the selected time boundary of the whole document", async ({
@@ -332,22 +325,167 @@ test.describe("metadata reading", () => {
     page,
   }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/regelungstext-1/edit/1934-10-16",
     )
 
     const editorRegion = page.getByRole("region", {
       name: "Metadaten bearbeiten",
     })
 
-    const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
-    dropdown.selectOption("2023-12-30")
-
     await page.waitForResponse((response) =>
-      response.url().includes("/proprietary/2023-12-30"),
+      response.url().includes("/proprietary/"),
     )
 
     await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
-      "210-5",
+      "754-28-2",
     )
+
+    const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
+    dropdown.selectOption("2009-10-08")
+    await page.waitForResponse((response) =>
+      response.url().endsWith("/proprietary/2009-10-08"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
+      "111-11-1",
+    )
+
+    dropdown.selectOption("2023-01-01")
+    await page.waitForResponse((response) =>
+      response.url().endsWith("/proprietary/2023-01-01"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
+      "222-22-2",
+    )
+
+    dropdown.selectOption("2023-12-24")
+    await page.waitForResponse((response) =>
+      response.url().endsWith("/proprietary/2023-12-24"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
+      "333-33-3",
+    )
+  })
+
+  test("displays an error if the data could not be loaded", async ({
+    page,
+  }) => {
+    await page.route(/\/proprietary\/2023-12-30$/, (request) => {
+      request.abort()
+    })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten bearbeiten",
+    })
+
+    await expect(
+      editorRegion.getByText("Die Daten konnten nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
+  })
+})
+
+test.describe("metadata editing", () => {
+  test.describe("editing individual fields", () => {
+    // Creating a shared page allows us to stay in the same page/context while
+    // editing all metadata fields (as a user would) without relading the page
+    // after each edit while still using separate test cases and keeping each
+    // individual test small.
+    let sharedPage: Page
+
+    test.beforeAll(async ({ browser }) => {
+      sharedPage = await browser.newPage()
+      await sharedPage.goto(
+        "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      )
+    })
+
+    test("can edit the FNA", async () => {
+      const fnaTextbox = sharedPage.getByRole("textbox", {
+        name: "Sachgebiet FNA-Nummer",
+      })
+
+      await fnaTextbox.fill("123-4")
+      await expect(fnaTextbox).toHaveValue("123-4")
+    })
+  })
+
+  // Skipped while waiting for the backend functionality to be implemented
+  test.skip("persists changes across page loads after saving successfully", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    const saved = page.waitForResponse(
+      (response) =>
+        response.request().method() === "PUT" &&
+        response.request().url().endsWith("/proprietary/2023-12-30"),
+    )
+
+    const fnaTextbox = page.getByRole("textbox", {
+      name: "Sachgebiet FNA-Nummer",
+    })
+    await expect(fnaTextbox).toHaveValue("210-5")
+    await fnaTextbox.fill("123-4")
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+    await saved
+
+    await page.reload()
+    await expect(fnaTextbox).toHaveValue("123-4")
+  })
+
+  test("updates with metadata from the backend after saving", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    await page.route(/\/proprietary\/2023-12-30$/, (route) => {
+      // Mocking the response instead of getting the real response from the backend
+      // to force a state where the value returned from the backend is different from
+      // the state in the UI. In real-world use, this should almost never happen,
+      // but we still want to test it.
+      if (route.request().method() === "PUT")
+        route.fulfill({ status: 200, json: { fna: { value: "600-1" } } })
+      else route.continue()
+    })
+
+    const fnaTextbox = page.getByRole("textbox", {
+      name: "Sachgebiet FNA-Nummer",
+    })
+    await expect(fnaTextbox).toHaveValue("210-5")
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+    await expect(fnaTextbox).toHaveValue("600-1")
+
+    await page.unroute(/\/proprietary\/2023-12-30$/)
+  })
+
+  test("displays an error if the data could not be saved", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    await page.route(/\/proprietary\/2023-12-30$/, (route) => {
+      if (route.request().method() === "PUT") route.abort("failed")
+      else route.continue()
+    })
+
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+
+    await expect(
+      page.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
+    ).toBeVisible()
+
+    await page.unroute(/\/proprietary\/2023-12-30$/)
   })
 })

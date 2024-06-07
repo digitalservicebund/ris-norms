@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 class NormResponseMapperTest {
@@ -89,7 +88,7 @@ class NormResponseMapperTest {
     assertThat(result.getShortTitle()).isEqualTo("Vereinsgesetz");
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
     assertThat(result.getFrbrNumber()).isEqualTo("s593");
-    assertThat(result.getFrbrDateVerkuendung()).isEqualTo(LocalDate.of(1964, 8, 5));
+    assertThat(result.getFrbrDateVerkuendung()).isEqualTo("1964-08-05");
     assertThat(result.getFna()).isEqualTo("754-28-1");
   }
 
@@ -156,6 +155,6 @@ class NormResponseMapperTest {
         .isEqualTo("Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts");
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
     assertThat(result.getFrbrNumber()).isEqualTo("413");
-    assertThat(result.getFrbrDateVerkuendung()).isEqualTo(LocalDate.of(2023, 12, 29));
+    assertThat(result.getFrbrDateVerkuendung()).isEqualTo("2023-12-29");
   }
 }

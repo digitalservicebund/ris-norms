@@ -5,7 +5,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ProprietaryResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.service.ProprietaryService;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
@@ -23,10 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
     "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/proprietary")
 public class ProprietaryController {
 
-  private final ProprietaryService proprietaryService;
+  private final LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
 
-  public ProprietaryController(ProprietaryService proprietaryService) {
-    this.proprietaryService = proprietaryService;
+  public ProprietaryController(LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase) {
+    this.loadProprietaryFromNormUseCase = loadProprietaryFromNormUseCase;
   }
 
   /**
@@ -43,7 +42,7 @@ public class ProprietaryController {
 
     try {
       var proprietary =
-          proprietaryService.loadProprietaryFromNorm(
+          loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
 
       return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary));
@@ -71,10 +70,10 @@ public class ProprietaryController {
 
     try {
       var proprietary =
-          proprietaryService.loadProprietaryFromNorm(
+          loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
 
-      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary));
+      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
 
     } catch (NormNotFoundException e) {
       return ResponseEntity.notFound().build();

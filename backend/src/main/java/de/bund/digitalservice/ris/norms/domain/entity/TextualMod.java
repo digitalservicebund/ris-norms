@@ -113,6 +113,6 @@ public class TextualMod {
     getOrCreateForceNode()
         .getAttributes()
         .getNamedItem("period")
-        .setNodeValue(new Href.Builder().setEId(periodEid).buildRelative().value());
+        .setNodeValue(new Href.Builder().setEId(periodEid).buildInternalReference().value());
   }
 }

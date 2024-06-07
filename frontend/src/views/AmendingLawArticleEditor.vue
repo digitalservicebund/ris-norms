@@ -115,7 +115,6 @@ async function handleGeneratePreview() {
       refersTo: selectedMod.value,
       timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
       destinationHref: destinationHref.value,
-      oldText: quotedTextFirst.value,
       newText: quotedTextSecond.value,
     })
 
@@ -157,7 +156,6 @@ async function handleSave() {
     refersTo: selectedMod.value,
     timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
     destinationHref: destinationHref.value,
-    oldText: quotedTextFirst.value,
     newText: quotedTextSecond.value,
   }
 

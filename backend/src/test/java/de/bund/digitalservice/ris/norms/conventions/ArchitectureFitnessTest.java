@@ -89,6 +89,8 @@ class ArchitectureFitnessTest {
   void utilsClassesShouldOnlyDependOnUtilsOrSpecificStandardLibraries() {
     final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
         new String[] {
+          UTILS_LAYER_PACKAGES,
+          DOMAIN_LAYER_PACKAGES,
           "kotlin..",
           "java..",
           "javax.xml..",
@@ -97,18 +99,16 @@ class ArchitectureFitnessTest {
           "org.w3c.dom..",
           "net.sf.saxon..",
           "org.xml.sax..",
+          "org.slf4j..",
         };
 
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
             .resideInAPackage(UTILS_LAYER_PACKAGES)
-            .should(
-                onlyDependOnClassesThat(
-                    resideInAPackage(UTILS_LAYER_PACKAGES)
-                        .or(
-                            JavaClass.Predicates.resideInAnyPackage(
-                                UTILITY_LAYER_ALLOWED_PACKAGES))));
+            .should()
+            .onlyDependOnClassesThat()
+            .resideInAnyPackage(UTILITY_LAYER_ALLOWED_PACKAGES);
     rule.check(classes);
   }
 

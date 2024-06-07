@@ -305,6 +305,8 @@ paths:
                 $ref: '#/components/schemas/LegalDocML.de'
         '400':
           description: Bad Request
+        '422':
+          description: Unprocessable Content
         '404':
           description: Norm not found
 
@@ -531,8 +533,6 @@ components:
         timeBoundaryEid:
           type: string
         destinationHref:
-          type: string
-        oldText:
           type: string
         newText:
           type: string

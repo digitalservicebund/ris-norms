@@ -64,7 +64,6 @@ watch(newDate, async (newDateValue) => {
         :id="`date-${index}`"
         v-model="dateEntry.date"
         size="small"
-        data-testid="date-input-field"
       />
       <RisTextButton
         :icon="DeleteOutlineIcon"
@@ -73,7 +72,6 @@ watch(newDate, async (newDateValue) => {
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
         :disabled="isDeleteDisabled"
-        :data-testid="`delete-button-${index}`"
         icon-only
         @click.prevent="removeDateInput(index)"
       />
@@ -86,12 +84,7 @@ watch(newDate, async (newDateValue) => {
       class="col-span-2 grid grid-cols-subgrid items-center"
     >
       <span>Zeitgrenze hinzufügen</span>
-      <RisDateInput
-        id="new-date"
-        v-model="newDate"
-        size="small"
-        data-testid="new-date-input-field"
-      />
+      <RisDateInput id="new-date" v-model="newDate" size="small" />
     </label>
   </form>
 </template>

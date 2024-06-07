@@ -6,10 +6,12 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,7 +44,15 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
-    norm.getPassiveModifications().stream()
+    try {
+      norm.getMeta();
+    } catch (final MandatoryNodeNotFound e) {
+      return norm;
+    }
+    norm.getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getPassiveModifications().stream())
+        .orElse(Stream.empty())
         .filter(
             (TextualMod passiveModification) -> {
               final var startDate =
@@ -79,13 +89,14 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
             })
         .forEach(
             mod -> {
-              if (mod.getTargetEid().isEmpty()
+              if (mod.getTargetHref().isEmpty()
+                  || mod.getTargetHref().get().getEId().isEmpty()
                   || mod.getOldText().isEmpty()
                   || mod.getNewText().isEmpty()) {
                 return;
               }
 
-              final var targetEid = mod.getTargetEid().get();
+              final var targetEid = mod.getTargetHref().get().getEId().get();
               final var targetNode =
                   NodeParser.getNodeFromExpression(
                       String.format("//*[@eId='%s']", targetEid), norm.getDocument());
