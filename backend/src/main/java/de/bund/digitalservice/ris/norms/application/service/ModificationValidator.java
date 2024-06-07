@@ -136,7 +136,12 @@ public class ModificationValidator {
 
   private void validateAffectedDocumentEli(
       String amendingNormEli, Article article, String articleEId) {
-    getArticleAffectedDocumentEli(amendingNormEli, article, articleEId);
+    if (article.getAffectedDocumentEli().isEmpty()) {
+      throw new XmlContentException(
+          "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
+              .formatted(amendingNormEli, articleEId),
+          null);
+    }
   }
 
   /**
@@ -231,7 +236,13 @@ public class ModificationValidator {
    * @param mod the amending law mod to be checked
    */
   private void validateQuotedTextSubstitutions(String amendingNormEli, Mod mod) {
-    String modEId = getModEId(mod);
+    String modEId =
+        mod.getEid()
+            .orElseThrow(
+                () ->
+                    new XmlContentException(
+                        "Eid in mod %s is empty".formatted(XmlMapper.toString(mod.getNode())),
+                        null));
     Href articleModTargetHref = getModTargetHref(amendingNormEli, mod, modEId);
     Norm amendingLaw =
         loadNormPort
@@ -240,10 +251,14 @@ public class ModificationValidator {
     Norm zf0Norm = loadZf0Service.loadZf0(amendingLaw, mod);
 
     String articleModTargetHrefEId =
-        getHrefEId(
-            amendingNormEli,
-            articleModTargetHref,
-            "The eId in mod href is empty in article with eId %s".formatted(modEId));
+        articleModTargetHref
+            .getEId()
+            .orElseThrow(
+                () ->
+                    new XmlContentException(
+                        "For norm with Eli (%s): The eId in mod href is empty in article with eId %s"
+                            .formatted(amendingNormEli, modEId),
+                        null));
 
     Node zf0TargetNode =
         getTargetNodeFromZF0Norm(
@@ -253,11 +268,16 @@ public class ModificationValidator {
     String targetParagraphOldText = StringUtils.normalizeSpace(zf0TargetNode.getTextContent());
 
     String amendingNormOldText =
-        getModOldText(
-            amendingNormEli,
-            mod,
-            "quotedText[1] (the old, to be replaced, text) is empty in article mod with eId %s"
-                .formatted(modEId));
+        mod.getOldText()
+            .orElseThrow(
+                () ->
+                    new XmlContentException(
+                        "For norm with Eli (%s): quotedText[1] (the old, to be replaced, text) is empty in article mod with eId %s"
+                            .formatted(amendingNormEli, modEId),
+                        null));
+
+    // normalizeSpace removes double spaces and new lines
+    amendingNormOldText = StringUtils.normalizeSpace(amendingNormOldText);
 
     validateQuotedText(
         amendingNormEli,
@@ -276,7 +296,12 @@ public class ModificationValidator {
       Href href,
       String message) {
 
-    CharacterRange characterRange = getHrefCharacterRange(eli, href, message);
+    CharacterRange characterRange =
+        href.getCharacterRange()
+            .orElseThrow(
+                () ->
+                    new XmlContentException(
+                        "For norm with Eli (%s): %s".formatted(eli, message), null));
 
     int modStart = getCharacterRangeStart(characterRange, modEId);
     int modEnd = getCharacterRangeEnd(characterRange, modEId);
@@ -356,15 +381,6 @@ public class ModificationValidator {
                     null));
   }
 
-  private void getArticleAffectedDocumentEli(String eli, Article a, String articleEId) {
-    if (a.getAffectedDocumentEli().isEmpty()) {
-      throw new XmlContentException(
-          "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
-              .formatted(eli, articleEId),
-          null);
-    }
-  }
-
   private String getArticleEId(String eli, Article a) {
     return a.getEid()
         .orElseThrow(
@@ -381,24 +397,6 @@ public class ModificationValidator {
               .formatted(eli, articleEId),
           null);
     } else return modsInArticle;
-  }
-
-  private String getModEId(Mod mod) {
-    return mod.getEid()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "Eid in mod %s is empty".formatted(XmlMapper.toString(mod.getNode())), null));
-  }
-
-  private String getModOldText(String eli, Mod mod, String message) {
-    String oldText =
-        mod.getOldText()
-            .orElseThrow(
-                () ->
-                    new XmlContentException(
-                        "For norm with Eli (%s): %s".formatted(eli, message), null));
-    return StringUtils.normalizeSpace(oldText);
   }
 
   private Href getModTargetHref(String eli, Mod m, String modEId) {
@@ -418,22 +416,6 @@ public class ModificationValidator {
             () ->
                 new XmlContentException(
                     "For norm with Eli (%s): TextualMod eId empty.".formatted(eli), null));
-  }
-
-  private CharacterRange getHrefCharacterRange(String eli, Href h, String message) {
-    return h.getCharacterRange()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): %s".formatted(eli, message), null));
-  }
-
-  private String getHrefEId(String eli, Href h, String message) {
-    return h.getEId()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): %s".formatted(eli, message), null));
   }
 
   private int getCharacterRangeStart(CharacterRange cr, String modEId) {
