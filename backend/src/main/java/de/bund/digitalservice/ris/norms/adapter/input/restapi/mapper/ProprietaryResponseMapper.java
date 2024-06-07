@@ -36,6 +36,9 @@ public class ProprietaryResponseMapper {
       Proprietary proprietary, final LocalDate date) {
     return ProprietaryResponseSchema.builder()
         .fna(new ProprietaryResponseSchema.Fna(proprietary.getFna(date).orElse(null)))
+        .art(new ProprietaryResponseSchema.Art(null))
+        .typ(new ProprietaryResponseSchema.Typ(null))
+        .subtyp(new ProprietaryResponseSchema.Subtyp(null))
         .build();
   }
 }

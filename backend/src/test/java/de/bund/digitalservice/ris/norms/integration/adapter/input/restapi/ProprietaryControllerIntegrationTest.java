@@ -123,7 +123,13 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           // then
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").doesNotExist());
+          .andExpect(jsonPath("fna.value").doesNotExist())
+          .andExpect(jsonPath("art").exists())
+          .andExpect(jsonPath("art.value").doesNotExist())
+          .andExpect(jsonPath("typ").exists())
+          .andExpect(jsonPath("typ.value").doesNotExist())
+          .andExpect(jsonPath("subtyp").exists())
+          .andExpect(jsonPath("subtyp.value").doesNotExist());
     }
 
     @Test
