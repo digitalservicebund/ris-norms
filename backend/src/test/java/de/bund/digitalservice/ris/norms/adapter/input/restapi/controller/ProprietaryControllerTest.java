@@ -177,7 +177,7 @@ class ProprietaryControllerTest {
     }
 
     @Test
-    void returnsEmptyValuesIfProprietaryDoesNotExist() throws Exception {
+    void returnsEmptyValuesIfProprietaryDoesNotExistAtAll() throws Exception {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var atDateString = "2024-06-03";
@@ -195,7 +195,13 @@ class ProprietaryControllerTest {
           // then
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").doesNotExist());
+          .andExpect(jsonPath("fna.value").doesNotExist())
+          .andExpect(jsonPath("art").exists())
+          .andExpect(jsonPath("art.value").doesNotExist())
+          .andExpect(jsonPath("typ").exists())
+          .andExpect(jsonPath("typ.value").doesNotExist())
+          .andExpect(jsonPath("subtyp").exists())
+          .andExpect(jsonPath("subtyp.value").doesNotExist());
     }
   }
 }
