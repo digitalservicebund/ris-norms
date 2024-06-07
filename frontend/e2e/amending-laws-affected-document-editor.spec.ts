@@ -325,7 +325,7 @@ test.describe("metadata reading", () => {
     page,
   }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/regelungstext-1/edit/1934-10-16",
     )
 
     const editorRegion = page.getByRole("region", {
@@ -336,15 +336,36 @@ test.describe("metadata reading", () => {
       response.url().includes("/proprietary/"),
     )
 
-    const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
-    dropdown.selectOption("2023-12-30")
+    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
+      "754-28-2",
+    )
 
+    const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
+    dropdown.selectOption("2009-10-08")
     await page.waitForResponse((response) =>
-      response.url().endsWith("/proprietary/2023-12-30"),
+      response.url().endsWith("/proprietary/2009-10-08"),
     )
 
     await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
-      "210-5",
+      "111-11-1",
+    )
+
+    dropdown.selectOption("2023-01-01")
+    await page.waitForResponse((response) =>
+      response.url().endsWith("/proprietary/2023-01-01"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
+      "222-22-2",
+    )
+
+    dropdown.selectOption("2023-12-24")
+    await page.waitForResponse((response) =>
+      response.url().endsWith("/proprietary/2023-12-24"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
+      "333-33-3",
     )
   })
 
