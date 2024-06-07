@@ -23,7 +23,7 @@ public class MetadatenDs {
    * Retrieves the FNA value at a specific date. It looks for the one value where @start attribute
    * is equals or before the given date and the @end attribute is equals or after the given date.
    *
-   * @param date - the specific date
+   * @param date the specific date
    * @return the optional fna value
    */
   public Optional<String> getFnaAt(final LocalDate date) {
@@ -86,5 +86,62 @@ public class MetadatenDs {
    */
   public List<Fna> getFnaNodes() {
     return NodeParser.getNodesFromExpression("./fna", node).stream().map(Fna::new).toList();
+  }
+
+  /**
+   * TODO: Description
+   *
+   * @param date the specific date
+   * @return ??? or empty if it doesn't exist.
+   */
+  public Optional<String> getArtAt(final LocalDate date) {
+    return NodeParser.getNodesFromExpression("./art", node).stream()
+        .map(Fna::new)
+        .filter(
+            f -> f.getStart().map(start -> date.isEqual(start) || date.isAfter(start)).orElse(true))
+        .filter(f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
+        .findFirst()
+        .map(Fna::getValue);
+  }
+
+  /**
+   * TODO: Description
+   *
+   * @param date the specific date
+   * @return ??? or empty if it doesn't exist.
+   */
+  public Optional<String> getTypAt(final LocalDate date) {
+    return NodeParser.getNodesFromExpression("./typ", node).stream()
+        .map(Fna::new)
+        .filter(
+            f -> f.getStart().map(start -> date.isEqual(start) || date.isAfter(start)).orElse(true))
+        .filter(f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
+        .findFirst()
+        .map(Fna::getValue);
+  }
+
+  /**
+   * TODO: Description
+   *
+   * @return ??? or empty if it doesn't exist.
+   */
+  public Optional<String> getSubtyp() {
+    return NodeParser.getValueFromExpression("./subtyp", node);
+  }
+
+  /**
+   * TODO: Description
+   *
+   * @param date the specific date
+   * @return ??? or empty if it doesn't exist.
+   */
+  public Optional<String> getSubtypAt(final LocalDate date) {
+    return NodeParser.getNodesFromExpression("./subtyp", node).stream()
+        .map(Fna::new)
+        .filter(
+            f -> f.getStart().map(start -> date.isEqual(start) || date.isAfter(start)).orElse(true))
+        .filter(f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
+        .findFirst()
+        .map(Fna::getValue);
   }
 }

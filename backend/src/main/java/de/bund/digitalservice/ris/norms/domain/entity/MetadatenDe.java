@@ -22,4 +22,22 @@ public class MetadatenDe {
   public Optional<String> getFna() {
     return NodeParser.getValueFromExpression("./fna", node);
   }
+
+  /**
+   * TODO: Description
+   *
+   * @return ??? or empty if it doesn't exist.
+   */
+  public Optional<String> getArt() {
+    return NodeParser.getValueFromExpression("./art", node);
+  }
+
+  /**
+   * TODO: Description
+   *
+   * @return ??? or empty if it doesn't exist.
+   */
+  public Optional<String> getTyp() {
+    return NodeParser.getValueFromExpression("./typ", node);
+  }
 }
