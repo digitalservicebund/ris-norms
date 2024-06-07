@@ -1,6 +1,6 @@
-import { test, expect, Page } from "@playwright/test"
+import { Page, expect, test } from "@playwright/test"
 
-test.describe("Navigate to temporal data page", () => {
+test.describe("navigate to temporal data page", () => {
   test("navigate to temporal data page for an amending law using side navigation", async ({
     page,
   }) => {
@@ -20,7 +20,7 @@ test.describe("Navigate to temporal data page", () => {
   })
 })
 
-test.describe("management of Temporal Data for an amending law", () => {
+test.describe("manage temporal data for an amending law", () => {
   async function setupInitialData(page: Page) {
     await page.request.put(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
@@ -36,63 +36,89 @@ test.describe("management of Temporal Data for an amending law", () => {
     )
   }
 
-  test(`adding, editing, deleting and saving time boundaries`, async ({
-    page,
-  }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
-    )
-    await setupInitialData(page)
+  test.describe("adding, editing, deleting and saving time boundaries", () => {
+    let sharedPage: Page
 
-    // check contents of entry into force article html rendering
-    await expect(page.getByText("Artikel 3Inkrafttreten")).toBeVisible()
+    test.beforeAll(async ({ browser }) => {
+      sharedPage = await browser.newPage()
+      await setupInitialData(sharedPage)
+      await sharedPage.goto(
+        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
+      )
+    })
 
-    const saveButton = page.locator("text=Speichern")
-    let dateInputs = page.locator('[data-testid="date-input-field"]')
+    test.afterAll(async () => {
+      await setupInitialData(sharedPage)
+    })
 
-    await expect(dateInputs).toHaveCount(1)
-    await expect(dateInputs).toHaveValue("16.03.2017")
+    test("renders the HTML preview", async () => {
+      await expect(sharedPage.getByText("Artikel 3Inkrafttreten")).toBeVisible()
 
-    //   add new time boundaries
-    const newDateInput = page.locator('[data-testid="new-date-input-field"]')
-    await newDateInput.fill("01.05.2023")
-    await newDateInput.fill("02.06.2023")
-    await saveButton.click()
+      const dateInputs = sharedPage.locator('[data-testid="date-input-field"]')
 
-    await page.reload()
-    await expect(dateInputs).toHaveCount(3)
+      await expect(dateInputs).toHaveCount(1)
+      await expect(dateInputs).toHaveValue("16.03.2017")
+    })
 
-    // validate each date input contains the correct data
-    await expect(dateInputs.nth(0)).toHaveValue("16.03.2017")
-    await expect(dateInputs.nth(1)).toHaveValue("01.05.2023")
-    await expect(dateInputs.nth(2)).toHaveValue("02.06.2023")
+    test("adds new time boundaries", async () => {
+      const saveButton = sharedPage.locator("text=Speichern")
+      const dateInputs = sharedPage.locator('[data-testid="date-input-field"]')
 
-    //edit time boundaries
-    const dateInputToEdit = page
-      .locator('[data-testid="date-input-field"]')
-      .nth(1)
-    await dateInputToEdit.fill("03.06.2023")
-    await saveButton.click()
-    await page.reload()
+      // add new time boundaries
+      const newDateInput = sharedPage.locator(
+        '[data-testid="new-date-input-field"]',
+      )
+      await newDateInput.fill("01.05.2023")
+      await newDateInput.fill("02.06.2023")
 
-    await expect(dateInputs.nth(1)).toHaveValue("03.06.2023")
-
-    //   delete time boundaries
-    for (let i = 2; i > 0; i--) {
-      const deleteButton = page.locator(`[data-testid="delete-button-${i}"]`)
-      await deleteButton.click()
       await saveButton.click()
-      await page.reload()
-      dateInputs = page.locator('[data-testid="date-input-field"]')
-      await expect(dateInputs).toHaveCount(i)
-    }
+      await sharedPage.reload()
 
-    const deleteButton = page.locator(`[data-testid="delete-button-0"]`)
+      await expect(dateInputs).toHaveCount(3)
 
-    await expect(deleteButton).toBeDisabled()
-    await expect(dateInputs).toHaveValue("16.03.2017")
+      // validate each date input contains the correct data
+      await expect(dateInputs.nth(0)).toHaveValue("16.03.2017")
+      await expect(dateInputs.nth(1)).toHaveValue("01.05.2023")
+      await expect(dateInputs.nth(2)).toHaveValue("02.06.2023")
+    })
 
-    await setupInitialData(page)
+    test("edits time boundaries", async () => {
+      const saveButton = sharedPage.locator("text=Speichern")
+      const dateInputs = sharedPage.locator('[data-testid="date-input-field"]')
+
+      const dateInputToEdit = sharedPage
+        .locator('[data-testid="date-input-field"]')
+        .nth(1)
+      await dateInputToEdit.fill("03.06.2023")
+
+      await saveButton.click()
+      await sharedPage.reload()
+
+      await expect(dateInputs.nth(1)).toHaveValue("03.06.2023")
+    })
+
+    test("deletes time boundaries", async () => {
+      const saveButton = sharedPage.locator("text=Speichern")
+      const dateInputs = sharedPage.locator('[data-testid="date-input-field"]')
+
+      // delete time boundaries
+      for (let i = 2; i > 0; i--) {
+        const deleteButton = sharedPage.locator(
+          `[data-testid="delete-button-${i}"]`,
+        )
+        await deleteButton.click()
+
+        await saveButton.click()
+        await sharedPage.reload()
+
+        await expect(dateInputs).toHaveCount(i)
+      }
+
+      const deleteButton = sharedPage.locator(`[data-testid="delete-button-0"]`)
+
+      await expect(deleteButton).toBeDisabled()
+      await expect(dateInputs).toHaveValue("16.03.2017")
+    })
   })
 
   test(`at most 100 time boundaries can be added`, async ({ page }) => {
@@ -105,26 +131,20 @@ test.describe("management of Temporal Data for an amending law", () => {
     await expect(page.getByText("Artikel 3Inkrafttreten")).toBeVisible()
 
     await expect(
-      page.getByRole("textbox", {
-        name: "Zeitgrenze 1",
-      }),
+      page.getByRole("textbox", { name: "Zeitgrenze 1" }),
     ).toBeVisible()
 
     // add new time boundaries 2 to 100
     for (let i = 2; i <= 100; i++) {
       await page
-        .getByRole("textbox", {
-          name: "Zeitgrenze hinzufügen",
-        })
+        .getByRole("textbox", { name: "Zeitgrenze hinzufügen" })
         .fill("01.05.2023")
     }
 
     await expect(page.getByRole("textbox")).toHaveCount(100)
 
     await expect(
-      page.getByRole("textbox", {
-        name: "Zeitgrenze 100",
-      }),
+      page.getByRole("textbox", { name: "Zeitgrenze 100" }),
     ).toBeVisible()
 
     await expect(
