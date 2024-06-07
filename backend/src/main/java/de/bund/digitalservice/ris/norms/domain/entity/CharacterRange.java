@@ -39,7 +39,6 @@ public record CharacterRange(String characterRange) {
    * @return Optional Integer of the start value
    */
   public Integer getEnd() {
-    isValidCharacterRange();
     String[] splitCharacterRange = characterRange().split("-");
     return Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_END]);
   }

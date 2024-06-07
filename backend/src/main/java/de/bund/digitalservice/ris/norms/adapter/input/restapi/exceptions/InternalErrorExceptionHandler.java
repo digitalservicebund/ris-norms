@@ -81,6 +81,7 @@ public class InternalErrorExceptionHandler {
 
     log.error("Unable to process contained instructions: {}", e.getMessage(), e);
 
+    // Todo body is not set
     return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
   }
 }
