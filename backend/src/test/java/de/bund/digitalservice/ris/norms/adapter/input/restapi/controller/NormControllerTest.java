@@ -395,7 +395,7 @@ class NormControllerTest {
                   .content(
                       "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}"))
           .andExpect(status().isUnprocessableEntity())
-          .andExpect(content().string("Error message: error exception"));
+          .andExpect(content().string("error exception"));
     }
   }
 }
