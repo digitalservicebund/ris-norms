@@ -72,6 +72,7 @@ test.describe("manage temporal data for an amending law", () => {
       await newDateInput.fill("02.06.2023")
 
       await saveButton.click()
+      await sharedPage.waitForResponse(/\/timeBoundaries$/)
       await sharedPage.reload()
 
       await expect(dateInputs).toHaveCount(3)
@@ -92,6 +93,7 @@ test.describe("manage temporal data for an amending law", () => {
       await dateInputToEdit.fill("03.06.2023")
 
       await saveButton.click()
+      await sharedPage.waitForResponse(/\/timeBoundaries$/)
       await sharedPage.reload()
 
       await expect(dateInputs.nth(1)).toHaveValue("03.06.2023")
@@ -109,6 +111,7 @@ test.describe("manage temporal data for an amending law", () => {
         await deleteButton.click()
 
         await saveButton.click()
+        await sharedPage.waitForResponse(/\/timeBoundaries$/)
         await sharedPage.reload()
 
         await expect(dateInputs).toHaveCount(i)
