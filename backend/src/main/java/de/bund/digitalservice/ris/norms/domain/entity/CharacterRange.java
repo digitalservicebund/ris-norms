@@ -65,7 +65,7 @@ public record CharacterRange(String characterRange) {
      * @param start the start of the character range
      * @return the builder instance
      */
-    public Builder withStart(int start) {
+    public Builder start(int start) {
       this.start = start;
       return this;
     }
@@ -76,7 +76,7 @@ public record CharacterRange(String characterRange) {
      * @param end the end of the character range
      * @return the builder instance
      */
-    public Builder withEnd(int end) {
+    public Builder end(int end) {
       this.end = end;
       return this;
     }

@@ -148,7 +148,7 @@ class HrefTest {
           new Href.Builder()
               .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
               .setEId("para-20_abs-1")
-              .setCharacterRange(new CharacterRange.Builder().withStart(100).withEnd(126).build())
+              .setCharacterRange(new CharacterRange.Builder().start(100).end(126).build())
               .setFileExtension("xml")
               .buildInternalReference();
 
@@ -177,7 +177,7 @@ class HrefTest {
           new Href.Builder()
               .setEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
               .setEId("para-20_abs-1")
-              .setCharacterRange(new CharacterRange.Builder().withStart(100).withEnd(126).build())
+              .setCharacterRange(new CharacterRange.Builder().start(100).end(126).build())
               .setFileExtension("xml")
               .buildAbsolute();
 

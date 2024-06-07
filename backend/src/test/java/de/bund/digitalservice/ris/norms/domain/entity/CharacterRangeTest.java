@@ -93,7 +93,7 @@ public class CharacterRangeTest {
     @Test
     void itShouldCreateCharacterCount() {
       // given // when
-      var characterRange = new CharacterRange.Builder().withStart(100).withEnd(200).build();
+      var characterRange = new CharacterRange.Builder().start(100).end(200).build();
 
       // then
       assertThat(characterRange).hasToString("100-200");
