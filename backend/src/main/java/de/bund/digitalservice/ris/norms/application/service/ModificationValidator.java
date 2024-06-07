@@ -120,7 +120,7 @@ public class ModificationValidator {
   }
 
   private void validateAknModEli(String amendingNormEli, Article article, String articleEId) {
-    List<Mod> mods = getArticleMod(amendingNormEli, article, articleEId);
+    List<Mod> mods = getArticleMods(amendingNormEli, article, articleEId);
     mods.forEach(mod -> getModTargetHref(amendingNormEli, mod, articleEId));
     mods.forEach(
         mod -> {
@@ -373,7 +373,7 @@ public class ModificationValidator {
                     "For norm with Eli (%s): Article eId is empty.".formatted(eli), null));
   }
 
-  private List<Mod> getArticleMod(String eli, Article a, String articleEId) {
+  private List<Mod> getArticleMods(String eli, Article a, String articleEId) {
     List<Mod> modsInArticle = a.getMods();
     if (modsInArticle.isEmpty()) {
       throw new XmlContentException(
