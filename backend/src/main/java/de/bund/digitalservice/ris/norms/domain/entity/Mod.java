@@ -94,9 +94,8 @@ public class Mod {
   }
 
   /**
-   * Checks weather a quotedText was used for a substitution
-   *
-   * <p>If not it is probably a quotedStructure
+   * Checks weather a quotedText was used for a substitution. If not it is probably a
+   * quotedStructure.
    *
    * @return is it using a quotedText structure
    */
