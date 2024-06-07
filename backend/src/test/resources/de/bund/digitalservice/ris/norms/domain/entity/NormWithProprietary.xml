@@ -112,10 +112,11 @@
                              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                              source="attributsemantik-noch-undefiniert">
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
-                    <meta:typ>gesetz</meta:typ>
+                    <meta:art>rechtsetzungsdokument</meta:art>
+                    <meta:typ>sonstige-bekanntmachung</meta:typ>
+                    <meta:subtyp>Bekanntmachung vor einer Neufassung</meta:subtyp>
                     <meta:form>stammform</meta:form>
                     <meta:fassung>verkuendungsfassung</meta:fassung>
-                    <meta:art>rechtsetzungsdokument</meta:art>
                     <meta:initiant>nicht-vorhanden</meta:initiant>
                     <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
                     <!-- Die vorliegende Angabe von meta:fna stellt einen beliebigen, exemplarischen Fundstellennachweis dar und besitzt keine fachliche Korrektheit. -->
@@ -124,10 +125,28 @@
                     <meta:gesta>nicht-vorhanden</meta:gesta>
                     <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
                     <meta:federfuehrung>
-                        <meta:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                        <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
+                        <meta:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für
+                            Heimat
+                        </meta:federfuehrend>
+                        <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz
+                        </meta:federfuehrend>
                     </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
+                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                    <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+                    <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
+                    <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                    <!-- the values and combinations of art, typ and subtyp below are invalid in real LDML.de-->
+                    <meta:art start="1990-01-01" end="1994-12-31">art update 1</meta:art>
+                    <meta:art start="1995-01-01" end="2000-12-31">art update 2</meta:art>
+                    <meta:art start="2001-01-01">art update 3</meta:art>
+                    <meta:typ start="1990-01-01" end="1994-12-31">typ update 1</meta:typ>
+                    <meta:typ start="1995-01-01" end="2000-12-31">typ update 2</meta:typ>
+                    <meta:typ start="2001-01-01">typ update 3</meta:typ>
+                    <meta:subtyp start="1990-01-01" end="1994-12-31">subtyp update 1</meta:subtyp>
+                    <meta:subtyp start="1995-01-01" end="2000-12-31">subtyp update 2</meta:subtyp>
+                    <meta:subtyp start="2001-01-01">subtyp update 3</meta:subtyp>
+                </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>
     </akn:act>
