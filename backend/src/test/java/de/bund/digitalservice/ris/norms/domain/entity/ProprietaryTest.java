@@ -92,4 +92,33 @@ class ProprietaryTest {
       assertThat(proprietary.getFna(LocalDate.parse("2024-01-01"))).contains("333-33-3");
     }
   }
+
+  @Nested
+  class ArtTypSubtyp {
+    @Test
+    void returnsEmptyOptionalIfMissing() {
+      // given
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                <akn:proprietary eId="meta-1_proprietary-1"
+                                                 GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                 source="attributsemantik-noch-undefiniert">
+                                    <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                                        <meta:fna>111-11-1</meta:fna>
+                                    </meta:legalDocML.de_metadaten>
+                                </akn:proprietary>
+                                """))
+              .build();
+      // when // then
+      assertThat(proprietary.getArt()).isEmpty();
+      assertThat(proprietary.getTyp()).isEmpty();
+      assertThat(proprietary.getSubtyp()).isEmpty();
+    }
+
+    @Test
+    void returnsArtTypSubtyp() {}
+  }
 }
