@@ -1,6 +1,6 @@
 import { useApiFetch } from "@/services/apiService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { computed, MaybeRefOrGetter, unref } from "vue"
+import { computed, MaybeRefOrGetter, toValue } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
 
 /**
@@ -13,11 +13,10 @@ import { UseFetchReturn } from "@vueuse/core"
 export function useGetEntryIntoForceHtml(
   eli: MaybeRefOrGetter<string | undefined>,
 ): UseFetchReturn<string> {
-  const url = computed(() => {
-    const eliValue = unref(eli)
-    return `/norms/${eliValue}/articles?refersTo=geltungszeitregel`
-  })
-  return useApiFetch(url.value, {
+  const url = computed(
+    () => `/norms/${toValue(eli)}/articles?refersTo=geltungszeitregel`,
+  )
+  return useApiFetch(url, {
     headers: {
       Accept: "text/html",
     },
@@ -29,44 +28,28 @@ export function useGetEntryIntoForceHtml(
  *
  * @returns An Array of TimeBoundary objects each with a date, eventRefEid and temporalGroupEid strings
  */
-
 export function useGetTemporalDataTimeBoundaries(
   eli: MaybeRefOrGetter<string | undefined>,
 ): UseFetchReturn<TemporalDataResponse[]> {
-  const url = computed(() => {
-    const eliValue = unref(eli)
-    return `/norms/${eliValue}/timeBoundaries`
-  })
-  return useApiFetch(url.value, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-  }).json()
+  const url = computed(() => `/norms/${toValue(eli)}/timeBoundaries`)
+  return useApiFetch(url).json().get()
 }
 
 /**
- * Updates the temporal data time boundaries related to an amending law by ELI.
+ * Updates the temporal data time boundaries related to an amending law by ELI. Will only fetch on execute.
  *
  * @param eli ELI of the amending law
  * @param dates Array of TimeBoundary objects
  * @returns An updated Array of TimeBoundary objects each with a date, eventRefEid, and temporalgroupEid strings
- * */
-
+ */
 export function useUpdateTemporalDataTimeBoundaries(
   eli: MaybeRefOrGetter<string | undefined>,
-  dates: TemporalDataResponse[],
+  dates: MaybeRefOrGetter<TemporalDataResponse[]>,
 ): UseFetchReturn<TemporalDataResponse[]> {
-  const url = computed(() => {
-    const eliValue = unref(eli)
-    return `/norms/${eliValue}/timeBoundaries`
+  const url = computed(() => `/norms/${toValue(eli)}/timeBoundaries`)
+  return useApiFetch<TemporalDataResponse[]>(url, {
+    immediate: false,
   })
-  return useApiFetch(url.value, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(dates),
-  }).json()
+    .json()
+    .put(computed(() => JSON.stringify(toValue(dates))))
 }

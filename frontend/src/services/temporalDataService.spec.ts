@@ -8,35 +8,33 @@ describe("TemporalDataService", () => {
 
   describe("useGetEntryIntoForceHtml", () => {
     it("fetches the HTML content of an amending law's entry into force section", async () => {
-      const mockHtml = "<div></div>"
-
-      const useFetchMock = {
-        text: vi.fn().mockReturnValue(mockHtml),
-      }
-
-      vi.doMock("@/services/apiService", () => ({
-        useApiFetch: vi.fn().mockReturnValue(useFetchMock),
-      }))
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValue(new Response("<div></div>"))
 
       const { useGetEntryIntoForceHtml } = await import(
         "@/services/temporalDataService"
       )
 
-      const result = useGetEntryIntoForceHtml(
+      const { data, isFinished } = useGetEntryIntoForceHtml(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
-      expect(result).toBe(mockHtml)
 
-      const { useApiFetch } = await import("@/services/apiService")
-      expect(useApiFetch).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
-        {
-          headers: {
+      await vi.waitUntil(() => isFinished.value)
+
+      expect(data.value).toBe("<div></div>")
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
+        expect.objectContaining({
+          headers: expect.objectContaining({
             Accept: "text/html",
-          },
-        },
+          }),
+        }),
       )
     })
+
+    // TODO: (Malte Laukötter, 2024-06-07) check that eli change works
   })
 
   describe("useGetTemporalDataTimeBoundaries", () => {
@@ -46,58 +44,62 @@ describe("TemporalDataService", () => {
         { date: "2023-12-01T00:00:00Z", eventRefEid: "event-2" },
       ]
 
-      const useFetchMock = {
-        json: vi.fn().mockReturnValue(expectedDates),
-      }
-
-      vi.doMock("@/services/apiService", () => ({
-        useApiFetch: vi.fn().mockReturnValue(useFetchMock),
-      }))
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValue(new Response(JSON.stringify(expectedDates)))
 
       const { useGetTemporalDataTimeBoundaries } = await import(
         "@/services/temporalDataService"
       )
 
-      const result = useGetTemporalDataTimeBoundaries(
+      const { isFinished, data } = useGetTemporalDataTimeBoundaries(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
       )
-      expect(result).toEqual(expectedDates)
+      await vi.waitUntil(() => isFinished.value)
+
+      expect(data.value).toEqual(expectedDates)
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/timeBoundaries",
+        expect.anything(),
+      )
     })
+
+    // TODO: (Malte Laukötter, 2024-06-07) check that eli change works
   })
 
   describe("useUpdateTemporalDataTimeBoundaries", () => {
     it("updates the temporal data time boundaries", async () => {
-      const eli = "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
       const dates = [
         { date: "2024-04-01T00:00:00Z", eventRefEid: "event-3" },
         { date: "2024-05-15T00:00:00Z", eventRefEid: "event-4" },
       ]
-      const expectedResponse = dates
 
-      const useFetchMock = {
-        json: vi.fn().mockReturnValue(expectedResponse),
-      }
-
-      vi.doMock("@/services/apiService", () => ({
-        useApiFetch: vi.fn().mockReturnValue(useFetchMock),
-      }))
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValue(new Response(JSON.stringify(dates)))
 
       const { useUpdateTemporalDataTimeBoundaries } = await import(
         "@/services/temporalDataService"
       )
 
-      const result = useUpdateTemporalDataTimeBoundaries(eli, dates)
-      expect(result).toEqual(expectedResponse)
+      const { data, execute } = useUpdateTemporalDataTimeBoundaries(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        dates,
+      )
+      await execute()
 
-      const { useApiFetch } = await import("@/services/apiService")
-      expect(useApiFetch).toHaveBeenCalledWith(`/norms/${eli}/timeBoundaries`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(dates),
-      })
+      expect(data.value).toEqual(dates)
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/timeBoundaries",
+        expect.objectContaining({
+          method: "PUT",
+          body: JSON.stringify(dates),
+        }),
+      )
     })
+
+    // TODO: (Malte Laukötter, 2024-06-07) check that eli or dates change does not auto refetch
   })
 })

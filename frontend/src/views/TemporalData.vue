@@ -12,7 +12,7 @@ import { useGetEntryIntoForceHtml } from "@/services/temporalDataService"
 const eli = useEliPathParameter()
 const {
   timeBoundaries: dates,
-  updateTemporalData,
+  saveTemporalData,
   saveError,
 } = useTemporalData(eli)
 console.log(saveError)
@@ -26,7 +26,7 @@ const {
 async function handleSave() {
   try {
     saveError.value = null
-    await updateTemporalData(dates.value)
+    await saveTemporalData(dates.value)
   } catch (error) {
     console.error("Error saving dates:", error)
   }

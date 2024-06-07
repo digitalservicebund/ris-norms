@@ -3,7 +3,7 @@ import {
   useUpdateTemporalDataTimeBoundaries,
 } from "@/services/temporalDataService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { MaybeRefOrGetter, Ref, ref, toValue, watch } from "vue"
+import { computed, MaybeRefOrGetter, ref, Ref } from "vue"
 
 /**
  * Returns the temporal data from the API and offers methods for interacting
@@ -11,7 +11,6 @@ import { MaybeRefOrGetter, Ref, ref, toValue, watch } from "vue"
  *
  * @param eli ELI of the norm that we want to get the temporal data from
  */
-
 export function useTemporalData(eli: MaybeRefOrGetter<string | undefined>): {
   /** Temporal data contained in that norm. */
   timeBoundaries: Ref<TemporalDataResponse[]>
@@ -22,6 +21,12 @@ export function useTemporalData(eli: MaybeRefOrGetter<string | undefined>): {
   /** State of Fetching */
   isFetching: Ref<boolean>
 
+  /** Is a request to save temporal data currently running? */
+  isSaving: Ref<boolean>
+
+  /** Is a request to save temporal data finished? */
+  isSavingFinished: Ref<boolean>
+
   /** Error that occurred while saving. */
   saveError: Ref<Error | null>
 
@@ -30,58 +35,35 @@ export function useTemporalData(eli: MaybeRefOrGetter<string | undefined>): {
    *
    * @param newDates The updated data.
    */
-  updateTemporalData: (newDates: TemporalDataResponse[]) => Promise<void>
+  saveTemporalData: (newDates: TemporalDataResponse[]) => Promise<void>
 } {
-  const timeBoundaries = ref<TemporalDataResponse[]>([])
-  const saveError = ref<Error | null>(null)
-
   const {
     data: fetchedData,
     error: fetchError,
     isFetching,
-  } = useGetTemporalDataTimeBoundaries(toValue(eli))
+  } = useGetTemporalDataTimeBoundaries(eli)
 
-  watch(
-    () => fetchedData.value,
-    (newData) => {
-      if (newData) {
-        timeBoundaries.value = newData
-      }
-    },
-    { immediate: true },
-  )
+  const newTemporalData = ref<TemporalDataResponse[]>([])
+  const {
+    data: savedData,
+    error: saveError,
+    execute: executeSave,
+    isFetching: isSaving,
+    isFinished: isSavingFinished,
+  } = useUpdateTemporalDataTimeBoundaries(eli, newTemporalData)
 
-  const updateTemporalData = async (newDates: TemporalDataResponse[]) => {
-    const { data: savedData, error: responseSaveError } =
-      useUpdateTemporalDataTimeBoundaries(toValue(eli), newDates)
-    console.log(savedData)
-
-    watch(
-      () => savedData.value,
-      (newData) => {
-        if (newData) {
-          timeBoundaries.value = newData
-        }
-      },
-      { immediate: true },
-    )
-
-    watch(
-      () => responseSaveError.value,
-      (newData) => {
-        if (newData) {
-          saveError.value = newData
-        }
-      },
-      { immediate: true },
-    )
+  const saveTemporalData = async (newDates: TemporalDataResponse[]) => {
+    newTemporalData.value = newDates
+    await executeSave()
   }
 
   return {
-    timeBoundaries,
+    timeBoundaries: computed(() => savedData.value ?? fetchedData.value ?? []),
     fetchError,
-    isFetching,
     saveError,
-    updateTemporalData,
+    isSaving,
+    isSavingFinished,
+    isFetching,
+    saveTemporalData,
   }
 }

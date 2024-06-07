@@ -30,7 +30,7 @@ export const apiFetch = ofetch.create({
 
 /**
  * Fetch data from the backend api using useFetch
-//  */
+ */
 export const useApiFetch = createFetch({
   baseUrl: "/api/v1",
   options: {
