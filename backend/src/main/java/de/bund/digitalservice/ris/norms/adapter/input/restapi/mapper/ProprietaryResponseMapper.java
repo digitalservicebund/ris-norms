@@ -20,7 +20,7 @@ public class ProprietaryResponseMapper {
    */
   public static ProprietaryResponseSchema fromProprietary(Proprietary proprietary) {
     return ProprietaryResponseSchema.builder()
-        .fna(new ProprietaryResponseSchema.Fna(proprietary.getFna().orElse(null)))
+        .fna(new ProprietaryResponseSchema.SimpleValue(proprietary.getFna().orElse(null)))
         .build();
   }
 
@@ -35,10 +35,10 @@ public class ProprietaryResponseMapper {
   public static ProprietaryResponseSchema fromProprietary(
       Proprietary proprietary, final LocalDate date) {
     return ProprietaryResponseSchema.builder()
-        .fna(new ProprietaryResponseSchema.Fna(proprietary.getFna(date).orElse(null)))
-        .art(new ProprietaryResponseSchema.Art(null))
-        .typ(new ProprietaryResponseSchema.Typ(null))
-        .subtyp(new ProprietaryResponseSchema.Subtyp(null))
+        .fna(new ProprietaryResponseSchema.SimpleValue(proprietary.getFna(date).orElse(null)))
+        .art(new ProprietaryResponseSchema.SimpleValue(null))
+        .typ(new ProprietaryResponseSchema.SimpleValue(null))
+        .subtyp(new ProprietaryResponseSchema.SimpleValue(null))
         .build();
   }
 }
