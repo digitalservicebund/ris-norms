@@ -1,10 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +33,7 @@ public class CharacterRangeTest {
     @Test
     void itShouldReturnStart() {
       // given //when
-      var characterRangeStart = new CharacterRange("100-200").getStart("someArticleId");
+      var characterRangeStart = new CharacterRange("100-200").getStart();
 
       // then
       assertThat(characterRangeStart).isEqualTo(100);
@@ -45,13 +42,10 @@ public class CharacterRangeTest {
     @Test
     void itShouldThrowAnError() {
       // given //when
-      Throwable thrown = catchThrowable(() -> new CharacterRange("-200").getEnd("someArticleId"));
+      boolean isValid = new CharacterRange("-200").isValidCharacterRange();
 
       // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "The range (-200) given at mod with eId someArticleId is not valid");
+      assertThat(isValid).isFalse();
     }
   }
 
@@ -60,7 +54,7 @@ public class CharacterRangeTest {
     @Test
     void itShouldReturnEnd() {
       // given //when
-      var characterRangeEnd = new CharacterRange("100-200").getEnd("someArticleId");
+      var characterRangeEnd = new CharacterRange("100-200").getEnd();
 
       // then
       assertThat(characterRangeEnd).isEqualTo(200);
@@ -69,33 +63,28 @@ public class CharacterRangeTest {
     @Test
     void itShouldThrowAnError() {
       // given //when
-      Throwable thrown = catchThrowable(() -> new CharacterRange("100-").getEnd("someArticleId"));
+      boolean isValid = new CharacterRange("100-").isValidCharacterRange();
 
       // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining(
-              "The range (100-) given at mod with eId someArticleId is not valid");
+      assertThat(isValid).isFalse();
     }
 
     @Test
     void itShouldDetectInvalidRangesOne() {
       // given //when
-      Throwable thrown = catchThrowable(() -> new CharacterRange("1").getEnd("someArticleId"));
+      boolean isValid = new CharacterRange("1").isValidCharacterRange();
 
       // then
-      assertThat(thrown)
-          .isInstanceOf(XmlContentException.class)
-          .hasMessageContaining("The range (1) given at mod with eId someArticleId is not valid");
+      assertThat(isValid).isFalse();
     }
 
     @Test
     void itShouldDetectValidRangeLargerNumbers() {
-      // given
-      var characterRange = new CharacterRange("2500-3000");
+      // given //when
+      boolean isValid = new CharacterRange("2500-3000").isValidCharacterRange();
 
-      // when // then
-      Assertions.assertDoesNotThrow(() -> characterRange.getEnd("someEid"));
+      // then
+      assertThat(isValid).isTrue();
     }
   }
 

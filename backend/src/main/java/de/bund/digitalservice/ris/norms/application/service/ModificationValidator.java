@@ -437,10 +437,20 @@ public class ModificationValidator {
   }
 
   private int getCharacterRangeStart(CharacterRange cr, String modEId) {
-    return cr.getStart(modEId);
+    boolean characterRangeValid = cr.isValidCharacterRange();
+    if (!characterRangeValid) {
+      throw new XmlContentException(
+          "The range (%s) given at mod with eId %s is not valid".formatted(cr, modEId), null);
+    }
+    return cr.getStart();
   }
 
   private int getCharacterRangeEnd(CharacterRange cr, String modEId) {
-    return cr.getEnd(modEId);
+    boolean characterRangeValid = cr.isValidCharacterRange();
+    if (!characterRangeValid) {
+      throw new XmlContentException(
+          "The range (%s) given at mod with eId %s is not valid".formatted(cr, modEId), null);
+    }
+    return cr.getEnd();
   }
 }

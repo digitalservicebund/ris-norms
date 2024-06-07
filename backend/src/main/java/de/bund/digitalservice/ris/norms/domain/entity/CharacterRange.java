@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.regex.Pattern;
 
 /**
@@ -29,8 +28,7 @@ public record CharacterRange(String characterRange) {
    *
    * @return Optional Integer of the start value
    */
-  public Integer getStart(String modEid) {
-    isValidCharacterRange(modEid);
+  public Integer getStart() {
     String[] splitCharacterRange = characterRange().split("-");
     return Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_START]);
   }
@@ -40,22 +38,21 @@ public record CharacterRange(String characterRange) {
    *
    * @return Optional Integer of the start value
    */
-  public Integer getEnd(String modEid) {
-    isValidCharacterRange(modEid);
+  public Integer getEnd() {
+    isValidCharacterRange();
     String[] splitCharacterRange = characterRange().split("-");
     return Integer.valueOf(splitCharacterRange[ABSOLUTE_POSITION_OF_END]);
   }
 
-  private void isValidCharacterRange(String modEId) {
+  /**
+   * Checks weather the character range is valid
+   *
+   * @return {@link boolean} if the character range is valid
+   */
+  public boolean isValidCharacterRange() {
     final String regex = "^\\d+-\\d+$";
     final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-
-    // TODO discuss: I don't see throwing the Exception here
-    if (!pattern.matcher(characterRange()).matches())
-      throw new XmlContentException(
-          "The range (%s) given at mod with eId %s is not valid"
-              .formatted(characterRange(), modEId),
-          null);
+    return pattern.matcher(characterRange()).matches();
   }
 
   /** Builder for creating a new {@link CharacterRange}. */
