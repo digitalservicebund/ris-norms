@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateActiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 /** Service for updating norms. */
 @Service
-public class UpdateNormService implements UpdatePassiveModificationsUseCase {
+public class UpdateNormService
+    implements UpdatePassiveModificationsUseCase, UpdateActiveModificationsUseCase {
   /**
    * Remove passive modifications form the zf0Norm, who originate from the zf0Norm with the given
    * source.
@@ -49,7 +51,7 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
   }
 
   @Override
-  public Norm updatePassiveModifications(Query query) {
+  public Norm updatePassiveModifications(UpdatePassiveModificationsUseCase.Query query) {
     var norm = query.zf0Norm();
 
     // clean up existing passive modifications stemming from the amending zf0Norm
@@ -127,6 +129,25 @@ public class UpdateNormService implements UpdatePassiveModificationsUseCase {
                         .map(eId -> new Href.Builder().setEId(eId).buildInternalReference().value())
                         .orElse(null)));
 
+    return norm;
+  }
+
+  @Override
+  public Norm updateActiveModifications(UpdateActiveModificationsUseCase.Query query) {
+    var norm = query.amendingNorm();
+    norm.getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getActiveModifications().stream())
+        .orElse(Stream.empty())
+        .filter(
+            activeMod ->
+                activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eId())))
+        .findFirst()
+        .ifPresent(
+            activeMod -> {
+              activeMod.setDestinationHref(query.destinationHref());
+              activeMod.setForcePeriodEid(query.timeBoundaryEid());
+            });
     return norm;
   }
 }
