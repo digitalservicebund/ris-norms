@@ -204,7 +204,6 @@ public class NormController {
                 updateModRequestSchema.getRefersTo(),
                 updateModRequestSchema.getTimeBoundaryEid(),
                 updateModRequestSchema.getDestinationHref(),
-                updateModRequestSchema.getOldText(),
                 updateModRequestSchema.getNewText(),
                 dryRun))
         .map(UpdateModResponseMapper::fromResult)
