@@ -149,7 +149,6 @@ public class NormService
             amendingNorm, query.eid(), query.destinationHref(), query.timeBoundaryEid()));
 
     // Edit mod in body
-    // TODO move the following modification to the UpdateNormService
     amendingNorm.getMods().stream()
         .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
         .findFirst()
