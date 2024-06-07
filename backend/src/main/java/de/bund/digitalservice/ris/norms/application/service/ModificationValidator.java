@@ -121,7 +121,6 @@ public class ModificationValidator {
 
   private void validateAknModEli(String amendingNormEli, Article article, String articleEId) {
     List<Mod> mods = getArticleMods(amendingNormEli, article, articleEId);
-    mods.forEach(mod -> getModTargetHref(amendingNormEli, mod, articleEId));
     mods.forEach(
         mod -> {
           Optional<String> eli = getModTargetHref(amendingNormEli, mod, articleEId).getEli();
