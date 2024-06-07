@@ -183,5 +183,11 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").exists())
           .andExpect(jsonPath("subtyp.value").value("subtyp update 3"));
     }
+
+    // TODO: missing cases:
+    // before all changes
+    // at date of 1st change
+    // at date of 2nd change
+    // after third update
   }
 }
