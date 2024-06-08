@@ -1,14 +1,22 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.service.ProprietaryService;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +36,8 @@ class ProprietaryControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
-  @MockBean private ProprietaryService proprietaryService;
+  @MockBean private LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
+  @MockBean private UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase;
 
   @Nested
   class getProprietary {
@@ -37,7 +46,7 @@ class ProprietaryControllerTest {
     void returns404IfNormNotFound() throws Exception {
       // given
       var eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      when(proprietaryService.loadProprietaryFromNorm(
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenThrow(new NormNotFoundException(eli));
       // when
@@ -54,7 +63,7 @@ class ProprietaryControllerTest {
       var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
-      when(proprietaryService.loadProprietaryFromNorm(
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
 
@@ -73,7 +82,7 @@ class ProprietaryControllerTest {
       var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
-      when(proprietaryService.loadProprietaryFromNorm(
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
 
@@ -93,7 +102,7 @@ class ProprietaryControllerTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("SimpleNorm.xml");
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
-      when(proprietaryService.loadProprietaryFromNorm(
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
 
@@ -115,7 +124,7 @@ class ProprietaryControllerTest {
       // given
       var eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var atDateString = "2024-06-03";
-      when(proprietaryService.loadProprietaryFromNorm(
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenThrow(new NormNotFoundException(eli));
       // when
@@ -134,7 +143,7 @@ class ProprietaryControllerTest {
       var atDateString = "2024-06-03";
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
-      when(proprietaryService.loadProprietaryFromNorm(
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
 
@@ -155,7 +164,7 @@ class ProprietaryControllerTest {
       var atDateString = "2024-06-03";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
-      when(proprietaryService.loadProprietaryFromNorm(
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
 
@@ -177,7 +186,7 @@ class ProprietaryControllerTest {
       var atDateString = "2024-06-03";
       var normWithInvalidProprietary = NormFixtures.loadFromDisk("SimpleNorm.xml");
       var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
-      when(proprietaryService.loadProprietaryFromNorm(
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli)))
           .thenReturn(proprietary);
 
@@ -190,6 +199,81 @@ class ProprietaryControllerTest {
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").exists())
           .andExpect(jsonPath("fna.value").doesNotExist());
+    }
+  }
+
+  @Nested
+  class updateProprietaryAtDate {
+
+    @Test
+    void updatesProprietarySuccess() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final LocalDate date = LocalDate.parse("1990-01-01");
+
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                            <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+
+                                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                                    <meta:fna start="1990-01-01" end="1994-12-31">new-fna</meta:fna>
+                                                                </meta:legalDocML.de_metadaten_ds>
+                                                            </akn:proprietary>
+                                                            """))
+              .build();
+
+      when(updateProprietaryFromNormUseCase.updateProprietaryFromNorm(any()))
+          .thenReturn(proprietary);
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"fna\": {\"value\": \"new-fna\"},\"art\": null,\"typ\": null,\"subtyp\": null}"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("fna").exists())
+          .andExpect(jsonPath("fna.value").value("new-fna"))
+          .andExpect(jsonPath("art").exists())
+          .andExpect(jsonPath("art.value").doesNotExist())
+          .andExpect(jsonPath("typ").exists())
+          .andExpect(jsonPath("typ.value").doesNotExist())
+          .andExpect(jsonPath("subtyp").exists())
+          .andExpect(jsonPath("subtyp.value").doesNotExist());
+
+      verify(updateProprietaryFromNormUseCase, times(1))
+          .updateProprietaryFromNorm(
+              argThat(
+                  query ->
+                      query
+                              .eli()
+                              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+                          && query.atDate().isEqual(date)
+                          && query.fna().equals("new-fna")));
+    }
+
+    @Test
+    void itReturnsNotFoundIfNormIsNotFound() throws Exception {
+      // given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      when(updateProprietaryFromNormUseCase.updateProprietaryFromNorm(any()))
+          .thenThrow(new NormNotFoundException("Norm not found"));
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{date}", eli, "1990-01-01")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"fna\": {\"value\": \"new-fna\"},\"art\": null,\"typ\": null,\"subtyp\": null}"))
+          .andExpect(status().isNotFound());
     }
   }
 }

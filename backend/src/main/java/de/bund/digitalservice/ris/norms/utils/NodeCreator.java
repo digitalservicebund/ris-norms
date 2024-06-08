@@ -14,8 +14,22 @@ public class NodeCreator {
   private NodeCreator() {}
 
   /**
-   * Create a new element with both an eId and a GUID. The new element still needs to appended to
-   * the parent node.
+   * Create a new element without an eId and a GUID. The new element is appended to the given parent
+   * node.
+   *
+   * @param tagName the tag name of the new element
+   * @param parentNode the element of which this newly created element should be a child
+   * @return the newly created element
+   */
+  public static Element createElement(final String tagName, final Node parentNode) {
+    var newElement = parentNode.getOwnerDocument().createElement(tagName);
+    parentNode.appendChild(newElement);
+    return newElement;
+  }
+
+  /**
+   * Create a new element with both an eId and a GUID. The new element is appended to the given
+   * parent node.
    *
    * @param tagName the tag name of the new element
    * @param eidPartName the name for the last part of the eid for the new element

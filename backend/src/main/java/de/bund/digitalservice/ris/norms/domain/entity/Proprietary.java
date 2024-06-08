@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -36,6 +37,23 @@ public class Proprietary {
   public Optional<MetadatenDs> getMetadatenDs() {
     return NodeParser.getNodeFromExpression("./legalDocML.de_metadaten_ds", node)
         .map(MetadatenDs::new);
+  }
+
+  /**
+   * Retrieves the {@link MetadatenDs} instance from the {@link Proprietary}.
+   *
+   * @return the retrieved {@link MetadatenDs} or the newly created one.
+   */
+  public MetadatenDs getOrCreateMetadatenDs() {
+    return NodeParser.getNodeFromExpression("./legalDocML.de_metadaten_ds", node)
+        .map(MetadatenDs::new)
+        .orElseGet(
+            () -> {
+              final var newElement =
+                  NodeCreator.createElement("meta:legalDocML.de_metadaten_ds", node);
+              newElement.setAttribute("xmlns:meta", "http://DS.Metadaten.LegalDocML.de/1.6/");
+              return new MetadatenDs(newElement);
+            });
   }
 
   /**

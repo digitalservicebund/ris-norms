@@ -406,6 +406,13 @@ paths:
           schema:
             type: string
             format: date
+      requestBody:
+        description: The proprietary request schema containing several metadata.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
       responses:
         '200':
           description: Metadata was updated successfully. Returns the updated metadata.

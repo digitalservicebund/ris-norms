@@ -92,4 +92,68 @@ class ProprietaryTest {
       assertThat(proprietary.getFna(LocalDate.parse("2024-01-01"))).contains("333-33-3");
     }
   }
+
+  @Nested
+  class MetadatenDs {
+    @Test
+    void returnsNode() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                            <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+
+                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                    <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+                                                    <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
+                                                    <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                                                </meta:legalDocML.de_metadaten_ds>
+                                            </akn:proprietary>
+                                            """))
+              .build();
+
+      assertThat(proprietary.getMetadatenDs()).isNotEmpty();
+    }
+
+    @Test
+    void returnsNodeEmpty() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                            <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                                            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                                                <meta:typ>gesetz</meta:typ>
+                                                <meta:fna>000-00-0</meta:fna>
+                                                <meta:fassung>verkuendungsfassung</meta:fassung>
+                                            </meta:legalDocML.de_metadaten>
+                                            </akn:proprietary>
+                                            """))
+              .build();
+
+      assertThat(proprietary.getMetadatenDs()).isEmpty();
+    }
+
+    @Test
+    void returnsNodeByCreatingIt() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                            <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                                            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+                                                <meta:typ>gesetz</meta:typ>
+                                                <meta:fna>000-00-0</meta:fna>
+                                                <meta:fassung>verkuendungsfassung</meta:fassung>
+                                            </meta:legalDocML.de_metadaten>
+                                            </akn:proprietary>
+                                            """))
+              .build();
+
+      assertThat(proprietary.getOrCreateMetadatenDs()).isNotNull();
+    }
+  }
 }

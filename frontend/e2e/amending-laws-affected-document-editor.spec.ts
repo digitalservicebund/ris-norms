@@ -417,8 +417,7 @@ test.describe("metadata editing", () => {
     })
   })
 
-  // Skipped while waiting for the backend functionality to be implemented
-  test.skip("persists changes across page loads after saving successfully", async ({
+  test("persists changes across page loads after saving successfully", async ({
     page,
   }) => {
     await page.goto(

@@ -1,12 +1,16 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
+import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -174,6 +178,74 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").exists())
           .andExpect(jsonPath("fna.value").value("754-28-1"));
+    }
+  }
+
+  @Nested
+  class updateProprietary {
+    @Test
+    void return404IfNormNotFound() throws Exception {
+      // given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      // when
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{date}", eli, "1990-01-01")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"fna\": {\"value\": \"new-fna\"},\"art\": null,\"typ\": null,\"subtyp\": null}"))
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updatesFna() throws Exception {
+      // given
+      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final LocalDate date = LocalDate.parse("1990-01-01");
+      final Norm norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"fna\": {\"value\": \"new-fna\"},\"art\": null,\"typ\": null,\"subtyp\": null}"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("fna").exists())
+          .andExpect(jsonPath("fna.value").value("new-fna"));
+
+      final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
+
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
+    }
+
+    @Test
+    void createsProprietaryAndMetadatenDsAndUpdatesFna() throws Exception {
+      // given
+      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final LocalDate date = LocalDate.parse("1990-01-01");
+      final Norm norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"fna\": {\"value\": \"new-fna\"},\"art\": null,\"typ\": null,\"subtyp\": null}"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("fna").exists())
+          .andExpect(jsonPath("fna.value").value("new-fna"));
+
+      final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
+
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
     }
   }
 }

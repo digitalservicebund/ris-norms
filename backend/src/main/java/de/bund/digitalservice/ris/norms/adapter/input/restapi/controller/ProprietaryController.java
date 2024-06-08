@@ -3,8 +3,9 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ProprietaryResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
@@ -13,6 +14,8 @@ import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,9 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProprietaryController {
 
   private final LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
+  private final UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase;
 
-  public ProprietaryController(LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase) {
+  public ProprietaryController(
+      LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase,
+      UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase) {
     this.loadProprietaryFromNormUseCase = loadProprietaryFromNormUseCase;
+    this.updateProprietaryFromNormUseCase = updateProprietaryFromNormUseCase;
   }
 
   /**
@@ -38,7 +45,7 @@ public class ProprietaryController {
    * @return {@link Proprietary} of the Norm identified by the ElI
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ProprietaryResponseSchema> getProprietary(final Eli eli) {
+  public ResponseEntity<ProprietarySchema> getProprietary(final Eli eli) {
 
     try {
       var proprietary =
@@ -53,25 +60,54 @@ public class ProprietaryController {
   }
 
   /**
-   * Return proprietary data of {@link Norm} at a given date
+   * Return specific metadata of the {@link Norm} at a given date within the {@link Proprietary}
+   * node.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
-   * @param eli Eli of the request
-   * @param atDate Date at which to return the proprietary
-   * @return {@link Proprietary} of the Norm identified by the ElI
+   * @param eli Eli of the ZF0 version of the target law where the metadata are saved.
+   * @param atDate the time boundary at which to return the metadata
+   * @return the specific metadata returned in the form of {@link ProprietarySchema}
    */
   @GetMapping(
       path = "/{atDate}",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ProprietaryResponseSchema> getProprietaryAtDate(
+  public ResponseEntity<ProprietarySchema> getProprietaryAtDate(
       final Eli eli, @PathVariable final LocalDate atDate) {
 
     try {
       var proprietary =
           loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
+
+      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
+
+    } catch (NormNotFoundException e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  /**
+   * Updates specific metadata of the {@link Norm} at a given date that are present within the
+   * {@link Proprietary} node.
+   *
+   * @param eli Eli of the ZF0 version of the target law where the metadata are saved.
+   * @param atDate the time boundary at which to update the metadata.
+   * @param proprietarySchema the request schema with the new metadata values.
+   * @return the specific metadata updated in the form of {@link ProprietarySchema}
+   */
+  @PutMapping(
+      path = "/{atDate}",
+      consumes = {APPLICATION_JSON_VALUE},
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<ProprietarySchema> updateProprietaryAtDate(
+      final Eli eli,
+      @PathVariable final LocalDate atDate,
+      @RequestBody ProprietarySchema proprietarySchema) {
+
+    try {
+      var proprietary =
+          updateProprietaryFromNormUseCase.updateProprietaryFromNorm(
+              new UpdateProprietaryFromNormUseCase.Query(
+                  eli.getValue(), atDate, proprietarySchema.getFna().getValue()));
 
       return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
 
