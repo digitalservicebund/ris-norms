@@ -1,5 +1,7 @@
-import { apiFetch } from "@/services/apiService"
+import { useApiFetch } from "@/services/apiService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import { computed, MaybeRefOrGetter, toValue } from "vue"
+import { UseFetchReturn } from "@vueuse/core"
 
 /**
  * Fetches the HTML content of an amending law's entry into force section by ELI.
@@ -8,13 +10,23 @@ import { TemporalDataResponse } from "@/types/temporalDataResponse"
  * @param eli ELI of the amending law
  * @returns HTML string
  */
-export async function getEntryIntoForceHtml(eli: string): Promise<string> {
-  return await apiFetch(`/norms/${eli}/articles`, {
-    headers: {
-      Accept: "text/html",
+export function useGetEntryIntoForceHtml(
+  eli: MaybeRefOrGetter<string | undefined>,
+): UseFetchReturn<string> {
+  const url = computed(
+    () => `/norms/${toValue(eli)}/articles?refersTo=geltungszeitregel`,
+  )
+  return useApiFetch(
+    url,
+    {
+      headers: {
+        Accept: "text/html",
+      },
     },
-    query: { refersTo: "geltungszeitregel" },
-  })
+    {
+      refetch: true,
+    },
+  ).text()
 }
 
 /**
@@ -22,40 +34,32 @@ export async function getEntryIntoForceHtml(eli: string): Promise<string> {
  *
  * @returns An Array of TimeBoundary objects each with a date, eventRefEid and temporalGroupEid strings
  */
-export async function getTemporalDataTimeBoundaries(
-  eli: string,
-): Promise<TemporalDataResponse[]> {
-  return await apiFetch<TemporalDataResponse[]>(
-    `/norms/${eli}/timeBoundaries`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    },
-  )
+export function useGetTemporalDataTimeBoundaries(
+  eli: MaybeRefOrGetter<string | undefined>,
+): UseFetchReturn<TemporalDataResponse[]> {
+  const url = computed(() => `/norms/${toValue(eli)}/timeBoundaries`)
+  return useApiFetch(url, {
+    refetch: true,
+  })
+    .json()
+    .get()
 }
 
 /**
- * Updates the temporal data time boundaries related to an amending law by ELI.
+ * Updates the temporal data time boundaries related to an amending law by ELI. Will only fetch on execute.
  *
  * @param eli ELI of the amending law
  * @param dates Array of TimeBoundary objects
  * @returns An updated Array of TimeBoundary objects each with a date, eventRefEid, and temporalgroupEid strings
- * */
-export async function updateTemporalDataTimeBoundaries(
-  eli: string,
-  dates: TemporalDataResponse[],
-): Promise<TemporalDataResponse[]> {
-  return await apiFetch<TemporalDataResponse[]>(
-    `/norms/${eli}/timeBoundaries`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(dates),
-    },
-  )
+ */
+export function useUpdateTemporalDataTimeBoundaries(
+  eli: MaybeRefOrGetter<string | undefined>,
+  dates: MaybeRefOrGetter<TemporalDataResponse[]>,
+): UseFetchReturn<TemporalDataResponse[]> {
+  const url = computed(() => `/norms/${toValue(eli)}/timeBoundaries`)
+  return useApiFetch<TemporalDataResponse[]>(url, {
+    immediate: false,
+  })
+    .json()
+    .put(computed(() => JSON.stringify(toValue(dates))))
 }
