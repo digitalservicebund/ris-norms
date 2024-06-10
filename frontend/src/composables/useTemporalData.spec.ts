@@ -67,6 +67,4 @@ describe("useTemporalData", () => {
 
     expect(timeBoundaries.value).toEqual(newDates)
   })
-
-  // TODO: (Malte Laukötter, 2024-06-07) check what happens if the eli changes
 })

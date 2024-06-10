@@ -3,7 +3,7 @@ import {
   useUpdateTemporalDataTimeBoundaries,
 } from "@/services/temporalDataService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { computed, MaybeRefOrGetter, ref, Ref } from "vue"
+import { MaybeRefOrGetter, ref, Ref, watch } from "vue"
 
 /**
  * Returns the temporal data from the API and offers methods for interacting
@@ -37,11 +37,17 @@ export function useTemporalData(eli: MaybeRefOrGetter<string | undefined>): {
    */
   saveTemporalData: (newDates: TemporalDataResponse[]) => Promise<void>
 } {
+  const timeBoundaries = ref<TemporalDataResponse[]>([])
+
   const {
     data: fetchedData,
     error: fetchError,
     isFetching,
   } = useGetTemporalDataTimeBoundaries(eli)
+
+  watch(fetchedData, () => {
+    timeBoundaries.value = fetchedData.value ?? []
+  })
 
   const newTemporalData = ref<TemporalDataResponse[]>([])
   const {
@@ -52,13 +58,17 @@ export function useTemporalData(eli: MaybeRefOrGetter<string | undefined>): {
     isFinished: isSavingFinished,
   } = useUpdateTemporalDataTimeBoundaries(eli, newTemporalData)
 
+  watch(savedData, () => {
+    timeBoundaries.value = savedData.value ?? []
+  })
+
   const saveTemporalData = async (newDates: TemporalDataResponse[]) => {
     newTemporalData.value = newDates
     await executeSave()
   }
 
   return {
-    timeBoundaries: computed(() => savedData.value ?? fetchedData.value ?? []),
+    timeBoundaries,
     fetchError,
     saveError,
     isSaving,

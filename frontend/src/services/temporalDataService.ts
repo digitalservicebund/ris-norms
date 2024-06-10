@@ -16,11 +16,17 @@ export function useGetEntryIntoForceHtml(
   const url = computed(
     () => `/norms/${toValue(eli)}/articles?refersTo=geltungszeitregel`,
   )
-  return useApiFetch(url, {
-    headers: {
-      Accept: "text/html",
+  return useApiFetch(
+    url,
+    {
+      headers: {
+        Accept: "text/html",
+      },
     },
-  }).text()
+    {
+      refetch: true,
+    },
+  ).text()
 }
 
 /**
@@ -32,7 +38,11 @@ export function useGetTemporalDataTimeBoundaries(
   eli: MaybeRefOrGetter<string | undefined>,
 ): UseFetchReturn<TemporalDataResponse[]> {
   const url = computed(() => `/norms/${toValue(eli)}/timeBoundaries`)
-  return useApiFetch(url).json().get()
+  return useApiFetch(url, {
+    refetch: true,
+  })
+    .json()
+    .get()
 }
 
 /**
