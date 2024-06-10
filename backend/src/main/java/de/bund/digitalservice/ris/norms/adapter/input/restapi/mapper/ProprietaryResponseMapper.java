@@ -12,16 +12,6 @@ public class ProprietaryResponseMapper {
   private ProprietaryResponseMapper() {}
 
   /**
-   * Creates a {@link ProprietarySchema} from {@link Proprietary} metadata.
-   *
-   * @param proprietary Input data to be converted
-   * @return Converted data
-   */
-  public static ProprietarySchema fromProprietary(Proprietary proprietary) {
-    return ProprietarySchema.builder().fna(proprietary.getFna().orElse(null)).build();
-  }
-
-  /**
    * Creates a {@link ProprietarySchema} from {@link Proprietary} metadata but getting the metadata
    * at specific dates.
    *

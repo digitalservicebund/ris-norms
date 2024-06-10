@@ -29,70 +29,6 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class getProprietary {
-
-    @Test
-    void return404IfNormNotFound() throws Exception {
-      // given no norm
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary")
-                  .accept(MediaType.APPLICATION_JSON_VALUE))
-          // then
-          .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void returnEmptyValuesIfNormHasNoProprietary() throws Exception {
-      // given
-      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
-
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
-          // then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").isEmpty());
-    }
-
-    @Test
-    void returnEmptyValuesForInvalidProprietary() throws Exception {
-      // given
-      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      var norm = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
-
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
-          // then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").isEmpty());
-    }
-
-    @Test
-    void returnProprietary() throws Exception {
-      // given
-      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
-
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
-          // then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").value("754-28-1"));
-    }
-  }
-
-  @Nested
   class getProprietaryAtDate {
     @Test
     void return404IfNormNotFound() throws Exception {
@@ -184,7 +120,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               put("/api/v1/norms/{eli}/proprietary/{date}", eli, "1990-01-01")
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content("{\"fna\": \"new-fna\",\"art\": null,\"typ\": null,\"subtyp\": null}"))
+                  .content(
+                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\"}"))
           .andExpect(status().isNotFound());
     }
 
@@ -202,9 +139,13 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content("{\"fna\": \"new-fna\",\"art\": null,\"typ\": null,\"subtyp\": null}"))
+                  .content(
+                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\"}"))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").value("new-fna"));
+          .andExpect(jsonPath("fna").value("new-fna"))
+          .andExpect(jsonPath("art").value("new-art"))
+          .andExpect(jsonPath("typ").value("new-typ"))
+          .andExpect(jsonPath("subtyp").value("new-subtyp"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -225,9 +166,13 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content("{\"fna\": \"new-fna\",\"art\": null,\"typ\": null,\"subtyp\": null}"))
+                  .content(
+                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\"}"))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").value("new-fna"));
+          .andExpect(jsonPath("fna").value("new-fna"))
+          .andExpect(jsonPath("art").value("new-art"))
+          .andExpect(jsonPath("typ").value("new-typ"))
+          .andExpect(jsonPath("subtyp").value("new-subtyp"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 

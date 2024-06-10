@@ -42,7 +42,11 @@ public class ProprietaryService
     final Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
 
-    metadatenDs.setFnaAt(query.atDate(), query.fna());
+    metadatenDs.setFnaAt(query.atDate(), query.metadata().fna());
+    metadatenDs.setArtAt(query.atDate(), query.metadata().art());
+    metadatenDs.setTypAt(query.atDate(), query.metadata().typ());
+    metadatenDs.setSubtypAt(query.atDate(), query.metadata().subtyp());
+
     updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 
     return proprietary;

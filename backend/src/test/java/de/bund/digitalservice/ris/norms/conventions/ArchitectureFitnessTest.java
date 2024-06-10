@@ -272,12 +272,7 @@ class ArchitectureFitnessTest {
         ArchRuleDefinition.classes()
             .that()
             .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
-            .and()
-            .doNotHaveSimpleName("Query")
-            .and()
-            .doNotHaveSimpleName("Command")
-            .and()
-            .doNotHaveSimpleName("Result")
+            .and(new IsNotRecordClass())
             .and()
             .areNotAssignableTo(Exception.class)
             .should(ArchCondition.from((haveASingleMethod)))
@@ -383,6 +378,18 @@ class ArchitectureFitnessTest {
     @Override
     public boolean test(JavaMethod javaMethod) {
       return javaMethod.getParameters().size() == this.number;
+    }
+  }
+
+  static class IsNotRecordClass extends DescribedPredicate<JavaClass> {
+
+    public IsNotRecordClass() {
+      super("class is a record");
+    }
+
+    @Override
+    public boolean test(JavaClass javaClass) {
+      return !javaClass.isRecord();
     }
   }
 }

@@ -84,7 +84,10 @@ class ProprietaryServiceTest {
       assertThatThrownBy(
               () ->
                   proprietaryService.updateProprietaryFromNorm(
-                      new UpdateProprietaryFromNormUseCase.Query(eli, LocalDate.now(), "fna")))
+                      new UpdateProprietaryFromNormUseCase.Query(
+                          eli,
+                          LocalDate.now(),
+                          new UpdateProprietaryFromNormUseCase.Metadata("fna", null, null, null))))
           // then
           .isInstanceOf(NormNotFoundException.class);
     }
@@ -101,7 +104,10 @@ class ProprietaryServiceTest {
       // when
       var result =
           proprietaryService.updateProprietaryFromNorm(
-              new UpdateProprietaryFromNormUseCase.Query(eli, date, "fna"));
+              new UpdateProprietaryFromNormUseCase.Query(
+                  eli,
+                  date,
+                  new UpdateProprietaryFromNormUseCase.Metadata("fna", null, null, null)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -120,11 +126,17 @@ class ProprietaryServiceTest {
       // when
       var result =
           proprietaryService.updateProprietaryFromNorm(
-              new UpdateProprietaryFromNormUseCase.Query(eli, date, "fna"));
+              new UpdateProprietaryFromNormUseCase.Query(
+                  eli,
+                  date,
+                  new UpdateProprietaryFromNormUseCase.Metadata("fna", "art", "typ", "subtype")));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
       assertThat(result.getFna(date)).contains("fna");
+      assertThat(result.getArt(date)).contains("art");
+      assertThat(result.getTyp(date)).contains("typ");
+      assertThat(result.getSubtyp(date)).contains("subtype");
     }
   }
 }
