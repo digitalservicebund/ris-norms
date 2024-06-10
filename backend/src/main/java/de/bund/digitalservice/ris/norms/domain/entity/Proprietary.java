@@ -81,7 +81,7 @@ public class Proprietary {
    *
    * @return Art or empty if it doesn't exist.
    */
-  public Optional<String> getArt() {
+  private Optional<String> getArt() {
     return getMetadatenDe().flatMap(MetadatenDe::getArt);
   }
 
@@ -96,12 +96,7 @@ public class Proprietary {
     return getMetadatenDs().flatMap(m -> m.getArtAt(date)).or(this::getArt);
   }
 
-  /**
-   * Returns the type ("Typ des Dokuments") of the document from the MetadatenDe block.
-   *
-   * @return Typ or empty if it doesn't exist.
-   */
-  public Optional<String> getTyp() {
+  private Optional<String> getTyp() {
     return getMetadatenDe().flatMap(MetadatenDe::getTyp);
   }
 
@@ -117,21 +112,12 @@ public class Proprietary {
   }
 
   /**
-   * Returns the subtype ("Subtyp") of the document from the MetadatenDs block.
-   *
-   * @return Subtyp or empty if it doesn't exist.
-   */
-  public Optional<String> getSubtyp() {
-    return getMetadatenDs().flatMap(MetadatenDs::getSubtyp);
-  }
-
-  /**
    * Returns the subtype ("Subtyp") of the document from the MetadatenDs block at a specific date.
    *
    * @param date the specific date of the time boundary.
    * @return Subtyp or empty if it doesn't exist.
    */
   public Optional<String> getSubtyp(final LocalDate date) {
-    return getMetadatenDs().flatMap(m -> m.getSubtypAt(date)).or(this::getSubtyp);
+    return getMetadatenDs().flatMap(m -> m.getSubtypAt(date));
   }
 }

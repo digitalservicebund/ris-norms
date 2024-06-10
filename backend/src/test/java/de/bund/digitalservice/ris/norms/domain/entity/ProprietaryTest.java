@@ -194,7 +194,8 @@ class ProprietaryTest {
                       """))
               .build();
 
-      assertThat(proprietary.getArt()).contains("rechtsetzungsdokument");
+      assertThat(proprietary.getArt(LocalDate.parse("2010-10-10")))
+          .contains("rechtsetzungsdokument");
     }
 
     @Test
@@ -218,7 +219,7 @@ class ProprietaryTest {
                       """))
               .build();
 
-      assertThat(proprietary.getArt()).isEmpty();
+      assertThat(proprietary.getArt(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
@@ -288,7 +289,8 @@ class ProprietaryTest {
                       """))
               .build();
 
-      assertThat(proprietary.getTyp()).contains("rechtsetzungsdokument");
+      assertThat(proprietary.getTyp(LocalDate.parse("2010-10-10")))
+          .contains("rechtsetzungsdokument");
     }
 
     @Test
@@ -312,7 +314,7 @@ class ProprietaryTest {
                       """))
               .build();
 
-      assertThat(proprietary.getTyp()).isEmpty();
+      assertThat(proprietary.getTyp(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
@@ -381,7 +383,8 @@ class ProprietaryTest {
                       """))
               .build();
 
-      assertThat(proprietary.getSubtyp()).contains("Anordnung des Bundespräsidenten");
+      assertThat(proprietary.getSubtyp(LocalDate.parse("2010-10-10")))
+          .contains("Anordnung des Bundespräsidenten");
     }
 
     @Test
@@ -405,7 +408,7 @@ class ProprietaryTest {
                       """))
               .build();
 
-      assertThat(proprietary.getSubtyp()).isEmpty();
+      assertThat(proprietary.getSubtyp(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
