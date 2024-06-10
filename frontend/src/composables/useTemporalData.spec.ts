@@ -1,4 +1,4 @@
-import { ref } from "vue"
+import { nextTick, ref } from "vue"
 import { describe, it, expect, vi } from "vitest"
 import * as temporalDataService from "@/services/temporalDataService"
 import { UseFetchReturn } from "@vueuse/core"
@@ -14,11 +14,12 @@ describe("useTemporalData", () => {
     ]
     const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
 
+    const dataRef = ref<TemporalDataResponse[]>()
     vi.spyOn(
       temporalDataService,
       "useGetTemporalDataTimeBoundaries",
     ).mockReturnValue({
-      data: ref(mockReleaseDates),
+      data: dataRef,
     } as UseFetchReturn<TemporalDataResponse[]>)
 
     vi.spyOn(
@@ -31,6 +32,8 @@ describe("useTemporalData", () => {
     const { useTemporalData } = await import("@/composables/useTemporalData")
 
     const { timeBoundaries } = useTemporalData(eli)
+    dataRef.value = mockReleaseDates
+    await nextTick()
 
     expect(timeBoundaries.value).toEqual(mockReleaseDates)
   })
