@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisDropdownInput, {
+  DropdownItem,
+} from "@/components/controls/RisDropdownInput.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
@@ -11,10 +14,18 @@ import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormHtml } from "@/composables/useNormHtml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
+import {
+  DocumentTypeValue,
+  DocumentTypeValues,
+  getDocumentTypeFromMetadata,
+  isMetaArtValue,
+  isMetaSubtypValue,
+  isMetaTypValue,
+} from "@/lib/proprietary"
 import { useProprietaryService } from "@/services/proprietaryService"
 import { Proprietary } from "@/types/proprietary"
 import { produce } from "immer"
-import { ref, watch } from "vue"
+import { computed, ref, watch } from "vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -68,16 +79,55 @@ watch(savedData, (newData) => {
  * Metadata form                                      *
  * -------------------------------------------------- */
 
-const [fnaId] = Array(1)
+const [documentTypeId, fnaId] = Array(2)
   .fill(null)
   .map(() => useElementId())
 
-function setFna(value: string) {
-  localData.value = produce(localData.value, (draft) => {
-    if (!draft) return
-    draft.fna = value
-  })
-}
+const fna = computed<string | undefined>({
+  get() {
+    return localData.value?.fna
+  },
+  set(value?: string) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.fna = value
+    })
+  },
+})
+
+const documentType = computed<DocumentTypeValue | undefined>({
+  get() {
+    return isMetaArtValue(localData.value?.art) &&
+      isMetaTypValue(localData.value?.typ) &&
+      isMetaSubtypValue(localData.value?.subtyp)
+      ? getDocumentTypeFromMetadata(
+          localData.value.art,
+          localData.value.typ,
+          localData.value.subtyp,
+        )
+      : undefined
+  },
+
+  set(value) {
+    const {
+      art = undefined,
+      typ = undefined,
+      subtyp = undefined,
+    } = value ? DocumentTypeValues[value] : {}
+
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.art = art
+      draft.typ = typ
+      draft.subtyp = subtyp ?? undefined
+    })
+  },
+})
+
+const documentTypeItems: DropdownItem[] = [
+  { label: "Unbekannt", value: "" },
+  ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
+]
 </script>
 
 <template>
@@ -122,14 +172,20 @@ function setFna(value: string) {
               @submit.prevent
             >
               <fieldset class="contents">
+                <legend class="sr-only">Allgemein</legend>
+
+                <label :for="documentTypeId">Dokumenttyp</label>
+                <RisDropdownInput
+                  :id="documentTypeId"
+                  v-model="documentType"
+                  :items="documentTypeItems"
+                />
+              </fieldset>
+
+              <fieldset class="contents">
                 <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
                 <label :for="fnaId">Sachgebiet FNA-Nummer</label>
-                <RisTextInput
-                  :id="fnaId"
-                  :model-value="localData?.fna"
-                  size="small"
-                  @update:model-value="setFna($event ?? '')"
-                />
+                <RisTextInput :id="fnaId" v-model="fna" size="small" />
               </fieldset>
 
               <footer class="relative col-span-2 mt-32">
