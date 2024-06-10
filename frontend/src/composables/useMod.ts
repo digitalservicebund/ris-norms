@@ -88,7 +88,12 @@ export function useMod(
   const modData = computed(() => {
     const eidValue = toValue(eid)
 
-    if (!eidValue) return null
+    if (
+      !eidValue ||
+      destinationHref.value === "" ||
+      quotedTextSecond.value === ""
+    )
+      return null
 
     return {
       refersTo: eidValue,

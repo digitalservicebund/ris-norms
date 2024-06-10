@@ -30,7 +30,6 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
 )
 const { data: article } = useArticle(identifier)
 const { data: xml } = useNormXml(eli)
-const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const currentXml = ref("")
 const articleXml = computed(() => {
   if (!eid.value) return undefined
@@ -50,7 +49,7 @@ const amendingLawActiveTab = ref("text")
 
 watch(currentXml, (newXml, oldXml) => {
   if (newXml !== oldXml) {
-    handleGeneratePreview()
+    preview()
   }
 })
 watch(xml, (xml) => {
@@ -67,17 +66,6 @@ function handlePreviewClick() {
   selectedMod.value = ""
 }
 
-async function handleGeneratePreview() {
-  if (!targetLawEli.value || !selectedMod.value) return
-
-  try {
-    await preview()
-  } catch (error) {
-    alert("Vorschau konnte nicht erstellt werden")
-    console.error(error)
-  }
-}
-
 const { timeBoundaries } = useTemporalData(eli)
 const {
   textualModType,
@@ -85,9 +73,19 @@ const {
   quotedTextFirst,
   quotedTextSecond,
   timeBoundary,
-  preview: { data: previewData, execute: preview },
-  update: { data: updateData, execute: update },
+  preview: { data: previewData, execute: preview, error: previewError },
+  update: { data: updateData, execute: update, error: saveError },
 } = useMod(eli, selectedMod, xml)
+
+watch(previewError, () => {
+  alert("Vorschau konnte nicht erstellt werden")
+  console.error(previewError.value)
+})
+
+watch(saveError, () => {
+  alert("Speichern nicht erfolgreich")
+  console.error("Error saving the mod:", saveError.value)
+})
 
 const previewCustomNorms = computed(() =>
   previewData.value ? [previewData.value.amendingNormXml] : [],
@@ -115,21 +113,8 @@ watch(updateData, () => {
 })
 
 watch(selectedMod, () => {
-  if (selectedMod.value !== "") {
-    handleGeneratePreview()
-  }
+  preview()
 })
-watch(targetLawEli, () => {
-  handleGeneratePreview()
-})
-
-async function handleSave() {
-  try {
-    await update()
-  } catch (error) {
-    console.error("Error saving the mod:", error)
-  }
-}
 </script>
 
 <template>
@@ -202,8 +187,8 @@ async function handleSave() {
             v-model:selected-time-boundary="timeBoundary"
             :quoted-text-first="quotedTextFirst"
             :time-boundaries="timeBoundaries"
-            @generate-preview="handleGeneratePreview"
-            @update-mod="handleSave"
+            @generate-preview="preview"
+            @update-mod="update"
           />
         </section>
         <section
