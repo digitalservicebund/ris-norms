@@ -7,10 +7,9 @@ import { useArticle } from "@/composables/useArticle"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, onMounted, ref, watch } from "vue"
+import { computed, ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { renderHtmlLaw } from "@/services/renderService"
 import RisModForm from "@/components/RisModForm.vue"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useMod } from "@/composables/useMod"
@@ -19,6 +18,7 @@ import RisEmptyState from "@/components/RisEmptyState.vue"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 import { useNormXml } from "@/composables/useNormXml"
+import { useNormRender } from "@/composables/useNormRender"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -32,65 +32,25 @@ const { data: article } = useArticle(identifier)
 const { data: xml } = useNormXml(eli)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const currentXml = ref("")
-const renderedHtml = ref("")
-const previewXml = ref<string>("")
-const previewHtml = ref<string>("")
-const amendingLawActiveTab = ref("text")
+const articleXml = computed(() => {
+  if (!eid.value) return undefined
 
-/**
- * Render a specific article of a norm
- * @param normXml the xml string of the norm
- * @param articleEid the eid of the article to render
- * @returns
- */
-async function renderArticle(
-  normXml: string,
-  articleEid: string,
-): Promise<string | null> {
-  const xmlDocument = xmlStringToDocument(normXml)
-  const articleNode = getNodeByEid(xmlDocument, articleEid)
+  const xmlDocument = xmlStringToDocument(currentXml.value)
+  const articleNode = getNodeByEid(xmlDocument, eid.value)
 
   if (!articleNode) {
-    return null
+    return undefined
   }
 
-  return await renderHtmlLaw(xmlNodeToString(articleNode), false)
-}
-
-async function fetchAmendingLawRenderedHtml() {
-  try {
-    if (currentXml.value && eid.value) {
-      renderedHtml.value =
-        (await renderArticle(currentXml.value, eid.value)) ?? ""
-    }
-  } catch (error) {
-    console.error("Error fetching rendered HTML content:", error)
-  }
-}
-
-const initialize = async () => {
-  await fetchAmendingLawRenderedHtml()
-}
-onMounted(() => {
-  initialize()
+  return xmlNodeToString(articleNode)
 })
+const { data: articleHtml } = useNormRender(articleXml)
+const previewXml = ref<string>("")
+const amendingLawActiveTab = ref("text")
 
-watch(xml, fetchAmendingLawRenderedHtml, { immediate: true })
 watch(currentXml, (newXml, oldXml) => {
   if (newXml !== oldXml) {
-    if (amendingLawActiveTab.value === "text") {
-      fetchAmendingLawRenderedHtml()
-    }
     handleGeneratePreview()
-  }
-})
-watch(amendingLawActiveTab, (newActiveTab, oldActiveTab) => {
-  if (
-    newActiveTab === "text" &&
-    newActiveTab !== oldActiveTab &&
-    currentXml.value
-  ) {
-    fetchAmendingLawRenderedHtml()
   }
 })
 watch(xml, (xml) => {
@@ -107,6 +67,16 @@ function handlePreviewClick() {
   selectedMod.value = ""
 }
 
+const previewCustomNorms = ref<string[]>([])
+const { data: previewHtml } = useNormRender(
+  previewXml,
+  false,
+  computed(() =>
+    timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
+  ),
+  previewCustomNorms,
+)
+
 async function handleGeneratePreview() {
   if (!targetLawEli.value || !selectedMod.value) return
 
@@ -119,12 +89,7 @@ async function handleGeneratePreview() {
     })
 
     previewXml.value = response.targetNormZf0Xml
-    previewHtml.value = await renderHtmlLaw(
-      response.targetNormZf0Xml,
-      false,
-      timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
-      [response.amendingNormXml],
-    )
+    previewCustomNorms.value = [response.amendingNormXml]
   } catch (error) {
     alert("Vorschau konnte nicht erstellt werden")
     console.error(error)
@@ -207,7 +172,7 @@ async function handleSave() {
             <template #text>
               <RisLawPreview
                 class="ds-textarea flex-grow p-2"
-                :content="renderedHtml"
+                :content="articleHtml ?? ''"
                 highlight-mods
                 highlight-affected-document
                 :selected="selectedMod ? [selectedMod] : []"
@@ -258,7 +223,7 @@ async function handleSave() {
             <template #text>
               <RisLawPreview
                 class="ds-textarea flex-grow p-2"
-                :content="previewHtml"
+                :content="previewHtml ?? ''"
               />
             </template>
             <template #xml>
