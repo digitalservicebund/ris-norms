@@ -20,7 +20,7 @@ import { ModData, ModType } from "@/types/ModType"
  */
 export function useMod(
   eid: MaybeRefOrGetter<string | null>,
-  xml: MaybeRefOrGetter<string | undefined>,
+  xml: MaybeRefOrGetter<string | null>,
 ): {
   textualModType: Ref<ModType | "">
   destinationHref: Ref<string>

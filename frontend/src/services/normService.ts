@@ -1,8 +1,8 @@
-import { apiFetch, useApiFetch } from "@/services/apiService"
+import { apiFetch, INVALID_URL, useApiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
 import { FetchOptions } from "ofetch"
 import { UseFetchReturn } from "@vueuse/core/index"
-import { computed, MaybeRefOrGetter, unref } from "vue"
+import { computed, MaybeRefOrGetter, toValue, unref } from "vue"
 
 /**
  * Load a norm from the API.
@@ -21,6 +21,7 @@ export async function getNormByEli(
  * Load the xml version of a norm from the API.
  *
  * @param eli Eli of the amending law
+ * @deprecated use useNormXml instead
  */
 export async function getNormXmlByEli(eli: string): Promise<string> {
   return await apiFetch(`/norms/${eli}`, {
@@ -28,6 +29,35 @@ export async function getNormXmlByEli(eli: string): Promise<string> {
       Accept: "application/xml",
     },
   })
+}
+
+/**
+ * Composable for loading the xml version of a norm from the API.
+ *
+ * @param eli Eli of the amending law
+ */
+export function useGetNormXml(
+  eli: MaybeRefOrGetter<string | undefined>,
+): UseFetchReturn<string> {
+  return useApiFetch(
+    computed(() => {
+      const eliValue = toValue(eli)
+      if (eliValue == undefined) {
+        return INVALID_URL
+      }
+      return `/norms/${eliValue}`
+    }),
+    {
+      headers: {
+        Accept: "application/xml",
+      },
+    },
+    {
+      refetch: true,
+    },
+  )
+    .text()
+    .get()
 }
 
 /**
@@ -86,19 +116,32 @@ export function useGetNormHtmlByEli(
 }
 
 /**
- * Save the xml version of an norm to the API.
+ * Create a composable for saving the xml version of a norm to the API.
  *
  * @param eli Eli of the norm
  * @param xml New xml of the norm
- * @returns the newly saved xml
+ * @returns A UseFetchReturn that includes the methods for executing the PUT request and the response from it.
  */
-export async function putNormXml(eli: string, xml: string) {
-  return await apiFetch<string>(`/norms/${eli}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/xml",
-      Accept: "application/xml",
+export function usePutNormXml(
+  eli: MaybeRefOrGetter<string | undefined>,
+  xml: MaybeRefOrGetter<string | undefined | null>,
+): UseFetchReturn<string> {
+  return useApiFetch<string>(
+    computed(() => {
+      const eliValue = toValue(eli)
+      if (eliValue == undefined || toValue(xml) == undefined) {
+        return INVALID_URL
+      }
+      return `/norms/${eliValue}`
+    }),
+    {
+      headers: {
+        "Content-Type": "application/xml",
+        Accept: "application/xml",
+      },
     },
-    body: xml,
-  })
+    {
+      immediate: false,
+    },
+  ).put(xml)
 }

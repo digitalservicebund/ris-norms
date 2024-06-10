@@ -29,7 +29,7 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
 const { data: article } = useArticle(identifier)
-const { xml } = useNormXml(eli)
+const { data: xml } = useNormXml(eli)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const currentXml = ref("")
 const renderedHtml = ref("")

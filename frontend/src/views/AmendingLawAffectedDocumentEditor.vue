@@ -51,11 +51,11 @@ const elements = useAffectedElements(
 /* -------------------------------------------------- *
  * XML editor                                         *
  * -------------------------------------------------- */
-
-const { xml: targetLawXml, update: updateTargetLawXml } =
-  useNormXml(affectedDocumentEli)
-
-const currentTargetLawXml = ref<string | undefined>("")
+const currentTargetLawXml = ref<string | undefined | null>("")
+const {
+  data: targetLawXml,
+  update: { execute: updateTargetLawXml },
+} = useNormXml(affectedDocumentEli, currentTargetLawXml)
 
 watch(targetLawXml, () => {
   currentTargetLawXml.value = targetLawXml.value
@@ -65,7 +65,7 @@ async function handleSave() {
   if (!currentTargetLawXml.value) return
 
   try {
-    await updateTargetLawXml(currentTargetLawXml.value)
+    await updateTargetLawXml()
   } catch (error) {
     alert("Metadaten nicht gespeichert")
     console.error(error)

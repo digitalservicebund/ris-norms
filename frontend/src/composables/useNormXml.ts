@@ -1,5 +1,6 @@
-import { MaybeRefOrGetter, Ref, readonly, ref, toValue, watch } from "vue"
-import { getNormXmlByEli, putNormXml } from "@/services/normService"
+import { MaybeRefOrGetter, ref, watch } from "vue"
+import { useGetNormXml, usePutNormXml } from "@/services/normService"
+import { UseFetchReturn } from "@vueuse/core"
 
 /**
  * Get the XML of a norm.
@@ -7,38 +8,44 @@ import { getNormXmlByEli, putNormXml } from "@/services/normService"
  * @param eli a reference to the eli for which the norm xml will be returned.
  *  Changing the value of the reference will load the data for the new eli.
  */
-export function useNormXml(eli: MaybeRefOrGetter<string | undefined>): {
-  /**
-   * A reference to the target law XML or undefined if it is not available (or
-   * still loading).
-   */
-  xml: Readonly<Ref<string | undefined>>
-  /**
-   * Updates the target law XML.
-   */
-  update: (xml: string) => Promise<void>
+export function useNormXml(
+  eli: MaybeRefOrGetter<string | undefined>,
+): UseFetchReturn<string>
+/**
+ * Get the XML of a norm. This also supports updating the xml.
+ * The data is automatically also updated with the response from the update.
+ *
+ * @param eli a reference to the eli for which the norm xml will be returned.
+ *  Changing the value of the reference will load the data for the new eli.
+ * @param newXml a reference to the data that should be saved on an update.
+ */
+export function useNormXml(
+  eli: MaybeRefOrGetter<string | undefined>,
+  newXml: MaybeRefOrGetter<string | undefined | null>,
+): UseFetchReturn<string> & {
+  update: UseFetchReturn<string>
+}
+export function useNormXml(
+  eli: MaybeRefOrGetter<string | undefined>,
+  newXml?: MaybeRefOrGetter<string | undefined | null>,
+): UseFetchReturn<string> & {
+  update?: UseFetchReturn<string>
 } {
-  const xml = ref<string>()
-
-  watch(
-    () => toValue(eli),
-    async (eli) => {
-      if (eli) {
-        xml.value = await getNormXmlByEli(eli)
-      }
-    },
-    { immediate: true },
-  )
-
-  async function update(newXml: string): Promise<void> {
-    const eliValue = toValue(eli)
-
-    if (!eliValue) {
-      throw new Error("Expected an identifier to exist when calling update.")
-    }
-
-    xml.value = await putNormXml(eliValue, newXml)
+  if (!newXml) {
+    return useGetNormXml(eli)
   }
 
-  return { xml: readonly(xml), update }
+  // We want to also update the data with the data returned from the PUT-request.
+  const data = ref<string | null>(null)
+  const getNormXml = useGetNormXml(eli)
+  watch(getNormXml.data, () => {
+    data.value = getNormXml.data.value
+  })
+
+  const putNormXml = usePutNormXml(eli, newXml)
+  watch(putNormXml.data, () => {
+    data.value = putNormXml.data.value
+  })
+
+  return { ...getNormXml, data, update: putNormXml }
 }

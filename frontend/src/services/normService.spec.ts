@@ -4,6 +4,7 @@ describe("normService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
+    vi.doUnmock("./apiService.ts")
   })
 
   describe("getNormByEli(eli, options)", () => {
@@ -80,6 +81,35 @@ describe("normService", () => {
       expect(fetchMock).toHaveBeenCalledWith(
         "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
+          headers: expect.objectContaining({
+            Accept: "application/xml",
+          }),
+        }),
+      )
+    })
+  })
+
+  describe("useGetNormXml(eli, xml)", () => {
+    it("provides the data from the api", async () => {
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValueOnce(
+          new Response('<?xml version="1.0" encoding="UTF-8"?></xml>'),
+        )
+
+      const { useGetNormXml } = await import("./normService")
+
+      const { data: result, isFinished } = useGetNormXml(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      )
+      await vi.waitUntil(() => isFinished.value)
+
+      expect(result.value).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        expect.objectContaining({
+          method: "GET",
           headers: expect.objectContaining({
             Accept: "application/xml",
           }),
@@ -174,26 +204,26 @@ describe("normService", () => {
     })
   })
 
-  describe("putNormXml(eli, xml)", () => {
+  describe("usePutNormXml(eli, xml)", () => {
     it("sends the data to the api", async () => {
-      const fetchMock = vi
-        .fn()
-        .mockResolvedValueOnce('<?xml version="1.0" encoding="UTF-8"?></xml>')
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValueOnce(
+          new Response('<?xml version="1.0" encoding="UTF-8"?></xml>'),
+        )
 
-      vi.doMock("./apiService.ts", () => ({
-        apiFetch: fetchMock,
-      }))
+      const { usePutNormXml } = await import("./normService")
 
-      const { putNormXml } = await import("./normService")
-
-      const result = await putNormXml(
+      const { data: result, execute } = usePutNormXml(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         '<?xml version="1.0" encoding="UTF-8"?></xml>',
       )
-      expect(result).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
+      await execute()
 
-      expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      expect(result.value).toBe('<?xml version="1.0" encoding="UTF-8"?></xml>')
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
         expect.objectContaining({
           method: "PUT",
           headers: expect.objectContaining({
