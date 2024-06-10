@@ -349,6 +349,52 @@ class ModificationValidatorTest {
     }
 
     @Test
+    void validationSuccessfulEvenWithManySpacesAndLineBreaks() {
+      // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final String amendingNormEli = amendingNorm.getEli();
+      final Node modNode =
+          amendingNorm
+              .getNodeByEId(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      Node zf0TargetNode =
+          zf0Norm
+              .getNodeByEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+              .orElseThrow();
+
+      // sets quotedText[1] in amending norm: imagine a xml formatting script did the following
+      // (note the new lines)
+      mod.setOldText(
+          """
+                                                               §             9
+Abs.
+                                  1
+                                   Satz 2,
+                                                 Abs. 2
+                                                               """);
+
+      // and ZF0 experienced something similar
+      zf0TargetNode.setTextContent(
+          """
+              entgegen          § 9          Abs.
+
+        1          Satz 2,
+                                                 Abs.           2
+
+                                                  Kennezichen eines verbotenen Vereins
+                    oder einer Ersatzorganisation verwendet,""");
+
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+
+      // when/then: both are equal due to usage of StringUtils.normalizeSpace()
+      Assertions.assertDoesNotThrow(() -> underTest.validateSubstitutionMod(amendingNormEli, mod));
+    }
+
+    @Test
     void validationSuccessfulUntilEndOfParagraph() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
