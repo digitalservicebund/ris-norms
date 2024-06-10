@@ -32,9 +32,9 @@ public class ProprietaryResponseMapper {
   public static ProprietarySchema fromProprietary(Proprietary proprietary, final LocalDate date) {
     return ProprietarySchema.builder()
         .fna(proprietary.getFna(date).orElse(null))
-        .art(null)
-        .typ(null)
-        .subtyp(null)
+        .art(proprietary.getArt(date).orElse(null))
+        .typ(proprietary.getTyp(date).orElse(null))
+        .subtyp(proprietary.getSubtyp(date).orElse(null))
         .build();
   }
 }

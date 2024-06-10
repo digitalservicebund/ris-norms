@@ -152,7 +152,10 @@ class ProprietaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").value("754-28-1"));
+          .andExpect(jsonPath("fna").value("754-28-1"))
+          .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
+          .andExpect(jsonPath("typ").value("gesetz"))
+          .andExpect(jsonPath("subtyp").value("rechtsverordnung"));
     }
 
     @Test
@@ -173,7 +176,10 @@ class ProprietaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").isEmpty());
+          .andExpect(jsonPath("fna").isEmpty())
+          .andExpect(jsonPath("art").isEmpty())
+          .andExpect(jsonPath("typ").isEmpty())
+          .andExpect(jsonPath("subtyp").isEmpty());
     }
 
     @Test
@@ -194,7 +200,10 @@ class ProprietaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").isEmpty());
+          .andExpect(jsonPath("fna").isEmpty())
+          .andExpect(jsonPath("art").isEmpty())
+          .andExpect(jsonPath("typ").isEmpty())
+          .andExpect(jsonPath("subtyp").isEmpty());
     }
   }
 

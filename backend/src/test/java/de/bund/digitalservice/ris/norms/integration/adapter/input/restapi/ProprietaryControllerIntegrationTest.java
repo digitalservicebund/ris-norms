@@ -165,7 +165,10 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").value("754-28-1"));
+          .andExpect(jsonPath("fna").value("754-28-1"))
+          .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
+          .andExpect(jsonPath("typ").value("gesetz"))
+          .andExpect(jsonPath("subtyp").value("rechtsverordnung"));
     }
   }
 
