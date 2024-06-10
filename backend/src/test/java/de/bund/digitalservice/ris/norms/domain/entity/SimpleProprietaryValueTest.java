@@ -99,12 +99,12 @@ class SimpleProprietaryValueTest {
     @Test
     void keepsTheOrderIfStartDatesAreEmpty() {
       // Given
-      var a = new SimpleProprietaryValue(XmlMapper.toNode("<meta:fna>111-11-1</meta:fna>"));
-      var b = new SimpleProprietaryValue(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
-      var list = List.of(a, b);
+      final var a = new SimpleProprietaryValue(XmlMapper.toNode("<meta:fna>111-11-1</meta:fna>"));
+      final var b = new SimpleProprietaryValue(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
+      final var list = List.of(a, b);
 
       // When
-      var sorted = list.stream().sorted(SimpleProprietaryValue::compareByStartDate).toList();
+      final var sorted = list.stream().sorted(SimpleProprietaryValue::compareByStartDate).toList();
 
       // Then
       assertThat(sorted).containsExactly(a, b);
@@ -113,16 +113,16 @@ class SimpleProprietaryValueTest {
     @Test
     void sortsByStartDateIfBothArePresent() {
       // Given
-      var a =
+      final var a =
           new SimpleProprietaryValue(
               XmlMapper.toNode("<meta:fna start='2023-01-01'>111-11-1</meta:fna>"));
-      var b =
+      final var b =
           new SimpleProprietaryValue(
               XmlMapper.toNode("<meta:fna start='2011-01-01'>222-22-2</meta:fna>"));
-      var list = List.of(a, b);
+      final var list = List.of(a, b);
 
       // When
-      var sorted = list.stream().sorted(SimpleProprietaryValue::compareByStartDate).toList();
+      final var sorted = list.stream().sorted(SimpleProprietaryValue::compareByStartDate).toList();
 
       // Then
       assertThat(sorted).containsExactly(b, a);
@@ -131,14 +131,14 @@ class SimpleProprietaryValueTest {
     @Test
     void sortsMissingStartDateBeforePresentStartDate() {
       // Given
-      var a =
+      final var a =
           new SimpleProprietaryValue(
               XmlMapper.toNode("<meta:fna start='2023-01-01'>111-11-1</meta:fna>"));
-      var b = new SimpleProprietaryValue(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
-      var list = List.of(a, b);
+      final var b = new SimpleProprietaryValue(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
+      final var list = List.of(a, b);
 
       // When
-      var sorted = list.stream().sorted(SimpleProprietaryValue::compareByStartDate).toList();
+      final var sorted = list.stream().sorted(SimpleProprietaryValue::compareByStartDate).toList();
 
       // Then
       assertThat(sorted).containsExactly(b, a);
