@@ -123,6 +123,28 @@ class ModificationValidatorTest {
     }
 
     @Test
+    void emptyAknModHrefEli() {
+
+      // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      amendingNorm
+          .getArticles()
+          .getFirst()
+          .getMods()
+          .getFirst()
+          .setTargetHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(XmlContentException.class)
+          .hasMessageContaining(
+              "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The Eli in aknMod href is empty in article with eId hauptteil-1_art-1");
+    }
+
+    @Test
     void emptyAffectedDocumentHref() {
 
       // given
