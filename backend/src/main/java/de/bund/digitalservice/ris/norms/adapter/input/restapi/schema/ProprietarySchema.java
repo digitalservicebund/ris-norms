@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-/** Schema returned by the API when fetching proprietary metadata form a norm. */
+/** Schema for the API when fetching/updating proprietary metadata form a norm. */
 @NoArgsConstructor
 @Data
 @SuperBuilder(toBuilder = true)
