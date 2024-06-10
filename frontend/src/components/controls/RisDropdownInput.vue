@@ -7,7 +7,7 @@ export type DropdownItem = {
 }
 
 const props = defineProps<{
-  /** Unique ID for the dro. */
+  /** Unique ID for the dropdown. */
   id: string
   /** the items for the dropdown. */
   items: DropdownItem[]
