@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
@@ -337,6 +338,45 @@ class ArticleTest {
     // then
     assertThat(mod).isNotEmpty();
     assertThat(mod.get(0).getEid()).contains(expectedModEId);
+  }
+
+  @Test
+  void getModsOrThrow() {
+    // given
+    final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+
+    var article = amendingNorm.getArticles().getFirst();
+
+    var expectedModEId =
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+
+    // when
+    List<Mod> mod = article.getModsOrThrow();
+
+    // then
+    assertThat(mod.getFirst().getEid()).contains(expectedModEId);
+  }
+
+  @Test
+  void getModsOrThrowThrowsExceptionNoModsFound() {
+    // given
+    final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+    amendingNorm.getMods().stream()
+        .map(Mod::getNode)
+        .forEach(modeNode -> modeNode.getParentNode().removeChild(modeNode));
+
+    var article = amendingNorm.getArticles().getFirst();
+
+    // when
+    Throwable thrown = catchThrowable(article::getModsOrThrow);
+
+    // when/then
+    assertThat(thrown)
+        .isInstanceOf(XmlContentException.class)
+        .hasMessageContaining(
+            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): There is no mod in article with eId hauptteil-1_art-1");
   }
 
   @Test
