@@ -28,7 +28,7 @@ const selectedMod = useModEidPathParameter()
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
-const article = useArticle(identifier)
+const { data: article } = useArticle(identifier)
 const { xml: articleXml } = useArticleXml(identifier)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
 const currentArticleXml = ref("")

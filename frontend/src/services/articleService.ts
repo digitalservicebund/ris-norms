@@ -27,18 +27,6 @@ export async function getArticlesByEli(
 }
 
 /**
- * Load an article within a specific law from the API.
- *
- * @param identifier The information required for identifying the article
- */
-export async function getArticleByEliAndEid({
-  eli,
-  eid,
-}: LawElementIdentifier): Promise<Article> {
-  return apiFetch<Article>(`/norms/${eli}/articles/${eid}`)
-}
-
-/**
  * Load the xml version of an article within a specific law from the API.
  *
  * @param identifier The information required for identifying the article

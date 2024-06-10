@@ -71,37 +71,6 @@ describe("articleService", () => {
     })
   })
 
-  describe("getArticleByEliAndEid(identifier)", () => {
-    it("provides the data from the api", async () => {
-      const fetchMock = vi.fn().mockResolvedValueOnce({
-        enumeration: "1",
-        eid: "article/eid",
-        title: "Example",
-        affectedDocumentEli: "article/eli",
-      })
-
-      vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
-
-      const { getArticleByEliAndEid } = await import("./articleService")
-
-      const result = await getArticleByEliAndEid({
-        eli: "example/eli",
-        eid: "example/eid",
-      })
-
-      expect(result).toEqual({
-        enumeration: "1",
-        eid: "article/eid",
-        title: "Example",
-        affectedDocumentEli: "article/eli",
-      })
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/example/eli/articles/example/eid",
-      )
-    })
-  })
-
   describe("getArticleXmlByEliAndEid(identifier)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi

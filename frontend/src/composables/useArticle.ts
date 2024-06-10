@@ -1,15 +1,7 @@
-import { getArticleByEliAndEid } from "@/services/articleService"
 import { Article } from "@/types/article"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import {
-  DeepReadonly,
-  MaybeRefOrGetter,
-  Ref,
-  readonly,
-  ref,
-  toValue,
-  watch,
-} from "vue"
+import { MaybeRefOrGetter, toValue, computed } from "vue"
+import { INVALID_URL, useApiFetch } from "@/services/apiService"
 
 /**
  * Get the data of an article inside an amending law.
@@ -22,20 +14,18 @@ import {
  */
 export function useArticle(
   identifier: MaybeRefOrGetter<LawElementIdentifier | undefined>,
-): DeepReadonly<Ref<Article | undefined>> {
-  const article = ref<Article>()
+) {
+  return useApiFetch(
+    computed(() => {
+      const identifierValue = toValue(identifier)
+      if (identifierValue == undefined) {
+        return INVALID_URL
+      }
 
-  watch(
-    () => toValue(identifier),
-    async (is, was) => {
-      // Bail if only the object reference has changed, but the contents
-      // are the same
-      if (!is || (is.eli === was?.eli && is.eid === was?.eli)) return
-
-      article.value = await getArticleByEliAndEid(is)
+      return `/norms/${identifierValue.eli}/articles/${identifierValue.eid}`
+    }),
+    {
+      refetch: true,
     },
-    { immediate: true },
-  )
-
-  return readonly(article)
+  ).json<Article>()
 }
