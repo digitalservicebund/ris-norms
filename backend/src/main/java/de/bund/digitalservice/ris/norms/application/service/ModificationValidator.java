@@ -105,7 +105,7 @@ public class ModificationValidator {
         .forEach(
             article -> {
               String amendingNormEli = amendingNorm.getEli();
-              String articleEId = getArticleEId(amendingNormEli, article);
+              String articleEId = article.getEidOrThrow();
               validateAknModEli(amendingNormEli, article, articleEId);
               validateAffectedDocumentEli(amendingNormEli, article, articleEId);
             });
@@ -366,14 +366,6 @@ public class ModificationValidator {
           "For norm with Eli (%s): Too many elements with the same eId %s.".formatted(eli, eId),
           null);
     }
-  }
-
-  private String getArticleEId(String eli, Article a) {
-    return a.getEid()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): Article eId is empty.".formatted(eli), null));
   }
 
   private List<Mod> getArticleMods(String eli, Article a, String articleEId) {
