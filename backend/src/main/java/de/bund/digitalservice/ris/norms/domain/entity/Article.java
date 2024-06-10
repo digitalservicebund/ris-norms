@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,6 +48,22 @@ public class Article {
   }
 
   /**
+   * Returns the eId as {@link String} from a {@link Node} in a {@link Norm}.
+   *
+   * @return The eId of the article
+   */
+  public String getEidOrThrow() {
+    return EId.fromNode(getNode())
+        .map(EId::value)
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): eId is empty in article"
+                        .formatted(getNormEliOrThrow()),
+                    null));
+  }
+
+  /**
    * Returns the heading as {@link String} from a {@link Node} in a {@link Norm}.
    *
    * @return The heading of the article
@@ -87,11 +104,36 @@ public class Article {
   }
 
   /**
+   * Returns the refersTo attribute of the affected article as {@link String} from a {@link Node} in
+   * a {@link Norm}.
+   *
+   * @return The refersTo attribute of the article
+   */
+  public String getRefersToOrThrow() {
+    return getRefersTo()
+        .orElseThrow(
+            () ->
+                new XmlContentException(
+                    "For norm with Eli (%s): RefersTo is empty in article with eId %s"
+                        .formatted(getNormEliOrThrow(), getEidOrThrow()),
+                    null));
+  }
+
+  /**
    * Extracts the {@link Mod} for this article.
    *
    * @return the {@link Mod}
    */
   public List<Mod> getMods() {
     return NodeParser.getNodesFromExpression("./*//mod", this.node).stream().map(Mod::new).toList();
+  }
+
+  private String getNormEliOrThrow() {
+    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", node)
+        .orElseGet(
+            () ->
+                NodeParser.getValueFromExpression("//FRBRManifestation/FRBRthis/@value", node)
+                    .map(m -> m.replace(".xml", ""))
+                    .orElseThrow());
   }
 }

@@ -43,11 +43,7 @@ public class ModificationValidator {
         amendingNorm.getArticles().stream()
             .filter(
                 article -> {
-                  String articleRefersTo =
-                      getArticleRefersTo(
-                          amendingNorm.getEli(),
-                          article,
-                          getArticleEId(amendingNorm.getEli(), article));
+                  String articleRefersTo = article.getRefersToOrThrow();
                   return Objects.equals(articleRefersTo, "hauptaenderung");
                 })
             .toList();
@@ -103,11 +99,7 @@ public class ModificationValidator {
     amendingNorm.getArticles().stream()
         .filter(
             article -> {
-              String articleRefersTo =
-                  getArticleRefersTo(
-                      amendingNorm.getEli(),
-                      article,
-                      getArticleEId(amendingNorm.getEli(), article));
+              String articleRefersTo = article.getRefersToOrThrow();
               return Objects.equals(articleRefersTo, "hauptaenderung");
             })
         .forEach(
@@ -374,16 +366,6 @@ public class ModificationValidator {
           "For norm with Eli (%s): Too many elements with the same eId %s.".formatted(eli, eId),
           null);
     }
-  }
-
-  private String getArticleRefersTo(String eli, Article a, String articleEId) {
-    return a.getRefersTo()
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): RefersTo is empty in article with eId %s"
-                        .formatted(eli, articleEId),
-                    null));
   }
 
   private String getArticleEId(String eli, Article a) {
