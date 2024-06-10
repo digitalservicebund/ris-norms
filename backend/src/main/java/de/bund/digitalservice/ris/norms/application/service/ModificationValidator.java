@@ -112,7 +112,7 @@ public class ModificationValidator {
   }
 
   private void validateAknModEli(String amendingNormEli, Article article, String articleEId) {
-    List<Mod> mods = getArticleMods(amendingNormEli, article, articleEId);
+    List<Mod> mods = article.getModsOrThrow();
     mods.forEach(
         mod -> {
           Optional<String> eli = getModTargetHref(amendingNormEli, mod, articleEId).getEli();
@@ -366,16 +366,6 @@ public class ModificationValidator {
           "For norm with Eli (%s): Too many elements with the same eId %s.".formatted(eli, eId),
           null);
     }
-  }
-
-  private List<Mod> getArticleMods(String eli, Article a, String articleEId) {
-    List<Mod> modsInArticle = a.getMods();
-    if (modsInArticle.isEmpty()) {
-      throw new XmlContentException(
-          "For norm with Eli (%s): There is no mod in article with eId %s"
-              .formatted(eli, articleEId),
-          null);
-    } else return modsInArticle;
   }
 
   private Href getModTargetHref(String eli, Mod m, String modEId) {
