@@ -257,7 +257,7 @@ test.describe("Update mod details", () => {
     await page.getByRole("button", { name: "Speichern" }).click()
 
     await page.goto(
-      "amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
 
     const amendingLawSection = page.getByRole("region", {
