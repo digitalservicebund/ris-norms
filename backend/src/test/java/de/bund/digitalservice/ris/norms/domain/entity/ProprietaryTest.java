@@ -423,7 +423,7 @@ class ProprietaryTest {
                         <meta:legalDocML.de_metadaten_ds
                           xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
                         >
-                          <meta:subtyp>Anordnung des Bundespräsidenten</meta:subtyp>
+                          <meta:subtyp end="1989-12-31">Anordnung des Bundespräsidenten</meta:subtyp>
                           <meta:subtyp start="1990-01-01" end="1994-12-31">Bekanntmachung vor einer Neufassung</meta:subtyp>
                           <meta:subtyp start="1995-01-01" end="2000-12-31">Völkerrechtliche Vereinbarung</meta:subtyp>
                           <meta:subtyp start="2001-01-01">Geschäftsordnung</meta:subtyp>

@@ -142,9 +142,26 @@ public class MetadatenDs {
   public Optional<String> getSubtypAt(final LocalDate date) {
     return NodeParser.getNodesFromExpression("./subtyp", node).stream()
         .map(Fna::new)
+        .sorted()
         .filter(
-            f -> f.getStart().map(start -> date.isEqual(start) || date.isAfter(start)).orElse(true))
-        .filter(f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
+            i -> {
+              if (i.getStart().isPresent() && i.getEnd().isPresent()) {
+                // Both exist -> pass if date is between start and end (i.e. neither before start
+                // nor after end)
+                return !(date.isBefore(i.getStart().get()) || date.isAfter(i.getEnd().get()));
+              } else if (i.getStart().isPresent()) {
+                // Only start exists -> pass if date is equal to or after start (i.e. not before
+                // start)
+                return !date.isBefore(i.getStart().get());
+              } else if (i.getEnd().isPresent()) {
+                // Only end date exists -> pass if date is equal to or before end date (i.e. not
+                // after end)
+                return !date.isAfter(i.getEnd().get());
+              } else {
+                // Start and end don't exist = always valid -> always pass
+                return true;
+              }
+            })
         .findFirst()
         .map(Fna::getValue);
   }
