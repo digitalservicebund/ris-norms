@@ -440,6 +440,13 @@ test.describe("metadata editing", () => {
 
     await page.reload()
     await expect(fnaTextbox).toHaveValue("123-4")
+
+    await fnaTextbox.fill("754-28-1")
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+    await saved
+
+    await page.reload()
+    await expect(fnaTextbox).toHaveValue("754-28-1")
   })
 
   test("updates with metadata from the backend after saving", async ({
