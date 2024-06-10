@@ -22,4 +22,22 @@ public class MetadatenDe {
   public Optional<String> getFna() {
     return NodeParser.getValueFromExpression("./fna", node);
   }
+
+  /**
+   * Returns the Art ("Art der Norm") of the norm.
+   *
+   * @return Art or empty if it doesn't exist.
+   */
+  public Optional<String> getArt() {
+    return NodeParser.getValueFromExpression("./art", node);
+  }
+
+  /**
+   * Returns the type ("Typ des Dokuments") of the document.
+   *
+   * @return Typ or empty if it doesn't exist.
+   */
+  public Optional<String> getTyp() {
+    return NodeParser.getValueFromExpression("./typ", node);
+  }
 }

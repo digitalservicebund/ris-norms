@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-public class Fna {
+public class SimpleProprietaryValue {
   private final Node node;
 
   /**
@@ -40,5 +40,21 @@ public class Fna {
    */
   public Optional<LocalDate> getEnd() {
     return NodeParser.getValueFromExpression("./@end", node).map(LocalDate::parse);
+  }
+
+  /**
+   * Compares two FNAs, so they can be sorted by their start dates. It is assumed that there is no
+   * overlap in validity between two values.
+   *
+   * @param o1 the first element to be compared
+   * @param o2 the second element to be compared
+   * @return Comparison result
+   */
+  public static int compareByStartDate(SimpleProprietaryValue o1, SimpleProprietaryValue o2) {
+    if (o1.getStart().isPresent() && o2.getStart().isPresent()) {
+      return o1.getStart().get().compareTo(o2.getStart().get());
+    } else if (o1.getStart().isEmpty() && o2.getStart().isPresent()) return -1;
+    else if (o1.getStart().isPresent() && o2.getStart().isEmpty()) return 1;
+    else return 0;
   }
 }

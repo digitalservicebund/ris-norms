@@ -406,6 +406,13 @@ paths:
           schema:
             type: string
             format: date
+      requestBody:
+        description: The proprietary request schema containing several metadata.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
       responses:
         '200':
           description: Metadata was updated successfully. Returns the updated metadata.
@@ -590,4 +597,24 @@ components:
           properties:
             value:
               type: string
-              description: FNA of the norm
+              description: FNA (Fundstellennachweis A) of the norm
+        art:
+          type: object
+          properties:
+            value:
+              type: string
+              description: Art ("Art der Norm") of the norm
+        typ:
+          type: object
+          properties:
+            value:
+              type: string
+              description: Type ("Typ") of the document
+        subtyp:
+          type: object
+          properties:
+            value:
+              type: string
+              description: Subtype ("Subtyp") of the document
+
+

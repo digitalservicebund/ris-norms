@@ -417,30 +417,36 @@ test.describe("metadata editing", () => {
     })
   })
 
-  // Skipped while waiting for the backend functionality to be implemented
-  test.skip("persists changes across page loads after saving successfully", async ({
+  test("persists changes across page loads after saving successfully", async ({
     page,
   }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/edit/1964-09-21",
     )
 
     const saved = page.waitForResponse(
       (response) =>
         response.request().method() === "PUT" &&
-        response.request().url().endsWith("/proprietary/2023-12-30"),
+        response.request().url().endsWith("/proprietary/1964-09-21"),
     )
 
     const fnaTextbox = page.getByRole("textbox", {
       name: "Sachgebiet FNA-Nummer",
     })
-    await expect(fnaTextbox).toHaveValue("210-5")
+    await expect(fnaTextbox).toHaveValue("754-28-1")
     await fnaTextbox.fill("123-4")
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await saved
 
     await page.reload()
     await expect(fnaTextbox).toHaveValue("123-4")
+
+    await fnaTextbox.fill("754-28-1")
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+    await saved
+
+    await page.reload()
+    await expect(fnaTextbox).toHaveValue("754-28-1")
   })
 
   test("updates with metadata from the backend after saving", async ({
