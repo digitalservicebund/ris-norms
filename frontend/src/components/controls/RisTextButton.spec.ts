@@ -291,7 +291,7 @@ describe("RisTextButton", () => {
       defineComponent({
         components: { RisTextButton },
         setup: () => ({ clickSpy }),
-        template: `<RisTextButton loading @click="clickSpy()" />`,
+        template: `<RisTextButton loading @click="clickSpy()" label="Test" />`,
       }),
     )
 
