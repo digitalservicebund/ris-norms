@@ -75,6 +75,49 @@ class ArticleTest {
   }
 
   @Test
+  void getEidOrThrow() {
+    // given
+    String articleString =
+        """
+                    <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
+                    </akn:article>
+                    """;
+
+    var article = new Article(toNode(articleString));
+    var expectedEid = "hauptteil-1_art-1";
+
+    // when
+    var eid = article.getEid().orElseThrow();
+
+    // then
+    assertThat(eid).isEqualTo(expectedEid);
+  }
+
+  @Test
+  void getEidOrThrowThrowsExceptionEidIsMissing() {
+    // given
+    final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+    amendingNorm
+        .getNodeByEId("hauptteil-1_art-1")
+        .get()
+        .getAttributes()
+        .getNamedItem("eId")
+        .setTextContent("");
+
+    var article = amendingNorm.getArticles().getFirst();
+
+    // when
+    Throwable thrown = catchThrowable(article::getEidOrThrow);
+
+    // when/then
+    assertThat(thrown)
+        .isInstanceOf(XmlContentException.class)
+        .hasMessageContaining(
+            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): eId is empty in article \"Änderung des Vereinsgesetzes\"");
+  }
+
+  @Test
   void getHeading() {
     // given
     String articleString =

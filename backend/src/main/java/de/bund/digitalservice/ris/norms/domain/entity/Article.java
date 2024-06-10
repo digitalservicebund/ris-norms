@@ -58,8 +58,8 @@ public class Article {
         .orElseThrow(
             () ->
                 new XmlContentException(
-                    "For norm with Eli (%s): eId is empty in article"
-                        .formatted(getNormEliOrThrow()),
+                    "For norm with Eli (%s): eId is empty in article \"%s\""
+                        .formatted(getNormEliOrThrow(), getHeading().orElse("UNKNOWN").strip()),
                     null));
   }
 
