@@ -5,7 +5,5 @@
  */
 export type Proprietary = {
   /** FNA (Fundstellennachweis A) of a norm. */
-  fna: {
-    value?: string
-  }
+  fna: string
 }

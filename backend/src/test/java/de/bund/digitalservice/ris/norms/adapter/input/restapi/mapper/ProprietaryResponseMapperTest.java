@@ -35,6 +35,6 @@ class ProprietaryResponseMapperTest {
         ProprietaryResponseMapper.fromProprietary(proprietary, LocalDate.parse("1999-09-09"));
 
     // Then
-    assertThat(responseSchema.getFna().getValue()).isEqualTo("222-22-2");
+    assertThat(responseSchema.getFna()).isEqualTo("222-22-2");
   }
 }

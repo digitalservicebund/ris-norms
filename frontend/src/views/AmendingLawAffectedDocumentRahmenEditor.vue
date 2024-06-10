@@ -75,7 +75,7 @@ const [fnaId] = Array(1)
 function setFna(value: string) {
   localData.value = produce(localData.value, (draft) => {
     if (!draft) return
-    draft.fna.value = value
+    draft.fna = value
   })
 }
 </script>
@@ -126,7 +126,7 @@ function setFna(value: string) {
                 <label :for="fnaId">Sachgebiet FNA-Nummer</label>
                 <RisTextInput
                   :id="fnaId"
-                  :model-value="localData?.fna.value"
+                  :model-value="localData?.fna"
                   size="small"
                   @update:model-value="setFna($event ?? '')"
                 />

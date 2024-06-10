@@ -56,8 +56,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").doesNotExist());
+          .andExpect(jsonPath("fna").isEmpty());
     }
 
     @Test
@@ -73,8 +72,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").doesNotExist());
+          .andExpect(jsonPath("fna").isEmpty());
     }
 
     @Test
@@ -90,8 +88,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/" + eli + "/proprietary").accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").value("754-28-1"));
+          .andExpect(jsonPath("fna").value("754-28-1"));
     }
   }
 
@@ -126,14 +123,10 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").doesNotExist())
-          .andExpect(jsonPath("art").exists())
-          .andExpect(jsonPath("art.value").doesNotExist())
-          .andExpect(jsonPath("typ").exists())
-          .andExpect(jsonPath("typ.value").doesNotExist())
-          .andExpect(jsonPath("subtyp").exists())
-          .andExpect(jsonPath("subtyp.value").doesNotExist());
+          .andExpect(jsonPath("fna").isEmpty())
+          .andExpect(jsonPath("art").isEmpty())
+          .andExpect(jsonPath("typ").isEmpty())
+          .andExpect(jsonPath("subtyp").isEmpty());
     }
 
     @Test
@@ -151,14 +144,10 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").doesNotExist())
-          .andExpect(jsonPath("art").exists())
-          .andExpect(jsonPath("art.value").doesNotExist())
-          .andExpect(jsonPath("typ").exists())
-          .andExpect(jsonPath("typ.value").doesNotExist())
-          .andExpect(jsonPath("subtyp").exists())
-          .andExpect(jsonPath("subtyp.value").doesNotExist());
+          .andExpect(jsonPath("fna").isEmpty())
+          .andExpect(jsonPath("art").isEmpty())
+          .andExpect(jsonPath("typ").isEmpty())
+          .andExpect(jsonPath("subtyp").isEmpty());
     }
 
     @Test
@@ -176,8 +165,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON_VALUE))
           // then
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").value("754-28-1"));
+          .andExpect(jsonPath("fna").value("754-28-1"));
     }
   }
 
@@ -193,8 +181,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               put("/api/v1/norms/{eli}/proprietary/{date}", eli, "1990-01-01")
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"fna\": {\"value\": \"new-fna\"},\"art\": null,\"typ\": null,\"subtyp\": null}"))
+                  .content("{\"fna\": \"new-fna\",\"art\": null,\"typ\": null,\"subtyp\": null}"))
           .andExpect(status().isNotFound());
     }
 
@@ -212,11 +199,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"fna\": {\"value\": \"new-fna\"},\"art\": null,\"typ\": null,\"subtyp\": null}"))
+                  .content("{\"fna\": \"new-fna\",\"art\": null,\"typ\": null,\"subtyp\": null}"))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").value("new-fna"));
+          .andExpect(jsonPath("fna").value("new-fna"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -237,11 +222,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"fna\": {\"value\": \"new-fna\"},\"art\": null,\"typ\": null,\"subtyp\": null}"))
+                  .content("{\"fna\": \"new-fna\",\"art\": null,\"typ\": null,\"subtyp\": null}"))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").exists())
-          .andExpect(jsonPath("fna.value").value("new-fna"));
+          .andExpect(jsonPath("fna").value("new-fna"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 

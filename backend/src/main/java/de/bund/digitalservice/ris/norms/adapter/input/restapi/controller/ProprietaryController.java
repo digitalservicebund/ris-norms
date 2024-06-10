@@ -107,7 +107,7 @@ public class ProprietaryController {
       var proprietary =
           updateProprietaryFromNormUseCase.updateProprietaryFromNorm(
               new UpdateProprietaryFromNormUseCase.Query(
-                  eli.getValue(), atDate, proprietarySchema.getFna().getValue()));
+                  eli.getValue(), atDate, proprietarySchema.getFna()));
 
       return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
 

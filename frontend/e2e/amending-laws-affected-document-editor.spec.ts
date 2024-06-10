@@ -462,7 +462,7 @@ test.describe("metadata editing", () => {
       // the state in the UI. In real-world use, this should almost never happen,
       // but we still want to test it.
       if (route.request().method() === "PUT")
-        route.fulfill({ status: 200, json: { fna: { value: "600-1" } } })
+        route.fulfill({ status: 200, json: { fna: "600-1" } })
       else route.continue()
     })
 

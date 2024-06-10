@@ -28,7 +28,7 @@ describe("proprietaryService", () => {
   describe("useProprietaryService", () => {
     it("provides the data from the API", async () => {
       const fixtures: Proprietary = {
-        fna: { value: "foo" },
+        fna: "foo",
       }
 
       const useApiFetch = vi.fn().mockReturnValue({
@@ -246,7 +246,7 @@ describe("proprietaryService", () => {
 
     it("sends data to the API", async () => {
       const fixtures: Proprietary = {
-        fna: { value: "foo" },
+        fna: "foo",
       }
 
       const useApiFetch = vi.fn().mockReturnValue({
