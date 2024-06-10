@@ -15,12 +15,12 @@ import dayjs from "dayjs"
  */
 export function useProprietaryService(
   eli: MaybeRefOrGetter<string | undefined>,
-  options?: {
+  options: {
     /**
      * If set, returns the state of the metadata at that date. Otherwise the
      * metadata of the current version will be returned.
      */
-    atDate?: MaybeRefOrGetter<string | Date | undefined>
+    atDate: MaybeRefOrGetter<string | Date | undefined>
   },
   fetchOptions: Pick<UseFetchOptions, "immediate" | "refetch"> = {},
 ): Pick<
@@ -39,11 +39,9 @@ export function useProprietaryService(
 
   const url = computed(() => {
     const eliVal = toValue(eli)
-    if (!eliVal) return INVALID_URL
+    if (!eliVal || !dateAsString.value) return INVALID_URL
 
-    let result = `/norms/${toValue(eli)}/proprietary`
-    if (dateAsString.value) result += `/${dateAsString.value}`
-    return result
+    return `/norms/${toValue(eli)}/proprietary/${dateAsString.value}`
   })
 
   return useApiFetch<Proprietary>(url, { ...fetchOptions }).json()

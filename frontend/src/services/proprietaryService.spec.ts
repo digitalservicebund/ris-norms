@@ -44,7 +44,7 @@ describe("proprietaryService", () => {
         "@/services/proprietaryService"
       )
 
-      const result = useProprietaryService("fake/eli")
+      const result = useProprietaryService("fake/eli", { atDate: "2024-06-10" })
       expect(result.data.value).toBeTruthy()
 
       vi.doUnmock("@/services/apiService")
@@ -60,7 +60,7 @@ describe("proprietaryService", () => {
       )
 
       const eli = ref("")
-      useProprietaryService(eli)
+      useProprietaryService(eli, { atDate: "2024-06-10" })
       await flushPromises()
       expect(fetchSpy).not.toHaveBeenCalled()
     })
@@ -75,7 +75,7 @@ describe("proprietaryService", () => {
       )
 
       const eli = ref("fake/eli/1")
-      useProprietaryService(eli)
+      useProprietaryService(eli, { atDate: "2024-06-10" })
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
       eli.value = ""
@@ -93,7 +93,11 @@ describe("proprietaryService", () => {
       )
 
       const eli = ref("fake/eli/1")
-      useProprietaryService(eli, undefined, { immediate: true, refetch: true })
+      useProprietaryService(
+        eli,
+        { atDate: "2024-06-10" },
+        { immediate: true, refetch: true },
+      )
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
       eli.value = "fake/eli/2"
@@ -162,7 +166,7 @@ describe("proprietaryService", () => {
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
     })
 
-    it("doesn't append a date if there is none", async () => {
+    it("does not reload if the date is mising", async () => {
       const fetchSpy = vi
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
@@ -173,13 +177,9 @@ describe("proprietaryService", () => {
 
       const eli = ref("fake/eli/1")
       useProprietaryService(eli, { atDate: undefined })
+      await flushPromises()
 
-      await vi.waitFor(() =>
-        expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1/proprietary",
-          expect.any(Object),
-        ),
-      )
+      expect(fetchSpy).not.toHaveBeenCalled()
     })
 
     it("sets the loading state", async () => {
@@ -196,7 +196,9 @@ describe("proprietaryService", () => {
       )
 
       const eli = ref("fake/eli")
-      const { isFetching } = useProprietaryService(eli)
+      const { isFetching } = useProprietaryService(eli, {
+        atDate: "2024-06-10",
+      })
       await vi.waitFor(() => expect(isFetching.value).toBeTruthy())
 
       vi.advanceTimersToNextTimer()
@@ -217,7 +219,7 @@ describe("proprietaryService", () => {
       )
 
       const eli = ref("fake/eli")
-      const { error } = useProprietaryService(eli)
+      const { error } = useProprietaryService(eli, { atDate: "2024-06-10" })
       await vi.waitFor(() => expect(error.value).toBeFalsy())
 
       vi.advanceTimersToNextTimer()
@@ -261,7 +263,9 @@ describe("proprietaryService", () => {
         "@/services/proprietaryService"
       )
 
-      const result = useProprietaryService("fake/eli").put()
+      const result = useProprietaryService("fake/eli", {
+        atDate: "2024-06-10",
+      }).put()
       expect(result.data.value).toBeTruthy()
 
       vi.doUnmock("@/services/apiService")
