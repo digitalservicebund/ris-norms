@@ -2,12 +2,12 @@ import { MaybeRefOrGetter, Ref, readonly, ref, toValue, watch } from "vue"
 import { getNormXmlByEli, putNormXml } from "@/services/normService"
 
 /**
- * Get the XML of a target law.
+ * Get the XML of a norm.
  *
- * @param eli a reference to the eli for which the law xml will be returned.
+ * @param eli a reference to the eli for which the norm xml will be returned.
  *  Changing the value of the reference will load the data for the new eli.
  */
-export function useTargetLawXml(eli: MaybeRefOrGetter<string | undefined>): {
+export function useNormXml(eli: MaybeRefOrGetter<string | undefined>): {
   /**
    * A reference to the target law XML or undefined if it is not available (or
    * still loading).
@@ -18,27 +18,27 @@ export function useTargetLawXml(eli: MaybeRefOrGetter<string | undefined>): {
    */
   update: (xml: string) => Promise<void>
 } {
-  const targetLawXml = ref<string>()
+  const xml = ref<string>()
 
   watch(
     () => toValue(eli),
     async (eli) => {
       if (eli) {
-        targetLawXml.value = await getNormXmlByEli(eli)
+        xml.value = await getNormXmlByEli(eli)
       }
     },
     { immediate: true },
   )
 
-  async function update(xml: string): Promise<void> {
+  async function update(newXml: string): Promise<void> {
     const eliValue = toValue(eli)
 
     if (!eliValue) {
       throw new Error("Expected an identifier to exist when calling update.")
     }
 
-    targetLawXml.value = await putNormXml(eliValue, xml)
+    xml.value = await putNormXml(eliValue, newXml)
   }
 
-  return { xml: readonly(targetLawXml), update }
+  return { xml: readonly(xml), update }
 }

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
-describe("useTargetLawXml", () => {
+describe("useNormXml", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -14,12 +14,12 @@ describe("useTargetLawXml", () => {
       getNormXmlByEli,
     }))
 
-    const { useTargetLawXml } = await import("./useTargetLawXml")
+    const { useNormXml } = await import("./useNormXml")
 
     const eli = ref(
       "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
     )
-    const { xml } = useTargetLawXml(eli)
+    const { xml } = useNormXml(eli)
     await vi.waitUntil(() => xml.value)
 
     expect(xml.value).toBe("<xml></xml>")
@@ -32,12 +32,12 @@ describe("useTargetLawXml", () => {
       getNormXmlByEli,
     }))
 
-    const { useTargetLawXml } = await import("./useTargetLawXml")
+    const { useNormXml } = await import("./useNormXml")
 
     const eli = ref(
       "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
     )
-    useTargetLawXml(eli)
+    useNormXml(eli)
 
     eli.value = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
     await nextTick()
@@ -60,8 +60,8 @@ describe("useTargetLawXml", () => {
         putNormXml,
       }))
 
-      const { useTargetLawXml } = await import("./useTargetLawXml")
-      const { xml, update } = useTargetLawXml(
+      const { useNormXml } = await import("./useNormXml")
+      const { xml, update } = useNormXml(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
       )
 
@@ -83,8 +83,8 @@ describe("useTargetLawXml", () => {
         putNormXml: vi.fn().mockRejectedValue("404 Not Found"),
       }))
 
-      const { useTargetLawXml } = await import("./useTargetLawXml")
-      const { xml, update } = useTargetLawXml(
+      const { useNormXml } = await import("./useNormXml")
+      const { xml, update } = useNormXml(
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
       )
 
@@ -100,8 +100,8 @@ describe("useTargetLawXml", () => {
         putNormXml: vi.fn().mockResolvedValue("<xml>2</xml>"),
       }))
 
-      const { useTargetLawXml } = await import("./useTargetLawXml")
-      const { update } = useTargetLawXml(ref(undefined))
+      const { useNormXml } = await import("./useNormXml")
+      const { update } = useNormXml(ref(undefined))
 
       await expect(update("<xml>2</xml>")).rejects.toThrow(
         "Expected an identifier to exist when calling update.",

@@ -5,7 +5,7 @@ import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useAffectedElements } from "@/composables/useAffectedElements"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
+import { useNormXml } from "@/composables/useNormXml"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import dayjs from "dayjs"
@@ -53,7 +53,7 @@ const elements = useAffectedElements(
  * -------------------------------------------------- */
 
 const { xml: targetLawXml, update: updateTargetLawXml } =
-  useTargetLawXml(affectedDocumentEli)
+  useNormXml(affectedDocumentEli)
 
 const currentTargetLawXml = ref<string | undefined>("")
 
