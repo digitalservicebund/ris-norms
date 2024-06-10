@@ -132,7 +132,7 @@ describe("ldmldeModService", () => {
     })
   })
 
-  describe("updateModData", () => {
+  describe("useUpdateModData", () => {
     it("should make a PUT request with the correct data", async () => {
       const eli = "eli"
       const eid = "eid"
@@ -147,16 +147,24 @@ describe("ldmldeModService", () => {
         targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
         amendingNormXml: "<xml>amending-norm-xml</xml>",
       }
-      const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
-      vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
 
-      const { updateModData } = await import("./ldmldeModService")
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValueOnce(new Response(JSON.stringify(expectedResponse)))
 
-      const result = await updateModData(eli, eid, updatedMods)
-      expect(result).toEqual(expectedResponse)
+      const { useUpdateModData } = await import("./ldmldeModService")
 
-      expect(fetchMock).toHaveBeenCalledWith(
-        `/norms/${eli}/mods/${eid}`,
+      const { data, execute, isFetching } = useUpdateModData(
+        eli,
+        eid,
+        updatedMods,
+      )
+      expect(isFetching.value).toBe(false)
+      await execute()
+      expect(data.value).toEqual(expectedResponse)
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        `/api/v1/norms/${eli}/mods/${eid}?`,
         expect.objectContaining({
           method: "PUT",
           headers: {

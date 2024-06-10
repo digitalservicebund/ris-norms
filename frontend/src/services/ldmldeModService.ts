@@ -7,7 +7,9 @@ import {
 import { getForcePeriod } from "@/services/ldmldeTextualModService"
 import { getStartEventRefEid } from "@/services/ldmldeTemporalGroupService"
 import { getEventRefDate } from "@/services/ldmldeEventRefService"
-import { apiFetch } from "@/services/apiService"
+import { INVALID_URL, useApiFetch } from "@/services/apiService"
+import { computed, MaybeRefOrGetter, toValue } from "vue"
+import { UseFetchReturn } from "@vueuse/core"
 
 /**
  * Provides the old text of an akn:mod element. For "aenderungsbefehl-ersetzen" this is the old text.
@@ -64,36 +66,42 @@ export function getTimeBoundaryDate(xml: Document, aknModEid: string) {
 
   return { date, temporalGroupEid }
 }
+
 /**
- * Save the updated mod data to the server.
+ * Composable for saving the updated mod data to the server.
  *
  * @param eli - The ELI of the norm.
  * @param eid - The eId of the akn:mod.
  * @param updatedMods - A mod object.
  * @param dryRun - Should the save operation only be previewed and not actually persisted?
- * @returns An XML of ZF0 in the response when the save operation is complete.
  */
-export async function updateModData(
-  eli: string,
-  eid: string,
-  updatedMods: ModData,
-  dryRun: boolean = false,
-): Promise<{
+export function useUpdateModData(
+  eli: MaybeRefOrGetter<string | null>,
+  eid: MaybeRefOrGetter<string | null>,
+  updatedMods: MaybeRefOrGetter<ModData | null>,
+  dryRun: MaybeRefOrGetter<boolean> = false,
+): UseFetchReturn<{
   amendingNormXml: string
   targetNormZf0Xml: string
 }> {
-  return await apiFetch<{
-    amendingNormXml: string
-    targetNormZf0Xml: string
-  }>(`/norms/${eli}/mods/${eid}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
+  return useApiFetch(
+    computed(() => {
+      if (!toValue(eli) || !toValue(eid) || !toValue(updatedMods)) {
+        return INVALID_URL
+      }
+
+      const params = new URLSearchParams()
+
+      if (toValue(dryRun)) {
+        params.set("dryRun", "true")
+      }
+
+      return `/norms/${toValue(eli)}/mods/${toValue(eid)}?${params.toString()}`
+    }),
+    {
+      immediate: false,
     },
-    query: {
-      dryRun,
-    },
-    body: JSON.stringify(updatedMods),
-  })
+  )
+    .json()
+    .put(updatedMods)
 }

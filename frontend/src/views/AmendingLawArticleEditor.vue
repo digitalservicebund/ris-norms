@@ -67,29 +67,11 @@ function handlePreviewClick() {
   selectedMod.value = ""
 }
 
-const previewCustomNorms = ref<string[]>([])
-const { data: previewHtml } = useNormRender(
-  previewXml,
-  false,
-  computed(() =>
-    timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
-  ),
-  previewCustomNorms,
-)
-
 async function handleGeneratePreview() {
   if (!targetLawEli.value || !selectedMod.value) return
 
   try {
-    const response = await previewUpdateMod(eli.value, selectedMod.value, {
-      refersTo: selectedMod.value,
-      timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
-      destinationHref: destinationHref.value,
-      newText: quotedTextSecond.value,
-    })
-
-    previewXml.value = response.targetNormZf0Xml
-    previewCustomNorms.value = [response.amendingNormXml]
+    await preview()
   } catch (error) {
     alert("Vorschau konnte nicht erstellt werden")
     console.error(error)
@@ -103,9 +85,34 @@ const {
   quotedTextFirst,
   quotedTextSecond,
   timeBoundary,
-  updateMod,
-  previewUpdateMod,
-} = useMod(selectedMod, xml)
+  preview: { data: previewData, execute: preview },
+  update: { data: updateData, execute: update },
+} = useMod(eli, selectedMod, xml)
+
+const previewCustomNorms = computed(() =>
+  previewData.value ? [previewData.value.amendingNormXml] : [],
+)
+const { data: previewHtml } = useNormRender(
+  previewXml,
+  false,
+  computed(() =>
+    timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
+  ),
+  previewCustomNorms,
+)
+
+watch(previewData, () => {
+  if (!previewData.value) return
+
+  previewXml.value = previewData.value.targetNormZf0Xml
+})
+
+watch(updateData, () => {
+  if (!updateData.value) return
+
+  currentXml.value = updateData.value.amendingNormXml
+  previewXml.value = updateData.value.targetNormZf0Xml
+})
 
 watch(selectedMod, () => {
   if (selectedMod.value !== "") {
@@ -117,17 +124,8 @@ watch(targetLawEli, () => {
 })
 
 async function handleSave() {
-  const updatedMods = {
-    refersTo: selectedMod.value,
-    timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
-    destinationHref: destinationHref.value,
-    newText: quotedTextSecond.value,
-  }
-
   try {
-    const response = await updateMod(eli.value, selectedMod.value, updatedMods)
-    currentXml.value = response.amendingNormXml
-    previewXml.value = response.targetNormZf0Xml
+    await update()
   } catch (error) {
     console.error("Error saving the mod:", error)
   }
