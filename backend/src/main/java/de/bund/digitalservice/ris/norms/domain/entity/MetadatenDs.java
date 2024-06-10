@@ -42,8 +42,8 @@ public class MetadatenDs {
    * day. Also, if there is a previous node it will set the @end attribute to 1 day before of the
    * newly updated/created node.
    *
-   * @param date - the specific date of the time boundary.
-   * @param fna - the new fna
+   * @param date the specific date
+   * @param fna the new fna
    */
   public void setFnaAt(final LocalDate date, final String fna) {
     NodeParser.getNodeFromExpression(String.format("./fna[@start='%s']", date.toString()), node)
@@ -89,10 +89,11 @@ public class MetadatenDs {
   }
 
   /**
-   * TODO: Description
+   * Retrieves the Art value at a specific date. It looks for the one value where @start attribute
+   * is equals or before the given date and the @end attribute is equals or after the given date.
    *
    * @param date the specific date
-   * @return ??? or empty if it doesn't exist.
+   * @return Art or empty if it doesn't exist.
    */
   public Optional<String> getArtAt(final LocalDate date) {
     return NodeParser.getNodesFromExpression("./art", node).stream()
@@ -105,10 +106,11 @@ public class MetadatenDs {
   }
 
   /**
-   * TODO: Description
+   * Retrieves the Typ value at a specific date. It looks for the one value where @start attribute
+   * is equals or before the given date and the @end attribute is equals or after the given date.
    *
    * @param date the specific date
-   * @return ??? or empty if it doesn't exist.
+   * @return Typ or empty if it doesn't exist.
    */
   public Optional<String> getTypAt(final LocalDate date) {
     return NodeParser.getNodesFromExpression("./typ", node).stream()
@@ -121,19 +123,21 @@ public class MetadatenDs {
   }
 
   /**
-   * TODO: Description
+   * Returns the subtype ("Subtyp") of the document.
    *
-   * @return ??? or empty if it doesn't exist.
+   * @return Subtyp or empty if it doesn't exist.
    */
   public Optional<String> getSubtyp() {
     return NodeParser.getValueFromExpression("./subtyp", node);
   }
 
   /**
-   * TODO: Description
+   * Retrieves the Subtyp value at a specific date. It looks for the one value where @start
+   * attribute is equals or before the given date and the @end attribute is equals or after the
+   * given date.
    *
    * @param date the specific date
-   * @return ??? or empty if it doesn't exist.
+   * @return Subtyp or empty if it doesn't exist.
    */
   public Optional<String> getSubtypAt(final LocalDate date) {
     return NodeParser.getNodesFromExpression("./subtyp", node).stream()

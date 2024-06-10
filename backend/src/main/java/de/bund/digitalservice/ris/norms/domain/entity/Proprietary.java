@@ -57,7 +57,7 @@ public class Proprietary {
   }
 
   /**
-   * Returns the FNA ("Fundstellennachweis A") of the norm from the MetadatenDe block
+   * Returns the FNA ("Fundstellennachweis A") of the norm from the MetadatenDe block.
    *
    * @return FNA or empty if it doesn't exist.
    */
@@ -70,14 +70,14 @@ public class Proprietary {
    * date, if empty it will get the one from MetadatenDe.
    *
    * @param date the specific date of the time boundary.
-   * @return FNA or empty if present neither in the MetadatenDe nor in the MetadatenDS block.
+   * @return FNA or empty if present neither in the MetadatenDe nor in the MetadatenDs block.
    */
   public Optional<String> getFna(final LocalDate date) {
     return getMetadatenDs().flatMap(m -> m.getFnaAt(date)).or(this::getFna);
   }
 
   /**
-   * TODO: Docs
+   * Returns the Art ("Art der Norm") of the norm from the MetadatenDe block.
    *
    * @return Art or empty if it doesn't exist.
    */
@@ -86,17 +86,18 @@ public class Proprietary {
   }
 
   /**
-   * TODO: Docs
+   * Returns the Art ("Art der Norm") of the norm from the MetadatenDs block at a specific date, if
+   * empty it will get the one from MetadatenDe.
    *
    * @param date the specific date of the time boundary.
-   * @return Art or empty if present neither in the MetadatenDe nor in the MetadatenDS block.
+   * @return Art or empty if present neither in the MetadatenDe nor in the MetadatenDs block.
    */
   public Optional<String> getArt(final LocalDate date) {
     return getMetadatenDs().flatMap(m -> m.getArtAt(date)).or(this::getArt);
   }
 
   /**
-   * TODO: Docs
+   * Returns the type ("Typ des Dokuments") of the document from the MetadatenDe block.
    *
    * @return Typ or empty if it doesn't exist.
    */
@@ -105,17 +106,18 @@ public class Proprietary {
   }
 
   /**
-   * TODO: Docs
+   * Returns the type ("Typ des Dokuments") of the document from the MetadatenDs block at a specific
+   * date, if empty it will get the one from MetadatenDe.
    *
    * @param date the specific date of the time boundary.
-   * @return Typ or empty if present neither in the MetadatenDe nor in the MetadatenDS block.
+   * @return Typ or empty if present neither in the MetadatenDe nor in the MetadatenDs block.
    */
   public Optional<String> getTyp(final LocalDate date) {
     return getMetadatenDs().flatMap(m -> m.getTypAt(date)).or(this::getTyp);
   }
 
   /**
-   * TODO: Docs
+   * Returns the subtype ("Subtyp") of the document from the MetadatenDs block.
    *
    * @return Subtyp or empty if it doesn't exist.
    */
@@ -124,10 +126,10 @@ public class Proprietary {
   }
 
   /**
-   * TODO: Docs
+   * Returns the subtype ("Subtyp") of the document from the MetadatenDs block at a specific date.
    *
    * @param date the specific date of the time boundary.
-   * @return Subtyp or empty if present neither in the MetadatenDe nor in the MetadatenDS block.
+   * @return Subtyp or empty if it doesn't exist.
    */
   public Optional<String> getSubtyp(final LocalDate date) {
     return getMetadatenDs().flatMap(m -> m.getSubtypAt(date)).or(this::getSubtyp);

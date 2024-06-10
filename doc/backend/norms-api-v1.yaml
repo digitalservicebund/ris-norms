@@ -603,18 +603,18 @@ components:
           properties:
             value:
               type: string
-              description: TODO
+              description: Art ("Art der Norm") of the norm
         typ:
           type: object
           properties:
             value:
               type: string
-              description: TODO
+              description: Type ("Typ") of the document
         subtyp:
           type: object
           properties:
             value:
               type: string
-              description: TODO
+              description: Subtype ("Subtyp") of the document
 
 

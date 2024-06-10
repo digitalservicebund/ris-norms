@@ -24,18 +24,18 @@ public class MetadatenDe {
   }
 
   /**
-   * TODO: Description
+   * Returns the Art ("Art der Norm") of the norm.
    *
-   * @return ??? or empty if it doesn't exist.
+   * @return Art or empty if it doesn't exist.
    */
   public Optional<String> getArt() {
     return NodeParser.getValueFromExpression("./art", node);
   }
 
   /**
-   * TODO: Description
+   * Returns the type ("Typ des Dokuments") of the document.
    *
-   * @return ??? or empty if it doesn't exist.
+   * @return Typ or empty if it doesn't exist.
    */
   public Optional<String> getTyp() {
     return NodeParser.getValueFromExpression("./typ", node);
