@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/test"
 
-test.describe("validation errors", () => {
+test.describe("Validation errors on check modifications page", () => {
   test("Wrong character range", async ({ page }) => {
     await page.goto(
-      "http://localhost:5173/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1",
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1",
     )
     await page
       .getByLabel("zu ersetzende Textstelle")
@@ -22,7 +22,7 @@ test.describe("validation errors", () => {
 
   test("Wrong eId", async ({ page }) => {
     await page.goto(
-      "http://localhost:5173/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1",
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1",
     )
     await page
       .getByLabel("zu ersetzende Textstelle")
@@ -41,17 +41,13 @@ test.describe("validation errors", () => {
 
   test("Using out of range character range", async ({ page }) => {
     await page.goto(
-      "http://localhost:5173/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1",
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1",
     )
     await page
       .getByLabel("zu ersetzende Textstelle")
       .fill(
         "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-3400.xml",
       )
-    page.once("dialog", (dialog) => {
-      console.log(`Dialog message: ${dialog.message()}`)
-      dialog.dismiss().catch(() => {})
-    })
     await page.getByLabel("zu ersetzende Textstelle").press("Enter")
     expect("true").toMatch("true") // placeholder to pass commit checks
     // expect error message in page
