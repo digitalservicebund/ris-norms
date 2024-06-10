@@ -223,7 +223,6 @@ test.describe("Update mod details", () => {
       name: "Änderungsbefehle bearbeiten",
     })
 
-    // TODO make characterRange invalid and expect 400
     await modFormSection
       .getByRole("textbox", { name: "zu ersetzende Textstelle" })
       .fill(
@@ -244,6 +243,34 @@ test.describe("Update mod details", () => {
         "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
       )
     await modFormSection.getByRole("button", { name: "Speichern" }).click()
+  })
+
+  test(`editing and failing the eid mod change`, async ({ page }) => {
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+    })
+
+    await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
+
+    const modFormSection = page.getByRole("region", {
+      name: "Änderungsbefehle bearbeiten",
+    })
+
+    await modFormSection
+      .getByRole("textbox", { name: "zu ersetzende Textstelle" })
+      .fill(
+        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/1-20.xml",
+      )
+    await modFormSection.getByRole("button", { name: "Speichern" }).click()
+    page.on("dialog", (dialog) => dialog.accept())
+    await amendingLawSection.getByRole("tab", { name: "xml" }).click()
+    await expect(
+      amendingLawSection.getByText(
+        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+      ),
+    ).toBeVisible()
+
+    // doesn't need to reset to original value, because failed to override it.
   })
 
   test(`selecting and saving the time boundary`, async ({ page }) => {
