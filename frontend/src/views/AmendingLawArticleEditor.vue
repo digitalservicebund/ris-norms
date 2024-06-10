@@ -4,7 +4,6 @@ import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useArticle } from "@/composables/useArticle"
-import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
@@ -19,6 +18,7 @@ import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
+import { useNormXml } from "@/composables/useNormXml"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -29,9 +29,9 @@ const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
 const { data: article } = useArticle(identifier)
-const { xml: articleXml } = useArticleXml(identifier)
+const { xml } = useNormXml(eli)
 const targetLawEli = computed(() => article.value?.affectedDocumentEli)
-const currentArticleXml = ref("")
+const currentXml = ref("")
 const renderedHtml = ref("")
 const previewXml = ref<string>("")
 const previewHtml = ref<string>("")
@@ -59,9 +59,9 @@ async function renderArticle(
 
 async function fetchAmendingLawRenderedHtml() {
   try {
-    if (currentArticleXml.value && eid.value) {
+    if (currentXml.value && eid.value) {
       renderedHtml.value =
-        (await renderArticle(currentArticleXml.value, eid.value)) ?? ""
+        (await renderArticle(currentXml.value, eid.value)) ?? ""
     }
   } catch (error) {
     console.error("Error fetching rendered HTML content:", error)
@@ -75,8 +75,8 @@ onMounted(() => {
   initialize()
 })
 
-watch(articleXml, fetchAmendingLawRenderedHtml, { immediate: true })
-watch(currentArticleXml, (newXml, oldXml) => {
+watch(xml, fetchAmendingLawRenderedHtml, { immediate: true })
+watch(currentXml, (newXml, oldXml) => {
   if (newXml !== oldXml) {
     if (amendingLawActiveTab.value === "text") {
       fetchAmendingLawRenderedHtml()
@@ -88,14 +88,14 @@ watch(amendingLawActiveTab, (newActiveTab, oldActiveTab) => {
   if (
     newActiveTab === "text" &&
     newActiveTab !== oldActiveTab &&
-    currentArticleXml.value
+    currentXml.value
   ) {
     fetchAmendingLawRenderedHtml()
   }
 })
-watch(articleXml, (articleXml) => {
-  if (articleXml) {
-    currentArticleXml.value = articleXml
+watch(xml, (xml) => {
+  if (xml) {
+    currentXml.value = xml
   }
 })
 
@@ -140,7 +140,7 @@ const {
   timeBoundary,
   updateMod,
   previewUpdateMod,
-} = useMod(selectedMod, articleXml)
+} = useMod(selectedMod, xml)
 
 watch(selectedMod, () => {
   if (selectedMod.value !== "") {
@@ -161,7 +161,7 @@ async function handleSave() {
 
   try {
     const response = await updateMod(eli.value, selectedMod.value, updatedMods)
-    currentArticleXml.value = response.amendingNormXml
+    currentXml.value = response.amendingNormXml
     previewXml.value = response.targetNormZf0Xml
   } catch (error) {
     console.error("Error saving the mod:", error)
@@ -217,7 +217,7 @@ async function handleSave() {
             </template>
             <template #xml>
               <RisCodeEditor
-                v-model="currentArticleXml"
+                v-model="currentXml"
                 class="flex-grow"
               ></RisCodeEditor>
             </template>
