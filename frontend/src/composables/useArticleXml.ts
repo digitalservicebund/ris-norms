@@ -1,4 +1,4 @@
-import { getNormXmlByEli, putNormXml } from "@/services/normService"
+import { getNormXmlByEli } from "@/services/normService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import {
   DeepReadonly,
@@ -25,10 +25,6 @@ export function useArticleXml(
    *  still loading).
    */
   xml: DeepReadonly<Ref<string | undefined>>
-  /**
-   * Update the article xml.
-   */
-  update: (xml: string) => Promise<unknown>
 } {
   const articleXml = ref<string>()
 
@@ -46,18 +42,7 @@ export function useArticleXml(
     { immediate: true },
   )
 
-  async function update(xml: string) {
-    const id = toValue(identifier)
-
-    if (!id) {
-      throw new Error("Expected an identifier to exist when calling update.")
-    }
-
-    articleXml.value = await putNormXml(id.eli, xml)
-  }
-
   return {
     xml: readonly(articleXml),
-    update,
   }
 }
