@@ -76,11 +76,6 @@ public class Proprietary {
     return getMetadatenDs().flatMap(m -> m.getFnaAt(date)).or(this::getFna);
   }
 
-  /**
-   * Returns the Art ("Art der Norm") of the norm from the MetadatenDe block.
-   *
-   * @return Art or empty if it doesn't exist.
-   */
   private Optional<String> getArt() {
     return getMetadatenDe().flatMap(MetadatenDe::getArt);
   }
