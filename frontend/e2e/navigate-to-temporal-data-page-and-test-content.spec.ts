@@ -1,6 +1,6 @@
 import { Page, expect, test } from "@playwright/test"
 
-test.describe.skip("navigate to temporal data page", () => {
+test.describe("navigate to temporal data page", () => {
   test("navigate to temporal data page for an amending law using side navigation", async ({
     page,
   }) => {
@@ -20,7 +20,7 @@ test.describe.skip("navigate to temporal data page", () => {
   })
 })
 
-test.describe.skip("manage temporal data for an amending law", () => {
+test.describe("manage temporal data for an amending law", () => {
   async function setupInitialData(page: Page) {
     await page.request.put(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
