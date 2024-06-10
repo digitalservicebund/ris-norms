@@ -302,8 +302,14 @@ public class ModificationValidator {
                     new XmlContentException(
                         "For norm with Eli (%s): %s".formatted(eli, message), null));
 
-    int modStart = getCharacterRangeStart(characterRange, modEId);
-    int modEnd = getCharacterRangeEnd(characterRange, modEId);
+    if (!characterRange.isValidCharacterRange()) {
+      throw new XmlContentException(
+          "The range (%s) given at mod with eId %s is not valid".formatted(characterRange, modEId),
+          null);
+    }
+
+    int modStart = characterRange.getStart();
+    int modEnd = characterRange.getEnd();
 
     validateStartIsBeforeEnd(eli, characterRange, modStart, modEnd, modEId);
     checkIfReplacementEndIsWithinText(eli, targetParagraphOldText, modEnd, modEId);
@@ -415,23 +421,5 @@ public class ModificationValidator {
             () ->
                 new XmlContentException(
                     "For norm with Eli (%s): TextualMod eId empty.".formatted(eli), null));
-  }
-
-  private int getCharacterRangeStart(CharacterRange cr, String modEId) {
-    boolean characterRangeValid = cr.isValidCharacterRange();
-    if (!characterRangeValid) {
-      throw new XmlContentException(
-          "The range (%s) given at mod with eId %s is not valid".formatted(cr, modEId), null);
-    }
-    return cr.getStart();
-  }
-
-  private int getCharacterRangeEnd(CharacterRange cr, String modEId) {
-    boolean characterRangeValid = cr.isValidCharacterRange();
-    if (!characterRangeValid) {
-      throw new XmlContentException(
-          "The range (%s) given at mod with eId %s is not valid".formatted(cr, modEId), null);
-    }
-    return cr.getEnd();
   }
 }
