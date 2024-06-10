@@ -144,7 +144,7 @@ public class MetadatenDs {
   public Optional<String> getSubtypAt(final LocalDate date) {
     return NodeParser.getNodesFromExpression("./subtyp", node).stream()
         .map(SimpleProprietaryValue::new)
-        .sorted()
+        .sorted(SimpleProprietaryValue::compareByStartDate)
         .filter(
             i -> {
               if (i.getStart().isPresent() && i.getEnd().isPresent()) {

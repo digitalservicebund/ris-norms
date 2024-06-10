@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-public class SimpleProprietaryValue implements Comparable<SimpleProprietaryValue> {
+public class SimpleProprietaryValue {
   private final Node node;
 
   /**
@@ -43,19 +43,18 @@ public class SimpleProprietaryValue implements Comparable<SimpleProprietaryValue
   }
 
   /**
-   * Compares two FNAs, so they can be sorted by their start dates. Currently, only the start date
-   * is considered when comparing. It is assumed that there is no overlap in validity between two
-   * FNAs.
+   * Compares two FNAs, so they can be sorted by their start dates. It is assumed that there is no
+   * overlap in validity between two values.
    *
-   * @param other the element to be compared
+   * @param o1 the first element to be compared
+   * @param o2 the second element to be compared
    * @return Comparison result
    */
-  @Override
-  public int compareTo(SimpleProprietaryValue other) {
-    if (this.getStart().isPresent() && other.getStart().isPresent()) {
-      return this.getStart().get().compareTo(other.getStart().get());
-    } else if (this.getStart().isEmpty() && other.getStart().isPresent()) return -1;
-    else if (this.getStart().isPresent() && other.getStart().isEmpty()) return 1;
+  public static int compareByStartDate(SimpleProprietaryValue o1, SimpleProprietaryValue o2) {
+    if (o1.getStart().isPresent() && o2.getStart().isPresent()) {
+      return o1.getStart().get().compareTo(o2.getStart().get());
+    } else if (o1.getStart().isEmpty() && o2.getStart().isPresent()) return -1;
+    else if (o1.getStart().isPresent() && o2.getStart().isEmpty()) return 1;
     else return 0;
   }
 }

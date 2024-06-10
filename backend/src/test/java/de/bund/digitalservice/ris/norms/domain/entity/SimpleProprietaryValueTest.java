@@ -12,103 +12,99 @@ class SimpleProprietaryValueTest {
 
   @Test
   void getValue() {
-    final SimpleProprietaryValue metadataum =
+    final SimpleProprietaryValue fna =
         SimpleProprietaryValue.builder()
             .node(
                 XmlMapper.toNode(
                     """
-                            <meta:metadataum start="1990-01-01" end="1994-12-31">111-11-1</meta:metadataum>
+                            <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                            """))
             .build();
 
-    assertThat(metadataum.getValue()).isEqualTo("111-11-1");
+    assertThat(fna.getValue()).isEqualTo("111-11-1");
   }
 
   @Test
   void getValueNull() {
-    final SimpleProprietaryValue metadataum =
+    final SimpleProprietaryValue fna =
         SimpleProprietaryValue.builder()
             .node(
                 XmlMapper.toNode(
                     """
-                                            <meta:metadataum start="1990-01-01" end="1994-12-31"></meta:metadataum>
+                                            <meta:fna start="1990-01-01" end="1994-12-31"></meta:fna>
                                            """))
             .build();
 
-    assertThat(metadataum.getValue()).isEmpty();
+    assertThat(fna.getValue()).isEmpty();
   }
 
   @Test
   void getStart() {
-    final SimpleProprietaryValue metadataum =
+    final SimpleProprietaryValue fna =
         SimpleProprietaryValue.builder()
             .node(
                 XmlMapper.toNode(
                     """
-                                            <meta:metadataum start="1990-01-01" end="1994-12-31">111-11-1</meta:metadataum>
+                                            <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                            """))
             .build();
 
-    assertThat(metadataum.getStart()).contains(LocalDate.parse("1990-01-01"));
+    assertThat(fna.getStart()).contains(LocalDate.parse("1990-01-01"));
   }
 
   @Test
   void getStartEmpty() {
-    final SimpleProprietaryValue metadataum =
+    final SimpleProprietaryValue fna =
         SimpleProprietaryValue.builder()
             .node(
                 XmlMapper.toNode(
                     """
-                                            <meta:metadataum end="1994-12-31">111-11-1</meta:metadataum>
+                                            <meta:fna end="1994-12-31">111-11-1</meta:fna>
                                            """))
             .build();
 
-    assertThat(metadataum.getStart()).isEmpty();
+    assertThat(fna.getStart()).isEmpty();
   }
 
   @Test
   void getEnd() {
-    final SimpleProprietaryValue metadataum =
+    final SimpleProprietaryValue fna =
         SimpleProprietaryValue.builder()
             .node(
                 XmlMapper.toNode(
                     """
-                                            <meta:metadataum start="1990-01-01" end="1994-12-31">111-11-1</meta:metadataum>
+                                            <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                            """))
             .build();
 
-    assertThat(metadataum.getEnd()).contains(LocalDate.parse("1994-12-31"));
+    assertThat(fna.getEnd()).contains(LocalDate.parse("1994-12-31"));
   }
 
   @Test
   void getEndEmpty() {
-    final SimpleProprietaryValue metadataum =
+    final SimpleProprietaryValue fna =
         SimpleProprietaryValue.builder()
             .node(
                 XmlMapper.toNode(
                     """
-                                            <meta:metadataum start="1990-01-01">111-11-1</meta:metadataum>
+                                            <meta:fna start="1990-01-01">111-11-1</meta:fna>
                                            """))
             .build();
 
-    assertThat(metadataum.getEnd()).isEmpty();
+    assertThat(fna.getEnd()).isEmpty();
   }
 
   @Nested
-  class Comparable {
+  class CompareByStartDate {
     @Test
     void keepsTheOrderIfStartDatesAreEmpty() {
       // Given
-      var a =
-          new SimpleProprietaryValue(
-              XmlMapper.toNode("<meta:metadataum>111-11-1</meta:metadataum>"));
-      var b =
-          new SimpleProprietaryValue(
-              XmlMapper.toNode("<meta:metadataum>222-22-2</meta:metadataum>"));
+      var a = new SimpleProprietaryValue(XmlMapper.toNode("<meta:fna>111-11-1</meta:fna>"));
+      var b = new SimpleProprietaryValue(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
       var list = List.of(a, b);
 
       // When
-      var sorted = list.stream().sorted().toList();
+      var sorted = list.stream().sorted(SimpleProprietaryValue::compareByStartDate).toList();
 
       // Then
       assertThat(sorted).containsExactly(a, b);
@@ -119,14 +115,14 @@ class SimpleProprietaryValueTest {
       // Given
       var a =
           new SimpleProprietaryValue(
-              XmlMapper.toNode("<meta:metadataum start='2023-01-01'>111-11-1</meta:metadataum>"));
+              XmlMapper.toNode("<meta:fna start='2023-01-01'>111-11-1</meta:fna>"));
       var b =
           new SimpleProprietaryValue(
-              XmlMapper.toNode("<meta:metadataum start='2011-01-01'>222-22-2</meta:metadataum>"));
+              XmlMapper.toNode("<meta:fna start='2011-01-01'>222-22-2</meta:fna>"));
       var list = List.of(a, b);
 
       // When
-      var sorted = list.stream().sorted().toList();
+      var sorted = list.stream().sorted(SimpleProprietaryValue::compareByStartDate).toList();
 
       // Then
       assertThat(sorted).containsExactly(b, a);
@@ -137,14 +133,12 @@ class SimpleProprietaryValueTest {
       // Given
       var a =
           new SimpleProprietaryValue(
-              XmlMapper.toNode("<meta:metadataum start='2023-01-01'>111-11-1</meta:metadataum>"));
-      var b =
-          new SimpleProprietaryValue(
-              XmlMapper.toNode("<meta:metadataum>222-22-2</meta:metadataum>"));
+              XmlMapper.toNode("<meta:fna start='2023-01-01'>111-11-1</meta:fna>"));
+      var b = new SimpleProprietaryValue(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
       var list = List.of(a, b);
 
       // When
-      var sorted = list.stream().sorted().toList();
+      var sorted = list.stream().sorted(SimpleProprietaryValue::compareByStartDate).toList();
 
       // Then
       assertThat(sorted).containsExactly(b, a);
