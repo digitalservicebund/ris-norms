@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-public class Fna implements Comparable<Fna> {
+public class SimpleProprietaryValue implements Comparable<SimpleProprietaryValue> {
   private final Node node;
 
   /**
@@ -51,7 +51,7 @@ public class Fna implements Comparable<Fna> {
    * @return Comparison result
    */
   @Override
-  public int compareTo(Fna other) {
+  public int compareTo(SimpleProprietaryValue other) {
     if (this.getStart().isPresent() && other.getStart().isPresent()) {
       return this.getStart().get().compareTo(other.getStart().get());
     } else if (this.getStart().isEmpty() && other.getStart().isPresent()) return -1;

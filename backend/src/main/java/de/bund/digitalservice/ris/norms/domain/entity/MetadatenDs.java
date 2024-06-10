@@ -32,7 +32,7 @@ public class MetadatenDs {
             f -> f.getStart().map(start -> date.isEqual(start) || date.isAfter(start)).orElse(true))
         .filter(f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
         .findFirst()
-        .map(Fna::getValue);
+        .map(SimpleProprietaryValue::getValue);
   }
 
   /**
@@ -51,13 +51,13 @@ public class MetadatenDs {
             fnaNode -> fnaNode.setTextContent(fna),
             () -> {
               // 1. Check if we have later FNAs and get the next closest one
-              final Optional<Fna> nextFna =
+              final Optional<SimpleProprietaryValue> nextFna =
                   getFnaNodes().stream()
                       .filter(f -> f.getStart().isPresent() && f.getStart().get().isAfter(date))
                       .min(Comparator.comparing(f -> f.getStart().get()));
 
               // 2. Check if we have previous FNAs and get the next closest one
-              final Optional<Fna> previousFna =
+              final Optional<SimpleProprietaryValue> previousFna =
                   getFnaNodes().stream()
                       .filter(f -> f.getStart().isPresent() && f.getStart().get().isBefore(date))
                       .max(Comparator.comparing(f -> f.getStart().get()));
@@ -82,10 +82,12 @@ public class MetadatenDs {
   /**
    * Retrieves all meta:fna nodes
    *
-   * @return list of {@link Fna}
+   * @return list of FNAs as {@link SimpleProprietaryValue}
    */
-  public List<Fna> getFnaNodes() {
-    return NodeParser.getNodesFromExpression("./fna", node).stream().map(Fna::new).toList();
+  public List<SimpleProprietaryValue> getFnaNodes() {
+    return NodeParser.getNodesFromExpression("./fna", node).stream()
+        .map(SimpleProprietaryValue::new)
+        .toList();
   }
 
   /**
@@ -97,12 +99,12 @@ public class MetadatenDs {
    */
   public Optional<String> getArtAt(final LocalDate date) {
     return NodeParser.getNodesFromExpression("./art", node).stream()
-        .map(Fna::new)
+        .map(SimpleProprietaryValue::new)
         .filter(
             f -> f.getStart().map(start -> date.isEqual(start) || date.isAfter(start)).orElse(true))
         .filter(f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
         .findFirst()
-        .map(Fna::getValue);
+        .map(SimpleProprietaryValue::getValue);
   }
 
   /**
@@ -114,12 +116,12 @@ public class MetadatenDs {
    */
   public Optional<String> getTypAt(final LocalDate date) {
     return NodeParser.getNodesFromExpression("./typ", node).stream()
-        .map(Fna::new)
+        .map(SimpleProprietaryValue::new)
         .filter(
             f -> f.getStart().map(start -> date.isEqual(start) || date.isAfter(start)).orElse(true))
         .filter(f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
         .findFirst()
-        .map(Fna::getValue);
+        .map(SimpleProprietaryValue::getValue);
   }
 
   /**
@@ -141,7 +143,7 @@ public class MetadatenDs {
    */
   public Optional<String> getSubtypAt(final LocalDate date) {
     return NodeParser.getNodesFromExpression("./subtyp", node).stream()
-        .map(Fna::new)
+        .map(SimpleProprietaryValue::new)
         .sorted()
         .filter(
             i -> {
@@ -163,6 +165,6 @@ public class MetadatenDs {
               }
             })
         .findFirst()
-        .map(Fna::getValue);
+        .map(SimpleProprietaryValue::getValue);
   }
 }
