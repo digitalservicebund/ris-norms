@@ -79,7 +79,7 @@ async function handleSave() {
             label="Speichern"
             size="small"
             class="h-fit flex-none"
-            :disabled="isSaving"
+            :loading="isSaving"
             @click="handleSave"
           />
         </RisTooltip>

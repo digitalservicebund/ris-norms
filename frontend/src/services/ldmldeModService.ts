@@ -8,7 +8,7 @@ import { getForcePeriod } from "@/services/ldmldeTextualModService"
 import { getStartEventRefEid } from "@/services/ldmldeTemporalGroupService"
 import { getEventRefDate } from "@/services/ldmldeEventRefService"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import { computed, MaybeRefOrGetter, toValue } from "vue"
+import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
 
 /**
@@ -84,7 +84,10 @@ export function useUpdateModData(
   amendingNormXml: string
   targetNormZf0Xml: string
 }> {
-  return useApiFetch(
+  const apiFetch: UseFetchReturn<{
+    amendingNormXml: string
+    targetNormZf0Xml: string
+  }> = useApiFetch(
     computed(() => {
       if (!toValue(eli) || !toValue(eid) || !toValue(updatedMods)) {
         return INVALID_URL
@@ -104,4 +107,26 @@ export function useUpdateModData(
   )
     .json()
     .put(updatedMods)
+
+  // reset isFinished when data changes
+  const isFinished = ref(false)
+  watch(apiFetch.isFinished, () => {
+    isFinished.value = apiFetch.isFinished.value
+  })
+  watch(
+    [
+      () => toValue(eli),
+      () => toValue(eid),
+      () => toValue(updatedMods),
+      () => toValue(dryRun),
+    ],
+    () => {
+      isFinished.value = false
+    },
+  )
+
+  return {
+    ...apiFetch,
+    isFinished,
+  }
 }

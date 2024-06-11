@@ -7,6 +7,7 @@ import {
   getQuotedTextFirst,
   getTimeBoundaryDate,
 } from "@/services/ldmldeModService"
+import { nextTick, ref } from "vue"
 
 describe("ldmldeModService", () => {
   beforeEach(() => {
@@ -174,6 +175,26 @@ describe("ldmldeModService", () => {
           body: JSON.stringify(updatedMods),
         }),
       )
+    })
+
+    it("should reset isFinished once data changes", async () => {
+      vi.spyOn(global, "fetch").mockResolvedValueOnce(new Response("{}"))
+
+      const { useUpdateModData } = await import("./ldmldeModService")
+
+      const eli = ref("eli")
+      const { execute, isFinished } = useUpdateModData(eli, "eid", {
+        refersTo: "test-refersTo",
+        timeBoundaryEid: "test-timeBoundaryEid",
+        destinationHref: "test-destinationHref",
+        newText: "test-newText",
+      })
+      expect(isFinished.value).toBe(false)
+      await execute()
+      expect(isFinished.value).toBe(true)
+      eli.value = "new-eli"
+      await nextTick()
+      expect(isFinished.value).toBe(false)
     })
   })
 })

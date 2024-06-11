@@ -99,13 +99,9 @@ const {
     execute: update,
     error: saveError,
     isFetching: isUpdating,
+    isFinished: isUpdatingFinished,
   },
 } = useMod(eli, selectedMod, xml)
-
-watch(saveError, () => {
-  alert("Speichern nicht erfolgreich")
-  console.error("Error saving the mod:", saveError.value)
-})
 
 const previewCustomNorms = computed(() =>
   previewData.value ? [previewData.value.amendingNormXml] : [],
@@ -250,6 +246,8 @@ watch(selectedMod, () => {
             :quoted-text-first="quotedTextFirst"
             :time-boundaries="timeBoundaries"
             :is-updating="isUpdating"
+            :is-updating-finished="isUpdatingFinished"
+            :update-error="saveError"
             @generate-preview="preview"
             @update-mod="update"
           />

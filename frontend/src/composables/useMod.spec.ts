@@ -147,10 +147,6 @@ describe("useMod", () => {
       getQuotedTextSecond: vi.fn(),
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
-      updateModData: vi.fn().mockResolvedValue({
-        targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
-        amendingNormXml: "<xml>amending-norm-xml</xml>",
-      }),
       useUpdateModData,
     }))
 
