@@ -70,14 +70,11 @@ export const verfassungsschutzgesetz = `<?xml version="1.0" encoding="UTF-8"?><?
                   <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
-        </akn:proprietary>
-        <akn:proprietary GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f" eId="meta-1_proprietary-2" source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                <meta:celex/>
-                <meta:interne-referenz href="">
-                    <meta:normgeber/>
-                </meta:interne-referenz>
-            </meta:legalDocML.de_metadaten_ds>
+                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                    <meta:art start="1970-01-01">regelungstext</meta:art>
+                    <meta:typ start="1970-01-01">gesetz</meta:typ>
+                    <meta:subtyp start="1970-01-01">Rechtsverordnung</meta:subtyp>
+                 </meta:legalDocML.de_metadaten_ds>
         </akn:proprietary>
     </akn:meta>
     <akn:preface GUID="59a7267f-11bf-464e-a884-15c0bbd17416" eId="einleitung-1">
@@ -5278,13 +5275,10 @@ export const changedVerfassungsschutzgesetz = `<?xml version="1.0" encoding="UTF
                   <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
-        </akn:proprietary>
-        <akn:proprietary GUID="d03c4c44-85ae-4f95-9d3e-063d9feba23f" eId="meta-1_proprietary-2" source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                <meta:celex/>
-                <meta:interne-referenz href="">
-                    <meta:normgeber/>
-                </meta:interne-referenz>
+                    <meta:art start="1970-01-01">regelungstext</meta:art>
+                    <meta:typ start="1970-01-01">gesetz</meta:typ>
+                    <meta:subtyp start="1970-01-01">Rechtsverordnung</meta:subtyp>
             </meta:legalDocML.de_metadaten_ds>
         </akn:proprietary>
     </akn:meta>

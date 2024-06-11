@@ -319,6 +319,9 @@ test.describe("metadata reading", () => {
     await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
       "210-5",
     )
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
+      "Rechtsverordnung",
+    )
   })
 
   test("displays metadata on the frame at different time boundaries", async ({
@@ -340,6 +343,8 @@ test.describe("metadata reading", () => {
       "754-28-2",
     )
 
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue("")
+
     const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
     dropdown.selectOption("2009-10-08")
     await page.waitForResponse((response) =>
@@ -350,6 +355,10 @@ test.describe("metadata reading", () => {
       "111-11-1",
     )
 
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
+      "Verwaltungsvorschrift",
+    )
+
     dropdown.selectOption("2023-01-01")
     await page.waitForResponse((response) =>
       response.url().endsWith("/proprietary/2023-01-01"),
@@ -357,6 +366,9 @@ test.describe("metadata reading", () => {
 
     await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
       "222-22-2",
+    )
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
+      "Rechtsverordnung",
     )
 
     dropdown.selectOption("2023-12-24")
@@ -366,6 +378,10 @@ test.describe("metadata reading", () => {
 
     await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
       "333-33-3",
+    )
+
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
+      "Rechtsverordnung",
     )
   })
 
@@ -472,6 +488,15 @@ test.describe("metadata editing", () => {
     await expect(fnaTextbox).toHaveValue("210-5")
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await expect(fnaTextbox).toHaveValue("600-1")
+
+    await page.route(/\/proprietary\/2023-12-30$/, (route) => {
+      // Mocking again to reset the value of the FNA for other e2e tests
+      if (route.request().method() === "PUT")
+        route.fulfill({ status: 200, json: { fna: "210-5" } })
+      else route.continue()
+    })
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+    await expect(fnaTextbox).toHaveValue("210-5")
 
     await page.unroute(/\/proprietary\/2023-12-30$/)
   })

@@ -1641,6 +1641,12 @@ VALUES ('5d84cd1d-3575-4a03-bb6c-f17834e392fe', 'eli/bund/bgbl-1/2009/s3366/2024
                    <meta:fna start="2009-10-08" end="2022-12-31">111-11-1</meta:fna>
                    <meta:fna start="2023-01-01" end="2023-12-23">222-22-2</meta:fna>
                    <meta:fna start="2023-12-24">333-33-3</meta:fna>
+                    <meta:art start="2009-10-08" end="2022-12-31">regelungstext</meta:art>
+                    <meta:typ start="2009-10-08" end="2022-12-31">verwaltungsvorschrift</meta:typ>
+                    <meta:subtyp start="2009-10-08" end="2022-12-31">Verwaltungsvorschrift</meta:subtyp>
+                    <meta:art start="2023-01-01">regelungstext</meta:art>
+                    <meta:typ start="2023-01-01">gesetz</meta:typ>
+                    <meta:subtyp start="2023-01-01">Rechtsverordnung</meta:subtyp>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>
