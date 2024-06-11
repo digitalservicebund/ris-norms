@@ -1,5 +1,5 @@
 [versions]
-flyway = "10.14.0"
+flyway = "10.15.0"
 # @keep
 jacoco = "0.8.11"
 org-bouncycastle = "1.78.1"
