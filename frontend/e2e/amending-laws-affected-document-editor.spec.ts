@@ -411,7 +411,7 @@ test.describe("metadata reading", () => {
 test.describe("metadata editing", () => {
   test.describe("editing individual fields", () => {
     // Creating a shared page allows us to stay in the same page/context while
-    // editing all metadata fields (as a user would) without relading the page
+    // editing all metadata fields (as a user would) without reloading the page
     // after each edit while still using separate test cases and keeping each
     // individual test small.
     let sharedPage: Page
@@ -431,6 +431,17 @@ test.describe("metadata editing", () => {
       await fnaTextbox.fill("123-4")
       await expect(fnaTextbox).toHaveValue("123-4")
     })
+
+    test("can edit the Dokumenttyp", async () => {
+      const documentTypeDropdown = sharedPage.getByRole("combobox", {
+        name: "Dokumenttyp",
+      })
+      documentTypeDropdown.selectOption("Anordnung des Bundespräsidenten")
+
+      await expect(documentTypeDropdown).toHaveValue(
+        "Anordnung des Bundespräsidenten",
+      )
+    })
   })
 
   test("persists changes across page loads after saving successfully", async ({
@@ -446,23 +457,35 @@ test.describe("metadata editing", () => {
         response.request().url().endsWith("/proprietary/1964-09-21"),
     )
 
+    // FNA
     const fnaTextbox = page.getByRole("textbox", {
       name: "Sachgebiet FNA-Nummer",
     })
     await expect(fnaTextbox).toHaveValue("754-28-1")
     await fnaTextbox.fill("123-4")
+
+    // Dokumenttyp
+    const documentTypeDropdown = page.getByRole("combobox", {
+      name: "Dokumenttyp",
+    })
+    await expect(documentTypeDropdown).toHaveValue("")
+    await documentTypeDropdown.selectOption("Berichtigung")
+
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await saved
 
     await page.reload()
     await expect(fnaTextbox).toHaveValue("123-4")
+    await expect(documentTypeDropdown).toHaveValue("Berichtigung")
 
     await fnaTextbox.fill("754-28-1")
+    await documentTypeDropdown.selectOption("Unbekannt")
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await saved
 
     await page.reload()
     await expect(fnaTextbox).toHaveValue("754-28-1")
+    await expect(documentTypeDropdown).toHaveValue("")
   })
 
   test("updates with metadata from the backend after saving", async ({
@@ -478,25 +501,52 @@ test.describe("metadata editing", () => {
       // the state in the UI. In real-world use, this should almost never happen,
       // but we still want to test it.
       if (route.request().method() === "PUT")
-        route.fulfill({ status: 200, json: { fna: "600-1" } })
+        route.fulfill({
+          status: 200,
+          json: {
+            fna: "600-1",
+            art: "offene-struktur",
+            typ: "sonstige-bekanntmachung",
+            subtyp: "Geschäftsordnung",
+          },
+        })
       else route.continue()
     })
 
+    // FNA
     const fnaTextbox = page.getByRole("textbox", {
       name: "Sachgebiet FNA-Nummer",
     })
     await expect(fnaTextbox).toHaveValue("210-5")
+
+    // Dokumenttyp
+    const documentTypeDropdown = page.getByRole("combobox", {
+      name: "Dokumenttyp",
+    })
+    await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
+
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
+
     await expect(fnaTextbox).toHaveValue("600-1")
+    await expect(documentTypeDropdown).toHaveValue("Geschäftsordnung")
 
     await page.route(/\/proprietary\/2023-12-30$/, (route) => {
       // Mocking again to reset the value of the FNA for other e2e tests
       if (route.request().method() === "PUT")
-        route.fulfill({ status: 200, json: { fna: "210-5" } })
+        route.fulfill({
+          status: 200,
+          json: {
+            fna: "210-5",
+            art: "regelungstext",
+            typ: "gesetz",
+            subtyp: "Rechtsverordnung",
+          },
+        })
       else route.continue()
     })
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await expect(fnaTextbox).toHaveValue("210-5")
+    await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
 
     await page.unroute(/\/proprietary\/2023-12-30$/)
   })
