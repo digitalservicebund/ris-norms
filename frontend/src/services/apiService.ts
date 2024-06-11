@@ -69,6 +69,18 @@ export const useApiFetch = createFetch({
         })
       }
 
+      // this error is sometimes throws when previous requests are automatically aborted as
+      // some of the data changed and refetch is true. It seems to only be throws when the request
+      // is aborted before it was actually send.
+      // We ignore this error as it (for some odd reason) isn't replaced once the second request finishes
+      // successfully
+      if (fetchContext.error.name === "AbortError") {
+        return {
+          ...fetchContext,
+          error: null,
+        }
+      }
+
       return fetchContext
     },
   },

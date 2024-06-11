@@ -20,6 +20,7 @@ import { getNodeByEid } from "@/services/ldmldeService"
 import { useNormXml } from "@/composables/useNormXml"
 import { useNormRender } from "@/composables/useNormRender"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -29,8 +30,16 @@ const selectedMod = useModEidPathParameter()
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
-const { data: article, isFetching: isFetchingArticle } = useArticle(identifier)
-const { data: xml, isFetching: isFetchingXml } = useNormXml(eli)
+const {
+  data: article,
+  isFetching: isFetchingArticle,
+  error: loadArticleError,
+} = useArticle(identifier)
+const {
+  data: xml,
+  isFetching: isFetchingXml,
+  error: loadXmlError,
+} = useNormXml(eli)
 const currentXml = ref("")
 const articleXml = computed(() => {
   if (!eid.value) return undefined
@@ -44,8 +53,12 @@ const articleXml = computed(() => {
 
   return xmlNodeToString(articleNode)
 })
-const { data: articleHtml, isFetching: isFetchingArticleHtml } =
-  useNormRender(articleXml)
+
+const {
+  data: articleHtml,
+  isFetching: isFetchingArticleHtml,
+  error: loadArticleHtmlError,
+} = useNormRender(articleXml)
 const previewXml = ref<string>("")
 const amendingLawActiveTab = ref("text")
 
@@ -89,11 +102,6 @@ const {
   },
 } = useMod(eli, selectedMod, xml)
 
-watch(previewError, () => {
-  alert("Vorschau konnte nicht erstellt werden")
-  console.error(previewError.value)
-})
-
 watch(saveError, () => {
   alert("Speichern nicht erfolgreich")
   console.error("Error saving the mod:", saveError.value)
@@ -102,7 +110,11 @@ watch(saveError, () => {
 const previewCustomNorms = computed(() =>
   previewData.value ? [previewData.value.amendingNormXml] : [],
 )
-const { data: previewHtml, isFetching: isFetchingPreviewHtml } = useNormRender(
+const {
+  data: previewHtml,
+  isFetching: isFetchingPreviewHtml,
+  error: loadPreviewHtmlError,
+} = useNormRender(
   previewXml,
   false,
   computed(() =>
@@ -131,12 +143,18 @@ watch(selectedMod, () => {
 
 <template>
   <div
-    v-if="isFetchingArticle || !amendingLaw"
+    v-if="!amendingLaw || isFetchingArticle"
     class="mt-20 flex items-center justify-center"
   >
     <RisLoadingSpinner></RisLoadingSpinner>
   </div>
-  <div v-else-if="amendingLaw">
+  <div v-else-if="loadArticleError">
+    <RisCallout
+      title="Der Artikel konnte nicht gefunden werden."
+      variant="error"
+    />
+  </div>
+  <div v-else>
     <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
 
     <router-link
@@ -169,6 +187,12 @@ watch(selectedMod, () => {
           >
             <RisLoadingSpinner></RisLoadingSpinner>
           </div>
+          <div v-else-if="loadXmlError">
+            <RisCallout
+              title="Der Artikel konnte nicht geladen werden."
+              variant="error"
+            />
+          </div>
           <RisTabs
             v-else
             v-model:active-tab="amendingLawActiveTab"
@@ -183,6 +207,12 @@ watch(selectedMod, () => {
                 class="flex items-center justify-center"
               >
                 <RisLoadingSpinner></RisLoadingSpinner>
+              </div>
+              <div v-else-if="loadArticleHtmlError">
+                <RisCallout
+                  title="Die Artikel-Vorschau konnte nicht erzeugt werden."
+                  variant="error"
+                />
               </div>
               <RisLawPreview
                 v-else
@@ -243,6 +273,12 @@ watch(selectedMod, () => {
               >
                 <RisLoadingSpinner></RisLoadingSpinner>
               </div>
+              <div v-else-if="loadPreviewHtmlError || previewError">
+                <RisCallout
+                  title="Die Vorschau konnte nicht erzeugt werden."
+                  variant="error"
+                />
+              </div>
               <RisLawPreview
                 v-else
                 class="ds-textarea flex-grow p-2"
@@ -255,6 +291,12 @@ watch(selectedMod, () => {
                 class="flex items-center justify-center"
               >
                 <RisLoadingSpinner></RisLoadingSpinner>
+              </div>
+              <div v-else-if="previewError">
+                <RisCallout
+                  title="Die Vorschau konnte nicht erzeugt werden."
+                  variant="error"
+                />
               </div>
               <RisCodeEditor
                 v-else
@@ -274,5 +316,4 @@ watch(selectedMod, () => {
       </div>
     </div>
   </div>
-  <div v-else>Laden...</div>
 </template>

@@ -1,5 +1,6 @@
 import { MaybeRefOrGetter, toValue, computed } from "vue"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
+import { UseFetchReturn } from "@vueuse/core"
 
 /**
  * Composable for rendering the XML of a norm as HTML.
@@ -14,7 +15,7 @@ export function useNormRender(
   showMetadata: MaybeRefOrGetter<boolean> = false,
   at?: MaybeRefOrGetter<Date | undefined>,
   customNorms?: MaybeRefOrGetter<string[] | undefined>,
-) {
+): UseFetchReturn<string> {
   return useApiFetch<string>(
     computed(() => {
       if (!toValue(normXml)) return INVALID_URL
