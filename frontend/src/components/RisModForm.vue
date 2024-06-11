@@ -23,6 +23,7 @@ const props = defineProps<{
   quotedTextFirst?: string
   /** This is the text that replaces quotedTextFirst */
   quotedTextSecond?: string
+  isUpdating?: boolean
 }>()
 
 defineEmits<{
@@ -162,6 +163,7 @@ function modTypeLabel(modType: ModType | "") {
         @click.prevent="$emit('generate-preview')"
       />
       <RisTextButton
+        :disabled="isUpdating"
         label="Speichern"
         :icon="CheckIcon"
         @click.prevent="$emit('update-mod')"

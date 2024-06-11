@@ -19,6 +19,7 @@ import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 import { useNormXml } from "@/composables/useNormXml"
 import { useNormRender } from "@/composables/useNormRender"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -28,8 +29,8 @@ const selectedMod = useModEidPathParameter()
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
-const { data: article } = useArticle(identifier)
-const { data: xml } = useNormXml(eli)
+const { data: article, isFetching: isFetchingArticle } = useArticle(identifier)
+const { data: xml, isFetching: isFetchingXml } = useNormXml(eli)
 const currentXml = ref("")
 const articleXml = computed(() => {
   if (!eid.value) return undefined
@@ -43,7 +44,8 @@ const articleXml = computed(() => {
 
   return xmlNodeToString(articleNode)
 })
-const { data: articleHtml } = useNormRender(articleXml)
+const { data: articleHtml, isFetching: isFetchingArticleHtml } =
+  useNormRender(articleXml)
 const previewXml = ref<string>("")
 const amendingLawActiveTab = ref("text")
 
@@ -73,8 +75,18 @@ const {
   quotedTextFirst,
   quotedTextSecond,
   timeBoundary,
-  preview: { data: previewData, execute: preview, error: previewError },
-  update: { data: updateData, execute: update, error: saveError },
+  preview: {
+    data: previewData,
+    execute: preview,
+    error: previewError,
+    isFetching: isFetchingPreviewData,
+  },
+  update: {
+    data: updateData,
+    execute: update,
+    error: saveError,
+    isFetching: isUpdating,
+  },
 } = useMod(eli, selectedMod, xml)
 
 watch(previewError, () => {
@@ -90,7 +102,7 @@ watch(saveError, () => {
 const previewCustomNorms = computed(() =>
   previewData.value ? [previewData.value.amendingNormXml] : [],
 )
-const { data: previewHtml } = useNormRender(
+const { data: previewHtml, isFetching: isFetchingPreviewHtml } = useNormRender(
   previewXml,
   false,
   computed(() =>
@@ -118,7 +130,13 @@ watch(selectedMod, () => {
 </script>
 
 <template>
-  <div v-if="amendingLaw">
+  <div
+    v-if="isFetchingArticle || !amendingLaw"
+    class="mt-20 flex items-center justify-center"
+  >
+    <RisLoadingSpinner></RisLoadingSpinner>
+  </div>
+  <div v-else-if="amendingLaw">
     <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
 
     <router-link
@@ -145,7 +163,14 @@ watch(selectedMod, () => {
             <span class="block">Änderungsbefehle</span>
             <span>{{ amendingLaw?.title }}</span>
           </h3>
+          <div
+            v-if="isFetchingXml"
+            class="mt-20 flex items-center justify-center"
+          >
+            <RisLoadingSpinner></RisLoadingSpinner>
+          </div>
           <RisTabs
+            v-else
             v-model:active-tab="amendingLawActiveTab"
             :tabs="[
               { id: 'text', label: 'Text' },
@@ -153,7 +178,14 @@ watch(selectedMod, () => {
             ]"
           >
             <template #text>
+              <div
+                v-if="isFetchingArticleHtml"
+                class="flex items-center justify-center"
+              >
+                <RisLoadingSpinner></RisLoadingSpinner>
+              </div>
               <RisLawPreview
+                v-else
                 class="ds-textarea flex-grow p-2"
                 :content="articleHtml ?? ''"
                 highlight-mods
@@ -187,6 +219,7 @@ watch(selectedMod, () => {
             v-model:selected-time-boundary="timeBoundary"
             :quoted-text-first="quotedTextFirst"
             :time-boundaries="timeBoundaries"
+            :is-updating="isUpdating"
             @generate-preview="preview"
             @update-mod="update"
           />
@@ -204,13 +237,27 @@ watch(selectedMod, () => {
             ]"
           >
             <template #text>
+              <div
+                v-if="isFetchingPreviewData || isFetchingPreviewHtml"
+                class="flex items-center justify-center"
+              >
+                <RisLoadingSpinner></RisLoadingSpinner>
+              </div>
               <RisLawPreview
+                v-else
                 class="ds-textarea flex-grow p-2"
                 :content="previewHtml ?? ''"
               />
             </template>
             <template #xml>
+              <div
+                v-if="isFetchingPreviewData"
+                class="flex items-center justify-center"
+              >
+                <RisLoadingSpinner></RisLoadingSpinner>
+              </div>
               <RisCodeEditor
+                v-else
                 class="flex-grow"
                 :readonly="true"
                 :model-value="previewXml"
