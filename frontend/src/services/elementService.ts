@@ -1,33 +1,19 @@
-import { ElementType, Element } from "@/types/element"
-import { INVALID_URL, apiFetch, useApiFetch } from "./apiService"
+import { Element, ElementType } from "@/types/element"
+import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
-import { UseFetchOptions } from "@vueuse/core"
+import { INVALID_URL, apiFetch, useApiFetch } from "./apiService"
 
 /**
- * Returns a list of elements inside a law. The type parameter specifies
- * the types of elements that should be returned.
+/**
+ * Returns a list of elements contained in a norm from the API. Reloads when the
+ * parameters change.
  *
- * @param eli Law from which the elements should be loaded
+ * @param eli ELI of the norm
  * @param types Types of elements that should be included
  * @param options Optional additional filters and queries
- * @returns The list of elements
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
  */
-export function getElementsByEliAndType(
-  eli: string,
-  types: ElementType[],
-  options?: {
-    /**
-     * If set, only returns elements if they are changed by the specified
-     * amending law. Should be the ELI of an amending law.
-     */
-    amendedBy?: string
-  },
-): Promise<Element[]> {
-  return apiFetch<Element[]>(`/norms/${eli}/elements`, {
-    query: { type: types, amendedBy: options?.amendedBy },
-  })
-}
-
 export function useElementsService(
   eli: MaybeRefOrGetter<string>,
   types: MaybeRefOrGetter<ElementType[]>,
@@ -39,7 +25,10 @@ export function useElementsService(
     amendedBy?: MaybeRefOrGetter<string>
   },
   fetchOptions: Pick<UseFetchOptions, "immediate" | "refetch"> = {},
-) {
+): Pick<
+  UseFetchReturn<Element[]>,
+  "data" | "error" | "isFetching" | "execute"
+> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL

@@ -17,59 +17,6 @@ describe("elementService", () => {
     vi.resetAllMocks()
   })
 
-  describe("getElementsByEliAndType", () => {
-    it("provides the data from the API", async () => {
-      const fetchMock = vi
-        .fn()
-        .mockResolvedValueOnce([
-          { eid: "article-eid", title: "Example", type: "article" },
-        ])
-
-      vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
-
-      const { getElementsByEliAndType } = await import("./elementService")
-
-      const result = await getElementsByEliAndType("example/eli", ["article"])
-
-      expect(result).toEqual([
-        { eid: "article-eid", title: "Example", type: "article" },
-      ])
-
-      expect(fetchMock).toHaveBeenCalledWith("/norms/example/eli/elements", {
-        query: {
-          type: ["article"],
-        },
-      })
-    })
-
-    it("provides the data from the API with filters", async () => {
-      const fetchMock = vi
-        .fn()
-        .mockResolvedValueOnce([
-          { eid: "article-eid", title: "Example", type: "article" },
-        ])
-
-      vi.doMock("./apiService.ts", () => ({ apiFetch: fetchMock }))
-
-      const { getElementsByEliAndType } = await import("./elementService")
-
-      const result = await getElementsByEliAndType("example/eli", ["article"], {
-        amendedBy: "example/eli2",
-      })
-
-      expect(result).toEqual([
-        { eid: "article-eid", title: "Example", type: "article" },
-      ])
-
-      expect(fetchMock).toHaveBeenCalledWith("/norms/example/eli/elements", {
-        query: {
-          type: ["article"],
-          amendedBy: "example/eli2",
-        },
-      })
-    })
-  })
-
   describe("getElementHtmlByEliAndEid", () => {
     it("provides the data from the API", async () => {
       const fetchMock = vi.fn().mockResolvedValueOnce(`<div></div>`)
@@ -347,27 +294,6 @@ describe("elementService", () => {
       })
       execute()
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
-    })
-
-    it("sends data to the API", async () => {
-      const fixtures: Element[] = [
-        { eid: "fake_eid", title: "Test", type: "article" },
-      ]
-
-      const useApiFetch = vi.fn().mockReturnValue({
-        json: vi.fn().mockReturnValue({
-          put: vi.fn().mockReturnValue({ data: ref(fixtures) }),
-        }),
-      })
-
-      vi.doMock("@/services/apiService", () => ({ useApiFetch }))
-
-      const { useElementsService } = await import("./elementService")
-
-      const result = useElementsService("fake/eli", ["article"]).put()
-      expect(result.data.value).toBeTruthy()
-
-      vi.doUnmock("@/services/apiService")
     })
   })
 })
