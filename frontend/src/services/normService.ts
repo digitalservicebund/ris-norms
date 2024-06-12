@@ -1,7 +1,8 @@
 import { apiFetch, INVALID_URL, useApiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
-import { FetchOptions } from "ofetch"
+import { UseFetchOptions } from "@vueuse/core"
 import { UseFetchReturn } from "@vueuse/core/index"
+import { FetchOptions } from "ofetch"
 import { computed, MaybeRefOrGetter, toValue, unref } from "vue"
 
 /**
@@ -144,4 +145,31 @@ export function usePutNormXml(
       immediate: false,
     },
   ).put(xml)
+}
+
+/**
+ * Returns the norm from the API. Reloads when the parameters change.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries. This is only a
+ *  placeholder for now and can not have a value.
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function useNormService(
+  eli: MaybeRefOrGetter<string>,
+  options?: never,
+  fetchOptions: Pick<UseFetchOptions, "immediate" | "refetch"> = {},
+): Pick<
+  UseFetchReturn<Norm>,
+  "data" | "error" | "isFetching" | "get" | "put" | "execute"
+> {
+  const url = computed(() => {
+    const eliVal = toValue(eli)
+    if (!eliVal) return INVALID_URL
+
+    return `/norms/${eliVal}`
+  })
+
+  return useApiFetch<Norm>(url, fetchOptions).json()
 }
