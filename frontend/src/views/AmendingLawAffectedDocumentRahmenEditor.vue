@@ -130,7 +130,7 @@ const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
 
 <template>
   <!-- eslint-disable vuejs-accessibility/label-has-for -->
-  <div class="flex h-[calc(100dvh-5rem-5rem)] flex-col overflow-hidden p-40">
+  <div class="flex flex-col overflow-hidden p-40">
     <div class="flex gap-16">
       <div class="flex-grow">
         <h2 class="ds-heading-03-reg">Rahmen</h2>
