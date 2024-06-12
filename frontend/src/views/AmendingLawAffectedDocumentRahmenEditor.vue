@@ -13,6 +13,7 @@ import RisTabs from "@/components/editor/RisTabs.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormHtml } from "@/composables/useNormHtml"
+import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import {
   DocumentTypeValue,
@@ -29,16 +30,6 @@ import { computed, ref, watch } from "vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
-
-/**
- * The xml of the law whose metadata is edited on this view. As both this
- * and the article metadata editor vie both edit the same xml (which is not
- * yet stored in the database) we provide it from AmendingLawAffectedDocumentEditor.
- * That view also handles persisting the changes when requested.
- */
-const xml = defineModel<string>("xml")
-
-const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
 
 /* -------------------------------------------------- *
  * API handling                                       *
@@ -128,6 +119,13 @@ const documentTypeItems: DropdownItem[] = [
   { label: "Unbekannt", value: "" },
   ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
 ]
+
+/* -------------------------------------------------- *
+ * XML + HTML preview                                 *
+ * -------------------------------------------------- */
+
+const { xml } = useTargetLawXml(affectedDocumentEli)
+const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
 </script>
 
 <template>
@@ -208,7 +206,11 @@ const documentTypeItems: DropdownItem[] = [
           </template>
 
           <template #xml>
-            <RisCodeEditor v-model="xml" class="flex-grow" />
+            <RisCodeEditor
+              :model-value="xml"
+              :editable="false"
+              class="flex-grow"
+            />
           </template>
         </RisTabs>
       </section>

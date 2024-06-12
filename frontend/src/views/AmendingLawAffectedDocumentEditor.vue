@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useAffectedElements } from "@/composables/useAffectedElements"
+import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useNormXml } from "@/composables/useNormXml"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import dayjs from "dayjs"
-import { computed, ref, watch } from "vue"
+import { computed, watch } from "vue"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -47,30 +45,6 @@ const elements = useAffectedElements(
   ["article", "conclusions", "preamble", "preface"],
   { amendingLawEli },
 )
-
-/* -------------------------------------------------- *
- * XML editor                                         *
- * -------------------------------------------------- */
-const currentTargetLawXml = ref<string | undefined | null>("")
-const {
-  data: targetLawXml,
-  update: { execute: updateTargetLawXml },
-} = useNormXml(affectedDocumentEli, currentTargetLawXml)
-
-watch(targetLawXml, () => {
-  currentTargetLawXml.value = targetLawXml.value
-})
-
-async function handleSave() {
-  if (!currentTargetLawXml.value) return
-
-  try {
-    await updateTargetLawXml()
-  } catch (error) {
-    alert("Metadaten nicht gespeichert")
-    console.error(error)
-  }
-}
 </script>
 
 <template>
@@ -141,22 +115,9 @@ async function handleSave() {
           {{ element.title }}
         </span>
       </router-link>
-
-      <!-- Save button -->
-      <div class="mt-auto">
-        <!-- this is only placed here temporarily -->
-        <RisTextButton
-          :disabled="targetLawXml === currentTargetLawXml"
-          class="h-fit flex-none self-end"
-          full-width
-          label="Speichern"
-          size="small"
-          @click="handleSave"
-        />
-      </div>
     </aside>
 
-    <RouterView v-model:xml="currentTargetLawXml"></RouterView>
+    <RouterView />
   </div>
 
   <div v-else>Laden...</div>
