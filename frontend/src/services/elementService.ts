@@ -1,5 +1,7 @@
 import { ElementType, Element } from "@/types/element"
-import { apiFetch } from "./apiService"
+import { INVALID_URL, apiFetch, useApiFetch } from "./apiService"
+import { MaybeRefOrGetter, computed, toValue } from "vue"
+import { UseFetchOptions } from "@vueuse/core"
 
 /**
  * Returns a list of elements inside a law. The type parameter specifies
@@ -24,6 +26,35 @@ export function getElementsByEliAndType(
   return apiFetch<Element[]>(`/norms/${eli}/elements`, {
     query: { type: types, amendedBy: options?.amendedBy },
   })
+}
+
+export function useElementsService(
+  eli: MaybeRefOrGetter<string>,
+  types: MaybeRefOrGetter<ElementType[]>,
+  options?: {
+    /**
+     * If set, only returns elements if they are changed by the specified
+     * amending law. Should be the ELI of an amending law.
+     */
+    amendedBy?: MaybeRefOrGetter<string>
+  },
+  fetchOptions: Pick<UseFetchOptions, "immediate" | "refetch"> = {},
+) {
+  const url = computed(() => {
+    const eliVal = toValue(eli)
+    if (!eliVal) return INVALID_URL
+
+    const typesVal = toValue(types)
+    const amendedByVal = toValue(options?.amendedBy)
+
+    const query = new URLSearchParams()
+    typesVal.forEach((type) => query.append("type", type))
+    if (amendedByVal) query.append("amendedBy", amendedByVal)
+
+    return `/norms/${eliVal}/elements?${query.toString()}`
+  })
+
+  return useApiFetch<Element[]>(url, fetchOptions).json()
 }
 
 /**
