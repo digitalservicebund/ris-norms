@@ -40,9 +40,7 @@ describe("proprietaryService", () => {
 
       vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const result = useProprietaryService("fake/eli", { atDate: "2024-06-10" })
       expect(result.data.value).toBeTruthy()
@@ -55,9 +53,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("")
       useProprietaryService(eli, { atDate: "2024-06-10" })
@@ -70,9 +66,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(eli, { atDate: "2024-06-10" })
@@ -88,9 +82,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(
@@ -109,9 +101,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(eli, { atDate: "2024-04-06" })
@@ -129,9 +119,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(eli, { atDate: new Date(2024, 6, 4) })
@@ -149,9 +137,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       const date = ref("2024-06-04")
@@ -171,9 +157,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(eli, { atDate: undefined })
@@ -191,9 +175,7 @@ describe("proprietaryService", () => {
         }),
       )
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli")
       const { isFetching } = useProprietaryService(eli, {
@@ -214,9 +196,7 @@ describe("proprietaryService", () => {
         }),
       )
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli")
       const { error } = useProprietaryService(eli, { atDate: "2024-06-10" })
@@ -231,9 +211,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       const date = ref("2024-06-04")
@@ -259,9 +237,7 @@ describe("proprietaryService", () => {
 
       vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const result = useProprietaryService("fake/eli", {
         atDate: "2024-06-10",

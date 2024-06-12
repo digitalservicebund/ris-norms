@@ -1,12 +1,12 @@
 import { Proprietary } from "@/types/proprietary"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import dayjs from "dayjs"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
 import { INVALID_URL, useApiFetch } from "./apiService"
-import dayjs from "dayjs"
 
 /**
  * Returns the proprietary metadata of a norm from the API. Reloads when the
- * parameters changes.
+ * parameters change.
  *
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
@@ -41,8 +41,8 @@ export function useProprietaryService(
     const eliVal = toValue(eli)
     if (!eliVal || !dateAsString.value) return INVALID_URL
 
-    return `/norms/${toValue(eli)}/proprietary/${dateAsString.value}`
+    return `/norms/${eliVal}/proprietary/${dateAsString.value}`
   })
 
-  return useApiFetch<Proprietary>(url, { ...fetchOptions }).json()
+  return useApiFetch<Proprietary>(url, fetchOptions).json()
 }
