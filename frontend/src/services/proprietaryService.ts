@@ -22,11 +22,8 @@ export function useProprietaryService(
      */
     atDate: MaybeRefOrGetter<string | Date | undefined>
   },
-  fetchOptions: Pick<UseFetchOptions, "immediate" | "refetch"> = {},
-): Pick<
-  UseFetchReturn<Proprietary>,
-  "data" | "error" | "isFetching" | "get" | "put" | "execute"
-> {
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<Proprietary> {
   const dateAsString = computed(() => {
     const atDateVal = toValue(options?.atDate)
 

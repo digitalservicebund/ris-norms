@@ -159,11 +159,8 @@ export function usePutNormXml(
 export function useNormService(
   eli: MaybeRefOrGetter<string>,
   options?: never,
-  fetchOptions: Pick<UseFetchOptions, "immediate" | "refetch"> = {},
-): Pick<
-  UseFetchReturn<Norm>,
-  "data" | "error" | "isFetching" | "get" | "put" | "execute"
-> {
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<Norm> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL

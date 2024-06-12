@@ -1,7 +1,7 @@
+import { INVALID_URL, apiFetch, useApiFetch } from "@/services/apiService"
 import { Element, ElementType } from "@/types/element"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
-import { INVALID_URL, apiFetch, useApiFetch } from "./apiService"
 
 /**
 /**
@@ -24,11 +24,8 @@ export function useElementsService(
      */
     amendedBy?: MaybeRefOrGetter<string>
   },
-  fetchOptions: Pick<UseFetchOptions, "immediate" | "refetch"> = {},
-): Pick<
-  UseFetchReturn<Element[]>,
-  "data" | "error" | "isFetching" | "execute"
-> {
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<Element[]> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
