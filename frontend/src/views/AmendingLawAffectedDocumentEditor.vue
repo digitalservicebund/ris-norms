@@ -3,22 +3,33 @@ import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawIn
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useAffectedElements } from "@/composables/useAffectedElements"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
+import { useNormService } from "@/services/normService"
 import dayjs from "dayjs"
 import { computed, watch } from "vue"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
-const amendingLaw = useAmendingLaw(amendingLawEli)
+
+const {
+  data: amendingLaw,
+  isFetching: amendingLawIsLoading,
+  error: amendingLawError,
+} = useNormService(amendingLawEli, undefined, {
+  immediate: true,
+})
 
 /* -------------------------------------------------- *
  * Sidebar                                            *
  * -------------------------------------------------- */
 
-const { timeBoundaries } = useTemporalData(affectedDocumentEli)
+const {
+  timeBoundaries,
+  isFetching: timeBoundariesIsFetching,
+  fetchError: timeBoundariesError,
+} = useTemporalData(affectedDocumentEli)
 
 const sortedTimeBoundaries = computed(() =>
   timeBoundaries.value.toSorted((a, b) => {
@@ -51,13 +62,31 @@ const elements = useAffectedElements(
 <template>
   <div class="h-[calc(100dvh-5rem)] bg-gray-100">
     <div
-      v-if="amendingLaw"
+      v-if="amendingLawIsLoading || timeBoundariesIsFetching"
+      class="flex h-full items-center justify-center"
+    >
+      <RisLoadingSpinner />
+    </div>
+
+    <div v-else-if="amendingLawError" class="p-40">
+      <RisCallout
+        title="Das Gesetz konnte nicht geladen werden."
+        variant="error"
+      />
+    </div>
+
+    <div v-else-if="timeBoundariesError" class="p-40">
+      <RisCallout
+        title="Die Zeitgrenzen konnten nicht geladen werden."
+        variant="error"
+      />
+    </div>
+
+    <div
+      v-else-if="amendingLaw"
       class="grid h-full grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] bg-gray-100"
     >
-      <RisAmendingLawInfoHeader
-        class="col-span-2"
-        :amending-law="amendingLaw"
-      />
+      <RisAmendingLawInfoHeader class="col-span-2" :amending-law />
 
       <aside
         class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white"
@@ -123,10 +152,6 @@ const elements = useAffectedElements(
       </aside>
 
       <RouterView />
-    </div>
-
-    <div v-else class="flex h-full items-center justify-center">
-      <RisLoadingSpinner />
     </div>
   </div>
 </template>
