@@ -69,7 +69,6 @@ async function handleSave() {
           v-slot="{ ariaDescribedby }"
           :visible="isSavingFinished"
           :title="saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'"
-          :content="saveError ? `${saveError.name}: ${saveError.message}` : ''"
           alignment="right"
           attachment="top"
           :variant="saveError ? 'error' : 'success'"
