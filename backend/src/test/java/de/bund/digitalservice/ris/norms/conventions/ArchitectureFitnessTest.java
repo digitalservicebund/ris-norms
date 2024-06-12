@@ -17,6 +17,8 @@ import com.tngtech.archunit.library.dependencies.SliceRule;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -153,6 +155,22 @@ class ArchitectureFitnessTest {
             .andShould()
             .dependOnClassesThat()
             .areAnnotatedWith(RestController.class);
+    rule.check(classes);
+  }
+
+  @Test
+  void controllerClassesShouldOnlyHaveUseCasesFields() {
+    ArchRule rule =
+        ArchRuleDefinition.noClasses()
+            .that()
+            .haveSimpleNameEndingWith("Controller")
+            .and()
+            .areAnnotatedWith(Controller.class)
+            .or()
+            .areAnnotatedWith(RestController.class)
+            .should(ArchCondition.from((new ShouldOnlyHaveUseCaseFields())))
+            .because(
+                "Controllers should only depend on use case interfaces, not on service implementations");
     rule.check(classes);
   }
 
@@ -390,6 +408,28 @@ class ArchitectureFitnessTest {
     @Override
     public boolean test(JavaClass javaClass) {
       return !javaClass.isRecord();
+    }
+  }
+
+  static class ShouldOnlyHaveUseCaseFields extends DescribedPredicate<JavaClass> {
+
+    final Set<String> useCaseInterfaces =
+        classes.stream()
+            .filter(
+                javaClass ->
+                    javaClass.isInterface()
+                        && javaClass.getPackageName().startsWith(INPUT_PORT_LAYER_PACKAGES))
+            .map(JavaClass::getName)
+            .collect(Collectors.toSet());
+
+    public ShouldOnlyHaveUseCaseFields() {
+      super("Class has only fields that are use case interfaces");
+    }
+
+    @Override
+    public boolean test(JavaClass javaClass) {
+      return javaClass.getFields().stream()
+          .anyMatch(f -> !useCaseInterfaces.contains(f.getRawType().getName()));
     }
   }
 }
