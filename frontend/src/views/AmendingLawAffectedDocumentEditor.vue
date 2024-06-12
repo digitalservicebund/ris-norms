@@ -5,7 +5,7 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
-import { useElementsService } from "@/services/elementService"
+import { useGetElements } from "@/services/elementService"
 import { useNormService } from "@/services/normService"
 import dayjs from "dayjs"
 import { computed, watch } from "vue"
@@ -56,7 +56,7 @@ const {
   data: elements,
   isFetching: elementsIsLoading,
   error: elementsError,
-} = useElementsService(
+} = useGetElements(
   affectedDocumentEli,
   ["article", "conclusions", "preamble", "preface"],
   { amendedBy: amendingLawEli },

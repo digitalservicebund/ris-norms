@@ -32,10 +32,8 @@ describe("proprietaryService", () => {
       }
 
       const useApiFetch = vi.fn().mockReturnValue({
-        json: vi.fn().mockReturnValue({
-          data: ref(fixtures),
-          execute: vi.fn(),
-        }),
+        data: ref(fixtures),
+        execute: vi.fn(),
       })
 
       vi.doMock("@/services/apiService", () => ({ useApiFetch }))

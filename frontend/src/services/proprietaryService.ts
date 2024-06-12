@@ -41,5 +41,40 @@ export function useProprietaryService(
     return `/norms/${eliVal}/proprietary/${dateAsString.value}`
   })
 
-  return useApiFetch<Proprietary>(url, fetchOptions).json()
+  return useApiFetch<Proprietary>(url, fetchOptions)
+}
+
+/**
+ * Convenience shorthand for `useProprietaryService` that sets the correct
+ * configuration for getting JSON data.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export const useGetProprietary: typeof useProprietaryService = (
+  eli,
+  options,
+  fetchOptions,
+) => useProprietaryService(eli, options, fetchOptions).json()
+
+/**
+ * Convenience shorthand for `useProprietaryService` that sets the correct
+ * configuration for putting JSON data.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function usePutProprietary(
+  updateData: MaybeRefOrGetter<Proprietary | null>,
+  eli: Parameters<typeof useProprietaryService>["0"],
+  options: Parameters<typeof useProprietaryService>["1"],
+  fetchOptions: Parameters<typeof useProprietaryService>["2"],
+): ReturnType<typeof useProprietaryService> {
+  return useProprietaryService(eli, options, fetchOptions)
+    .json()
+    .put(updateData)
 }

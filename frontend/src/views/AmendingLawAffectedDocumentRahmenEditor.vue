@@ -23,7 +23,10 @@ import {
   isMetaSubtypValue,
   isMetaTypValue,
 } from "@/lib/proprietary"
-import { useProprietaryService } from "@/services/proprietaryService"
+import {
+  useGetProprietary,
+  usePutProprietary,
+} from "@/services/proprietaryService"
 import { Proprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import { computed, ref, watch } from "vue"
@@ -41,7 +44,7 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useProprietaryService(
+} = useGetProprietary(
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
   { refetch: true },
@@ -56,7 +59,8 @@ const {
   isFetching: isSaving,
   error: saveError,
   execute: save,
-} = useProprietaryService(
+} = usePutProprietary(
+  localData,
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
   { refetch: false, immediate: false },

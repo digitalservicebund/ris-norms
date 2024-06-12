@@ -4,7 +4,6 @@ import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
 
 /**
-/**
  * Returns a list of elements contained in a norm from the API. Reloads when the
  * parameters change.
  *
@@ -40,8 +39,25 @@ export function useElementsService(
     return `/norms/${eliVal}/elements?${query.toString()}`
   })
 
-  return useApiFetch<Element[]>(url, fetchOptions).json()
+  return useApiFetch<Element[]>(url, fetchOptions)
 }
+
+/**
+ * Convenience shorthand for `useElementsService` that sets the correct
+ * configuration for getting JSON data.
+ *
+ * @param eli ELI of the norm
+ * @param types Types of elements that should be included
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export const useGetElements: typeof useElementsService = (
+  eli,
+  types,
+  options,
+  fetchOptions,
+) => useElementsService(eli, types, options, fetchOptions).json()
 
 /**
  * Returns any element that can be identified by its ELI and eId as an
