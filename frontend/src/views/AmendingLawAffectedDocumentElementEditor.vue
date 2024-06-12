@@ -6,7 +6,7 @@ import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useElement } from "@/composables/useElement"
 import { useElementHtml } from "@/composables/useElementHtml"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
+import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed } from "vue"
@@ -27,7 +27,7 @@ const element = useElement(identifier)
  * XML + HTML preview                                 *
  * -------------------------------------------------- */
 
-const { xml } = useTargetLawXml(affectedDocumentEli)
+const { data: xml } = useNormXml(affectedDocumentEli)
 const render = useElementHtml(identifier, { at: timeBoundaryAsDate })
 </script>
 
@@ -86,7 +86,7 @@ const render = useElementHtml(identifier, { at: timeBoundaryAsDate })
           </template>
           <template #xml>
             <RisCodeEditor
-              :model-value="xml"
+              :model-value="xml ?? ''"
               :editable="false"
               class="flex-grow"
             />

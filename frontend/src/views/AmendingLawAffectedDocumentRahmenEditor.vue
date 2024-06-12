@@ -13,7 +13,7 @@ import RisTabs from "@/components/editor/RisTabs.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormHtml } from "@/composables/useNormHtml"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
+import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import {
   DocumentTypeValue,
@@ -128,7 +128,7 @@ const documentTypeItems: DropdownItem[] = [
  * XML + HTML preview                                 *
  * -------------------------------------------------- */
 
-const { xml } = useTargetLawXml(affectedDocumentEli)
+const { data: xml } = useNormXml(affectedDocumentEli)
 const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
 </script>
 
@@ -211,7 +211,7 @@ const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
 
           <template #xml>
             <RisCodeEditor
-              :model-value="xml"
+              :model-value="xml ?? ''"
               :editable="false"
               class="flex-grow"
             />
