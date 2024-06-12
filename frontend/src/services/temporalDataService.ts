@@ -1,6 +1,6 @@
 import { useApiFetch } from "@/services/apiService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { computed, MaybeRefOrGetter, toValue } from "vue"
+import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
 
 /**
@@ -56,10 +56,26 @@ export function useUpdateTemporalDataTimeBoundaries(
   eli: MaybeRefOrGetter<string | undefined>,
   dates: MaybeRefOrGetter<TemporalDataResponse[]>,
 ): UseFetchReturn<TemporalDataResponse[]> {
-  const url = computed(() => `/norms/${toValue(eli)}/timeBoundaries`)
-  return useApiFetch<TemporalDataResponse[]>(url, {
-    immediate: false,
-  })
+  const apiFetch: UseFetchReturn<TemporalDataResponse[]> = useApiFetch(
+    computed(() => `/norms/${toValue(eli)}/timeBoundaries`),
+    {
+      immediate: false,
+    },
+  )
     .json()
     .put(computed(() => JSON.stringify(toValue(dates))))
+
+  // reset isFinished when data changes
+  const isFinished = ref(false)
+  watch(apiFetch.isFinished, () => {
+    isFinished.value = apiFetch.isFinished.value
+  })
+  watch([() => toValue(eli), () => toValue(dates)], () => {
+    isFinished.value = false
+  })
+
+  return {
+    ...apiFetch,
+    isFinished,
+  }
 }

@@ -81,7 +81,11 @@ function handlePreviewClick() {
   selectedMod.value = ""
 }
 
-const { timeBoundaries } = useTemporalData(eli)
+const {
+  data: timeBoundaries,
+  isFetching: isFetchingTimeBoundaries,
+  error: loadTimeBoundariesError,
+} = useTemporalData(eli)
 const {
   textualModType,
   destinationHref,
@@ -237,14 +241,27 @@ watch(selectedMod, () => {
           <h3 id="originalArticleTitle" class="ds-label-02-bold">
             Änderungsbefehle bearbeiten
           </h3>
+          <div
+            v-if="isFetchingTimeBoundaries"
+            class="flex items-center justify-center"
+          >
+            <RisLoadingSpinner></RisLoadingSpinner>
+          </div>
+          <div v-else-if="loadTimeBoundariesError">
+            <RisCallout
+              title="Die Zeitgrenzen konnten nicht geladen werden."
+              variant="error"
+            />
+          </div>
           <RisModForm
+            v-else
             id="risModForm"
             v-model:textual-mod-type="textualModType"
             v-model:destination-href="destinationHref"
             v-model:quoted-text-second="quotedTextSecond"
             v-model:selected-time-boundary="timeBoundary"
             :quoted-text-first="quotedTextFirst"
-            :time-boundaries="timeBoundaries"
+            :time-boundaries="timeBoundaries ?? []"
             :is-updating="isUpdating"
             :is-updating-finished="isUpdatingFinished"
             :update-error="saveError"

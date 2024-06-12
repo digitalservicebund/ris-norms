@@ -205,5 +205,27 @@ describe("TemporalDataService", () => {
         }),
       )
     })
+
+    it("should reset isFinished once data changes", async () => {
+      vi.spyOn(global, "fetch").mockResolvedValueOnce(new Response("[]"))
+
+      const { useUpdateTemporalDataTimeBoundaries } = await import(
+        "@/services/temporalDataService"
+      )
+
+      const dates = ref([
+        { date: "2024-04-01T00:00:00Z", eventRefEid: "event-3" },
+      ])
+      const { execute, isFinished } = useUpdateTemporalDataTimeBoundaries(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        dates,
+      )
+      expect(isFinished.value).toBe(false)
+      await execute()
+      expect(isFinished.value).toBe(true)
+      dates.value = []
+      await nextTick()
+      expect(isFinished.value).toBe(false)
+    })
   })
 })

@@ -14,16 +14,19 @@ import { TemporalDataResponse } from "@/types/temporalDataResponse"
 const eli = useEliPathParameter()
 const dates = ref<TemporalDataResponse[]>([])
 const {
-  timeBoundaries,
-  saveTemporalData,
-  saveError,
-  isSaving,
+  data: timeBoundaries,
+  update: {
+    error: saveError,
+    isFetching: isSaving,
+    isFinished: isSavingFinished,
+    execute: saveTemporalData,
+  },
   isFetching: isFetchingTemporalData,
-  isSavingFinished,
-} = useTemporalData(eli)
+  error: loadTimeBoundariesError,
+} = useTemporalData(eli, dates)
 
 watch(timeBoundaries, () => {
-  dates.value = timeBoundaries.value
+  dates.value = timeBoundaries.value ?? []
 })
 
 const {
@@ -31,15 +34,6 @@ const {
   error: entryIntoForceError,
   isFetching: isFetchingEntryIntoForce,
 } = useGetEntryIntoForceHtml(eli)
-
-async function handleSave() {
-  try {
-    saveError.value = null
-    await saveTemporalData(dates.value)
-  } catch (error) {
-    console.error("Error saving dates:", error)
-  }
-}
 </script>
 
 <template>
@@ -56,6 +50,15 @@ async function handleSave() {
       <div class="col-span-3">
         <RisCallout
           title="Es wurde kein Inkrafttreten-Artikel gefunden."
+          variant="error"
+        />
+      </div>
+    </template>
+
+    <template v-else-if="loadTimeBoundariesError">
+      <div class="col-span-3">
+        <RisCallout
+          title="Zeitgrenzen konnten nicht geladen werden."
           variant="error"
         />
       </div>
@@ -79,7 +82,7 @@ async function handleSave() {
             size="small"
             class="h-fit flex-none"
             :loading="isSaving"
-            @click="handleSave"
+            @click="saveTemporalData"
           />
         </RisTooltip>
       </div>

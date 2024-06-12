@@ -26,13 +26,13 @@ const {
  * -------------------------------------------------- */
 
 const {
-  timeBoundaries,
+  data: timeBoundaries,
   isFetching: timeBoundariesIsFetching,
-  fetchError: timeBoundariesError,
+  error: timeBoundariesError,
 } = useTemporalData(affectedDocumentEli)
 
 const sortedTimeBoundaries = computed(() =>
-  timeBoundaries.value.toSorted((a, b) => {
+  (timeBoundaries.value ?? []).toSorted((a, b) => {
     if (a.date < b.date) return -1
     else if (a.date > b.date) return 1
     else return 0
@@ -45,7 +45,7 @@ const { timeBoundary: selectedTimeBoundary } = useTimeBoundaryPathParameter()
 watch(
   timeBoundaries,
   (val) => {
-    if (!selectedTimeBoundary.value && val.length) {
+    if (val && !selectedTimeBoundary.value && val.length) {
       selectedTimeBoundary.value = val[0].date
     }
   },

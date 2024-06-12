@@ -31,11 +31,11 @@ describe("useTemporalData", () => {
 
     const { useTemporalData } = await import("@/composables/useTemporalData")
 
-    const { timeBoundaries } = useTemporalData(eli)
+    const { data } = useTemporalData(eli)
     dataRef.value = mockReleaseDates
     await nextTick()
 
-    expect(timeBoundaries.value).toEqual(mockReleaseDates)
+    expect(data.value).toEqual(mockReleaseDates)
   })
 
   it("updates dates", async () => {
@@ -64,10 +64,13 @@ describe("useTemporalData", () => {
     } as unknown as UseFetchReturn<TemporalDataResponse[]>)
 
     const { useTemporalData } = await import("@/composables/useTemporalData")
-    const { timeBoundaries, saveTemporalData } = useTemporalData(eli)
+    const {
+      data,
+      update: { execute },
+    } = useTemporalData(eli, newDates)
 
-    await saveTemporalData(newDates)
+    await execute()
 
-    expect(timeBoundaries.value).toEqual(newDates)
+    expect(data.value).toEqual(newDates)
   })
 })
