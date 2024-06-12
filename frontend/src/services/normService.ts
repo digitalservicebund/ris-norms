@@ -1,7 +1,6 @@
 import { apiFetch, INVALID_URL, useApiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
-import { UseFetchOptions } from "@vueuse/core"
-import { UseFetchReturn } from "@vueuse/core/index"
+import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { FetchOptions } from "ofetch"
 import { computed, MaybeRefOrGetter, toValue, unref } from "vue"
 
