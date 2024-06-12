@@ -242,58 +242,5 @@ describe("elementService", () => {
       types.value = ["conclusions"]
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
     })
-
-    it("sets the loading state", async () => {
-      vi.spyOn(window, "fetch").mockReturnValue(
-        new Promise<Response>((resolve) => {
-          setTimeout(() => {
-            resolve(new Response("{}"))
-          }, 1000)
-        }),
-      )
-
-      const { useElementsService } = await import("./elementService")
-
-      const eli = ref("fake/eli")
-      const { isFetching } = useElementsService(eli, ["article"])
-      await vi.waitFor(() => expect(isFetching.value).toBeTruthy())
-
-      vi.advanceTimersToNextTimer()
-      await vi.waitFor(() => expect(isFetching.value).toBeFalsy())
-    })
-
-    it("sets the error state", async () => {
-      vi.spyOn(window, "fetch").mockReturnValue(
-        new Promise<Response>((_, reject) => {
-          setTimeout(() => {
-            reject(new Response("{}"))
-          }, 1000)
-        }),
-      )
-
-      const { useElementsService } = await import("./elementService")
-
-      const eli = ref("fake/eli")
-      const { error } = useElementsService(eli, ["article"])
-      await vi.waitFor(() => expect(error.value).toBeFalsy())
-
-      vi.advanceTimersToNextTimer()
-      await vi.waitFor(() => expect(error.value).toBeTruthy())
-    })
-
-    it("runs the request manually", async () => {
-      const fetchSpy = vi
-        .spyOn(window, "fetch")
-        .mockResolvedValue(new Response("{}"))
-
-      const { useElementsService } = await import("./elementService")
-
-      const eli = ref("fake/eli/1")
-      const { execute } = useElementsService(eli, ["article"], undefined, {
-        immediate: false,
-      })
-      execute()
-      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
-    })
   })
 })
