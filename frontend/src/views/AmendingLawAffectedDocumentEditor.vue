@@ -2,10 +2,10 @@
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import { useAffectedElements } from "@/composables/useAffectedElements"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
+import { useElementsService } from "@/services/elementService"
 import { useNormService } from "@/services/normService"
 import dayjs from "dayjs"
 import { computed, watch } from "vue"
@@ -52,10 +52,14 @@ watch(
   { immediate: true },
 )
 
-const elements = useAffectedElements(
+const {
+  data: elements,
+  isFetching: elementsIsLoading,
+  error: elementsError,
+} = useElementsService(
   affectedDocumentEli,
   ["article", "conclusions", "preamble", "preface"],
-  { amendingLawEli },
+  { amendedBy: amendingLawEli },
 )
 </script>
 
@@ -129,8 +133,22 @@ const elements = useAffectedElements(
         <hr class="mx-16 my-8 border-t border-gray-400" />
 
         <!-- Content links -->
+        <div
+          v-if="elementsIsLoading"
+          class="m-16 flex items-center justify-center"
+        >
+          <RisLoadingSpinner />
+        </div>
+
         <RisCallout
-          v-if="!elements?.length"
+          v-else-if="elementsError"
+          title="Artikel konnten nicht geladen werden."
+          class="mx-16"
+          variant="error"
+        />
+
+        <RisCallout
+          v-else-if="!elements?.length"
           title="Keine Artikel gefunden."
           class="mx-16"
         />
