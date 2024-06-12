@@ -1,4 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from "vitest"
+import { Norm } from "@/types/norm"
+import { flushPromises } from "@vue/test-utils"
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest"
+import { ref } from "vue"
 
 describe("normService", () => {
   beforeEach(() => {
@@ -248,7 +259,7 @@ describe("normService", () => {
         useApiFetch: vi.fn().mockReturnValue(useFetchMock),
       }))
 
-      const { useGetNormHtmlByEli } = await import("@/services/normService")
+      const { useGetNormHtmlByEli } = await import("./normService")
 
       const result = useGetNormHtmlByEli(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
@@ -278,7 +289,7 @@ describe("normService", () => {
         useApiFetch: vi.fn().mockReturnValue(useFetchMock),
       }))
 
-      const { useGetNormHtmlByEli } = await import("@/services/normService")
+      const { useGetNormHtmlByEli } = await import("./normService")
 
       const result = useGetNormHtmlByEli(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
@@ -309,7 +320,7 @@ describe("normService", () => {
         useApiFetch: vi.fn().mockReturnValue(useFetchMock),
       }))
 
-      const { useGetNormHtmlByEli } = await import("@/services/normService")
+      const { useGetNormHtmlByEli } = await import("./normService")
 
       const date = new Date(Date.UTC(2023, 11, 11, 1, 2, 3, 4))
       const result = useGetNormHtmlByEli(
@@ -329,6 +340,88 @@ describe("normService", () => {
           }),
         }),
       )
+    })
+  })
+
+  describe("useNormService", () => {
+    beforeAll(() => {
+      vi.useFakeTimers()
+    })
+
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    afterAll(() => {
+      vi.useRealTimers()
+    })
+
+    it("provides the data from the API", async () => {
+      const fixture: Norm = {
+        eli: "fake/eli",
+        title: "Example norm",
+      }
+
+      const useApiFetch = vi.fn().mockReturnValue({
+        json: vi.fn().mockReturnValue({
+          data: ref(fixture),
+          execute: vi.fn(),
+        }),
+      })
+
+      vi.doMock("@/services/apiService", () => ({ useApiFetch }))
+
+      const { useNormService } = await import("./normService")
+
+      const result = useNormService("fake/eli")
+      expect(result.data.value).toBeTruthy()
+
+      vi.doUnmock("@/services/apiService")
+    })
+
+    it("does not load if the ELI has no value", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useNormService } = await import("./normService")
+
+      const eli = ref("")
+      useNormService(eli)
+      await flushPromises()
+      expect(fetchSpy).not.toHaveBeenCalled()
+    })
+
+    it("does not reload if the ELI has no value", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useNormService } = await import("./normService")
+
+      const eli = ref("fake/eli/1")
+      useNormService(eli)
+      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
+
+      eli.value = ""
+      await flushPromises()
+      expect(fetchSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it("reloads with a new ELI value", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useNormService } = await import("./normService")
+
+      const eli = ref("fake/eli/1")
+      useNormService(eli, undefined, { immediate: true, refetch: true })
+      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
+
+      eli.value = "fake/eli/2"
+      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
     })
   })
 })

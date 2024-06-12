@@ -32,17 +32,13 @@ describe("proprietaryService", () => {
       }
 
       const useApiFetch = vi.fn().mockReturnValue({
-        json: vi.fn().mockReturnValue({
-          data: ref(fixtures),
-          execute: vi.fn(),
-        }),
+        data: ref(fixtures),
+        execute: vi.fn(),
       })
 
       vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const result = useProprietaryService("fake/eli", { atDate: "2024-06-10" })
       expect(result.data.value).toBeTruthy()
@@ -55,9 +51,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("")
       useProprietaryService(eli, { atDate: "2024-06-10" })
@@ -70,9 +64,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(eli, { atDate: "2024-06-10" })
@@ -88,9 +80,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(
@@ -109,9 +99,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(eli, { atDate: "2024-04-06" })
@@ -129,9 +117,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(eli, { atDate: new Date(2024, 6, 4) })
@@ -149,9 +135,7 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       const date = ref("2024-06-04")
@@ -171,104 +155,13 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
+      const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
       useProprietaryService(eli, { atDate: undefined })
       await flushPromises()
 
       expect(fetchSpy).not.toHaveBeenCalled()
-    })
-
-    it("sets the loading state", async () => {
-      vi.spyOn(window, "fetch").mockReturnValue(
-        new Promise<Response>((resolve) => {
-          setTimeout(() => {
-            resolve(new Response("{}"))
-          }, 1000)
-        }),
-      )
-
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
-
-      const eli = ref("fake/eli")
-      const { isFetching } = useProprietaryService(eli, {
-        atDate: "2024-06-10",
-      })
-      await vi.waitFor(() => expect(isFetching.value).toBeTruthy())
-
-      vi.advanceTimersToNextTimer()
-      await vi.waitFor(() => expect(isFetching.value).toBeFalsy())
-    })
-
-    it("sets the error state", async () => {
-      vi.spyOn(window, "fetch").mockReturnValue(
-        new Promise<Response>((_, reject) => {
-          setTimeout(() => {
-            reject(new Response("{}"))
-          }, 1000)
-        }),
-      )
-
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
-
-      const eli = ref("fake/eli")
-      const { error } = useProprietaryService(eli, { atDate: "2024-06-10" })
-      await vi.waitFor(() => expect(error.value).toBeFalsy())
-
-      vi.advanceTimersToNextTimer()
-      await vi.waitFor(() => expect(error.value).toBeTruthy())
-    })
-
-    it("runs the request manually", async () => {
-      const fetchSpy = vi
-        .spyOn(window, "fetch")
-        .mockResolvedValue(new Response("{}"))
-
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
-
-      const eli = ref("fake/eli/1")
-      const date = ref("2024-06-04")
-      const { execute } = useProprietaryService(
-        eli,
-        { atDate: date },
-        { immediate: false },
-      )
-      execute()
-      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
-    })
-
-    it("sends data to the API", async () => {
-      const fixtures: Proprietary = {
-        fna: "foo",
-      }
-
-      const useApiFetch = vi.fn().mockReturnValue({
-        json: vi.fn().mockReturnValue({
-          put: vi.fn().mockReturnValue({ data: ref(fixtures) }),
-        }),
-      })
-
-      vi.doMock("@/services/apiService", () => ({ useApiFetch }))
-
-      const { useProprietaryService } = await import(
-        "@/services/proprietaryService"
-      )
-
-      const result = useProprietaryService("fake/eli", {
-        atDate: "2024-06-10",
-      }).put()
-      expect(result.data.value).toBeTruthy()
-
-      vi.doUnmock("@/services/apiService")
     })
   })
 })

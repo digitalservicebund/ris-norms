@@ -26,7 +26,6 @@ const props = withDefaults(
     editable?: boolean
   }>(),
   {
-    initialContent: "",
     readonly: false,
     editable: true,
   },

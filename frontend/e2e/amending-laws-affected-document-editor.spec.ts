@@ -1,8 +1,4 @@
 import { Page, expect, test } from "@playwright/test"
-import {
-  verfassungsschutzgesetz as currentXml,
-  changedVerfassungsschutzgesetz as newXml,
-} from "./testData/verfassungsschutzgesetz"
 
 test.describe("navigate to page", () => {
   test("navigate to affected document metadata editor", async ({ page }) => {
@@ -225,7 +221,7 @@ test.describe("preview", () => {
   })
 })
 
-test.describe("XML editing", () => {
+test.describe("XML preview", () => {
   test("displays the XML of the target law with metadata", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
@@ -240,65 +236,6 @@ test.describe("XML editing", () => {
           'value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"',
         ),
     ).toBeVisible()
-  })
-
-  test("edits and saves the XML of the target law", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
-    )
-
-    const editorRegion = page.getByRole("region", {
-      name: "Metadaten bearbeiten",
-    })
-
-    await editorRegion.getByRole("tab", { name: "XML" }).click()
-
-    const editor = editorRegion.getByRole("textbox")
-
-    await expect(
-      editorRegion.getByText(
-        'value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"',
-      ),
-    ).toBeVisible()
-
-    try {
-      const saveButton = page.getByRole("button", { name: "Speichern" })
-      await expect(saveButton).toBeDisabled()
-
-      // eslint-disable-next-line playwright/no-conditional-in-test -- we need to
-      // know if we are running on macos (which uses the darwin nodejs build) to
-      // use the correct key for selecting everything in the editor
-      await editor.press(
-        `${process.platform === "darwin" ? "Meta" : "Control"}+a`,
-      )
-
-      await editor.press("Backspace")
-      await editor.fill(newXml)
-
-      await expect(saveButton).toBeEnabled()
-      await saveButton.click()
-      await expect(saveButton).toBeDisabled()
-
-      // Validate the XML is saved
-      const response = await page.request.get(
-        "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1",
-        { headers: { Accept: "application/xml" } },
-      )
-
-      expect(await response.text()).toBe(newXml)
-    } finally {
-      // Reset the XML
-      await page.request.put(
-        "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1",
-        {
-          headers: {
-            "Content-Type": "application/xml",
-            Accept: "application/xml",
-          },
-          data: currentXml,
-        },
-      )
-    }
   })
 })
 

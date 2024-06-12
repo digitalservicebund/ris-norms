@@ -1,30 +1,63 @@
-import { ElementType, Element } from "@/types/element"
-import { apiFetch } from "./apiService"
+import { INVALID_URL, apiFetch, useApiFetch } from "@/services/apiService"
+import { Element, ElementType } from "@/types/element"
+import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import { MaybeRefOrGetter, computed, toValue } from "vue"
 
 /**
- * Returns a list of elements inside a law. The type parameter specifies
- * the types of elements that should be returned.
+ * Returns a list of elements contained in a norm from the API. Reloads when the
+ * parameters change.
  *
- * @param eli Law from which the elements should be loaded
+ * @param eli ELI of the norm
  * @param types Types of elements that should be included
  * @param options Optional additional filters and queries
- * @returns The list of elements
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
  */
-export function getElementsByEliAndType(
-  eli: string,
-  types: ElementType[],
+export function useElementsService(
+  eli: MaybeRefOrGetter<string>,
+  types: MaybeRefOrGetter<ElementType[]>,
   options?: {
     /**
      * If set, only returns elements if they are changed by the specified
      * amending law. Should be the ELI of an amending law.
      */
-    amendedBy?: string
+    amendedBy?: MaybeRefOrGetter<string>
   },
-): Promise<Element[]> {
-  return apiFetch<Element[]>(`/norms/${eli}/elements`, {
-    query: { type: types, amendedBy: options?.amendedBy },
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<Element[]> {
+  const url = computed(() => {
+    const eliVal = toValue(eli)
+    if (!eliVal) return INVALID_URL
+
+    const typesVal = toValue(types)
+    const amendedByVal = toValue(options?.amendedBy)
+
+    const query = new URLSearchParams()
+    typesVal.forEach((type) => query.append("type", type))
+    if (amendedByVal) query.append("amendedBy", amendedByVal)
+
+    return `/norms/${eliVal}/elements?${query.toString()}`
   })
+
+  return useApiFetch<Element[]>(url, fetchOptions)
 }
+
+/**
+ * Convenience shorthand for `useElementsService` that sets the correct
+ * configuration for getting JSON data.
+ *
+ * @param eli ELI of the norm
+ * @param types Types of elements that should be included
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export const useGetElements: typeof useElementsService = (
+  eli,
+  types,
+  options,
+  fetchOptions,
+) => useElementsService(eli, types, options, fetchOptions).json()
 
 /**
  * Returns any element that can be identified by its ELI and eId as an
