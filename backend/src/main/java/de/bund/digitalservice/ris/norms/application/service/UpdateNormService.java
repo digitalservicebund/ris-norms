@@ -134,8 +134,10 @@ public class UpdateNormService
 
   @Override
   public Norm updateActiveModifications(UpdateActiveModificationsUseCase.Query query) {
-    var norm = query.amendingNorm();
-    norm.getMeta()
+    final Norm amendingNorm = query.amendingNorm();
+    // Edit mod in meta
+    amendingNorm
+        .getMeta()
         .getAnalysis()
         .map(analysis -> analysis.getActiveModifications().stream())
         .orElse(Stream.empty())
@@ -148,6 +150,16 @@ public class UpdateNormService
               activeMod.setDestinationHref(query.destinationHref());
               activeMod.setForcePeriodEid(query.timeBoundaryEid());
             });
-    return norm;
+
+    // Edit mod in body
+    amendingNorm.getMods().stream()
+        .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eId()))
+        .findFirst()
+        .ifPresent(
+            mod -> {
+              mod.setTargetHref(query.destinationHref());
+              mod.setNewText(query.newText());
+            });
+    return amendingNorm;
   }
 }

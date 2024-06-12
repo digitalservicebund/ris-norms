@@ -822,14 +822,14 @@ class NormServiceTest {
       String targetNormEli = targetNorm.getEli();
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
-      String newCharacterRange = "20-25";
+      String newCharacterRange = "9-34";
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
           targetNormEli
               + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/"
               + newCharacterRange
               + ".xml";
-      String newText = "new text";
+      String newText = "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3";
       when(loadNormPort.loadNorm(any()))
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));

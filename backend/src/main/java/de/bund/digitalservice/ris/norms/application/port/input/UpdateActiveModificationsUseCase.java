@@ -22,6 +22,12 @@ public interface UpdateActiveModificationsUseCase {
    * @param eId the eId of the akn:mod within the amending norm
    * @param destinationHref - the ELI + eid + character range of the target norm
    * @param timeBoundaryEid - the eId of the temporal group of the time boundary
+   * @param newText - the new text to replace the old one
    */
-  record Query(Norm amendingNorm, String eId, String destinationHref, String timeBoundaryEid) {}
+  record Query(
+      Norm amendingNorm,
+      String eId,
+      String destinationHref,
+      String timeBoundaryEid,
+      String newText) {}
 }
