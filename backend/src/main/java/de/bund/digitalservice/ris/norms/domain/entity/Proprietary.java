@@ -73,7 +73,9 @@ public class Proprietary {
    * @return FNA or empty if present neither in the MetadatenDe nor in the MetadatenDs block.
    */
   public Optional<String> getFna(final LocalDate date) {
-    return getMetadatenDs().flatMap(m -> m.getFnaAt(date)).or(this::getFna);
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, date))
+        .or(this::getFna);
   }
 
   private Optional<String> getArt() {
@@ -88,7 +90,9 @@ public class Proprietary {
    * @return Art or empty if present neither in the MetadatenDe nor in the MetadatenDs block.
    */
   public Optional<String> getArt(final LocalDate date) {
-    return getMetadatenDs().flatMap(m -> m.getArtAt(date)).or(this::getArt);
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.ART, date))
+        .or(this::getArt);
   }
 
   private Optional<String> getTyp() {
@@ -103,7 +107,9 @@ public class Proprietary {
    * @return Typ or empty if present neither in the MetadatenDe nor in the MetadatenDs block.
    */
   public Optional<String> getTyp(final LocalDate date) {
-    return getMetadatenDs().flatMap(m -> m.getTypAt(date)).or(this::getTyp);
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.TYP, date))
+        .or(this::getTyp);
   }
 
   /**
@@ -113,6 +119,7 @@ public class Proprietary {
    * @return Subtyp or empty if it doesn't exist.
    */
   public Optional<String> getSubtyp(final LocalDate date) {
-    return getMetadatenDs().flatMap(m -> m.getSubtypAt(date));
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.SUBTYP, date));
   }
 }
