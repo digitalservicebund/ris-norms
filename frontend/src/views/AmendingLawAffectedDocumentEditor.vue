@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
@@ -147,10 +148,11 @@ const {
           variant="error"
         />
 
-        <RisCallout
+        <RisEmptyState
           v-else-if="!elements?.length"
-          title="Keine Artikel gefunden."
+          text-content="Keine Artikel gefunden."
           class="mx-16"
+          variant="simple"
         />
 
         <router-link
