@@ -1,28 +1,12 @@
 import { Element, ElementType } from "@/types/element"
 import { flushPromises } from "@vue/test-utils"
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
 
 describe("useElementsService", () => {
-  beforeAll(() => {
-    vi.useFakeTimers()
-  })
-
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
-  })
-
-  afterAll(() => {
-    vi.useRealTimers()
   })
 
   it("provides the data from the API", async () => {
@@ -167,20 +151,41 @@ describe("useElementsService", () => {
     types.value = ["conclusions"]
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })
+
+  describe("useGetElements", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("loads the data from the API", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElements } = await import("./elementService")
+
+      useGetElements("fake/eli/1", ["article"])
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/elements?type=article",
+          expect.objectContaining({
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }),
+        ),
+      )
+    })
+  })
 })
 
 describe("useElementService", () => {
-  beforeAll(() => {
-    vi.useFakeTimers()
-  })
-
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
-  })
-
-  afterAll(() => {
-    vi.useRealTimers()
   })
 
   it("provides the data from the API", async () => {
@@ -325,5 +330,60 @@ describe("useElementService", () => {
 
     at.value = new Date(2024, 4, 13)
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
+  })
+
+  describe("useGetElement", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("loads the data from the API", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElement } = await import("./elementService")
+
+      useGetElement("fake/eli/1", "fake_eid")
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/elements/fake_eid?",
+          expect.objectContaining({
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }),
+        ),
+      )
+    })
+  })
+
+  describe("useGetElementHtml", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("loads the data from the API", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElementHtml } = await import("./elementService")
+
+      useGetElementHtml("fake/eli/1", "fake_eid")
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/elements/fake_eid?",
+          expect.objectContaining({
+            headers: expect.objectContaining({ Accept: "text/html" }),
+          }),
+        ),
+      )
+    })
   })
 })

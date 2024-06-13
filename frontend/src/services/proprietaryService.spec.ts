@@ -1,28 +1,12 @@
 import { Proprietary } from "@/types/proprietary"
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vitest"
-import { ref } from "vue"
 import { flushPromises } from "@vue/test-utils"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { ref } from "vue"
 
 describe("proprietaryService", () => {
-  beforeAll(() => {
-    vi.useFakeTimers()
-  })
-
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
-  })
-
-  afterAll(() => {
-    vi.useRealTimers()
   })
 
   describe("useProprietaryService", () => {
@@ -170,6 +154,69 @@ describe("proprietaryService", () => {
       await flushPromises()
 
       expect(fetchSpy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe("useGetProprietary", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("loads the data from the API", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetProprietary } = await import("./proprietaryService")
+
+      useGetProprietary("fake/eli/1", {
+        atDate: new Date("2024-05-13"),
+      })
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/2024-05-13",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/json",
+            }),
+          }),
+        ),
+      )
+    })
+  })
+
+  describe("usePutProprietary", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("sends the data to the API", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { usePutProprietary } = await import("./proprietaryService")
+
+      usePutProprietary(
+        { fna: "4711" },
+        "fake/eli/1",
+        { atDate: new Date("2024-05-13") },
+        { immediate: true },
+      )
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/2024-05-13",
+          expect.objectContaining({
+            headers: expect.objectContaining({ Accept: "application/json" }),
+            method: "PUT",
+            body: '{"fna":"4711"}',
+          }),
+        ),
+      )
     })
   })
 })
