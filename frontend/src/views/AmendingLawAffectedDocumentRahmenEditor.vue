@@ -134,7 +134,11 @@ const {
   error: xmlError,
 } = useNormXml(affectedDocumentEli)
 
-const { data: targetLawRender } = useGetNormHtml(
+const {
+  data: targetLawRender,
+  isFetching: targetLawRenderIsLoading,
+  error: targetLawRenderError,
+} = useGetNormHtml(
   affectedDocumentEli,
   { at: timeBoundaryAsDate },
   { immediate: true, refetch: true },
@@ -152,7 +156,18 @@ const { data: targetLawRender } = useGetNormHtml(
 
     <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-32">
       <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
+        <div v-if="targetLawRenderIsLoading" class="my-16 flex justify-center">
+          <RisLoadingSpinner />
+        </div>
+
+        <RisCallout
+          v-else-if="targetLawRenderError"
+          variant="error"
+          title="Die Vorschau konnten nicht geladen werden."
+        />
+
         <RisLawPreview
+          v-else
           class="ds-textarea flex-grow p-2"
           :content="targetLawRender ?? ''"
         />
