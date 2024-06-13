@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -28,6 +29,7 @@ const element = useElement(identifier)
  * -------------------------------------------------- */
 
 const { data: xml } = useNormXml(affectedDocumentEli)
+
 const render = useElementHtml(identifier, { at: timeBoundaryAsDate })
 </script>
 
@@ -58,32 +60,11 @@ const render = useElementHtml(identifier, { at: timeBoundaryAsDate })
           ]"
         >
           <template #editor>
-            <div class="grid grid-cols-[max-content,1fr] gap-x-16 gap-y-8">
-              <label
-                for="select-dokumenttyp"
-                class="col-span-2 grid grid-cols-subgrid"
-              >
-                <span class="ds-label-02-reg my-auto">Dokumenttyp</span>
-                <select
-                  id="select-dokumenttyp"
-                  disabled
-                  class="ds-select ds-select-small"
-                ></select>
-              </label>
-
-              <label
-                for="input-art-der-norm"
-                class="col-span-2 grid grid-cols-subgrid"
-              >
-                <span class="ds-label-02-reg my-auto">Art der Norm</span>
-                <input
-                  id="input-art-der-norm"
-                  disabled
-                  class="ds-input ds-input-small"
-                />
-              </label>
-            </div>
+            <RisEmptyState
+              text-content="Für dieses Element existieren keine Metadaten."
+            />
           </template>
+
           <template #xml>
             <RisCodeEditor
               :model-value="xml ?? ''"
