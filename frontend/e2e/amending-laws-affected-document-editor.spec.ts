@@ -338,7 +338,7 @@ test.describe("metadata reading", () => {
     })
 
     await expect(
-      editorRegion.getByText("Die Daten konnten nicht geladen werden."),
+      editorRegion.getByText("Die Metadaten konnten nicht geladen werden."),
     ).toBeVisible()
 
     await page.unrouteAll()

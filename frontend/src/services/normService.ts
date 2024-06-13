@@ -9,6 +9,7 @@ import { computed, MaybeRefOrGetter, toValue, unref } from "vue"
  *
  * @param eli Eli of the amending law
  * @param options Fetch options for the request
+ * @deprecated
  */
 export async function getNormByEli(
   eli: string,
@@ -66,6 +67,7 @@ export function useGetNormXml(
  * @param eli Eli of the norm
  * @param showMetadata Whether to include metadata in the rendered HTML
  * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
+ * @deprecated
  */
 export async function getNormHtmlByEli(
   eli: string,
@@ -89,6 +91,7 @@ export async function getNormHtmlByEli(
  * @param eli Eli of the norm
  * @param showMetadata Whether to include metadata in the rendered HTML
  * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
+ * @deprecated
  */
 export function useGetNormHtmlByEli(
   eli: MaybeRefOrGetter<string | undefined>,
@@ -150,22 +153,84 @@ export function usePutNormXml(
  * Returns the norm from the API. Reloads when the parameters change.
  *
  * @param eli ELI of the norm
- * @param options Optional additional filters and queries. This is only a
- *  placeholder for now and can not have a value.
+ * @param options Optional additional filters and queries
  * @param [fetchOptions={}] Optional configuration for fetch behavior
  * @returns Reactive fetch wrapper
  */
 export function useNormService(
   eli: MaybeRefOrGetter<string>,
-  options?: never,
+  options?: {
+    /**
+     * Render metadata in the HTML preview. Note that this is only applicable
+     * if you get the HTML preview, and will fail on other requests.
+     */
+    showMetadata?: boolean
+    /**
+     * Render the HTML preview at a specific date. Note that this is only
+     * applicable if you get the HTML preview, and will fail on other requests.
+     */
+    at?: MaybeRefOrGetter<Date | undefined>
+  },
   fetchOptions: UseFetchOptions = {},
 ): UseFetchReturn<Norm> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
 
-    return `/norms/${eliVal}`
+    const queryParams = new URLSearchParams()
+
+    if (options?.showMetadata) {
+      queryParams.append("showMetadata", "true")
+    }
+
+    if (options?.at) {
+      const atVal = toValue(options?.at)
+      if (atVal instanceof Date) {
+        queryParams.append("atIsoDate", atVal.toISOString())
+      }
+    }
+
+    return `/norms/${eliVal}?${queryParams.toString()}`
   })
 
-  return useApiFetch<Norm>(url, fetchOptions).json()
+  return useApiFetch<Norm>(url, fetchOptions)
+}
+
+/**
+ * Convenience shorthand for `useNormService` that sets the correct
+ * configuration for getting JSON data.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export const useGetNorm: typeof useNormService = (
+  eli,
+  options,
+  fetchOptions,
+) => {
+  return useNormService(eli, options, fetchOptions).json()
+}
+
+/**
+ * Convenience shorthand for `useNormService` that sets the correct
+ * configuration for getting the HTML preview.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function useGetNormHtml(
+  eli: Parameters<typeof useNormService>["0"],
+  options?: Parameters<typeof useNormService>["1"],
+  fetchOptions?: Parameters<typeof useNormService>["2"],
+): UseFetchReturn<string> {
+  return useNormService(eli, options, {
+    ...fetchOptions,
+    beforeFetch(c) {
+      c.options.headers = { ...c.options.headers, Accept: "text/html" }
+    },
+  }).text()
 }

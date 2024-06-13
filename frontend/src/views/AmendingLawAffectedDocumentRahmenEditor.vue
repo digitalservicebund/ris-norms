@@ -12,7 +12,6 @@ import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useNormHtml } from "@/composables/useNormHtml"
 import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import {
@@ -23,6 +22,7 @@ import {
   isMetaSubtypValue,
   isMetaTypValue,
 } from "@/lib/proprietary"
+import { useGetNormHtml } from "@/services/normService"
 import {
   useGetProprietary,
   usePutProprietary,
@@ -128,8 +128,17 @@ const documentTypeItems: DropdownItem[] = [
  * XML + HTML preview                                 *
  * -------------------------------------------------- */
 
-const { data: xml } = useNormXml(affectedDocumentEli)
-const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
+const {
+  data: xml,
+  isFetching: xmlIsLoading,
+  error: xmlError,
+} = useNormXml(affectedDocumentEli)
+
+const { data: targetLawRender } = useGetNormHtml(
+  affectedDocumentEli,
+  { at: timeBoundaryAsDate },
+  { immediate: true, refetch: true },
+)
 </script>
 
 <template>
@@ -165,7 +174,7 @@ const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
             <RisCallout
               v-else-if="fetchError"
               variant="error"
-              title="Die Daten konnten nicht geladen werden."
+              title="Die Metadaten konnten nicht geladen werden."
             />
 
             <form
@@ -210,7 +219,18 @@ const targetLawRender = useNormHtml(affectedDocumentEli, timeBoundaryAsDate)
           </template>
 
           <template #xml>
+            <div v-if="xmlIsLoading" class="my-16 flex justify-center">
+              <RisLoadingSpinner />
+            </div>
+
+            <RisCallout
+              v-else-if="xmlError"
+              variant="error"
+              title="Die XML-Ansicht konnte nicht geladen werden."
+            />
+
             <RisCodeEditor
+              v-else
               :model-value="xml ?? ''"
               :editable="false"
               class="flex-grow"

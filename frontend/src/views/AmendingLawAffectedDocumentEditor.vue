@@ -7,7 +7,7 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import { useGetElements } from "@/services/elementService"
-import { useNormService } from "@/services/normService"
+import { useGetNorm } from "@/services/normService"
 import dayjs from "dayjs"
 import { computed, watch } from "vue"
 
@@ -18,7 +18,7 @@ const {
   data: amendingLaw,
   isFetching: amendingLawIsLoading,
   error: amendingLawError,
-} = useNormService(amendingLawEli, undefined, {
+} = useGetNorm(amendingLawEli, undefined, {
   immediate: true,
 })
 
