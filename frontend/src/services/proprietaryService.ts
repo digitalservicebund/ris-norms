@@ -72,7 +72,7 @@ export function usePutProprietary(
   updateData: MaybeRefOrGetter<Proprietary | null>,
   eli: Parameters<typeof useProprietaryService>["0"],
   options: Parameters<typeof useProprietaryService>["1"],
-  fetchOptions: Parameters<typeof useProprietaryService>["2"],
+  fetchOptions?: Parameters<typeof useProprietaryService>["2"],
 ): ReturnType<typeof useProprietaryService> {
   return useProprietaryService(eli, options, fetchOptions)
     .json()
