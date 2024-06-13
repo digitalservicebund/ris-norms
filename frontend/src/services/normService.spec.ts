@@ -399,7 +399,7 @@ describe("normService", () => {
       const { useNormService } = await import("./normService")
 
       const eli = ref("fake/eli/1")
-      useNormService(eli)
+      useNormService(eli, undefined, { immediate: true, refetch: true })
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
       eli.value = ""

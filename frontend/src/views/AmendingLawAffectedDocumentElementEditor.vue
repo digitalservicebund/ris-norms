@@ -4,25 +4,21 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
-import { useElement } from "@/composables/useElement"
-import { useElementHtml } from "@/composables/useElementHtml"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
-import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed } from "vue"
+import { useGetElement, useGetElementHtml } from "@/services/elementService"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const elementEid = useEidPathParameter()
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
-const identifier = computed<LawElementIdentifier | undefined>(() =>
-  affectedDocumentEli.value && elementEid.value
-    ? { eli: affectedDocumentEli.value, eid: elementEid.value }
-    : undefined,
+const { data: element } = useGetElement(
+  affectedDocumentEli.value,
+  elementEid.value,
+  undefined,
+  { refetch: true },
 )
-
-const element = useElement(identifier)
 
 /* -------------------------------------------------- *
  * XML + HTML preview                                 *
@@ -30,7 +26,12 @@ const element = useElement(identifier)
 
 const { data: xml } = useNormXml(affectedDocumentEli)
 
-const render = useElementHtml(identifier, { at: timeBoundaryAsDate })
+const { data: render } = useGetElementHtml(
+  affectedDocumentEli.value,
+  elementEid.value,
+  { at: timeBoundaryAsDate },
+  { refetch: true },
+)
 </script>
 
 <template>

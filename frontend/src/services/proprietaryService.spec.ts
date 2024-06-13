@@ -67,7 +67,11 @@ describe("proprietaryService", () => {
       const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
-      useProprietaryService(eli, { atDate: "2024-06-10" })
+      useProprietaryService(
+        eli,
+        { atDate: "2024-06-10" },
+        { immediate: true, refetch: true },
+      )
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
       eli.value = ""
@@ -158,7 +162,11 @@ describe("proprietaryService", () => {
       const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
-      useProprietaryService(eli, { atDate: undefined })
+      useProprietaryService(
+        eli,
+        { atDate: undefined },
+        { immediate: true, refetch: true },
+      )
       await flushPromises()
 
       expect(fetchSpy).not.toHaveBeenCalled()
