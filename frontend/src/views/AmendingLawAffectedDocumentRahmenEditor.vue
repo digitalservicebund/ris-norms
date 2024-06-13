@@ -163,7 +163,7 @@ const {
         <RisCallout
           v-else-if="targetLawRenderError"
           variant="error"
-          title="Die Vorschau konnten nicht geladen werden."
+          title="Die Vorschau konnte nicht geladen werden."
         />
 
         <RisLawPreview
