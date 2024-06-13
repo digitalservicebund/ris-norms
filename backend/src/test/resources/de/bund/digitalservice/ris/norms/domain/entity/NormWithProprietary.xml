@@ -130,6 +130,7 @@
                 </meta:legalDocML.de_metadaten>
                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                     <meta:subtyp>rechtsverordnung</meta:subtyp>
+                    <meta:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

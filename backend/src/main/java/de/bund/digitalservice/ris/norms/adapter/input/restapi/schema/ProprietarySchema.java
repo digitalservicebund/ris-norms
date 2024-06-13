@@ -13,4 +13,5 @@ public class ProprietarySchema {
   private String art;
   private String typ;
   private String subtyp;
+  private String bezeichnungInVorlage;
 }

@@ -89,7 +89,8 @@ public class ProprietaryController {
                       proprietarySchema.getFna(),
                       proprietarySchema.getArt(),
                       proprietarySchema.getTyp(),
-                      proprietarySchema.getSubtyp())));
+                      proprietarySchema.getSubtyp(),
+                      proprietarySchema.getBezeichnungInVorlage())));
 
       return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
 

@@ -604,5 +604,8 @@ components:
         subtyp:
           type: string
           description: Subtype ("Subtyp") of the document
+        bezeichnungInVorlage:
+          type: string
+          description: Designation according to specification ("Bezeichnung gemäß Vorlage") of the document
 
 

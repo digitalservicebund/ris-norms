@@ -25,7 +25,8 @@ public class MetadatenDs {
     FNA("./fna"),
     ART("./art"),
     TYP("./typ"),
-    SUBTYP("./subtyp");
+    SUBTYP("./subtyp"),
+    BEZEICHNUNGINVORLAGE("./bezeichnungInVorlage");
 
     private final String xpath;
 

@@ -41,8 +41,8 @@
                     </xs:choice>
                 </xs:sequence>
                 <xs:attribute name="href" type="eId-verweis" use="required">
-                    <!-- 
-                        Hier wäre auch denkbar, statt auf die @eId auf die @GUID 
+                    <!--
+                        Hier wäre auch denkbar, statt auf die @eId auf die @GUID
                         zu verweisen, beides zu erlauben (entweder/oder) oder eben
                         zwei Attribute (z. B. @eId-ref und @GUID-ref) zu deklarieren.
                     -->
@@ -57,6 +57,7 @@
         <xs:element name="aktenzeichen" type="xs:string" minOccurs="0"/>
         <xs:element name="celex" type="xs:string" minOccurs="0"/>
         <xs:element name="subtyp" type="artDerNorm" minOccurs="0"/>
+        <xs:element name="bezeichnungInVorlage" type="xs:string" minOccurs="0"/>
         <xs:element name="mitwirkung" type="xs:string" minOccurs="0"/>
         <xs:element name="fundstelleNichtAmtlich" type="xs:string" minOccurs="0"/>
         <xs:element name="qualifizierteMehrheit" type="xs:boolean" minOccurs="0"/>
@@ -75,13 +76,13 @@
                </xs:element>
             </xs:choice>
             <xs:attribute name="type" type="xs:string" use="optional"/>
-         </xs:complexType> 
+         </xs:complexType>
         </xs:element>
         <xs:element name="vollzitat" type="xs:string" minOccurs="0"/>
             <xs:element name="risAbk" type="xs:string" minOccurs="0">
                <xs:annotation>
-                  <xs:documentation>Die RIS-Abkürzung ist die systemeigene, menschenlesbare Abkürzung eines Normenkomplexes, die für die Dokumentation, 
-                     insbesondere bei der Bearbeitung von Referenzierungsrubriken verwendet wird. Sie wird intellektuell nach einem abgestimmten Regelwerk 
+                  <xs:documentation>Die RIS-Abkürzung ist die systemeigene, menschenlesbare Abkürzung eines Normenkomplexes, die für die Dokumentation,
+                     insbesondere bei der Bearbeitung von Referenzierungsrubriken verwendet wird. Sie wird intellektuell nach einem abgestimmten Regelwerk
                      (Konventionen) gebildet.</xs:documentation>
                </xs:annotation>
             </xs:element>

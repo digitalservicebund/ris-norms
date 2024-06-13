@@ -122,4 +122,16 @@ public class Proprietary {
     return getMetadatenDs()
         .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.SUBTYP, date));
   }
+
+  /**
+   * Returns the designation according to specification ("Bezeichnung gemäß Vorlage") of the
+   * document from the MetadatenDs block at a specific date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Bezeichnung gemäß Vorlage" or empty if it doesn't exist.
+   */
+  public Optional<String> getBezeichnungInVorlage(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.BEZEICHNUNGINVORLAGE, date));
+  }
 }
