@@ -57,6 +57,27 @@ test.describe("navigate to page", () => {
 
     await page.unrouteAll()
   })
+
+  test("shows an error when an element page could not be loaded", async ({
+    page,
+  }) => {
+    await page.route(
+      /elements\/hauptteil-1_abschnitt-erster_para-6/,
+      async (route) => {
+        await route.abort()
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
+    )
+
+    await expect(
+      page.getByText("Das Element konnte nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
+  })
 })
 
 test.describe("sidebar navigation", () => {
@@ -310,6 +331,31 @@ test.describe("preview", () => {
 
     await page.unrouteAll()
   })
+
+  test("shows an error when the preview could not be loaded for an element", async ({
+    page,
+  }) => {
+    await page.route(
+      /elements\/hauptteil-1_abschnitt-erster_para-6\?atIsoDate=/,
+      async (request) => {
+        await request.abort()
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
+    )
+
+    const previewRegion = page.getByRole("region", {
+      name: "Vorschau",
+    })
+
+    await expect(
+      previewRegion.getByText("Die Vorschau konnte nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
+  })
 })
 
 test.describe("XML preview", () => {
@@ -329,7 +375,9 @@ test.describe("XML preview", () => {
     ).toBeVisible()
   })
 
-  test("shows an error when the XML could not be loaded", async ({ page }) => {
+  test("shows an error when the XML could not be loaded for the whole document", async ({
+    page,
+  }) => {
     await page.route(
       /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1$/,
       async (request) => {
@@ -339,6 +387,29 @@ test.describe("XML preview", () => {
 
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    await page.getByRole("tab", { name: "XML" }).click()
+
+    await expect(
+      page.getByText("Die XML-Ansicht konnte nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
+  })
+
+  test("shows an error when the XML could not be loaded for an element", async ({
+    page,
+  }) => {
+    await page.route(
+      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1$/,
+      async (request) => {
+        await request.abort()
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
     )
 
     await page.getByRole("tab", { name: "XML" }).click()

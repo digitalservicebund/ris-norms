@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
@@ -13,20 +15,29 @@ const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const elementEid = useEidPathParameter()
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 
-const { data: element } = useGetElement(
-  affectedDocumentEli.value,
-  elementEid.value,
-  undefined,
-  { refetch: true },
-)
+const {
+  data: element,
+  isFetching: elementIsLoading,
+  error: elementError,
+} = useGetElement(affectedDocumentEli.value, elementEid.value, undefined, {
+  refetch: true,
+})
 
 /* -------------------------------------------------- *
  * XML + HTML preview                                 *
  * -------------------------------------------------- */
 
-const { data: xml } = useNormXml(affectedDocumentEli)
+const {
+  data: xml,
+  isFetching: xmlIsLoading,
+  error: xmlError,
+} = useNormXml(affectedDocumentEli)
 
-const { data: render } = useGetElementHtml(
+const {
+  data: render,
+  isFetching: renderIsLoading,
+  error: renderError,
+} = useGetElementHtml(
   affectedDocumentEli.value,
   elementEid.value,
   { at: timeBoundaryAsDate },
@@ -35,7 +46,21 @@ const { data: render } = useGetElementHtml(
 </script>
 
 <template>
-  <div class="flex flex-col overflow-hidden p-40">
+  <div
+    v-if="elementIsLoading"
+    class="flex h-full items-center justify-center p-40"
+  >
+    <RisLoadingSpinner />
+  </div>
+
+  <div v-else-if="elementError" class="p-40">
+    <RisCallout
+      variant="error"
+      title="Das Element konnte nicht geladen werden."
+    />
+  </div>
+
+  <div v-else class="flex flex-col overflow-hidden p-40">
     <div class="flex gap-16">
       <div class="flex-grow">
         <h2 class="ds-heading-03-reg">
@@ -46,7 +71,18 @@ const { data: render } = useGetElementHtml(
 
     <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-32">
       <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
+        <div v-if="renderIsLoading" class="my-16 flex justify-center">
+          <RisLoadingSpinner />
+        </div>
+
+        <RisCallout
+          v-else-if="renderError"
+          variant="error"
+          title="Die Vorschau konnte nicht geladen werden."
+        />
+
         <RisLawPreview
+          v-else
           class="ds-textarea flex-grow p-2"
           :content="render ?? ''"
         />
@@ -67,6 +103,16 @@ const { data: render } = useGetElementHtml(
           </template>
 
           <template #xml>
+            <div v-if="xmlIsLoading" class="my-16 flex justify-center">
+              <RisLoadingSpinner />
+            </div>
+
+            <RisCallout
+              v-else-if="xmlError"
+              variant="error"
+              title="Die XML-Ansicht konnte nicht geladen werden."
+            />
+
             <RisCodeEditor
               :model-value="xml ?? ''"
               :editable="false"
