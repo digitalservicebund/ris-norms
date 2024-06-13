@@ -544,15 +544,6 @@ test.describe("metadata editing", () => {
         }),
       },
     )
-
-    // await fnaTextbox.fill("754-28-1")
-    // await documentTypeDropdown.selectOption("Unbekannt")
-    // await page.getByRole("button", { name: "Metadaten speichern" }).click()
-    // await saved
-
-    // await page.reload()
-    // await expect(fnaTextbox).toHaveValue("754-28-1")
-    // await expect(documentTypeDropdown).toHaveValue("")
   })
 
   test("updates with metadata from the backend after saving", async ({
