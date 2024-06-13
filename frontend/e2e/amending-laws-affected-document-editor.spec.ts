@@ -379,7 +379,7 @@ test.describe("XML preview", () => {
     page,
   }) => {
     await page.route(
-      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1$/,
+      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
       async (request) => {
         await request.abort()
       },
@@ -402,7 +402,7 @@ test.describe("XML preview", () => {
     page,
   }) => {
     await page.route(
-      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1$/,
+      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
       async (request) => {
         await request.abort()
       },

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
-import { useGetNormHtmlByEli } from "@/services/normService"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useGetNormHtml } from "@/services/normService"
 
 const eli = useEliPathParameter()
-const { isFetching, error, data: amendingLawHtml } = useGetNormHtmlByEli(eli)
+
+const { isFetching, error, data: amendingLawHtml } = useGetNormHtml(eli)
 </script>
 
 <template>
@@ -14,7 +15,7 @@ const { isFetching, error, data: amendingLawHtml } = useGetNormHtmlByEli(eli)
     <h1 class="ds-heading-02-reg mb-40">Verkündung</h1>
     <div v-if="error" class="w-2/3">
       <RisCallout
-        title="Die Liste der Verkündungen konnte nicht geladen werden."
+        title="Der Text der Verkündung konnte nicht geladen werden."
         variant="error"
       />
     </div>
