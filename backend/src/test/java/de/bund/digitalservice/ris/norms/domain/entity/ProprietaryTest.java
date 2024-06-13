@@ -456,4 +456,103 @@ class ProprietaryTest {
       assertThat(proprietary.getSubtyp(LocalDate.parse("2024-01-01"))).contains("Geschäftsordnung");
     }
   }
+
+  @Nested
+  class BezeichnungInVorlage {
+    @Test
+    void returnsTheBezeichnungInVorlage() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                      <akn:proprietary
+                                        eId="meta-1_proprietary-1"
+                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                        source="attributsemantik-noch-undefiniert"
+                                      >
+                                        <meta:legalDocML.de_metadaten_ds
+                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                        >
+                                          <meta:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
+                                       </meta:legalDocML.de_metadaten_ds>
+                                      </akn:proprietary>
+                                      """))
+              .build();
+
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("2010-10-10")))
+          .contains("Bezeichnung gemäß Vorlage");
+    }
+
+    @Test
+    void returnsEmptyOptionalIfBezeichnungInVorlageIsMissing() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                      <akn:proprietary
+                                        eId="meta-1_proprietary-1"
+                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                        source="attributsemantik-noch-undefiniert"
+                                      >
+                                        <meta:legalDocML.de_metadaten_ds
+                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                        >
+                                        <!-- BezeichnungInVorlage is missing -->
+                                        </meta:legalDocML.de_metadaten_ds>
+                                      </akn:proprietary>
+                                      """))
+              .build();
+
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("2010-10-10"))).isEmpty();
+    }
+
+    @Test
+    void returnsTheBezeichnungInVorlageAtDate() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                      <akn:proprietary
+                                        eId="meta-1_proprietary-1"
+                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                        source="attributsemantik-noch-undefiniert"
+                                      >
+                                        <meta:legalDocML.de_metadaten_ds
+                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                        >
+                                          <meta:bezeichnungInVorlage end="1989-12-31">Bezeichnung gemäß Vorlage 1</meta:bezeichnungInVorlage>
+                                          <meta:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">Bezeichnung gemäß Vorlage 2</meta:bezeichnungInVorlage>
+                                          <meta:bezeichnungInVorlage start="1995-01-01" end="2000-12-31">Bezeichnung gemäß Vorlage 3</meta:bezeichnungInVorlage>
+                                          <meta:bezeichnungInVorlage start="2001-01-01">Bezeichnung gemäß Vorlage 4</meta:bezeichnungInVorlage>
+                                        </meta:legalDocML.de_metadaten_ds>
+                                      </akn:proprietary>
+                                      """))
+              .build();
+
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("1980-01-01")))
+          .contains("Bezeichnung gemäß Vorlage 1");
+
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("1990-01-01")))
+          .contains("Bezeichnung gemäß Vorlage 2");
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("1992-01-01")))
+          .contains("Bezeichnung gemäß Vorlage 2");
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("1994-12-31")))
+          .contains("Bezeichnung gemäß Vorlage 2");
+
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("1995-01-01")))
+          .contains("Bezeichnung gemäß Vorlage 3");
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("1998-01-01")))
+          .contains("Bezeichnung gemäß Vorlage 3");
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("2000-12-31")))
+          .contains("Bezeichnung gemäß Vorlage 3");
+
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("2001-01-01")))
+          .contains("Bezeichnung gemäß Vorlage 4");
+      assertThat(proprietary.getBezeichnungInVorlage(LocalDate.parse("2024-01-01")))
+          .contains("Bezeichnung gemäß Vorlage 4");
+    }
+  }
 }
