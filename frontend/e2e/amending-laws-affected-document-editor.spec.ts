@@ -29,6 +29,34 @@ test.describe("navigate to page", () => {
       ),
     ).toBeVisible()
   })
+
+  test("shows an error when the amending law could not be loaded", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/0000/000/0000-00-00/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/",
+    )
+
+    await expect(page.getByText("404")).toBeVisible()
+  })
+
+  test("shows an error when the time boundaries could not be loaded", async ({
+    page,
+  }) => {
+    await page.route(/timeBoundaries/, (route) => {
+      route.abort()
+    })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    await expect(
+      page.getByText("Die Zeitgrenzen konnten nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
+  })
 })
 
 test.describe("sidebar navigation", () => {
@@ -137,6 +165,44 @@ test.describe("sidebar navigation", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/hauptteil-1_abschnitt-erster_para-6",
     )
   })
+
+  test("shows an error when the elements could not be loaded", async ({
+    page,
+  }) => {
+    await page.route(
+      /elements\?type=article&type=conclusions&type=preamble&type=preface&amendedBy=eli/,
+      (route) => {
+        route.abort()
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    await expect(
+      page.getByText("Artikel konnten nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
+  })
+
+  test("shows an empty state when no elements are found", async ({ page }) => {
+    await page.route(
+      /elements\?type=article&type=conclusions&type=preamble&type=preface&amendedBy=eli/,
+      async (route) => {
+        await route.fulfill({ status: 200, json: {} })
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    await expect(page.getByText("Keine Artikel gefunden.")).toBeVisible()
+
+    await page.unrouteAll()
+  })
 })
 
 test.describe("preview", () => {
@@ -219,6 +285,31 @@ test.describe("preview", () => {
 
     await expect(preview).toHaveText(/.*nach Ablauf von fünf Jahren.*/)
   })
+
+  test("shows an error when the preview could not be loaded for the whole document", async ({
+    page,
+  }) => {
+    await page.route(
+      /norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?atIsoDate=/,
+      async (request) => {
+        await request.abort()
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    const previewRegion = page.getByRole("region", {
+      name: "Vorschau",
+    })
+
+    await expect(
+      previewRegion.getByText("Die Vorschau konnte nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
+  })
 })
 
 test.describe("XML preview", () => {
@@ -236,6 +327,27 @@ test.describe("XML preview", () => {
           'value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"',
         ),
     ).toBeVisible()
+  })
+
+  test("shows an error when the XML could not be loaded", async ({ page }) => {
+    await page.route(
+      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1$/,
+      async (request) => {
+        await request.abort()
+      },
+    )
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    await page.getByRole("tab", { name: "XML" }).click()
+
+    await expect(
+      page.getByText("Die XML-Ansicht konnte nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
   })
 })
 
@@ -322,7 +434,7 @@ test.describe("metadata reading", () => {
     )
   })
 
-  test("displays an error if the data could not be loaded", async ({
+  test("displays an error if the data could not be loaded for the whole document", async ({
     page,
   }) => {
     await page.route(/\/proprietary\/2023-12-30$/, (request) => {
@@ -338,7 +450,7 @@ test.describe("metadata reading", () => {
     })
 
     await expect(
-      editorRegion.getByText("Die Daten konnten nicht geladen werden."),
+      editorRegion.getByText("Die Metadaten konnten nicht geladen werden."),
     ).toBeVisible()
 
     await page.unrouteAll()
@@ -411,27 +523,32 @@ test.describe("metadata editing", () => {
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await saved
 
+    // Verify that results have been persisted after reloading the page
     await page.reload()
     await expect(fnaTextbox).toHaveValue("123-4")
     await expect(documentTypeDropdown).toHaveValue("Berichtigung")
 
-    await fnaTextbox.fill("754-28-1")
-    await documentTypeDropdown.selectOption("Unbekannt")
-    await page.getByRole("button", { name: "Metadaten speichern" }).click()
-    await saved
-
-    await page.reload()
-    await expect(fnaTextbox).toHaveValue("754-28-1")
-    await expect(documentTypeDropdown).toHaveValue("")
+    // Reset the data
+    await page.request.put(
+      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/proprietary/1964-09-21",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        data: JSON.stringify({
+          fna: "754-28-1",
+          art: null,
+          typ: null,
+          subtyp: null,
+        }),
+      },
+    )
   })
 
   test("updates with metadata from the backend after saving", async ({
     page,
   }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
-    )
-
     await page.route(/\/proprietary\/2023-12-30$/, (route) => {
       // Mocking the response instead of getting the real response from the backend
       // to force a state where the value returned from the backend is different from
@@ -450,6 +567,10 @@ test.describe("metadata editing", () => {
       else route.continue()
     })
 
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
     // FNA
     const fnaTextbox = page.getByRole("textbox", {
       name: "Sachgebiet FNA-Nummer",
@@ -467,36 +588,20 @@ test.describe("metadata editing", () => {
     await expect(fnaTextbox).toHaveValue("600-1")
     await expect(documentTypeDropdown).toHaveValue("Geschäftsordnung")
 
-    await page.route(/\/proprietary\/2023-12-30$/, (route) => {
-      // Mocking again to reset the value of the FNA for other e2e tests
-      if (route.request().method() === "PUT")
-        route.fulfill({
-          status: 200,
-          json: {
-            fna: "210-5",
-            art: "regelungstext",
-            typ: "gesetz",
-            subtyp: "Rechtsverordnung",
-          },
-        })
-      else route.continue()
-    })
-    await page.getByRole("button", { name: "Metadaten speichern" }).click()
-    await expect(fnaTextbox).toHaveValue("210-5")
-    await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
-
-    await page.unroute(/\/proprietary\/2023-12-30$/)
+    await page.unrouteAll()
   })
 
-  test("displays an error if the data could not be saved", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
-    )
-
+  test("displays an error if the data could not be saved for the whole document", async ({
+    page,
+  }) => {
     await page.route(/\/proprietary\/2023-12-30$/, (route) => {
       if (route.request().method() === "PUT") route.abort("failed")
       else route.continue()
     })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
 
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
 
@@ -504,6 +609,6 @@ test.describe("metadata editing", () => {
       page.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
     ).toBeVisible()
 
-    await page.unroute(/\/proprietary\/2023-12-30$/)
+    await page.unrouteAll()
   })
 })

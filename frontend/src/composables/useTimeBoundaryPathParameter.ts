@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import { computed, ComputedRef, WritableComputedRef } from "vue"
 import { useRoute, useRouter } from "vue-router"
 
@@ -35,9 +36,11 @@ export function useTimeBoundaryPathParameter(): {
     },
   })
 
-  const timeBoundaryAsDate = computed(() =>
-    timeBoundary.value ? new Date(timeBoundary.value) : undefined,
-  )
+  const timeBoundaryAsDate = computed(() => {
+    if (timeBoundary.value && dayjs(timeBoundary.value).isValid()) {
+      return dayjs(timeBoundary.value).toDate()
+    } else return undefined
+  })
 
   return { timeBoundary, timeBoundaryAsDate }
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
@@ -6,7 +7,7 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import { useGetElements } from "@/services/elementService"
-import { useNormService } from "@/services/normService"
+import { useGetNorm } from "@/services/normService"
 import dayjs from "dayjs"
 import { computed, watch } from "vue"
 
@@ -17,7 +18,7 @@ const {
   data: amendingLaw,
   isFetching: amendingLawIsLoading,
   error: amendingLawError,
-} = useNormService(amendingLawEli, undefined, {
+} = useGetNorm(amendingLawEli, undefined, {
   immediate: true,
 })
 
@@ -147,10 +148,11 @@ const {
           variant="error"
         />
 
-        <RisCallout
+        <RisEmptyState
           v-else-if="!elements?.length"
-          title="Keine Artikel gefunden."
+          text-content="Keine Artikel gefunden."
           class="mx-16"
+          variant="simple"
         />
 
         <router-link
