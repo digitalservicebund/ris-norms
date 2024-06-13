@@ -530,7 +530,7 @@ test.describe("metadata editing", () => {
 
     // Reset the data
     await page.request.put(
-      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1964-09-21",
+      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/proprietary/1964-09-21",
       {
         headers: {
           "Content-Type": "application/json",
