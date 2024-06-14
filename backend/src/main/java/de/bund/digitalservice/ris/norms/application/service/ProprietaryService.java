@@ -51,7 +51,7 @@ public class ProprietaryService
     metadatenDs.setSimpleProprietaryMetadata(
         MetadatenDs.SimpleMetadatum.SUBTYP, query.atDate(), query.metadata().subtyp());
     metadatenDs.setSimpleProprietaryMetadata(
-        MetadatenDs.SimpleMetadatum.BEZEICHNUNGINVORLAGE,
+        MetadatenDs.SimpleMetadatum.BEZEICHNUNG_IN_VORLAGE,
         query.atDate(),
         query.metadata().bezeichnungInVorlage());
     metadatenDs.setSimpleProprietaryMetadata(

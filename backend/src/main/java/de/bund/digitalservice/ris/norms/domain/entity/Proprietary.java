@@ -132,7 +132,7 @@ public class Proprietary {
    */
   public Optional<String> getBezeichnungInVorlage(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.BEZEICHNUNGINVORLAGE, date));
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.BEZEICHNUNG_IN_VORLAGE, date));
   }
 
   /**
