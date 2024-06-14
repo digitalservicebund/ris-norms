@@ -28,7 +28,7 @@ export type Proprietary = {
   /**
    * Comma-separated values. DE “Art der Norm"
    */
-  artNorm?: string
+  artDerNorm?: string
 
   /**
    * DE “Bezeichnung gemäß Vorlage"

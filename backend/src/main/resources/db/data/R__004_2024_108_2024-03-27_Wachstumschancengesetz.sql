@@ -1651,8 +1651,8 @@ VALUES ('5d84cd1d-3575-4a03-bb6c-f17834e392fe', 'eli/bund/bgbl-1/2009/s3366/2024
                     <meta:bezeichnungInVorlage start="2009-10-08" end="2022-12-31">Testbezeichnung 1 nach meiner Vorlage</meta:bezeichnungInVorlage>
                     <meta:artDerNorm start="2023-01-01" end="2023-12-23">ÄN,ÜN</meta:artDerNorm>
                     <meta:bezeichnungInVorlage start="2023-01-01" end="2023-12-23">Testbezeichnung 2 nach meiner Vorlage</meta:bezeichnungInVorlage>
-                     <meta:artDerNorm start="2023-01-01">SN,ÄN,ÜN</meta:artDerNorm>
-                    <meta:bezeichnungInVorlage start="2023-01-01">Testbezeichnung 3 nach meiner Vorlage</meta:bezeichnungInVorlage>
+                     <meta:artDerNorm start="2023-12-24">SN,ÄN,ÜN</meta:artDerNorm>
+                    <meta:bezeichnungInVorlage start="2023-12-24">Testbezeichnung 3 nach meiner Vorlage</meta:bezeichnungInVorlage>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

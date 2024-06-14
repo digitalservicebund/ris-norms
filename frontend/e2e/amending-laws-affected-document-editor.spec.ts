@@ -441,6 +441,7 @@ test.describe("XML preview", () => {
           subtyp: "Rechtsverordnung",
           typ: "gesetz",
           bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
+          artDerNorm: "SN,ÜN",
         }),
       },
     )
@@ -511,9 +512,13 @@ test.describe("metadata reading", () => {
     await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
       "Rechtsverordnung",
     )
+    await expect(editorRegion.getByLabel("SN - Stammnorm")).toBeChecked()
     await expect(
-      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
-    ).toHaveValue("Testbezeichnung nach meiner Vorlage")
+      editorRegion.getByLabel("ÄN - Änderungsnorm"),
+    ).not.toBeChecked()
+    await expect(editorRegion.getByLabel("ÜN - Übergangsnorm")).toBeChecked()
+
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("210-5")
   })
 
   test("displays metadata on the frame at different time boundaries", async ({
@@ -537,6 +542,18 @@ test.describe("metadata reading", () => {
     await expect(
       editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
     ).toBeEmpty()
+    const SNcheckbox = page.getByRole("checkbox", {
+      name: "SN - Stammnorm",
+    })
+    const ANcheckbox = page.getByRole("checkbox", {
+      name: "ÄN - Änderungsnorm",
+    })
+    const UNcheckbox = page.getByRole("checkbox", {
+      name: "ÜN - Übergangsnorm",
+    })
+    await expect(SNcheckbox).not.toBeChecked()
+    await expect(ANcheckbox).not.toBeChecked()
+    await expect(UNcheckbox).not.toBeChecked()
 
     const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
     dropdown.selectOption("2009-10-08")
@@ -552,6 +569,9 @@ test.describe("metadata reading", () => {
     await expect(
       editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
     ).toHaveValue("Testbezeichnung 1 nach meiner Vorlage")
+    await expect(SNcheckbox).toBeChecked()
+    await expect(ANcheckbox).not.toBeChecked()
+    await expect(UNcheckbox).toBeChecked()
 
     dropdown.selectOption("2023-01-01")
     await page.waitForResponse((response) =>
@@ -565,6 +585,9 @@ test.describe("metadata reading", () => {
     await expect(
       editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
     ).toHaveValue("Testbezeichnung 2 nach meiner Vorlage")
+    await expect(SNcheckbox).not.toBeChecked()
+    await expect(ANcheckbox).toBeChecked()
+    await expect(UNcheckbox).toBeChecked()
 
     dropdown.selectOption("2023-12-24")
     await page.waitForResponse((response) =>
@@ -579,6 +602,9 @@ test.describe("metadata reading", () => {
     await expect(
       editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
     ).toHaveValue("Testbezeichnung 3 nach meiner Vorlage")
+    await expect(SNcheckbox).toBeChecked()
+    await expect(ANcheckbox).toBeChecked()
+    await expect(UNcheckbox).toBeChecked()
   })
 
   test("displays an error if the data could not be loaded for the whole document", async ({
@@ -647,6 +673,36 @@ test.describe("metadata editing", () => {
       await bezeichnungTextbox.fill("Testbezeichnung")
       await expect(bezeichnungTextbox).toHaveValue("Testbezeichnung")
     })
+
+    test("can check/uncheck SN - Stammnorm", async () => {
+      const SNcheckbox = sharedPage.getByRole("checkbox", {
+        name: "SN - Stammnorm",
+      })
+      await SNcheckbox.check()
+      await expect(SNcheckbox).toBeChecked()
+      await SNcheckbox.uncheck()
+      await expect(SNcheckbox).not.toBeChecked()
+    })
+
+    test("can check/uncheck ÄN - Änderungsnorm", async () => {
+      const ANcheckbox = sharedPage.getByRole("checkbox", {
+        name: "ÄN - Änderungsnorm",
+      })
+      await ANcheckbox.check()
+      await expect(ANcheckbox).toBeChecked()
+      await ANcheckbox.uncheck()
+      await expect(ANcheckbox).not.toBeChecked()
+    })
+
+    test("can check/uncheck ÜN - Übergangsnorm", async () => {
+      const UNcheckbox = sharedPage.getByRole("checkbox", {
+        name: "ÜN - Übergangsnorm",
+      })
+      await UNcheckbox.check()
+      await expect(UNcheckbox).toBeChecked()
+      await UNcheckbox.uncheck()
+      await expect(UNcheckbox).not.toBeChecked()
+    })
   })
 
   test("persists changes across page loads after saving successfully", async ({
@@ -680,8 +736,25 @@ test.describe("metadata editing", () => {
     const bezeichnungTextbox = page.getByRole("textbox", {
       name: "Bezeichnung gemäß Vorlage",
     })
-
     await bezeichnungTextbox.fill("Testbezeichnung")
+
+    // ST - Stammnorm
+    const SNcheckbox = page.getByRole("checkbox", {
+      name: "SN - Stammnorm",
+    })
+    await SNcheckbox.check()
+
+    // ÄN - Änderungsnorm"
+    const ANcheckbox = page.getByRole("checkbox", {
+      name: "ÄN - Änderungsnorm",
+    })
+    await ANcheckbox.check()
+
+    // ÜN - Übergangsnorm
+    const UNcheckbox = page.getByRole("checkbox", {
+      name: "ÜN - Übergangsnorm",
+    })
+    await UNcheckbox.check()
 
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await saved
@@ -691,6 +764,9 @@ test.describe("metadata editing", () => {
     await expect(fnaTextbox).toHaveValue("123-4")
     await expect(documentTypeDropdown).toHaveValue("Berichtigung")
     await expect(bezeichnungTextbox).toHaveValue("Testbezeichnung")
+    await expect(SNcheckbox).toBeChecked()
+    await expect(ANcheckbox).toBeChecked()
+    await expect(UNcheckbox).toBeChecked()
 
     // Reset the data
     await page.request.put(
@@ -706,6 +782,7 @@ test.describe("metadata editing", () => {
           typ: null,
           subtyp: null,
           bezeichnungInVorlage: null,
+          artDerNorm: null,
         }),
       },
     )
@@ -728,6 +805,7 @@ test.describe("metadata editing", () => {
             typ: "sonstige-bekanntmachung",
             subtyp: "Geschäftsordnung",
             bezeichnungInVorlage: "Testbezeichnung",
+            artDerNorm: "ÄN",
           },
         })
       else route.continue()
@@ -757,11 +835,30 @@ test.describe("metadata editing", () => {
       "Testbezeichnung nach meiner Vorlage",
     )
 
+    // ST - Stammnorm
+    const SNcheckbox = page.getByRole("checkbox", {
+      name: "SN - Stammnorm",
+    })
+    await expect(SNcheckbox).toBeChecked()
+    // ÄN - Änderungsnorm"
+    const ANcheckbox = page.getByRole("checkbox", {
+      name: "ÄN - Änderungsnorm",
+    })
+    await expect(ANcheckbox).not.toBeChecked()
+    // ÜN - Übergangsnorm
+    const UNcheckbox = page.getByRole("checkbox", {
+      name: "ÜN - Übergangsnorm",
+    })
+    await expect(UNcheckbox).toBeChecked()
+
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
 
     await expect(fnaTextbox).toHaveValue("600-1")
     await expect(documentTypeDropdown).toHaveValue("Geschäftsordnung")
     await expect(bezeichnungTextbox).toHaveValue("Testbezeichnung")
+    await expect(SNcheckbox).not.toBeChecked()
+    await expect(ANcheckbox).toBeChecked()
+    await expect(UNcheckbox).not.toBeChecked()
 
     await page.unrouteAll()
   })

@@ -145,36 +145,36 @@ const documentTypeItems: DropdownItem[] = [
 
 const artNormSN = computed<boolean>({
   get() {
-    return isArtNormTypePresent(localData.value?.artNorm, "SN")
+    return isArtNormTypePresent(localData.value?.artDerNorm, "SN")
   },
   set(value: boolean) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
-      draft.artNorm = udpateArtNorm(localData.value?.artNorm, "SN", value)
+      draft.artDerNorm = udpateArtNorm(localData.value?.artDerNorm, "SN", value)
     })
   },
 })
 
 const artNormAN = computed<boolean>({
   get() {
-    return isArtNormTypePresent(localData.value?.artNorm, "ÄN")
+    return isArtNormTypePresent(localData.value?.artDerNorm, "ÄN")
   },
   set(value: boolean) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
-      draft.artNorm = udpateArtNorm(localData.value?.artNorm, "ÄN", value)
+      draft.artDerNorm = udpateArtNorm(localData.value?.artDerNorm, "ÄN", value)
     })
   },
 })
 
 const artNormUN = computed<boolean>({
   get() {
-    return isArtNormTypePresent(localData.value?.artNorm, "ÜN")
+    return isArtNormTypePresent(localData.value?.artDerNorm, "ÜN")
   },
   set(value: boolean) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
-      draft.artNorm = udpateArtNorm(localData.value?.artNorm, "ÜN", value)
+      draft.artDerNorm = udpateArtNorm(localData.value?.artDerNorm, "ÜN", value)
     })
   },
 })
