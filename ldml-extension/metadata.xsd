@@ -56,7 +56,7 @@
         </xs:element>
         <xs:element name="aktenzeichen" type="xs:string" minOccurs="0"/>
         <xs:element name="celex" type="xs:string" minOccurs="0"/>
-        <xs:element name="subtyp" type="artDerNorm" minOccurs="0"/>
+        <xs:element name="subtyp" type="xs:string" minOccurs="0"/>
         <xs:element name="bezeichnungInVorlage" type="xs:string" minOccurs="0"/>
         <xs:element name="mitwirkung" type="xs:string" minOccurs="0"/>
         <xs:element name="fundstelleNichtAmtlich" type="xs:string" minOccurs="0"/>
