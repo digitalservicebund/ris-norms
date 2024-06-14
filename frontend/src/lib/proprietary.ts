@@ -241,19 +241,17 @@ export function udpateArtNorm(
   value: boolean,
 ): string | undefined {
   if (value) {
-    // Add artNormType if not present
     if (!isArtNormTypePresent(artNorm, artNormType)) {
       return artNorm ? `${artNorm},${artNormType}` : artNormType
+    } else {
+      return artNorm
     }
   } else {
-    // Remove artNormType if present
-    if (artNorm) {
-      const updatedArtNorm = artNorm
-        .split(",")
-        .filter((type) => type !== artNormType)
-        .join(",")
-      return updatedArtNorm || undefined
-    }
+    return artNorm
+      ? artNorm
+          .split(",")
+          .filter((type) => type !== artNormType)
+          .join(",")
+      : undefined
   }
-  return artNorm
 }
