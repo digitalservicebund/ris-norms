@@ -240,7 +240,7 @@ const {
 
             <form
               v-else
-              class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-8"
+              class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14"
               @submit.prevent
             >
               <fieldset class="contents">
