@@ -375,6 +375,56 @@ test.describe("XML preview", () => {
     ).toBeVisible()
   })
 
+  test("updates the XML preview after saving metadata", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten bearbeiten",
+    })
+
+    // Updating the FNA as an example for any change happening on the page
+    const fnaInput = editorRegion.getByRole("textbox", {
+      name: "Sachgebiet FNA-Nummer",
+    })
+    await expect(fnaInput).toHaveValue("210-5")
+    await fnaInput.fill("1234-56-78")
+    await editorRegion
+      .getByRole("button", { name: "Metadaten speichern" })
+      .click()
+
+    // Check the content of the XML reload call as we currently don't have a
+    // good way of checking the actual editor content. This is because
+    // CodeMirror uses lazy scrolling and therefore depending on the size of the
+    // document the text snippet we're looking for might not actually be rendered.
+    const textResponse = await page
+      .waitForResponse(
+        // XML reload call
+        /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
+      )
+      .then((response) => response.text())
+
+    expect(textResponse).toContain("1234-56-78")
+
+    // Reset the data
+    await page.request.put(
+      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1970-01-01",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        data: JSON.stringify({
+          art: "regelungstext",
+          fna: "210-5",
+          subtyp: "Rechtsverordnung",
+          typ: "gesetz",
+        }),
+      },
+    )
+  })
+
   test("shows an error when the XML could not be loaded for the whole document", async ({
     page,
   }) => {
