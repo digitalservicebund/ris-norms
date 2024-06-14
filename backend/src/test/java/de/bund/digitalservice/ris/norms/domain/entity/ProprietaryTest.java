@@ -644,4 +644,93 @@ class ProprietaryTest {
       assertThat(proprietary.getArtDerNorm(LocalDate.parse("2024-01-01"))).contains("ÄN,ÜN");
     }
   }
+
+  @Nested
+  class Normgeber {
+    @Test
+    void returnsNormgeber() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                      <akn:proprietary
+                                                                        eId="meta-1_proprietary-1"
+                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                        source="attributsemantik-noch-undefiniert"
+                                                                      >
+                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                        >
+                                                                          <meta:normgeber>DEU</meta:normgeber>
+                                                                       </meta:legalDocML.de_metadaten_ds>
+                                                                      </akn:proprietary>
+                                                                      """))
+              .build();
+
+      assertThat(proprietary.getNormgeber(LocalDate.parse("2010-10-10"))).contains("DEU");
+    }
+
+    @Test
+    void returnsEmptyOptionalIfNormgeberIsMissing() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                      <akn:proprietary
+                                                                        eId="meta-1_proprietary-1"
+                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                        source="attributsemantik-noch-undefiniert"
+                                                                      >
+                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                        >
+                                                                        <!-- Normgeber is missing -->
+                                                                        </meta:legalDocML.de_metadaten_ds>
+                                                                      </akn:proprietary>
+                                                                      """))
+              .build();
+
+      assertThat(proprietary.getNormgeber(LocalDate.parse("2010-10-10"))).isEmpty();
+    }
+
+    @Test
+    void returnsTheNormgeberAtDate() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                      <akn:proprietary
+                                                                        eId="meta-1_proprietary-1"
+                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                        source="attributsemantik-noch-undefiniert"
+                                                                      >
+                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                        >
+                                                                          <meta:normgeber end="1989-12-31">DEU</meta:normgeber>
+                                                                          <meta:normgeber start="1990-01-01" end="1994-12-31">DDR</meta:normgeber>
+                                                                          <meta:normgeber start="1995-01-01" end="2000-12-31">BW</meta:normgeber>
+                                                                          <meta:normgeber start="2001-01-01">BY</meta:normgeber>
+                                                                        </meta:legalDocML.de_metadaten_ds>
+                                                                      </akn:proprietary>
+                                                                      """))
+              .build();
+
+      assertThat(proprietary.getNormgeber(LocalDate.parse("1980-01-01"))).contains("DEU");
+
+      assertThat(proprietary.getNormgeber(LocalDate.parse("1990-01-01"))).contains("DDR");
+      assertThat(proprietary.getNormgeber(LocalDate.parse("1992-01-01"))).contains("DDR");
+      assertThat(proprietary.getNormgeber(LocalDate.parse("1994-12-31"))).contains("DDR");
+
+      assertThat(proprietary.getNormgeber(LocalDate.parse("1995-01-01"))).contains("BW");
+      assertThat(proprietary.getNormgeber(LocalDate.parse("1998-01-01"))).contains("BW");
+      assertThat(proprietary.getNormgeber(LocalDate.parse("2000-12-31"))).contains("BW");
+
+      assertThat(proprietary.getNormgeber(LocalDate.parse("2001-01-01"))).contains("BY");
+      assertThat(proprietary.getNormgeber(LocalDate.parse("2024-01-01"))).contains("BY");
+    }
+  }
 }

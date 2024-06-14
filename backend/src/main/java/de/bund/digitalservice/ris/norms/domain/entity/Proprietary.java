@@ -146,4 +146,15 @@ public class Proprietary {
     return getMetadatenDs()
         .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.ART_DER_NORM, date));
   }
+
+  /**
+   * Returns the ("Normgeber") of the document from the MetadatenDs block at a specific date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Normgeber" or empty if it doesn't exist.
+   */
+  public Optional<String> getNormgeber(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.NORMGEBER, date));
+  }
 }

@@ -610,4 +610,7 @@ components:
         artDerNorm:
           type: string
           description: SN,ÄN,ÜN ("Art der Norm") of the norm
+        normgeber:
+          type: string
+          description: DEU,DDR,BW... ("Normgeber") of the norm
 

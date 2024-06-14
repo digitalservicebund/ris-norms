@@ -88,7 +88,7 @@ class ProprietaryServiceTest {
                           eli,
                           LocalDate.now(),
                           new UpdateProprietaryFromNormUseCase.Metadata(
-                              "fna", null, null, null, null, null))))
+                              "fna", null, null, null, null, null, null))))
           // then
           .isInstanceOf(NormNotFoundException.class);
     }
@@ -109,7 +109,7 @@ class ProprietaryServiceTest {
                   eli,
                   date,
                   new UpdateProprietaryFromNormUseCase.Metadata(
-                      "fna", null, null, null, null, null)));
+                      "fna", null, null, null, null, null, null)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -132,7 +132,7 @@ class ProprietaryServiceTest {
                   eli,
                   date,
                   new UpdateProprietaryFromNormUseCase.Metadata(
-                      "fna", "art", "typ", "subtype", "bezeichnungInVorlage", "SN,ÄN,ÜN")));
+                      "fna", "art", "typ", "subtype", "bezeichnungInVorlage", "SN,ÄN,ÜN", "DEU")));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -142,6 +142,7 @@ class ProprietaryServiceTest {
       assertThat(result.getSubtyp(date)).contains("subtype");
       assertThat(result.getBezeichnungInVorlage(date)).contains("bezeichnungInVorlage");
       assertThat(result.getArtDerNorm(date)).contains("SN,ÄN,ÜN");
+      assertThat(result.getNormgeber(date)).contains("DEU");
     }
   }
 }

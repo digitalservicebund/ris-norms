@@ -132,6 +132,7 @@
                     <meta:subtyp>rechtsverordnung</meta:subtyp>
                     <meta:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
                     <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
+                    <meta:normgeber>DEU</meta:normgeber>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

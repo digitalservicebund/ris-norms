@@ -91,7 +91,8 @@ public class ProprietaryController {
                       proprietarySchema.getTyp(),
                       proprietarySchema.getSubtyp(),
                       proprietarySchema.getBezeichnungInVorlage(),
-                      proprietarySchema.getArtDerNorm())));
+                      proprietarySchema.getArtDerNorm(),
+                      proprietarySchema.getNormgeber())));
 
       return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
 

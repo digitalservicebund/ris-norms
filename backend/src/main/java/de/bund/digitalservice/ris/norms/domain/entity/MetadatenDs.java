@@ -27,7 +27,8 @@ public class MetadatenDs {
     TYP("./typ"),
     SUBTYP("./subtyp"),
     BEZEICHNUNG_IN_VORLAGE("./bezeichnungInVorlage"),
-    ART_DER_NORM("./artDerNorm");
+    ART_DER_NORM("./artDerNorm"),
+    NORMGEBER("./normgeber");
 
     private final String xpath;
 

@@ -63,6 +63,7 @@
                 <xs:element name="subtyp" type="xs:string" minOccurs="0"/>
                 <xs:element name="art" type="xs:string" minOccurs="0"/>
                 <xs:element name="artDerNorm" type="artDerNorm" minOccurs="0"/>
+                <xs:element name="normgeber" type="xs:string" minOccurs="0"/>
                 <xs:element name="bezeichnungInVorlage" type="xs:string" minOccurs="0"/>
                 <xs:element name="mitwirkung" type="xs:string" minOccurs="0"/>
                 <xs:element name="fundstelleNichtAmtlich" type="xs:string" minOccurs="0"/>
