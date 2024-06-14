@@ -63,7 +63,16 @@ const {
   localData,
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
-  { refetch: false, immediate: false },
+  {
+    refetch: false,
+    immediate: false,
+    afterFetch(c) {
+      // Whenever the metadata has been saved successfully, reload the
+      // XML to keep it in sync
+      reloadXml()
+      return c
+    },
+  },
 ).put(localData)
 
 watch(savedData, (newData) => {
@@ -132,6 +141,7 @@ const {
   data: xml,
   isFetching: xmlIsLoading,
   error: xmlError,
+  execute: reloadXml,
 } = useNormXml(affectedDocumentEli)
 
 const {
