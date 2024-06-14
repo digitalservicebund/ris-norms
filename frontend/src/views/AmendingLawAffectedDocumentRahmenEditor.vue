@@ -18,9 +18,11 @@ import {
   DocumentTypeValue,
   DocumentTypeValues,
   getDocumentTypeFromMetadata,
+  isArtNormTypePresent,
   isMetaArtValue,
   isMetaSubtypValue,
   isMetaTypValue,
+  udpateArtNorm,
 } from "@/lib/proprietary"
 import { useGetNormHtml } from "@/services/normService"
 import {
@@ -141,31 +143,41 @@ const documentTypeItems: DropdownItem[] = [
   ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
 ]
 
-function createComputedArtNorm(value: string) {
-  return computed<boolean | undefined>({
-    get() {
-      return localData.value?.artNorm?.includes(value)
-    },
-    set(newValue?: boolean) {
-      localData.value = produce(localData.value, (draft) => {
-        if (!draft) return
-        if (newValue) {
-          if (!draft.artNorm || !draft.artNorm.includes(value)) {
-            draft.artNorm = draft.artNorm ? `${draft.artNorm},${value}` : value
-          }
-        } else if (draft.artNorm && draft.artNorm.includes(value)) {
-          draft.artNorm = draft.artNorm
-            .replace(new RegExp(`(^|,)${value}(,|$)`, "g"), "") // Remove "value" from start, middle, or end
-            .replace(new RegExp(`^${value}$`), "") // Remove "value" if it's the only content
-        }
-      })
-    },
-  })
-}
+const artNormSN = computed<boolean>({
+  get() {
+    return isArtNormTypePresent(localData.value?.artNorm, "SN")
+  },
+  set(value: boolean) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.artNorm = udpateArtNorm(localData.value?.artNorm, "SN", value)
+    })
+  },
+})
 
-const artNormSN = createComputedArtNorm("SN")
-const artNormAN = createComputedArtNorm("ÄN")
-const artNormUN = createComputedArtNorm("ÜN")
+const artNormAN = computed<boolean>({
+  get() {
+    return isArtNormTypePresent(localData.value?.artNorm, "ÄN")
+  },
+  set(value: boolean) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.artNorm = udpateArtNorm(localData.value?.artNorm, "ÄN", value)
+    })
+  },
+})
+
+const artNormUN = computed<boolean>({
+  get() {
+    return isArtNormTypePresent(localData.value?.artNorm, "ÜN")
+  },
+  set(value: boolean) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.artNorm = udpateArtNorm(localData.value?.artNorm, "ÜN", value)
+    })
+  },
+})
 
 const bezeichnungInVorlage = computed<string | undefined>({
   get() {

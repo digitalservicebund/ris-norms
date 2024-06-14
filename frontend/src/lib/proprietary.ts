@@ -216,3 +216,44 @@ export function getDocumentTypeFromMetadata(
 
   return item?.[0] as DocumentTypeValue
 }
+
+/**
+ *  Checks if the "Art der Norm" contains the one type passed.
+ * @param artNorm - "Art der Norm"
+ * @param artNormType - the type
+ */
+export function isArtNormTypePresent(
+  artNorm: string | undefined,
+  artNormType: string,
+): boolean {
+  return artNorm?.split(",").includes(artNormType) ?? false
+}
+
+/**
+ * Update the "Art der Norm" with the given type according to the given boolean value.
+ * @param artNorm - "Art der Norm"
+ * @param artNormType - the type
+ * @param value if true or false
+ */
+export function udpateArtNorm(
+  artNorm: string | undefined,
+  artNormType: string,
+  value: boolean,
+): string | undefined {
+  if (value) {
+    // Add artNormType if not present
+    if (!isArtNormTypePresent(artNorm, artNormType)) {
+      return artNorm ? `${artNorm},${artNormType}` : artNormType
+    }
+  } else {
+    // Remove artNormType if present
+    if (artNorm) {
+      const updatedArtNorm = artNorm
+        .split(",")
+        .filter((type) => type !== artNormType)
+        .join(",")
+      return updatedArtNorm || undefined
+    }
+  }
+  return artNorm
+}

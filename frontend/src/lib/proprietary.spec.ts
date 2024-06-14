@@ -8,6 +8,8 @@ import {
   isMetaArtValue,
   isMetaSubtypValue,
   isMetaTypValue,
+  udpateArtNorm,
+  isArtNormTypePresent,
 } from "./proprietary"
 
 describe("getDocumentTypeFromMetadata", () => {
@@ -59,5 +61,40 @@ describe("isMetaSubtypValue", () => {
 
   test("does not identify undefined as a valid value", () => {
     expect(isMetaSubtypValue(undefined)).toBe(false)
+  })
+})
+
+describe("isArtNormTypPresent", () => {
+  test("finds type with defined artNorm", () => {
+    const artNorm = "SN,ÄN,ÜN"
+    expect(isArtNormTypePresent(artNorm, "SN")).toBeTruthy()
+  })
+  test("does not find type with defined artNorm", () => {
+    const artNorm = "SN,ÜN"
+    expect(isArtNormTypePresent(artNorm, "ÄN")).toBeFalsy()
+  })
+  test("does not find type with undefined artNorm", () => {
+    expect(isArtNormTypePresent(undefined, "SN")).toBeFalsy()
+  })
+})
+
+describe("udpateArtNorm", () => {
+  test("adds type with defined artNorm", () => {
+    const artNorm = "ÄN,ÜN"
+    expect(udpateArtNorm(artNorm, "SN", true)).toContain("SN")
+  })
+  test("adds type with undefined artNorm", () => {
+    expect(udpateArtNorm(undefined, "SN", true)).toContain("SN")
+  })
+  test("removes type with defined artNorm", () => {
+    const artNorm = "SN,ÄN,ÜN"
+    expect(udpateArtNorm(artNorm, "SN", false)).not.toContain("SN")
+  })
+  test("does not remove type with undefined artNorm", () => {
+    expect(udpateArtNorm(undefined, "SN", false)).toBeUndefined()
+  })
+  test("does not add type because is already present", () => {
+    const artNorm = "ÄN,ÜN"
+    expect(udpateArtNorm(artNorm, "ÜN", true)).toBe(artNorm)
   })
 })
