@@ -83,4 +83,10 @@ describe("RisCheckboxInput", () => {
     const input = screen.getByRole("checkbox")
     expect(input).toHaveClass("ds-checkbox-small")
   })
+
+  test("renders the mini variant when specified", () => {
+    renderComponent({ size: "mini" })
+    const input = screen.getByRole("checkbox")
+    expect(input).toHaveClass("ds-checkbox-mini")
+  })
 })

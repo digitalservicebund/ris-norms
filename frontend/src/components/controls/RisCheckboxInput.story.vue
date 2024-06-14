@@ -62,5 +62,38 @@ import RisCheckboxInput from "./RisCheckboxInput.vue"
         label="Stammnorm"
       ></RisCheckboxInput>
     </Variant>
+
+    <Variant title="Mini size | checked">
+      <RisCheckboxInput
+        id="test-id"
+        :model-value="true"
+        size="mini"
+        label="Stammnorm"
+      ></RisCheckboxInput>
+    </Variant>
+    <Variant title="Mini size | read-only and checked">
+      <RisCheckboxInput
+        id="test-id"
+        read-only
+        size="mini"
+        :model-value="true"
+        label="Änderungsnorm"
+      ></RisCheckboxInput>
+    </Variant>
+    <Variant title="Mini size | unchecked">
+      <RisCheckboxInput
+        id="test-id"
+        size="mini"
+        label="Übergangsnorm"
+      ></RisCheckboxInput>
+    </Variant>
+    <Variant title="Mini size | read-only and unchecked">
+      <RisCheckboxInput
+        id="test-id"
+        read-only
+        size="mini"
+        label="Stammnorm"
+      ></RisCheckboxInput>
+    </Variant>
   </Story>
 </template>

@@ -10,7 +10,7 @@ const props = withDefaults(
     /** Optional label for the field */
     label?: string
     /** Optional size for the field */
-    size?: "small" | "regular"
+    size?: "mini" | "small" | "regular"
     /** Optional read-only for the field */
     readOnly?: boolean
   }>(),
@@ -46,6 +46,7 @@ const localModelValue = computed({
       v-model="localModelValue"
       class="ds-checkbox"
       :class="{
+        'ds-checkbox-mini': size === 'mini',
         'ds-checkbox-small': size === 'small',
         '!bg-blue-300 !shadow-none': readOnly,
       }"
