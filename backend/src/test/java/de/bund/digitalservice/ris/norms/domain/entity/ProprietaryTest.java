@@ -622,9 +622,9 @@ class ProprietaryTest {
                                                           xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
                                                         >
                                                           <meta:artDerNorm end="1989-12-31">SN,ÄN,ÜN</meta:artDerNorm>
-                                                          <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,</meta:artDerNorm>
-                                                          <meta:artDerNorm start="1995-01-01" end="2000-12-31">SN,,ÜN</meta:artDerNorm>
-                                                          <meta:artDerNorm start="2001-01-01">,ÄN,ÜN</meta:artDerNorm>
+                                                          <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</meta:artDerNorm>
+                                                          <meta:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</meta:artDerNorm>
+                                                          <meta:artDerNorm start="2001-01-01">ÄN,ÜN</meta:artDerNorm>
                                                         </meta:legalDocML.de_metadaten_ds>
                                                       </akn:proprietary>
                                                       """))
@@ -632,16 +632,16 @@ class ProprietaryTest {
 
       assertThat(proprietary.getArtDerNorm(LocalDate.parse("1980-01-01"))).contains("SN,ÄN,ÜN");
 
-      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1990-01-01"))).contains("SN,ÄN,");
-      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1992-01-01"))).contains("SN,ÄN,");
-      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1994-12-31"))).contains("SN,ÄN,");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1990-01-01"))).contains("SN,ÄN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1992-01-01"))).contains("SN,ÄN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1994-12-31"))).contains("SN,ÄN");
 
-      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1995-01-01"))).contains("SN,,ÜN");
-      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1998-01-01"))).contains("SN,,ÜN");
-      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2000-12-31"))).contains("SN,,ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1995-01-01"))).contains("SN,ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1998-01-01"))).contains("SN,ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2000-12-31"))).contains("SN,ÜN");
 
-      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2001-01-01"))).contains(",ÄN,ÜN");
-      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2024-01-01"))).contains(",ÄN,ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2001-01-01"))).contains("ÄN,ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2024-01-01"))).contains("ÄN,ÜN");
     }
   }
 }

@@ -160,7 +160,7 @@
     </xs:element>
     <xs:simpleType name="artDerNorm" final="restriction">
         <xs:restriction base="xs:string">
-            <xs:pattern value="^(SN)?,(ÄN)?,(ÜN)?$"/>
+            <xs:pattern value="^(SN|ÄN|ÜN|SN,ÄN|SN,ÜN|ÄN,ÜN|SN,ÄN,ÜN)$"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="institution" final="restriction">
