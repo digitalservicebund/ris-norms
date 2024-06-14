@@ -24,4 +24,14 @@ export type Proprietary = {
    * `typ`.
    */
   subtyp?: string
+
+  /**
+   * Comma-separated values. DE “Art der Norm"
+   */
+  artNorm?: string
+
+  /**
+   * DE “Bezeichnung gemäß Vorlage"
+   */
+  bezeichnungInVorlage?: string
 }

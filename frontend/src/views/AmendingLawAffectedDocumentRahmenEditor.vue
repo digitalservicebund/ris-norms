@@ -30,6 +30,7 @@ import {
 import { Proprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import { computed, ref, watch } from "vue"
+import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -74,7 +75,14 @@ watch(savedData, (newData) => {
  * Metadata form                                      *
  * -------------------------------------------------- */
 
-const [documentTypeId, fnaId] = Array(2)
+const [
+  documentTypeId,
+  fnaId,
+  bezeichnungInVorlageId,
+  artNormSNid,
+  artNormANid,
+  artNormUNid,
+] = Array(6)
   .fill(null)
   .map(() => useElementId())
 
@@ -123,6 +131,44 @@ const documentTypeItems: DropdownItem[] = [
   { label: "Unbekannt", value: "" },
   ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
 ]
+
+function createComputedArtNorm(value: string) {
+  return computed<boolean | undefined>({
+    get() {
+      return localData.value?.artNorm?.includes(value)
+    },
+    set(newValue?: boolean) {
+      localData.value = produce(localData.value, (draft) => {
+        if (!draft) return
+        if (newValue) {
+          if (!draft.artNorm || !draft.artNorm.includes(value)) {
+            draft.artNorm = draft.artNorm ? `${draft.artNorm},${value}` : value
+          }
+        } else if (draft.artNorm && draft.artNorm.includes(value)) {
+          draft.artNorm = draft.artNorm
+            .replace(new RegExp(`(^|,)${value}(,|$)`, "g"), "") // Remove "value" from start, middle, or end
+            .replace(new RegExp(`^${value}$`), "") // Remove "value" if it's the only content
+        }
+      })
+    },
+  })
+}
+
+const artNormSN = createComputedArtNorm("SN")
+const artNormAN = createComputedArtNorm("ÄN")
+const artNormUN = createComputedArtNorm("ÜN")
+
+const bezeichnungInVorlage = computed<string | undefined>({
+  get() {
+    return localData.value?.bezeichnungInVorlage
+  },
+  set(value?: string) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.bezeichnungInVorlage = value
+    })
+  },
+})
 
 /* -------------------------------------------------- *
  * XML + HTML preview                                 *
@@ -198,7 +244,13 @@ const {
               @submit.prevent
             >
               <fieldset class="contents">
-                <legend class="sr-only">Allgemein</legend>
+                <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
+                <label :for="fnaId">Sachgebiet</label>
+                <RisTextInput :id="fnaId" v-model="fna" size="small" />
+              </fieldset>
+
+              <fieldset class="contents">
+                <legend class="ds-label-02-bold col-span-2">Dokumenttyp</legend>
 
                 <label :for="documentTypeId">Dokumenttyp</label>
                 <RisDropdownInput
@@ -206,12 +258,39 @@ const {
                   v-model="documentType"
                   :items="documentTypeItems"
                 />
-              </fieldset>
 
-              <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
-                <label :for="fnaId">Sachgebiet FNA-Nummer</label>
-                <RisTextInput :id="fnaId" v-model="fna" size="small" />
+                <label :for="artNormSNid" class="self-start"
+                  >Art der Norm</label
+                >
+                <div class="space-y-10">
+                  <RisCheckboxInput
+                    :id="artNormSNid"
+                    v-model="artNormSN"
+                    label="SN - Stammnorm"
+                    size="mini"
+                  />
+                  <RisCheckboxInput
+                    :id="artNormANid"
+                    v-model="artNormAN"
+                    label="ÄN - Änderungsnorm"
+                    size="mini"
+                  />
+                  <RisCheckboxInput
+                    :id="artNormUNid"
+                    v-model="artNormUN"
+                    label="ÜN - Übergangsnorm"
+                    size="mini"
+                  />
+                </div>
+
+                <label :for="bezeichnungInVorlageId"
+                  >Bezeichnung gemäß Vorlage</label
+                >
+                <RisTextInput
+                  :id="bezeichnungInVorlageId"
+                  v-model="bezeichnungInVorlage"
+                  size="small"
+                />
               </fieldset>
 
               <footer class="relative col-span-2 mt-32">

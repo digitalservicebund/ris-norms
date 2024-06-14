@@ -6891,6 +6891,8 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                     <meta:art start="1970-01-01">regelungstext</meta:art>
                     <meta:typ start="1970-01-01">gesetz</meta:typ>
                     <meta:subtyp start="1970-01-01">Rechtsverordnung</meta:subtyp>
+                    <meta:artDerNorm start="1970-01-01">SN,ÜN</meta:artDerNorm>
+                    <meta:bezeichnungInVorlage start="1970-01-01">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
                  </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>
