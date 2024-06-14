@@ -63,7 +63,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("art").isEmpty())
           .andExpect(jsonPath("typ").isEmpty())
           .andExpect(jsonPath("subtyp").isEmpty())
-          .andExpect(jsonPath("bezeichnungInVorlage").isEmpty());
+          .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
+          .andExpect(jsonPath("artDerNorm").isEmpty());
     }
 
     @Test
@@ -85,7 +86,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("art").isEmpty())
           .andExpect(jsonPath("typ").isEmpty())
           .andExpect(jsonPath("subtyp").isEmpty())
-          .andExpect(jsonPath("bezeichnungInVorlage").isEmpty());
+          .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
+          .andExpect(jsonPath("artDerNorm").isEmpty());
     }
 
     @Test
@@ -107,7 +109,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
           .andExpect(jsonPath("typ").value("gesetz"))
           .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
-          .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"));
+          .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
+          .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"));
     }
   }
 
@@ -124,7 +127,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"}"))
+                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\"}"))
           .andExpect(status().isNotFound());
     }
 
@@ -143,13 +146,14 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"}"))
+                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
           .andExpect(jsonPath("typ").value("new-typ"))
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
-          .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"));
+          .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
+          .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -171,13 +175,14 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"}"))
+                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
           .andExpect(jsonPath("typ").value("new-typ"))
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
-          .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"));
+          .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
+          .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 

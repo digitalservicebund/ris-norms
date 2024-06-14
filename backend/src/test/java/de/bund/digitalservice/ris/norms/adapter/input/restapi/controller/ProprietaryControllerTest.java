@@ -80,7 +80,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
           .andExpect(jsonPath("typ").value("gesetz"))
           .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
-          .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"));
+          .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
+          .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"));
     }
 
     @Test
@@ -105,7 +106,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("art").isEmpty())
           .andExpect(jsonPath("typ").isEmpty())
           .andExpect(jsonPath("subtyp").isEmpty())
-          .andExpect(jsonPath("bezeichnungInVorlage").isEmpty());
+          .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
+          .andExpect(jsonPath("artDerNorm").isEmpty());
     }
 
     @Test
@@ -130,7 +132,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("art").isEmpty())
           .andExpect(jsonPath("typ").isEmpty())
           .andExpect(jsonPath("subtyp").isEmpty())
-          .andExpect(jsonPath("bezeichnungInVorlage").isEmpty());
+          .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
+          .andExpect(jsonPath("artDerNorm").isEmpty());
     }
   }
 
@@ -156,6 +159,7 @@ class ProprietaryControllerTest {
                                                                     <meta:typ start="1990-01-01" end="1994-12-31">new-typ</meta:typ>
                                                                     <meta:subtyp start="1990-01-01" end="1994-12-31">new-subtyp</meta:subtyp>
                                                                     <meta:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">new-bezeichnungInVorlage</meta:bezeichnungInVorlage>
+                                                                    <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</meta:artDerNorm>
                                                                 </meta:legalDocML.de_metadaten_ds>
                                                             </akn:proprietary>
                                                             """))
@@ -171,13 +175,14 @@ class ProprietaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"}"))
+                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
           .andExpect(jsonPath("typ").value("new-typ"))
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
-          .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"));
+          .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
+          .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"));
 
       verify(updateProprietaryFromNormUseCase, times(1))
           .updateProprietaryFromNorm(
@@ -194,7 +199,8 @@ class ProprietaryControllerTest {
                           && query
                               .metadata()
                               .bezeichnungInVorlage()
-                              .equals("new-bezeichnungInVorlage")));
+                              .equals("new-bezeichnungInVorlage")
+                          && query.metadata().artDerNorm().equals("SN,ÄN,ÜN")));
     }
 
     @Test
@@ -212,7 +218,7 @@ class ProprietaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"}"))
+                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\"}"))
           .andExpect(status().isNotFound());
     }
   }

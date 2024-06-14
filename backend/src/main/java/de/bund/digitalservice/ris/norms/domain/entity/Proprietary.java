@@ -134,4 +134,16 @@ public class Proprietary {
     return getMetadatenDs()
         .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.BEZEICHNUNGINVORLAGE, date));
   }
+
+  /**
+   * Returns the ("Art der Norm") which can be "SN and/or ÄN and/or ÜN" of the document from the
+   * MetadatenDs block at a specific date. Check metadata.xsd for String regex
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Art der Norm" or empty if it doesn't exist.
+   */
+  public Optional<String> getArtDerNorm(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.ARTDERNORM, date));
+  }
 }

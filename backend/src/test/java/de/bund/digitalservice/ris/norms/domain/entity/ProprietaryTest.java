@@ -555,4 +555,93 @@ class ProprietaryTest {
           .contains("Bezeichnung gemäß Vorlage 4");
     }
   }
+
+  @Nested
+  class ArtDerNorm {
+    @Test
+    void returnsArtDerNorm() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                      <akn:proprietary
+                                                        eId="meta-1_proprietary-1"
+                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                        source="attributsemantik-noch-undefiniert"
+                                                      >
+                                                        <meta:legalDocML.de_metadaten_ds
+                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                        >
+                                                          <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
+                                                       </meta:legalDocML.de_metadaten_ds>
+                                                      </akn:proprietary>
+                                                      """))
+              .build();
+
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2010-10-10"))).contains("SN,ÄN,ÜN");
+    }
+
+    @Test
+    void returnsEmptyOptionalIfArtDerNormIsMissing() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                      <akn:proprietary
+                                                        eId="meta-1_proprietary-1"
+                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                        source="attributsemantik-noch-undefiniert"
+                                                      >
+                                                        <meta:legalDocML.de_metadaten_ds
+                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                        >
+                                                        <!-- ArtDerNorm is missing -->
+                                                        </meta:legalDocML.de_metadaten_ds>
+                                                      </akn:proprietary>
+                                                      """))
+              .build();
+
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2010-10-10"))).isEmpty();
+    }
+
+    @Test
+    void returnsTheArtDerNormAtDate() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                      <akn:proprietary
+                                                        eId="meta-1_proprietary-1"
+                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                        source="attributsemantik-noch-undefiniert"
+                                                      >
+                                                        <meta:legalDocML.de_metadaten_ds
+                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                        >
+                                                          <meta:artDerNorm end="1989-12-31">SN,ÄN,ÜN</meta:artDerNorm>
+                                                          <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,</meta:artDerNorm>
+                                                          <meta:artDerNorm start="1995-01-01" end="2000-12-31">SN,,ÜN</meta:artDerNorm>
+                                                          <meta:artDerNorm start="2001-01-01">,ÄN,ÜN</meta:artDerNorm>
+                                                        </meta:legalDocML.de_metadaten_ds>
+                                                      </akn:proprietary>
+                                                      """))
+              .build();
+
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1980-01-01"))).contains("SN,ÄN,ÜN");
+
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1990-01-01"))).contains("SN,ÄN,");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1992-01-01"))).contains("SN,ÄN,");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1994-12-31"))).contains("SN,ÄN,");
+
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1995-01-01"))).contains("SN,,ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1998-01-01"))).contains("SN,,ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2000-12-31"))).contains("SN,,ÜN");
+
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2001-01-01"))).contains(",ÄN,ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2024-01-01"))).contains(",ÄN,ÜN");
+    }
+  }
 }
