@@ -144,6 +144,6 @@ public class Proprietary {
    */
   public Optional<String> getArtDerNorm(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.ARTDERNORM, date));
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.ART_DER_NORM, date));
   }
 }

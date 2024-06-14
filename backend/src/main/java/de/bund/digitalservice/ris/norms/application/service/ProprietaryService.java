@@ -55,7 +55,7 @@ public class ProprietaryService
         query.atDate(),
         query.metadata().bezeichnungInVorlage());
     metadatenDs.setSimpleProprietaryMetadata(
-        MetadatenDs.SimpleMetadatum.ARTDERNORM, query.atDate(), query.metadata().artDerNorm());
+        MetadatenDs.SimpleMetadatum.ART_DER_NORM, query.atDate(), query.metadata().artDerNorm());
 
     updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 
