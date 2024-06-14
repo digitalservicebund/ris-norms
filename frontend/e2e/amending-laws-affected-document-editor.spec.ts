@@ -406,7 +406,7 @@ test.describe("XML preview", () => {
 
     // Updating the FNA as an example for any change happening on the page
     const fnaInput = editorRegion.getByRole("textbox", {
-      name: "Sachgebiet FNA-Nummer",
+      name: "Sachgebiet",
     })
     await expect(fnaInput).toHaveValue("210-5")
     await fnaInput.fill("1234-56-78")
@@ -440,6 +440,7 @@ test.describe("XML preview", () => {
           fna: "210-5",
           subtyp: "Rechtsverordnung",
           typ: "gesetz",
+          bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
         }),
       },
     )
@@ -506,12 +507,13 @@ test.describe("metadata reading", () => {
       response.url().includes("/proprietary/"),
     )
 
-    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
-      "210-5",
-    )
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("210-5")
     await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
       "Rechtsverordnung",
     )
+    await expect(
+      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
+    ).toHaveValue("Testbezeichnung nach meiner Vorlage")
   })
 
   test("displays metadata on the frame at different time boundaries", async ({
@@ -529,11 +531,12 @@ test.describe("metadata reading", () => {
       response.url().includes("/proprietary/"),
     )
 
-    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
-      "754-28-2",
-    )
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("754-28-2")
 
     await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue("")
+    await expect(
+      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
+    ).toBeEmpty()
 
     const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
     dropdown.selectOption("2009-10-08")
@@ -541,38 +544,41 @@ test.describe("metadata reading", () => {
       response.url().endsWith("/proprietary/2009-10-08"),
     )
 
-    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
-      "111-11-1",
-    )
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("111-11-1")
 
     await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
       "Verwaltungsvorschrift",
     )
+    await expect(
+      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
+    ).toHaveValue("Testbezeichnung 1 nach meiner Vorlage")
 
     dropdown.selectOption("2023-01-01")
     await page.waitForResponse((response) =>
       response.url().endsWith("/proprietary/2023-01-01"),
     )
 
-    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
-      "222-22-2",
-    )
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("222-22-2")
     await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
       "Rechtsverordnung",
     )
+    await expect(
+      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
+    ).toHaveValue("Testbezeichnung 2 nach meiner Vorlage")
 
     dropdown.selectOption("2023-12-24")
     await page.waitForResponse((response) =>
       response.url().endsWith("/proprietary/2023-12-24"),
     )
 
-    await expect(editorRegion.getByLabel("Sachgebiet FNA-Nummer")).toHaveValue(
-      "333-33-3",
-    )
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("333-33-3")
 
     await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
       "Rechtsverordnung",
     )
+    await expect(
+      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
+    ).toHaveValue("Testbezeichnung 3 nach meiner Vorlage")
   })
 
   test("displays an error if the data could not be loaded for the whole document", async ({
@@ -615,7 +621,7 @@ test.describe("metadata editing", () => {
 
     test("can edit the FNA", async () => {
       const fnaTextbox = sharedPage.getByRole("textbox", {
-        name: "Sachgebiet FNA-Nummer",
+        name: "Sachgebiet",
       })
 
       await fnaTextbox.fill("123-4")
@@ -631,6 +637,15 @@ test.describe("metadata editing", () => {
       await expect(documentTypeDropdown).toHaveValue(
         "Anordnung des Bundespräsidenten",
       )
+    })
+
+    test("can edit the Bezeichnung gemäß Vorlage", async () => {
+      const bezeichnungTextbox = sharedPage.getByRole("textbox", {
+        name: "Bezeichnung gemäß Vorlage",
+      })
+
+      await bezeichnungTextbox.fill("Testbezeichnung")
+      await expect(bezeichnungTextbox).toHaveValue("Testbezeichnung")
     })
   })
 
@@ -649,7 +664,7 @@ test.describe("metadata editing", () => {
 
     // FNA
     const fnaTextbox = page.getByRole("textbox", {
-      name: "Sachgebiet FNA-Nummer",
+      name: "Sachgebiet",
     })
     await expect(fnaTextbox).toHaveValue("754-28-1")
     await fnaTextbox.fill("123-4")
@@ -661,6 +676,13 @@ test.describe("metadata editing", () => {
     await expect(documentTypeDropdown).toHaveValue("")
     await documentTypeDropdown.selectOption("Berichtigung")
 
+    // Bezeichnung gemäß Vorlage
+    const bezeichnungTextbox = page.getByRole("textbox", {
+      name: "Bezeichnung gemäß Vorlage",
+    })
+
+    await bezeichnungTextbox.fill("Testbezeichnung")
+
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await saved
 
@@ -668,6 +690,7 @@ test.describe("metadata editing", () => {
     await page.reload()
     await expect(fnaTextbox).toHaveValue("123-4")
     await expect(documentTypeDropdown).toHaveValue("Berichtigung")
+    await expect(bezeichnungTextbox).toHaveValue("Testbezeichnung")
 
     // Reset the data
     await page.request.put(
@@ -682,6 +705,7 @@ test.describe("metadata editing", () => {
           art: null,
           typ: null,
           subtyp: null,
+          bezeichnungInVorlage: null,
         }),
       },
     )
@@ -703,6 +727,7 @@ test.describe("metadata editing", () => {
             art: "offene-struktur",
             typ: "sonstige-bekanntmachung",
             subtyp: "Geschäftsordnung",
+            bezeichnungInVorlage: "Testbezeichnung",
           },
         })
       else route.continue()
@@ -714,7 +739,7 @@ test.describe("metadata editing", () => {
 
     // FNA
     const fnaTextbox = page.getByRole("textbox", {
-      name: "Sachgebiet FNA-Nummer",
+      name: "Sachgebiet",
     })
     await expect(fnaTextbox).toHaveValue("210-5")
 
@@ -724,10 +749,19 @@ test.describe("metadata editing", () => {
     })
     await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
 
+    // Bezeichnung gemäß Vorlage
+    const bezeichnungTextbox = page.getByRole("textbox", {
+      name: "Bezeichnung gemäß Vorlage",
+    })
+    await expect(bezeichnungTextbox).toHaveValue(
+      "Testbezeichnung nach meiner Vorlage",
+    )
+
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
 
     await expect(fnaTextbox).toHaveValue("600-1")
     await expect(documentTypeDropdown).toHaveValue("Geschäftsordnung")
+    await expect(bezeichnungTextbox).toHaveValue("Testbezeichnung")
 
     await page.unrouteAll()
   })
