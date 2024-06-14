@@ -224,6 +224,26 @@ test.describe("sidebar navigation", () => {
 
     await page.unrouteAll()
   })
+
+  test("does not render links when no time boundary is selected", async ({
+    page,
+  }) => {
+    page.route(/timeBoundaries/, async (route) => {
+      await route.fulfill({ json: [], status: 200 })
+    })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
+    )
+
+    await expect(page.getByText("Keine Zeitgrenze ausgewählt.")).toBeVisible()
+
+    await expect(
+      page
+        .getByRole("complementary", { name: "Inhaltsverzeichnis" })
+        .getByRole("link"),
+    ).toHaveCount(0)
+  })
 })
 
 test.describe("preview", () => {
