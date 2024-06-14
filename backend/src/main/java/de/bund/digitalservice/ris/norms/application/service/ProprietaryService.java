@@ -58,6 +58,10 @@ public class ProprietaryService
         MetadatenDs.SimpleMetadatum.ART_DER_NORM, query.atDate(), query.metadata().artDerNorm());
     metadatenDs.setSimpleProprietaryMetadata(
         MetadatenDs.SimpleMetadatum.NORMGEBER, query.atDate(), query.metadata().normgeber());
+    metadatenDs.setSimpleProprietaryMetadata(
+        MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
+        query.atDate(),
+        query.metadata().beschliessendesOrgan());
 
     updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 

@@ -733,4 +733,103 @@ class ProprietaryTest {
       assertThat(proprietary.getNormgeber(LocalDate.parse("2024-01-01"))).contains("BY");
     }
   }
+
+  @Nested
+  class BeschliessendesOrgan {
+    @Test
+    void returnsBeschliessendesOrgan() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                                      <akn:proprietary
+                                                                                        eId="meta-1_proprietary-1"
+                                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                                        source="attributsemantik-noch-undefiniert"
+                                                                                      >
+                                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                                        >
+                                                                                          <meta:beschliessendesOrgan>Bundestag</meta:beschliessendesOrgan>
+                                                                                       </meta:legalDocML.de_metadaten_ds>
+                                                                                      </akn:proprietary>
+                                                                                      """))
+              .build();
+
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2010-10-10")))
+          .contains("Bundestag");
+    }
+
+    @Test
+    void returnsEmptyOptionalIfBeschliessendesOrganIsMissing() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                                      <akn:proprietary
+                                                                                        eId="meta-1_proprietary-1"
+                                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                                        source="attributsemantik-noch-undefiniert"
+                                                                                      >
+                                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                                        >
+                                                                                        <!-- BeschliessendesOrgan is missing -->
+                                                                                        </meta:legalDocML.de_metadaten_ds>
+                                                                                      </akn:proprietary>
+                                                                                      """))
+              .build();
+
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2010-10-10"))).isEmpty();
+    }
+
+    @Test
+    void returnsTheBeschliessendesOrganAtDate() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                                      <akn:proprietary
+                                                                                        eId="meta-1_proprietary-1"
+                                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                                        source="attributsemantik-noch-undefiniert"
+                                                                                      >
+                                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                                        >
+                                                                                          <meta:beschliessendesOrgan end="1989-12-31">Bundestag 1</meta:beschliessendesOrgan>
+                                                                                          <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31">Bundestag 2</meta:beschliessendesOrgan>
+                                                                                          <meta:beschliessendesOrgan start="1995-01-01" end="2000-12-31">Bundestag 3</meta:beschliessendesOrgan>
+                                                                                          <meta:beschliessendesOrgan start="2001-01-01">Bundestag 4</meta:beschliessendesOrgan>
+                                                                                        </meta:legalDocML.de_metadaten_ds>
+                                                                                      </akn:proprietary>
+                                                                                      """))
+              .build();
+
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("1980-01-01")))
+          .contains("Bundestag 1");
+
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("1990-01-01")))
+          .contains("Bundestag 2");
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("1992-01-01")))
+          .contains("Bundestag 2");
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("1994-12-31")))
+          .contains("Bundestag 2");
+
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("1995-01-01")))
+          .contains("Bundestag 3");
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("1998-01-01")))
+          .contains("Bundestag 3");
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2000-12-31")))
+          .contains("Bundestag 3");
+
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2001-01-01")))
+          .contains("Bundestag 4");
+      assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2024-01-01")))
+          .contains("Bundestag 4");
+    }
+  }
 }

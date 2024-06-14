@@ -613,4 +613,7 @@ components:
         normgeber:
           type: string
           description: DEU,DDR,BW... ("Normgeber") of the norm
+        beschliessendesOrgan:
+          type: string
+          description: ("Beschließendes Organ") of the norm
 

@@ -16,4 +16,5 @@ public class ProprietarySchema {
   private String bezeichnungInVorlage;
   private String artDerNorm;
   private String normgeber;
+  private String beschliessendesOrgan;
 }

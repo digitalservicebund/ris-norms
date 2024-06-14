@@ -28,6 +28,7 @@ public class ProprietaryResponseMapper {
         .bezeichnungInVorlage(proprietary.getBezeichnungInVorlage(date).orElse(null))
         .artDerNorm(proprietary.getArtDerNorm(date).orElse(null))
         .normgeber(proprietary.getNormgeber(date).orElse(null))
+        .beschliessendesOrgan(proprietary.getBeschliessendesOrgan(date).orElse(null))
         .build();
   }
 }

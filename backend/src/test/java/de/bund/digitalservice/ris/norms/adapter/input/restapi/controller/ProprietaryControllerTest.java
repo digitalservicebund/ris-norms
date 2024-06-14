@@ -82,7 +82,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"));
+          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"));
     }
 
     @Test
@@ -109,7 +110,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty());
+          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("beschliessendesOrgan").isEmpty());
     }
 
     @Test
@@ -136,7 +138,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty());
+          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("beschliessendesOrgan").isEmpty());
     }
   }
 
@@ -164,6 +167,7 @@ class ProprietaryControllerTest {
                                                                     <meta:bezeichnungInVorlage start="1990-01-01" end="1994-12-31">new-bezeichnungInVorlage</meta:bezeichnungInVorlage>
                                                                     <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</meta:artDerNorm>
                                                                     <meta:normgeber start="1990-01-01" end="1994-12-31">DEU</meta:normgeber>
+                                                                    <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31">Bundestag</meta:beschliessendesOrgan>
                                                                 </meta:legalDocML.de_metadaten_ds>
                                                             </akn:proprietary>
                                                             """))
@@ -179,7 +183,14 @@ class ProprietaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\",\"normgeber\": \"DEU\"}"))
+                      "{\"fna\": \"new-fna\","
+                          + "\"art\": \"new-art\","
+                          + "\"typ\": \"new-typ\","
+                          + "\"subtyp\": \"new-subtyp\","
+                          + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
+                          + "\"artDerNorm\": \"SN,ÄN,ÜN\","
+                          + "\"normgeber\": \"DEU\","
+                          + "\"beschliessendesOrgan\": \"Bundestag\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
@@ -187,7 +198,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"));
+          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"));
 
       verify(updateProprietaryFromNormUseCase, times(1))
           .updateProprietaryFromNorm(
@@ -206,7 +218,8 @@ class ProprietaryControllerTest {
                               .bezeichnungInVorlage()
                               .equals("new-bezeichnungInVorlage")
                           && query.metadata().artDerNorm().equals("SN,ÄN,ÜN")
-                          && query.metadata().normgeber().equals("DEU")));
+                          && query.metadata().normgeber().equals("DEU")
+                          && query.metadata().beschliessendesOrgan().equals("Bundestag")));
     }
 
     @Test
@@ -224,7 +237,14 @@ class ProprietaryControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\",\"normgeber\": \"DEU\"}"))
+                      "{\"fna\": \"new-fna\","
+                          + "\"art\": \"new-art\","
+                          + "\"typ\": \"new-typ\","
+                          + "\"subtyp\": \"new-subtyp\","
+                          + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
+                          + "\"artDerNorm\": \"SN,ÄN,ÜN\","
+                          + "\"normgeber\": \"DEU\","
+                          + "\"beschliessendesOrgan\": \"Bundestag\"}"))
           .andExpect(status().isNotFound());
     }
   }

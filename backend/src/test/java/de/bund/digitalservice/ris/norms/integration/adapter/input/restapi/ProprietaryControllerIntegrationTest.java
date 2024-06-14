@@ -65,7 +65,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty());
+          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("beschliessendesOrgan").isEmpty());
     }
 
     @Test
@@ -89,7 +90,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty());
+          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("beschliessendesOrgan").isEmpty());
     }
 
     @Test
@@ -113,7 +115,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"));
+          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"));
     }
   }
 
@@ -130,7 +133,14 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\",\"normgeber\": \"DEU\"}"))
+                      "{\"fna\": \"new-fna\","
+                          + "\"art\": \"new-art\","
+                          + "\"typ\": \"new-typ\","
+                          + "\"subtyp\": \"new-subtyp\","
+                          + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
+                          + "\"artDerNorm\": \"SN,ÄN,ÜN\","
+                          + "\"normgeber\": \"DEU\","
+                          + "\"beschliessendesOrgan\": \"Bundestag\"}"))
           .andExpect(status().isNotFound());
     }
 
@@ -149,7 +159,14 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\",\"normgeber\": \"DEU\"}"))
+                      "{\"fna\": \"new-fna\","
+                          + "\"art\": \"new-art\","
+                          + "\"typ\": \"new-typ\","
+                          + "\"subtyp\": \"new-subtyp\","
+                          + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
+                          + "\"artDerNorm\": \"SN,ÄN,ÜN\","
+                          + "\"normgeber\": \"DEU\","
+                          + "\"beschliessendesOrgan\": \"Bundestag\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
@@ -157,7 +174,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"));
+          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -179,7 +197,14 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"fna\": \"new-fna\",\"art\": \"new-art\",\"typ\": \"new-typ\",\"subtyp\": \"new-subtyp\",\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\",\"artDerNorm\": \"SN,ÄN,ÜN\",\"normgeber\": \"DEU\"}"))
+                      "{\"fna\": \"new-fna\","
+                          + "\"art\": \"new-art\","
+                          + "\"typ\": \"new-typ\","
+                          + "\"subtyp\": \"new-subtyp\","
+                          + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
+                          + "\"artDerNorm\": \"SN,ÄN,ÜN\","
+                          + "\"normgeber\": \"DEU\","
+                          + "\"beschliessendesOrgan\": \"Bundestag\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
@@ -187,7 +212,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"));
+          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 

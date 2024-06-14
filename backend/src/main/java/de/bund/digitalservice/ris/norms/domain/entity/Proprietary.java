@@ -157,4 +157,16 @@ public class Proprietary {
     return getMetadatenDs()
         .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.NORMGEBER, date));
   }
+
+  /**
+   * Returns the ("Beschließendes Organ") of the document from the MetadatenDs block at a specific
+   * date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Beschließendes Organ" or empty if it doesn't exist.
+   */
+  public Optional<String> getBeschliessendesOrgan(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN, date));
+  }
 }

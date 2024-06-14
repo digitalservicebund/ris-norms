@@ -37,6 +37,7 @@ public interface UpdateProprietaryFromNormUseCase {
    *     gemäß Vorlage"
    * @param artDerNorm - "Art der Norm"
    * @param normgeber - "Normgeber"
+   * @param beschliessendesOrgan - "Beschließendes Prgan"
    */
   record Metadata(
       String fna,
@@ -45,5 +46,6 @@ public interface UpdateProprietaryFromNormUseCase {
       String subtyp,
       String bezeichnungInVorlage,
       String artDerNorm,
-      String normgeber) {}
+      String normgeber,
+      String beschliessendesOrgan) {}
 }
