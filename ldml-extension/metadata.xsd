@@ -62,6 +62,7 @@
                 <xs:element name="celex" type="xs:string" minOccurs="0"/>
                 <xs:element name="subtyp" type="xs:string" minOccurs="0"/>
                 <xs:element name="art" type="xs:string" minOccurs="0"/>
+                <xs:element name="artDerNorm" type="artDerNorm" minOccurs="0"/>
                 <xs:element name="bezeichnungInVorlage" type="xs:string" minOccurs="0"/>
                 <xs:element name="mitwirkung" type="xs:string" minOccurs="0"/>
                 <xs:element name="fundstelleNichtAmtlich" type="xs:string" minOccurs="0"/>
@@ -159,9 +160,7 @@
     </xs:element>
     <xs:simpleType name="artDerNorm" final="restriction">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="SN"/>
-            <xs:enumeration value="ÄN"/>
-            <xs:enumeration value="ÜN"/>
+            <xs:pattern value="^(SN)?,(ÄN)?,(ÜN)?$"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="institution" final="restriction">

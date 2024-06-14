@@ -26,6 +26,7 @@ public class ProprietaryResponseMapper {
         .typ(proprietary.getTyp(date).orElse(null))
         .subtyp(proprietary.getSubtyp(date).orElse(null))
         .bezeichnungInVorlage(proprietary.getBezeichnungInVorlage(date).orElse(null))
+        .artDerNorm(proprietary.getArtDerNorm(date).orElse(null))
         .build();
   }
 }

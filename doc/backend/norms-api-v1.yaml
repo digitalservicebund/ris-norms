@@ -607,5 +607,7 @@ components:
         bezeichnungInVorlage:
           type: string
           description: Designation according to specification ("Bezeichnung gemäß Vorlage") of the document
-
+        artDerNorm:
+          type: string
+          description: SN,ÄN,ÜN ("Art der Norm") of the norm
 
