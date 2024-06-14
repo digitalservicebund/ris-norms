@@ -120,8 +120,17 @@ const {
           </label>
         </div>
 
+        <RisCallout
+          v-if="!selectedTimeBoundary"
+          variant="warning"
+          title="Keine Zeitgrenze ausgewählt."
+          class="mx-16 mb-8"
+        />
+
         <!-- Frame link -->
+        <!-- Render conditionally on selectedTimeBoundary to prevent missing param errors in the route -->
         <router-link
+          v-if="selectedTimeBoundary"
           :to="{
             name: 'AmendingLawAffectedDocumentRahmenEditor',
             params: { timeBoundary: selectedTimeBoundary },
@@ -155,20 +164,23 @@ const {
           variant="simple"
         />
 
-        <router-link
-          v-for="element in elements"
-          :key="element.eid"
-          :to="{
-            name: 'AmendingLawAffectedDocumentElementEditor',
-            params: { eid: element.eid, timeBoundary: selectedTimeBoundary },
-          }"
-          active-class="font-bold underline bg-blue-200"
-          class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
-        >
-          <span class="block overflow-hidden text-ellipsis whitespace-nowrap">
-            {{ element.title }}
-          </span>
-        </router-link>
+        <!-- Render conditionally on selectedTimeBoundary to prevent missing param errors in the route -->
+        <template v-if="selectedTimeBoundary">
+          <router-link
+            v-for="element in elements"
+            :key="element.eid"
+            :to="{
+              name: 'AmendingLawAffectedDocumentElementEditor',
+              params: { eid: element.eid, timeBoundary: selectedTimeBoundary },
+            }"
+            active-class="font-bold underline bg-blue-200"
+            class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+          >
+            <span class="block overflow-hidden text-ellipsis whitespace-nowrap">
+              {{ element.title }}
+            </span>
+          </router-link>
+        </template>
       </aside>
 
       <RouterView />

@@ -76,4 +76,23 @@ describe("useTimeBoundaryPathParameter", () => {
 
     expect(timeBoundaryAsDate.value).toEqual(new Date("2024-05-10"))
   })
+
+  test("should not set the time boundary to an empty value", async () => {
+    const routerReplace = vi.fn()
+
+    vi.doMock("vue-router", () => ({
+      useRoute: vi
+        .fn()
+        .mockReturnValue(reactive({ params: { timeBoundary: "2024-05-10" } })),
+      useRouter: vi.fn().mockReturnValue(reactive({ replace: routerReplace })),
+    }))
+
+    const { useTimeBoundaryPathParameter } = await import(
+      "./useTimeBoundaryPathParameter"
+    )
+    const { timeBoundary } = useTimeBoundaryPathParameter()
+
+    timeBoundary.value = ""
+    expect(routerReplace).not.toBeCalled()
+  })
 })

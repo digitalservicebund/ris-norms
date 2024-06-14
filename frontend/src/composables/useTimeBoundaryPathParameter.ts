@@ -31,8 +31,12 @@ export function useTimeBoundaryPathParameter(): {
         ? route.params.timeBoundary[0]
         : route.params.timeBoundary
     },
-    set(timeBoundary) {
-      router.replace({ params: { timeBoundary } })
+    set(newValue) {
+      // Setting this to an empty value would cause the router to throw an error
+      // about a missing parameter + it is most likely unintended behavior anyways.
+      if (!newValue) return
+
+      router.replace({ params: { timeBoundary: newValue } })
     },
   })
 
