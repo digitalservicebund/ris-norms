@@ -440,6 +440,7 @@ test.describe("XML preview", () => {
           fna: "210-5",
           subtyp: "Rechtsverordnung",
           typ: "gesetz",
+          bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
         }),
       },
     )
