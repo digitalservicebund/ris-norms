@@ -406,7 +406,7 @@ test.describe("XML preview", () => {
 
     // Updating the FNA as an example for any change happening on the page
     const fnaInput = editorRegion.getByRole("textbox", {
-      name: "Sachgebiet FNA-Nummer",
+      name: "Sachgebiet",
     })
     await expect(fnaInput).toHaveValue("210-5")
     await fnaInput.fill("1234-56-78")
