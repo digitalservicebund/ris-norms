@@ -7,8 +7,8 @@ const dateEntryTwo = ref("2022-01-01")
 const dateEntryThree = ref("2022-01-01")
 
 const externalValidationError = {
-  message: "Extesrsnes Fehler",
-  instance: "test-id",
+  message: "Extesrsnes Fehlser",
+  instance: "story-id",
 }
 </script>
 
@@ -16,7 +16,7 @@ const externalValidationError = {
   <Story :layout="{ type: 'grid', width: '400px' }">
     <Variant title="Valid Date">
       <RisDateInput
-        id="test-id"
+        id="story-id"
         v-model="dateEntryOne"
         size="small"
         label="Zeitgrenze 1"
@@ -25,7 +25,7 @@ const externalValidationError = {
 
     <Variant title="External Validation Error">
       <RisDateInput
-        id="test-id"
+        id="story-id"
         v-model="dateEntryTwo"
         size="small"
         label="Zeitgrenze 1"
@@ -35,7 +35,7 @@ const externalValidationError = {
 
     <Variant title="External Validation Error">
       <RisDateInput
-        id="test-id"
+        id="story-id"
         v-model="dateEntryThree"
         size="small"
         label="Zeitgrenze 1"
