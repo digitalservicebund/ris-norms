@@ -4,6 +4,7 @@ import { ref } from "vue"
 
 const externalValidationError = {
   message: "Externes Fehler",
+  instance: "story-id",
 }
 
 const textEntry = ref("Invalid entry")
