@@ -17,6 +17,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
+import de.bund.digitalservice.ris.norms.application.validator.ValidatorName;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -33,7 +34,7 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
-  final ModificationValidator modificationValidator = mock(ModificationValidator.class);
+  final ValidationService validationService = mock(ValidationService.class);
   final UpdateNormService updateNormService = mock(UpdateNormService.class);
   final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
@@ -43,7 +44,7 @@ class NormServiceTest {
           loadNormPort,
           loadNormByGuidPort,
           updateNormPort,
-          modificationValidator,
+          validationService,
           updateNormService,
           loadZf0Service,
           updateOrSaveNormPort);
@@ -808,9 +809,11 @@ class NormServiceTest {
               false));
 
       // Then
-      verify(modificationValidator, times(1))
-          .validateSubstitutionMod(
-              argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm)), argThat(m -> m.equals(mod)));
+      verify(validationService, times(1))
+          .validate(
+              argThat(validatorName -> validatorName.equals(ValidatorName.SINGLE_MOD)),
+              argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm)),
+              argThat(m -> m.equals(mod)));
     }
 
     @Test

@@ -37,6 +37,7 @@ class ArchitectureFitnessTest {
   static final String INPUT_PORT_LAYER_PACKAGES = BASE_PACKAGE + ".application.port.input";
   static final String OUTPUT_PORT_LAYER_PACKAGES = BASE_PACKAGE + ".application.port.output";
   static final String SERVICE_LAYER_PACKAGES = BASE_PACKAGE + ".application.service..";
+  static final String VALIDATOR_LAYER_PACKAGES = BASE_PACKAGE + ".application.validator..";
 
   static final String ADAPTER_LAYER_PACKAGES = BASE_PACKAGE + ".adapter..";
 
@@ -254,7 +255,10 @@ class ArchitectureFitnessTest {
             .resideInAPackage(APPLICATION_LAYER_PACKAGES)
             .should()
             .resideInAnyPackage(
-                INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES, SERVICE_LAYER_PACKAGES);
+                INPUT_PORT_LAYER_PACKAGES,
+                OUTPUT_PORT_LAYER_PACKAGES,
+                SERVICE_LAYER_PACKAGES,
+                VALIDATOR_LAYER_PACKAGES);
     rule.check(classes);
   }
 

@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.application.service;
+package de.bund.digitalservice.ris.norms.application.validator;
 
 import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
@@ -6,21 +6,26 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.exceptions.ValidationException;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 
-/** */
-@Service
-public class ModificationValidator {
+/**
+ * A custom validator for validating single mods that are being updated on the amending law. This
+ * validator uses the ZF0 version of the target law targeted by the mod
+ */
+@Component
+public class SingleModValidator implements Validator {
 
-  /**
-   * Checks if a substitution mod is consistent
-   *
-   * @param zf0Norm the zf0Norm
-   * @param activeMod the active mod of the amending law
-   */
-  public void validateSubstitutionMod(final Norm zf0Norm, final Mod activeMod) {
+  public static final ValidatorName NAME = ValidatorName.SINGLE_MOD;
 
+  @Override
+  public void validate(final Object... args) throws ValidationException {
+    if (args.length != 2
+        || !(args[0] instanceof Norm zf0Norm)
+        || !(args[1] instanceof Mod activeMod)) {
+      throw new IllegalArgumentException(
+          "Invalid arguments for %s".formatted(this.getClass().getSimpleName()));
+    }
     final String modEId = activeMod.getMandatoryEid();
 
     final TextualMod affectedPassiveMod =
@@ -38,14 +43,12 @@ public class ModificationValidator {
                 () ->
                     new ValidationException(
                         "Target node with eid %s not present".formatted(targetNodeEid)));
-
     if (activeMod.usesQuotedText()) {
       validateQuotedText(
           affectedPassiveMod,
           StringUtils.normalizeSpace(activeMod.getMandatoryOldText()),
           StringUtils.normalizeSpace(zf0TargetedNode.getTextContent()));
     }
-    // other case <akn:quotedStructure>
   }
 
   private void validateQuotedText(

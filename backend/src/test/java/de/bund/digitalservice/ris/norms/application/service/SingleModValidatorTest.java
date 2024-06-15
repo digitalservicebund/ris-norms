@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
+import de.bund.digitalservice.ris.norms.application.validator.SingleModValidator;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
@@ -21,9 +22,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.w3c.dom.Node;
 
-class ModificationValidatorTest {
+class SingleModValidatorTest {
 
-  private final ModificationValidator underTest = new ModificationValidator();
+  private final SingleModValidator underTest = new SingleModValidator();
 
   @Test
   void oldTextIsEmpty() {
@@ -41,7 +42,7 @@ class ModificationValidatorTest {
     final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
 
     // then
     assertThat(thrown)
@@ -66,7 +67,7 @@ class ModificationValidatorTest {
     final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
 
     // then
     assertThat(thrown)
@@ -92,7 +93,7 @@ class ModificationValidatorTest {
         "#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
 
     // then
     assertThat(thrown)
@@ -114,7 +115,7 @@ class ModificationValidatorTest {
     final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
     // when/then
-    Assertions.assertDoesNotThrow(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
   }
 
   @Test
@@ -156,7 +157,7 @@ Abs.
                     oder einer Ersatzorganisation verwendet,""");
 
     // when/then: both are equal due to usage of StringUtils.normalizeSpace()
-    Assertions.assertDoesNotThrow(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
   }
 
   @Test
@@ -193,7 +194,7 @@ Abs.
     final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
     // when/then
-    Assertions.assertDoesNotThrow(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
   }
 
   @Test
@@ -230,7 +231,7 @@ Abs.
     final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
     // when/then
-    Assertions.assertDoesNotThrow(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
   }
 
   @Test
@@ -263,7 +264,7 @@ Abs.
             .value());
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
 
     // then
     assertThat(thrown)
@@ -302,7 +303,7 @@ Abs.
             .value());
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
 
     // then
     assertThat(thrown).isInstanceOf(ValidationException.class).hasMessageContaining(message);
@@ -330,7 +331,7 @@ Abs.
             .value());
 
     // when
-    Throwable thrown = catchThrowable(() -> underTest.validateSubstitutionMod(zf0Norm, mod));
+    Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
 
     // then
     assertThat(thrown)

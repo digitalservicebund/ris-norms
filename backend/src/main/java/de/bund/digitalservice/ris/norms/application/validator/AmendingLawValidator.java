@@ -1,7 +1,8 @@
-package de.bund.digitalservice.ris.norms.application.service;
+package de.bund.digitalservice.ris.norms.application.validator;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.service.LoadZf0Service;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
@@ -16,37 +17,41 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 /**
  * Validator for a whole amending law. It checks if the destination is set and if both destination
  * href and i ELI are consistent. It also checks all the mods by using the {@link
- * ModificationValidator} on each single mod.
+ * SingleModValidator} on each single mod.
  */
-public class AmendingLawValidator {
+@Component
+public class AmendingLawValidator implements Validator {
+
+  public static final ValidatorName NAME = ValidatorName.AMENDING_LAW_MODS;
 
   private final LoadNormPort loadNormPort;
   private final LoadZf0Service loadZf0Service;
-  private final ModificationValidator modificationValidator;
+  private final SingleModValidator singleModValidator;
 
   public AmendingLawValidator(
       final LoadNormPort loadNormPort,
       final LoadZf0Service loadZf0Service,
-      final ModificationValidator modificationValidator) {
+      final SingleModValidator singleModValidator) {
     this.loadNormPort = loadNormPort;
     this.loadZf0Service = loadZf0Service;
-    this.modificationValidator = modificationValidator;
+    this.singleModValidator = singleModValidator;
   }
 
-  /**
-   * Checks an amending law xml for consistency errors.
-   *
-   * @param amendingNorm the amending norm to be checked
-   */
-  public void validate(Norm amendingNorm) {
-    destinationIsSet(amendingNorm);
-    destinationEliIsConsistent(amendingNorm);
-    destinationHrefIsConsistent(amendingNorm);
-    checkAllMods(amendingNorm);
+  @Override
+  public void validate(final Object... args) throws ValidationException {
+    if (args.length != 1 || !(args[0] instanceof Norm amendingLawNorm)) {
+      throw new IllegalArgumentException(
+          "Invalid arguments for %s".formatted(this.getClass().getSimpleName()));
+    }
+    destinationIsSet(amendingLawNorm);
+    destinationEliIsConsistent(amendingLawNorm);
+    destinationHrefIsConsistent(amendingLawNorm);
+    checkAllMods(amendingLawNorm);
   }
 
   private void checkAllMods(Norm amendingNorm) {
@@ -77,7 +82,7 @@ public class AmendingLawValidator {
                               String.format("Target law with eli %s missing", targetNormEli)));
           final Norm zf0Norm =
               loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
-          modificationValidator.validateSubstitutionMod(zf0Norm, mod);
+          singleModValidator.validate(zf0Norm, mod);
         });
   }
 

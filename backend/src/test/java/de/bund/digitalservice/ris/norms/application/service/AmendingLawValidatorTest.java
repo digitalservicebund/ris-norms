@@ -7,6 +7,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.validator.AmendingLawValidator;
+import de.bund.digitalservice.ris.norms.application.validator.SingleModValidator;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -20,10 +22,10 @@ class AmendingLawValidatorTest {
 
   private final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   private final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
-  private final ModificationValidator modificationValidator = mock(ModificationValidator.class);
+  private final SingleModValidator singleModValidator = mock(SingleModValidator.class);
 
   private final AmendingLawValidator underTest =
-      new AmendingLawValidator(loadNormPort, loadZf0Service, modificationValidator);
+      new AmendingLawValidator(loadNormPort, loadZf0Service, singleModValidator);
 
   @Test
   void emptyActiveModificationDestinationHref() {

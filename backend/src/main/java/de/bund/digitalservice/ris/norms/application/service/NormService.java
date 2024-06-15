@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
+import de.bund.digitalservice.ris.norms.application.validator.ValidatorName;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
@@ -32,7 +33,7 @@ public class NormService
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
-  private final ModificationValidator modificationValidator;
+  private final ValidationService validationService;
   private final UpdateNormService updateNormService;
   private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
@@ -41,14 +42,14 @@ public class NormService
       LoadNormPort loadNormPort,
       LoadNormByGuidPort loadNormByGuidPort,
       UpdateNormPort updateNormPort,
-      ModificationValidator modificationValidator,
+      ValidationService validationService,
       UpdateNormService updateNormService,
       LoadZf0Service loadZf0Service,
       UpdateOrSaveNormPort updateOrSaveNormPort) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
-    this.modificationValidator = modificationValidator;
+    this.validationService = validationService;
     this.updateNormService = updateNormService;
     this.loadZf0Service = loadZf0Service;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -157,7 +158,7 @@ public class NormService
             .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(query.eid()))
             .findFirst()
             .orElseThrow();
-    modificationValidator.validateSubstitutionMod(zf0Norm, selectedMod);
+    validationService.validate(ValidatorName.SINGLE_MOD, zf0Norm, selectedMod);
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
