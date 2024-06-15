@@ -810,7 +810,7 @@ class NormServiceTest {
       // Then
       verify(modificationValidator, times(1))
           .validateSubstitutionMod(
-              argThat(eli -> eli.equals(amendingNormEli)), argThat(m -> m.equals(mod)));
+              argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm)), argThat(m -> m.equals(mod)));
     }
 
     @Test

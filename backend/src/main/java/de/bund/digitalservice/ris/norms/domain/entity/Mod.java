@@ -32,12 +32,31 @@ public class Mod {
   }
 
   /**
+   * Returns the value of the eId as {@link String}.
+   *
+   * @return the eId of the mod
+   */
+  public String getMandatoryEid() {
+    return NodeParser.getValueFromMandatoryNodeFromExpression("./@eId", this.node);
+  }
+
+  /**
    * Returns the quoted text that should be replaced by this mod as {@link String}.
    *
    * @return The text that will be replaced by this mod
    */
   public Optional<String> getOldText() {
     return NodeParser.getValueFromExpression("normalize-space(./quotedText[1])", this.node);
+  }
+
+  /**
+   * Returns the quoted text that should be replaced by this mod as {@link String}.
+   *
+   * @return The text that will be replaced by this mod
+   */
+  public String getMandatoryOldText() {
+    return NodeParser.getValueFromMandatoryNodeFromExpression(
+        "normalize-space(./quotedText[1])", this.node);
   }
 
   /**

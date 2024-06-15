@@ -157,7 +157,7 @@ public class NormService
             .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(query.eid()))
             .findFirst()
             .orElseThrow();
-    modificationValidator.validateSubstitutionMod(amendingNorm.getEli(), selectedMod);
+    modificationValidator.validateSubstitutionMod(zf0Norm, selectedMod);
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
