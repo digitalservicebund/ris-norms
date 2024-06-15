@@ -62,7 +62,6 @@ watch(newDate, async (newDateValue) => {
         :id="`date-${index}`"
         v-model="dateEntry.date"
         size="small"
-        data-testid="date-input-field"
         :label="`Zeitgrenze ${index + 1}`"
         label-position="left"
         class="col-span-2 w-full"
@@ -75,7 +74,6 @@ watch(newDate, async (newDateValue) => {
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
         :disabled="isDeleteDisabled"
-        :data-testid="`delete-button-${index}`"
         icon-only
         @click.prevent="removeDateInput(index)"
       />
@@ -86,7 +84,6 @@ watch(newDate, async (newDateValue) => {
       id="new-date"
       v-model="newDate"
       size="small"
-      data-testid="new-date-input-field"
       label="Zeitgrenze hinzufügen"
       label-position="left"
       class="col-span-2 w-full"

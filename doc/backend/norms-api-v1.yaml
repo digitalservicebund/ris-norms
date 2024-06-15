@@ -305,6 +305,8 @@ paths:
                 $ref: '#/components/schemas/LegalDocML.de'
         '400':
           description: Bad Request
+        '422':
+          description: Unprocessable Content
         '404':
           description: Norm not found
 
@@ -404,6 +406,13 @@ paths:
           schema:
             type: string
             format: date
+      requestBody:
+        description: The proprietary request schema containing several metadata.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
       responses:
         '200':
           description: Metadata was updated successfully. Returns the updated metadata.
@@ -532,8 +541,6 @@ components:
           type: string
         destinationHref:
           type: string
-        oldText:
-          type: string
         newText:
           type: string
 
@@ -586,8 +593,27 @@ components:
       type: object
       properties:
         fna:
-          type: object
-          properties:
-            value:
-              type: string
-              description: FNA of the norm
+          type: string
+          description: FNA (Fundstellennachweis A) of the norm
+        art:
+          type: string
+          description: Art ("Art der Norm") of the norm
+        typ:
+          type: string
+          description: Type ("Typ") of the document
+        subtyp:
+          type: string
+          description: Subtype ("Subtyp") of the document
+        bezeichnungInVorlage:
+          type: string
+          description: Designation according to specification ("Bezeichnung gemäß Vorlage") of the document
+        artDerNorm:
+          type: string
+          description: SN,ÄN,ÜN ("Art der Norm") of the norm
+        normgeber:
+          type: string
+          description: DEU,DDR,BW... ("Normgeber") of the norm
+        beschliessendesOrgan:
+          type: string
+          description: ("Beschließendes Organ") of the norm
+

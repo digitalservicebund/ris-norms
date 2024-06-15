@@ -1,4 +1,4 @@
-import { useArticles } from "@/composables/useArticles"
+import { useArticles } from "@/services/articleService"
 import { Norm } from "@/types/norm"
 import { DeepReadonly, MaybeRefOrGetter, Ref, readonly, ref, watch } from "vue"
 import { Article } from "@/types/article"
@@ -37,7 +37,7 @@ export function useAffectedDocuments(
 ): DeepReadonly<Ref<TargetLawWithZF0Eli[]>> {
   const targetLaws = ref<TargetLawWithZF0Eli[]>([])
 
-  const articles = useArticles(eli)
+  const { data: articles } = useArticles(eli)
 
   watch(
     articles,

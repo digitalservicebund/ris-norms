@@ -17,6 +17,8 @@ import com.tngtech.archunit.library.dependencies.SliceRule;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -89,6 +91,8 @@ class ArchitectureFitnessTest {
   void utilsClassesShouldOnlyDependOnUtilsOrSpecificStandardLibraries() {
     final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
         new String[] {
+          UTILS_LAYER_PACKAGES,
+          DOMAIN_LAYER_PACKAGES,
           "kotlin..",
           "java..",
           "javax.xml..",
@@ -97,18 +101,16 @@ class ArchitectureFitnessTest {
           "org.w3c.dom..",
           "net.sf.saxon..",
           "org.xml.sax..",
+          "org.slf4j..",
         };
 
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
             .resideInAPackage(UTILS_LAYER_PACKAGES)
-            .should(
-                onlyDependOnClassesThat(
-                    resideInAPackage(UTILS_LAYER_PACKAGES)
-                        .or(
-                            JavaClass.Predicates.resideInAnyPackage(
-                                UTILITY_LAYER_ALLOWED_PACKAGES))));
+            .should()
+            .onlyDependOnClassesThat()
+            .resideInAnyPackage(UTILITY_LAYER_ALLOWED_PACKAGES);
     rule.check(classes);
   }
 
@@ -153,6 +155,22 @@ class ArchitectureFitnessTest {
             .andShould()
             .dependOnClassesThat()
             .areAnnotatedWith(RestController.class);
+    rule.check(classes);
+  }
+
+  @Test
+  void controllerClassesShouldOnlyHaveUseCasesFields() {
+    ArchRule rule =
+        ArchRuleDefinition.noClasses()
+            .that()
+            .haveSimpleNameEndingWith("Controller")
+            .and()
+            .areAnnotatedWith(Controller.class)
+            .or()
+            .areAnnotatedWith(RestController.class)
+            .should(ArchCondition.from((new ShouldOnlyHaveUseCaseFields())))
+            .because(
+                "Controllers should only depend on use case interfaces, not on service implementations");
     rule.check(classes);
   }
 
@@ -272,12 +290,7 @@ class ArchitectureFitnessTest {
         ArchRuleDefinition.classes()
             .that()
             .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
-            .and()
-            .doNotHaveSimpleName("Query")
-            .and()
-            .doNotHaveSimpleName("Command")
-            .and()
-            .doNotHaveSimpleName("Result")
+            .and(new IsNotRecordClass())
             .and()
             .areNotAssignableTo(Exception.class)
             .should(ArchCondition.from((haveASingleMethod)))
@@ -383,6 +396,40 @@ class ArchitectureFitnessTest {
     @Override
     public boolean test(JavaMethod javaMethod) {
       return javaMethod.getParameters().size() == this.number;
+    }
+  }
+
+  static class IsNotRecordClass extends DescribedPredicate<JavaClass> {
+
+    public IsNotRecordClass() {
+      super("class is a record");
+    }
+
+    @Override
+    public boolean test(JavaClass javaClass) {
+      return !javaClass.isRecord();
+    }
+  }
+
+  static class ShouldOnlyHaveUseCaseFields extends DescribedPredicate<JavaClass> {
+
+    final Set<String> useCaseInterfaces =
+        classes.stream()
+            .filter(
+                javaClass ->
+                    javaClass.isInterface()
+                        && javaClass.getPackageName().startsWith(INPUT_PORT_LAYER_PACKAGES))
+            .map(JavaClass::getName)
+            .collect(Collectors.toSet());
+
+    public ShouldOnlyHaveUseCaseFields() {
+      super("Class has only fields that are use case interfaces");
+    }
+
+    @Override
+    public boolean test(JavaClass javaClass) {
+      return javaClass.getFields().stream()
+          .anyMatch(f -> !useCaseInterfaces.contains(f.getRawType().getName()));
     }
   }
 }

@@ -8,6 +8,7 @@ import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import { useAlerts } from "@/composables/useAlerts"
 import RisAlert from "@/components/controls/RisAlert.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -66,5 +67,5 @@ const { alerts, hideAlert } = useAlerts()
       <RouterView />
     </div>
   </div>
-  <div v-else>Laden...</div>
+  <RisLoadingSpinner v-else />
 </template>

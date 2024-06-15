@@ -107,6 +107,10 @@ Checkout the Frontend section [here](./frontend/README.md#quick-start) and for b
 ## Run E2E Tests with Playwright inside Docker
 Be aware: This wipes your local database:
 ```bash
+docker compose stop
+
+docker container prune -f
+
 docker volume rm ris-norms_postgres14-data
 
 docker compose build

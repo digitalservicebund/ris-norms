@@ -1635,12 +1635,24 @@ VALUES ('5d84cd1d-3575-4a03-bb6c-f17834e392fe', 'eli/bund/bgbl-1/2009/s3366/2024
                         </meta:federfuehrend>
                     </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
-            </akn:proprietary>
-            <!-- Metadaten vom DS definiert -->
-            <akn:proprietary eId="meta-1_proprietary-2" GUID="5d3855be-763f-4ebf-8ca6-8399b5fb86b8"
-                             source="attributsemantik-noch-undefiniert">
+                 <!-- Metadaten vom DS definiert -->
                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:subtyp>SN</meta:subtyp>
+                   <meta:subtyp>SN</meta:subtyp>
+                   <meta:fna start="2009-10-08" end="2022-12-31">111-11-1</meta:fna>
+                   <meta:fna start="2023-01-01" end="2023-12-23">222-22-2</meta:fna>
+                   <meta:fna start="2023-12-24">333-33-3</meta:fna>
+                    <meta:art start="2009-10-08" end="2022-12-31">regelungstext</meta:art>
+                    <meta:typ start="2009-10-08" end="2022-12-31">verwaltungsvorschrift</meta:typ>
+                    <meta:subtyp start="2009-10-08" end="2022-12-31">Verwaltungsvorschrift</meta:subtyp>
+                    <meta:art start="2023-01-01">regelungstext</meta:art>
+                    <meta:typ start="2023-01-01">gesetz</meta:typ>
+                    <meta:subtyp start="2023-01-01">Rechtsverordnung</meta:subtyp>
+                    <meta:artDerNorm start="2009-10-08" end="2022-12-31">SN,ÜN</meta:artDerNorm>
+                    <meta:bezeichnungInVorlage start="2009-10-08" end="2022-12-31">Testbezeichnung 1 nach meiner Vorlage</meta:bezeichnungInVorlage>
+                    <meta:artDerNorm start="2023-01-01" end="2023-12-23">ÄN,ÜN</meta:artDerNorm>
+                    <meta:bezeichnungInVorlage start="2023-01-01" end="2023-12-23">Testbezeichnung 2 nach meiner Vorlage</meta:bezeichnungInVorlage>
+                     <meta:artDerNorm start="2023-12-24">SN,ÄN,ÜN</meta:artDerNorm>
+                    <meta:bezeichnungInVorlage start="2023-12-24">Testbezeichnung 3 nach meiner Vorlage</meta:bezeichnungInVorlage>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

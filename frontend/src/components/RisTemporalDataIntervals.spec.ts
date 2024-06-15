@@ -45,9 +45,17 @@ describe("RisTemporalDateIntervals", () => {
       props: { dates },
     })
 
-    expect(screen.getAllByTestId("date-input-field").length).toBe(2)
-    await user.click(screen.getByTestId("delete-button-0"))
-    expect(screen.getAllByTestId("date-input-field").length).toBe(1)
+    expect(
+      screen.getAllByRole("textbox", { name: /Zeitgrenze \d+/ }),
+    ).toHaveLength(2)
+
+    await user.click(
+      screen.getByRole("button", { name: "Zeitgrenze 1 löschen" }),
+    )
+
+    expect(
+      screen.getAllByRole("textbox", { name: /Zeitgrenze \d+/ }),
+    ).toHaveLength(1)
   })
 
   it("disables the delete button when there is only one date input", async () => {
@@ -56,8 +64,9 @@ describe("RisTemporalDateIntervals", () => {
       props: { dates },
     })
 
-    const deleteButton = screen.getByTestId("delete-button-0")
-    expect(deleteButton).toBeDisabled()
+    expect(
+      screen.getByRole("button", { name: "Zeitgrenze 1 löschen" }),
+    ).toBeDisabled()
   })
 
   it("emits an update when the list of dates is changed, doesn't mutate the model", async () => {
@@ -73,7 +82,9 @@ describe("RisTemporalDateIntervals", () => {
       props: { dates, "onUpdate:dates": onUpdate },
     })
 
-    await user.click(screen.getByTestId("delete-button-0"))
+    await user.click(
+      screen.getByRole("button", { name: "Zeitgrenze 1 löschen" }),
+    )
 
     expect(dates).toStrictEqual([
       { date: "2023-01-01", eid: "event-1", eventRefEid: "ref-1" },

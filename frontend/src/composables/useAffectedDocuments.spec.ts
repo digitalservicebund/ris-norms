@@ -1,6 +1,6 @@
 import { Article } from "@/types/article"
 import { beforeEach, describe, expect, test, vi } from "vitest"
-import { MaybeRefOrGetter, Ref, nextTick, ref, toValue, watch } from "vue"
+import { MaybeRefOrGetter, nextTick, ref, toValue, watch } from "vue"
 
 describe("useAffectedDocuments", () => {
   beforeEach(() => {
@@ -9,18 +9,16 @@ describe("useAffectedDocuments", () => {
   })
 
   test("should provide the affected documents", async () => {
-    const useArticles = vi
-      .fn()
-      .mockReturnValue(
-        ref([
-          { affectedDocumentEli: "example/eli1" },
-          { affectedDocumentEli: "example/eli2" },
-          { affectedDocumentEli: "example/eli3" },
-          { affectedDocumentEli: "example/eli4" },
-        ]),
-      )
+    const useArticles = vi.fn().mockReturnValue({
+      data: ref([
+        { affectedDocumentEli: "example/eli1" },
+        { affectedDocumentEli: "example/eli2" },
+        { affectedDocumentEli: "example/eli3" },
+        { affectedDocumentEli: "example/eli4" },
+      ]),
+    })
 
-    vi.doMock("@/composables/useArticles", () => ({
+    vi.doMock("@/services/articleService", () => ({
       useArticles,
     }))
 
@@ -45,27 +43,25 @@ describe("useAffectedDocuments", () => {
   test("should load the affected documents when the ELI changes", async () => {
     const useArticles = vi
       .fn()
-      .mockImplementation(
-        (eli: MaybeRefOrGetter<string>): Ref<Partial<Article>[]> => {
-          const articles = ref<Partial<Article>[]>([
-            { affectedDocumentEli: "example/eli1" },
-          ])
+      .mockImplementation((eli: MaybeRefOrGetter<string>) => {
+        const articles = ref<Partial<Article>[]>([
+          { affectedDocumentEli: "example/eli1" },
+        ])
 
-          watch(
-            () => toValue(eli),
-            () => {
-              articles.value = [
-                { affectedDocumentEli: "example/eli2" },
-                { affectedDocumentEli: "example/eli3" },
-              ]
-            },
-          )
+        watch(
+          () => toValue(eli),
+          () => {
+            articles.value = [
+              { affectedDocumentEli: "example/eli2" },
+              { affectedDocumentEli: "example/eli3" },
+            ]
+          },
+        )
 
-          return articles
-        },
-      )
+        return { data: articles }
+      })
 
-    vi.doMock("@/composables/useArticles", () => ({
+    vi.doMock("@/services/articleService", () => ({
       useArticles,
     }))
 

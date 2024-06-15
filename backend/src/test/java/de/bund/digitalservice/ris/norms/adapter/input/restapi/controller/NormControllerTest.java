@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -284,12 +285,12 @@ class NormControllerTest {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String modEid = "mod-eid-1";
-      final String xml = "<law></law>";
-      final String targetNormXml = "<target-norm-xml></target-norm-xml>";
+      final String amendingNormXml = "<law></law>";
+      final String targetNormZf0Xml = "<target-norm-xml></target-norm-xml>";
 
       // When
       when(updateModUseCase.updateMod(any()))
-          .thenReturn(Optional.of(new UpdateModUseCase.Result(xml, targetNormXml)));
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -298,11 +299,11 @@ class NormControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}"))
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-          .andExpect(jsonPath("amendingNormXml").value(xml))
-          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormXml));
+          .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
       verify(updateModUseCase, times(1)).updateMod(argThat(query -> !query.dryRun()));
     }
@@ -312,12 +313,12 @@ class NormControllerTest {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String modEid = "mod-eid-1";
-      final String xml = "<law></law>";
-      final String targetNormXml = "<target-norm-xml></target-norm-xml>";
+      final String amendingNormXml = "<law></law>";
+      final String targetNormZf0Xml = "<target-norm-xml></target-norm-xml>";
 
       // When
       when(updateModUseCase.updateMod(any()))
-          .thenReturn(Optional.of(new UpdateModUseCase.Result(xml, targetNormXml)));
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -326,13 +327,13 @@ class NormControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}"))
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-          .andExpect(jsonPath("amendingNormXml").value(xml))
-          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormXml));
+          .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
-      verify(updateModUseCase, times(1)).updateMod(argThat(query -> query.dryRun()));
+      verify(updateModUseCase, times(1)).updateMod(argThat(UpdateModUseCase.Query::dryRun));
     }
 
     @Test
@@ -351,8 +352,50 @@ class NormControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"oldText\": \"old text\", \"newText\": \"new test text\"}"))
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}"))
           .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void itCallsUpdateModUseCaseAndReturnsUnprocessableEntity() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+
+      // When
+      when(updateModUseCase.updateMod(any())).thenThrow(XmlContentException.class);
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}"))
+          .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void itCallsUpdateModUseCaseAndReturnsUnprocessableEntityWithMessage() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+
+      // When
+      when(updateModUseCase.updateMod(any()))
+          .thenThrow(new XmlContentException("error exception", null));
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}"))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(content().string("{\"message\": \"error exception\"}"));
     }
   }
 }

@@ -7,39 +7,34 @@ import {
   getQuotedTextSecond,
   getTextualModType,
   getTimeBoundaryDate,
-  updateModData,
+  useUpdateModData,
 } from "@/services/ldmldeModService"
-import { ModData, ModType } from "@/types/ModType"
+import { ModType } from "@/types/ModType"
+import { UseFetchReturn } from "@vueuse/core"
 
 /**
  * Get data about an akn:mod element. The data can be overwritten and updates whenever either the eid or xml change.
  *
+ * @param eli a reference to the eli of the norm containing the akn:mod.
  * @param eid a reference to the eid of the akn:mod.
  * @param xml a reference to the xml of the norm containing the akn:mod.
- * @returns References to the data about the akn:mod element.
+ * @returns References to the data about the akn:mod element as well as UseFetchReturn's for previewing or updating it.
  */
 export function useMod(
+  eli: MaybeRefOrGetter<string | null>,
   eid: MaybeRefOrGetter<string | null>,
-  xml: MaybeRefOrGetter<string | undefined>,
+  xml: MaybeRefOrGetter<string | null>,
 ): {
   textualModType: Ref<ModType | "">
   destinationHref: Ref<string>
   quotedTextFirst: Ref<string>
   quotedTextSecond: Ref<string>
   timeBoundary: Ref<{ date: string; temporalGroupEid: string } | undefined>
-  updateMod: (
-    eli: MaybeRefOrGetter<string>,
-    eid: MaybeRefOrGetter<string>,
-    updatedMods: ModData,
-  ) => Promise<{
+  update: UseFetchReturn<{
     amendingNormXml: string
     targetNormZf0Xml: string
   }>
-  previewUpdateMod: (
-    eli: MaybeRefOrGetter<string>,
-    eid: MaybeRefOrGetter<string>,
-    updatedMods: ModData,
-  ) => Promise<{
+  preview: UseFetchReturn<{
     amendingNormXml: string
     targetNormZf0Xml: string
   }>
@@ -90,37 +85,25 @@ export function useMod(
     { immediate: true },
   )
 
-  /**
-   * Update the mod data to the server.
-   *
-   * @param eli - The ELI of the norm.
-   * @param eid - The eId of the akn:mod.
-   * @param updatedMods - The updated mod data.
-   * @returns A promise that resolves when the save operation is complete.
-   */
-  async function updateMod(
-    eli: MaybeRefOrGetter<string>,
-    eid: MaybeRefOrGetter<string>,
-    updatedMods: ModData,
-  ) {
-    return await updateModData(toValue(eli), toValue(eid), updatedMods, false)
-  }
+  const modData = computed(() => {
+    const eidValue = toValue(eid)
 
-  /**
-   * Preview the update of the mod data.
-   *
-   * @param eli - The ELI of the norm.
-   * @param eid - The eId of the akn:mod.
-   * @param updatedMods - The updated mod data.
-   * @returns A promise that resolves when the preview operation is complete.
-   */
-  async function previewUpdateMod(
-    eli: MaybeRefOrGetter<string>,
-    eid: MaybeRefOrGetter<string>,
-    updatedMods: ModData,
-  ) {
-    return await updateModData(toValue(eli), toValue(eid), updatedMods, true)
-  }
+    if (
+      !eidValue ||
+      destinationHref.value === "" ||
+      quotedTextSecond.value === ""
+    )
+      return null
+
+    return {
+      refersTo: eidValue,
+      timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
+      destinationHref: destinationHref.value,
+      newText: quotedTextSecond.value,
+    }
+  })
+  const preview = useUpdateModData(eli, eid, modData, true)
+  const update = useUpdateModData(eli, eid, modData, false)
 
   return {
     textualModType,
@@ -128,7 +111,7 @@ export function useMod(
     quotedTextFirst,
     quotedTextSecond,
     timeBoundary,
-    updateMod,
-    previewUpdateMod,
+    preview,
+    update,
   }
 }

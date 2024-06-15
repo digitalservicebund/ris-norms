@@ -3,9 +3,9 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ProprietaryResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.service.ProprietaryService;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,30 +25,36 @@ import org.springframework.web.bind.annotation.RestController;
     "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/proprietary")
 public class ProprietaryController {
 
-  private final ProprietaryService proprietaryService;
+  private final LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
+  private final UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase;
 
-  public ProprietaryController(ProprietaryService proprietaryService) {
-    this.proprietaryService = proprietaryService;
+  public ProprietaryController(
+      LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase,
+      UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase) {
+    this.loadProprietaryFromNormUseCase = loadProprietaryFromNormUseCase;
+    this.updateProprietaryFromNormUseCase = updateProprietaryFromNormUseCase;
   }
 
   /**
-   * Return proprietary data of {@link Norm}
+   * Return specific metadata of the {@link Norm} at a given date within the {@link Proprietary}
+   * node.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
-   * @param eli Eli of the request
-   * @return {@link Proprietary} of the Norm identified by the ElI
+   * @param eli Eli of the ZF0 version of the target law where the metadata are saved.
+   * @param atDate the time boundary at which to return the metadata
+   * @return the specific metadata returned in the form of {@link ProprietarySchema}
    */
-  @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ProprietaryResponseSchema> getProprietary(final Eli eli) {
+  @GetMapping(
+      path = "/{atDate}",
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<ProprietarySchema> getProprietaryAtDate(
+      final Eli eli, @PathVariable final LocalDate atDate) {
 
     try {
       var proprietary =
-          proprietaryService.loadProprietaryFromNorm(
+          loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
               new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
 
-      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary));
+      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
 
     } catch (NormNotFoundException e) {
       return ResponseEntity.notFound().build();
@@ -54,27 +62,40 @@ public class ProprietaryController {
   }
 
   /**
-   * Return proprietary data of {@link Norm} at a given date
+   * Updates specific metadata of the {@link Norm} at a given date that are present within the
+   * {@link Proprietary} node.
    *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
-   * @param eli Eli of the request
-   * @param atDate Date at which to return the proprietary
-   * @return {@link Proprietary} of the Norm identified by the ElI
+   * @param eli Eli of the ZF0 version of the target law where the metadata are saved.
+   * @param atDate the time boundary at which to update the metadata.
+   * @param proprietarySchema the request schema with the new metadata values.
+   * @return the specific metadata updated in the form of {@link ProprietarySchema}
    */
-  @GetMapping(
+  @PutMapping(
       path = "/{atDate}",
+      consumes = {APPLICATION_JSON_VALUE},
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ProprietaryResponseSchema> getProprietaryAtDate(
-      final Eli eli, @PathVariable final LocalDate atDate) {
+  public ResponseEntity<ProprietarySchema> updateProprietaryAtDate(
+      final Eli eli,
+      @PathVariable final LocalDate atDate,
+      @RequestBody ProprietarySchema proprietarySchema) {
 
     try {
       var proprietary =
-          proprietaryService.loadProprietaryFromNorm(
-              new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
+          updateProprietaryFromNormUseCase.updateProprietaryFromNorm(
+              new UpdateProprietaryFromNormUseCase.Query(
+                  eli.getValue(),
+                  atDate,
+                  new UpdateProprietaryFromNormUseCase.Metadata(
+                      proprietarySchema.getFna(),
+                      proprietarySchema.getArt(),
+                      proprietarySchema.getTyp(),
+                      proprietarySchema.getSubtyp(),
+                      proprietarySchema.getBezeichnungInVorlage(),
+                      proprietarySchema.getArtDerNorm(),
+                      proprietarySchema.getNormgeber(),
+                      proprietarySchema.getBeschliessendesOrgan())));
 
-      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary));
+      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
 
     } catch (NormNotFoundException e) {
       return ResponseEntity.notFound().build();

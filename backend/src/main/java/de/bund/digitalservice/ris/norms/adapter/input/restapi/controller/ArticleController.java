@@ -5,11 +5,13 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -70,9 +72,12 @@ public class ArticleController {
     // amendedAt and amendedBy refer to passive modifications (i.e. amended at a specific
     // date or by a specific change law). So we collect a list of all passive modifications
     // matching both criteria.
+
     var passiveModificationsAmendedAtOrBy =
-        optionalNorm.stream()
-            .flatMap((Norm norm) -> norm.getPassiveModifications().stream())
+        optionalNorm
+            .flatMap(n -> n.getMeta().getAnalysis().map(Analysis::getPassiveModifications))
+            .orElse(Collections.emptyList())
+            .stream()
             .filter(
                 passiveModification -> {
                   if (amendedBy.isEmpty()) return true;

@@ -28,3 +28,24 @@ test(`see rendered law text`, async ({ page }) => {
   await expect(article).toBeVisible()
   await expect(article).toContainText("Vom 29.12.2023")
 })
+
+test("should display a loading error message when the API call fails", async ({
+  page,
+}) => {
+  await page.route(
+    "**/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1?",
+    async (route) => {
+      await route.abort()
+    },
+  )
+
+  await page.goto(
+    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+  )
+
+  await expect(
+    page.getByText("Der Text der Verkündung konnte nicht geladen werden."),
+  ).toBeVisible()
+
+  await page.unrouteAll()
+})

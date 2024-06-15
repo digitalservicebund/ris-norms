@@ -14,6 +14,5 @@ public class UpdateModRequestSchema {
   @NotNull private String refersTo;
   private String timeBoundaryEid;
   @NotNull private String destinationHref;
-  @NotNull private String oldText;
   @NotNull private String newText;
 }

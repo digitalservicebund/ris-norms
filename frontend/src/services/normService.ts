@@ -1,10 +1,13 @@
-import { apiFetch } from "@/services/apiService"
+import { apiFetch, INVALID_URL, useApiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
+import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { FetchOptions } from "ofetch"
+import { computed, MaybeRefOrGetter, toValue } from "vue"
 
 /**
  * Load a norm from the API.
  *
+ * @deprecated Use `useGetNorm` instead
  * @param eli Eli of the amending law
  * @param options Fetch options for the request
  */
@@ -18,6 +21,7 @@ export async function getNormByEli(
 /**
  * Load the xml version of a norm from the API.
  *
+ * @deprecated Use `useNormXml` instead
  * @param eli Eli of the amending law
  */
 export async function getNormXmlByEli(eli: string): Promise<string> {
@@ -29,42 +33,138 @@ export async function getNormXmlByEli(eli: string): Promise<string> {
 }
 
 /**
- * Load the rendered html version of a norm from the api
+ * Returns the norm from the API. Reloads when the parameters change.
  *
- * @param eli Eli of the norm
- * @param showMetadata Whether to include metadata in the rendered HTML
- * @param at Date indicating which modifications should be applied before the HTML gets rendered and returned
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
  */
-export async function getNormHtmlByEli(
-  eli: string,
-  showMetadata: boolean = false,
-  at?: Date,
-): Promise<string> {
-  return await apiFetch(`/norms/${eli}`, {
-    query: {
-      showMetadata,
-      atIsoDate: at?.toISOString(),
-    },
-    headers: {
-      Accept: "text/html",
-    },
+export function useNormService(
+  eli: MaybeRefOrGetter<string | undefined>,
+  options?: {
+    /**
+     * Render metadata in the HTML preview. Note that this is only applicable
+     * if you get the HTML preview, and will fail on other requests.
+     */
+    showMetadata?: boolean
+    /**
+     * Render the HTML preview at a specific date. Note that this is only
+     * applicable if you get the HTML preview, and will fail on other requests.
+     */
+    at?: MaybeRefOrGetter<Date | undefined>
+  },
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<Norm> {
+  const url = computed(() => {
+    const eliVal = toValue(eli)
+    if (!eliVal) return INVALID_URL
+
+    const queryParams = new URLSearchParams()
+
+    if (options?.showMetadata) {
+      queryParams.append("showMetadata", "true")
+    }
+
+    if (options?.at) {
+      const atVal = toValue(options?.at)
+      if (atVal instanceof Date) {
+        queryParams.append("atIsoDate", atVal.toISOString())
+      }
+    }
+
+    return `/norms/${eliVal}?${queryParams.toString()}`
   })
+
+  return useApiFetch<Norm>(url, fetchOptions)
 }
 
 /**
- * Save the xml version of an norm to the API.
+ * Convenience shorthand for `useNormService` that sets the correct
+ * configuration for getting JSON data.
  *
- * @param eli Eli of the norm
- * @param xml New xml of the norm
- * @returns the newly saved xml
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
  */
-export async function putNormXml(eli: string, xml: string) {
-  return await apiFetch<string>(`/norms/${eli}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/xml",
-      Accept: "application/xml",
+export const useGetNorm: typeof useNormService = (
+  eli,
+  options,
+  fetchOptions,
+) => {
+  return useNormService(eli, options, fetchOptions).json()
+}
+
+/**
+ * Convenience shorthand for `useNormService` that sets the correct
+ * configuration for getting the HTML preview.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function useGetNormHtml(
+  eli: Parameters<typeof useNormService>["0"],
+  options?: Parameters<typeof useNormService>["1"],
+  fetchOptions?: Parameters<typeof useNormService>["2"],
+): UseFetchReturn<string> {
+  return useNormService(eli, options, {
+    ...fetchOptions,
+    beforeFetch(c) {
+      c.options.headers = { ...c.options.headers, Accept: "text/html" }
     },
-    body: xml,
+  }).text()
+}
+
+/**
+ * Convenience shorthand for `useNormService` that sets the correct
+ * configuration for getting the raw XML of the norm.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function useGetNormXml(
+  eli: Parameters<typeof useNormService>["0"],
+  options?: Parameters<typeof useNormService>["1"],
+  fetchOptions?: Parameters<typeof useNormService>["2"],
+): UseFetchReturn<string> {
+  return useNormService(eli, options, {
+    ...fetchOptions,
+    beforeFetch(c) {
+      c.options.headers = { ...c.options.headers, Accept: "application/xml" }
+    },
+  }).text()
+}
+
+/**
+ * Convenience shorthand for `useNormService` that sets the correct
+ * configuration for putting the raw XML of the norm.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function usePutNormXml(
+  updateData: MaybeRefOrGetter<string | null | undefined>,
+  eli: Parameters<typeof useNormService>["0"],
+  options?: Parameters<typeof useNormService>["1"],
+  fetchOptions?: Parameters<typeof useNormService>["2"],
+): UseFetchReturn<string> {
+  return useNormService(eli, options, {
+    ...fetchOptions,
+    beforeFetch(c) {
+      c.options.headers = {
+        ...c.options.headers,
+        "Content-Type": "application/xml",
+        Accept: "application/xml",
+      }
+    },
   })
+    .text()
+    .put(updateData)
 }

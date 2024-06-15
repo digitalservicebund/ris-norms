@@ -4,14 +4,12 @@ import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useArticle } from "@/composables/useArticle"
-import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, onMounted, ref, watch } from "vue"
+import { computed, ref, watch } from "vue"
 import IconArrowBack from "~icons/ic/baseline-arrow-back"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { renderHtmlLaw } from "@/services/renderService"
 import RisModForm from "@/components/RisModForm.vue"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useMod } from "@/composables/useMod"
@@ -19,6 +17,10 @@ import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
+import { useNormXml } from "@/composables/useNormXml"
+import { useNormRender } from "@/composables/useNormRender"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -28,74 +30,46 @@ const selectedMod = useModEidPathParameter()
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
-const article = useArticle(identifier)
-const { xml: articleXml } = useArticleXml(identifier)
-const targetLawEli = computed(() => article.value?.affectedDocumentEli)
-const currentArticleXml = ref("")
-const renderedHtml = ref("")
-const previewXml = ref<string>("")
-const previewHtml = ref<string>("")
-const amendingLawActiveTab = ref("text")
+const {
+  data: article,
+  isFetching: isFetchingArticle,
+  error: loadArticleError,
+} = useArticle(identifier)
+const {
+  data: xml,
+  isFetching: isFetchingXml,
+  error: loadXmlError,
+} = useNormXml(eli)
+const currentXml = ref("")
+const articleXml = computed(() => {
+  if (!eid.value) return undefined
 
-/**
- * Render a specific article of a norm
- * @param normXml the xml string of the norm
- * @param articleEid the eid of the article to render
- * @returns
- */
-async function renderArticle(
-  normXml: string,
-  articleEid: string,
-): Promise<string | null> {
-  const xmlDocument = xmlStringToDocument(normXml)
-  const articleNode = getNodeByEid(xmlDocument, articleEid)
+  const xmlDocument = xmlStringToDocument(currentXml.value)
+  const articleNode = getNodeByEid(xmlDocument, eid.value)
 
   if (!articleNode) {
-    return null
+    return undefined
   }
 
-  return await renderHtmlLaw(xmlNodeToString(articleNode), false)
-}
-
-async function fetchAmendingLawRenderedHtml() {
-  try {
-    if (currentArticleXml.value && eid.value) {
-      renderedHtml.value =
-        (await renderArticle(currentArticleXml.value, eid.value)) ?? ""
-    }
-  } catch (error) {
-    console.error("Error fetching rendered HTML content:", error)
-  }
-}
-
-const initialize = async () => {
-  await fetchAmendingLawRenderedHtml()
-}
-onMounted(() => {
-  initialize()
+  return xmlNodeToString(articleNode)
 })
 
-watch(articleXml, fetchAmendingLawRenderedHtml, { immediate: true })
-watch(currentArticleXml, (newXml, oldXml) => {
+const {
+  data: articleHtml,
+  isFetching: isFetchingArticleHtml,
+  error: loadArticleHtmlError,
+} = useNormRender(articleXml)
+const previewXml = ref<string>("")
+const amendingLawActiveTab = ref("text")
+
+watch(currentXml, (newXml, oldXml) => {
   if (newXml !== oldXml) {
-    if (amendingLawActiveTab.value === "text") {
-      fetchAmendingLawRenderedHtml()
-    }
-    handleGeneratePreview()
+    preview()
   }
 })
-watch(amendingLawActiveTab, (newActiveTab, oldActiveTab) => {
-  if (
-    newActiveTab === "text" &&
-    newActiveTab !== oldActiveTab &&
-    currentArticleXml.value
-  ) {
-    fetchAmendingLawRenderedHtml()
-  }
-})
-watch(articleXml, (articleXml) => {
-  if (articleXml) {
-    currentArticleXml.value = articleXml
+watch(xml, (xml) => {
+  if (xml) {
+    currentXml.value = xml
   }
 })
 
@@ -107,72 +81,80 @@ function handlePreviewClick() {
   selectedMod.value = ""
 }
 
-async function handleGeneratePreview() {
-  if (!targetLawEli.value || !selectedMod.value) return
-
-  try {
-    const response = await previewUpdateMod(eli.value, selectedMod.value, {
-      refersTo: selectedMod.value,
-      timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
-      destinationHref: destinationHref.value,
-      oldText: quotedTextFirst.value,
-      newText: quotedTextSecond.value,
-    })
-
-    previewXml.value = response.targetNormZf0Xml
-    previewHtml.value = await renderHtmlLaw(
-      response.targetNormZf0Xml,
-      false,
-      timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
-      [response.amendingNormXml],
-    )
-  } catch (error) {
-    alert("Vorschau konnte nicht erstellt werden")
-    console.error(error)
-  }
-}
-
-const { timeBoundaries } = useTemporalData(eli)
+const {
+  data: timeBoundaries,
+  isFetching: isFetchingTimeBoundaries,
+  error: loadTimeBoundariesError,
+} = useTemporalData(eli)
 const {
   textualModType,
   destinationHref,
   quotedTextFirst,
   quotedTextSecond,
   timeBoundary,
-  updateMod,
-  previewUpdateMod,
-} = useMod(selectedMod, articleXml)
+  preview: {
+    data: previewData,
+    execute: preview,
+    error: previewError,
+    isFetching: isFetchingPreviewData,
+  },
+  update: {
+    data: updateData,
+    execute: update,
+    error: saveError,
+    isFetching: isUpdating,
+    isFinished: isUpdatingFinished,
+  },
+} = useMod(eli, selectedMod, xml)
+
+const previewCustomNorms = computed(() =>
+  previewData.value ? [previewData.value.amendingNormXml] : [],
+)
+const {
+  data: previewHtml,
+  isFetching: isFetchingPreviewHtml,
+  error: loadPreviewHtmlError,
+} = useNormRender(
+  previewXml,
+  false,
+  computed(() =>
+    timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
+  ),
+  previewCustomNorms,
+)
+
+watch(previewData, () => {
+  if (!previewData.value) return
+
+  previewXml.value = previewData.value.targetNormZf0Xml
+})
+
+watch(updateData, () => {
+  if (!updateData.value) return
+
+  currentXml.value = updateData.value.amendingNormXml
+  previewXml.value = updateData.value.targetNormZf0Xml
+})
 
 watch(selectedMod, () => {
-  if (selectedMod.value !== "") {
-    handleGeneratePreview()
-  }
+  preview()
 })
-watch(targetLawEli, () => {
-  handleGeneratePreview()
-})
-
-async function handleSave() {
-  const updatedMods = {
-    refersTo: selectedMod.value,
-    timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
-    destinationHref: destinationHref.value,
-    oldText: quotedTextFirst.value,
-    newText: quotedTextSecond.value,
-  }
-
-  try {
-    const response = await updateMod(eli.value, selectedMod.value, updatedMods)
-    currentArticleXml.value = response.amendingNormXml
-    previewXml.value = response.targetNormZf0Xml
-  } catch (error) {
-    console.error("Error saving the mod:", error)
-  }
-}
 </script>
 
 <template>
-  <div v-if="amendingLaw">
+  <div
+    v-if="!amendingLaw || isFetchingArticle"
+    class="mt-20 flex items-center justify-center"
+  >
+    <RisLoadingSpinner></RisLoadingSpinner>
+  </div>
+  <div v-else-if="loadArticleError">
+    <RisCallout
+      title="Der Artikel konnte nicht gefunden werden."
+      variant="error"
+    />
+  </div>
+  <div v-else>
     <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
 
     <router-link
@@ -199,7 +181,20 @@ async function handleSave() {
             <span class="block">Änderungsbefehle</span>
             <span>{{ amendingLaw?.title }}</span>
           </h3>
+          <div
+            v-if="isFetchingXml"
+            class="mt-20 flex items-center justify-center"
+          >
+            <RisLoadingSpinner></RisLoadingSpinner>
+          </div>
+          <div v-else-if="loadXmlError">
+            <RisCallout
+              title="Der Artikel konnte nicht geladen werden."
+              variant="error"
+            />
+          </div>
           <RisTabs
+            v-else
             v-model:active-tab="amendingLawActiveTab"
             :tabs="[
               { id: 'text', label: 'Text' },
@@ -207,9 +202,22 @@ async function handleSave() {
             ]"
           >
             <template #text>
+              <div
+                v-if="isFetchingArticleHtml"
+                class="flex items-center justify-center"
+              >
+                <RisLoadingSpinner></RisLoadingSpinner>
+              </div>
+              <div v-else-if="loadArticleHtmlError">
+                <RisCallout
+                  title="Die Artikel-Vorschau konnte nicht erzeugt werden."
+                  variant="error"
+                />
+              </div>
               <RisLawPreview
+                v-else
                 class="ds-textarea flex-grow p-2"
-                :content="renderedHtml"
+                :content="articleHtml ?? ''"
                 highlight-mods
                 highlight-affected-document
                 :selected="selectedMod ? [selectedMod] : []"
@@ -219,7 +227,7 @@ async function handleSave() {
             </template>
             <template #xml>
               <RisCodeEditor
-                v-model="currentArticleXml"
+                v-model="currentXml"
                 class="flex-grow"
               ></RisCodeEditor>
             </template>
@@ -233,16 +241,32 @@ async function handleSave() {
           <h3 id="originalArticleTitle" class="ds-label-02-bold">
             Änderungsbefehle bearbeiten
           </h3>
+          <div
+            v-if="isFetchingTimeBoundaries"
+            class="flex items-center justify-center"
+          >
+            <RisLoadingSpinner></RisLoadingSpinner>
+          </div>
+          <div v-else-if="loadTimeBoundariesError">
+            <RisCallout
+              title="Die Zeitgrenzen konnten nicht geladen werden."
+              variant="error"
+            />
+          </div>
           <RisModForm
+            v-else
             id="risModForm"
             v-model:textual-mod-type="textualModType"
             v-model:destination-href="destinationHref"
             v-model:quoted-text-second="quotedTextSecond"
             v-model:selected-time-boundary="timeBoundary"
             :quoted-text-first="quotedTextFirst"
-            :time-boundaries="timeBoundaries"
-            @generate-preview="handleGeneratePreview"
-            @update-mod="handleSave"
+            :time-boundaries="timeBoundaries ?? []"
+            :is-updating="isUpdating"
+            :is-updating-finished="isUpdatingFinished"
+            :update-error="saveError"
+            @generate-preview="preview"
+            @update-mod="update"
           />
         </section>
         <section
@@ -258,13 +282,39 @@ async function handleSave() {
             ]"
           >
             <template #text>
+              <div
+                v-if="isFetchingPreviewData || isFetchingPreviewHtml"
+                class="flex items-center justify-center"
+              >
+                <RisLoadingSpinner></RisLoadingSpinner>
+              </div>
+              <div v-else-if="loadPreviewHtmlError || previewError">
+                <RisCallout
+                  title="Die Vorschau konnte nicht erzeugt werden."
+                  variant="error"
+                />
+              </div>
               <RisLawPreview
+                v-else
                 class="ds-textarea flex-grow p-2"
-                :content="previewHtml"
+                :content="previewHtml ?? ''"
               />
             </template>
             <template #xml>
+              <div
+                v-if="isFetchingPreviewData"
+                class="flex items-center justify-center"
+              >
+                <RisLoadingSpinner></RisLoadingSpinner>
+              </div>
+              <div v-else-if="previewError">
+                <RisCallout
+                  title="Die Vorschau konnte nicht erzeugt werden."
+                  variant="error"
+                />
+              </div>
               <RisCodeEditor
+                v-else
                 class="flex-grow"
                 :readonly="true"
                 :model-value="previewXml"
@@ -281,5 +331,4 @@ async function handleSave() {
       </div>
     </div>
   </div>
-  <div v-else>Laden...</div>
 </template>

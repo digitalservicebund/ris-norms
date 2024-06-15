@@ -25,6 +25,7 @@ You can then start the backend with two different options:
 
 1. Running the `bootRun` Gradle task.
 2. Creating a Run/Debug config in your IDE with Spring support using the profile `local`
+   - This is important to initialize the bootstrap test data
 
 ## Tests
 

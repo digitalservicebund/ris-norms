@@ -1,9 +1,10 @@
+import { userEvent } from "@testing-library/user-event"
 import { render } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
-import RisTextButton from "./RisTextButton.vue"
-import IcOutlineModeEdit from "~icons/ic/outline-mode-edit"
-import { markRaw } from "vue"
+import { describe, expect, test, vi } from "vitest"
+import { defineComponent, markRaw } from "vue"
 import { createRouter, createWebHistory } from "vue-router"
+import IcOutlineModeEdit from "~icons/ic/outline-mode-edit"
+import RisTextButton from "./RisTextButton.vue"
 
 describe("RisTextButton", () => {
   test("renders the button with a label", () => {
@@ -262,5 +263,39 @@ describe("RisTextButton", () => {
     })
 
     expect(getByRole("link")).toHaveAttribute("target", "_blank")
+  })
+
+  test("is loading", () => {
+    const { getByRole } = render(RisTextButton, {
+      props: { label: "Test", loading: true },
+    })
+
+    expect(getByRole("button")).toHaveAttribute("aria-busy", "true")
+    expect(getByRole("status", { name: "Lädt..." })).toBeInTheDocument()
+  })
+
+  test("is not loading", () => {
+    const { getByRole, queryByRole } = render(RisTextButton, {
+      props: { label: "Test", loading: false },
+    })
+
+    expect(getByRole("button")).not.toHaveAttribute("aria-busy")
+    expect(queryByRole("status", { name: "Lädt..." })).not.toBeInTheDocument()
+  })
+
+  test("does not emit click events while loading", async () => {
+    const clickSpy = vi.fn()
+    const user = userEvent.setup()
+
+    const { getByRole } = render(
+      defineComponent({
+        components: { RisTextButton },
+        setup: () => ({ clickSpy }),
+        template: `<RisTextButton loading @click="clickSpy()" label="Test" />`,
+      }),
+    )
+
+    await user.click(getByRole("button"))
+    expect(clickSpy).not.toHaveBeenCalled()
   })
 })

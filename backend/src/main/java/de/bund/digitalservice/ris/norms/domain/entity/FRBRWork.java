@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import java.time.LocalDate;
 import java.util.Optional;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -22,8 +21,7 @@ public class FRBRWork extends FRBR {
    * @return The FRBRname
    */
   public Optional<String> getFRBRname() {
-    Optional<String> fRBRname =
-        NodeParser.getValueFromExpression("//FRBRWork/FRBRname/@value", getNode());
+    Optional<String> fRBRname = NodeParser.getValueFromExpression("./FRBRname/@value", getNode());
 
     return fRBRname.map(
         s ->
@@ -38,16 +36,6 @@ public class FRBRWork extends FRBR {
    * @return The FRBRnumber
    */
   public Optional<String> getFRBRnumber() {
-    return NodeParser.getValueFromExpression("//FRBRWork/FRBRnumber/@value", getNode());
-  }
-
-  /**
-   * Returns a FBRDateVerkuendung as {@link LocalDate} from the FRBRWork in a {@link Norm}.
-   *
-   * @return The FBRDateVerkuendung
-   */
-  public Optional<LocalDate> getFBRDateVerkuendung() {
-    return NodeParser.getValueFromExpression("//FRBRWork/FRBRdate/@date", getNode())
-        .map(LocalDate::parse);
+    return NodeParser.getValueFromExpression("./FRBRnumber/@value", getNode());
   }
 }

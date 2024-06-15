@@ -123,7 +123,7 @@ test.describe("Loading amending law and mod details", () => {
     })
     await expect(destinationHrefEidElement).toBeVisible()
     await expect(destinationHrefEidElement).toHaveValue(
-      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-0.xml",
+      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
     )
     await expect(destinationHrefEidElement).not.toHaveAttribute("readonly")
 
@@ -223,16 +223,17 @@ test.describe("Update mod details", () => {
       name: "Änderungsbefehle bearbeiten",
     })
 
+    // TODO make characterRange invalid and expect 400
     await modFormSection
       .getByRole("textbox", { name: "zu ersetzende Textstelle" })
       .fill(
-        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-5.xml",
+        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
       )
     await modFormSection.getByRole("button", { name: "Speichern" }).click()
     await amendingLawSection.getByRole("tab", { name: "xml" }).click()
     await expect(
       amendingLawSection.getByText(
-        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-5.xml",
+        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
       ),
     ).toBeVisible()
 
@@ -240,7 +241,7 @@ test.describe("Update mod details", () => {
     await modFormSection
       .getByRole("textbox", { name: "zu ersetzende Textstelle" })
       .fill(
-        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-0.xml",
+        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
       )
     await modFormSection.getByRole("button", { name: "Speichern" }).click()
   })
@@ -256,7 +257,7 @@ test.describe("Update mod details", () => {
     await page.getByRole("button", { name: "Speichern" }).click()
 
     await page.goto(
-      "amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
 
     const amendingLawSection = page.getByRole("region", {

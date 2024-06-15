@@ -7,6 +7,7 @@ import {
   getQuotedTextFirst,
   getTimeBoundaryDate,
 } from "@/services/ldmldeModService"
+import { nextTick, ref } from "vue"
 
 describe("ldmldeModService", () => {
   beforeEach(() => {
@@ -132,7 +133,7 @@ describe("ldmldeModService", () => {
     })
   })
 
-  describe("updateModData", () => {
+  describe("useUpdateModData", () => {
     it("should make a PUT request with the correct data", async () => {
       const eli = "eli"
       const eid = "eid"
@@ -140,7 +141,6 @@ describe("ldmldeModService", () => {
         refersTo: "test-refersTo",
         timeBoundaryEid: "test-timeBoundaryEid",
         destinationHref: "test-destinationHref",
-        oldText: "test-oldText",
         newText: "test-newText",
       }
 
@@ -148,16 +148,24 @@ describe("ldmldeModService", () => {
         targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
         amendingNormXml: "<xml>amending-norm-xml</xml>",
       }
-      const fetchMock = vi.fn().mockResolvedValueOnce(expectedResponse)
-      vi.doMock("@/services/apiService", () => ({ apiFetch: fetchMock }))
 
-      const { updateModData } = await import("./ldmldeModService")
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValueOnce(new Response(JSON.stringify(expectedResponse)))
 
-      const result = await updateModData(eli, eid, updatedMods)
-      expect(result).toEqual(expectedResponse)
+      const { useUpdateModData } = await import("./ldmldeModService")
 
-      expect(fetchMock).toHaveBeenCalledWith(
-        `/norms/${eli}/mods/${eid}`,
+      const { data, execute, isFetching } = useUpdateModData(
+        eli,
+        eid,
+        updatedMods,
+      )
+      expect(isFetching.value).toBe(false)
+      await execute()
+      expect(data.value).toEqual(expectedResponse)
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        `/api/v1/norms/${eli}/mods/${eid}?`,
         expect.objectContaining({
           method: "PUT",
           headers: {
@@ -167,6 +175,26 @@ describe("ldmldeModService", () => {
           body: JSON.stringify(updatedMods),
         }),
       )
+    })
+
+    it("should reset isFinished once data changes", async () => {
+      vi.spyOn(global, "fetch").mockResolvedValueOnce(new Response("{}"))
+
+      const { useUpdateModData } = await import("./ldmldeModService")
+
+      const eli = ref("eli")
+      const { execute, isFinished } = useUpdateModData(eli, "eid", {
+        refersTo: "test-refersTo",
+        timeBoundaryEid: "test-timeBoundaryEid",
+        destinationHref: "test-destinationHref",
+        newText: "test-newText",
+      })
+      expect(isFinished.value).toBe(false)
+      await execute()
+      expect(isFinished.value).toBe(true)
+      eli.value = "new-eli"
+      await nextTick()
+      expect(isFinished.value).toBe(false)
     })
   })
 })

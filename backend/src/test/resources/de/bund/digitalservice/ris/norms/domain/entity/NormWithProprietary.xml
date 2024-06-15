@@ -15,7 +15,7 @@
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-rechtsetzungsdokument.xsd">
-    <akn:documentCollection name="rechtsetzungsdokument-verkuendungsfassung">
+    <akn:act name="regelungstext">
         <!-- Metadaten-->
         <akn:meta eId="meta-1" GUID="eae1e025-1648-4053-9d33-b64bff221b3d">
             <akn:identification eId="meta-1_ident-1"
@@ -128,17 +128,14 @@
                         <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
                     </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
+                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                    <meta:subtyp>rechtsverordnung</meta:subtyp>
+                    <meta:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
+                    <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
+                    <meta:normgeber>DEU</meta:normgeber>
+                    <meta:beschliessendesOrgan>Bundestag</meta:beschliessendesOrgan>
+                </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>
-        <akn:collectionBody eId="rdokhauptteil-1" GUID="f1ed8f3e-e0a3-4545-98c5-591ec7daf66e">
-            <!-- Regelungstext Verkündungsfassung -->
-            <akn:component eId="rdokhauptteil-1_tldokverweis-1"
-                           GUID="86ee3aa7-b8ec-4f32-a6c7-2c7e13fc7919">
-                <akn:documentRef eId="rdokhauptteil-1_tldokverweis-1_verweis-1"
-                                 GUID="e44f2ab8-bb95-4c88-bd44-4f64a06e92b2"
-                                 href="01-03_instanz_01_regelungstext.xml"
-                                 showAs="regelungstext"/>
-            </akn:component>
-        </akn:collectionBody>
-    </akn:documentCollection>
+    </akn:act>
 </akn:akomaNtoso>

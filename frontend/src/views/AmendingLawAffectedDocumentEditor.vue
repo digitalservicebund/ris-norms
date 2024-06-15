@@ -1,28 +1,39 @@
 <script setup lang="ts">
+import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
-import { useAffectedElements } from "@/composables/useAffectedElements"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTargetLawXml } from "@/composables/useTargetLawXml"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
+import { useGetElements } from "@/services/elementService"
+import { useGetNorm } from "@/services/normService"
 import dayjs from "dayjs"
-import { computed, ref, watch } from "vue"
+import { computed, watch } from "vue"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
-const amendingLaw = useAmendingLaw(amendingLawEli)
+
+const {
+  data: amendingLaw,
+  isFetching: amendingLawIsLoading,
+  error: amendingLawError,
+} = useGetNorm(amendingLawEli, undefined, {
+  immediate: true,
+})
 
 /* -------------------------------------------------- *
  * Sidebar                                            *
  * -------------------------------------------------- */
 
-const { timeBoundaries } = useTemporalData(affectedDocumentEli)
+const {
+  data: timeBoundaries,
+  isFetching: timeBoundariesIsFetching,
+  error: timeBoundariesError,
+} = useTemporalData(affectedDocumentEli)
 
 const sortedTimeBoundaries = computed(() =>
-  timeBoundaries.value.toSorted((a, b) => {
+  (timeBoundaries.value ?? []).toSorted((a, b) => {
     if (a.date < b.date) return -1
     else if (a.date > b.date) return 1
     else return 0
@@ -35,129 +46,144 @@ const { timeBoundary: selectedTimeBoundary } = useTimeBoundaryPathParameter()
 watch(
   timeBoundaries,
   (val) => {
-    if (!selectedTimeBoundary.value && val.length) {
+    if (val && !selectedTimeBoundary.value && val.length) {
       selectedTimeBoundary.value = val[0].date
     }
   },
   { immediate: true },
 )
 
-const elements = useAffectedElements(
+const {
+  data: elements,
+  isFetching: elementsIsLoading,
+  error: elementsError,
+} = useGetElements(
   affectedDocumentEli,
   ["article", "conclusions", "preamble", "preface"],
-  { amendingLawEli },
+  { amendedBy: amendingLawEli },
 )
-
-/* -------------------------------------------------- *
- * XML editor                                         *
- * -------------------------------------------------- */
-
-const { xml: targetLawXml, update: updateTargetLawXml } =
-  useTargetLawXml(affectedDocumentEli)
-
-const currentTargetLawXml = ref<string | undefined>("")
-
-watch(targetLawXml, () => {
-  currentTargetLawXml.value = targetLawXml.value
-})
-
-async function handleSave() {
-  if (!currentTargetLawXml.value) return
-
-  try {
-    await updateTargetLawXml(currentTargetLawXml.value)
-  } catch (error) {
-    alert("Metadaten nicht gespeichert")
-    console.error(error)
-  }
-}
 </script>
 
 <template>
-  <div
-    v-if="amendingLaw"
-    class="grid grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] bg-gray-100"
-  >
-    <RisAmendingLawInfoHeader class="col-span-2" :amending-law="amendingLaw" />
-
-    <aside
-      class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white"
-      aria-labelledby="sidebarNavigation"
+  <div class="h-[calc(100dvh-5rem)] bg-gray-100">
+    <div
+      v-if="amendingLawIsLoading || timeBoundariesIsFetching"
+      class="flex h-full items-center justify-center"
     >
-      <span id="sidebarNavigation" class="sr-only">Inhaltsverzeichnis</span>
+      <RisLoadingSpinner />
+    </div>
 
-      <!-- Time boundary selection -->
-      <div class="px-16 pb-20 pt-10">
-        <label for="timeBoundarySelect">
-          <span class="ds-label-03-reg">Zeitgrenze</span>
-
-          <select
-            id="timeBoundarySelect"
-            v-model="selectedTimeBoundary"
-            class="ds-select ds-select-small"
-          >
-            <option
-              v-for="timeBoundary in sortedTimeBoundaries"
-              :key="timeBoundary.eventRefEid"
-              :value="timeBoundary.date"
-            >
-              {{ dayjs(timeBoundary.date).format("DD.MM.YYYY") }}
-            </option>
-          </select>
-        </label>
-      </div>
-
-      <!-- Frame link -->
-      <router-link
-        :to="{
-          name: 'AmendingLawAffectedDocumentRahmenEditor',
-          params: { timeBoundary: selectedTimeBoundary },
-        }"
-        class="ds-label-01-reg px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
-        exact-active-class="font-bold underline bg-blue-200"
-      >
-        Rahmen
-      </router-link>
-      <hr class="mx-16 my-8 border-t border-gray-400" />
-
-      <!-- Content links -->
+    <div v-else-if="amendingLawError" class="p-40">
       <RisCallout
-        v-if="!elements?.length"
-        title="Keine Artikel gefunden."
-        class="mx-16"
+        title="Das Gesetz konnte nicht geladen werden."
+        variant="error"
       />
+    </div>
 
-      <router-link
-        v-for="element in elements"
-        :key="element.eid"
-        :to="{
-          name: 'AmendingLawAffectedDocumentElementEditor',
-          params: { eid: element.eid, timeBoundary: selectedTimeBoundary },
-        }"
-        active-class="font-bold underline bg-blue-200"
-        class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+    <div v-else-if="timeBoundariesError" class="p-40">
+      <RisCallout
+        title="Die Zeitgrenzen konnten nicht geladen werden."
+        variant="error"
+      />
+    </div>
+
+    <div
+      v-else-if="amendingLaw"
+      class="grid h-full grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] bg-gray-100"
+    >
+      <RisAmendingLawInfoHeader class="col-span-2" :amending-law />
+
+      <aside
+        class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-auto border-r border-gray-400 bg-white"
+        aria-labelledby="sidebarNavigation"
       >
-        <span class="block overflow-hidden text-ellipsis whitespace-nowrap">
-          {{ element.title }}
-        </span>
-      </router-link>
+        <span id="sidebarNavigation" class="sr-only">Inhaltsverzeichnis</span>
 
-      <!-- Save button -->
-      <div class="mt-auto">
-        <!-- this is only placed here temporarily -->
-        <RisTextButton
-          :disabled="targetLawXml === currentTargetLawXml"
-          class="h-fit flex-none self-end"
-          full-width
-          label="Speichern"
-          size="small"
-          @click="handleSave"
+        <!-- Time boundary selection -->
+        <div class="px-16 pb-20 pt-10">
+          <label for="timeBoundarySelect">
+            <span class="ds-label-03-reg">Zeitgrenze</span>
+
+            <select
+              id="timeBoundarySelect"
+              v-model="selectedTimeBoundary"
+              class="ds-select ds-select-small"
+            >
+              <option
+                v-for="timeBoundary in sortedTimeBoundaries"
+                :key="timeBoundary.eventRefEid"
+                :value="timeBoundary.date"
+              >
+                {{ dayjs(timeBoundary.date).format("DD.MM.YYYY") }}
+              </option>
+            </select>
+          </label>
+        </div>
+
+        <RisCallout
+          v-if="!selectedTimeBoundary"
+          variant="warning"
+          title="Keine Zeitgrenze ausgewählt."
+          class="mx-16 mb-8"
         />
-      </div>
-    </aside>
 
-    <RouterView v-model:xml="currentTargetLawXml"></RouterView>
+        <!-- Frame link -->
+        <!-- Render conditionally on selectedTimeBoundary to prevent missing param errors in the route -->
+        <router-link
+          v-if="selectedTimeBoundary"
+          :to="{
+            name: 'AmendingLawAffectedDocumentRahmenEditor',
+            params: { timeBoundary: selectedTimeBoundary },
+          }"
+          class="ds-label-01-reg px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+          exact-active-class="font-bold underline bg-blue-200"
+        >
+          Rahmen
+        </router-link>
+        <hr class="mx-16 my-8 border-t border-gray-400" />
+
+        <!-- Content links -->
+        <div
+          v-if="elementsIsLoading"
+          class="m-16 flex items-center justify-center"
+        >
+          <RisLoadingSpinner />
+        </div>
+
+        <RisCallout
+          v-else-if="elementsError"
+          title="Artikel konnten nicht geladen werden."
+          class="mx-16"
+          variant="error"
+        />
+
+        <RisEmptyState
+          v-else-if="!elements?.length"
+          text-content="Keine Artikel gefunden."
+          class="mx-16"
+          variant="simple"
+        />
+
+        <!-- Render conditionally on selectedTimeBoundary to prevent missing param errors in the route -->
+        <template v-if="selectedTimeBoundary">
+          <router-link
+            v-for="element in elements"
+            :key="element.eid"
+            :to="{
+              name: 'AmendingLawAffectedDocumentElementEditor',
+              params: { eid: element.eid, timeBoundary: selectedTimeBoundary },
+            }"
+            active-class="font-bold underline bg-blue-200"
+            class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+          >
+            <span class="block overflow-hidden text-ellipsis whitespace-nowrap">
+              {{ element.title }}
+            </span>
+          </router-link>
+        </template>
+      </aside>
+
+      <RouterView />
+    </div>
   </div>
-
-  <div v-else>Laden...</div>
 </template>
