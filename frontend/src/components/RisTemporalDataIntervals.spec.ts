@@ -14,11 +14,14 @@ describe("RisTemporalDateIntervals", () => {
       props: { dates },
     })
 
-    const inputs = screen.getAllByTestId("date-input-field")
+    const inputs = screen.getAllByRole<HTMLInputElement>("textbox", {
+      name: /Zeitgrenze \d+/,
+    })
+
     expect(inputs.length).toBe(dates.length)
 
     inputs.forEach((input, index) => {
-      const inputElement = input as HTMLInputElement
+      const inputElement = input
       const expectedValue = dayjs(dates[index].date).format("DD.MM.YYYY")
       expect(inputElement.value).toBe(expectedValue)
     })

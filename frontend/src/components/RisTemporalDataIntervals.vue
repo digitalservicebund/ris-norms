@@ -58,13 +58,15 @@ watch(newDate, async (newDateValue) => {
     <div></div>
 
     <template v-for="(dateEntry, index) in dates" :key="index">
-      <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-      <label :for="`date-${index}`">Zeitgrenze {{ index + 1 }}</label>
       <RisDateInput
         :id="`date-${index}`"
         v-model="dateEntry.date"
         size="small"
         data-testid="date-input-field"
+        :label="`Zeitgrenze ${index + 1}`"
+        label-position="left"
+        class="col-span-2 w-full"
+        label-class="w-[6rem]"
       />
       <RisTextButton
         :icon="DeleteOutlineIcon"
@@ -79,19 +81,16 @@ watch(newDate, async (newDateValue) => {
       />
     </template>
 
-    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-    <label
+    <RisDateInput
       v-if="dates.length < MAX_DATES"
-      for="new-date"
-      class="col-span-2 grid grid-cols-subgrid items-center"
-    >
-      <span>Zeitgrenze hinzufügen</span>
-      <RisDateInput
-        id="new-date"
-        v-model="newDate"
-        size="small"
-        data-testid="new-date-input-field"
-      />
-    </label>
+      id="new-date"
+      v-model="newDate"
+      size="small"
+      data-testid="new-date-input-field"
+      label="Zeitgrenze hinzufügen"
+      label-position="left"
+      class="col-span-2 w-full"
+      label-class="w-[6rem]"
+    />
   </form>
 </template>
