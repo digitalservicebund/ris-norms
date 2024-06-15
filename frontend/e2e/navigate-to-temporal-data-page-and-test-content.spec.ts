@@ -48,13 +48,15 @@ test.describe("management of Temporal Data for an amending law", () => {
     await expect(page.getByText("Artikel 3Inkrafttreten")).toBeVisible()
 
     const saveButton = page.locator("text=Speichern")
-    let dateInputs = page.locator('[data-testid="date-input-field"]')
+    let dateInputs = page.locator('[data-testid="date-input-field"] input')
 
     await expect(dateInputs).toHaveCount(1)
-    await expect(dateInputs).toHaveValue("16.03.2017")
+    await expect(dateInputs.first()).toHaveValue("16.03.2017")
 
     //   add new time boundaries
-    const newDateInput = page.locator('[data-testid="new-date-input-field"]')
+    const newDateInput = page.locator(
+      '[data-testid="new-date-input-field"] input',
+    )
     await newDateInput.fill("01.05.2023")
     await newDateInput.fill("02.06.2023")
     await saveButton.click()
@@ -69,7 +71,7 @@ test.describe("management of Temporal Data for an amending law", () => {
 
     //edit time boundaries
     const dateInputToEdit = page
-      .locator('[data-testid="date-input-field"]')
+      .locator('[data-testid="date-input-field"] input')
       .nth(1)
     await dateInputToEdit.fill("03.06.2023")
     await saveButton.click()
@@ -83,7 +85,7 @@ test.describe("management of Temporal Data for an amending law", () => {
       await deleteButton.click()
       await saveButton.click()
       await page.reload()
-      dateInputs = page.locator('[data-testid="date-input-field"]')
+      dateInputs = page.locator('[data-testid="date-input-field"] input')
       await expect(dateInputs).toHaveCount(i)
     }
 
