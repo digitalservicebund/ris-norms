@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from "vue"
 import IconErrorOutline from "~icons/ic/baseline-error-outline"
+import { ValidationError } from "@/types/validationError"
 
 const props = withDefaults(
   defineProps<{
@@ -17,7 +18,7 @@ const props = withDefaults(
     /** Label for the form field. */
     label?: string
     /** Validation error and message to display. */
-    validationError?: { message: string }
+    validationError?: ValidationError
     /** Label position: 'above' or 'left' */
     labelPosition?: "above" | "left"
   }>(),
@@ -75,6 +76,7 @@ watch(
 )
 
 const errorMessage = computed(() => {
+  if (!localValidationError.value) return undefined
   return localValidationError.value?.message
 })
 </script>
