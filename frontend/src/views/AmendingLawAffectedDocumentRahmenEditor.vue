@@ -15,7 +15,7 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import {
-  BeschliessendesOrganItems,
+  BeschliessendesOrganValues,
   DocumentTypeValue,
   DocumentTypeValues,
   getDocumentTypeFromMetadata,
@@ -153,7 +153,7 @@ const normgeberItems: DropdownItem[] = [
 ]
 
 const beschliessendesOrganItems: DropdownItem[] = [
-  ...BeschliessendesOrganItems.map((value) => ({ label: value, value })),
+  ...BeschliessendesOrganValues.map((value) => ({ label: value, value })),
 ]
 
 const artNormSN = computed<boolean>({
