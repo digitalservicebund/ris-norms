@@ -158,9 +158,7 @@ watch(inputCompleted, (is) => {
 <template>
   <div
     :class="
-      props.labelPosition === 'left'
-        ? `|| 'gap-8'} flex items-center gap-4`
-        : 'grid gap-2'
+      props.labelPosition === 'left' ? `flex items-center gap-4` : 'grid gap-2'
     "
   >
     <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
