@@ -60,7 +60,7 @@ const effectiveHasError = computed(
 const conditionalClasses = computed(() => ({
   "has-error": effectiveHasError.value,
   "ds-input-medium": props.size === "medium",
-  "ds-input-small": props.size === "small",
+  "ds-input-small": props.size === "small" || !props.size,
 }))
 
 function validateInput() {
@@ -121,11 +121,11 @@ watch(inputCompleted, (is) => {
     :id="id"
     v-model="inputValue"
     v-maska
-    class="ds-input"
     :class="conditionalClasses"
+    :readonly="isReadOnly"
+    class="ds-input"
     data-maska="##.##.####"
     placeholder="TT.MM.JJJJ"
-    :readonly="isReadOnly"
     @blur="onBlur"
     @keydown.delete="backspaceDelete"
     @maska="onMaska"

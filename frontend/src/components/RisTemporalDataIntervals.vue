@@ -60,11 +60,7 @@ watch(newDate, async (newDateValue) => {
     <template v-for="(dateEntry, index) in dates" :key="index">
       <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
       <label :for="`date-${index}`">Zeitgrenze {{ index + 1 }}</label>
-      <RisDateInput
-        :id="`date-${index}`"
-        v-model="dateEntry.date"
-        size="small"
-      />
+      <RisDateInput :id="`date-${index}`" v-model="dateEntry.date" />
       <RisTextButton
         :icon="DeleteOutlineIcon"
         variant="ghost"
