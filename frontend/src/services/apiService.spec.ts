@@ -1,6 +1,7 @@
 import { INVALID_URL } from "@/services/apiService"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, test, vi } from "vitest"
+import { Router } from "vue-router"
 
 describe("useApiFetch", () => {
   beforeEach(() => {
@@ -69,11 +70,10 @@ describe("useApiFetch", () => {
       "@/services/apiService"
     )
 
-    const mockRouter = {
+    const mockRouter: Partial<Router> = {
       push: vi.fn().mockResolvedValue(new Promise(() => {})),
     }
-    // @ts-expect-error I know it's not a real router
-    initializeApiService(mockRouter)
+    initializeApiService(mockRouter as Router)
 
     useApiFetch("foo/bar")
 
@@ -93,5 +93,18 @@ describe("useApiFetch", () => {
     await flushPromises()
 
     expect(fetchSpy).not.toHaveBeenCalled()
+  })
+
+  test("does not set error if it is an abort error", async () => {
+    const fetchSpy = vi
+      .spyOn(window, "fetch")
+      .mockRejectedValue(new DOMException("aborted", "AbortError"))
+
+    const { useApiFetch } = await import("@/services/apiService")
+    const { error } = useApiFetch("/url", { refetch: true })
+    await flushPromises()
+
+    expect(fetchSpy).toHaveBeenCalled()
+    expect(error.value).to.be.null
   })
 })

@@ -144,6 +144,7 @@ export function useGetNormXml(
  * Convenience shorthand for `useNormService` that sets the correct
  * configuration for putting the raw XML of the norm.
  *
+ * @param updateData the new xml of the norm
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
  * @param [fetchOptions={}] Optional configuration for fetch behavior
