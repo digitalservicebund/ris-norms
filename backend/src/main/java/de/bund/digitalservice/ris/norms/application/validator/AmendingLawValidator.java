@@ -42,6 +42,12 @@ public class AmendingLawValidator implements Validator {
     this.singleModValidator = singleModValidator;
   }
 
+  /**
+   * Validates the given amending law norm.
+   *
+   * @param args - args[0] must contain the amending law in form of {@link Norm}
+   * @throws ValidationException if a validation step fails
+   */
   @Override
   public void validate(final Object... args) throws ValidationException {
     if (args.length != 1 || !(args[0] instanceof Norm amendingLawNorm)) {

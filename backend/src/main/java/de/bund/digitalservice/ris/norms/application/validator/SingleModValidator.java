@@ -18,6 +18,13 @@ public class SingleModValidator implements Validator {
 
   public static final ValidatorName NAME = ValidatorName.SINGLE_MOD;
 
+  /**
+   * Validates the given ZF0 norm using the one mod of the amending law being modified.
+   *
+   * @param args - args[0] must contain the ZF0 {@link Norm} and args[1] the {@link Mod} that is
+   *     being modified.
+   * @throws ValidationException if a validation step fails
+   */
   @Override
   public void validate(final Object... args) throws ValidationException {
     if (args.length != 2
