@@ -19,7 +19,7 @@ const props = withDefaults(
   {
     modelValue: "",
     placeholder: undefined,
-    size: "regular",
+    size: "small",
     label: undefined,
   },
 )

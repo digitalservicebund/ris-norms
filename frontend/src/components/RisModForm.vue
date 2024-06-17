@@ -118,7 +118,6 @@ function modTypeLabel(modType: ModType | "") {
         label="Änderungstyp"
         :model-value="modTypeLabel(textualModType)"
         read-only
-        size="small"
       />
       <RisDropdownInput
         id="timeBoundaries"
@@ -134,14 +133,12 @@ function modTypeLabel(modType: ModType | "") {
       label="ELI Zielgesetz"
       :model-value="destinationHrefEli"
       read-only
-      size="small"
     />
     <RisTextInput
       v-if="textualModType === 'aenderungsbefehl-ersetzen'"
       id="destinationHrefEid"
       v-model="destinationHrefEid"
       label="zu ersetzende Textstelle"
-      size="small"
       @blur="$emit('generate-preview')"
     />
     <RisTextAreaInput

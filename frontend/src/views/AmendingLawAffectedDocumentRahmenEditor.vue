@@ -317,7 +317,7 @@ const {
               <fieldset class="contents">
                 <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
                 <label :for="fnaId">Sachgebiet</label>
-                <RisTextInput :id="fnaId" v-model="fna" size="small" />
+                <RisTextInput :id="fnaId" v-model="fna" />
               </fieldset>
 
               <fieldset class="contents">
@@ -357,7 +357,6 @@ const {
                 <RisTextInput
                   :id="bezeichnungInVorlageId"
                   v-model="bezeichnungInVorlage"
-                  size="small"
                 />
               </fieldset>
 

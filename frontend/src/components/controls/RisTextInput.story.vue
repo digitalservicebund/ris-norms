@@ -4,7 +4,15 @@ import RisTextInput from "./RisTextInput.vue"
 
 <template>
   <Story :layout="{ type: 'grid' }">
-    <Variant title="Default (medium size)/label">
+    <Variant title="Default (small size) with label">
+      <RisTextInput
+        id="test-id"
+        placeholder="Placeholder text"
+        label="Änderungstyp"
+      ></RisTextInput>
+    </Variant>
+
+    <Variant title="Medium size with label">
       <RisTextInput
         id="test-id"
         placeholder="Placeholder text"
@@ -13,7 +21,7 @@ import RisTextInput from "./RisTextInput.vue"
       ></RisTextInput>
     </Variant>
 
-    <Variant title="Regular size/label">
+    <Variant title="Regular size with label">
       <RisTextInput
         id="test-id"
         placeholder="Placeholder text"
@@ -22,16 +30,7 @@ import RisTextInput from "./RisTextInput.vue"
       ></RisTextInput>
     </Variant>
 
-    <Variant title="Small size/label">
-      <RisTextInput
-        id="test-id"
-        placeholder="Placeholder text"
-        size="small"
-        label="Änderungstyp"
-      ></RisTextInput>
-    </Variant>
-
-    <Variant title="Read-only/No label">
+    <Variant title="Read-only without label">
       <RisTextInput
         id="test-id"
         placeholder="Placeholder text"
