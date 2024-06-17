@@ -118,7 +118,7 @@ class MetadatenDsTest {
     metadatenDs.getNodes("./fna").stream()
         .filter(f -> f.getStart().isPresent() && f.getStart().get().isEqual(newDate))
         .findFirst()
-        .map(m -> assertThat(m.getEnd()).isEmpty());
+        .map(m -> assertThat(m.getEnd()).contains(LocalDate.MAX));
   }
 
   @Test
@@ -162,7 +162,7 @@ class MetadatenDsTest {
                                                               <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                                   <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                                                   <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                                                                  <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                                                                  <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
                                                               </meta:legalDocML.de_metadaten_ds>
                                                           """))
             .build();
@@ -182,7 +182,7 @@ class MetadatenDsTest {
     fnaValues.stream()
         .filter(f -> f.getStart().isPresent() && f.getStart().get().isEqual(newDate))
         .findFirst()
-        .map(m -> assertThat(m.getEnd()).isEmpty());
+        .map(m -> assertThat(m.getEnd()).contains(LocalDate.MAX));
 
     fnaValues.stream()
         .filter(
@@ -279,7 +279,7 @@ class MetadatenDsTest {
     subtypValues.stream()
         .filter(f -> f.getStart().isPresent() && f.getStart().get().isEqual(newDate))
         .findFirst()
-        .map(m -> assertThat(m.getEnd()).isEmpty());
+        .map(m -> assertThat(m.getEnd()).contains(LocalDate.MAX));
 
     assertThat(
             metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.SUBTYP, newDate.minusDays(1)))
