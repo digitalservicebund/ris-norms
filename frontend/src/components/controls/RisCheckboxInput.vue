@@ -17,8 +17,7 @@ const props = withDefaults(
   {
     modelValue: false,
     label: undefined,
-    size: "regular",
-    readOnly: false,
+    size: "mini",
   },
 )
 
