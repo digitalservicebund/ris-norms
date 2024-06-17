@@ -16,6 +16,7 @@ withDefaults(
   },
 )
 
+/** Checked/unchecked value of the checkbox. */
 const checked = defineModel<boolean | undefined>({ default: false })
 </script>
 
