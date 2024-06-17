@@ -89,7 +89,7 @@ watch(savedData, (newData) => {
  * Metadata form                                      *
  * -------------------------------------------------- */
 
-const [
+const {
   documentTypeId,
   fnaId,
   bezeichnungInVorlageId,
@@ -100,9 +100,7 @@ const [
   beschliessendesOrganId,
   isResolutionWithMajorityId,
   federfuehrungId,
-] = Array(10)
-  .fill(null)
-  .map(() => useElementId())
+} = useElementId()
 
 const fna = computed<string | undefined>({
   get() {
