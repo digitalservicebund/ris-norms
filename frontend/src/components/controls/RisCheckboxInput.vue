@@ -1,12 +1,8 @@
 <script lang="ts" setup>
-import { computed } from "vue"
-
-const props = withDefaults(
+withDefaults(
   defineProps<{
     /** Unique ID for the checkbox. */
     id: string
-    /** Value reflected of checkbox marked or not . */
-    modelValue?: boolean
     /** Optional label for the field */
     label?: string
     /** Optional size for the field */
@@ -15,35 +11,20 @@ const props = withDefaults(
     readOnly?: boolean
   }>(),
   {
-    modelValue: false,
     label: undefined,
     size: "mini",
   },
 )
 
-const emit = defineEmits<{
-  /**
-   * Emitted when the user changes the value of the form field.
-   */
-  "update:modelValue": [boolean | undefined]
-  /**
-   * Emitted when the user ticks the checkbox.
-   */
-  input: []
-}>()
-
-const localModelValue = computed({
-  get: () => props.modelValue,
-  set: (value) => emit("update:modelValue", value),
-})
+const checked = defineModel<boolean | undefined>({ default: false })
 </script>
 
 <template>
   <div class="grid gap-2">
     <input
       :id="id"
-      v-model="localModelValue"
-      class="ds-checkbox"
+      v-model="checked"
+      class="ds-checkbox bg-white"
       :class="{
         'ds-checkbox-mini': size === 'mini',
         'ds-checkbox-small': size === 'small',
@@ -51,7 +32,7 @@ const localModelValue = computed({
       }"
       :disabled="readOnly"
       type="checkbox"
-      @keydown.space.prevent="localModelValue = !localModelValue"
+      @keydown.space.prevent="checked = !checked"
     />
     <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
     <label v-if="label" :for="id" class="ds-label">
