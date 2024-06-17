@@ -330,33 +330,30 @@ const {
                   :items="documentTypeItems"
                 />
 
-                <label :for="artNormSNid" class="self-start"
-                  >Art der Norm</label
-                >
+                <label :for="artNormSNid" class="self-start">
+                  Art der Norm
+                </label>
                 <div class="space-y-10">
                   <RisCheckboxInput
                     :id="artNormSNid"
                     v-model="artNormSN"
                     label="SN - Stammnorm"
-                    size="mini"
                   />
                   <RisCheckboxInput
                     :id="artNormANid"
                     v-model="artNormAN"
                     label="ÄN - Änderungsnorm"
-                    size="mini"
                   />
                   <RisCheckboxInput
                     :id="artNormUNid"
                     v-model="artNormUN"
                     label="ÜN - Übergangsnorm"
-                    size="mini"
                   />
                 </div>
 
-                <label :for="bezeichnungInVorlageId"
-                  >Bezeichnung gemäß Vorlage</label
-                >
+                <label :for="bezeichnungInVorlageId">
+                  Bezeichnung gemäß Vorlage
+                </label>
                 <RisTextInput
                   :id="bezeichnungInVorlageId"
                   v-model="bezeichnungInVorlage"
@@ -374,22 +371,21 @@ const {
                   :items="normgeberItems"
                 />
 
-                <label :for="beschliessendesOrganId"
-                  >beschließendes Organ</label
-                >
+                <label :for="beschliessendesOrganId">
+                  beschließendes Organ
+                </label>
                 <RisDropdownInput
                   :id="beschliessendesOrganId"
                   v-model="beschliessendesOrgan"
                   :items="beschliessendesOrganItems"
                 />
 
-                <label :for="isResolutionWithMajorityId"
-                  >Beschlussf. qual. Mehrheit</label
-                >
+                <label :for="isResolutionWithMajorityId">
+                  Beschlussf. qual. Mehrheit
+                </label>
                 <RisCheckboxInput
                   :id="isResolutionWithMajorityId"
                   v-model="isResolutionWithMajority"
-                  size="small"
                 />
               </fieldset>
 
