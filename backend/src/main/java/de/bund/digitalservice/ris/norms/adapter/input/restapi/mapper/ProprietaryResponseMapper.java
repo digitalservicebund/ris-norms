@@ -29,6 +29,7 @@ public class ProprietaryResponseMapper {
         .artDerNorm(proprietary.getArtDerNorm(date).orElse(null))
         .normgeber(proprietary.getNormgeber(date).orElse(null))
         .beschliessendesOrgan(proprietary.getBeschliessendesOrgan(date).orElse(null))
+        .qualifizierteMehrheit(proprietary.getQualifizierteMehrheit(date).orElse(null))
         .build();
   }
 }

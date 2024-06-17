@@ -66,7 +66,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
-          .andExpect(jsonPath("beschliessendesOrgan").isEmpty());
+          .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
     }
 
     @Test
@@ -91,7 +92,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
-          .andExpect(jsonPath("beschliessendesOrgan").isEmpty());
+          .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
     }
 
     @Test
@@ -116,7 +118,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
           .andExpect(jsonPath("normgeber").value("DEU"))
-          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"));
+          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
+          .andExpect(jsonPath("qualifizierteMehrheit").value(true));
     }
   }
 
@@ -140,7 +143,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
                           + "\"normgeber\": \"DEU\","
-                          + "\"beschliessendesOrgan\": \"Bundestag\"}"))
+                          + "\"beschliessendesOrgan\": \"Bundestag\","
+                          + "\"qualifizierteMehrheit\": true}"))
           .andExpect(status().isNotFound());
     }
 
@@ -166,7 +170,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
                           + "\"normgeber\": \"DEU\","
-                          + "\"beschliessendesOrgan\": \"Bundestag\"}"))
+                          + "\"beschliessendesOrgan\": \"Bundestag\","
+                          + "\"qualifizierteMehrheit\": false}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
@@ -175,7 +180,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
           .andExpect(jsonPath("normgeber").value("DEU"))
-          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"));
+          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
+          .andExpect(jsonPath("qualifizierteMehrheit").value(false));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -204,7 +210,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
                           + "\"normgeber\": \"DEU\","
-                          + "\"beschliessendesOrgan\": \"Bundestag\"}"))
+                          + "\"beschliessendesOrgan\": \"Bundestag\","
+                          + "\"qualifizierteMehrheit\": true}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
@@ -213,7 +220,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
           .andExpect(jsonPath("normgeber").value("DEU"))
-          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"));
+          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
+          .andExpect(jsonPath("qualifizierteMehrheit").value(true));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 

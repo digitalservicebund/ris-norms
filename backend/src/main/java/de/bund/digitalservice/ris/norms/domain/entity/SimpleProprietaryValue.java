@@ -51,6 +51,16 @@ public class SimpleProprietaryValue {
   }
 
   /**
+   * Retrieves the value of an attribute, which is mandatory
+   *
+   * @param attributeName Name of the attribute for which you want to retrieve the value
+   * @return String value of the requested attribute
+   */
+  public Optional<String> getAttribute(final String attributeName) {
+    return NodeParser.getValueFromExpression("./@%s".formatted(attributeName), node);
+  }
+
+  /**
    * Compares two FNAs, so they can be sorted by their start dates. It is assumed that there is no
    * overlap in validity between two values.
    *

@@ -88,7 +88,15 @@ class ProprietaryServiceTest {
                           eli,
                           LocalDate.now(),
                           new UpdateProprietaryFromNormUseCase.Metadata(
-                              "fna", null, null, null, null, null, null, null))))
+                              "fna",
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              null,
+                              new UpdateProprietaryFromNormUseCase.BeschliessendesOrgan(
+                                  null, null)))))
           // then
           .isInstanceOf(NormNotFoundException.class);
     }
@@ -109,7 +117,14 @@ class ProprietaryServiceTest {
                   eli,
                   date,
                   new UpdateProprietaryFromNormUseCase.Metadata(
-                      "fna", null, null, null, null, null, null, null)));
+                      "fna",
+                      null,
+                      null,
+                      null,
+                      null,
+                      null,
+                      null,
+                      new UpdateProprietaryFromNormUseCase.BeschliessendesOrgan(null, null))));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -139,7 +154,8 @@ class ProprietaryServiceTest {
                       "bezeichnungInVorlage",
                       "SN,ÄN,ÜN",
                       "DEU",
-                      "Bundestag")));
+                      new UpdateProprietaryFromNormUseCase.BeschliessendesOrgan(
+                          "Bundestag", true))));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -151,6 +167,7 @@ class ProprietaryServiceTest {
       assertThat(result.getArtDerNorm(date)).contains("SN,ÄN,ÜN");
       assertThat(result.getNormgeber(date)).contains("DEU");
       assertThat(result.getBeschliessendesOrgan(date)).contains("Bundestag");
+      assertThat(result.getQualifizierteMehrheit(date)).contains(true);
     }
   }
 }

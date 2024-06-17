@@ -17,4 +17,5 @@ public class ProprietarySchema {
   private String artDerNorm;
   private String normgeber;
   private String beschliessendesOrgan;
+  private Boolean qualifizierteMehrheit;
 }

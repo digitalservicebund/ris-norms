@@ -169,4 +169,22 @@ public class Proprietary {
     return getMetadatenDs()
         .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN, date));
   }
+
+  /**
+   * Returns the ("Qualifizierte Mehrheit") attribute value of the ("Beschließendes Organ") of the
+   * document from the MetadatenDs block at a specific date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Qualifizierte Mehrheit" true/false or empty if "Beschließendes Organ" doesn't exist.
+   */
+  public Optional<Boolean> getQualifizierteMehrheit(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(
+            m ->
+                m.getAttributeValueAt(
+                        MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
+                        date,
+                        "qualifizierteMehrheit")
+                    .map(Boolean::parseBoolean));
+  }
 }

@@ -61,7 +61,12 @@ public class ProprietaryService
     metadatenDs.setSimpleProprietaryMetadata(
         MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
         query.atDate(),
-        query.metadata().beschliessendesOrgan());
+        query.metadata().beschliessendesOrgan().value());
+    metadatenDs.setSimpleProprietaryMetadataAttribute(
+        MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
+        query.atDate(),
+        "qualifizierteMehrheit",
+        query.metadata().beschliessendesOrgan().qualifizierteMehrheit());
 
     updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 

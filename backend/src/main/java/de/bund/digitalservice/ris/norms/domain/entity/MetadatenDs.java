@@ -3,9 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -48,6 +46,30 @@ public class MetadatenDs {
    */
   public Optional<String> getSimpleValueAt(
       final SimpleMetadatum simpleMetadatum, final LocalDate date) {
+    return getSimpleProprietaryValueAt(simpleMetadatum, date).map(SimpleProprietaryValue::getValue);
+  }
+
+  /**
+   * It returns the attribute value for a given attributeName, a xpath and a specific date. If no
+   * matching value @start or @end is found, it will retrieve the attribute value from the node with
+   * neither @start nor @end.
+   *
+   * @param simpleMetadatum the enum metadatum
+   * @param date the specific date
+   * @param attributeName the name of the attribute
+   * @return an optional value, if found.
+   */
+  public Optional<String> getAttributeValueAt(
+      final SimpleMetadatum simpleMetadatum, final LocalDate date, final String attributeName) {
+    var simpleProprietaryValueOptional = getSimpleProprietaryValueAt(simpleMetadatum, date);
+    if (simpleProprietaryValueOptional.isPresent()) {
+      return simpleProprietaryValueOptional.get().getAttribute(attributeName);
+    }
+    return Optional.empty();
+  }
+
+  private Optional<SimpleProprietaryValue> getSimpleProprietaryValueAt(
+      final SimpleMetadatum simpleMetadatum, final LocalDate date) {
     final List<SimpleProprietaryValue> valuesWithoutStartAndEnd =
         getNodes(simpleMetadatum.xpath).stream()
             .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
@@ -65,9 +87,9 @@ public class MetadatenDs {
                 f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
             .toList();
     if (!valuesWithStartOrAndEnd.isEmpty()) {
-      return valuesWithStartOrAndEnd.stream().findFirst().map(SimpleProprietaryValue::getValue);
+      return valuesWithStartOrAndEnd.stream().findFirst();
     } else {
-      return valuesWithoutStartAndEnd.stream().findFirst().map(SimpleProprietaryValue::getValue);
+      return valuesWithoutStartAndEnd.stream().findFirst();
     }
   }
 
@@ -132,6 +154,28 @@ public class MetadatenDs {
                                 .setAttribute("end", date.minusDays(1).toString()));
               });
     }
+  }
+
+  /**
+   * Updates the specified metadata attribute where a given @start date is set. If the node is not
+   * present it will do nothing. As value, it accepts a generic Object. Make sure a toString()
+   * method is present.
+   *
+   * @param simpleMetadatum - the enum metadatum
+   * @param date - the specific date
+   * @param attributeName - the name of the attribute
+   * @param newAttributeValue - the value of the attribute to be set
+   */
+  public void setSimpleProprietaryMetadataAttribute(
+      final SimpleMetadatum simpleMetadatum,
+      final LocalDate date,
+      final String attributeName,
+      final Object newAttributeValue) {
+    NodeParser.getNodeFromExpression(
+            String.format("%s[@start='%s']", simpleMetadatum.xpath, date.toString()), node)
+        .ifPresent(
+            fnaNode ->
+                ((Element) fnaNode).setAttribute(attributeName, newAttributeValue.toString()));
   }
 
   /**

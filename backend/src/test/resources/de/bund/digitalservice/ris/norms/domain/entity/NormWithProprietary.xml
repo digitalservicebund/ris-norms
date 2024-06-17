@@ -133,7 +133,7 @@
                     <meta:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
                     <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
                     <meta:normgeber>DEU</meta:normgeber>
-                    <meta:beschliessendesOrgan>Bundestag</meta:beschliessendesOrgan>
+                    <meta:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

@@ -751,7 +751,7 @@ class ProprietaryTest {
                                                                                         <meta:legalDocML.de_metadaten_ds
                                                                                           xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
                                                                                         >
-                                                                                          <meta:beschliessendesOrgan>Bundestag</meta:beschliessendesOrgan>
+                                                                                          <meta:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
                                                                                        </meta:legalDocML.de_metadaten_ds>
                                                                                       </akn:proprietary>
                                                                                       """))
@@ -759,6 +759,8 @@ class ProprietaryTest {
 
       assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2010-10-10")))
           .contains("Bundestag");
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("2010-10-10")))
+          .contains(true);
     }
 
     @Test
@@ -783,6 +785,7 @@ class ProprietaryTest {
               .build();
 
       assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2010-10-10"))).isEmpty();
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
@@ -800,10 +803,10 @@ class ProprietaryTest {
                                                                                         <meta:legalDocML.de_metadaten_ds
                                                                                           xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
                                                                                         >
-                                                                                          <meta:beschliessendesOrgan end="1989-12-31">Bundestag 1</meta:beschliessendesOrgan>
-                                                                                          <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31">Bundestag 2</meta:beschliessendesOrgan>
-                                                                                          <meta:beschliessendesOrgan start="1995-01-01" end="2000-12-31">Bundestag 3</meta:beschliessendesOrgan>
-                                                                                          <meta:beschliessendesOrgan start="2001-01-01">Bundestag 4</meta:beschliessendesOrgan>
+                                                                                          <meta:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</meta:beschliessendesOrgan>
+                                                                                          <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag 2</meta:beschliessendesOrgan>
+                                                                                          <meta:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</meta:beschliessendesOrgan>
+                                                                                          <meta:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="true">Bundestag 4</meta:beschliessendesOrgan>
                                                                                         </meta:legalDocML.de_metadaten_ds>
                                                                                       </akn:proprietary>
                                                                                       """))
@@ -830,6 +833,53 @@ class ProprietaryTest {
           .contains("Bundestag 4");
       assertThat(proprietary.getBeschliessendesOrgan(LocalDate.parse("2024-01-01")))
           .contains("Bundestag 4");
+    }
+
+    @Test
+    void returnsTheBeschliessendesOrganQualifizierteMehrheitAtDate() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                                                      <akn:proprietary
+                                                                                                        eId="meta-1_proprietary-1"
+                                                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                                                        source="attributsemantik-noch-undefiniert"
+                                                                                                      >
+                                                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                                                        >
+                                                                                                          <meta:beschliessendesOrgan end="1989-12-31" qualifizierteMehrheit="true">Bundestag 1</meta:beschliessendesOrgan>
+                                                                                                          <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="false">Bundestag 2</meta:beschliessendesOrgan>
+                                                                                                          <meta:beschliessendesOrgan start="1995-01-01" end="2000-12-31" qualifizierteMehrheit="true">Bundestag 3</meta:beschliessendesOrgan>
+                                                                                                          <meta:beschliessendesOrgan start="2001-01-01" qualifizierteMehrheit="false">Bundestag 4</meta:beschliessendesOrgan>
+                                                                                                        </meta:legalDocML.de_metadaten_ds>
+                                                                                                      </akn:proprietary>
+                                                                                                      """))
+              .build();
+
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("1980-01-01")))
+          .contains(true);
+
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("1990-01-01")))
+          .contains(false);
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("1992-01-01")))
+          .contains(false);
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("1994-12-31")))
+          .contains(false);
+
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("1995-01-01")))
+          .contains(true);
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("1998-01-01")))
+          .contains(true);
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("2000-12-31")))
+          .contains(true);
+
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("2001-01-01")))
+          .contains(false);
+      assertThat(proprietary.getQualifizierteMehrheit(LocalDate.parse("2024-01-01")))
+          .contains(false);
     }
   }
 }
