@@ -4,14 +4,14 @@ import RisCheckboxInput from "./RisCheckboxInput.vue"
 
 <template>
   <Story :layout="{ type: 'grid', width: '250px' }">
-    <Variant title="Default regular size | checked">
+    <Variant title="Default mini size | checked">
       <RisCheckboxInput
         id="test-id"
         :model-value="true"
         label="Stammnorm"
       ></RisCheckboxInput>
     </Variant>
-    <Variant title="Default regular size | read-only and checked">
+    <Variant title="Default mini size | read-only and checked">
       <RisCheckboxInput
         id="test-id"
         read-only
@@ -19,10 +19,10 @@ import RisCheckboxInput from "./RisCheckboxInput.vue"
         label="Änderungsnorm"
       ></RisCheckboxInput>
     </Variant>
-    <Variant title="Default regular size | unchecked">
+    <Variant title="Default mini size | unchecked">
       <RisCheckboxInput id="test-id" label="Übergangsnorm"></RisCheckboxInput>
     </Variant>
-    <Variant title="Default regular size | read-only and unchecked">
+    <Variant title="Default mini size | read-only and unchecked">
       <RisCheckboxInput
         id="test-id"
         read-only
@@ -63,35 +63,35 @@ import RisCheckboxInput from "./RisCheckboxInput.vue"
       ></RisCheckboxInput>
     </Variant>
 
-    <Variant title="Mini size | checked">
+    <Variant title="Regular size | checked">
       <RisCheckboxInput
         id="test-id"
         :model-value="true"
-        size="mini"
+        size="regular"
         label="Stammnorm"
       ></RisCheckboxInput>
     </Variant>
-    <Variant title="Mini size | read-only and checked">
+    <Variant title="Regular size | read-only and checked">
       <RisCheckboxInput
         id="test-id"
         read-only
-        size="mini"
+        size="regular"
         :model-value="true"
         label="Änderungsnorm"
       ></RisCheckboxInput>
     </Variant>
-    <Variant title="Mini size | unchecked">
+    <Variant title="Regular size | unchecked">
       <RisCheckboxInput
         id="test-id"
-        size="mini"
+        size="regular"
         label="Übergangsnorm"
       ></RisCheckboxInput>
     </Variant>
-    <Variant title="Mini size | read-only and unchecked">
+    <Variant title="Regular size | read-only and unchecked">
       <RisCheckboxInput
         id="test-id"
         read-only
-        size="mini"
+        size="regular"
         label="Stammnorm"
       ></RisCheckboxInput>
     </Variant>

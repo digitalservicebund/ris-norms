@@ -67,5 +67,8 @@ const { alerts, hideAlert } = useAlerts()
       <RouterView />
     </div>
   </div>
-  <RisLoadingSpinner v-else />
+
+  <div v-else class="flex h-[calc(100dvh-5rem)] items-center justify-center">
+    <RisLoadingSpinner />
+  </div>
 </template>

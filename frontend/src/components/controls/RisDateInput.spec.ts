@@ -9,6 +9,7 @@ function renderComponent(options?: {
   modelValue?: string
   validationError?: ValidationError
   isReadOnly?: boolean
+  size?: "regular" | "medium" | "small"
 }) {
   const user = userEvent.setup()
   const props = {
@@ -16,6 +17,7 @@ function renderComponent(options?: {
     modelValue: options?.modelValue,
     validationError: options?.validationError,
     isReadOnly: options?.isReadOnly,
+    size: options?.size,
   }
   const utils = render(RisDateInput, { props })
   return { user, props, ...utils }
@@ -151,5 +153,33 @@ describe("DateInput", () => {
   test("sets the input to editable", () => {
     renderComponent({ isReadOnly: false })
     expect(screen.getByRole("textbox")).not.toHaveAttribute("readonly")
+  })
+
+  test("renders the small variant by default", () => {
+    renderComponent()
+    const input = screen.getByRole("textbox")
+    expect(input).not.toHaveClass("ds-input-medium")
+    expect(input).toHaveClass("ds-input-small")
+  })
+
+  test("renders the regular variant", () => {
+    renderComponent({ size: "regular" })
+    const input = screen.getByRole("textbox")
+    expect(input).not.toHaveClass("ds-input-medium")
+    expect(input).not.toHaveClass("ds-input-small")
+  })
+
+  test("renders the medium variant", () => {
+    renderComponent({ size: "medium" })
+    const input = screen.getByRole("textbox")
+    expect(input).toHaveClass("ds-input-medium")
+    expect(input).not.toHaveClass("ds-input-small")
+  })
+
+  test("renders the small variant", () => {
+    renderComponent({ size: "small" })
+    const input = screen.getByRole("textbox")
+    expect(input).not.toHaveClass("ds-input-medium")
+    expect(input).toHaveClass("ds-input-small")
   })
 })
