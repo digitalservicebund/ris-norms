@@ -34,4 +34,18 @@ export type Proprietary = {
    * DE “Bezeichnung gemäß Vorlage"
    */
   bezeichnungInVorlage?: string
+
+  /**
+   * DE “Normgeber"
+   */
+  normgeber?: string
+
+  /**
+   * DE “Beschließendes Organ"
+   */
+  beschliessendesOrgan?: string
+  /**
+   * DE “Beschlussfassung mit qualifizierter Mehrheit"
+   */
+  isResolutionWithMajority?: boolean
 }

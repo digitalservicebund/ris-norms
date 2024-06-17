@@ -6893,6 +6893,8 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                     <meta:subtyp start="1970-01-01">Rechtsverordnung</meta:subtyp>
                     <meta:artDerNorm start="1970-01-01">SN,ÜN</meta:artDerNorm>
                     <meta:bezeichnungInVorlage start="1970-01-01">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
+                    <meta:normgeber start="1970-01-01">BEO - Berlin (Ost)</meta:normgeber>
+                    <meta:beschliessendesOrgan start="1970-01-01">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
                  </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

@@ -15,6 +15,7 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import {
+  BeschliessendesOrganItems,
   DocumentTypeValue,
   DocumentTypeValues,
   getDocumentTypeFromMetadata,
@@ -22,6 +23,7 @@ import {
   isMetaArtValue,
   isMetaSubtypValue,
   isMetaTypValue,
+  NormgeberValues,
   udpateArtNorm,
 } from "@/lib/proprietary"
 import { useGetNormHtml } from "@/services/normService"
@@ -93,7 +95,10 @@ const [
   artNormSNid,
   artNormANid,
   artNormUNid,
-] = Array(6)
+  normgeberId,
+  beschliessendesOrganId,
+  isResolutionWithMajorityId,
+] = Array(9)
   .fill(null)
   .map(() => useElementId())
 
@@ -143,6 +148,14 @@ const documentTypeItems: DropdownItem[] = [
   ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
 ]
 
+const normgeberItems: DropdownItem[] = [
+  ...NormgeberValues.map((value) => ({ label: value, value })),
+]
+
+const beschliessendesOrganItems: DropdownItem[] = [
+  ...BeschliessendesOrganItems.map((value) => ({ label: value, value })),
+]
+
 const artNormSN = computed<boolean>({
   get() {
     return isArtNormTypePresent(localData.value?.artDerNorm, "SN")
@@ -187,6 +200,42 @@ const bezeichnungInVorlage = computed<string | undefined>({
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.bezeichnungInVorlage = value
+    })
+  },
+})
+
+const normgeber = computed<string | undefined>({
+  get() {
+    return localData.value?.normgeber
+  },
+  set(value?: string) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.normgeber = value
+    })
+  },
+})
+
+const beschliessendesOrgan = computed<string | undefined>({
+  get() {
+    return localData.value?.beschliessendesOrgan
+  },
+  set(value?: string) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.beschliessendesOrgan = value
+    })
+  },
+})
+
+const isResolutionWithMajority = computed<boolean | undefined>({
+  get() {
+    return localData.value?.isResolutionWithMajority
+  },
+  set(value?: boolean) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.isResolutionWithMajority = value
     })
   },
 })
@@ -311,6 +360,35 @@ const {
                 <RisTextInput
                   :id="bezeichnungInVorlageId"
                   v-model="bezeichnungInVorlage"
+                  size="small"
+                />
+              </fieldset>
+
+              <fieldset class="contents">
+                <legend class="ds-label-02-bold col-span-2">Normgeber</legend>
+
+                <label :for="normgeberId">Normgeber</label>
+                <RisDropdownInput
+                  :id="normgeberId"
+                  v-model="normgeber"
+                  :items="normgeberItems"
+                />
+
+                <label :for="beschliessendesOrganId"
+                  >beschließendes Organ</label
+                >
+                <RisDropdownInput
+                  :id="beschliessendesOrganId"
+                  v-model="beschliessendesOrgan"
+                  :items="beschliessendesOrganItems"
+                />
+
+                <label :for="isResolutionWithMajorityId"
+                  >Beschlussf. qual. Mehrheit</label
+                >
+                <RisCheckboxInput
+                  :id="isResolutionWithMajorityId"
+                  v-model="isResolutionWithMajority"
                   size="small"
                 />
               </fieldset>
