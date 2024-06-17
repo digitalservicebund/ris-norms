@@ -26,9 +26,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   /**
-   * Emitted when the user changes the value of the form field. Note that this
-   * is only emitted when the value is empty or a valid date. All other states
-   * (e.g. partial dates while typing) are handled internally and not emitted.
+   * Emitted when the user changes the value of the form field.
    */
   "update:modelValue": [value: string | undefined]
   /**
