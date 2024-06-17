@@ -22,10 +22,6 @@ const props = withDefaults(
     validationError?: ValidationError
     /** Label position: 'above' or 'left' */
     labelPosition?: "above" | "left"
-    /** Custom classes for the container */
-    containerClass?: string
-    /** Custom classes for the label */
-    labelClass?: string
   }>(),
   {
     modelValue: "",
@@ -34,8 +30,6 @@ const props = withDefaults(
     label: undefined,
     validationError: undefined,
     labelPosition: "above",
-    containerClass: "",
-    labelClass: "",
   },
 )
 
@@ -156,25 +150,23 @@ watch(inputCompleted, (is) => {
 </script>
 
 <template>
-  <div
-    :class="
-      props.labelPosition === 'left' ? `flex items-center gap-4` : 'grid gap-2'
-    "
+  <label
+    :for="id"
+    :class="[
+      'ds-label',
+      { 'flex items-center gap-8': props.labelPosition === 'left' },
+      `shrink-0`,
+    ]"
   >
-    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-    <label
-      v-if="label"
-      :for="id"
+    <span
       :class="[
-        'ds-label',
+        `min-w-[6rem]`,
         { 'mb-24': props.labelPosition === 'left' && localValidationError },
-        props.labelClass,
-        `shrink-0`,
       ]"
     >
       {{ label }}
-    </label>
-    <div class="flex w-full flex-col">
+    </span>
+    <span class="flex w-full flex-col">
       <input
         :id="id"
         v-model="inputValue"
@@ -188,14 +180,14 @@ watch(inputCompleted, (is) => {
         @keydown.delete="backspaceDelete"
         @maska="onMaska"
       />
-      <div
+      <span
         v-if="localValidationError"
         class="mt-4 flex items-start text-sm text-red-800"
       >
         <IconErrorOutline class="mr-4 text-red-800" />
 
         {{ errorMessage }}
-      </div>
-    </div>
-  </div>
+      </span>
+    </span>
+  </label>
 </template>
