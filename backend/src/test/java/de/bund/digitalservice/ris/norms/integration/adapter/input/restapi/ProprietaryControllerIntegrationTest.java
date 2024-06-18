@@ -149,7 +149,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void updatesFna() throws Exception {
+    void updatesAll() throws Exception {
+      // One may wonder why this test does all at once: Integration tests are expensive.
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
@@ -168,9 +169,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"typ\": \"new-typ\","
                           + "\"subtyp\": \"new-subtyp\","
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
-                          + "\"artDerNorm\": \"SN,ÄN,ÜN\","
-                          + "\"normgeber\": \"DEU\","
-                          + "\"beschliessendesOrgan\": \"Bundestag\","
+                          + "\"artDerNorm\": \"ÄN,ÜN\","
+                          + "\"normgeber\": \"DDR\","
+                          + "\"beschliessendesOrgan\": \"LT\","
                           + "\"qualifizierteMehrheit\": false}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
@@ -178,14 +179,82 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("typ").value("new-typ"))
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
-          .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"))
-          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
+          .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
+          .andExpect(jsonPath("normgeber").value("DDR"))
+          .andExpect(jsonPath("beschliessendesOrgan").value("LT"))
           .andExpect(jsonPath("qualifizierteMehrheit").value(false));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("new-art");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("new-typ");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
+          .contains("new-subtyp");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+          .contains("new-bezeichnungInVorlage");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
+          .contains("ÄN,ÜN");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("DDR");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+          .contains("LT");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+          .contains(false);
+    }
+
+    @Test
+    void doesNotUpdateAllFieldsNull() throws Exception {
+      // given
+      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final LocalDate date = LocalDate.parse("1990-01-01");
+      final Norm norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+
+      // TODO "null" and ""
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"fna\": null,"
+                          + "\"art\": null,"
+                          + "\"typ\": null,"
+                          + "\"subtyp\": null,"
+                          + "\"bezeichnungInVorlage\": null,"
+                          + "\"artDerNorm\": null,"
+                          + "\"normgeber\": null,"
+                          + "\"beschliessendesOrgan\": null}"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("fna").value("754-28-1"))
+          .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
+          .andExpect(jsonPath("typ").value("gesetz"))
+          .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
+          .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
+          .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
+          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
+          .andExpect(jsonPath("qualifizierteMehrheit").value(true));
+
+      final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
+
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
+          .contains("rechtsetzungsdokument");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("gesetz");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
+          .contains("rechtsverordnung");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+          .contains("Bezeichnung gemäß Vorlage");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
+          .contains("SN,ÄN,ÜN");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("DEU");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+          .contains("Bundestag");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+          .contains(true);
     }
 
     @Test
