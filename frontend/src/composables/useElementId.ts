@@ -7,7 +7,7 @@ function createUseElementId(): (prefix?: string) => Record<string, string> {
   const id = generateId()
 
   function getIdentifier(prefix = "element") {
-    return `${prefix}-${id.next().value!}`
+    return `${prefix}-${id.next().value}`
   }
 
   function getIdMap(prefix?: string): Record<string, string> {
