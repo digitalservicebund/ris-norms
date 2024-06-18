@@ -10,6 +10,7 @@ import {
   isMetaTypValue,
   udpateArtNorm,
   isArtNormTypePresent,
+  UNKNOWN_DOCUMENT_TYPE,
 } from "./proprietary"
 
 describe("getDocumentTypeFromMetadata", () => {
@@ -21,6 +22,26 @@ describe("getDocumentTypeFromMetadata", () => {
         getDocumentTypeFromMetadata(input.art, input.typ, input.subtyp),
       ).toBe(expectedResult)
     })
+  })
+
+  test("returns unknown if no combination matches", () => {
+    expect(
+      getDocumentTypeFromMetadata(
+        "regelungstext",
+        "verwaltungsvorschrift",
+        "Satzung",
+      ),
+    ).toBe(UNKNOWN_DOCUMENT_TYPE)
+  })
+
+  test("returns unknown if all inputs are empty", () => {
+    // @ts-expect-error breaking on purpose for testing
+    expect(getDocumentTypeFromMetadata(undefined, undefined, undefined)).toBe(
+      UNKNOWN_DOCUMENT_TYPE,
+    )
+
+    // @ts-expect-error breaking on purpose for testing
+    expect(getDocumentTypeFromMetadata("", "", "")).toBe(UNKNOWN_DOCUMENT_TYPE)
   })
 })
 
@@ -53,10 +74,6 @@ describe("isMetaSubtypValue", () => {
     MetaSubtypValues.forEach((value) => {
       expect(isMetaSubtypValue(value)).toBe(true)
     })
-  })
-
-  test("identifies null as a valid value", () => {
-    expect(isMetaSubtypValue(null)).toBe(true)
   })
 
   test("does not identify undefined as a valid value", () => {

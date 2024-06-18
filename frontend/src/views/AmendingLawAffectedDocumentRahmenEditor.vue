@@ -26,6 +26,7 @@ import {
   isMetaTypValue,
   NormgeberValues,
   udpateArtNorm,
+  UNKNOWN_DOCUMENT_TYPE,
 } from "@/lib/proprietary"
 import { useGetNormHtml } from "@/services/normService"
 import {
@@ -102,11 +103,11 @@ const {
   federfuehrungId,
 } = useElementId()
 
-const fna = computed<string | undefined>({
+const fna = computed<string>({
   get() {
-    return localData.value?.fna
+    return localData.value?.fna ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.fna = value
@@ -114,7 +115,9 @@ const fna = computed<string | undefined>({
   },
 })
 
-const documentType = computed<DocumentTypeValue | undefined>({
+const documentType = computed<
+  DocumentTypeValue | typeof UNKNOWN_DOCUMENT_TYPE | ""
+>({
   get() {
     return isMetaArtValue(localData.value?.art) &&
       isMetaTypValue(localData.value?.typ) &&
@@ -124,27 +127,35 @@ const documentType = computed<DocumentTypeValue | undefined>({
           localData.value.typ,
           localData.value.subtyp,
         )
-      : undefined
+      : ""
   },
 
   set(value) {
+    if (value === UNKNOWN_DOCUMENT_TYPE) {
+      // This is disabled in the UI and should never happen. We still need to
+      // check for it to make TypeScript happy, but we'll simply ignore it
+      // and keep the value as it was.
+      return
+    }
+
     const {
-      art = undefined,
-      typ = undefined,
-      subtyp = undefined,
+      art = "",
+      typ = "",
+      subtyp = "",
     } = value ? DocumentTypeValues[value] : {}
 
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.art = art
       draft.typ = typ
-      draft.subtyp = subtyp ?? undefined
+      draft.subtyp = subtyp
     })
   },
 })
 
 const documentTypeItems: DropdownItem[] = [
-  { label: "Unbekannt", value: "" },
+  { label: "", value: "" },
+  { label: "Unbekannt", value: UNKNOWN_DOCUMENT_TYPE, disabled: true },
   ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
 ]
 
@@ -184,11 +195,11 @@ const artNormUN = computed<boolean>({
   },
 })
 
-const bezeichnungInVorlage = computed<string | undefined>({
+const bezeichnungInVorlage = computed<string>({
   get() {
-    return localData.value?.bezeichnungInVorlage
+    return localData.value?.bezeichnungInVorlage ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.bezeichnungInVorlage = value
@@ -196,11 +207,11 @@ const bezeichnungInVorlage = computed<string | undefined>({
   },
 })
 
-const normgeber = computed<string | undefined>({
+const normgeber = computed<string>({
   get() {
-    return localData.value?.normgeber
+    return localData.value?.normgeber ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.normgeber = value
@@ -213,11 +224,11 @@ const normgeberItems: DropdownItem[] = [
   ...NormgeberValues.map((value) => ({ label: value, value })),
 ]
 
-const beschliessendesOrgan = computed<string | undefined>({
+const beschliessendesOrgan = computed<string>({
   get() {
-    return localData.value?.beschliessendesOrgan
+    return localData.value?.beschliessendesOrgan ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.beschliessendesOrgan = value
@@ -230,11 +241,11 @@ const beschliessendesOrganItems: DropdownItem[] = [
   ...BeschliessendesOrganValues.map((value) => ({ label: value, value })),
 ]
 
-const isResolutionWithMajority = computed<boolean | undefined>({
+const isResolutionWithMajority = computed<boolean>({
   get() {
-    return localData.value?.isResolutionWithMajority
+    return localData.value?.isResolutionWithMajority ?? false
   },
-  set(value?: boolean) {
+  set(value: boolean) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.isResolutionWithMajority = value
@@ -242,11 +253,11 @@ const isResolutionWithMajority = computed<boolean | undefined>({
   },
 })
 
-const federfuehrung = computed<string | undefined>({
+const federfuehrung = computed<string>({
   get() {
-    return localData.value?.federfuehrung
+    return localData.value?.federfuehrung ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.federfuehrung = value

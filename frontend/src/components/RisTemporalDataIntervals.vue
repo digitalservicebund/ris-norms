@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineModel, nextTick, ref, watch, computed } from "vue"
+import { nextTick, ref, watch, computed } from "vue"
 import RisDateInput from "@/components/controls/RisDateInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import DeleteOutlineIcon from "~icons/ic/outline-delete"

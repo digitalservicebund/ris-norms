@@ -7,6 +7,8 @@ export type DropdownItem = {
   label: string
   /** Value of the item. */
   value: string
+  /** Whether the item can be selected. */
+  disabled?: boolean
 }
 
 const props = defineProps<{
@@ -46,7 +48,12 @@ const hasPlaceholder = computed(() =>
       <option v-if="placeholder && !modelValue" disabled value="">
         {{ placeholder }}
       </option>
-      <option v-for="item in items" :key="item.value" :value="item.value">
+      <option
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+        :disabled="item.disabled || undefined"
+      >
         {{ item.label }}
       </option>
     </select>
