@@ -55,10 +55,6 @@ describe("isMetaSubtypValue", () => {
     })
   })
 
-  test("identifies null as a valid value", () => {
-    expect(isMetaSubtypValue(null)).toBe(true)
-  })
-
   test("does not identify undefined as a valid value", () => {
     expect(isMetaSubtypValue(undefined)).toBe(false)
   })

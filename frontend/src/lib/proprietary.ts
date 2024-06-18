@@ -68,6 +68,7 @@ export const MetaSubtypValues = [
   "Gesetz im formellen Sinne",
   "ohne Qualifikation",
   "Rechtsverordnung",
+  "Satzung",
   "sonstige Anordnung",
   "sonstige Bekanntmachung",
   "Technische Norm",
@@ -78,7 +79,7 @@ export const MetaSubtypValues = [
 ] as const
 
 /** String literal type for allowed values for the "subtyp" proprietary metadata. */
-export type MetaSubtypValue = (typeof MetaSubtypValues)[number] | null
+export type MetaSubtypValue = (typeof MetaSubtypValues)[number]
 
 /**
  * Type guard ensuring that the provided value is a valid value for Typ.
@@ -87,7 +88,7 @@ export type MetaSubtypValue = (typeof MetaSubtypValues)[number] | null
  * @returns Whether the value is of that type
  */
 export function isMetaSubtypValue(
-  maybeMetaSubtyp: string | null | undefined,
+  maybeMetaSubtyp: string | undefined,
 ): maybeMetaSubtyp is MetaSubtypValue {
   return (
     maybeMetaSubtyp === null ||
@@ -150,7 +151,7 @@ export const DocumentTypeValues = {
   Satzung: {
     art: "regelungstext",
     typ: "satzung",
-    subtyp: null,
+    subtyp: "Satzung",
   },
   "sonstige Anordnung": {
     art: "offene-struktur",
