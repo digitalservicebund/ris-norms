@@ -26,6 +26,7 @@ import {
   isMetaTypValue,
   NormgeberValues,
   udpateArtNorm,
+  UNKNOWN_DOCUMENT_TYPE,
 } from "@/lib/proprietary"
 import { useGetNormHtml } from "@/services/normService"
 import {
@@ -114,7 +115,9 @@ const fna = computed<string>({
   },
 })
 
-const documentType = computed<DocumentTypeValue | undefined>({
+const documentType = computed<
+  DocumentTypeValue | typeof UNKNOWN_DOCUMENT_TYPE | ""
+>({
   get() {
     return isMetaArtValue(localData.value?.art) &&
       isMetaTypValue(localData.value?.typ) &&
@@ -124,10 +127,17 @@ const documentType = computed<DocumentTypeValue | undefined>({
           localData.value.typ,
           localData.value.subtyp,
         )
-      : undefined
+      : ""
   },
 
   set(value) {
+    if (value === UNKNOWN_DOCUMENT_TYPE) {
+      // This is disabled in the UI and should never happen. We still need to
+      // check for it to make TypeScript happy, but we'll simply ignore it
+      // and keep the value as it was.
+      return
+    }
+
     const {
       art = "",
       typ = "",
@@ -138,13 +148,14 @@ const documentType = computed<DocumentTypeValue | undefined>({
       if (!draft) return
       draft.art = art
       draft.typ = typ
-      draft.subtyp = subtyp ?? undefined
+      draft.subtyp = subtyp
     })
   },
 })
 
 const documentTypeItems: DropdownItem[] = [
-  { label: "Unbekannt", value: "", disabled: true },
+  { label: "", value: "" },
+  { label: "Unbekannt", value: UNKNOWN_DOCUMENT_TYPE, disabled: true },
   ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
 ]
 

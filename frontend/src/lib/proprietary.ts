@@ -193,21 +193,24 @@ export const DocumentTypeValues = {
 /** String literal type for allowed values for the document type. */
 export type DocumentTypeValue = keyof typeof DocumentTypeValues
 
+export const UNKNOWN_DOCUMENT_TYPE = "__unknown_document_type__"
+
 /**
  * Takes a combination of metadata and returns the document type that is
- * described by that combination. Can be `undefined` if no document type
- * exists for that combination.
+ * described by that combination. Can be `UNKNOWN_DOCUMENT_TYPE` if no document
+ * type exists for that combination.
  *
  * @param art Art of the norm
  * @param typ Type of the document
  * @param subtyp Subtype of the document
- * @returns the document type or undefined if there is none for this combination
+ * @returns the document type or UNKNOWN_DOCUMENT_TYPE if there is none for this
+ *  combination
  */
 export function getDocumentTypeFromMetadata(
   art: MetaArtValue,
   typ: MetaTypValue,
   subtyp: MetaSubtypValue,
-): DocumentTypeValue | undefined {
+): DocumentTypeValue | typeof UNKNOWN_DOCUMENT_TYPE {
   const item = Object.entries(DocumentTypeValues).find(
     ([, metadata]) =>
       metadata.art === art &&
@@ -215,7 +218,7 @@ export function getDocumentTypeFromMetadata(
       metadata.subtyp === subtyp,
   )
 
-  return item?.[0] as DocumentTypeValue
+  return (item?.[0] as DocumentTypeValue) ?? UNKNOWN_DOCUMENT_TYPE
 }
 
 /**
