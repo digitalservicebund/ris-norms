@@ -212,7 +212,6 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       // when
 
-      // TODO "null" and ""
       mockMvc
           .perform(
               put("/api/v1/norms/{eli}/proprietary/{date}", eli, date.toString())
