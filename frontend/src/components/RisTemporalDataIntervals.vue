@@ -46,7 +46,7 @@ watch(newDate, async (newDateValue) => {
 </script>
 
 <template>
-  <form class="grid grid-cols-[6rem,1fr,min-content] items-center gap-4">
+  <form class="grid grid-cols-[6rem,1fr,min-content] items-start gap-4">
     <RisTextButton
       :icon="SortOutlineIcon"
       label="Nach Datum sortieren"
@@ -64,12 +64,13 @@ watch(newDate, async (newDateValue) => {
         size="small"
         :label="`Zeitgrenze ${index + 1}`"
         label-position="left"
-        class="col-span-2 w-full"
+        class="col-span-2 grid w-full grid-cols-subgrid"
         label-class="w-[6rem]"
       />
       <RisTextButton
         :icon="DeleteOutlineIcon"
         variant="ghost"
+        size="small"
         class="shrink-0"
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
@@ -86,7 +87,7 @@ watch(newDate, async (newDateValue) => {
       size="small"
       label="Zeitgrenze hinzufügen"
       label-position="left"
-      class="col-span-2 w-full"
+      class="col-span-2 -mt-4 grid w-full grid-cols-subgrid"
       label-class="w-[6rem]"
     />
   </form>

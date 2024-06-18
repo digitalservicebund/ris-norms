@@ -154,40 +154,37 @@ watch(inputCompleted, (is) => {
     :for="id"
     :class="[
       'ds-label',
-      { 'flex items-center gap-8': props.labelPosition === 'left' },
+      {
+        'grid grid-cols-[min-content,1fr] items-center':
+          props.labelPosition === 'left',
+        'grid-rows-[1fr,min-content]': localValidationError,
+      },
       `shrink-0`,
     ]"
   >
-    <span
-      :class="[
-        `min-w-[6rem]`,
-        { 'mb-24': props.labelPosition === 'left' && localValidationError },
-      ]"
-    >
+    <span class="min-w-[6rem]">
       {{ label }}
     </span>
-    <span class="flex w-full flex-col">
-      <input
-        :id="id"
-        v-model="inputValue"
-        v-maska
-        class="ds-input"
-        :class="conditionalClasses"
-        data-maska="##.##.####"
-        placeholder="TT.MM.JJJJ"
-        :readonly="isReadOnly"
-        @blur="onBlur"
-        @keydown.delete="backspaceDelete"
-        @maska="onMaska"
-      />
-      <span
-        v-if="localValidationError"
-        class="mt-4 flex items-start text-sm text-red-800"
-      >
-        <IconErrorOutline class="mr-4 text-red-800" />
+    <input
+      :id="id"
+      v-model="inputValue"
+      v-maska
+      class="ds-input w-full"
+      :class="conditionalClasses"
+      data-maska="##.##.####"
+      placeholder="TT.MM.JJJJ"
+      :readonly="isReadOnly"
+      @blur="onBlur"
+      @keydown.delete="backspaceDelete"
+      @maska="onMaska"
+    />
+    <span
+      v-if="localValidationError"
+      class="col-start-2 mb-4 mt-4 flex items-start text-sm text-red-800"
+    >
+      <IconErrorOutline class="mr-4 text-red-800" />
 
-        {{ errorMessage }}
-      </span>
+      {{ errorMessage }}
     </span>
   </label>
 </template>
