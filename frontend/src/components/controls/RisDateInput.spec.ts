@@ -175,6 +175,7 @@ describe("DateInput", () => {
 
     const input = screen.getByRole("textbox")
     expect(input).toHaveClass("has-error")
+  })
 
   test("renders the small variant by default", () => {
     renderComponent()
