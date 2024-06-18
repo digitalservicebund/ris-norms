@@ -228,33 +228,30 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"normgeber\": null,"
                           + "\"beschliessendesOrgan\": null}"))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").value("754-28-1"))
-          .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
-          .andExpect(jsonPath("typ").value("gesetz"))
-          .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
-          .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
-          .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"))
-          .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
-          .andExpect(jsonPath("qualifizierteMehrheit").value(true));
+          .andExpect(jsonPath("fna").isEmpty())
+          .andExpect(jsonPath("art").isEmpty())
+          .andExpect(jsonPath("typ").isEmpty())
+          .andExpect(jsonPath("subtyp").isEmpty())
+          .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
+          .andExpect(jsonPath("artDerNorm").isEmpty())
+          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
+          .andExpect(jsonPath("qualifizierteMehrheit").doesNotExist());
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
-          .contains("rechtsetzungsdokument");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("gesetz");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
-          .contains("rechtsverordnung");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).contains("");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
-          .contains("Bezeichnung gemäß Vorlage");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
-          .contains("SN,ÄN,ÜN");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("DEU");
+          .contains("");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).contains("");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
-          .contains("Bundestag");
+          .contains("");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
-          .contains(true);
+          .isEmpty();
     }
 
     @Test
