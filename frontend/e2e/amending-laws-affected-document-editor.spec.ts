@@ -442,6 +442,8 @@ test.describe("XML preview", () => {
           typ: "gesetz",
           bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
           artDerNorm: "SN,ÜN",
+          normgeber: "BEO - Berlin (Ost)",
+          beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
         }),
       },
     )
@@ -518,7 +520,12 @@ test.describe("metadata reading", () => {
     ).not.toBeChecked()
     await expect(editorRegion.getByLabel("ÜN - Übergangsnorm")).toBeChecked()
 
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("210-5")
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
+      "BEO - Berlin (Ost)",
+    )
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "BMinJ - Bundesministerium der Justiz",
+    )
   })
 
   test("displays metadata on the frame at different time boundaries", async ({
@@ -554,6 +561,10 @@ test.describe("metadata reading", () => {
     await expect(SNcheckbox).not.toBeChecked()
     await expect(ANcheckbox).not.toBeChecked()
     await expect(UNcheckbox).not.toBeChecked()
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue("")
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "",
+    )
 
     const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
     dropdown.selectOption("2009-10-08")
@@ -572,6 +583,12 @@ test.describe("metadata reading", () => {
     await expect(SNcheckbox).toBeChecked()
     await expect(ANcheckbox).not.toBeChecked()
     await expect(UNcheckbox).toBeChecked()
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
+      "MV - Land Mecklenburg-Vorpommern",
+    )
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "BT - Bundestag",
+    )
 
     dropdown.selectOption("2023-01-01")
     await page.waitForResponse((response) =>
@@ -588,6 +605,12 @@ test.describe("metadata reading", () => {
     await expect(SNcheckbox).not.toBeChecked()
     await expect(ANcheckbox).toBeChecked()
     await expect(UNcheckbox).toBeChecked()
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
+      "PR - Preußen",
+    )
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "OFD - Oberfinanzdirektion",
+    )
 
     dropdown.selectOption("2023-12-24")
     await page.waitForResponse((response) =>
@@ -605,6 +628,12 @@ test.describe("metadata reading", () => {
     await expect(SNcheckbox).toBeChecked()
     await expect(ANcheckbox).toBeChecked()
     await expect(UNcheckbox).toBeChecked()
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
+      "EA - Euratom",
+    )
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "BMinI - Bundesministerium des Innern",
+    )
   })
 
   test("displays an error if the data could not be loaded for the whole document", async ({
@@ -703,6 +732,39 @@ test.describe("metadata editing", () => {
       await UNcheckbox.uncheck()
       await expect(UNcheckbox).not.toBeChecked()
     })
+
+    test("can edit the Normgeber", async () => {
+      const normgeberDropdown = sharedPage.getByRole("combobox", {
+        name: "Normgeber",
+      })
+      normgeberDropdown.selectOption("RP - Rheinland-Pfalz")
+
+      await expect(normgeberDropdown).toHaveValue("RP - Rheinland-Pfalz")
+    })
+
+    test("can edit the beschließendes Organ", async () => {
+      const beschliessendesOrganDropdown = sharedPage.getByRole("combobox", {
+        name: "beschließendes Organ",
+      })
+      beschliessendesOrganDropdown.selectOption(
+        "BMinAS - Bundesministerium für Arbeit und Soziales",
+      )
+
+      await expect(beschliessendesOrganDropdown).toHaveValue(
+        "BMinAS - Bundesministerium für Arbeit und Soziales",
+      )
+    })
+
+    test("can edit Federführung", async () => {
+      const federfuehrungDropdown = sharedPage.getByRole("combobox", {
+        name: "Federführung",
+      })
+      federfuehrungDropdown.selectOption("BKAmt - Bundeskanzleramt")
+
+      await expect(federfuehrungDropdown).toHaveValue(
+        "BKAmt - Bundeskanzleramt",
+      )
+    })
   })
 
   test("persists changes across page loads after saving successfully", async ({
@@ -756,6 +818,28 @@ test.describe("metadata editing", () => {
     })
     await UNcheckbox.check()
 
+    // Normgeber
+    const normgeberDropdown = page.getByRole("combobox", {
+      name: "Normgeber",
+    })
+    await expect(normgeberDropdown).toHaveValue("")
+    await normgeberDropdown.selectOption("EG - Europäische Gemeinschaft")
+
+    // beschließendes Organ
+    const beschliessendesOrganDropdown = page.getByRole("combobox", {
+      name: "beschließendes Organ",
+    })
+    await expect(beschliessendesOrganDropdown).toHaveValue("")
+    await beschliessendesOrganDropdown.selectOption("BReg - Bundesregierung")
+
+    // Federführung
+    // TODO: Enable once backend is ready
+    // const federfuehrungDropdown = page.getByRole("combobox", {
+    //   name: "Federführung",
+    // })
+    // await expect(federfuehrungDropdown).toHaveValue("ADD VALUE HERE")
+    // await federfuehrungDropdown.selectOption("BKAmt - Bundeskanzleramt")
+
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await saved
 
@@ -767,6 +851,12 @@ test.describe("metadata editing", () => {
     await expect(SNcheckbox).toBeChecked()
     await expect(ANcheckbox).toBeChecked()
     await expect(UNcheckbox).toBeChecked()
+    await expect(normgeberDropdown).toHaveValue("EG - Europäische Gemeinschaft")
+    await expect(beschliessendesOrganDropdown).toHaveValue(
+      "BReg - Bundesregierung",
+    )
+    // TODO: Enable once backend is ready
+    // await expect(federfuehrungDropdown).toHaveValue("BKAmt - Bundeskanzleramt")
 
     // Reset the data
     await page.request.put(
@@ -783,6 +873,10 @@ test.describe("metadata editing", () => {
           subtyp: null,
           bezeichnungInVorlage: null,
           artDerNorm: null,
+          normgeber: null,
+          beschliessendesOrgan: null,
+          // TODO: Enable once backend is ready
+          // federfuehrung: null,
         }),
       },
     )
@@ -806,6 +900,8 @@ test.describe("metadata editing", () => {
             subtyp: "Geschäftsordnung",
             bezeichnungInVorlage: "Testbezeichnung",
             artDerNorm: "ÄN",
+            normgeber: "BesR - Besatzungsrecht",
+            beschliessendesOrgan: "BMinG - Bundesministerium für Gesundheit",
           },
         })
       else route.continue()
@@ -851,6 +947,20 @@ test.describe("metadata editing", () => {
     })
     await expect(UNcheckbox).toBeChecked()
 
+    // Normgeber
+    const normgeberDropdown = page.getByRole("combobox", {
+      name: "Normgeber",
+    })
+    await expect(normgeberDropdown).toHaveValue("BEO - Berlin (Ost)")
+
+    // beschließendes Organ
+    const beschliessendesOrganDropdown = page.getByRole("combobox", {
+      name: "beschließendes Organ",
+    })
+    await expect(beschliessendesOrganDropdown).toHaveValue(
+      "BMinJ - Bundesministerium der Justiz",
+    )
+
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
 
     await expect(fnaTextbox).toHaveValue("600-1")
@@ -859,6 +969,10 @@ test.describe("metadata editing", () => {
     await expect(SNcheckbox).not.toBeChecked()
     await expect(ANcheckbox).toBeChecked()
     await expect(UNcheckbox).not.toBeChecked()
+    await expect(normgeberDropdown).toHaveValue("BesR - Besatzungsrecht")
+    await expect(beschliessendesOrganDropdown).toHaveValue(
+      "BMinG - Bundesministerium für Gesundheit",
+    )
 
     await page.unrouteAll()
   })

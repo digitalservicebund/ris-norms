@@ -10,60 +10,6 @@ describe("normService", () => {
     vi.doUnmock("./apiService.ts")
   })
 
-  describe("getNormByEli(eli, options)", () => {
-    it("provides the data from the api", async () => {
-      const fetchMock = vi.fn().mockResolvedValueOnce({
-        eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-        frbrName: "bgbl-1",
-        frbrDateVerkuendung: "2017-03-15",
-        frbrNumber: "s419",
-      })
-
-      vi.doMock("./apiService.ts", () => ({
-        apiFetch: fetchMock,
-      }))
-
-      const { getNormByEli } = await import("./normService")
-
-      const result = await getNormByEli(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-      )
-      expect(result.eli).toBe(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-      )
-      expect(result.frbrDateVerkuendung).toBe("2017-03-15")
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-        undefined,
-      )
-    })
-
-    it("passes on request options", async () => {
-      const fetchMock = vi.fn().mockResolvedValueOnce({})
-
-      vi.doMock("./apiService.ts", () => ({
-        apiFetch: fetchMock,
-      }))
-
-      const { getNormByEli } = await import("./normService")
-
-      const options = {
-        signal: new AbortController().signal,
-      }
-
-      await getNormByEli(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-        options,
-      )
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        "/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-        options,
-      )
-    })
-  })
-
   describe("getNormXmlByEli(eli)", () => {
     it("provides the data from the api", async () => {
       const fetchMock = vi

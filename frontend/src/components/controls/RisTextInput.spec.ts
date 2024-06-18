@@ -63,11 +63,11 @@ describe("TextInput", () => {
     expect(input).toHaveAttribute("readonly")
   })
 
-  test("renders the regular variant by default", () => {
+  test("renders the small variant by default", () => {
     renderComponent()
     const input = screen.getByRole("textbox")
     expect(input).not.toHaveClass("ds-input-medium")
-    expect(input).not.toHaveClass("ds-input-small")
+    expect(input).toHaveClass("ds-input-small")
   })
 
   test("renders the regular variant", () => {

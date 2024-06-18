@@ -39,7 +39,15 @@ public class SimpleProprietaryValue {
    * @return the optional value of end in {@link LocalDate}
    */
   public Optional<LocalDate> getEnd() {
-    return NodeParser.getValueFromExpression("./@end", node).map(LocalDate::parse);
+    return NodeParser.getValueFromExpression("./@end", node)
+        .map(
+            m -> {
+              if (m.equals("unbestimmt")) {
+                return LocalDate.MAX;
+              } else {
+                return LocalDate.parse(m);
+              }
+            });
   }
 
   /**

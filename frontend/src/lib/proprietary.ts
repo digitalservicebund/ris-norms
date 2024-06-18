@@ -255,3 +255,95 @@ export function udpateArtNorm(
       : undefined
   }
 }
+
+/* -------------------------------------------------- *
+ * Normgeber                                          *
+ * -------------------------------------------------- */
+
+/** All possible dropdown values for norm provider */
+export const NormgeberValues = [
+  "DEU - Bundesrepublik Deutschland",
+  "DDR - Deutsche Demokratische Republik",
+  "BW - Baden-Württemberg",
+  "BY - Bayern",
+  "BE - Berlin",
+  "BR - Bremen",
+  "HA - Hamburg",
+  "HE - Hessen",
+  "ND - Niedersachsen",
+  "NW - Nordrhein-Westfalen",
+  "RP - Rheinland-Pfalz",
+  "SL - Saarland",
+  "SH - Schleswig-Holstein",
+  "BG - Beigetretendes Gebiet",
+  "BL - Beigetretende Länder",
+  "AG - Gebiet vor Einheit",
+  "AL - Länder vor Einheit",
+  "BB - Land Brandenburg",
+  "MV - Land Mecklenburg-Vorpommern",
+  "SN - Land Sachsen",
+  "ST - Land Sachsen-Anhalt",
+  "TH - Land Thüringen",
+  "BEB - Beigetretener Teil des Landes Berlin",
+  "BE - das neue Land Berlin",
+  "BEW - Berlin (West)",
+  "BEO - Berlin (Ost)",
+  "BD - Baden",
+  "WB - Württemberg-Baden",
+  "WH - Württemberg-Hohenzollern",
+  "PR - Preußen",
+  "BesR - Besatzungsrecht",
+  "VK - vorkonstitutionell bei Normenkomplexen",
+  "EW - EWG",
+  "EA - Euratom",
+  "EK - EGKS",
+  "EG - Europäische Gemeinschaft",
+] as const
+
+/** All possible dropdown values for deciding body */
+export const BeschliessendesOrganValues = [
+  "BT - Bundestag",
+  "LT - Landtag",
+  "BReg - Bundesregierung",
+  "AA - Auswärtiges Amt",
+  "BMinAS - Bundesministerium für Arbeit und Soziales",
+  "BMinF - Bundesministerium der Finanzen",
+  "BMinFSFJ - Bundesministerium für Familie, Senioren, Frauen und Jugend",
+  "BMinBF - Bundesministerium für Bildung und Forschung",
+  "BMinG - Bundesministerium für Gesundheit",
+  "BMinI - Bundesministerium des Innern",
+  "BMinJ - Bundesministerium der Justiz",
+  "BMinELV - Bundesministerium für Ernährung, Landwirtschaft und Verbraucherschutz",
+  "BMinU - Bundesministerium für Umwelt, Naturschutz und Reaktorsicherheit",
+  "BMinVBS - Bundesministerium für Verkehr, Bau- und Stadtentwicklung",
+  "BMinVg - Bundesministerium der Verteidigung",
+  "BMinWiT - Bundesministerium für Wirtschaft und Technologie",
+  "BMinZ - Bundesministerium für wirtschaftliche Zusammenarbeit",
+  "BR - Bundesrat",
+  "OFD - Oberfinanzdirektion",
+  "BS - Normenkomplexe, deren Textfeststellung auf einer Bereinigten Sammlung aufsetzt",
+] as const
+
+/* -------------------------------------------------- *
+ * Federführung                                       *
+ * -------------------------------------------------- */
+
+/** All possible values for the Federführung metadatum. */
+export const FederfuehrungValues = [
+  "AA - Auswärtiges Amt",
+  "BKAmt - Bundeskanzleramt",
+  "BMAS - Bundesministerium für Arbeit und Soziales",
+  "BMBF - Bundesministerium für Bildung und Forschung",
+  "BMDV - Bundesministerium für Digitales und Verkehr",
+  "BMEL - Bundesministerium für Ernährung und Landwirtschaft",
+  "BMF - Bundesministerium der Finanzen",
+  "BMFSFJ - Bundesministerium für Familie, Senioren, Frauen und Jugend",
+  "BMG - Bundesministerium für Gesundheit",
+  "BMI - Bundesministerium des Innern und für Heimat",
+  "BMJ - Bundesministerium der Justiz",
+  "BMUV - Bundesministerium für Umwelt, Naturschutz, nukleare Sicherheit und Verbraucherschutz",
+  "BMVg - Bundesministerium der Verteidigung",
+  "BMWK - Bundesministerium für Wirtschaft und Klimaschutz",
+  "BMWSB - Bundesministerium für Wohnen, Stadtentwicklung und Bauwesen",
+  "BMZ - Bundesministerium für wirtschaftliche Zusammenarbeit und Entwicklung",
+] as const

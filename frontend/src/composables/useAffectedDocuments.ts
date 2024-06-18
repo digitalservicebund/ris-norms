@@ -1,15 +1,16 @@
 import { useArticles } from "@/services/articleService"
-import { Norm } from "@/types/norm"
-import { DeepReadonly, MaybeRefOrGetter, Ref, readonly, ref, watch } from "vue"
+import { MaybeRefOrGetter, Ref, computed } from "vue"
 import { Article } from "@/types/article"
-import { getNormByEli } from "@/services/normService"
+import { SimpleUseFetchReturn } from "@/services/apiService"
 
-export type TargetLawWithZF0Eli = {
+/**
+ * Eli and zf0 eli of a norm affected by another norm
+ */
+type AffectedDocument = {
   /** The ELI of the target law. */
-  targetLaw: Norm
-
+  eli: string
   /** The ELI of the first future version of the target law. */
-  targetLawZf0Eli: string
+  zf0Eli: string
 }
 
 function isArticleWithAffectedDocument(article: Article): article is Article & {
@@ -17,49 +18,59 @@ function isArticleWithAffectedDocument(article: Article): article is Article & {
   affectedDocumentZf0Eli: string
 } {
   return (
-    article.affectedDocumentEli !== null &&
-    article.affectedDocumentZf0Eli !== null
+    article.affectedDocumentEli != null &&
+    article.affectedDocumentZf0Eli != null
   )
 }
 
+function mapArticleWithAffectedDocumentToAffectedDocument(
+  article: Article & {
+    affectedDocumentEli: string
+    affectedDocumentZf0Eli: string
+  },
+): AffectedDocument {
+  return {
+    eli: article.affectedDocumentEli,
+    zf0Eli: article.affectedDocumentZf0Eli,
+  }
+}
+
+function removeDuplicateAffectedDocuments(
+  documents: AffectedDocument[],
+): AffectedDocument[] {
+  return [
+    ...new Map(
+      documents.map(({ eli, zf0Eli }) => [eli, { eli, zf0Eli }]),
+    ).values(),
+  ]
+}
+
 /**
- * Get the data of all target laws changed by the amending law with the
+ * Get the elis (and zf0elis) of all target laws changed by the amending law with the
  * specified ELI. In the context of the amending law, those target laws
  * are called "affected documents".
  *
  * @param eli The ELI of the amending law whose affected documents we want
  *  to fetch.
- * @returns A reference to the affected documents (or empty array if there
- *  are none or the documents are still loading)
+ * @returns A UseFetchReturn for the affected documents
  */
 export function useAffectedDocuments(
   eli: MaybeRefOrGetter<string>,
-): DeepReadonly<Ref<TargetLawWithZF0Eli[]>> {
-  const targetLaws = ref<TargetLawWithZF0Eli[]>([])
+): SimpleUseFetchReturn<AffectedDocument[]> {
+  const articlesFetch = useArticles(eli)
 
-  const { data: articles } = useArticles(eli)
-
-  watch(
-    articles,
-    async (value, oldValue, onCleanup) => {
-      const abortController = new AbortController()
-      onCleanup(() => {
-        abortController.abort()
-      })
-
-      targetLaws.value = await Promise.all(
-        (articles.value ?? [])
-          .filter(isArticleWithAffectedDocument)
-          .map(async (article) => ({
-            targetLaw: await getNormByEli(article.affectedDocumentEli, {
-              signal: abortController.signal,
-            }),
-            targetLawZf0Eli: article.affectedDocumentZf0Eli,
-          })),
+  const affectedDocuments: Ref<AffectedDocument[]> = computed(() => {
+    const affectedDocuments = (articlesFetch.data.value ?? [])
+      .filter(isArticleWithAffectedDocument)
+      .map((article) =>
+        mapArticleWithAffectedDocumentToAffectedDocument(article),
       )
-    },
-    { immediate: true, deep: true },
-  )
 
-  return readonly(targetLaws)
+    return removeDuplicateAffectedDocuments(affectedDocuments)
+  })
+
+  return {
+    ...articlesFetch,
+    data: affectedDocuments,
+  }
 }

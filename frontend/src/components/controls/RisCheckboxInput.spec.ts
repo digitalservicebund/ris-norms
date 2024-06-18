@@ -66,10 +66,10 @@ describe("RisCheckboxInput", () => {
     expect(input).toBeEnabled()
   })
 
-  test("renders the regular variant by default", () => {
+  test("renders the mini variant by default", () => {
     renderComponent()
     const input = screen.getByRole("checkbox")
-    expect(input).not.toHaveClass("ds-checkbox-small")
+    expect(input).toHaveClass("ds-checkbox-mini")
   })
 
   test("renders the regular variant when specified", () => {

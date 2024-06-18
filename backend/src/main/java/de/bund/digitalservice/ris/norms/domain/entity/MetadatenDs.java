@@ -111,6 +111,8 @@ public class MetadatenDs {
               if (nextNode.isPresent() && nextNode.get().getStart().isPresent()) {
                 final LocalDate nextStart = nextNode.get().getStart().get().minusDays(1);
                 newFnaElement.setAttribute("end", nextStart.toString());
+              } else {
+                newFnaElement.setAttribute("end", "unbestimmt");
               }
 
               // 4. Then also set @end of a previous one, if present
