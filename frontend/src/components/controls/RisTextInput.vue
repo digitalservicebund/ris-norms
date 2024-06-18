@@ -5,8 +5,6 @@ const props = withDefaults(
   defineProps<{
     /** HTML element ID of the form field. */
     id: string
-    /** Value of the form field. */
-    modelValue?: string
     /** Placeholder text if needed. */
     placeholder?: string
     /** If the input field should be read-only */
@@ -17,31 +15,19 @@ const props = withDefaults(
     label?: string
   }>(),
   {
-    modelValue: "",
     placeholder: undefined,
     size: "small",
     label: undefined,
   },
 )
 
-const emit = defineEmits<{
-  /**
-   * Emitted when the user changes the value of the form field.
-   */
-  "update:modelValue": [value: string | undefined]
-  /**
-   * Emitted when the input field loses focus.
-   */
+defineEmits<{
+  /** Emitted when the input field loses focus. */
   blur: []
 }>()
 
-const localModelValue = computed({
-  get: () => props.modelValue,
-  set: (value) =>
-    value === ""
-      ? emit("update:modelValue", undefined)
-      : emit("update:modelValue", value),
-})
+/** Value of the form field. */
+const modelValue = defineModel<string>()
 
 const conditionalClasses = computed(() => ({
   "ds-input-medium": props.size === "medium",
@@ -59,7 +45,7 @@ const tabindex = computed(() => (props.readOnly ? -1 : 0))
     </label>
     <input
       :id="id"
-      v-model="localModelValue"
+      v-model="modelValue"
       class="ds-input"
       :class="conditionalClasses"
       :placeholder="placeholder"
