@@ -51,7 +51,7 @@ public record CharacterRange(String characterRange) {
   public boolean isValidCharacterRange() {
     final String regex = "^\\d+-\\d+$";
     final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-    return pattern.matcher(characterRange()).matches();
+    return pattern.matcher(characterRange()).matches() && isEndGreaterStart();
   }
 
   /** Builder for creating a new {@link CharacterRange}. */
