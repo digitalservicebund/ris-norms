@@ -17,7 +17,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
-import de.bund.digitalservice.ris.norms.application.validator.ValidatorName;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -34,7 +33,7 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
-  final ValidationService validationService = mock(ValidationService.class);
+  final SingleModValidator singleModValidator = mock(SingleModValidator.class);
   final UpdateNormService updateNormService = mock(UpdateNormService.class);
   final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
@@ -44,7 +43,7 @@ class NormServiceTest {
           loadNormPort,
           loadNormByGuidPort,
           updateNormPort,
-          validationService,
+          singleModValidator,
           updateNormService,
           loadZf0Service,
           updateOrSaveNormPort);
@@ -809,11 +808,8 @@ class NormServiceTest {
               false));
 
       // Then
-      verify(validationService, times(1))
-          .validate(
-              argThat(validatorName -> validatorName.equals(ValidatorName.SINGLE_MOD)),
-              argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm)),
-              argThat(m -> m.equals(mod)));
+      verify(singleModValidator, times(1))
+          .validate(argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm)), argThat(m -> m.equals(mod)));
     }
 
     @Test

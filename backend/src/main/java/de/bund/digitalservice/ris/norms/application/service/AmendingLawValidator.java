@@ -1,8 +1,7 @@
-package de.bund.digitalservice.ris.norms.application.validator;
+package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.service.LoadZf0Service;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
@@ -25,9 +24,7 @@ import org.springframework.stereotype.Component;
  * SingleModValidator} on each single mod.
  */
 @Component
-public class AmendingLawValidator implements Validator {
-
-  public static final ValidatorName NAME = ValidatorName.AMENDING_LAW_MODS;
+public class AmendingLawValidator {
 
   private final LoadNormPort loadNormPort;
   private final LoadZf0Service loadZf0Service;
@@ -45,15 +42,10 @@ public class AmendingLawValidator implements Validator {
   /**
    * Validates the given amending law norm.
    *
-   * @param args - args[0] must contain the amending law in form of {@link Norm}
+   * @param amendingLawNorm - the amending law in form of {@link Norm}
    * @throws ValidationException if a validation step fails
    */
-  @Override
-  public void validate(final Object... args) throws ValidationException {
-    if (args.length != 1 || !(args[0] instanceof Norm amendingLawNorm)) {
-      throw new IllegalArgumentException(
-          "Invalid arguments for %s".formatted(this.getClass().getSimpleName()));
-    }
+  public void validate(final Norm amendingLawNorm) throws ValidationException {
     destinationIsSet(amendingLawNorm);
     destinationEliIsConsistent(amendingLawNorm);
     destinationHrefIsConsistent(amendingLawNorm);

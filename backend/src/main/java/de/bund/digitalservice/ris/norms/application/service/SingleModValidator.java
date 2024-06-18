@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.application.validator;
+package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
@@ -6,33 +6,25 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.exceptions.ValidationException;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 
 /**
  * A custom validator for validating single mods that are being updated on the amending law. This
  * validator uses the ZF0 version of the target law targeted by the mod
  */
-@Component
-public class SingleModValidator implements Validator {
-
-  public static final ValidatorName NAME = ValidatorName.SINGLE_MOD;
+@Service
+public class SingleModValidator {
 
   /**
    * Validates the given ZF0 norm using the one mod of the amending law being modified.
    *
-   * @param args - args[0] must contain the ZF0 {@link Norm} and args[1] the {@link Mod} that is
-   *     being modified.
+   * @param zf0Norm - the ZF0 {@link Norm}
+   * @param activeMod - the {@link Mod} that is being modified.
    * @throws ValidationException if a validation step fails
    */
-  @Override
-  public void validate(final Object... args) throws ValidationException {
-    if (args.length != 2
-        || !(args[0] instanceof Norm zf0Norm)
-        || !(args[1] instanceof Mod activeMod)) {
-      throw new IllegalArgumentException(
-          "Invalid arguments for %s".formatted(this.getClass().getSimpleName()));
-    }
+  public void validate(final Norm zf0Norm, final Mod activeMod) throws ValidationException {
+
     final String modEId = activeMod.getMandatoryEid();
 
     final TextualMod affectedPassiveMod =
@@ -49,7 +41,8 @@ public class SingleModValidator implements Validator {
             .orElseThrow(
                 () ->
                     new ValidationException(
-                        "Target node with eid %s not present".formatted(targetNodeEid)));
+                        "Target node with eid %s not present in ZF0 norm with eli %s"
+                            .formatted(targetNodeEid, zf0Norm.getEli())));
     if (activeMod.usesQuotedText()) {
       validateQuotedText(
           affectedPassiveMod,
@@ -59,7 +52,8 @@ public class SingleModValidator implements Validator {
   }
 
   private void validateQuotedText(
-      final TextualMod passiveMode, String amendingNormOldText, String targetParagraphOldText) {
+      final TextualMod passiveMode, String amendingNormOldText, String targetParagraphOldText)
+      throws ValidationException {
 
     final CharacterRange characterRange =
         passiveMode
