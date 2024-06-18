@@ -46,7 +46,7 @@ watch(newDate, async (newDateValue) => {
 </script>
 
 <template>
-  <form class="grid grid-cols-[6rem,1fr,min-content] items-start gap-4">
+  <form class="grid grid-cols-[6rem,1fr,min-content] items-start gap-10">
     <RisTextButton
       :icon="SortOutlineIcon"
       label="Nach Datum sortieren"
@@ -63,6 +63,7 @@ watch(newDate, async (newDateValue) => {
         v-model="dateEntry.date"
         :label="`Zeitgrenze ${index + 1}`"
         label-position="left"
+        size="medium"
         class="col-span-2 grid w-full grid-cols-subgrid"
         label-class="w-[6rem]"
       />
@@ -84,7 +85,8 @@ watch(newDate, async (newDateValue) => {
       v-model="newDate"
       label="Zeitgrenze hinzufügen"
       label-position="left"
-      class="col-span-2 -mt-4 grid w-full grid-cols-subgrid"
+      size="medium"
+      class="col-span-2 grid w-full grid-cols-subgrid"
       label-class="w-[6rem]"
     />
   </form>
