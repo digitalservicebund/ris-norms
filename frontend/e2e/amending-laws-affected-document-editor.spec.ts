@@ -803,7 +803,7 @@ test.describe("metadata editing", () => {
     const documentTypeDropdown = page.getByRole("combobox", {
       name: "Dokumenttyp",
     })
-    await expect(documentTypeDropdown).toHaveValue("")
+    await expect(documentTypeDropdown).toHaveValue("__unknown_document_type__")
     await documentTypeDropdown.selectOption("Berichtigung")
 
     // Bezeichnung gemäß Vorlage
