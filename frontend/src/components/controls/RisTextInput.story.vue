@@ -46,7 +46,7 @@ const textEntry = ref("Invalid entry")
         read-only
       ></RisTextInput>
     </Variant>
-    
+
     <Variant title="Label positioned left">
       <RisTextInput
         id="test-id"
