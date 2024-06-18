@@ -76,7 +76,7 @@ const hasChildren = computed(() => Boolean(slots.default))
  */
 const visible = defineModel<boolean>("visible", { default: true })
 
-const ariaId = useElementId("tooltip")
+const { ariaId } = useElementId("tooltip")
 </script>
 
 <template>

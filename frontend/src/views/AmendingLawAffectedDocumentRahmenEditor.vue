@@ -15,14 +15,18 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import {
+  BeschliessendesOrganValues,
   DocumentTypeValue,
   DocumentTypeValues,
+  FederfuehrungValues,
   getDocumentTypeFromMetadata,
   isArtNormTypePresent,
   isMetaArtValue,
   isMetaSubtypValue,
   isMetaTypValue,
+  NormgeberValues,
   udpateArtNorm,
+  UNKNOWN_DOCUMENT_TYPE,
 } from "@/lib/proprietary"
 import { useGetNormHtml } from "@/services/normService"
 import {
@@ -86,22 +90,24 @@ watch(savedData, (newData) => {
  * Metadata form                                      *
  * -------------------------------------------------- */
 
-const [
+const {
   documentTypeId,
   fnaId,
   bezeichnungInVorlageId,
   artNormSNid,
   artNormANid,
   artNormUNid,
-] = Array(6)
-  .fill(null)
-  .map(() => useElementId())
+  normgeberId,
+  beschliessendesOrganId,
+  isResolutionWithMajorityId,
+  federfuehrungId,
+} = useElementId()
 
-const fna = computed<string | undefined>({
+const fna = computed<string>({
   get() {
-    return localData.value?.fna
+    return localData.value?.fna ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.fna = value
@@ -109,7 +115,9 @@ const fna = computed<string | undefined>({
   },
 })
 
-const documentType = computed<DocumentTypeValue | undefined>({
+const documentType = computed<
+  DocumentTypeValue | typeof UNKNOWN_DOCUMENT_TYPE | ""
+>({
   get() {
     return isMetaArtValue(localData.value?.art) &&
       isMetaTypValue(localData.value?.typ) &&
@@ -119,27 +127,35 @@ const documentType = computed<DocumentTypeValue | undefined>({
           localData.value.typ,
           localData.value.subtyp,
         )
-      : undefined
+      : ""
   },
 
   set(value) {
+    if (value === UNKNOWN_DOCUMENT_TYPE) {
+      // This is disabled in the UI and should never happen. We still need to
+      // check for it to make TypeScript happy, but we'll simply ignore it
+      // and keep the value as it was.
+      return
+    }
+
     const {
-      art = undefined,
-      typ = undefined,
-      subtyp = undefined,
+      art = "",
+      typ = "",
+      subtyp = "",
     } = value ? DocumentTypeValues[value] : {}
 
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.art = art
       draft.typ = typ
-      draft.subtyp = subtyp ?? undefined
+      draft.subtyp = subtyp
     })
   },
 })
 
 const documentTypeItems: DropdownItem[] = [
-  { label: "Unbekannt", value: "" },
+  { label: "", value: "" },
+  { label: "Unbekannt", value: UNKNOWN_DOCUMENT_TYPE, disabled: true },
   ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
 ]
 
@@ -179,17 +195,83 @@ const artNormUN = computed<boolean>({
   },
 })
 
-const bezeichnungInVorlage = computed<string | undefined>({
+const bezeichnungInVorlage = computed<string>({
   get() {
-    return localData.value?.bezeichnungInVorlage
+    return localData.value?.bezeichnungInVorlage ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.bezeichnungInVorlage = value
     })
   },
 })
+
+const normgeber = computed<string>({
+  get() {
+    return localData.value?.normgeber ?? ""
+  },
+  set(value: string) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.normgeber = value
+    })
+  },
+})
+
+const normgeberItems: DropdownItem[] = [
+  { label: "", value: "" },
+  ...NormgeberValues.map((value) => ({ label: value, value })),
+]
+
+const beschliessendesOrgan = computed<string>({
+  get() {
+    return localData.value?.beschliessendesOrgan ?? ""
+  },
+  set(value: string) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.beschliessendesOrgan = value
+    })
+  },
+})
+
+const beschliessendesOrganItems: DropdownItem[] = [
+  { label: "", value: "" },
+  ...BeschliessendesOrganValues.map((value) => ({ label: value, value })),
+]
+
+const isResolutionWithMajority = computed<boolean>({
+  get() {
+    return localData.value?.isResolutionWithMajority ?? false
+  },
+  set(value: boolean) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.isResolutionWithMajority = value
+    })
+  },
+})
+
+const federfuehrung = computed<string>({
+  get() {
+    return localData.value?.federfuehrung ?? ""
+  },
+  set(value: string) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.federfuehrung = value
+    })
+  },
+})
+
+const federfuehrungItems: DropdownItem[] = [
+  { label: "", value: "" },
+  ...FederfuehrungValues.map<DropdownItem>((name) => ({
+    label: name,
+    value: name,
+  })),
+]
 
 /* -------------------------------------------------- *
  * XML + HTML preview                                 *
@@ -262,13 +344,13 @@ const {
 
             <form
               v-else
-              class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14"
+              class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14 overflow-auto"
               @submit.prevent
             >
               <fieldset class="contents">
                 <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
                 <label :for="fnaId">Sachgebiet</label>
-                <RisTextInput :id="fnaId" v-model="fna" size="small" />
+                <RisTextInput :id="fnaId" v-model="fna" />
               </fieldset>
 
               <fieldset class="contents">
@@ -281,37 +363,74 @@ const {
                   :items="documentTypeItems"
                 />
 
-                <label :for="artNormSNid" class="self-start"
-                  >Art der Norm</label
-                >
+                <label :for="artNormSNid" class="self-start">
+                  Art der Norm
+                </label>
                 <div class="space-y-10">
                   <RisCheckboxInput
                     :id="artNormSNid"
                     v-model="artNormSN"
                     label="SN - Stammnorm"
-                    size="mini"
                   />
                   <RisCheckboxInput
                     :id="artNormANid"
                     v-model="artNormAN"
                     label="ÄN - Änderungsnorm"
-                    size="mini"
                   />
                   <RisCheckboxInput
                     :id="artNormUNid"
                     v-model="artNormUN"
                     label="ÜN - Übergangsnorm"
-                    size="mini"
                   />
                 </div>
 
-                <label :for="bezeichnungInVorlageId"
-                  >Bezeichnung gemäß Vorlage</label
-                >
+                <label :for="bezeichnungInVorlageId">
+                  Bezeichnung gemäß Vorlage
+                </label>
                 <RisTextInput
                   :id="bezeichnungInVorlageId"
                   v-model="bezeichnungInVorlage"
-                  size="small"
+                />
+              </fieldset>
+
+              <fieldset class="contents">
+                <legend class="ds-label-02-bold col-span-2">Normgeber</legend>
+
+                <label :for="normgeberId">Normgeber</label>
+                <RisDropdownInput
+                  :id="normgeberId"
+                  v-model="normgeber"
+                  :items="normgeberItems"
+                />
+
+                <label :for="beschliessendesOrganId">
+                  beschließendes Organ
+                </label>
+                <RisDropdownInput
+                  :id="beschliessendesOrganId"
+                  v-model="beschliessendesOrgan"
+                  :items="beschliessendesOrganItems"
+                />
+
+                <label :for="isResolutionWithMajorityId">
+                  Beschlussf. qual. Mehrheit
+                </label>
+                <RisCheckboxInput
+                  :id="isResolutionWithMajorityId"
+                  v-model="isResolutionWithMajority"
+                />
+              </fieldset>
+
+              <fieldset class="contents">
+                <legend class="ds-label-02-bold col-span-2">
+                  Federführung
+                </legend>
+
+                <label :for="federfuehrungId">Federführung</label>
+                <RisDropdownInput
+                  :id="federfuehrungId"
+                  v-model="federfuehrung"
+                  :items="federfuehrungItems"
                 />
               </fieldset>
 

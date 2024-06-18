@@ -25,7 +25,7 @@ const props = withDefaults(
   }>(),
   {
     modelValue: "",
-    size: "regular",
+    size: "small",
     isReadOnly: false,
     label: undefined,
     validationError: undefined,
@@ -90,8 +90,8 @@ const onMaska = (event: CustomEvent<MaskaDetail>) => {
 const conditionalClasses = computed(() => ({
   "has-error": effectiveHasError.value,
   "ds-input-medium": props.size === "medium",
-  "ds-input-small": props.size === "small",
   "label-left": props.labelPosition === "left",
+  "ds-input-small": props.size === "small" || !props.size,
 }))
 
 function validateInput() {

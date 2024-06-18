@@ -1,9 +1,14 @@
 <script lang="ts" setup>
 import { computed } from "vue"
 
+/** Describes a selectable option in the dropdown. */
 export type DropdownItem = {
+  /** Label of the item. */
   label: string
+  /** Value of the item. */
   value: string
+  /** Whether the item can be selected. */
+  disabled?: boolean
 }
 
 const props = defineProps<{
@@ -11,42 +16,23 @@ const props = defineProps<{
   id: string
   /** the items for the dropdown. */
   items: DropdownItem[]
-  /** Value reflected by choice of item . */
-  modelValue?: string
   /** Placeholder text if needed. */
   placeholder?: string
   /** Optional label for the field */
   label?: string
 }>()
 
-const emit = defineEmits<{
-  /**
-   * Emitted when the user changes the value of the form field. Note that this
-   * is only emitted when the value is empty or a valid date. All other states
-   * (e.g. partial dates while typing) are handled internally and not emitted.
-   */
-  "update:modelValue": [string | undefined]
-  /**
-   * Emitted when the user selects an option.
-   */
-  change: []
-}>()
-
-const localModelValue = computed({
-  get: () => props.modelValue ?? "",
-  set: (value) => {
-    emit("update:modelValue", value)
-  },
-})
+/** Selected value of the dropdown. */
+const modelValue = defineModel<string | undefined>()
 
 const hasPlaceholder = computed(() =>
-  Boolean(!props.modelValue && props.placeholder),
+  Boolean(!modelValue.value && props.placeholder),
 )
 </script>
 
 <template>
   <div class="grid gap-2">
-    <!-- Label should come from the surrounding context, e.g. InputField component -->
+    <!-- Label should come from the surrounding context -->
     <!-- eslint-disable vuejs-accessibility/form-control-has-label -->
     <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
     <label v-if="label" :for="id" class="ds-label">
@@ -54,16 +40,20 @@ const hasPlaceholder = computed(() =>
     </label>
     <select
       :id="id"
-      v-model="localModelValue"
+      v-model="modelValue"
       class="ds-select ds-select-small"
       :data-placeholder="hasPlaceholder ? true : undefined"
       tabindex="0"
-      @change="$emit('change')"
     >
-      <option v-if="placeholder && !localModelValue" disabled value="">
+      <option v-if="placeholder && !modelValue" disabled value="">
         {{ placeholder }}
       </option>
-      <option v-for="item in items" :key="item.value" :value="item.value">
+      <option
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+        :disabled="item.disabled || undefined"
+      >
         {{ item.label }}
       </option>
     </select>

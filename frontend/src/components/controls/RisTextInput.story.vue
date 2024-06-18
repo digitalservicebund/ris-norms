@@ -11,8 +11,16 @@ const textEntry = ref("Invalid entry")
 </script>
 
 <template>
-  <Story :layout="{ type: 'grid', width: '400px' }">
-    <Variant title="Default (medium size)/label">
+  <Story :layout="{ type: 'grid' }">
+    <Variant title="Default (small size) with label">
+      <RisTextInput
+        id="test-id"
+        placeholder="Placeholder text"
+        label="Änderungstyp"
+      ></RisTextInput>
+    </Variant>
+
+    <Variant title="Medium size with label">
       <RisTextInput
         id="test-id"
         placeholder="Placeholder text"
@@ -21,7 +29,7 @@ const textEntry = ref("Invalid entry")
       ></RisTextInput>
     </Variant>
 
-    <Variant title="Regular size/label">
+    <Variant title="Regular size with label">
       <RisTextInput
         id="test-id"
         placeholder="Placeholder text"
@@ -30,26 +38,7 @@ const textEntry = ref("Invalid entry")
       ></RisTextInput>
     </Variant>
 
-    <Variant title="Label positioned left">
-      <RisTextInput
-        id="test-id"
-        placeholder="Placeholder text"
-        size="small"
-        label="Änderungstyp"
-        label-position="left"
-      ></RisTextInput>
-    </Variant>
-
-    <Variant title="Small size/label">
-      <RisTextInput
-        id="test-id"
-        placeholder="Placeholder text"
-        size="small"
-        label="Änderungstyp"
-      ></RisTextInput>
-    </Variant>
-
-    <Variant title="Read-only/No label">
+    <Variant title="Read-only without label">
       <RisTextInput
         id="test-id"
         placeholder="Placeholder text"
@@ -57,12 +46,20 @@ const textEntry = ref("Invalid entry")
         read-only
       ></RisTextInput>
     </Variant>
+    
+    <Variant title="Label positioned left">
+      <RisTextInput
+        id="test-id"
+        placeholder="Placeholder text"
+        label="Änderungstyp"
+        label-position="left"
+      ></RisTextInput>
+    </Variant>
 
     <Variant title="With validation error">
       <RisTextInput
         id="error-id"
         v-model="textEntry"
-        size="medium"
         label="Änderungstyp"
         :validation-error="externalValidationError"
       ></RisTextInput>

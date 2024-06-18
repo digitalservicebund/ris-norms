@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineModel, nextTick, ref, watch, computed } from "vue"
+import { nextTick, ref, watch, computed } from "vue"
 import RisDateInput from "@/components/controls/RisDateInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import DeleteOutlineIcon from "~icons/ic/outline-delete"
@@ -61,7 +61,6 @@ watch(newDate, async (newDateValue) => {
       <RisDateInput
         :id="`date-${index}`"
         v-model="dateEntry.date"
-        size="small"
         :label="`Zeitgrenze ${index + 1}`"
         label-position="left"
         class="col-span-2 grid w-full grid-cols-subgrid"
@@ -70,7 +69,6 @@ watch(newDate, async (newDateValue) => {
       <RisTextButton
         :icon="DeleteOutlineIcon"
         variant="ghost"
-        size="small"
         class="shrink-0"
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
@@ -84,7 +82,6 @@ watch(newDate, async (newDateValue) => {
       v-if="dates.length < MAX_DATES"
       id="new-date"
       v-model="newDate"
-      size="small"
       label="Zeitgrenze hinzufügen"
       label-position="left"
       class="col-span-2 -mt-4 grid w-full grid-cols-subgrid"

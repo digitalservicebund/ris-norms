@@ -95,24 +95,33 @@ describe("Dropdown Input", () => {
     expect(emitted("update:modelValue")).toEqual([["t2"]])
   })
 
-  test("emits change event when selection changes", async () => {
-    const { emitted } = renderComponent({ modelValue: "t1" })
-
-    const input = screen.getByRole("combobox")
-    expect(input).toHaveValue("t1")
-
-    await userEvent.selectOptions(input, "t2")
-    expect(emitted("change")).toBeTruthy()
-  })
-
   test("renders a label when provided and associates it with the dropdown", () => {
     const labelText = "Test Label"
     renderComponent({ label: labelText })
 
-    const labelElement = screen.getByText(labelText) as HTMLLabelElement
+    const labelElement = screen.getByText<HTMLLabelElement>(labelText)
     expect(labelElement).toBeInTheDocument()
 
-    const dropdown = screen.getByRole("combobox") as HTMLSelectElement
+    const dropdown = screen.getByRole<HTMLSelectElement>("combobox")
     expect(labelElement.htmlFor).toBe(dropdown.id)
+  })
+
+  test("disables an item", () => {
+    renderComponent({
+      label: "Foo",
+      items: [{ label: "Test", value: "test", disabled: true }],
+    })
+
+    expect(screen.getByRole("option", { name: "Test" })).toBeDisabled()
+  })
+
+  test("does not allow selecting a disabled item", async () => {
+    const user = userEvent.setup()
+    const { emitted } = renderComponent({
+      items: [{ label: "Test", value: "test", disabled: true }],
+    })
+
+    await user.selectOptions(screen.getByRole("combobox"), "test")
+    expect(emitted("update:modelValue")).toBeUndefined()
   })
 })

@@ -34,8 +34,12 @@ test("should display a loading error message when the API call fails", async ({
 }) => {
   await page.route(
     "**/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1?",
-    async (route) => {
-      await route.abort()
+    async (route, request) => {
+      if (request.headers()["accept"] === "text/html") {
+        await route.abort()
+      } else {
+        await route.continue()
+      }
     },
   )
 

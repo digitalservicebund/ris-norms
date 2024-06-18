@@ -37,7 +37,9 @@ export function useNormXml(
 
   // We want to also update the data with the data returned from the PUT-request.
   const data = ref<string | null>(null)
-  const getNormXml = useGetNormXml(eli, undefined, { refetch: true })
+  const getNormXml: UseFetchReturn<string> = useGetNormXml(eli, undefined, {
+    refetch: true,
+  })
   watch(getNormXml.data, () => {
     data.value = getNormXml.data.value
   })

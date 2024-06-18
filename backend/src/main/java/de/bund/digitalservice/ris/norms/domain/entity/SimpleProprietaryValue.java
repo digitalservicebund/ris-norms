@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Node;
 
-/** Class meta:fna within meta:legalDocML.de_metadaten_ds */
+/** Class representing simple metadata within meta:legalDocML.de_metadaten_ds */
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
@@ -39,23 +39,14 @@ public class SimpleProprietaryValue {
    * @return the optional value of end in {@link LocalDate}
    */
   public Optional<LocalDate> getEnd() {
-    return NodeParser.getValueFromExpression("./@end", node).map(LocalDate::parse);
-  }
-
-  /**
-   * Compares two FNAs, so they can be sorted by their start dates. It is assumed that there is no
-   * overlap in validity between two values.
-   *
-   * @param o1 the first element to be compared
-   * @param o2 the second element to be compared
-   * @return Comparison result
-   */
-  public static int compareByStartDate(
-      final SimpleProprietaryValue o1, final SimpleProprietaryValue o2) {
-    if (o1.getStart().isPresent() && o2.getStart().isPresent()) {
-      return o1.getStart().get().compareTo(o2.getStart().get());
-    } else if (o1.getStart().isEmpty() && o2.getStart().isPresent()) return -1;
-    else if (o1.getStart().isPresent() && o2.getStart().isEmpty()) return 1;
-    else return 0;
+    return NodeParser.getValueFromExpression("./@end", node)
+        .map(
+            m -> {
+              if (m.equals("unbestimmt")) {
+                return LocalDate.MAX;
+              } else {
+                return LocalDate.parse(m);
+              }
+            });
   }
 }

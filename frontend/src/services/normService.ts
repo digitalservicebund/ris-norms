@@ -1,36 +1,7 @@
-import { apiFetch, INVALID_URL, useApiFetch } from "@/services/apiService"
+import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
-import { FetchOptions } from "ofetch"
 import { computed, MaybeRefOrGetter, toValue } from "vue"
-
-/**
- * Load a norm from the API.
- *
- * @deprecated Use `useGetNorm` instead
- * @param eli Eli of the amending law
- * @param options Fetch options for the request
- */
-export async function getNormByEli(
-  eli: string,
-  options?: FetchOptions<"json">,
-): Promise<Norm> {
-  return await apiFetch(`/norms/${eli}`, options)
-}
-
-/**
- * Load the xml version of a norm from the API.
- *
- * @deprecated Use `useNormXml` instead
- * @param eli Eli of the amending law
- */
-export async function getNormXmlByEli(eli: string): Promise<string> {
-  return await apiFetch(`/norms/${eli}`, {
-    headers: {
-      Accept: "application/xml",
-    },
-  })
-}
 
 /**
  * Returns the norm from the API. Reloads when the parameters change.
@@ -131,7 +102,7 @@ export function useGetNormXml(
   eli: Parameters<typeof useNormService>["0"],
   options?: Parameters<typeof useNormService>["1"],
   fetchOptions?: Parameters<typeof useNormService>["2"],
-): UseFetchReturn<string> {
+): UseFetchReturn<string> & PromiseLike<UseFetchReturn<string>> {
   return useNormService(eli, options, {
     ...fetchOptions,
     beforeFetch(c) {
@@ -144,6 +115,7 @@ export function useGetNormXml(
  * Convenience shorthand for `useNormService` that sets the correct
  * configuration for putting the raw XML of the norm.
  *
+ * @param updateData the new xml of the norm
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
  * @param [fetchOptions={}] Optional configuration for fetch behavior

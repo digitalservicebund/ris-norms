@@ -32,7 +32,7 @@ public class NormService
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
-  private final ModificationValidator modificationValidator;
+  private final SingleModValidator singleModValidator;
   private final UpdateNormService updateNormService;
   private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
@@ -41,14 +41,14 @@ public class NormService
       LoadNormPort loadNormPort,
       LoadNormByGuidPort loadNormByGuidPort,
       UpdateNormPort updateNormPort,
-      ModificationValidator modificationValidator,
+      SingleModValidator singleModValidator,
       UpdateNormService updateNormService,
       LoadZf0Service loadZf0Service,
       UpdateOrSaveNormPort updateOrSaveNormPort) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
-    this.modificationValidator = modificationValidator;
+    this.singleModValidator = singleModValidator;
     this.updateNormService = updateNormService;
     this.loadZf0Service = loadZf0Service;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -157,7 +157,7 @@ public class NormService
             .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(query.eid()))
             .findFirst()
             .orElseThrow();
-    modificationValidator.validateSubstitutionMod(amendingNorm.getEli(), selectedMod);
+    singleModValidator.validate(zf0Norm, selectedMod);
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
