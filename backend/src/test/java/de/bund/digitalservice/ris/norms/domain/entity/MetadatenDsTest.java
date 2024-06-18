@@ -186,7 +186,7 @@ class MetadatenDsTest {
 
     assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
         .contains("000-00-0");
-    final List<SimpleProprietaryValue> fnaValues = metadatenDs.getNodes("./fna");
+    final List<ProprietaryValue> fnaValues = metadatenDs.getNodes("./fna");
     assertThat(fnaValues).hasSize(4);
 
     fnaValues.stream()
@@ -283,7 +283,7 @@ class MetadatenDsTest {
 
     assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.SUBTYP, newDate))
         .contains("subtyp1");
-    final List<SimpleProprietaryValue> subtypValues = metadatenDs.getNodes("./subtyp");
+    final List<ProprietaryValue> subtypValues = metadatenDs.getNodes("./subtyp");
     assertThat(subtypValues).hasSize(2);
 
     subtypValues.stream()

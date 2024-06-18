@@ -167,7 +167,8 @@ public class Proprietary {
    */
   public Optional<String> getBeschliessendesOrgan(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN, date));
+        .flatMap(
+            m -> m.getComplexValueAt(MetadatenDs.ComplexMetadatum.BESCHLIESSENDES_ORGAN, date));
   }
 
   /**
@@ -178,13 +179,14 @@ public class Proprietary {
    * @return "Qualifizierte Mehrheit" true/false or empty if "Beschließendes Organ" doesn't exist.
    */
   public Optional<Boolean> getQualifizierteMehrheit(final LocalDate date) {
+    // TODO string literal not nice
     return getMetadatenDs()
         .flatMap(
             m ->
                 m.getAttributeValueAt(
-                        MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
+                        MetadatenDs.ComplexMetadatum.BESCHLIESSENDES_ORGAN,
                         date,
-                        MetadatenDs.SimpleMetadatum.QUALIFIZIERTE_MEHRHEIT)
+                        "qualifizierteMehrheit")
                     .map(Boolean::parseBoolean));
   }
 }

@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-public class SimpleProprietaryValue {
+public class ProprietaryValue {
   private final Node node;
 
   /**
@@ -68,8 +68,7 @@ public class SimpleProprietaryValue {
    * @param o2 the second element to be compared
    * @return Comparison result
    */
-  public static int compareByStartDate(
-      final SimpleProprietaryValue o1, final SimpleProprietaryValue o2) {
+  public static int compareByStartDate(final ProprietaryValue o1, final ProprietaryValue o2) {
     if (o1.getStart().isPresent() && o2.getStart().isPresent()) {
       return o1.getStart().get().compareTo(o2.getStart().get());
     } else if (o1.getStart().isEmpty() && o2.getStart().isPresent()) return -1;

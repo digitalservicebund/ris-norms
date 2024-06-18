@@ -8,6 +8,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.MetadatenDs;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 /** Implements operations related to the "proprietary" of a {@link Norm} */
@@ -58,24 +60,19 @@ public class ProprietaryService
         MetadatenDs.SimpleMetadatum.ART_DER_NORM, query.atDate(), query.metadata().artDerNorm());
     metadatenDs.setSimpleProprietaryMetadata(
         MetadatenDs.SimpleMetadatum.NORMGEBER, query.atDate(), query.metadata().normgeber());
-    metadatenDs.setSimpleProprietaryMetadata(
-        MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
-        query.atDate(),
-        query.metadata().beschliessendesOrgan().value());
 
-    if (query.metadata().beschliessendesOrgan().value() == null
-        || query.metadata().beschliessendesOrgan().value().trim().isEmpty()) {
-      metadatenDs.removeSimpleProprietaryMetadataAttribute(
-          MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
-          query.atDate(),
-          MetadatenDs.SimpleMetadatum.QUALIFIZIERTE_MEHRHEIT);
-    } else {
-      metadatenDs.setSimpleProprietaryMetadataAttribute(
-          MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
-          query.atDate(),
-          MetadatenDs.SimpleMetadatum.QUALIFIZIERTE_MEHRHEIT,
-          query.metadata().beschliessendesOrgan().qualifizierteMehrheit());
+    // TODO not so nice: 1) string literal, 2) next 5 lines in general
+    Map<String, Object> map = new HashMap<>();
+    if (query.metadata().beschliessendesOrgan().qualifizierteMehrheit() != null) {
+      map.put(
+          "qualifizierteMehrheit", query.metadata().beschliessendesOrgan().qualifizierteMehrheit());
     }
+
+    metadatenDs.setComplexProprietaryMetadata(
+        MetadatenDs.ComplexMetadatum.BESCHLIESSENDES_ORGAN,
+        query.atDate(),
+        query.metadata().beschliessendesOrgan().value(),
+        map);
 
     updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 
