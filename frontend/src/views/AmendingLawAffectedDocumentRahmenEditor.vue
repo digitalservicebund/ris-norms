@@ -102,11 +102,11 @@ const {
   federfuehrungId,
 } = useElementId()
 
-const fna = computed<string | undefined>({
+const fna = computed<string>({
   get() {
-    return localData.value?.fna
+    return localData.value?.fna ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.fna = value
@@ -184,11 +184,11 @@ const artNormUN = computed<boolean>({
   },
 })
 
-const bezeichnungInVorlage = computed<string | undefined>({
+const bezeichnungInVorlage = computed<string>({
   get() {
-    return localData.value?.bezeichnungInVorlage
+    return localData.value?.bezeichnungInVorlage ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.bezeichnungInVorlage = value
@@ -196,11 +196,11 @@ const bezeichnungInVorlage = computed<string | undefined>({
   },
 })
 
-const normgeber = computed<string | undefined>({
+const normgeber = computed<string>({
   get() {
-    return localData.value?.normgeber
+    return localData.value?.normgeber ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.normgeber = value
@@ -213,11 +213,11 @@ const normgeberItems: DropdownItem[] = [
   ...NormgeberValues.map((value) => ({ label: value, value })),
 ]
 
-const beschliessendesOrgan = computed<string | undefined>({
+const beschliessendesOrgan = computed<string>({
   get() {
-    return localData.value?.beschliessendesOrgan
+    return localData.value?.beschliessendesOrgan ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.beschliessendesOrgan = value
@@ -230,11 +230,11 @@ const beschliessendesOrganItems: DropdownItem[] = [
   ...BeschliessendesOrganValues.map((value) => ({ label: value, value })),
 ]
 
-const isResolutionWithMajority = computed<boolean | undefined>({
+const isResolutionWithMajority = computed<boolean>({
   get() {
-    return localData.value?.isResolutionWithMajority
+    return localData.value?.isResolutionWithMajority ?? false
   },
-  set(value?: boolean) {
+  set(value: boolean) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.isResolutionWithMajority = value
@@ -242,11 +242,11 @@ const isResolutionWithMajority = computed<boolean | undefined>({
   },
 })
 
-const federfuehrung = computed<string | undefined>({
+const federfuehrung = computed<string>({
   get() {
-    return localData.value?.federfuehrung
+    return localData.value?.federfuehrung ?? ""
   },
-  set(value?: string) {
+  set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
       draft.federfuehrung = value
