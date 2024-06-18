@@ -19,7 +19,7 @@ const {
   data: element,
   isFetching: elementIsLoading,
   error: elementError,
-} = useGetElement(affectedDocumentEli.value, elementEid.value, undefined, {
+} = useGetElement(affectedDocumentEli, elementEid, undefined, {
   refetch: true,
 })
 
@@ -38,8 +38,8 @@ const {
   isFetching: renderIsLoading,
   error: renderError,
 } = useGetElementHtml(
-  affectedDocumentEli.value,
-  elementEid.value,
+  affectedDocumentEli,
+  elementEid,
   { at: timeBoundaryAsDate },
   { refetch: true },
 )
