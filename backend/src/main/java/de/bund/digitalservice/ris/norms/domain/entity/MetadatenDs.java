@@ -17,6 +17,7 @@ import org.w3c.dom.Node;
 public class MetadatenDs {
 
   private final Node node;
+  private static final String XPATH_TEMPLATE = "%s[@start='%s']";
 
   /** The list of all simple metadata. They consist of a single string property. */
   public enum SimpleMetadatum {
@@ -111,7 +112,7 @@ public class MetadatenDs {
   public void setSimpleProprietaryMetadata(
       final SimpleMetadatum simpleMetadatum, final LocalDate date, final String newValue) {
     NodeParser.getNodeFromExpression(
-            String.format("%s[@start='%s']", simpleMetadatum.xpath, date.toString()), node)
+            String.format(XPATH_TEMPLATE, simpleMetadatum.xpath, date.toString()), node)
         .ifPresentOrElse(
             fnaNode -> fnaNode.setTextContent(newValue),
             () -> {
@@ -173,7 +174,7 @@ public class MetadatenDs {
       final SimpleMetadatum attributeName,
       final Object newAttributeValue) {
     NodeParser.getNodeFromExpression(
-            String.format("%s[@start='%s']", simpleMetadatum.xpath, date.toString()), node)
+            String.format(XPATH_TEMPLATE, simpleMetadatum.xpath, date.toString()), node)
         .ifPresent(
             fnaNode ->
                 ((Element) fnaNode)
@@ -193,7 +194,7 @@ public class MetadatenDs {
       final LocalDate date,
       final SimpleMetadatum attributeName) {
     NodeParser.getNodeFromExpression(
-            String.format("%s[@start='%s']", simpleMetadatum.xpath, date.toString()), node)
+            String.format(XPATH_TEMPLATE, simpleMetadatum.xpath, date.toString()), node)
         .ifPresent(
             nodeWithAttribute ->
                 ((Element) nodeWithAttribute).removeAttribute(attributeName.xpath.split("@")[1]));
