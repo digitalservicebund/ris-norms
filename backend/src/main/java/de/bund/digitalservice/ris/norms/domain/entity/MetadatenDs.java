@@ -27,7 +27,8 @@ public class MetadatenDs {
     BEZEICHNUNG_IN_VORLAGE("./bezeichnungInVorlage"),
     ART_DER_NORM("./artDerNorm"),
     NORMGEBER("./normgeber"),
-    BESCHLIESSENDES_ORGAN("./beschliessendesOrgan");
+    BESCHLIESSENDES_ORGAN("./beschliessendesOrgan"),
+    QUALIFIZIERTE_MEHRHEIT("./beschliessendesOrgan@qualifizierteMehrheit");
 
     private final String xpath;
 
@@ -60,10 +61,12 @@ public class MetadatenDs {
    * @return an optional value, if found.
    */
   public Optional<String> getAttributeValueAt(
-      final SimpleMetadatum simpleMetadatum, final LocalDate date, final String attributeName) {
+      final SimpleMetadatum simpleMetadatum,
+      final LocalDate date,
+      final SimpleMetadatum attributeName) {
     var simpleProprietaryValueOptional = getSimpleProprietaryValueAt(simpleMetadatum, date);
     if (simpleProprietaryValueOptional.isPresent()) {
-      return simpleProprietaryValueOptional.get().getAttribute(attributeName);
+      return simpleProprietaryValueOptional.get().getAttribute(attributeName.xpath.split("@")[1]);
     }
     return Optional.empty();
   }
@@ -167,13 +170,14 @@ public class MetadatenDs {
   public void setSimpleProprietaryMetadataAttribute(
       final SimpleMetadatum simpleMetadatum,
       final LocalDate date,
-      final String attributeName,
+      final SimpleMetadatum attributeName,
       final Object newAttributeValue) {
     NodeParser.getNodeFromExpression(
             String.format("%s[@start='%s']", simpleMetadatum.xpath, date.toString()), node)
         .ifPresent(
             fnaNode ->
-                ((Element) fnaNode).setAttribute(attributeName, newAttributeValue.toString()));
+                ((Element) fnaNode)
+                    .setAttribute(attributeName.xpath.split("@")[1], newAttributeValue.toString()));
   }
 
   /**
@@ -185,11 +189,14 @@ public class MetadatenDs {
    * @param attributeName - the name of the attribute
    */
   public void removeSimpleProprietaryMetadataAttribute(
-      final SimpleMetadatum simpleMetadatum, final LocalDate date, final String attributeName) {
+      final SimpleMetadatum simpleMetadatum,
+      final LocalDate date,
+      final SimpleMetadatum attributeName) {
     NodeParser.getNodeFromExpression(
             String.format("%s[@start='%s']", simpleMetadatum.xpath, date.toString()), node)
         .ifPresent(
-            nodeWithAttribute -> ((Element) nodeWithAttribute).removeAttribute(attributeName));
+            nodeWithAttribute ->
+                ((Element) nodeWithAttribute).removeAttribute(attributeName.xpath.split("@")[1]));
   }
 
   /**

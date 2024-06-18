@@ -184,7 +184,7 @@ public class Proprietary {
                 m.getAttributeValueAt(
                         MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
                         date,
-                        "qualifizierteMehrheit")
+                        MetadatenDs.SimpleMetadatum.QUALIFIZIERTE_MEHRHEIT)
                     .map(Boolean::parseBoolean));
   }
 }

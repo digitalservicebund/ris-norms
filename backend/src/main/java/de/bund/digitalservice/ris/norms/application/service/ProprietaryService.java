@@ -68,12 +68,12 @@ public class ProprietaryService
       metadatenDs.removeSimpleProprietaryMetadataAttribute(
           MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
           query.atDate(),
-          "qualifizierteMehrheit");
+          MetadatenDs.SimpleMetadatum.QUALIFIZIERTE_MEHRHEIT);
     } else {
       metadatenDs.setSimpleProprietaryMetadataAttribute(
           MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
           query.atDate(),
-          "qualifizierteMehrheit",
+          MetadatenDs.SimpleMetadatum.QUALIFIZIERTE_MEHRHEIT,
           query.metadata().beschliessendesOrgan().qualifizierteMehrheit());
     }
 
