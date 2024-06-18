@@ -18,6 +18,7 @@ import {
   BeschliessendesOrganValues,
   DocumentTypeValue,
   DocumentTypeValues,
+  FederfuehrungValues,
   getDocumentTypeFromMetadata,
   isArtNormTypePresent,
   isMetaArtValue,
@@ -88,7 +89,7 @@ watch(savedData, (newData) => {
  * Metadata form                                      *
  * -------------------------------------------------- */
 
-const [
+const {
   documentTypeId,
   fnaId,
   bezeichnungInVorlageId,
@@ -98,9 +99,8 @@ const [
   normgeberId,
   beschliessendesOrganId,
   isResolutionWithMajorityId,
-] = Array(9)
-  .fill(null)
-  .map(() => useElementId())
+  federfuehrungId,
+} = useElementId()
 
 const fna = computed<string | undefined>({
   get() {
@@ -146,14 +146,6 @@ const documentType = computed<DocumentTypeValue | undefined>({
 const documentTypeItems: DropdownItem[] = [
   { label: "Unbekannt", value: "" },
   ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
-]
-
-const normgeberItems: DropdownItem[] = [
-  ...NormgeberValues.map((value) => ({ label: value, value })),
-]
-
-const beschliessendesOrganItems: DropdownItem[] = [
-  ...BeschliessendesOrganValues.map((value) => ({ label: value, value })),
 ]
 
 const artNormSN = computed<boolean>({
@@ -216,6 +208,11 @@ const normgeber = computed<string | undefined>({
   },
 })
 
+const normgeberItems: DropdownItem[] = [
+  { label: "", value: "" },
+  ...NormgeberValues.map((value) => ({ label: value, value })),
+]
+
 const beschliessendesOrgan = computed<string | undefined>({
   get() {
     return localData.value?.beschliessendesOrgan
@@ -228,6 +225,11 @@ const beschliessendesOrgan = computed<string | undefined>({
   },
 })
 
+const beschliessendesOrganItems: DropdownItem[] = [
+  { label: "", value: "" },
+  ...BeschliessendesOrganValues.map((value) => ({ label: value, value })),
+]
+
 const isResolutionWithMajority = computed<boolean | undefined>({
   get() {
     return localData.value?.isResolutionWithMajority
@@ -239,6 +241,26 @@ const isResolutionWithMajority = computed<boolean | undefined>({
     })
   },
 })
+
+const federfuehrung = computed<string | undefined>({
+  get() {
+    return localData.value?.federfuehrung
+  },
+  set(value?: string) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.federfuehrung = value
+    })
+  },
+})
+
+const federfuehrungItems: DropdownItem[] = [
+  { label: "", value: "" },
+  ...FederfuehrungValues.map<DropdownItem>((name) => ({
+    label: name,
+    value: name,
+  })),
+]
 
 /* -------------------------------------------------- *
  * XML + HTML preview                                 *
@@ -311,7 +333,7 @@ const {
 
             <form
               v-else
-              class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14"
+              class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14 overflow-auto"
               @submit.prevent
             >
               <fieldset class="contents">
@@ -385,6 +407,19 @@ const {
                 <RisCheckboxInput
                   :id="isResolutionWithMajorityId"
                   v-model="isResolutionWithMajority"
+                />
+              </fieldset>
+
+              <fieldset class="contents">
+                <legend class="ds-label-02-bold col-span-2">
+                  Federführung
+                </legend>
+
+                <label :for="federfuehrungId">Federführung</label>
+                <RisDropdownInput
+                  :id="federfuehrungId"
+                  v-model="federfuehrung"
+                  :items="federfuehrungItems"
                 />
               </fieldset>
 
