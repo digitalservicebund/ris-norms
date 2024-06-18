@@ -46,7 +46,7 @@ watch(newDate, async (newDateValue) => {
 </script>
 
 <template>
-  <form class="grid grid-cols-[6rem,1fr,min-content] items-center gap-4">
+  <form class="grid grid-cols-[6rem,1fr,min-content] items-start gap-10">
     <RisTextButton
       :icon="SortOutlineIcon"
       label="Nach Datum sortieren"
@@ -58,9 +58,15 @@ watch(newDate, async (newDateValue) => {
     <div></div>
 
     <template v-for="(dateEntry, index) in dates" :key="index">
-      <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-      <label :for="`date-${index}`">Zeitgrenze {{ index + 1 }}</label>
-      <RisDateInput :id="`date-${index}`" v-model="dateEntry.date" />
+      <RisDateInput
+        :id="`date-${index}`"
+        v-model="dateEntry.date"
+        :label="`Zeitgrenze ${index + 1}`"
+        label-position="left"
+        size="medium"
+        class="col-span-2 grid w-full grid-cols-subgrid"
+        label-class="w-[6rem]"
+      />
       <RisTextButton
         :icon="DeleteOutlineIcon"
         variant="ghost"
@@ -73,14 +79,15 @@ watch(newDate, async (newDateValue) => {
       />
     </template>
 
-    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-    <label
+    <RisDateInput
       v-if="dates.length < MAX_DATES"
-      for="new-date"
-      class="col-span-2 grid grid-cols-subgrid items-center"
-    >
-      <span>Zeitgrenze hinzufügen</span>
-      <RisDateInput id="new-date" v-model="newDate" size="small" />
-    </label>
+      id="new-date"
+      v-model="newDate"
+      label="Zeitgrenze hinzufügen"
+      label-position="left"
+      size="medium"
+      class="col-span-2 grid w-full grid-cols-subgrid"
+      label-class="w-[6rem]"
+    />
   </form>
 </template>
