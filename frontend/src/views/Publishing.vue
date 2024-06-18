@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import { computed, ref, watchEffect, onBeforeUnmount, onMounted } from "vue"
+import { computed, ref, watchEffect, onBeforeUnmount } from "vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { getNormXmlByEli } from "@/services/normService"
 import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
 
 const eli = useEliPathParameter()
-const { releasedAt, releasedElis, fetchReleaseStatus, releaseAmendingLaw } =
-  useAmendingLawRelease(eli)
+const {
+  data: release,
+  release: { execute: releaseAmendingLaw },
+} = useAmendingLawRelease(eli)
 const blobUrl = ref("")
 const zf0BlobUrls = ref<BlobUrlItem[]>([])
-
-onMounted(async () => {
-  await fetchReleaseStatus()
-})
 
 interface BlobUrlItem {
   zf0Eli: string
@@ -24,8 +22,8 @@ watchEffect(async () => {
   let newBlobUrl = ""
   const newZf0BlobUrls = []
 
-  if (releasedElis?.value?.amendingLawEli) {
-    const xmlContent = await getNormXmlByEli(releasedElis.value.amendingLawEli)
+  if (release?.value?.amendingLawEli) {
+    const xmlContent = await getNormXmlByEli(release.value.amendingLawEli)
     const blob = new Blob([xmlContent], { type: "application/xml" })
     newBlobUrl = URL.createObjectURL(blob)
 
@@ -35,8 +33,8 @@ watchEffect(async () => {
     blobUrl.value = newBlobUrl
   }
 
-  if (releasedElis.value?.zf0Elis) {
-    for (const zf0Eli of releasedElis.value.zf0Elis) {
+  if (release.value?.zf0Elis) {
+    for (const zf0Eli of release.value.zf0Elis) {
       const xmlContent = await getNormXmlByEli(zf0Eli)
       const blob = new Blob([xmlContent], { type: "application/xml" })
       const blobUrlForZf0 = URL.createObjectURL(blob)
@@ -63,6 +61,9 @@ async function onRelease() {
   await releaseAmendingLaw()
 }
 
+const releasedAt = computed(() =>
+  release.value?.releaseAt ? new Date(release.value.releaseAt) : null,
+)
 const publishedAtDateTime = computed(() => releasedAt.value?.toISOString())
 const publishedAtTimeString = computed(() =>
   releasedAt.value?.toLocaleTimeString("de-DE", {
@@ -102,12 +103,12 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
             <ul class="list-disc pl-20">
               <li>
                 <a
-                  v-if="releasedElis"
+                  v-if="release"
                   :href="blobUrl"
-                  :download="formatEliForDownload(releasedElis?.amendingLawEli)"
+                  :download="formatEliForDownload(release.amendingLawEli)"
                   target="_blank"
                   class="underline"
-                  >{{ releasedElis?.amendingLawEli }}.xml</a
+                  >{{ release.amendingLawEli }}.xml</a
                 >
               </li>
               <li v-for="{ zf0Eli, zf0BlobUrl } in zf0BlobUrls" :key="zf0Eli">

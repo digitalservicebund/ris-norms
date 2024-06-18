@@ -1,19 +1,29 @@
-import { apiFetch } from "@/services/apiService"
+import { useApiFetch } from "@/services/apiService"
 import { AmendingLawRelease } from "@/types/amendingLawRelease"
+import { computed, MaybeRefOrGetter, toValue } from "vue"
+import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+
+function useReleaseService(
+  eli: MaybeRefOrGetter<string>,
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<AmendingLawRelease> {
+  return useApiFetch(
+    computed(() => `/announcements/${toValue(eli)}/release`),
+    fetchOptions,
+  ).json()
+}
 
 /**
- * Release the XML of a specific announcement by eli.
+ * Get the latest release of a specific announcement by eli.
  *
  * @param eli Eli of the norm associated with the announcement
  */
-export async function putRelease(eli: string): Promise<AmendingLawRelease> {
-  return await apiFetch(`/announcements/${eli}/release`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/xml",
-      Accept: "application/json",
-    },
-  })
+export function useGetRelease(
+  eli: MaybeRefOrGetter<string>,
+): UseFetchReturn<AmendingLawRelease> {
+  return useReleaseService(eli, {
+    refetch: true,
+  }).get()
 }
 
 /**
@@ -21,12 +31,10 @@ export async function putRelease(eli: string): Promise<AmendingLawRelease> {
  *
  * @param eli Eli of the norm associated with the announcement
  */
-export async function getRelease(eli: string): Promise<AmendingLawRelease> {
-  return await apiFetch(`/announcements/${eli}/release`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/xml",
-      Accept: "application/json",
-    },
-  })
+export function usePutRelease(
+  eli: MaybeRefOrGetter<string>,
+): UseFetchReturn<AmendingLawRelease> {
+  return useReleaseService(eli, {
+    immediate: false,
+  }).put()
 }
