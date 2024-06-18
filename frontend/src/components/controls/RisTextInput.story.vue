@@ -11,7 +11,7 @@ const textEntry = ref("Invalid entry")
 </script>
 
 <template>
-  <Story :layout="{ type: 'grid' }">
+  <Story :layout="{ type: 'grid', width: `400px` }">
     <Variant title="Default (small size) with label">
       <RisTextInput
         id="test-id"
