@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Node;
 
-/** Class meta:fna within meta:legalDocML.de_metadaten_ds */
+/** Class representing simple metadata within meta:legalDocML.de_metadaten_ds */
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
