@@ -19,7 +19,7 @@ class MetadatenDsTest {
                                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                     <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                     <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                                    <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                                    <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
                                 </meta:legalDocML.de_metadaten_ds>
                             """))
             .build();
@@ -75,7 +75,7 @@ class MetadatenDsTest {
                                               <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                   <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                                   <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                                                  <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                                                  <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
                                               </meta:legalDocML.de_metadaten_ds>
                                           """))
             .build();
@@ -131,7 +131,7 @@ class MetadatenDsTest {
                                               <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                   <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                                   <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                                                  <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                                                  <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
                                               </meta:legalDocML.de_metadaten_ds>
                                           """))
             .build();
@@ -194,6 +194,58 @@ class MetadatenDsTest {
   }
 
   @Test
+  void setFnaAtDateUpdateNull() {
+    final MetadatenDs metadatenDs =
+        MetadatenDs.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                                              <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                                  <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+                                                                  <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
+                                                                  <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
+                                                              </meta:legalDocML.de_metadaten_ds>
+                                                          """))
+            .build();
+
+    final LocalDate newDate = LocalDate.parse("1990-01-01");
+    assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
+    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
+        .contains("111-11-1");
+
+    metadatenDs.setSimpleProprietaryMetadata(MetadatenDs.SimpleMetadatum.FNA, newDate, null);
+
+    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate)).contains("");
+    assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
+  }
+
+  @Test
+  void setFnaAtDateUpdateEmpty() {
+    final MetadatenDs metadatenDs =
+        MetadatenDs.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                                              <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                                  <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
+                                                                  <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
+                                                                  <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
+                                                              </meta:legalDocML.de_metadaten_ds>
+                                                          """))
+            .build();
+
+    final LocalDate newDate = LocalDate.parse("1990-01-01");
+    assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
+    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
+        .contains("111-11-1");
+
+    metadatenDs.setSimpleProprietaryMetadata(MetadatenDs.SimpleMetadatum.FNA, newDate, "");
+
+    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate)).contains("");
+    assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
+  }
+
+  @Test
   void getSubtypAtDate() {
     final MetadatenDs metadatenDs =
         MetadatenDs.builder()
@@ -204,7 +256,7 @@ class MetadatenDsTest {
                                                     <meta:subtyp>subtyp0</meta:subtyp>
                                                     <meta:subtyp start="1990-01-01" end="1994-12-31">subtyp1</meta:subtyp>
                                                     <meta:subtyp start="1995-01-01" end="2000-12-31">subtyp2</meta:subtyp>
-                                                    <meta:subtyp start="2001-01-01">subtyp3</meta:subtyp>
+                                                    <meta:subtyp start="2001-01-01" end="unbestimmt">subtyp3</meta:subtyp>
                                                 </meta:legalDocML.de_metadaten_ds>
                                             """))
             .build();
