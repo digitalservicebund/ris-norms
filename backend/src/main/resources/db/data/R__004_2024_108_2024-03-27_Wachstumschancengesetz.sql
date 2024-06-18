@@ -1654,11 +1654,11 @@ VALUES ('5d84cd1d-3575-4a03-bb6c-f17834e392fe', 'eli/bund/bgbl-1/2009/s3366/2024
                      <meta:artDerNorm start="2023-12-24" end="unbestimmt">SN,ÄN,ÜN</meta:artDerNorm>
                     <meta:bezeichnungInVorlage start="2023-12-24" end="unbestimmt">Testbezeichnung 3 nach meiner Vorlage</meta:bezeichnungInVorlage>
                     <meta:normgeber start="2009-10-08" end="2022-12-31">MV - Land Mecklenburg-Vorpommern</meta:normgeber>
-                    <meta:beschliessendesOrgan start="2009-10-08" end="2022-12-31">BT - Bundestag</meta:beschliessendesOrgan>
+                    <meta:beschliessendesOrgan start="2009-10-08" end="2022-12-31" qualifizierteMehrheit="true">BT - Bundestag</meta:beschliessendesOrgan>
                     <meta:normgeber start="2023-01-01" end="2023-12-23">PR - Preußen</meta:normgeber>
-                    <meta:beschliessendesOrgan start="2023-01-01" end="2023-12-23">OFD - Oberfinanzdirektion</meta:beschliessendesOrgan>
+                    <meta:beschliessendesOrgan start="2023-01-01" end="2023-12-23" qualifizierteMehrheit="false">OFD - Oberfinanzdirektion</meta:beschliessendesOrgan>
                     <meta:normgeber start="2023-12-24" end="unbestimmt">EA - Euratom</meta:normgeber>
-                    <meta:beschliessendesOrgan start="2023-12-24" end="unbestimmt">BMinI - Bundesministerium des Innern</meta:beschliessendesOrgan>
+                    <meta:beschliessendesOrgan start="2023-12-24" end="unbestimmt" qualifizierteMehrheit="true">BMinI - Bundesministerium des Innern</meta:beschliessendesOrgan>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

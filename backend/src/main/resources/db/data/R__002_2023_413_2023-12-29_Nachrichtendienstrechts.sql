@@ -6894,7 +6894,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                     <meta:artDerNorm start="1970-01-01" end="unbestimmt">SN,ÜN</meta:artDerNorm>
                     <meta:bezeichnungInVorlage start="1970-01-01" end="unbestimmt">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
                     <meta:normgeber start="1970-01-01" end="unbestimmt">BEO - Berlin (Ost)</meta:normgeber>
-                    <meta:beschliessendesOrgan start="1970-01-01" end="unbestimmt">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
+                    <meta:beschliessendesOrgan start="1970-01-01" end="unbestimmt" qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
                  </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>
