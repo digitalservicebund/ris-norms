@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import { computed, ref, watchEffect, onBeforeUnmount } from "vue"
+import { computed, ref, onBeforeUnmount, watch } from "vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { getNormXmlByEli } from "@/services/normService"
+import { useGetNormXml } from "@/services/normService"
 import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
 
 const eli = useEliPathParameter()
@@ -18,14 +18,14 @@ interface BlobUrlItem {
   zf0BlobUrl: string
 }
 
-watchEffect(async () => {
-  let newBlobUrl = ""
-  const newZf0BlobUrls = []
-
+watch(release, async () => {
   if (release?.value?.amendingLawEli) {
-    const xmlContent = await getNormXmlByEli(release.value.amendingLawEli)
-    const blob = new Blob([xmlContent], { type: "application/xml" })
-    newBlobUrl = URL.createObjectURL(blob)
+    const { data: xmlContent } = await useGetNormXml(
+      release.value.amendingLawEli,
+    )
+
+    const blob = new Blob([xmlContent.value ?? ""], { type: "application/xml" })
+    const newBlobUrl = URL.createObjectURL(blob)
 
     if (blobUrl.value) {
       URL.revokeObjectURL(blobUrl.value)
@@ -34,9 +34,13 @@ watchEffect(async () => {
   }
 
   if (release.value?.zf0Elis) {
+    const newZf0BlobUrls = []
     for (const zf0Eli of release.value.zf0Elis) {
-      const xmlContent = await getNormXmlByEli(zf0Eli)
-      const blob = new Blob([xmlContent], { type: "application/xml" })
+      const { data: xmlContent } = await useGetNormXml(zf0Eli)
+
+      const blob = new Blob([xmlContent.value ?? ""], {
+        type: "application/xml",
+      })
       const blobUrlForZf0 = URL.createObjectURL(blob)
       newZf0BlobUrls.push({ zf0Eli, zf0BlobUrl: blobUrlForZf0 })
 
