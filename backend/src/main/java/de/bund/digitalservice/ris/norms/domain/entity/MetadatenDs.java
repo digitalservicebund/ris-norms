@@ -177,6 +177,22 @@ public class MetadatenDs {
   }
 
   /**
+   * Removes a specific metadata attribute where a given @start date is set. If node is not present
+   * it will do nothing.
+   *
+   * @param simpleMetadatum - the enum metadatum
+   * @param date - the specific date
+   * @param attributeName - the name of the attribute
+   */
+  public void removeSimpleProprietaryMetadataAttribute(
+      final SimpleMetadatum simpleMetadatum, final LocalDate date, final String attributeName) {
+    NodeParser.getNodeFromExpression(
+            String.format("%s[@start='%s']", simpleMetadatum.xpath, date.toString()), node)
+        .ifPresent(
+            nodeWithAttribute -> ((Element) nodeWithAttribute).removeAttribute(attributeName));
+  }
+
+  /**
    * Retrieves all nodes of the specific metadatum.
    *
    * @param xpath of the node

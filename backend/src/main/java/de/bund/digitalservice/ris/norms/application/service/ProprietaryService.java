@@ -63,8 +63,13 @@ public class ProprietaryService
         query.atDate(),
         query.metadata().beschliessendesOrgan().value());
 
-    if (query.metadata().beschliessendesOrgan().value() != null
-        && !query.metadata().beschliessendesOrgan().value().trim().isEmpty()) {
+    if (query.metadata().beschliessendesOrgan().value() == null
+        || query.metadata().beschliessendesOrgan().value().trim().isEmpty()) {
+      metadatenDs.removeSimpleProprietaryMetadataAttribute(
+          MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
+          query.atDate(),
+          "qualifizierteMehrheit");
+    } else {
       metadatenDs.setSimpleProprietaryMetadataAttribute(
           MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
           query.atDate(),
