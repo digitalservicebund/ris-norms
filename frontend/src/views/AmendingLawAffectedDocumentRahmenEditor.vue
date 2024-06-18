@@ -129,9 +129,9 @@ const documentType = computed<DocumentTypeValue | undefined>({
 
   set(value) {
     const {
-      art = undefined,
-      typ = undefined,
-      subtyp = undefined,
+      art = "",
+      typ = "",
+      subtyp = "",
     } = value ? DocumentTypeValues[value] : {}
 
     localData.value = produce(localData.value, (draft) => {
@@ -144,7 +144,7 @@ const documentType = computed<DocumentTypeValue | undefined>({
 })
 
 const documentTypeItems: DropdownItem[] = [
-  { label: "Unbekannt", value: "" },
+  { label: "Unbekannt", value: "", disabled: true },
   ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
 ]
 
