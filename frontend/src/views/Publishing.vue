@@ -4,11 +4,19 @@ import { computed, ref, onBeforeUnmount, watch } from "vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetNormXml } from "@/services/normService"
 import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
+import RisCallout from "@/components/controls/RisCallout.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 
 const eli = useEliPathParameter()
 const {
   data: release,
-  release: { execute: releaseAmendingLaw },
+  release: {
+    execute: releaseAmendingLaw,
+    isFetching: isReleasing,
+    error: releaseError,
+  },
+  isFetching,
+  error: fetchError,
 } = useAmendingLawRelease(eli)
 const blobUrl = ref("")
 const zf0BlobUrls = ref<BlobUrlItem[]>([])
@@ -90,7 +98,25 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
       <h1 class="ds-heading-02-reg">Abgabe</h1>
 
       <div
-        v-if="releasedAt"
+        v-if="isFetching || isReleasing"
+        class="mt-20 flex items-center justify-center"
+      >
+        <RisLoadingSpinner></RisLoadingSpinner>
+      </div>
+
+      <div v-else-if="releaseError">
+        <RisCallout title="Abgabe nicht erfolgreich." variant="error" />
+      </div>
+
+      <div v-else-if="fetchError">
+        <RisCallout
+          title="Die letzte Abgabe konnte nicht geladen werden."
+          variant="error"
+        />
+      </div>
+
+      <div
+        v-else-if="releasedAt"
         aria-label="Infomodal"
         class="flex w-full gap-[0.625rem] border-[0.125rem] border-orange-200 bg-orange-100 px-[1.25rem] py-[1.125rem]"
       >
@@ -136,6 +162,7 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
         variant="primary"
         size="small"
         label="Jetzt abgeben"
+        :loading="isReleasing"
         @click="onRelease"
       />
     </section>
