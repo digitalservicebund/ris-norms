@@ -780,6 +780,17 @@ test.describe("metadata editing", () => {
       await qualMehrheit.uncheck()
       await expect(qualMehrheit).not.toBeChecked()
     })
+
+    test("can edit Federführung", async () => {
+      const federfuehrungDropdown = sharedPage.getByRole("combobox", {
+        name: "Federführung",
+      })
+      federfuehrungDropdown.selectOption("BKAmt - Bundeskanzleramt")
+
+      await expect(federfuehrungDropdown).toHaveValue(
+        "BKAmt - Bundeskanzleramt",
+      )
+    })
   })
 
   test("persists changes across page loads after saving successfully", async ({
@@ -858,6 +869,14 @@ test.describe("metadata editing", () => {
     await expect(qualMehrheit).not.toBeChecked()
     await qualMehrheit.check()
 
+    // Federführung
+    // TODO: Enable once backend is ready
+    // const federfuehrungDropdown = page.getByRole("combobox", {
+    //   name: "Federführung",
+    // })
+    // await expect(federfuehrungDropdown).toHaveValue("ADD VALUE HERE")
+    // await federfuehrungDropdown.selectOption("BKAmt - Bundeskanzleramt")
+
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await saved
 
@@ -874,6 +893,8 @@ test.describe("metadata editing", () => {
       "BReg - Bundesregierung",
     )
     await expect(qualMehrheit).toBeChecked()
+    // TODO: Enable once backend is ready
+    // await expect(federfuehrungDropdown).toHaveValue("BKAmt - Bundeskanzleramt")
 
     // Reset the data
     await page.request.put(
@@ -893,6 +914,8 @@ test.describe("metadata editing", () => {
           normgeber: null,
           beschliessendesOrgan: null,
           qualifizierteMehrheit: null,
+          // TODO: Enable once backend is ready
+          // federfuehrung: null,
         }),
       },
     )

@@ -44,8 +44,14 @@ export type Proprietary = {
    * DE “Beschließendes Organ"
    */
   beschliessendesOrgan?: string
+
   /**
    * DE “Beschlussfassung mit qualifizierter Mehrheit"
    */
   qualifizierteMehrheit?: boolean
+
+  /**
+   * Federführung (authoring department) of the norm.
+   */
+  federfuehrung?: string
 }

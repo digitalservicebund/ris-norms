@@ -323,3 +323,27 @@ export const BeschliessendesOrganValues = [
   "OFD - Oberfinanzdirektion",
   "BS - Normenkomplexe, deren Textfeststellung auf einer Bereinigten Sammlung aufsetzt",
 ] as const
+
+/* -------------------------------------------------- *
+ * Federführung                                       *
+ * -------------------------------------------------- */
+
+/** All possible values for the Federführung metadatum. */
+export const FederfuehrungValues = [
+  "AA - Auswärtiges Amt",
+  "BKAmt - Bundeskanzleramt",
+  "BMAS - Bundesministerium für Arbeit und Soziales",
+  "BMBF - Bundesministerium für Bildung und Forschung",
+  "BMDV - Bundesministerium für Digitales und Verkehr",
+  "BMEL - Bundesministerium für Ernährung und Landwirtschaft",
+  "BMF - Bundesministerium der Finanzen",
+  "BMFSFJ - Bundesministerium für Familie, Senioren, Frauen und Jugend",
+  "BMG - Bundesministerium für Gesundheit",
+  "BMI - Bundesministerium des Innern und für Heimat",
+  "BMJ - Bundesministerium der Justiz",
+  "BMUV - Bundesministerium für Umwelt, Naturschutz, nukleare Sicherheit und Verbraucherschutz",
+  "BMVg - Bundesministerium der Verteidigung",
+  "BMWK - Bundesministerium für Wirtschaft und Klimaschutz",
+  "BMWSB - Bundesministerium für Wohnen, Stadtentwicklung und Bauwesen",
+  "BMZ - Bundesministerium für wirtschaftliche Zusammenarbeit und Entwicklung",
+] as const

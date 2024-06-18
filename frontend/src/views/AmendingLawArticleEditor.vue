@@ -2,7 +2,6 @@
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useArticle } from "@/composables/useArticle"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
@@ -21,10 +20,15 @@ import { useNormXml } from "@/composables/useNormXml"
 import { useNormRender } from "@/composables/useNormRender"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import { useGetNorm } from "@/services/normService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
-const amendingLaw = useAmendingLaw(eli)
+const {
+  data: amendingLaw,
+  isFetching: isFetchingAmendingLaw,
+  error: loadAmendingLawError,
+} = useGetNorm(eli, undefined, { refetch: true })
 const selectedMod = useModEidPathParameter()
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>
@@ -143,10 +147,16 @@ watch(selectedMod, () => {
 
 <template>
   <div
-    v-if="!amendingLaw || isFetchingArticle"
+    v-if="isFetchingAmendingLaw || isFetchingArticle"
     class="mt-20 flex items-center justify-center"
   >
     <RisLoadingSpinner></RisLoadingSpinner>
+  </div>
+  <div v-else-if="loadAmendingLawError || !amendingLaw">
+    <RisCallout
+      title="Das Änderungsgesetz konnte nicht geladen werden."
+      variant="error"
+    />
   </div>
   <div v-else-if="loadArticleError">
     <RisCallout

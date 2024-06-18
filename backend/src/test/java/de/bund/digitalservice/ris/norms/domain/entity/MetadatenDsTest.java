@@ -5,7 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class MetadatenDsTest {
 
@@ -19,7 +23,7 @@ class MetadatenDsTest {
                                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                     <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                     <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                                    <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                                    <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
                                 </meta:legalDocML.de_metadaten_ds>
                             """))
             .build();
@@ -65,8 +69,14 @@ class MetadatenDsTest {
         .contains("333-33-3");
   }
 
-  @Test
-  void setFnaAtDateUpdate() {
+  static Stream<Arguments> provideTestArguments() {
+    return Stream.of(
+        Arguments.of("000-00-0", "000-00-0"), Arguments.of(null, ""), Arguments.of("", ""));
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideTestArguments")
+  void setFnaAtDateUpdate(final String updateValue, final String expectedValue) {
     final MetadatenDs metadatenDs =
         MetadatenDs.builder()
             .node(
@@ -75,7 +85,7 @@ class MetadatenDsTest {
                                               <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                   <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                                   <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                                                  <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                                                  <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
                                               </meta:legalDocML.de_metadaten_ds>
                                           """))
             .build();
@@ -85,10 +95,10 @@ class MetadatenDsTest {
     assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
         .contains("111-11-1");
 
-    metadatenDs.setSimpleProprietaryMetadata(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
+    metadatenDs.setSimpleProprietaryMetadata(MetadatenDs.SimpleMetadatum.FNA, newDate, updateValue);
 
     assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
-        .contains("000-00-0");
+        .contains(expectedValue);
     assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
   }
 
@@ -131,7 +141,7 @@ class MetadatenDsTest {
                                               <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                   <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                                   <meta:fna start="1995-01-01" end="2000-12-31">222-22-2</meta:fna>
-                                                  <meta:fna start="2001-01-01">333-33-3</meta:fna>
+                                                  <meta:fna start="2001-01-01" end="unbestimmt">333-33-3</meta:fna>
                                               </meta:legalDocML.de_metadaten_ds>
                                           """))
             .build();
@@ -204,7 +214,7 @@ class MetadatenDsTest {
                                                     <meta:subtyp>subtyp0</meta:subtyp>
                                                     <meta:subtyp start="1990-01-01" end="1994-12-31">subtyp1</meta:subtyp>
                                                     <meta:subtyp start="1995-01-01" end="2000-12-31">subtyp2</meta:subtyp>
-                                                    <meta:subtyp start="2001-01-01">subtyp3</meta:subtyp>
+                                                    <meta:subtyp start="2001-01-01" end="unbestimmt">subtyp3</meta:subtyp>
                                                 </meta:legalDocML.de_metadaten_ds>
                                             """))
             .build();

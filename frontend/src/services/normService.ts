@@ -1,22 +1,7 @@
 import { apiFetch, INVALID_URL, useApiFetch } from "@/services/apiService"
 import { Norm } from "@/types/norm"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
-import { FetchOptions } from "ofetch"
 import { computed, MaybeRefOrGetter, toValue } from "vue"
-
-/**
- * Load a norm from the API.
- *
- * @deprecated Use `useGetNorm` instead
- * @param eli Eli of the amending law
- * @param options Fetch options for the request
- */
-export async function getNormByEli(
-  eli: string,
-  options?: FetchOptions<"json">,
-): Promise<Norm> {
-  return await apiFetch(`/norms/${eli}`, options)
-}
 
 /**
  * Load the xml version of a norm from the API.
@@ -144,6 +129,7 @@ export function useGetNormXml(
  * Convenience shorthand for `useNormService` that sets the correct
  * configuration for putting the raw XML of the norm.
  *
+ * @param updateData the new xml of the norm
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
  * @param [fetchOptions={}] Optional configuration for fetch behavior
