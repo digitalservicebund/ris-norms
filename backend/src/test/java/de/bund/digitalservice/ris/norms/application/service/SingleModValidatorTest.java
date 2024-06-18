@@ -72,7 +72,7 @@ class SingleModValidatorTest {
     assertThat(thrown)
         .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
-            "The character range does not resolve to the targeted text to be replaced");
+            "The character range 9-34 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced.");
   }
 
   @Test
@@ -268,15 +268,24 @@ Abs.
     // then
     assertThat(thrown)
         .isInstanceOf(ValidationException.class)
-        .hasMessageContaining("Character range not present");
+        .hasMessageContaining(
+            "Destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 not present.");
   }
 
   private static Stream<Arguments> provideParametersForThrowsExceptionWhenCharacterRange() {
     return Stream.of(
-        Arguments.of("20-20.xml", "The character range (20-20.xml) is not valid"),
-        Arguments.of("-20.xml", "The character range (-20.xml) is not valid"),
-        Arguments.of("0-.xml", "The character range (0-.xml) is not valid"),
-        Arguments.of("", "Character range not present"));
+        Arguments.of(
+            "20-20.xml",
+            "The character range 20-20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."),
+        Arguments.of(
+            "-20.xml",
+            "The character range -20.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."),
+        Arguments.of(
+            "0-.xml",
+            "The character range 0-.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."),
+        Arguments.of(
+            "",
+            "Destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 not present."));
   }
 
   @ParameterizedTest
@@ -335,6 +344,7 @@ Abs.
     // then
     assertThat(thrown)
         .isInstanceOf(ValidationException.class)
-        .hasMessageContaining("The character range not within length of target node content");
+        .hasMessageContaining(
+            "The character range 9-113 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within length of target node content.");
   }
 }
