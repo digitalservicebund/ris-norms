@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -296,144 +297,179 @@ class MetadatenDsTest {
         .contains("subtyp0");
   }
 
-  @Test
-  void getAttributeAtDate() {
-    final MetadatenDs metadatenDs =
-        MetadatenDs.builder()
-            .node(
-                XmlMapper.toNode(
-                    """
-                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
-                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
-                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</meta:beschliessendesOrgan>
-                                                </meta:legalDocML.de_metadaten_ds>
-                                            """))
-            .build();
+  @Nested
+  class Attributes {
 
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1980-01-01")))
-        .isEmpty();
+    @Test
+    void getAttributeAtDate() {
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                      <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
+                                                      <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
+                                                      <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</meta:beschliessendesOrgan>
+                                                  </meta:legalDocML.de_metadaten_ds>
+                                              """))
+              .build();
 
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1990-01-01")))
-        .contains("true");
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1992-01-01")))
-        .contains("true");
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1994-12-31")))
-        .contains("true");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1980-01-01")))
+          .isEmpty();
 
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1995-01-01")))
-        .contains("false");
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1998-01-01")))
-        .contains("false");
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("2000-12-31")))
-        .contains("false");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1990-01-01")))
+          .contains("true");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1992-01-01")))
+          .contains("true");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1994-12-31")))
+          .contains("true");
 
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("2001-01-01")))
-        .contains("true");
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("2024-01-01")))
-        .contains("true");
-  }
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1995-01-01")))
+          .contains("false");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1998-01-01")))
+          .contains("false");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("2000-12-31")))
+          .contains("false");
 
-  @Test
-  void setAttributeAtDateUpdate() {
-    final MetadatenDs metadatenDs =
-        MetadatenDs.builder()
-            .node(
-                XmlMapper.toNode(
-                    """
-                                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
-                                                                </meta:legalDocML.de_metadaten_ds>
-                                                            """))
-            .build();
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("2001-01-01")))
+          .contains("true");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("2024-01-01")))
+          .contains("true");
+    }
 
-    final LocalDate newDate = LocalDate.parse("1990-01-01");
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
-        .contains("true");
+    @Test
+    void setAttributeAtDateUpdate() {
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                      <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
+                                                  </meta:legalDocML.de_metadaten_ds>
+                                              """))
+              .build();
 
-    metadatenDs.setAttributeOfSimpleMetadatum(
-        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, "false");
+      final LocalDate newDate = LocalDate.parse("1990-01-01");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+          .contains("true");
 
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
-        .contains("false");
-  }
+      metadatenDs.setAttributeOfSimpleMetadatum(
+          MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, "false");
 
-  @Test
-  void setAttributeAtDateCreate() {
-    final MetadatenDs metadatenDs =
-        MetadatenDs.builder()
-            .node(
-                XmlMapper.toNode(
-                    """
-                                                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                                                                    <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
-                                                                                </meta:legalDocML.de_metadaten_ds>
-                                                                            """))
-            .build();
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+          .contains("false");
+    }
 
-    final LocalDate newDate = LocalDate.parse("1990-01-01");
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
-        .isEmpty();
+    @Test
+    void setAttributeAtDateCreate() {
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                      <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
+                                                  </meta:legalDocML.de_metadaten_ds>
+                                              """))
+              .build();
 
-    metadatenDs.setAttributeOfSimpleMetadatum(
-        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, "false");
+      final LocalDate newDate = LocalDate.parse("1990-01-01");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+          .isEmpty();
 
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
-        .contains("false");
-  }
+      metadatenDs.setAttributeOfSimpleMetadatum(
+          MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, "false");
 
-  @Test
-  void setAttributeAtDateParentNotPresent() {
-    final MetadatenDs metadatenDs =
-        MetadatenDs.builder()
-            .node(
-                XmlMapper.toNode(
-                    """
-                                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
-                                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</meta:beschliessendesOrgan>
-                                                                </meta:legalDocML.de_metadaten_ds>
-                                                            """))
-            .build();
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+          .contains("false");
+    }
 
-    final LocalDate newDate = LocalDate.parse("1990-01-01");
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
-        .isEmpty();
+    @Test
+    void setAttributeAtDateParentNotPresent() {
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                      <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
+                                                      <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</meta:beschliessendesOrgan>
+                                                  </meta:legalDocML.de_metadaten_ds>
+                                              """))
+              .build();
 
-    metadatenDs.setAttributeOfSimpleMetadatum(
-        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, "true");
+      final LocalDate newDate = LocalDate.parse("1990-01-01");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+          .isEmpty();
 
-    assertThat(
-            metadatenDs.getAttributeOfSimpleMetadatumAt(
-                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
-        .isEmpty();
+      metadatenDs.setAttributeOfSimpleMetadatum(
+          MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, "true");
+
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+          .isEmpty();
+    }
+
+    @Test
+    void removeAttributeAtValueNull() {
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                      <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
+                                                      <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt"></meta:beschliessendesOrgan>
+                                                  </meta:legalDocML.de_metadaten_ds>
+                                              """))
+              .build();
+
+      final LocalDate newDate = LocalDate.parse("2002-01-01");
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+          .contains("true");
+
+      // the 3rd parameter actually doesn't matter. It will remove the attribute because content of
+      // beschliessendesOrgan is empty
+      metadatenDs.setAttributeOfSimpleMetadatum(
+          MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, null);
+
+      assertThat(
+              metadatenDs.getAttributeOfSimpleMetadatumAt(
+                  MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+          .isEmpty();
+    }
   }
 }
