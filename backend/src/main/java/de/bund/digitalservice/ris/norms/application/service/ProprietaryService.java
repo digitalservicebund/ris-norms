@@ -62,12 +62,12 @@ public class ProprietaryService
         MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
         query.atDate(),
         query.metadata().beschliessendesOrgan());
-    if (query.metadata().qualifizierterMehrheit() != null) {
-      metadatenDs.setAttributeOfSimpleMetadatum(
-          MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT,
-          query.atDate(),
-          query.metadata().qualifizierterMehrheit().toString());
-    }
+    metadatenDs.setAttributeOfSimpleMetadatum(
+        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT,
+        query.atDate(),
+        String.valueOf(query.metadata().qualifizierterMehrheit()).equals("null")
+            ? "false"
+            : String.valueOf(query.metadata().qualifizierterMehrheit()));
 
     updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 
