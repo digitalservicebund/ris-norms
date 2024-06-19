@@ -363,12 +363,13 @@ describe("useNormService", () => {
       const { usePutNormXml } = await import("./normService")
 
       const xml = ref("oldXml")
-      usePutNormXml(xml, "fake/eli/1")
+      const { execute } = usePutNormXml(xml, "fake/eli/1")
 
       await flushPromises()
       expect(fetchSpy).not.toHaveBeenCalled()
 
       xml.value = "newXml"
+      execute()
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(

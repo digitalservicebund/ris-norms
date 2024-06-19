@@ -65,7 +65,7 @@ const {
     </template>
 
     <template v-else-if="entryIntoForceArticleHtml">
-      <div class="col-span-3 mb-40 flex items-center justify-between">
+      <div class="relative col-span-3 mb-40 flex items-center justify-between">
         <h1 class="ds-heading-02-reg">Zeitgrenzen anlegen</h1>
 
         <RisTooltip
@@ -73,7 +73,7 @@ const {
           :visible="isSavingFinished"
           :title="saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'"
           alignment="right"
-          attachment="top"
+          attachment="bottom"
           :variant="saveError ? 'error' : 'success'"
         >
           <RisTextButton

@@ -229,7 +229,7 @@ describe("proprietaryService", () => {
       const { usePutProprietary } = await import("./proprietaryService")
 
       const data = ref<Proprietary>({ fna: "4711" })
-      usePutProprietary(data, "fake/eli/1", {
+      const { execute } = usePutProprietary(data, "fake/eli/1", {
         atDate: new Date("2024-05-13"),
       })
 
@@ -237,6 +237,7 @@ describe("proprietaryService", () => {
       expect(fetchSpy).not.toHaveBeenCalled()
 
       data.value = { fna: "4712" }
+      execute()
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
