@@ -18,9 +18,7 @@ const {
   data: amendingLaw,
   isFetching: amendingLawIsLoading,
   error: amendingLawError,
-} = useGetNorm(amendingLawEli, undefined, {
-  immediate: true,
-})
+} = useGetNorm(amendingLawEli, undefined)
 
 /* -------------------------------------------------- *
  * Sidebar                                            *

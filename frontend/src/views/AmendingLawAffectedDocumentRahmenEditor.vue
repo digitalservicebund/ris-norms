@@ -291,7 +291,7 @@ const {
 } = useGetNormHtml(
   affectedDocumentEli,
   { at: timeBoundaryAsDate },
-  { immediate: true, refetch: true },
+  { refetch: true },
 )
 </script>
 
