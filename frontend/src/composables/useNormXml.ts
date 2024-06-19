@@ -42,7 +42,7 @@ export function useNormXml(
     data.value = getNormXml.data.value
   })
 
-  const putNormXml = usePutNormXml(newXml, eli)
+  const putNormXml = usePutNormXml(newXml, eli, undefined, { refetch: true })
   watch(putNormXml.data, () => {
     data.value = putNormXml.data.value
   })

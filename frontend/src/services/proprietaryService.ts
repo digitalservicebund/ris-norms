@@ -77,7 +77,6 @@ export function usePutProprietary(
 ): ReturnType<typeof useProprietaryService> {
   return useProprietaryService(eli, options, {
     immediate: false,
-    refetch: true,
     ...fetchOptions,
   })
     .json()

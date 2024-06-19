@@ -130,7 +130,6 @@ export function usePutNormXml(
   fetchOptions?: Parameters<typeof useNormService>["2"],
 ): UseFetchReturn<string> {
   return useNormService(eli, options, {
-    refetch: true,
     immediate: false,
     ...fetchOptions,
     beforeFetch(c) {

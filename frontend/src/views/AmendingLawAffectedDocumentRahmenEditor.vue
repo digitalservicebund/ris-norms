@@ -68,8 +68,6 @@ const {
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
   {
-    refetch: false,
-    immediate: false,
     afterFetch(c) {
       // Whenever the metadata has been saved successfully, reload the
       // XML to keep it in sync
