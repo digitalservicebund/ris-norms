@@ -114,6 +114,14 @@ class ProprietaryServiceTest {
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
       assertThat(result.getFna(date)).contains("fna");
+      assertThat(result.getArt(date)).contains("");
+      assertThat(result.getTyp(date)).contains("");
+      assertThat(result.getSubtyp(date)).contains("");
+      assertThat(result.getBezeichnungInVorlage(date)).contains("");
+      assertThat(result.getArtDerNorm(date)).contains("");
+      assertThat(result.getNormgeber(date)).contains("");
+      assertThat(result.getBeschliessendesOrgan(date)).contains("");
+      assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
     }
 
     @Test
