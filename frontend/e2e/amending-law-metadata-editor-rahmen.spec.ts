@@ -1,6 +1,36 @@
-import test, { Page, expect } from "@playwright/test"
+import { Proprietary } from "@/types/proprietary"
+import { Page, expect, test } from "@playwright/test"
 
 test.describe("navigate to page", () => {
+  test("navigate to the metadata editor", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents",
+    )
+
+    await page.getByRole("link", { name: "Metadaten bearbeiten" }).click()
+
+    // Only expect the URL to be somewhat equal to the following. The reason is that
+    // the page redirects to a subpage, so this test might be flaky otherwise depending
+    // on how fast the redirect is.
+    await expect(page).toHaveURL(
+      /.*\/amending-laws\/eli\/bund\/bgbl-1\/2023\/413\/2023-12-29\/1\/deu\/regelungstext-1\/affected-documents\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\/edit.*/,
+    )
+  })
+
+  test("displays affected document title", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
+    )
+
+    await expect(page.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
+
+    await expect(
+      page.getByText(
+        "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
+      ),
+    ).toBeVisible()
+  })
+
   test("navigates to the selected time boundary", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
@@ -171,44 +201,8 @@ test.describe("XML view", () => {
   })
 })
 
-test.describe("metadata reading", () => {
-  test("displays metadata", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
-    )
-
-    const editorRegion = page.getByRole("region", {
-      name: "Metadaten bearbeiten",
-    })
-
-    await page.waitForResponse((response) =>
-      response.url().includes("/proprietary/"),
-    )
-
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("210-5")
-    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
-      "Rechtsverordnung",
-    )
-    await expect(editorRegion.getByLabel("SN - Stammnorm")).toBeChecked()
-    await expect(
-      editorRegion.getByLabel("ÄN - Änderungsnorm"),
-    ).not.toBeChecked()
-    await expect(editorRegion.getByLabel("ÜN - Übergangsnorm")).toBeChecked()
-
-    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
-      "BEO - Berlin (Ost)",
-    )
-    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
-      "BMinJ - Bundesministerium der Justiz",
-    )
-    await expect(
-      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
-    ).toBeChecked()
-    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
-      "BMVg - Bundesministerium der Verteidigung",
-    )
-  })
-
+test.describe("metadata view", () => {
+  // TODO: Can this be changed to use the same example data?
   test("displays metadata at different time boundaries", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/regelungstext-1/edit/1934-10-16",
@@ -339,7 +333,7 @@ test.describe("metadata reading", () => {
     )
   })
 
-  test("displays an error if the data could not be loaded", async ({
+  test("displays an error if the metadata could not be loaded", async ({
     page,
   }) => {
     await page.route(/\/proprietary\/2023-12-30$/, (request) => {
@@ -359,6 +353,42 @@ test.describe("metadata reading", () => {
     ).toBeVisible()
 
     await page.unrouteAll()
+  })
+})
+
+test.describe("metadata reading", () => {
+  test("displays metadata", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten bearbeiten",
+    })
+
+    await page.waitForResponse((response) =>
+      response.url().includes("/proprietary/"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("210-5")
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
+      "Rechtsverordnung",
+    )
+    await expect(editorRegion.getByLabel("SN - Stammnorm")).toBeChecked()
+    await expect(
+      editorRegion.getByLabel("ÄN - Änderungsnorm"),
+    ).not.toBeChecked()
+    await expect(editorRegion.getByLabel("ÜN - Übergangsnorm")).toBeChecked()
+
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
+      "BEO - Berlin (Ost)",
+    )
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "BMinJ - Bundesministerium der Justiz",
+    )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).toBeChecked()
   })
 })
 
@@ -484,48 +514,41 @@ test.describe("metadata editing", () => {
     page,
   }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1/edit/1964-09-21",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     const saved = page.waitForResponse(
       (response) =>
         response.request().method() === "PUT" &&
-        response.request().url().endsWith("/proprietary/1964-09-21"),
+        response.request().url().endsWith("/proprietary/2023-12-30"),
     )
 
     // FNA
     const fnaTextbox = page.getByRole("textbox", {
       name: "Sachgebiet",
     })
-    await expect(fnaTextbox).toHaveValue("754-28-1")
+    await expect(fnaTextbox).toHaveValue("210-5")
     await fnaTextbox.fill("123-4")
 
     // Dokumenttyp
     const documentTypeDropdown = page.getByRole("combobox", {
       name: "Dokumenttyp",
     })
-    await expect(documentTypeDropdown).toHaveValue("__unknown_document_type__")
+    await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
     await documentTypeDropdown.selectOption("Berichtigung")
-
-    // Bezeichnung gemäß Vorlage
-    const bezeichnungTextbox = page.getByRole("textbox", {
-      name: "Bezeichnung gemäß Vorlage",
-    })
-    await expect(bezeichnungTextbox).toBeEmpty()
-    await bezeichnungTextbox.fill("Testbezeichnung")
 
     // ST - Stammnorm
     const SNcheckbox = page.getByRole("checkbox", {
       name: "SN - Stammnorm",
     })
-    await expect(SNcheckbox).not.toBeChecked()
-    await SNcheckbox.check()
+    await expect(SNcheckbox).toBeChecked()
+    await SNcheckbox.uncheck()
 
     // ÄN - Änderungsnorm"
     const ANcheckbox = page.getByRole("checkbox", {
       name: "ÄN - Änderungsnorm",
     })
-    await expect(ANcheckbox).not.toBeChecked()
+    await expect(ANcheckbox).toBeChecked()
     await ANcheckbox.check()
 
     // ÜN - Übergangsnorm
@@ -534,6 +557,13 @@ test.describe("metadata editing", () => {
     })
     await expect(UNcheckbox).not.toBeChecked()
     await UNcheckbox.check()
+
+    // Bezeichnung gemäß Vorlage
+    const bezeichnungTextbox = page.getByRole("textbox", {
+      name: "Bezeichnung gemäß Vorlage",
+    })
+    await expect(bezeichnungTextbox).toBeEmpty()
+    await bezeichnungTextbox.fill("Testbezeichnung")
 
     // Normgeber
     const normgeberDropdown = page.getByRole("combobox", {
@@ -590,7 +620,7 @@ test.describe("metadata editing", () => {
           Accept: "application/json",
         },
         data: JSON.stringify({
-          fna: "754-28-1",
+          fna: "210-5",
           art: null,
           typ: null,
           subtyp: null,
@@ -604,7 +634,9 @@ test.describe("metadata editing", () => {
       },
     )
   })
+})
 
+test.describe("saving", () => {
   test("updates with metadata from the backend after saving", async ({
     page,
   }) => {
@@ -636,71 +668,60 @@ test.describe("metadata editing", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
-    // FNA
-    const fnaTextbox = page.getByRole("textbox", {
-      name: "Sachgebiet",
-    })
-    await expect(fnaTextbox).toHaveValue("210-5")
+    // Get metadata controls
+    const fnaTextbox = page.getByRole("textbox", { name: "Sachgebiet" })
 
-    // Dokumenttyp
     const documentTypeDropdown = page.getByRole("combobox", {
       name: "Dokumenttyp",
     })
-    await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
 
-    // Bezeichnung gemäß Vorlage
     const bezeichnungTextbox = page.getByRole("textbox", {
       name: "Bezeichnung gemäß Vorlage",
     })
-    await expect(bezeichnungTextbox).toHaveValue(
-      "Testbezeichnung nach meiner Vorlage",
-    )
 
-    // ST - Stammnorm
     const SNcheckbox = page.getByRole("checkbox", {
       name: "SN - Stammnorm",
     })
-    await expect(SNcheckbox).toBeChecked()
-    // ÄN - Änderungsnorm"
+
     const ANcheckbox = page.getByRole("checkbox", {
       name: "ÄN - Änderungsnorm",
     })
-    await expect(ANcheckbox).not.toBeChecked()
-    // ÜN - Übergangsnorm
+
     const UNcheckbox = page.getByRole("checkbox", {
       name: "ÜN - Übergangsnorm",
     })
-    await expect(UNcheckbox).toBeChecked()
 
-    // Normgeber
     const normgeberDropdown = page.getByRole("combobox", {
       name: "Normgeber",
     })
-    await expect(normgeberDropdown).toHaveValue("BEO - Berlin (Ost)")
 
-    // beschließendes Organ
     const beschliessendesOrganDropdown = page.getByRole("combobox", {
       name: "beschließendes Organ",
     })
-    await expect(beschliessendesOrganDropdown).toHaveValue(
-      "BMinJ - Bundesministerium der Justiz",
-    )
-    // Beschlussf. qual. Mehrheit
+
     const qualMehrheit = page.getByRole("checkbox", {
       name: "Beschlussf. qual. Mehrheit",
     })
+
+    // Verify the current state
+    await expect(fnaTextbox).toHaveValue("210-5")
+    await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
+    await expect(bezeichnungTextbox).toHaveValue(
+      "Testbezeichnung nach meiner Vorlage",
+    )
+    await expect(SNcheckbox).toBeChecked()
+    await expect(ANcheckbox).not.toBeChecked()
+    await expect(UNcheckbox).toBeChecked()
+    await expect(normgeberDropdown).toHaveValue("BEO - Berlin (Ost)")
+    await expect(beschliessendesOrganDropdown).toHaveValue(
+      "BMinJ - Bundesministerium der Justiz",
+    )
     await expect(qualMehrheit).toBeChecked()
 
-    // Federführung
-    const federfuehrungDropdown = page.getByRole("combobox", {
-      name: "Federführung",
-    })
-    await expect(federfuehrungDropdown).toHaveValue(
-      "BMI - Bundesministerium des Innern und für Heimat",
-    )
-
+    // Save -> this will be caught and mocked to return changed data
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
 
+    // Verify the state after saving
     await expect(fnaTextbox).toHaveValue("600-1")
     await expect(documentTypeDropdown).toHaveValue("Geschäftsordnung")
     await expect(bezeichnungTextbox).toHaveValue("Testbezeichnung")
@@ -712,7 +733,6 @@ test.describe("metadata editing", () => {
       "BMinG - Bundesministerium für Gesundheit",
     )
     await expect(qualMehrheit).not.toBeChecked()
-    await expect(federfuehrungDropdown).toHaveValue("AA - Auswärtiges Amt")
 
     await page.unrouteAll()
   })

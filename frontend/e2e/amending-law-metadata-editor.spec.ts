@@ -1,34 +1,9 @@
 import { expect, test } from "@playwright/test"
 
 test.describe("navigate to page", () => {
-  test("navigate to affected document metadata editor", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents",
-    )
-
-    await page.getByRole("link", { name: "Metadaten bearbeiten" }).click()
-
-    // Only expect the URL to be somewhat equal to the following. The reason is that
-    // the page redirects to a subpage, so this test might be flaky otherwise depending
-    // on how fast the redirect is.
-    await expect(page).toHaveURL(
-      /.*\/amending-laws\/eli\/bund\/bgbl-1\/2023\/413\/2023-12-29\/1\/deu\/regelungstext-1\/affected-documents\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\/edit.*/,
-    )
-  })
-
-  test("displays affected document title", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
-    )
-
-    await expect(page.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
-
-    await expect(
-      page.getByText(
-        "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
-      ),
-    ).toBeVisible()
-  })
+  // Opening the page is tested in amending-law-metadata-editor-rahmen.spec.ts as that's
+  // the page that is effectively being opened. This file only tests behavior that is
+  // shared between all metadata editor pages.
 
   test("shows an error when the amending law could not be loaded", async ({
     page,
