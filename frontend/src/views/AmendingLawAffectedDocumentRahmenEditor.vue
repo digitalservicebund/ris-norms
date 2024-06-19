@@ -60,6 +60,7 @@ watch(data, (newData) => {
 const {
   data: savedData,
   isFetching: isSaving,
+  isFinished: hasSaved,
   error: saveError,
   execute: save,
 } = usePutProprietary(
@@ -429,9 +430,13 @@ const {
               <footer class="relative col-span-2 mt-32">
                 <RisTooltip
                   v-slot="{ ariaDescribedby }"
-                  title="Speichern fehlgeschlagen"
-                  variant="error"
-                  :visible="!!saveError"
+                  :title="
+                    hasSaved && saveError
+                      ? 'Speichern fehlgeschlagen'
+                      : 'Gespeichert!'
+                  "
+                  :variant="hasSaved && saveError ? 'error' : 'success'"
+                  :visible="hasSaved"
                   allow-dismiss
                 >
                   <RisTextButton

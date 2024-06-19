@@ -1035,6 +1035,22 @@ test.describe("metadata editing", () => {
     await page.unrouteAll()
   })
 
+  test("displays a success message when the data has been saved for the whole document", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+
+    await expect(
+      page.getByRole("tooltip", { name: "Gespeichert!" }),
+    ).toBeVisible()
+
+    await page.unrouteAll()
+  })
+
   test("displays an error if the data could not be saved for the whole document", async ({
     page,
   }) => {
