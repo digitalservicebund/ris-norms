@@ -93,9 +93,8 @@ public class ProprietaryController {
                       proprietarySchema.getBezeichnungInVorlage(),
                       proprietarySchema.getArtDerNorm(),
                       proprietarySchema.getNormgeber(),
-                      new UpdateProprietaryFromNormUseCase.BeschliessendesOrgan(
-                          proprietarySchema.getBeschliessendesOrgan(),
-                          proprietarySchema.getQualifizierteMehrheit()))));
+                      proprietarySchema.getBeschliessendesOrgan(),
+                      proprietarySchema.getQualifizierteMehrheit())));
 
       return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
 

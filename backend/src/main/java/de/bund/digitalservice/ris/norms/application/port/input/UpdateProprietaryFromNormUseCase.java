@@ -38,6 +38,7 @@ public interface UpdateProprietaryFromNormUseCase {
    * @param artDerNorm - "Art der Norm"
    * @param normgeber - "Normgeber"
    * @param beschliessendesOrgan - "Beschließendes Organ"
+   * @param qualifizierterMehrheit - "Beschlussfassung mit qualifizierter Mehrheit"
    */
   record Metadata(
       String fna,
@@ -47,13 +48,6 @@ public interface UpdateProprietaryFromNormUseCase {
       String bezeichnungInVorlage,
       String artDerNorm,
       String normgeber,
-      BeschliessendesOrgan beschliessendesOrgan) {}
-
-  /**
-   * Record representing the beschliessendesOrgan metadata entry
-   *
-   * @param value - "Beschließendes Organ" content
-   * @param qualifizierteMehrheit - if beschliessendesOrgan had a "Qualifizierte Mehrheit"
-   */
-  record BeschliessendesOrgan(String value, Boolean qualifizierteMehrheit) {}
+      String beschliessendesOrgan,
+      Boolean qualifizierterMehrheit) {}
 }

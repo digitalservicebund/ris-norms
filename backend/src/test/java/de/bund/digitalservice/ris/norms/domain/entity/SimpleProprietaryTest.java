@@ -8,12 +8,12 @@ import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class ProprietaryValueTest {
+class SimpleProprietaryTest {
 
   @Test
   void getValue() {
-    final ProprietaryValue fna =
-        ProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -26,8 +26,8 @@ class ProprietaryValueTest {
 
   @Test
   void getValueNull() {
-    final ProprietaryValue fna =
-        ProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -40,8 +40,8 @@ class ProprietaryValueTest {
 
   @Test
   void getStart() {
-    final ProprietaryValue fna =
-        ProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -54,8 +54,8 @@ class ProprietaryValueTest {
 
   @Test
   void getStartEmpty() {
-    final ProprietaryValue fna =
-        ProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -68,8 +68,8 @@ class ProprietaryValueTest {
 
   @Test
   void getEnd() {
-    final ProprietaryValue fna =
-        ProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -82,8 +82,8 @@ class ProprietaryValueTest {
 
   @Test
   void getEndEmpty() {
-    final ProprietaryValue fna =
-        ProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -99,12 +99,12 @@ class ProprietaryValueTest {
     @Test
     void keepsTheOrderIfStartDatesAreEmpty() {
       // Given
-      final var a = new ProprietaryValue(XmlMapper.toNode("<meta:fna>111-11-1</meta:fna>"));
-      final var b = new ProprietaryValue(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
+      final var a = new SimpleProprietary(XmlMapper.toNode("<meta:fna>111-11-1</meta:fna>"));
+      final var b = new SimpleProprietary(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
       final var list = List.of(a, b);
 
       // When
-      final var sorted = list.stream().sorted(ProprietaryValue::compareByStartDate).toList();
+      final var sorted = list.stream().sorted(SimpleProprietary::compareByStartDate).toList();
 
       // Then
       assertThat(sorted).containsExactly(a, b);
@@ -114,15 +114,15 @@ class ProprietaryValueTest {
     void sortsByStartDateIfBothArePresent() {
       // Given
       final var a =
-          new ProprietaryValue(
+          new SimpleProprietary(
               XmlMapper.toNode("<meta:fna start='2023-01-01'>111-11-1</meta:fna>"));
       final var b =
-          new ProprietaryValue(
+          new SimpleProprietary(
               XmlMapper.toNode("<meta:fna start='2011-01-01'>222-22-2</meta:fna>"));
       final var list = List.of(a, b);
 
       // When
-      final var sorted = list.stream().sorted(ProprietaryValue::compareByStartDate).toList();
+      final var sorted = list.stream().sorted(SimpleProprietary::compareByStartDate).toList();
 
       // Then
       assertThat(sorted).containsExactly(b, a);
@@ -132,13 +132,13 @@ class ProprietaryValueTest {
     void sortsMissingStartDateBeforePresentStartDate() {
       // Given
       final var a =
-          new ProprietaryValue(
+          new SimpleProprietary(
               XmlMapper.toNode("<meta:fna start='2023-01-01'>111-11-1</meta:fna>"));
-      final var b = new ProprietaryValue(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
+      final var b = new SimpleProprietary(XmlMapper.toNode("<meta:fna>222-22-2</meta:fna>"));
       final var list = List.of(a, b);
 
       // When
-      final var sorted = list.stream().sorted(ProprietaryValue::compareByStartDate).toList();
+      final var sorted = list.stream().sorted(SimpleProprietary::compareByStartDate).toList();
 
       // Then
       assertThat(sorted).containsExactly(b, a);

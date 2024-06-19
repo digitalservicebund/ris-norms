@@ -88,15 +88,7 @@ class ProprietaryServiceTest {
                           eli,
                           LocalDate.now(),
                           new UpdateProprietaryFromNormUseCase.Metadata(
-                              "fna",
-                              null,
-                              null,
-                              null,
-                              null,
-                              null,
-                              null,
-                              new UpdateProprietaryFromNormUseCase.BeschliessendesOrgan(
-                                  null, null)))))
+                              "fna", null, null, null, null, null, null, null, null))))
           // then
           .isInstanceOf(NormNotFoundException.class);
     }
@@ -117,14 +109,7 @@ class ProprietaryServiceTest {
                   eli,
                   date,
                   new UpdateProprietaryFromNormUseCase.Metadata(
-                      "fna",
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      new UpdateProprietaryFromNormUseCase.BeschliessendesOrgan(null, null))));
+                      "fna", null, null, null, null, null, null, null, null)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -154,8 +139,8 @@ class ProprietaryServiceTest {
                       "bezeichnungInVorlage",
                       "SN,ÄN,ÜN",
                       "DEU",
-                      new UpdateProprietaryFromNormUseCase.BeschliessendesOrgan(
-                          "Bundestag", true))));
+                      "Bundestag",
+                      true)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -186,14 +171,7 @@ class ProprietaryServiceTest {
                   eli,
                   date,
                   new UpdateProprietaryFromNormUseCase.Metadata(
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      null,
-                      new UpdateProprietaryFromNormUseCase.BeschliessendesOrgan(null, null))));
+                      null, null, null, null, null, null, null, null, null)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);

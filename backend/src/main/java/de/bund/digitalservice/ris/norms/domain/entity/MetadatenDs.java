@@ -17,7 +17,6 @@ import org.w3c.dom.Node;
 public class MetadatenDs {
 
   private final Node node;
-  private static final String XPATH_TEMPLATE = "%s[@start='%s']";
 
   /** The list of all simple metadata. They consist of a single string property. */
   public enum SimpleMetadatum {
@@ -27,7 +26,8 @@ public class MetadatenDs {
     SUBTYP("./subtyp"),
     BEZEICHNUNG_IN_VORLAGE("./bezeichnungInVorlage"),
     ART_DER_NORM("./artDerNorm"),
-    NORMGEBER("./normgeber");
+    NORMGEBER("./normgeber"),
+    BESCHLIESSENDES_ORGAN("./beschliessendesOrgan");
 
     private final String xpath;
 
@@ -36,23 +36,19 @@ public class MetadatenDs {
     }
   }
 
-  // TODO tbh I'd rather integrate metadata that have an attribute into SimpleMetadatum
   /**
-   * The list of all complex metadata. They consist of a single string property, and they might have
-   * attributes.
+   * The list of all attribute. They consist of the enum {@link SimpleMetadatum} they belong to and
+   * its name.
    */
-  public enum ComplexMetadatum {
-    BESCHLIESSENDES_ORGAN("beschliessendesOrgan", new String[] {"qualifizierteMehrheit"});
+  public enum Attribute {
+    QUALIFIZIERTE_MEHRHEIT(SimpleMetadatum.BESCHLIESSENDES_ORGAN, "qualifizierteMehrheit");
 
-    private final String xpath;
-    private final Map<String, String> attributeXpaths;
+    private final SimpleMetadatum simpleMetadatum;
+    private final String name;
 
-    ComplexMetadatum(final String nodeName, final String[] attributeNames) {
-      this.xpath = String.format("./%s", nodeName);
-      this.attributeXpaths = new HashMap<>();
-      for (String attributeName : attributeNames) {
-        this.attributeXpaths.put(attributeName, this.xpath + "@" + attributeName);
-      }
+    Attribute(final SimpleMetadatum simpleMetadatum, final String name) {
+      this.simpleMetadatum = simpleMetadatum;
+      this.name = name;
     }
   }
 
@@ -64,66 +60,23 @@ public class MetadatenDs {
    * @param date the specific date
    * @return an optional value, if found.
    */
-  public Optional<String> getSimpleValueAt(
+  public Optional<String> getSimpleMetadatum(
       final SimpleMetadatum simpleMetadatum, final LocalDate date) {
-    return getProprietaryValueAt(simpleMetadatum.xpath, date).map(ProprietaryValue::getValue);
+    return getSimpleNodeAt(simpleMetadatum, date).map(SimpleProprietary::getValue);
   }
 
   /**
-   * It returns the value for a xpath at a specific date. If no matching value @start or @end is
-   * found, it will retrieve the value from the node with neither @start nor @end.
+   * It returns the value of the attribute by retrieving first the belonging metadatum by using
+   * getSimpleMetadatum
    *
-   * @param complexMetadatum the enum metadatum
+   * @param attribute the attribute to be retrieved
    * @param date the specific date
-   * @return an optional value, if found.
+   * @return an optional string value of the attribute, if found
    */
-  public Optional<String> getComplexValueAt(
-      final ComplexMetadatum complexMetadatum, final LocalDate date) {
-    return getProprietaryValueAt(complexMetadatum.xpath, date).map(ProprietaryValue::getValue);
-  }
-
-  /**
-   * It returns the attribute value for a given attributeName, a xpath and a specific date. If no
-   * matching value @start or @end is found, it will retrieve the attribute value from the node with
-   * neither @start nor @end.
-   *
-   * @param complexMetadatum the enum metadatum which has an attribute
-   * @param date the specific date
-   * @param attributeName the name of the attribute
-   * @return an optional value, if found.
-   */
-  public Optional<String> getAttributeValueAt(
-      final ComplexMetadatum complexMetadatum, final LocalDate date, final String attributeName) {
-    var simpleProprietaryValueOptional = getProprietaryValueAt(complexMetadatum.xpath, date);
-    if (simpleProprietaryValueOptional.isPresent()) {
-      return simpleProprietaryValueOptional.get().getAttribute(attributeName);
-    }
-    return Optional.empty();
-  }
-
-  private Optional<ProprietaryValue> getProprietaryValueAt(
-      final String xpath, final LocalDate date) {
-    final List<ProprietaryValue> valuesWithoutStartAndEnd =
-        getNodes(xpath).stream()
-            .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
-            .toList();
-
-    final List<ProprietaryValue> valuesWithStartOrAndEnd =
-        getNodes(xpath).stream()
-            .filter(f -> f.getStart().isPresent() || f.getEnd().isPresent())
-            .filter(
-                f ->
-                    f.getStart()
-                        .map(start -> date.isEqual(start) || date.isAfter(start))
-                        .orElse(true))
-            .filter(
-                f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
-            .toList();
-    if (!valuesWithStartOrAndEnd.isEmpty()) {
-      return valuesWithStartOrAndEnd.stream().findFirst();
-    } else {
-      return valuesWithoutStartAndEnd.stream().findFirst();
-    }
+  public Optional<String> getAttributeOfSimpleMetadatumAt(
+      final Attribute attribute, final LocalDate date) {
+    return getSimpleNodeAt(attribute.simpleMetadatum, date)
+        .flatMap(m -> m.getAttribute(attribute.name));
   }
 
   /**
@@ -138,63 +91,29 @@ public class MetadatenDs {
    * @param date - the specific date
    * @param newValue - the new value to update/create
    */
-  public void setSimpleProprietaryMetadata(
+  public void setSimpleMetadatum(
       final SimpleMetadatum simpleMetadatum, final LocalDate date, final String newValue) {
-    setProprietaryMetadata(simpleMetadatum.xpath, date, newValue);
-  }
-
-  /**
-   * Creates or updates a metadata with complex value at the specific date. It sets the @start
-   * attribute to the given date. If node not present, it will create a new one and set also
-   * the @end attribute if there is a later fna node. The value would be the @start date of the next
-   * closest FNA minus 1 day. Also, if there is a previous node it will set the @end attribute to 1
-   * day before of the newly updated/created node. Finally, it will also set the @end attribute of
-   * those nodes with neither @start nor @end attributes. Depending on the newValue it will either
-   * remove all attributes (when null) or set them to the desired value.
-   *
-   * @param complexMetadatum - the complex enum metadatum
-   * @param date - the specific date
-   * @param newValue - the new value to update/create
-   * @param attributes - the attributes as hashMap. Values are passed as Objects. Make sure to
-   *     supply an Object with toString method.
-   */
-  public void setComplexProprietaryMetadata(
-      final ComplexMetadatum complexMetadatum,
-      final LocalDate date,
-      final String newValue,
-      final Map<String, Object> attributes) {
-
-    setProprietaryMetadata(complexMetadatum.xpath, date, newValue);
-
-    if (newValue == null || newValue.trim().isEmpty()) {
-      removeAllComplexProprietaryMetadataAttributes(complexMetadatum, date, attributes);
-    } else {
-      setAllComplexProprietaryMetadataAttributes(complexMetadatum, date, attributes);
-    }
-  }
-
-  private void setProprietaryMetadata(
-      final String xpath, final LocalDate date, final String newValue) {
-    NodeParser.getNodeFromExpression(String.format(XPATH_TEMPLATE, xpath, date.toString()), node)
+    NodeParser.getNodeFromExpression(
+            String.format("%s[@start='%s']", simpleMetadatum.xpath, date.toString()), node)
         .ifPresentOrElse(
             fnaNode -> fnaNode.setTextContent(newValue),
             () -> {
               // 1. Check if we have later FNAs and get the next closest one
-              final Optional<ProprietaryValue> nextNode =
-                  getNodes(xpath).stream()
+              final Optional<SimpleProprietary> nextNode =
+                  getNodes(simpleMetadatum.xpath).stream()
                       .filter(f -> f.getStart().isPresent() && f.getStart().get().isAfter(date))
                       .min(Comparator.comparing(f -> f.getStart().get()));
 
               // 2. Check if we have previous FNAs and get the next closest one
-              final Optional<ProprietaryValue> previousNode =
-                  getNodes(xpath).stream()
+              final Optional<SimpleProprietary> previousNode =
+                  getNodes(simpleMetadatum.xpath).stream()
                       .filter(f -> f.getStart().isPresent() && f.getStart().get().isBefore(date))
                       .max(Comparator.comparing(f -> f.getStart().get()));
 
               // 3. Create new meta:fna node with the @start value and optional @end
               final Element newFnaElement =
                   NodeCreator.createElement(
-                      String.format("meta:%s", xpath.replace("./", "")), node);
+                      String.format("meta:%s", simpleMetadatum.xpath.replace("./", "")), node);
               newFnaElement.setTextContent(newValue);
               newFnaElement.setAttribute("start", date.toString());
               if (nextNode.isPresent() && nextNode.get().getStart().isPresent()) {
@@ -212,7 +131,7 @@ public class MetadatenDs {
 
               // 5. And finally set @end of nodes without @start and @end to one day before given
               // date
-              getNodes(xpath).stream()
+              getNodes(simpleMetadatum.xpath).stream()
                   .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
                   .forEach(
                       value ->
@@ -221,56 +140,53 @@ public class MetadatenDs {
             });
   }
 
-  private void removeAllComplexProprietaryMetadataAttributes(
-      final ComplexMetadatum complexMetadatum,
-      final LocalDate date,
-      final Map<String, Object> attributes) {
-    for (String attributeName : attributes.keySet()) {
-      removeComplexProprietaryMetadataAttribute(complexMetadatum, date, attributeName);
-    }
-  }
-
-  private void removeComplexProprietaryMetadataAttribute(
-      final ComplexMetadatum complexMetadatum, final LocalDate date, final String attributeName) {
-    NodeParser.getNodeFromExpression(
-            String.format(XPATH_TEMPLATE, complexMetadatum.xpath, date.toString()), node)
-        .ifPresent(
-            nodeWithAttribute ->
-                ((Element) nodeWithAttribute)
-                    .removeAttribute(complexMetadatum.attributeXpaths.get(attributeName)));
-  }
-
-  private void setAllComplexProprietaryMetadataAttributes(
-      final ComplexMetadatum complexMetadatum,
-      final LocalDate date,
-      final Map<String, Object> attributes) {
-    for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-      setComplexProprietaryMetadataAttribute(
-          complexMetadatum, date, entry.getKey(), entry.getValue());
-    }
-  }
-
-  private void setComplexProprietaryMetadataAttribute(
-      final ComplexMetadatum complexMetadatum,
-      final LocalDate date,
-      final String attributeName,
-      final Object newAttributeValue) {
-    NodeParser.getNodeFromExpression(
-            String.format(XPATH_TEMPLATE, complexMetadatum.xpath, date.toString()), node)
-        .ifPresent(
-            selectedNode ->
-                ((Element) selectedNode).setAttribute(attributeName, newAttributeValue.toString()));
+  /**
+   * Creates or updates an attribute of a simple node with the new passed value.
+   *
+   * @param attribute the attribute to be created/updated
+   * @param date the specific date
+   * @param newValue the new value
+   */
+  public void setAttributeOfSimpleMetadatum(
+      final Attribute attribute, final LocalDate date, final String newValue) {
+    getSimpleNodeAt(attribute.simpleMetadatum, date)
+        .ifPresent(m -> m.setAttribute(attribute.name, newValue));
   }
 
   /**
    * Retrieves all nodes of the specific metadatum.
    *
    * @param xpath of the node
-   * @return list of all metadata as {@link ProprietaryValue}
+   * @return list of all metadata as {@link SimpleProprietary}
    */
-  public List<ProprietaryValue> getNodes(final String xpath) {
+  public List<SimpleProprietary> getNodes(final String xpath) {
     return NodeParser.getNodesFromExpression(xpath, node).stream()
-        .map(ProprietaryValue::new)
+        .map(SimpleProprietary::new)
         .toList();
+  }
+
+  private Optional<SimpleProprietary> getSimpleNodeAt(
+      final SimpleMetadatum simpleMetadatum, final LocalDate date) {
+    final List<SimpleProprietary> valuesWithoutStartAndEnd =
+        getNodes(simpleMetadatum.xpath).stream()
+            .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
+            .toList();
+
+    final List<SimpleProprietary> valuesWithStartOrAndEnd =
+        getNodes(simpleMetadatum.xpath).stream()
+            .filter(f -> f.getStart().isPresent() || f.getEnd().isPresent())
+            .filter(
+                f ->
+                    f.getStart()
+                        .map(start -> date.isEqual(start) || date.isAfter(start))
+                        .orElse(true))
+            .filter(
+                f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
+            .toList();
+    if (!valuesWithStartOrAndEnd.isEmpty()) {
+      return valuesWithStartOrAndEnd.stream().findFirst();
+    } else {
+      return valuesWithoutStartAndEnd.stream().findFirst();
+    }
   }
 }

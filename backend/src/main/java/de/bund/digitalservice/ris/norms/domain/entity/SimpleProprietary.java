@@ -6,13 +6,14 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/** Class meta:fna within meta:legalDocML.de_metadaten_ds */
+/** Class representing simple proprietary nodes within meta:legalDocML.de_metadaten_ds */
 @Getter
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
-public class ProprietaryValue {
+public class SimpleProprietary {
   private final Node node;
 
   /**
@@ -61,6 +62,16 @@ public class ProprietaryValue {
   }
 
   /**
+   * Sets the attribute to the new value.
+   *
+   * @param attributeName the name of the attribute
+   * @param newValue the new value to be set
+   */
+  public void setAttribute(final String attributeName, final String newValue) {
+    ((Element) node).setAttribute(attributeName, newValue);
+  }
+
+  /**
    * Compares two FNAs, so they can be sorted by their start dates. It is assumed that there is no
    * overlap in validity between two values.
    *
@@ -68,7 +79,7 @@ public class ProprietaryValue {
    * @param o2 the second element to be compared
    * @return Comparison result
    */
-  public static int compareByStartDate(final ProprietaryValue o1, final ProprietaryValue o2) {
+  public static int compareByStartDate(final SimpleProprietary o1, final SimpleProprietary o2) {
     if (o1.getStart().isPresent() && o2.getStart().isPresent()) {
       return o1.getStart().get().compareTo(o2.getStart().get());
     } else if (o1.getStart().isEmpty() && o2.getStart().isPresent()) return -1;

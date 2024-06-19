@@ -29,42 +29,42 @@ class MetadatenDsTest {
             .build();
 
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1980-01-01")))
         .isEmpty();
 
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1990-01-01")))
         .contains("111-11-1");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1992-01-01")))
         .contains("111-11-1");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1994-12-31")))
         .contains("111-11-1");
 
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1995-01-01")))
         .contains("222-22-2");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1998-01-01")))
         .contains("222-22-2");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("2000-12-31")))
         .contains("222-22-2");
 
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("2001-01-01")))
         .contains("333-33-3");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("2024-01-01")))
         .contains("333-33-3");
   }
@@ -92,12 +92,12 @@ class MetadatenDsTest {
 
     final LocalDate newDate = LocalDate.parse("1990-01-01");
     assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
         .contains("111-11-1");
 
-    metadatenDs.setSimpleProprietaryMetadata(MetadatenDs.SimpleMetadatum.FNA, newDate, updateValue);
+    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate, updateValue);
 
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
         .contains(expectedValue);
     assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
   }
@@ -116,12 +116,12 @@ class MetadatenDsTest {
 
     final LocalDate newDate = LocalDate.parse("1980-01-01");
 
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate)).isEmpty();
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate)).isEmpty();
     assertThat(metadatenDs.getNodes("./fna")).isEmpty();
 
-    metadatenDs.setSimpleProprietaryMetadata(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
+    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
 
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
         .contains("000-00-0");
     assertThat(metadatenDs.getNodes("./fna")).hasSize(1);
 
@@ -147,12 +147,12 @@ class MetadatenDsTest {
             .build();
 
     final LocalDate newDate = LocalDate.parse("1980-01-01");
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate)).isEmpty();
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate)).isEmpty();
     assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
 
-    metadatenDs.setSimpleProprietaryMetadata(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
+    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
 
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
         .contains("000-00-0");
     assertThat(metadatenDs.getNodes("./fna")).hasSize(4);
 
@@ -178,15 +178,15 @@ class MetadatenDsTest {
             .build();
 
     final LocalDate newDate = LocalDate.parse("2005-01-01");
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
         .contains("333-33-3");
     assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
 
-    metadatenDs.setSimpleProprietaryMetadata(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
+    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
 
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
         .contains("000-00-0");
-    final List<ProprietaryValue> fnaValues = metadatenDs.getNodes("./fna");
+    final List<SimpleProprietary> fnaValues = metadatenDs.getNodes("./fna");
     assertThat(fnaValues).hasSize(4);
 
     fnaValues.stream()
@@ -220,42 +220,42 @@ class MetadatenDsTest {
             .build();
 
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1980-01-01")))
         .contains("subtyp0");
 
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1990-01-01")))
         .contains("subtyp1");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1992-01-01")))
         .contains("subtyp1");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1994-12-31")))
         .contains("subtyp1");
 
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1995-01-01")))
         .contains("subtyp2");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1998-01-01")))
         .contains("subtyp2");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("2000-12-31")))
         .contains("subtyp2");
 
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("2001-01-01")))
         .contains("subtyp3");
     assertThat(
-            metadatenDs.getSimpleValueAt(
+            metadatenDs.getSimpleMetadatum(
                 MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("2024-01-01")))
         .contains("subtyp3");
   }
@@ -274,16 +274,15 @@ class MetadatenDsTest {
             .build();
 
     final LocalDate newDate = LocalDate.parse("2005-01-01");
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.SUBTYP, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.SUBTYP, newDate))
         .contains("subtyp0");
     assertThat(metadatenDs.getNodes("./subtyp")).hasSize(1);
 
-    metadatenDs.setSimpleProprietaryMetadata(
-        MetadatenDs.SimpleMetadatum.SUBTYP, newDate, "subtyp1");
+    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.SUBTYP, newDate, "subtyp1");
 
-    assertThat(metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.SUBTYP, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.SUBTYP, newDate))
         .contains("subtyp1");
-    final List<ProprietaryValue> subtypValues = metadatenDs.getNodes("./subtyp");
+    final List<SimpleProprietary> subtypValues = metadatenDs.getNodes("./subtyp");
     assertThat(subtypValues).hasSize(2);
 
     subtypValues.stream()
@@ -292,7 +291,149 @@ class MetadatenDsTest {
         .map(m -> assertThat(m.getEnd()).contains(LocalDate.MAX));
 
     assertThat(
-            metadatenDs.getSimpleValueAt(MetadatenDs.SimpleMetadatum.SUBTYP, newDate.minusDays(1)))
+            metadatenDs.getSimpleMetadatum(
+                MetadatenDs.SimpleMetadatum.SUBTYP, newDate.minusDays(1)))
         .contains("subtyp0");
+  }
+
+  @Test
+  void getAttributeAtDate() {
+    final MetadatenDs metadatenDs =
+        MetadatenDs.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
+                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
+                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</meta:beschliessendesOrgan>
+                                                </meta:legalDocML.de_metadaten_ds>
+                                            """))
+            .build();
+
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1980-01-01")))
+        .isEmpty();
+
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1990-01-01")))
+        .contains("true");
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1992-01-01")))
+        .contains("true");
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1994-12-31")))
+        .contains("true");
+
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1995-01-01")))
+        .contains("false");
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("1998-01-01")))
+        .contains("false");
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("2000-12-31")))
+        .contains("false");
+
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("2001-01-01")))
+        .contains("true");
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, LocalDate.parse("2024-01-01")))
+        .contains("true");
+  }
+
+  @Test
+  void setAttributeAtDateUpdate() {
+    final MetadatenDs metadatenDs =
+        MetadatenDs.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
+                                                                </meta:legalDocML.de_metadaten_ds>
+                                                            """))
+            .build();
+
+    final LocalDate newDate = LocalDate.parse("1990-01-01");
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+        .contains("true");
+
+    metadatenDs.setAttributeOfSimpleMetadatum(
+        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, "false");
+
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+        .contains("false");
+  }
+
+  @Test
+  void setAttributeAtDateCreate() {
+    final MetadatenDs metadatenDs =
+        MetadatenDs.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                                                    <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
+                                                                                </meta:legalDocML.de_metadaten_ds>
+                                                                            """))
+            .build();
+
+    final LocalDate newDate = LocalDate.parse("1990-01-01");
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+        .isEmpty();
+
+    metadatenDs.setAttributeOfSimpleMetadatum(
+        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, "false");
+
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+        .contains("false");
+  }
+
+  @Test
+  void setAttributeAtDateParentNotPresent() {
+    final MetadatenDs metadatenDs =
+        MetadatenDs.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
+                                                                    <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="2001-01-01" end="unbestimmt">organ 3</meta:beschliessendesOrgan>
+                                                                </meta:legalDocML.de_metadaten_ds>
+                                                            """))
+            .build();
+
+    final LocalDate newDate = LocalDate.parse("1990-01-01");
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+        .isEmpty();
+
+    metadatenDs.setAttributeOfSimpleMetadatum(
+        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate, "true");
+
+    assertThat(
+            metadatenDs.getAttributeOfSimpleMetadatumAt(
+                MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, newDate))
+        .isEmpty();
   }
 }

@@ -74,7 +74,7 @@ public class Proprietary {
    */
   public Optional<String> getFna(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.FNA, date))
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, date))
         .or(this::getFna);
   }
 
@@ -91,7 +91,7 @@ public class Proprietary {
    */
   public Optional<String> getArt(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.ART, date))
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.ART, date))
         .or(this::getArt);
   }
 
@@ -108,7 +108,7 @@ public class Proprietary {
    */
   public Optional<String> getTyp(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.TYP, date))
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.TYP, date))
         .or(this::getTyp);
   }
 
@@ -120,7 +120,7 @@ public class Proprietary {
    */
   public Optional<String> getSubtyp(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.SUBTYP, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.SUBTYP, date));
   }
 
   /**
@@ -132,7 +132,8 @@ public class Proprietary {
    */
   public Optional<String> getBezeichnungInVorlage(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.BEZEICHNUNG_IN_VORLAGE, date));
+        .flatMap(
+            m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.BEZEICHNUNG_IN_VORLAGE, date));
   }
 
   /**
@@ -144,7 +145,7 @@ public class Proprietary {
    */
   public Optional<String> getArtDerNorm(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.ART_DER_NORM, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.ART_DER_NORM, date));
   }
 
   /**
@@ -155,7 +156,7 @@ public class Proprietary {
    */
   public Optional<String> getNormgeber(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleValueAt(MetadatenDs.SimpleMetadatum.NORMGEBER, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.NORMGEBER, date));
   }
 
   /**
@@ -168,7 +169,7 @@ public class Proprietary {
   public Optional<String> getBeschliessendesOrgan(final LocalDate date) {
     return getMetadatenDs()
         .flatMap(
-            m -> m.getComplexValueAt(MetadatenDs.ComplexMetadatum.BESCHLIESSENDES_ORGAN, date));
+            m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN, date));
   }
 
   /**
@@ -179,14 +180,11 @@ public class Proprietary {
    * @return "Qualifizierte Mehrheit" true/false or empty if "Beschließendes Organ" doesn't exist.
    */
   public Optional<Boolean> getQualifizierteMehrheit(final LocalDate date) {
-    // TODO string literal not nice
     return getMetadatenDs()
         .flatMap(
             m ->
-                m.getAttributeValueAt(
-                        MetadatenDs.ComplexMetadatum.BESCHLIESSENDES_ORGAN,
-                        date,
-                        "qualifizierteMehrheit")
+                m.getAttributeOfSimpleMetadatumAt(
+                        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, date)
                     .map(Boolean::parseBoolean));
   }
 }

@@ -224,8 +224,8 @@ class ProprietaryControllerTest {
                               .equals("new-bezeichnungInVorlage")
                           && query.metadata().artDerNorm().equals("SN,ÄN,ÜN")
                           && query.metadata().normgeber().equals("DEU")
-                          && query.metadata().beschliessendesOrgan().value().equals("Bundestag")
-                          && query.metadata().beschliessendesOrgan().qualifizierteMehrheit()));
+                          && query.metadata().beschliessendesOrgan().equals("Bundestag")
+                          && query.metadata().qualifizierterMehrheit().equals(true)));
     }
 
     @Test
