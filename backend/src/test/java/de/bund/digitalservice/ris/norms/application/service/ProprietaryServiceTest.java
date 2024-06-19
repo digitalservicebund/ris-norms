@@ -86,7 +86,7 @@ class ProprietaryServiceTest {
                   proprietaryService.updateProprietaryFromNorm(
                       new UpdateProprietaryFromNormUseCase.Query(
                           eli,
-                          LocalDate.now(),
+                          LocalDate.parse("2003-01-01"),
                           new UpdateProprietaryFromNormUseCase.Metadata(
                               "fna", null, null, null, null, null, null, null, null))))
           // then
@@ -97,7 +97,7 @@ class ProprietaryServiceTest {
     void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsNodes() throws Exception {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var date = LocalDate.now();
+      var date = LocalDate.parse("2003-01-01");
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
           .thenReturn(Optional.of(normWithoutProprietary));
@@ -128,7 +128,7 @@ class ProprietaryServiceTest {
     void updatesProprietaryByCreatingNewMetadatenDsNodes() throws Exception {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var date = LocalDate.now();
+      var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
           .thenReturn(Optional.of(normWithProprietary));
@@ -167,7 +167,7 @@ class ProprietaryServiceTest {
     void resetsAllFields() throws Exception {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var date = LocalDate.now();
+      var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
           .thenReturn(Optional.of(normWithProprietary));
