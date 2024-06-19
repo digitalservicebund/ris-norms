@@ -57,7 +57,8 @@ export const useGetProprietary: typeof useProprietaryService = (
   eli,
   options,
   fetchOptions,
-) => useProprietaryService(eli, options, fetchOptions).json()
+) =>
+  useProprietaryService(eli, options, { refetch: true, ...fetchOptions }).json()
 
 /**
  * Convenience shorthand for `useProprietaryService` that sets the correct
@@ -74,7 +75,11 @@ export function usePutProprietary(
   options: Parameters<typeof useProprietaryService>["1"],
   fetchOptions?: Parameters<typeof useProprietaryService>["2"],
 ): ReturnType<typeof useProprietaryService> {
-  return useProprietaryService(eli, options, fetchOptions)
+  return useProprietaryService(eli, options, {
+    immediate: false,
+    refetch: true,
+    ...fetchOptions,
+  })
     .json()
     .put(updateData)
 }

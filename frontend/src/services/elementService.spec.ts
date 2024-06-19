@@ -179,6 +179,36 @@ describe("useElementsService", () => {
         ),
       )
     })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElements } = await import("./elementService")
+
+      const eli = ref("fake/eli/1")
+      useGetElements(eli, ["article"])
+
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/elements?type=article",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/json",
+            }),
+          }),
+        )
+      })
+
+      eli.value = "fake/eli/2"
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/2/elements?type=article",
+          expect.any(Object),
+        )
+      })
+    })
   })
 })
 
@@ -359,6 +389,36 @@ describe("useElementService", () => {
         ),
       )
     })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElement } = await import("./elementService")
+
+      const eli = ref("fake/eli/1")
+      useGetElement(eli, "fake_eid")
+
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/elements/fake_eid?",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/json",
+            }),
+          }),
+        )
+      })
+
+      eli.value = "fake/eli/2"
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/2/elements/fake_eid?",
+          expect.any(Object),
+        )
+      })
+    })
   })
 
   describe("useGetElementHtml", () => {
@@ -384,6 +444,36 @@ describe("useElementService", () => {
           }),
         ),
       )
+    })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElementHtml } = await import("./elementService")
+
+      const eli = ref("fake/eli/1")
+      useGetElementHtml(eli, "fake_eid")
+
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/elements/fake_eid?",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "text/html",
+            }),
+          }),
+        )
+      })
+
+      eli.value = "fake/eli/2"
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/2/elements/fake_eid?",
+          expect.any(Object),
+        )
+      })
     })
   })
 })

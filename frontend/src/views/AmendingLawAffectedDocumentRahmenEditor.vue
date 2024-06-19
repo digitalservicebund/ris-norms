@@ -51,11 +51,7 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetProprietary(
-  affectedDocumentEli,
-  { atDate: timeBoundaryAsDate },
-  { refetch: true },
-)
+} = useGetProprietary(affectedDocumentEli, { atDate: timeBoundaryAsDate })
 
 watch(data, (newData) => {
   localData.value = newData
@@ -288,11 +284,7 @@ const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetNormHtml(
-  affectedDocumentEli,
-  { at: timeBoundaryAsDate },
-  { refetch: true },
-)
+} = useGetNormHtml(affectedDocumentEli, { at: timeBoundaryAsDate })
 </script>
 
 <template>

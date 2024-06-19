@@ -170,9 +170,7 @@ describe("proprietaryService", () => {
 
       const { useGetProprietary } = await import("./proprietaryService")
 
-      useGetProprietary("fake/eli/1", {
-        atDate: new Date("2024-05-13"),
-      })
+      useGetProprietary("fake/eli/1", { atDate: new Date("2024-05-13") })
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
@@ -185,6 +183,36 @@ describe("proprietaryService", () => {
         ),
       )
     })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetProprietary } = await import("./proprietaryService")
+
+      const eli = ref("fake/eli/1")
+      useGetProprietary(eli, { atDate: new Date("2024-05-13") })
+
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/2024-05-13",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/json",
+            }),
+          }),
+        )
+      })
+
+      eli.value = "fake/eli/2"
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/2/proprietary/2024-05-13",
+          expect.any(Object),
+        )
+      })
+    })
   })
 
   describe("usePutProprietary", () => {
@@ -193,19 +221,22 @@ describe("proprietaryService", () => {
       vi.resetModules()
     })
 
-    it("sends the data to the API", async () => {
+    it("sends the data to the API on changes", async () => {
       const fetchSpy = vi
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
       const { usePutProprietary } = await import("./proprietaryService")
 
-      usePutProprietary(
-        { fna: "4711" },
-        "fake/eli/1",
-        { atDate: new Date("2024-05-13") },
-        { immediate: true },
-      )
+      const data = ref<Proprietary>({ fna: "4711" })
+      usePutProprietary(data, "fake/eli/1", {
+        atDate: new Date("2024-05-13"),
+      })
+
+      await flushPromises()
+      expect(fetchSpy).not.toHaveBeenCalled()
+
+      data.value = { fna: "4712" }
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
@@ -213,7 +244,7 @@ describe("proprietaryService", () => {
           expect.objectContaining({
             headers: expect.objectContaining({ Accept: "application/json" }),
             method: "PUT",
-            body: '{"fna":"4711"}',
+            body: '{"fna":"4712"}',
           }),
         ),
       )

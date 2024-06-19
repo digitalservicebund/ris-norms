@@ -19,9 +19,7 @@ const {
   data: element,
   isFetching: elementIsLoading,
   error: elementError,
-} = useGetElement(affectedDocumentEli, elementEid, undefined, {
-  refetch: true,
-})
+} = useGetElement(affectedDocumentEli, elementEid)
 
 /* -------------------------------------------------- *
  * XML + HTML preview                                 *
@@ -37,12 +35,9 @@ const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetElementHtml(
-  affectedDocumentEli,
-  elementEid,
-  { at: timeBoundaryAsDate },
-  { refetch: true },
-)
+} = useGetElementHtml(affectedDocumentEli, elementEid, {
+  at: timeBoundaryAsDate,
+})
 </script>
 
 <template>
