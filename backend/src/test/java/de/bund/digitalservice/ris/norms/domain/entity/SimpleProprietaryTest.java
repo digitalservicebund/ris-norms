@@ -6,12 +6,12 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
-class SimpleProprietaryValueTest {
+class SimpleProprietaryTest {
 
   @Test
   void getValue() {
-    final SimpleProprietaryValue fna =
-        SimpleProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -24,8 +24,8 @@ class SimpleProprietaryValueTest {
 
   @Test
   void getValueNull() {
-    final SimpleProprietaryValue fna =
-        SimpleProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -38,8 +38,8 @@ class SimpleProprietaryValueTest {
 
   @Test
   void getStart() {
-    final SimpleProprietaryValue fna =
-        SimpleProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -52,8 +52,8 @@ class SimpleProprietaryValueTest {
 
   @Test
   void getStartEmpty() {
-    final SimpleProprietaryValue fna =
-        SimpleProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -66,8 +66,8 @@ class SimpleProprietaryValueTest {
 
   @Test
   void getEnd() {
-    final SimpleProprietaryValue fna =
-        SimpleProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """
@@ -80,8 +80,8 @@ class SimpleProprietaryValueTest {
 
   @Test
   void getEndEmpty() {
-    final SimpleProprietaryValue fna =
-        SimpleProprietaryValue.builder()
+    final SimpleProprietary fna =
+        SimpleProprietary.builder()
             .node(
                 XmlMapper.toNode(
                     """

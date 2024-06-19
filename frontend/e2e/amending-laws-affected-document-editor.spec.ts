@@ -456,6 +456,7 @@ test.describe("XML preview", () => {
           artDerNorm: "SN,ÜN",
           normgeber: "BEO - Berlin (Ost)",
           beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
+          qualifizierteMehrheit: true,
         }),
       },
     )
@@ -538,6 +539,9 @@ test.describe("metadata reading", () => {
     await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
       "BMinJ - Bundesministerium der Justiz",
     )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).toBeChecked()
   })
 
   test("displays metadata on the frame at different time boundaries", async ({
@@ -577,6 +581,9 @@ test.describe("metadata reading", () => {
     await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
       "",
     )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).not.toBeChecked()
 
     const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
     dropdown.selectOption("2009-10-08")
@@ -601,6 +608,9 @@ test.describe("metadata reading", () => {
     await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
       "BT - Bundestag",
     )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).toBeChecked()
 
     dropdown.selectOption("2023-01-01")
     await page.waitForResponse((response) =>
@@ -623,6 +633,9 @@ test.describe("metadata reading", () => {
     await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
       "OFD - Oberfinanzdirektion",
     )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).not.toBeChecked()
 
     dropdown.selectOption("2023-12-24")
     await page.waitForResponse((response) =>
@@ -646,6 +659,9 @@ test.describe("metadata reading", () => {
     await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
       "BMinI - Bundesministerium des Innern",
     )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).toBeChecked()
   })
 
   test("displays an error if the data could not be loaded for the whole document", async ({
@@ -767,6 +783,16 @@ test.describe("metadata editing", () => {
       )
     })
 
+    test("can check/uncheck Beschlussf. qual. Mehrheit", async () => {
+      const qualMehrheit = sharedPage.getByRole("checkbox", {
+        name: "Beschlussf. qual. Mehrheit",
+      })
+      await qualMehrheit.check()
+      await expect(qualMehrheit).toBeChecked()
+      await qualMehrheit.uncheck()
+      await expect(qualMehrheit).not.toBeChecked()
+    })
+
     test("can edit Federführung", async () => {
       const federfuehrungDropdown = sharedPage.getByRole("combobox", {
         name: "Federführung",
@@ -810,24 +836,28 @@ test.describe("metadata editing", () => {
     const bezeichnungTextbox = page.getByRole("textbox", {
       name: "Bezeichnung gemäß Vorlage",
     })
+    await expect(bezeichnungTextbox).toBeEmpty()
     await bezeichnungTextbox.fill("Testbezeichnung")
 
     // ST - Stammnorm
     const SNcheckbox = page.getByRole("checkbox", {
       name: "SN - Stammnorm",
     })
+    await expect(SNcheckbox).not.toBeChecked()
     await SNcheckbox.check()
 
     // ÄN - Änderungsnorm"
     const ANcheckbox = page.getByRole("checkbox", {
       name: "ÄN - Änderungsnorm",
     })
+    await expect(ANcheckbox).not.toBeChecked()
     await ANcheckbox.check()
 
     // ÜN - Übergangsnorm
     const UNcheckbox = page.getByRole("checkbox", {
       name: "ÜN - Übergangsnorm",
     })
+    await expect(UNcheckbox).not.toBeChecked()
     await UNcheckbox.check()
 
     // Normgeber
@@ -843,6 +873,13 @@ test.describe("metadata editing", () => {
     })
     await expect(beschliessendesOrganDropdown).toHaveValue("")
     await beschliessendesOrganDropdown.selectOption("BReg - Bundesregierung")
+
+    // Beschlussf. qual. Mehrheit
+    const qualMehrheit = page.getByRole("checkbox", {
+      name: "Beschlussf. qual. Mehrheit",
+    })
+    await expect(qualMehrheit).not.toBeChecked()
+    await qualMehrheit.check()
 
     // Federführung
     // TODO: Enable once backend is ready
@@ -867,6 +904,7 @@ test.describe("metadata editing", () => {
     await expect(beschliessendesOrganDropdown).toHaveValue(
       "BReg - Bundesregierung",
     )
+    await expect(qualMehrheit).toBeChecked()
     // TODO: Enable once backend is ready
     // await expect(federfuehrungDropdown).toHaveValue("BKAmt - Bundeskanzleramt")
 
@@ -887,6 +925,7 @@ test.describe("metadata editing", () => {
           artDerNorm: null,
           normgeber: null,
           beschliessendesOrgan: null,
+          qualifizierteMehrheit: null,
           // TODO: Enable once backend is ready
           // federfuehrung: null,
         }),
@@ -914,6 +953,7 @@ test.describe("metadata editing", () => {
             artDerNorm: "ÄN",
             normgeber: "BesR - Besatzungsrecht",
             beschliessendesOrgan: "BMinG - Bundesministerium für Gesundheit",
+            qualifizierteMehrheit: false,
           },
         })
       else route.continue()
@@ -972,6 +1012,11 @@ test.describe("metadata editing", () => {
     await expect(beschliessendesOrganDropdown).toHaveValue(
       "BMinJ - Bundesministerium der Justiz",
     )
+    // Beschlussf. qual. Mehrheit
+    const qualMehrheit = page.getByRole("checkbox", {
+      name: "Beschlussf. qual. Mehrheit",
+    })
+    await expect(qualMehrheit).toBeChecked()
 
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
 
@@ -985,6 +1030,7 @@ test.describe("metadata editing", () => {
     await expect(beschliessendesOrganDropdown).toHaveValue(
       "BMinG - Bundesministerium für Gesundheit",
     )
+    await expect(qualMehrheit).not.toBeChecked()
 
     await page.unrouteAll()
   })

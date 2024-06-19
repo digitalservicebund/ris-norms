@@ -3,9 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -39,6 +37,22 @@ public class MetadatenDs {
   }
 
   /**
+   * The list of all attribute. They consist of the enum {@link SimpleMetadatum} they belong to and
+   * its name.
+   */
+  public enum Attribute {
+    QUALIFIZIERTE_MEHRHEIT(SimpleMetadatum.BESCHLIESSENDES_ORGAN, "qualifizierteMehrheit");
+
+    private final SimpleMetadatum simpleMetadatum;
+    private final String name;
+
+    Attribute(final SimpleMetadatum simpleMetadatum, final String name) {
+      this.simpleMetadatum = simpleMetadatum;
+      this.name = name;
+    }
+  }
+
+  /**
    * It returns the value for a xpath at a specific date. If no matching value @start or @end is
    * found, it will retrieve the value from the node with neither @start nor @end.
    *
@@ -46,29 +60,23 @@ public class MetadatenDs {
    * @param date the specific date
    * @return an optional value, if found.
    */
-  public Optional<String> getSimpleValueAt(
+  public Optional<String> getSimpleMetadatum(
       final SimpleMetadatum simpleMetadatum, final LocalDate date) {
-    final List<SimpleProprietaryValue> valuesWithoutStartAndEnd =
-        getNodes(simpleMetadatum.xpath).stream()
-            .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
-            .toList();
+    return getSimpleNodeAt(simpleMetadatum, date).map(SimpleProprietary::getValue);
+  }
 
-    final List<SimpleProprietaryValue> valuesWithStartOrAndEnd =
-        getNodes(simpleMetadatum.xpath).stream()
-            .filter(f -> f.getStart().isPresent() || f.getEnd().isPresent())
-            .filter(
-                f ->
-                    f.getStart()
-                        .map(start -> date.isEqual(start) || date.isAfter(start))
-                        .orElse(true))
-            .filter(
-                f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
-            .toList();
-    if (!valuesWithStartOrAndEnd.isEmpty()) {
-      return valuesWithStartOrAndEnd.stream().findFirst().map(SimpleProprietaryValue::getValue);
-    } else {
-      return valuesWithoutStartAndEnd.stream().findFirst().map(SimpleProprietaryValue::getValue);
-    }
+  /**
+   * It returns the value of the attribute by retrieving first the belonging metadatum by using
+   * getSimpleMetadatum
+   *
+   * @param attribute the attribute to be retrieved
+   * @param date the specific date
+   * @return an optional string value of the attribute, if found
+   */
+  public Optional<String> getAttributeOfSimpleMetadatumAt(
+      final Attribute attribute, final LocalDate date) {
+    return getSimpleNodeAt(attribute.simpleMetadatum, date)
+        .flatMap(m -> m.getAttribute(attribute.name));
   }
 
   /**
@@ -79,11 +87,11 @@ public class MetadatenDs {
    * day before of the newly updated/created node. Finally, it will also set the @end attribute of
    * those nodes with neither @start nor @end attributes.
    *
-   * @param simpleMetadatum - the enum metadatum
+   * @param simpleMetadatum - the simple enum metadatum
    * @param date - the specific date
    * @param newValue - the new value to update/create
    */
-  public void setSimpleProprietaryMetadata(
+  public void setSimpleMetadatum(
       final SimpleMetadatum simpleMetadatum, final LocalDate date, final String newValue) {
     NodeParser.getNodeFromExpression(
             String.format("%s[@start='%s']", simpleMetadatum.xpath, date.toString()), node)
@@ -91,13 +99,13 @@ public class MetadatenDs {
             fnaNode -> fnaNode.setTextContent(newValue),
             () -> {
               // 1. Check if we have later FNAs and get the next closest one
-              final Optional<SimpleProprietaryValue> nextNode =
+              final Optional<SimpleProprietary> nextNode =
                   getNodes(simpleMetadatum.xpath).stream()
                       .filter(f -> f.getStart().isPresent() && f.getStart().get().isAfter(date))
                       .min(Comparator.comparing(f -> f.getStart().get()));
 
               // 2. Check if we have previous FNAs and get the next closest one
-              final Optional<SimpleProprietaryValue> previousNode =
+              final Optional<SimpleProprietary> previousNode =
                   getNodes(simpleMetadatum.xpath).stream()
                       .filter(f -> f.getStart().isPresent() && f.getStart().get().isBefore(date))
                       .max(Comparator.comparing(f -> f.getStart().get()));
@@ -133,14 +141,59 @@ public class MetadatenDs {
   }
 
   /**
+   * Creates or updates an attribute of a simple node with the new passed value.
+   *
+   * @param attribute the attribute to be created/updated
+   * @param date the specific date
+   * @param newValue the new value
+   */
+  public void setAttributeOfSimpleMetadatum(
+      final Attribute attribute, final LocalDate date, final String newValue) {
+    getSimpleNodeAt(attribute.simpleMetadatum, date)
+        .ifPresent(
+            m -> {
+              if (m.getValue().isEmpty()) {
+                m.removeAttribute(attribute.name);
+              } else {
+                m.setAttribute(attribute.name, newValue);
+              }
+            });
+  }
+
+  /**
    * Retrieves all nodes of the specific metadatum.
    *
    * @param xpath of the node
-   * @return list of all metadata as {@link SimpleProprietaryValue}
+   * @return list of all metadata as {@link SimpleProprietary}
    */
-  public List<SimpleProprietaryValue> getNodes(final String xpath) {
+  public List<SimpleProprietary> getNodes(final String xpath) {
     return NodeParser.getNodesFromExpression(xpath, node).stream()
-        .map(SimpleProprietaryValue::new)
+        .map(SimpleProprietary::new)
         .toList();
+  }
+
+  private Optional<SimpleProprietary> getSimpleNodeAt(
+      final SimpleMetadatum simpleMetadatum, final LocalDate date) {
+    final List<SimpleProprietary> valuesWithoutStartAndEnd =
+        getNodes(simpleMetadatum.xpath).stream()
+            .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
+            .toList();
+
+    final List<SimpleProprietary> valuesWithStartOrAndEnd =
+        getNodes(simpleMetadatum.xpath).stream()
+            .filter(f -> f.getStart().isPresent() || f.getEnd().isPresent())
+            .filter(
+                f ->
+                    f.getStart()
+                        .map(start -> date.isEqual(start) || date.isAfter(start))
+                        .orElse(true))
+            .filter(
+                f -> f.getEnd().map(end -> date.isEqual(end) || date.isBefore(end)).orElse(true))
+            .toList();
+    if (!valuesWithStartOrAndEnd.isEmpty()) {
+      return valuesWithStartOrAndEnd.stream().findFirst();
+    } else {
+      return valuesWithoutStartAndEnd.stream().findFirst();
+    }
   }
 }

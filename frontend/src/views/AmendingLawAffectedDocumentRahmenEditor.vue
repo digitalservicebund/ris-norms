@@ -99,7 +99,7 @@ const {
   artNormUNid,
   normgeberId,
   beschliessendesOrganId,
-  isResolutionWithMajorityId,
+  qualifizierteMehrheitId,
   federfuehrungId,
 } = useElementId()
 
@@ -241,14 +241,14 @@ const beschliessendesOrganItems: DropdownItem[] = [
   ...BeschliessendesOrganValues.map((value) => ({ label: value, value })),
 ]
 
-const isResolutionWithMajority = computed<boolean>({
+const qualifizierteMehrheit = computed<boolean>({
   get() {
-    return localData.value?.isResolutionWithMajority ?? false
+    return localData.value?.qualifizierteMehrheit ?? false
   },
   set(value: boolean) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
-      draft.isResolutionWithMajority = value
+      draft.qualifizierteMehrheit = value
     })
   },
 })
@@ -412,12 +412,12 @@ const {
                   :items="beschliessendesOrganItems"
                 />
 
-                <label :for="isResolutionWithMajorityId">
+                <label :for="qualifizierteMehrheitId">
                   Beschlussf. qual. Mehrheit
                 </label>
                 <RisCheckboxInput
-                  :id="isResolutionWithMajorityId"
-                  v-model="isResolutionWithMajority"
+                  :id="qualifizierteMehrheitId"
+                  v-model="qualifizierteMehrheit"
                 />
               </fieldset>
 

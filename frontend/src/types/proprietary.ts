@@ -48,7 +48,7 @@ export type Proprietary = {
   /**
    * DE “Beschlussfassung mit qualifizierter Mehrheit"
    */
-  isResolutionWithMajority?: boolean
+  qualifizierteMehrheit?: boolean
 
   /**
    * Federführung (authoring department) of the norm.

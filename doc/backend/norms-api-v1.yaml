@@ -616,4 +616,7 @@ components:
         beschliessendesOrgan:
           type: string
           description: ("Beschließendes Organ") of the norm
+        qualifizierteMehrheit:
+          type: boolean
+          description: Boolean value if beschliessendesOrgan had a ("Qualifizierte Mehrheit") when deciding
 
