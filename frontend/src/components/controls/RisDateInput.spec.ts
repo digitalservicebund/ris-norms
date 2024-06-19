@@ -155,6 +155,28 @@ describe("DateInput", () => {
     expect(screen.getByRole("textbox")).not.toHaveAttribute("readonly")
   })
 
+  test("shows error message block for external validation errors", async () => {
+    const validationError = {
+      message: "Externes Fehler",
+      instance: "identifier",
+    }
+    renderComponent({ validationError })
+
+    const errorBlock = screen.getByText("Externes Fehler")
+    expect(errorBlock).toBeInTheDocument()
+  })
+
+  test("applies has-error class for external validation errors", async () => {
+    const validationError = {
+      message: "Externes Fehler",
+      instance: "identifier",
+    }
+    renderComponent({ validationError })
+
+    const input = screen.getByRole("textbox")
+    expect(input).toHaveClass("has-error")
+  })
+
   test("renders the small variant by default", () => {
     renderComponent()
     const input = screen.getByRole("textbox")

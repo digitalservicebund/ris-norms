@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
+import de.bund.digitalservice.ris.norms.utils.exceptions.ValidationException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -80,6 +81,22 @@ public class InternalErrorExceptionHandler {
   public ResponseEntity<String> handleException(final XmlContentException e) {
 
     log.error("Unable to process contained instructions: {}", e.getMessage(), e);
+
+    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+        .body("{\"message\": \"%s\"}".formatted(e.getMessage()));
+  }
+
+  /**
+   * Exception handler method for handling ValidationException.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status and a custom error message.
+   */
+  @ExceptionHandler(ValidationException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ResponseEntity<String> handleException(final ValidationException e) {
+
+    log.error("Validation exception: {}", e.getMessage(), e);
 
     return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
         .body("{\"message\": \"%s\"}".formatted(e.getMessage()));

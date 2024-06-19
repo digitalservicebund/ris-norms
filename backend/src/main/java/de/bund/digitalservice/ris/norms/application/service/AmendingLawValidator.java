@@ -1,8 +1,14 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
+import de.bund.digitalservice.ris.norms.domain.entity.Article;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
+import de.bund.digitalservice.ris.norms.domain.entity.Mod;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.utils.exceptions.ValidationException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Collections;
 import java.util.List;
@@ -10,36 +16,44 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.w3c.dom.Node;
+import org.springframework.stereotype.Component;
 
-/** */
-@Service
-public class ModificationValidator {
+/**
+ * Validator for a whole amending law. It checks if the destination is set and if both destination
+ * href and i ELI are consistent. It also checks all the mods by using the {@link
+ * SingleModValidator} on each single mod.
+ */
+@Component
+public class AmendingLawValidator {
+
   private final LoadNormPort loadNormPort;
   private final LoadZf0Service loadZf0Service;
+  private final SingleModValidator singleModValidator;
 
-  public ModificationValidator(LoadNormPort loadNormPort, LoadZf0Service loadZf0Service) {
+  public AmendingLawValidator(
+      final LoadNormPort loadNormPort,
+      final LoadZf0Service loadZf0Service,
+      final SingleModValidator singleModValidator) {
     this.loadNormPort = loadNormPort;
     this.loadZf0Service = loadZf0Service;
+    this.singleModValidator = singleModValidator;
   }
 
   /**
-   * Checks an amending law xml for consistency errors.
+   * Validates the given amending law norm.
    *
-   * @param amendingNorm the amending norm to be checked
+   * @param amendingLawNorm - the amending law in form of {@link Norm}
+   * @throws ValidationException if a validation step fails
    */
-  public void validate(Norm amendingNorm) {
-    destinationIsSet(amendingNorm);
-    destinationEliIsConsistent(amendingNorm);
-    destinationHrefIsConsistent(amendingNorm);
-    checkAllMods(amendingNorm);
+  public void validate(final Norm amendingLawNorm) throws ValidationException {
+    destinationIsSet(amendingLawNorm);
+    destinationEliIsConsistent(amendingLawNorm);
+    destinationHrefIsConsistent(amendingLawNorm);
+    checkAllMods(amendingLawNorm);
   }
 
   private void checkAllMods(Norm amendingNorm) {
-    String amendingNormEli = amendingNorm.getEli();
-    List<Article> articles =
+    final List<Article> articles =
         amendingNorm.getArticles().stream()
             .filter(
                 article -> {
@@ -48,9 +62,26 @@ public class ModificationValidator {
                 })
             .toList();
 
-    List<Mod> mods = articles.stream().map(Article::getMods).flatMap(List::stream).toList();
+    final List<Mod> mods = articles.stream().map(Article::getMods).flatMap(List::stream).toList();
 
-    mods.forEach(mod -> validateSubstitutionMod(amendingNormEli, mod));
+    mods.forEach(
+        mod -> {
+          final String targetNormEli =
+              mod.getTargetHref()
+                  .orElseThrow(() -> new ValidationException("Target href missing"))
+                  .getEli()
+                  .orElseThrow(() -> new ValidationException("Target eli missing"));
+          final Norm targetNorm =
+              loadNormPort
+                  .loadNorm(new LoadNormPort.Command(targetNormEli))
+                  .orElseThrow(
+                      () ->
+                          new ValidationException(
+                              String.format("Target law with eli %s missing", targetNormEli)));
+          final Norm zf0Norm =
+              loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
+          singleModValidator.validate(zf0Norm, mod);
+        });
   }
 
   /**
@@ -205,167 +236,6 @@ public class ModificationValidator {
     if (!activeModificationsDestinationHrefs.equals(aknModHrefs))
       throw new XmlContentException(
           "For norm with Eli (%s): Eids are not consistent".formatted(amendingNorm.getEli()), null);
-  }
-
-  /**
-   * Checks if a substitution mod is consistent
-   *
-   * @param amendingLawEli the amending Norm Eli
-   * @param mod the amending law mod to be checked
-   */
-  public void validateSubstitutionMod(String amendingLawEli, Mod mod) {
-    if (mod.usesQuotedText()) {
-      validateQuotedTextSubstitutions(amendingLawEli, mod);
-    }
-    // other case <akn:quotedStructure>
-  }
-
-  /**
-   * Checks if the text to be replaced is present in the target law
-   *
-   * @param amendingNormEli the amending Norm Eli
-   * @param mod the amending law mod to be checked
-   */
-  private void validateQuotedTextSubstitutions(String amendingNormEli, Mod mod) {
-    String modEId =
-        mod.getEid()
-            .orElseThrow(
-                () ->
-                    new XmlContentException(
-                        "Eid in mod %s is empty".formatted(XmlMapper.toString(mod.getNode())),
-                        null));
-    Href articleModTargetHref = getModTargetHref(amendingNormEli, mod, modEId);
-    Norm amendingLaw =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(amendingNormEli))
-            .orElseThrow(() -> new XmlContentException("Could not load norm", null));
-    Norm zf0Norm = loadZf0Service.loadZf0(amendingLaw, mod);
-
-    String articleModTargetHrefEId =
-        articleModTargetHref
-            .getEId()
-            .orElseThrow(
-                () ->
-                    new XmlContentException(
-                        "For norm with Eli (%s): The eId in mod href is empty in article with eId %s"
-                            .formatted(amendingNormEli, modEId),
-                        null));
-
-    Node zf0TargetNode =
-        getTargetNodeFromZF0Norm(
-            amendingNormEli, zf0Norm, articleModTargetHrefEId, amendingNormEli, modEId);
-
-    // normalizeSpace removes double spaces and new lines
-    String targetParagraphOldText = StringUtils.normalizeSpace(zf0TargetNode.getTextContent());
-
-    String amendingNormOldText =
-        mod.getOldText()
-            .orElseThrow(
-                () ->
-                    new XmlContentException(
-                        "For norm with Eli (%s): quotedText[1] (the old, to be replaced, text) is empty in article mod with eId %s"
-                            .formatted(amendingNormEli, modEId),
-                        null));
-
-    // normalizeSpace removes double spaces and new lines
-    amendingNormOldText = StringUtils.normalizeSpace(amendingNormOldText);
-
-    validateQuotedText(
-        amendingNormEli,
-        amendingNormOldText,
-        targetParagraphOldText,
-        modEId,
-        articleModTargetHref,
-        "The character range in mod href is empty in article with eId %s".formatted(modEId));
-  }
-
-  private void validateQuotedText(
-      String eli,
-      String amendingNormOldText,
-      String targetParagraphOldText,
-      String modEId,
-      Href href,
-      String message) {
-
-    CharacterRange characterRange =
-        href.getCharacterRange()
-            .orElseThrow(
-                () ->
-                    new XmlContentException(
-                        "For norm with Eli (%s): %s".formatted(eli, message), null));
-
-    if (!characterRange.isValidCharacterRange()) {
-      throw new XmlContentException(
-          "The range (%s) given at mod with eId %s is not valid".formatted(characterRange, modEId),
-          null);
-    }
-
-    int modStart = characterRange.getStart();
-    int modEnd = characterRange.getEnd();
-
-    validateStartIsBeforeEnd(eli, characterRange, modStart, modEnd, modEId);
-    checkIfReplacementEndIsWithinText(eli, targetParagraphOldText, modEnd, modEId);
-
-    String zf0NormOldText = targetParagraphOldText.substring(modStart, modEnd);
-    validateQuotedTextEquals(eli, zf0NormOldText, amendingNormOldText, modEId);
-  }
-
-  private void validateStartIsBeforeEnd(
-      String amendingNormEli, CharacterRange cr, int start, int end, String modEId) {
-    if (!cr.isEndGreaterStart())
-      throw new XmlContentException(
-          "For norm with Eli (%s): The character range in mod href is not valid in mod with eId %s. Make sure start is smaller than end %s < %s."
-              .formatted(amendingNormEli, modEId, start, end),
-          null);
-  }
-
-  private void checkIfReplacementEndIsWithinText(
-      String amendingNormEli, String targetParagraphText, int modEnd, String modEId) {
-    // counting is null based e.g. 0 is the position of the first character; spaces are counted
-    // see
-    // https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/1.6/Spezifikation/LegalDocML.de_1.6.pdf?ref_type=tags page 85
-    if (targetParagraphText.length() < modEnd) {
-      throw new XmlContentException(
-          "For norm with Eli (%s): The character range in mod href is not valid (target paragraph is to short) in mod with eId %s"
-              .formatted(amendingNormEli, modEId),
-          null);
-    }
-  }
-
-  private void validateQuotedTextEquals(
-      String amendingNormEli, String zf0NormOldText, String amendingNormOldText, String modEId) {
-    if (!zf0NormOldText.equals(amendingNormOldText))
-      throw new XmlContentException(
-          "For norm with Eli (%s): The replacement text '%s' in the target law does not equal the replacement text '%s' in the mod with eId %s"
-              .formatted(amendingNormEli, zf0NormOldText, amendingNormOldText, modEId),
-          null);
-  }
-
-  private Node getTargetNodeFromZF0Norm(
-      String amendingNormEli,
-      Norm zf0Norm,
-      String targetHrefEId,
-      String affectedDocumentEli,
-      String modEId) {
-
-    validateNumberOfNodesWithEid(zf0Norm.getEli(), zf0Norm, targetHrefEId);
-
-    return zf0Norm
-        .getNodeByEId(targetHrefEId)
-        .orElseThrow(
-            () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): Couldn't load target eId (%s) element in zf0 (%s) for mod with eId %s"
-                        .formatted(amendingNormEli, targetHrefEId, affectedDocumentEli, modEId),
-                    null));
-  }
-
-  private void validateNumberOfNodesWithEid(String eli, Norm norm, String eId) {
-    if (norm.getNumberOfNodesWithEid(eId) > 1) {
-      throw new XmlContentException(
-          "For norm with Eli (%s): Too many elements with the same eId %s.".formatted(eli, eId),
-          null);
-    }
   }
 
   private Href getModTargetHref(String eli, Mod m, String modEId) {

@@ -244,6 +244,18 @@ test.describe("sidebar navigation", () => {
         .getByRole("link"),
     ).toHaveCount(0)
   })
+
+  test("navigates between elements", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/regelungstext-1/edit/1934-10-16/hauptteil-1_para-2",
+    )
+
+    const heading = page.getByRole("heading", { level: 2 })
+    await expect(heading).toHaveText("§1")
+
+    await page.getByRole("link", { name: "§3a" }).click()
+    await expect(heading).toHaveText("§3a")
+  })
 })
 
 test.describe("preview", () => {
@@ -817,7 +829,7 @@ test.describe("metadata editing", () => {
     const documentTypeDropdown = page.getByRole("combobox", {
       name: "Dokumenttyp",
     })
-    await expect(documentTypeDropdown).toHaveValue("")
+    await expect(documentTypeDropdown).toHaveValue("__unknown_document_type__")
     await documentTypeDropdown.selectOption("Berichtigung")
 
     // Bezeichnung gemäß Vorlage
