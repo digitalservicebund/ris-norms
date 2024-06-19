@@ -540,7 +540,7 @@ test.describe("metadata reading", () => {
       "BMinJ - Bundesministerium der Justiz",
     )
     await expect(
-      editorRegion.getByLabel(" Beschlussf. qual. Mehrheit "),
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).toBeChecked()
   })
 
@@ -582,7 +582,7 @@ test.describe("metadata reading", () => {
       "",
     )
     await expect(
-      editorRegion.getByLabel(" Beschlussf. qual. Mehrheit "),
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).not.toBeChecked()
 
     const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
@@ -609,7 +609,7 @@ test.describe("metadata reading", () => {
       "BT - Bundestag",
     )
     await expect(
-      editorRegion.getByLabel(" Beschlussf. qual. Mehrheit "),
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).toBeChecked()
 
     dropdown.selectOption("2023-01-01")
@@ -634,7 +634,7 @@ test.describe("metadata reading", () => {
       "OFD - Oberfinanzdirektion",
     )
     await expect(
-      editorRegion.getByLabel(" Beschlussf. qual. Mehrheit "),
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).not.toBeChecked()
 
     dropdown.selectOption("2023-12-24")
@@ -660,7 +660,7 @@ test.describe("metadata reading", () => {
       "BMinI - Bundesministerium des Innern",
     )
     await expect(
-      editorRegion.getByLabel(" Beschlussf. qual. Mehrheit "),
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).toBeChecked()
   })
 
