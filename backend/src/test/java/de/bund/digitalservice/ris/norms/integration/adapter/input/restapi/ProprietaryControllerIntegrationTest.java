@@ -235,7 +235,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-          .andExpect(jsonPath("qualifizierteMehrheit").doesNotExist());
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -287,7 +287,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-          .andExpect(jsonPath("qualifizierteMehrheit").doesNotExist());
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
