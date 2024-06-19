@@ -145,10 +145,10 @@ class ProprietaryServiceTest {
                       "typ",
                       "subtype",
                       "bezeichnungInVorlage",
-                      "SN,ÄN,ÜN",
-                      "DEU",
-                      "Bundestag",
-                      true)));
+                      "ÄN,ÜN",
+                      "DDR",
+                      "Landtag",
+                      false)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -157,10 +157,10 @@ class ProprietaryServiceTest {
       assertThat(result.getTyp(date)).contains("typ");
       assertThat(result.getSubtyp(date)).contains("subtype");
       assertThat(result.getBezeichnungInVorlage(date)).contains("bezeichnungInVorlage");
-      assertThat(result.getArtDerNorm(date)).contains("SN,ÄN,ÜN");
-      assertThat(result.getNormgeber(date)).contains("DEU");
-      assertThat(result.getBeschliessendesOrgan(date)).contains("Bundestag");
-      assertThat(result.getQualifizierteMehrheit(date)).contains(true);
+      assertThat(result.getArtDerNorm(date)).contains("ÄN,ÜN");
+      assertThat(result.getNormgeber(date)).contains("DDR");
+      assertThat(result.getBeschliessendesOrgan(date)).contains("Landtag");
+      assertThat(result.getQualifizierteMehrheit(date)).contains(false);
     }
 
     @Test
