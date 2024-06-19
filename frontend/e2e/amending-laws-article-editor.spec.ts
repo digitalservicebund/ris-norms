@@ -223,7 +223,6 @@ test.describe("Update mod details", () => {
       name: "Änderungsbefehle bearbeiten",
     })
 
-    // TODO make characterRange invalid and expect 400
     await modFormSection
       .getByRole("textbox", { name: "zu ersetzende Textstelle" })
       .fill(
