@@ -150,7 +150,14 @@ public class MetadatenDs {
   public void setAttributeOfSimpleMetadatum(
       final Attribute attribute, final LocalDate date, final String newValue) {
     getSimpleNodeAt(attribute.simpleMetadatum, date)
-        .ifPresent(m -> m.setAttribute(attribute.name, newValue));
+        .ifPresent(
+            m -> {
+              if (m.getValue().isEmpty()) {
+                m.removeAttribute(attribute.name);
+              } else {
+                m.setAttribute(attribute.name, newValue);
+              }
+            });
   }
 
   /**

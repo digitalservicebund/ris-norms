@@ -70,4 +70,13 @@ public class SimpleProprietary {
   public void setAttribute(final String attributeName, final String newValue) {
     ((Element) node).setAttribute(attributeName, newValue);
   }
+
+  /**
+   * Removes an attribute
+   *
+   * @param attributeName the name of the attribute
+   */
+  public void removeAttribute(final String attributeName) {
+    ((Element) node).removeAttribute(attributeName);
+  }
 }
