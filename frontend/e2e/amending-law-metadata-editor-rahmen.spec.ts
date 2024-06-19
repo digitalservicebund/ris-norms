@@ -356,6 +356,131 @@ test.describe("metadata view", () => {
   })
 })
 
+test.describe("displaying, editing, and saving", () => {
+  let sharedPage: Page
+
+  async function restoreInitialState() {
+    const data: Proprietary = {
+      fna: "210-5",
+      art: "regelungstext",
+      typ: "gesetz",
+      subtyp: "Rechtsverordnung",
+      bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
+      artDerNorm: "SN,ÜN",
+      normgeber: "BEO - Berlin (Ost)",
+      beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
+      qualifizierteMehrheit: true,
+    }
+
+    await sharedPage.request.put(
+      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
+      { data },
+    )
+  }
+
+  async function saveMetadata() {
+    await sharedPage
+      .getByRole("button", { name: "Metadaten speichern" })
+      .click()
+    await sharedPage.waitForResponse(/proprietary/)
+  }
+
+  async function mockPutResponse(data: Proprietary) {
+    await sharedPage.route(/\/proprietary\/2023-12-30/, async (route) => {
+      if (route.request().method() === "PUT") {
+        const response = await route.fetch()
+        const body = await response.json()
+
+        await route.fulfill({
+          response,
+          body: JSON.stringify({ ...body, ...data }),
+        })
+      } else await route.continue()
+    })
+  }
+
+  test.beforeAll(async ({ browser }) => {
+    sharedPage = await browser.newPage()
+
+    await restoreInitialState()
+
+    await sharedPage.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+  })
+
+  test.afterAll(async () => {
+    await restoreInitialState()
+  })
+
+  test.describe("FNA", () => {
+    test("is loaded", async () => {
+      // Given
+      const control = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
+
+      // Then
+      await expect(control).toHaveValue("210-5")
+    })
+
+    test("saves changes", async () => {
+      // Given
+      const control = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
+
+      // When
+      await control.fill("123-4")
+      await saveMetadata()
+      await sharedPage.reload()
+
+      // Then
+      await expect(control).toHaveValue("123-4")
+    })
+
+    test("is updated with backend state after saving", async () => {
+      // Given
+      await mockPutResponse({ fna: "fake-backend-state" })
+      const control = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
+      await expect(control).toHaveValue("123-4")
+
+      // When
+      await saveMetadata()
+
+      // Then
+      await expect(control).toHaveValue("fake-backend-state")
+
+      // Cleanup
+      await sharedPage.unrouteAll()
+    })
+  })
+
+  test.describe("Dokumenttyp", () => {
+    // TODO: Implement
+  })
+
+  test.describe("Art der Norm", () => {
+    // TODO: Implement
+  })
+
+  test.describe("Bezeichnung gemäß Vorlage", () => {
+    // TODO: Implement
+  })
+
+  test.describe("Normgeber", () => {
+    // TODO: Implement
+  })
+
+  test.describe("beschließendes Organ", () => {
+    // TODO: Implement
+  })
+
+  test.describe("Beschlussfassung qualifizierte Mehrheit", () => {
+    // TODO: Implement
+  })
+
+  test.describe("Federführung", () => {
+    // TODO: Implement
+  })
+})
+
 test.describe("metadata reading", () => {
   test("displays metadata", async ({ page }) => {
     await page.goto(
