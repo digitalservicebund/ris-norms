@@ -84,7 +84,11 @@ class ProprietaryServiceTest {
       assertThatThrownBy(
               () ->
                   proprietaryService.updateProprietaryFromNorm(
-                      new UpdateProprietaryFromNormUseCase.Query(eli, LocalDate.now(), "fna")))
+                      new UpdateProprietaryFromNormUseCase.Query(
+                          eli,
+                          LocalDate.now(),
+                          new UpdateProprietaryFromNormUseCase.Metadata(
+                              "fna", null, null, null, null, null, null, null, null))))
           // then
           .isInstanceOf(NormNotFoundException.class);
     }
@@ -101,7 +105,11 @@ class ProprietaryServiceTest {
       // when
       var result =
           proprietaryService.updateProprietaryFromNorm(
-              new UpdateProprietaryFromNormUseCase.Query(eli, date, "fna"));
+              new UpdateProprietaryFromNormUseCase.Query(
+                  eli,
+                  date,
+                  new UpdateProprietaryFromNormUseCase.Metadata(
+                      "fna", null, null, null, null, null, null, null, null)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -120,11 +128,62 @@ class ProprietaryServiceTest {
       // when
       var result =
           proprietaryService.updateProprietaryFromNorm(
-              new UpdateProprietaryFromNormUseCase.Query(eli, date, "fna"));
+              new UpdateProprietaryFromNormUseCase.Query(
+                  eli,
+                  date,
+                  new UpdateProprietaryFromNormUseCase.Metadata(
+                      "fna",
+                      "art",
+                      "typ",
+                      "subtype",
+                      "bezeichnungInVorlage",
+                      "SN,ÄN,ÜN",
+                      "DEU",
+                      "Bundestag",
+                      true)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
       assertThat(result.getFna(date)).contains("fna");
+      assertThat(result.getArt(date)).contains("art");
+      assertThat(result.getTyp(date)).contains("typ");
+      assertThat(result.getSubtyp(date)).contains("subtype");
+      assertThat(result.getBezeichnungInVorlage(date)).contains("bezeichnungInVorlage");
+      assertThat(result.getArtDerNorm(date)).contains("SN,ÄN,ÜN");
+      assertThat(result.getNormgeber(date)).contains("DEU");
+      assertThat(result.getBeschliessendesOrgan(date)).contains("Bundestag");
+      assertThat(result.getQualifizierteMehrheit(date)).contains(true);
+    }
+
+    @Test
+    void resetsAllFields() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var date = LocalDate.now();
+      var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
+          .thenReturn(Optional.of(normWithProprietary));
+
+      // when
+      var result =
+          proprietaryService.updateProprietaryFromNorm(
+              new UpdateProprietaryFromNormUseCase.Query(
+                  eli,
+                  date,
+                  new UpdateProprietaryFromNormUseCase.Metadata(
+                      null, null, null, null, null, null, null, null, null)));
+
+      // then
+      assertThat(result).isInstanceOf(Proprietary.class);
+      assertThat(result.getFna(date)).contains("");
+      assertThat(result.getArt(date)).contains("");
+      assertThat(result.getTyp(date)).contains("");
+      assertThat(result.getSubtyp(date)).contains("");
+      assertThat(result.getBezeichnungInVorlage(date)).contains("");
+      assertThat(result.getArtDerNorm(date)).contains("");
+      assertThat(result.getNormgeber(date)).contains("");
+      assertThat(result.getBeschliessendesOrgan(date)).contains("");
+      assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
     }
   }
 }

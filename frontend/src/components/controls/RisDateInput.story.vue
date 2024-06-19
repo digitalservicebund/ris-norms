@@ -2,30 +2,45 @@
 import RisDateInput from "@/components/controls/RisDateInput.vue"
 import { ref } from "vue"
 
-const dateEntry = ref({
-  date: "2022-01-01",
-})
+const dateEntryOne = ref("2022-01-01")
+const dateEntryTwo = ref("2022-01-01")
+const dateEntryThree = ref("2022-01-01")
 
-const invalidDateEntry = ref({
-  date: "0099-01-01",
-})
+const externalValidationError = {
+  message: "Extesrsnes Fehlser",
+  instance: "story-id",
+}
 </script>
 
 <template>
-  <Story :layout="{ type: 'grid' }">
+  <Story :layout="{ type: 'grid', width: '400px' }">
     <Variant title="Valid Date">
       <RisDateInput
-        id="test-id"
-        v-model="dateEntry.date"
+        id="story-id"
+        v-model="dateEntryOne"
         size="small"
+        label="Zeitgrenze 1"
       ></RisDateInput>
     </Variant>
 
-    <Variant title="Invalid Date">
+    <Variant title="External Validation Error">
       <RisDateInput
-        id="test-id"
-        v-model="invalidDateEntry.date"
+        id="story-id"
+        v-model="dateEntryTwo"
         size="small"
+        label="Zeitgrenze 1"
+        :validation-error="externalValidationError"
+      ></RisDateInput>
+    </Variant>
+
+    <Variant title="External Validation Error">
+      <RisDateInput
+        id="story-id"
+        v-model="dateEntryThree"
+        size="small"
+        label="Zeitgrenze 1"
+        :validation-error="externalValidationError"
+        label-position="left"
       ></RisDateInput>
     </Variant>
   </Story>

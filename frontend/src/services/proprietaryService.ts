@@ -1,12 +1,12 @@
 import { Proprietary } from "@/types/proprietary"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import dayjs from "dayjs"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
 import { INVALID_URL, useApiFetch } from "./apiService"
-import dayjs from "dayjs"
 
 /**
  * Returns the proprietary metadata of a norm from the API. Reloads when the
- * parameters changes.
+ * parameters change.
  *
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
@@ -15,18 +15,15 @@ import dayjs from "dayjs"
  */
 export function useProprietaryService(
   eli: MaybeRefOrGetter<string | undefined>,
-  options?: {
+  options: {
     /**
      * If set, returns the state of the metadata at that date. Otherwise the
      * metadata of the current version will be returned.
      */
-    atDate?: MaybeRefOrGetter<string | Date | undefined>
+    atDate: MaybeRefOrGetter<string | Date | undefined>
   },
-  fetchOptions: Pick<UseFetchOptions, "immediate" | "refetch"> = {},
-): Pick<
-  UseFetchReturn<Proprietary>,
-  "data" | "error" | "isFetching" | "get" | "put" | "execute"
-> {
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<Proprietary> {
   const dateAsString = computed(() => {
     const atDateVal = toValue(options?.atDate)
 
@@ -39,12 +36,45 @@ export function useProprietaryService(
 
   const url = computed(() => {
     const eliVal = toValue(eli)
-    if (!eliVal) return INVALID_URL
+    if (!eliVal || !dateAsString.value) return INVALID_URL
 
-    let result = `/norms/${toValue(eli)}/proprietary`
-    if (dateAsString.value) result += `/${dateAsString.value}`
-    return result
+    return `/norms/${eliVal}/proprietary/${dateAsString.value}`
   })
 
-  return useApiFetch<Proprietary>(url, { ...fetchOptions }).json()
+  return useApiFetch<Proprietary>(url, fetchOptions)
+}
+
+/**
+ * Convenience shorthand for `useProprietaryService` that sets the correct
+ * configuration for getting JSON data.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export const useGetProprietary: typeof useProprietaryService = (
+  eli,
+  options,
+  fetchOptions,
+) => useProprietaryService(eli, options, fetchOptions).json()
+
+/**
+ * Convenience shorthand for `useProprietaryService` that sets the correct
+ * configuration for putting JSON data.
+ *
+ * @param eli ELI of the norm
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function usePutProprietary(
+  updateData: MaybeRefOrGetter<Proprietary | null>,
+  eli: Parameters<typeof useProprietaryService>["0"],
+  options: Parameters<typeof useProprietaryService>["1"],
+  fetchOptions?: Parameters<typeof useProprietaryService>["2"],
+): ReturnType<typeof useProprietaryService> {
+  return useProprietaryService(eli, options, fetchOptions)
+    .json()
+    .put(updateData)
 }

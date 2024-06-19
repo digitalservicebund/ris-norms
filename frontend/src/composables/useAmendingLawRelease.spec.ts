@@ -1,66 +1,75 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
-import { ref } from "vue"
-import { useAmendingLawRelease } from "./useAmendingLawRelease"
+import { nextTick, ref } from "vue"
 import * as announcementReleaseService from "@/services/announcementReleaseService"
+import { AmendingLawRelease } from "@/types/amendingLawRelease"
+import { UseFetchReturn } from "@vueuse/core"
 
 describe("useAmendingLawRelease", () => {
   beforeEach(() => {
     vi.resetAllMocks()
   })
 
-  describe("fetchReleaseStatus", () => {
-    it("should fetch the release status and update state", async () => {
-      const mockReleaseStatus = {
-        releaseAt: "2024-03-25T10:37:29.658954Z",
-        amendingLawEli:
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-        zf0Elis: [
-          "eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1",
-        ],
-      }
-
-      vi.spyOn(announcementReleaseService, "getRelease").mockResolvedValue(
-        mockReleaseStatus,
-      )
-
-      const eli = ref(
+  it("should fetch the release status and update state", async () => {
+    const mockReleaseStatus = {
+      releaseAt: "2024-03-25T10:37:29.658954Z",
+      amendingLawEli:
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-      )
-      const { releasedAt, releasedElis, fetchReleaseStatus } =
-        useAmendingLawRelease(eli)
+      zf0Elis: ["eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"],
+    }
+    const dataRef = ref<AmendingLawRelease | null>(null)
 
-      await fetchReleaseStatus()
+    vi.spyOn(announcementReleaseService, "useGetRelease").mockReturnValue({
+      data: dataRef,
+    } as UseFetchReturn<AmendingLawRelease>)
 
-      expect(releasedAt.value).toBeInstanceOf(Date)
-      expect(releasedElis.value).toEqual(mockReleaseStatus)
-    })
+    vi.spyOn(announcementReleaseService, "usePutRelease").mockReturnValue({
+      data: ref(),
+    } as UseFetchReturn<AmendingLawRelease>)
+
+    const { useAmendingLawRelease } = await import(
+      "@/composables/useAmendingLawRelease"
+    )
+
+    const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+    const { data } = useAmendingLawRelease(eli)
+    dataRef.value = mockReleaseStatus
+    await nextTick()
+
+    expect(data.value).toEqual(mockReleaseStatus)
   })
 
-  describe("releaseAmendingLaw", () => {
-    it("should send a release request and update state with the new release info", async () => {
-      const mockReleaseResponse = {
-        releaseAt: "2024-03-25T11:00:00.000Z",
-        amendingLawEli:
-          "eli/bund/bgbl-1/2023/414/2023-12-30/1/deu/regelungstext-1",
-        zf0Elis: [
-          "eli/bund/bgbl-1/1991/s2955/2023-12-30/1/deu/regelungstext-2",
-        ],
-      }
-
-      vi.spyOn(announcementReleaseService, "putRelease").mockResolvedValue(
-        mockReleaseResponse,
-      )
-
-      const eli = ref(
+  it("should send a release request and update state with the new release info", async () => {
+    const newRelease = {
+      releaseAt: "2024-03-25T11:00:00.000Z",
+      amendingLawEli:
         "eli/bund/bgbl-1/2023/414/2023-12-30/1/deu/regelungstext-1",
-      )
-      const { releasedAt, releasedElis, releaseAmendingLaw } =
-        useAmendingLawRelease(eli)
+      zf0Elis: ["eli/bund/bgbl-1/1991/s2955/2023-12-30/1/deu/regelungstext-2"],
+    }
+    const dataRef = ref<AmendingLawRelease | null>(null)
 
-      await releaseAmendingLaw()
+    vi.spyOn(announcementReleaseService, "useGetRelease").mockReturnValue({
+      data: ref(null),
+    } as UseFetchReturn<AmendingLawRelease>)
 
-      expect(releasedAt.value).toBeInstanceOf(Date)
-      expect(releasedElis.value).toEqual(mockReleaseResponse)
-    })
+    vi.spyOn(announcementReleaseService, "usePutRelease").mockReturnValue({
+      data: dataRef,
+      execute: vi.fn().mockImplementation(() => {
+        dataRef.value = newRelease
+      }),
+    } as unknown as UseFetchReturn<AmendingLawRelease>)
+
+    const { useAmendingLawRelease } = await import(
+      "@/composables/useAmendingLawRelease"
+    )
+
+    const eli = ref("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+    const {
+      data,
+      release: { execute },
+    } = useAmendingLawRelease(eli)
+
+    await execute()
+
+    expect(data.value).toEqual(newRelease)
   })
 })

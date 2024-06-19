@@ -36,30 +36,6 @@ public class ProprietaryController {
   }
 
   /**
-   * Return proprietary data of {@link Norm}
-   *
-   * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
-   * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
-   *
-   * @param eli Eli of the request
-   * @return {@link Proprietary} of the Norm identified by the ElI
-   */
-  @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ProprietarySchema> getProprietary(final Eli eli) {
-
-    try {
-      var proprietary =
-          loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-              new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
-
-      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary));
-
-    } catch (NormNotFoundException e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  /**
    * Return specific metadata of the {@link Norm} at a given date within the {@link Proprietary}
    * node.
    *
@@ -107,7 +83,18 @@ public class ProprietaryController {
       var proprietary =
           updateProprietaryFromNormUseCase.updateProprietaryFromNorm(
               new UpdateProprietaryFromNormUseCase.Query(
-                  eli.getValue(), atDate, proprietarySchema.getFna().getValue()));
+                  eli.getValue(),
+                  atDate,
+                  new UpdateProprietaryFromNormUseCase.Metadata(
+                      proprietarySchema.getFna(),
+                      proprietarySchema.getArt(),
+                      proprietarySchema.getTyp(),
+                      proprietarySchema.getSubtyp(),
+                      proprietarySchema.getBezeichnungInVorlage(),
+                      proprietarySchema.getArtDerNorm(),
+                      proprietarySchema.getNormgeber(),
+                      proprietarySchema.getBeschliessendesOrgan(),
+                      proprietarySchema.getQualifizierteMehrheit())));
 
       return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
 

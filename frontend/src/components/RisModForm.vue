@@ -7,6 +7,7 @@ import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CheckIcon from "~icons/ic/check"
 import { ModType } from "@/types/ModType"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import RisTooltip from "@/components/controls/RisTooltip.vue"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -23,6 +24,9 @@ const props = defineProps<{
   quotedTextFirst?: string
   /** This is the text that replaces quotedTextFirst */
   quotedTextSecond?: string
+  isUpdating?: boolean
+  isUpdatingFinished?: boolean
+  updateError?: Error
 }>()
 
 defineEmits<{
@@ -114,7 +118,6 @@ function modTypeLabel(modType: ModType | "") {
         label="Änderungstyp"
         :model-value="modTypeLabel(textualModType)"
         read-only
-        size="small"
       />
       <RisDropdownInput
         id="timeBoundaries"
@@ -130,14 +133,12 @@ function modTypeLabel(modType: ModType | "") {
       label="ELI Zielgesetz"
       :model-value="destinationHrefEli"
       read-only
-      size="small"
     />
     <RisTextInput
       v-if="textualModType === 'aenderungsbefehl-ersetzen'"
       id="destinationHrefEid"
       v-model="destinationHrefEid"
       label="zu ersetzende Textstelle"
-      size="small"
       @blur="$emit('generate-preview')"
     />
     <RisTextAreaInput
@@ -161,11 +162,27 @@ function modTypeLabel(modType: ModType | "") {
         variant="tertiary"
         @click.prevent="$emit('generate-preview')"
       />
-      <RisTextButton
-        label="Speichern"
-        :icon="CheckIcon"
-        @click.prevent="$emit('update-mod')"
-      />
+
+      <div class="relative">
+        <RisTooltip
+          v-slot="{ ariaDescribedby }"
+          :visible="isUpdatingFinished"
+          :title="
+            updateError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'
+          "
+          alignment="right"
+          attachment="top"
+          :variant="updateError ? 'error' : 'success'"
+        >
+          <RisTextButton
+            :aria-describedby="ariaDescribedby"
+            label="Speichern"
+            :icon="CheckIcon"
+            :loading="isUpdating"
+            @click.prevent="$emit('update-mod')"
+          />
+        </RisTooltip>
+      </div>
     </div>
   </form>
 </template>

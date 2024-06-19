@@ -33,12 +33,13 @@ test("should display a loading error message when the API call fails", async ({
   page,
 }) => {
   await page.route(
-    "**/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1?showMetadata=false",
-    (route) => {
-      route.fulfill({
-        status: 500,
-        body: JSON.stringify({ message: "Internal Server Error" }),
-      })
+    "**/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1?",
+    async (route, request) => {
+      if (request.headers()["accept"] === "text/html") {
+        await route.abort()
+      } else {
+        await route.continue()
+      }
     },
   )
 
@@ -47,6 +48,8 @@ test("should display a loading error message when the API call fails", async ({
   )
 
   await expect(
-    page.getByText("Die Liste der Verkündungen konnte nicht geladen werden"),
+    page.getByText("Der Text der Verkündung konnte nicht geladen werden."),
   ).toBeVisible()
+
+  await page.unrouteAll()
 })

@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import { computed, ComputedRef, WritableComputedRef } from "vue"
 import { useRoute, useRouter } from "vue-router"
 
@@ -30,14 +31,20 @@ export function useTimeBoundaryPathParameter(): {
         ? route.params.timeBoundary[0]
         : route.params.timeBoundary
     },
-    set(timeBoundary) {
-      router.replace({ params: { timeBoundary } })
+    set(newValue) {
+      // Setting this to an empty value would cause the router to throw an error
+      // about a missing parameter + it is most likely unintended behavior anyways.
+      if (!newValue) return
+
+      router.replace({ params: { timeBoundary: newValue } })
     },
   })
 
-  const timeBoundaryAsDate = computed(() =>
-    timeBoundary.value ? new Date(timeBoundary.value) : undefined,
-  )
+  const timeBoundaryAsDate = computed(() => {
+    if (timeBoundary.value && dayjs(timeBoundary.value).isValid()) {
+      return dayjs(timeBoundary.value).toDate()
+    } else return undefined
+  })
 
   return { timeBoundary, timeBoundaryAsDate }
 }

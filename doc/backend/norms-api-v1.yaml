@@ -593,28 +593,30 @@ components:
       type: object
       properties:
         fna:
-          type: object
-          properties:
-            value:
-              type: string
-              description: FNA (Fundstellennachweis A) of the norm
+          type: string
+          description: FNA (Fundstellennachweis A) of the norm
         art:
-          type: object
-          properties:
-            value:
-              type: string
-              description: Art ("Art der Norm") of the norm
+          type: string
+          description: Art ("Art der Norm") of the norm
         typ:
-          type: object
-          properties:
-            value:
-              type: string
-              description: Type ("Typ") of the document
+          type: string
+          description: Type ("Typ") of the document
         subtyp:
-          type: object
-          properties:
-            value:
-              type: string
-              description: Subtype ("Subtyp") of the document
-
+          type: string
+          description: Subtype ("Subtyp") of the document
+        bezeichnungInVorlage:
+          type: string
+          description: Designation according to specification ("Bezeichnung gemäß Vorlage") of the document
+        artDerNorm:
+          type: string
+          description: SN,ÄN,ÜN ("Art der Norm") of the norm
+        normgeber:
+          type: string
+          description: DEU,DDR,BW... ("Normgeber") of the norm
+        beschliessendesOrgan:
+          type: string
+          description: ("Beschließendes Organ") of the norm
+        qualifizierteMehrheit:
+          type: boolean
+          description: Boolean value if beschliessendesOrgan had a ("Qualifizierte Mehrheit") when deciding
 

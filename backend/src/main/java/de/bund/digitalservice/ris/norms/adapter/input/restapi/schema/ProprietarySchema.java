@@ -1,26 +1,21 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-/** Schema returned by the API when fetching proprietary metadata form a norm. */
-@AllArgsConstructor
+/** Schema for the API when fetching/updating proprietary metadata form a norm. */
+@NoArgsConstructor
 @Data
 @SuperBuilder(toBuilder = true)
 public class ProprietarySchema {
-  private SimpleValue fna;
-  private SimpleValue art;
-  private SimpleValue typ;
-  private SimpleValue subtyp;
-
-  /** Nested schema for simple values. */
-  @AllArgsConstructor
-  @NoArgsConstructor
-  @Data
-  @SuperBuilder(toBuilder = true)
-  public static class SimpleValue {
-    private String value;
-  }
+  private String fna;
+  private String art;
+  private String typ;
+  private String subtyp;
+  private String bezeichnungInVorlage;
+  private String artDerNorm;
+  private String normgeber;
+  private String beschliessendesOrgan;
+  private Boolean qualifizierteMehrheit;
 }

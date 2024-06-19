@@ -5,38 +5,38 @@ import { nextTick, ref } from "vue"
 describe("useArticle", () => {
   beforeEach(() => {
     vi.resetModules()
-    vi.resetAllMocks()
   })
 
   test("should provide the article", async () => {
-    const getArticleByEliAndEid = vi.fn().mockResolvedValue({
-      eid: "article eid 1",
-      title: "article eid 1",
-      enumeration: "1",
-      affectedDocumentEli: "example/eli",
-    })
-
-    vi.doMock("@/services/articleService", () => ({
-      getArticleByEliAndEid,
-    }))
+    const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          eid: "article eid 1",
+          title: "article eid 1",
+          enumeration: "1",
+          affectedDocumentEli: "example/eli",
+        }),
+      ),
+    )
 
     const { useArticle } = await import("./useArticle")
 
-    const identifier = ref<LawElementIdentifier>({ eli: "", eid: "" })
-    const article = useArticle(identifier)
-
-    await vi.waitUntil(() => article.value)
+    const identifier = ref<LawElementIdentifier>({
+      eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      eid: "art_1",
+    })
+    const { data: article, isFinished } = useArticle(identifier)
+    await vi.waitUntil(() => isFinished.value)
 
     expect(article.value?.eid).toBe("article eid 1")
-    expect(getArticleByEliAndEid).toHaveBeenCalled()
+    expect(fetchSpy).toHaveBeenCalledWith(
+      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/art_1",
+      expect.anything(),
+    )
   })
 
   test("should load the article when the identifier changes", async () => {
-    const getArticleByEliAndEid = vi.fn()
-
-    vi.doMock("@/services/articleService", () => ({
-      getArticleByEliAndEid,
-    }))
+    const fetchSpy = vi.spyOn(global, "fetch")
 
     const { useArticle } = await import("./useArticle")
 
@@ -49,6 +49,6 @@ describe("useArticle", () => {
     identifier.value = { eli: "1", eid: "1" }
     await nextTick()
 
-    expect(getArticleByEliAndEid).toBeCalledTimes(2)
+    expect(fetchSpy).toBeCalledTimes(2)
   })
 })

@@ -6,7 +6,7 @@ describe("announcementService", () => {
     vi.resetAllMocks()
   })
 
-  describe("useAmendingLaws()", () => {
+  describe("useAnnouncements()", () => {
     it("provides the data from the api", async () => {
       const mockData = [
         {

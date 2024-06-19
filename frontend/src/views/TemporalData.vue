@@ -2,50 +2,102 @@
 import RisTemporalDataIntervals from "@/components/RisTemporalDataIntervals.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useEntryIntoForceHtml } from "@/composables/useEntryIntoForceHtml"
 import { useTemporalData } from "@/composables/useTemporalData"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
+import RisTooltip from "@/components/controls/RisTooltip.vue"
+import { useGetEntryIntoForceHtml } from "@/services/temporalDataService"
+import { ref, watch } from "vue"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
 
 const eli = useEliPathParameter()
-const { timeBoundaries: dates, updateTemporalData } = useTemporalData(eli)
-const { htmlContent: entryIntoForceArticleHtml } = useEntryIntoForceHtml(eli)
+const dates = ref<TemporalDataResponse[]>([])
+const {
+  data: timeBoundaries,
+  update: {
+    error: saveError,
+    isFetching: isSaving,
+    isFinished: isSavingFinished,
+    execute: saveTemporalData,
+  },
+  isFetching: isFetchingTemporalData,
+  error: loadTimeBoundariesError,
+} = useTemporalData(eli, dates)
 
-async function handleSave() {
-  try {
-    await updateTemporalData(dates.value)
-  } catch (error) {
-    console.error("Error saving dates:", error)
-  }
-}
+watch(timeBoundaries, () => {
+  dates.value = timeBoundaries.value ?? []
+})
+
+const {
+  data: entryIntoForceArticleHtml,
+  error: entryIntoForceError,
+  isFetching: isFetchingEntryIntoForce,
+} = useGetEntryIntoForceHtml(eli)
 </script>
 
 <template>
   <div
-    v-if="entryIntoForceArticleHtml"
     class="grid h-full grid-cols-3 grid-rows-[5rem,1fr] gap-x-32 overflow-hidden p-40"
   >
-    <div class="col-span-3 mb-40 flex items-center justify-between">
-      <h1 class="ds-heading-02-reg">Zeitgrenzen anlegen</h1>
-      <RisTextButton
-        label="Speichern"
-        size="small"
-        class="h-fit flex-none"
-        @click="handleSave"
-      />
-    </div>
-    <div class="col-span-1 overflow-auto">
-      <RisTemporalDataIntervals
-        v-model:dates="dates"
-        class="col-span-1 overflow-auto"
-      />
-    </div>
+    <template v-if="isFetchingEntryIntoForce || isFetchingTemporalData">
+      <div class="col-span-3 flex items-center justify-center">
+        <RisLoadingSpinner />
+      </div>
+    </template>
 
-    <RisLawPreview
-      :content="entryIntoForceArticleHtml ?? ''"
-      class="col-span-2"
-    />
-  </div>
-  <div v-else class="p-40">
-    <p>Es wurde kein Inkrafttreten-Artikel gefunden.</p>
+    <template v-else-if="entryIntoForceError">
+      <div class="col-span-3">
+        <RisCallout
+          title="Es wurde kein Inkrafttreten-Artikel gefunden."
+          variant="error"
+        />
+      </div>
+    </template>
+
+    <template v-else-if="loadTimeBoundariesError">
+      <div class="col-span-3">
+        <RisCallout
+          title="Zeitgrenzen konnten nicht geladen werden."
+          variant="error"
+        />
+      </div>
+    </template>
+
+    <template v-else-if="entryIntoForceArticleHtml">
+      <div class="col-span-3 mb-40 flex items-center justify-between">
+        <h1 class="ds-heading-02-reg">Zeitgrenzen anlegen</h1>
+
+        <RisTooltip
+          v-slot="{ ariaDescribedby }"
+          :visible="isSavingFinished"
+          :title="saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'"
+          alignment="right"
+          attachment="top"
+          :variant="saveError ? 'error' : 'success'"
+        >
+          <RisTextButton
+            :aria-describedby="ariaDescribedby"
+            label="Speichern"
+            size="small"
+            class="h-fit flex-none"
+            :loading="isSaving"
+            @click="saveTemporalData"
+          />
+        </RisTooltip>
+      </div>
+
+      <div class="col-span-1 overflow-auto">
+        <RisTemporalDataIntervals
+          v-model:dates="dates"
+          class="col-span-1 overflow-auto"
+        />
+      </div>
+
+      <RisLawPreview
+        :content="entryIntoForceArticleHtml ?? ''"
+        class="col-span-2"
+      />
+    </template>
   </div>
 </template>

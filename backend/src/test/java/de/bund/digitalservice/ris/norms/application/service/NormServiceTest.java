@@ -33,7 +33,7 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
-  final ModificationValidator modificationValidator = mock(ModificationValidator.class);
+  final SingleModValidator singleModValidator = mock(SingleModValidator.class);
   final UpdateNormService updateNormService = mock(UpdateNormService.class);
   final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
@@ -43,7 +43,7 @@ class NormServiceTest {
           loadNormPort,
           loadNormByGuidPort,
           updateNormPort,
-          modificationValidator,
+          singleModValidator,
           updateNormService,
           loadZf0Service,
           updateOrSaveNormPort);
@@ -808,9 +808,8 @@ class NormServiceTest {
               false));
 
       // Then
-      verify(modificationValidator, times(1))
-          .validateSubstitutionMod(
-              argThat(eli -> eli.equals(amendingNormEli)), argThat(m -> m.equals(mod)));
+      verify(singleModValidator, times(1))
+          .validate(argThat(zf0NormArg -> zf0NormArg.equals(zf0Norm)), argThat(m -> m.equals(mod)));
     }
 
     @Test
@@ -822,14 +821,14 @@ class NormServiceTest {
       String targetNormEli = targetNorm.getEli();
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
-      String newCharacterRange = "20-25";
+      String newCharacterRange = "9-34";
       String newTimeBoundaryEid = "#time-boundary-eid";
       String newDestinationHref =
           targetNormEli
               + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/"
               + newCharacterRange
               + ".xml";
-      String newText = "new text";
+      String newText = "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3";
       when(loadNormPort.loadNorm(any()))
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));

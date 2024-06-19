@@ -73,15 +73,12 @@ public class Proprietary {
    * @return FNA or empty if present neither in the MetadatenDe nor in the MetadatenDs block.
    */
   public Optional<String> getFna(final LocalDate date) {
-    return getMetadatenDs().flatMap(m -> m.getFnaAt(date)).or(this::getFna);
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, date))
+        .or(this::getFna);
   }
 
-  /**
-   * Returns the Art ("Art der Norm") of the norm from the MetadatenDe block.
-   *
-   * @return Art or empty if it doesn't exist.
-   */
-  public Optional<String> getArt() {
+  private Optional<String> getArt() {
     return getMetadatenDe().flatMap(MetadatenDe::getArt);
   }
 
@@ -93,15 +90,12 @@ public class Proprietary {
    * @return Art or empty if present neither in the MetadatenDe nor in the MetadatenDs block.
    */
   public Optional<String> getArt(final LocalDate date) {
-    return getMetadatenDs().flatMap(m -> m.getArtAt(date)).or(this::getArt);
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.ART, date))
+        .or(this::getArt);
   }
 
-  /**
-   * Returns the type ("Typ des Dokuments") of the document from the MetadatenDe block.
-   *
-   * @return Typ or empty if it doesn't exist.
-   */
-  public Optional<String> getTyp() {
+  private Optional<String> getTyp() {
     return getMetadatenDe().flatMap(MetadatenDe::getTyp);
   }
 
@@ -113,16 +107,9 @@ public class Proprietary {
    * @return Typ or empty if present neither in the MetadatenDe nor in the MetadatenDs block.
    */
   public Optional<String> getTyp(final LocalDate date) {
-    return getMetadatenDs().flatMap(m -> m.getTypAt(date)).or(this::getTyp);
-  }
-
-  /**
-   * Returns the subtype ("Subtyp") of the document from the MetadatenDs block.
-   *
-   * @return Subtyp or empty if it doesn't exist.
-   */
-  public Optional<String> getSubtyp() {
-    return getMetadatenDs().flatMap(MetadatenDs::getSubtyp);
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.TYP, date))
+        .or(this::getTyp);
   }
 
   /**
@@ -132,6 +119,72 @@ public class Proprietary {
    * @return Subtyp or empty if it doesn't exist.
    */
   public Optional<String> getSubtyp(final LocalDate date) {
-    return getMetadatenDs().flatMap(m -> m.getSubtypAt(date)).or(this::getSubtyp);
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.SUBTYP, date));
+  }
+
+  /**
+   * Returns the designation according to specification ("Bezeichnung gemäß Vorlage") of the
+   * document from the MetadatenDs block at a specific date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Bezeichnung gemäß Vorlage" or empty if it doesn't exist.
+   */
+  public Optional<String> getBezeichnungInVorlage(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(
+            m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.BEZEICHNUNG_IN_VORLAGE, date));
+  }
+
+  /**
+   * Returns the ("Art der Norm") which can be "SN and/or ÄN and/or ÜN" of the document from the
+   * MetadatenDs block at a specific date. Check metadata.xsd for String regex
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Art der Norm" or empty if it doesn't exist.
+   */
+  public Optional<String> getArtDerNorm(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.ART_DER_NORM, date));
+  }
+
+  /**
+   * Returns the ("Normgeber") of the document from the MetadatenDs block at a specific date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Normgeber" or empty if it doesn't exist.
+   */
+  public Optional<String> getNormgeber(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.NORMGEBER, date));
+  }
+
+  /**
+   * Returns the ("Beschließendes Organ") of the document from the MetadatenDs block at a specific
+   * date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Beschließendes Organ" or empty if it doesn't exist.
+   */
+  public Optional<String> getBeschliessendesOrgan(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(
+            m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN, date));
+  }
+
+  /**
+   * Returns the ("Qualifizierte Mehrheit") attribute value of the ("Beschließendes Organ") of the
+   * document from the MetadatenDs block at a specific date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Qualifizierte Mehrheit" true/false or empty if "Beschließendes Organ" doesn't exist.
+   */
+  public Optional<Boolean> getQualifizierteMehrheit(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(
+            m ->
+                m.getAttributeOfSimpleMetadatumAt(
+                        MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, date)
+                    .map(Boolean::parseBoolean));
   }
 }

@@ -1,34 +1,30 @@
-import { ofetch } from "ofetch"
-import { createFetch } from "@vueuse/core"
+import { createFetch, UseFetchReturn } from "@vueuse/core"
 import type { Router } from "vue-router"
+
+/**
+ * The same as UseFetchReturn, but without the methods to get more specific useFetch instances.
+ */
+export type SimpleUseFetchReturn<T> = Omit<
+  UseFetchReturn<T>,
+  | "get"
+  | "post"
+  | "put"
+  | "delete"
+  | "patch"
+  | "head"
+  | "options"
+  | "json"
+  | "text"
+  | "blob"
+  | "arrayBuffer"
+  | "formData"
+>
 
 let routerInstance: Router | null = null
 
 export const initializeApiService = (router: Router) => {
   routerInstance = router
 }
-
-/**
- * Fetch data from the backend api.
- *
- * @deprecated Use `useApiFetch` instead.
- */
-export const apiFetch = ofetch.create({
-  baseURL: "/api/v1",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-  async onResponseError({ response }) {
-    if (response?.status === 404 && routerInstance) {
-      routerInstance.push({ name: "NotFound" }).catch((err) => {
-        if (err.name !== "NavigationDuplicated") {
-          console.error("Failed to navigate to 404 page:", err)
-        }
-      })
-    }
-  },
-})
 
 /* -------------------------------------------------- *
  * Reactive API fetch                                 *
@@ -67,6 +63,18 @@ export const useApiFetch = createFetch({
             console.error("Failed to navigate to 404 page:", err)
           }
         })
+      }
+
+      // this error is sometimes throws when previous requests are automatically aborted as
+      // some of the data changed and refetch is true. It seems to only be throws when the request
+      // is aborted before it was actually send.
+      // We ignore this error as it (for some odd reason) isn't replaced once the second request finishes
+      // successfully
+      if (fetchContext.error.name === "AbortError") {
+        return {
+          ...fetchContext,
+          error: null,
+        }
       }
 
       return fetchContext

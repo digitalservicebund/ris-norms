@@ -12,18 +12,6 @@ public class ProprietaryResponseMapper {
   private ProprietaryResponseMapper() {}
 
   /**
-   * Creates a {@link ProprietarySchema} from {@link Proprietary} metadata.
-   *
-   * @param proprietary Input data to be converted
-   * @return Converted data
-   */
-  public static ProprietarySchema fromProprietary(Proprietary proprietary) {
-    return ProprietarySchema.builder()
-        .fna(new ProprietarySchema.SimpleValue(proprietary.getFna().orElse(null)))
-        .build();
-  }
-
-  /**
    * Creates a {@link ProprietarySchema} from {@link Proprietary} metadata but getting the metadata
    * at specific dates.
    *
@@ -33,10 +21,15 @@ public class ProprietaryResponseMapper {
    */
   public static ProprietarySchema fromProprietary(Proprietary proprietary, final LocalDate date) {
     return ProprietarySchema.builder()
-        .fna(new ProprietarySchema.SimpleValue(proprietary.getFna(date).orElse(null)))
-        .art(new ProprietarySchema.SimpleValue(null))
-        .typ(new ProprietarySchema.SimpleValue(null))
-        .subtyp(new ProprietarySchema.SimpleValue(null))
+        .fna(proprietary.getFna(date).orElse(null))
+        .art(proprietary.getArt(date).orElse(null))
+        .typ(proprietary.getTyp(date).orElse(null))
+        .subtyp(proprietary.getSubtyp(date).orElse(null))
+        .bezeichnungInVorlage(proprietary.getBezeichnungInVorlage(date).orElse(null))
+        .artDerNorm(proprietary.getArtDerNorm(date).orElse(null))
+        .normgeber(proprietary.getNormgeber(date).orElse(null))
+        .beschliessendesOrgan(proprietary.getBeschliessendesOrgan(date).orElse(null))
+        .qualifizierteMehrheit(proprietary.getQualifizierteMehrheit(date).orElse(null))
         .build();
   }
 }

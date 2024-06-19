@@ -32,7 +32,7 @@ public class NormService
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
-  private final ModificationValidator modificationValidator;
+  private final SingleModValidator singleModValidator;
   private final UpdateNormService updateNormService;
   private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
@@ -41,14 +41,14 @@ public class NormService
       LoadNormPort loadNormPort,
       LoadNormByGuidPort loadNormByGuidPort,
       UpdateNormPort updateNormPort,
-      ModificationValidator modificationValidator,
+      SingleModValidator singleModValidator,
       UpdateNormService updateNormService,
       LoadZf0Service loadZf0Service,
       UpdateOrSaveNormPort updateOrSaveNormPort) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
-    this.modificationValidator = modificationValidator;
+    this.singleModValidator = singleModValidator;
     this.updateNormService = updateNormService;
     this.loadZf0Service = loadZf0Service;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -125,66 +125,48 @@ public class NormService
 
   @Override
   public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
+
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    if (amendingNormOptional.isEmpty()) {
+    final Optional<String> targetNormEliOptional = new Href(query.destinationHref()).getEli();
+    if (amendingNormOptional.isEmpty() || targetNormEliOptional.isEmpty()) {
       return Optional.empty();
     }
-    final var amendingNorm = amendingNormOptional.get();
-    final var amendingNormEli = amendingNorm.getEli();
-
-    final var targetNormEliOptional = new Href(query.destinationHref()).getEli();
-    if (targetNormEliOptional.isEmpty()) {
-      return Optional.empty();
-    }
-
+    final Norm amendingNorm = amendingNormOptional.get();
     final Norm targetNorm =
         loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEliOptional.get())).orElseThrow();
-
     final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
-    // Edit mod in metadata
+    // Update active mods (meta and body) in amending law
     updateNormService.updateActiveModifications(
         new UpdateActiveModificationsUseCase.Query(
-            amendingNorm, query.eid(), query.destinationHref(), query.timeBoundaryEid()));
+            amendingNorm,
+            query.eid(),
+            query.destinationHref(),
+            query.timeBoundaryEid(),
+            query.newText()));
 
-    // Edit mod in body
-    amendingNorm.getMods().stream()
-        .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eid()))
-        .findFirst()
-        .ifPresent(
-            mod -> {
-              mod.setTargetHref(query.destinationHref());
-              mod.setNewText(query.newText());
-            });
-
+    // Update passiv mods in ZF0
     updateNormService.updatePassiveModifications(
         new UpdatePassiveModificationsUseCase.Query(
             zf0Norm, amendingNorm, targetNormEliOptional.get()));
 
-    Mod selectedMod =
+    // Validate changes on ZF0
+    final Mod selectedMod =
         amendingNorm.getMods().stream()
             .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(query.eid()))
             .findFirst()
             .orElseThrow();
+    singleModValidator.validate(zf0Norm, selectedMod);
 
-    modificationValidator.validateSubstitutionMod(amendingNormEli, selectedMod);
-
-    Optional<Norm> updatedAmendingNorm = Optional.of(amendingNorm);
-    Norm updatedZf0Norm = zf0Norm;
+    // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
-      updatedAmendingNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
-      updatedZf0Norm = updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+      updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
-
-    if (updatedAmendingNorm.isPresent()) {
-      return Optional.of(
-          new UpdateModUseCase.Result(
-              XmlMapper.toString(updatedAmendingNorm.get().getDocument()),
-              XmlMapper.toString(updatedZf0Norm.getDocument())));
-    } else {
-      return Optional.of(
-          new UpdateModUseCase.Result("", XmlMapper.toString(updatedZf0Norm.getDocument())));
-    }
+    return Optional.of(
+        new UpdateModUseCase.Result(
+            XmlMapper.toString(amendingNorm.getDocument()),
+            XmlMapper.toString(zf0Norm.getDocument())));
   }
 }

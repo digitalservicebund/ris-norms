@@ -42,7 +42,33 @@ public class ProprietaryService
     final Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
 
-    metadatenDs.setFnaAt(query.atDate(), query.fna());
+    metadatenDs.setSimpleMetadatum(
+        MetadatenDs.SimpleMetadatum.FNA, query.atDate(), query.metadata().fna());
+    metadatenDs.setSimpleMetadatum(
+        MetadatenDs.SimpleMetadatum.ART, query.atDate(), query.metadata().art());
+    metadatenDs.setSimpleMetadatum(
+        MetadatenDs.SimpleMetadatum.TYP, query.atDate(), query.metadata().typ());
+    metadatenDs.setSimpleMetadatum(
+        MetadatenDs.SimpleMetadatum.SUBTYP, query.atDate(), query.metadata().subtyp());
+    metadatenDs.setSimpleMetadatum(
+        MetadatenDs.SimpleMetadatum.BEZEICHNUNG_IN_VORLAGE,
+        query.atDate(),
+        query.metadata().bezeichnungInVorlage());
+    metadatenDs.setSimpleMetadatum(
+        MetadatenDs.SimpleMetadatum.ART_DER_NORM, query.atDate(), query.metadata().artDerNorm());
+    metadatenDs.setSimpleMetadatum(
+        MetadatenDs.SimpleMetadatum.NORMGEBER, query.atDate(), query.metadata().normgeber());
+    metadatenDs.setSimpleMetadatum(
+        MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
+        query.atDate(),
+        query.metadata().beschliessendesOrgan());
+    if (query.metadata().qualifizierterMehrheit() != null) {
+      metadatenDs.setAttributeOfSimpleMetadatum(
+          MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT,
+          query.atDate(),
+          query.metadata().qualifizierterMehrheit().toString());
+    }
+
     updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 
     return proprietary;

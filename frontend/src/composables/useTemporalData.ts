@@ -1,51 +1,60 @@
 import {
-  getTemporalDataTimeBoundaries,
-  updateTemporalDataTimeBoundaries,
+  useGetTemporalDataTimeBoundaries,
+  useUpdateTemporalDataTimeBoundaries,
 } from "@/services/temporalDataService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { MaybeRefOrGetter, Ref, ref, toValue, watch } from "vue"
+import { MaybeRefOrGetter, ref, watch } from "vue"
+import { UseFetchReturn } from "@vueuse/core"
 
 /**
- * Returns the temporal data from the API and offers methods for interacting
- * with it.
+ * Get the temporal data from the API.
  *
  * @param eli ELI of the norm that we want to get the temporal data from
- * @param options Additional options for how the data is handled
  */
-export function useTemporalData(eli: MaybeRefOrGetter<string>): {
-  /** Temporal data contained in that norm. */
-  timeBoundaries: Ref<TemporalDataResponse[]>
-
-  /** Reloads the data from the API. */
-  loadData: () => Promise<void>
-
-  /**
-   * Saves temporal data to the API.
-   *
-   * @param newDates The updated data.
-   */
-  updateTemporalData: (newDates: TemporalDataResponse[]) => Promise<void>
+export function useTemporalData(
+  eli: MaybeRefOrGetter<string | undefined>,
+): UseFetchReturn<TemporalDataResponse[]>
+/**
+ * Get the temporal data from the API. This also supports updating the temporal data.
+ * The data is automatically also updated with the response from the update.
+ *
+ * @param eli ELI of the norm that we want to get the temporal data from
+ * @param newTemporalData a reference to the data that should be saved on an update.
+ */
+export function useTemporalData(
+  eli: MaybeRefOrGetter<string | undefined>,
+  newTemporalData: MaybeRefOrGetter<TemporalDataResponse[]>,
+): UseFetchReturn<TemporalDataResponse[]> & {
+  update: UseFetchReturn<TemporalDataResponse[]>
+}
+export function useTemporalData(
+  eli: MaybeRefOrGetter<string | undefined>,
+  newTemporalData?: MaybeRefOrGetter<TemporalDataResponse[]>,
+): UseFetchReturn<TemporalDataResponse[]> & {
+  update?: UseFetchReturn<TemporalDataResponse[]>
 } {
-  const timeBoundaries = ref<TemporalDataResponse[]>([])
-
-  async function loadData() {
-    timeBoundaries.value = await getTemporalDataTimeBoundaries(toValue(eli))
+  if (!newTemporalData) {
+    return useGetTemporalDataTimeBoundaries(eli)
   }
 
-  async function updateTemporalData(newDates: TemporalDataResponse[]) {
-    const response = await updateTemporalDataTimeBoundaries(
-      toValue(eli),
-      newDates,
-    )
+  // We want to also update the data with the data returned from the PUT-request.
+  const data = ref<TemporalDataResponse[] | null>(null)
+  const getTemporalDataTimeBoundaries = useGetTemporalDataTimeBoundaries(eli)
+  watch(getTemporalDataTimeBoundaries.data, () => {
+    data.value = getTemporalDataTimeBoundaries.data.value
+  })
 
-    timeBoundaries.value = response
-  }
-
-  watch(() => eli, loadData, { immediate: true })
+  const updateTemporalDataTimeBoundaries = useUpdateTemporalDataTimeBoundaries(
+    eli,
+    newTemporalData,
+  )
+  watch(updateTemporalDataTimeBoundaries.data, () => {
+    data.value = updateTemporalDataTimeBoundaries.data.value
+  })
 
   return {
-    timeBoundaries,
-    updateTemporalData,
-    loadData,
+    ...getTemporalDataTimeBoundaries,
+    data,
+    update: updateTemporalDataTimeBoundaries,
   }
 }

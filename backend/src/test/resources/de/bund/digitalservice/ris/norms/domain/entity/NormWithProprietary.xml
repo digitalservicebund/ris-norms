@@ -128,6 +128,13 @@
                         <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
                     </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
+                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                    <meta:subtyp>rechtsverordnung</meta:subtyp>
+                    <meta:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
+                    <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
+                    <meta:normgeber>DEU</meta:normgeber>
+                    <meta:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
+                </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>
     </akn:act>

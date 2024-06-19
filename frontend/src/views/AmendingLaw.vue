@@ -4,10 +4,12 @@ import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import { useAlerts } from "@/composables/useAlerts"
 import RisAlert from "@/components/controls/RisAlert.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import { useGetNorm } from "@/services/normService"
+import RisCallout from "@/components/controls/RisCallout.vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -35,14 +37,30 @@ const menuItems: LevelOneMenuItem[] = [
 ]
 
 const eli = useEliPathParameter()
-const amendingLaw = useAmendingLaw(eli)
+const {
+  data: amendingLaw,
+  isFetching,
+  error,
+} = useGetNorm(eli, undefined, { refetch: true })
 
 const { alerts, hideAlert } = useAlerts()
 </script>
 
 <template>
   <div
-    v-if="amendingLaw"
+    v-if="isFetching"
+    class="flex h-[calc(100dvh-5rem)] items-center justify-center"
+  >
+    <RisLoadingSpinner />
+  </div>
+  <div v-else-if="error || !amendingLaw">
+    <RisCallout
+      title="Das Änderungsgesetz konnte nicht geladen werden."
+      variant="error"
+    />
+  </div>
+  <div
+    v-else
     class="grid h-[calc(100dvh-5rem)] grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] overflow-hidden bg-gray-100"
   >
     <RisAmendingLawInfoHeader :amending-law="amendingLaw" class="col-span-2" />
@@ -66,5 +84,4 @@ const { alerts, hideAlert } = useAlerts()
       <RouterView />
     </div>
   </div>
-  <div v-else>Laden...</div>
 </template>

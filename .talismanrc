@@ -20,6 +20,6 @@ fileignoreconfig:
   - filename: doc/adr/0009-renovate.md
     checksum: 172f8d22a6c8114b91ba4e430349c40599d1afa59fb96f49a651c1eac1e551dc
   - filename: backend/src/main/resources/db/data/R__004_2024_108_2024-03-27_Wachstumschancengesetz.sql
-    checksum: c30168d535197d8e24edd517bac7a48502f0e4638d1d047735ad5d218735e14e
+    checksum: 8038341b48b9a08f7aaaa89059f109c62bfab14ab7780644a1abab24c9b111ad
   - filename: backend/src/main/resources/db/data/R__006_2024_108_2024-03-27_Wachstumschancengesetz-Part-3.sql
     checksum: 8b27438daf6e93b8bf31b49e73ad4c2fd77b0c188634b315b30587443d87e036
