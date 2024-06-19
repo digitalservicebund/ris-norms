@@ -180,7 +180,7 @@ describe("useNormService", () => {
 
       useGetNorm("fake/eli/1")
 
-      await vi.waitFor(() =>
+      await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
           "/api/v1/norms/fake/eli/1?",
           expect.objectContaining({
@@ -189,8 +189,39 @@ describe("useNormService", () => {
               "Content-Type": "application/json",
             },
           }),
-        ),
-      )
+        )
+      })
+    })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetNorm } = await import("./normService")
+
+      const eli = ref("fake/eli/1")
+      useGetNorm(eli)
+
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1?",
+          expect.objectContaining({
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }),
+        )
+      })
+
+      eli.value = "fake/eli/2"
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/2?",
+          expect.any(Object),
+        )
+      })
     })
   })
 
@@ -223,6 +254,39 @@ describe("useNormService", () => {
         ),
       )
     })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetNormHtml } = await import("./normService")
+
+      const eli = ref("fake/eli/1")
+      useGetNormHtml(eli, {
+        showMetadata: true,
+        at: new Date("2024-05-13"),
+      })
+
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1?showMetadata=true&atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "text/html",
+            }),
+          }),
+        )
+      })
+
+      eli.value = "fake/eli/2"
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/2?showMetadata=true&atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          expect.any(Object),
+        )
+      })
+    })
   })
 
   describe("useGetNormXml", () => {
@@ -239,13 +303,12 @@ describe("useNormService", () => {
       const { useGetNormXml } = await import("./normService")
 
       useGetNormXml("fake/eli/1", {
-        showMetadata: true,
         at: new Date("2024-05-13"),
       })
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/fake/eli/1?showMetadata=true&atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          "/api/v1/norms/fake/eli/1?atIsoDate=2024-05-13T00%3A00%3A00.000Z",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/xml",
@@ -253,6 +316,36 @@ describe("useNormService", () => {
           }),
         ),
       )
+    })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetNormXml } = await import("./normService")
+
+      const eli = ref("fake/eli/1")
+      useGetNormXml(eli, { at: new Date("2024-05-13") })
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1?atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/xml",
+            }),
+          }),
+        ),
+      )
+
+      eli.value = "fake/eli/2"
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/2?atIsoDate=2024-05-13T00%3A00%3A00.000Z",
+          expect.any(Object),
+        )
+      })
     })
   })
 
@@ -262,14 +355,20 @@ describe("useNormService", () => {
       vi.resetModules()
     })
 
-    it("sends the data to the API", async () => {
+    it("sends the data to the API on changes", async () => {
       const fetchSpy = vi
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
       const { usePutNormXml } = await import("./normService")
 
-      usePutNormXml("newXml", "fake/eli/1", undefined, { immediate: true })
+      const xml = ref("oldXml")
+      usePutNormXml(xml, "fake/eli/1")
+
+      await flushPromises()
+      expect(fetchSpy).not.toHaveBeenCalled()
+
+      xml.value = "newXml"
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
@@ -280,6 +379,7 @@ describe("useNormService", () => {
               "Content-Type": "application/xml",
             }),
             method: "PUT",
+            body: "newXml",
           }),
         ),
       )

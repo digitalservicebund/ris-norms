@@ -37,11 +37,7 @@ const menuItems: LevelOneMenuItem[] = [
 ]
 
 const eli = useEliPathParameter()
-const {
-  data: amendingLaw,
-  isFetching,
-  error,
-} = useGetNorm(eli, undefined, { refetch: true })
+const { data: amendingLaw, isFetching, error } = useGetNorm(eli)
 
 const { alerts, hideAlert } = useAlerts()
 </script>

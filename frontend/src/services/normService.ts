@@ -64,7 +64,7 @@ export const useGetNorm: typeof useNormService = (
   options,
   fetchOptions,
 ) => {
-  return useNormService(eli, options, fetchOptions).json()
+  return useNormService(eli, options, { refetch: true, ...fetchOptions }).json()
 }
 
 /**
@@ -82,6 +82,7 @@ export function useGetNormHtml(
   fetchOptions?: Parameters<typeof useNormService>["2"],
 ): UseFetchReturn<string> {
   return useNormService(eli, options, {
+    refetch: true,
     ...fetchOptions,
     beforeFetch(c) {
       c.options.headers = { ...c.options.headers, Accept: "text/html" }
@@ -104,6 +105,7 @@ export function useGetNormXml(
   fetchOptions?: Parameters<typeof useNormService>["2"],
 ): UseFetchReturn<string> & PromiseLike<UseFetchReturn<string>> {
   return useNormService(eli, options, {
+    refetch: true,
     ...fetchOptions,
     beforeFetch(c) {
       c.options.headers = { ...c.options.headers, Accept: "application/xml" }
@@ -128,6 +130,8 @@ export function usePutNormXml(
   fetchOptions?: Parameters<typeof useNormService>["2"],
 ): UseFetchReturn<string> {
   return useNormService(eli, options, {
+    refetch: true,
+    immediate: false,
     ...fetchOptions,
     beforeFetch(c) {
       c.options.headers = {

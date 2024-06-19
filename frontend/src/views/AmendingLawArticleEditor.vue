@@ -28,7 +28,7 @@ const {
   data: amendingLaw,
   isFetching: isFetchingAmendingLaw,
   error: loadAmendingLawError,
-} = useGetNorm(eli, undefined, { refetch: true })
+} = useGetNorm(eli)
 const selectedMod = useModEidPathParameter()
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>

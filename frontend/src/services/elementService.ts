@@ -62,7 +62,11 @@ export const useGetElements: typeof useElementsService = (
   types,
   options,
   fetchOptions,
-) => useElementsService(eli, types, options, fetchOptions).json()
+) =>
+  useElementsService(eli, types, options, {
+    refetch: true,
+    ...fetchOptions,
+  }).json()
 
 /* -------------------------------------------------- *
  * Individual elements                                *
@@ -124,7 +128,11 @@ export const useGetElement: typeof useElementService = (
   eid,
   options,
   fetchOptions,
-) => useElementService(eli, eid, options, fetchOptions).json()
+) =>
+  useElementService(eli, eid, options, {
+    refetch: true,
+    ...fetchOptions,
+  }).json()
 
 /**
  * Convenience shorthand for `useElementService` that sets the correct
@@ -143,6 +151,7 @@ export function useGetElementHtml(
   fetchOptions: Parameters<typeof useElementService>["3"] = {},
 ): UseFetchReturn<string> {
   return useElementService(eli, eid, options, {
+    refetch: true,
     ...fetchOptions,
     beforeFetch(c) {
       c.options.headers = { ...c.options.headers, Accept: "text/html" }

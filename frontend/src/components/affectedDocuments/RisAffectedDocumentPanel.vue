@@ -28,13 +28,7 @@ const props = defineProps<{
   zf0Eli: string
 }>()
 
-const {
-  data: norm,
-  isFetching,
-  error,
-} = useGetNorm(props.eli, undefined, {
-  refetch: true,
-})
+const { data: norm, isFetching, error } = useGetNorm(props.eli)
 
 const tag = computed<"li" | "div">(() => (props.asListItem ? "li" : "div"))
 
