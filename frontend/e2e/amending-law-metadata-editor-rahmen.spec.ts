@@ -44,6 +44,125 @@ test.describe("navigate to page", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
   })
+
+  // TODO: Can this be changed to use the same example data?
+  test("displays metadata at different time boundaries", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/regelungstext-1/edit/1934-10-16",
+    )
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten bearbeiten",
+    })
+
+    await page.waitForResponse((response) =>
+      response.url().includes("/proprietary/"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("754-28-2")
+
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue("")
+    await expect(
+      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
+    ).toBeEmpty()
+    const SNcheckbox = page.getByRole("checkbox", {
+      name: "SN - Stammnorm",
+    })
+    const ANcheckbox = page.getByRole("checkbox", {
+      name: "ÄN - Änderungsnorm",
+    })
+    const UNcheckbox = page.getByRole("checkbox", {
+      name: "ÜN - Übergangsnorm",
+    })
+    await expect(SNcheckbox).not.toBeChecked()
+    await expect(ANcheckbox).not.toBeChecked()
+    await expect(UNcheckbox).not.toBeChecked()
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue("")
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "",
+    )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).not.toBeChecked()
+
+    const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
+    dropdown.selectOption("2009-10-08")
+    await page.waitForResponse((response) =>
+      response.url().endsWith("/proprietary/2009-10-08"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("111-11-1")
+
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
+      "Verwaltungsvorschrift",
+    )
+    await expect(
+      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
+    ).toHaveValue("Testbezeichnung 1 nach meiner Vorlage")
+    await expect(SNcheckbox).toBeChecked()
+    await expect(ANcheckbox).not.toBeChecked()
+    await expect(UNcheckbox).toBeChecked()
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
+      "MV - Land Mecklenburg-Vorpommern",
+    )
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "BT - Bundestag",
+    )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).toBeChecked()
+
+    dropdown.selectOption("2023-01-01")
+    await page.waitForResponse((response) =>
+      response.url().endsWith("/proprietary/2023-01-01"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("222-22-2")
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
+      "Rechtsverordnung",
+    )
+    await expect(
+      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
+    ).toHaveValue("Testbezeichnung 2 nach meiner Vorlage")
+    await expect(SNcheckbox).not.toBeChecked()
+    await expect(ANcheckbox).toBeChecked()
+    await expect(UNcheckbox).toBeChecked()
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
+      "PR - Preußen",
+    )
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "OFD - Oberfinanzdirektion",
+    )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).not.toBeChecked()
+
+    dropdown.selectOption("2023-12-24")
+    await page.waitForResponse((response) =>
+      response.url().endsWith("/proprietary/2023-12-24"),
+    )
+
+    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("333-33-3")
+
+    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
+      "Rechtsverordnung",
+    )
+    await expect(
+      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
+    ).toHaveValue("Testbezeichnung 3 nach meiner Vorlage")
+    await expect(SNcheckbox).toBeChecked()
+    await expect(ANcheckbox).toBeChecked()
+    await expect(UNcheckbox).toBeChecked()
+    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
+      "EA - Euratom",
+    )
+    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
+      "BMinI - Bundesministerium des Innern",
+    )
+    await expect(
+      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
+    ).toBeChecked()
+  })
 })
 
 test.describe("preview", () => {
@@ -201,161 +320,6 @@ test.describe("XML view", () => {
   })
 })
 
-test.describe("metadata view", () => {
-  // TODO: Can this be changed to use the same example data?
-  test("displays metadata at different time boundaries", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/regelungstext-1/edit/1934-10-16",
-    )
-
-    const editorRegion = page.getByRole("region", {
-      name: "Metadaten bearbeiten",
-    })
-
-    await page.waitForResponse((response) =>
-      response.url().includes("/proprietary/"),
-    )
-
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("754-28-2")
-
-    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue("")
-    await expect(
-      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
-    ).toBeEmpty()
-    const SNcheckbox = page.getByRole("checkbox", {
-      name: "SN - Stammnorm",
-    })
-    const ANcheckbox = page.getByRole("checkbox", {
-      name: "ÄN - Änderungsnorm",
-    })
-    const UNcheckbox = page.getByRole("checkbox", {
-      name: "ÜN - Übergangsnorm",
-    })
-    await expect(SNcheckbox).not.toBeChecked()
-    await expect(ANcheckbox).not.toBeChecked()
-    await expect(UNcheckbox).not.toBeChecked()
-    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue("")
-    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
-      "",
-    )
-    await expect(
-      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
-    ).not.toBeChecked()
-    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
-      "BMF - Bundesministerium der Finanzen",
-    )
-
-    const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
-    dropdown.selectOption("2009-10-08")
-    await page.waitForResponse((response) =>
-      response.url().endsWith("/proprietary/2009-10-08"),
-    )
-
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("111-11-1")
-
-    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
-      "Verwaltungsvorschrift",
-    )
-    await expect(
-      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
-    ).toHaveValue("Testbezeichnung 1 nach meiner Vorlage")
-    await expect(SNcheckbox).toBeChecked()
-    await expect(ANcheckbox).not.toBeChecked()
-    await expect(UNcheckbox).toBeChecked()
-    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
-      "MV - Land Mecklenburg-Vorpommern",
-    )
-    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
-      "BT - Bundestag",
-    )
-    await expect(
-      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
-    ).toBeChecked()
-    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
-      "BMWSB - Bundesministerium für Wohnen, Stadtentwicklung und Bauwesen",
-    )
-
-    dropdown.selectOption("2023-01-01")
-    await page.waitForResponse((response) =>
-      response.url().endsWith("/proprietary/2023-01-01"),
-    )
-
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("222-22-2")
-    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
-      "Rechtsverordnung",
-    )
-    await expect(
-      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
-    ).toHaveValue("Testbezeichnung 2 nach meiner Vorlage")
-    await expect(SNcheckbox).not.toBeChecked()
-    await expect(ANcheckbox).toBeChecked()
-    await expect(UNcheckbox).toBeChecked()
-    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
-      "PR - Preußen",
-    )
-    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
-      "OFD - Oberfinanzdirektion",
-    )
-    await expect(
-      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
-    ).not.toBeChecked()
-    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
-      "BMDV - Bundesministerium für Digitales und Verkehr",
-    )
-
-    dropdown.selectOption("2023-12-24")
-    await page.waitForResponse((response) =>
-      response.url().endsWith("/proprietary/2023-12-24"),
-    )
-
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("333-33-3")
-
-    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
-      "Rechtsverordnung",
-    )
-    await expect(
-      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
-    ).toHaveValue("Testbezeichnung 3 nach meiner Vorlage")
-    await expect(SNcheckbox).toBeChecked()
-    await expect(ANcheckbox).toBeChecked()
-    await expect(UNcheckbox).toBeChecked()
-    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
-      "EA - Euratom",
-    )
-    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
-      "BMinI - Bundesministerium des Innern",
-    )
-    await expect(
-      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
-    ).toBeChecked()
-    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
-      "BMG - Bundesministerium für Gesundheit",
-    )
-  })
-
-  test("displays an error if the metadata could not be loaded", async ({
-    page,
-  }) => {
-    await page.route(/\/proprietary\/2023-12-30$/, (request) => {
-      request.abort()
-    })
-
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
-    )
-
-    const editorRegion = page.getByRole("region", {
-      name: "Metadaten bearbeiten",
-    })
-
-    await expect(
-      editorRegion.getByText("Die Metadaten konnten nicht geladen werden."),
-    ).toBeVisible()
-
-    await page.unrouteAll()
-  })
-})
-
 test.describe("displaying, editing, and saving", () => {
   let sharedPage: Page
 
@@ -478,6 +442,28 @@ test.describe("displaying, editing, and saving", () => {
 
   test.describe("Federführung", () => {
     // TODO: Implement
+  })
+
+  test("shows an error if the metadata could not be loaded", async ({
+    page,
+  }) => {
+    await page.route(/\/proprietary\/2023-12-30$/, (request) => {
+      request.abort()
+    })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
+    )
+
+    const editorRegion = page.getByRole("region", {
+      name: "Metadaten bearbeiten",
+    })
+
+    await expect(
+      editorRegion.getByText("Die Metadaten konnten nicht geladen werden."),
+    ).toBeVisible()
+
+    await page.unrouteAll()
   })
 })
 
