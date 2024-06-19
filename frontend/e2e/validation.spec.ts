@@ -10,14 +10,23 @@ test.describe("Validation errors on check modifications page", () => {
       .fill(
         "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-36.xml",
       )
-    page.once("dialog", (dialog) => {
-      console.log(`Dialog message: ${dialog.message()}`)
-      dialog.dismiss().catch(() => {})
-    })
     await page.getByLabel("zu ersetzende Textstelle").press("Enter")
-    expect("true").toMatch("true") // placeholder to pass commit checks
-    // expect error message in page
-    // The replacement text '§ 9 Abs. 1 Satz 2, Abs. 2 K' in the target law does not equal the replacement text '§ 9 Abs. 1 Satz 2, Abs. 2' in the mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1]
+
+    const response = await page.waitForResponse(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1?dryRun=true",
+    )
+    expect(response.status()).toBe(422)
+    expect((await response.json()).message).toBe(
+      "The character range 9-36 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced.",
+    )
+
+    await expect(
+      page.getByText("Die Vorschau konnte nicht erzeugt werden."),
+    ).toBeVisible()
+
+    await page.getByRole("button", { name: "Speichern" }).click()
+
+    await expect(page.getByText("Fehler beim Speichern")).toBeVisible()
   })
 
   test("Wrong eId", async ({ page }) => {
@@ -29,14 +38,23 @@ test.describe("Validation errors on check modifications page", () => {
       .fill(
         "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1wrongEid/9-34.xml",
       )
-    page.once("dialog", (dialog) => {
-      console.log(`Dialog message: ${dialog.message()}`)
-      dialog.dismiss().catch(() => {})
-    })
     await page.getByLabel("zu ersetzende Textstelle").press("Enter")
-    expect("true").toMatch("true") // placeholder to pass commit checks
-    // expect error message in page
-    // Unable to process contained instructions: For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Couldn't load target eId (hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1wrongEid) element in zf0 (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1) for mod with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1
+
+    const response = await page.waitForResponse(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1?dryRun=true",
+    )
+    expect(response.status()).toBe(422)
+    expect((await response.json()).message).toBe(
+      "Target node with eid hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1wrongEid not present in ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.",
+    )
+
+    await expect(
+      page.getByText("Die Vorschau konnte nicht erzeugt werden."),
+    ).toBeVisible()
+
+    await page.getByRole("button", { name: "Speichern" }).click()
+
+    await expect(page.getByText("Fehler beim Speichern")).toBeVisible()
   })
 
   test("Using out of range character range", async ({ page }) => {
@@ -49,8 +67,21 @@ test.describe("Validation errors on check modifications page", () => {
         "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-3400.xml",
       )
     await page.getByLabel("zu ersetzende Textstelle").press("Enter")
-    expect("true").toMatch("true") // placeholder to pass commit checks
-    // expect error message in page
-    // For norm with Eli(eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The character range in mod href is not valid(target paragraph is to short)in mod with eId hauptteil-1_ art-1_ abs-1_ untergl-1_ listenelem-2_ inhalt-1_ text-1_ ändbefehl-1
+
+    const response = await page.waitForResponse(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1?dryRun=true",
+    )
+    expect(response.status()).toBe(422)
+    expect((await response.json()).message).toBe(
+      "The character range 9-3400 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within length of target node content.",
+    )
+
+    await expect(
+      page.getByText("Die Vorschau konnte nicht erzeugt werden."),
+    ).toBeVisible()
+
+    await page.getByRole("button", { name: "Speichern" }).click()
+
+    await expect(page.getByText("Fehler beim Speichern")).toBeVisible()
   })
 })
