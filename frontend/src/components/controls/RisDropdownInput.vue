@@ -41,7 +41,7 @@ const hasPlaceholder = computed(() =>
     <select
       :id="id"
       v-model="modelValue"
-      class="ds-select ds-select-small"
+      class="ds-select ds-select-small text-ellipsis"
       :data-placeholder="hasPlaceholder ? true : undefined"
       tabindex="0"
     >
