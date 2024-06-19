@@ -1631,8 +1631,10 @@ VALUES ('5d84cd1d-3575-4a03-bb6c-f17834e392fe', 'eli/bund/bgbl-1/2009/s3366/2024
                     <meta:gesta>nicht-vorhanden</meta:gesta>
                     <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
                     <meta:federfuehrung>
-                        <meta:federfuehrend ab="1934-10-16" bis="unbestimmt">Bundesministerium für Finanzen
-                        </meta:federfuehrend>
+                        <meta:federfuehrend ab="1934-10-16" bis="2009-10-07">BMF - Bundesministerium der Finanzen</meta:federfuehrend>
+                        <meta:federfuehrend ab="2009-10-08" bis="2022-12-31">BMWSB - Bundesministerium für Wohnen, Stadtentwicklung und Bauwesen</meta:federfuehrend>
+                        <meta:federfuehrend ab="2023-01-01" bis="2023-12-23">BMDV - Bundesministerium für Digitales und Verkehr</meta:federfuehrend>
+                        <meta:federfuehrend ab="2023-12-24" bis="unbestimmt">BMG - Bundesministerium für Gesundheit</meta:federfuehrend>
                     </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
                  <!-- Metadaten vom DS definiert -->

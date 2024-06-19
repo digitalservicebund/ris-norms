@@ -457,6 +457,7 @@ test.describe("XML preview", () => {
           normgeber: "BEO - Berlin (Ost)",
           beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
           qualifizierteMehrheit: true,
+          federfuehrung: "BMVg - Bundesministerium der Verteidigung",
         }),
       },
     )
@@ -542,6 +543,9 @@ test.describe("metadata reading", () => {
     await expect(
       editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).toBeChecked()
+    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
+      "BMVg - Bundesministerium der Verteidigung",
+    )
   })
 
   test("displays metadata on the frame at different time boundaries", async ({
@@ -584,6 +588,9 @@ test.describe("metadata reading", () => {
     await expect(
       editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).not.toBeChecked()
+    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
+      "BMF - Bundesministerium der Finanzen",
+    )
 
     const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
     dropdown.selectOption("2009-10-08")
@@ -611,6 +618,9 @@ test.describe("metadata reading", () => {
     await expect(
       editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).toBeChecked()
+    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
+      "BMWSB - Bundesministerium für Wohnen, Stadtentwicklung und Bauwesen",
+    )
 
     dropdown.selectOption("2023-01-01")
     await page.waitForResponse((response) =>
@@ -636,6 +646,9 @@ test.describe("metadata reading", () => {
     await expect(
       editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).not.toBeChecked()
+    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
+      "BMDV - Bundesministerium für Digitales und Verkehr",
+    )
 
     dropdown.selectOption("2023-12-24")
     await page.waitForResponse((response) =>
@@ -662,6 +675,9 @@ test.describe("metadata reading", () => {
     await expect(
       editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).toBeChecked()
+    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
+      "BMG - Bundesministerium für Gesundheit",
+    )
   })
 
   test("displays an error if the data could not be loaded for the whole document", async ({
@@ -882,12 +898,11 @@ test.describe("metadata editing", () => {
     await qualMehrheit.check()
 
     // Federführung
-    // TODO: Enable once backend is ready
-    // const federfuehrungDropdown = page.getByRole("combobox", {
-    //   name: "Federführung",
-    // })
-    // await expect(federfuehrungDropdown).toHaveValue("ADD VALUE HERE")
-    // await federfuehrungDropdown.selectOption("BKAmt - Bundeskanzleramt")
+    const federfuehrungDropdown = page.getByRole("combobox", {
+      name: "Federführung",
+    })
+    await expect(federfuehrungDropdown).toHaveValue("")
+    await federfuehrungDropdown.selectOption("BKAmt - Bundeskanzleramt")
 
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
     await saved
@@ -905,8 +920,7 @@ test.describe("metadata editing", () => {
       "BReg - Bundesregierung",
     )
     await expect(qualMehrheit).toBeChecked()
-    // TODO: Enable once backend is ready
-    // await expect(federfuehrungDropdown).toHaveValue("BKAmt - Bundeskanzleramt")
+    await expect(federfuehrungDropdown).toHaveValue("BKAmt - Bundeskanzleramt")
 
     // Reset the data
     await page.request.put(
@@ -926,8 +940,7 @@ test.describe("metadata editing", () => {
           normgeber: null,
           beschliessendesOrgan: null,
           qualifizierteMehrheit: null,
-          // TODO: Enable once backend is ready
-          // federfuehrung: null,
+          federfuehrung: null,
         }),
       },
     )
@@ -954,6 +967,7 @@ test.describe("metadata editing", () => {
             normgeber: "BesR - Besatzungsrecht",
             beschliessendesOrgan: "BMinG - Bundesministerium für Gesundheit",
             qualifizierteMehrheit: false,
+            federfuehrung: "AA - Auswärtiges Amt",
           },
         })
       else route.continue()
@@ -1018,6 +1032,12 @@ test.describe("metadata editing", () => {
     })
     await expect(qualMehrheit).toBeChecked()
 
+    // Federführung
+    const federfuehrungDropdown = page.getByRole("combobox", {
+      name: "Federführung",
+    })
+    await expect(federfuehrungDropdown).toHaveValue("")
+
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
 
     await expect(fnaTextbox).toHaveValue("600-1")
@@ -1031,6 +1051,7 @@ test.describe("metadata editing", () => {
       "BMinG - Bundesministerium für Gesundheit",
     )
     await expect(qualMehrheit).not.toBeChecked()
+    await expect(federfuehrungDropdown).toHaveValue("AA - Auswärtiges Amt")
 
     await page.unrouteAll()
   })

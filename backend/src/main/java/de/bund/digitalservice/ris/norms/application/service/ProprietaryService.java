@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFr
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.MetadatenDe;
 import de.bund.digitalservice.ris.norms.domain.entity.MetadatenDs;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
@@ -41,25 +42,26 @@ public class ProprietaryService
             .orElseThrow(() -> new NormNotFoundException((query.eli())));
     final Proprietary proprietary = norm.getMeta().getOrCreateProprietary();
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
+    final MetadatenDe metadatenDe = proprietary.getOrCreateMetadatenDe();
 
     metadatenDs.setSimpleMetadatum(
-        MetadatenDs.SimpleMetadatum.FNA, query.atDate(), query.metadata().fna());
+        MetadatenDs.Metadata.FNA, query.atDate(), query.metadata().fna());
     metadatenDs.setSimpleMetadatum(
-        MetadatenDs.SimpleMetadatum.ART, query.atDate(), query.metadata().art());
+        MetadatenDs.Metadata.ART, query.atDate(), query.metadata().art());
     metadatenDs.setSimpleMetadatum(
-        MetadatenDs.SimpleMetadatum.TYP, query.atDate(), query.metadata().typ());
+        MetadatenDs.Metadata.TYP, query.atDate(), query.metadata().typ());
     metadatenDs.setSimpleMetadatum(
-        MetadatenDs.SimpleMetadatum.SUBTYP, query.atDate(), query.metadata().subtyp());
+        MetadatenDs.Metadata.SUBTYP, query.atDate(), query.metadata().subtyp());
     metadatenDs.setSimpleMetadatum(
-        MetadatenDs.SimpleMetadatum.BEZEICHNUNG_IN_VORLAGE,
+        MetadatenDs.Metadata.BEZEICHNUNG_IN_VORLAGE,
         query.atDate(),
         query.metadata().bezeichnungInVorlage());
     metadatenDs.setSimpleMetadatum(
-        MetadatenDs.SimpleMetadatum.ART_DER_NORM, query.atDate(), query.metadata().artDerNorm());
+        MetadatenDs.Metadata.ART_DER_NORM, query.atDate(), query.metadata().artDerNorm());
     metadatenDs.setSimpleMetadatum(
-        MetadatenDs.SimpleMetadatum.NORMGEBER, query.atDate(), query.metadata().normgeber());
+        MetadatenDs.Metadata.NORMGEBER, query.atDate(), query.metadata().normgeber());
     metadatenDs.setSimpleMetadatum(
-        MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN,
+        MetadatenDs.Metadata.BESCHLIESSENDES_ORGAN,
         query.atDate(),
         query.metadata().beschliessendesOrgan());
     metadatenDs.setAttributeOfSimpleMetadatum(
@@ -68,6 +70,8 @@ public class ProprietaryService
         String.valueOf(query.metadata().qualifizierterMehrheit()).equals("null")
             ? "false"
             : String.valueOf(query.metadata().qualifizierterMehrheit()));
+    metadatenDe.setSimpleMetadatum(
+        MetadatenDe.Metadata.FEDERFUEHRUNG, query.atDate(), query.metadata().federfuehrung());
 
     updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 

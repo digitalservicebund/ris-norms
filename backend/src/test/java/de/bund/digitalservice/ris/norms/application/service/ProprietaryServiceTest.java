@@ -88,7 +88,7 @@ class ProprietaryServiceTest {
                           eli,
                           LocalDate.now(),
                           new UpdateProprietaryFromNormUseCase.Metadata(
-                              "fna", null, null, null, null, null, null, null, null))))
+                              "fna", null, null, null, null, null, null, null, null, null))))
           // then
           .isInstanceOf(NormNotFoundException.class);
     }
@@ -109,7 +109,7 @@ class ProprietaryServiceTest {
                   eli,
                   date,
                   new UpdateProprietaryFromNormUseCase.Metadata(
-                      "fna", null, null, null, null, null, null, null, null)));
+                      "fna", null, null, null, null, null, null, null, null, null)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -140,7 +140,8 @@ class ProprietaryServiceTest {
                       "SN,ÄN,ÜN",
                       "DEU",
                       "Bundestag",
-                      true)));
+                      true,
+                      "BMJ - Bundesministerium der Justiz")));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -153,6 +154,7 @@ class ProprietaryServiceTest {
       assertThat(result.getNormgeber(date)).contains("DEU");
       assertThat(result.getBeschliessendesOrgan(date)).contains("Bundestag");
       assertThat(result.getQualifizierteMehrheit(date)).contains(true);
+      assertThat(result.getFederfuehrung(date)).contains("BMJ - Bundesministerium der Justiz");
     }
 
     @Test
@@ -171,7 +173,7 @@ class ProprietaryServiceTest {
                   eli,
                   date,
                   new UpdateProprietaryFromNormUseCase.Metadata(
-                      null, null, null, null, null, null, null, null, null)));
+                      null, null, null, null, null, null, null, null, null, null)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -184,6 +186,7 @@ class ProprietaryServiceTest {
       assertThat(result.getNormgeber(date)).contains("");
       assertThat(result.getBeschliessendesOrgan(date)).contains("");
       assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
+      assertThat(result.getFederfuehrung(date)).contains("");
     }
   }
 }
