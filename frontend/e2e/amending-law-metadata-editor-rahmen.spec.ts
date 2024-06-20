@@ -809,18 +809,14 @@ test.describe("metadata view", () => {
     })
   })
 
-  test("shows an error if the metadata could not be loaded", async ({
-    page,
-  }) => {
-    await page.route(/\/proprietary\/2023-12-30$/, (request) => {
+  test("shows an error if the metadata could not be loaded", async () => {
+    await sharedPage.route(/\/proprietary\/2023-12-30$/, (request) => {
       request.abort()
     })
 
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
-    )
+    await sharedPage.reload()
 
-    const editorRegion = page.getByRole("region", {
+    const editorRegion = sharedPage.getByRole("region", {
       name: "Metadaten bearbeiten",
     })
 
@@ -828,41 +824,39 @@ test.describe("metadata view", () => {
       editorRegion.getByText("Die Metadaten konnten nicht geladen werden."),
     ).toBeVisible()
 
-    await page.unrouteAll()
+    await sharedPage.unrouteAll()
   })
 
-  test("displays a success message when the data has been saved", async ({
-    page,
-  }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
-    )
+  test("displays a success message when the data has been saved", async () => {
+    await sharedPage.reload()
 
-    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+    await sharedPage
+      .getByRole("button", { name: "Metadaten speichern" })
+      .click()
 
     await expect(
-      page.getByRole("tooltip", { name: "Gespeichert!" }),
+      sharedPage.getByRole("tooltip", { name: "Gespeichert!" }),
     ).toBeVisible()
 
-    await page.unrouteAll()
+    await sharedPage.unrouteAll()
   })
 
-  test("displays an error if the data could not be saved", async ({ page }) => {
-    await page.route(/\/proprietary\/2023-12-30$/, (route) => {
+  test("displays an error if the data could not be saved", async () => {
+    await sharedPage.route(/\/proprietary\/2023-12-30$/, (route) => {
       if (route.request().method() === "PUT") route.abort("failed")
       else route.continue()
     })
 
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
-    )
+    await sharedPage.reload()
 
-    await page.getByRole("button", { name: "Metadaten speichern" }).click()
+    await sharedPage
+      .getByRole("button", { name: "Metadaten speichern" })
+      .click()
 
     await expect(
-      page.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
+      sharedPage.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
     ).toBeVisible()
 
-    await page.unrouteAll()
+    await sharedPage.unrouteAll()
   })
 })
