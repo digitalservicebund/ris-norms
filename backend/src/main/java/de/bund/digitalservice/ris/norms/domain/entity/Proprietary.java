@@ -30,6 +30,23 @@ public class Proprietary {
   }
 
   /**
+   * Retrieves the {@link MetadatenDe} instance from the {@link Proprietary}.
+   *
+   * @return the retrieved {@link MetadatenDe} or the newly created one.
+   */
+  public MetadatenDe getOrCreateMetadatenDe() {
+    return NodeParser.getNodeFromExpression("./legalDocML.de_metadaten", node)
+        .map(MetadatenDe::new)
+        .orElseGet(
+            () -> {
+              final var newElement =
+                  NodeCreator.createElement("meta:legalDocML.de_metadaten", node);
+              newElement.setAttribute("xmlns:meta", "http://Metadaten.LegalDocML.de/1.6/");
+              return new MetadatenDe(newElement);
+            });
+  }
+
+  /**
    * Retrieves the optional {@link MetadatenDs} instance from the {@link Proprietary}.
    *
    * @return an optional with a {@link MetadatenDs}
@@ -74,7 +91,7 @@ public class Proprietary {
    */
   public Optional<String> getFna(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, date))
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.FNA, date))
         .or(this::getFna);
   }
 
@@ -91,7 +108,7 @@ public class Proprietary {
    */
   public Optional<String> getArt(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.ART, date))
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ART, date))
         .or(this::getArt);
   }
 
@@ -108,7 +125,7 @@ public class Proprietary {
    */
   public Optional<String> getTyp(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.TYP, date))
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.TYP, date))
         .or(this::getTyp);
   }
 
@@ -119,8 +136,7 @@ public class Proprietary {
    * @return Subtyp or empty if it doesn't exist.
    */
   public Optional<String> getSubtyp(final LocalDate date) {
-    return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.SUBTYP, date));
+    return getMetadatenDs().flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, date));
   }
 
   /**
@@ -132,8 +148,7 @@ public class Proprietary {
    */
   public Optional<String> getBezeichnungInVorlage(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(
-            m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.BEZEICHNUNG_IN_VORLAGE, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.BEZEICHNUNG_IN_VORLAGE, date));
   }
 
   /**
@@ -145,7 +160,7 @@ public class Proprietary {
    */
   public Optional<String> getArtDerNorm(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.ART_DER_NORM, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ART_DER_NORM, date));
   }
 
   /**
@@ -156,7 +171,7 @@ public class Proprietary {
    */
   public Optional<String> getNormgeber(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.NORMGEBER, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.NORMGEBER, date));
   }
 
   /**
@@ -168,8 +183,7 @@ public class Proprietary {
    */
   public Optional<String> getBeschliessendesOrgan(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(
-            m -> m.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.BESCHLIESSENDES_ORGAN, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.BESCHLIESSENDES_ORGAN, date));
   }
 
   /**
@@ -186,5 +200,17 @@ public class Proprietary {
                 m.getAttributeOfSimpleMetadatumAt(
                         MetadatenDs.Attribute.QUALIFIZIERTE_MEHRHEIT, date)
                     .map(Boolean::parseBoolean));
+  }
+
+  /**
+   * Returns the ("Beschließendes Organ") of the document from the MetadatenDs block at a specific
+   * date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Beschließendes Organ" or empty if it doesn't exist.
+   */
+  public Optional<String> getFederfuehrung(final LocalDate date) {
+    return getMetadatenDe()
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, date));
   }
 }

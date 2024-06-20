@@ -30,6 +30,7 @@ public class ProprietaryResponseMapper {
         .normgeber(proprietary.getNormgeber(date).orElse(null))
         .beschliessendesOrgan(proprietary.getBeschliessendesOrgan(date).orElse(null))
         .qualifizierteMehrheit(proprietary.getQualifizierteMehrheit(date).orElse(null))
+        .federfuehrung(proprietary.getFederfuehrung(date).orElse(null))
         .build();
   }
 }

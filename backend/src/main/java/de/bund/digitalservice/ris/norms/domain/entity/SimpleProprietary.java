@@ -26,21 +26,45 @@ public class SimpleProprietary {
   }
 
   /**
-   * Retrieves the value of the start attribute, which is mandatory
+   * Retrieves the value of the optional @start attribute
    *
-   * @return the start value in {@link LocalDate}
+   * @return the optional value of @start in {@link LocalDate}
    */
   public Optional<LocalDate> getStart() {
-    return NodeParser.getValueFromExpression("./@start", node).map(LocalDate::parse);
+    return NodeParser.getValueFromExpression("./@start", node)
+        .map(LocalDate::parse)
+        .or(this::getAb);
   }
 
   /**
-   * Retrieves the value of the end attribute, which is optional
+   * Retrieves the value of the optional @ab attribute
    *
-   * @return the optional value of end in {@link LocalDate}
+   * @return the optional value of @ab in {@link LocalDate}
+   */
+  public Optional<LocalDate> getAb() {
+    return NodeParser.getValueFromExpression("./@ab", node).map(LocalDate::parse);
+  }
+
+  /**
+   * Retrieves the value of the optional @end attribute
+   *
+   * @return the optional value of @end in {@link LocalDate}
    */
   public Optional<LocalDate> getEnd() {
-    return NodeParser.getValueFromExpression("./@end", node)
+    return getEndOrBis("end").or(this::getBis);
+  }
+
+  /**
+   * Retrieves the value of the optional @bis attribute
+   *
+   * @return the optional value of @bis in {@link LocalDate}
+   */
+  public Optional<LocalDate> getBis() {
+    return getEndOrBis("bis");
+  }
+
+  private Optional<LocalDate> getEndOrBis(final String attributeName) {
+    return NodeParser.getValueFromExpression("./@%s".formatted(attributeName), node)
         .map(
             m -> {
               if (m.equals("unbestimmt")) {

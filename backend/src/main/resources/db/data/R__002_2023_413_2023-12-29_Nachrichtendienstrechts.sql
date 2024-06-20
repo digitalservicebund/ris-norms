@@ -6884,6 +6884,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                    <meta:gesta>nicht-vorhanden</meta:gesta>
                    <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
                    <meta:federfuehrung>
+                      <meta:federfuehrend ab="1970-01-01" bis="2023-12-28">BMVg - Bundesministerium der Verteidigung</meta:federfuehrend>
                       <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                    </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>

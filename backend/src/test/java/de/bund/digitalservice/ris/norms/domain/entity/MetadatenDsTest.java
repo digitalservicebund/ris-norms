@@ -30,43 +30,34 @@ class MetadatenDsTest {
             .build();
 
     assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1980-01-01")))
+            metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("1980-01-01")))
         .isEmpty();
 
     assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1990-01-01")))
+            metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("1990-01-01")))
         .contains("111-11-1");
     assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1992-01-01")))
+            metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("1992-01-01")))
         .contains("111-11-1");
     assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1994-12-31")))
+            metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("1994-12-31")))
         .contains("111-11-1");
 
     assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1995-01-01")))
+            metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("1995-01-01")))
         .contains("222-22-2");
     assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("1998-01-01")))
+            metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("1998-01-01")))
         .contains("222-22-2");
     assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("2000-12-31")))
+            metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("2000-12-31")))
         .contains("222-22-2");
 
     assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("2001-01-01")))
+            metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("2001-01-01")))
         .contains("333-33-3");
     assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.FNA, LocalDate.parse("2024-01-01")))
+            metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, LocalDate.parse("2024-01-01")))
         .contains("333-33-3");
   }
 
@@ -92,19 +83,20 @@ class MetadatenDsTest {
             .build();
 
     final LocalDate newDate = LocalDate.parse("1990-01-01");
-    assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
         .contains("111-11-1");
 
-    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate, updateValue);
+    metadatenDs.setSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, updateValue);
 
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
         .contains(expectedValue);
-    assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
+    assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
   }
 
   @Test
   void setFnaAtDateCreateWithoutEnd() {
+
     final MetadatenDs metadatenDs =
         MetadatenDs.builder()
             .node(
@@ -117,16 +109,16 @@ class MetadatenDsTest {
 
     final LocalDate newDate = LocalDate.parse("1980-01-01");
 
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate)).isEmpty();
-    assertThat(metadatenDs.getNodes("./fna")).isEmpty();
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
+    assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).isEmpty();
 
-    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
+    metadatenDs.setSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
         .contains("000-00-0");
-    assertThat(metadatenDs.getNodes("./fna")).hasSize(1);
+    assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(1);
 
-    metadatenDs.getNodes("./fna").stream()
+    metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath()).stream()
         .filter(f -> f.getStart().isPresent() && f.getStart().get().isEqual(newDate))
         .findFirst()
         .map(m -> assertThat(m.getEnd()).contains(LocalDate.MAX));
@@ -148,16 +140,16 @@ class MetadatenDsTest {
             .build();
 
     final LocalDate newDate = LocalDate.parse("1980-01-01");
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate)).isEmpty();
-    assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
+    assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
 
-    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
+    metadatenDs.setSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
         .contains("000-00-0");
-    assertThat(metadatenDs.getNodes("./fna")).hasSize(4);
+    assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(4);
 
-    metadatenDs.getNodes("./fna").stream()
+    metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath()).stream()
         .filter(f -> f.getStart().isPresent() && f.getStart().get().isEqual(newDate))
         .findFirst()
         .map(m -> assertThat(m.getEnd()).contains(LocalDate.parse("1989-12-31")));
@@ -179,15 +171,16 @@ class MetadatenDsTest {
             .build();
 
     final LocalDate newDate = LocalDate.parse("2005-01-01");
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
         .contains("333-33-3");
-    assertThat(metadatenDs.getNodes("./fna")).hasSize(3);
+    assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
 
-    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate, "000-00-0");
+    metadatenDs.setSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.FNA, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
         .contains("000-00-0");
-    final List<SimpleProprietary> fnaValues = metadatenDs.getNodes("./fna");
+    final List<SimpleProprietary> fnaValues =
+        metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath());
     assertThat(fnaValues).hasSize(4);
 
     fnaValues.stream()
@@ -222,42 +215,42 @@ class MetadatenDsTest {
 
     assertThat(
             metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1980-01-01")))
+                MetadatenDs.Metadata.SUBTYP, LocalDate.parse("1980-01-01")))
         .contains("subtyp0");
 
     assertThat(
             metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1990-01-01")))
+                MetadatenDs.Metadata.SUBTYP, LocalDate.parse("1990-01-01")))
         .contains("subtyp1");
     assertThat(
             metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1992-01-01")))
+                MetadatenDs.Metadata.SUBTYP, LocalDate.parse("1992-01-01")))
         .contains("subtyp1");
     assertThat(
             metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1994-12-31")))
+                MetadatenDs.Metadata.SUBTYP, LocalDate.parse("1994-12-31")))
         .contains("subtyp1");
 
     assertThat(
             metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1995-01-01")))
+                MetadatenDs.Metadata.SUBTYP, LocalDate.parse("1995-01-01")))
         .contains("subtyp2");
     assertThat(
             metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("1998-01-01")))
+                MetadatenDs.Metadata.SUBTYP, LocalDate.parse("1998-01-01")))
         .contains("subtyp2");
     assertThat(
             metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("2000-12-31")))
+                MetadatenDs.Metadata.SUBTYP, LocalDate.parse("2000-12-31")))
         .contains("subtyp2");
 
     assertThat(
             metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("2001-01-01")))
+                MetadatenDs.Metadata.SUBTYP, LocalDate.parse("2001-01-01")))
         .contains("subtyp3");
     assertThat(
             metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, LocalDate.parse("2024-01-01")))
+                MetadatenDs.Metadata.SUBTYP, LocalDate.parse("2024-01-01")))
         .contains("subtyp3");
   }
 
@@ -275,13 +268,13 @@ class MetadatenDsTest {
             .build();
 
     final LocalDate newDate = LocalDate.parse("2005-01-01");
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.SUBTYP, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate))
         .contains("subtyp0");
     assertThat(metadatenDs.getNodes("./subtyp")).hasSize(1);
 
-    metadatenDs.setSimpleMetadatum(MetadatenDs.SimpleMetadatum.SUBTYP, newDate, "subtyp1");
+    metadatenDs.setSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate, "subtyp1");
 
-    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.SimpleMetadatum.SUBTYP, newDate))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate))
         .contains("subtyp1");
     final List<SimpleProprietary> subtypValues = metadatenDs.getNodes("./subtyp");
     assertThat(subtypValues).hasSize(2);
@@ -291,9 +284,7 @@ class MetadatenDsTest {
         .findFirst()
         .map(m -> assertThat(m.getEnd()).contains(LocalDate.MAX));
 
-    assertThat(
-            metadatenDs.getSimpleMetadatum(
-                MetadatenDs.SimpleMetadatum.SUBTYP, newDate.minusDays(1)))
+    assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate.minusDays(1)))
         .contains("subtyp0");
   }
 

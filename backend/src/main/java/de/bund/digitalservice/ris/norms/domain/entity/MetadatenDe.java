@@ -2,17 +2,40 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.w3c.dom.Node;
 
 /** Class representing the meta:legalDocML.de_metadaten */
 @Getter
-@SuperBuilder(toBuilder = true)
-@AllArgsConstructor
-public class MetadatenDe {
-  private final Node node;
+public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
+
+  @Builder
+  public MetadatenDe(final Node node) {
+    super(node, "ab", "bis");
+  }
+
+  /**
+   * The list of all simple metadata within the meta:legalDocML.de_metadaten block. Single and
+   * nested properties.
+   */
+  public enum Metadata implements MetadataInterface {
+    FNA("./fna"),
+    ART("./art"),
+    TYP("./typ"),
+    FEDERFUEHRUNG("./federfuehrung/federfuehrend");
+
+    private final String xpath;
+
+    Metadata(final String xpath) {
+      this.xpath = xpath;
+    }
+
+    @Override
+    public String getXpath() {
+      return this.xpath;
+    }
+  }
 
   /**
    * Returns the FNA ("Fundstellennachweis A") of the norm.
@@ -20,7 +43,7 @@ public class MetadatenDe {
    * @return FNA or empty if it doesn't exist.
    */
   public Optional<String> getFna() {
-    return NodeParser.getValueFromExpression("./fna", node);
+    return NodeParser.getValueFromExpression(Metadata.FNA.xpath, getNode());
   }
 
   /**
@@ -29,7 +52,7 @@ public class MetadatenDe {
    * @return Art or empty if it doesn't exist.
    */
   public Optional<String> getArt() {
-    return NodeParser.getValueFromExpression("./art", node);
+    return NodeParser.getValueFromExpression(Metadata.ART.xpath, getNode());
   }
 
   /**
@@ -38,6 +61,6 @@ public class MetadatenDe {
    * @return Typ or empty if it doesn't exist.
    */
   public Optional<String> getTyp() {
-    return NodeParser.getValueFromExpression("./typ", node);
+    return NodeParser.getValueFromExpression(Metadata.TYP.xpath, getNode());
   }
 }
