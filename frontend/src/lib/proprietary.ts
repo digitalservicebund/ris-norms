@@ -193,6 +193,11 @@ export const DocumentTypeValues = {
 /** String literal type for allowed values for the document type. */
 export type DocumentTypeValue = keyof typeof DocumentTypeValues
 
+/**
+ * Used for indicating that a document type is set, but the combination of values
+ * that the document type is derived from doesn't correspond to a supported
+ * document type.
+ */
 export const UNKNOWN_DOCUMENT_TYPE = "__unknown_document_type__"
 
 /**
@@ -207,10 +212,18 @@ export const UNKNOWN_DOCUMENT_TYPE = "__unknown_document_type__"
  *  combination
  */
 export function getDocumentTypeFromMetadata(
-  art: MetaArtValue,
-  typ: MetaTypValue,
-  subtyp: MetaSubtypValue,
+  art: string,
+  typ: string,
+  subtyp: string,
 ): DocumentTypeValue | typeof UNKNOWN_DOCUMENT_TYPE {
+  if (
+    !isMetaArtValue(art) ||
+    !isMetaTypValue(typ) ||
+    !isMetaSubtypValue(subtyp)
+  ) {
+    return UNKNOWN_DOCUMENT_TYPE
+  }
+
   const item = Object.entries(DocumentTypeValues).find(
     ([, metadata]) =>
       metadata.art === art &&

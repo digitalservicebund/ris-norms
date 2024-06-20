@@ -40,7 +40,6 @@ describe("getDocumentTypeFromMetadata", () => {
       UNKNOWN_DOCUMENT_TYPE,
     )
 
-    // @ts-expect-error breaking on purpose for testing
     expect(getDocumentTypeFromMetadata("", "", "")).toBe(UNKNOWN_DOCUMENT_TYPE)
   })
 })
