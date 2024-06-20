@@ -8,7 +8,7 @@ From here the users can handle their procedures ("Vorgänge").
 
 ## Prerequisites
 
-- Node.js (with a `.node-version` file) for simplified setup using [`nodenv``](https://github.com/nodenv/nodenv)
+- Node.js (with a `.node-version` file) for simplified setup using [`nodenv`](https://github.com/nodenv/nodenv)
 
 ## Quick-Start
 
@@ -44,8 +44,8 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 
 Playbook:
 
-- Make sure the backend runs [here](../DEVELOPING.md#direct).
-- Make sure the frontend runs [here](../DEVELOPING.md#direct).
+- Make sure the backend runs [here](../DEVELOPING.md#how-to-run-locally).
+- Make sure the frontend runs [here](../DEVELOPING.md#how-to-run-locally).
 - Install Playwright
 - Let Playwright know where to connect to by using the .env file: `cp .env.local.example .env.local`
 - Run the E2E Test
