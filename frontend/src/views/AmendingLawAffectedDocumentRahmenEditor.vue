@@ -462,7 +462,7 @@ const {
             <RisCodeEditor
               v-else
               :model-value="xml ?? ''"
-              :editable="false"
+              :readonly="true"
               class="flex-grow"
             />
           </template>
