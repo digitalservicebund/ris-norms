@@ -86,6 +86,9 @@ test.describe("navigate to page", () => {
     await expect(
       editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).not.toBeChecked()
+    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
+      "BMF - Bundesministerium der Finanzen",
+    )
 
     const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
     dropdown.selectOption("2009-10-08")
@@ -113,6 +116,9 @@ test.describe("navigate to page", () => {
     await expect(
       editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).toBeChecked()
+    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
+      "BMWSB - Bundesministerium für Wohnen, Stadtentwicklung und Bauwesen",
+    )
 
     dropdown.selectOption("2023-01-01")
     await page.waitForResponse((response) =>
@@ -138,6 +144,9 @@ test.describe("navigate to page", () => {
     await expect(
       editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).not.toBeChecked()
+    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
+      "BMDV - Bundesministerium für Digitales und Verkehr",
+    )
 
     dropdown.selectOption("2023-12-24")
     await page.waitForResponse((response) =>
@@ -164,6 +173,9 @@ test.describe("navigate to page", () => {
     await expect(
       editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
     ).toBeChecked()
+    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
+      "BMG - Bundesministerium für Gesundheit",
+    )
   })
 })
 
@@ -336,6 +348,7 @@ test.describe("metadata view", () => {
       normgeber: "BEO - Berlin (Ost)",
       beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
       qualifizierteMehrheit: true,
+      federfuehrung: "BMI - Bundesministerium des Innern und für Heimat",
     }
 
     await sharedPage.request.put(
@@ -737,27 +750,33 @@ test.describe("metadata view", () => {
     })
 
     // Skipped until implemented in the backend
-    test.skip("is loaded", async () => {
+    test("is loaded", async () => {
       // Then
-      await expect(control).toHaveValue("BMJ - Bundesministerium der Justiz")
+      await expect(control).toHaveValue(
+        "BMI - Bundesministerium des Innern und für Heimat",
+      )
     })
 
     // Skipped until implemented in the backend
-    test.skip("saves changes", async () => {
+    test("saves changes", async () => {
       // When
-      await control.selectOption("BKAmt - Bundeskanzleramt")
+      await control.selectOption("BMVg - Bundesministerium der Verteidigung")
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue("BKAmt - Bundeskanzleramt")
+      await expect(control).toHaveValue(
+        "BMVg - Bundesministerium der Verteidigung",
+      )
     })
 
     // Skipped until implemented in the backend
-    test.skip("is updated with backend state after saving", async () => {
+    test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ federfuehrung: "AA - Auswärtiges Amt" })
-      await expect(control).toHaveValue("BKAmt - Bundeskanzleramt")
+      await expect(control).toHaveValue(
+        "BMVg - Bundesministerium der Verteidigung",
+      )
 
       // When
       await saveMetadata()
