@@ -86,7 +86,7 @@ class ProprietaryServiceTest {
                   proprietaryService.updateProprietaryFromNorm(
                       new UpdateProprietaryFromNormUseCase.Query(
                           eli,
-                          LocalDate.now(),
+                          LocalDate.parse("2003-01-01"),
                           new UpdateProprietaryFromNormUseCase.Metadata(
                               "fna", null, null, null, null, null, null, null, null, null))))
           // then
@@ -97,7 +97,7 @@ class ProprietaryServiceTest {
     void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsNodes() throws Exception {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var date = LocalDate.now();
+      var date = LocalDate.parse("2003-01-01");
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
           .thenReturn(Optional.of(normWithoutProprietary));
@@ -114,13 +114,21 @@ class ProprietaryServiceTest {
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
       assertThat(result.getFna(date)).contains("fna");
+      assertThat(result.getArt(date)).contains("");
+      assertThat(result.getTyp(date)).contains("");
+      assertThat(result.getSubtyp(date)).contains("");
+      assertThat(result.getBezeichnungInVorlage(date)).contains("");
+      assertThat(result.getArtDerNorm(date)).contains("");
+      assertThat(result.getNormgeber(date)).contains("");
+      assertThat(result.getBeschliessendesOrgan(date)).contains("");
+      assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
     }
 
     @Test
     void updatesProprietaryByCreatingNewMetadatenDsNodes() throws Exception {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var date = LocalDate.now();
+      var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
           .thenReturn(Optional.of(normWithProprietary));
@@ -137,10 +145,10 @@ class ProprietaryServiceTest {
                       "typ",
                       "subtype",
                       "bezeichnungInVorlage",
-                      "SN,ÄN,ÜN",
-                      "DEU",
-                      "Bundestag",
-                      true,
+                      "ÄN,ÜN",
+                      "DDR",
+                      "Landtag",
+                      false,
                       "BMJ - Bundesministerium der Justiz")));
 
       // then
@@ -150,10 +158,10 @@ class ProprietaryServiceTest {
       assertThat(result.getTyp(date)).contains("typ");
       assertThat(result.getSubtyp(date)).contains("subtype");
       assertThat(result.getBezeichnungInVorlage(date)).contains("bezeichnungInVorlage");
-      assertThat(result.getArtDerNorm(date)).contains("SN,ÄN,ÜN");
-      assertThat(result.getNormgeber(date)).contains("DEU");
-      assertThat(result.getBeschliessendesOrgan(date)).contains("Bundestag");
-      assertThat(result.getQualifizierteMehrheit(date)).contains(true);
+      assertThat(result.getArtDerNorm(date)).contains("ÄN,ÜN");
+      assertThat(result.getNormgeber(date)).contains("DDR");
+      assertThat(result.getBeschliessendesOrgan(date)).contains("Landtag");
+      assertThat(result.getQualifizierteMehrheit(date)).contains(false);
       assertThat(result.getFederfuehrung(date)).contains("BMJ - Bundesministerium der Justiz");
     }
 
@@ -161,7 +169,7 @@ class ProprietaryServiceTest {
     void resetsAllFields() throws Exception {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var date = LocalDate.now();
+      var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
           .thenReturn(Optional.of(normWithProprietary));
