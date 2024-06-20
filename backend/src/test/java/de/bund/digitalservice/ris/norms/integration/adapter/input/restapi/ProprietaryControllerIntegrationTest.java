@@ -202,7 +202,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void doesResetAllFieldsBySendingNull() throws Exception {
+    void doesResetAllFieldsBySendingNullAndGetSomeDefaults() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
@@ -227,9 +227,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"beschliessendesOrgan\": null,"
                           + "\"qualifizierteMehrheit\": null}"))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").isEmpty())
-          .andExpect(jsonPath("art").isEmpty())
-          .andExpect(jsonPath("typ").isEmpty())
+          .andExpect(jsonPath("fna").value("754-28-1"))
+          .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
+          .andExpect(jsonPath("typ").value("gesetz"))
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
@@ -239,22 +239,23 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).contains("");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
+          .contains("rechtsetzungsdokument");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("gesetz");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
-          .contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("");
+          .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
-          .contains("");
+          .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
           .isEmpty();
     }
 
     @Test
-    void doesResetAllFieldsBySendingEmptyString() throws Exception {
+    void doesResetAllFieldsBySendingEmptyStringAndGetSomeDefaults() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       final LocalDate date = LocalDate.parse("1990-01-01");
@@ -279,9 +280,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"beschliessendesOrgan\": \"\","
                           + "\"qualifizierteMehrheit\": false}"))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("fna").isEmpty())
-          .andExpect(jsonPath("art").isEmpty())
-          .andExpect(jsonPath("typ").isEmpty())
+          .andExpect(jsonPath("fna").value("754-28-1"))
+          .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
+          .andExpect(jsonPath("typ").value("gesetz"))
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
@@ -291,16 +292,17 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).contains("");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("754-28-1");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date))
+          .contains("rechtsetzungsdokument");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("gesetz");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date)).isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
-          .contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).contains("");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("");
+          .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
-          .contains("");
+          .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
           .isEmpty();
     }
@@ -339,7 +341,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
           .andExpect(jsonPath("normgeber").value("DDR"))
-          .andExpect(jsonPath("beschliessendesOrgan").value(""))
+          .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
           .andExpect(
               jsonPath("qualifizierteMehrheit")
                   .isEmpty()); // meaning json "qualifizierteMehrheit":null
@@ -357,7 +359,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .contains("ÄN,ÜN");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("DDR");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
-          .contains("");
+          .isEmpty();
+      ;
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
           .isEmpty();
     }
