@@ -41,12 +41,15 @@ async function restoreInitialState(page: Page) {
 
 test.describe("navigate to page", () => {
   test("navigate to the metadata editor", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents",
     )
 
+    // When
     await page.getByRole("link", { name: "Metadaten bearbeiten" }).click()
 
+    // Then
     // Only expect the URL to be somewhat equal to the following. The reason is that
     // the page redirects to a subpage, so this test might be flaky otherwise depending
     // on how fast the redirect is.
@@ -56,10 +59,12 @@ test.describe("navigate to page", () => {
   })
 
   test("displays affected document title", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
     )
 
+    // Then
     await expect(page.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
 
     await expect(
@@ -70,14 +75,17 @@ test.describe("navigate to page", () => {
   })
 
   test("navigates to the selected time boundary", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
     )
 
+    // When
     await page
       .getByRole("combobox", { name: "Zeitgrenze" })
       .selectOption("2023-12-30")
 
+    // Then
     await expect(page).toHaveURL(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
@@ -86,13 +94,16 @@ test.describe("navigate to page", () => {
 
 test.describe("preview", () => {
   test("displays the title and preview", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
+    const preview = page.getByRole("region", { name: "Vorschau" })
+
+    // Then
     await expect(page.getByRole("heading", { name: "Rahmen" })).toBeVisible()
 
-    const preview = page.getByRole("region", { name: "Vorschau" })
     await expect(
       preview.getByRole("heading", {
         name: "Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz Bundesverfassungsschutzgesetz",
@@ -101,26 +112,31 @@ test.describe("preview", () => {
   })
 
   test("shows the preview at different time boundaries", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
 
+    // Then
     await expect(preview).toHaveText(
       /.*am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt.*/,
     )
 
+    // When
     await page
       .getByRole("combobox", { name: "Zeitgrenze" })
       .selectOption("2023-12-30")
 
+    // Then
     await expect(preview).toHaveText(/.*nach Ablauf von fünf Jahren.*/)
   })
 
   test("shows an error when the preview could not be loaded", async ({
     page,
   }) => {
+    // Given
     await page.route(
       /norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?atIsoDate=/,
       async (request) => {
@@ -136,22 +152,27 @@ test.describe("preview", () => {
       name: "Vorschau",
     })
 
+    // Then
     await expect(
       previewRegion.getByText("Die Vorschau konnte nicht geladen werden."),
     ).toBeVisible()
 
+    // Cleanup
     await page.unrouteAll()
   })
 })
 
 test.describe("XML view", () => {
   test("displays the XML of the target law", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
 
+    // When
     await page.getByRole("tab", { name: "XML" }).click()
 
+    // Then
     await expect(
       page
         .getByRole("region", { name: "Metadaten bearbeiten" })
@@ -162,6 +183,7 @@ test.describe("XML view", () => {
   })
 
   test("updates the XML preview after saving metadata", async ({ page }) => {
+    // Given
     await restoreInitialState(page)
 
     await page.goto(
@@ -172,16 +194,19 @@ test.describe("XML view", () => {
       name: "Metadaten bearbeiten",
     })
 
-    // Updating the FNA as an example for any change happening on the page
     const fnaInput = editorRegion.getByRole("textbox", {
       name: "Sachgebiet",
     })
+
+    // When
+    // Updating the FNA as an example for any change happening on the page
     await expect(fnaInput).toHaveValue("210-5")
     await fnaInput.fill("1234-56-78")
     await editorRegion
       .getByRole("button", { name: "Metadaten speichern" })
       .click()
 
+    // Then
     // Check the content of the XML reload call as we currently don't have a
     // good way of checking the actual editor content. This is because
     // CodeMirror uses lazy scrolling and therefore depending on the size of the
@@ -195,11 +220,12 @@ test.describe("XML view", () => {
 
     expect(textResponse).toContain("1234-56-78")
 
-    // Reset the data
+    // Cleanup
     await restoreInitialState(page)
   })
 
   test("shows an error when the XML could not be loaded", async ({ page }) => {
+    // Given
     await page.route(
       /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
       async (request) => {
@@ -211,12 +237,15 @@ test.describe("XML view", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
 
+    // When
     await page.getByRole("tab", { name: "XML" }).click()
 
+    // Then
     await expect(
       page.getByText("Die XML-Ansicht konnte nicht geladen werden."),
     ).toBeVisible()
 
+    // Cleanup
     await page.unrouteAll()
   })
 })
@@ -732,6 +761,7 @@ test.describe("metadata view", () => {
   })
 
   test("shows an error if the metadata could not be loaded", async () => {
+    // Given
     await sharedPage.route(/\/proprietary\/2023-12-30$/, (request) => {
       request.abort()
     })
@@ -742,28 +772,35 @@ test.describe("metadata view", () => {
       name: "Metadaten bearbeiten",
     })
 
+    // Then
     await expect(
       editorRegion.getByText("Die Metadaten konnten nicht geladen werden."),
     ).toBeVisible()
 
+    // Cleanup
     await sharedPage.unrouteAll()
   })
 
   test("displays a success message when the data has been saved", async () => {
+    // Given
     await sharedPage.reload()
 
+    // When
     await sharedPage
       .getByRole("button", { name: "Metadaten speichern" })
       .click()
 
+    // Then
     await expect(
       sharedPage.getByRole("tooltip", { name: "Gespeichert!" }),
     ).toBeVisible()
 
+    // Cleanup
     await sharedPage.unrouteAll()
   })
 
   test("displays an error if the data could not be saved", async () => {
+    // Given
     await sharedPage.route(/\/proprietary\/2023-12-30$/, (route) => {
       if (route.request().method() === "PUT") route.abort("failed")
       else route.continue()
@@ -771,10 +808,12 @@ test.describe("metadata view", () => {
 
     await sharedPage.reload()
 
+    // When
     await sharedPage
       .getByRole("button", { name: "Metadaten speichern" })
       .click()
 
+    // Then
     await expect(
       sharedPage.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
     ).toBeVisible()
