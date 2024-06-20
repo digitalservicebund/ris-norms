@@ -90,9 +90,6 @@ VALUES ('c58770da-120c-4d46-9f19-737be72590b7', 'eli/bund/bgbl-1/2024/108/2024-0
                   <meta:federfuehrend ab="2024-03-27" bis="unbestimmt">Bundesministerium für Finanzen</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
-         </akn:proprietary>
-         <!-- Metadaten vom DS definiert -->
-         <akn:proprietary eId="meta-1_proprietary-2" GUID="5d3855be-763f-4ebf-8ca6-8399b5fb86b8" source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                <meta:subtyp>ÄN</meta:subtyp>
            </meta:legalDocML.de_metadaten_ds>
@@ -714,9 +711,6 @@ VALUES ('c2e78146-833b-4d78-a055-27f05eeaf018', 'eli/bund/bgbl-1/2009/s3366/2023
                   <meta:federfuehrend ab="1934-10-16" bis="unbestimmt">Bundesministerium für Finanzen</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
-         </akn:proprietary>
-         <!-- Metadaten vom DS definiert -->
-         <akn:proprietary eId="meta-1_proprietary-2" GUID="5d3855be-763f-4ebf-8ca6-8399b5fb86b8" source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                <meta:subtyp>SN</meta:subtyp>
            </meta:legalDocML.de_metadaten_ds>
