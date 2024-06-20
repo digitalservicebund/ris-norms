@@ -82,7 +82,7 @@ VALUES ('53d31e3c-5c46-4e96-8017-b0db064561a2', 'eli/bund/bgbl-1/2024/108/2024-0
                     <meta:gesta>nicht-vorhanden</meta:gesta>
                     <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
                     <meta:federfuehrung>
-                        <meta:federfuehrend ab="2024-03-27" bis="unbestimmt">Bundesministerium für Finanzen</meta:federfuehrend>
+                        <meta:federfuehrend ab="2024-03-27" bis="unbestimmt">BMF - Bundesministerium der Finanzen</meta:federfuehrend>
                     </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
@@ -661,7 +661,7 @@ VALUES ('a3fc5402-0edc-4ed6-a9fe-027307d20d78', 'eli/bund/bgbl-1/2006/s2782/2023
                <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
                <meta:gesta>nicht-vorhanden</meta:gesta>
                <meta:federfuehrung>
-                  <meta:federfuehrend ab="1994-10-28" bis="unbestimmt">Bundesministerium für Finanzen</meta:federfuehrend>
+                  <meta:federfuehrend ab="1994-10-28" bis="unbestimmt">BMF - Bundesministerium der Finanzen</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
             <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">

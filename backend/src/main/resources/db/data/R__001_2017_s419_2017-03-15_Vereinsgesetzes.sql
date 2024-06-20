@@ -649,8 +649,8 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                <meta:gesta>nicht-vorhanden</meta:gesta>
                <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
                <meta:federfuehrung>
-                  <meta:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                  <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
+                  <meta:federfuehrend ab="2002-12-01" bis="unbestimmt">BMI - Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                  <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">BMJ - Bundesministerium der Justiz</meta:federfuehrend>
                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
             <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">

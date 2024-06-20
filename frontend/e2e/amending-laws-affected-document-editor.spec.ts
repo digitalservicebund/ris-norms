@@ -1036,7 +1036,9 @@ test.describe("metadata editing", () => {
     const federfuehrungDropdown = page.getByRole("combobox", {
       name: "Federführung",
     })
-    await expect(federfuehrungDropdown).toHaveValue("")
+    await expect(federfuehrungDropdown).toHaveValue(
+      "BMI - Bundesministerium des Innern und für Heimat",
+    )
 
     await page.getByRole("button", { name: "Metadaten speichern" }).click()
 
