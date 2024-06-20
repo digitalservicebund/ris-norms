@@ -338,7 +338,7 @@ test.describe("metadata view", () => {
   let sharedPage: Page
 
   async function restoreInitialState() {
-    const data: Proprietary = {
+    const dataIn1970: Proprietary = {
       fna: "210-5",
       art: "regelungstext",
       typ: "gesetz",
@@ -348,12 +348,30 @@ test.describe("metadata view", () => {
       normgeber: "BEO - Berlin (Ost)",
       beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
       qualifizierteMehrheit: true,
+      federfuehrung: "BMVg - Bundesministerium der Verteidigung",
+    }
+
+    const dataIn2023: Proprietary = {
+      fna: "310-5",
+      art: "regelungstext",
+      typ: "gesetz",
+      subtyp: "Gesetz im formellen Sinne",
+      bezeichnungInVorlage: "Neue Testbezeichnung ab 2023",
+      artDerNorm: "ÄN",
+      normgeber: "HA - Hamburg",
+      beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
+      qualifizierteMehrheit: false,
       federfuehrung: "BMI - Bundesministerium des Innern und für Heimat",
     }
 
     await sharedPage.request.put(
+      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1970-01-01",
+      { data: dataIn1970 },
+    )
+
+    await sharedPage.request.put(
       "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
-      { data },
+      { data: dataIn2023 },
     )
   }
 
@@ -401,7 +419,7 @@ test.describe("metadata view", () => {
 
     test("is loaded", async () => {
       // Then
-      await expect(control).toHaveValue("210-5")
+      await expect(control).toHaveValue("310-5")
     })
 
     test("saves changes", async () => {
@@ -439,7 +457,7 @@ test.describe("metadata view", () => {
 
     test("is loaded", async () => {
       // Then
-      await expect(control).toHaveValue("Rechtsverordnung")
+      await expect(control).toHaveValue("Gesetz im formellen Sinne")
     })
 
     test("saves changes", async () => {
@@ -541,31 +559,31 @@ test.describe("metadata view", () => {
 
     test("is loaded", async () => {
       // Then
+      await expect(controlSn).not.toBeChecked()
+      await expect(controlAn).toBeChecked()
+      await expect(controlUn).not.toBeChecked()
+    })
+
+    test("saves changes", async () => {
+      // When
+      await controlSn.check()
+      await controlAn.uncheck()
+      await controlUn.check()
+      await saveMetadata()
+      await sharedPage.reload()
+
+      // Then
       await expect(controlSn).toBeChecked()
       await expect(controlAn).not.toBeChecked()
       await expect(controlUn).toBeChecked()
     })
 
-    test("saves changes", async () => {
-      // When
-      await controlSn.uncheck()
-      await controlAn.check()
-      await controlUn.uncheck()
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(controlSn).not.toBeChecked()
-      await expect(controlAn).toBeChecked()
-      await expect(controlUn).not.toBeChecked()
-    })
-
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ artDerNorm: "SN,ÄN,ÜN" })
-      await expect(controlSn).not.toBeChecked()
-      await expect(controlAn).toBeChecked()
-      await expect(controlUn).not.toBeChecked()
+      await expect(controlSn).toBeChecked()
+      await expect(controlAn).not.toBeChecked()
+      await expect(controlUn).toBeChecked()
 
       // When
       await saveMetadata()
@@ -591,7 +609,7 @@ test.describe("metadata view", () => {
 
     test("is loaded", async () => {
       // Then
-      await expect(control).toHaveValue("Testbezeichnung nach meiner Vorlage")
+      await expect(control).toHaveValue("Neue Testbezeichnung ab 2023")
     })
 
     test("saves changes", async () => {
@@ -631,23 +649,23 @@ test.describe("metadata view", () => {
 
     test("is loaded", async () => {
       // Then
-      await expect(control).toHaveValue("BEO - Berlin (Ost)")
+      await expect(control).toHaveValue("HA - Hamburg")
     })
 
     test("saves changes", async () => {
       // When
-      await control.selectOption("HA - Hamburg")
+      await control.selectOption("BE - Berlin")
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue("HA - Hamburg")
+      await expect(control).toHaveValue("BE - Berlin")
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ normgeber: "SL - Saarland" })
-      await expect(control).toHaveValue("HA - Hamburg")
+      await expect(control).toHaveValue("BE - Berlin")
 
       // When
       await saveMetadata()
@@ -671,7 +689,7 @@ test.describe("metadata view", () => {
 
     test("is loaded", async () => {
       // Then
-      await expect(control).toHaveValue("BMinJ - Bundesministerium der Justiz")
+      await expect(control).toHaveValue("BMinI - Bundesministerium des Innern")
     })
 
     test("saves changes", async () => {
@@ -711,29 +729,29 @@ test.describe("metadata view", () => {
 
     test("is loaded", async () => {
       // Then
-      await expect(control).toBeChecked()
+      await expect(control).not.toBeChecked()
     })
 
     test("saves changes", async () => {
       // When
-      await control.uncheck()
+      await control.check()
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).not.toBeChecked()
+      await expect(control).toBeChecked()
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
-      await mockPutResponse({ qualifizierteMehrheit: true })
-      await expect(control).not.toBeChecked()
+      await mockPutResponse({ qualifizierteMehrheit: false })
+      await expect(control).toBeChecked()
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(control).toBeChecked()
+      await expect(control).not.toBeChecked()
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -749,7 +767,6 @@ test.describe("metadata view", () => {
       })
     })
 
-    // Skipped until implemented in the backend
     test("is loaded", async () => {
       // Then
       await expect(control).toHaveValue(
@@ -757,7 +774,6 @@ test.describe("metadata view", () => {
       )
     })
 
-    // Skipped until implemented in the backend
     test("saves changes", async () => {
       // When
       await control.selectOption("BMVg - Bundesministerium der Verteidigung")
@@ -770,7 +786,6 @@ test.describe("metadata view", () => {
       )
     })
 
-    // Skipped until implemented in the backend
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ federfuehrung: "AA - Auswärtiges Amt" })
