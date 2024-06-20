@@ -103,7 +103,7 @@ jobs:
       - name: Upload licence report
         uses: actions/upload-artifact@v4
         with:
-          name: backend-licence-report.csv
+          name: licence-reports-backend
           retention-days: 3
           path: backend/build/reports/dependency-license/backend-licence-report.csv
       - name: Send status to Slack

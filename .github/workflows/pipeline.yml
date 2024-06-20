@@ -282,6 +282,23 @@ jobs:
            filePath: tmp/html-test-report/
            destinationDir: test-reports/ris-norms
            reportIsDirectory: true
+       # Licence reports
+       - name: Licence reports - Download
+         uses: actions/download-artifact@v4
+         with:
+           pattern: licence-reports-*
+           path: tmp/licence-reports/
+           merge-multiple: true
+       - name: Frontend licence report - git add report
+         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+         with:
+           filePath: tmp/licence-reports/frontend-licence-report.csv
+           destinationDir: licence-reports/frontend/ris-norms
+       - name: Backend licence report - git add report
+         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+         with:
+           filePath: tmp/licence-reports/backend-licence-report.csv
+           destinationDir: licence-reports/backend/ris-norms
        # Push reports
        - name: Push reports
          run: |
