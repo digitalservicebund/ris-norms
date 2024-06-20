@@ -1,6 +1,44 @@
 import { Proprietary } from "@/types/proprietary"
 import { Locator, Page, expect, test } from "@playwright/test"
 
+async function restoreInitialState(page: Page) {
+  const dataIn1970: Proprietary = {
+    fna: "210-5",
+    art: "regelungstext",
+    typ: "gesetz",
+    subtyp: "Rechtsverordnung",
+    bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
+    artDerNorm: "SN,ÜN",
+    normgeber: "BEO - Berlin (Ost)",
+    beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
+    qualifizierteMehrheit: true,
+    federfuehrung: "BMVg - Bundesministerium der Verteidigung",
+  }
+
+  const dataIn2023: Proprietary = {
+    fna: "310-5",
+    art: "regelungstext",
+    typ: "gesetz",
+    subtyp: "Gesetz im formellen Sinne",
+    bezeichnungInVorlage: "Neue Testbezeichnung ab 2023",
+    artDerNorm: "ÄN",
+    normgeber: "HA - Hamburg",
+    beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
+    qualifizierteMehrheit: false,
+    federfuehrung: "BMI - Bundesministerium des Innern und für Heimat",
+  }
+
+  await page.request.put(
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1970-01-01",
+    { data: dataIn1970 },
+  )
+
+  await page.request.put(
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
+    { data: dataIn2023 },
+  )
+}
+
 test.describe("navigate to page", () => {
   test("navigate to the metadata editor", async ({ page }) => {
     await page.goto(
@@ -124,6 +162,8 @@ test.describe("XML view", () => {
   })
 
   test("updates the XML preview after saving metadata", async ({ page }) => {
+    await restoreInitialState(page)
+
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
@@ -156,27 +196,7 @@ test.describe("XML view", () => {
     expect(textResponse).toContain("1234-56-78")
 
     // Reset the data
-    await page.request.put(
-      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1970-01-01",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        data: JSON.stringify({
-          art: "regelungstext",
-          fna: "210-5",
-          subtyp: "Rechtsverordnung",
-          typ: "gesetz",
-          bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
-          artDerNorm: "SN,ÜN",
-          normgeber: "BEO - Berlin (Ost)",
-          beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
-          qualifizierteMehrheit: true,
-          federfuehrung: "BMVg - Bundesministerium der Verteidigung",
-        }),
-      },
-    )
+    await restoreInitialState(page)
   })
 
   test("shows an error when the XML could not be loaded", async ({ page }) => {
@@ -203,44 +223,6 @@ test.describe("XML view", () => {
 
 test.describe("metadata view", () => {
   let sharedPage: Page
-
-  async function restoreInitialState() {
-    const dataIn1970: Proprietary = {
-      fna: "210-5",
-      art: "regelungstext",
-      typ: "gesetz",
-      subtyp: "Rechtsverordnung",
-      bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
-      artDerNorm: "SN,ÜN",
-      normgeber: "BEO - Berlin (Ost)",
-      beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
-      qualifizierteMehrheit: true,
-      federfuehrung: "BMVg - Bundesministerium der Verteidigung",
-    }
-
-    const dataIn2023: Proprietary = {
-      fna: "310-5",
-      art: "regelungstext",
-      typ: "gesetz",
-      subtyp: "Gesetz im formellen Sinne",
-      bezeichnungInVorlage: "Neue Testbezeichnung ab 2023",
-      artDerNorm: "ÄN",
-      normgeber: "HA - Hamburg",
-      beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
-      qualifizierteMehrheit: false,
-      federfuehrung: "BMI - Bundesministerium des Innern und für Heimat",
-    }
-
-    await sharedPage.request.put(
-      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1970-01-01",
-      { data: dataIn1970 },
-    )
-
-    await sharedPage.request.put(
-      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
-      { data: dataIn2023 },
-    )
-  }
 
   async function saveMetadata() {
     await sharedPage
@@ -271,12 +253,12 @@ test.describe("metadata view", () => {
 
   test.beforeAll(async ({ browser }) => {
     sharedPage = await browser.newPage()
-    await restoreInitialState()
+    await restoreInitialState(sharedPage)
     await gotoTimeBoundary("2023-12-30")
   })
 
   test.afterAll(async () => {
-    await restoreInitialState()
+    await restoreInitialState(sharedPage)
   })
 
   test.describe("FNA", () => {
