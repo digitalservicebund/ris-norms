@@ -172,7 +172,7 @@ class MetadatenDeTest {
         .contains("Bundesministerium der Justiz");
     assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(2);
 
-    metadatenDe.setSimpleMetadatum(
+    metadatenDe.updateSimpleMetadatum(
         MetadatenDe.Metadata.FEDERFUEHRUNG, atDate, "test federfuehrung");
 
     assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
@@ -201,7 +201,7 @@ class MetadatenDeTest {
         .isEmpty();
     assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(2);
 
-    metadatenDe.setSimpleMetadatum(
+    metadatenDe.updateSimpleMetadatum(
         MetadatenDe.Metadata.FEDERFUEHRUNG, atDate, "test federfuehrung");
 
     assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))

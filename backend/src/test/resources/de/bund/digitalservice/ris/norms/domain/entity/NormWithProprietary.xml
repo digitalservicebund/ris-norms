@@ -124,16 +124,16 @@
                     <meta:gesta>nicht-vorhanden</meta:gesta>
                     <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
                     <meta:federfuehrung>
-                        <meta:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
+                        <meta:federfuehrend ab="2003-01-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                         <meta:federfuehrend ab="2002-10-01" bis="2002-12-01">Bundesministerium der Justiz</meta:federfuehrend>
                     </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:subtyp>rechtsverordnung</meta:subtyp>
-                    <meta:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
-                    <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
-                    <meta:normgeber>DEU</meta:normgeber>
-                    <meta:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
+                    <meta:subtyp start="2003-01-01" end="unbestimmt">rechtsverordnung</meta:subtyp>
+                    <meta:bezeichnungInVorlage start="2003-01-01" end="unbestimmt">Bezeichnung gemäß Vorlage</meta:bezeichnungInVorlage>
+                    <meta:artDerNorm start="2003-01-01" end="unbestimmt">SN,ÄN,ÜN</meta:artDerNorm>
+                    <meta:normgeber start="2003-01-01" end="unbestimmt">DEU</meta:normgeber>
+                    <meta:beschliessendesOrgan start="2003-01-01" end="unbestimmt" qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

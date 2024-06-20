@@ -70,7 +70,12 @@ class ArchitectureFitnessTest {
   void domainClassesShouldOnlyDependOnDomainUtilsOrSpecificStandardLibraries() {
     final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
         new String[] {
-          "kotlin..", "java..", "org.jetbrains.annotations..", "lombok..", "org.w3c.dom.."
+          "kotlin..",
+          "java..",
+          "org.jetbrains.annotations..",
+          "lombok..",
+          "org.w3c.dom..",
+          "org.apache.commons.lang3.."
         };
 
     ArchRule rule =

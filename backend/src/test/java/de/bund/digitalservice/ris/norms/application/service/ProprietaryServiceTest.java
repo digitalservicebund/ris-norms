@@ -114,13 +114,13 @@ class ProprietaryServiceTest {
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
       assertThat(result.getFna(date)).contains("fna");
-      assertThat(result.getArt(date)).contains("");
-      assertThat(result.getTyp(date)).contains("");
-      assertThat(result.getSubtyp(date)).contains("");
-      assertThat(result.getBezeichnungInVorlage(date)).contains("");
-      assertThat(result.getArtDerNorm(date)).contains("");
-      assertThat(result.getNormgeber(date)).contains("");
-      assertThat(result.getBeschliessendesOrgan(date)).contains("");
+      assertThat(result.getArt(date)).isEmpty();
+      assertThat(result.getTyp(date)).isEmpty();
+      assertThat(result.getSubtyp(date)).isEmpty();
+      assertThat(result.getBezeichnungInVorlage(date)).isEmpty();
+      assertThat(result.getArtDerNorm(date)).isEmpty();
+      assertThat(result.getNormgeber(date)).isEmpty();
+      assertThat(result.getBeschliessendesOrgan(date)).isEmpty();
       assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
     }
 
@@ -185,16 +185,17 @@ class ProprietaryServiceTest {
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
-      assertThat(result.getFna(date)).contains("");
-      assertThat(result.getArt(date)).contains("");
-      assertThat(result.getTyp(date)).contains("");
-      assertThat(result.getSubtyp(date)).contains("");
-      assertThat(result.getBezeichnungInVorlage(date)).contains("");
-      assertThat(result.getArtDerNorm(date)).contains("");
-      assertThat(result.getNormgeber(date)).contains("");
-      assertThat(result.getBeschliessendesOrgan(date)).contains("");
+      // returns defaults from DE block
+      assertThat(result.getFna(date)).contains("754-28-1");
+      assertThat(result.getArt(date)).contains("rechtsetzungsdokument");
+      assertThat(result.getTyp(date)).contains("gesetz");
+      assertThat(result.getSubtyp(date)).isEmpty();
+      assertThat(result.getBezeichnungInVorlage(date)).isEmpty();
+      assertThat(result.getArtDerNorm(date)).isEmpty();
+      assertThat(result.getNormgeber(date)).isEmpty();
+      assertThat(result.getBeschliessendesOrgan(date)).isEmpty();
       assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
-      assertThat(result.getFederfuehrung(date)).contains("");
+      assertThat(result.getFederfuehrung(date)).isEmpty();
     }
   }
 }

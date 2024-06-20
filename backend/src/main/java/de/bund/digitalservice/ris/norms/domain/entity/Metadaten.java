@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -53,42 +54,50 @@ public abstract class Metadaten<T extends MetadataInterface> {
    * @param date - the specific date
    * @param newValue - the new value to update/create
    */
-  public void setSimpleMetadatum(
+  public void updateSimpleMetadatum(
       final T simpleMetadatum, final LocalDate date, final String newValue) {
     NodeParser.getNodeFromExpression(
             String.format(
                 "%s[@%s='%s']", simpleMetadatum.getXpath(), getStartAttribute(), date.toString()),
             node)
         .ifPresentOrElse(
-            nodeFound -> nodeFound.setTextContent(newValue),
+            nodeFound -> {
+              if (StringUtils.isNotEmpty(newValue)) {
+                nodeFound.setTextContent(newValue);
+              } else {
+                nodeFound.getParentNode().removeChild(nodeFound);
+              }
+            },
             () -> {
-              // 1. Before updating creating new node, get next previous node and next later node
-              final Optional<SimpleProprietary> previousNode =
-                  getNodes(simpleMetadatum.getXpath()).stream()
-                      .filter(f -> f.getStart().isPresent() && f.getStart().get().isBefore(date))
-                      .max(Comparator.comparing(f -> f.getStart().get()));
-              final Optional<SimpleProprietary> nextNode =
-                  getNodes(simpleMetadatum.getXpath()).stream()
-                      .filter(f -> f.getStart().isPresent() && f.getStart().get().isAfter(date))
-                      .min(Comparator.comparing(f -> f.getStart().get()));
+              if (StringUtils.isNotEmpty(newValue)) {
+                // 1. Before updating creating new node, get next previous node and next later node
+                final Optional<SimpleProprietary> previousNode =
+                    getNodes(simpleMetadatum.getXpath()).stream()
+                        .filter(f -> f.getStart().isPresent() && f.getStart().get().isBefore(date))
+                        .max(Comparator.comparing(f -> f.getStart().get()));
+                final Optional<SimpleProprietary> nextNode =
+                    getNodes(simpleMetadatum.getXpath()).stream()
+                        .filter(f -> f.getStart().isPresent() && f.getStart().get().isAfter(date))
+                        .min(Comparator.comparing(f -> f.getStart().get()));
 
-              // 2. Create new meta:fna node with the @start value and @end and set @start of next
-              // one
-              createNewNode(simpleMetadatum, newValue, date, nextNode.orElse(null));
+                // 2. Create new meta:fna node with the @start value and @end and set @start of next
+                // one
+                createNewNode(simpleMetadatum, newValue, date, nextNode.orElse(null));
 
-              // 3. Then also set @end of a previous one, if present
-              previousNode.ifPresent(
-                  value ->
-                      ((Element) value.getNode())
-                          .setAttribute(getEndAttribute(), date.minusDays(1).toString()));
+                // 3. Then also set @end of a previous one, if present
+                previousNode.ifPresent(
+                    value ->
+                        ((Element) value.getNode())
+                            .setAttribute(getEndAttribute(), date.minusDays(1).toString()));
 
-              // 4. And set @end of nodes without @start and @end to one day before given date
-              getNodes(simpleMetadatum.getXpath()).stream()
-                  .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
-                  .forEach(
-                      value ->
-                          ((Element) value.getNode())
-                              .setAttribute(getEndAttribute(), date.minusDays(1).toString()));
+                // 4. And set @end of nodes without @start and @end to one day before given date
+                getNodes(simpleMetadatum.getXpath()).stream()
+                    .filter(f -> f.getStart().isEmpty() && f.getEnd().isEmpty())
+                    .forEach(
+                        value ->
+                            ((Element) value.getNode())
+                                .setAttribute(getEndAttribute(), date.minusDays(1).toString()));
+              }
             });
   }
 
