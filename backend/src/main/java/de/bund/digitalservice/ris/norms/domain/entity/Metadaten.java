@@ -130,13 +130,13 @@ public abstract class Metadaten<T extends MetadataInterface> {
   }
 
   private void createNewNode(
-      final T metadatum,
+      final T simpleMetadatum,
       final String newValue,
       final LocalDate date,
       final SimpleProprietary nextNode) {
 
     Node parentNode = node;
-    final String[] pathElements = metadatum.getXpath().replace("./", "").split("/");
+    final String[] pathElements = simpleMetadatum.getXpath().replace("./", "").split("/");
 
     for (int i = 0; i < pathElements.length; i++) {
       final String elementName = pathElements[i];
