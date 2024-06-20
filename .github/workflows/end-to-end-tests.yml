@@ -81,6 +81,13 @@ jobs:
           path: |
             ./frontend/test-results/**/*.png
             ./frontend/test-results/**/trace.zip
+      - name: Upload test result blobs reports
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results-blob-e2e-${{ inputs.browser }}
+          path: ./frontend/blob-report/test-report.zip
+          retention-days: 1
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}

@@ -14,6 +14,7 @@ dist-ssr
 *.local
 coverage
 test-results
+blob-report/
 
 # Editor directories and files
 .vscode/*

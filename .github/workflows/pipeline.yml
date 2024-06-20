@@ -74,7 +74,7 @@ jobs:
         container-image-name: ${{ github.repository }}
         container-image-version: ${{ github.sha }}
       secrets: inherit # e.g. sonar token
-  
+
   # ######################
   # # Deploy new versions
   # ######################
@@ -185,5 +185,114 @@ jobs:
          # only on failure and if on "main" branch
          if: ${{ failure() && github.ref == 'refs/heads/main' }}
          uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
+         with:
+           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  ###################
+  # Generate reports
+  ###################
+
+   generate-test-reports:
+     if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+     needs:
+       - e2e-tests
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v4
+       - name: Setup Node
+         uses: actions/setup-node@v4
+         with:
+           node-version-file: ./frontend/.node-version
+           cache: npm
+           cache-dependency-path: ./frontend/package-lock.json
+       - name: Cache node_modules
+         uses: actions/cache@v4
+         id: cache-npm-cache
+         with:
+           # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+           path: /home/runner/.npm
+           key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
+       - name: Install node modules
+         run: npm ci
+         working-directory: ./frontend
+       - name: Download blob reports from artifacts
+         uses: actions/download-artifact@v4
+         with:
+           path: ./frontend/all-blob-reports
+           pattern: test-results-blob-*
+       - name: Prepare test reports for merge
+         working-directory: ./frontend/all-blob-reports
+         run: |
+           for DIR in test-results-blob-*; do
+             unzip -o "$DIR/test-report.zip" -d "$DIR"
+             rm "$DIR/test-report.zip"
+             ZIP_FILE="../$(basename "$DIR").zip"
+             (cd "$DIR" && zip -r "$ZIP_FILE" ./*.jsonl)
+             rm -rf "$DIR"
+           done
+         shell: bash
+       - name: Merge into html report
+         run: npx playwright merge-reports --reporter html ./all-blob-reports
+         working-directory: ./frontend
+       - name: Upload html report to artifacts
+         uses: actions/upload-artifact@v4
+         with:
+           name: html-test-report
+           path: ./frontend/playwright-report
+
+   push-reports:
+     runs-on: ubuntu-latest
+     env:
+       reports-repo: digitalservicebund/ris-reports
+     needs:
+       - generate-test-reports
+       - backend-jobs
+     if: ${{ github.ref == 'refs/heads/main' }}
+     steps:
+       - uses: actions/checkout@v4
+         with:
+           repository: ${{ env.reports-repo }}
+           ssh-key: ${{ secrets.REPORTS_DEPLOY_KEY }}
+       - name: Setup git config
+         run: |
+           git config user.name "${{ github.repository }}"
+           # This email identifies the commit as GitHub Actions - see https://github.com/orgs/community/discussions/26560
+           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+       # Backend code documentation
+       - name: Backend Code Documentation - Download
+         uses: actions/download-artifact@v4
+         with:
+           name: backend-code-documentation
+           path: tmp/backend-code-documentation/
+       - name: Java - git add report
+         uses: digitalservicebund/add-ris-report@995843ff1c3482949c7f8097aa5f287acf1506da
+         with:
+           filePath: tmp/backend-code-documentation
+           destinationDir: norms-code-documentation/java
+           reportIsDirectory: true
+       # e2e test report
+       - name: E2E test reports - Download
+         uses: actions/download-artifact@v4
+         with:
+           name: html-test-report
+           path: tmp/html-test-report/
+       - name: E2E test reports - git add report
+         uses: digitalservicebund/add-ris-report@995843ff1c3482949c7f8097aa5f287acf1506da
+         with:
+           filePath: tmp/html-test-report/
+           destinationDir: test-reports/ris-norms
+           reportIsDirectory: true
+       # Push reports
+       - name: Push reports
+         run: |
+           git diff-index --cached --quiet HEAD ||
+             git commit \
+               -m ${{ toJSON(github.event.head_commit.message) }} \
+               -m "From commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" &&
+             git push origin main &&
+             echo "Pushed reports to ${{ github.server_url }}/${{ env.reports-repo }}" >> $GITHUB_STEP_SUMMARY
+       - name: Send status to Slack
+         uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+         if: ${{ failure() && github.ref == 'refs/heads/main' }}
          with:
            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

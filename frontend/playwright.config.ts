@@ -8,6 +8,10 @@ const config: PlaywrightTestConfig = {
   timeout: 10000,
   retries: process.env.CI === "true" ? 1 : 0,
   workers: 1,
+  reporter:
+    process.env.CI === "true"
+      ? [["dot"], ["blob", { outputFile: "./blob-report/test-report.zip" }]]
+      : "list",
   use: {
     viewport: { width: 1280, height: 720 },
     baseURL: process.env.E2E_BASE_URL,
