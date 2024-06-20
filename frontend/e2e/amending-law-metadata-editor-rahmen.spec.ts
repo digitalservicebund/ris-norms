@@ -1,5 +1,5 @@
 import { Proprietary } from "@/types/proprietary"
-import { Page, expect, test } from "@playwright/test"
+import { Locator, Page, expect, test } from "@playwright/test"
 
 test.describe("navigate to page", () => {
   test("navigate to the metadata editor", async ({ page }) => {
@@ -228,7 +228,7 @@ test.describe("preview", () => {
 })
 
 test.describe("XML view", () => {
-  test("displays the XML of the target law with metadata", async ({ page }) => {
+  test("displays the XML of the target law", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
@@ -380,18 +380,18 @@ test.describe("metadata view", () => {
   })
 
   test.describe("FNA", () => {
-    test("is loaded", async () => {
-      // Given
-      const control = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
+    let control: Locator
 
+    test.beforeAll(() => {
+      control = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
+    })
+
+    test("is loaded", async () => {
       // Then
       await expect(control).toHaveValue("210-5")
     })
 
     test("saves changes", async () => {
-      // Given
-      const control = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
-
       // When
       await control.fill("123-4")
       await saveMetadata()
@@ -404,7 +404,6 @@ test.describe("metadata view", () => {
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ fna: "fake-backend-state" })
-      const control = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
       await expect(control).toHaveValue("123-4")
 
       // When
@@ -419,18 +418,18 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Dokumenttyp", () => {
-    test("is loaded", async () => {
-      // Given
-      const control = sharedPage.getByRole("combobox", { name: "Dokumenttyp" })
+    let control: Locator
 
+    test.beforeAll(() => {
+      control = sharedPage.getByRole("combobox", { name: "Dokumenttyp" })
+    })
+
+    test("is loaded", async () => {
       // Then
       await expect(control).toHaveValue("Rechtsverordnung")
     })
 
     test("saves changes", async () => {
-      // Given
-      const control = sharedPage.getByRole("combobox", { name: "Dokumenttyp" })
-
       // When
       await control.selectOption("Satzung")
       await saveMetadata()
@@ -447,7 +446,6 @@ test.describe("metadata view", () => {
         typ: "sonstige-bekanntmachung",
         subtyp: "Technische Norm",
       })
-      const control = sharedPage.getByRole("combobox", { name: "Dokumenttyp" })
       await expect(control).toHaveValue("Satzung")
 
       // When
@@ -479,7 +477,6 @@ test.describe("metadata view", () => {
         } else await route.fulfill()
       })
       await sharedPage.reload()
-      const control = sharedPage.getByRole("combobox", { name: "Dokumenttyp" })
 
       // Then
       await expect(control).toHaveValue("__unknown_document_type__")
@@ -502,7 +499,6 @@ test.describe("metadata view", () => {
         } else await route.fulfill()
       })
       await sharedPage.reload()
-      const control = sharedPage.getByRole("combobox", { name: "Dokumenttyp" })
 
       // Then
       await expect(control).toHaveValue("")
@@ -513,18 +509,24 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Art der Norm", () => {
-    test("is loaded", async () => {
+    let controlSn: Locator
+    let controlAn: Locator
+    let controlUn: Locator
+
+    test.beforeAll(() => {
       // Given
-      const controlSn = sharedPage.getByRole("checkbox", {
+      controlSn = sharedPage.getByRole("checkbox", {
         name: "SN - Stammnorm",
       })
-      const controlAn = sharedPage.getByRole("checkbox", {
+      controlAn = sharedPage.getByRole("checkbox", {
         name: "ÄN - Änderungsnorm",
       })
-      const controlUn = sharedPage.getByRole("checkbox", {
+      controlUn = sharedPage.getByRole("checkbox", {
         name: "ÜN - Übergangsnorm",
       })
+    })
 
+    test("is loaded", async () => {
       // Then
       await expect(controlSn).toBeChecked()
       await expect(controlAn).not.toBeChecked()
@@ -532,17 +534,6 @@ test.describe("metadata view", () => {
     })
 
     test("saves changes", async () => {
-      // Given
-      const controlSn = sharedPage.getByRole("checkbox", {
-        name: "SN - Stammnorm",
-      })
-      const controlAn = sharedPage.getByRole("checkbox", {
-        name: "ÄN - Änderungsnorm",
-      })
-      const controlUn = sharedPage.getByRole("checkbox", {
-        name: "ÜN - Übergangsnorm",
-      })
-
       // When
       await controlSn.uncheck()
       await controlAn.check()
@@ -559,15 +550,6 @@ test.describe("metadata view", () => {
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ artDerNorm: "SN,ÄN,ÜN" })
-      const controlSn = sharedPage.getByRole("checkbox", {
-        name: "SN - Stammnorm",
-      })
-      const controlAn = sharedPage.getByRole("checkbox", {
-        name: "ÄN - Änderungsnorm",
-      })
-      const controlUn = sharedPage.getByRole("checkbox", {
-        name: "ÜN - Übergangsnorm",
-      })
       await expect(controlSn).not.toBeChecked()
       await expect(controlAn).toBeChecked()
       await expect(controlUn).not.toBeChecked()
@@ -586,22 +568,20 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Bezeichnung gemäß Vorlage", () => {
-    test("is loaded", async () => {
-      // Given
-      const control = sharedPage.getByRole("textbox", {
+    let control: Locator
+
+    test.beforeAll(() => {
+      control = sharedPage.getByRole("textbox", {
         name: "Bezeichnung gemäß Vorlage",
       })
+    })
 
+    test("is loaded", async () => {
       // Then
       await expect(control).toHaveValue("Testbezeichnung nach meiner Vorlage")
     })
 
     test("saves changes", async () => {
-      // Given
-      const control = sharedPage.getByRole("textbox", {
-        name: "Bezeichnung gemäß Vorlage",
-      })
-
       // When
       await control.fill("Andere Bezeichnung")
       await saveMetadata()
@@ -615,9 +595,6 @@ test.describe("metadata view", () => {
       // Given
       await mockPutResponse({
         bezeichnungInVorlage: "fake-backend-bezeichnung",
-      })
-      const control = sharedPage.getByRole("textbox", {
-        name: "Bezeichnung gemäß Vorlage",
       })
       await expect(control).toHaveValue("Andere Bezeichnung")
 
@@ -633,18 +610,18 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Normgeber", () => {
-    test("is loaded", async () => {
-      // Given
-      const control = sharedPage.getByRole("combobox", { name: "Normgeber" })
+    let control: Locator
 
+    test.beforeAll(() => {
+      control = sharedPage.getByRole("combobox", { name: "Normgeber" })
+    })
+
+    test("is loaded", async () => {
       // Then
       await expect(control).toHaveValue("BEO - Berlin (Ost)")
     })
 
     test("saves changes", async () => {
-      // Given
-      const control = sharedPage.getByRole("combobox", { name: "Normgeber" })
-
       // When
       await control.selectOption("HA - Hamburg")
       await saveMetadata()
@@ -657,7 +634,6 @@ test.describe("metadata view", () => {
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ normgeber: "SL - Saarland" })
-      const control = sharedPage.getByRole("combobox", { name: "Normgeber" })
       await expect(control).toHaveValue("HA - Hamburg")
 
       // When
@@ -672,22 +648,20 @@ test.describe("metadata view", () => {
   })
 
   test.describe("beschließendes Organ", () => {
-    test("is loaded", async () => {
-      // Given
-      const control = sharedPage.getByRole("combobox", {
+    let control: Locator
+
+    test.beforeAll(() => {
+      control = sharedPage.getByRole("combobox", {
         name: "beschließendes Organ",
       })
+    })
 
+    test("is loaded", async () => {
       // Then
       await expect(control).toHaveValue("BMinJ - Bundesministerium der Justiz")
     })
 
     test("saves changes", async () => {
-      // Given
-      const control = sharedPage.getByRole("combobox", {
-        name: "beschließendes Organ",
-      })
-
       // When
       await control.selectOption("BT - Bundestag")
       await saveMetadata()
@@ -700,9 +674,6 @@ test.describe("metadata view", () => {
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ beschliessendesOrgan: "AA - Auswärtiges Amt" })
-      const control = sharedPage.getByRole("combobox", {
-        name: "beschließendes Organ",
-      })
       await expect(control).toHaveValue("BT - Bundestag")
 
       // When
@@ -717,22 +688,20 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Beschlussfassung qualifizierte Mehrheit", () => {
-    test("is loaded", async () => {
-      // Given
-      const control = sharedPage.getByRole("checkbox", {
+    let control: Locator
+
+    test.beforeAll(() => {
+      control = sharedPage.getByRole("checkbox", {
         name: "Beschlussf. qual. Mehrheit",
       })
+    })
 
+    test("is loaded", async () => {
       // Then
       await expect(control).toBeChecked()
     })
 
     test("saves changes", async () => {
-      // Given
-      const control = sharedPage.getByRole("checkbox", {
-        name: "Beschlussf. qual. Mehrheit",
-      })
-
       // When
       await control.uncheck()
       await saveMetadata()
@@ -745,9 +714,6 @@ test.describe("metadata view", () => {
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ qualifizierteMehrheit: true })
-      const control = sharedPage.getByRole("checkbox", {
-        name: "Beschlussf. qual. Mehrheit",
-      })
       await expect(control).not.toBeChecked()
 
       // When
@@ -762,24 +728,22 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Federführung", () => {
-    // Skipped until implemented in the backend
-    test.skip("is loaded", async () => {
-      // Given
-      const control = sharedPage.getByRole("combobox", {
+    let control: Locator
+
+    test.beforeAll(() => {
+      control = sharedPage.getByRole("combobox", {
         name: "Federführung",
       })
+    })
 
+    // Skipped until implemented in the backend
+    test.skip("is loaded", async () => {
       // Then
       await expect(control).toHaveValue("BMJ - Bundesministerium der Justiz")
     })
 
     // Skipped until implemented in the backend
     test.skip("saves changes", async () => {
-      // Given
-      const control = sharedPage.getByRole("combobox", {
-        name: "Federführung",
-      })
-
       // When
       await control.selectOption("BKAmt - Bundeskanzleramt")
       await saveMetadata()
@@ -793,9 +757,6 @@ test.describe("metadata view", () => {
     test.skip("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ federfuehrung: "AA - Auswärtiges Amt" })
-      const control = sharedPage.getByRole("combobox", {
-        name: "Federführung",
-      })
       await expect(control).toHaveValue("BKAmt - Bundeskanzleramt")
 
       // When
