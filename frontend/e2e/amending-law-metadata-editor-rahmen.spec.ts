@@ -1,14 +1,55 @@
 import { Proprietary } from "@/types/proprietary"
 import { Locator, Page, expect, test } from "@playwright/test"
 
+async function restoreInitialState(page: Page) {
+  const dataIn1970: Proprietary = {
+    fna: "210-5",
+    art: "regelungstext",
+    typ: "gesetz",
+    subtyp: "Rechtsverordnung",
+    bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
+    artDerNorm: "SN,ÜN",
+    normgeber: "BEO - Berlin (Ost)",
+    beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
+    qualifizierteMehrheit: true,
+    federfuehrung: "BMVg - Bundesministerium der Verteidigung",
+  }
+
+  const dataIn2023: Proprietary = {
+    fna: "310-5",
+    art: "regelungstext",
+    typ: "gesetz",
+    subtyp: "Gesetz im formellen Sinne",
+    bezeichnungInVorlage: "Neue Testbezeichnung ab 2023",
+    artDerNorm: "ÄN",
+    normgeber: "HA - Hamburg",
+    beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
+    qualifizierteMehrheit: false,
+    federfuehrung: "BMI - Bundesministerium des Innern und für Heimat",
+  }
+
+  await page.request.put(
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1970-01-01",
+    { data: dataIn1970 },
+  )
+
+  await page.request.put(
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
+    { data: dataIn2023 },
+  )
+}
+
 test.describe("navigate to page", () => {
   test("navigate to the metadata editor", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents",
     )
 
+    // When
     await page.getByRole("link", { name: "Metadaten bearbeiten" }).click()
 
+    // Then
     // Only expect the URL to be somewhat equal to the following. The reason is that
     // the page redirects to a subpage, so this test might be flaky otherwise depending
     // on how fast the redirect is.
@@ -18,10 +59,12 @@ test.describe("navigate to page", () => {
   })
 
   test("displays affected document title", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
     )
 
+    // Then
     await expect(page.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
 
     await expect(
@@ -32,162 +75,35 @@ test.describe("navigate to page", () => {
   })
 
   test("navigates to the selected time boundary", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
     )
 
+    // When
     await page
       .getByRole("combobox", { name: "Zeitgrenze" })
       .selectOption("2023-12-30")
 
+    // Then
     await expect(page).toHaveURL(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
-    )
-  })
-
-  // TODO: Can this be changed to use the same example data?
-  test("displays metadata at different time boundaries", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/regelungstext-1/edit/1934-10-16",
-    )
-
-    const editorRegion = page.getByRole("region", {
-      name: "Metadaten bearbeiten",
-    })
-
-    await page.waitForResponse((response) =>
-      response.url().includes("/proprietary/"),
-    )
-
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("754-28-2")
-
-    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
-      "__unknown_document_type__",
-    )
-    await expect(
-      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
-    ).toBeEmpty()
-    const SNcheckbox = page.getByRole("checkbox", {
-      name: "SN - Stammnorm",
-    })
-    const ANcheckbox = page.getByRole("checkbox", {
-      name: "ÄN - Änderungsnorm",
-    })
-    const UNcheckbox = page.getByRole("checkbox", {
-      name: "ÜN - Übergangsnorm",
-    })
-    await expect(SNcheckbox).not.toBeChecked()
-    await expect(ANcheckbox).not.toBeChecked()
-    await expect(UNcheckbox).not.toBeChecked()
-    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue("")
-    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
-      "",
-    )
-    await expect(
-      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
-    ).not.toBeChecked()
-    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
-      "BMF - Bundesministerium der Finanzen",
-    )
-
-    const dropdown = page.getByRole("combobox", { name: "Zeitgrenze" })
-    dropdown.selectOption("2009-10-08")
-    await page.waitForResponse((response) =>
-      response.url().endsWith("/proprietary/2009-10-08"),
-    )
-
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("111-11-1")
-
-    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
-      "Verwaltungsvorschrift",
-    )
-    await expect(
-      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
-    ).toHaveValue("Testbezeichnung 1 nach meiner Vorlage")
-    await expect(SNcheckbox).toBeChecked()
-    await expect(ANcheckbox).not.toBeChecked()
-    await expect(UNcheckbox).toBeChecked()
-    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
-      "MV - Land Mecklenburg-Vorpommern",
-    )
-    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
-      "BT - Bundestag",
-    )
-    await expect(
-      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
-    ).toBeChecked()
-    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
-      "BMWSB - Bundesministerium für Wohnen, Stadtentwicklung und Bauwesen",
-    )
-
-    dropdown.selectOption("2023-01-01")
-    await page.waitForResponse((response) =>
-      response.url().endsWith("/proprietary/2023-01-01"),
-    )
-
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("222-22-2")
-    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
-      "Rechtsverordnung",
-    )
-    await expect(
-      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
-    ).toHaveValue("Testbezeichnung 2 nach meiner Vorlage")
-    await expect(SNcheckbox).not.toBeChecked()
-    await expect(ANcheckbox).toBeChecked()
-    await expect(UNcheckbox).toBeChecked()
-    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
-      "PR - Preußen",
-    )
-    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
-      "OFD - Oberfinanzdirektion",
-    )
-    await expect(
-      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
-    ).not.toBeChecked()
-    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
-      "BMDV - Bundesministerium für Digitales und Verkehr",
-    )
-
-    dropdown.selectOption("2023-12-24")
-    await page.waitForResponse((response) =>
-      response.url().endsWith("/proprietary/2023-12-24"),
-    )
-
-    await expect(editorRegion.getByLabel("Sachgebiet")).toHaveValue("333-33-3")
-
-    await expect(editorRegion.getByLabel("Dokumenttyp")).toHaveValue(
-      "Rechtsverordnung",
-    )
-    await expect(
-      editorRegion.getByLabel("Bezeichnung gemäß Vorlage"),
-    ).toHaveValue("Testbezeichnung 3 nach meiner Vorlage")
-    await expect(SNcheckbox).toBeChecked()
-    await expect(ANcheckbox).toBeChecked()
-    await expect(UNcheckbox).toBeChecked()
-    await expect(editorRegion.getByLabel("Normgeber")).toHaveValue(
-      "EA - Euratom",
-    )
-    await expect(editorRegion.getByLabel("beschließendes Organ")).toHaveValue(
-      "BMinI - Bundesministerium des Innern",
-    )
-    await expect(
-      editorRegion.getByLabel("Beschlussf. qual. Mehrheit"),
-    ).toBeChecked()
-    await expect(editorRegion.getByLabel("Federführung")).toHaveValue(
-      "BMG - Bundesministerium für Gesundheit",
     )
   })
 })
 
 test.describe("preview", () => {
   test("displays the title and preview", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
+    const preview = page.getByRole("region", { name: "Vorschau" })
+
+    // Then
     await expect(page.getByRole("heading", { name: "Rahmen" })).toBeVisible()
 
-    const preview = page.getByRole("region", { name: "Vorschau" })
     await expect(
       preview.getByRole("heading", {
         name: "Gesetz über die Zusammenarbeit des Bundes und der Länder in Angelegenheiten des Verfassungsschutzes und über das Bundesamt für Verfassungsschutz Bundesverfassungsschutzgesetz",
@@ -196,26 +112,31 @@ test.describe("preview", () => {
   })
 
   test("shows the preview at different time boundaries", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
 
+    // Then
     await expect(preview).toHaveText(
       /.*am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt.*/,
     )
 
+    // When
     await page
       .getByRole("combobox", { name: "Zeitgrenze" })
       .selectOption("2023-12-30")
 
+    // Then
     await expect(preview).toHaveText(/.*nach Ablauf von fünf Jahren.*/)
   })
 
   test("shows an error when the preview could not be loaded", async ({
     page,
   }) => {
+    // Given
     await page.route(
       /norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?atIsoDate=/,
       async (request) => {
@@ -231,22 +152,27 @@ test.describe("preview", () => {
       name: "Vorschau",
     })
 
+    // Then
     await expect(
       previewRegion.getByText("Die Vorschau konnte nicht geladen werden."),
     ).toBeVisible()
 
+    // Cleanup
     await page.unrouteAll()
   })
 })
 
 test.describe("XML view", () => {
   test("displays the XML of the target law", async ({ page }) => {
+    // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
 
+    // When
     await page.getByRole("tab", { name: "XML" }).click()
 
+    // Then
     await expect(
       page
         .getByRole("region", { name: "Metadaten bearbeiten" })
@@ -257,6 +183,9 @@ test.describe("XML view", () => {
   })
 
   test("updates the XML preview after saving metadata", async ({ page }) => {
+    // Given
+    await restoreInitialState(page)
+
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
@@ -265,16 +194,19 @@ test.describe("XML view", () => {
       name: "Metadaten bearbeiten",
     })
 
-    // Updating the FNA as an example for any change happening on the page
     const fnaInput = editorRegion.getByRole("textbox", {
       name: "Sachgebiet",
     })
+
+    // When
+    // Updating the FNA as an example for any change happening on the page
     await expect(fnaInput).toHaveValue("210-5")
     await fnaInput.fill("1234-56-78")
     await editorRegion
       .getByRole("button", { name: "Metadaten speichern" })
       .click()
 
+    // Then
     // Check the content of the XML reload call as we currently don't have a
     // good way of checking the actual editor content. This is because
     // CodeMirror uses lazy scrolling and therefore depending on the size of the
@@ -288,31 +220,12 @@ test.describe("XML view", () => {
 
     expect(textResponse).toContain("1234-56-78")
 
-    // Reset the data
-    await page.request.put(
-      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1970-01-01",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        data: JSON.stringify({
-          art: "regelungstext",
-          fna: "210-5",
-          subtyp: "Rechtsverordnung",
-          typ: "gesetz",
-          bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
-          artDerNorm: "SN,ÜN",
-          normgeber: "BEO - Berlin (Ost)",
-          beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
-          qualifizierteMehrheit: true,
-          federfuehrung: "BMVg - Bundesministerium der Verteidigung",
-        }),
-      },
-    )
+    // Cleanup
+    await restoreInitialState(page)
   })
 
   test("shows an error when the XML could not be loaded", async ({ page }) => {
+    // Given
     await page.route(
       /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
       async (request) => {
@@ -324,12 +237,15 @@ test.describe("XML view", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
     )
 
+    // When
     await page.getByRole("tab", { name: "XML" }).click()
 
+    // Then
     await expect(
       page.getByText("Die XML-Ansicht konnte nicht geladen werden."),
     ).toBeVisible()
 
+    // Cleanup
     await page.unrouteAll()
   })
 })
@@ -337,31 +253,17 @@ test.describe("XML view", () => {
 test.describe("metadata view", () => {
   let sharedPage: Page
 
-  async function restoreInitialState() {
-    const data: Proprietary = {
-      fna: "210-5",
-      art: "regelungstext",
-      typ: "gesetz",
-      subtyp: "Rechtsverordnung",
-      bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
-      artDerNorm: "SN,ÜN",
-      normgeber: "BEO - Berlin (Ost)",
-      beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
-      qualifizierteMehrheit: true,
-      federfuehrung: "BMI - Bundesministerium des Innern und für Heimat",
-    }
-
-    await sharedPage.request.put(
-      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2023-12-30",
-      { data },
-    )
-  }
-
   async function saveMetadata() {
     await sharedPage
       .getByRole("button", { name: "Metadaten speichern" })
       .click()
     await sharedPage.waitForResponse(/proprietary/)
+  }
+
+  async function gotoTimeBoundary(date: string) {
+    await sharedPage.goto(
+      `/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/${date}`,
+    )
   }
 
   async function mockPutResponse(data: Proprietary) {
@@ -380,50 +282,55 @@ test.describe("metadata view", () => {
 
   test.beforeAll(async ({ browser }) => {
     sharedPage = await browser.newPage()
-
-    await restoreInitialState()
-
-    await sharedPage.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
-    )
+    await restoreInitialState(sharedPage)
+    await gotoTimeBoundary("2023-12-30")
   })
 
   test.afterAll(async () => {
-    await restoreInitialState()
+    await restoreInitialState(sharedPage)
   })
 
   test.describe("FNA", () => {
-    let control: Locator
+    let fnaInput: Locator
 
     test.beforeAll(() => {
-      control = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
+      fnaInput = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
     })
 
-    test("is loaded", async () => {
+    test("displays at different time boundaries", async () => {
+      // When
+      await gotoTimeBoundary("1970-01-01")
+
       // Then
-      await expect(control).toHaveValue("210-5")
+      await expect(fnaInput).toHaveValue("210-5")
+
+      // When
+      await gotoTimeBoundary("2023-12-30")
+
+      // Then
+      await expect(fnaInput).toHaveValue("310-5")
     })
 
     test("saves changes", async () => {
       // When
-      await control.fill("123-4")
+      await fnaInput.fill("123-4")
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue("123-4")
+      await expect(fnaInput).toHaveValue("123-4")
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ fna: "fake-backend-state" })
-      await expect(control).toHaveValue("123-4")
+      await expect(fnaInput).toHaveValue("123-4")
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(control).toHaveValue("fake-backend-state")
+      await expect(fnaInput).toHaveValue("fake-backend-state")
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -431,25 +338,38 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Dokumenttyp", () => {
-    let control: Locator
+    let documentTypeDropdown: Locator
 
     test.beforeAll(() => {
-      control = sharedPage.getByRole("combobox", { name: "Dokumenttyp" })
+      documentTypeDropdown = sharedPage.getByRole("combobox", {
+        name: "Dokumenttyp",
+      })
     })
 
-    test("is loaded", async () => {
+    test("displays at different time boundaries", async () => {
+      // When
+      await gotoTimeBoundary("1970-01-01")
+
       // Then
-      await expect(control).toHaveValue("Rechtsverordnung")
+      await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
+
+      // When
+      await gotoTimeBoundary("2023-12-30")
+
+      // Then
+      await expect(documentTypeDropdown).toHaveValue(
+        "Gesetz im formellen Sinne",
+      )
     })
 
     test("saves changes", async () => {
       // When
-      await control.selectOption("Satzung")
+      await documentTypeDropdown.selectOption("Satzung")
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue("Satzung")
+      await expect(documentTypeDropdown).toHaveValue("Satzung")
     })
 
     test("is updated with backend state after saving", async () => {
@@ -459,13 +379,13 @@ test.describe("metadata view", () => {
         typ: "sonstige-bekanntmachung",
         subtyp: "Technische Norm",
       })
-      await expect(control).toHaveValue("Satzung")
+      await expect(documentTypeDropdown).toHaveValue("Satzung")
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(control).toHaveValue("Technische Norm")
+      await expect(documentTypeDropdown).toHaveValue("Technische Norm")
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -492,7 +412,9 @@ test.describe("metadata view", () => {
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue("__unknown_document_type__")
+      await expect(documentTypeDropdown).toHaveValue(
+        "__unknown_document_type__",
+      )
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -514,7 +436,7 @@ test.describe("metadata view", () => {
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue("")
+      await expect(documentTypeDropdown).toHaveValue("")
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -522,58 +444,69 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Art der Norm", () => {
-    let controlSn: Locator
-    let controlAn: Locator
-    let controlUn: Locator
+    let artSnCheckbox: Locator
+    let artAnCheckbox: Locator
+    let artUnCheckbox: Locator
 
     test.beforeAll(() => {
       // Given
-      controlSn = sharedPage.getByRole("checkbox", {
+      artSnCheckbox = sharedPage.getByRole("checkbox", {
         name: "SN - Stammnorm",
       })
-      controlAn = sharedPage.getByRole("checkbox", {
+      artAnCheckbox = sharedPage.getByRole("checkbox", {
         name: "ÄN - Änderungsnorm",
       })
-      controlUn = sharedPage.getByRole("checkbox", {
+      artUnCheckbox = sharedPage.getByRole("checkbox", {
         name: "ÜN - Übergangsnorm",
       })
     })
 
-    test("is loaded", async () => {
+    test("displays at different time boundaries", async () => {
+      // When
+      await gotoTimeBoundary("1970-01-01")
+
       // Then
-      await expect(controlSn).toBeChecked()
-      await expect(controlAn).not.toBeChecked()
-      await expect(controlUn).toBeChecked()
+      await expect(artSnCheckbox).toBeChecked()
+      await expect(artAnCheckbox).not.toBeChecked()
+      await expect(artUnCheckbox).toBeChecked()
+
+      // When
+      await gotoTimeBoundary("2023-12-30")
+
+      // Then
+      await expect(artSnCheckbox).not.toBeChecked()
+      await expect(artAnCheckbox).toBeChecked()
+      await expect(artUnCheckbox).not.toBeChecked()
     })
 
     test("saves changes", async () => {
       // When
-      await controlSn.uncheck()
-      await controlAn.check()
-      await controlUn.uncheck()
+      await artSnCheckbox.check()
+      await artAnCheckbox.uncheck()
+      await artUnCheckbox.check()
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(controlSn).not.toBeChecked()
-      await expect(controlAn).toBeChecked()
-      await expect(controlUn).not.toBeChecked()
+      await expect(artSnCheckbox).toBeChecked()
+      await expect(artAnCheckbox).not.toBeChecked()
+      await expect(artUnCheckbox).toBeChecked()
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ artDerNorm: "SN,ÄN,ÜN" })
-      await expect(controlSn).not.toBeChecked()
-      await expect(controlAn).toBeChecked()
-      await expect(controlUn).not.toBeChecked()
+      await expect(artSnCheckbox).toBeChecked()
+      await expect(artAnCheckbox).not.toBeChecked()
+      await expect(artUnCheckbox).toBeChecked()
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(controlSn).toBeChecked()
-      await expect(controlAn).toBeChecked()
-      await expect(controlUn).toBeChecked()
+      await expect(artSnCheckbox).toBeChecked()
+      await expect(artAnCheckbox).toBeChecked()
+      await expect(artUnCheckbox).toBeChecked()
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -581,27 +514,38 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Bezeichnung gemäß Vorlage", () => {
-    let control: Locator
+    let bezeichnungInput: Locator
 
     test.beforeAll(() => {
-      control = sharedPage.getByRole("textbox", {
+      bezeichnungInput = sharedPage.getByRole("textbox", {
         name: "Bezeichnung gemäß Vorlage",
       })
     })
 
-    test("is loaded", async () => {
+    test("displays at different time boundaries", async () => {
+      // When
+      await gotoTimeBoundary("1970-01-01")
+
       // Then
-      await expect(control).toHaveValue("Testbezeichnung nach meiner Vorlage")
+      await expect(bezeichnungInput).toHaveValue(
+        "Testbezeichnung nach meiner Vorlage",
+      )
+
+      // When
+      await gotoTimeBoundary("2023-12-30")
+
+      // Then
+      await expect(bezeichnungInput).toHaveValue("Neue Testbezeichnung ab 2023")
     })
 
     test("saves changes", async () => {
       // When
-      await control.fill("Andere Bezeichnung")
+      await bezeichnungInput.fill("Andere Bezeichnung")
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue("Andere Bezeichnung")
+      await expect(bezeichnungInput).toHaveValue("Andere Bezeichnung")
     })
 
     test("is updated with backend state after saving", async () => {
@@ -609,13 +553,13 @@ test.describe("metadata view", () => {
       await mockPutResponse({
         bezeichnungInVorlage: "fake-backend-bezeichnung",
       })
-      await expect(control).toHaveValue("Andere Bezeichnung")
+      await expect(bezeichnungInput).toHaveValue("Andere Bezeichnung")
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(control).toHaveValue("fake-backend-bezeichnung")
+      await expect(bezeichnungInput).toHaveValue("fake-backend-bezeichnung")
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -623,37 +567,48 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Normgeber", () => {
-    let control: Locator
+    let normgeberDropdown: Locator
 
     test.beforeAll(() => {
-      control = sharedPage.getByRole("combobox", { name: "Normgeber" })
+      normgeberDropdown = sharedPage.getByRole("combobox", {
+        name: "Normgeber",
+      })
     })
 
-    test("is loaded", async () => {
+    test("displays at different time boundaries", async () => {
+      // When
+      await gotoTimeBoundary("1970-01-01")
+
       // Then
-      await expect(control).toHaveValue("BEO - Berlin (Ost)")
+      await expect(normgeberDropdown).toHaveValue("BEO - Berlin (Ost)")
+
+      // When
+      await gotoTimeBoundary("2023-12-30")
+
+      // Then
+      await expect(normgeberDropdown).toHaveValue("HA - Hamburg")
     })
 
     test("saves changes", async () => {
       // When
-      await control.selectOption("HA - Hamburg")
+      await normgeberDropdown.selectOption("BE - Berlin")
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue("HA - Hamburg")
+      await expect(normgeberDropdown).toHaveValue("BE - Berlin")
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ normgeber: "SL - Saarland" })
-      await expect(control).toHaveValue("HA - Hamburg")
+      await expect(normgeberDropdown).toHaveValue("BE - Berlin")
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(control).toHaveValue("SL - Saarland")
+      await expect(normgeberDropdown).toHaveValue("SL - Saarland")
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -661,39 +616,52 @@ test.describe("metadata view", () => {
   })
 
   test.describe("beschließendes Organ", () => {
-    let control: Locator
+    let organDropdown: Locator
 
     test.beforeAll(() => {
-      control = sharedPage.getByRole("combobox", {
+      organDropdown = sharedPage.getByRole("combobox", {
         name: "beschließendes Organ",
       })
     })
 
-    test("is loaded", async () => {
+    test("displays at different time boundaries", async () => {
+      // When
+      await gotoTimeBoundary("1970-01-01")
+
       // Then
-      await expect(control).toHaveValue("BMinJ - Bundesministerium der Justiz")
+      await expect(organDropdown).toHaveValue(
+        "BMinJ - Bundesministerium der Justiz",
+      )
+
+      // When
+      await gotoTimeBoundary("2023-12-30")
+
+      // Then
+      await expect(organDropdown).toHaveValue(
+        "BMinI - Bundesministerium des Innern",
+      )
     })
 
     test("saves changes", async () => {
       // When
-      await control.selectOption("BT - Bundestag")
+      await organDropdown.selectOption("BT - Bundestag")
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue("BT - Bundestag")
+      await expect(organDropdown).toHaveValue("BT - Bundestag")
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ beschliessendesOrgan: "AA - Auswärtiges Amt" })
-      await expect(control).toHaveValue("BT - Bundestag")
+      await expect(organDropdown).toHaveValue("BT - Bundestag")
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(control).toHaveValue("AA - Auswärtiges Amt")
+      await expect(organDropdown).toHaveValue("AA - Auswärtiges Amt")
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -701,39 +669,48 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Beschlussfassung qualifizierte Mehrheit", () => {
-    let control: Locator
+    let qualMehrheitCheckbox: Locator
 
     test.beforeAll(() => {
-      control = sharedPage.getByRole("checkbox", {
+      qualMehrheitCheckbox = sharedPage.getByRole("checkbox", {
         name: "Beschlussf. qual. Mehrheit",
       })
     })
 
-    test("is loaded", async () => {
+    test("displays at different time boundaries", async () => {
+      // When
+      await gotoTimeBoundary("1970-01-01")
+
       // Then
-      await expect(control).toBeChecked()
+      await expect(qualMehrheitCheckbox).toBeChecked()
+
+      // When
+      await gotoTimeBoundary("2023-12-30")
+
+      // Then
+      await expect(qualMehrheitCheckbox).not.toBeChecked()
     })
 
     test("saves changes", async () => {
       // When
-      await control.uncheck()
+      await qualMehrheitCheckbox.check()
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).not.toBeChecked()
+      await expect(qualMehrheitCheckbox).toBeChecked()
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
-      await mockPutResponse({ qualifizierteMehrheit: true })
-      await expect(control).not.toBeChecked()
+      await mockPutResponse({ qualifizierteMehrheit: false })
+      await expect(qualMehrheitCheckbox).toBeChecked()
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(control).toBeChecked()
+      await expect(qualMehrheitCheckbox).not.toBeChecked()
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -741,40 +718,50 @@ test.describe("metadata view", () => {
   })
 
   test.describe("Federführung", () => {
-    let control: Locator
+    let federfuehrungDropdown: Locator
 
     test.beforeAll(() => {
-      control = sharedPage.getByRole("combobox", {
+      federfuehrungDropdown = sharedPage.getByRole("combobox", {
         name: "Federführung",
       })
     })
 
-    // Skipped until implemented in the backend
-    test("is loaded", async () => {
+    test("displays at different time boundaries", async () => {
+      // When
+      await gotoTimeBoundary("1970-01-01")
+
       // Then
-      await expect(control).toHaveValue(
+      await expect(federfuehrungDropdown).toHaveValue(
+        "BMVg - Bundesministerium der Verteidigung",
+      )
+
+      // When
+      await gotoTimeBoundary("2023-12-30")
+
+      // Then
+      await expect(federfuehrungDropdown).toHaveValue(
         "BMI - Bundesministerium des Innern und für Heimat",
       )
     })
 
-    // Skipped until implemented in the backend
     test("saves changes", async () => {
       // When
-      await control.selectOption("BMVg - Bundesministerium der Verteidigung")
+      await federfuehrungDropdown.selectOption(
+        "BMVg - Bundesministerium der Verteidigung",
+      )
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(control).toHaveValue(
+      await expect(federfuehrungDropdown).toHaveValue(
         "BMVg - Bundesministerium der Verteidigung",
       )
     })
 
-    // Skipped until implemented in the backend
     test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ federfuehrung: "AA - Auswärtiges Amt" })
-      await expect(control).toHaveValue(
+      await expect(federfuehrungDropdown).toHaveValue(
         "BMVg - Bundesministerium der Verteidigung",
       )
 
@@ -782,7 +769,7 @@ test.describe("metadata view", () => {
       await saveMetadata()
 
       // Then
-      await expect(control).toHaveValue("AA - Auswärtiges Amt")
+      await expect(federfuehrungDropdown).toHaveValue("AA - Auswärtiges Amt")
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -790,6 +777,7 @@ test.describe("metadata view", () => {
   })
 
   test("shows an error if the metadata could not be loaded", async () => {
+    // Given
     await sharedPage.route(/\/proprietary\/2023-12-30$/, (request) => {
       request.abort()
     })
@@ -800,28 +788,35 @@ test.describe("metadata view", () => {
       name: "Metadaten bearbeiten",
     })
 
+    // Then
     await expect(
       editorRegion.getByText("Die Metadaten konnten nicht geladen werden."),
     ).toBeVisible()
 
+    // Cleanup
     await sharedPage.unrouteAll()
   })
 
   test("displays a success message when the data has been saved", async () => {
+    // Given
     await sharedPage.reload()
 
+    // When
     await sharedPage
       .getByRole("button", { name: "Metadaten speichern" })
       .click()
 
+    // Then
     await expect(
       sharedPage.getByRole("tooltip", { name: "Gespeichert!" }),
     ).toBeVisible()
 
+    // Cleanup
     await sharedPage.unrouteAll()
   })
 
   test("displays an error if the data could not be saved", async () => {
+    // Given
     await sharedPage.route(/\/proprietary\/2023-12-30$/, (route) => {
       if (route.request().method() === "PUT") route.abort("failed")
       else route.continue()
@@ -829,10 +824,12 @@ test.describe("metadata view", () => {
 
     await sharedPage.reload()
 
+    // When
     await sharedPage
       .getByRole("button", { name: "Metadaten speichern" })
       .click()
 
+    // Then
     await expect(
       sharedPage.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
     ).toBeVisible()

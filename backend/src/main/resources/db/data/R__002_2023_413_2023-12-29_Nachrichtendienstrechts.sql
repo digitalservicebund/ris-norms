@@ -6889,13 +6889,24 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                    </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <meta:art start="1970-01-01" end="unbestimmt">regelungstext</meta:art>
-                    <meta:typ start="1970-01-01" end="unbestimmt">gesetz</meta:typ>
-                    <meta:subtyp start="1970-01-01" end="unbestimmt">Rechtsverordnung</meta:subtyp>
-                    <meta:artDerNorm start="1970-01-01" end="unbestimmt">SN,ÜN</meta:artDerNorm>
-                    <meta:bezeichnungInVorlage start="1970-01-01" end="unbestimmt">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
-                    <meta:normgeber start="1970-01-01" end="unbestimmt">BEO - Berlin (Ost)</meta:normgeber>
-                    <meta:beschliessendesOrgan start="1970-01-01" end="unbestimmt" qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
+                    <!-- 1970 -->
+                    <meta:art start="1970-01-01" end="2023-12-29">regelungstext</meta:art>
+                    <meta:typ start="1970-01-01" end="2023-12-29">gesetz</meta:typ>
+                    <meta:subtyp start="1970-01-01" end="2023-12-29">Rechtsverordnung</meta:subtyp>
+                    <meta:artDerNorm start="1970-01-01" end="2023-12-29">SN,ÜN</meta:artDerNorm>
+                    <meta:bezeichnungInVorlage start="1970-01-01" end="2023-12-29">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
+                    <meta:normgeber start="1970-01-01" end="2023-12-29">BEO - Berlin (Ost)</meta:normgeber>
+                    <meta:beschliessendesOrgan start="1970-01-01" end="2023-12-29" qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
+
+                    <!-- 2023 -->
+                    <meta:fna start="2023-12-30" end="unbestimmt">310-5</meta:fna>
+                    <meta:art start="2023-12-30" end="unbestimmt">regelungstext</meta:art>
+                    <meta:typ start="2023-12-30" end="unbestimmt">gesetz</meta:typ>
+                    <meta:subtyp start="2023-12-30" end="unbestimmt">Gesetz im formellen Sinne</meta:subtyp>
+                    <meta:bezeichnungInVorlage start="2023-12-30" end="unbestimmt">Neue Testbezeichnung ab 2023</meta:bezeichnungInVorlage>
+                    <meta:artDerNorm start="2023-12-30" end="unbestimmt">ÄN</meta:artDerNorm>
+                    <meta:normgeber start="2023-12-30" end="unbestimmt">HA - Hamburg</meta:normgeber>
+                    <meta:beschliessendesOrgan start="2023-12-30" end="unbestimmt" qualifizierteMehrheit="false">BMinI - Bundesministerium des Innern</meta:beschliessendesOrgan>
                  </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>
