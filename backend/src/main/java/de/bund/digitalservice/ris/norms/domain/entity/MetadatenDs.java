@@ -27,7 +27,8 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
     BEZEICHNUNG_IN_VORLAGE("./bezeichnungInVorlage"),
     ART_DER_NORM("./artDerNorm"),
     NORMGEBER("./normgeber"),
-    BESCHLIESSENDES_ORGAN("./beschliessendesOrgan");
+    BESCHLIESSENDES_ORGAN("./beschliessendesOrgan"),
+    ORGANISATIONS_EINHEIT("./organisationsEinheit");
 
     private final String xpath;
 

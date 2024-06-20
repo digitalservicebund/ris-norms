@@ -72,6 +72,10 @@ public class ProprietaryService
             : String.valueOf(query.metadata().qualifizierterMehrheit()));
     metadatenDe.updateSimpleMetadatum(
         MetadatenDe.Metadata.FEDERFUEHRUNG, query.atDate(), query.metadata().federfuehrung());
+    metadatenDs.updateSimpleMetadatum(
+        MetadatenDs.Metadata.ORGANISATIONS_EINHEIT,
+        query.atDate(),
+        query.metadata().organisationsEinheit());
 
     updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 

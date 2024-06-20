@@ -213,4 +213,16 @@ public class Proprietary {
     return getMetadatenDe()
         .flatMap(m -> m.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, date));
   }
+
+  /**
+   * Returns the ("Organisationseinheit") of the document from the MetadatenDs block at a specific
+   * date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Organisationseinheit" or empty if it doesn't exist.
+   */
+  public Optional<String> getOrganisationsEinheit(final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ORGANISATIONS_EINHEIT, date));
+  }
 }

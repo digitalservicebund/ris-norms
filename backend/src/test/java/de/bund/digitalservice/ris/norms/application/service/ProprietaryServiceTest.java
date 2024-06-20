@@ -88,7 +88,7 @@ class ProprietaryServiceTest {
                           eli,
                           LocalDate.parse("2003-01-01"),
                           new UpdateProprietaryFromNormUseCase.Metadata(
-                              "fna", null, null, null, null, null, null, null, null, null))))
+                              "fna", null, null, null, null, null, null, null, null, null, null))))
           // then
           .isInstanceOf(NormNotFoundException.class);
     }
@@ -109,7 +109,7 @@ class ProprietaryServiceTest {
                   eli,
                   date,
                   new UpdateProprietaryFromNormUseCase.Metadata(
-                      "fna", null, null, null, null, null, null, null, null, null)));
+                      "fna", null, null, null, null, null, null, null, null, null, null)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -122,6 +122,7 @@ class ProprietaryServiceTest {
       assertThat(result.getNormgeber(date)).isEmpty();
       assertThat(result.getBeschliessendesOrgan(date)).isEmpty();
       assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
+      assertThat(result.getOrganisationsEinheit(date)).isEmpty();
     }
 
     @Test
@@ -149,7 +150,8 @@ class ProprietaryServiceTest {
                       "DDR",
                       "Landtag",
                       false,
-                      "BMJ - Bundesministerium der Justiz")));
+                      "BMJ - Bundesministerium der Justiz",
+                      "andere org einheit")));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -163,6 +165,7 @@ class ProprietaryServiceTest {
       assertThat(result.getBeschliessendesOrgan(date)).contains("Landtag");
       assertThat(result.getQualifizierteMehrheit(date)).contains(false);
       assertThat(result.getFederfuehrung(date)).contains("BMJ - Bundesministerium der Justiz");
+      assertThat(result.getOrganisationsEinheit(date)).contains("andere org einheit");
     }
 
     @Test
@@ -181,7 +184,7 @@ class ProprietaryServiceTest {
                   eli,
                   date,
                   new UpdateProprietaryFromNormUseCase.Metadata(
-                      null, null, null, null, null, null, null, null, null, null)));
+                      null, null, null, null, null, null, null, null, null, null, null)));
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -196,6 +199,7 @@ class ProprietaryServiceTest {
       assertThat(result.getBeschliessendesOrgan(date)).isEmpty();
       assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
       assertThat(result.getFederfuehrung(date)).isEmpty();
+      assertThat(result.getOrganisationsEinheit(date)).isEmpty();
     }
   }
 }

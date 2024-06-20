@@ -882,4 +882,103 @@ class ProprietaryTest {
           .contains(false);
     }
   }
+
+  @Nested
+  class OrganisationsEinheit {
+    @Test
+    void returnsOrganisationsEinheit() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                      <akn:proprietary
+                                        eId="meta-1_proprietary-1"
+                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                        source="attributsemantik-noch-undefiniert"
+                                      >
+                                        <meta:legalDocML.de_metadaten_ds
+                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                        >
+                                          <meta:organisationsEinheit>Organisationseinheit 1</meta:organisationsEinheit>
+                                       </meta:legalDocML.de_metadaten_ds>
+                                      </akn:proprietary>
+                                      """))
+              .build();
+
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("2010-10-10")))
+          .contains("Organisationseinheit 1");
+    }
+
+    @Test
+    void returnsEmptyOptionalIfOrganisationsEinheitIsMissing() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                                      <akn:proprietary
+                                                                                        eId="meta-1_proprietary-1"
+                                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                                        source="attributsemantik-noch-undefiniert"
+                                                                                      >
+                                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                                        >
+                                                                                        <!-- OrganisationsEinheit is missing -->
+                                                                                        </meta:legalDocML.de_metadaten_ds>
+                                                                                      </akn:proprietary>
+                                                                                      """))
+              .build();
+
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("2010-10-10"))).isEmpty();
+    }
+
+    @Test
+    void returnsTheOrganisationsEinheitAtDate() {
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                                      <akn:proprietary
+                                                                                        eId="meta-1_proprietary-1"
+                                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                                        source="attributsemantik-noch-undefiniert"
+                                                                                      >
+                                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                                        >
+                                                                                          <meta:organisationsEinheit end="1989-12-31">Organisationseinheit 1</meta:organisationsEinheit>
+                                                                                          <meta:organisationsEinheit start="1990-01-01" end="1994-12-31">Organisationseinheit 2</meta:organisationsEinheit>
+                                                                                          <meta:organisationsEinheit start="1995-01-01" end="2000-12-31">Organisationseinheit 3</meta:organisationsEinheit>
+                                                                                          <meta:organisationsEinheit start="2001-01-01">Organisationseinheit 4</meta:organisationsEinheit>
+                                                                                        </meta:legalDocML.de_metadaten_ds>
+                                                                                      </akn:proprietary>
+                                                                                      """))
+              .build();
+
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("1980-01-01")))
+          .contains("Organisationseinheit 1");
+
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("1990-01-01")))
+          .contains("Organisationseinheit 2");
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("1992-01-01")))
+          .contains("Organisationseinheit 2");
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("1994-12-31")))
+          .contains("Organisationseinheit 2");
+
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("1995-01-01")))
+          .contains("Organisationseinheit 3");
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("1998-01-01")))
+          .contains("Organisationseinheit 3");
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("2000-12-31")))
+          .contains("Organisationseinheit 3");
+
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("2001-01-01")))
+          .contains("Organisationseinheit 4");
+      assertThat(proprietary.getOrganisationsEinheit(LocalDate.parse("2024-01-01")))
+          .contains("Organisationseinheit 4");
+    }
+  }
 }

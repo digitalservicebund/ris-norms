@@ -19,4 +19,5 @@ public class ProprietarySchema {
   private String beschliessendesOrgan;
   private Boolean qualifizierteMehrheit;
   private String federfuehrung;
+  private String organisationsEinheit;
 }

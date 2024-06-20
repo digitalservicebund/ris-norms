@@ -31,6 +31,7 @@ public class ProprietaryResponseMapper {
         .beschliessendesOrgan(proprietary.getBeschliessendesOrgan(date).orElse(null))
         .qualifizierteMehrheit(proprietary.getQualifizierteMehrheit(date).orElse(null))
         .federfuehrung(proprietary.getFederfuehrung(date).orElse(null))
+        .organisationsEinheit(proprietary.getOrganisationsEinheit(date).orElse(null))
         .build();
   }
 }

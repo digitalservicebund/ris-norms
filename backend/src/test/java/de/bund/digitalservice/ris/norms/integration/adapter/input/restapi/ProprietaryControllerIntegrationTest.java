@@ -67,7 +67,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
+          .andExpect(jsonPath("organisationsEinheit").isEmpty());
     }
 
     @Test
@@ -93,7 +94,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
+          .andExpect(jsonPath("organisationsEinheit").isEmpty());
     }
 
     @Test
@@ -119,7 +121,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
           .andExpect(jsonPath("normgeber").value("DEU"))
           .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
-          .andExpect(jsonPath("qualifizierteMehrheit").value(true));
+          .andExpect(jsonPath("qualifizierteMehrheit").value(true))
+          .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
     }
   }
 
@@ -144,7 +147,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
                           + "\"normgeber\": \"DEU\","
                           + "\"beschliessendesOrgan\": \"Bundestag\","
-                          + "\"qualifizierteMehrheit\": true}"))
+                          + "\"qualifizierteMehrheit\": true,"
+                          + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"))
           .andExpect(status().isNotFound());
     }
 
@@ -171,7 +175,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"artDerNorm\": \"ÄN,ÜN\","
                           + "\"normgeber\": \"DDR\","
                           + "\"beschliessendesOrgan\": \"LT\","
-                          + "\"qualifizierteMehrheit\": false}"))
+                          + "\"qualifizierteMehrheit\": false,"
+                          + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
@@ -181,7 +186,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
           .andExpect(jsonPath("normgeber").value("DDR"))
           .andExpect(jsonPath("beschliessendesOrgan").value("LT"))
-          .andExpect(jsonPath("qualifizierteMehrheit").value(false));
+          .andExpect(jsonPath("qualifizierteMehrheit").value(false))
+          .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -199,6 +205,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .contains("LT");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
           .contains(false);
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+          .contains("Andere Organisationseinheit");
     }
 
     @Test
@@ -225,7 +233,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"artDerNorm\": null,"
                           + "\"normgeber\": null,"
                           + "\"beschliessendesOrgan\": null,"
-                          + "\"qualifizierteMehrheit\": null}"))
+                          + "\"qualifizierteMehrheit\": null,"
+                          + "\"organisationsEinheit\": null}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("754-28-1"))
           .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
@@ -235,7 +244,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
+          .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -251,6 +261,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
           .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+          .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
           .isEmpty();
     }
 
@@ -278,7 +290,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"artDerNorm\": \"\","
                           + "\"normgeber\": \"\","
                           + "\"beschliessendesOrgan\": \"\","
-                          + "\"qualifizierteMehrheit\": false}"))
+                          + "\"qualifizierteMehrheit\": false,"
+                          + "\"organisationsEinheit\": \"\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("754-28-1"))
           .andExpect(jsonPath("art").value("rechtsetzungsdokument"))
@@ -288,7 +301,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
+          .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -304,6 +318,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
           .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+          .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
           .isEmpty();
     }
 
@@ -332,7 +348,9 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"artDerNorm\": \"ÄN,ÜN\"," // no change
                           + "\"normgeber\": \"DDR\"," // no change
                           + "\"beschliessendesOrgan\": \"\"," // this will remove the...
-                          + "\"qualifizierteMehrheit\": null}")) // ...qualifizierteMehrheit attr
+                          + "\"qualifizierteMehrheit\": null," // ...qualifizierteMehrheit attr
+                          + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}")) // no
+          // change
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
@@ -344,7 +362,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
           .andExpect(
               jsonPath("qualifizierteMehrheit")
-                  .isEmpty()); // meaning json "qualifizierteMehrheit":null
+                  .isEmpty()) // meaning json "qualifizierteMehrheit":null
+          .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
@@ -360,9 +379,10 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("DDR");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
           .isEmpty();
-      ;
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
           .isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+          .contains("Andere Organisationseinheit");
     }
 
     @Test
@@ -388,7 +408,8 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
                           + "\"normgeber\": \"DEU\","
                           + "\"beschliessendesOrgan\": \"Bundestag\","
-                          + "\"qualifizierteMehrheit\": true}"))
+                          + "\"qualifizierteMehrheit\": true,"
+                          + "\"organisationsEinheit\": \"Organisationseinheit\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
@@ -398,11 +419,27 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
           .andExpect(jsonPath("normgeber").value("DEU"))
           .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
-          .andExpect(jsonPath("qualifizierteMehrheit").value(true));
+          .andExpect(jsonPath("qualifizierteMehrheit").value(true))
+          .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
 
       final Norm normLoaded = NormMapper.mapToDomain(normRepository.findByEli(eli).get());
 
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getFna(date)).contains("new-fna");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArt(date)).contains("new-art");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getTyp(date)).contains("new-typ");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getSubtyp(date))
+          .contains("new-subtyp");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
+          .contains("new-bezeichnungInVorlage");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
+          .contains("SN,ÄN,ÜN");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("DEU");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
+          .contains("Bundestag");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
+          .contains(true);
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
+          .contains("Organisationseinheit");
     }
   }
 }

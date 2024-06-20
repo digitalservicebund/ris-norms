@@ -143,6 +143,7 @@
                     <meta:artDerNorm start="2003-01-01" end="unbestimmt">ÄN,ÜN</meta:artDerNorm>
                     <meta:normgeber start="2003-01-01" end="unbestimmt">DDR</meta:normgeber>
                     <meta:beschliessendesOrgan start="2003-01-01" end="unbestimmt" qualifizierteMehrheit="false">LT</meta:beschliessendesOrgan>
+                    <meta:organisationsEinheit start="2003-01-01" end="unbestimmt">Andere Organisationseinheit</meta:organisationsEinheit>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

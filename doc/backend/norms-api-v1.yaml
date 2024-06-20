@@ -619,4 +619,6 @@ components:
         qualifizierteMehrheit:
           type: boolean
           description: Boolean value if beschliessendesOrgan had a ("Qualifizierte Mehrheit") when deciding
-
+        organisationsEinheit:
+          type: string
+          description: ("Organisationseinheit")

@@ -84,7 +84,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
           .andExpect(jsonPath("normgeber").value("DEU"))
           .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
-          .andExpect(jsonPath("qualifizierteMehrheit").value(true));
+          .andExpect(jsonPath("qualifizierteMehrheit").value(true))
+          .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
     }
 
     @Test
@@ -113,7 +114,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
+          .andExpect(jsonPath("organisationsEinheit").isEmpty());
     }
 
     @Test
@@ -142,7 +144,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("artDerNorm").isEmpty())
           .andExpect(jsonPath("normgeber").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty());
+          .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
+          .andExpect(jsonPath("organisationsEinheit").isEmpty());
     }
   }
 
@@ -171,6 +174,7 @@ class ProprietaryControllerTest {
                                                                     <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</meta:artDerNorm>
                                                                     <meta:normgeber start="1990-01-01" end="1994-12-31">DEU</meta:normgeber>
                                                                     <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31" qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
+                                                                    <meta:organisationsEinheit start="1990-01-01" end="1994-12-31">Andere Organisationseinheit</meta:organisationsEinheit>
                                                                 </meta:legalDocML.de_metadaten_ds>
                                                             </akn:proprietary>
                                                             """))
@@ -194,7 +198,8 @@ class ProprietaryControllerTest {
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
                           + "\"normgeber\": \"DEU\","
                           + "\"beschliessendesOrgan\": \"Bundestag\","
-                          + "\"qualifizierteMehrheit\": true}"))
+                          + "\"qualifizierteMehrheit\": true,"
+                          + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("fna").value("new-fna"))
           .andExpect(jsonPath("art").value("new-art"))
@@ -204,7 +209,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
           .andExpect(jsonPath("normgeber").value("DEU"))
           .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
-          .andExpect(jsonPath("qualifizierteMehrheit").value(true));
+          .andExpect(jsonPath("qualifizierteMehrheit").value(true))
+          .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
       verify(updateProprietaryFromNormUseCase, times(1))
           .updateProprietaryFromNorm(
@@ -225,7 +231,11 @@ class ProprietaryControllerTest {
                           && query.metadata().artDerNorm().equals("SN,ÄN,ÜN")
                           && query.metadata().normgeber().equals("DEU")
                           && query.metadata().beschliessendesOrgan().equals("Bundestag")
-                          && query.metadata().qualifizierterMehrheit().equals(true)));
+                          && query.metadata().qualifizierterMehrheit().equals(true)
+                          && query
+                              .metadata()
+                              .organisationsEinheit()
+                              .equals("Andere Organisationseinheit")));
     }
 
     @Test
@@ -251,7 +261,8 @@ class ProprietaryControllerTest {
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
                           + "\"normgeber\": \"DEU\","
                           + "\"beschliessendesOrgan\": \"Bundestag\","
-                          + "\"qualifizierteMehrheit\": true}"))
+                          + "\"qualifizierteMehrheit\": true,"
+                          + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"))
           .andExpect(status().isNotFound());
     }
   }

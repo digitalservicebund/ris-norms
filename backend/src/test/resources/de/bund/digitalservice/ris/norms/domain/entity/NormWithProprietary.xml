@@ -134,6 +134,7 @@
                     <meta:artDerNorm start="2003-01-01" end="unbestimmt">SN,ÄN,ÜN</meta:artDerNorm>
                     <meta:normgeber start="2003-01-01" end="unbestimmt">DEU</meta:normgeber>
                     <meta:beschliessendesOrgan start="2003-01-01" end="unbestimmt" qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
+                    <meta:organisationsEinheit start="2003-01-01" end="unbestimmt">Organisationseinheit</meta:organisationsEinheit>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>
