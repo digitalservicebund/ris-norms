@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
 import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
@@ -10,6 +10,7 @@ import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
+import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
@@ -21,9 +22,6 @@ import {
   FederfuehrungValues,
   getDocumentTypeFromMetadata,
   isArtNormTypePresent,
-  isMetaArtValue,
-  isMetaSubtypValue,
-  isMetaTypValue,
   NormgeberValues,
   udpateArtNorm,
   UNKNOWN_DOCUMENT_TYPE,
@@ -36,7 +34,6 @@ import {
 import { Proprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import { computed, ref, watch } from "vue"
-import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -114,15 +111,25 @@ const documentType = computed<
   DocumentTypeValue | typeof UNKNOWN_DOCUMENT_TYPE | ""
 >({
   get() {
-    return isMetaArtValue(localData.value?.art) &&
-      isMetaTypValue(localData.value?.typ) &&
-      isMetaSubtypValue(localData.value?.subtyp)
-      ? getDocumentTypeFromMetadata(
-          localData.value.art,
-          localData.value.typ,
-          localData.value.subtyp,
-        )
-      : ""
+    if (
+      [
+        localData.value?.art,
+        localData.value?.typ,
+        localData.value?.subtyp,
+      ].every((i) => !i)
+    ) {
+      // None of the relevant values are set means that the document type
+      // intentionally has no value
+      return ""
+    } else {
+      // If any value is set, we'll check if the combination of values
+      // corresponds to a known type, otherwise the type will be unknown
+      return getDocumentTypeFromMetadata(
+        localData.value?.art ?? "",
+        localData.value?.typ ?? "",
+        localData.value?.subtyp ?? "",
+      )
+    }
   },
 
   set(value) {
