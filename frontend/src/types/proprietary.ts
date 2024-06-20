@@ -54,4 +54,9 @@ export type Proprietary = {
    * Federführung (authoring department) of the norm.
    */
   federfuehrung?: string
+
+  /**
+   * Organisationseinheit of the norm.
+   */
+  organisationsEinheit?: string
 }

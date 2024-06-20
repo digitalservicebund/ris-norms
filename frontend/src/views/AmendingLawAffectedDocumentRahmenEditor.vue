@@ -93,6 +93,7 @@ const {
   beschliessendesOrganId,
   qualifizierteMehrheitId,
   federfuehrungId,
+  organisationsEinheitId,
 } = useElementId()
 
 const fna = computed<string>({
@@ -275,6 +276,18 @@ const federfuehrungItems: DropdownItem[] = [
   })),
 ]
 
+const organisationsEinheit = computed<string>({
+  get() {
+    return localData.value?.organisationsEinheit ?? ""
+  },
+  set(value: string) {
+    localData.value = produce(localData.value, (draft) => {
+      if (!draft) return
+      draft.organisationsEinheit = value
+    })
+  },
+})
+
 /* -------------------------------------------------- *
  * XML + HTML preview                                 *
  * -------------------------------------------------- */
@@ -429,6 +442,14 @@ const {
                   :id="federfuehrungId"
                   v-model="federfuehrung"
                   :items="federfuehrungItems"
+                />
+
+                <label :for="organisationsEinheitId">
+                  Organisationseinheit
+                </label>
+                <RisTextInput
+                  :id="organisationsEinheitId"
+                  v-model="organisationsEinheit"
                 />
               </fieldset>
 
