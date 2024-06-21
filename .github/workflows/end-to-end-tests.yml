@@ -60,15 +60,8 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}-${{ inputs.browser }}
-      - name: Cache WebKit system dependencies
-        id: cache-webkit-deps
-        if: inputs.browser == 'webkit'
-        uses: actions/cache@v4
-        with:
-          path: /usr/lib/x86_64-linux-gnu/
-          key: ${{ runner.os }}-webkit-deps-${{ env.PLAYWRIGHT_VERSION }}
       - name: Install system dependencies for WebKit
-        if: inputs.browser == 'webkit' && steps.cache-webkit-deps.outputs.cache-hit != 'true'
+        if: ${{ inputs.browser == 'webkit' && steps.cache-browser-binaries.outputs.cache-hit == 'true' }}
         run: npx playwright install-deps
       - name: Install playwright browsers
         if: steps.cache-browser-binaries.outputs.cache-hit != 'true'
