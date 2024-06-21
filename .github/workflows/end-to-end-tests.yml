@@ -59,7 +59,7 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}-${{ inputs.browser }}
       - name: Install system dependencies for WebKit
         if: ${{ inputs.browser == 'webkit' && steps.cache-browser-binaries.outputs.cache-hit == 'true' }}
-        run: npx playwright install-deps
+        run: npx playwright install-deps webkit
       - name: Install playwright browsers
         if: steps.cache-browser-binaries.outputs.cache-hit != 'true'
         run: |
