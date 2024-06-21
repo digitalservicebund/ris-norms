@@ -112,3 +112,12 @@ which is integrated not only into gradle but into lefthook (pre-commit)
 ```bash
 ./gradlew check
 ```
+
+## Check for outdated libraries
+
+If the following statement prints a number > 0, then there are outdated libraries:
+
+```bash
+./gradlew versionCatalogUpdate
+jq .outdated.count build/dependencyUpdates/report.json
+```
