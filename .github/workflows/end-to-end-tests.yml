@@ -9,9 +9,6 @@ on:
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
-#    container:
-#      image: mcr.microsoft.com/playwright:v1.44.1-jammy
-#      options: --ipc=host
     steps:
       - uses: actions/checkout@v4
       - name: Validate gradle wrapper
