@@ -6897,6 +6897,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                     <meta:bezeichnungInVorlage start="1970-01-01" end="2023-12-29">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
                     <meta:normgeber start="1970-01-01" end="2023-12-29">BEO - Berlin (Ost)</meta:normgeber>
                     <meta:beschliessendesOrgan start="1970-01-01" end="2023-12-29" qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
+                    <meta:organisationsEinheit start="1970-01-01" end="2023-12-29" qualifizierteMehrheit="true">Einheit 1</meta:organisationsEinheit>
 
                     <!-- 2023 -->
                     <meta:fna start="2023-12-30" end="unbestimmt">310-5</meta:fna>
@@ -6907,6 +6908,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                     <meta:artDerNorm start="2023-12-30" end="unbestimmt">ÄN</meta:artDerNorm>
                     <meta:normgeber start="2023-12-30" end="unbestimmt">HA - Hamburg</meta:normgeber>
                     <meta:beschliessendesOrgan start="2023-12-30" end="unbestimmt" qualifizierteMehrheit="false">BMinI - Bundesministerium des Innern</meta:beschliessendesOrgan>
+                    <meta:organisationsEinheit start="2023-12-30" end="unbestimmt" qualifizierteMehrheit="false">Einheit 2</meta:organisationsEinheit>
                  </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

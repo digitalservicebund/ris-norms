@@ -13,6 +13,7 @@ async function restoreInitialState(page: Page) {
     beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
     qualifizierteMehrheit: true,
     federfuehrung: "BMVg - Bundesministerium der Verteidigung",
+    organisationsEinheit: "Einheit 1",
   }
 
   const dataIn2023: Proprietary = {
@@ -26,6 +27,7 @@ async function restoreInitialState(page: Page) {
     beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
     qualifizierteMehrheit: false,
     federfuehrung: "BMI - Bundesministerium des Innern und für Heimat",
+    organisationsEinheit: "Einheit 2",
   }
 
   await page.request.put(
@@ -770,6 +772,55 @@ test.describe("metadata view", () => {
 
       // Then
       await expect(federfuehrungDropdown).toHaveValue("AA - Auswärtiges Amt")
+
+      // Cleanup
+      await sharedPage.unrouteAll()
+    })
+  })
+
+  test.describe("Organisationseinheit", () => {
+    let organisationsEinheitInput: Locator
+
+    test.beforeAll(() => {
+      organisationsEinheitInput = sharedPage.getByRole("textbox", {
+        name: "Organisationseinheit",
+      })
+    })
+
+    test("displays at different time boundaries", async () => {
+      // When
+      await gotoTimeBoundary("1970-01-01")
+
+      // Then
+      await expect(organisationsEinheitInput).toHaveValue("Einheit 1")
+
+      // When
+      await gotoTimeBoundary("2023-12-30")
+
+      // Then
+      await expect(organisationsEinheitInput).toHaveValue("Einheit 2")
+    })
+
+    test("saves changes", async () => {
+      // When
+      await organisationsEinheitInput.fill("Einheit 3")
+      await saveMetadata()
+      await sharedPage.reload()
+
+      // Then
+      await expect(organisationsEinheitInput).toHaveValue("Einheit 3")
+    })
+
+    test("is updated with backend state after saving", async () => {
+      // Given
+      await mockPutResponse({ organisationsEinheit: "Fake Einheit" })
+      await expect(organisationsEinheitInput).toHaveValue("Einheit 3")
+
+      // When
+      await saveMetadata()
+
+      // Then
+      await expect(organisationsEinheitInput).toHaveValue("Fake Einheit")
 
       // Cleanup
       await sharedPage.unrouteAll()
