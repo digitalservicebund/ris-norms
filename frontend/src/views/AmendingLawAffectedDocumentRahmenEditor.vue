@@ -34,6 +34,9 @@ import {
 import { Proprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import { computed, ref, watch } from "vue"
+import { getNodeByEid } from "@/services/ldmldeService"
+import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
+import { useNormRender } from "@/composables/useNormRender"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -292,18 +295,41 @@ const organisationsEinheit = computed<string>({
  * XML + HTML preview                                 *
  * -------------------------------------------------- */
 
+const newXml = ref("")
 const {
   data: xml,
   isFetching: xmlIsLoading,
   error: xmlError,
   execute: reloadXml,
-} = useNormXml(affectedDocumentEli)
+  update: { execute: updateXml },
+} = useNormXml(affectedDocumentEli, newXml)
 
 const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetNormHtml(affectedDocumentEli, { at: timeBoundaryAsDate })
+} = useNormRender(xml, false, timeBoundaryAsDate)
+
+async function handleSelect(
+  e: { eid: string; start: number; end: number } | null,
+) {
+  if (!e || !xml.value) {
+    return
+  }
+
+  const d = xmlStringToDocument(xml.value)
+  const node = getNodeByEid(d, e.eid)!
+  const r = new Range()
+  r.selectNode(node)
+  r.setEnd(node.childNodes.item(0), e.end)
+  r.setStart(node.childNodes.item(0), e.start)
+  const re = d.createElement("akn:ref")
+  r.surroundContents(re)
+
+  newXml.value = xmlNodeToString(d)
+  console.log("SAVE")
+  await updateXml()
+}
 </script>
 
 <template>
@@ -317,7 +343,10 @@ const {
 
     <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-32">
       <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
-        <div v-if="renderIsLoading" class="my-16 flex justify-center">
+        <div
+          v-if="renderIsLoading && !render"
+          class="my-16 flex justify-center"
+        >
           <RisLoadingSpinner />
         </div>
 
@@ -331,6 +360,7 @@ const {
           v-else
           class="ds-textarea flex-grow p-2"
           :content="render ?? ''"
+          @select="handleSelect"
         />
       </section>
 

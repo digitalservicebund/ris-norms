@@ -89,6 +89,10 @@ public class NormController {
   public ResponseEntity<String> getNormXml(final Eli eli) {
     return loadNormXmlUseCase
         .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
+        .map(
+            norm ->
+                this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+                    new TransformLegalDocMlToHtmlUseCase.Query(norm, true)))
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }

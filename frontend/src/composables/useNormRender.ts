@@ -11,7 +11,7 @@ import { UseFetchReturn } from "@vueuse/core"
  * @param at Passive modifications coming into effect before this date should be applied before rendering the HTML
  */
 export function useNormRender(
-  normXml: MaybeRefOrGetter<string | undefined>,
+  normXml: MaybeRefOrGetter<string | undefined | null>,
   showMetadata: MaybeRefOrGetter<boolean> = false,
   at?: MaybeRefOrGetter<Date | undefined>,
   customNorms?: MaybeRefOrGetter<string[] | undefined>,

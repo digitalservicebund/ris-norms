@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nextTick, ref, useAttrs, watch } from "vue"
+import { refDebounced, useEventListener } from "@vueuse/core"
 
 const props = withDefaults(
   defineProps<{
@@ -62,6 +63,13 @@ const emit = defineEmits<{
        */
       originalEvent: MouseEvent | KeyboardEvent
     },
+  ]
+  select: [
+    {
+      eid: string
+      start: number
+      end: number
+    } | null,
   ]
 }>()
 
@@ -191,6 +199,80 @@ watch(
   },
   { immediate: true },
 )
+
+function hasAsParentElement(element: Node, parentElement: Node): boolean {
+  if (!element.parentElement) {
+    return false
+  }
+
+  if (element.parentElement === parentElement) {
+    return true
+  }
+
+  return hasAsParentElement(element.parentNode, parentElement)
+}
+
+const selection = ref<Range | null>()
+const debouncedSelection = refDebounced(selection, 500)
+
+watch(debouncedSelection, () => {
+  const eid =
+    debouncedSelection.value?.startContainer.parentElement?.dataset.eid
+  if (eid) {
+    emit("select", {
+      eid,
+      start: debouncedSelection.value.startOffset,
+      end: debouncedSelection.value.endOffset,
+    })
+  } else {
+    emit("select", null)
+  }
+})
+
+function limitSelectionToSelectableRanges() {
+  const selection = getSelection()
+
+  if (
+    selection?.anchorNode &&
+    selection.anchorNode.nodeType === 3 &&
+    selection.anchorNode.parentNode !== selection.focusNode?.parentNode
+  ) {
+    if (selection.anchorNode === selection.focusNode) {
+      selection.extend(
+        selection.anchorNode,
+        selection.anchorNode.textContent?.length,
+      )
+    } else if (
+      selection.anchorNode.parentNode &&
+      selection.anchorNode.parentNode.lastChild
+    ) {
+      selection.extend(
+        selection.anchorNode.parentNode.lastChild,
+        selection.anchorNode.parentNode.lastChild.textContent?.length,
+      )
+    }
+  }
+}
+
+useEventListener(document, "selectionchange", (e) => {
+  const currentSelection = getSelection()
+  if (
+    !container.value ||
+    !currentSelection?.anchorNode ||
+    !hasAsParentElement(currentSelection.anchorNode, container.value)
+  ) {
+    selection.value = null
+    return
+  }
+
+  limitSelectionToSelectableRanges()
+
+  const range = getSelection()?.getRangeAt(0)
+
+  if (range) {
+    selection.value = range
+  }
+})
 </script>
 
 <template>
@@ -329,6 +411,10 @@ watch(
 }
 
 .highlight-affected-document :deep(.akn-affectedDocument.selected) {
+  @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
+}
+
+:deep(.akn-ref) {
   @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
 }
 
