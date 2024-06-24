@@ -473,6 +473,7 @@ const {
                 >
                   <RisTextButton
                     :aria-describedby
+                    :disabled="isFetching || fetchError"
                     :loading="isSaving"
                     label="Speichern"
                     @click="save()"
