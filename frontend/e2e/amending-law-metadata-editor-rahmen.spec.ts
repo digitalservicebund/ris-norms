@@ -60,7 +60,7 @@ test.describe("navigate to page", () => {
     )
   })
 
-  test("displays affected document title", async ({ page }) => {
+  test("displays affected document short title", async ({ page }) => {
     // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
@@ -69,11 +69,7 @@ test.describe("navigate to page", () => {
     // Then
     await expect(page.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
 
-    await expect(
-      page.getByText(
-        "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
-      ),
-    ).toBeVisible()
+    await expect(page.getByText("Bundesverfassungsschutzgesetz")).toBeVisible()
   })
 
   test("navigates to the selected time boundary", async ({ page }) => {
@@ -204,9 +200,7 @@ test.describe("XML view", () => {
     // Updating the FNA as an example for any change happening on the page
     await expect(fnaInput).toHaveValue("210-5")
     await fnaInput.fill("1234-56-78")
-    await editorRegion
-      .getByRole("button", { name: "Metadaten speichern" })
-      .click()
+    await page.getByRole("button", { name: "Speichern" }).click()
 
     // Then
     // Check the content of the XML reload call as we currently don't have a
@@ -231,7 +225,9 @@ test.describe("XML view", () => {
     await page.route(
       /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
       async (request) => {
-        await request.abort()
+        const accept = await request.request().headerValue("Accept")
+        if (accept === "application/xml") await request.abort()
+        else await request.continue()
       },
     )
 
@@ -256,9 +252,7 @@ test.describe("metadata view", () => {
   let sharedPage: Page
 
   async function saveMetadata() {
-    await sharedPage
-      .getByRole("button", { name: "Metadaten speichern" })
-      .click()
+    await sharedPage.getByRole("button", { name: "Speichern" }).click()
     await sharedPage.waitForResponse(/proprietary/)
   }
 
@@ -853,9 +847,7 @@ test.describe("metadata view", () => {
     await sharedPage.reload()
 
     // When
-    await sharedPage
-      .getByRole("button", { name: "Metadaten speichern" })
-      .click()
+    await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
     // Then
     await expect(
@@ -876,9 +868,7 @@ test.describe("metadata view", () => {
     await sharedPage.reload()
 
     // When
-    await sharedPage
-      .getByRole("button", { name: "Metadaten speichern" })
-      .click()
+    await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
     // Then
     await expect(

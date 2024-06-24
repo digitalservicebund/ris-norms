@@ -152,15 +152,9 @@ test.describe("XML view", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
     )
 
-    const editorRegion = page.getByRole("region", {
-      name: "Metadaten bearbeiten",
-    })
-
     // TODO: Make some changes to metadata
 
-    await editorRegion
-      .getByRole("button", { name: "Metadaten speichern" })
-      .click()
+    await page.getByRole("button", { name: "Speichern" }).click()
 
     // Check the content of the XML reload call as we currently don't have a
     // good way of checking the actual editor content. This is because
@@ -183,7 +177,9 @@ test.describe("XML view", () => {
     await page.route(
       /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
       async (request) => {
-        await request.abort()
+        const accept = await request.request().headerValue("Accept")
+        if (accept === "application/xml") await request.abort()
+        else await request.continue()
       },
     )
 
