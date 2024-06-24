@@ -17,12 +17,12 @@ const props = withDefaults(
   defineProps<{
     /**
      * Destination of the back button. Use `history-back` to simply go to the
-     * previous page in the browser history. You can also provide a route
-     * location for more precise control.
+     * previous page in the browser history. Use `breadcrumb-back` to go to
+     * the previous breadcrumb. You can also provide a fixed route location.
      *
-     * @default "history-back"
+     * @default "breadcrumb-back"
      */
-    backDestination?: "history-back" | RouteLocationRaw
+    backDestination?: "history-back" | "breadcrumb-back" | RouteLocationRaw
 
     /**
      * List of breadcrumbs to be displayed in the header. The list is assumed to
@@ -31,7 +31,7 @@ const props = withDefaults(
     breadcrumbs: HeaderBreadcrumb[]
   }>(),
   {
-    backDestination: "history-back",
+    backDestination: "breadcrumb-back",
   },
 )
 
@@ -72,8 +72,31 @@ const pushBreadcrumb: HeaderContext["pushBreadcrumb"] = (...breadcrumb) => {
   }
 }
 
+// Expose header functionality to child components
 provide(HeaderContextProvider, {
   pushBreadcrumb,
+})
+
+/* -------------------------------------------------- *
+ * Back button                                        *
+ * -------------------------------------------------- */
+
+const backbuttonTo = computed(() => {
+  if (props.backDestination === "breadcrumb-back") {
+    const current = router.resolve(router.currentRoute.value)
+
+    return allBreadcrumbs.value
+      .filter((i) => Boolean(i.to))
+      .findLast((i) => {
+        // @ts-expect-error `to` is not undefined, trust me
+        const resolved = router.resolve(i.to)
+        return resolved !== current
+      })?.to
+  } else if (props.backDestination === "history-back") {
+    return undefined
+  } else {
+    return props.backDestination
+  }
 })
 </script>
 
@@ -142,8 +165,13 @@ export function useHeaderContext() {
   >
     <section class="flex items-center gap-x-8">
       <!-- Back button -->
+      <RouterLink v-if="backbuttonTo" :to="backbuttonTo">
+        <IcBaselineArrowBack />
+        <span class="sr-only">Zurück</span>
+      </RouterLink>
+
       <RisTextButton
-        v-if="backDestination === 'history-back'"
+        v-else-if="backDestination === 'history-back'"
         :icon="IcBaselineArrowBack"
         icon-only
         label="Zurück"
@@ -151,11 +179,6 @@ export function useHeaderContext() {
         size="small"
         @click="router.back()"
       />
-
-      <RouterLink v-else :to="backDestination">
-        <IcBaselineArrowBack />
-        <span class="sr-only">Zurück</span>
-      </RouterLink>
 
       <!-- Bread crumbs -->
       <nav class="line-clamp-2 leading-5">

@@ -22,6 +22,8 @@ describe("RisHeader", () => {
       ...router,
       useRouter: vi.fn().mockReturnValue({
         back: routerBackMock,
+        currentRoute: ref({ name: "Foo", path: "/foo" }),
+        resolve: vi.fn().mockImplementation((route) => route.path),
       }),
     }
   })
@@ -31,7 +33,11 @@ describe("RisHeader", () => {
 
     const dummyRouter = createRouter({
       history: createWebHashHistory(),
-      routes: [{ path: "/", name: "Home", component }],
+      routes: [
+        { path: "/", name: "Home", component },
+        { path: "/foo", name: "Foo", component },
+        { path: "/bar", name: "Bar", component },
+      ],
     })
 
     global = { plugins: [dummyRouter] }
@@ -81,6 +87,26 @@ describe("RisHeader", () => {
       render(RisHeader, {
         global,
         props: { backDestination: { name: "Home" }, breadcrumbs: [] },
+      })
+      const link = screen.getByRole("link", { name: "Zurück" })
+
+      // Then
+      expect(link).toBeInTheDocument()
+      expect(link).toHaveAttribute("href", "#/")
+    })
+
+    test("renders the link to a previous breadcrumb", () => {
+      // Given
+      render(RisHeader, {
+        global,
+        props: {
+          backDestination: "breadcrumb-back",
+          breadcrumbs: [
+            { key: "1", title: "Home", to: { path: "/" } },
+            { key: "2", title: "Foo", to: { path: "/foo" } },
+            { key: "3", title: "Bar" },
+          ],
+        },
       })
       const link = screen.getByRole("link", { name: "Zurück" })
 
