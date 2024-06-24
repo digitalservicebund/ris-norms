@@ -162,10 +162,15 @@ export function useHeaderContext() {
 <template>
   <header
     class="flex min-h-80 items-center gap-12 border-b border-solid border-b-gray-400 bg-blue-200 p-16 pr-32"
+    v-bind="$attrs"
   >
     <section class="flex items-center gap-x-8">
       <!-- Back button -->
-      <RouterLink v-if="backbuttonTo" :to="backbuttonTo">
+      <RouterLink
+        v-if="backbuttonTo"
+        :to="backbuttonTo"
+        class="ds-button ds-button-small ds-button-ghost ds-button-with-icon ds-button-with-icon-only"
+      >
         <IcBaselineArrowBack />
         <span class="sr-only">Zurück</span>
       </RouterLink>
