@@ -2,8 +2,6 @@
 
 The frontend is the main entry point for users of _RIS norms_.
 
-From here the users can handle their procedures ("Vorgänge").
-
 # Development
 
 ## Prerequisites
@@ -14,7 +12,9 @@ From here the users can handle their procedures ("Vorgänge").
 
 - `npm i` fetches all dependencies
 - `npm run dev` starts the application. By default on [local port 5173](http://localhost:5173). You will also need a running [backend](../backend/README.md).
-- `npm run test` runs the tests (in watcher mode)
+- `npm run test` runs the tests once
+- `npm run test:watch` runs the tests and automatically re-runs if something changes
+- `npm run test:e2e` runs the E2E tests (requires a running frontend and backend)
 - `npm run coverage` compiles a coverage report via `v8`
 - `npm run style:check` does linting and formatting
 - `npm run style:fix` will try to fix linting and formatting issues
