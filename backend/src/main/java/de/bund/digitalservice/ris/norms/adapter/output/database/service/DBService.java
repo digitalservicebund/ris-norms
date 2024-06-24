@@ -74,7 +74,7 @@ public class DBService
   }
 
   @Override
-  public Norm updateNorm(UpdateNormPort.Command command) {
+  public Norm updateNorm(UpdateNormPort.Command command) throws NormNotFoundException {
     var normXml = XmlProcessor.toString(command.norm().getDocument());
     return normRepository
         .findByEli(command.norm().getEli())

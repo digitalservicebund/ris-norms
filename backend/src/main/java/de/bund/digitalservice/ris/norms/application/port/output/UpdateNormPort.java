@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 
 /**
@@ -14,7 +15,7 @@ public interface UpdateNormPort {
    * @param command The command specifying the norm to be updated.
    * @return the updated {@link Norm}.
    */
-  Norm updateNorm(final Command command);
+  Norm updateNorm(final Command command) throws NormNotFoundException;
 
   /**
    * A record representing the command for updating a norm.
