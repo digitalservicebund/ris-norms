@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.time.Instant;
 import java.util.Optional;
@@ -16,7 +17,7 @@ public interface LoadElementHtmlAtDateFromNormUseCase {
    *     the element don't exist.
    */
   Optional<String> loadElementHtmlAtDateFromNorm(LoadElementHtmlAtDateFromNormUseCase.Query query)
-      throws IllegalArgumentException;
+      throws IllegalArgumentException, NormNotFoundException;
 
   /**
    * Contains the parameters needed for loading an element from a norm at a specific date.

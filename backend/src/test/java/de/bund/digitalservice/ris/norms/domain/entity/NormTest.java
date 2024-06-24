@@ -1,13 +1,13 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
+import static de.bund.digitalservice.ris.norms.utils.XmlProcessor.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
+import de.bund.digitalservice.ris.norms.utils.exception.MandatoryNodeNotFoundException;
 import java.time.LocalDate;
 import java.util.*;
 import org.junit.jupiter.api.Nested;
@@ -366,7 +366,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(normString));
 
-    assertThrows(MandatoryNodeNotFound.class, norm::getMeta);
+    assertThrows(MandatoryNodeNotFoundException.class, norm::getMeta);
   }
 
   @Test
@@ -1024,7 +1024,7 @@ class NormTest {
   void calculateNextPossibleEid() {
     // given
     Node parentNode =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
                             <akn:temporalData eId="meta-1_geltzeiten-1"
                                                           GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"
@@ -1050,7 +1050,7 @@ class NormTest {
   void calculateNextPossibleEidWhenNoChildNodeOfTypeExists() {
     // given
     Node parentNode =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
                             <akn:temporalData eId="meta-1_geltzeiten-1"
                                                           GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"

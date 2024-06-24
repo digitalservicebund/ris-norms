@@ -1,8 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 
 /** Use case for getting {@link Proprietary} metadata from a {@link Norm}. */
 public interface LoadProprietaryFromNormUseCase {

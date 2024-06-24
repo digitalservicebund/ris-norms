@@ -2,14 +2,14 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -83,36 +83,33 @@ public class ElementService
   }
 
   @Override
-  public Optional<Node> loadElementFromNorm(final LoadElementFromNormUseCase.Query query) {
+  public Optional<Node> loadElementFromNorm(final LoadElementFromNormUseCase.Query query)
+      throws NormNotFoundException {
     var xPath = getXPathForEid(query.eid());
-
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .flatMap(norm -> NodeParser.getNodeFromExpression(xPath, norm.getDocument()));
+    final var norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    return NodeParser.getNodeFromExpression(xPath, norm.getDocument());
   }
 
   @Override
-  public Optional<String> loadElementHtmlFromNorm(
-      final LoadElementHtmlFromNormUseCase.Query query) {
+  public Optional<String> loadElementHtmlFromNorm(final LoadElementHtmlFromNormUseCase.Query query)
+      throws NormNotFoundException {
     return loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid()))
-        .map(XmlMapper::toString)
+        .map(XmlProcessor::toString)
         .map(rawXml -> new TransformLegalDocMlToHtmlUseCase.Query(rawXml, false))
         .map(xsltTransformationService::transformLegalDocMlToHtml);
   }
 
   @Override
   public Optional<String> loadElementHtmlAtDateFromNorm(
-      final LoadElementHtmlAtDateFromNormUseCase.Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(norm -> new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()))
-        .map(timeMachineService::applyPassiveModifications)
-        .flatMap(
-            norm ->
-                NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument()))
+      final LoadElementHtmlAtDateFromNormUseCase.Query query) throws NormNotFoundException {
+    final var norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    final var updatedNorm =
+        timeMachineService.applyPassiveModifications(
+            new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()));
+    return NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), updatedNorm.getDocument())
         .map(
             element ->
-                new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false))
+                new TransformLegalDocMlToHtmlUseCase.Query(XmlProcessor.toString(element), false))
         .map(xsltTransformationService::transformLegalDocMlToHtml);
   }
 
@@ -130,10 +127,7 @@ public class ElementService
                 .map(xPathsForTypes::get)
                 .toList());
 
-    var norm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli() + " does not exist"));
+    var norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
 
     // Source EIDs from passive mods
     var passiveModsDestinationEids =

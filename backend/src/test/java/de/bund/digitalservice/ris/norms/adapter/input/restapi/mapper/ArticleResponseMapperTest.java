@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.Test;
 
 class ArticleResponseMapperTest {
@@ -16,7 +16,7 @@ class ArticleResponseMapperTest {
     var article1 =
         Article.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                         <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
                             <akn:num eId="hauptteil-1_art-1_bezeichnung-1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
@@ -54,7 +54,7 @@ class ArticleResponseMapperTest {
     var nextVersionNorm =
         Norm.builder()
             .document(
-                XmlMapper.toDocument(
+                XmlProcessor.toDocument(
                     """
                           <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                           <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

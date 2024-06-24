@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ class SimpleProprietaryTest {
     final SimpleProprietary fna =
         SimpleProprietary.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                             <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                            """))
@@ -27,7 +27,7 @@ class SimpleProprietaryTest {
     final SimpleProprietary fna =
         SimpleProprietary.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                             <meta:fna start="1990-01-01" end="1994-12-31"></meta:fna>
                                            """))
@@ -41,7 +41,7 @@ class SimpleProprietaryTest {
     final SimpleProprietary fna =
         SimpleProprietary.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                             <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                            """))
@@ -55,7 +55,7 @@ class SimpleProprietaryTest {
     final SimpleProprietary fna =
         SimpleProprietary.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                             <meta:fna end="1994-12-31">111-11-1</meta:fna>
                                            """))
@@ -69,7 +69,7 @@ class SimpleProprietaryTest {
     final SimpleProprietary fna =
         SimpleProprietary.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                             <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
                                            """))
@@ -83,7 +83,7 @@ class SimpleProprietaryTest {
     final SimpleProprietary fna =
         SimpleProprietary.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                             <meta:fna start="1990-01-01">111-11-1</meta:fna>
                                            """))

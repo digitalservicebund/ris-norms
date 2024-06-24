@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
@@ -17,7 +17,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                   <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                       <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
@@ -77,7 +77,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                                     <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
@@ -105,7 +105,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                                                 </meta:legalDocML.de_metadaten_ds>
@@ -134,7 +134,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                                     <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
@@ -165,7 +165,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                                                     <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
@@ -207,7 +207,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                               <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                                   <meta:subtyp>subtyp0</meta:subtyp>
@@ -241,7 +241,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                                                     <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
@@ -267,7 +267,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                                                     <meta:fna start="1990-01-01" end="1994-12-31">111-11-1</meta:fna>
@@ -295,7 +295,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                   <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                       <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
@@ -351,7 +351,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                   <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                       <meta:beschliessendesOrgan qualifizierteMehrheit="true" start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
@@ -379,7 +379,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                   <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                       <meta:beschliessendesOrgan start="1990-01-01" end="1994-12-31">organ 1</meta:beschliessendesOrgan>
@@ -407,7 +407,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                   <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                       <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>
@@ -436,7 +436,7 @@ class MetadatenDsTest {
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                   <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
                                                       <meta:beschliessendesOrgan qualifizierteMehrheit="false" start="1995-01-01" end="2000-12-31">organ 2</meta:beschliessendesOrgan>

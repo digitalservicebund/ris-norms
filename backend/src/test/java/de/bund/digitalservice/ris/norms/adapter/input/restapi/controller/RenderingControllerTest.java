@@ -9,7 +9,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModif
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalMatchers;
@@ -36,7 +36,7 @@ class RenderingControllerTest {
     when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
             Norm.builder()
-                .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+                .document(XmlProcessor.toDocument("<law>applied-passive-modification</law>"))
                 .build());
     when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");
@@ -77,7 +77,7 @@ class RenderingControllerTest {
     when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
             Norm.builder()
-                .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+                .document(XmlProcessor.toDocument("<law>applied-passive-modification</law>"))
                 .build());
     when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");
@@ -118,7 +118,7 @@ class RenderingControllerTest {
     when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
             Norm.builder()
-                .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+                .document(XmlProcessor.toDocument("<law>applied-passive-modification</law>"))
                 .build());
     when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");
@@ -164,7 +164,7 @@ class RenderingControllerTest {
     when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
             Norm.builder()
-                .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+                .document(XmlProcessor.toDocument("<law>applied-passive-modification</law>"))
                 .build());
     when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");
@@ -196,7 +196,7 @@ class RenderingControllerTest {
     when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
         .thenReturn(
             Norm.builder()
-                .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+                .document(XmlProcessor.toDocument("<law>applied-passive-modification</law>"))
                 .build());
     when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
         .thenReturn("<html></html>");

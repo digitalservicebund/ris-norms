@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.utils.exceptions;
+package de.bund.digitalservice.ris.norms.application.exception;
 
 import lombok.Getter;
 
@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class ValidationException extends RuntimeException {
 
-  public ValidationException(String message) {
+  public ValidationException(final String message) {
     super(message);
   }
 }

@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface LoadTimeBoundariesUseCase {
    * @param query The query containing the ELI (European Legislation Identifier) of the norm.
    * @return A list of {@link TimeBoundary} entities related to the specified norm.
    */
-  List<TimeBoundary> loadTimeBoundariesOfNorm(Query query);
+  List<TimeBoundary> loadTimeBoundariesOfNorm(Query query) throws NormNotFoundException;
 
   /**
    * A record representing the parameters needed to query time boundaries related to a norm.

@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.Test;
 
 class TemporalDataTest {
@@ -13,7 +13,7 @@ class TemporalDataTest {
     final TemporalData temporalData =
         TemporalData.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                     <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
                                         <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ee45119b-2485-4115-b587-da54b95e3ebd">
@@ -37,7 +37,7 @@ class TemporalDataTest {
     final TemporalData temporalData =
         TemporalData.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                             <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
                              </akn:temporalData>

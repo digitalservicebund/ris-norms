@@ -30,7 +30,7 @@ class EidConsistencyGuardianTest {
                 """;
 
     // When
-    final Document document = XmlMapper.toDocument(sampleXml);
+    final Document document = XmlProcessor.toDocument(sampleXml);
     final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
 
     // Then
@@ -62,7 +62,7 @@ class EidConsistencyGuardianTest {
                 """;
 
     // When
-    final Document document = XmlMapper.toDocument(sampleXml);
+    final Document document = XmlProcessor.toDocument(sampleXml);
     final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
 
     // Then
@@ -84,7 +84,7 @@ class EidConsistencyGuardianTest {
 
     final Diff diff =
         DiffBuilder.compare(Input.from(correctedDocument))
-            .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
+            .withTest(Input.from(XmlProcessor.toDocument(expectedXml)))
             .ignoreWhitespace()
             .build();
     assertThat(diff.hasDifferences()).isFalse();
@@ -110,7 +110,7 @@ class EidConsistencyGuardianTest {
                     """;
 
     // When
-    final Document document = XmlMapper.toDocument(sampleXml);
+    final Document document = XmlProcessor.toDocument(sampleXml);
     final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
 
     // Then
@@ -132,7 +132,7 @@ class EidConsistencyGuardianTest {
 
     final Diff diff =
         DiffBuilder.compare(Input.from(correctedDocument))
-            .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
+            .withTest(Input.from(XmlProcessor.toDocument(expectedXml)))
             .ignoreWhitespace()
             .build();
 
@@ -163,7 +163,7 @@ class EidConsistencyGuardianTest {
                     """;
 
     // When
-    final Document document = XmlMapper.toDocument(sampleXml);
+    final Document document = XmlProcessor.toDocument(sampleXml);
     final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
 
     // Then
@@ -189,7 +189,7 @@ class EidConsistencyGuardianTest {
 
     final Diff diff =
         DiffBuilder.compare(Input.from(correctedDocument))
-            .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
+            .withTest(Input.from(XmlProcessor.toDocument(expectedXml)))
             .ignoreWhitespace()
             .build();
 
@@ -226,7 +226,7 @@ class EidConsistencyGuardianTest {
                     """;
 
     // When
-    final Document document = XmlMapper.toDocument(sampleXml);
+    final Document document = XmlProcessor.toDocument(sampleXml);
     final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
 
     // Then
@@ -258,7 +258,7 @@ class EidConsistencyGuardianTest {
 
     final Diff diff =
         DiffBuilder.compare(Input.from(correctedDocument))
-            .withTest(Input.from(XmlMapper.toDocument(expectedXml)))
+            .withTest(Input.from(XmlProcessor.toDocument(expectedXml)))
             .ignoreWhitespace()
             .build();
     assertThat(diff.hasDifferences()).isFalse();
@@ -322,7 +322,7 @@ class EidConsistencyGuardianTest {
                 """;
 
     // When
-    final Document document = XmlMapper.toDocument(text);
+    final Document document = XmlProcessor.toDocument(text);
     final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
 
     // Then
@@ -380,7 +380,7 @@ class EidConsistencyGuardianTest {
                 """;
     final Diff diff =
         DiffBuilder.compare(Input.from(correctedDocument))
-            .withTest(Input.from(XmlMapper.toDocument(exectedResult)))
+            .withTest(Input.from(XmlProcessor.toDocument(exectedResult)))
             .ignoreWhitespace()
             .build();
     assertThat(diff.hasDifferences()).isFalse();

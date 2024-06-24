@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.Test;
 
 class EIdTest {
@@ -43,7 +43,8 @@ class EIdTest {
   void fromNode() {
     // given
     var node =
-        XmlMapper.toNode("<akn:mod eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />");
+        XmlProcessor.toNode(
+            "<akn:mod eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />");
     // when
     var eId = EId.fromNode(node);
     // then

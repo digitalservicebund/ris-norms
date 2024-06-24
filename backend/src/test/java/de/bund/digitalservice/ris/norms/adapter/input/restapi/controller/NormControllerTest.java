@@ -6,12 +6,13 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -48,7 +49,7 @@ class NormControllerTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -86,7 +87,7 @@ class NormControllerTest {
               .build();
 
       // When
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When // Then
       mockMvc
@@ -124,7 +125,7 @@ class NormControllerTest {
       final String xml = "<target></target>";
 
       // When
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
 
       // When // Then
       mockMvc
@@ -144,7 +145,7 @@ class NormControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When // Then
@@ -166,7 +167,7 @@ class NormControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When // Then
@@ -187,8 +188,7 @@ class NormControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String html = "<div></div>";
 
-      when(loadNormUseCase.loadNorm(any()))
-          .thenReturn(Optional.of(NormFixtures.loadFromDisk("SimpleNorm.xml")));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(NormFixtures.loadFromDisk("SimpleNorm.xml"));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
           .thenReturn(NormFixtures.loadFromDisk("SimpleNorm.xml"));
@@ -215,7 +215,7 @@ class NormControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(Optional.of(xml));
+      when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(xml);
 
       // When // Then
       mockMvc
@@ -261,7 +261,7 @@ class NormControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(Optional.empty());
+      when(updateNormXmlUseCase.updateNormXml(any())).thenThrow(NormNotFoundException.class);
 
       // When // Then
       mockMvc
@@ -363,7 +363,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModUseCase.updateMod(any())).thenThrow(XmlContentException.class);
+      when(updateModUseCase.updateMod(any())).thenThrow(ValidationException.class);
 
       // When // Then
       mockMvc
@@ -383,8 +383,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModUseCase.updateMod(any()))
-          .thenThrow(new XmlContentException("error exception", null));
+      when(updateModUseCase.updateMod(any())).thenThrow(new ValidationException("error exception"));
 
       // When // Then
       mockMvc

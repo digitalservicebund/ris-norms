@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -24,6 +24,6 @@ public class XmlMatcher extends TypeSafeMatcher<String> {
 
   @Override
   protected boolean matchesSafely(String str) {
-    return matcher.matches(XmlMapper.toDocument(str));
+    return matcher.matches(XmlProcessor.toDocument(str));
   }
 }

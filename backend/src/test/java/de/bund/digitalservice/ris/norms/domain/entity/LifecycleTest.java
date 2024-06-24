@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.Test;
 
 class LifecycleTest {
@@ -13,7 +13,7 @@ class LifecycleTest {
     final Lifecycle lifecycle =
         Lifecycle.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                              <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
                                 <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2017-03-15" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
@@ -35,7 +35,7 @@ class LifecycleTest {
     final Lifecycle lifecycle =
         Lifecycle.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                              <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
                                               </akn:lifecycle>

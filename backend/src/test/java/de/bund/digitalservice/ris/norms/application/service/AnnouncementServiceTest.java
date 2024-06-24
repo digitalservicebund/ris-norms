@@ -10,7 +10,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncement
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +40,7 @@ class AnnouncementServiceTest {
               .norm(
                   Norm.builder()
                       .document(
-                          XmlMapper.toDocument(
+                          XmlProcessor.toDocument(
                               """
                                     <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                                     <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -83,7 +83,7 @@ class AnnouncementServiceTest {
               .norm(
                   Norm.builder()
                       .document(
-                          XmlMapper.toDocument(
+                          XmlProcessor.toDocument(
                               """
                                     <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                                     <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -128,7 +128,7 @@ class AnnouncementServiceTest {
       var amendingNorm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                                <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                           <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -188,7 +188,7 @@ class AnnouncementServiceTest {
       var affectedNormZf0 =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -219,7 +219,7 @@ class AnnouncementServiceTest {
       when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
           .thenReturn(Optional.of(announcement));
       // Should return target law but we dont care what is returned, since we also mock the loadZf0
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(loadNormPort.loadNorm(any())).thenReturn(amendingNorm);
       when(loadZf0Service.loadZf0(argThat(argument -> argument.amendingLaw().equals(amendingNorm))))
           .thenReturn(affectedNormZf0);
 

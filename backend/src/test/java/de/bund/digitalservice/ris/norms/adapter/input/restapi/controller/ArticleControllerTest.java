@@ -6,10 +6,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -47,7 +48,7 @@ class ArticleControllerTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -99,7 +100,7 @@ class ArticleControllerTest {
       var normZf0 =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -122,7 +123,7 @@ class ArticleControllerTest {
                           """))
               .build();
 
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
       when(loadZf0UseCase.loadZf0(any())).thenReturn(normZf0);
 
       // When
@@ -161,7 +162,7 @@ class ArticleControllerTest {
     void itReturnsArticlesFilteredByAmendedAt() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When
       mockMvc
@@ -179,7 +180,7 @@ class ArticleControllerTest {
     void itReturnsArticlesFilteredByAmendedBy() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When
       mockMvc
@@ -197,7 +198,7 @@ class ArticleControllerTest {
     void itReturnsNoArticlesWhenAmendedByDoesNotMatch() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When
       mockMvc
@@ -213,7 +214,7 @@ class ArticleControllerTest {
     void itReturnsNoArticlesWhenAmendedAtDoesNotMatch() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When
       mockMvc
@@ -264,7 +265,7 @@ class ArticleControllerTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -315,7 +316,7 @@ class ArticleControllerTest {
       var normZf0 =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -338,7 +339,7 @@ class ArticleControllerTest {
                           """))
               .build();
 
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
       when(loadZf0UseCase.loadZf0(any())).thenReturn(normZf0);
 
       // When
@@ -373,7 +374,7 @@ class ArticleControllerTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -422,7 +423,7 @@ class ArticleControllerTest {
               .build();
 
       // When
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When
       mockMvc
@@ -445,7 +446,7 @@ class ArticleControllerTest {
     void itReturnsNothingIfNormDoesNotExists() throws Exception {
       // Given
       // When
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadNormUseCase.loadNorm(any())).thenThrow(NormNotFoundException.class);
 
       // When
       mockMvc
@@ -474,7 +475,7 @@ class ArticleControllerTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -523,7 +524,7 @@ class ArticleControllerTest {
               .build();
 
       // When
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
       when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenReturn(Optional.of("<div></div>"));
 
       // When
@@ -542,7 +543,7 @@ class ArticleControllerTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -591,8 +592,8 @@ class ArticleControllerTest {
               .build();
 
       // When
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenReturn(Optional.empty());
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
+      when(loadArticleHtmlUseCase.loadArticleHtml(any())).thenThrow(NormNotFoundException.class);
 
       // When
       mockMvc
@@ -607,7 +608,7 @@ class ArticleControllerTest {
     void itReturnsNotFoundIfNormDoesNotExists() throws Exception {
       // Given
       // When
-      when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadNormUseCase.loadNorm(any())).thenThrow(NormNotFoundException.class);
 
       // When
       mockMvc

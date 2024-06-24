@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
-import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
+import static de.bund.digitalservice.ris.norms.utils.XmlProcessor.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundarySchema;

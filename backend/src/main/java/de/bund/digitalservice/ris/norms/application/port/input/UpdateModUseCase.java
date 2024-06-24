@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public interface UpdateModUseCase {
    * @return An {@link Optional} containing the saved xml representation of {@link Norm} of the
    *     amending law.
    */
-  Optional<Result> updateMod(Query query);
+  Optional<Result> updateMod(Query query) throws NormNotFoundException;
 
   /**
    * A record representing the query for updating an amending command.

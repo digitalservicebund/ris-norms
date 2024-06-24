@@ -8,9 +8,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModif
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.Instant;
-import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ class TimeMachineServiceTest {
       final var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -66,7 +65,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -91,7 +90,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -117,7 +116,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw =
           NormFixtures.loadFromDisk("NormWithModsWhereTargetNodeEqualsNodeToChange.xml");
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -153,7 +152,7 @@ class TimeMachineServiceTest {
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -203,7 +202,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =

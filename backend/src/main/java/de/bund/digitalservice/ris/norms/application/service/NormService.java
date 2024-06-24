@@ -5,11 +5,12 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -55,86 +56,75 @@ public class NormService
   }
 
   @Override
-  public Optional<Norm> loadNorm(final LoadNormUseCase.Query query) {
+  public Norm loadNorm(final LoadNormUseCase.Query query) throws NormNotFoundException {
     return loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
   }
 
   @Override
-  public Optional<Norm> loadNormByGuid(final LoadNormByGuidUseCase.Query query) {
+  public Norm loadNormByGuid(final LoadNormByGuidUseCase.Query query) throws NormNotFoundException {
     return loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(query.guid()));
   }
 
   @Override
-  public Optional<String> loadNormXml(final LoadNormXmlUseCase.Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(Norm::getDocument)
-        .map(XmlMapper::toString);
+  public String loadNormXml(final LoadNormXmlUseCase.Query query) throws NormNotFoundException {
+    return XmlProcessor.toString(
+        loadNormPort.loadNorm(new LoadNormPort.Command(query.eli())).getDocument());
   }
 
   @Override
-  public Optional<Norm> loadNextVersionOfNorm(LoadNextVersionOfNormUseCase.Query query) {
-    return loadNorm(new LoadNormUseCase.Query(query.eli()))
-        .map(n -> n.getMeta().getFRBRExpression().getFRBRaliasNextVersionId())
-        .flatMap(
-            nextVersionGuid -> loadNormByGuid(new LoadNormByGuidUseCase.Query(nextVersionGuid)));
+  public Norm loadNextVersionOfNorm(LoadNextVersionOfNormUseCase.Query query)
+      throws NormNotFoundException {
+    final var norm = loadNorm(new LoadNormUseCase.Query(query.eli()));
+    return loadNormByGuid(
+        new LoadNormByGuidUseCase.Query(
+            norm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()));
   }
 
   @Override
-  public Optional<String> updateNormXml(UpdateNormXmlUseCase.Query query)
-      throws InvalidUpdateException {
+  public String updateNormXml(UpdateNormXmlUseCase.Query query)
+      throws InvalidUpdateException, NormNotFoundException {
     var existingNorm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
 
-    if (existingNorm.isEmpty()) {
-      return Optional.empty();
-    }
+    var updatedNorm = Norm.builder().document(XmlProcessor.toDocument(query.xml())).build();
 
-    var updatedNorm = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
-
-    if (!existingNorm.get().getEli().equals(updatedNorm.getEli())) {
+    if (!existingNorm.getEli().equals(updatedNorm.getEli())) {
       throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the ELI is not supported.");
     }
 
-    if (!existingNorm.get().getGuid().equals(updatedNorm.getGuid())) {
+    if (!existingNorm.getGuid().equals(updatedNorm.getGuid())) {
       throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the GUID is not supported.");
     }
 
-    return updateNormPort
-        .updateNorm(new UpdateNormPort.Command(updatedNorm))
-        .map(Norm::getDocument)
-        .map(XmlMapper::toString);
+    return XmlProcessor.toString(
+        updateNormPort.updateNorm(new UpdateNormPort.Command(updatedNorm)).getDocument());
   }
 
   @Override
-  public List<String> loadSpecificArticles(LoadSpecificArticleXmlFromNormUseCase.Query query) {
-    List<Article> articles =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .map(Norm::getArticles)
-            .orElse(List.of());
-
+  public List<String> loadSpecificArticles(LoadSpecificArticleXmlFromNormUseCase.Query query)
+      throws NormNotFoundException {
+    final List<Article> articles =
+        loadNormPort.loadNorm(new LoadNormPort.Command(query.eli())).getArticles();
     if (query.refersTo() == null) {
-      return articles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
+      return articles.stream().map(a -> XmlProcessor.toString(a.getNode())).toList();
     } else {
       return articles.stream()
           .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
-          .map(a -> XmlMapper.toString(a.getNode()))
+          .map(a -> XmlProcessor.toString(a.getNode()))
           .toList();
     }
   }
 
   @Override
-  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
+  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query)
+      throws NormNotFoundException {
 
-    final Optional<Norm> amendingNormOptional =
-        loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    final Norm amendingNorm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     final Optional<String> targetNormEliOptional = new Href(query.destinationHref()).getEli();
-    if (amendingNormOptional.isEmpty() || targetNormEliOptional.isEmpty()) {
+    if (targetNormEliOptional.isEmpty()) {
       return Optional.empty();
     }
-    final Norm amendingNorm = amendingNormOptional.get();
     final Norm targetNorm =
-        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEliOptional.get())).orElseThrow();
+        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEliOptional.get()));
     final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
     // Update active mods (meta and body) in amending law
@@ -166,7 +156,7 @@ public class NormService
     }
     return Optional.of(
         new UpdateModUseCase.Result(
-            XmlMapper.toString(amendingNorm.getDocument()),
-            XmlMapper.toString(zf0Norm.getDocument())));
+            XmlProcessor.toString(amendingNorm.getDocument()),
+            XmlProcessor.toString(zf0Norm.getDocument())));
   }
 }

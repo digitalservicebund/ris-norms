@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.GlobalExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
@@ -21,7 +21,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeInterval;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.Assertions;
@@ -77,9 +77,9 @@ class TimeBoundaryControllerTest {
       List<TimeBoundary> timeBoundaries =
           List.of(
               new TimeBoundary(
-                  new TimeInterval(XmlMapper.toNode(timeInterval)),
-                  new EventRef(XmlMapper.toNode(eventRef)),
-                  new TemporalGroup(XmlMapper.toNode(temporalGroup))));
+                  new TimeInterval(XmlProcessor.toNode(timeInterval)),
+                  new EventRef(XmlProcessor.toNode(eventRef)),
+                  new TemporalGroup(XmlProcessor.toNode(temporalGroup))));
 
       when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(any())).thenReturn(timeBoundaries);
 
@@ -152,9 +152,9 @@ class TimeBoundaryControllerTest {
       List<TimeBoundary> timeBoundaries =
           List.of(
               new TimeBoundary(
-                  new TimeInterval(XmlMapper.toNode(timeInterval1)),
-                  new EventRef(XmlMapper.toNode(eventRef1)),
-                  new TemporalGroup(XmlMapper.toNode(temporalGroup))));
+                  new TimeInterval(XmlProcessor.toNode(timeInterval1)),
+                  new EventRef(XmlProcessor.toNode(eventRef1)),
+                  new TemporalGroup(XmlProcessor.toNode(temporalGroup))));
 
       when(updateTimeBoundariesUseCase.updateTimeBoundariesOfNorm(any()))
           .thenReturn(timeBoundaries);
@@ -181,7 +181,7 @@ class TimeBoundaryControllerTest {
     void updateTimeBoundariesMultipleSameDatesReturns400() throws Exception {
       // Given
       MemoryAppender memoryAppender;
-      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(GlobalExceptionHandler.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
       logger.setLevel(Level.ALL);
@@ -237,7 +237,7 @@ class TimeBoundaryControllerTest {
     void updateTimeBoundariesWithEmptyListReturns400() throws Exception {
       // Given
       MemoryAppender memoryAppender;
-      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(GlobalExceptionHandler.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
       logger.setLevel(Level.ALL);
@@ -273,7 +273,7 @@ class TimeBoundaryControllerTest {
     void updateTimeBoundariesReturnsDateIsNull() throws Exception {
       // Given
       MemoryAppender memoryAppender;
-      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(GlobalExceptionHandler.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
       logger.setLevel(Level.ALL);

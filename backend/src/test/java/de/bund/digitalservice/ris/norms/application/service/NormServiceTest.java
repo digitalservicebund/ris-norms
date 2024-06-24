@@ -17,12 +17,12 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -59,7 +59,7 @@ class NormServiceTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -78,7 +78,7 @@ class NormServiceTest {
                             </akn:akomaNtoso>
                           """))
               .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When
       var returnedNorm = service.loadNorm(new LoadNormUseCase.Query(eli));
@@ -86,7 +86,7 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(returnedNorm).isPresent().contains(norm);
+      assertThat(returnedNorm).isEqualTo(norm);
     }
   }
 
@@ -101,7 +101,7 @@ class NormServiceTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -123,7 +123,7 @@ class NormServiceTest {
                             </akn:akomaNtoso>
                           """))
               .build();
-      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(norm));
+      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(norm);
 
       // When
       var returnedNorm = service.loadNormByGuid(new LoadNormByGuidUseCase.Query(guid));
@@ -131,7 +131,7 @@ class NormServiceTest {
       // Then
       verify(loadNormByGuidPort, times(1))
           .loadNormByGuid(argThat(argument -> Objects.equals(argument.guid(), guid)));
-      assertThat(returnedNorm).isPresent().contains(norm);
+      assertThat(returnedNorm).isEqualTo(norm);
     }
   }
 
@@ -146,7 +146,7 @@ class NormServiceTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -165,7 +165,7 @@ class NormServiceTest {
             </akn:akomaNtoso>
           """))
               .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When
       var xml = service.loadNormXml(new LoadNormXmlUseCase.Query(eli));
@@ -173,23 +173,21 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xml).isPresent();
-      assertThat(xml.get()).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
+      assertThat(xml).isEqualTo(XmlProcessor.toString(norm.getDocument()));
     }
 
     @Test
-    void itCallsLoadNormAndReturnsEmptyIfNotFound() {
+    void itCallsLoadNormAndReturnsNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(any())).thenThrow(NormNotFoundException.class);
 
       // When
-      var xml = service.loadNormXml(new LoadNormXmlUseCase.Query(eli));
-
+      var thrown = catchThrowable(() -> service.loadNormXml(new LoadNormXmlUseCase.Query(eli)));
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xml).isEmpty();
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
   }
 
@@ -202,7 +200,7 @@ class NormServiceTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -228,7 +226,7 @@ class NormServiceTest {
       var nextVersionNorm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                             <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -250,8 +248,8 @@ class NormServiceTest {
                             </akn:akomaNtoso>
                           """))
               .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(nextVersionNorm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
+      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(nextVersionNorm);
 
       // When
       var returnedNorm =
@@ -274,7 +272,7 @@ class NormServiceTest {
                       Objects.equals(
                           argument.guid(),
                           UUID.fromString("91238a23-4321-31ac-34ad-87ad62e89f01"))));
-      assertThat(returnedNorm).isPresent().contains(nextVersionNorm);
+      assertThat(returnedNorm).isEqualTo(nextVersionNorm);
     }
   }
 
@@ -354,11 +352,11 @@ class NormServiceTest {
              </akn:act>
           </akn:akomaNtoso>
           """;
-      var oldNorm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
-      var newNorm = Norm.builder().document(XmlMapper.toDocument(newXml)).build();
+      var oldNorm = Norm.builder().document(XmlProcessor.toDocument(oldXml)).build();
+      var newNorm = Norm.builder().document(XmlProcessor.toDocument(newXml)).build();
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(newNorm));
+      when(loadNormPort.loadNorm(any())).thenReturn(oldNorm);
+      when(updateNormPort.updateNorm(any())).thenReturn(newNorm);
 
       // When
       var result = service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml));
@@ -368,13 +366,13 @@ class NormServiceTest {
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(1))
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), newNorm)));
-      assertThat(result).isPresent();
-      assertThat(result.get())
+
+      assertThat(result)
           .contains("Entwurf eines Dritten Gesetzes zur Änderung des Vereinsgesetzes");
     }
 
     @Test
-    void itReturnsEmptyIfNormDoesNotExist() throws UpdateNormXmlUseCase.InvalidUpdateException {
+    void itThrowsExceptionIfNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
@@ -413,16 +411,17 @@ class NormServiceTest {
           </akn:akomaNtoso>
           """;
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(any())).thenThrow(NormNotFoundException.class);
 
       // When
-      var result = service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml));
+      var thrown =
+          catchThrowable(() -> service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml)));
 
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(result).isEmpty();
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
@@ -498,9 +497,9 @@ class NormServiceTest {
              </akn:act>
           </akn:akomaNtoso>
           """;
-      var oldNorm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
+      var oldNorm = Norm.builder().document(XmlProcessor.toDocument(oldXml)).build();
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
+      when(loadNormPort.loadNorm(any())).thenReturn(oldNorm);
 
       // When
       var thrown =
@@ -586,9 +585,9 @@ class NormServiceTest {
              </akn:act>
           </akn:akomaNtoso>
           """;
-      var oldNorm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
+      var oldNorm = Norm.builder().document(XmlProcessor.toDocument(oldXml)).build();
 
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
+      when(loadNormPort.loadNorm(any())).thenReturn(oldNorm);
 
       // When
       var thrown =
@@ -613,7 +612,7 @@ class NormServiceTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                           <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                           <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -635,7 +634,7 @@ class NormServiceTest {
                           </akn:akomaNtoso>
                         """))
               .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When
       var xmls =
@@ -650,20 +649,22 @@ class NormServiceTest {
     }
 
     @Test
-    void itCallsLoadNormAndReturnsEmptyIfNotFound() {
+    void itCallsLoadNormAndThrowsNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(any())).thenThrow(NormNotFoundException.class);
 
       // When
-      var xmls =
-          service.loadSpecificArticles(
-              new LoadSpecificArticleXmlFromNormUseCase.Query(eli, "geltungszeitregel"));
+      var thrown =
+          catchThrowable(
+              () ->
+                  service.loadSpecificArticles(
+                      new LoadSpecificArticleXmlFromNormUseCase.Query(eli, "geltungszeitregel")));
 
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xmls).isEmpty();
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
   }
 
@@ -675,7 +676,7 @@ class NormServiceTest {
     var norm =
         Norm.builder()
             .document(
-                XmlMapper.toDocument(
+                XmlProcessor.toDocument(
                     """
                                         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                                         <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -697,7 +698,7 @@ class NormServiceTest {
                                         </akn:akomaNtoso>
                                       """))
             .build();
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+    when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
     // When
     var xmls =
@@ -715,22 +716,28 @@ class NormServiceTest {
   class UpdateMod {
 
     @Test
-    void itCallsLoadNormAndReturnsEmptyBecauseEliNotFound() {
+    void itCallsLoadNormAndThrowsNotFoundBecauseNormWithEliNotfound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(any())).thenThrow(NormNotFoundException.class);
 
       // When
-      var result =
-          service.updateMod(
-              new UpdateModUseCase.Query(
-                  eli, "eid", "refersTo", "time-boundary-eid", "destinanation-href", "new text"));
-
+      var thrown =
+          catchThrowable(
+              () ->
+                  service.updateMod(
+                      new UpdateModUseCase.Query(
+                          eli,
+                          "eid",
+                          "refersTo",
+                          "time-boundary-eid",
+                          "destinanation-href",
+                          "new text")));
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(result).isEmpty();
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
@@ -738,7 +745,7 @@ class NormServiceTest {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       String eli = amendingLaw.getEli();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(loadNormPort.loadNorm(any())).thenReturn(amendingLaw);
 
       // When
       var xml =
@@ -785,13 +792,11 @@ class NormServiceTest {
               + newCharacterRange
               + ".xml";
       String newText = "new text";
-      when(loadNormPort.loadNorm(any()))
-          .thenReturn(Optional.of(amendingNorm))
-          .thenReturn(Optional.of(targetNorm));
+      when(loadNormPort.loadNorm(any())).thenReturn(amendingNorm).thenReturn((targetNorm));
       when(loadZf0Service.loadZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(any())).thenReturn(amendingNorm);
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
@@ -829,13 +834,11 @@ class NormServiceTest {
               + newCharacterRange
               + ".xml";
       String newText = "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3";
-      when(loadNormPort.loadNorm(any()))
-          .thenReturn(Optional.of(amendingNorm))
-          .thenReturn(Optional.of(targetNorm));
+      when(loadNormPort.loadNorm(any())).thenReturn(amendingNorm).thenReturn(targetNorm);
       when(loadZf0Service.loadZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(any())).thenReturn(amendingNorm);
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
@@ -877,7 +880,7 @@ class NormServiceTest {
 
       assertThat(returnedXml).isPresent();
       final Document amendingXmlDocument =
-          XmlMapper.toDocument(returnedXml.get().amendingNormXml());
+          XmlProcessor.toDocument(returnedXml.get().amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
@@ -885,7 +888,7 @@ class NormServiceTest {
       assertThat(mod.getTargetHref().get().value()).contains(newDestinationHref);
       assertThat(mod.getNewText()).contains(newText);
       assertThat(returnedXml.get().targetNormZf0Xml())
-          .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
+          .isEqualTo(XmlProcessor.toString(zf0Norm.getDocument()));
     }
   }
 }

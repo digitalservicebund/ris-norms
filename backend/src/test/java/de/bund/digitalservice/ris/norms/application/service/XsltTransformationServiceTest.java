@@ -5,8 +5,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import de.bund.digitalservice.ris.norms.application.exception.TransformationException;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -182,7 +182,7 @@ class XsltTransformationServiceTest {
                     new TransformLegalDocMlToHtmlUseCase.Query(
                         "<data><invalid xml</data>", false)));
 
-    assertThat(throwable).isInstanceOf(XmlProcessingException.class);
+    assertThat(throwable).isInstanceOf(TransformationException.class);
     assertThat(throwable.getMessage())
         .isEqualToIgnoringWhitespace(
             """

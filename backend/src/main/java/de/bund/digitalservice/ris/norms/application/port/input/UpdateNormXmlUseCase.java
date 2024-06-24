@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import java.util.Optional;
 
 /**
  * Interface representing the use case for updating the XML representation of a norm.
@@ -14,10 +14,9 @@ public interface UpdateNormXmlUseCase {
    * Updates a xml representation of {@link Norm} based on the provided query.
    *
    * @param query The query specifying the amending law to be loaded.
-   * @return An {@link Optional} containing the saved xml representation of {@link Norm} if found,
-   *     or empty if not found.
+   * @return the saved xml representation of {@link Norm}.
    */
-  Optional<String> updateNormXml(Query query) throws InvalidUpdateException;
+  String updateNormXml(Query query) throws InvalidUpdateException, NormNotFoundException;
 
   /**
    * A record representing the query for updating the XML representation of a norm. The query

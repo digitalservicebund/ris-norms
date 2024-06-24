@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.utils;
 
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.utils.exception.XmlProcessingException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -21,10 +21,10 @@ import org.xml.sax.SAXException;
  * Mapper class for converting between a string containing xml and various types of w3c DOM
  * elements.
  */
-public class XmlMapper {
+public class XmlProcessor {
 
   // Private constructor to hide the implicit public one and prevent instantiation
-  private XmlMapper() {}
+  private XmlProcessor() {}
 
   /**
    * Maps a string containing xml to a {@link Document}.
@@ -80,5 +80,26 @@ public class XmlMapper {
     }
 
     return writer.toString();
+  }
+
+  /**
+   * Clones a document
+   *
+   * @param originalDocument the original document
+   * @return the cloned document
+   */
+  public static Document cloneDocument(Document originalDocument) {
+    try {
+      final Node originalRootNode = originalDocument.getDocumentElement();
+      final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      final DocumentBuilder db = dbf.newDocumentBuilder();
+
+      final Document clonedDocument = db.newDocument();
+      final Node clonedRootNode = clonedDocument.importNode(originalRootNode, true);
+      clonedDocument.appendChild(clonedRootNode);
+      return clonedDocument;
+    } catch (ParserConfigurationException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
+    }
   }
 }

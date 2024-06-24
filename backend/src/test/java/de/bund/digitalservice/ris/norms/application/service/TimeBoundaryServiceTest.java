@@ -16,11 +16,10 @@ import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
@@ -43,7 +42,7 @@ class TimeBoundaryServiceTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                               <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                               <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -73,7 +72,7 @@ class TimeBoundaryServiceTest {
                               </akn:akomaNtoso>
                             """))
               .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When
       var timeBoundaries =
@@ -203,7 +202,7 @@ class TimeBoundaryServiceTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                                               <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                                               <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -223,7 +222,7 @@ class TimeBoundaryServiceTest {
                                               </akn:akomaNtoso>
                                             """))
               .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When
       var timeBoundaries =
@@ -289,12 +288,12 @@ class TimeBoundaryServiceTest {
               </akn:akomaNtoso>
               """;
 
-      var normBefore = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
-      var normAfter = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
+      var normBefore = Norm.builder().document(XmlProcessor.toDocument(oldXml)).build();
+      var normAfter = Norm.builder().document(XmlProcessor.toDocument(oldXml)).build();
 
       // Given
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(normAfter));
+      when(loadNormPort.loadNorm(any())).thenReturn(normBefore);
+      when(updateNormPort.updateNorm(any())).thenReturn(normAfter);
 
       // When
       var timeBoundaryChangeDataOldStays =
@@ -364,10 +363,13 @@ class TimeBoundaryServiceTest {
               </akn:akomaNtoso>
               """;
 
-      var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var normBefore = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
 
       // Given
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(normBefore);
+      // We don't care here about the updated norm
+      when(updateNormPort.updateNorm(any())).thenReturn(normBefore);
+
       // When
       var timeBoundaryChangeDataOldStays =
           new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-2", LocalDate.parse("2023-12-30"));
@@ -462,10 +464,12 @@ class TimeBoundaryServiceTest {
                   </akn:akomaNtoso>
                   """;
 
-      var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var normBefore = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
 
       // Given
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(normBefore);
+      // We don't care here about the updated norm
+      when(updateNormPort.updateNorm(any())).thenReturn(normBefore);
 
       // When
       var timeBoundaryChangeDataOldStays =
@@ -528,10 +532,12 @@ class TimeBoundaryServiceTest {
                   </akn:akomaNtoso>
                   """;
 
-      var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var normBefore = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
 
       // Given
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(normBefore);
+      // We don't care here about the updated norm
+      when(updateNormPort.updateNorm(any())).thenReturn(normBefore);
 
       // When
       var timeBoundaryChangeDataNewDate1 =
@@ -613,10 +619,12 @@ class TimeBoundaryServiceTest {
                       </akn:akomaNtoso>
                       """;
 
-      var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var normBefore = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
 
       // Given
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(normBefore);
+      // We don't care here about the updated norm
+      when(updateNormPort.updateNorm(any())).thenReturn(normBefore);
 
       // When
       var timeBoundaryChangeDataNewDate1 =

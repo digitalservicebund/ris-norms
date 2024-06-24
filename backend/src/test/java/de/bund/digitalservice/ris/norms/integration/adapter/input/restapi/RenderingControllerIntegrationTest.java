@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -36,11 +36,11 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
       var jsonPayload = new JsonObject();
       jsonPayload.addProperty(
           "norm",
-          XmlMapper.toString(
+          XmlProcessor.toString(
               NormFixtures.loadFromDisk("NormWithPassiveModifications.xml").getDocument()));
       var customNormsJson = new JsonArray();
       customNormsJson.add(
-          XmlMapper.toString(NormFixtures.loadFromDisk("NormWithMods.xml").getDocument()));
+          XmlProcessor.toString(NormFixtures.loadFromDisk("NormWithMods.xml").getDocument()));
       jsonPayload.add("customNorms", customNormsJson);
 
       // When // Then

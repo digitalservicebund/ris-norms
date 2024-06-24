@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.TransformationException;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -46,7 +46,7 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
           new StreamResult(output));
       return output.toString();
     } catch (IOException | TransformerException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
+      throw new TransformationException(e.getMessage(), e);
     }
   }
 }

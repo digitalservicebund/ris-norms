@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                     <meta:fna>111-11-1</meta:fna>
@@ -29,7 +29,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                                 </meta:legalDocML.de_metadaten>
@@ -44,7 +44,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                                     <meta:art>test art</meta:art>
@@ -60,7 +60,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                                 </meta:legalDocML.de_metadaten>
@@ -75,7 +75,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                                     <meta:typ>typi1</meta:typ>
@@ -91,7 +91,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                                                 </meta:legalDocML.de_metadaten>
@@ -106,7 +106,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                         <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                             <meta:federfuehrung>
@@ -140,7 +140,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                                                 </meta:legalDocML.de_metadaten>
@@ -156,7 +156,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                                         <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                                                             <meta:federfuehrung>
@@ -185,7 +185,7 @@ class MetadatenDeTest {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                         <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                                                             <meta:federfuehrung>

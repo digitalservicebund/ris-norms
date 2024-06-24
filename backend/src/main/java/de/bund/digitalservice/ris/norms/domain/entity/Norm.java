@@ -4,7 +4,7 @@ import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpr
 
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.LocalDate;
 import java.util.*;
 import lombok.AllArgsConstructor;
@@ -305,6 +305,6 @@ public class Norm {
 
   @Override
   public int hashCode() {
-    return Objects.hash(XmlMapper.toString(document));
+    return Objects.hash(XmlProcessor.toString(document));
   }
 }

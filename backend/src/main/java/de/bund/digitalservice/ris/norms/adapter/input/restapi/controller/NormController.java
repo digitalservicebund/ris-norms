@@ -8,8 +8,9 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormRespons
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import jakarta.validation.Valid;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -65,12 +66,9 @@ public class NormController {
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<NormResponseSchema> getNorm(final Eli eli) {
-    return loadNormUseCase
-        .loadNorm(new LoadNormUseCase.Query(eli.getValue()))
-        .map(NormResponseMapper::fromUseCaseData)
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+  public ResponseEntity<NormResponseSchema> getNorm(final Eli eli) throws NormNotFoundException {
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+    return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 
   /**
@@ -86,11 +84,9 @@ public class NormController {
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
   @GetMapping(produces = {APPLICATION_XML_VALUE})
-  public ResponseEntity<String> getNormXml(final Eli eli) {
-    return loadNormXmlUseCase
-        .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+  public ResponseEntity<String> getNormXml(final Eli eli) throws NormNotFoundException {
+    return ResponseEntity.ok(
+        loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue())));
   }
 
   /**
@@ -112,7 +108,8 @@ public class NormController {
   public ResponseEntity<String> getNormRender(
       final Eli eli,
       @RequestParam(defaultValue = "false") boolean showMetadata,
-      @RequestParam Optional<String> atIsoDate) {
+      @RequestParam Optional<String> atIsoDate)
+      throws NormNotFoundException {
     if (atIsoDate.isPresent()) {
       try {
         DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
@@ -120,30 +117,19 @@ public class NormController {
         return ResponseEntity.badRequest().build();
       }
 
-      return loadNormUseCase
-          .loadNorm(new LoadNormUseCase.Query(eli.getValue()))
-          .map(
-              norm ->
-                  applyPassiveModificationsUseCase.applyPassiveModifications(
-                      new ApplyPassiveModificationsUseCase.Query(
-                          norm, Instant.parse(atIsoDate.get()))))
-          .map(
-              norm ->
-                  ResponseEntity.ok(
-                      this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                          new TransformLegalDocMlToHtmlUseCase.Query(
-                              XmlMapper.toString(norm.getDocument()), showMetadata))))
-          .orElseGet(() -> ResponseEntity.notFound().build());
+      var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+      applyPassiveModificationsUseCase.applyPassiveModifications(
+          new ApplyPassiveModificationsUseCase.Query(norm, Instant.parse(atIsoDate.get())));
+      return ResponseEntity.ok(
+          this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+              new TransformLegalDocMlToHtmlUseCase.Query(
+                  XmlProcessor.toString(norm.getDocument()), showMetadata)));
     }
 
-    return loadNormXmlUseCase
-        .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
-        .map(
-            xml ->
-                ResponseEntity.ok(
-                    this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata))))
-        .orElseGet(() -> ResponseEntity.notFound().build());
+    var normXml = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()));
+    return ResponseEntity.ok(
+        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(normXml, showMetadata)));
   }
 
   /**
@@ -162,12 +148,11 @@ public class NormController {
   @PutMapping(
       consumes = {APPLICATION_XML_VALUE},
       produces = {APPLICATION_XML_VALUE})
-  public ResponseEntity<String> updateAmendingLaw(final Eli eli, @RequestBody String xml) {
+  public ResponseEntity<String> updateAmendingLaw(final Eli eli, @RequestBody String xml)
+      throws NormNotFoundException {
     try {
-      return updateNormXmlUseCase
-          .updateNormXml(new UpdateNormXmlUseCase.Query(eli.getValue(), xml))
-          .map(ResponseEntity::ok)
-          .orElseGet(() -> ResponseEntity.notFound().build());
+      return ResponseEntity.ok(
+          updateNormXmlUseCase.updateNormXml(new UpdateNormXmlUseCase.Query(eli.getValue(), xml)));
     } catch (UpdateNormXmlUseCase.InvalidUpdateException e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
@@ -194,7 +179,8 @@ public class NormController {
       final Eli eli,
       @PathVariable final String eid,
       @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
-      @RequestParam(defaultValue = "false") final Boolean dryRun) {
+      @RequestParam(defaultValue = "false") final Boolean dryRun)
+      throws NormNotFoundException {
 
     return updateModUseCase
         .updateMod(

@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.output;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -14,9 +14,9 @@ public interface LoadNormByGuidPort {
    * Loads a {@link Norm} based on the provided GUID specified in the command.
    *
    * @param command The command specifying the GUID to identify the norm to be loaded.
-   * @return An {@link Optional} containing the loaded {@link Norm} if found, or empty if not found.
+   * @return The loaded {@link Norm}
    */
-  Optional<Norm> loadNormByGuid(final Command command);
+  Norm loadNormByGuid(final Command command) throws NormNotFoundException;
 
   /**
    * A record representing the command for loading a norm. The command includes the GUID to identify

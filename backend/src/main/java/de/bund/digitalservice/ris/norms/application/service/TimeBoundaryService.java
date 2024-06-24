@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
@@ -36,11 +37,9 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
    * @return a List of TimeBoundaries
    */
   @Override
-  public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(Norm::getTimeBoundaries)
-        .orElse(List.of());
+  public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query)
+      throws NormNotFoundException {
+    return loadNormPort.loadNorm(new LoadNormPort.Command(query.eli())).getTimeBoundaries();
   }
 
   /**
@@ -48,32 +47,31 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
    * @return a List of TimeBoundaries
    */
   @Override
-  public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
-    Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    Optional<Norm> normResponse = Optional.empty();
-    if (norm.isPresent()) {
+  public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query)
+      throws NormNotFoundException {
+    Norm norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
 
-      // At first time boundaries that shall be deleted need to be selected
-      // if we would delete first, there are cases where the next possible eId could not be safely
-      // calculated
-      // example norm: only one date exists (2023-01-01, id2). That date gets deleted and a new date
-      // (2024-01-01, null)
-      // is being added. Then id3 could not be calculated.
-      List<TimeBoundaryChangeData> timeBoundariesToDelete =
-          selectTimeBoundariesToDelete(query.timeBoundaries(), norm.get());
+    // At first time boundaries that shall be deleted need to be selected
+    // if we would delete first, there are cases where the next possible eId could not be safely
+    // calculated
+    // example norm: only one date exists (2023-01-01, id2). That date gets deleted and a new date
+    // (2024-01-01, null)
+    // is being added. Then id3 could not be calculated.
+    List<TimeBoundaryChangeData> timeBoundariesToDelete =
+        selectTimeBoundariesToDelete(query.timeBoundaries(), norm);
 
-      // Add TimeBoundaries where eid is null|empty
-      addTimeBoundaries(query.timeBoundaries(), norm.get());
+    // Add TimeBoundaries where eid is null|empty
+    addTimeBoundaries(query.timeBoundaries(), norm);
 
-      deleteTimeBoundaries(timeBoundariesToDelete, norm.get());
+    deleteTimeBoundaries(timeBoundariesToDelete, norm);
 
-      editTimeBoundaries(query.timeBoundaries(), norm.get());
+    editTimeBoundaries(query.timeBoundaries(), norm);
 
-      EidConsistencyGuardian.correctEids(norm.get().getDocument());
+    EidConsistencyGuardian.correctEids(norm.getDocument());
 
-      normResponse = updateNormPort.updateNorm(new UpdateNormPort.Command(norm.get()));
-    }
-    return normResponse.map(Norm::getTimeBoundaries).orElse(List.of());
+    final Norm normResponse = updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
+
+    return normResponse.getTimeBoundaries();
   }
 
   private void editTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {

@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ class ElementResponseMapperTest {
   void convertsAnArticleNode() {
     // Given
     var node =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
             <akn:article GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
               <akn:num GUID="000" eId="hauptteil-1_bezeichnung-1">
@@ -39,7 +39,7 @@ class ElementResponseMapperTest {
   void convertsAnArticleWithMissingMarkerToNode() {
     // Given
     var node =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
             <akn:article GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
               <akn:heading GUID="000" eId="hauptteil-1_überschrift-1">
@@ -62,7 +62,7 @@ class ElementResponseMapperTest {
   void convertsAnArticleWithMissingHeadingToNode() {
     // Given
     var node =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
             <akn:article GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
               <akn:num GUID="000" eId="hauptteil-1_bezeichnung-1">
@@ -86,7 +86,7 @@ class ElementResponseMapperTest {
   void convertsAnArticleWithoutTitleToNode() {
     // Given
     var node =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
             <akn:article GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
               <akn:paragraph GUID="000" eId="hauptteil-1_abs-1"></akn:paragraph>
@@ -106,7 +106,7 @@ class ElementResponseMapperTest {
   void convertsAPrefaceNode() {
     // Given
     var node =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
             <akn:preface eId="einleitung-1" GUID="000">
               <akn:longTitle></akn:longTitle>
@@ -127,7 +127,7 @@ class ElementResponseMapperTest {
   void convertsAPreambleNode() {
     // Given
     var node =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
             <akn:preamble eId="preambel-1" GUID="000">
               <akn:formula></akn:formula>
@@ -147,7 +147,7 @@ class ElementResponseMapperTest {
   void convertsAConclusionsNode() {
     // Given
     var node =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
             <akn:conclusions eId="schluss-1" GUID="000">
               <akn:formula></akn:formula>
@@ -168,7 +168,7 @@ class ElementResponseMapperTest {
   void convertsAnArbitraryNode() {
     // Given
     var node =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
             <akn:someRandomNode eId="random-1" GUID="000">
             </akn:someRandomNode>
@@ -187,7 +187,7 @@ class ElementResponseMapperTest {
   void throwsWhenConvertingANodeWithoutEid() {
     // Given
     var node =
-        XmlMapper.toNode(
+        XmlProcessor.toNode(
             """
             <akn:preface GUID="000">
               <akn:longTitle></akn:longTitle>

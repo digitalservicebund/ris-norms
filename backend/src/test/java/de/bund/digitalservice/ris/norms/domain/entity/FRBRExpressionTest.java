@@ -3,8 +3,8 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
+import de.bund.digitalservice.ris.norms.utils.exception.MandatoryNodeNotFoundException;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                   <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -35,7 +35,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                   <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -53,7 +53,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                   <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -75,7 +75,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                   <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -96,7 +96,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                               <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                  <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -116,7 +116,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                               <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                 <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -126,7 +126,8 @@ class FRBRExpressionTest {
                               """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, frbrExpression::getFRBRaliasCurrentVersionId);
+    assertThrows(
+        MandatoryNodeNotFoundException.class, frbrExpression::getFRBRaliasCurrentVersionId);
   }
 
   @Test
@@ -134,7 +135,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                   <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -156,7 +157,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                   <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -176,7 +177,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                   <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -186,7 +187,7 @@ class FRBRExpressionTest {
                                   """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, frbrExpression::getFRBRaliasNextVersionId);
+    assertThrows(MandatoryNodeNotFoundException.class, frbrExpression::getFRBRaliasNextVersionId);
   }
 
   @Test
@@ -194,7 +195,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                   <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                      <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -216,7 +217,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                       <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                          <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -236,7 +237,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                       <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                          <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -257,7 +258,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                       <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                          <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -277,7 +278,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                       <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                         <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
@@ -287,7 +288,7 @@ class FRBRExpressionTest {
                                   """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, frbrExpression::getFBRDate);
+    assertThrows(MandatoryNodeNotFoundException.class, frbrExpression::getFBRDate);
   }
 
   @Test
@@ -295,7 +296,7 @@ class FRBRExpressionTest {
     final FRBRExpression frbrExpression =
         FRBRExpression.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                       <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                                          <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />

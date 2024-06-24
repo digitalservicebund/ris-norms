@@ -8,10 +8,11 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Annou
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itFindsNormOnDB() {
+  void itFindsNormOnDB() throws NormNotFoundException {
     // Given
     final String xml =
         """
@@ -60,20 +61,20 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             """;
 
     // When
-    var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+    var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
     normRepository.save(NormMapper.mapToDto(norm));
 
     // When
-    final Optional<Norm> normOptional =
+    final Norm loadedNorm =
         dbService.loadNorm(
             new LoadNormPort.Command("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
     // Then
-    assertThat(normOptional).isPresent().satisfies(normDb -> assertThat(normDb).contains(norm));
+    assertThat(loadedNorm).isEqualTo(norm);
   }
 
   @Test
-  void itFindsNormByGuidOnDB() {
+  void itFindsNormByGuidOnDB() throws NormNotFoundException {
     // Given
     final String xml =
         """
@@ -98,17 +99,17 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             """;
 
     // When
-    var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+    var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
     normRepository.save(NormMapper.mapToDto(norm));
 
     // When
-    final Optional<Norm> normOptional =
+    final Norm loadedNorm =
         dbService.loadNormByGuid(
             new LoadNormByGuidPort.Command(
                 UUID.fromString("931577e5-66ba-48f5-a6eb-db40bcfd6b87")));
 
     // Then
-    assertThat(normOptional).isPresent().contains(norm);
+    assertThat(loadedNorm).isEqualTo(norm);
   }
 
   @Test
@@ -137,7 +138,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
             """;
 
     // When
-    var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+    var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
     var announcement =
         Announcement.builder()
             .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
@@ -216,13 +217,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
     var announcement1 =
         Announcement.builder()
             .releasedByDocumentalistAt(Instant.parse("2024-01-01T10:20:30.00Z"))
-            .norm(Norm.builder().document(XmlMapper.toDocument(xml1)).build())
+            .norm(Norm.builder().document(XmlProcessor.toDocument(xml1)).build())
             .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement1));
     var announcement2 =
         Announcement.builder()
             .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.00Z"))
-            .norm(Norm.builder().document(XmlMapper.toDocument(xml2)).build())
+            .norm(Norm.builder().document(XmlProcessor.toDocument(xml2)).build())
             .build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement2));
 
@@ -271,7 +272,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
                  </akn:act>
               </akn:akomaNtoso>
             """;
-    var oldNorm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
+    var oldNorm = Norm.builder().document(XmlProcessor.toDocument(oldXml)).build();
     normRepository.save(NormMapper.mapToDto(oldNorm));
 
     final String newXml =
@@ -309,13 +310,13 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
                  </akn:act>
               </akn:akomaNtoso>
             """;
-    var newNorm = Norm.builder().document(XmlMapper.toDocument(newXml)).build();
+    var newNorm = Norm.builder().document(XmlProcessor.toDocument(newXml)).build();
 
     // When
     var normFromDatabase = dbService.updateNorm(new UpdateNormPort.Command(newNorm));
 
     // Then
-    assertThat(normFromDatabase).contains(newNorm);
+    assertThat(normFromDatabase).isEqualTo(newNorm);
   }
 
   @Test
@@ -356,7 +357,7 @@ class DBServiceIntegrationTest extends BaseIntegrationTest {
                  </akn:act>
               </akn:akomaNtoso>
             """;
-    var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+    var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
     var announcement =
         Announcement.builder()
             .norm(norm)

@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
@@ -66,16 +67,19 @@ public class ArticleController {
   public ResponseEntity<List<ArticleResponseSchema>> getArticles(
       final Eli eli,
       @RequestParam final Optional<String> amendedBy,
-      @RequestParam final Optional<String> amendedAt) {
-    final var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+      @RequestParam final Optional<String> amendedAt)
+      throws NormNotFoundException {
+    final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
 
     // amendedAt and amendedBy refer to passive modifications (i.e. amended at a specific
     // date or by a specific change law). So we collect a list of all passive modifications
     // matching both criteria.
 
     var passiveModificationsAmendedAtOrBy =
-        optionalNorm
-            .flatMap(n -> n.getMeta().getAnalysis().map(Analysis::getPassiveModifications))
+        norm
+            .getMeta()
+            .getAnalysis()
+            .map(Analysis::getPassiveModifications)
             .orElse(Collections.emptyList())
             .stream()
             .filter(
@@ -91,17 +95,14 @@ public class ArticleController {
                 passiveModification -> {
                   if (amendedAt.isEmpty()) return true;
                   else
-                    return optionalNorm
-                        .get()
-                        .getStartEventRefForTemporalGroup(
+                    return norm.getStartEventRefForTemporalGroup(
                             passiveModification.getForcePeriodEid().orElseThrow())
                         .equals(amendedAt);
                 })
             .toList();
 
     return ResponseEntity.ok(
-        optionalNorm.map(Norm::getArticles).stream()
-            .flatMap(List::stream)
+        norm.getArticles().stream()
             .filter(
                 article -> {
                   // If we don't filter by anything related to passive modifications,
@@ -131,14 +132,14 @@ public class ArticleController {
                   var targetLawZf0 =
                       article
                           .getAffectedDocumentEli()
-                          .flatMap(
-                              eliTargetLaw ->
-                                  loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
                           .map(
-                              targetLaw ->
-                                  loadZf0UseCase.loadZf0(
-                                      new LoadZf0UseCase.Query(
-                                          optionalNorm.get(), targetLaw, true)))
+                              eliTargetLaw -> {
+                                var targetLaw =
+                                    loadNormUseCase.loadNorm(
+                                        new LoadNormUseCase.Query(eliTargetLaw));
+                                return loadZf0UseCase.loadZf0(
+                                    new LoadZf0UseCase.Query(norm, targetLaw, true));
+                              })
                           .orElse(null);
                   return ArticleResponseMapper.fromNormArticle(article, targetLawZf0);
                 })
@@ -161,7 +162,8 @@ public class ArticleController {
    */
   @GetMapping(produces = {TEXT_HTML_VALUE})
   public ResponseEntity<String> getArticlesRender(
-      final Eli eli, @RequestParam(required = false, name = "refersTo") final String refersTo) {
+      final Eli eli, @RequestParam(required = false, name = "refersTo") final String refersTo)
+      throws NormNotFoundException {
     String articles =
         loadSpecificArticleXmlFromNormUseCase
             .loadSpecificArticles(
@@ -196,11 +198,10 @@ public class ArticleController {
       path = "/{eid}",
       produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<ArticleResponseSchema> getArticle(
-      final Eli eli, @PathVariable final String eid) {
-    var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+      final Eli eli, @PathVariable final String eid) throws NormNotFoundException {
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
     var optionalArticle =
-        optionalNorm.map(Norm::getArticles).stream()
-            .flatMap(List::stream)
+        norm.getArticles().stream()
             .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
             .findFirst();
 
@@ -212,12 +213,12 @@ public class ArticleController {
     var targetLawZf0 =
         article
             .getAffectedDocumentEli()
-            .flatMap(
-                eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
             .map(
-                targetLaw ->
-                    loadZf0UseCase.loadZf0(
-                        new LoadZf0UseCase.Query(optionalNorm.get(), targetLaw, true)))
+                eliTargetLaw -> {
+                  final Norm targetLaw =
+                      loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw));
+                  return loadZf0UseCase.loadZf0(new LoadZf0UseCase.Query(norm, targetLaw, true));
+                })
             .orElse(null);
 
     // The response type is richer than the domain "Norm" type, hence the separate mapper
@@ -243,7 +244,8 @@ public class ArticleController {
       path = "/{eid}",
       produces = {TEXT_HTML_VALUE})
   public ResponseEntity<String> getArticleRender(
-      final Eli eli, @PathVariable final String eid, @RequestParam Optional<Instant> atIsoDate) {
+      final Eli eli, @PathVariable final String eid, @RequestParam Optional<Instant> atIsoDate)
+      throws NormNotFoundException {
     return loadArticleHtmlUseCase
         .loadArticleHtml(
             new LoadArticleHtmlUseCase.Query(eli.getValue(), eid, atIsoDate.orElse(null)))

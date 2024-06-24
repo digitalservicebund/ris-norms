@@ -13,7 +13,7 @@ class NodeCreatorTest {
   void createElement() {
     // given
     final Document document =
-        XmlMapper.toDocument(
+        XmlProcessor.toDocument(
             """
                                                           <root>
                                                               <test>test value</test>
@@ -33,7 +33,7 @@ class NodeCreatorTest {
   void createElementWithEidAndGuid() {
     // given
     final Document document =
-        XmlMapper.toDocument(
+        XmlProcessor.toDocument(
             """
                                                           <root>
                                                               <test eId="test-1">test value</test>
@@ -57,7 +57,7 @@ class NodeCreatorTest {
   void calculateNextPossibleEid() {
     // given
     final Document document =
-        XmlMapper.toDocument(
+        XmlProcessor.toDocument(
             """
                                                           <root>
                                                               <test eId="test-1">test value</test>

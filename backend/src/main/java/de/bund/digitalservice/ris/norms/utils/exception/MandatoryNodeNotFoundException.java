@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.utils.exceptions;
+package de.bund.digitalservice.ris.norms.utils.exception;
 
 import lombok.Getter;
 
@@ -7,17 +7,18 @@ import lombok.Getter;
  * xpath is relative. If norm eli not passed is because the node containing the eli is not present.
  */
 @Getter
-public class MandatoryNodeNotFound extends RuntimeException {
+public class MandatoryNodeNotFoundException extends RuntimeException {
 
-  public MandatoryNodeNotFound(String xpath) {
+  public MandatoryNodeNotFoundException(final String xpath) {
     super(String.format("Element with xpath '%s' not found", xpath));
   }
 
-  public MandatoryNodeNotFound(String xpath, String normEli) {
+  public MandatoryNodeNotFoundException(final String xpath, final String normEli) {
     super(String.format("Element with xpath '%s' not found in norm '%s'", xpath, normEli));
   }
 
-  public MandatoryNodeNotFound(String xpath, String nodeName, String normEli) {
+  public MandatoryNodeNotFoundException(
+      final String xpath, final String nodeName, final String normEli) {
     super(
         String.format(
             "Element with xpath '%s' not found in '%s' of norm '%s'", xpath, nodeName, normEli));

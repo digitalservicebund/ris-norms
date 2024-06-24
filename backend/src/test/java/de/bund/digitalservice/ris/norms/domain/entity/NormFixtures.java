@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -9,7 +9,7 @@ import org.apache.commons.io.IOUtils;
 public class NormFixtures {
 
   public static Norm loadFromDisk(final String fileName) {
-    return Norm.builder().document(XmlMapper.toDocument(loadNormFile(fileName))).build();
+    return Norm.builder().document(XmlProcessor.toDocument(loadNormFile(fileName))).build();
   }
 
   private static String loadNormFile(final String fileName) {

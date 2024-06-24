@@ -1,8 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.application.service.ElementService;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.w3c.dom.Node;

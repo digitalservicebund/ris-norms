@@ -3,8 +3,8 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
+import de.bund.digitalservice.ris.norms.utils.exception.MandatoryNodeNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -38,7 +38,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -53,7 +53,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getFRBRExpression);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getFRBRExpression);
   }
 
   @Test
@@ -61,7 +61,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -84,7 +84,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -99,7 +99,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getFRBRManifestation);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getFRBRManifestation);
   }
 
   @Test
@@ -107,7 +107,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -130,7 +130,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -145,7 +145,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getFRBRWork);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getFRBRWork);
   }
 
   @Test
@@ -153,7 +153,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                                 <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
@@ -178,7 +178,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                                <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -193,7 +193,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getTemporalData);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getTemporalData);
   }
 
   @Test
@@ -201,7 +201,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                                <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -225,7 +225,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                       <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                           <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
@@ -252,7 +252,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                       <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                                    <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -277,7 +277,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                       <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                                    <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -303,7 +303,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                              <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
@@ -324,7 +324,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                        <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                                <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
@@ -339,7 +339,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getLifecycle);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getLifecycle);
   }
 
   @Test
@@ -347,7 +347,7 @@ class MetaTest {
     final Meta meta =
         Meta.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                          <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                                             <akn:proprietary eId="meta-1_proprietary-1"
@@ -384,7 +384,7 @@ class MetaTest {
                   </akn:akomaNtoso>
                   """;
 
-    var norm = new Norm(XmlMapper.toDocument(normXml));
+    var norm = new Norm(XmlProcessor.toDocument(normXml));
 
     // When
     var result = norm.getMeta().getOrCreateProprietary();

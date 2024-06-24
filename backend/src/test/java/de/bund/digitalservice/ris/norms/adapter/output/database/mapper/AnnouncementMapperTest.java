@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.dto.Announcement
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.Instant;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -82,7 +82,7 @@ class AnnouncementMapperTest {
             """;
     var announcement =
         Announcement.builder()
-            .norm(Norm.builder().document(XmlMapper.toDocument(xml)).build())
+            .norm(Norm.builder().document(XmlProcessor.toDocument(xml)).build())
             .releasedByDocumentalistAt(Instant.now())
             .build();
 

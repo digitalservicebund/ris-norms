@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ public interface LoadElementHtmlFromNormUseCase {
    * @return An {@link Optional} containing the HTML string if found, or empty if either the norm or
    *     the element don't exist.
    */
-  Optional<String> loadElementHtmlFromNorm(Query query);
+  Optional<String> loadElementHtmlFromNorm(Query query) throws NormNotFoundException;
 
   /**
    * Contains the parameters needed for loading an element from a norm.

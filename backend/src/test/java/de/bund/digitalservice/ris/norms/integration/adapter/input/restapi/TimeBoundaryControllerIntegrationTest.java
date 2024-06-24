@@ -11,7 +11,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMappe
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -88,7 +88,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               .strip();
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then
@@ -144,7 +144,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               .strip();
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // Then
@@ -205,7 +205,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               .strip();
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // Then
@@ -256,7 +256,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               .strip();
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // Then
@@ -307,7 +307,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               .strip();
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // Then
@@ -368,7 +368,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               .strip();
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // Then
@@ -425,7 +425,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               .strip();
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // Then
@@ -486,7 +486,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               .strip();
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // Then
@@ -599,7 +599,7 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
               .strip();
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // Then

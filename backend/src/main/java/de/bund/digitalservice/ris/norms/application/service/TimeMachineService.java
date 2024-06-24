@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.exception.MandatoryNodeNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
@@ -46,7 +46,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
     try {
       norm.getMeta();
-    } catch (final MandatoryNodeNotFound e) {
+    } catch (final MandatoryNodeNotFoundException e) {
       return norm;
     }
     norm.getMeta()
@@ -80,8 +80,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               if (customNorms.containsKey(sourceEli)) {
                 amendingLaw = customNorms.get(sourceEli);
               } else {
-                amendingLaw =
-                    normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
+                amendingLaw = normService.loadNorm(new LoadNormUseCase.Query(sourceEli));
               }
 
               var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);

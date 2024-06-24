@@ -10,7 +10,7 @@ class NodeParserTest {
 
   @Test
   void testParseNode() {
-    Node node = XmlMapper.toDocument("<test>testValue</test>");
+    Node node = XmlProcessor.toDocument("<test>testValue</test>");
     String expression = "/test/text()";
     Optional<String> text = NodeParser.getValueFromExpression(expression, node);
     assertThat(text).isPresent();
@@ -19,7 +19,7 @@ class NodeParserTest {
 
   @Test
   void returnEmptyOptionalWhenNoTextIsFound() {
-    Node node = XmlMapper.toDocument("<test/>");
+    Node node = XmlProcessor.toDocument("<test/>");
     String expression = "/test/text()";
     Optional<String> text = NodeParser.getValueFromExpression(expression, node);
     assertThat(text).isEmpty();
@@ -27,7 +27,7 @@ class NodeParserTest {
 
   @Test
   void returnNodeWhenFound() {
-    Node node = XmlMapper.toDocument("<test>testValue</test>");
+    Node node = XmlProcessor.toDocument("<test>testValue</test>");
     String expression = "/test";
     Optional<Node> result = NodeParser.getNodeFromExpression(expression, node);
     assertThat(result).isPresent();
@@ -36,7 +36,7 @@ class NodeParserTest {
 
   @Test
   void returnEmptyOptionalWhenNoNodeIsFound() {
-    Node node = XmlMapper.toDocument("<test>testValue</test>");
+    Node node = XmlProcessor.toDocument("<test>testValue</test>");
     String expression = "/bla";
     Optional<Node> result = NodeParser.getNodeFromExpression(expression, node);
     assertThat(result).isEmpty();
@@ -44,7 +44,7 @@ class NodeParserTest {
 
   @Test
   void returnEmptyListWhenNoNodesFound() {
-    Node node = XmlMapper.toDocument("<test>testValue</test>");
+    Node node = XmlProcessor.toDocument("<test>testValue</test>");
     String expression = "/nonExistingNode";
     var nodes = NodeParser.getNodesFromExpression(expression, node);
     assertThat(nodes).isEmpty();
@@ -52,7 +52,7 @@ class NodeParserTest {
 
   @Test
   void getNodeList() {
-    Node node = XmlMapper.toDocument("<test>testValue</test>");
+    Node node = XmlProcessor.toDocument("<test>testValue</test>");
     String expression = "/test";
     var nodes = NodeParser.getNodesFromExpression(expression, node);
     assertThat(nodes).hasSize(1);
@@ -61,7 +61,7 @@ class NodeParserTest {
 
   @Test
   void nodeListToList() {
-    Node node = XmlMapper.toDocument("<foo><test>testValue</test></foo>").getFirstChild();
+    Node node = XmlProcessor.toDocument("<foo><test>testValue</test></foo>").getFirstChild();
     var nodes = NodeParser.nodeListToList(node.getChildNodes());
     assertThat(nodes).hasSize(1);
   }
@@ -69,7 +69,7 @@ class NodeParserTest {
   @Test
   void nodeListToListMultipleElements() {
     Node node =
-        XmlMapper.toDocument("<foo><test>testValue</test><test>testValue2</test></foo>")
+        XmlProcessor.toDocument("<foo><test>testValue</test><test>testValue2</test></foo>")
             .getFirstChild();
     var nodes = NodeParser.nodeListToList(node.getChildNodes());
     assertThat(nodes).hasSize(2);
@@ -77,7 +77,7 @@ class NodeParserTest {
 
   @Test
   void nodeListToListZeroElements() {
-    Node node = XmlMapper.toDocument("<foo></foo>").getFirstChild();
+    Node node = XmlProcessor.toDocument("<foo></foo>").getFirstChild();
     var nodes = NodeParser.nodeListToList(node.getChildNodes());
     assertThat(nodes).isEmpty();
   }

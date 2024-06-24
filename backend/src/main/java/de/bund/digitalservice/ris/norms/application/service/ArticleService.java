@@ -4,9 +4,8 @@ import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModif
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.List;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -28,24 +27,16 @@ public class ArticleService implements LoadArticleHtmlUseCase {
   }
 
   @Override
-  public Optional<String> loadArticleHtml(final Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(
-            norm -> {
-              if (query.atIsoDate() == null) return norm; // no date given -> use the norm unchanged
-              else {
-                return timeMachineService.applyPassiveModifications(
-                    new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate()));
-              }
-            })
-        .map(Norm::getArticles)
-        .stream()
-        .flatMap(List::stream)
+  public Optional<String> loadArticleHtml(final Query query) throws NormNotFoundException {
+    var norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    if (query.atIsoDate() != null)
+      timeMachineService.applyPassiveModifications(
+          new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate()));
+    return norm.getArticles().stream()
         .filter(
             article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
         .findFirst()
-        .map(article -> XmlMapper.toString(article.getNode()))
+        .map(article -> XmlProcessor.toString(article.getNode()))
         .map(
             xml ->
                 xsltTransformationService.transformLegalDocMlToHtml(

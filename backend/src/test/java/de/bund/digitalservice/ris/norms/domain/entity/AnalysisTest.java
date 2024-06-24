@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.Test;
 
 class AnalysisTest {
@@ -13,7 +13,7 @@ class AnalysisTest {
     final Analysis analysis =
         Analysis.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                             <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
                               <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
@@ -41,7 +41,7 @@ class AnalysisTest {
     final Analysis analysis =
         Analysis.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                             <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
                                           </akn:analysis>
@@ -57,7 +57,7 @@ class AnalysisTest {
     final Analysis analysis =
         Analysis.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                             <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
                                               <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
@@ -85,7 +85,7 @@ class AnalysisTest {
     final Analysis analysis =
         Analysis.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                               <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
                                               </akn:analysis>
@@ -101,7 +101,7 @@ class AnalysisTest {
     final Analysis analysis =
         Analysis.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                               <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
                                                               </akn:analysis>
@@ -121,7 +121,7 @@ class AnalysisTest {
     final Analysis analysis =
         Analysis.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                                             <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
                                                               <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
@@ -154,7 +154,7 @@ class AnalysisTest {
     final Analysis analysis =
         Analysis.builder()
             .node(
-                XmlMapper.toNode(
+                XmlProcessor.toNode(
                     """
                                   <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
                                       <akn:passiveModifications eId="meta-1_analysis-1_activemod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">

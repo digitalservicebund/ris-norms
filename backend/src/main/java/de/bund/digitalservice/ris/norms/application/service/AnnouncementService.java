@@ -65,22 +65,18 @@ public class AnnouncementService
             m -> {
               List<Norm> norms =
                   m.getArticles().stream()
+                      .filter(
+                          f ->
+                              f.getRefersTo().isPresent()
+                                  && !f.getRefersTo().get().equals("geltungszeitregel"))
                       .map(
                           a -> {
-                            final Optional<String> optionalTargetLawEli =
-                                a.getAffectedDocumentEli();
-                            final Optional<Norm> optionalTargetLaw =
-                                optionalTargetLawEli.flatMap(
-                                    targetLawEli ->
-                                        loadNormPort.loadNorm(
-                                            new LoadNormPort.Command(targetLawEli)));
-                            return optionalTargetLaw
-                                .map(
-                                    targetLaw ->
-                                        loadZf0Service.loadZf0(
-                                            new LoadZf0UseCase.Query(
-                                                optionalAmendingNorm.get(), targetLaw, true)))
-                                .orElse(null);
+                            final String targetLawEli = a.getAffectedDocumentEli().orElseThrow();
+                            final Norm targetLaw =
+                                loadNormPort.loadNorm(new LoadNormPort.Command(targetLawEli));
+                            return loadZf0Service.loadZf0(
+                                new LoadZf0UseCase.Query(
+                                    optionalAmendingNorm.get(), targetLaw, true));
                           })
                       .filter(Objects::nonNull)
                       .toList();

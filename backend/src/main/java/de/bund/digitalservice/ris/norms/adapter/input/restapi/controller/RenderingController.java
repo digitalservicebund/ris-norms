@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.PreviewRequ
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
@@ -51,10 +51,10 @@ public class RenderingController {
       @RequestParam(defaultValue = "false") boolean showMetadata,
       @RequestParam Optional<Instant> atIsoDate) {
     final var norm =
-        Norm.builder().document(XmlMapper.toDocument(previewRequestSchema.getNorm())).build();
+        Norm.builder().document(XmlProcessor.toDocument(previewRequestSchema.getNorm())).build();
     final Set<Norm> customNorms =
         previewRequestSchema.getCustomNorms().stream()
-            .map(xml -> new Norm(XmlMapper.toDocument(xml)))
+            .map(xml -> new Norm(XmlProcessor.toDocument(xml)))
             .collect(Collectors.toSet());
 
     var normWithAppliedModifications =
@@ -65,6 +65,6 @@ public class RenderingController {
     return ResponseEntity.ok(
         this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
             new TransformLegalDocMlToHtmlUseCase.Query(
-                XmlMapper.toString(normWithAppliedModifications.getDocument()), showMetadata)));
+                XmlProcessor.toString(normWithAppliedModifications.getDocument()), showMetadata)));
   }
 }

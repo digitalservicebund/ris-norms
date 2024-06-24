@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +46,7 @@ class NormMapperTest {
 
     // Then
     assertThat(norm).isNotNull();
-    assertThat(norm.getDocument().isEqualNode(XmlMapper.toDocument(xml))).isTrue();
+    assertThat(norm.getDocument().isEqualNode(XmlProcessor.toDocument(xml))).isTrue();
   }
 
   @Test
@@ -73,14 +73,14 @@ class NormMapperTest {
                  </akn:act>
               </akn:akomaNtoso>
             """;
-    var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+    var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
 
     // When
     final NormDto normDto = NormMapper.mapToDto(norm);
 
     // Then
     assertThat(normDto).isNotNull();
-    assertThat(XmlMapper.toDocument(normDto.getXml()).isEqualNode(norm.getDocument())).isTrue();
+    assertThat(XmlProcessor.toDocument(normDto.getXml()).isEqualNode(norm.getDocument())).isTrue();
     assertThat(normDto.getEli()).isEqualTo(norm.getEli());
     assertThat(normDto.getGuid()).isEqualTo(norm.getGuid());
   }

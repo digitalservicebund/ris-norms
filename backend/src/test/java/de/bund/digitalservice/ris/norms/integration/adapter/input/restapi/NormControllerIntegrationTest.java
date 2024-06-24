@@ -10,7 +10,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormR
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       var norm =
           Norm.builder()
               .document(
-                  XmlMapper.toDocument(
+                  XmlProcessor.toDocument(
                       """
                                  <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
                                  <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -121,7 +121,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                </akn:akomaNtoso>""";
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then
@@ -168,7 +168,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                </akn:akomaNtoso>""";
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then
@@ -225,7 +225,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                </akn:akomaNtoso>""";
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then
@@ -285,7 +285,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
              </akn:akomaNtoso>""";
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then
@@ -331,7 +331,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
              </akn:akomaNtoso>""";
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then
@@ -419,7 +419,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                """;
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(oldXml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then
@@ -480,7 +480,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                </akn:akomaNtoso>""";
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then
@@ -530,7 +530,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                </akn:akomaNtoso>""";
 
       // When
-      var norm = Norm.builder().document(XmlMapper.toDocument(xml)).build();
+      var norm = Norm.builder().document(XmlProcessor.toDocument(xml)).build();
       normRepository.save(NormMapper.mapToDto(norm));
 
       // When // Then

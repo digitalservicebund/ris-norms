@@ -2,19 +2,21 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -58,8 +60,8 @@ class ElementServiceTest {
               </akn:akomaNtoso>
               """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var norm = new Norm(XmlProcessor.toDocument(normXml));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(norm);
 
       // When
       var element = service.loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid));
@@ -72,18 +74,20 @@ class ElementServiceTest {
     }
 
     @Test
-    void itReturnsEmptyOptionalIfNoNormIsFound() {
+    void itThrowsfNoNormIsFound() {
       // Given
       var eli = "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
 
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
+          .thenThrow(NormNotFoundException.class);
 
       // When
-      var element = service.loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid));
-
+      var thrown =
+          catchThrowable(
+              () -> service.loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid)));
       // Then
-      assertThat(element).isEmpty();
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
 
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
     }
@@ -118,8 +122,8 @@ class ElementServiceTest {
               </akn:akomaNtoso>
               """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var norm = new Norm(XmlProcessor.toDocument(normXml));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(norm);
 
       // When
       var element = service.loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid));
@@ -163,8 +167,8 @@ class ElementServiceTest {
               </akn:akomaNtoso>
               """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var norm = new Norm(XmlProcessor.toDocument(normXml));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(norm);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
@@ -179,21 +183,23 @@ class ElementServiceTest {
     }
 
     @Test
-    void itReturnsEmptyOptionalIfNoNormIsFound() {
+    void itThrowsNotFoundIfNoNormIsFound() {
       // Given
       var eli = "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
 
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
+      // when
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
+          .thenThrow(NormNotFoundException.class);
+      Throwable thrown =
+          AssertionsForClassTypes.catchThrowable(
+              () ->
+                  service.loadElementHtmlFromNorm(
+                      new LoadElementHtmlFromNormUseCase.Query(eli, eid)));
 
-      // When
-      var element =
-          service.loadElementHtmlFromNorm(new LoadElementHtmlFromNormUseCase.Query(eli, eid));
-
-      // Then
-      assertThat(element).isEmpty();
-
+      // then
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
@@ -226,8 +232,8 @@ class ElementServiceTest {
               </akn:akomaNtoso>
               """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var norm = new Norm(XmlProcessor.toDocument(normXml));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(norm);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
@@ -274,8 +280,8 @@ class ElementServiceTest {
               </akn:akomaNtoso>
               """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var norm = new Norm(XmlProcessor.toDocument(normXml));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(norm);
       when(timeMachineService.applyPassiveModifications(
               new ApplyPassiveModificationsUseCase.Query(norm, date)))
           .thenReturn(norm);
@@ -301,15 +307,18 @@ class ElementServiceTest {
       var eid = "meta-1";
       var date = Instant.parse("2099-12-31T00:00:00.00Z");
 
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
+          .thenThrow(NormNotFoundException.class);
 
       // When
-      var html =
-          service.loadElementHtmlAtDateFromNorm(
-              new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date));
-
+      var thrown =
+          catchThrowable(
+              () ->
+                  service.loadElementHtmlAtDateFromNorm(
+                      new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)));
       // Then
-      assertThat(html).isEmpty();
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
+
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
     }
 
@@ -344,8 +353,8 @@ class ElementServiceTest {
               </akn:akomaNtoso>
               """;
 
-      var norm = new Norm(XmlMapper.toDocument(normXml));
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
+      var norm = new Norm(XmlProcessor.toDocument(normXml));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(norm);
       when(timeMachineService.applyPassiveModifications(
               new ApplyPassiveModificationsUseCase.Query(norm, date)))
           .thenReturn(norm);
@@ -370,7 +379,7 @@ class ElementServiceTest {
     void returnsAllSupportedTypesFromANorm() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When
       var elements =
@@ -393,7 +402,7 @@ class ElementServiceTest {
     void returnsASubsetOfTypesFromANorm() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When
       var elements =
@@ -410,7 +419,7 @@ class ElementServiceTest {
     void returnsEmptyListIfTypeIsNotInNorm() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When
       var elements =
@@ -425,7 +434,7 @@ class ElementServiceTest {
     void returnsEmptyListIfTypesAreEmpty() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When
       var elements =
@@ -440,7 +449,7 @@ class ElementServiceTest {
     void throwsWhenAttemptingToLoadUnsupportedType() {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(norm);
 
       // When / Then
       assertThatThrownBy(
@@ -457,11 +466,13 @@ class ElementServiceTest {
       // Nothing given -> Loading should fail
 
       // When / Then
-      assertThatThrownBy(
+      when(loadNormPort.loadNorm(any())).thenThrow(NormNotFoundException.class);
+      var thrown =
+          Assertions.catchThrowable(
               () ->
                   service.loadElementsByTypeFromNorm(
-                      new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"))))
-          .isInstanceOf(NormNotFoundException.class);
+                      new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"))));
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
@@ -470,8 +481,7 @@ class ElementServiceTest {
       var targetNorm =
           NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
       var targetNormEli = targetNorm.getEli();
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli)))
-          .thenReturn(Optional.of(targetNorm));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli))).thenReturn(targetNorm);
 
       // When
       var elements =
@@ -494,7 +504,7 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(
               new LoadNormPort.Command(
                   "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")))
-          .thenReturn(Optional.of(targetNorm));
+          .thenReturn(targetNorm);
 
       // When
       var elements =

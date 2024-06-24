@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public interface LoadSpecificArticleXmlFromNormUseCase {
    * @return An {@link Optional} containing the loaded Xml-{@link String} if found, or empty if not
    *     found.
    */
-  List<String> loadSpecificArticles(Query query);
+  List<String> loadSpecificArticles(Query query) throws NormNotFoundException;
 
   /**
    * A record representing the query for loading a norm. The query includes the ELI (European

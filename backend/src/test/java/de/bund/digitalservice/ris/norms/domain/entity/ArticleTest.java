@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toNode;
+import static de.bund.digitalservice.ris.norms.utils.XmlProcessor.toNode;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
@@ -8,9 +8,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
+import de.bund.digitalservice.ris.norms.utils.exception.MandatoryNodeNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class ArticleTest {
@@ -76,7 +75,7 @@ class ArticleTest {
   }
 
   @Test
-  void getEidOrThrow() {
+  void getMandatoryEid() {
     // given
     String articleString =
         """
@@ -95,10 +94,10 @@ class ArticleTest {
   }
 
   @Test
-  void getEidOrThrowThrowsExceptionEidIsMissing() {
+  void getEidOrThrowThrowsExceptionMandatoryEidIsMissing() {
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+    when(loadNormPort.loadNorm(any())).thenReturn(amendingNorm);
     amendingNorm
         .getNodeByEId("hauptteil-1_art-1")
         .get()
@@ -109,13 +108,13 @@ class ArticleTest {
     var article = amendingNorm.getArticles().getFirst();
 
     // when
-    Throwable thrown = catchThrowable(article::getEidOrThrow);
+    Throwable thrown = catchThrowable(article::getMandatoryEid);
 
     // when/then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(MandatoryNodeNotFoundException.class)
         .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): eId is empty in article \"Änderung des Vereinsgesetzes\"");
+            "Element with xpath './@eId' not found in 'akn:article' of norm 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1'");
   }
 
   @Test
@@ -344,7 +343,7 @@ class ArticleTest {
   void getModsOrThrow() {
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+    when(loadNormPort.loadNorm(any())).thenReturn(amendingNorm);
 
     var article = amendingNorm.getArticles().getFirst();
 
@@ -352,31 +351,24 @@ class ArticleTest {
         "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
 
     // when
-    List<Mod> mod = article.getModsOrThrow();
+    List<Mod> mod = article.getMods();
 
     // then
     assertThat(mod.getFirst().getEid()).contains(expectedModEId);
   }
 
   @Test
-  void getModsOrThrowThrowsExceptionNoModsFound() {
+  void getModsEmpty() {
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+    when(loadNormPort.loadNorm(any())).thenReturn(amendingNorm);
     amendingNorm.getMods().stream()
         .map(Mod::getNode)
         .forEach(modeNode -> modeNode.getParentNode().removeChild(modeNode));
 
-    var article = amendingNorm.getArticles().getFirst();
+    var mods = amendingNorm.getArticles().getFirst().getMods();
 
-    // when
-    Throwable thrown = catchThrowable(article::getModsOrThrow);
-
-    // when/then
-    assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
-        .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): There is no mod in article with eId hauptteil-1_art-1");
+    assertThat(mods).isEmpty();
   }
 
   @Test
@@ -503,7 +495,7 @@ class ArticleTest {
   }
 
   @Test
-  void getRefersToOrThrow() {
+  void getMandatoryRefersTo() {
     // given
     String articleString =
         """
@@ -530,17 +522,17 @@ class ArticleTest {
     var expectedRefersTo = "hauptaenderung";
 
     // when
-    var eli = article.getRefersToOrThrow();
+    var eli = article.getMandatoryRefersTo();
 
     // then
     assertThat(eli).isEqualTo(expectedRefersTo);
   }
 
   @Test
-  void getRefersToOrThrowThrowsExceptionRefersToMissing() {
+  void getRefersToOrThrowThrowsExceptionMandatoryRefersToMissing() {
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+    when(loadNormPort.loadNorm(any())).thenReturn(amendingNorm);
     amendingNorm
         .getNodeByEId("hauptteil-1_art-1")
         .get()
@@ -551,12 +543,12 @@ class ArticleTest {
     var article = amendingNorm.getArticles().getFirst();
 
     // when
-    Throwable thrown = catchThrowable(article::getRefersToOrThrow);
+    Throwable thrown = catchThrowable(article::getMandatoryRefersTo);
 
     // when/then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(MandatoryNodeNotFoundException.class)
         .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): RefersTo is empty in article with eId hauptteil-1_art-1");
+            "Element with xpath './@refersTo' not found in 'akn:article' of norm 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1'");
   }
 }

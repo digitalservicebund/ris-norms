@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,7 @@ class ModTest {
 
   @BeforeEach
   void setUp() {
-    mod = Mod.builder().node(XmlMapper.toNode(COMMON_XML)).build();
+    mod = Mod.builder().node(XmlProcessor.toNode(COMMON_XML)).build();
   }
 
   @Test

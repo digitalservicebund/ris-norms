@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import java.util.Optional;
 
 /**
  * Interface representing the use case for loading the xml representation of a {@link Norm}.
@@ -14,9 +14,9 @@ public interface LoadNormXmlUseCase {
    * Retrieves the xml representation of a norm based on the provided query.
    *
    * @param query The query containing the ELI (European Legislation Identifier) of the norm.
-   * @return An {@link Optional} containing the loaded {@link Norm} if found, or empty if not found.
+   * @return the XML of the loaded {@link Norm}
    */
-  Optional<String> loadNormXml(Query query);
+  String loadNormXml(Query query) throws NormNotFoundException;
 
   /**
    * A record representing the query for loading the xml representation of a norm. The query

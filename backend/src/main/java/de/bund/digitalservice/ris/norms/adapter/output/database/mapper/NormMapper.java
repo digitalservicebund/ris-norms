@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 
 /** Mapper class for converting between {@link NormDto} and {@link Norm}. */
 public class NormMapper {
@@ -17,7 +17,7 @@ public class NormMapper {
    * @return A new {@link Norm} mapped from the input {@link NormDto}.
    */
   public static Norm mapToDomain(final NormDto normDto) {
-    return Norm.builder().document(XmlMapper.toDocument(normDto.getXml())).build();
+    return Norm.builder().document(XmlProcessor.toDocument(normDto.getXml())).build();
   }
 
   /**
@@ -28,7 +28,7 @@ public class NormMapper {
    */
   public static NormDto mapToDto(final Norm norm) {
     return NormDto.builder()
-        .xml(XmlMapper.toString(norm.getDocument()))
+        .xml(XmlProcessor.toString(norm.getDocument()))
         .eli(norm.getEli())
         .guid(norm.getGuid())
         .build();

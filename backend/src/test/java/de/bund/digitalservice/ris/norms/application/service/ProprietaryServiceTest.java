@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -10,11 +10,10 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFr
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.time.LocalDate;
-import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -31,14 +30,14 @@ class ProprietaryServiceTest {
       // given
       var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       // when
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(any())).thenThrow(NormNotFoundException.class);
       // then
-      assertThatThrownBy(
+      var thrown =
+          catchThrowable(
               () ->
                   proprietaryService.loadProprietaryFromNorm(
-                      new LoadProprietaryFromNormUseCase.Query(eli)))
-          // then
-          .isInstanceOf(NormNotFoundException.class);
+                      new LoadProprietaryFromNormUseCase.Query(eli)));
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
@@ -46,8 +45,7 @@ class ProprietaryServiceTest {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithoutProprietary));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(normWithoutProprietary);
 
       // when
       var result =
@@ -62,8 +60,7 @@ class ProprietaryServiceTest {
       // given
       var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithProprietary));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(normWithProprietary);
       // when
       var result =
           proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
@@ -80,17 +77,18 @@ class ProprietaryServiceTest {
       // given
       var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       // when
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(
+      when(loadNormPort.loadNorm(any())).thenThrow(NormNotFoundException.class);
+
+      var thrown =
+          catchThrowable(
               () ->
                   proprietaryService.updateProprietaryFromNorm(
                       new UpdateProprietaryFromNormUseCase.Query(
                           eli,
                           LocalDate.parse("2003-01-01"),
                           new UpdateProprietaryFromNormUseCase.Metadata(
-                              "fna", null, null, null, null, null, null, null, null, null, null))))
-          // then
-          .isInstanceOf(NormNotFoundException.class);
+                              "fna", null, null, null, null, null, null, null, null, null, null))));
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
@@ -99,8 +97,7 @@ class ProprietaryServiceTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var date = LocalDate.parse("2003-01-01");
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithoutProprietary));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(normWithoutProprietary);
 
       // when
       var result =
@@ -131,8 +128,7 @@ class ProprietaryServiceTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithProprietary));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(normWithProprietary);
 
       // when
       var result =
@@ -174,8 +170,7 @@ class ProprietaryServiceTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
-      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithProprietary));
+      when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(normWithProprietary);
 
       // when
       var result =

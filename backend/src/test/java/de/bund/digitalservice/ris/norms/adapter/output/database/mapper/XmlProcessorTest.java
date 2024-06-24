@@ -2,11 +2,11 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
-class XmlMapperTest {
+class XmlProcessorTest {
 
   @Test
   void itCanConvertTextToXmlDocument() {
@@ -31,7 +31,7 @@ class XmlMapperTest {
                         """;
 
     // When
-    final Document document = XmlMapper.toDocument(text);
+    final Document document = XmlProcessor.toDocument(text);
 
     // Then
     assertThat(
@@ -67,9 +67,9 @@ class XmlMapperTest {
                         """;
 
     // When
-    final Document document = XmlMapper.toDocument(text);
-    final String text2 = XmlMapper.toString(document);
-    final Document document2 = XmlMapper.toDocument(text2);
+    final Document document = XmlProcessor.toDocument(text);
+    final String text2 = XmlProcessor.toString(document);
+    final Document document2 = XmlProcessor.toDocument(text2);
 
     // Then
     assertThat(document.isEqualNode(document2)).isTrue();
@@ -81,7 +81,7 @@ class XmlMapperTest {
     var text = "<node><inner-node>Hello</inner-node></node>";
 
     // when
-    var node = XmlMapper.toNode(text);
+    var node = XmlProcessor.toNode(text);
 
     // then
     assertThat(node.getNodeName()).isEqualTo("node");
@@ -94,9 +94,9 @@ class XmlMapperTest {
     var text = "<node><inner-node>Hello</inner-node></node>";
 
     // when
-    var node1 = XmlMapper.toNode(text);
-    var asString = XmlMapper.toString(node1);
-    var node2 = XmlMapper.toNode(asString);
+    var node1 = XmlProcessor.toNode(text);
+    var asString = XmlProcessor.toString(node1);
+    var node2 = XmlProcessor.toNode(asString);
 
     // then
     assertThat(node1.isEqualNode(node2)).isTrue();

@@ -104,9 +104,6 @@ test.describe("Loading amending law and mod details", () => {
     await expect(timeBoundariesElement).toBeVisible()
     await expect(timeBoundariesElement).toHaveValue("2017-03-16")
 
-    const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
-    await expect(timeBoundaryOptionElements).toHaveCount(2)
-
     // // Destination Href Eli
     const destinationHrefEliElement = modFormSection.getByRole("textbox", {
       name: "ELI Zielgesetz",
@@ -298,7 +295,11 @@ test.describe("Update mod details", () => {
           Accept: "application/json",
         },
         data: JSON.stringify([
-          { date: "2017-03-16", eventRefEid: "meta-1_lebzykl-1_ereignis-2" },
+          {
+            date: "2017-03-16",
+            eventRefEid: "meta-1_lebzykl-1_ereignis-2",
+            temporalGroupEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
+          },
         ]),
       },
     )

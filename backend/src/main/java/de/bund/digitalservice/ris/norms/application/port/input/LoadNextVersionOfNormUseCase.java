@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.common.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import java.util.Optional;
 
 /** Interface representing the use case for loading the next version of a {@link Norm}. */
 public interface LoadNextVersionOfNormUseCase {
@@ -10,10 +10,9 @@ public interface LoadNextVersionOfNormUseCase {
    * Retrieves the next version of a norm based on the provided query.
    *
    * @param query The query containing the ELI (European Legislation Identifier) of the norm.
-   * @return An {@link Optional} containing the next version of the {@link Norm} if found, or empty
-   *     if not found.
+   * @return the next version of the {@link Norm}
    */
-  Optional<Norm> loadNextVersionOfNorm(Query query);
+  Norm loadNextVersionOfNorm(Query query) throws NormNotFoundException;
 
   /**
    * A record representing the query for loading the next version of a {@link Norm}. The query

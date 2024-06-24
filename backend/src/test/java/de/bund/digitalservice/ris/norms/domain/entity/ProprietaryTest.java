@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.XmlProcessor;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -41,7 +41,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -67,7 +67,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -114,7 +114,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                             <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
 
@@ -135,7 +135,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                             <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
                                             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
@@ -155,7 +155,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                             <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
                                             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
@@ -178,7 +178,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -203,7 +203,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -227,7 +227,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -273,7 +273,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -298,7 +298,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -322,7 +322,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -367,7 +367,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -392,7 +392,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -416,7 +416,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                       <akn:proprietary
                         eId="meta-1_proprietary-1"
@@ -464,7 +464,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                       <akn:proprietary
                                         eId="meta-1_proprietary-1"
@@ -489,7 +489,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                       <akn:proprietary
                                         eId="meta-1_proprietary-1"
@@ -513,7 +513,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                       <akn:proprietary
                                         eId="meta-1_proprietary-1"
@@ -563,7 +563,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                       <akn:proprietary
                                                         eId="meta-1_proprietary-1"
@@ -587,7 +587,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                       <akn:proprietary
                                                         eId="meta-1_proprietary-1"
@@ -611,7 +611,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                       <akn:proprietary
                                                         eId="meta-1_proprietary-1"
@@ -652,7 +652,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                       <akn:proprietary
                                                                         eId="meta-1_proprietary-1"
@@ -676,7 +676,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                       <akn:proprietary
                                                                         eId="meta-1_proprietary-1"
@@ -700,7 +700,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                       <akn:proprietary
                                                                         eId="meta-1_proprietary-1"
@@ -741,7 +741,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                       <akn:proprietary
                                                                                         eId="meta-1_proprietary-1"
@@ -768,7 +768,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                       <akn:proprietary
                                                                                         eId="meta-1_proprietary-1"
@@ -793,7 +793,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                       <akn:proprietary
                                                                                         eId="meta-1_proprietary-1"
@@ -840,7 +840,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                                       <akn:proprietary
                                                                                                         eId="meta-1_proprietary-1"
@@ -890,7 +890,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                       <akn:proprietary
                                         eId="meta-1_proprietary-1"
@@ -915,7 +915,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                       <akn:proprietary
                                                                                         eId="meta-1_proprietary-1"
@@ -939,7 +939,7 @@ class ProprietaryTest {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
-                  XmlMapper.toNode(
+                  XmlProcessor.toNode(
                       """
                                                                                       <akn:proprietary
                                                                                         eId="meta-1_proprietary-1"
