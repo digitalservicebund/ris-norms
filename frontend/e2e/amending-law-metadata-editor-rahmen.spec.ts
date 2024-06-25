@@ -66,10 +66,14 @@ test.describe("navigate to page", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
     )
 
-    // Then
-    await expect(page.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
+    const header = page.getByRole("navigation")
 
-    await expect(page.getByText("Bundesverfassungsschutzgesetz")).toBeVisible()
+    // Then
+    await expect(header.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
+
+    await expect(
+      header.getByText("Bundesverfassungsschutzgesetz"),
+    ).toBeVisible()
   })
 
   test("navigates to the selected time boundary", async ({ page }) => {
