@@ -83,8 +83,6 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     >
       <RisNavbarSide
         class="col-span-1 w-full overflow-auto border-r border-gray-400 bg-white"
-        go-back-label="Zurück"
-        :go-back-route="{ name: 'Home' }"
         :menu-items="menuItems"
       />
 
