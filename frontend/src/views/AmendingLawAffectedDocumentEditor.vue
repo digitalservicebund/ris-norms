@@ -12,7 +12,7 @@ import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetElements } from "@/services/elementService"
 import { useGetNorm } from "@/services/normService"
 import dayjs from "dayjs"
-import { computed, shallowRef, watch } from "vue"
+import { computed, ref, watch } from "vue"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -30,7 +30,7 @@ const {
 const { data: affectedDocument, error: affectedDocumentError } =
   useGetNorm(affectedDocumentEli)
 
-const breadcrumbs = shallowRef<HeaderBreadcrumb[]>([
+const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
     key: "amendingLaw",
     title: () =>

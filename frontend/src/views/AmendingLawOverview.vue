@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetNormHtml } from "@/services/normService"
+import { onUnmounted } from "vue"
 
 const eli = useEliPathParameter()
 
 const { isFetching, error, data: amendingLawHtml } = useGetNormHtml(eli)
+
+const { pushBreadcrumb } = useHeaderContext()
+const cleanupBreadcrumbs = pushBreadcrumb({ title: "Verkündung" })
+onUnmounted(() => cleanupBreadcrumbs())
 </script>
 
 <template>

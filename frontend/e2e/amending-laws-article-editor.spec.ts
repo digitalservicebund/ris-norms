@@ -5,7 +5,7 @@ test(`navigate to article editor using side navigation`, async ({ page }) => {
     "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
   )
 
-  await page.getByText("Artikelübersicht").click()
+  await page.getByRole("link", { name: "Artikelübersicht" }).click()
 
   await expect(page).toHaveURL(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles`,
