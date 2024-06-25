@@ -4,7 +4,7 @@ import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
 import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
-import { HEADER_ACTION_TARGET } from "@/components/controls/RisHeader.vue"
+import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
@@ -38,6 +38,7 @@ import { computed, ref, watch } from "vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
+const { actionTeleportTarget } = useHeaderContext()
 
 /* -------------------------------------------------- *
  * API handling                                       *
@@ -454,33 +455,6 @@ const {
                 />
               </fieldset>
             </form>
-
-            <!-- Save button -->
-            <Teleport :to="HEADER_ACTION_TARGET">
-              <div class="relative">
-                <RisTooltip
-                  v-slot="{ ariaDescribedby }"
-                  :title="
-                    hasSaved && saveError
-                      ? 'Speichern fehlgeschlagen'
-                      : 'Gespeichert!'
-                  "
-                  :variant="hasSaved && saveError ? 'error' : 'success'"
-                  :visible="hasSaved"
-                  allow-dismiss
-                  alignment="right"
-                  attachment="bottom"
-                >
-                  <RisTextButton
-                    :aria-describedby
-                    :disabled="isFetching || fetchError"
-                    :loading="isSaving"
-                    label="Speichern"
-                    @click="save()"
-                  />
-                </RisTooltip>
-              </div>
-            </Teleport>
           </template>
 
           <template #xml>
@@ -502,6 +476,33 @@ const {
             />
           </template>
         </RisTabs>
+
+        <!-- Save button -->
+        <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
+          <div class="relative">
+            <RisTooltip
+              v-slot="{ ariaDescribedby }"
+              :title="
+                hasSaved && saveError
+                  ? 'Speichern fehlgeschlagen'
+                  : 'Gespeichert!'
+              "
+              :variant="hasSaved && saveError ? 'error' : 'success'"
+              :visible="hasSaved"
+              allow-dismiss
+              alignment="right"
+              attachment="bottom"
+            >
+              <RisTextButton
+                :aria-describedby
+                :disabled="isFetching || fetchError"
+                :loading="isSaving"
+                label="Speichern"
+                @click="save()"
+              />
+            </RisTooltip>
+          </div>
+        </Teleport>
       </section>
     </div>
   </div>

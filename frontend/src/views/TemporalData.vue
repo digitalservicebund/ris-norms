@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import RisTemporalDataIntervals from "@/components/RisTemporalDataIntervals.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisTemporalDataIntervals from "@/components/RisTemporalDataIntervals.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
+import { useHeaderContext } from "@/components/controls/RisHeader.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
+import RisTooltip from "@/components/controls/RisTooltip.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTemporalData } from "@/composables/useTemporalData"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
-import RisTooltip from "@/components/controls/RisTooltip.vue"
 import { useGetEntryIntoForceHtml } from "@/services/temporalDataService"
-import { ref, watch } from "vue"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import { onUnmounted, ref, watch } from "vue"
 
 const eli = useEliPathParameter()
 const dates = ref<TemporalDataResponse[]>([])
@@ -34,6 +35,10 @@ const {
   error: entryIntoForceError,
   isFetching: isFetchingEntryIntoForce,
 } = useGetEntryIntoForceHtml(eli)
+
+const { pushBreadcrumb, actionTeleportTarget } = useHeaderContext()
+const cleanupBreadcrumbs = pushBreadcrumb({ title: "Zeitgrenzen anlegen" })
+onUnmounted(() => cleanupBreadcrumbs())
 </script>
 
 <template>
@@ -67,24 +72,6 @@ const {
     <template v-else-if="entryIntoForceArticleHtml">
       <div class="relative col-span-3 mb-40 flex items-center justify-between">
         <h1 class="ds-heading-02-reg">Zeitgrenzen anlegen</h1>
-
-        <RisTooltip
-          v-slot="{ ariaDescribedby }"
-          :visible="isSavingFinished"
-          :title="saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'"
-          alignment="right"
-          attachment="bottom"
-          :variant="saveError ? 'error' : 'success'"
-        >
-          <RisTextButton
-            :aria-describedby="ariaDescribedby"
-            label="Speichern"
-            size="small"
-            class="h-fit flex-none"
-            :loading="isSaving"
-            @click="saveTemporalData"
-          />
-        </RisTooltip>
       </div>
 
       <div class="col-span-1 overflow-auto">
@@ -99,5 +86,27 @@ const {
         class="col-span-2"
       />
     </template>
+
+    <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
+      <div class="relative">
+        <RisTooltip
+          v-slot="{ ariaDescribedby }"
+          :title="saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'"
+          :variant="saveError ? 'error' : 'success'"
+          :visible="isSavingFinished"
+          allow-dismiss
+          alignment="right"
+          attachment="bottom"
+        >
+          <RisTextButton
+            :aria-describedby="ariaDescribedby"
+            :disabled="isFetchingTemporalData || isFetchingEntryIntoForce"
+            :loading="isSaving"
+            label="Speichern"
+            @click="saveTemporalData"
+          />
+        </RisTooltip>
+      </div>
+    </Teleport>
   </div>
 </template>

@@ -4,10 +4,7 @@ import { GlobalMountOptions } from "@vue/test-utils/dist/types"
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest"
 import { defineComponent, nextTick, onUnmounted, ref } from "vue"
 import { createRouter, createWebHashHistory } from "vue-router"
-import RisHeader, {
-  HEADER_ACTION_TARGET,
-  useHeaderContext,
-} from "./RisHeader.vue"
+import RisHeader, { useHeaderContext } from "./RisHeader.vue"
 
 describe("RisHeader", () => {
   let global: GlobalMountOptions
@@ -223,7 +220,7 @@ describe("RisHeader", () => {
       const dummyComponent = defineComponent({
         components: { dummyChild, RisHeader },
         template: `
-          <RisHeader :breadcrumbs="[]">
+          <RisHeader>
             <dummyChild />
           </RisHeader>
         `,
@@ -258,7 +255,7 @@ describe("RisHeader", () => {
           return { showChild }
         },
         template: `
-          <RisHeader :breadcrumbs="[]">
+          <RisHeader>
             <dummyChild v-if="showChild" />
             <button @click="showChild = false">Hide child</button>
           </RisHeader>
@@ -308,7 +305,7 @@ describe("RisHeader", () => {
       const dummyComponent = defineComponent({
         components: { dummyChild, RisHeader },
         template: `
-          <RisHeader :breadcrumbs="[]">
+          <RisHeader>
             <dummyChild />
           </RisHeader>
         `,
@@ -409,7 +406,7 @@ describe("RisHeader", () => {
       const component = defineComponent({
         components: { RisHeader },
         template: `
-          <RisHeader :breadcrumbs="[]">
+          <RisHeader>
             <template #action>
               <button>Click me</button>
             </template>
@@ -426,24 +423,29 @@ describe("RisHeader", () => {
 
     test("renders teleported content in the actions section", () => {
       // Given
-      const component = defineComponent({
-        components: { RisHeader },
+      const child = defineComponent({
         setup() {
-          return { HEADER_ACTION_TARGET }
+          const { actionTeleportTarget } = useHeaderContext()
+          return { actionTeleportTarget }
         },
         template: `
-          <RisHeader :breadcrumbs="[]"></RisHeader>
-          <Teleport :to="HEADER_ACTION_TARGET">
+          <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
             <button>Click me</button>
           </Teleport>
         `,
       })
+
+      const component = defineComponent({
+        components: { RisHeader, child },
+        template: `<RisHeader><child /></RisHeader>`,
+      })
       render(component)
 
       // Then
-      expect(
-        screen.getByRole("button", { name: "Click me" }),
-      ).toBeInTheDocument()
+      vi.waitFor(() => {
+        const button = screen.getByRole("button", { name: "Click me" })
+        expect(button).toBeInTheDocument()
+      })
     })
   })
 })

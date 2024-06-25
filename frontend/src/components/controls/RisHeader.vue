@@ -4,9 +4,12 @@ import { useElementId } from "@/composables/useElementId"
 import {
   InjectionKey,
   MaybeRefOrGetter,
+  Ref,
   computed,
   inject,
+  onMounted,
   provide,
+  ref,
   shallowRef,
   toValue,
 } from "vue"
@@ -28,16 +31,33 @@ const props = withDefaults(
      * List of breadcrumbs to be displayed in the header. The list is assumed to
      * be ordered and the last item is treated as the current page.
      */
-    breadcrumbs: HeaderBreadcrumb[]
+    breadcrumbs?: HeaderBreadcrumb[]
   }>(),
   {
     backDestination: "breadcrumb-back",
+    breadcrumbs: () => [],
   },
 )
 
 const router = useRouter()
 
-const actionTargetId = HEADER_ACTION_TARGET.replace(/^#/, "")
+/* -------------------------------------------------- *
+ * Teleport target                                    *
+ * -------------------------------------------------- */
+
+/** Static ID for the teleport target in the actions section of the header. */
+const actionTargetId = "header-action-target"
+
+/**
+ * Reactive version of the teleport ID. This will be a valid teleport target
+ * once the component has been mounted. If the teleport can't be used yet,
+ * the value will be null.
+ */
+const safeActionTargetId = ref<string | null>(null)
+
+onMounted(() => {
+  safeActionTargetId.value = `#${actionTargetId}`
+})
 
 /* -------------------------------------------------- *
  * Breadcrumbs                                        *
@@ -75,6 +95,7 @@ const pushBreadcrumb: HeaderContext["pushBreadcrumb"] = (...breadcrumb) => {
 // Expose header functionality to child components
 provide(HeaderContextProvider, {
   pushBreadcrumb,
+  actionTeleportTarget: safeActionTargetId,
 })
 
 /* -------------------------------------------------- *
@@ -101,18 +122,6 @@ const backbuttonTo = computed(() => {
 </script>
 
 <script lang="ts">
-/**
- * Can be used to teleport content to the action slot of the header. Note that
- * the teleport will break if no header exists on the page. Example:
- *
- * ```html
- * <Teleport :to="HEADER_ACTION_TARGET">
- *   <RisTextButton label="Click me" />
- * </Teleport>
- * ```
- */
-export const HEADER_ACTION_TARGET = "#header-action-target"
-
 /** Breadcrumb item displayed in the header. */
 export type HeaderBreadcrumb = {
   /** Unique key used for rendering and managing the breadcrumbs. */
@@ -139,6 +148,20 @@ export type HeaderContext = {
    * @returns Cleanup function
    */
   pushBreadcrumb: (...breadcrumb: Omit<HeaderBreadcrumb, "key">[]) => () => void
+
+  /**
+   * Returns the ID (including #) of the teleport target that can be used for
+   * displaying actions in the header. The value will be null if no header
+   * is available, or when the header exists but hasn't been mounted yet. Once
+   * the value is a string, the teleport is safe to use. Example:
+   *
+   * ```html
+   * <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
+   *   <RisTextButton label="Click me" />
+   * </Teleport>
+   * ```
+   */
+  actionTeleportTarget: Ref<string | null>
 }
 
 const HeaderContextProvider: InjectionKey<HeaderContext> = Symbol()
@@ -155,6 +178,7 @@ const HeaderContextProvider: InjectionKey<HeaderContext> = Symbol()
 export function useHeaderContext() {
   return inject(HeaderContextProvider, {
     pushBreadcrumb: () => () => {},
+    actionTeleportTarget: ref(null),
   } as HeaderContext)
 }
 </script>

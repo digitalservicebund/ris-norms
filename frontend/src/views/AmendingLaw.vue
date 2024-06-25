@@ -1,15 +1,19 @@
 <script lang="ts" setup>
-import { RouterView } from "vue-router"
+import RisAlert from "@/components/controls/RisAlert.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
+import RisHeader, {
+  HeaderBreadcrumb,
+} from "@/components/controls/RisHeader.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
 import { useAlerts } from "@/composables/useAlerts"
-import RisAlert from "@/components/controls/RisAlert.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
-import RisCallout from "@/components/controls/RisCallout.vue"
+import { ref } from "vue"
+import { RouterView } from "vue-router"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -40,6 +44,17 @@ const eli = useEliPathParameter()
 const { data: amendingLaw, isFetching, error } = useGetNorm(eli)
 
 const { alerts, hideAlert } = useAlerts()
+
+const breadcrumbs = ref<HeaderBreadcrumb[]>([
+  {
+    key: "amendingLaw",
+    title: () =>
+      amendingLaw.value
+        ? getFrbrDisplayText(amendingLaw.value) ?? "..."
+        : "...",
+    to: `/amending-laws/${eli.value}`,
+  },
+])
 </script>
 
 <template>
@@ -49,35 +64,39 @@ const { alerts, hideAlert } = useAlerts()
   >
     <RisLoadingSpinner />
   </div>
+
   <div v-else-if="error || !amendingLaw">
     <RisCallout
       title="Das Änderungsgesetz konnte nicht geladen werden."
       variant="error"
     />
   </div>
+
   <div
     v-else
     class="grid h-[calc(100dvh-5rem)] grid-cols-[16rem,1fr] grid-rows-[5rem,1fr] overflow-hidden bg-gray-100"
   >
-    <RisAmendingLawInfoHeader :amending-law="amendingLaw" class="col-span-2" />
+    <RisHeader
+      class="col-span-2"
+      :back-destination="{ name: 'Home' }"
+      :breadcrumbs
+    >
+      <RisNavbarSide
+        class="col-span-1 w-full overflow-auto border-r border-gray-400 bg-white"
+        :menu-items="menuItems"
+      />
 
-    <RisNavbarSide
-      class="col-span-1 w-full overflow-auto border-r border-gray-400 bg-white"
-      go-back-label="Zurück"
-      :go-back-route="{ name: 'Home' }"
-      :menu-items="menuItems"
-    />
-
-    <div class="col-span-1 overflow-auto">
-      <RisAlert
-        v-for="[key, { variant, message }] in alerts"
-        :key="key"
-        :variant="variant"
-        @click="hideAlert(key)"
-      >
-        {{ message }}
-      </RisAlert>
-      <RouterView />
-    </div>
+      <div class="col-span-1 overflow-auto">
+        <RisAlert
+          v-for="[key, { variant, message }] in alerts"
+          :key="key"
+          :variant="variant"
+          @click="hideAlert(key)"
+        >
+          {{ message }}
+        </RisAlert>
+        <RouterView />
+      </div>
+    </RisHeader>
   </div>
 </template>

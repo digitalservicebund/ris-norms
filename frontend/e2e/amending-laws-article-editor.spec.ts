@@ -5,7 +5,7 @@ test(`navigate to article editor using side navigation`, async ({ page }) => {
     "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
   )
 
-  await page.getByText("Artikelübersicht").click()
+  await page.getByRole("link", { name: "Artikelübersicht" }).click()
 
   await expect(page).toHaveURL(
     `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles`,
@@ -26,13 +26,13 @@ test.describe("Loading amending law and mod details", () => {
     await page.goto(BASE_URL)
   })
 
-  test(`see article number and amending law title`, async ({ page }) => {
+  test(`see amending law number and article title`, async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: "Artikel 1" }),
+      page.getByRole("navigation").getByText("BGBl. I 2017 S. 419"),
     ).toBeVisible()
 
     await expect(
-      page.getByRole("heading", { level: 2, name: "Änderungsbefehle prüfen" }),
+      page.getByRole("navigation").getByText("Änderung des Vereinsgesetzes"),
     ).toBeVisible()
   })
 
