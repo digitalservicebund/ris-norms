@@ -47,7 +47,7 @@ dependencies {
     implementation(libs.postgresql)
     implementation(libs.flyway.core)
     implementation(libs.flyway.postgres)
-    implementation(libs.kubernetes.client.java)
+    implementation(libs.jose4j)
     implementation(libs.spring.starter.data.redis)
     implementation(libs.spring.session.data.redis)
     implementation(libs.saxon.he)
