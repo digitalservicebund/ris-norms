@@ -46,7 +46,7 @@ const router = useRouter()
  * -------------------------------------------------- */
 
 /** Static ID for the teleport target in the actions section of the header. */
-const actionTargetId = "header-action-target"
+const { actionTargetId } = useElementId("header-actions")
 
 /**
  * Reactive version of the teleport ID. This will be a valid teleport target
