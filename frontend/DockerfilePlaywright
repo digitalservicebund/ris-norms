@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.44.1-jammy AS e2etest
+FROM mcr.microsoft.com/playwright:v1.45.0-jammy AS e2etest
 RUN npx --yes playwright install --with-deps chrome firefox webkit
 WORKDIR /usr/src/app
 COPY . .
