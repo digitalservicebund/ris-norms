@@ -19,10 +19,28 @@ export function xmlNodeToString(node: Node): string {
  * The DOM implementation used by our unit tests (jsdom) does not have great xpath support and might fail at certain expressions.
  * This is done globally using the vitest-setup.ts
  */
-export function evaluateXPath(xpath: string, node: Node) {
+export function evaluateXPathOnce(xpath: string, node: Node) {
   const evaluator = new XPathEvaluator()
   return evaluator
     .createExpression(xpath, evaluator.createNSResolver(node))
     .evaluate(node, XPathResult.ANY_TYPE)
     .iterateNext()
+}
+
+export function evaluateXPath(xpath: string, node: Node): Node[] {
+  const evaluator = new XPathEvaluator()
+
+  const result = evaluator
+    .createExpression(xpath, evaluator.createNSResolver(node))
+    .evaluate(node, XPathResult.ANY_TYPE)
+
+  const nodes: Node[] = []
+
+  let nextNode = result.iterateNext()
+  while (nextNode !== null) {
+    nodes.push(nextNode)
+    nextNode = result.iterateNext()
+  }
+
+  return nodes
 }

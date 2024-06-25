@@ -1,42 +1,28 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
-import RisDropdownInput, {
-  DropdownItem,
-} from "@/components/controls/RisDropdownInput.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import RisTextInput from "@/components/controls/RisTextInput.vue"
-import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { useElementId } from "@/composables/useElementId"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
-import {
-  BeschliessendesOrganValues,
-  DocumentTypeValue,
-  DocumentTypeValues,
-  FederfuehrungValues,
-  getDocumentTypeFromMetadata,
-  isArtNormTypePresent,
-  NormgeberValues,
-  udpateArtNorm,
-  UNKNOWN_DOCUMENT_TYPE,
-} from "@/lib/proprietary"
-import { useGetNormHtml } from "@/services/normService"
 import {
   useGetProprietary,
   usePutProprietary,
 } from "@/services/proprietaryService"
 import { Proprietary } from "@/types/proprietary"
-import { produce } from "immer"
 import { computed, ref, watch } from "vue"
 import { getNodeByEid } from "@/services/ldmldeService"
-import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
+import {
+  evaluateXPath,
+  xmlNodeToString,
+  xmlStringToDocument,
+} from "@/services/xmlService"
 import { useNormRender } from "@/composables/useNormRender"
+import RisRefEditor from "@/components/RisRefEditor.vue"
+import CloseIcon from "~icons/ic/close"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -57,13 +43,7 @@ watch(data, (newData) => {
   localData.value = newData
 })
 
-const {
-  data: savedData,
-  isFetching: isSaving,
-  isFinished: hasSaved,
-  error: saveError,
-  execute: save,
-} = usePutProprietary(
+const { data: savedData } = usePutProprietary(
   localData,
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
@@ -79,216 +59,6 @@ const {
 
 watch(savedData, (newData) => {
   localData.value = newData
-})
-
-/* -------------------------------------------------- *
- * Metadata form                                      *
- * -------------------------------------------------- */
-
-const {
-  documentTypeId,
-  fnaId,
-  bezeichnungInVorlageId,
-  artNormSNid,
-  artNormANid,
-  artNormUNid,
-  normgeberId,
-  beschliessendesOrganId,
-  qualifizierteMehrheitId,
-  federfuehrungId,
-  organisationsEinheitId,
-} = useElementId()
-
-const fna = computed<string>({
-  get() {
-    return localData.value?.fna ?? ""
-  },
-  set(value: string) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.fna = value
-    })
-  },
-})
-
-const documentType = computed<
-  DocumentTypeValue | typeof UNKNOWN_DOCUMENT_TYPE | ""
->({
-  get() {
-    if (
-      [
-        localData.value?.art,
-        localData.value?.typ,
-        localData.value?.subtyp,
-      ].every((i) => !i)
-    ) {
-      // None of the relevant values are set means that the document type
-      // intentionally has no value
-      return ""
-    } else {
-      // If any value is set, we'll check if the combination of values
-      // corresponds to a known type, otherwise the type will be unknown
-      return getDocumentTypeFromMetadata(
-        localData.value?.art ?? "",
-        localData.value?.typ ?? "",
-        localData.value?.subtyp ?? "",
-      )
-    }
-  },
-
-  set(value) {
-    if (value === UNKNOWN_DOCUMENT_TYPE) {
-      // This is disabled in the UI and should never happen. We still need to
-      // check for it to make TypeScript happy, but we'll simply ignore it
-      // and keep the value as it was.
-      return
-    }
-
-    const {
-      art = "",
-      typ = "",
-      subtyp = "",
-    } = value ? DocumentTypeValues[value] : {}
-
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.art = art
-      draft.typ = typ
-      draft.subtyp = subtyp
-    })
-  },
-})
-
-const documentTypeItems: DropdownItem[] = [
-  { label: "", value: "" },
-  { label: "Unbekannt", value: UNKNOWN_DOCUMENT_TYPE, disabled: true },
-  ...Object.keys(DocumentTypeValues).map((value) => ({ label: value, value })),
-]
-
-const artNormSN = computed<boolean>({
-  get() {
-    return isArtNormTypePresent(localData.value?.artDerNorm, "SN")
-  },
-  set(value: boolean) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.artDerNorm = udpateArtNorm(localData.value?.artDerNorm, "SN", value)
-    })
-  },
-})
-
-const artNormAN = computed<boolean>({
-  get() {
-    return isArtNormTypePresent(localData.value?.artDerNorm, "ÄN")
-  },
-  set(value: boolean) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.artDerNorm = udpateArtNorm(localData.value?.artDerNorm, "ÄN", value)
-    })
-  },
-})
-
-const artNormUN = computed<boolean>({
-  get() {
-    return isArtNormTypePresent(localData.value?.artDerNorm, "ÜN")
-  },
-  set(value: boolean) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.artDerNorm = udpateArtNorm(localData.value?.artDerNorm, "ÜN", value)
-    })
-  },
-})
-
-const bezeichnungInVorlage = computed<string>({
-  get() {
-    return localData.value?.bezeichnungInVorlage ?? ""
-  },
-  set(value: string) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.bezeichnungInVorlage = value
-    })
-  },
-})
-
-const normgeber = computed<string>({
-  get() {
-    return localData.value?.normgeber ?? ""
-  },
-  set(value: string) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.normgeber = value
-    })
-  },
-})
-
-const normgeberItems: DropdownItem[] = [
-  { label: "", value: "" },
-  ...NormgeberValues.map((value) => ({ label: value, value })),
-]
-
-const beschliessendesOrgan = computed<string>({
-  get() {
-    return localData.value?.beschliessendesOrgan ?? ""
-  },
-  set(value: string) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.beschliessendesOrgan = value
-    })
-  },
-})
-
-const beschliessendesOrganItems: DropdownItem[] = [
-  { label: "", value: "" },
-  ...BeschliessendesOrganValues.map((value) => ({ label: value, value })),
-]
-
-const qualifizierteMehrheit = computed<boolean>({
-  get() {
-    return localData.value?.qualifizierteMehrheit ?? false
-  },
-  set(value: boolean) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.qualifizierteMehrheit = value
-    })
-  },
-})
-
-const federfuehrung = computed<string>({
-  get() {
-    return localData.value?.federfuehrung ?? ""
-  },
-  set(value: string) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.federfuehrung = value
-    })
-  },
-})
-
-const federfuehrungItems: DropdownItem[] = [
-  { label: "", value: "" },
-  ...FederfuehrungValues.map<DropdownItem>((name) => ({
-    label: name,
-    value: name,
-  })),
-]
-
-const organisationsEinheit = computed<string>({
-  get() {
-    return localData.value?.organisationsEinheit ?? ""
-  },
-  set(value: string) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.organisationsEinheit = value
-    })
-  },
 })
 
 /* -------------------------------------------------- *
@@ -310,25 +80,95 @@ const {
   error: renderError,
 } = useNormRender(xml, false, timeBoundaryAsDate)
 
-async function handleSelect(
-  e: { eid: string; start: number; end: number } | null,
-) {
-  if (!e || !xml.value) {
+async function convertSelectionToRef({
+  eid,
+  start,
+  end,
+}: {
+  eid: string
+  start: number
+  end: number
+}): Promise<Element | void> {
+  if (!xml.value) {
     return
   }
 
-  const d = xmlStringToDocument(xml.value)
-  const node = getNodeByEid(d, e.eid)!
-  const r = new Range()
-  r.selectNode(node)
-  r.setEnd(node.childNodes.item(0), e.end)
-  r.setStart(node.childNodes.item(0), e.start)
-  const re = d.createElement("akn:ref")
-  r.surroundContents(re)
+  const doc = xmlStringToDocument(xml.value)
+  const node = getNodeByEid(doc, eid)
 
-  newXml.value = xmlNodeToString(d)
-  console.log("SAVE")
+  if (!node) {
+    return
+  }
+
+  const range = new Range()
+  range.selectNode(node)
+  range.setStart(node.childNodes.item(0), start)
+  range.setEnd(node.childNodes.item(0), end)
+  const refElement: Element = doc.createElement("akn:ref")
+  refElement.setAttribute("eId", Math.random().toString().replace(".", "-"))
+
+  range.surroundContents(refElement)
+
+  newXml.value = xmlNodeToString(doc)
   await updateXml()
+  return refElement
+}
+
+const doc = computed(() => {
+  if (!xml.value) return
+
+  return xmlStringToDocument(xml.value)
+})
+
+const refs = computed(() => {
+  if (!doc.value) return []
+
+  return evaluateXPath("//akn:ref", doc.value) as Element[]
+})
+
+async function handleSelect(
+  selection: { eid: string; start: number; end: number } | null,
+) {
+  if (!selection || selection.start === selection.end) {
+    return
+  }
+
+  const aknRef = await convertSelectionToRef(selection)
+  if (!aknRef) return
+
+  selectAknRef(getEid(aknRef))
+}
+
+async function handleSave() {
+  if (doc.value) {
+    newXml.value = xmlNodeToString(doc.value)
+    await updateXml()
+  }
+}
+
+function eidToSlotName(eid: string) {
+  return `eid:${eid}`
+}
+
+function getEid(element: Element): string {
+  return element.getAttribute("eId") ?? ""
+}
+
+function handleDeleteRef(element: Element) {
+  const childNodes: Node[] = []
+  element.childNodes.forEach((e) => childNodes.push(e))
+  element.replaceWith(...childNodes)
+  handleSave()
+}
+
+const selectedRef = ref<string>()
+
+function selectAknRef(eid: string) {
+  selectedRef.value = eid
+}
+
+function handleAknRefClick({ eid }: { eid: string }) {
+  selectAknRef(eid)
 }
 </script>
 
@@ -337,7 +177,7 @@ async function handleSelect(
   <div class="flex flex-col overflow-hidden p-40">
     <div class="flex gap-16">
       <div class="flex-grow">
-        <h2 class="ds-heading-03-reg">Rahmen</h2>
+        <h2 class="ds-heading-03-reg">Verweise</h2>
       </div>
     </div>
 
@@ -360,8 +200,27 @@ async function handleSelect(
           v-else
           class="ds-textarea flex-grow p-2"
           :content="render ?? ''"
+          :selected="selectedRef ? [selectedRef] : []"
+          @click:akn:ref="handleAknRefClick"
           @select="handleSelect"
-        />
+        >
+          <template
+            v-for="aknRef in refs"
+            #[eidToSlotName(getEid(aknRef))]
+            :key="getEid(aknRef)"
+          >
+            <RisTextButton
+              class="relative -left-[12px] -top-[4px] w-0 rounded-full"
+              style="padding: 0"
+              :icon="CloseIcon"
+              label="löschen"
+              icon-only
+              size="small"
+              variant="ghost"
+              @click="handleDeleteRef(aknRef)"
+            ></RisTextButton>
+          </template>
+        </RisLawPreview>
       </section>
 
       <section class="flex flex-col gap-8" aria-label="Metadaten bearbeiten">
@@ -383,127 +242,28 @@ async function handleSelect(
               title="Die Metadaten konnten nicht geladen werden."
             />
 
-            <form
+            <div
               v-else
-              class="grid grid-cols-[max-content,1fr] items-center gap-x-16 gap-y-14 overflow-auto"
-              @submit.prevent
+              class="grid grid-cols-3 items-center gap-y-14 overflow-auto"
             >
-              <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
-                <label :for="fnaId">Sachgebiet</label>
-                <RisTextInput :id="fnaId" v-model="fna" />
-              </fieldset>
+              <div>Typ</div>
+              <div>Bezugsnorm</div>
+              <div>Fassung</div>
 
-              <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">Dokumenttyp</legend>
-
-                <label :for="documentTypeId">Dokumenttyp</label>
-                <RisDropdownInput
-                  :id="documentTypeId"
-                  v-model="documentType"
-                  :items="documentTypeItems"
-                />
-
-                <label :for="artNormSNid" class="self-start">
-                  Art der Norm
-                </label>
-                <div class="space-y-10">
-                  <RisCheckboxInput
-                    :id="artNormSNid"
-                    v-model="artNormSN"
-                    label="SN - Stammnorm"
-                  />
-                  <RisCheckboxInput
-                    :id="artNormANid"
-                    v-model="artNormAN"
-                    label="ÄN - Änderungsnorm"
-                  />
-                  <RisCheckboxInput
-                    :id="artNormUNid"
-                    v-model="artNormUN"
-                    label="ÜN - Übergangsnorm"
-                  />
-                </div>
-
-                <label :for="bezeichnungInVorlageId">
-                  Bezeichnung gemäß Vorlage
-                </label>
-                <RisTextInput
-                  :id="bezeichnungInVorlageId"
-                  v-model="bezeichnungInVorlage"
-                />
-              </fieldset>
-
-              <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">Normgeber</legend>
-
-                <label :for="normgeberId">Normgeber</label>
-                <RisDropdownInput
-                  :id="normgeberId"
-                  v-model="normgeber"
-                  :items="normgeberItems"
-                />
-
-                <label :for="beschliessendesOrganId">
-                  beschließendes Organ
-                </label>
-                <RisDropdownInput
-                  :id="beschliessendesOrganId"
-                  v-model="beschliessendesOrgan"
-                  :items="beschliessendesOrganItems"
-                />
-
-                <label :for="qualifizierteMehrheitId">
-                  Beschlussf. qual. Mehrheit
-                </label>
-                <RisCheckboxInput
-                  :id="qualifizierteMehrheitId"
-                  v-model="qualifizierteMehrheit"
-                />
-              </fieldset>
-
-              <fieldset class="contents">
-                <legend class="ds-label-02-bold col-span-2">
-                  Federführung
-                </legend>
-
-                <label :for="federfuehrungId">Federführung</label>
-                <RisDropdownInput
-                  :id="federfuehrungId"
-                  v-model="federfuehrung"
-                  :items="federfuehrungItems"
-                />
-
-                <label :for="organisationsEinheitId">
-                  Organisationseinheit
-                </label>
-                <RisTextInput
-                  :id="organisationsEinheitId"
-                  v-model="organisationsEinheit"
-                />
-              </fieldset>
-
-              <footer class="relative col-span-2 mt-32">
-                <RisTooltip
-                  v-slot="{ ariaDescribedby }"
-                  :title="
-                    hasSaved && saveError
-                      ? 'Speichern fehlgeschlagen'
-                      : 'Gespeichert!'
-                  "
-                  :variant="hasSaved && saveError ? 'error' : 'success'"
-                  :visible="hasSaved"
-                  allow-dismiss
-                >
-                  <RisTextButton
-                    :aria-describedby
-                    :loading="isSaving"
-                    label="Metadaten speichern"
-                    @click="save()"
-                  />
-                </RisTooltip>
-              </footer>
-            </form>
+              <RisRefEditor
+                v-for="aknRef in refs"
+                :key="aknRef.textContent ?? undefined"
+                :model-value="aknRef"
+                class="col-span-4 grid grid-cols-subgrid"
+                :class="{
+                  'border border-2 border-blue-800':
+                    selectedRef == getEid(aknRef),
+                }"
+                @change="handleSave"
+                @focusin="selectAknRef(getEid(aknRef))"
+              >
+              </RisRefEditor>
+            </div>
           </template>
 
           <template #xml>

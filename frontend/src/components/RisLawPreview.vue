@@ -201,15 +201,16 @@ watch(
 )
 
 function hasAsParentElement(element: Node, parentElement: Node): boolean {
-  if (!element.parentElement) {
+  const elementParent = element.parentElement
+  if (!elementParent) {
     return false
   }
 
-  if (element.parentElement === parentElement) {
+  if (elementParent === parentElement) {
     return true
   }
 
-  return hasAsParentElement(element.parentNode, parentElement)
+  return hasAsParentElement(elementParent, parentElement)
 }
 
 const selection = ref<Range | null>()
@@ -254,7 +255,7 @@ function limitSelectionToSelectableRanges() {
   }
 }
 
-useEventListener(document, "selectionchange", (e) => {
+useEventListener(document, "selectionchange", () => {
   const currentSelection = getSelection()
   if (
     !container.value ||
@@ -273,6 +274,23 @@ useEventListener(document, "selectionchange", (e) => {
     selection.value = range
   }
 })
+
+function getElementByEid(eid: string) {
+  return document.querySelector(`[data-eId="${eid}"]`)
+}
+
+function teleportEidSlotNameToEid(slotName: string) {
+  return slotName.substring(4)
+}
+
+const contentHash = ref("")
+watch(
+  () => props.content,
+  async () => {
+    await nextTick()
+    contentHash.value = props.content
+  },
+)
 </script>
 
 <template>
@@ -289,6 +307,20 @@ useEventListener(document, "selectionchange", (e) => {
       v-html="content"
     ></div>
     <!-- eslint-enable vue/no-v-html -->
+
+    <template
+      v-for="name in Object.keys($slots).filter((key) =>
+        key.startsWith('eid:'),
+      )"
+      :key="`${contentHash}-${name}`"
+    >
+      <Teleport
+        v-if="getElementByEid(teleportEidSlotNameToEid(name))"
+        :to="getElementByEid(teleportEidSlotNameToEid(name))"
+      >
+        <slot :name="name"></slot>
+      </Teleport>
+    </template>
   </div>
 </template>
 
@@ -415,6 +447,14 @@ useEventListener(document, "selectionchange", (e) => {
 }
 
 :deep(.akn-ref) {
+  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
+}
+
+:deep(.akn-ref):hover {
+  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
+}
+
+:deep(.akn-ref.selected) {
   @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
 }
 

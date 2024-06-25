@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest"
 import {
-  evaluateXPath,
+  evaluateXPathOnce,
   xmlNodeToString,
   xmlStringToDocument,
 } from "@/services/xmlService"
@@ -57,7 +57,7 @@ describe("xmlService", () => {
         </akn:akomaNtoso>
       `)
 
-      const result = evaluateXPath("//akn:act/@name", document)
+      const result = evaluateXPathOnce("//akn:act/@name", document)
       expect(result?.nodeValue).to.eq("regelungstext")
     })
   })
