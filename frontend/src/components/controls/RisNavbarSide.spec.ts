@@ -86,6 +86,12 @@ describe("NavbarSide", () => {
     expect(screen.getByLabelText("active item")).toHaveClass("bg-blue-200")
     expect(screen.getByLabelText("passive item")).not.toHaveClass("bg-blue-200")
   })
+
+  test("hides the back button if no route is provided", () => {
+    renderComponent({ goBackRoute: undefined })
+
+    expect(screen.queryByLabelText("Zurück")).not.toBeInTheDocument()
+  })
 })
 
 const ALPHABET_CHARACTERS = "abcdefghijklmnopqrstuvwxyz"
