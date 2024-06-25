@@ -4,6 +4,7 @@ import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
 import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
+import { HEADER_ACTION_TARGET } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
@@ -452,8 +453,11 @@ const {
                   v-model="organisationsEinheit"
                 />
               </fieldset>
+            </form>
 
-              <footer class="relative col-span-2 mt-32">
+            <!-- Save button -->
+            <Teleport :to="HEADER_ACTION_TARGET">
+              <div class="relative">
                 <RisTooltip
                   v-slot="{ ariaDescribedby }"
                   :title="
@@ -464,16 +468,19 @@ const {
                   :variant="hasSaved && saveError ? 'error' : 'success'"
                   :visible="hasSaved"
                   allow-dismiss
+                  alignment="right"
+                  attachment="bottom"
                 >
                   <RisTextButton
                     :aria-describedby
+                    :disabled="isFetching || fetchError"
                     :loading="isSaving"
-                    label="Metadaten speichern"
+                    label="Speichern"
                     @click="save()"
                   />
                 </RisTooltip>
-              </footer>
-            </form>
+              </div>
+            </Teleport>
           </template>
 
           <template #xml>

@@ -13,7 +13,7 @@ import RisCallout from "@/components/controls/RisCallout.vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
-    label: "Vorgang",
+    label: "Verkündung",
     route: { name: "AmendingLaw" },
     children: [
       {

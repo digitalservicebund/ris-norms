@@ -10,7 +10,7 @@ const { isFetching, error, data: amendingLaws } = useGetAmendingLaws()
 
 <template>
   <div class="flex min-h-screen flex-col bg-gray-100 p-40">
-    <h1 class="ds-heading-02-reg mb-40">Vorgänge</h1>
+    <h1 class="ds-heading-02-reg mb-40">Verkündungen</h1>
     <div>
       <div v-if="error" class="w-1/2">
         <RisCallout
