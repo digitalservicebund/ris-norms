@@ -260,7 +260,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           </section>
 
           <section
-            v-if="selectedMods.length === 1"
+            v-if="selectedMods.length > 0"
             class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
             aria-labelledby="originalArticleTitle"
           >
@@ -283,7 +283,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
             </div>
 
             <RisModForm
-              v-else
+              v-else-if="selectedMods.length === 1"
               id="risModForm"
               v-model:textual-mod-type="textualModType"
               v-model:destination-href="destinationHref"
@@ -297,10 +297,15 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
               @generate-preview="preview"
               @update-mod="update"
             />
+
+            <RisEmptyState
+              v-else
+              text-content="Aktuell kann nur ein einzelner Änderungsbefehl zur Zeit bearbeitet werden."
+            />
           </section>
 
           <section
-            v-if="selectedMods.length === 1"
+            v-if="selectedMods.length > 0"
             class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
             aria-labelledby="changedArticlePreivew"
           >
@@ -355,16 +360,6 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
               </template>
             </RisTabs>
           </section>
-
-          <div
-            v-else-if="selectedMods.length > 1"
-            class="gap col-span-2 grid flex-grow grid-cols-2 gap-32"
-          >
-            <RisEmptyState
-              text-content="Aktuell kann nur ein einzelner Änderungsbefehl zur Zeit bearbeitet werden."
-              class="mt-[85px] h-fit"
-            />
-          </div>
 
           <div v-else class="gap col-span-2 grid flex-grow grid-cols-2 gap-32">
             <RisEmptyState
