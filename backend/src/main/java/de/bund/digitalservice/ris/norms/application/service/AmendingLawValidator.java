@@ -79,7 +79,7 @@ public class AmendingLawValidator {
                           new ValidationException(
                               String.format("Target law with eli %s missing", targetNormEli)));
           final Norm zf0Norm =
-              loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
+              loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
           singleModValidator.validate(zf0Norm, mod);
         });
   }

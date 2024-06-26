@@ -14,7 +14,7 @@ public interface LoadZf0UseCase {
    * @param query The query containing both the amending law and the target law.
    * @return A {@link Norm} of the created ZF0 version.
    */
-  Norm loadZf0(Query query);
+  Norm loadOrCreateZf0(Query query);
 
   /**
    * A record representing the query for loading/creating the ZF0.

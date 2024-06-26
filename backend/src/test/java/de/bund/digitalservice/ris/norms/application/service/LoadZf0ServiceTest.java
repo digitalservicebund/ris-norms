@@ -36,7 +36,7 @@ class LoadZf0ServiceTest {
 
     // When
     final Norm zf0NormLoaded =
-        loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingLaw, targetLaw));
+        loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingLaw, targetLaw));
 
     // Then
     assertThat(zf0Law).isEqualTo(zf0NormLoaded);
@@ -50,7 +50,8 @@ class LoadZf0ServiceTest {
     final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
 
     // When
-    final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingLaw, targetLaw));
+    final Norm zf0Norm =
+        loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingLaw, targetLaw));
 
     // Then
     final FRBRExpression frbrExpressionTargetLaw = targetLaw.getMeta().getFRBRExpression();

@@ -77,7 +77,7 @@ public class AnnouncementService
                             return optionalTargetLaw
                                 .map(
                                     targetLaw ->
-                                        loadZf0Service.loadZf0(
+                                        loadZf0Service.loadOrCreateZf0(
                                             new LoadZf0UseCase.Query(
                                                 optionalAmendingNorm.get(), targetLaw, true)))
                                 .orElse(null);

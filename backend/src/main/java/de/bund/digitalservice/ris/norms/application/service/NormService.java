@@ -135,7 +135,8 @@ public class NormService
     final Norm amendingNorm = amendingNormOptional.get();
     final Norm targetNorm =
         loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEliOptional.get())).orElseThrow();
-    final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
+    final Norm zf0Norm =
+        loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
     // Update active mods (meta and body) in amending law
     updateNormService.updateActiveModifications(

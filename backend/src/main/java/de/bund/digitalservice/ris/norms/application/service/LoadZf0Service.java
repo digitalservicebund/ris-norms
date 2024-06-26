@@ -42,15 +42,14 @@ public class LoadZf0Service implements LoadZf0UseCase {
   }
 
   @Override
-  public Norm loadZf0(Query query) {
+  public Norm loadOrCreateZf0(Query query) {
 
     final Norm amendingNorm = query.amendingLaw();
     final Norm targetNorm = query.targetLaw();
 
+    final UUID uuid = targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId();
     final Optional<Norm> optionalZf0LawDB =
-        loadNormByGuidPort.loadNormByGuid(
-            new LoadNormByGuidPort.Command(
-                targetNorm.getMeta().getFRBRExpression().getFRBRaliasNextVersionId()));
+        loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(uuid));
 
     if (optionalZf0LawDB.isPresent()) {
       return optionalZf0LawDB.get();
@@ -84,7 +83,7 @@ public class LoadZf0Service implements LoadZf0UseCase {
         loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli)).orElseThrow();
 
     var query = new LoadZf0UseCase.Query(amendingLaw, targetNorm);
-    return loadZf0(query);
+    return loadOrCreateZf0(query);
   }
 
   private void updateFRBRExpression(

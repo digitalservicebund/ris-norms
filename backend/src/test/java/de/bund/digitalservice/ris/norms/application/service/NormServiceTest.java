@@ -788,7 +788,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadZf0(any())).thenReturn(zf0Norm);
+      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -832,7 +832,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any()))
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));
-      when(loadZf0Service.loadZf0(any())).thenReturn(zf0Norm);
+      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
       when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -855,7 +855,7 @@ class NormServiceTest {
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
-      verify(loadZf0Service, times(1)).loadZf0(any());
+      verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
       verify(updateNormService, times(1))
           .updateActiveModifications(
               argThat(
