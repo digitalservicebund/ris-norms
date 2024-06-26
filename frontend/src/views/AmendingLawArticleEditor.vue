@@ -31,7 +31,21 @@ const {
   isFetching: isFetchingAmendingLaw,
   error: loadAmendingLawError,
 } = useGetNorm(eli)
-const selectedMod = useModEidPathParameter()
+const modEidPathParameter = useModEidPathParameter()
+
+const selectedMods = ref<string[]>()
+
+watch(modEidPathParameter, () => {
+  selectedMods.value = [modEidPathParameter.value]
+})
+
+watch(selectedMods, () => {
+  if (selectedMods.value?.length === 1) {
+    modEidPathParameter.value = selectedMods.value[0]
+  } else {
+    modEidPathParameter.value = ""
+  }
+})
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
@@ -80,11 +94,11 @@ watch(xml, (xml) => {
 })
 
 function handleAknModClick({ eid }: { eid: string }) {
-  selectedMod.value = eid
+  selectedMods.value = [eid]
 }
 
 function handlePreviewClick() {
-  selectedMod.value = ""
+  selectedMods.value = []
 }
 
 const {
@@ -111,7 +125,11 @@ const {
     isFetching: isUpdating,
     isFinished: isUpdatingFinished,
   },
-} = useMod(eli, selectedMod, xml)
+} = useMod(
+  eli,
+  computed(() => selectedMods.value?.[0] ?? null),
+  xml,
+)
 
 const previewCustomNorms = computed(() =>
   previewData.value ? [previewData.value.amendingNormXml] : [],
@@ -142,7 +160,7 @@ watch(updateData, () => {
   previewXml.value = updateData.value.targetNormZf0Xml
 })
 
-watch(selectedMod, () => {
+watch(selectedMods, () => {
   preview()
 })
 
@@ -239,7 +257,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
                   :content="articleHtml ?? ''"
                   highlight-mods
                   highlight-affected-document
-                  :selected="selectedMod ? [selectedMod] : []"
+                  :selected="selectedMods"
                   @click:akn:mod="handleAknModClick"
                   @click="handlePreviewClick"
                 />
@@ -255,7 +273,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           </section>
 
           <section
-            v-if="selectedMod"
+            v-if="selectedMods?.length === 1"
             class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
             aria-labelledby="originalArticleTitle"
           >
@@ -295,7 +313,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           </section>
 
           <section
-            v-if="selectedMod"
+            v-if="selectedMods?.length === 1"
             class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
             aria-labelledby="changedArticlePreivew"
           >
