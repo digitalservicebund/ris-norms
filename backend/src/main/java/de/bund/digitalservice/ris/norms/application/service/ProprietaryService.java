@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -8,7 +9,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.MetadatenDe;
 import de.bund.digitalservice.ris.norms.domain.entity.MetadatenDs;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import org.springframework.stereotype.Service;
 
 /** Implements operations related to the "proprietary" of a {@link Norm} */

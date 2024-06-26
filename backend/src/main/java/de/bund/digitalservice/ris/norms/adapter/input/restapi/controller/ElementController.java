@@ -5,9 +5,9 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ElementResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.time.Instant;
 import java.util.*;
 import org.springframework.http.ResponseEntity;
