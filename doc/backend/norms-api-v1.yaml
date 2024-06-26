@@ -390,8 +390,6 @@ paths:
           description: If the norm does not exist.
     put:
       summary: Replace the proprietary metadata of a norm at the specified date
-      tags:
-        - under construction
       parameters:
         - name: eli
           in: path
@@ -422,6 +420,81 @@ paths:
                 $ref: '#/components/schemas/Metadata'
         '404':
           description: If the norm or the time boundary doesn't exist.
+
+  /norms/{eli}/proprietary/{eid}/{atDate}:
+    get:
+      summary: Get the proprietary metadata of an article at the specified date
+      tags:
+        - under construction
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: the eId of the selected article
+          schema:
+            type: string
+        - name: atDate
+          in: path
+          required: false
+          description: date at which the metadata should be loaded
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: List of proprietary metadata at that date for the article
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Metadata'
+        '404':
+          description: If the norm or the article or the time boundary does not exist.
+    put:
+      summary: Replace the proprietary metadata of an article at the specified date
+      tags:
+        - under construction
+      parameters:
+        - name: eli
+          in: path
+          required: false
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: the eId of the selected article
+          schema:
+            type: string
+        - name: atDate
+          in: path
+          required: true
+          description: eId of the time boundary at which the metadata should be updated
+          schema:
+            type: string
+            format: date
+      requestBody:
+        description: The proprietary request schema containing several metadata.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
+      responses:
+        '200':
+          description: Metadata for article was updated successfully. Returns the updated metadata.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Metadata'
+        '404':
+          description: If the norm or the article or the time boundary doesn't exist.
 
   /norms/{eli}/{eid}:
     get:
