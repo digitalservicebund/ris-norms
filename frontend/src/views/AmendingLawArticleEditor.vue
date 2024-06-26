@@ -23,6 +23,7 @@ import { useGetNorm } from "@/services/normService"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch } from "vue"
+import { useMultiSelection } from "@/composables/useMultiSelection"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -31,13 +32,19 @@ const {
   isFetching: isFetchingAmendingLaw,
   error: loadAmendingLawError,
 } = useGetNorm(eli)
-const modEidPathParameter = useModEidPathParameter()
 
-const selectedMods = ref<string[]>([])
+const {
+  values: selectedMods,
+  select: selectMod,
+  toggle: toggleSelectedMod,
+  deselectAll: deselectAllSelectedMods,
+} = useMultiSelection<string>()
+
+const modEidPathParameter = useModEidPathParameter()
 
 watch(modEidPathParameter, () => {
   if (modEidPathParameter.value !== "") {
-    selectedMods.value = [modEidPathParameter.value]
+    selectMod(modEidPathParameter.value)
   }
 })
 
@@ -103,20 +110,15 @@ function handleAknModClick({
   originalEvent: MouseEvent | KeyboardEvent
 }) {
   if (originalEvent.ctrlKey || originalEvent.metaKey) {
-    const eidIndex = selectedMods.value.indexOf(eid)
-
-    if (eidIndex === -1) {
-      selectedMods.value = [...selectedMods.value, eid]
-    } else {
-      selectedMods.value = selectedMods.value.toSpliced(eidIndex, 1)
-    }
+    toggleSelectedMod(eid)
   } else {
-    selectedMods.value = [eid]
+    deselectAllSelectedMods()
+    selectMod(eid)
   }
 }
 
 function handlePreviewClick() {
-  selectedMods.value = []
+  deselectAllSelectedMods()
 }
 
 const {
