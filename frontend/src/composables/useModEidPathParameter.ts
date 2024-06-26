@@ -21,7 +21,7 @@ export function useModEidPathParameter(): WritableComputedRef<string> {
       return route.params.modEid
     },
     set(eid) {
-      void router.push({
+      void router.replace({
         params: {
           modEid: eid,
         },

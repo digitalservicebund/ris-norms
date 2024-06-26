@@ -33,14 +33,16 @@ const {
 } = useGetNorm(eli)
 const modEidPathParameter = useModEidPathParameter()
 
-const selectedMods = ref<string[]>()
+const selectedMods = ref<string[]>([])
 
 watch(modEidPathParameter, () => {
-  selectedMods.value = [modEidPathParameter.value]
+  if (modEidPathParameter.value !== "") {
+    selectedMods.value = [modEidPathParameter.value]
+  }
 })
 
 watch(selectedMods, () => {
-  if (selectedMods.value?.length === 1) {
+  if (selectedMods.value.length === 1) {
     modEidPathParameter.value = selectedMods.value[0]
   } else {
     modEidPathParameter.value = ""
@@ -93,8 +95,24 @@ watch(xml, (xml) => {
   }
 })
 
-function handleAknModClick({ eid }: { eid: string }) {
-  selectedMods.value = [eid]
+function handleAknModClick({
+  eid,
+  originalEvent,
+}: {
+  eid: string
+  originalEvent: MouseEvent | KeyboardEvent
+}) {
+  if (originalEvent.ctrlKey || originalEvent.metaKey) {
+    const eidIndex = selectedMods.value.indexOf(eid)
+
+    if (eidIndex === -1) {
+      selectedMods.value = [...selectedMods.value, eid]
+    } else {
+      selectedMods.value = selectedMods.value.toSpliced(eidIndex, 1)
+    }
+  } else {
+    selectedMods.value = [eid]
+  }
 }
 
 function handlePreviewClick() {
@@ -273,7 +291,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           </section>
 
           <section
-            v-if="selectedMods?.length === 1"
+            v-if="selectedMods.length === 1"
             class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
             aria-labelledby="originalArticleTitle"
           >
@@ -313,7 +331,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           </section>
 
           <section
-            v-if="selectedMods?.length === 1"
+            v-if="selectedMods.length === 1"
             class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
             aria-labelledby="changedArticlePreivew"
           >
@@ -368,6 +386,16 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
               </template>
             </RisTabs>
           </section>
+
+          <div
+            v-else-if="selectedMods.length > 1"
+            class="gap col-span-2 grid flex-grow grid-cols-2 gap-32"
+          >
+            <RisEmptyState
+              text-content="Aktuell kann nur ein einzelner Änderungsbefehl zur Zeit bearbeitet werden."
+              class="mt-[85px] h-fit"
+            />
+          </div>
 
           <div v-else class="gap col-span-2 grid flex-grow grid-cols-2 gap-32">
             <RisEmptyState

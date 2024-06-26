@@ -46,19 +46,19 @@ describe("useModEidPathParameter", () => {
   })
 
   test("should update route param when changed", async () => {
-    const routerPush = vi.fn()
+    const routerReplace = vi.fn()
 
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn(),
       useRouter: vi.fn().mockReturnValue({
-        push: routerPush,
+        replace: routerReplace,
       }),
     }))
 
     const { useModEidPathParameter } = await import("./useModEidPathParameter")
     const modEid = useModEidPathParameter()
     modEid.value = "unknown-eid-2"
-    expect(routerPush).toHaveBeenCalledWith({
+    expect(routerReplace).toHaveBeenCalledWith({
       params: { modEid: "unknown-eid-2" },
     })
   })
