@@ -456,11 +456,11 @@ class ElementServiceTest {
       // Given
       // Nothing given -> Loading should fail
 
+      LoadElementsByTypeFromNormUseCase.Query query =
+          new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"));
+
       // When / Then
-      assertThatThrownBy(
-              () ->
-                  service.loadElementsByTypeFromNorm(
-                      new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"))))
+      assertThatThrownBy(() -> service.loadElementsByTypeFromNorm(query))
           .isInstanceOf(NormNotFoundException.class);
     }
 

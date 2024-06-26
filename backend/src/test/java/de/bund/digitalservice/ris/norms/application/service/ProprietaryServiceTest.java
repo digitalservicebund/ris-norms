@@ -30,13 +30,11 @@ class ProprietaryServiceTest {
     void throwsNormNotFoundExceptionIfNormNotFound() {
       // given
       var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      LoadProprietaryFromNormUseCase.Query query = new LoadProprietaryFromNormUseCase.Query(eli);
       // when
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
       // then
-      assertThatThrownBy(
-              () ->
-                  proprietaryService.loadProprietaryFromNorm(
-                      new LoadProprietaryFromNormUseCase.Query(eli)))
+      assertThatThrownBy(() -> proprietaryService.loadProprietaryFromNorm(query))
           // then
           .isInstanceOf(NormNotFoundException.class);
     }
@@ -79,16 +77,15 @@ class ProprietaryServiceTest {
     void throwsNormNotFoundExceptionIfNormNotFound() {
       // given
       var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      UpdateProprietaryFromNormUseCase.Query query =
+          new UpdateProprietaryFromNormUseCase.Query(
+              eli,
+              LocalDate.parse("2003-01-01"),
+              new UpdateProprietaryFromNormUseCase.Metadata(
+                  "fna", null, null, null, null, null, null, null, null, null, null));
       // when
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(
-              () ->
-                  proprietaryService.updateProprietaryFromNorm(
-                      new UpdateProprietaryFromNormUseCase.Query(
-                          eli,
-                          LocalDate.parse("2003-01-01"),
-                          new UpdateProprietaryFromNormUseCase.Metadata(
-                              "fna", null, null, null, null, null, null, null, null, null, null))))
+      assertThatThrownBy(() -> proprietaryService.updateProprietaryFromNorm(query))
           // then
           .isInstanceOf(NormNotFoundException.class);
     }
