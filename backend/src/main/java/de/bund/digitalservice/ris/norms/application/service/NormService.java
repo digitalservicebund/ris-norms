@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
@@ -23,14 +22,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class NormService
     implements LoadNormUseCase,
-        LoadNormByGuidUseCase,
         LoadNormXmlUseCase,
-        LoadNextVersionOfNormUseCase,
         UpdateNormXmlUseCase,
         LoadSpecificArticleXmlFromNormUseCase,
         UpdateModUseCase {
   private final LoadNormPort loadNormPort;
-  private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
   private final SingleModValidator singleModValidator;
   private final UpdateNormService updateNormService;
@@ -39,14 +35,12 @@ public class NormService
 
   public NormService(
       LoadNormPort loadNormPort,
-      LoadNormByGuidPort loadNormByGuidPort,
       UpdateNormPort updateNormPort,
       SingleModValidator singleModValidator,
       UpdateNormService updateNormService,
       LoadZf0Service loadZf0Service,
       UpdateOrSaveNormPort updateOrSaveNormPort) {
     this.loadNormPort = loadNormPort;
-    this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateNormPort = updateNormPort;
     this.singleModValidator = singleModValidator;
     this.updateNormService = updateNormService;
@@ -60,24 +54,11 @@ public class NormService
   }
 
   @Override
-  public Optional<Norm> loadNormByGuid(final LoadNormByGuidUseCase.Query query) {
-    return loadNormByGuidPort.loadNormByGuid(new LoadNormByGuidPort.Command(query.guid()));
-  }
-
-  @Override
   public Optional<String> loadNormXml(final LoadNormXmlUseCase.Query query) {
     return loadNormPort
         .loadNorm(new LoadNormPort.Command(query.eli()))
         .map(Norm::getDocument)
         .map(XmlMapper::toString);
-  }
-
-  @Override
-  public Optional<Norm> loadNextVersionOfNorm(LoadNextVersionOfNormUseCase.Query query) {
-    return loadNorm(new LoadNormUseCase.Query(query.eli()))
-        .map(n -> n.getMeta().getFRBRExpression().getFRBRaliasNextVersionId())
-        .flatMap(
-            nextVersionGuid -> loadNormByGuid(new LoadNormByGuidUseCase.Query(nextVersionGuid)));
   }
 
   @Override

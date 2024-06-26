@@ -6,14 +6,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNextVersionOfNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormByGuidUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateModUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
@@ -23,7 +20,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -31,7 +27,6 @@ import org.w3c.dom.Document;
 class NormServiceTest {
 
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
-  final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final SingleModValidator singleModValidator = mock(SingleModValidator.class);
   final UpdateNormService updateNormService = mock(UpdateNormService.class);
@@ -41,7 +36,6 @@ class NormServiceTest {
   final NormService service =
       new NormService(
           loadNormPort,
-          loadNormByGuidPort,
           updateNormPort,
           singleModValidator,
           updateNormService,
@@ -86,51 +80,6 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(returnedNorm).isPresent().contains(norm);
-    }
-  }
-
-  @Nested
-  class loadNormByGuid {
-
-    @Test
-    void itCallsLoadNormByGuidAndReturnsNorm() {
-      // Given
-      var guid = UUID.fromString("931577e5-66ba-48f5-a6eb-db40bcfd6b87");
-
-      var norm =
-          Norm.builder()
-              .document(
-                  XmlMapper.toDocument(
-                      """
-                            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                   http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                               <akn:act name="regelungstext">
-                                  <!-- Metadaten -->
-                                  <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                                     <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                                        <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                                           <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
-                                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
-                                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01" />
-                                        </akn:FRBRExpression>
-                                    </akn:identification>
-                                  </akn:meta>
-                               </akn:act>
-                            </akn:akomaNtoso>
-                          """))
-              .build();
-      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(norm));
-
-      // When
-      var returnedNorm = service.loadNormByGuid(new LoadNormByGuidUseCase.Query(guid));
-
-      // Then
-      verify(loadNormByGuidPort, times(1))
-          .loadNormByGuid(argThat(argument -> Objects.equals(argument.guid(), guid)));
       assertThat(returnedNorm).isPresent().contains(norm);
     }
   }
@@ -190,91 +139,6 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(xml).isEmpty();
-    }
-  }
-
-  @Nested
-  class loadNextVersionOfNorm {
-
-    @Test
-    void itCallsLoadNormAndReturnsNextVersionNorm() {
-      // Given
-      var norm =
-          Norm.builder()
-              .document(
-                  XmlMapper.toDocument(
-                      """
-                            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                   http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                               <akn:act name="regelungstext">
-                                  <!-- Metadaten -->
-                                  <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                                     <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                                        <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                                           <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
-                                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
-                                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
-                                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01" />
-                                        </akn:FRBRExpression>
-                                    </akn:identification>
-                                  </akn:meta>
-                               </akn:act>
-                            </akn:akomaNtoso>
-                          """))
-              .build();
-
-      var nextVersionNorm =
-          Norm.builder()
-              .document(
-                  XmlMapper.toDocument(
-                      """
-                            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                   http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                               <akn:act name="regelungstext">
-                                  <!-- Metadaten -->
-                                  <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                                     <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                                        <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
-                                           <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/2024-01-03/1/deu/regelungstext-1" />
-                                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorgaenger-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" />
-                                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01" />
-                                           <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="nachfolgende-version-id" value="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" />
-                                        </akn:FRBRExpression>
-                                    </akn:identification>
-                                  </akn:meta>
-                               </akn:act>
-                            </akn:akomaNtoso>
-                          """))
-              .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(nextVersionNorm));
-
-      // When
-      var returnedNorm =
-          service.loadNextVersionOfNorm(
-              new LoadNextVersionOfNormUseCase.Query(
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
-
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(
-              argThat(
-                  argument ->
-                      Objects.equals(
-                          argument.eli(),
-                          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
-      verify(loadNormByGuidPort, times(1))
-          .loadNormByGuid(
-              argThat(
-                  argument ->
-                      Objects.equals(
-                          argument.guid(),
-                          UUID.fromString("91238a23-4321-31ac-34ad-87ad62e89f01"))));
-      assertThat(returnedNorm).isPresent().contains(nextVersionNorm);
     }
   }
 
