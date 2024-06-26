@@ -367,7 +367,7 @@ class ElementServiceTest {
   @Nested
   class loadElementsByTypeFromNorm {
     @Test
-    void returnsAllSupportedTypesFromANorm() throws Exception {
+    void returnsAllSupportedTypesFromANorm() {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -390,7 +390,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void returnsASubsetOfTypesFromANorm() throws Exception {
+    void returnsASubsetOfTypesFromANorm() {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -407,7 +407,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void returnsEmptyListIfTypeIsNotInNorm() throws Exception {
+    void returnsEmptyListIfTypeIsNotInNorm() {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -422,7 +422,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void returnsEmptyListIfTypesAreEmpty() throws Exception {
+    void returnsEmptyListIfTypesAreEmpty() {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -465,7 +465,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void filtersReturnedElementsByAmendingNorm() throws Exception {
+    void filtersReturnedElementsByAmendingNorm() {
       // Given
       var targetNorm =
           NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
@@ -487,7 +487,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void returnsEmptyListIfNoElementIsAffectedByTheAmendingNorm() throws Exception {
+    void returnsEmptyListIfNoElementIsAffectedByTheAmendingNorm() {
       // Given
       var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       var targetNormEli = targetNorm.getEli();

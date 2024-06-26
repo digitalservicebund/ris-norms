@@ -118,7 +118,7 @@ public class ElementService
 
   @Override
   public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query)
-      throws UnsupportedElementTypeException, NormNotFoundException {
+      throws UnsupportedElementTypeException {
     // No need to do anything if no types are requested
     if (query.elementType().isEmpty()) return List.of();
 

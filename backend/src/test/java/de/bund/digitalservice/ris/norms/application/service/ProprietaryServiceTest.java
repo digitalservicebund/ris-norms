@@ -42,7 +42,7 @@ class ProprietaryServiceTest {
     }
 
     @Test
-    void returnNewProprietaryNodeIfProprietaryNotFound() throws Exception {
+    void returnNewProprietaryNodeIfProprietaryNotFound() {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
@@ -58,7 +58,7 @@ class ProprietaryServiceTest {
     }
 
     @Test
-    void returnsProprietary() throws Exception {
+    void returnsProprietary() {
       // given
       var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
@@ -94,7 +94,7 @@ class ProprietaryServiceTest {
     }
 
     @Test
-    void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsNodes() throws Exception {
+    void updatesProprietaryByCreatingNewProprietaryAndMetadatenDsNodes() {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var date = LocalDate.parse("2003-01-01");
@@ -126,7 +126,7 @@ class ProprietaryServiceTest {
     }
 
     @Test
-    void updatesProprietaryByCreatingNewMetadatenDsNodes() throws Exception {
+    void updatesProprietaryByCreatingNewMetadatenDsNodes() {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var date = LocalDate.parse("2003-01-01");
@@ -169,7 +169,7 @@ class ProprietaryServiceTest {
     }
 
     @Test
-    void resetsAllFields() throws Exception {
+    void resetsAllFields() {
       // given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var date = LocalDate.parse("2003-01-01");

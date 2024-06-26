@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import java.time.LocalDate;
@@ -13,9 +12,8 @@ public interface UpdateProprietaryFromNormUseCase {
    * @param query specifying the eli of ZF0, the date for the metadata as well as the metadata
    *     themselves.
    * @return Proprietary node of the norm with the updated metadata.
-   * @throws NormNotFoundException if the ZF0 doesn't exist
    */
-  Proprietary updateProprietaryFromNorm(Query query) throws NormNotFoundException;
+  Proprietary updateProprietaryFromNorm(Query query);
 
   /**
    * Contains the parameters needed for loading proprietary metadata from a norm.
