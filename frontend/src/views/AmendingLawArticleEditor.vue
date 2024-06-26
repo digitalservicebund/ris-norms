@@ -13,7 +13,6 @@ import { useArticle } from "@/composables/useArticle"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useMod } from "@/composables/useMod"
-import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
 import { useNormRender } from "@/composables/useNormRender"
 import { useNormXml } from "@/composables/useNormXml"
 import { useTemporalData } from "@/composables/useTemporalData"
@@ -23,7 +22,7 @@ import { useGetNorm } from "@/services/normService"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { computed, ref, watch } from "vue"
-import { useMultiSelection } from "@/composables/useMultiSelection"
+import { useModEidSelection } from "@/composables/useModEidSelection"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -35,26 +34,9 @@ const {
 
 const {
   values: selectedMods,
-  select: selectMod,
-  toggle: toggleSelectedMod,
   deselectAll: deselectAllSelectedMods,
-} = useMultiSelection<string>()
-
-const modEidPathParameter = useModEidPathParameter()
-
-watch(modEidPathParameter, () => {
-  if (modEidPathParameter.value !== "") {
-    selectMod(modEidPathParameter.value)
-  }
-})
-
-watch(selectedMods, () => {
-  if (selectedMods.value.length === 1) {
-    modEidPathParameter.value = selectedMods.value[0]
-  } else {
-    modEidPathParameter.value = ""
-  }
-})
+  handleAknModClick,
+} = useModEidSelection()
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
@@ -101,21 +83,6 @@ watch(xml, (xml) => {
     currentXml.value = xml
   }
 })
-
-function handleAknModClick({
-  eid,
-  originalEvent,
-}: {
-  eid: string
-  originalEvent: MouseEvent | KeyboardEvent
-}) {
-  if (originalEvent.ctrlKey || originalEvent.metaKey) {
-    toggleSelectedMod(eid)
-  } else {
-    deselectAllSelectedMods()
-    selectMod(eid)
-  }
-}
 
 function handlePreviewClick() {
   deselectAllSelectedMods()
