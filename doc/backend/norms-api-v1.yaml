@@ -423,7 +423,7 @@ paths:
 
   /norms/{eli}/proprietary/{eid}/{atDate}:
     get:
-      summary: Get the proprietary metadata of an article at the specified date
+      summary: Get the proprietary metadata of a single element at the specified date
       tags:
         - under construction
       parameters:
@@ -436,7 +436,7 @@ paths:
         - name: eid
           in: path
           required: true
-          description: the eId of the selected article
+          description: the eId of the selected single element
           schema:
             type: string
         - name: atDate
@@ -448,15 +448,15 @@ paths:
             format: date
       responses:
         '200':
-          description: List of proprietary metadata at that date for the article
+          description: List of proprietary metadata at that date for the single element
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Metadata'
+                $ref: '#/components/schemas/SingleElementMetadata'
         '404':
-          description: If the norm or the article or the time boundary does not exist.
+          description: If the norm or the single element or the time boundary does not exist.
     put:
-      summary: Replace the proprietary metadata of an article at the specified date
+      summary: Replace the proprietary metadata of a single element at the specified date
       tags:
         - under construction
       parameters:
@@ -469,7 +469,7 @@ paths:
         - name: eid
           in: path
           required: true
-          description: the eId of the selected article
+          description: the eId of the selected single element
           schema:
             type: string
         - name: atDate
@@ -485,16 +485,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Metadata'
+              $ref: '#/components/schemas/SingleElementMetadata'
       responses:
         '200':
-          description: Metadata for article was updated successfully. Returns the updated metadata.
+          description: Metadata for a single element was updated successfully. Returns the updated metadata.
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Metadata'
+                $ref: '#/components/schemas/SingleElementMetadata'
         '404':
-          description: If the norm or the article or the time boundary doesn't exist.
+          description: If the norm or the single element or the time boundary doesn't exist.
 
   /norms/{eli}/{eid}:
     get:
@@ -695,3 +695,10 @@ components:
         organisationsEinheit:
           type: string
           description: ("Organisationseinheit")
+
+    SingleElementMetadata:
+      type: object
+      properties:
+        artDerNorm:
+          type: string
+          description: SN or ÄN or ÜN ("Art der Norm") of the single element
