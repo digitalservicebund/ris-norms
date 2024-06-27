@@ -104,30 +104,4 @@ public class Article {
   public List<Mod> getMods() {
     return NodeParser.getNodesFromExpression("./*//mod", this.node).stream().map(Mod::new).toList();
   }
-
-  /**
-   * Extracts the {@link Mod} for this article and throws an exception when an article does not
-   * contain mods.
-   *
-   * @return the {@link Mod}
-   */
-  public List<Mod> getModsOrThrow() {
-    List<Mod> modsInArticle = getMods();
-    if (modsInArticle.isEmpty()) {
-      throw new NullPointerException(
-          "For norm with Eli (%s): There is no mod in article with eId %s"
-              .formatted(getNormEli().orElse(UNKNOWN), getEid().orElse(UNKNOWN)));
-    } else return modsInArticle;
-  }
-
-  private Optional<String> getNormEli() {
-    Optional<String> eli =
-        NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", node);
-    if (eli.isEmpty()) {
-      eli =
-          NodeParser.getValueFromExpression("//FRBRManifestation/FRBRthis/@value", node)
-              .map(m -> m.replace(".xml", ""));
-    }
-    return eli;
-  }
 }

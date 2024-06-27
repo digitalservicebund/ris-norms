@@ -156,7 +156,7 @@ public class AmendingLawValidator {
   }
 
   private void validateAknModEli(String amendingNormEli, Article article, String articleEId) {
-    List<Mod> mods = article.getModsOrThrow();
+    List<Mod> mods = article.getMods();
     mods.forEach(
         mod -> {
           Optional<String> eli = getModTargetHref(amendingNormEli, mod, articleEId).getEli();
