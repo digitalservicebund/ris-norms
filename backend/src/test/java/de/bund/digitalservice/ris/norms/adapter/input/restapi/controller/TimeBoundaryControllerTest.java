@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.FrameWorkExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
@@ -181,7 +181,7 @@ class TimeBoundaryControllerTest {
     void updateTimeBoundariesMultipleSameDatesReturns400() throws Exception {
       // Given
       MemoryAppender memoryAppender;
-      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(FrameWorkExceptionHandler.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
       logger.setLevel(Level.ALL);
@@ -237,7 +237,7 @@ class TimeBoundaryControllerTest {
     void updateTimeBoundariesWithEmptyListReturns400() throws Exception {
       // Given
       MemoryAppender memoryAppender;
-      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(FrameWorkExceptionHandler.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
       logger.setLevel(Level.ALL);
@@ -273,7 +273,7 @@ class TimeBoundaryControllerTest {
     void updateTimeBoundariesReturnsDateIsNull() throws Exception {
       // Given
       MemoryAppender memoryAppender;
-      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(FrameWorkExceptionHandler.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
       logger.setLevel(Level.ALL);

@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -58,11 +57,10 @@ public class Article {
         .map(EId::value)
         .orElseThrow(
             () ->
-                new XmlContentException(
+                new NullPointerException(
                     "For norm with Eli (%s): eId is empty in article \"%s\""
                         .formatted(
-                            getNormEli().orElse(UNKNOWN), getHeading().orElse(UNKNOWN).strip()),
-                    null));
+                            getNormEli().orElse(UNKNOWN), getHeading().orElse(UNKNOWN).strip())));
   }
 
   /**
@@ -115,10 +113,9 @@ public class Article {
     return getRefersTo()
         .orElseThrow(
             () ->
-                new XmlContentException(
+                new NullPointerException(
                     "For norm with Eli (%s): RefersTo is empty in article with eId %s"
-                        .formatted(getNormEli().orElse(UNKNOWN), getEid().orElse(UNKNOWN)),
-                    null));
+                        .formatted(getNormEli().orElse(UNKNOWN), getEid().orElse(UNKNOWN))));
   }
 
   /**
@@ -139,10 +136,9 @@ public class Article {
   public List<Mod> getModsOrThrow() {
     List<Mod> modsInArticle = getMods();
     if (modsInArticle.isEmpty()) {
-      throw new XmlContentException(
+      throw new NullPointerException(
           "For norm with Eli (%s): There is no mod in article with eId %s"
-              .formatted(getNormEli().orElse(UNKNOWN), getEid().orElse(UNKNOWN)),
-          null);
+              .formatted(getNormEli().orElse(UNKNOWN), getEid().orElse(UNKNOWN)));
     } else return modsInArticle;
   }
 

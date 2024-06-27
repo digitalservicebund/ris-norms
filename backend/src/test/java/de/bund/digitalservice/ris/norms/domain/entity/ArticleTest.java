@@ -8,7 +8,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -113,7 +112,7 @@ class ArticleTest {
 
     // when/then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(NullPointerException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): eId is empty in article \"Änderung des Vereinsgesetzes\"");
   }
@@ -374,7 +373,7 @@ class ArticleTest {
 
     // when/then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(NullPointerException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): There is no mod in article with eId hauptteil-1_art-1");
   }
@@ -555,7 +554,7 @@ class ArticleTest {
 
     // when/then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(NullPointerException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): RefersTo is empty in article with eId hauptteil-1_art-1");
   }

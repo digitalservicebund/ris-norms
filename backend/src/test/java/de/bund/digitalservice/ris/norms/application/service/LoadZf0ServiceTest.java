@@ -5,12 +5,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -145,7 +145,7 @@ class LoadZf0ServiceTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
             "Cannot read target norm eli from mod Optional[hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1]");
   }

@@ -6,12 +6,12 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -363,7 +363,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModUseCase.updateMod(any())).thenThrow(XmlContentException.class);
+      when(updateModUseCase.updateMod(any())).thenThrow(ValidationException.class);
 
       // When // Then
       mockMvc
@@ -383,8 +383,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModUseCase.updateMod(any()))
-          .thenThrow(new XmlContentException("error exception", null));
+      when(updateModUseCase.updateMod(any())).thenThrow(new ValidationException("error exception"));
 
       // When // Then
       mockMvc

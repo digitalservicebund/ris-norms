@@ -1,12 +1,12 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -76,8 +76,8 @@ public class LoadZf0Service implements LoadZf0UseCase {
     if (targetNormEliOptional.isPresent()) {
       targetNormEli = targetNormEliOptional.get();
     } else
-      throw new XmlContentException(
-          "Cannot read target norm eli from mod %s .".formatted(mod.getEid()), null);
+      throw new ValidationException(
+          "Cannot read target norm eli from mod %s .".formatted(mod.getEid()));
 
     final Norm targetNorm =
         loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli)).orElseThrow();

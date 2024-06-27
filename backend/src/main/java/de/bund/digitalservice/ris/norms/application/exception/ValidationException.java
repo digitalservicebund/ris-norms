@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.utils.exceptions;
+package de.bund.digitalservice.ris.norms.application.exception;
 
 import lombok.Getter;
 
