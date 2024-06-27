@@ -45,7 +45,7 @@ describe("useModEidPathParameter", () => {
     expect(modEid.value).toBe("unknown-eid-2")
   })
 
-  test("should update route param when changed", async () => {
+  test("should update route when changed", async () => {
     const routerReplace = vi.fn()
 
     vi.doMock("vue-router", () => ({
@@ -60,6 +60,25 @@ describe("useModEidPathParameter", () => {
     modEid.value = "unknown-eid-2"
     expect(routerReplace).toHaveBeenCalledWith({
       params: { modEid: "unknown-eid-2" },
+      name: "AmendingLawArticleEditorSingleMod",
+    })
+  })
+
+  test("should update route when changed to empty", async () => {
+    const routerReplace = vi.fn()
+
+    vi.doMock("vue-router", () => ({
+      useRoute: vi.fn(),
+      useRouter: vi.fn().mockReturnValue({
+        replace: routerReplace,
+      }),
+    }))
+
+    const { useModEidPathParameter } = await import("./useModEidPathParameter")
+    const modEid = useModEidPathParameter()
+    modEid.value = ""
+    expect(routerReplace).toHaveBeenCalledWith({
+      name: "AmendingLawArticleEditorMultiMod",
     })
   })
 })

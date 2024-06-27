@@ -59,9 +59,22 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
-    path: `/amending-laws/${createEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit/:modEid?`,
+    path: `/amending-laws/${createEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
     name: "AmendingLawArticleEditor",
     component: () => import("@/views/AmendingLawArticleEditor.vue"),
+    children: [
+      {
+        path: ":modEid",
+        name: "AmendingLawArticleEditorSingleMod",
+        component: () =>
+          import("@/views/AmendingLawArticleEditorSingleMod.vue"),
+      },
+      {
+        path: "",
+        name: "AmendingLawArticleEditorMultiMod",
+        component: () => import("@/views/AmendingLawArticleEditorMultiMod.vue"),
+      },
+    ],
   },
   {
     path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/edit`,
