@@ -52,15 +52,8 @@ public class Article {
    *
    * @return The eId of the article
    */
-  public String getEidOrThrow() {
-    return EId.fromNode(getNode())
-        .map(EId::value)
-        .orElseThrow(
-            () ->
-                new NullPointerException(
-                    "For norm with Eli (%s): eId is empty in article \"%s\""
-                        .formatted(
-                            getNormEli().orElse(UNKNOWN), getHeading().orElse(UNKNOWN).strip())));
+  public String getMandatoryEid() {
+    return EId.fromMandatoryNode(getNode()).value();
   }
 
   /**

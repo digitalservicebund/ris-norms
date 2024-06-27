@@ -135,7 +135,7 @@ public class AmendingLawValidator {
         .forEach(
             article -> {
               String amendingNormEli = amendingNorm.getEli();
-              String articleEId = article.getEidOrThrow();
+              String articleEId = article.getMandatoryEid();
               validateAknModEli(amendingNormEli, article, articleEId);
               validateAffectedDocumentEli(amendingNormEli, article, articleEId);
             });

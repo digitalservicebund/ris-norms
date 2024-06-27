@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -75,7 +76,7 @@ class ArticleTest {
   }
 
   @Test
-  void getEidOrThrow() {
+  void getMandatoryEid() {
     // given
     String articleString =
         """
@@ -94,7 +95,7 @@ class ArticleTest {
   }
 
   @Test
-  void getEidOrThrowThrowsExceptionEidIsMissing() {
+  void getEidOrThrowThrowsExceptionMandatoryEidIsMissing() {
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
     when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
@@ -108,13 +109,13 @@ class ArticleTest {
     var article = amendingNorm.getArticles().getFirst();
 
     // when
-    Throwable thrown = catchThrowable(article::getEidOrThrow);
+    Throwable thrown = catchThrowable(article::getMandatoryEid);
 
     // when/then
     assertThat(thrown)
-        .isInstanceOf(NullPointerException.class)
+        .isInstanceOf(MandatoryNodeNotFoundException.class)
         .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): eId is empty in article \"Änderung des Vereinsgesetzes\"");
+            "Element with xpath './@eId' not found in 'akn:article' of norm 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1'");
   }
 
   @Test
