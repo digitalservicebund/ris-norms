@@ -12,9 +12,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libxml2-utils -y
-      - name: List files for debugging
-        run: |
-          ls -R
       - name: xmllint
         working-directory: ./ldml-extension
         run: |
