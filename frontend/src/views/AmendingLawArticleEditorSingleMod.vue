@@ -106,7 +106,7 @@ watch(
     aria-labelledby="originalArticleTitle"
   >
     <h3 id="originalArticleTitle" class="ds-label-02-bold">
-      Änderungsbefehle bearbeiten
+      Änderungsbefehl bearbeiten
     </h3>
 
     <div

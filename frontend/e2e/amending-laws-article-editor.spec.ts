@@ -80,12 +80,12 @@ test.describe("Loading amending law and mod details", () => {
     await expect(
       page.getByRole("heading", {
         level: 3,
-        name: "Änderungsbefehle bearbeiten",
+        name: "Änderungsbefehl bearbeiten",
       }),
     ).toBeVisible()
 
     const modFormSection = page.getByRole("region", {
-      name: "Änderungsbefehle bearbeiten",
+      name: "Änderungsbefehl bearbeiten",
     })
     await expect(modFormSection).toBeVisible()
 
@@ -191,7 +191,7 @@ test.describe("Update mod details", () => {
     await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
 
     const modFormSection = page.getByRole("region", {
-      name: "Änderungsbefehle bearbeiten",
+      name: "Änderungsbefehl bearbeiten",
     })
 
     await modFormSection
@@ -220,7 +220,7 @@ test.describe("Update mod details", () => {
     await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
 
     const modFormSection = page.getByRole("region", {
-      name: "Änderungsbefehle bearbeiten",
+      name: "Änderungsbefehl bearbeiten",
     })
 
     await modFormSection
@@ -266,7 +266,7 @@ test.describe("Update mod details", () => {
     await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
 
     const modFormSection = page.getByRole("region", {
-      name: "Änderungsbefehle bearbeiten",
+      name: "Änderungsbefehl bearbeiten",
     })
 
     await page
