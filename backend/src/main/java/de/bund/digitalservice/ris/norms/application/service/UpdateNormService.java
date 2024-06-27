@@ -5,8 +5,10 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModi
 import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -57,7 +59,7 @@ public class UpdateNormService
     // clean up existing passive modifications stemming from the amending zf0Norm
     removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getEli());
 
-    final var activeModificationsToAdd =
+    final List<TextualMod> activeModificationsToAdd =
         query
             .amendingNorm()
             .getMeta()
