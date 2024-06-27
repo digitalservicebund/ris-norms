@@ -1,8 +1,10 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import org.junit.jupiter.api.Test;
 
 class EIdTest {
@@ -49,5 +51,26 @@ class EIdTest {
     // then
     assertThat(eId).isPresent();
     assertThat(eId.get().value()).isEqualTo("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3");
+  }
+
+  @Test
+  void fromMandatoryNode() {
+    // given
+    var node =
+        XmlMapper.toNode("<akn:mod eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />");
+    // when
+    var eId = EId.fromMandatoryNode(node);
+    // then
+    assertThat(eId.value()).isEqualTo("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3");
+  }
+
+  @Test
+  void fromMandatoryNodeThrowsMandatoryNodeNotFoundException() {
+    // given
+    var node = XmlMapper.toNode("<akn:mod eId=\"\" />");
+
+    // when/then
+    assertThatThrownBy(() -> EId.fromMandatoryNode(node))
+        .isInstanceOf(MandatoryNodeNotFoundException.class);
   }
 }

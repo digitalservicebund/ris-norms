@@ -40,4 +40,14 @@ public record EId(String value) {
   public static Optional<EId> fromNode(Node node) {
     return NodeParser.getValueFromExpression("./@eId", node).map(EId::new);
   }
+
+  /**
+   * Get the EId of a node's @eId property which should be there.
+   *
+   * @param node the node with an @eId property
+   * @return the eId of the node
+   */
+  public static EId fromMandatoryNode(Node node) {
+    return new EId(NodeParser.getValueFromMandatoryNodeFromExpression("./@eId", node));
+  }
 }
