@@ -97,21 +97,6 @@ public class Article {
   }
 
   /**
-   * Returns the refersTo attribute of the affected article as {@link String} from a {@link Node} in
-   * a {@link Norm}.
-   *
-   * @return The refersTo attribute of the article
-   */
-  public String getRefersToOrThrow() {
-    return getRefersTo()
-        .orElseThrow(
-            () ->
-                new NullPointerException(
-                    "For norm with Eli (%s): RefersTo is empty in article with eId %s"
-                        .formatted(getNormEli().orElse(UNKNOWN), getEid().orElse(UNKNOWN))));
-  }
-
-  /**
    * Extracts the {@link Mod} for this article.
    *
    * @return the {@link Mod}

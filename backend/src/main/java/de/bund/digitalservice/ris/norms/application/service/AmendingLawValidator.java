@@ -52,7 +52,14 @@ public class AmendingLawValidator {
         amendingNorm.getArticles().stream()
             .filter(
                 article -> {
-                  String articleRefersTo = article.getRefersToOrThrow();
+                  String articleRefersTo =
+                      article
+                          .getRefersTo()
+                          .orElseThrow(
+                              () ->
+                                  new ValidationException(
+                                      "For norm with Eli (%s): RefersTo is empty in article with eId %s"
+                                          .formatted(amendingNorm.getEli(), article.getEid())));
                   return Objects.equals(articleRefersTo, "hauptaenderung");
                 })
             .toList();
@@ -125,7 +132,14 @@ public class AmendingLawValidator {
             article -> {
               String articleRefersTo;
               try {
-                articleRefersTo = article.getRefersToOrThrow();
+                articleRefersTo =
+                    article
+                        .getRefersTo()
+                        .orElseThrow(
+                            () ->
+                                new ValidationException(
+                                    "For norm with Eli (%s): RefersTo is empty in article with eId %s"
+                                        .formatted(amendingNorm.getEli(), article.getEid().get())));
               } catch (NullPointerException e) {
                 throw new ValidationException(e.getMessage());
               }
