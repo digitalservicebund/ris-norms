@@ -19,23 +19,31 @@
     <xs:element name="legalDocML.de_metadaten_ds">
         <xs:complexType>
             <xs:choice maxOccurs="unbounded">
-                <xs:element name="fna" type="SimpleFrameMetadataType" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="art" type="SimpleFrameMetadataType" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="typ" type="SimpleFrameMetadataType" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="subtyp" type="SimpleFrameMetadataType" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="artDerNorm" type="ArtDerNormType" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="bezeichnungInVorlage" type="SimpleFrameMetadataType" minOccurs="0"
+                <xs:element name="fna" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="art" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="typ" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="subtyp" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="bezeichnungInVorlage" type="SimpleMetadataType" minOccurs="0"
                             maxOccurs="unbounded"/>
-                <xs:element name="normgeber" type="SimpleFrameMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="normgeber" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="beschliessendesOrgan" type="BeschliessendesOrganType" minOccurs="0"
                             maxOccurs="unbounded"/>
-                <xs:element name="organisationsEinheit" type="SimpleFrameMetadataType" minOccurs="0"
+                <xs:element name="organisationsEinheit" type="SimpleMetadataType" minOccurs="0"
                             maxOccurs="unbounded"/>
+                <xs:element name="artDerNorm" type="ArtDerNormType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="einzelElement" type="EinzelElementType" minOccurs="0" maxOccurs="unbounded"/>
             </xs:choice>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="SimpleFrameMetadataType">
+    <xs:complexType name="EinzelElementType">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element name="artDerNorm" type="ArtDerNormSingleElementType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="href" type="eId-verweis"/>
+    </xs:complexType>
+
+    <xs:complexType name="SimpleMetadataType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
                 <xs:attribute name="start" type="xs:date"/>
@@ -56,28 +64,36 @@
 
     <xs:complexType name="BeschliessendesOrganType">
         <xs:simpleContent>
-            <xs:extension base="SimpleFrameMetadataType">
+            <xs:extension base="SimpleMetadataType">
                 <xs:attribute name="qualifizierteMehrheit" type="xs:boolean" use="required"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
 
-    <xs:complexType name="SimpleSingleElementMetadataType">
-        <xs:complexContent>
-            <xs:extension base="SimpleFrameMetadataType">
-                <xs:attribute name="href" type="eId-verweis"/>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
     <xs:complexType name="ArtDerNormType">
         <xs:complexContent>
-            <xs:extension base="SimpleSingleElementMetadataType">
+            <xs:extension base="SimpleMetadataType">
                 <xs:attribute name="value">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:pattern
                                     value="^(SN|ÄN|ÜN)$|^(SN,ÄN|SN,ÜN|ÄN,ÜN|ÄN,SN|ÜN,SN|ÜN,ÄN)$|^(SN,ÄN,ÜN|SN,ÜN,ÄN|ÄN,SN,ÜN|ÄN,ÜN,SN|ÜN,SN,ÄN|ÜN,ÄN,SN)$"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ArtDerNormSingleElementType">
+        <xs:complexContent>
+            <xs:extension base="SimpleMetadataType">
+                <xs:attribute name="value">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="SN"/>
+                            <xs:enumeration value="ÄN"/>
+                            <xs:enumeration value="ÜN"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>

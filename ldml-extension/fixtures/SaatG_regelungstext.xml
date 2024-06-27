@@ -15,7 +15,7 @@
 -->
 <?xml-model href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/26e27e3a56996587fe737639fd80e2c4a8fe0311/Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://DS.Metadaten.LegalDocML.de/1.6/"
                 xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
    <akn:act name="regelungstext">
 <!-- Metadaten-->
@@ -380,15 +380,22 @@
                <meta:art start="1970-01-01" end="2023-12-29">regelungstext</meta:art>
                <meta:typ start="1970-01-01" end="2023-12-29">gesetz</meta:typ>
                <meta:subtyp start="1970-01-01" end="2023-12-29">Rechtsverordnung</meta:subtyp>
+               <meta:artDerNorm start="2024-01-01" end="unbestimmt">ÄN,SN</meta:artDerNorm>
                <!-- TODO "test" content should not be allowed in artDerNorm -->
-               <meta:artDerNorm href="#hauptteil-1_abschnitt-1_uabschnitt-1_para-1">test</meta:artDerNorm>
+               <meta:artDerNorm>test</meta:artDerNorm>
                <!-- TODO repeated "SN" should not be allowed in artDerNorm -->
                <meta:artDerNorm start="1970-01-01" end="2023-12-31">SN,ÜN,SN</meta:artDerNorm>
-               <meta:artDerNorm start="2024-01-01" end="unbestimmt">ÄN,SN</meta:artDerNorm>
                <meta:bezeichnungInVorlage start="1970-01-01" end="2023-12-29">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
                <meta:normgeber start="1970-01-01" end="2023-12-29">BEO - Berlin (Ost)</meta:normgeber>
                <meta:beschliessendesOrgan start="1970-01-01" end="2023-12-29" qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
                <meta:organisationsEinheit start="1970-01-01" end="2023-12-29">Einheit 1</meta:organisationsEinheit>
+
+               <meta:einzelElement href="#hauptteil-1_abschnitt-1_uabschnitt-1_para-1">
+                  <artDerNorm>ÄN</artDerNorm>
+               </meta:einzelElement>
+               <meta:einzelElement href="#hauptteil-2_abschnitt-2_uabschnitt-2_para-2">
+                  <meta:artDerNorm start="1970-01-01" end="2023-12-31">ÜN</meta:artDerNorm>
+               </meta:einzelElement>
             </meta:legalDocML.de_metadaten_ds>
          </akn:proprietary>
       </akn:meta>
