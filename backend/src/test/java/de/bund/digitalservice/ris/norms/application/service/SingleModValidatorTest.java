@@ -11,7 +11,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Collections;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
@@ -45,7 +45,7 @@ class SingleModValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(MandatoryNodeNotFound.class)
+        .isInstanceOf(MandatoryNodeNotFoundException.class)
         .hasMessageContaining(
             "Element with xpath 'normalize-space(./quotedText[1])' not found in 'akn:mod' of norm 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1'");
   }

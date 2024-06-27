@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -68,7 +68,7 @@ public class Meta {
   public TemporalData getOrCreateTemporalDataNode() {
     try {
       return getTemporalData();
-    } catch (final MandatoryNodeNotFound e) {
+    } catch (final MandatoryNodeNotFoundException e) {
       final var newElement =
           NodeCreator.createElementWithEidAndGuid("akn:temporalData", "analysis", node);
       newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);

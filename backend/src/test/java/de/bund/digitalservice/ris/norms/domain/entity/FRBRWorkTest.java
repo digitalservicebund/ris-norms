@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import org.junit.jupiter.api.Test;
 
 class FRBRWorkTest {
@@ -85,7 +85,7 @@ class FRBRWorkTest {
                                       """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, frbrWork::getFBRDate);
+    assertThrows(MandatoryNodeNotFoundException.class, frbrWork::getFBRDate);
   }
 
   @Test

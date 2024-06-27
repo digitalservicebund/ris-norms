@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.time.LocalDate;
 import java.util.*;
 import org.junit.jupiter.api.Nested;
@@ -366,7 +366,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(normString));
 
-    assertThrows(MandatoryNodeNotFound.class, norm::getMeta);
+    assertThrows(MandatoryNodeNotFoundException.class, norm::getMeta);
   }
 
   @Test
