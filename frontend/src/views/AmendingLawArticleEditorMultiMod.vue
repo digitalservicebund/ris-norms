@@ -5,15 +5,64 @@ import { useTemporalData } from "@/composables/useTemporalData"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
+import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
+import RisTooltip from "@/components/controls/RisTooltip.vue"
+import { computed } from "vue"
+import CheckIcon from "~icons/ic/check"
+import { useMods } from "@/composables/useMods"
 
+const xml = defineModel<string>("xml", {
+  required: true,
+})
 const props = defineProps<{
   selectedMods: string[]
 }>()
 
 const eli = useEliPathParameter()
 
-const { isFetching: isFetchingTimeBoundaries, error: loadTimeBoundariesError } =
-  useTemporalData(eli)
+const mods = useMods(
+  computed(() => props.selectedMods),
+  xml,
+)
+
+const timeBoundary = computed({
+  get: () => {
+    const firstDate = mods.value[0].timeBoundary?.date
+
+    if (mods.value.every((mod) => mod.timeBoundary?.date === firstDate)) {
+      return firstDate ?? "no_choice"
+    }
+
+    return "multiple"
+  },
+  set: (value) => {
+    mods.value = mods.value.map((mod) => ({
+      ...mod,
+      timeBoundary:
+        value === "no_choice"
+          ? undefined
+          : (timeBoundaries.value ?? []).find((tb) => tb.date === value),
+    }))
+  },
+})
+
+const {
+  data: timeBoundaries,
+  isFetching: isFetchingTimeBoundaries,
+  error: loadTimeBoundariesError,
+} = useTemporalData(eli)
+
+const timeBoundaryItems = computed(() => {
+  return [
+    ...(timeBoundaries.value ?? []).map((boundary) => ({
+      label: new Date(boundary.date).toLocaleDateString("de"),
+      value: boundary.date,
+    })),
+    { label: "Keine Angabe", value: "no_choice" },
+    { label: "Mehrere", value: "multiple", disabled: true },
+  ]
+})
 </script>
 <template>
   <section
@@ -38,10 +87,39 @@ const { isFetching: isFetchingTimeBoundaries, error: loadTimeBoundariesError } =
       />
     </div>
 
-    <RisEmptyState
-      v-else
-      text-content="Aktuell kann nur ein einzelner Änderungsbefehl zur Zeit bearbeitet werden."
-    />
+    <form class="grid grid-cols-1 gap-y-20">
+      <div class="grid grid-cols-2 gap-x-40">
+        <RisDropdownInput
+          id="timeBoundaries"
+          v-model="timeBoundary"
+          label="Zeitgrenze"
+          :items="timeBoundaryItems"
+        />
+      </div>
+
+      <div class="flex gap-20">
+        <RisTextButton label="Vorschau" variant="tertiary" disabled />
+
+        <div class="relative">
+          <RisTooltip
+            v-slot="{ ariaDescribedby }"
+            :visible="false"
+            :title="'Fehler beim Speichern'"
+            alignment="right"
+            attachment="top"
+            :variant="'error'"
+            allow-dismiss
+          >
+            <RisTextButton
+              :aria-describedby="ariaDescribedby"
+              label="Speichern"
+              :icon="CheckIcon"
+              disabled
+            />
+          </RisTooltip>
+        </div>
+      </div>
+    </form>
   </section>
 
   <section
