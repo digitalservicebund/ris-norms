@@ -3,20 +3,20 @@
 	##################################################################################
 	Discovery Metadaten-Struktur für nichtdefinierte Metadaten auf LDML.de-Ebene
 	2024 Copyright (C) 2024 Digitalservice GmbH des Bundes
-	
+
 	Projekt E-Gesetzgebung
 	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.6 (Dezember 2023)
 	2023 Copyright (C) 2021-2023 Bundesministerium des Innern und für Heimat,
 	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
 	Verwaltungsarbeit
-	
+
 	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
 <?xml-model href="https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/26e27e3a56996587fe737639fd80e2c4a8fe0311/Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../ldml_de/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../ldml_de/legalDocML.de-regelungstextverkuendungsfassung.xsd http://DS.Metadaten.LegalDocML.de/1.6/ ../metadata.xsd">
    <akn:act name="regelungstext">
 <!-- Metadaten-->
       <akn:meta eId="meta-1" GUID="52226401-eb20-4c64-8077-bacdcf3bf584">
@@ -410,7 +410,7 @@
                    GUID="a80af8c8-c844-4b75-824f-cdbf2f666d07">
                <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
                              GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Saatgutverkehrsgesetz
-                  
+
 <!-- Fußnote -->
                   <akn:authorialNote eId="einleitung-1_doktitel-1_text-1_doctitel-1_fnote-1"
                                      GUID="9de7999f-a222-43ac-a648-f92c5a8ee927"
@@ -454,11 +454,11 @@
                </akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1"
                                GUID="f25432ed-590e-4bfc-bd6f-2ded9c586dba">(
-                  
-                  
-                  
-                  
-                  
+
+
+
+
+
                   <akn:inline eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1"
                               GUID="e63ff5a2-f95c-41b5-a9ae-dfffb746637f"
                               refersTo="amtliche-abkuerzung"
