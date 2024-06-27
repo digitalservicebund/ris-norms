@@ -7,16 +7,11 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import de.bund.digitalservice.ris.norms.utils.DocumentUtils;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 /**
  * Service for loading ZF0 versions of norms. If not present in DB, it will be created using the
@@ -55,7 +50,8 @@ public class LoadZf0Service implements LoadZf0UseCase {
       return optionalZf0LawDB.get();
     }
 
-    final Norm zf0Norm = Norm.builder().document(cloneDocument(targetNorm.getDocument())).build();
+    final Norm zf0Norm =
+        Norm.builder().document(DocumentUtils.cloneDocument(targetNorm.getDocument())).build();
 
     final String announcementDateAmendingLaw = amendingNorm.getMeta().getFRBRWork().getFBRDate();
 
@@ -119,20 +115,5 @@ public class LoadZf0Service implements LoadZf0UseCase {
 
     // 2. FRBRdate --> current system date + @name="generierung"
     frbrManifestation.setFBRDate(LocalDate.now().toString(), "generierung");
-  }
-
-  private Document cloneDocument(Document originalDocument) {
-    try {
-      final Node originalRootNode = originalDocument.getDocumentElement();
-      final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      final DocumentBuilder db = dbf.newDocumentBuilder();
-
-      final Document clonedDocument = db.newDocument();
-      final Node clonedRootNode = clonedDocument.importNode(originalRootNode, true);
-      clonedDocument.appendChild(clonedRootNode);
-      return clonedDocument;
-    } catch (ParserConfigurationException e) {
-      throw new XmlProcessingException(e.getMessage(), e);
-    }
   }
 }
