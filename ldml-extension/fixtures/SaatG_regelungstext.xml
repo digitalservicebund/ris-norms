@@ -380,9 +380,9 @@
                <meta:art start="1970-01-01" end="2023-12-29">regelungstext</meta:art>
                <meta:typ start="1970-01-01" end="2023-12-29">gesetz</meta:typ>
                <meta:subtyp start="1970-01-01" end="2023-12-29">Rechtsverordnung</meta:subtyp>
-<!--               <meta:artDerNorm start="2024-01-01" end="unbestimmt">ÄN,SN</meta:artDerNorm>-->
-<!--               <meta:artDerNorm>SN</meta:artDerNorm>-->
-<!--               <meta:artDerNorm start="1970-01-01" end="2023-12-31">SN,ÜN</meta:artDerNorm>-->
+               <meta:artDerNorm start="2024-01-01" end="unbestimmt">ÄN,SN</meta:artDerNorm>
+               <meta:artDerNorm>SN</meta:artDerNorm>
+               <meta:artDerNorm start="1970-01-01" end="2023-12-31">SN,ÜN</meta:artDerNorm>
                <meta:bezeichnungInVorlage start="1970-01-01" end="2023-12-29">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
                <meta:normgeber start="1970-01-01" end="2023-12-29">BEO - Berlin (Ost)</meta:normgeber>
                <meta:beschliessendesOrgan start="1970-01-01" end="2023-12-29" qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>

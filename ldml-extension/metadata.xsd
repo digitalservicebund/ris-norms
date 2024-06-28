@@ -72,7 +72,7 @@
 
     <xs:simpleType name="ArtDerNormFrameContentType">
         <xs:restriction base="xs:string">
-            <xs:pattern value="^(SN|ÄN|ÜN|SN,ÄN|SN,ÜN|ÄN,SN|ÄN,ÜN|ÜN,SN|ÜN,ÄN|ÄN,SN,ÜN|ÄN,ÜN,SN|SN,ÄN,ÜN|SN,ÜN,ÄN|ÜN,SN,ÄN|ÜN,ÄN,SN)$"/>
+            <xs:pattern value="(SN|ÄN|ÜN|SN,ÄN|SN,ÜN|ÄN,SN|ÄN,ÜN|ÜN,SN|ÜN,ÄN|ÄN,SN,ÜN|ÄN,ÜN,SN|SN,ÄN,ÜN|SN,ÜN,ÄN|ÜN,SN,ÄN|ÜN,ÄN,SN)"/>
         </xs:restriction>
     </xs:simpleType>
 
