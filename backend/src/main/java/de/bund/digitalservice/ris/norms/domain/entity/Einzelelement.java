@@ -6,11 +6,10 @@ import org.w3c.dom.Node;
 
 /** Class representing the meta:legalDocML.de_metadaten_ds/meta:einzelelement */
 @Getter
-public class MetadatenDSSingleElement
-    extends Metadaten<MetadatenDSSingleElement.MetadataSingleElement> {
+public class Einzelelement extends Metadaten<Einzelelement.MetadataSingleElement> {
 
   @Builder
-  public MetadatenDSSingleElement(final Node node) {
+  public Einzelelement(final Node node) {
     super(node, "start", "end");
   }
 

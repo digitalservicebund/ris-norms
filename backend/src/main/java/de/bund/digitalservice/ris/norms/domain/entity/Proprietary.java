@@ -239,6 +239,6 @@ public class Proprietary {
         .flatMap(
             m ->
                 m.getMetadatenDsSingleElement(
-                    MetadatenDSSingleElement.MetadataSingleElement.ART_DER_NORM, eid, date));
+                    Einzelelement.MetadataSingleElement.ART_DER_NORM, eid, date));
   }
 }
