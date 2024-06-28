@@ -59,7 +59,7 @@ with the name `SLACK_WEBHOOK_URL`, containing a url for [Incoming Webhooks](http
 
 Run dependencies from the root of the project:
 ```bash
-docker compose up -d postgres14 redis
+docker compose up -d postgres15 redis
 ```
 
 Run from `./backend`:
@@ -111,7 +111,7 @@ docker compose stop
 
 docker container prune -f
 
-docker volume rm ris-norms_postgres14-data
+docker volume rm ris-norms_postgres15-data
 
 docker compose build
 
