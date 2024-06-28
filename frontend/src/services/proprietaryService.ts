@@ -104,3 +104,52 @@ export function usePutFrameProprietary(
     .json()
     .put(updateData)
 }
+
+/**
+ * Convenience shorthand for `useProprietaryService` that sets the correct
+ * configuration for getting JSON data of an individual element of the norm.
+ *
+ * @param eli ELI of the norm
+ * @param eid eId of the element
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function useGetElementProprietary(
+  eli: Parameters<typeof useProprietaryService>["0"],
+  eid: Parameters<typeof useProprietaryService>["1"]["eid"],
+  options: Omit<Parameters<typeof useProprietaryService>["1"], "eid">,
+  fetchOptions?: Parameters<typeof useProprietaryService>["2"],
+) {
+  return useProprietaryService(
+    eli,
+    { ...options, eid },
+    { refetch: true, ...fetchOptions },
+  ).json()
+}
+
+/**
+ * Convenience shorthand for `useProprietaryService` that sets the correct
+ * configuration for putting JSON data of an individual element of the norm.
+ *
+ * @param eli ELI of the norm
+ * @param eid eId of the element
+ * @param options Optional additional filters and queries
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper
+ */
+export function usePutElementProprietary(
+  updateData: MaybeRefOrGetter<Proprietary | null>,
+  eli: Parameters<typeof useProprietaryService>["0"],
+  eid: Parameters<typeof useProprietaryService>["1"]["eid"],
+  options: Omit<Parameters<typeof useProprietaryService>["1"], "eid">,
+  fetchOptions?: Parameters<typeof useProprietaryService>["2"],
+): ReturnType<typeof useProprietaryService> {
+  return useProprietaryService(
+    eli,
+    { ...options, eid },
+    { immediate: false, ...fetchOptions },
+  )
+    .json()
+    .put(updateData)
+}

@@ -326,4 +326,106 @@ describe("proprietaryService", () => {
       )
     })
   })
+
+  describe("useGetElementProprietary", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("loads the data from the API", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElementProprietary } = await import("./proprietaryService")
+
+      useGetElementProprietary("fake/eli/1", "fake_eid", {
+        atDate: new Date("2024-05-13"),
+      })
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/fake_eid/2024-05-13",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/json",
+            }),
+          }),
+        ),
+      )
+    })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElementProprietary } = await import("./proprietaryService")
+
+      const eid = ref("fake_eid_1")
+      useGetElementProprietary("fake/eli/1", eid, {
+        atDate: new Date("2024-05-13"),
+      })
+
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/fake_eid_1/2024-05-13",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/json",
+            }),
+          }),
+        )
+      })
+
+      eid.value = "fake_eid_2"
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/fake_eid_2/2024-05-13",
+          expect.any(Object),
+        )
+      })
+    })
+  })
+
+  describe("usePutElementProprietary", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("sends the data to the API on changes", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { usePutElementProprietary } = await import("./proprietaryService")
+
+      const data = ref<Proprietary>({ artDerNorm: "SN" })
+      const { execute } = usePutElementProprietary(
+        data,
+        "fake/eli/1",
+        "fake_eid",
+        { atDate: new Date("2024-05-13") },
+      )
+
+      await flushPromises()
+      expect(fetchSpy).not.toHaveBeenCalled()
+
+      data.value = { artDerNorm: "UN" }
+      execute()
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/fake_eid/2024-05-13",
+          expect.objectContaining({
+            headers: expect.objectContaining({ Accept: "application/json" }),
+            method: "PUT",
+            body: '{"artDerNorm":"UN"}',
+          }),
+        ),
+      )
+    })
+  })
 })
