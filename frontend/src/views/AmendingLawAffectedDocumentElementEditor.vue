@@ -94,8 +94,6 @@ const artNorm = computed<string | undefined>({
   },
 })
 
-// TODO: Form field
-
 /* -------------------------------------------------- *
  * XML + HTML preview                                 *
  * -------------------------------------------------- */
