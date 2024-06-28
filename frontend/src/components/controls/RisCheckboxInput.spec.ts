@@ -89,4 +89,10 @@ describe("RisCheckboxInput", () => {
     const input = screen.getByRole("checkbox")
     expect(input).toHaveClass("ds-checkbox-mini")
   })
+
+  test("renders the label", () => {
+    renderComponent({ label: "Text" })
+    const input = screen.getByRole("checkbox")
+    expect(input).toHaveAccessibleName("Text")
+  })
 })

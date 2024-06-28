@@ -29,8 +29,8 @@ import {
 } from "@/lib/proprietary"
 import { useGetNormHtml } from "@/services/normService"
 import {
-  useGetProprietary,
-  usePutProprietary,
+  useGetFrameProprietary,
+  usePutFrameProprietary,
 } from "@/services/proprietaryService"
 import { Proprietary } from "@/types/proprietary"
 import { produce } from "immer"
@@ -50,7 +50,9 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetProprietary(affectedDocumentEli, { atDate: timeBoundaryAsDate })
+} = useGetFrameProprietary(affectedDocumentEli, {
+  atDate: timeBoundaryAsDate,
+})
 
 watch(data, (newData) => {
   localData.value = newData
@@ -62,7 +64,7 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutProprietary(
+} = usePutFrameProprietary(
   localData,
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
@@ -88,9 +90,9 @@ const {
   documentTypeId,
   fnaId,
   bezeichnungInVorlageId,
-  artNormSNid,
-  artNormANid,
-  artNormUNid,
+  artNormSnId,
+  artNormAnId,
+  artNormUnId,
   normgeberId,
   beschliessendesOrganId,
   qualifizierteMehrheitId,
@@ -376,22 +378,22 @@ const {
                   :items="documentTypeItems"
                 />
 
-                <label :for="artNormSNid" class="self-start">
+                <label :for="artNormSnId" class="self-start">
                   Art der Norm
                 </label>
                 <div class="space-y-10">
                   <RisCheckboxInput
-                    :id="artNormSNid"
+                    :id="artNormSnId"
                     v-model="artNormSN"
                     label="SN - Stammnorm"
                   />
                   <RisCheckboxInput
-                    :id="artNormANid"
+                    :id="artNormAnId"
                     v-model="artNormAN"
                     label="ÄN - Änderungsnorm"
                   />
                   <RisCheckboxInput
-                    :id="artNormUNid"
+                    :id="artNormUnId"
                     v-model="artNormUN"
                     label="ÜN - Übergangsnorm"
                   />
@@ -495,7 +497,7 @@ const {
             >
               <RisTextButton
                 :aria-describedby
-                :disabled="isFetching || fetchError"
+                :disabled="isFetching || !!fetchError"
                 :loading="isSaving"
                 label="Speichern"
                 @click="save()"
