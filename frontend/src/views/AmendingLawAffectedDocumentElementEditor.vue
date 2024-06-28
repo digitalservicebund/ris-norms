@@ -84,7 +84,7 @@ const { artNormSnId, artNormAnId, artNormUnId } = useElementId()
 
 const artNorm = computed<string | undefined>({
   get() {
-    return localData.value?.artDerNorm ?? "SN"
+    return localData.value?.artDerNorm
   },
   set(value) {
     localData.value = produce(localData.value, (draft) => {
