@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
 import java.util.Optional;
 import lombok.Builder;
@@ -90,5 +91,26 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
                 m.setAttribute(attribute.name, newValue);
               }
             });
+  }
+
+  /**
+   * It returns the value for a specific metadata from a single element referenced by its eid for a
+   * specific date.
+   *
+   * @param metadatumSingleElement the enum metadatum
+   * @param eid the eid of the single element
+   * @param date the selected date
+   * @return value of the requested metadata element or empty if it doesn't exist
+   */
+  public Optional<String> getMetadatenDsSingleElement(
+      final MetadatenDSSingleElement.MetadataSingleElement metadatumSingleElement,
+      final String eid,
+      final LocalDate date) {
+    return NodeParser.getNodeFromExpression(
+            "./einzelelement[@href='#%s']".formatted(eid), this.getNode())
+        .flatMap(
+            node ->
+                new MetadatenDSSingleElement(node)
+                    .getSimpleMetadatum(metadatumSingleElement, date));
   }
 }

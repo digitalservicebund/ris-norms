@@ -225,4 +225,20 @@ public class Proprietary {
     return getMetadatenDs()
         .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ORGANISATIONS_EINHEIT, date));
   }
+
+  /**
+   * Returns the ("Art der Norm") which can be "SN or ÄN or ÜN" of the document from the MetadatenDs
+   * block for a single element at a specific date.
+   *
+   * @param eid the eId of the single element
+   * @param date the specific date of the time boundary.
+   * @return "Art der Norm" or empty if it doesn't exist.
+   */
+  public Optional<String> getSingleElementArtDerNorm(final String eid, final LocalDate date) {
+    return getMetadatenDs()
+        .flatMap(
+            m ->
+                m.getMetadatenDsSingleElement(
+                    MetadatenDSSingleElement.MetadataSingleElement.ART_DER_NORM, eid, date));
+  }
 }

@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import java.time.LocalDate;
 
@@ -32,6 +33,22 @@ public class ProprietaryResponseMapper {
         .qualifizierteMehrheit(proprietary.getQualifizierteMehrheit(date).orElse(null))
         .federfuehrung(proprietary.getFederfuehrung(date).orElse(null))
         .organisationsEinheit(proprietary.getOrganisationsEinheit(date).orElse(null))
+        .build();
+  }
+
+  /**
+   * Creates a {@link ProprietarySingleElementSchema} from {@link Proprietary} metadata but getting
+   * the metadata for a single element at specific dates.
+   *
+   * @param proprietary Input data to be converted
+   * @param eid the eId of the single element
+   * @param date the specific date
+   * @return Converted data
+   */
+  public static ProprietarySingleElementSchema fromProprietarySingleElement(
+      Proprietary proprietary, final String eid, final LocalDate date) {
+    return ProprietarySingleElementSchema.builder()
+        .artDerNorm(proprietary.getSingleElementArtDerNorm(eid, date).orElse(null))
         .build();
   }
 }
