@@ -119,6 +119,12 @@ const backbuttonTo = computed(() => {
     return props.backDestination
   }
 })
+
+const showBackButtonSeparator = computed(
+  () =>
+    (backbuttonTo.value || props.backDestination === "history-back") &&
+    allBreadcrumbs.value?.length,
+)
 </script>
 
 <script lang="ts">
@@ -188,7 +194,7 @@ export function useHeaderContext() {
     class="flex min-h-80 items-center gap-12 border-b border-solid border-b-gray-400 bg-blue-200 p-16 pr-32"
     v-bind="$attrs"
   >
-    <section class="flex items-center gap-x-8">
+    <section class="flex items-center">
       <!-- Back button -->
       <RouterLink
         v-if="backbuttonTo"
@@ -198,7 +204,6 @@ export function useHeaderContext() {
         <IcBaselineArrowBack />
         <span class="sr-only">Zurück</span>
       </RouterLink>
-
       <RisTextButton
         v-else-if="backDestination === 'history-back'"
         :icon="IcBaselineArrowBack"
@@ -208,6 +213,13 @@ export function useHeaderContext() {
         size="small"
         @click="router.back()"
       />
+
+      <span
+        v-if="showBackButtonSeparator"
+        class="mr-8 text-gray-700"
+        data-testid="back-button-separator"
+        >/</span
+      >
 
       <!-- Bread crumbs -->
       <nav class="line-clamp-2 leading-5">
