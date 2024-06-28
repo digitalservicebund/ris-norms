@@ -265,6 +265,55 @@ paths:
               schema:
                 type: string
 
+  /norms/{eli}/mods:
+    patch:
+      summary: Save an amending command and update ZF0
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: dryRun
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Should the update not be saved?"
+      requestBody:
+        description: The updated amending commands
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: object mapping between eids and the change mods
+              additionalProperties:
+                $ref: '#/components/schemas/Mod'
+      responses:
+        '200':
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  amendingNormXml:
+                    type: string
+                    format: LegalDocML.de XML
+                  targetNormXml:
+                    type: array
+                    items:
+                      type: string
+                      format: LegalDocML.de XML
+        '400':
+          description: Bad Request
+        '422':
+          description: Unprocessable Content
+        '404':
+          description: Norm not found
+
   /norms/{eli}/mods/{eid}:
     put:
       summary: Save an amending command and update ZF0
@@ -281,6 +330,12 @@ paths:
           description: the eId of the akn:mod
           schema:
             type: string
+        - name: dryRun
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Should the update not be saved?"
       requestBody:
         description: The updated amending command
         required: true
@@ -300,9 +355,6 @@ paths:
                     type: string
                   targetNormXml:
                     type: string
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
         '400':
           description: Bad Request
         '422':

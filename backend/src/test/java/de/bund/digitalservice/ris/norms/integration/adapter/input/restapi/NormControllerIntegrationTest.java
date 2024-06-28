@@ -672,4 +672,287 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isUnprocessableEntity());
     }
   }
+
+  @Nested
+  class UpdateMods {
+
+    @Test
+    void itUpdatesASingleMod() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      // When
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+                              {
+                                "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                                  "refersTo": "THIS_IS_NOT_BEING_HANDLED",
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
+                                  "destinationHref": "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+                                  "newText": "new test text"
+                                }
+                              }
+                          """))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/destination/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod/ref/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xmls[0]")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/destination/@href",
+                              equalTo(
+                                  "#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xmls[0]")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/source/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml")))));
+
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(xpath("//body//mod/quotedText[2]").string("new test text"));
+    }
+
+    @Test
+    void itUpdatesMultipleMods() throws Exception {
+      // When
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMultipleSimpleMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(
+              NormFixtures.loadFromDisk("NormWithMultipleSimpleModsTargetNorm.xml")));
+
+      // When
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+                              {
+                                "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
+                                  "refersTo": "aenderungsbefehl-ersetzen",
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
+                                  "destinationHref": "eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml",
+                                  "newText": "new test text"
+                                },
+                                "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                                  "refersTo": "aenderungsbefehl-ersetzen",
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
+                                  "destinationHref": "eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-2_inhalt-1_text-1/29-36.xml",
+                                  "newText": "new test text 2"
+                                }
+                              }
+                          """))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(jsonPath("targetNormZf0Xmls", hasSize(1)))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1\"]/quotedText[2]",
+                              equalTo("new test text")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1\"]/quotedText[2]",
+                              equalTo("new test text 2")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xmls[0]")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod[1]/destination/@href",
+                              equalTo("#hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xmls[0]")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod[1]/source/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml")))));
+
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(
+              xpath(
+                      "//body//mod[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1\"]/quotedText[2]")
+                  .string("new test text"))
+          .andExpect(
+              xpath(
+                      "//body//mod[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1\"]/quotedText[2]")
+                  .string("new test text 2"));
+    }
+
+    @Test
+    void itDryRunsTheUpdate() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      // When
+      mockMvc
+          .perform(
+              patch(
+                      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods?dryRun=true")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+                              {
+                                "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                                  "refersTo": "THIS_IS_NOT_BEING_HANDLED",
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
+                                  "destinationHref": "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+                                  "newText": "new test text"
+                                }
+                              }
+                          """))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/destination/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod/ref/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xmls[0]")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/destination/@href",
+                              equalTo(
+                                  "#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xmls[0]")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/source/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml")))));
+
+      // saved norm is unchanged
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(
+              xpath("//body//mod/quotedText[2]")
+                  .string(equalToCompressingWhiteSpace("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")));
+    }
+
+    @Test
+    void itReturnsBadRequestAndDoesNotSaveIt() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      // When (the character range is wrong on purpose. 9-34 would be correct)
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+                            {
+                              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                                "refersTo": "THIS_IS_NOT_BEING_HANDLED",
+                                "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
+                                "destinationHref": "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-35.xml",
+                                "newText": "new test text"
+                              }
+                            }
+                          """))
+          // Then
+          .andExpect(status().isUnprocessableEntity());
+    }
+  }
 }

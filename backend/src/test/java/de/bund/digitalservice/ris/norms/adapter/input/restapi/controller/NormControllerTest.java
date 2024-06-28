@@ -403,4 +403,126 @@ class NormControllerTest {
           .andExpect(content().string("{\"message\": \"error exception\"}"));
     }
   }
+
+  @Nested
+  class updateMods {
+
+    @Test
+    void itCallsUpdateModsUseCaseAndReturnsXml() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String amendingNormXml = "<law></law>";
+      final String targetNormZf0Xml = "<target-norm-xml></target-norm-xml>";
+
+      // When
+      when(updateModsUseCase.updateMods(any()))
+          .thenReturn(
+              Optional.of(
+                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+
+      // When // Then
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"},\n"
+                          + "\"mod-eid-2\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+          .andExpect(status().isOk())
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+          .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
+          .andExpect(jsonPath("targetNormZf0Xmls[0]").value(targetNormZf0Xml));
+
+      verify(updateModsUseCase, times(1)).updateMods(argThat(query -> !query.dryRun()));
+    }
+
+    @Test
+    void itCallsUpdateModsUseCaseWithDryRunAndReturnsXml() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String amendingNormXml = "<law></law>";
+      final String targetNormZf0Xml = "<target-norm-xml></target-norm-xml>";
+
+      // When
+      when(updateModsUseCase.updateMods(any()))
+          .thenReturn(
+              Optional.of(
+                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+
+      // When // Then
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods?dryRun=true")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+          .andExpect(status().isOk())
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+          .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
+          .andExpect(jsonPath("targetNormZf0Xmls[0]").value(targetNormZf0Xml));
+
+      verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
+    }
+
+    @Test
+    void itCallsUpdateModsUseCaseAndReturnsEmpty() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      // When
+      when(updateModsUseCase.updateMods(any())).thenReturn(Optional.empty());
+
+      // When // Then
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void itCallsUpdateModsUseCaseAndReturnsUnprocessableEntity() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      // When
+      when(updateModsUseCase.updateMods(any())).thenThrow(XmlContentException.class);
+
+      // When // Then
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+          .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void itCallsUpdateModUseCaseAndReturnsUnprocessableEntityWithMessage() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      // When
+      when(updateModsUseCase.updateMods(any()))
+          .thenThrow(new XmlContentException("error exception", null));
+
+      // When // Then
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(content().string("{\"message\": \"error exception\"}"));
+    }
+  }
 }
