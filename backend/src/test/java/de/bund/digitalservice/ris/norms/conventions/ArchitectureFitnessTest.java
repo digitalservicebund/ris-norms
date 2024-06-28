@@ -43,6 +43,7 @@ class ArchitectureFitnessTest {
 
   static final String REPOSITORY_LAYER_PACKAGES =
       BASE_PACKAGE + ".adapter.output.database.repository";
+  static final String ADAPTER_OUTPUT = BASE_PACKAGE + ".adapter.output..";
   static final String DOMAIN_LAYER_PACKAGES = BASE_PACKAGE + ".domain..";
   static final String ENTITY_LAYER_PACKAGES = BASE_PACKAGE + ".domain.entity";
   static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value";
@@ -249,6 +250,18 @@ class ArchitectureFitnessTest {
             .should()
             .onlyDependOnClassesThat()
             .resideOutsideOfPackage(ADAPTER_LAYER_PACKAGES);
+    rule.check(classes);
+  }
+
+  @Test
+  void outputPortMayNotDependOnApplicationLayerExceptions() {
+    ArchRule rule =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage(ADAPTER_OUTPUT)
+            .should()
+            .onlyDependOnClassesThat()
+            .resideOutsideOfPackage(APPLICATION_EXCEPTION_PACKAGES);
     rule.check(classes);
   }
 
