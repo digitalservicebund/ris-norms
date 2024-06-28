@@ -30,7 +30,6 @@ public class NormService
         LoadNextVersionOfNormUseCase,
         UpdateNormXmlUseCase,
         LoadSpecificArticleXmlFromNormUseCase,
-        UpdateModUseCase,
         UpdateModsUseCase {
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
@@ -193,25 +192,5 @@ public class NormService
         new UpdateModsUseCase.Result(
             XmlMapper.toString(amendingNorm.getDocument()),
             zf0Norms.values().stream().map(Norm::getDocument).map(XmlMapper::toString).toList()));
-  }
-
-  @Override
-  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
-    return this.updateMods(
-            new UpdateModsUseCase.Query(
-                query.eli(),
-                Map.of(
-                    query.eid(),
-                    new UpdateModsUseCase.NewModData(
-                        query.refersTo(),
-                        query.timeBoundaryEid(),
-                        query.destinationHref(),
-                        query.newText())),
-                query.dryRun()))
-        .map(
-            result ->
-                new UpdateModUseCase.Result(
-                    result.amendingNormXml(),
-                    result.targetNormZf0Xmls().stream().findFirst().orElseThrow()));
   }
 }

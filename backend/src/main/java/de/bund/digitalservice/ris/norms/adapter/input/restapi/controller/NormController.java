@@ -13,6 +13,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import jakarta.validation.Valid;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class NormController {
   private final UpdateNormXmlUseCase updateNormXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
-  private final UpdateModUseCase updateModUseCase;
+  private final UpdateModsUseCase updateModsUseCase;
 
   public NormController(
       LoadNormUseCase loadNormUseCase,
@@ -43,13 +44,13 @@ public class NormController {
       UpdateNormXmlUseCase updateNormXmlUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
       ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
-      UpdateModUseCase updateModUseCase) {
+      UpdateModsUseCase updateModsUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.updateNormXmlUseCase = updateNormXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
-    this.updateModUseCase = updateModUseCase;
+    this.updateModsUseCase = updateModsUseCase;
   }
 
   /**
@@ -196,15 +197,17 @@ public class NormController {
       @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
-    return updateModUseCase
-        .updateMod(
-            new UpdateModUseCase.Query(
+    return updateModsUseCase
+        .updateMods(
+            new UpdateModsUseCase.Query(
                 eli.getValue(),
-                eid,
-                updateModRequestSchema.getRefersTo(),
-                updateModRequestSchema.getTimeBoundaryEid(),
-                updateModRequestSchema.getDestinationHref(),
-                updateModRequestSchema.getNewText(),
+                Map.of(
+                    eid,
+                    new UpdateModsUseCase.NewModData(
+                        updateModRequestSchema.getRefersTo(),
+                        updateModRequestSchema.getTimeBoundaryEid(),
+                        updateModRequestSchema.getDestinationHref(),
+                        updateModRequestSchema.getNewText())),
                 dryRun))
         .map(UpdateModResponseMapper::fromResult)
         .map(ResponseEntity::ok)
