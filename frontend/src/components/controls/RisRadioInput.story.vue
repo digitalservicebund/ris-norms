@@ -6,24 +6,25 @@ import RisRadioInput from "./RisRadioInput.vue"
   <!-- eslint-disable vuejs-accessibility/label-has-for -->
   <Story :layout="{ type: 'grid' }">
     <Variant title="Default | Small">
-      <label for="small-radio" class="flex items-center gap-8">
-        <RisRadioInput id="small-radio" />
-        Small radio
-      </label>
+      <RisRadioInput id="small-radio" label="Small radio" value="val" />
     </Variant>
 
     <Variant title="Medium">
-      <label for="medium-radio" class="flex items-center gap-8">
-        <RisRadioInput id="medium-radio" size="medium" />
-        Medium radio
-      </label>
+      <RisRadioInput
+        id="medium-radio"
+        size="medium"
+        label="Medium radio"
+        value="val"
+      />
     </Variant>
 
     <Variant title="Large">
-      <label for="large-radio" class="flex items-center gap-8">
-        <RisRadioInput id="large-radio" size="large" />
-        Large radio
-      </label>
+      <RisRadioInput
+        id="large-radio"
+        size="large"
+        label="Large radio"
+        value="val"
+      />
     </Variant>
   </Story>
 </template>

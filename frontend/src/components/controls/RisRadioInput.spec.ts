@@ -17,7 +17,12 @@ function renderComponent(
     "onUpdate:modelValue":
       props?.["onUpdate:modelValue"] ??
       ((value) => (modelValue = value ?? false)),
+    id: props?.id ?? "test",
+    disabled: props?.disabled,
+    label: props?.label ?? "Radio",
+    name: props?.name ?? "test-name",
     size: props?.size,
+    value: props?.value ?? "test-value",
   }
 
   return render(RadioInput, { props: effectiveProps, attrs })
@@ -31,19 +36,19 @@ describe("RisRadioInput", () => {
   })
 
   it("renders the ID", () => {
-    renderComponent(undefined, { id: "test-id" })
+    renderComponent({ id: "test-id" })
     const input = screen.getByRole("radio")
     expect(input).toHaveAttribute("id", "test-id")
   })
 
   it("renders the name", () => {
-    renderComponent(undefined, { name: "test-name" })
+    renderComponent({ name: "test-name" })
     const input = screen.getByRole("radio")
     expect(input).toHaveAttribute("name", "test-name")
   })
 
   it("renders the value", () => {
-    renderComponent(undefined, { value: "test-value" })
+    renderComponent({ value: "test-value" })
     const input = screen.getByRole("radio")
     expect(input).toHaveAttribute("value", "test-value")
   })
@@ -55,13 +60,13 @@ describe("RisRadioInput", () => {
   })
 
   it("renders the the radio as checked", () => {
-    renderComponent({ modelValue: "foo" }, { value: "foo" })
+    renderComponent({ modelValue: "foo", value: "foo" })
     const input = screen.getByRole("radio")
     expect(input).toBeChecked()
   })
 
   it("renders the the radio as unchecked", () => {
-    renderComponent({ modelValue: "foo" }, { value: "bar" })
+    renderComponent({ modelValue: "foo", value: "bar" })
     const input = screen.getByRole("radio")
     expect(input).not.toBeChecked()
   })
@@ -125,14 +130,20 @@ describe("RisRadioInput", () => {
   })
 
   it("renders the radio as disabled", () => {
-    renderComponent(undefined, { disabled: true })
+    renderComponent({ disabled: true })
     const input = screen.getByRole("radio")
     expect(input).toBeDisabled()
   })
 
   it("renders the radio as enabled", () => {
-    renderComponent(undefined, { disabled: false })
+    renderComponent({ disabled: false })
     const input = screen.getByRole("radio")
     expect(input).toBeEnabled()
+  })
+
+  it("renders the label", () => {
+    renderComponent({ label: "Text" })
+    const input = screen.getByRole("radio")
+    expect(input).toHaveAccessibleName("Text")
   })
 })
