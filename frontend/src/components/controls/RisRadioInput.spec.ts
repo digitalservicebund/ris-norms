@@ -96,11 +96,11 @@ describe("RisRadioInput", () => {
     expect(emitted("update:modelValue")).toEqual([["foo"], ["bar"]])
   })
 
-  it("renders the regular variant by default", () => {
+  it("renders the small variant by default", () => {
     renderComponent()
     const input = screen.getByRole("radio")
     expect(input).not.toHaveClass("ds-radio-small")
-    expect(input).not.toHaveClass("ds-radio-mini")
+    expect(input).toHaveClass("ds-radio-mini")
   })
 
   it("renders the regular variant when specified", () => {
