@@ -31,15 +31,15 @@
                 <xs:element name="organisationsEinheit" type="SimpleMetadataType" minOccurs="0"
                             maxOccurs="unbounded"/>
                 <xs:element name="artDerNorm" type="ArtDerNormType" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="einzelElement" type="EinzelElementType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="einzelelement" type="EinzelelementType" minOccurs="0" maxOccurs="unbounded"/>
             </xs:choice>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="EinzelElementType">
-        <xs:choice maxOccurs="unbounded">
-            <xs:element name="artDerNorm" type="ArtDerNormSingleElementType" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:choice>
+    <xs:complexType name="EinzelelementType">
+        <xs:all>
+            <xs:element name="artDerNorm" type="ArtDerNormSingleElementType" minOccurs="0"/>
+        </xs:all>
         <xs:attribute name="href" type="eId-verweis"/>
     </xs:complexType>
 
@@ -70,17 +70,25 @@
         </xs:simpleContent>
     </xs:complexType>
 
+    <xs:simpleType name="ArtDerNormFrameType">
+        <xs:restriction base="xs:string">
+            <xs:pattern
+                    value="^(SN|ÄN|ÜN)$|^(SN,ÄN|SN,ÜN|ÄN,ÜN|ÄN,SN|ÜN,SN|ÜN,ÄN)$|^(SN,ÄN,ÜN|SN,ÜN,ÄN|ÄN,SN,ÜN|ÄN,ÜN,SN|ÜN,SN,ÄN|ÜN,ÄN,SN)$"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ArtDerNormSingleType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SN"/>
+            <xs:enumeration value="ÄN"/>
+            <xs:enumeration value="ÜN"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="ArtDerNormType">
         <xs:complexContent>
             <xs:extension base="SimpleMetadataType">
-                <xs:attribute name="value">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:pattern
-                                    value="^(SN|ÄN|ÜN)$|^(SN,ÄN|SN,ÜN|ÄN,ÜN|ÄN,SN|ÜN,SN|ÜN,ÄN)$|^(SN,ÄN,ÜN|SN,ÜN,ÄN|ÄN,SN,ÜN|ÄN,ÜN,SN|ÜN,SN,ÄN|ÜN,ÄN,SN)$"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:attribute>
+                <xs:attribute name="value" type="ArtDerNormFrameType"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

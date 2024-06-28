@@ -381,21 +381,18 @@
                <meta:typ start="1970-01-01" end="2023-12-29">gesetz</meta:typ>
                <meta:subtyp start="1970-01-01" end="2023-12-29">Rechtsverordnung</meta:subtyp>
                <meta:artDerNorm start="2024-01-01" end="unbestimmt">ÄN,SN</meta:artDerNorm>
-               <!-- TODO "test" content should not be allowed in artDerNorm -->
-               <meta:artDerNorm>test</meta:artDerNorm>
-               <!-- TODO repeated "SN" should not be allowed in artDerNorm -->
-               <meta:artDerNorm start="1970-01-01" end="2023-12-31">SN,ÜN,SN</meta:artDerNorm>
+               <meta:artDerNorm>SN</meta:artDerNorm>
+               <meta:artDerNorm start="1970-01-01" end="2023-12-31">SN,ÜN</meta:artDerNorm>
                <meta:bezeichnungInVorlage start="1970-01-01" end="2023-12-29">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
                <meta:normgeber start="1970-01-01" end="2023-12-29">BEO - Berlin (Ost)</meta:normgeber>
                <meta:beschliessendesOrgan start="1970-01-01" end="2023-12-29" qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
                <meta:organisationsEinheit start="1970-01-01" end="2023-12-29">Einheit 1</meta:organisationsEinheit>
-
-               <meta:einzelElement href="#hauptteil-1_abschnitt-1_uabschnitt-1_para-1">
+               <meta:einzelelement href="#hauptteil-1_abschnitt-1_uabschnitt-1_para-1">
                   <artDerNorm>ÄN</artDerNorm>
-               </meta:einzelElement>
-               <meta:einzelElement href="#hauptteil-2_abschnitt-2_uabschnitt-2_para-2">
+               </meta:einzelelement>
+               <meta:einzelelement href="#hauptteil-2_abschnitt-2_uabschnitt-2_para-2">
                   <meta:artDerNorm start="1970-01-01" end="2023-12-31">ÜN</meta:artDerNorm>
-               </meta:einzelElement>
+               </meta:einzelelement>
             </meta:legalDocML.de_metadaten_ds>
          </akn:proprietary>
       </akn:meta>
