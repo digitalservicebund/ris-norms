@@ -103,9 +103,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
    * @return value of the requested metadata element or empty if it doesn't exist
    */
   public Optional<String> getMetadatenDsSingleElement(
-      final Einzelelement.MetadataSingleElement metadatumSingleElement,
-      final String eid,
-      final LocalDate date) {
+      final Einzelelement.Metadata metadatumSingleElement, final String eid, final LocalDate date) {
     return NodeParser.getNodeFromExpression(
             "./einzelelement[@href='#%s']".formatted(eid), this.getNode())
         .flatMap(node -> new Einzelelement(node).getSimpleMetadatum(metadatumSingleElement, date));

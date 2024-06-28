@@ -237,8 +237,6 @@ public class Proprietary {
   public Optional<String> getSingleElementArtDerNorm(final String eid, final LocalDate date) {
     return getMetadatenDs()
         .flatMap(
-            m ->
-                m.getMetadatenDsSingleElement(
-                    Einzelelement.MetadataSingleElement.ART_DER_NORM, eid, date));
+            m -> m.getMetadatenDsSingleElement(Einzelelement.Metadata.ART_DER_NORM, eid, date));
   }
 }

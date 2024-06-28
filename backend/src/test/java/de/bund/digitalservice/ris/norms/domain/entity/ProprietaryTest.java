@@ -981,4 +981,116 @@ class ProprietaryTest {
           .contains("Organisationseinheit 4");
     }
   }
+
+  @Nested
+  class EinzelelementArtDerNorm {
+    @Test
+    void returnsEinzelelementArtDerNorm() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                            <akn:proprietary
+                                              eId="meta-1_proprietary-1"
+                                              GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                              source="attributsemantik-noch-undefiniert"
+                                            >
+                                              <meta:legalDocML.de_metadaten_ds
+                                                xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                              >
+                                                <meta:artDerNorm>SN,ÄN,ÜN</meta:artDerNorm>
+                                                <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                                    <meta:artDerNorm>ÜN</meta:artDerNorm>
+                                                </meta:einzelelement>
+                                             </meta:legalDocML.de_metadaten_ds>
+                                            </akn:proprietary>
+                                            """))
+              .build();
+
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2010-10-10")))
+          .contains("ÜN");
+    }
+
+    @Test
+    void returnsEmptyOptionalIfEinzelelementArtDerNormIsMissing() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                      <akn:proprietary
+                                                                        eId="meta-1_proprietary-1"
+                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                        source="attributsemantik-noch-undefiniert"
+                                                                      >
+                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                        >
+                                                                        <!-- ArtDerNorm is missing -->
+                                                                        </meta:legalDocML.de_metadaten_ds>
+                                                                      </akn:proprietary>
+                                                                      """))
+              .build();
+
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2010-10-10")))
+          .isEmpty();
+    }
+
+    @Test
+    void returnsTheEinzelelementArtDerNormAtDate() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                                                      <akn:proprietary
+                                                                        eId="meta-1_proprietary-1"
+                                                                        GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
+                                                                        source="attributsemantik-noch-undefiniert"
+                                                                      >
+                                                                        <meta:legalDocML.de_metadaten_ds
+                                                                          xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/"
+                                                                        >
+                                                                          <meta:artDerNorm end="1989-12-31">SN,ÄN,ÜN</meta:artDerNorm>
+                                                                          <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN</meta:artDerNorm>
+                                                                          <meta:artDerNorm start="1995-01-01" end="2000-12-31">SN,ÜN</meta:artDerNorm>
+                                                                          <meta:artDerNorm start="2001-01-01">ÄN,ÜN</meta:artDerNorm>
+                                                                          <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                                                              <meta:artDerNorm end="1989-12-31">ÜN</meta:artDerNorm>
+                                                                              <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                                                              <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                                                              <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                                                          </meta:einzelelement>
+                                                                        </meta:legalDocML.de_metadaten_ds>
+                                                                      </akn:proprietary>
+                                                                      """))
+              .build();
+
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1980-01-01")))
+          .contains("ÜN");
+
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1990-01-01")))
+          .contains("SN");
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1992-01-01")))
+          .contains("SN");
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1994-12-31")))
+          .contains("SN");
+
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1995-01-01")))
+          .contains("ÄN");
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1998-01-01")))
+          .contains("ÄN");
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2000-12-31")))
+          .contains("ÄN");
+
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2001-01-01")))
+          .contains("ÜN");
+      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2024-01-01")))
+          .contains("ÜN");
+    }
+  }
 }

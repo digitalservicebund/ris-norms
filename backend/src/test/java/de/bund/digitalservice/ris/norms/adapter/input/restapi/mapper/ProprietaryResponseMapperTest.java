@@ -37,4 +37,32 @@ class ProprietaryResponseMapperTest {
     // Then
     assertThat(responseSchema.getFna()).isEqualTo("222-22-2");
   }
+
+  @Test
+  void convertsProprietaryEinzelelementToResponseSchema() {
+    final Proprietary proprietary =
+        Proprietary.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                          <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                                              <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                  <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                                      <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                                      <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                                      <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                                  </meta:einzelelement>
+                                              </meta:legalDocML.de_metadaten_ds>
+                                          </akn:proprietary>
+                                          """))
+            .build();
+
+    // When
+    var responseSchema =
+        ProprietaryResponseMapper.fromProprietarySingleElement(
+            proprietary, "hauptteil-1_abschnitt-0_para-1", LocalDate.parse("1999-09-09"));
+
+    // Then
+    assertThat(responseSchema.getArtDerNorm()).isEqualTo("ÄN");
+  }
 }
