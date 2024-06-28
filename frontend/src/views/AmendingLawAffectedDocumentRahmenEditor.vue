@@ -29,8 +29,8 @@ import {
 } from "@/lib/proprietary"
 import { useGetNormHtml } from "@/services/normService"
 import {
-  useGetProprietary,
-  usePutProprietary,
+  useGetFrameProprietary,
+  usePutFrameProprietary,
 } from "@/services/proprietaryService"
 import { Proprietary } from "@/types/proprietary"
 import { produce } from "immer"
@@ -50,7 +50,9 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetProprietary(affectedDocumentEli, { atDate: timeBoundaryAsDate })
+} = useGetFrameProprietary(affectedDocumentEli, {
+  atDate: timeBoundaryAsDate,
+})
 
 watch(data, (newData) => {
   localData.value = newData
@@ -62,7 +64,7 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutProprietary(
+} = usePutFrameProprietary(
   localData,
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
