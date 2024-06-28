@@ -10,7 +10,9 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,8 @@ public class NormService
         LoadNextVersionOfNormUseCase,
         UpdateNormXmlUseCase,
         LoadSpecificArticleXmlFromNormUseCase,
-        UpdateModUseCase {
+        UpdateModUseCase,
+        UpdateModsUseCase {
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateNormPort updateNormPort;
@@ -124,49 +127,91 @@ public class NormService
   }
 
   @Override
-  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
+  public Optional<UpdateModsUseCase.Result> updateMods(UpdateModsUseCase.Query query) {
 
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    final Optional<String> targetNormEliOptional = new Href(query.destinationHref()).getEli();
-    if (amendingNormOptional.isEmpty() || targetNormEliOptional.isEmpty()) {
+
+    if (amendingNormOptional.isEmpty()) {
       return Optional.empty();
     }
     final Norm amendingNorm = amendingNormOptional.get();
-    final Norm targetNorm =
-        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEliOptional.get())).orElseThrow();
-    final Norm zf0Norm = loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
-    // Update active mods (meta and body) in amending law
-    updateNormService.updateActiveModifications(
-        new UpdateActiveModificationsUseCase.Query(
-            amendingNorm,
-            query.eid(),
-            query.destinationHref(),
-            query.timeBoundaryEid(),
-            query.newText()));
+    // Map between a target norm eli, and it's zf0 norm. Used to ensure that all changes to a zf0
+    // modified by multiple mods are applied to the same norm.
+    final Map<String, Norm> zf0Norms = new HashMap<>();
 
-    // Update passiv mods in ZF0
-    updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(
-            zf0Norm, amendingNorm, targetNormEliOptional.get()));
+    for (Map.Entry<String, UpdateModsUseCase.NewModData> entry : query.mods().entrySet()) {
+      final String eId = entry.getKey();
+      final UpdateModsUseCase.NewModData newModData = entry.getValue();
 
-    // Validate changes on ZF0
-    final Mod selectedMod =
-        amendingNorm.getMods().stream()
-            .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(query.eid()))
-            .findFirst()
-            .orElseThrow();
-    singleModValidator.validate(zf0Norm, selectedMod);
+      final var targetNormEli = new Href(newModData.destinationHref()).getEli();
+      if (targetNormEli.isEmpty()) {
+        return Optional.empty();
+      }
+
+      final var zf0Norm =
+          zf0Norms.computeIfAbsent(
+              targetNormEli.get(),
+              eli -> {
+                final Norm targetNorm =
+                    loadNormPort.loadNorm(new LoadNormPort.Command(eli)).orElseThrow();
+                return loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
+              });
+
+      // Update active mods (meta and body) in amending law
+      updateNormService.updateActiveModifications(
+          new UpdateActiveModificationsUseCase.Query(
+              amendingNorm,
+              eId,
+              newModData.destinationHref(),
+              newModData.timeBoundaryEid(),
+              newModData.newText()));
+
+      // Update passiv mods in ZF0
+      updateNormService.updatePassiveModifications(
+          new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli.get()));
+
+      // Validate changes on ZF0
+      final Mod selectedMod =
+          amendingNorm.getMods().stream()
+              .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(eId))
+              .findFirst()
+              .orElseThrow();
+      singleModValidator.validate(zf0Norm, selectedMod);
+    }
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
       updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+      zf0Norms.values().stream()
+          .map(UpdateOrSaveNormPort.Command::new)
+          .forEach(updateOrSaveNormPort::updateOrSave);
     }
+
     return Optional.of(
-        new UpdateModUseCase.Result(
+        new UpdateModsUseCase.Result(
             XmlMapper.toString(amendingNorm.getDocument()),
-            XmlMapper.toString(zf0Norm.getDocument())));
+            zf0Norms.values().stream().map(Norm::getDocument).map(XmlMapper::toString).toList()));
+  }
+
+  @Override
+  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
+    return this.updateMods(
+            new UpdateModsUseCase.Query(
+                query.eli(),
+                Map.of(
+                    query.eid(),
+                    new UpdateModsUseCase.NewModData(
+                        query.refersTo(),
+                        query.timeBoundaryEid(),
+                        query.destinationHref(),
+                        query.newText())),
+                query.dryRun()))
+        .map(
+            result ->
+                new UpdateModUseCase.Result(
+                    result.amendingNormXml(),
+                    result.targetNormZf0Xmls().stream().findFirst().orElseThrow()));
   }
 }
