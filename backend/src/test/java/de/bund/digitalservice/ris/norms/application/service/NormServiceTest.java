@@ -630,15 +630,14 @@ class NormServiceTest {
     }
 
     @Test
-    void itThrowsWhenSecondTargetNormNotFound() {
+    void itThrowsWhenSecondTargetNormDiffers() {
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
       Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
       Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
       when(loadNormPort.loadNorm(any()))
           .thenReturn(Optional.of(amendingLaw))
-          .thenReturn(Optional.of(targetLaw))
-          .thenReturn(Optional.empty());
+          .thenReturn(Optional.of(targetLaw));
       when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
 
       // When
@@ -652,7 +651,7 @@ class NormServiceTest {
                   "eid-2",
                   new UpdateModsUseCase.NewModData(
                       "refersTo", "time-boundary-eid", "target-norm-eli-2", "new text")));
-      assertThrows(RuntimeException.class, () -> service.updateMods(query));
+      assertThrows(IllegalArgumentException.class, () -> service.updateMods(query));
 
       // Then
       verify(updateNormPort, times(0)).updateNorm(any());
@@ -787,8 +786,8 @@ class NormServiceTest {
       assertThat(mod.getTargetHref()).isPresent();
       assertThat(mod.getTargetHref().get().value()).contains(newDestinationHref);
       assertThat(mod.getNewText()).contains(newText);
-      assertThat(result.get().targetNormZf0Xmls())
-          .containsExactly(XmlMapper.toString(zf0Norm.getDocument()));
+      assertThat(result.get().targetNormZf0Xml())
+          .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }
 
     @Test

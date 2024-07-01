@@ -734,7 +734,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       XmlMatcher.xml(
                           hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
           .andExpect(
-              jsonPath("targetNormZf0Xmls[0]")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
@@ -742,7 +742,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                               equalTo(
                                   "#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")))))
           .andExpect(
-              jsonPath("targetNormZf0Xmls[0]")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
@@ -793,7 +793,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("amendingNormXml", notNullValue()))
-          .andExpect(jsonPath("targetNormZf0Xmls", hasSize(1)))
           .andExpect(
               jsonPath("amendingNormXml")
                   .value(
@@ -809,14 +808,14 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                               "//body//mod[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1\"]/quotedText[2]",
                               equalTo("new test text 2")))))
           .andExpect(
-              jsonPath("targetNormZf0Xmls[0]")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
                               "//passiveModifications/textualMod[1]/destination/@href",
                               equalTo("#hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36")))))
           .andExpect(
-              jsonPath("targetNormZf0Xmls[0]")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
@@ -898,7 +897,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       XmlMatcher.xml(
                           hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
           .andExpect(
-              jsonPath("targetNormZf0Xmls[0]")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
@@ -906,7 +905,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                               equalTo(
                                   "#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")))))
           .andExpect(
-              jsonPath("targetNormZf0Xmls[0]")
+              jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(

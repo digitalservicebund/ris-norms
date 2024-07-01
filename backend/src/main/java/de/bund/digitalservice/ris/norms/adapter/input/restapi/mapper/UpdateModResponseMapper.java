@@ -17,13 +17,9 @@ public class UpdateModResponseMapper {
    * @return A new {@link UpdateModResponseSchema} instance.
    */
   public static UpdateModResponseSchema fromResult(final UpdateModsUseCase.Result result) {
-    if (result.targetNormZf0Xmls().size() != 1) {
-      throw new IllegalArgumentException("Unexpected amount of zf0 xmls (Expected one)");
-    }
-
     return UpdateModResponseSchema.builder()
         .amendingNormXml(result.amendingNormXml())
-        .targetNormZf0Xml(result.targetNormZf0Xmls().stream().findFirst().orElseThrow())
+        .targetNormZf0Xml(result.targetNormZf0Xml())
         .build();
   }
 }

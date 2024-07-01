@@ -12,7 +12,6 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -291,9 +290,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(
-              Optional.of(
-                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -321,9 +318,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(
-              Optional.of(
-                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -416,9 +411,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(
-              Optional.of(
-                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -432,7 +425,7 @@ class NormControllerTest {
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
-          .andExpect(jsonPath("targetNormZf0Xmls[0]").value(targetNormZf0Xml));
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
       verify(updateModsUseCase, times(1)).updateMods(argThat(query -> !query.dryRun()));
     }
@@ -446,9 +439,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(
-              Optional.of(
-                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -461,7 +452,7 @@ class NormControllerTest {
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
-          .andExpect(jsonPath("targetNormZf0Xmls[0]").value(targetNormZf0Xml));
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
       verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
     }
