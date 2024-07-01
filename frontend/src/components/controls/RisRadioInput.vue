@@ -37,7 +37,7 @@ const modelValue = defineModel<string>({ default: undefined })
       :disabled
       :name
       :value
-      class="ds-radio focus:!shadow-[inset_0_0_0_0.25rem] focus:!shadow-blue-800"
+      class="ds-radio bg-white focus:!shadow-[inset_0_0_0_0.25rem] focus:!shadow-blue-800"
       :class="{
         'mr-8': props.size === 'large',
         'ds-radio-small mr-4': props.size === 'medium',
