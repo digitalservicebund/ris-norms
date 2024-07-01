@@ -18,7 +18,7 @@ import {
   useGetElementProprietary,
   usePutElementProprietary,
 } from "@/services/proprietaryService"
-import { Proprietary } from "@/types/proprietary"
+import { ElementProprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import { computed, ref, watch } from "vue"
 
@@ -37,7 +37,7 @@ const {
  * API handling                                       *
  * -------------------------------------------------- */
 
-const localData = ref<Proprietary | null>(null)
+const localData = ref<ElementProprietary | null>(null)
 
 const {
   data,

@@ -155,7 +155,7 @@ const {
           <router-link
             v-if="selectedTimeBoundary"
             :to="{
-              name: 'AmendingLawAffectedDocumentRahmenEditor',
+              name: 'AmendingLawMetadataEditorRahmen',
               params: { timeBoundary: selectedTimeBoundary },
             }"
             class="ds-label-01-reg px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
@@ -193,7 +193,7 @@ const {
               v-for="element in elements"
               :key="element.eid"
               :to="{
-                name: 'AmendingLawAffectedDocumentElementEditor',
+                name: 'AmendingLawMetadataEditorElement',
                 params: {
                   eid: element.eid,
                   timeBoundary: selectedTimeBoundary,

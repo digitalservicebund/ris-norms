@@ -1,13 +1,13 @@
-import { Proprietary } from "@/types/proprietary"
+import { ElementProprietary } from "@/types/proprietary"
 import { Locator, Page, expect, test } from "@playwright/test"
 
 async function restoreInitialState(page: Page) {
   // TODO: Adjust to match actual data in the seeds. Not strictly necessary but would be better if they match
-  const dataIn1970: Proprietary = {
+  const dataIn1970: ElementProprietary = {
     artDerNorm: "SN",
   }
 
-  const dataIn2023: Proprietary = {
+  const dataIn2023: ElementProprietary = {
     artDerNorm: "ÄN",
   }
 
@@ -258,7 +258,7 @@ test.describe("metadata view", () => {
     )
   }
 
-  async function mockPutResponse(data: Proprietary) {
+  async function mockPutResponse(data: ElementProprietary) {
     await sharedPage.route(
       /\/proprietary\/hauptteil-1_abschnitt-erster_para-6\/2023-12-30/,
       async (route) => {

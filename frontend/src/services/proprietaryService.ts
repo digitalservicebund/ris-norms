@@ -1,4 +1,4 @@
-import { Proprietary } from "@/types/proprietary"
+import { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
 import { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import dayjs from "dayjs"
 import { MaybeRefOrGetter, computed, toValue } from "vue"
@@ -35,7 +35,7 @@ export function useProprietaryService(
     atDate: MaybeRefOrGetter<string | Date | undefined>
   },
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<Proprietary> {
+): UseFetchReturn<RahmenProprietary | ElementProprietary> {
   const dateAsString = computed(() => {
     const atDateVal = toValue(options?.atDate)
 
@@ -57,23 +57,23 @@ export function useProprietaryService(
     return `/norms/${eliVal}/proprietary/${eidVal ? eidVal + "/" : ""}${dateAsString.value}`
   })
 
-  return useApiFetch<Proprietary>(url, fetchOptions)
+  return useApiFetch<RahmenProprietary>(url, fetchOptions)
 }
 
 /**
  * Convenience shorthand for `useProprietaryService` that sets the correct
- * configuration for getting JSON data of the frame (i.e. whole norm).
+ * configuration for getting JSON data of the frame ("Rahmen", i.e. whole norm).
  *
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
  * @param [fetchOptions={}] Optional configuration for fetch behavior
  * @returns Reactive fetch wrapper
  */
-export function useGetFrameProprietary(
+export function useGetRahmenProprietary(
   eli: Parameters<typeof useProprietaryService>["0"],
   options: Omit<Parameters<typeof useProprietaryService>["1"], "eid">,
   fetchOptions?: Parameters<typeof useProprietaryService>["2"],
-): ReturnType<typeof useProprietaryService> {
+): UseFetchReturn<RahmenProprietary> {
   return useProprietaryService(
     eli,
     { ...options, eid: null },
@@ -83,19 +83,19 @@ export function useGetFrameProprietary(
 
 /**
  * Convenience shorthand for `useProprietaryService` that sets the correct
- * configuration for putting JSON data of the frame (i.e. whole norm).
+ * configuration for putting JSON data of the frame ("Rahmen", i.e. whole norm).
  *
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
  * @param [fetchOptions={}] Optional configuration for fetch behavior
  * @returns Reactive fetch wrapper
  */
-export function usePutFrameProprietary(
-  updateData: MaybeRefOrGetter<Proprietary | null>,
+export function usePutRahmenProprietary(
+  updateData: MaybeRefOrGetter<RahmenProprietary | null>,
   eli: Parameters<typeof useProprietaryService>["0"],
   options: Omit<Parameters<typeof useProprietaryService>["1"], "eid">,
   fetchOptions?: Parameters<typeof useProprietaryService>["2"],
-): ReturnType<typeof useProprietaryService> {
+): UseFetchReturn<RahmenProprietary> {
   return useProprietaryService(
     eli,
     { ...options, eid: null },
@@ -120,7 +120,7 @@ export function useGetElementProprietary(
   eid: Parameters<typeof useProprietaryService>["1"]["eid"],
   options: Omit<Parameters<typeof useProprietaryService>["1"], "eid">,
   fetchOptions?: Parameters<typeof useProprietaryService>["2"],
-) {
+): UseFetchReturn<ElementProprietary> {
   return useProprietaryService(
     eli,
     { ...options, eid },
@@ -139,12 +139,12 @@ export function useGetElementProprietary(
  * @returns Reactive fetch wrapper
  */
 export function usePutElementProprietary(
-  updateData: MaybeRefOrGetter<Proprietary | null>,
+  updateData: MaybeRefOrGetter<RahmenProprietary | null>,
   eli: Parameters<typeof useProprietaryService>["0"],
   eid: Parameters<typeof useProprietaryService>["1"]["eid"],
   options: Omit<Parameters<typeof useProprietaryService>["1"], "eid">,
   fetchOptions?: Parameters<typeof useProprietaryService>["2"],
-): ReturnType<typeof useProprietaryService> {
+): UseFetchReturn<ElementProprietary> {
   return useProprietaryService(
     eli,
     { ...options, eid },
