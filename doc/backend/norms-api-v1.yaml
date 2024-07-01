@@ -267,7 +267,7 @@ paths:
 
   /norms/{eli}/mods:
     patch:
-      summary: Save an amending command and update ZF0
+      summary: Save changes to multiple akn:mod elements and update ZF0
       parameters:
         - name: eli
           in: path
