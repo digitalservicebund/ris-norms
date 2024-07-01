@@ -39,6 +39,7 @@ public class NormController {
   private final UpdateNormXmlUseCase updateNormXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  private final UpdateModUseCase updateModUseCase;
   private final UpdateModsUseCase updateModsUseCase;
 
   public NormController(
@@ -47,12 +48,14 @@ public class NormController {
       UpdateNormXmlUseCase updateNormXmlUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
       ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
+      UpdateModUseCase updateModUseCase,
       UpdateModsUseCase updateModsUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.updateNormXmlUseCase = updateNormXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
+    this.updateModUseCase = updateModUseCase;
     this.updateModsUseCase = updateModsUseCase;
   }
 
@@ -178,12 +181,12 @@ public class NormController {
   }
 
   /**
-   * Update an amending command of an amending law and consecutively creates/updates all ZF0 of all
-   * affected documents.
+   * Update an amending command of an amending law and consecutively creates/updates the ZF0 the
+   * affected document.
    *
    * @param eli Eli of the request
    * @param eid the eId of the akn:mod within the amending law
-   * @param updateModRequestSchema the amending command to update
+   * @param updateModRequestSchema the new data about the akn:mod element
    * @param dryRun Should the save operation only be previewed and not actually persisted?
    * @return A {@link ResponseEntity} containing the updated xml of the amending law.
    *     <p>Returns HTTP 200 (OK) if both amending law and zf0 successfully uddated.
@@ -200,17 +203,15 @@ public class NormController {
       @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
-    return updateModsUseCase
-        .updateMods(
-            new UpdateModsUseCase.Query(
+    return updateModUseCase
+        .updateMod(
+            new UpdateModUseCase.Query(
                 eli.getValue(),
-                Map.of(
-                    eid,
-                    new UpdateModsUseCase.NewModData(
-                        updateModRequestSchema.getRefersTo(),
-                        updateModRequestSchema.getTimeBoundaryEid(),
-                        updateModRequestSchema.getDestinationHref(),
-                        updateModRequestSchema.getNewText())),
+                eid,
+                updateModRequestSchema.getRefersTo(),
+                updateModRequestSchema.getTimeBoundaryEid(),
+                updateModRequestSchema.getDestinationHref(),
+                updateModRequestSchema.getNewText(),
                 dryRun))
         .map(UpdateModResponseMapper::fromResult)
         .map(ResponseEntity::ok)
