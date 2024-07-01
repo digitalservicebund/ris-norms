@@ -48,7 +48,7 @@ public class ProprietaryResponseMapper {
   public static ProprietarySingleElementSchema fromProprietarySingleElement(
       Proprietary proprietary, final String eid, final LocalDate date) {
     return ProprietarySingleElementSchema.builder()
-        .artDerNorm(proprietary.getSingleElementArtDerNorm(eid, date).orElse(null))
+        .artDerNorm(proprietary.getArtDerNorm(date, eid).orElse(null))
         .build();
   }
 }

@@ -118,19 +118,19 @@ class MetadatenDeTest {
             .build();
 
     assertThat(
-            metadatenDe.getSimpleMetadatum(
+            metadatenDe.getFrameSimpleMetadatum(
                 MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.parse("1990-01-01")))
         .isEmpty();
     assertThat(
-            metadatenDe.getSimpleMetadatum(
+            metadatenDe.getFrameSimpleMetadatum(
                 MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.parse("2002-10-01")))
         .contains("Bundesministerium der Justiz");
     assertThat(
-            metadatenDe.getSimpleMetadatum(
+            metadatenDe.getFrameSimpleMetadatum(
                 MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.parse("2022-12-01")))
         .contains("Bundesministerium des Innern und für Heimat");
     assertThat(
-            metadatenDe.getSimpleMetadatum(
+            metadatenDe.getFrameSimpleMetadatum(
                 MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.parse("2024-06-18")))
         .contains("Bundesministerium des Innern und für Heimat");
   }
@@ -147,7 +147,8 @@ class MetadatenDeTest {
                                                             """))
             .build();
 
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.MAX))
+    assertThat(
+            metadatenDe.getFrameSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.MAX))
         .isEmpty();
   }
 
@@ -168,14 +169,14 @@ class MetadatenDeTest {
             .build();
 
     final LocalDate atDate = LocalDate.parse("2002-10-01");
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
+    assertThat(metadatenDe.getFrameSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
         .contains("Bundesministerium der Justiz");
     assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(2);
 
     metadatenDe.updateSimpleMetadatum(
         MetadatenDe.Metadata.FEDERFUEHRUNG, atDate, "test federfuehrung");
 
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
+    assertThat(metadatenDe.getFrameSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
         .contains("test federfuehrung");
     assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(2);
   }
@@ -197,14 +198,14 @@ class MetadatenDeTest {
             .build();
 
     final LocalDate atDate = LocalDate.parse("1990-01-01");
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
+    assertThat(metadatenDe.getFrameSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
         .isEmpty();
     assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(2);
 
     metadatenDe.updateSimpleMetadatum(
         MetadatenDe.Metadata.FEDERFUEHRUNG, atDate, "test federfuehrung");
 
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
+    assertThat(metadatenDe.getFrameSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
         .contains("test federfuehrung");
     assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(3);
   }

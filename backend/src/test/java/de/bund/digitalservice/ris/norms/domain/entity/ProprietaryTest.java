@@ -1009,8 +1009,7 @@ class ProprietaryTest {
                                             """))
               .build();
 
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2010-10-10")))
-          .contains("ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2010-10-10"), eid)).contains("ÜN");
     }
 
     @Test
@@ -1035,8 +1034,7 @@ class ProprietaryTest {
                                                                       """))
               .build();
 
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2010-10-10")))
-          .isEmpty();
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2010-10-10"), eid)).isEmpty();
     }
 
     @Test
@@ -1070,27 +1068,18 @@ class ProprietaryTest {
                                                                       """))
               .build();
 
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1980-01-01")))
-          .contains("ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1980-01-01"), eid)).contains("ÜN");
 
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1990-01-01")))
-          .contains("SN");
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1992-01-01")))
-          .contains("SN");
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1994-12-31")))
-          .contains("SN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1990-01-01"), eid)).contains("SN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1992-01-01"), eid)).contains("SN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1994-12-31"), eid)).contains("SN");
 
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1995-01-01")))
-          .contains("ÄN");
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("1998-01-01")))
-          .contains("ÄN");
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2000-12-31")))
-          .contains("ÄN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1995-01-01"), eid)).contains("ÄN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("1998-01-01"), eid)).contains("ÄN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2000-12-31"), eid)).contains("ÄN");
 
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2001-01-01")))
-          .contains("ÜN");
-      assertThat(proprietary.getSingleElementArtDerNorm(eid, LocalDate.parse("2024-01-01")))
-          .contains("ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2001-01-01"), eid)).contains("ÜN");
+      assertThat(proprietary.getArtDerNorm(LocalDate.parse("2024-01-01"), eid)).contains("ÜN");
     }
   }
 }
