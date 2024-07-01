@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.Proprietary
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
@@ -27,12 +28,17 @@ public class ProprietaryController {
 
   private final LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
   private final UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase;
+  private final UpdateProprietarySingleElementFromNormUseCase
+      updateProprietarySingleElementFromNormUseCase;
 
   public ProprietaryController(
       LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase,
-      UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase) {
+      UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase,
+      UpdateProprietarySingleElementFromNormUseCase updateProprietarySingleElementFromNormUseCase) {
     this.loadProprietaryFromNormUseCase = loadProprietaryFromNormUseCase;
     this.updateProprietaryFromNormUseCase = updateProprietaryFromNormUseCase;
+    this.updateProprietarySingleElementFromNormUseCase =
+        updateProprietarySingleElementFromNormUseCase;
   }
 
   /**
@@ -75,7 +81,7 @@ public class ProprietaryController {
       @RequestBody ProprietarySchema proprietarySchema) {
 
     var proprietary =
-        updateProprietaryFromNormUseCase.updateProprietaryFromNorm(
+        updateProprietaryFromNormUseCase.updateProprietaryFrameFromNorm(
             new UpdateProprietaryFromNormUseCase.Query(
                 eli.getValue(),
                 atDate,
@@ -113,6 +119,39 @@ public class ProprietaryController {
     var proprietary =
         loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
             new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
+
+    return ResponseEntity.ok(
+        ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid, atDate));
+  }
+
+  /**
+   * Updates specific metadata of a single element at a given date within the {@link Proprietary}
+   * node.
+   *
+   * @param eli Eli of the ZF0 version of the target law where the metadata are saved
+   * @param eid the eId of the single element within the ZF0
+   * @param atDate the time boundary at which to return the metadata
+   * @param proprietarySchema the request schema with the new metadata values.
+   * @return the specific metadata returned in the form of {@link ProprietarySingleElementSchema}
+   */
+  @PutMapping(
+      path = "/{eid}/{atDate}",
+      consumes = {APPLICATION_JSON_VALUE},
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<ProprietarySingleElementSchema> updateProprietaryAtDate(
+      final Eli eli,
+      @PathVariable final String eid,
+      @PathVariable final LocalDate atDate,
+      @RequestBody ProprietarySingleElementSchema proprietarySchema) {
+
+    var proprietary =
+        updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(
+            new UpdateProprietarySingleElementFromNormUseCase.Query(
+                eli.getValue(),
+                eid,
+                atDate,
+                new UpdateProprietarySingleElementFromNormUseCase.Metadata(
+                    proprietarySchema.getArtDerNorm())));
 
     return ResponseEntity.ok(
         ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid, atDate));

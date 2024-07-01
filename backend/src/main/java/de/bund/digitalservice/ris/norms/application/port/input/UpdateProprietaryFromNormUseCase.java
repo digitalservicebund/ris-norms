@@ -13,7 +13,7 @@ public interface UpdateProprietaryFromNormUseCase {
    *     themselves.
    * @return Proprietary node of the norm with the updated metadata.
    */
-  Proprietary updateProprietaryFromNorm(Query query);
+  Proprietary updateProprietaryFrameFromNorm(Query query);
 
   /**
    * Contains the parameters needed for loading proprietary metadata from a norm.

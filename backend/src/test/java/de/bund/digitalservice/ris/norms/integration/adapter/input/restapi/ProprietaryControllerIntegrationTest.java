@@ -518,4 +518,46 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("artDerNorm").value("SN"));
     }
   }
+
+  @Nested
+  class updateProprietaryEinzelelementAtDate {
+
+    @Test
+    void return404IfNormNotFound() throws Exception {
+      // given no norm
+      var eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      // when
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{eid}/{atDateString}", eli, eid, atDateString)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("{\"artDerNorm\": \"SN\"}"))
+          // then
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void createsProprietaryAndMetadatenDsAndEinzelelementAndSetsValue() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{eid}/{atDateString}", eli, eid, atDateString)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("{\"artDerNorm\": \"SN\"}"))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("artDerNorm").value("SN"));
+    }
+  }
 }

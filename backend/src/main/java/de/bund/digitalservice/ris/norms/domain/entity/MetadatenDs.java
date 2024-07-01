@@ -1,10 +1,12 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
 import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Class representing the meta:legalDocML.de_metadaten_ds */
@@ -108,5 +110,33 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
             "./einzelelement[@href='#%s']".formatted(eid), this.getNode())
         .flatMap(
             node -> new Einzelelement(node).getFrameSimpleMetadatum(metadatumSingleElement, date));
+  }
+
+  /**
+   * It returns the value for a specific metadata from a single element referenced by its eid for a
+   * specific date.
+   *
+   * @param metadatumSingleElement the enum metadatum
+   * @param eid the eid of the single element
+   * @param date the selected date
+   * @param newValue the new value
+   */
+  public void updateSingleElementSimpleMetadatum(
+      final Einzelelement.Metadata metadatumSingleElement,
+      final String eid,
+      final LocalDate date,
+      final String newValue) {
+    NodeParser.getNodeFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
+        .ifPresentOrElse(
+            node ->
+                new Einzelelement(node)
+                    .updateFrameSimpleMetadatum(metadatumSingleElement, date, newValue),
+            () -> {
+              // Create and set the new element
+              final Element newElement = NodeCreator.createElement("einzelelement", this.getNode());
+              newElement.setAttribute("href", "#%s".formatted(eid));
+              new Einzelelement(newElement)
+                  .updateFrameSimpleMetadatum(metadatumSingleElement, date, newValue);
+            });
   }
 }
