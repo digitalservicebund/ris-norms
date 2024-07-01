@@ -36,9 +36,9 @@ public class Norm {
     return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
         .orElseGet(
             () ->
-                NodeParser.getValueFromExpression("//FRBRManifestation/FRBRthis/@value", document)
-                    .map(m -> m.replace(".xml", ""))
-                    .orElseThrow());
+                NodeParser.getValueFromMandatoryNodeFromExpression(
+                        "//FRBRManifestation/FRBRthis/@value", document)
+                    .replace(".xml", ""));
   }
 
   /**
@@ -48,9 +48,8 @@ public class Norm {
    */
   public UUID getGuid() {
     var guid =
-        NodeParser.getValueFromExpression(
-                "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document)
-            .orElseThrow();
+        NodeParser.getValueFromMandatoryNodeFromExpression(
+            "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document);
 
     return UUID.fromString(guid);
   }

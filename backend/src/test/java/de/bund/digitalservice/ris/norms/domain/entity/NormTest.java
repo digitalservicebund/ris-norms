@@ -45,7 +45,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(normString));
 
-    assertThrows(NoSuchElementException.class, norm::getEli);
+    assertThrows(MandatoryNodeNotFoundException.class, norm::getEli);
   }
 
   @Test
@@ -1196,7 +1196,7 @@ class NormTest {
       norm.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
 
       // then
-      assertThrows(NoSuchElementException.class, norm::getEli);
+      assertThrows(MandatoryNodeNotFoundException.class, norm::getEli);
     }
   }
 
