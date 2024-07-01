@@ -3,32 +3,17 @@ import { render, screen, within } from "@testing-library/vue"
 import { GlobalMountOptions } from "@vue/test-utils/dist/types"
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest"
 import { defineComponent, nextTick, onUnmounted, ref } from "vue"
-import { createRouter, createWebHashHistory } from "vue-router"
+import { Router, createRouter, createWebHashHistory } from "vue-router"
 import RisHeader, { useHeaderContext } from "./RisHeader.vue"
 
 describe("RisHeader", () => {
   let global: GlobalMountOptions
+  let router: Router
 
-  const { routerBackMock } = vi.hoisted(() => ({
-    routerBackMock: vi.fn(),
-  }))
-
-  vi.mock("vue-router", async (importActual) => {
-    const router = await importActual<typeof import("vue-router")>()
-    return {
-      ...router,
-      useRouter: vi.fn().mockReturnValue({
-        back: routerBackMock,
-        currentRoute: ref({ name: "Foo", path: "/foo" }),
-        resolve: vi.fn().mockImplementation((route) => route.path),
-      }),
-    }
-  })
-
-  beforeAll(() => {
+  beforeAll(async () => {
     const component = defineComponent({ template: "<div></div>" })
 
-    const dummyRouter = createRouter({
+    router = createRouter({
       history: createWebHashHistory(),
       routes: [
         { path: "/", name: "Home", component },
@@ -37,7 +22,10 @@ describe("RisHeader", () => {
       ],
     })
 
-    global = { plugins: [dummyRouter] }
+    await router.push({ name: "Home" })
+    await router.isReady()
+
+    global = { plugins: [router] }
   })
 
   afterAll(() => {
@@ -71,12 +59,13 @@ describe("RisHeader", () => {
         props: { backDestination: "history-back", breadcrumbs: [] },
       })
       const user = userEvent.setup()
+      const routerBack = vi.spyOn(router, "back")
 
       // When
       await user.click(screen.getByRole("button", { name: "Zurück" }))
 
       // Then
-      expect(routerBackMock).toHaveBeenCalled()
+      expect(routerBack).toHaveBeenCalled()
     })
 
     test("renders a link when a custom back destination is provided", () => {
@@ -92,15 +81,15 @@ describe("RisHeader", () => {
       expect(link).toHaveAttribute("href", "#/")
     })
 
-    test("renders the link to a previous breadcrumb", () => {
+    test("renders the link to a previous breadcrumb", async () => {
       // Given
       render(RisHeader, {
         global,
         props: {
           backDestination: "breadcrumb-back",
           breadcrumbs: [
-            { key: "1", title: "Home", to: { path: "/" } },
-            { key: "2", title: "Foo", to: { path: "/foo" } },
+            { key: "1", title: "Home", to: { name: "Home" } },
+            { key: "2", title: "Foo", to: { name: "Foo" } },
             { key: "3", title: "Bar" },
           ],
         },
@@ -109,7 +98,7 @@ describe("RisHeader", () => {
 
       // Then
       expect(link).toBeInTheDocument()
-      expect(link).toHaveAttribute("href", "#/")
+      expect(link).toHaveAttribute("href", "#/foo")
     })
 
     test("renders a separator between back button and breadcrumbs", () => {
@@ -117,7 +106,7 @@ describe("RisHeader", () => {
       render(RisHeader, {
         global,
         props: {
-          breadcrumbs: [{ title: "Bar", key: "0", to: { path: "/bar" } }],
+          breadcrumbs: [{ title: "Bar", key: "0", to: { name: "Bar" } }],
         },
       })
 
@@ -125,14 +114,17 @@ describe("RisHeader", () => {
       expect(screen.getByTestId("back-button-separator")).toBeInTheDocument()
     })
 
-    test("renders no separator if no back button exists", () => {
+    test("renders no separator if no back button exists", async () => {
       // Given
       render(RisHeader, {
         global,
         props: {
-          breadcrumbs: [{ title: "Foo", key: "0", to: { path: "/foo" } }],
+          breadcrumbs: [{ title: "Foo", key: "0", to: { name: "Foo" } }],
         },
       })
+
+      // When
+      await router.push({ name: "Foo" })
 
       // Then
       expect(screen.queryByTestId("back-button-separator")).toBeFalsy()
@@ -266,7 +258,7 @@ describe("RisHeader", () => {
         `,
       })
 
-      render(dummyComponent)
+      render(dummyComponent, { global })
 
       // Then
       await vi.waitFor(() => {
@@ -302,7 +294,7 @@ describe("RisHeader", () => {
         `,
       })
 
-      render(dummyComponent)
+      render(dummyComponent, { global })
 
       await vi.waitFor(() => {
         const breadcrumb = screen.getByTestId("text-only-breadcrumb")
@@ -351,7 +343,7 @@ describe("RisHeader", () => {
         `,
       })
 
-      render(dummyComponent)
+      render(dummyComponent, { global })
 
       await vi.waitFor(() => {
         const breadcrumb = screen.getByTestId("text-only-breadcrumb")
@@ -388,7 +380,7 @@ describe("RisHeader", () => {
         `,
       })
 
-      render(dummyComponent)
+      render(dummyComponent, { global })
 
       // Then
       await vi.waitFor(() => {
@@ -427,7 +419,7 @@ describe("RisHeader", () => {
         `,
       })
 
-      render(dummyComponent)
+      render(dummyComponent, { global })
 
       // Then
       await vi.waitFor(() => {
@@ -437,6 +429,25 @@ describe("RisHeader", () => {
         expect(breadcrumbs[1]).toHaveTextContent("From outer child")
         expect(breadcrumbs[2]).toHaveTextContent("From inner child")
       })
+    })
+
+    test("renders link as plain text if the link points to the current route", async () => {
+      // Given
+      render(RisHeader, {
+        global,
+        props: {
+          breadcrumbs: [
+            { key: "0", title: "Home", to: { name: "Home" } },
+            { key: "1", title: "Foo", to: { name: "Foo" } },
+          ],
+        },
+      })
+
+      // When
+      await router.push({ name: "Foo" })
+
+      // Then
+      expect(screen.getByTestId("current-route-breadcrumb")).toBeTruthy()
     })
   })
 
@@ -453,7 +464,7 @@ describe("RisHeader", () => {
           </RisHeader>
         `,
       })
-      render(component)
+      render(component, { global })
 
       // Then
       expect(
@@ -479,7 +490,7 @@ describe("RisHeader", () => {
         components: { RisHeader, child },
         template: `<RisHeader><child /></RisHeader>`,
       })
-      render(component)
+      render(component, { global })
 
       // Then
       vi.waitFor(() => {
