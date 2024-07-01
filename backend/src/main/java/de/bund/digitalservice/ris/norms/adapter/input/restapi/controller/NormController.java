@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.UpdateModsR
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModsRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModsResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
@@ -236,26 +237,23 @@ public class NormController {
       produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<UpdateModsResponseSchema> updateMods(
       final Eli eli,
-      @RequestBody @Valid final Map<String, UpdateModRequestSchema> updateModsRequestSchema,
+      @RequestBody @Valid final UpdateModsRequestSchema updateModsRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
     return updateModsUseCase
         .updateMods(
             new UpdateModsUseCase.Query(
                 eli.getValue(),
-                updateModsRequestSchema.entrySet().stream()
+                updateModsRequestSchema.getMods().entrySet().stream()
                     .collect(
                         Collectors.toMap(
                             Map.Entry::getKey,
                             entry ->
                                 new UpdateModsUseCase.NewModData(
-                                    entry.getValue().getRefersTo(),
-                                    entry.getValue().getTimeBoundaryEid(),
-                                    entry.getValue().getDestinationHref(),
-                                    entry.getValue().getNewText()))),
+                                    null, entry.getValue().getTimeBoundaryEid(), null, null))),
                 dryRun))
         .map(UpdateModsResponseMapper::fromResult)
         .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+        .orElseGet(() -> ResponseEntity.unprocessableEntity().build());
   }
 }
