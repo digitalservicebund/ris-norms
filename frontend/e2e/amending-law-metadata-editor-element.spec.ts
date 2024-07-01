@@ -2,7 +2,6 @@ import { ElementProprietary } from "@/types/proprietary"
 import { Locator, Page, expect, test } from "@playwright/test"
 
 async function restoreInitialState(page: Page) {
-  // TODO: Adjust to match actual data in the seeds. Not strictly necessary but would be better if they match
   const dataIn1970: ElementProprietary = {
     artDerNorm: "SN",
   }
@@ -303,8 +302,7 @@ test.describe("metadata view", () => {
       })
     })
 
-    // TODO: Unskip
-    test.skip("displays at different time boundaries", async () => {
+    test("displays at different time boundaries", async () => {
       // When
       await gotoTimeBoundary("1970-01-01")
 
