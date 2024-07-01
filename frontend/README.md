@@ -84,3 +84,11 @@ Debug an e2e test:
 ```bash
 npm run test:e2e -- [testfile] --debug
 ```
+
+Run a specific browser e2e test:
+
+```bash
+npm run test:e2e -- --project chromium --repeat-each 1
+npm run test:e2e -- --project firefox --repeat-each 1
+npm run test:e2e -- --project webkit --repeat-each 1
+```

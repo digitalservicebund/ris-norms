@@ -1,8 +1,8 @@
-import { Proprietary } from "@/types/proprietary"
+import { RahmenProprietary } from "@/types/proprietary"
 import { Locator, Page, expect, test } from "@playwright/test"
 
 async function restoreInitialState(page: Page) {
-  const dataIn1970: Proprietary = {
+  const dataIn1970: RahmenProprietary = {
     fna: "210-5",
     art: "regelungstext",
     typ: "gesetz",
@@ -16,7 +16,7 @@ async function restoreInitialState(page: Page) {
     organisationsEinheit: "Einheit 1",
   }
 
-  const dataIn2023: Proprietary = {
+  const dataIn2023: RahmenProprietary = {
     fna: "310-5",
     art: "regelungstext",
     typ: "gesetz",
@@ -66,10 +66,14 @@ test.describe("navigate to page", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
     )
 
-    // Then
-    await expect(page.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
+    const header = page.getByRole("navigation")
 
-    await expect(page.getByText("Bundesverfassungsschutzgesetz")).toBeVisible()
+    // Then
+    await expect(header.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
+
+    await expect(
+      header.getByText("Bundesverfassungsschutzgesetz"),
+    ).toBeVisible()
   })
 
   test("navigates to the selected time boundary", async ({ page }) => {
@@ -262,7 +266,7 @@ test.describe("metadata view", () => {
     )
   }
 
-  async function mockPutResponse(data: Proprietary) {
+  async function mockPutResponse(data: RahmenProprietary) {
     await sharedPage.route(/\/proprietary\/2023-12-30/, async (route) => {
       if (route.request().method() === "PUT") {
         const response = await route.fetch()

@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ProprietaryResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
@@ -92,5 +93,28 @@ public class ProprietaryController {
                     proprietarySchema.getOrganisationsEinheit())));
 
     return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
+  }
+
+  /**
+   * Return specific metadata of a single element at a given date within the {@link Proprietary}
+   * node.
+   *
+   * @param eli Eli of the ZF0 version of the target law where the metadata are saved.
+   * @param eid the eId of the single element within the ZF0
+   * @param atDate the time boundary at which to return the metadata
+   * @return the specific metadata returned in the form of {@link ProprietarySingleElementSchema}
+   */
+  @GetMapping(
+      path = "/{eid}/{atDate}",
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<ProprietarySingleElementSchema> getProprietaryAtDate(
+      final Eli eli, @PathVariable final String eid, @PathVariable final LocalDate atDate) {
+
+    var proprietary =
+        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
+            new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
+
+    return ResponseEntity.ok(
+        ProprietaryResponseMapper.fromProprietarySingleElement(proprietary, eid, atDate));
   }
 }

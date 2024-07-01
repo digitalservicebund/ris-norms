@@ -173,6 +173,7 @@ function modTypeLabel(modType: ModType | "") {
           alignment="right"
           attachment="top"
           :variant="updateError ? 'error' : 'success'"
+          allow-dismiss
         >
           <RisTextButton
             :aria-describedby="ariaDescribedby"

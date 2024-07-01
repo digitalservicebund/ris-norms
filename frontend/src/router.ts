@@ -59,26 +59,37 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
-    path: `/amending-laws/${createEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit/:modEid?`,
+    path: `/amending-laws/${createEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
     name: "AmendingLawArticleEditor",
     component: () => import("@/views/AmendingLawArticleEditor.vue"),
+    children: [
+      {
+        path: ":modEid",
+        name: "AmendingLawArticleEditorSingleMod",
+        component: () =>
+          import("@/views/AmendingLawArticleEditorSingleMod.vue"),
+      },
+      {
+        path: "",
+        name: "AmendingLawArticleEditorMultiMod",
+        component: () => import("@/views/AmendingLawArticleEditorMultiMod.vue"),
+      },
+    ],
   },
   {
     path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/edit`,
-    name: "AmendingLawAffectedDocumentEditor",
-    component: () => import("@/views/AmendingLawAffectedDocumentEditor.vue"),
+    name: "AmendingLawMetadataEditor",
+    component: () => import("@/views/AmendingLawMetadataEditor.vue"),
     children: [
       {
         path: ":timeBoundary?",
-        name: "AmendingLawAffectedDocumentRahmenEditor",
-        component: () =>
-          import("@/views/AmendingLawAffectedDocumentRahmenEditor.vue"),
+        name: "AmendingLawMetadataEditorRahmen",
+        component: () => import("@/views/AmendingLawMetadataEditorRahmen.vue"),
       },
       {
         path: ":timeBoundary/:eid",
-        name: "AmendingLawAffectedDocumentElementEditor",
-        component: () =>
-          import("@/views/AmendingLawAffectedDocumentElementEditor.vue"),
+        name: "AmendingLawMetadataEditorElement",
+        component: () => import("@/views/AmendingLawMetadataEditorElement.vue"),
       },
     ],
   },

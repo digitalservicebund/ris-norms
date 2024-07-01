@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -9,7 +10,7 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateModUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateModsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
@@ -18,6 +19,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -576,8 +578,7 @@ class NormServiceTest {
   }
 
   @Nested
-  class UpdateMod {
-
+  class updateMods {
     @Test
     void itCallsLoadNormAndReturnsEmptyBecauseEliNotFound() {
       // Given
@@ -586,9 +587,13 @@ class NormServiceTest {
 
       // When
       var result =
-          service.updateMod(
-              new UpdateModUseCase.Query(
-                  eli, "eid", "refersTo", "time-boundary-eid", "destinanation-href", "new text"));
+          service.updateMods(
+              new UpdateModsUseCase.Query(
+                  eli,
+                  Map.of(
+                      "eid",
+                      new UpdateModsUseCase.NewModData(
+                          "refersTo", "time-boundary-eid", "destinanation-href", "new text"))));
 
       // Then
       verify(loadNormPort, times(1))
@@ -605,21 +610,52 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // When
-      var xml =
-          service.updateMod(
-              new UpdateModUseCase.Query(
+      var result =
+          service.updateMods(
+              new UpdateModsUseCase.Query(
                   eli,
-                  "eid",
-                  "refersTo",
-                  "time-boundary-eid",
-                  "#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE",
-                  "new text"));
+                  Map.of(
+                      "eid",
+                      new UpdateModsUseCase.NewModData(
+                          "refersTo",
+                          "time-boundary-eid",
+                          "#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE",
+                          "new text"))));
 
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(xml).isEmpty();
+      assertThat(result).isEmpty();
+    }
+
+    @Test
+    void itThrowsWhenSecondTargetNormNotFound() {
+      // Given
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any()))
+          .thenReturn(Optional.of(amendingLaw))
+          .thenReturn(Optional.of(targetLaw))
+          .thenReturn(Optional.empty());
+      when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
+
+      // When
+      var query =
+          new UpdateModsUseCase.Query(
+              amendingLaw.getEli(),
+              Map.of(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                  new UpdateModsUseCase.NewModData(
+                      "refersTo", "time-boundary-eid", "target-norm-eli-1", "new text"),
+                  "eid-2",
+                  new UpdateModsUseCase.NewModData(
+                      "refersTo", "time-boundary-eid", "target-norm-eli-2", "new text")));
+      assertThrows(RuntimeException.class, () -> service.updateMods(query));
+
+      // Then
+      verify(updateNormPort, times(0)).updateNorm(any());
     }
 
     @Test
@@ -659,16 +695,18 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
-      service.updateMod(
-          new UpdateModUseCase.Query(
+      service.updateMods(
+          new UpdateModsUseCase.Query(
               amendingNormEli,
-              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1", // <-
-              // this
-              // matters now
-              "refersTo",
-              newTimeBoundaryEid, // <- this will be set
-              newDestinationHref, // <- this will be set in ActivMods AND mod
-              newText,
+              Map.of(
+                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1", // <-
+                  new UpdateModsUseCase.NewModData(
+                      // this
+                      // matters now
+                      "refersTo",
+                      newTimeBoundaryEid, // <- this will be set
+                      newDestinationHref, // <- this will be set in ActivMods AND mod
+                      newText)),
               false));
 
       // Then
@@ -703,15 +741,17 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
-      var returnedXml =
-          service.updateMod(
-              new UpdateModUseCase.Query(
+      var result =
+          service.updateMods(
+              new UpdateModsUseCase.Query(
                   amendingNormEli,
-                  eId,
-                  "refersTo",
-                  newTimeBoundaryEid, // <- this will be set
-                  newDestinationHref, // <- this will be set in ActivMods AND mod
-                  newText,
+                  Map.of(
+                      eId,
+                      new UpdateModsUseCase.NewModData(
+                          "refersTo",
+                          newTimeBoundaryEid, // <- this will be set
+                          newDestinationHref, // <- this will be set in ActivMods AND mod
+                          newText)),
                   false));
 
       // Then
@@ -739,17 +779,68 @@ class NormServiceTest {
       verify(updateOrSaveNormPort, times(1))
           .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
-      assertThat(returnedXml).isPresent();
-      final Document amendingXmlDocument =
-          XmlMapper.toDocument(returnedXml.get().amendingNormXml());
+      assertThat(result).isPresent();
+      final Document amendingXmlDocument = XmlMapper.toDocument(result.get().amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetHref()).isPresent();
       assertThat(mod.getTargetHref().get().value()).contains(newDestinationHref);
       assertThat(mod.getNewText()).contains(newText);
-      assertThat(returnedXml.get().targetNormZf0Xml())
-          .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
+      assertThat(result.get().targetNormZf0Xmls())
+          .containsExactly(XmlMapper.toString(zf0Norm.getDocument()));
+    }
+
+    @Test
+    void itUpdatesTheSameZf0IfMultipleModsModifyIt() {
+      // Given
+      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMultipleSimpleMods.xml");
+      String amendingNormEli = amendingNorm.getEli();
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithMultipleSimpleModsTargetNorm.xml");
+      String targetNormEli = targetNorm.getEli();
+      Norm zf0Norm = NormFixtures.loadFromDisk("NormWithMultipleSimpleModsTargetNorm.xml");
+
+      when(loadNormPort.loadNorm(any()))
+          .thenReturn(Optional.of(amendingNorm))
+          .thenReturn(Optional.of(targetNorm));
+      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
+      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
+
+      // When
+      var result =
+          service.updateMods(
+              new UpdateModsUseCase.Query(
+                  amendingNormEli,
+                  Map.of(
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                      new UpdateModsUseCase.NewModData(
+                          "aenderungsbefehl-ersetzen",
+                          "#meta-1_geltzeiten-1_geltungszeitgr-1",
+                          "eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-2_inhalt-1_text-1/29-36.xml",
+                          "2. Ding"),
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1",
+                      new UpdateModsUseCase.NewModData(
+                          "aenderungsbefehl-ersetzen",
+                          "#meta-1_geltzeiten-1_geltungszeitgr-1",
+                          "eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-3_inhalt-1_text-1/29-36.xml",
+                          "3. Ding")),
+                  false));
+
+      // Then
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
+      verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
+      verify(updateNormService, times(2)).updateActiveModifications(any());
+      verify(updateNormService, times(2)).updatePassiveModifications(any());
+      verify(updateNormPort, times(1)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
+
+      assertThat(result).isPresent();
     }
   }
 }

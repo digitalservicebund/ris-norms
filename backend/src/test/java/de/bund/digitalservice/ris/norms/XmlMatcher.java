@@ -15,7 +15,7 @@ public class XmlMatcher extends TypeSafeMatcher<String> {
   }
 
   public void describeTo(Description description) {
-    description.appendText("a string representing an xml document");
+    matcher.describeTo(description);
   }
 
   public static Matcher<String> xml(Matcher<Node> matcher) {

@@ -265,6 +265,55 @@ paths:
               schema:
                 type: string
 
+  /norms/{eli}/mods:
+    patch:
+      summary: Save an amending command and update ZF0
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: dryRun
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Should the update not be saved?"
+      requestBody:
+        description: The updated amending commands
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: object mapping between eids and the change mods
+              additionalProperties:
+                $ref: '#/components/schemas/Mod'
+      responses:
+        '200':
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  amendingNormXml:
+                    type: string
+                    format: LegalDocML.de XML
+                  targetNormXml:
+                    type: array
+                    items:
+                      type: string
+                      format: LegalDocML.de XML
+        '400':
+          description: Bad Request
+        '422':
+          description: Unprocessable Content
+        '404':
+          description: Norm not found
+
   /norms/{eli}/mods/{eid}:
     put:
       summary: Save an amending command and update ZF0
@@ -281,6 +330,12 @@ paths:
           description: the eId of the akn:mod
           schema:
             type: string
+        - name: dryRun
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Should the update not be saved?"
       requestBody:
         description: The updated amending command
         required: true
@@ -300,9 +355,6 @@ paths:
                     type: string
                   targetNormXml:
                     type: string
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/LegalDocML.de'
         '400':
           description: Bad Request
         '422':
@@ -390,8 +442,6 @@ paths:
           description: If the norm does not exist.
     put:
       summary: Replace the proprietary metadata of a norm at the specified date
-      tags:
-        - under construction
       parameters:
         - name: eli
           in: path
@@ -422,6 +472,81 @@ paths:
                 $ref: '#/components/schemas/Metadata'
         '404':
           description: If the norm or the time boundary doesn't exist.
+
+  /norms/{eli}/proprietary/{eid}/{atDate}:
+    get:
+      summary: Get the proprietary metadata of a single element at the specified date
+      tags:
+        - under construction
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: the eId of the selected single element
+          schema:
+            type: string
+        - name: atDate
+          in: path
+          required: false
+          description: date at which the metadata should be loaded
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: List of proprietary metadata at that date for the single element
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SingleElementMetadata'
+        '404':
+          description: If the norm or the single element or the time boundary does not exist.
+    put:
+      summary: Replace the proprietary metadata of a single element at the specified date
+      tags:
+        - under construction
+      parameters:
+        - name: eli
+          in: path
+          required: false
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: the eId of the selected single element
+          schema:
+            type: string
+        - name: atDate
+          in: path
+          required: true
+          description: eId of the time boundary at which the metadata should be updated
+          schema:
+            type: string
+            format: date
+      requestBody:
+        description: The proprietary request schema containing several metadata.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleElementMetadata'
+      responses:
+        '200':
+          description: Metadata for a single element was updated successfully. Returns the updated metadata.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SingleElementMetadata'
+        '404':
+          description: If the norm or the single element or the time boundary doesn't exist.
 
   /norms/{eli}/{eid}:
     get:
@@ -622,3 +747,10 @@ components:
         organisationsEinheit:
           type: string
           description: ("Organisationseinheit")
+
+    SingleElementMetadata:
+      type: object
+      properties:
+        artDerNorm:
+          type: string
+          description: SN or ÄN or ÜN ("Art der Norm") of the single element

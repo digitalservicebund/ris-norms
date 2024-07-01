@@ -266,4 +266,91 @@ class ProprietaryControllerTest {
           .andExpect(status().isNotFound());
     }
   }
+
+  @Nested
+  class getProprietaryEinzelelementAtDate {
+    @Test
+    void returns404IfNormNotFound() throws Exception {
+      // given
+      var eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
+              new LoadProprietaryFromNormUseCase.Query(eli)))
+          .thenThrow(new NormNotFoundException(eli));
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void returnsProprietaryResponseSchema() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      var proprietary = normWithProprietary.getMeta().getOrCreateProprietary();
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
+              new LoadProprietaryFromNormUseCase.Query(eli)))
+          .thenReturn(proprietary);
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("artDerNorm").value("SN"));
+    }
+
+    @Test
+    void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      var normWithInvalidProprietary = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
+      var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
+              new LoadProprietaryFromNormUseCase.Query(eli)))
+          .thenReturn(proprietary);
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("artDerNorm").isEmpty());
+    }
+
+    @Test
+    void returnsEmptyValuesIfProprietaryDoesNotExist() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      var normWithInvalidProprietary = NormFixtures.loadFromDisk("SimpleNorm.xml");
+      var proprietary = normWithInvalidProprietary.getMeta().getOrCreateProprietary();
+      when(loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
+              new LoadProprietaryFromNormUseCase.Query(eli)))
+          .thenReturn(proprietary);
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("artDerNorm").isEmpty());
+    }
+  }
 }

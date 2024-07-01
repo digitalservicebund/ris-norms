@@ -50,6 +50,30 @@ class ArchitectureFitnessTest {
   static final String EXCEPTIONS_LAYER_PACKAGES = BASE_PACKAGE + ".domain.exceptions";
   static final String UTILS_LAYER_PACKAGES = BASE_PACKAGE + ".utils..";
 
+  static final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
+      new String[] {
+        "kotlin..",
+        "java..",
+        "org.jetbrains.annotations..",
+        "lombok..",
+        "org.w3c.dom..",
+        "org.apache.commons.lang3.."
+      };
+  static final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
+      new String[] {
+        UTILS_LAYER_PACKAGES,
+        DOMAIN_LAYER_PACKAGES,
+        "kotlin..",
+        "java..",
+        "javax.xml..",
+        "org.jetbrains.annotations..",
+        "lombok..",
+        "org.w3c.dom..",
+        "net.sf.saxon..",
+        "org.xml.sax..",
+        "org.slf4j..",
+      };
+
   @BeforeAll
   static void setUp() {
     classes =
@@ -70,16 +94,6 @@ class ArchitectureFitnessTest {
 
   @Test
   void domainClassesShouldOnlyDependOnDomainUtilsOrSpecificStandardLibraries() {
-    final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
-        new String[] {
-          "kotlin..",
-          "java..",
-          "org.jetbrains.annotations..",
-          "lombok..",
-          "org.w3c.dom..",
-          "org.apache.commons.lang3.."
-        };
-
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
@@ -96,21 +110,6 @@ class ArchitectureFitnessTest {
 
   @Test
   void utilsClassesShouldOnlyDependOnUtilsOrSpecificStandardLibraries() {
-    final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
-        new String[] {
-          UTILS_LAYER_PACKAGES,
-          DOMAIN_LAYER_PACKAGES,
-          "kotlin..",
-          "java..",
-          "javax.xml..",
-          "org.jetbrains.annotations..",
-          "lombok..",
-          "org.w3c.dom..",
-          "net.sf.saxon..",
-          "org.xml.sax..",
-          "org.slf4j..",
-        };
-
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
