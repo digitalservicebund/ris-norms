@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
@@ -76,7 +77,9 @@ public class LoadZf0Service implements LoadZf0UseCase {
           "Cannot read target norm eli from mod %s .".formatted(mod.getEid()));
 
     final Norm targetNorm =
-        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli)).orElseThrow();
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(targetNormEli))
+            .orElseThrow(() -> new NormNotFoundException(targetNormEliOptional.get()));
 
     var query = new LoadZf0UseCase.Query(amendingLaw, targetNorm);
     return loadOrCreateZf0(query);

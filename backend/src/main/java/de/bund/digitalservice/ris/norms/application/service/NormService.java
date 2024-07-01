@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
@@ -115,7 +116,9 @@ public class NormService
     }
     final Norm amendingNorm = amendingNormOptional.get();
     final Norm targetNorm =
-        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEliOptional.get())).orElseThrow();
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(targetNormEliOptional.get()))
+            .orElseThrow(() -> new NormNotFoundException(targetNormEliOptional.get()));
     final Norm zf0Norm =
         loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
