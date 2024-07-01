@@ -38,6 +38,7 @@ class NormControllerTest {
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   @MockBean private UpdateModsUseCase updateModsUseCase;
+  @MockBean private UpdateModUseCase updateModUseCase;
 
   @Nested
   class getNorm {
@@ -289,8 +290,8 @@ class NormControllerTest {
       final String targetNormZf0Xml = "<target-norm-xml></target-norm-xml>";
 
       // When
-      when(updateModsUseCase.updateMods(any()))
-          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+      when(updateModUseCase.updateMod(any()))
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -305,7 +306,7 @@ class NormControllerTest {
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
           .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
-      verify(updateModsUseCase, times(1)).updateMods(argThat(query -> !query.dryRun()));
+      verify(updateModUseCase, times(1)).updateMod(argThat(query -> !query.dryRun()));
     }
 
     @Test
@@ -317,8 +318,8 @@ class NormControllerTest {
       final String targetNormZf0Xml = "<target-norm-xml></target-norm-xml>";
 
       // When
-      when(updateModsUseCase.updateMods(any()))
-          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+      when(updateModUseCase.updateMod(any()))
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -333,7 +334,7 @@ class NormControllerTest {
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
           .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
-      verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
+      verify(updateModUseCase, times(1)).updateMod(argThat(UpdateModUseCase.Query::dryRun));
     }
 
     @Test
@@ -343,7 +344,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModsUseCase.updateMods(any())).thenReturn(Optional.empty());
+      when(updateModUseCase.updateMod(any())).thenReturn(Optional.empty());
 
       // When // Then
       mockMvc
@@ -363,7 +364,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModsUseCase.updateMods(any())).thenThrow(ValidationException.class);
+      when(updateModUseCase.updateMod(any())).thenThrow(ValidationException.class);
 
       // When // Then
       mockMvc
@@ -383,7 +384,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModsUseCase.updateMods(any()))
+      when(updateModUseCase.updateMod(any()))
           .thenThrow(new ValidationException("error exception"));
 
       // When // Then
