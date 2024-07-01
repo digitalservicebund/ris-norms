@@ -1,8 +1,8 @@
-import { Proprietary } from "@/types/proprietary"
+import { RahmenProprietary } from "@/types/proprietary"
 import { Locator, Page, expect, test } from "@playwright/test"
 
 async function restoreInitialState(page: Page) {
-  const dataIn1970: Proprietary = {
+  const dataIn1970: RahmenProprietary = {
     fna: "210-5",
     art: "regelungstext",
     typ: "gesetz",
@@ -16,7 +16,7 @@ async function restoreInitialState(page: Page) {
     organisationsEinheit: "Einheit 1",
   }
 
-  const dataIn2023: Proprietary = {
+  const dataIn2023: RahmenProprietary = {
     fna: "310-5",
     art: "regelungstext",
     typ: "gesetz",
@@ -266,7 +266,7 @@ test.describe("metadata view", () => {
     )
   }
 
-  async function mockPutResponse(data: Proprietary) {
+  async function mockPutResponse(data: RahmenProprietary) {
     await sharedPage.route(/\/proprietary\/2023-12-30/, async (route) => {
       if (route.request().method() === "PUT") {
         const response = await route.fetch()

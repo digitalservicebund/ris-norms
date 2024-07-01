@@ -1,4 +1,4 @@
-import { Proprietary } from "@/types/proprietary"
+import { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
@@ -11,7 +11,7 @@ describe("proprietaryService", () => {
 
   describe("useProprietaryService", () => {
     it("provides the data from the API", async () => {
-      const fixtures: Proprietary = {
+      const fixtures: RahmenProprietary = {
         fna: "foo",
       }
 
@@ -232,7 +232,7 @@ describe("proprietaryService", () => {
     })
   })
 
-  describe("useGetFrameProprietary", () => {
+  describe("useGetRahmenProprietary", () => {
     beforeEach(() => {
       vi.resetAllMocks()
       vi.resetModules()
@@ -243,9 +243,9 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useGetFrameProprietary } = await import("./proprietaryService")
+      const { useGetRahmenProprietary } = await import("./proprietaryService")
 
-      useGetFrameProprietary("fake/eli/1", { atDate: new Date("2024-05-13") })
+      useGetRahmenProprietary("fake/eli/1", { atDate: new Date("2024-05-13") })
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
@@ -264,10 +264,10 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useGetFrameProprietary } = await import("./proprietaryService")
+      const { useGetRahmenProprietary } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
-      useGetFrameProprietary(eli, { atDate: new Date("2024-05-13") })
+      useGetRahmenProprietary(eli, { atDate: new Date("2024-05-13") })
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
@@ -290,7 +290,7 @@ describe("proprietaryService", () => {
     })
   })
 
-  describe("usePutFrameProprietary", () => {
+  describe("usePutRahmenProprietary", () => {
     beforeEach(() => {
       vi.resetAllMocks()
       vi.resetModules()
@@ -301,10 +301,10 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { usePutFrameProprietary } = await import("./proprietaryService")
+      const { usePutRahmenProprietary } = await import("./proprietaryService")
 
-      const data = ref<Proprietary>({ fna: "4711" })
-      const { execute } = usePutFrameProprietary(data, "fake/eli/1", {
+      const data = ref<RahmenProprietary>({ fna: "4711" })
+      const { execute } = usePutRahmenProprietary(data, "fake/eli/1", {
         atDate: new Date("2024-05-13"),
       })
 
@@ -402,7 +402,7 @@ describe("proprietaryService", () => {
 
       const { usePutElementProprietary } = await import("./proprietaryService")
 
-      const data = ref<Proprietary>({ artDerNorm: "SN" })
+      const data = ref<ElementProprietary>({ artDerNorm: "SN" })
       const { execute } = usePutElementProprietary(
         data,
         "fake/eli/1",

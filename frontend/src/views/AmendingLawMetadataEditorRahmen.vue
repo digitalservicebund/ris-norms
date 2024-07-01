@@ -29,10 +29,10 @@ import {
 } from "@/lib/proprietary"
 import { useGetNormHtml } from "@/services/normService"
 import {
-  useGetFrameProprietary,
-  usePutFrameProprietary,
+  useGetRahmenProprietary,
+  usePutRahmenProprietary,
 } from "@/services/proprietaryService"
-import { Proprietary } from "@/types/proprietary"
+import { RahmenProprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import { computed, ref, watch } from "vue"
 
@@ -44,13 +44,13 @@ const { actionTeleportTarget } = useHeaderContext()
  * API handling                                       *
  * -------------------------------------------------- */
 
-const localData = ref<Proprietary | null>(null)
+const localData = ref<RahmenProprietary | null>(null)
 
 const {
   data,
   isFetching,
   error: fetchError,
-} = useGetFrameProprietary(affectedDocumentEli, {
+} = useGetRahmenProprietary(affectedDocumentEli, {
   atDate: timeBoundaryAsDate,
 })
 
@@ -64,7 +64,7 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutFrameProprietary(
+} = usePutRahmenProprietary(
   localData,
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
