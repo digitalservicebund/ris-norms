@@ -4,7 +4,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ProprietaryResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySchema;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
@@ -49,16 +48,11 @@ public class ProprietaryController {
   public ResponseEntity<ProprietarySchema> getProprietaryAtDate(
       final Eli eli, @PathVariable final LocalDate atDate) {
 
-    try {
-      var proprietary =
-          loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
-              new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
+    var proprietary =
+        loadProprietaryFromNormUseCase.loadProprietaryFromNorm(
+            new LoadProprietaryFromNormUseCase.Query(eli.getValue()));
 
-      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
-
-    } catch (NormNotFoundException e) {
-      return ResponseEntity.notFound().build();
-    }
+    return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
   }
 
   /**
@@ -79,29 +73,24 @@ public class ProprietaryController {
       @PathVariable final LocalDate atDate,
       @RequestBody ProprietarySchema proprietarySchema) {
 
-    try {
-      var proprietary =
-          updateProprietaryFromNormUseCase.updateProprietaryFromNorm(
-              new UpdateProprietaryFromNormUseCase.Query(
-                  eli.getValue(),
-                  atDate,
-                  new UpdateProprietaryFromNormUseCase.Metadata(
-                      proprietarySchema.getFna(),
-                      proprietarySchema.getArt(),
-                      proprietarySchema.getTyp(),
-                      proprietarySchema.getSubtyp(),
-                      proprietarySchema.getBezeichnungInVorlage(),
-                      proprietarySchema.getArtDerNorm(),
-                      proprietarySchema.getNormgeber(),
-                      proprietarySchema.getBeschliessendesOrgan(),
-                      proprietarySchema.getQualifizierteMehrheit(),
-                      proprietarySchema.getFederfuehrung(),
-                      proprietarySchema.getOrganisationsEinheit())));
+    var proprietary =
+        updateProprietaryFromNormUseCase.updateProprietaryFromNorm(
+            new UpdateProprietaryFromNormUseCase.Query(
+                eli.getValue(),
+                atDate,
+                new UpdateProprietaryFromNormUseCase.Metadata(
+                    proprietarySchema.getFna(),
+                    proprietarySchema.getArt(),
+                    proprietarySchema.getTyp(),
+                    proprietarySchema.getSubtyp(),
+                    proprietarySchema.getBezeichnungInVorlage(),
+                    proprietarySchema.getArtDerNorm(),
+                    proprietarySchema.getNormgeber(),
+                    proprietarySchema.getBeschliessendesOrgan(),
+                    proprietarySchema.getQualifizierteMehrheit(),
+                    proprietarySchema.getFederfuehrung(),
+                    proprietarySchema.getOrganisationsEinheit())));
 
-      return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
-
-    } catch (NormNotFoundException e) {
-      return ResponseEntity.notFound().build();
-    }
+    return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));
   }
 }
