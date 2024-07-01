@@ -4,13 +4,16 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import java.time.LocalDate;
 
-/** Use case for updating metadata within the {@link Proprietary} node of a {@link Norm}. */
+/**
+ * Use case for updating metadata for a single element within the {@link Proprietary} node of a
+ * {@link Norm}.
+ */
 public interface UpdateProprietarySingleElementFromNormUseCase {
   /**
-   * Updates specific metadata from a {@link Norm}.
+   * Updates specific metadata for a single element from a {@link Norm}.
    *
-   * @param query specifying the eli of ZF0, the date for the metadata as well as the metadata
-   *     themselves.
+   * @param query specifying the eli of ZF0, the eid of a single element, the date for the metadata
+   *     as well as the metadata themselves.
    * @return Proprietary node of the norm with the updated metadata.
    */
   Proprietary updateProprietarySingleElementFromNorm(Query query);
