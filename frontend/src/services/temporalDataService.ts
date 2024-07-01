@@ -1,4 +1,4 @@
-import { useApiFetch } from "@/services/apiService"
+import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
@@ -36,8 +36,22 @@ export function useGetEntryIntoForceHtml(
  */
 export function useGetTemporalDataTimeBoundaries(
   eli: MaybeRefOrGetter<string | undefined>,
+  options?: {
+    /**
+     * If set, only returns elements if they are changed by the specified
+     * amending law. Should be the ELI of an amending law.
+     */
+    amendedBy?: MaybeRefOrGetter<string>
+  },
 ): UseFetchReturn<TemporalDataResponse[]> {
-  const url = computed(() => `/norms/${toValue(eli)}/timeBoundaries`)
+  const url = computed(() => {
+    const eliVal = toValue(eli)
+    if (!eliVal) return INVALID_URL
+    const amendedByVal = toValue(options?.amendedBy)
+    const query = new URLSearchParams()
+    if (amendedByVal) query.append("amendedBy", amendedByVal)
+    return `/norms/${eliVal}/timeBoundaries${query.toString() ? `?${query.toString()}` : ""}`
+  })
   return useApiFetch(url, {
     refetch: true,
   })

@@ -1,12 +1,10 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
-import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import java.time.LocalDate;
 import java.util.*;
@@ -20,7 +18,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTimeBoundariesUseCase {
+public class TimeBoundaryService
+    implements LoadTimeBoundariesUseCase,
+        LoadTimeBoundariesAmendedByUseCase,
+        UpdateTimeBoundariesUseCase {
 
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
@@ -41,6 +42,36 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
         .loadNorm(new LoadNormPort.Command(query.eli()))
         .map(Norm::getTimeBoundaries)
         .orElse(List.of());
+  }
+
+  @Override
+  public List<TimeBoundary> loadTimeBoundariesAmendedBy(
+      LoadTimeBoundariesAmendedByUseCase.Query query) {
+
+    final Norm zf0Norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    final List<String> temporalGroupEidAmendedBy =
+        zf0Norm.getMeta().getOrCreateAnalysis().getPassiveModifications().stream()
+            .filter(
+                f ->
+                    f.getSourceHref()
+                        .map(
+                            href ->
+                                href.getEli().isPresent()
+                                    && href.getEli().get().equals(query.amendingLawEli()))
+                        .orElse(false))
+            .map(m -> m.getForcePeriodEid().orElse(null))
+            .filter(Objects::nonNull)
+            .toList();
+
+    final List<TemporalGroup> temporalGroups =
+        zf0Norm.getMeta().getTemporalData().getTemporalGroups().stream()
+            .filter(f -> temporalGroupEidAmendedBy.contains(f.getEid().orElseThrow()))
+            .toList();
+    return zf0Norm.getTimeBoundaries(temporalGroups);
   }
 
   /**

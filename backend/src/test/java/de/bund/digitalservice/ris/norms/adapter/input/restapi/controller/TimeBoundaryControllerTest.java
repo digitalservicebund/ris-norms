@@ -47,6 +47,7 @@ class TimeBoundaryControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
+  @MockBean private LoadTimeBoundariesAmendedByUseCase loadTimeBoundariesAmendedByUseCase;
   @MockBean private UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase;
 
   @Nested

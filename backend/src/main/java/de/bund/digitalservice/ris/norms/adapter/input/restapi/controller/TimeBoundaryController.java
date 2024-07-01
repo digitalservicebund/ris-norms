@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +22,16 @@ import org.springframework.web.bind.annotation.*;
 public class TimeBoundaryController {
 
   private final LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
+  private final LoadTimeBoundariesAmendedByUseCase loadTimeBoundariesAmendedByUseCase;
   private final UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase;
 
   public TimeBoundaryController(
       LoadTimeBoundariesUseCase loadTimeBoundariesUseCase,
+      LoadTimeBoundariesAmendedByUseCase loadTimeBoundariesAmendedByUseCase,
       UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase) {
 
     this.loadTimeBoundariesUseCase = loadTimeBoundariesUseCase;
+    this.loadTimeBoundariesAmendedByUseCase = loadTimeBoundariesAmendedByUseCase;
     this.updateTimeBoundariesUseCase = updateTimeBoundariesUseCase;
   }
 
@@ -43,11 +47,19 @@ public class TimeBoundaryController {
    *     Not Found if no boundaries are available.
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<List<TimeBoundarySchema>> getTimeBoundaries(final Eli eli) {
+  public ResponseEntity<List<TimeBoundarySchema>> getTimeBoundaries(
+      final Eli eli, @RequestParam final Optional<String> amendedBy) {
 
     List<TimeBoundarySchema> result =
-        loadTimeBoundariesUseCase
-            .loadTimeBoundariesOfNorm(new LoadTimeBoundariesUseCase.Query(eli.getValue()))
+        amendedBy
+            .map(
+                amendingBy ->
+                    loadTimeBoundariesAmendedByUseCase.loadTimeBoundariesAmendedBy(
+                        new LoadTimeBoundariesAmendedByUseCase.Query(eli.getValue(), amendingBy)))
+            .orElseGet(
+                () ->
+                    loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(
+                        new LoadTimeBoundariesUseCase.Query(eli.getValue())))
             .stream()
             .map(TimeBoundaryMapper::fromUseCaseData)
             .toList();

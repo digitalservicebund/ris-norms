@@ -83,10 +83,10 @@ test.describe("sidebar navigation", () => {
     const options = select.getByRole("option")
 
     // First entry selected by default
-    await expect(select).toHaveValue("1970-01-01")
+    await expect(select).toHaveValue("2023-12-30")
 
     // Time boundaries available as options
-    await expect(options).toHaveText(["01.01.1970", "30.12.2023"], {
+    await expect(options).toHaveText(["30.12.2023"], {
       useInnerText: true,
     })
   })
