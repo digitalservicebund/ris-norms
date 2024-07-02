@@ -215,6 +215,12 @@
                                       eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
                                       GUID="b5f2b610-ea4e-43dc-9262-8afe1a812145"></akn:timeInterval>
                 </akn:temporalGroup>
+                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2"
+                                   GUID="8ceeab6a-175d-42ec-b1a5-f2e90e626900">
+                    <akn:timeInterval start="#meta-1_lebzykl-1_ereignis-1" refersTo="geltungszeit"
+                                      eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1"
+                                      GUID="b5f2b610-ea4e-43dc-9262-8afe1a812000"></akn:timeInterval>
+                </akn:temporalGroup>
             </akn:temporalData>
         </akn:meta>
 

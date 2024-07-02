@@ -695,10 +695,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       """
                               {
                                 "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
-                                  "refersTo": "THIS_IS_NOT_BEING_HANDLED",
-                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
-                                  "destinationHref": "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-                                  "newText": "new test text"
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
                                 }
                               }
                           """))
@@ -719,7 +716,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       XmlMatcher.xml(
                           hasXPath(
                               "//activeModifications/textualMod/force/@period",
-                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")))))
           .andExpect(
               jsonPath("amendingNormXml")
                   .value(
@@ -732,7 +729,9 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
               jsonPath("amendingNormXml")
                   .value(
                       XmlMatcher.xml(
-                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
+                          hasXPath(
+                              "//body//mod/quotedText[2]",
+                              equalTo("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")))))
           .andExpect(
               jsonPath("targetNormZf0Xml")
                   .value(
@@ -741,6 +740,13 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                               "//passiveModifications/textualMod/destination/@href",
                               equalTo(
                                   "#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-5")))))
           .andExpect(
               jsonPath("targetNormZf0Xml")
                   .value(
@@ -755,7 +761,10 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
                   .accept(MediaType.APPLICATION_XML))
           .andExpect(status().isOk())
-          .andExpect(xpath("//body//mod/quotedText[2]").string("new test text"));
+          .andExpect(
+              xpath(
+                      "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period")
+                  .string("#meta-1_geltzeiten-1_geltungszeitgr-2"));
     }
 
     @Test
@@ -777,16 +786,9 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       """
                               {
                                 "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
-                                  "refersTo": "aenderungsbefehl-ersetzen",
-                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
-                                  "destinationHref": "eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml",
-                                  "newText": "new test text"
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
                                 },
                                 "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
-                                  "refersTo": "aenderungsbefehl-ersetzen",
-                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
-                                  "destinationHref": "eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-2_inhalt-1_text-1/29-36.xml",
-                                  "newText": "new test text 2"
                                 }
                               }
                           """))
@@ -798,30 +800,29 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
-                              "//body//mod[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1\"]/quotedText[2]",
-                              equalTo("new test text")))))
+                              "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")))))
           .andExpect(
               jsonPath("amendingNormXml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
-                              "//body//mod[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1\"]/quotedText[2]",
-                              equalTo("new test text 2")))))
+                              "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-2\"]/force/@period",
+                              equalTo("")))))
           .andExpect(
               jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
-                              "//passiveModifications/textualMod[1]/destination/@href",
-                              equalTo("#hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36")))))
+                              "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-1\"]/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")))))
           .andExpect(
               jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
-                              "//passiveModifications/textualMod[1]/source/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml")))));
+                              "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-2\"]/force/@period",
+                              equalTo("")))));
 
       mockMvc
           .perform(
@@ -830,12 +831,12 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isOk())
           .andExpect(
               xpath(
-                      "//body//mod[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1\"]/quotedText[2]")
-                  .string("new test text"))
+                      "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period")
+                  .string("#meta-1_geltzeiten-1_geltungszeitgr-2"))
           .andExpect(
               xpath(
-                      "//body//mod[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1\"]/quotedText[2]")
-                  .string("new test text 2"));
+                      "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-2\"]/force/@period")
+                  .string(""));
     }
 
     @Test
@@ -858,10 +859,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       """
                               {
                                 "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
-                                  "refersTo": "THIS_IS_NOT_BEING_HANDLED",
-                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
-                                  "destinationHref": "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-                                  "newText": "new test text"
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
                                 }
                               }
                           """))
@@ -873,45 +871,15 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
-                              "//activeModifications/textualMod/destination/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml")))))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//activeModifications/textualMod/force/@period",
-                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")))))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//body//mod/ref/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml")))))
-          .andExpect(
-              jsonPath("amendingNormXml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath("//body//mod/quotedText[2]", equalTo("new test text")))))
+                              "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")))))
           .andExpect(
               jsonPath("targetNormZf0Xml")
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
-                              "//passiveModifications/textualMod/destination/@href",
-                              equalTo(
-                                  "#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")))))
-          .andExpect(
-              jsonPath("targetNormZf0Xml")
-                  .value(
-                      XmlMatcher.xml(
-                          hasXPath(
-                              "//passiveModifications/textualMod/source/@href",
-                              equalTo(
-                                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml")))));
+                              "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-1\"]/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-5")))));
 
       // saved norm is unchanged
       mockMvc
@@ -920,8 +888,9 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_XML))
           .andExpect(status().isOk())
           .andExpect(
-              xpath("//body//mod/quotedText[2]")
-                  .string(equalToCompressingWhiteSpace("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")));
+              xpath(
+                      "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period")
+                  .string(equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")));
     }
 
     @Test
@@ -933,7 +902,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       normRepository.save(
           NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
 
-      // When (the character range is wrong on purpose. 9-34 would be correct)
+      // When (the eid does not exist)
       mockMvc
           .perform(
               patch("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods")
@@ -942,11 +911,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .content(
                       """
                             {
-                              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
-                                "refersTo": "THIS_IS_NOT_BEING_HANDLED",
-                                "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1",
-                                "destinationHref": "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-35.xml",
-                                "newText": "new test text"
+                              "hauptteil-1_art-1_abs-23_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                                "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1"
                               }
                             }
                           """))
