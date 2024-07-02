@@ -27,42 +27,42 @@ class EinzelelementTest {
               .build();
 
       assertThat(
-              e.getFrameSimpleMetadatum(
+              e.getSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("1980-01-01")))
           .isEmpty();
 
       assertThat(
-              e.getFrameSimpleMetadatum(
+              e.getSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("1990-01-01")))
           .contains("SN");
       assertThat(
-              e.getFrameSimpleMetadatum(
+              e.getSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("1992-01-01")))
           .contains("SN");
       assertThat(
-              e.getFrameSimpleMetadatum(
+              e.getSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("1994-12-31")))
           .contains("SN");
 
       assertThat(
-              e.getFrameSimpleMetadatum(
+              e.getSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("1995-01-01")))
           .contains("ÄN");
       assertThat(
-              e.getFrameSimpleMetadatum(
+              e.getSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("1998-01-01")))
           .contains("ÄN");
       assertThat(
-              e.getFrameSimpleMetadatum(
+              e.getSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("2000-12-31")))
           .contains("ÄN");
 
       assertThat(
-              e.getFrameSimpleMetadatum(
+              e.getSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("2001-01-01")))
           .contains("ÜN");
       assertThat(
-              e.getFrameSimpleMetadatum(
+              e.getSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, LocalDate.parse("2024-01-01")))
           .contains("ÜN");
     }
