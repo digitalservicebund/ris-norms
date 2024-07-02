@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RisEmptyState from "@/components/RisEmptyState.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useTemporalData } from "@/composables/useTemporalData"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -8,9 +7,13 @@ import RisCallout from "@/components/controls/RisCallout.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import { useMods } from "@/composables/useMods"
+import { useNormRender } from "@/composables/useNormRender"
+import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
+import RisEmptyState from "@/components/RisEmptyState.vue"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -21,13 +24,28 @@ const props = defineProps<{
 
 const eli = useEliPathParameter()
 
-const mods = useMods(
+const previewXml = ref<string>("")
+
+const {
+  data: mods,
+  preview: {
+    data: previewData,
+    execute: preview,
+    error: previewError,
+    isFetching: isFetchingPreviewData,
+  },
+} = useMods(
+  eli,
   computed(() => props.selectedMods),
   xml,
 )
 
 const timeBoundary = computed({
   get: () => {
+    if (mods.value.length < 1) {
+      return "no_choice"
+    }
+
     const firstDate = mods.value[0].timeBoundary?.date
 
     if (mods.value.every((mod) => mod.timeBoundary?.date === firstDate)) {
@@ -63,6 +81,43 @@ const timeBoundaryItems = computed(() => {
     { label: "Mehrere", value: "multiple", disabled: true },
   ]
 })
+
+const previewCustomNorms = computed(() =>
+  previewData.value ? [previewData.value.amendingNormXml] : [],
+)
+
+const {
+  data: previewHtml,
+  isFetching: isFetchingPreviewHtml,
+  error: loadPreviewHtmlError,
+} = useNormRender(
+  previewXml,
+  false,
+  computed(() => {
+    if (
+      timeBoundary.value === "no_choice" ||
+      timeBoundary.value === "multiple"
+    ) {
+      return undefined
+    }
+
+    return new Date(timeBoundary.value)
+  }),
+  previewCustomNorms,
+)
+
+watch(previewData, () => {
+  if (!previewData.value) return
+
+  previewXml.value = previewData.value.targetNormZf0Xml
+})
+
+watch(
+  () => props.selectedMods,
+  () => {
+    preview()
+  },
+)
 </script>
 <template>
   <section
@@ -94,11 +149,16 @@ const timeBoundaryItems = computed(() => {
           v-model="timeBoundary"
           label="Zeitgrenze"
           :items="timeBoundaryItems"
+          @change="preview"
         />
       </div>
 
       <div class="flex gap-20">
-        <RisTextButton label="Vorschau" variant="tertiary" disabled />
+        <RisTextButton
+          label="Vorschau"
+          variant="tertiary"
+          @click.prevent="preview"
+        />
 
         <div class="relative">
           <RisTooltip
@@ -122,7 +182,14 @@ const timeBoundaryItems = computed(() => {
     </form>
   </section>
 
+  <div v-if="timeBoundary === 'multiple'" class="col-span-1 flex-grow">
+    <RisEmptyState
+      text-content="Eine Vorschau kann nur für Änderungsbefehle mit der selben Zeitgrenze generiert werden."
+      class="mt-[85px] h-fit"
+    />
+  </div>
   <section
+    v-else
     class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
     aria-labelledby="changedArticlePreivew"
   >
@@ -134,15 +201,44 @@ const timeBoundaryItems = computed(() => {
       ]"
     >
       <template #text>
-        <RisEmptyState
-          text-content="Aktuell kann keine Preview für mehrere Änderungsbefehle angezeigt werden."
+        <div
+          v-if="isFetchingPreviewData || isFetchingPreviewHtml"
+          class="flex items-center justify-center"
+        >
+          <RisLoadingSpinner></RisLoadingSpinner>
+        </div>
+        <div v-else-if="loadPreviewHtmlError || previewError">
+          <RisCallout
+            title="Die Vorschau konnte nicht erzeugt werden."
+            variant="error"
+          />
+        </div>
+        <RisLawPreview
+          v-else
+          class="ds-textarea flex-grow p-2"
+          :content="previewHtml ?? ''"
         />
       </template>
 
       <template #xml>
-        <RisEmptyState
-          text-content="Aktuell kann keine Preview für mehrere Änderungsbefehle angezeigt werden."
-        />
+        <div
+          v-if="isFetchingPreviewData"
+          class="flex items-center justify-center"
+        >
+          <RisLoadingSpinner></RisLoadingSpinner>
+        </div>
+        <div v-else-if="previewError">
+          <RisCallout
+            title="Die Vorschau konnte nicht erzeugt werden."
+            variant="error"
+          />
+        </div>
+        <RisCodeEditor
+          v-else
+          class="flex-grow"
+          :readonly="true"
+          :model-value="previewXml"
+        ></RisCodeEditor>
       </template>
     </RisTabs>
   </section>
