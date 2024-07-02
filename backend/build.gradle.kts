@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.flyway.core)
     implementation(libs.flyway.postgres)
     implementation(libs.jose4j)
+    implementation(libs.prometheus)
     implementation(libs.spring.starter.data.redis)
     implementation(libs.spring.session.data.redis)
     implementation(libs.saxon.he)
