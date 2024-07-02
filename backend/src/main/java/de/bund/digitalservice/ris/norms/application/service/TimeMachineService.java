@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
@@ -70,18 +72,31 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                     passiveModification
                         .getForcePeriodEid()
                         .flatMap(norm::getStartDateForTemporalGroup)
-                        .orElseThrow()))
+                        .orElseThrow(
+                            () ->
+                                new ValidationException(
+                                    "Did not find a start date for textual mod with eId %s"
+                                        .formatted(passiveModification.getEid())))))
         .flatMap(
             (TextualMod passiveModification) -> {
               var sourceEli =
-                  passiveModification.getSourceHref().flatMap(Href::getEli).orElseThrow();
+                  passiveModification
+                      .getSourceHref()
+                      .flatMap(Href::getEli)
+                      .orElseThrow(
+                          () ->
+                              new ValidationException(
+                                  "Did not find source href for textual mod with eId %s"
+                                      .formatted(passiveModification.getEid())));
 
               Norm amendingLaw;
               if (customNorms.containsKey(sourceEli)) {
                 amendingLaw = customNorms.get(sourceEli);
               } else {
                 amendingLaw =
-                    normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
+                    normService
+                        .loadNorm(new LoadNormUseCase.Query(sourceEli))
+                        .orElseThrow(() -> new NormNotFoundException(sourceEli));
               }
 
               var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);
