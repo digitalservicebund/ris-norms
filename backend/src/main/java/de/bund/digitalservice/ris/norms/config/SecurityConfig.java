@@ -35,6 +35,7 @@ public class SecurityConfig {
                         "/actuator/health",
                         "/actuator/health/readiness",
                         "/actuator/health/liveness",
+                        "/actuator/prometheus",
                         "/api/**",
                         "/index.html",
                         "/",

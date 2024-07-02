@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
@@ -161,7 +162,11 @@ public class NormService
           amendingNorm.getMods().stream()
               .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(eId))
               .findFirst()
-              .orElseThrow();
+              .orElseThrow(
+                  () ->
+                      new ValidationException(
+                          "Did not find a textual mod in the norm %s"
+                              .formatted(amendingNorm.getEli())));
       singleModValidator.validate(zf0Norm, selectedMod);
     }
 

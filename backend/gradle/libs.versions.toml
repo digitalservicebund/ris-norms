@@ -17,6 +17,7 @@ jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.34"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.12.0"
 postgresql = "org.postgresql:postgresql:42.7.3"
+prometheus = "io.micrometer:micrometer-registry-prometheus:1.13.1"
 saxon-he = "net.sf.saxon:Saxon-HE:12.4"
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
