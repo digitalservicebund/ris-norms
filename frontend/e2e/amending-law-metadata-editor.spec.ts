@@ -32,6 +32,32 @@ test.describe("navigate to page", () => {
 
     await page.unrouteAll()
   })
+
+  test("shows the not found page when attempting to open a date without time boundary", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1900-01-01",
+    )
+
+    await expect(page.getByText("404")).toBeVisible()
+  })
+
+  test("shows the not found page when timeboundaries are empty", async ({
+    page,
+  }) => {
+    await page.route(/timeBoundaries/, async (route) => {
+      await route.fulfill({ status: 200, json: [] })
+    })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+    )
+
+    await expect(page.getByText("404")).toBeVisible()
+
+    await page.unrouteAll()
+  })
 })
 
 test.describe("sidebar navigation", () => {
