@@ -68,7 +68,7 @@ public class ProprietaryController {
    *
    * @param eli Eli of the ZF0 version of the target law where the metadata are saved.
    * @param atDate the time boundary at which to update the metadata.
-   * @param proprietarySchema the request schema with the new metadata values.
+   * @param proprietarySchema the request {@link ProprietarySchema} with the new metadata values.
    * @return the specific metadata updated in the form of {@link ProprietarySchema}
    */
   @PutMapping(
@@ -131,7 +131,8 @@ public class ProprietaryController {
    * @param eli Eli of the ZF0 version of the target law where the metadata are saved
    * @param eid the eId of the single element within the ZF0
    * @param atDate the time boundary at which to return the metadata
-   * @param proprietarySchema the request schema with the new metadata values.
+   * @param proprietarySchema the request {@link ProprietarySingleElementSchema} with the new
+   *     metadata values.
    * @return the specific metadata returned in the form of {@link ProprietarySingleElementSchema}
    */
   @PutMapping(
