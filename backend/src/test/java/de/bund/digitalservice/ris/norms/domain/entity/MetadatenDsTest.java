@@ -92,7 +92,7 @@ class MetadatenDsTest {
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("111-11-1");
 
-      metadatenDs.updateFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
+      metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("000-00-0");
@@ -117,7 +117,7 @@ class MetadatenDsTest {
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).isEmpty();
 
-      metadatenDs.updateFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
+      metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("000-00-0");
@@ -148,7 +148,7 @@ class MetadatenDsTest {
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
 
-      metadatenDs.updateFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
+      metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("000-00-0");
@@ -180,7 +180,7 @@ class MetadatenDsTest {
           .contains("333-33-3");
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
 
-      metadatenDs.updateFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
+      metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("000-00-0");
@@ -220,7 +220,7 @@ class MetadatenDsTest {
           .contains("subtyp0");
       assertThat(metadatenDs.getNodes("./subtyp")).hasSize(1);
 
-      metadatenDs.updateFrameSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate, "subtyp1");
+      metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate, "subtyp1");
 
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate))
           .contains("subtyp1");
@@ -258,7 +258,7 @@ class MetadatenDsTest {
           .contains("222-22-2");
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
 
-      metadatenDs.updateFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, null);
+      metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, null);
 
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(2);
@@ -282,7 +282,7 @@ class MetadatenDsTest {
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(2);
 
-      metadatenDs.updateFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, null);
+      metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, null);
 
       assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(2);

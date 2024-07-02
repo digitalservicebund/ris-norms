@@ -54,7 +54,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
    * @param date - the specific date
    * @param newValue - the new value to update/create
    */
-  public void updateFrameSimpleMetadatum(
+  public void updateSimpleMetadatum(
       final T simpleMetadatum, final LocalDate date, final String newValue) {
     NodeParser.getNodeFromExpression(
             String.format(

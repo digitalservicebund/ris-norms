@@ -131,13 +131,13 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
         .ifPresentOrElse(
             node ->
                 new Einzelelement(node)
-                    .updateFrameSimpleMetadatum(metadatumSingleElement, date, newValue),
+                    .updateSimpleMetadatum(metadatumSingleElement, date, newValue),
             () -> {
               // Create and set the new element
               final Element newElement = NodeCreator.createElement("einzelelement", this.getNode());
               newElement.setAttribute("href", "#%s".formatted(eid));
               new Einzelelement(newElement)
-                  .updateFrameSimpleMetadatum(metadatumSingleElement, date, newValue);
+                  .updateSimpleMetadatum(metadatumSingleElement, date, newValue);
             });
   }
 }

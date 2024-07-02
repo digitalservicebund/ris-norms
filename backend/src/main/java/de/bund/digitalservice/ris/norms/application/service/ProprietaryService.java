@@ -43,23 +43,23 @@ public class ProprietaryService
     final MetadatenDs metadatenDs = proprietary.getOrCreateMetadatenDs();
     final MetadatenDe metadatenDe = proprietary.getOrCreateMetadatenDe();
 
-    metadatenDs.updateFrameSimpleMetadatum(
+    metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.FNA, query.atDate(), query.metadata().fna());
-    metadatenDs.updateFrameSimpleMetadatum(
+    metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.ART, query.atDate(), query.metadata().art());
-    metadatenDs.updateFrameSimpleMetadatum(
+    metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.TYP, query.atDate(), query.metadata().typ());
-    metadatenDs.updateFrameSimpleMetadatum(
+    metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.SUBTYP, query.atDate(), query.metadata().subtyp());
-    metadatenDs.updateFrameSimpleMetadatum(
+    metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.BEZEICHNUNG_IN_VORLAGE,
         query.atDate(),
         query.metadata().bezeichnungInVorlage());
-    metadatenDs.updateFrameSimpleMetadatum(
+    metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.ART_DER_NORM, query.atDate(), query.metadata().artDerNorm());
-    metadatenDs.updateFrameSimpleMetadatum(
+    metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.NORMGEBER, query.atDate(), query.metadata().normgeber());
-    metadatenDs.updateFrameSimpleMetadatum(
+    metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.BESCHLIESSENDES_ORGAN,
         query.atDate(),
         query.metadata().beschliessendesOrgan());
@@ -69,9 +69,9 @@ public class ProprietaryService
         String.valueOf(query.metadata().qualifizierterMehrheit()).equals("null")
             ? "false"
             : String.valueOf(query.metadata().qualifizierterMehrheit()));
-    metadatenDe.updateFrameSimpleMetadatum(
+    metadatenDe.updateSimpleMetadatum(
         MetadatenDe.Metadata.FEDERFUEHRUNG, query.atDate(), query.metadata().federfuehrung());
-    metadatenDs.updateFrameSimpleMetadatum(
+    metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.ORGANISATIONS_EINHEIT,
         query.atDate(),
         query.metadata().organisationsEinheit());
