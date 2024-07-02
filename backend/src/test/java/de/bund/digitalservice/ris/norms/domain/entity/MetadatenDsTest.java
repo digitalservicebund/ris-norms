@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.List;
@@ -627,6 +628,36 @@ class MetadatenDsTest {
       assertThat(
               metadatenDs.getSingleElementSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1990-01-01")))
+          .isEmpty();
+    }
+
+    @Test
+    void resetLastEinzelelementAtDate() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                        <meta:artDerNorm end="unbestimmt" start="1980-01-01">SN</meta:artDerNorm>
+                                    </meta:einzelelement>
+                                  </meta:legalDocML.de_metadaten_ds>
+                              """))
+              .build();
+
+      metadatenDs.updateSingleElementSimpleMetadatum(
+          Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1980-01-01"), null);
+
+      assertThat(
+              metadatenDs.getSingleElementSimpleMetadatum(
+                  Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1980-01-01")))
+          .isEmpty();
+
+      assertThat(
+              NodeParser.getNodeFromExpression(
+                  "./einzelelement[@href='#%s']".formatted(eid), metadatenDs.getNode()))
           .isEmpty();
     }
   }

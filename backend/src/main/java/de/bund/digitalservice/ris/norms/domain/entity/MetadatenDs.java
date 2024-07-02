@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -128,15 +129,34 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
       final String newValue) {
     NodeParser.getNodeFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
         .ifPresentOrElse(
-            node ->
-                new Einzelelement(node)
-                    .updateSimpleMetadatum(metadatumSingleElement, date, newValue),
+            nodeFound -> {
+              Einzelelement e = new Einzelelement(nodeFound);
+              e.updateSimpleMetadatum(metadatumSingleElement, date, newValue);
+
+              var nodeList = nodeFound.getChildNodes();
+              boolean nodeIsEmpty = true;
+
+              // all child nodes need to be not of type ELEMENT_NODE
+              for (int i = 0; i < nodeList.getLength(); i++) {
+                if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                  nodeIsEmpty = false;
+                  break;
+                }
+              }
+
+              if (nodeIsEmpty) {
+                nodeFound.getParentNode().removeChild(nodeFound);
+              }
+            },
             () -> {
-              // Create and set the new element
-              final Element newElement = NodeCreator.createElement("einzelelement", this.getNode());
-              newElement.setAttribute("href", "#%s".formatted(eid));
-              new Einzelelement(newElement)
-                  .updateSimpleMetadatum(metadatumSingleElement, date, newValue);
+              if (StringUtils.isNotEmpty(newValue)) {
+                // Create and set the new element
+                final Element newElement =
+                    NodeCreator.createElement("einzelelement", this.getNode());
+                newElement.setAttribute("href", "#%s".formatted(eid));
+                new Einzelelement(newElement)
+                    .updateSimpleMetadatum(metadatumSingleElement, date, newValue);
+              }
             });
   }
 }
