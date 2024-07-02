@@ -6,13 +6,13 @@ import RisHeader, {
 } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useTemporalData } from "@/composables/useTemporalData"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetElements } from "@/services/elementService"
 import { useGetNorm } from "@/services/normService"
 import dayjs from "dayjs"
 import { computed, ref, watch } from "vue"
+import { useGetTemporalDataTimeBoundaries } from "@/services/temporalDataService"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
@@ -54,7 +54,9 @@ const {
   data: timeBoundaries,
   isFetching: timeBoundariesIsFetching,
   error: timeBoundariesError,
-} = useTemporalData(affectedDocumentEli)
+} = useGetTemporalDataTimeBoundaries(affectedDocumentEli, {
+  amendedBy: amendingLawEli,
+})
 
 const sortedTimeBoundaries = computed(() =>
   (timeBoundaries.value ?? []).toSorted((a, b) => {

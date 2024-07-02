@@ -108,6 +108,17 @@ public class Norm {
    */
   public List<TimeBoundary> getTimeBoundaries() {
     final List<TemporalGroup> temporalGroups = getMeta().getTemporalData().getTemporalGroups();
+    return getTimeBoundaries(temporalGroups);
+  }
+
+  /**
+   * * Extracts a list of time boundaries (Zeitgrenzen) from the document of a pre-filtered given
+   * list of temporal groups.
+   *
+   * @param temporalGroups - the pre-filtered listed of temporal groups
+   * @return a list of {@link TimeBoundary} containing dates and event IDs.
+   */
+  public List<TimeBoundary> getTimeBoundaries(final List<TemporalGroup> temporalGroups) {
     return temporalGroups.stream()
         .map(
             temporalGroup -> {
