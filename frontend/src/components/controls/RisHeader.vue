@@ -104,13 +104,13 @@ provide(HeaderContextProvider, {
 
 const backbuttonTo = computed(() => {
   if (props.backDestination === "breadcrumb-back") {
-    const current = router.resolve(router.currentRoute.value)
+    const current = router.resolve(router.currentRoute.value).fullPath
 
     return allBreadcrumbs.value
       .filter((i) => Boolean(i.to))
       .findLast((i) => {
         // @ts-expect-error `to` is not undefined, trust me
-        const resolved = router.resolve(i.to)
+        const resolved = router.resolve(i.to).fullPath
         return resolved !== current
       })?.to
   } else if (props.backDestination === "history-back") {
@@ -228,12 +228,18 @@ export function useHeaderContext() {
           :key="crumb.key"
           class="ds-body-01-reg after:mx-8 after:inline-block after:text-gray-700 after:content-['/'] last-of-type:after:hidden"
         >
-          <RouterLink
-            v-if="crumb.to"
-            :to="crumb.to"
-            class="ds-link-01-bold underline"
-          >
-            {{ toValue(crumb.title) }}
+          <RouterLink v-if="crumb.to" v-slot="link" :to="crumb.to" custom>
+            <a
+              v-if="!link.isExactActive"
+              class="ds-link-01-bold underline"
+              :href="link.href"
+              @click="link.navigate()"
+            >
+              {{ toValue(crumb.title) }}
+            </a>
+            <span v-else data-testid="current-route-breadcrumb">
+              {{ toValue(crumb.title) }}
+            </span>
           </RouterLink>
           <span v-else data-testid="text-only-breadcrumb">
             {{ toValue(crumb.title) }}
