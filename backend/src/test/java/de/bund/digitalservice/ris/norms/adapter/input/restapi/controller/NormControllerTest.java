@@ -384,8 +384,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModUseCase.updateMod(any()))
-          .thenThrow(new ValidationException("error exception"));
+      when(updateModUseCase.updateMod(any())).thenThrow(new ValidationException("error exception"));
 
       // When // Then
       mockMvc
@@ -421,8 +420,8 @@ class NormControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"},\n"
-                          + "\"mod-eid-2\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+                      "{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"},\n"
+                          + "\"mod-eid-2\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
@@ -448,8 +447,7 @@ class NormControllerTest {
               patch("/api/v1/norms/" + eli + "/mods?dryRun=true")
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
@@ -472,9 +470,8 @@ class NormControllerTest {
               patch("/api/v1/norms/" + eli + "/mods")
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
-          .andExpect(status().isNotFound());
+                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
+          .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -491,8 +488,7 @@ class NormControllerTest {
               patch("/api/v1/norms/" + eli + "/mods")
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
           .andExpect(status().isUnprocessableEntity());
     }
   }

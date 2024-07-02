@@ -41,13 +41,9 @@ public interface UpdateModsUseCase {
   /**
    * A record representing the new data for an akn:mod element.
    *
-   * @param refersTo - the type of the amending command
    * @param timeBoundaryEid - the eId of the temporal group of the time boundary
-   * @param destinationHref - the ELI + eid + counting of the target law
-   * @param newText - the new text to replace the old one
    */
-  record NewModData(
-      String refersTo, String timeBoundaryEid, String destinationHref, String newText) {}
+  record NewModData(String timeBoundaryEid) {}
 
   /**
    * The results of updating an amending command. Includes both the updated amending norm and the

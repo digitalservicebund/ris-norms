@@ -237,20 +237,21 @@ public class NormController {
       produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<UpdateModsResponseSchema> updateMods(
       final Eli eli,
-      @RequestBody @Valid final UpdateModsRequestSchema updateModsRequestSchema,
+      @RequestBody @Valid
+          final Map<String, UpdateModsRequestSchema.ModUpdate> updateModsRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
     return updateModsUseCase
         .updateMods(
             new UpdateModsUseCase.Query(
                 eli.getValue(),
-                updateModsRequestSchema.getMods().entrySet().stream()
+                updateModsRequestSchema.entrySet().stream()
                     .collect(
                         Collectors.toMap(
                             Map.Entry::getKey,
                             entry ->
                                 new UpdateModsUseCase.NewModData(
-                                    null, entry.getValue().getTimeBoundaryEid(), null, null))),
+                                    entry.getValue().timeBoundaryEid()))),
                 dryRun))
         .map(UpdateModsResponseMapper::fromResult)
         .map(ResponseEntity::ok)
