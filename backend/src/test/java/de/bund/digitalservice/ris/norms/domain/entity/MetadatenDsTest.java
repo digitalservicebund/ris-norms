@@ -535,9 +535,9 @@ class MetadatenDsTest {
               .node(
                   XmlMapper.toNode(
                       """
-                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                                </meta:legalDocML.de_metadaten_ds>
-                                            """))
+                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                </meta:legalDocML.de_metadaten_ds>
+                            """))
               .build();
 
       metadatenDs.updateSingleElementSimpleMetadatum(
@@ -550,21 +550,21 @@ class MetadatenDsTest {
     }
 
     @Test
-    void updateEinzelelementArtDerNormAtDate() {
+    void updateEinzelelementBetweenDates() {
       var eid = "hauptteil-1_abschnitt-0_para-1";
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
                   XmlMapper.toNode(
                       """
-                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                                  <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                                                      <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                                                      <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                                                      <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-                                                  </meta:einzelelement>
-                                                </meta:legalDocML.de_metadaten_ds>
-                                            """))
+                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                        <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                    </meta:einzelelement>
+                                  </meta:legalDocML.de_metadaten_ds>
+                              """))
               .build();
 
       metadatenDs.updateSingleElementSimpleMetadatum(
@@ -577,21 +577,21 @@ class MetadatenDsTest {
     }
 
     @Test
-    void updateEinzelelementArtDerNormAtDate2() {
+    void updateEinzelelementAtStartDate() {
       var eid = "hauptteil-1_abschnitt-0_para-1";
       final MetadatenDs metadatenDs =
           MetadatenDs.builder()
               .node(
                   XmlMapper.toNode(
                       """
-                                                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                                                                  <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
-                                                                      <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
-                                                                      <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
-                                                                      <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
-                                                                  </meta:einzelelement>
-                                                                </meta:legalDocML.de_metadaten_ds>
-                                                            """))
+                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                        <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                    </meta:einzelelement>
+                                  </meta:legalDocML.de_metadaten_ds>
+                              """))
               .build();
 
       metadatenDs.updateSingleElementSimpleMetadatum(
@@ -601,6 +601,33 @@ class MetadatenDsTest {
               metadatenDs.getSingleElementSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1990-01-01")))
           .contains("ÜN");
+    }
+
+    @Test
+    void resetEinzelelementAtDate() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                        <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                    </meta:einzelelement>
+                                  </meta:legalDocML.de_metadaten_ds>
+                              """))
+              .build();
+
+      metadatenDs.updateSingleElementSimpleMetadatum(
+          Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1990-01-01"), null);
+
+      assertThat(
+              metadatenDs.getSingleElementSimpleMetadatum(
+                  Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1990-01-01")))
+          .isEmpty();
     }
   }
 }
