@@ -113,8 +113,9 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
   }
 
   /**
-   * It returns the value for a specific metadata from a single element referenced by its eid for a
-   * specific date.
+   * It updates the value for a specific metadata from a single element referenced by its eid for a
+   * specific date. If that specific single element was not introduced before, this method will
+   * create an "einzelement" node while referencing its origin eid in the href attribute.
    *
    * @param metadatumSingleElement the enum metadatum
    * @param eid the eid of the single element
