@@ -130,3 +130,62 @@ export function useUpdateModData(
     isFinished,
   }
 }
+
+/**
+ * Composable for saving updated mods to the server.
+ *
+ * @param eli - The ELI of the norm.
+ * @param updatedMods - A object mapping eids to the updated mod objects.
+ * @param dryRun - Should the save operation only be previewed and not actually persisted?
+ */
+export function useUpdateMods(
+  eli: MaybeRefOrGetter<string | null>,
+  updatedMods: MaybeRefOrGetter<{
+    [eid: string]: Pick<ModData, "timeBoundaryEid">
+  }>,
+  dryRun: MaybeRefOrGetter<boolean> = false,
+): UseFetchReturn<{
+  amendingNormXml: string
+  targetNormZf0Xml: string
+}> {
+  const apiFetch: UseFetchReturn<{
+    amendingNormXml: string
+    targetNormZf0Xml: string
+  }> = useApiFetch(
+    computed(() => {
+      if (!toValue(eli) || !toValue(updatedMods)) {
+        return INVALID_URL
+      }
+
+      const params = new URLSearchParams()
+
+      if (toValue(dryRun)) {
+        params.set("dryRun", "true")
+      }
+
+      return `/norms/${toValue(eli)}/mods?${params.toString()}`
+    }),
+    {
+      immediate: false,
+    },
+  )
+    .json()
+    .patch(updatedMods)
+
+  // reset isFinished when data changes
+  const isFinished = ref(false)
+  watch(apiFetch.isFinished, () => {
+    isFinished.value = apiFetch.isFinished.value
+  })
+  watch(
+    [() => toValue(eli), () => toValue(updatedMods), () => toValue(dryRun)],
+    () => {
+      isFinished.value = false
+    },
+  )
+
+  return {
+    ...apiFetch,
+    isFinished,
+  }
+}

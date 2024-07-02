@@ -12,7 +12,6 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -39,6 +38,7 @@ class NormControllerTest {
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   @MockBean private UpdateModsUseCase updateModsUseCase;
+  @MockBean private UpdateModUseCase updateModUseCase;
 
   @Nested
   class getNorm {
@@ -290,10 +290,8 @@ class NormControllerTest {
       final String targetNormZf0Xml = "<target-norm-xml></target-norm-xml>";
 
       // When
-      when(updateModsUseCase.updateMods(any()))
-          .thenReturn(
-              Optional.of(
-                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+      when(updateModUseCase.updateMod(any()))
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -308,7 +306,7 @@ class NormControllerTest {
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
           .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
-      verify(updateModsUseCase, times(1)).updateMods(argThat(query -> !query.dryRun()));
+      verify(updateModUseCase, times(1)).updateMod(argThat(query -> !query.dryRun()));
     }
 
     @Test
@@ -320,10 +318,8 @@ class NormControllerTest {
       final String targetNormZf0Xml = "<target-norm-xml></target-norm-xml>";
 
       // When
-      when(updateModsUseCase.updateMods(any()))
-          .thenReturn(
-              Optional.of(
-                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+      when(updateModUseCase.updateMod(any()))
+          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -338,7 +334,7 @@ class NormControllerTest {
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
           .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
-      verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
+      verify(updateModUseCase, times(1)).updateMod(argThat(UpdateModUseCase.Query::dryRun));
     }
 
     @Test
@@ -348,7 +344,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModsUseCase.updateMods(any())).thenReturn(Optional.empty());
+      when(updateModUseCase.updateMod(any())).thenReturn(Optional.empty());
 
       // When // Then
       mockMvc
@@ -368,7 +364,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModsUseCase.updateMods(any())).thenThrow(ValidationException.class);
+      when(updateModUseCase.updateMod(any())).thenThrow(ValidationException.class);
 
       // When // Then
       mockMvc
@@ -388,8 +384,7 @@ class NormControllerTest {
       final String modEid = "mod-eid-1";
 
       // When
-      when(updateModsUseCase.updateMods(any()))
-          .thenThrow(new ValidationException("error exception"));
+      when(updateModUseCase.updateMod(any())).thenThrow(new ValidationException("error exception"));
 
       // When // Then
       mockMvc
@@ -416,9 +411,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(
-              Optional.of(
-                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -427,12 +420,12 @@ class NormControllerTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content(
-                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"},\n"
-                          + "\"mod-eid-2\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+                      "{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"},\n"
+                          + "\"mod-eid-2\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
-          .andExpect(jsonPath("targetNormZf0Xmls[0]").value(targetNormZf0Xml));
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
       verify(updateModsUseCase, times(1)).updateMods(argThat(query -> !query.dryRun()));
     }
@@ -446,9 +439,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(
-              Optional.of(
-                  new UpdateModsUseCase.Result(amendingNormXml, List.of(targetNormZf0Xml))));
+          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
 
       // When // Then
       mockMvc
@@ -456,12 +447,11 @@ class NormControllerTest {
               patch("/api/v1/norms/" + eli + "/mods?dryRun=true")
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(jsonPath("amendingNormXml").value(amendingNormXml))
-          .andExpect(jsonPath("targetNormZf0Xmls[0]").value(targetNormZf0Xml));
+          .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
       verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
     }
@@ -480,9 +470,8 @@ class NormControllerTest {
               patch("/api/v1/norms/" + eli + "/mods")
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
-          .andExpect(status().isNotFound());
+                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
+          .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -499,8 +488,7 @@ class NormControllerTest {
               patch("/api/v1/norms/" + eli + "/mods")
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"mod-eid-1\": {\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newText\": \"new test text\"}}"))
+                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
           .andExpect(status().isUnprocessableEntity());
     }
   }

@@ -197,4 +197,65 @@ describe("ldmldeModService", () => {
       expect(isFinished.value).toBe(false)
     })
   })
+
+  describe("useUpdateMods", () => {
+    it("should make a PATCH request with the correct data", async () => {
+      const eli = "eli"
+      const updatedMods = {
+        "eid-1": {
+          timeBoundaryEid: "test-timeBoundaryEid",
+        },
+        "eid-2": {
+          timeBoundaryEid: "test-timeBoundaryEid",
+        },
+      }
+
+      const expectedResponse = {
+        targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
+        amendingNormXml: "<xml>amending-norm-xml</xml>",
+      }
+
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValueOnce(new Response(JSON.stringify(expectedResponse)))
+
+      const { useUpdateMods } = await import("./ldmldeModService")
+
+      const { data, execute, isFetching } = useUpdateMods(eli, updatedMods)
+      expect(isFetching.value).toBe(false)
+      await execute()
+      expect(data.value).toEqual(expectedResponse)
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        `/api/v1/norms/${eli}/mods?`,
+        expect.objectContaining({
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(updatedMods),
+        }),
+      )
+    })
+
+    it("should reset isFinished once data changes", async () => {
+      vi.spyOn(global, "fetch").mockResolvedValueOnce(new Response("{}"))
+
+      const { useUpdateMods } = await import("./ldmldeModService")
+
+      const eli = ref("eli")
+      const { execute, isFinished } = useUpdateMods(eli, {
+        "eid-1": {
+          timeBoundaryEid: "test-timeBoundaryEid",
+        },
+      })
+      expect(isFinished.value).toBe(false)
+      await execute()
+      expect(isFinished.value).toBe(true)
+      eli.value = "new-eli"
+      await nextTick()
+      expect(isFinished.value).toBe(false)
+    })
+  })
 })

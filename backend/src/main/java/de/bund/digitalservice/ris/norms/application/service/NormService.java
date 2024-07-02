@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -29,6 +28,7 @@ public class NormService
         LoadNormXmlUseCase,
         UpdateNormXmlUseCase,
         LoadSpecificArticleXmlFromNormUseCase,
+        UpdateModUseCase,
         UpdateModsUseCase {
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
@@ -108,79 +108,153 @@ public class NormService
     }
   }
 
+  /**
+   * Updates the akn:mod with the given eId. The amendingNorm and zf0Norm are updated in place.
+   *
+   * @param amendingNorm the norm in which the akn:mod exists
+   * @param zf0Norm the zf0 version of the norm targeted by the akn:mod
+   * @param eId the eId of the akn:mod
+   * @param destinationHref the new destination href of the akn:mod
+   * @param timeBoundaryEId the eid of the new time-boundary of the akn:mod
+   * @param newText the new future text of the akn:mod
+   */
+  private void updateMods(
+      Norm amendingNorm,
+      Norm zf0Norm,
+      String eId,
+      String destinationHref,
+      String timeBoundaryEId,
+      String newText) {
+    var targetNormEli = new Href(destinationHref).getEli();
+    if (targetNormEli.isEmpty()) {
+      throw new IllegalArgumentException("The destinationHref does not contain a eli");
+    }
+
+    // Update active mods (meta and body) in amending law
+    updateNormService.updateActiveModifications(
+        new UpdateActiveModificationsUseCase.Query(
+            amendingNorm, eId, destinationHref, timeBoundaryEId, newText));
+
+    // Update passiv mods in ZF0
+    updateNormService.updatePassiveModifications(
+        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli.get()));
+
+    // Validate changes on ZF0
+    final Mod selectedMod =
+        amendingNorm.getMods().stream()
+            .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(eId))
+            .findFirst()
+            .orElseThrow(
+                () ->
+                    new ValidationException(
+                        "Did not find a textual mod in the norm %s"
+                            .formatted(amendingNorm.getEli())));
+    singleModValidator.validate(zf0Norm, selectedMod);
+  }
+
   @Override
   public Optional<UpdateModsUseCase.Result> updateMods(UpdateModsUseCase.Query query) {
 
+    if (query.mods().isEmpty()) {
+      return Optional.empty();
+    }
+
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-
     if (amendingNormOptional.isEmpty()) {
       return Optional.empty();
     }
     final Norm amendingNorm = amendingNormOptional.get();
 
-    // Map between a target norm eli, and it's zf0 norm. Used to ensure that all changes to a zf0
-    // modified by multiple mods are applied to the same norm.
-    final Map<String, Norm> zf0Norms = new HashMap<>();
+    final var targetNormEli =
+        amendingNorm
+            .getNodeByEId(query.mods().keySet().stream().findAny().orElseThrow())
+            .map(Mod::new)
+            .flatMap(Mod::getTargetHref)
+            .flatMap(Href::getEli);
+    if (targetNormEli.isEmpty()) {
+      return Optional.empty();
+    }
+
+    if (!query.mods().keySet().stream()
+        .allMatch(
+            eId -> {
+              final var mod = amendingNorm.getNodeByEId(eId).map(Mod::new);
+              final var eli = mod.flatMap(Mod::getTargetHref).flatMap(Href::getEli);
+              return eli.equals(targetNormEli);
+            })) {
+      throw new IllegalArgumentException("Not all mods have the same target norm");
+    }
+
+    final Norm targetNorm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(targetNormEli.get()))
+            .orElseThrow(() -> new NormNotFoundException(targetNormEli.get()));
+    final Norm zf0Norm =
+        loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
     for (Map.Entry<String, UpdateModsUseCase.NewModData> entry : query.mods().entrySet()) {
       final String eId = entry.getKey();
       final UpdateModsUseCase.NewModData newModData = entry.getValue();
+      final Mod mod = amendingNorm.getNodeByEId(eId).map(Mod::new).orElseThrow();
 
-      final var targetNormEli = new Href(newModData.destinationHref()).getEli();
-      if (targetNormEli.isEmpty()) {
-        return Optional.empty();
-      }
-
-      final var zf0Norm =
-          zf0Norms.computeIfAbsent(
-              targetNormEli.get(),
-              eli -> {
-                final Norm targetNorm =
-                    loadNormPort
-                        .loadNorm(new LoadNormPort.Command(eli))
-                        .orElseThrow(() -> new NormNotFoundException(targetNormEli.get()));
-                return loadZf0Service.loadOrCreateZf0(
-                    new LoadZf0UseCase.Query(amendingNorm, targetNorm));
-              });
-
-      // Update active mods (meta and body) in amending law
-      updateNormService.updateActiveModifications(
-          new UpdateActiveModificationsUseCase.Query(
-              amendingNorm,
-              eId,
-              newModData.destinationHref(),
-              newModData.timeBoundaryEid(),
-              newModData.newText()));
-
-      // Update passiv mods in ZF0
-      updateNormService.updatePassiveModifications(
-          new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli.get()));
-
-      // Validate changes on ZF0
-      final Mod selectedMod =
-          amendingNorm.getMods().stream()
-              .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(eId))
-              .findFirst()
-              .orElseThrow(
-                  () ->
-                      new ValidationException(
-                          "Did not find a textual mod in the norm %s"
-                              .formatted(amendingNorm.getEli())));
-      singleModValidator.validate(zf0Norm, selectedMod);
+      this.updateMods(
+          amendingNorm,
+          zf0Norm,
+          eId,
+          mod.getTargetHref().map(Href::value).orElse(null),
+          newModData.timeBoundaryEid(),
+          mod.getNewText().orElse(null));
     }
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
       updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
-      zf0Norms.values().stream()
-          .map(UpdateOrSaveNormPort.Command::new)
-          .forEach(updateOrSaveNormPort::updateOrSave);
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
 
     return Optional.of(
         new UpdateModsUseCase.Result(
             XmlMapper.toString(amendingNorm.getDocument()),
-            zf0Norms.values().stream().map(Norm::getDocument).map(XmlMapper::toString).toList()));
+            XmlMapper.toString(zf0Norm.getDocument())));
+  }
+
+  @Override
+  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
+    final Optional<Norm> amendingNormOptional =
+        loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    if (amendingNormOptional.isEmpty()) {
+      return Optional.empty();
+    }
+    final Norm amendingNorm = amendingNormOptional.get();
+
+    final var targetNormEli = new Href(query.destinationHref()).getEli();
+    if (targetNormEli.isEmpty()) {
+      return Optional.empty();
+    }
+
+    final Norm targetNorm =
+        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli.get())).orElseThrow();
+    final Norm zf0Norm =
+        loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
+
+    this.updateMods(
+        amendingNorm,
+        zf0Norm,
+        query.eid(),
+        query.destinationHref(),
+        query.timeBoundaryEid(),
+        query.newText());
+
+    // Don't save changes when dryRun (when preview is being generated but changes not saved)
+    if (!query.dryRun()) {
+      updateNormPort.updateNorm(new UpdateNormPort.Command(amendingNorm));
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
+    }
+
+    return Optional.of(
+        new UpdateModUseCase.Result(
+            XmlMapper.toString(amendingNorm.getDocument()),
+            XmlMapper.toString(zf0Norm.getDocument())));
   }
 }
