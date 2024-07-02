@@ -34,7 +34,7 @@ public class ProprietaryService
 
   @Override
   public Proprietary updateProprietaryFrameFromNorm(
-      UpdateProprietaryFrameFromNormUseCase.Query query) throws NormNotFoundException {
+      UpdateProprietaryFrameFromNormUseCase.Query query) {
     final Norm norm =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(query.eli()))
@@ -83,7 +83,7 @@ public class ProprietaryService
 
   @Override
   public Proprietary updateProprietarySingleElementFromNorm(
-      UpdateProprietarySingleElementFromNormUseCase.Query query) throws NormNotFoundException {
+      UpdateProprietarySingleElementFromNormUseCase.Query query) {
     final Norm norm =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(query.eli()))
