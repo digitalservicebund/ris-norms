@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -38,7 +38,7 @@ class ProprietaryControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
-  @MockBean private UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase;
+  @MockBean private UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase;
 
   @MockBean
   private UpdateProprietarySingleElementFromNormUseCase
@@ -185,7 +185,7 @@ class ProprietaryControllerTest {
                                                             """))
               .build();
 
-      when(updateProprietaryFromNormUseCase.updateProprietaryFrameFromNorm(any()))
+      when(updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(any()))
           .thenReturn(proprietary);
 
       // When // Then
@@ -217,7 +217,7 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("qualifizierteMehrheit").value(true))
           .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
-      verify(updateProprietaryFromNormUseCase, times(1))
+      verify(updateProprietaryFrameFromNormUseCase, times(1))
           .updateProprietaryFrameFromNorm(
               argThat(
                   query ->
@@ -248,7 +248,7 @@ class ProprietaryControllerTest {
       // given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
-      when(updateProprietaryFromNormUseCase.updateProprietaryFrameFromNorm(any()))
+      when(updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(any()))
           .thenThrow(new NormNotFoundException("Norm not found"));
 
       // When // Then

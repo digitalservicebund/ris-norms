@@ -6,7 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.Proprietary
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -27,16 +27,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProprietaryController {
 
   private final LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
-  private final UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase;
+  private final UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase;
   private final UpdateProprietarySingleElementFromNormUseCase
       updateProprietarySingleElementFromNormUseCase;
 
   public ProprietaryController(
       LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase,
-      UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase,
+      UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase,
       UpdateProprietarySingleElementFromNormUseCase updateProprietarySingleElementFromNormUseCase) {
     this.loadProprietaryFromNormUseCase = loadProprietaryFromNormUseCase;
-    this.updateProprietaryFromNormUseCase = updateProprietaryFromNormUseCase;
+    this.updateProprietaryFrameFromNormUseCase = updateProprietaryFrameFromNormUseCase;
     this.updateProprietarySingleElementFromNormUseCase =
         updateProprietarySingleElementFromNormUseCase;
   }
@@ -81,11 +81,11 @@ public class ProprietaryController {
       @RequestBody ProprietarySchema proprietarySchema) {
 
     var proprietary =
-        updateProprietaryFromNormUseCase.updateProprietaryFrameFromNorm(
-            new UpdateProprietaryFromNormUseCase.Query(
+        updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(
+            new UpdateProprietaryFrameFromNormUseCase.Query(
                 eli.getValue(),
                 atDate,
-                new UpdateProprietaryFromNormUseCase.Metadata(
+                new UpdateProprietaryFrameFromNormUseCase.Metadata(
                     proprietarySchema.getFna(),
                     proprietarySchema.getArt(),
                     proprietarySchema.getTyp(),

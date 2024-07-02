@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProprietaryService
     implements LoadProprietaryFromNormUseCase,
-        UpdateProprietaryFromNormUseCase,
+        UpdateProprietaryFrameFromNormUseCase,
         UpdateProprietarySingleElementFromNormUseCase {
 
   final LoadNormPort loadNormPort;
@@ -33,8 +33,8 @@ public class ProprietaryService
   }
 
   @Override
-  public Proprietary updateProprietaryFrameFromNorm(UpdateProprietaryFromNormUseCase.Query query)
-      throws NormNotFoundException {
+  public Proprietary updateProprietaryFrameFromNorm(
+      UpdateProprietaryFrameFromNormUseCase.Query query) throws NormNotFoundException {
     final Norm norm =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(query.eli()))

@@ -5,7 +5,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import java.time.LocalDate;
 
 /** Use case for updating metadata within the {@link Proprietary} node of a {@link Norm}. */
-public interface UpdateProprietaryFromNormUseCase {
+public interface UpdateProprietaryFrameFromNormUseCase {
   /**
    * Updates specific metadata from a {@link Norm}.
    *

@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
@@ -79,11 +79,11 @@ class ProprietaryServiceTest {
     void throwsNormNotFoundExceptionIfNormNotFound() {
       // given
       var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      UpdateProprietaryFromNormUseCase.Query query =
-          new UpdateProprietaryFromNormUseCase.Query(
+      UpdateProprietaryFrameFromNormUseCase.Query query =
+          new UpdateProprietaryFrameFromNormUseCase.Query(
               eli,
               LocalDate.parse("2003-01-01"),
-              new UpdateProprietaryFromNormUseCase.Metadata(
+              new UpdateProprietaryFrameFromNormUseCase.Metadata(
                   "fna", null, null, null, null, null, null, null, null, null, null));
       // when
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -104,10 +104,10 @@ class ProprietaryServiceTest {
       // when
       var result =
           proprietaryService.updateProprietaryFrameFromNorm(
-              new UpdateProprietaryFromNormUseCase.Query(
+              new UpdateProprietaryFrameFromNormUseCase.Query(
                   eli,
                   date,
-                  new UpdateProprietaryFromNormUseCase.Metadata(
+                  new UpdateProprietaryFrameFromNormUseCase.Metadata(
                       "fna", null, null, null, null, null, null, null, null, null, null)));
 
       // then
@@ -136,10 +136,10 @@ class ProprietaryServiceTest {
       // when
       var result =
           proprietaryService.updateProprietaryFrameFromNorm(
-              new UpdateProprietaryFromNormUseCase.Query(
+              new UpdateProprietaryFrameFromNormUseCase.Query(
                   eli,
                   date,
-                  new UpdateProprietaryFromNormUseCase.Metadata(
+                  new UpdateProprietaryFrameFromNormUseCase.Metadata(
                       "fna",
                       "art",
                       "typ",
@@ -179,10 +179,10 @@ class ProprietaryServiceTest {
       // when
       var result =
           proprietaryService.updateProprietaryFrameFromNorm(
-              new UpdateProprietaryFromNormUseCase.Query(
+              new UpdateProprietaryFrameFromNormUseCase.Query(
                   eli,
                   date,
-                  new UpdateProprietaryFromNormUseCase.Metadata(
+                  new UpdateProprietaryFrameFromNormUseCase.Metadata(
                       null, null, null, null, null, null, null, null, null, null, null)));
 
       // then
