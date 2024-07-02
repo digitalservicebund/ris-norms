@@ -51,6 +51,7 @@ const {
 const currentXml = ref("")
 const articleXml = computed(() => {
   if (!eid.value) return undefined
+  if (!currentXml.value) return undefined
 
   const xmlDocument = xmlStringToDocument(currentXml.value)
   const articleNode = getNodeByEid(xmlDocument, eid.value)
