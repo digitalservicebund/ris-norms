@@ -1,10 +1,13 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
 import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Class representing the meta:legalDocML.de_metadaten_ds */
@@ -106,7 +109,54 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
       final Einzelelement.Metadata metadatumSingleElement, final String eid, final LocalDate date) {
     return NodeParser.getNodeFromExpression(
             "./einzelelement[@href='#%s']".formatted(eid), this.getNode())
-        .flatMap(
-            node -> new Einzelelement(node).getFrameSimpleMetadatum(metadatumSingleElement, date));
+        .flatMap(node -> new Einzelelement(node).getSimpleMetadatum(metadatumSingleElement, date));
+  }
+
+  /**
+   * It updates the value for a specific metadata from a single element referenced by its eid for a
+   * specific date. If that specific single element was not introduced before, this method will
+   * create an "einzelement" node while referencing its origin eid in the href attribute.
+   *
+   * @param metadatumSingleElement the enum metadatum
+   * @param eid the eid of the single element
+   * @param date the selected date
+   * @param newValue the new value
+   */
+  public void updateSingleElementSimpleMetadatum(
+      final Einzelelement.Metadata metadatumSingleElement,
+      final String eid,
+      final LocalDate date,
+      final String newValue) {
+    NodeParser.getNodeFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
+        .ifPresentOrElse(
+            nodeFound -> {
+              Einzelelement e = new Einzelelement(nodeFound);
+              e.updateSimpleMetadatum(metadatumSingleElement, date, newValue);
+
+              var nodeList = nodeFound.getChildNodes();
+              boolean nodeIsEmpty = true;
+
+              // all child nodes need to be not of type ELEMENT_NODE
+              for (int i = 0; i < nodeList.getLength(); i++) {
+                if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                  nodeIsEmpty = false;
+                  break;
+                }
+              }
+
+              if (nodeIsEmpty) {
+                nodeFound.getParentNode().removeChild(nodeFound);
+              }
+            },
+            () -> {
+              if (StringUtils.isNotEmpty(newValue)) {
+                // Create and set the new element
+                final Element newElement =
+                    NodeCreator.createElement("einzelelement", this.getNode());
+                newElement.setAttribute("href", "#%s".formatted(eid));
+                new Einzelelement(newElement)
+                    .updateSimpleMetadatum(metadatumSingleElement, date, newValue);
+              }
+            });
   }
 }

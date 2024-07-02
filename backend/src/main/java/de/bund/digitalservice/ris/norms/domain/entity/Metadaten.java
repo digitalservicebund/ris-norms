@@ -38,7 +38,7 @@ public abstract class Metadaten<T extends MetadataInterface> {
    * @param date the specific date
    * @return an optional value, if found.
    */
-  public Optional<String> getFrameSimpleMetadatum(final T simpleMetadatum, final LocalDate date) {
+  public Optional<String> getSimpleMetadatum(final T simpleMetadatum, final LocalDate date) {
     return getSimpleNodeAt(simpleMetadatum, date).map(SimpleProprietary::getValue);
   }
 

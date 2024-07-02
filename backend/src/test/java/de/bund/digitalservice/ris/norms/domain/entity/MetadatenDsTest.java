@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,42 +29,42 @@ class MetadatenDsTest {
               .build();
 
       assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
+              metadatenDs.getSimpleMetadatum(
                   MetadatenDs.Metadata.FNA, LocalDate.parse("1980-01-01")))
           .isEmpty();
 
       assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
+              metadatenDs.getSimpleMetadatum(
                   MetadatenDs.Metadata.FNA, LocalDate.parse("1990-01-01")))
           .contains("111-11-1");
       assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
+              metadatenDs.getSimpleMetadatum(
                   MetadatenDs.Metadata.FNA, LocalDate.parse("1992-01-01")))
           .contains("111-11-1");
       assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
+              metadatenDs.getSimpleMetadatum(
                   MetadatenDs.Metadata.FNA, LocalDate.parse("1994-12-31")))
           .contains("111-11-1");
 
       assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
+              metadatenDs.getSimpleMetadatum(
                   MetadatenDs.Metadata.FNA, LocalDate.parse("1995-01-01")))
           .contains("222-22-2");
       assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
+              metadatenDs.getSimpleMetadatum(
                   MetadatenDs.Metadata.FNA, LocalDate.parse("1998-01-01")))
           .contains("222-22-2");
       assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
+              metadatenDs.getSimpleMetadatum(
                   MetadatenDs.Metadata.FNA, LocalDate.parse("2000-12-31")))
           .contains("222-22-2");
 
       assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
+              metadatenDs.getSimpleMetadatum(
                   MetadatenDs.Metadata.FNA, LocalDate.parse("2001-01-01")))
           .contains("333-33-3");
       assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
+              metadatenDs.getSimpleMetadatum(
                   MetadatenDs.Metadata.FNA, LocalDate.parse("2024-01-01")))
           .contains("333-33-3");
     }
@@ -89,12 +90,12 @@ class MetadatenDsTest {
 
       final LocalDate newDate = LocalDate.parse("1990-01-01");
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("111-11-1");
 
       metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("000-00-0");
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
     }
@@ -114,12 +115,12 @@ class MetadatenDsTest {
 
       final LocalDate newDate = LocalDate.parse("1980-01-01");
 
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).isEmpty();
 
       metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("000-00-0");
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(1);
 
@@ -145,12 +146,12 @@ class MetadatenDsTest {
               .build();
 
       final LocalDate newDate = LocalDate.parse("1980-01-01");
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
 
       metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("000-00-0");
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(4);
 
@@ -176,13 +177,13 @@ class MetadatenDsTest {
               .build();
 
       final LocalDate newDate = LocalDate.parse("2005-01-01");
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("333-33-3");
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
 
       metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, "000-00-0");
 
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("000-00-0");
       final List<SimpleProprietary> fnaValues =
           metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath());
@@ -216,13 +217,13 @@ class MetadatenDsTest {
               .build();
 
       final LocalDate newDate = LocalDate.parse("2005-01-01");
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate))
           .contains("subtyp0");
       assertThat(metadatenDs.getNodes("./subtyp")).hasSize(1);
 
       metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate, "subtyp1");
 
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate))
           .contains("subtyp1");
       final List<SimpleProprietary> subtypValues = metadatenDs.getNodes("./subtyp");
       assertThat(subtypValues).hasSize(2);
@@ -232,9 +233,7 @@ class MetadatenDsTest {
           .findFirst()
           .map(m -> assertThat(m.getEnd()).contains(LocalDate.MAX));
 
-      assertThat(
-              metadatenDs.getFrameSimpleMetadatum(
-                  MetadatenDs.Metadata.SUBTYP, newDate.minusDays(1)))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, newDate.minusDays(1)))
           .contains("subtyp0");
     }
 
@@ -254,13 +253,13 @@ class MetadatenDsTest {
               .build();
 
       final LocalDate newDate = LocalDate.parse("1995-01-01");
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate))
           .contains("222-22-2");
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(3);
 
       metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, null);
 
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(2);
     }
 
@@ -279,12 +278,12 @@ class MetadatenDsTest {
               .build();
 
       final LocalDate newDate = LocalDate.parse("1995-01-01");
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(2);
 
       metadatenDs.updateSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate, null);
 
-      assertThat(metadatenDs.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
+      assertThat(metadatenDs.getSimpleMetadatum(MetadatenDs.Metadata.FNA, newDate)).isEmpty();
       assertThat(metadatenDs.getNodes(MetadatenDs.Metadata.FNA.getXpath())).hasSize(2);
     }
   }
@@ -466,7 +465,7 @@ class MetadatenDsTest {
   }
 
   @Nested
-  class getMetadatenDsSingleElement {
+  class getMetadatenDsEinzelelement {
     @Test
     void getEinzelelementArtDerNormAtDate() {
       var eid = "hauptteil-1_abschnitt-0_para-1";
@@ -524,6 +523,142 @@ class MetadatenDsTest {
               metadatenDs.getSingleElementSimpleMetadatum(
                   Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("2024-01-01")))
           .contains("ÜN");
+    }
+  }
+
+  @Nested
+  class updateMetadatenDsEinzelelement {
+    @Test
+    void createEinzelelementNode() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                </meta:legalDocML.de_metadaten_ds>
+                            """))
+              .build();
+
+      metadatenDs.updateSingleElementSimpleMetadatum(
+          Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1980-01-01"), "SN");
+
+      assertThat(
+              metadatenDs.getSingleElementSimpleMetadatum(
+                  Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1980-01-01")))
+          .contains("SN");
+    }
+
+    @Test
+    void updateEinzelelementBetweenDates() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                        <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                    </meta:einzelelement>
+                                  </meta:legalDocML.de_metadaten_ds>
+                              """))
+              .build();
+
+      metadatenDs.updateSingleElementSimpleMetadatum(
+          Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1992-01-01"), "ÄN");
+
+      assertThat(
+              metadatenDs.getSingleElementSimpleMetadatum(
+                  Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1992-01-01")))
+          .contains("ÄN");
+    }
+
+    @Test
+    void updateEinzelelementAtStartDate() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                        <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                    </meta:einzelelement>
+                                  </meta:legalDocML.de_metadaten_ds>
+                              """))
+              .build();
+
+      metadatenDs.updateSingleElementSimpleMetadatum(
+          Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1990-01-01"), "ÜN");
+
+      assertThat(
+              metadatenDs.getSingleElementSimpleMetadatum(
+                  Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1990-01-01")))
+          .contains("ÜN");
+    }
+
+    @Test
+    void resetEinzelelementAtDate() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                        <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                        <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                        <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                    </meta:einzelelement>
+                                  </meta:legalDocML.de_metadaten_ds>
+                              """))
+              .build();
+
+      metadatenDs.updateSingleElementSimpleMetadatum(
+          Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1990-01-01"), null);
+
+      assertThat(
+              metadatenDs.getSingleElementSimpleMetadatum(
+                  Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1990-01-01")))
+          .isEmpty();
+    }
+
+    @Test
+    void resetLastEinzelelementAtDate() {
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final MetadatenDs metadatenDs =
+          MetadatenDs.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                        <meta:artDerNorm end="unbestimmt" start="1980-01-01">SN</meta:artDerNorm>
+                                    </meta:einzelelement>
+                                  </meta:legalDocML.de_metadaten_ds>
+                              """))
+              .build();
+
+      metadatenDs.updateSingleElementSimpleMetadatum(
+          Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1980-01-01"), null);
+
+      assertThat(
+              metadatenDs.getSingleElementSimpleMetadatum(
+                  Einzelelement.Metadata.ART_DER_NORM, eid, LocalDate.parse("1980-01-01")))
+          .isEmpty();
+
+      assertThat(
+              NodeParser.getNodeFromExpression(
+                  "./einzelelement[@href='#%s']".formatted(eid), metadatenDs.getNode()))
+          .isEmpty();
     }
   }
 }

@@ -1,27 +1,29 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryFrameSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import java.time.LocalDate;
 
 /**
- * Mapper class for converting between {@link Proprietary} metadata and {@link ProprietarySchema}.
+ * Mapper class for converting between {@link Proprietary} metadata and {@link
+ * ProprietaryFrameSchema}.
  */
 public class ProprietaryResponseMapper {
   // Private constructor to hide the implicit public one and prevent instantiation
   private ProprietaryResponseMapper() {}
 
   /**
-   * Creates a {@link ProprietarySchema} from {@link Proprietary} metadata but getting the metadata
-   * at specific dates.
+   * Creates a {@link ProprietaryFrameSchema} from {@link Proprietary} metadata but getting the
+   * metadata at specific dates.
    *
    * @param proprietary Input data to be converted
    * @param date the specific date
    * @return Converted data
    */
-  public static ProprietarySchema fromProprietary(Proprietary proprietary, final LocalDate date) {
-    return ProprietarySchema.builder()
+  public static ProprietaryFrameSchema fromProprietary(
+      Proprietary proprietary, final LocalDate date) {
+    return ProprietaryFrameSchema.builder()
         .fna(proprietary.getFna(date).orElse(null))
         .art(proprietary.getArt(date).orElse(null))
         .typ(proprietary.getTyp(date).orElse(null))

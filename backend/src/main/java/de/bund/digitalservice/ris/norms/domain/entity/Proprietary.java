@@ -91,7 +91,7 @@ public class Proprietary {
    */
   public Optional<String> getFna(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDs.Metadata.FNA, date))
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.FNA, date))
         .or(this::getFna);
   }
 
@@ -108,7 +108,7 @@ public class Proprietary {
    */
   public Optional<String> getArt(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDs.Metadata.ART, date))
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ART, date))
         .or(this::getArt);
   }
 
@@ -125,7 +125,7 @@ public class Proprietary {
    */
   public Optional<String> getTyp(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDs.Metadata.TYP, date))
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.TYP, date))
         .or(this::getTyp);
   }
 
@@ -136,8 +136,7 @@ public class Proprietary {
    * @return Subtyp or empty if it doesn't exist.
    */
   public Optional<String> getSubtyp(final LocalDate date) {
-    return getMetadatenDs()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, date));
+    return getMetadatenDs().flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.SUBTYP, date));
   }
 
   /**
@@ -149,7 +148,7 @@ public class Proprietary {
    */
   public Optional<String> getBezeichnungInVorlage(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDs.Metadata.BEZEICHNUNG_IN_VORLAGE, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.BEZEICHNUNG_IN_VORLAGE, date));
   }
 
   /**
@@ -161,7 +160,7 @@ public class Proprietary {
    */
   public Optional<String> getArtDerNorm(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDs.Metadata.ART_DER_NORM, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ART_DER_NORM, date));
   }
 
   /**
@@ -186,7 +185,7 @@ public class Proprietary {
    */
   public Optional<String> getNormgeber(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDs.Metadata.NORMGEBER, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.NORMGEBER, date));
   }
 
   /**
@@ -198,7 +197,7 @@ public class Proprietary {
    */
   public Optional<String> getBeschliessendesOrgan(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDs.Metadata.BESCHLIESSENDES_ORGAN, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.BESCHLIESSENDES_ORGAN, date));
   }
 
   /**
@@ -226,7 +225,7 @@ public class Proprietary {
    */
   public Optional<String> getFederfuehrung(final LocalDate date) {
     return getMetadatenDe()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, date));
   }
 
   /**
@@ -238,6 +237,6 @@ public class Proprietary {
    */
   public Optional<String> getOrganisationsEinheit(final LocalDate date) {
     return getMetadatenDs()
-        .flatMap(m -> m.getFrameSimpleMetadatum(MetadatenDs.Metadata.ORGANISATIONS_EINHEIT, date));
+        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.ORGANISATIONS_EINHEIT, date));
   }
 }

@@ -11,7 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromNormUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromNormUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
@@ -37,7 +38,11 @@ class ProprietaryControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadProprietaryFromNormUseCase loadProprietaryFromNormUseCase;
-  @MockBean private UpdateProprietaryFromNormUseCase updateProprietaryFromNormUseCase;
+  @MockBean private UpdateProprietaryFrameFromNormUseCase updateProprietaryFrameFromNormUseCase;
+
+  @MockBean
+  private UpdateProprietarySingleElementFromNormUseCase
+      updateProprietarySingleElementFromNormUseCase;
 
   @Nested
   class getProprietaryAtDate {
@@ -150,7 +155,7 @@ class ProprietaryControllerTest {
   }
 
   @Nested
-  class updateProprietaryAtDate {
+  class updateProprietaryFrameAtDate {
 
     @Test
     void updatesProprietarySuccess() throws Exception {
@@ -180,7 +185,7 @@ class ProprietaryControllerTest {
                                                             """))
               .build();
 
-      when(updateProprietaryFromNormUseCase.updateProprietaryFromNorm(any()))
+      when(updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(any()))
           .thenReturn(proprietary);
 
       // When // Then
@@ -212,8 +217,8 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("qualifizierteMehrheit").value(true))
           .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
-      verify(updateProprietaryFromNormUseCase, times(1))
-          .updateProprietaryFromNorm(
+      verify(updateProprietaryFrameFromNormUseCase, times(1))
+          .updateProprietaryFrameFromNorm(
               argThat(
                   query ->
                       query
@@ -243,7 +248,7 @@ class ProprietaryControllerTest {
       // given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
-      when(updateProprietaryFromNormUseCase.updateProprietaryFromNorm(any()))
+      when(updateProprietaryFrameFromNormUseCase.updateProprietaryFrameFromNorm(any()))
           .thenThrow(new NormNotFoundException("Norm not found"));
 
       // When // Then
@@ -351,6 +356,81 @@ class ProprietaryControllerTest {
           // then
           .andExpect(status().isOk())
           .andExpect(jsonPath("artDerNorm").isEmpty());
+    }
+  }
+
+  @Nested
+  class updateProprietarySingleElementAtDate {
+
+    @Test
+    void updatesProprietarySuccess() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final LocalDate date = LocalDate.parse("1990-01-01");
+
+      final Proprietary proprietary =
+          Proprietary.builder()
+              .node(
+                  XmlMapper.toNode(
+                      """
+                                              <akn:proprietary eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                                                  <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
+                                                      <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN,ÄN,ÜN</meta:artDerNorm>
+                                                      <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                                                          <meta:artDerNorm start="1990-01-01" end="1994-12-31">SN</meta:artDerNorm>
+                                                          <meta:artDerNorm start="1995-01-01" end="2000-12-31">ÄN</meta:artDerNorm>
+                                                          <meta:artDerNorm start="2001-01-01">ÜN</meta:artDerNorm>
+                                                      </meta:einzelelement>
+                                                  </meta:legalDocML.de_metadaten_ds>
+                                              </akn:proprietary>
+                                              """))
+              .build();
+
+      when(updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(
+              any()))
+          .thenReturn(proprietary);
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{eid}/{date}", eli, eid, date.toString())
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("{\"artDerNorm\": \"SN\"}"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("artDerNorm").value("SN"));
+
+      verify(updateProprietarySingleElementFromNormUseCase, times(1))
+          .updateProprietarySingleElementFromNorm(
+              argThat(
+                  query ->
+                      query
+                              .eli()
+                              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+                          && query.eid().equals(eid)
+                          && query.atDate().isEqual(date)
+                          && query.metadata().artDerNorm().equals("SN")));
+    }
+
+    @Test
+    void itReturnsNotFoundIfNormIsNotFound() throws Exception {
+      // given
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      when(updateProprietarySingleElementFromNormUseCase.updateProprietarySingleElementFromNorm(
+              any()))
+          .thenThrow(new NormNotFoundException("Norm not found"));
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{eid}/{date}", eli, eid, "1990-01-01")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("{\"artDerNorm\": \"SN\"}"))
+          .andExpect(status().isNotFound());
     }
   }
 }
