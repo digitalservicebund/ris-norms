@@ -34,6 +34,13 @@ const {
     error: previewError,
     isFetching: isFetchingPreviewData,
   },
+  update: {
+    data: updateData,
+    execute: update,
+    error: saveError,
+    isFetching: isUpdating,
+    isFinished: isUpdatingFinished,
+  },
 } = useMods(
   eli,
   computed(() => props.selectedMods),
@@ -112,6 +119,13 @@ watch(previewData, () => {
   previewXml.value = previewData.value.targetNormZf0Xml
 })
 
+watch(updateData, () => {
+  if (!updateData.value) return
+
+  xml.value = updateData.value.amendingNormXml
+  previewXml.value = updateData.value.targetNormZf0Xml
+})
+
 watch(
   () => props.selectedMods,
   () => {
@@ -163,18 +177,22 @@ watch(
         <div class="relative">
           <RisTooltip
             v-slot="{ ariaDescribedby }"
-            :visible="false"
-            :title="'Fehler beim Speichern'"
+            :visible="isUpdatingFinished"
+            :title="
+              saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'
+            "
             alignment="right"
             attachment="top"
-            :variant="'error'"
+            :variant="saveError ? 'error' : 'success'"
             allow-dismiss
           >
             <RisTextButton
               :aria-describedby="ariaDescribedby"
               label="Speichern"
               :icon="CheckIcon"
-              disabled
+              :loading="isUpdating"
+              :disabled="timeBoundary === 'multiple'"
+              @click.prevent="update"
             />
           </RisTooltip>
         </div>

@@ -133,7 +133,7 @@ describe("useMods", () => {
     expect(mods.value[0].timeBoundary?.date).toBe("2022-02-02")
   })
 
-  test("should create preview using useUpdateMods", async () => {
+  test("should create preview and update using useUpdateMods", async () => {
     const useUpdateMods = vi.fn()
 
     vi.doMock("@/services/ldmldeModService", () => ({
@@ -145,5 +145,6 @@ describe("useMods", () => {
     useMods("eli", ["eid-1", "eid-2"], `<xml></xml>`)
 
     expect(useUpdateMods).toHaveBeenCalledWith("eli", expect.anything(), true)
+    expect(useUpdateMods).toHaveBeenCalledWith("eli", expect.anything(), false)
   })
 })

@@ -28,6 +28,10 @@ export function useMods(
     amendingNormXml: string
     targetNormZf0Xml: string
   }>
+  update: UseFetchReturn<{
+    amendingNormXml: string
+    targetNormZf0Xml: string
+  }>
 } {
   const normDocument = computed(() => {
     const xmlValue = toValue(xml)
@@ -71,9 +75,11 @@ export function useMods(
   })
 
   const preview = useUpdateMods(eli, modsData, true)
+  const update = useUpdateMods(eli, modsData, false)
 
   return {
     data: mods,
     preview,
+    update,
   }
 }
