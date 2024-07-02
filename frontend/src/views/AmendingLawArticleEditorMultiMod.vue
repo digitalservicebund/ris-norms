@@ -171,6 +171,7 @@ watch(
         <RisTextButton
           label="Vorschau"
           variant="tertiary"
+          :disabled="timeBoundary === 'multiple'"
           @click.prevent="preview"
         />
 
