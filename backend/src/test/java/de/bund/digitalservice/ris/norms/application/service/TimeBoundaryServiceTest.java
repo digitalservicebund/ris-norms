@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -340,11 +340,13 @@ class TimeBoundaryServiceTest {
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
-      assertThrows(
-          NormNotFoundException.class,
-          () ->
-              service.loadTimeBoundariesAmendedBy(
-                  new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendedBy)));
+      Throwable thrown =
+          catchThrowable(
+              () ->
+                  service.loadTimeBoundariesAmendedBy(
+                      new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendedBy)));
+
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
   }
 

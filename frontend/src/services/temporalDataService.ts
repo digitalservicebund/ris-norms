@@ -50,7 +50,9 @@ export function useGetTemporalDataTimeBoundaries(
     const amendedByVal = toValue(options?.amendedBy)
     const query = new URLSearchParams()
     if (amendedByVal) query.append("amendedBy", amendedByVal)
-    return `/norms/${eliVal}/timeBoundaries${query.toString() ? `?${query.toString()}` : ""}`
+    const queryString = query.toString()
+    const baseUrl = `/norms/${eliVal}/timeBoundaries`
+    return queryString ? `${baseUrl}?${queryString}` : baseUrl
   })
   return useApiFetch(url, {
     refetch: true,
