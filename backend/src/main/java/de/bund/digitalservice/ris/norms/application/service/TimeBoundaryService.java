@@ -40,21 +40,21 @@ public class TimeBoundaryService
   public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query) {
     return loadNormPort
         .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(Norm::getTimeBoundaries)
-        .orElse(List.of());
+        .orElseThrow(() -> new NormNotFoundException(query.eli()))
+        .getTimeBoundaries();
   }
 
   @Override
   public List<TimeBoundary> loadTimeBoundariesAmendedBy(
       LoadTimeBoundariesAmendedByUseCase.Query query) {
 
-    final Norm zf0Norm =
+    final Norm norm =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(query.eli()))
             .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     final List<String> temporalGroupEidAmendedBy =
-        zf0Norm.getMeta().getOrCreateAnalysis().getPassiveModifications().stream()
+        norm.getMeta().getOrCreateAnalysis().getPassiveModifications().stream()
             .filter(
                 f ->
                     f.getSourceHref()
@@ -68,10 +68,10 @@ public class TimeBoundaryService
             .toList();
 
     final List<TemporalGroup> temporalGroups =
-        zf0Norm.getMeta().getTemporalData().getTemporalGroups().stream()
+        norm.getMeta().getTemporalData().getTemporalGroups().stream()
             .filter(f -> temporalGroupEidAmendedBy.contains(f.getEid().orElseThrow()))
             .toList();
-    return zf0Norm.getTimeBoundaries(temporalGroups);
+    return norm.getTimeBoundaries(temporalGroups);
   }
 
   /**
