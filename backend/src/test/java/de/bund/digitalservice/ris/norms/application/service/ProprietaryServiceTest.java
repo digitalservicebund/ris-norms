@@ -16,7 +16,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import java.time.LocalDate;
 import java.util.Optional;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -272,12 +271,11 @@ class ProprietaryServiceTest {
     }
 
     @Test
-    @Disabled("TODO disabled because it doesn't work and I'm not sure if it shall work")
     void resetsAllFields() {
       // given
       var eid = "hauptteil-1_abschnitt-0_para-1";
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var date = LocalDate.parse("2003-01-01");
+      var date = LocalDate.parse("1980-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
           .thenReturn(Optional.of(normWithProprietary));
