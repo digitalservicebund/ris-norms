@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import java.util.Map;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -27,13 +27,13 @@ public interface UpdateModsUseCase {
    * A record representing the query for updating multiple amending command.
    *
    * @param eli - the ELI of the amending law
-   * @param mods - a map between eIds of akn:mod elements within the amending law and the new data
+   * @param mods - a collection of eIds of akn:mod elements within the amending law and the new data
    *     for the mods
    * @param dryRun - if true the updating is executed but the results are discarded and not saved.
    *     Default: false
    */
-  record Query(String eli, Map<String, NewModData> mods, boolean dryRun) {
-    public Query(String eli, Map<String, NewModData> mods) {
+  record Query(String eli, Collection<NewModData> mods, boolean dryRun) {
+    public Query(String eli, Collection<NewModData> mods) {
       this(eli, mods, false);
     }
   }
@@ -41,9 +41,10 @@ public interface UpdateModsUseCase {
   /**
    * A record representing the new data for an akn:mod element.
    *
-   * @param timeBoundaryEid - the eId of the temporal group of the time boundary
+   * @param eId - the eId of the akn:mod element to modify
+   * @param timeBoundaryEId - the eId of the temporal group of the time boundary
    */
-  record NewModData(String timeBoundaryEid) {}
+  record NewModData(String eId, String timeBoundaryEId) {}
 
   /**
    * The results of updating an amending command. Includes both the updated amending norm and the

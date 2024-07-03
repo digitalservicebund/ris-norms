@@ -19,7 +19,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -767,7 +767,7 @@ class NormServiceTest {
       var result =
           service.updateMods(
               new UpdateModsUseCase.Query(
-                  eli, Map.of("eid", new UpdateModsUseCase.NewModData("time-boundary-eid"))));
+                  eli, List.of(new UpdateModsUseCase.NewModData("eid", "time-boundary-eid"))));
 
       // Then
       verify(loadNormPort, times(1))
@@ -808,9 +808,10 @@ class NormServiceTest {
       service.updateMods(
           new UpdateModsUseCase.Query(
               amendingNormEli,
-              Map.of(
-                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
-                  new UpdateModsUseCase.NewModData(newTimeBoundaryEid)),
+              List.of(
+                  new UpdateModsUseCase.NewModData(
+                      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                      newTimeBoundaryEid)),
               false));
 
       // Then
@@ -842,7 +843,7 @@ class NormServiceTest {
           service.updateMods(
               new UpdateModsUseCase.Query(
                   amendingNormEli,
-                  Map.of(eId, new UpdateModsUseCase.NewModData(newTimeBoundaryEid)),
+                  List.of(new UpdateModsUseCase.NewModData(eId, newTimeBoundaryEid)),
                   false));
 
       // Then
@@ -906,11 +907,13 @@ class NormServiceTest {
           service.updateMods(
               new UpdateModsUseCase.Query(
                   amendingNormEli,
-                  Map.of(
-                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
-                      new UpdateModsUseCase.NewModData("#meta-1_geltzeiten-1_geltungszeitgr-1"),
-                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1",
-                      new UpdateModsUseCase.NewModData("#meta-1_geltzeiten-1_geltungszeitgr-1")),
+                  List.of(
+                      new UpdateModsUseCase.NewModData(
+                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                          "#meta-1_geltzeiten-1_geltungszeitgr-1"),
+                      new UpdateModsUseCase.NewModData(
+                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1",
+                          "#meta-1_geltzeiten-1_geltungszeitgr-1")),
                   false));
 
       // Then

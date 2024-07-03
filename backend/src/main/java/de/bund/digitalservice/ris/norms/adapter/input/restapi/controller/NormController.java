@@ -18,7 +18,6 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -246,12 +245,11 @@ public class NormController {
             new UpdateModsUseCase.Query(
                 eli.getValue(),
                 updateModsRequestSchema.entrySet().stream()
-                    .collect(
-                        Collectors.toMap(
-                            Map.Entry::getKey,
-                            entry ->
-                                new UpdateModsUseCase.NewModData(
-                                    entry.getValue().timeBoundaryEid()))),
+                    .map(
+                        entry ->
+                            new UpdateModsUseCase.NewModData(
+                                entry.getKey(), entry.getValue().timeBoundaryEid()))
+                    .toList(),
                 dryRun))
         .map(UpdateModsResponseMapper::fromResult)
         .map(ResponseEntity::ok)

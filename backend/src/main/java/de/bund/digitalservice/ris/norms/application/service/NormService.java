@@ -12,7 +12,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -168,7 +167,7 @@ public class NormService
 
     final var targetNormEli =
         amendingNorm
-            .getNodeByEId(query.mods().keySet().stream().findAny().orElseThrow())
+            .getNodeByEId(query.mods().stream().findAny().orElseThrow().eId())
             .map(Mod::new)
             .flatMap(Mod::getTargetHref)
             .flatMap(Href::getEli);
@@ -176,10 +175,10 @@ public class NormService
       return Optional.empty();
     }
 
-    if (!query.mods().keySet().stream()
+    if (!query.mods().stream()
         .allMatch(
-            eId -> {
-              final var mod = amendingNorm.getNodeByEId(eId).map(Mod::new);
+            modData -> {
+              final var mod = amendingNorm.getNodeByEId(modData.eId()).map(Mod::new);
               final var eli = mod.flatMap(Mod::getTargetHref).flatMap(Href::getEli);
               return eli.equals(targetNormEli);
             })) {
@@ -193,19 +192,21 @@ public class NormService
     final Norm zf0Norm =
         loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
-    for (Map.Entry<String, UpdateModsUseCase.NewModData> entry : query.mods().entrySet()) {
-      final String eId = entry.getKey();
-      final UpdateModsUseCase.NewModData newModData = entry.getValue();
-      final Mod mod = amendingNorm.getNodeByEId(eId).map(Mod::new).orElseThrow();
+    query
+        .mods()
+        .forEach(
+            newModData -> {
+              final Mod mod =
+                  amendingNorm.getNodeByEId(newModData.eId()).map(Mod::new).orElseThrow();
 
-      this.updateModInPlace(
-          amendingNorm,
-          zf0Norm,
-          eId,
-          mod.getTargetHref().map(Href::value).orElse(null),
-          newModData.timeBoundaryEid(),
-          mod.getNewText().orElse(null));
-    }
+              this.updateModInPlace(
+                  amendingNorm,
+                  zf0Norm,
+                  newModData.eId(),
+                  mod.getTargetHref().map(Href::value).orElse(null),
+                  newModData.timeBoundaryEId(),
+                  mod.getNewText().orElse(null));
+            });
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
