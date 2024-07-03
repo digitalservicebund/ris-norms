@@ -53,47 +53,47 @@ VALUES ('e7abd358-32cb-4fc2-8a1a-b033961f3708', 'eli/bund/bgbl-1/1001/2/1001-02-
           </akn:textualMod>
           <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="fbf0225d-37c3-4603-b851-627ba9f90f30" type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="828bede0-5d47-4f38-812a-5d37bdd92d82" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"></akn:source>
-            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" GUID="66594ba2-0d9a-4680-b1a2-48a134ba013e" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml"></akn:destination>
+            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" GUID="66594ba2-0d9a-4680-b1a2-48a134ba013e" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-2_inhalt-1_text-1/29-36.xml"></akn:destination>
             <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" GUID="6c653919-35ad-47fc-ae34-ce2b175ea298" period="#meta-1_geltzeiten-1_geltungszeitgr-1"></akn:force>
           </akn:textualMod>
           <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-3" GUID="02165fe9-81f8-4306-a9f5-777a46c0c351" type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-3_source-1" GUID="89b038cc-f255-4cc5-8f22-0bb0a0e5b998" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1"></akn:source>
-            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-3_destination-1" GUID="98b8c5de-9cfa-4cf6-a3ee-96b6d15331b9" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml"></akn:destination>
+            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-3_destination-1" GUID="98b8c5de-9cfa-4cf6-a3ee-96b6d15331b9" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-3_inhalt-1_text-1/29-36.xml"></akn:destination>
             <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-3_gelzeitnachw-1" GUID="70fdf551-ceb7-4678-be64-3e3a66d89a18" period="#meta-1_geltzeiten-1_geltungszeitgr-1"></akn:force>
           </akn:textualMod>
           <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-4" GUID="b971343a-e55e-4022-8a5e-843c028598ad" type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-4_source-1" GUID="c68e47d1-ef47-4cf8-86f0-2307d4463b82" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_inhalt-1_text-1_ändbefehl-1"></akn:source>
-            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-4_destination-1" GUID="338edcbf-f159-46b3-a2d6-f030e56db0dc" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml"></akn:destination>
+            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-4_destination-1" GUID="338edcbf-f159-46b3-a2d6-f030e56db0dc" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-4_inhalt-1_text-1/29-36.xml"></akn:destination>
             <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-4_gelzeitnachw-1" GUID="1450ed7e-7582-45e1-b87d-415996a6708a" period="#meta-1_geltzeiten-1_geltungszeitgr-1"></akn:force>
           </akn:textualMod>
           <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-5" GUID="f4f28141-ef8c-4f03-a00f-c42f270a7d65" type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-5_source-1" GUID="b8a91795-278e-45c9-bfd9-05c2bc601dce" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_inhalt-1_text-1_ändbefehl-1"></akn:source>
-            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-5_destination-1" GUID="15d145bc-6276-4ff6-8038-1720d2057856" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml"></akn:destination>
+            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-5_destination-1" GUID="15d145bc-6276-4ff6-8038-1720d2057856" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-5_inhalt-1_text-1/29-36.xml"></akn:destination>
             <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-5_gelzeitnachw-1" GUID="481379f7-57f8-4fbc-9e40-e682bb3b3620" period="#meta-1_geltzeiten-1_geltungszeitgr-1"></akn:force>
           </akn:textualMod>
           <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-6" GUID="7dedbf83-0a23-4d6e-9775-7490dd17030a" type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-6_source-1" GUID="37f758a4-edf7-482e-a60b-42ca741a646a" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-6_inhalt-1_text-1_ändbefehl-1"></akn:source>
-            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-6_destination-1" GUID="61b33a97-5a4a-42bd-8327-2544ab4f2eb5" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml"></akn:destination>
+            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-6_destination-1" GUID="61b33a97-5a4a-42bd-8327-2544ab4f2eb5" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-6_inhalt-1_text-1/29-36.xml"></akn:destination>
             <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-6_gelzeitnachw-1" GUID="afeb1c64-cb4b-4ff4-923c-f84bfd9c61b3" period="#meta-1_geltzeiten-1_geltungszeitgr-1"></akn:force>
           </akn:textualMod>
           <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-7" GUID="26c21156-f877-40bc-88b2-22c92819e694" type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-7_source-1" GUID="20b75521-c023-4769-b759-f04e9eca4b8b" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-7_inhalt-1_text-1_ändbefehl-1"></akn:source>
-            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-7_destination-1" GUID="d176c546-27c7-4ee8-a244-67b4b11bc624" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml"></akn:destination>
+            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-7_destination-1" GUID="d176c546-27c7-4ee8-a244-67b4b11bc624" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-7_inhalt-1_text-1/29-36.xml"></akn:destination>
             <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-7_gelzeitnachw-1" GUID="f36eec63-c115-477f-b47c-2ccd38311596" period="#meta-1_geltzeiten-1_geltungszeitgr-1"></akn:force>
           </akn:textualMod>
           <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-8" GUID="41e5b919-8db8-4a3b-8521-baf0882ec430" type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-8_source-1" GUID="f659a5a6-97fb-4855-8a72-34da38c8942a" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1"></akn:source>
-            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-8_destination-1" GUID="0447cf32-ab6c-42ac-b30d-47f9f79555c3" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml"></akn:destination>
+            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-8_destination-1" GUID="0447cf32-ab6c-42ac-b30d-47f9f79555c3" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-8_inhalt-1_text-1/29-36.xml"></akn:destination>
             <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-8_gelzeitnachw-1" GUID="cb945cd1-1521-4a37-80d7-ef5e3ac91669" period="#meta-1_geltzeiten-1_geltungszeitgr-1"></akn:force>
           </akn:textualMod>
           <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-9" GUID="cb8aae73-3bcf-4abc-99c4-cd19b587b439" type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-9_source-1" GUID="dbbbefb3-c857-4024-a03a-264515105be1" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1"></akn:source>
-            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-9_destination-1" GUID="d934e0e5-6ec7-4c84-a911-2923b4a73339" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml"></akn:destination>
+            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-9_destination-1" GUID="d934e0e5-6ec7-4c84-a911-2923b4a73339" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-9_inhalt-1_text-1/29-36.xml"></akn:destination>
             <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-9_gelzeitnachw-1" GUID="7c76d439-ea69-48aa-b927-a56a8995608b" period="#meta-1_geltzeiten-1_geltungszeitgr-1"></akn:force>
           </akn:textualMod>
           <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-10" GUID="2b00350d-6b68-4a4a-9761-edbe89c0a15f" type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-10_source-1" GUID="fbfdf6c4-ee9c-41cc-9cc4-a3a11bd18d3c" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-10_inhalt-1_text-1_ändbefehl-1"></akn:source>
-            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-10_destination-1" GUID="9af11846-3f34-4adb-8e94-d542cd31a735" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-37.xml"></akn:destination>
+            <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-10_destination-1" GUID="9af11846-3f34-4adb-8e94-d542cd31a735" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-10_inhalt-1_text-1/29-37.xml"></akn:destination>
             <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-10_gelzeitnachw-1" GUID="cd00feef-9296-4698-9421-f4d2d3ba0d42" period="#meta-1_geltzeiten-1_geltungszeitgr-1"></akn:force>
           </akn:textualMod>
         </akn:activeModifications>

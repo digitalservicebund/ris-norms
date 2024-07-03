@@ -2,7 +2,7 @@ import { RahmenProprietary } from "@/types/proprietary"
 import { Locator, Page, expect, test } from "@playwright/test"
 
 async function restoreInitialState(page: Page) {
-  const dataIn1970: RahmenProprietary = {
+  const dataIn2015: RahmenProprietary = {
     fna: "210-5",
     art: "regelungstext",
     typ: "gesetz",
@@ -31,8 +31,8 @@ async function restoreInitialState(page: Page) {
   }
 
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1970-01-01",
-    { data: dataIn1970 },
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2015-06-01",
+    { data: dataIn2015 },
   )
 
   await page.request.put(
@@ -116,7 +116,7 @@ test.describe("preview", () => {
   test("shows the preview at different time boundaries", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
@@ -168,7 +168,7 @@ test.describe("XML view", () => {
   test("displays the XML of the target law", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
     )
 
     // When
@@ -189,7 +189,7 @@ test.describe("XML view", () => {
     await restoreInitialState(page)
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
     )
 
     const editorRegion = page.getByRole("region", {
@@ -236,7 +236,7 @@ test.describe("XML view", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
     )
 
     // When
@@ -299,7 +299,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(fnaInput).toHaveValue("210-5")
@@ -348,7 +348,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
@@ -463,7 +463,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(artSnCheckbox).toBeChecked()
@@ -524,7 +524,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(bezeichnungInput).toHaveValue(
@@ -577,7 +577,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(normgeberDropdown).toHaveValue("BEO - Berlin (Ost)")
@@ -626,7 +626,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(organDropdown).toHaveValue(
@@ -679,7 +679,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(qualMehrheitCheckbox).toBeChecked()
@@ -728,7 +728,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(federfuehrungDropdown).toHaveValue(
@@ -787,7 +787,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(organisationsEinheitInput).toHaveValue("Einheit 1")

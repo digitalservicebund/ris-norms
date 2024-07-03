@@ -23,7 +23,7 @@ test.describe("navigate to page", () => {
     })
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-29",
     )
 
     await expect(
@@ -32,12 +32,38 @@ test.describe("navigate to page", () => {
 
     await page.unrouteAll()
   })
+
+  test("shows the not found page when attempting to open a date without time boundary", async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1900-01-01",
+    )
+
+    await expect(page.getByText("404")).toBeVisible()
+  })
+
+  test("shows the not found page when timeboundaries are empty", async ({
+    page,
+  }) => {
+    await page.route(/timeBoundaries/, async (route) => {
+      await route.fulfill({ status: 200, json: [] })
+    })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-29",
+    )
+
+    await expect(page.getByText("404")).toBeVisible()
+
+    await page.unrouteAll()
+  })
 })
 
 test.describe("sidebar navigation", () => {
   test("shows the elements affected by this amending law", async ({ page }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
     )
 
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
@@ -46,6 +72,7 @@ test.describe("sidebar navigation", () => {
     await expect(links).toHaveText(
       [
         "Rahmen",
+        "§ 2 Verfassungsschutzbehörden",
         "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
       ],
       { useInnerText: true },
@@ -66,6 +93,7 @@ test.describe("sidebar navigation", () => {
     await expect(links).toHaveText(
       [
         "Rahmen",
+        "§ 2 Verfassungsschutzbehörden",
         "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
       ],
       { useInnerText: true },
@@ -86,7 +114,7 @@ test.describe("sidebar navigation", () => {
     await expect(select).toHaveValue("2023-12-30")
 
     // Time boundaries available as options
-    await expect(options).toHaveText(["30.12.2023"], {
+    await expect(options).toHaveText(["01.06.2015", "30.12.2023"], {
       useInnerText: true,
     })
   })
@@ -112,7 +140,7 @@ test.describe("sidebar navigation", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     await expect(
@@ -131,31 +159,11 @@ test.describe("sidebar navigation", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
     await expect(page.getByText("Keine Artikel gefunden.")).toBeVisible()
 
     await page.unrouteAll()
-  })
-
-  test("does not render links when no time boundary is selected", async ({
-    page,
-  }) => {
-    page.route(/timeBoundaries/, async (route) => {
-      await route.fulfill({ json: [], status: 200 })
-    })
-
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
-    )
-
-    await expect(page.getByText("Keine Zeitgrenze ausgewählt.")).toBeVisible()
-
-    await expect(
-      page
-        .getByRole("complementary", { name: "Inhaltsverzeichnis" })
-        .getByRole("link"),
-    ).toHaveCount(0)
   })
 })
