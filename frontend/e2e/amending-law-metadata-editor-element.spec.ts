@@ -199,7 +199,6 @@ test.describe("XML view", () => {
 
     await page.getByRole("button", { name: "Speichern" }).click()
 
-    // Then
     // Check the content of the XML reload call as we currently don't have a
     // good way of checking the actual editor content. This is because
     // CodeMirror uses lazy scrolling and therefore depending on the size of the
@@ -211,8 +210,8 @@ test.describe("XML view", () => {
       )
       .then((response) => response.text())
 
-    // TODO: Verify the changes are included, remove the following assertion
-    expect(textResponse).toBeTruthy()
+    // Then
+    expect(textResponse).toContain("ÜN</meta:artDerNorm")
 
     // Cleanup
     await restoreInitialState(page)
