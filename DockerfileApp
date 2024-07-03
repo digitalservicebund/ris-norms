@@ -1,11 +1,11 @@
-FROM node:20.15.0 as frontend
+FROM node:20.15.0 AS frontend
 
 WORKDIR /frontend
 COPY frontend .
 RUN npm ci
 RUN npm run-script build
 
-FROM gradle:8.8-jdk21 as backend
+FROM gradle:8.8-jdk21 AS backend
 WORKDIR /backend
 COPY backend .
 RUN mkdir -p src/main/resources/static
