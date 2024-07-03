@@ -180,10 +180,7 @@ test.describe("XML view", () => {
     ).toBeVisible()
   })
 
-  // Skipped until this is implemented on the page and the test has been adapted.
-  test.skip("updates the XML preview after saving metadata", async ({
-    page,
-  }) => {
+  test("updates the XML preview after saving metadata", async ({ page }) => {
     // Given
     await restoreInitialState(page)
 
@@ -320,8 +317,7 @@ test.describe("metadata view", () => {
       await expect(artUnRadio).not.toBeChecked()
     })
 
-    // TODO: Unskip
-    test.skip("saves changes", async () => {
+    test("saves changes", async () => {
       // When
       await artUnRadio.check()
       await saveMetadata()
@@ -333,8 +329,7 @@ test.describe("metadata view", () => {
       await expect(artUnRadio).toBeChecked()
     })
 
-    // TODO: Unskip
-    test.skip("is updated with backend state after saving", async () => {
+    test("is updated with backend state after saving", async () => {
       // Given
       await mockPutResponse({ artDerNorm: "SN" })
       await expect(artSnRadio).not.toBeChecked()
