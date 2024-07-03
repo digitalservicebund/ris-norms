@@ -131,6 +131,7 @@ watch(
   () => {
     preview()
   },
+  { deep: true, immediate: true },
 )
 </script>
 <template>
@@ -210,7 +211,7 @@ watch(
   <section
     v-else
     class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
-    aria-labelledby="changedArticlePreivew"
+    aria-labelledby="changedArticlePreview"
   >
     <h3 id="changedArticlePreview" class="ds-label-02-bold">Vorschau</h3>
     <RisTabs
