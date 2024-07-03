@@ -18,8 +18,9 @@ import { getNodeByEid } from "@/services/ldmldeService"
 import { useGetNorm } from "@/services/normService"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, ref, watch } from "vue"
+import { computed, Ref, ref, watch } from "vue"
 import { useModEidSelection } from "@/composables/useModEidSelection"
+import { useDebounce } from "@vueuse/core"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -95,6 +96,12 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   },
   { key: "textconsolidation", title: "Textkonsolidierung" },
 ])
+
+// give the url a moment to be updated before rendering the child routes
+const showEditor: Ref<boolean> = useDebounce(
+  computed(() => selectedMods.value.length > 0),
+  20,
+)
 </script>
 
 <template>
@@ -189,7 +196,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           </section>
 
           <router-view
-            v-if="selectedMods.length > 0"
+            v-if="showEditor"
             v-model:xml="currentXml"
             :selected-mods="selectedMods"
           ></router-view>
