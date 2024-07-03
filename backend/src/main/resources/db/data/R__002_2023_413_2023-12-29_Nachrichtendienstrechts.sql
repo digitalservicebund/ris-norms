@@ -62,6 +62,8 @@ VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-1
                source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30"
                source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="61aebfc7-fb54-406f-b12f-6c9de407ad66" date="2015-06-01"
+               source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
          </akn:lifecycle>
          <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
             <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
@@ -69,9 +71,18 @@ VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-1
                   <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6"
                      href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" />
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3/100-126.xml" /><!-- To check-->
+                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3/100-126.xml" />
                   <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1" GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
                      period="#meta-1_geltzeiten-1_geltungszeitgr-1" />
+               </akn:textualMod>
+
+               <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-2" GUID="732433d3-d0e3-43ba-aa1a-5859d108eb46" type="substitution">
+                  <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="73241841-5d63-4400-96ae-214f6ee28db6"
+                     href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1" />
+                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" GUID="7324e417-e849-4269-8320-9f0173b39626"
+                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-2_abs-1/146-194.xml" />
+                  <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" GUID="7324abe9-1102-4d29-9d25-a44643354519"
+                     period="#meta-1_geltzeiten-1_geltungszeitgr-2" />
                </akn:textualMod>
             </akn:activeModifications>
          </akn:analysis>
@@ -79,6 +90,10 @@ VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-1
             <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
                <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179"
                   refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+            </akn:temporalGroup>
+            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2" GUID="05dc897e-cf1c-41d5-a1c7-ea3537990b3a">
+               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" GUID="d73d783a-ee09-404e-9153-4c19e0527702"
+                  refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-3"/>
             </akn:temporalGroup>
          </akn:temporalData>
          <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
@@ -147,6 +162,7 @@ VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-1
                            Artikel 1 des Gesetzes vom 19. Dezember 2022 (BGBl. I S. 2632) geändert worden ist</akn:affectedDocument>, wird wie folgt
                         geändert:</akn:p>
                   </akn:intro>
+
                   <!-- Nummer 1 -->
                   <akn:point eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1" GUID="49983c1a-c952-4ab1-b926-2f414c05da7d">
                      <akn:num eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_bezeichnung-1" GUID="634ddcaa-4851-4656-8b65-f26c8f56d1f1">
@@ -165,6 +181,29 @@ VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-1
                                  GUID="694459c4-ef66-4f87-bb78-a332054a2216" startQuote="„" endQuote="“">am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt,</akn:quotedText> durch die Wörter <akn:quotedText
                                  eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2"
                                  GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196" startQuote="„" endQuote="“">nach Ablauf von fünf Jahren</akn:quotedText>
+                              ersetzt.</akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+
+                  <!-- Nummer 2 -->
+                  <akn:point eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2" GUID="36243c1a-c952-4ab1-b926-2f414c05da7d">
+                     <akn:num eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1" GUID="3624dcaa-4851-4656-8b65-f26c8f56d1f1">
+                        <akn:marker eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                           GUID="36245080-1644-4b0f-83f3-2c0b4378f7af" name="1" />2.</akn:num>
+                     <akn:content eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1" GUID="362473be-9df6-47fa-b1ea-1cf6273d82e6">
+                        <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1" GUID="3624ef20-52d5-4baa-9e1a-b2c63cd21ccc">
+                           <akn:mod eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+                              GUID="36242f06-6e33-4af8-9f4a-3da67c888510" refersTo="aenderungsbefehl-ersetzen">In <akn:ref
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
+                                 GUID="3624036a-d7d9-4fa5-b181-c3345caa3206"
+                                 href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1_text-1/146-194.xml">§
+                              2 Absatz 1 Satz 2</akn:ref>
+                                 werden die Wörter <akn:quotedText
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
+                                 GUID="362459c4-ef66-4f87-bb78-a332054a2216" startQuote="„" endQuote="“">Bundesministerium des Innern, für Bau und Heimat</akn:quotedText> durch die Wörter <akn:quotedText
+                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
+                                 GUID="3624bdb6-4ef4-4ef5-808c-27579b6ae196" startQuote="„" endQuote="“">Bundesministerium des Innern und für Heimat</akn:quotedText>
                               ersetzt.</akn:mod>
                         </akn:p>
                      </akn:content>
@@ -4488,10 +4527,10 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                 </akn:FRBRManifestation>
             </akn:identification>
             <akn:lifecycle source="attributsemantik-noch-undefiniert" GUID="8c8fccc7-8f59-45af-8550-b5725ffd0c82" eId="meta-1_lebzykl-1">
-                <akn:eventRef date="1970-01-01" source="attributsemantik-noch-undefiniert" refersTo="ausfertigung" type="generation"
-                    eId="meta-1_lebzykl-1_ereignis-1" GUID="9c2e7385-3a0f-44c0-aa2d-5db2bf265cf9" />
+                <akn:eventRef date="1970-01-01" source="attributsemantik-noch-undefiniert" refersTo="ausfertigung" type="generation" eId="meta-1_lebzykl-1_ereignis-1" GUID="9c2e7385-3a0f-44c0-aa2d-5db2bf265cf9" />
                 <akn:eventRef date="2023-12-29" source="attributsemantik-noch-undefiniert" refersTo="ausfertigung" type="amendment" eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" />
                 <akn:eventRef date="2023-12-30" source="attributsemantik-noch-undefiniert" refersTo="inkrafttreten" type="amendment" eId="meta-1_lebzykl-1_ereignis-3" GUID="02cf36b3-0ec9-4168-aa06-5c1e88ada720" />
+                <akn:eventRef date="2015-06-01" source="attributsemantik-noch-undefiniert" refersTo="inkrafttreten" type="generation" eId="meta-1_lebzykl-1_ereignis-4" GUID="61aebfc7-fb54-406f-b12f-6c9de407ad66" />
             </akn:lifecycle>
             <akn:analysis eId="meta-1_analysis-1" GUID="c0eb49c8-bf39-4a4a-b324-3b0feb88c1f1" source="attributsemantik-noch-undefiniert">
                 <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1" GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac">
@@ -4508,6 +4547,20 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                                    GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
                                    period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
                     </akn:textualMod>
+
+                    <akn:textualMod eId="meta-1_analysis-1_pasmod-2_textualmod-1"
+                                    GUID="372433d3-d0e3-43ba-aa1a-5859d108eb46"
+                                    type="substitution">
+                        <akn:source eId="meta-1_analysis-1_pasmod-2_textualmod-1_source-1"
+                                    GUID="37241841-5d63-4400-96ae-214f6ee28db6"
+                                    href="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
+                        <akn:destination eId="meta-1_analysis-1_pasmod-2_textualmod-1_destination-1"
+                                         GUID="3724e417-e849-4269-8320-9f0173b39626"
+                                         href="#hauptteil-1_abschnitt-erster_para-2_abs-1"/>
+                        <akn:force eId="meta-1_analysis-1_pasmod-2_textualmod-1_gelzeitnachw-1"
+                                   GUID="3724abe9-1102-4d29-9d25-a44643354519"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-3"/>
+                    </akn:textualMod>
                 </akn:passiveModifications>
             </akn:analysis>
             <akn:temporalData source="attributsemantik-noch-undefiniert" GUID="9a82ff0d-bf6d-4631-a9f6-2bf2344ba315" eId="meta-1_geltzeiten-1">
@@ -4517,7 +4570,10 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                 </akn:temporalGroup>
                 <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
                     <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-3" />
-            </akn:temporalGroup>
+                </akn:temporalGroup>
+                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3" GUID="7624897e-cf1c-41d5-a1c7-ea3537990b3a">
+                    <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1" GUID="d73d783a-ee09-404e-9153-4c19e0527702" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-4"/>
+                </akn:temporalGroup>
             </akn:temporalData>
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
@@ -4532,20 +4588,21 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                    <meta:gesta>nicht-vorhanden</meta:gesta>
                    <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
                    <meta:federfuehrung>
-                      <meta:federfuehrend ab="1970-01-01" bis="2023-12-28">BMVg - Bundesministerium der Verteidigung</meta:federfuehrend>
+                      <meta:federfuehrend ab="1970-01-01" bis="2015-06-28">BMVg - Bundesministerium der Verteidigung</meta:federfuehrend>
                       <meta:federfuehrend ab="2023-12-29" bis="unbestimmt">BMI - Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                    </meta:federfuehrung>
                 </meta:legalDocML.de_metadaten>
+
                 <meta:legalDocML.de_metadaten_ds xmlns:meta="http://DS.Metadaten.LegalDocML.de/1.6/">
-                    <!-- 1970 -->
-                    <meta:art start="1970-01-01" end="2023-12-29">regelungstext</meta:art>
-                    <meta:typ start="1970-01-01" end="2023-12-29">gesetz</meta:typ>
-                    <meta:subtyp start="1970-01-01" end="2023-12-29">Rechtsverordnung</meta:subtyp>
-                    <meta:artDerNorm start="1970-01-01" end="2023-12-29">SN,ÜN</meta:artDerNorm>
-                    <meta:bezeichnungInVorlage start="1970-01-01" end="2023-12-29">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
-                    <meta:normgeber start="1970-01-01" end="2023-12-29">BEO - Berlin (Ost)</meta:normgeber>
-                    <meta:beschliessendesOrgan start="1970-01-01" end="2023-12-29" qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
-                    <meta:organisationsEinheit start="1970-01-01" end="2023-12-29">Einheit 1</meta:organisationsEinheit>
+                    <!-- 2015 -->
+                    <meta:art start="2015-06-01" end="2023-12-29">regelungstext</meta:art>
+                    <meta:typ start="2015-06-01" end="2023-12-29">gesetz</meta:typ>
+                    <meta:subtyp start="2015-06-01" end="2023-12-29">Rechtsverordnung</meta:subtyp>
+                    <meta:artDerNorm start="2015-06-01" end="2023-12-29">SN,ÜN</meta:artDerNorm>
+                    <meta:bezeichnungInVorlage start="2015-06-01" end="2023-12-29">Testbezeichnung nach meiner Vorlage</meta:bezeichnungInVorlage>
+                    <meta:normgeber start="2015-06-01" end="2023-12-29">BEO - Berlin (Ost)</meta:normgeber>
+                    <meta:beschliessendesOrgan start="2015-06-01" end="2023-12-29" qualifizierteMehrheit="true">BMinJ - Bundesministerium der Justiz</meta:beschliessendesOrgan>
+                    <meta:organisationsEinheit start="2015-06-01" end="2023-12-29">Einheit 1</meta:organisationsEinheit>
 
                     <!-- 2023 -->
                     <meta:fna start="2023-12-30" end="unbestimmt">310-5</meta:fna>
