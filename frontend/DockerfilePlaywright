@@ -3,4 +3,5 @@ RUN npx --yes playwright install --with-deps chrome firefox webkit
 WORKDIR /usr/src/app
 COPY . .
 RUN npm install
-ENTRYPOINT npm run test:e2e
+SHELL ["/bin/bash", "-c"]
+ENTRYPOINT ["npm", "run", "test:e2e"]
