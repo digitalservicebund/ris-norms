@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
-import { computed, ref } from "vue"
+import { computed } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CheckIcon from "~icons/ic/check"
@@ -62,20 +62,15 @@ const selectedElement = computed({
   },
 })
 
-const temporaryEid = ref(
-  destinationHrefModel.value?.split("/").slice(-2).join("/") || "",
-)
-
 const destinationHrefEli = computed(() =>
   destinationHrefModel.value?.split("/").slice(0, -2).join("/"),
 )
 
 const destinationHrefEid = computed({
   get() {
-    return temporaryEid.value
+    return destinationHrefModel.value?.split("/").slice(-2).join("/") || ""
   },
   set(newValue: string) {
-    temporaryEid.value = newValue
     if (destinationHrefModel.value) {
       const parts = destinationHrefModel.value.split("/")
       const newParts = newValue.split("/")
