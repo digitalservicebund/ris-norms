@@ -37,7 +37,7 @@ public interface UpdateProprietaryFrameFromNormUseCase {
    * @param normgeber - "Normgeber"
    * @param beschliessendesOrgan - "Beschließendes Organ"
    * @param qualifizierterMehrheit - "Beschlussfassung mit qualifizierter Mehrheit"
-   * @param federfuehrung - "Federführung"
+   * @param ressort - "Ressort"
    * @param organisationsEinheit - "Organisationseinheit"
    */
   record Metadata(
@@ -50,6 +50,6 @@ public interface UpdateProprietaryFrameFromNormUseCase {
       String normgeber,
       String beschliessendesOrgan,
       Boolean qualifizierterMehrheit,
-      String federfuehrung,
+      String ressort,
       String organisationsEinheit) {}
 }

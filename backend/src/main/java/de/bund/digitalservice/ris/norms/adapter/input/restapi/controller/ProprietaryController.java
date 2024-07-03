@@ -96,7 +96,7 @@ public class ProprietaryController {
                     proprietaryFrameSchema.getNormgeber(),
                     proprietaryFrameSchema.getBeschliessendesOrgan(),
                     proprietaryFrameSchema.getQualifizierteMehrheit(),
-                    proprietaryFrameSchema.getFederfuehrung(),
+                    proprietaryFrameSchema.getRessort(),
                     proprietaryFrameSchema.getOrganisationsEinheit())));
 
     return ResponseEntity.ok(ProprietaryResponseMapper.fromProprietary(proprietary, atDate));

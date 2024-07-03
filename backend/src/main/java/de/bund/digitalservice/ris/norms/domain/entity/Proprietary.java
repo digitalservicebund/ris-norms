@@ -223,9 +223,8 @@ public class Proprietary {
    * @param date the specific date of the time boundary.
    * @return "Beschließendes Organ" or empty if it doesn't exist.
    */
-  public Optional<String> getFederfuehrung(final LocalDate date) {
-    return getMetadatenDe()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, date));
+  public Optional<String> getRessort(final LocalDate date) {
+    return getMetadatenDe().flatMap(m -> m.getSimpleMetadatum(MetadatenDe.Metadata.RESSORT, date));
   }
 
   /**

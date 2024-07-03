@@ -70,7 +70,7 @@ public class ProprietaryService
             ? "false"
             : String.valueOf(query.metadata().qualifizierterMehrheit()));
     metadatenDe.updateSimpleMetadatum(
-        MetadatenDe.Metadata.FEDERFUEHRUNG, query.atDate(), query.metadata().federfuehrung());
+        MetadatenDe.Metadata.RESSORT, query.atDate(), query.metadata().ressort());
     metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.ORGANISATIONS_EINHEIT,
         query.atDate(),

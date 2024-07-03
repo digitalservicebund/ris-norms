@@ -20,7 +20,7 @@ import {
   BeschliessendesOrganValues,
   DocumentTypeValue,
   DocumentTypeValues,
-  FederfuehrungValues,
+  RessortValues,
   getDocumentTypeFromMetadata,
   isArtNormTypePresent,
   NormgeberValues,
@@ -96,7 +96,7 @@ const {
   normgeberId,
   beschliessendesOrganId,
   qualifizierteMehrheitId,
-  federfuehrungId,
+  ressortId,
   organisationsEinheitId,
 } = useElementId()
 
@@ -260,21 +260,21 @@ const qualifizierteMehrheit = computed<boolean>({
   },
 })
 
-const federfuehrung = computed<string>({
+const ressort = computed<string>({
   get() {
-    return localData.value?.federfuehrung ?? ""
+    return localData.value?.ressort ?? ""
   },
   set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
-      draft.federfuehrung = value
+      draft.ressort = value
     })
   },
 })
 
-const federfuehrungItems: DropdownItem[] = [
+const ressortItems: DropdownItem[] = [
   { label: "", value: "" },
-  ...FederfuehrungValues.map<DropdownItem>((name) => ({
+  ...RessortValues.map<DropdownItem>((name) => ({
     label: name,
     value: name,
   })),
@@ -441,11 +441,11 @@ const {
                   Federführung
                 </legend>
 
-                <label :for="federfuehrungId">Federführung</label>
+                <label :for="ressortId">Ressort</label>
                 <RisDropdownInput
-                  :id="federfuehrungId"
-                  v-model="federfuehrung"
-                  :items="federfuehrungItems"
+                  :id="ressortId"
+                  v-model="ressort"
+                  :items="ressortItems"
                 />
 
                 <label :for="organisationsEinheitId">

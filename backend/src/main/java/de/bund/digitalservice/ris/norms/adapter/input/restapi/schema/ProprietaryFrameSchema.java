@@ -18,6 +18,6 @@ public class ProprietaryFrameSchema {
   private String normgeber;
   private String beschliessendesOrgan;
   private Boolean qualifizierteMehrheit;
-  private String federfuehrung;
+  private String ressort;
   private String organisationsEinheit;
 }

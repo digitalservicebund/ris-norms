@@ -37,8 +37,8 @@ export type RahmenProprietary = {
   /** DE “Beschlussfassung mit qualifizierter Mehrheit" */
   qualifizierteMehrheit?: boolean
 
-  /**  DE "Federführung" */
-  federfuehrung?: string
+  /**  DE "Ressort" */
+  ressort?: string
 
   /** DE "Organisationseinheit" */
   organisationsEinheit?: string

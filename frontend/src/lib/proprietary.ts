@@ -345,8 +345,8 @@ export const BeschliessendesOrganValues = [
  * Federführung                                       *
  * -------------------------------------------------- */
 
-/** All possible values for the Federführung metadatum. */
-export const FederfuehrungValues = [
+/** All possible values for the Ressort metadatum. */
+export const RessortValues = [
   "AA - Auswärtiges Amt",
   "BKAmt - Bundeskanzleramt",
   "BMAS - Bundesministerium für Arbeit und Soziales",

@@ -12,7 +12,7 @@ async function restoreInitialState(page: Page) {
     normgeber: "BEO - Berlin (Ost)",
     beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
     qualifizierteMehrheit: true,
-    federfuehrung: "BMVg - Bundesministerium der Verteidigung",
+    ressort: "BMVg - Bundesministerium der Verteidigung",
     organisationsEinheit: "Einheit 1",
   }
 
@@ -26,7 +26,7 @@ async function restoreInitialState(page: Page) {
     normgeber: "HA - Hamburg",
     beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
     qualifizierteMehrheit: false,
-    federfuehrung: "BMI - Bundesministerium des Innern und für Heimat",
+    ressort: "BMI - Bundesministerium des Innern und für Heimat",
     organisationsEinheit: "Einheit 2",
   }
 
@@ -717,12 +717,12 @@ test.describe("metadata view", () => {
     })
   })
 
-  test.describe("Federführung", () => {
-    let federfuehrungDropdown: Locator
+  test.describe("Ressort", () => {
+    let ressortDropdown: Locator
 
     test.beforeAll(() => {
-      federfuehrungDropdown = sharedPage.getByRole("combobox", {
-        name: "Federführung",
+      ressortDropdown = sharedPage.getByRole("combobox", {
+        name: "Ressort",
       })
     })
 
@@ -731,7 +731,7 @@ test.describe("metadata view", () => {
       await gotoTimeBoundary("2015-06-01")
 
       // Then
-      await expect(federfuehrungDropdown).toHaveValue(
+      await expect(ressortDropdown).toHaveValue(
         "BMVg - Bundesministerium der Verteidigung",
       )
 
@@ -739,29 +739,29 @@ test.describe("metadata view", () => {
       await gotoTimeBoundary("2023-12-30")
 
       // Then
-      await expect(federfuehrungDropdown).toHaveValue(
+      await expect(ressortDropdown).toHaveValue(
         "BMI - Bundesministerium des Innern und für Heimat",
       )
     })
 
     test("saves changes", async () => {
       // When
-      await federfuehrungDropdown.selectOption(
+      await ressortDropdown.selectOption(
         "BMVg - Bundesministerium der Verteidigung",
       )
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(federfuehrungDropdown).toHaveValue(
+      await expect(ressortDropdown).toHaveValue(
         "BMVg - Bundesministerium der Verteidigung",
       )
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
-      await mockPutResponse({ federfuehrung: "AA - Auswärtiges Amt" })
-      await expect(federfuehrungDropdown).toHaveValue(
+      await mockPutResponse({ ressort: "AA - Auswärtiges Amt" })
+      await expect(ressortDropdown).toHaveValue(
         "BMVg - Bundesministerium der Verteidigung",
       )
 
@@ -769,7 +769,7 @@ test.describe("metadata view", () => {
       await saveMetadata()
 
       // Then
-      await expect(federfuehrungDropdown).toHaveValue("AA - Auswärtiges Amt")
+      await expect(ressortDropdown).toHaveValue("AA - Auswärtiges Amt")
 
       // Cleanup
       await sharedPage.unrouteAll()
