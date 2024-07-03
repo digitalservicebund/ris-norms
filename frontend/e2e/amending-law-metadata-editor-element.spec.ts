@@ -2,7 +2,7 @@ import { ElementProprietary } from "@/types/proprietary"
 import { Locator, Page, expect, test } from "@playwright/test"
 
 async function restoreInitialState(page: Page) {
-  const dataIn1970: ElementProprietary = {
+  const dataIn2015: ElementProprietary = {
     artDerNorm: "SN",
   }
 
@@ -11,8 +11,8 @@ async function restoreInitialState(page: Page) {
   }
 
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-erster_para-6/1970-01-01",
-    { data: dataIn1970 },
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-erster_para-6/2015-06-01",
+    { data: dataIn2015 },
   )
 
   await page.request.put(
@@ -34,7 +34,7 @@ test.describe("navigate to page", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
     )
 
     // Then
@@ -74,17 +74,23 @@ test.describe("navigate to page", () => {
   test("navigates between elements", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/2009/s3366/2024-03-27/1/deu/regelungstext-1/edit/1934-10-16/hauptteil-1_para-2",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-2",
     )
 
     const heading = page.getByRole("heading", { level: 2 })
-    await expect(heading).toHaveText("§1")
+    await expect(heading).toHaveText("§ 2 Verfassungsschutzbehörden")
 
     // When
-    await page.getByRole("link", { name: "§3a" }).click()
+    await page
+      .getByRole("link", {
+        name: "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+      })
+      .click()
 
     // Then
-    await expect(heading).toHaveText("§3a")
+    await expect(heading).toHaveText(
+      "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+    )
   })
 })
 
@@ -116,7 +122,7 @@ test.describe("preview", () => {
   test("shows the preview at different time boundaries", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
@@ -146,7 +152,7 @@ test.describe("preview", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
     )
 
     const previewRegion = page.getByRole("region", { name: "Vorschau" })
@@ -165,7 +171,7 @@ test.describe("XML view", () => {
   test("displays the XML of the target law with metadata", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
     )
 
     await page.getByRole("tab", { name: "XML" }).click()
@@ -185,7 +191,7 @@ test.describe("XML view", () => {
     await restoreInitialState(page)
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
     )
 
     // When
@@ -224,7 +230,7 @@ test.describe("XML view", () => {
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01/hauptteil-1_abschnitt-erster_para-6",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01/hauptteil-1_abschnitt-erster_para-6",
     )
 
     // When
@@ -301,7 +307,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(artSnRadio).toBeChecked()
