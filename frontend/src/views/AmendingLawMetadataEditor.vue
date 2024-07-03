@@ -10,12 +10,15 @@ import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathP
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetElements } from "@/services/elementService"
 import { useGetNorm } from "@/services/normService"
-import dayjs from "dayjs"
-import { computed, ref, watch } from "vue"
 import { useGetTemporalDataTimeBoundaries } from "@/services/temporalDataService"
+import dayjs from "dayjs"
+import { computed, ref, watchEffect } from "vue"
+import { useRouter } from "vue-router"
 
 const amendingLawEli = useEliPathParameter()
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
+
+const router = useRouter()
 
 const {
   data: amendingLaw,
@@ -54,6 +57,7 @@ const {
   data: timeBoundaries,
   isFetching: timeBoundariesIsFetching,
   error: timeBoundariesError,
+  isFinished: timeBoundariesIsFinished,
 } = useGetTemporalDataTimeBoundaries(affectedDocumentEli, {
   amendedBy: amendingLawEli,
 })
@@ -68,16 +72,22 @@ const sortedTimeBoundaries = computed(() =>
 
 const { timeBoundary: selectedTimeBoundary } = useTimeBoundaryPathParameter()
 
-// Choose the first time boundary if none is selected so far
-watch(
-  timeBoundaries,
-  (val) => {
-    if (val && !selectedTimeBoundary.value && val.length) {
-      selectedTimeBoundary.value = val[0].date
-    }
-  },
-  { immediate: true },
-)
+watchEffect(() => {
+  if (!timeBoundariesIsFinished.value || !timeBoundaries.value) return
+  else if (!timeBoundaries.value.length) {
+    // No time boundaries at all
+    router.push({ name: "NotFound" })
+  } else if (
+    selectedTimeBoundary.value &&
+    !timeBoundaries.value.some((i) => i.date === selectedTimeBoundary.value)
+  ) {
+    // Selected time boundary doesn't exist
+    router.push({ name: "NotFound" })
+  } else if (!selectedTimeBoundary.value) {
+    // No time boundary selected -> select initial value
+    selectedTimeBoundary.value = timeBoundaries.value[0].date
+  }
+})
 
 const {
   data: elements,
