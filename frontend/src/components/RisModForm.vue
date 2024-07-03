@@ -16,14 +16,8 @@ const props = defineProps<{
   textualModType: ModType | ""
   /** the possible time boundaries in the format YYYY-MM-DD. */
   timeBoundaries: TemporalDataResponse[]
-  /** Optional selected time boundary of the format YYYY-MM-DD */
-  selectedTimeBoundary?: { date: string; temporalGroupEid: string }
-  /** Destination Href for mod */
-  destinationHref: string
   /** This is the text that will be replaced */
   quotedTextFirst?: string
-  /** This is the text that replaces quotedTextFirst */
-  quotedTextSecond?: string
   isUpdating?: boolean
   isUpdatingFinished?: boolean
   updateError?: Error
@@ -33,10 +27,13 @@ defineEmits<{
   "generate-preview": []
   "update-mod": []
 }>()
+/** Optional selected time boundary of the format YYYY-MM-DD */
 const selectedTimeBoundaryModel = defineModel<TemporalDataResponse | undefined>(
   "selectedTimeBoundary",
 )
+/** Destination Href for mod */
 const destinationHrefModel = defineModel<string>("destinationHref")
+/** This is the text that replaces quotedTextFirst */
 const quotedTextSecondModel = defineModel<string | undefined>(
   "quotedTextSecond",
 )
