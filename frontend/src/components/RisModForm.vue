@@ -113,18 +113,18 @@ function modTypeLabel(modType: ModType | "") {
 <template>
   <form :id="id" class="grid grid-cols-1 gap-y-20">
     <div class="grid grid-cols-2 gap-x-40">
-      <RisTextInput
-        id="textualModeType"
-        label="Änderungstyp"
-        :model-value="modTypeLabel(textualModType)"
-        read-only
-      />
       <RisDropdownInput
         id="timeBoundaries"
         v-model="selectedElement"
         label="Zeitgrenze"
         :items="timeBoundaries"
         @change="$emit('generate-preview')"
+      />
+      <RisTextInput
+        id="textualModeType"
+        label="Änderungstyp"
+        :model-value="modTypeLabel(textualModType)"
+        read-only
       />
     </div>
 
