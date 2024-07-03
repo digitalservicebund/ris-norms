@@ -118,7 +118,7 @@ public class NormService
    * @param timeBoundaryEId the eid of the new time-boundary of the akn:mod
    * @param newText the new future text of the akn:mod
    */
-  private void updateMods(
+  private void updateModInPlace(
       Norm amendingNorm,
       Norm zf0Norm,
       String eId,
@@ -198,7 +198,7 @@ public class NormService
       final UpdateModsUseCase.NewModData newModData = entry.getValue();
       final Mod mod = amendingNorm.getNodeByEId(eId).map(Mod::new).orElseThrow();
 
-      this.updateMods(
+      this.updateModInPlace(
           amendingNorm,
           zf0Norm,
           eId,
@@ -238,7 +238,7 @@ public class NormService
     final Norm zf0Norm =
         loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
-    this.updateMods(
+    this.updateModInPlace(
         amendingNorm,
         zf0Norm,
         query.eid(),
