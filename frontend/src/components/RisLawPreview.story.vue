@@ -56,5 +56,13 @@ function handleClick({ eid }: { eid: string }) {
         @click:akn:article="handleClick"
       />
     </Variant>
+    <Variant title="Custom classes on specific eId">
+      <RisLawPreview
+        :content="content"
+        :e-id-classes="{
+          paragraph1: ['bg-blue-900', 'text-white'],
+        }"
+      />
+    </Variant>
   </Story>
 </template>
