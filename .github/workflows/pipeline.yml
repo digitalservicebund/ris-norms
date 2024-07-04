@@ -125,7 +125,7 @@ jobs:
       strategy:
         fail-fast: false
         matrix:
-          browser: [chromium, firefox, webkit]
+          browser: [chromium, firefox, msedge]
       uses: ./.github/workflows/end-to-end-tests.yml
       with:
         browser: ${{ matrix.browser }}

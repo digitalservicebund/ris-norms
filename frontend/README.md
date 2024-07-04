@@ -64,7 +64,7 @@ To make the icon available in your code:
 ## Prepare your system:
 
 ```bash
-npx --yes playwright install --with-deps chrome firefox webkit
+npx --yes playwright install --with-deps chromium firefox msedge
 ```
 
 Run all tests:
@@ -90,5 +90,5 @@ Run a specific browser e2e test:
 ```bash
 npm run test:e2e -- --project chromium --repeat-each 1
 npm run test:e2e -- --project firefox --repeat-each 1
-npm run test:e2e -- --project webkit --repeat-each 1
+npm run test:e2e -- --project msedge --repeat-each 1
 ```

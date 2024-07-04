@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/playwright:v1.45.1-jammy AS e2etest
-RUN npx --yes playwright install --with-deps chrome firefox webkit
+RUN npx --yes playwright install --with-deps chromium firefox msedge
 WORKDIR /usr/src/app
 COPY . .
 RUN npm install
