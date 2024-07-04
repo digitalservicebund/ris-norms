@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from "vitest"
 import {
-  evaluateXPath,
+  evaluateXPathOnce,
   xmlNodeToString,
   xmlStringToDocument,
 } from "@/services/xmlService"
 
-// the evaluateXPath method is mocked in the vitest-setup, to test it here we unmock it.
+// the evaluateXPathOnce method is mocked in the vitest-setup, to test it here we unmock it.
 vi.unmock("@/services/xmlService")
 
 describe("xmlService", () => {
@@ -46,7 +46,7 @@ describe("xmlService", () => {
     })
   })
 
-  describe("evaluateXPath", () => {
+  describe("evaluateXPathOnce", () => {
     it("should evaluate a xpath", () => {
       const document =
         xmlStringToDocument(`<?xml version="1.0" encoding="UTF-8"?>
@@ -57,7 +57,7 @@ describe("xmlService", () => {
         </akn:akomaNtoso>
       `)
 
-      const result = evaluateXPath("//akn:act/@name", document)
+      const result = evaluateXPathOnce("//akn:act/@name", document)
       expect(result?.nodeValue).to.eq("regelungstext")
     })
   })

@@ -1,4 +1,4 @@
-import { evaluateXPath } from "@/services/xmlService"
+import { evaluateXPathOnce } from "@/services/xmlService"
 import { ModType, ModData } from "@/types/ModType"
 import {
   getActiveModificationByModEid,
@@ -15,28 +15,28 @@ import { UseFetchReturn } from "@vueuse/core"
  * Provides the old text of an akn:mod element. For "aenderungsbefehl-ersetzen" this is the old text.
  */
 export function getQuotedTextFirst(aknModNode: Node) {
-  return evaluateXPath(`akn:quotedText[1]`, aknModNode)?.textContent
+  return evaluateXPathOnce(`akn:quotedText[1]`, aknModNode)?.textContent
 }
 
 /**
  * Provides the second quoted text of an akn:mod element. For "aenderungsbefehl-ersetzen" this is the new text.
  */
 export function getQuotedTextSecond(aknModNode: Node) {
-  return evaluateXPath(`akn:quotedText[2]`, aknModNode)?.textContent
+  return evaluateXPathOnce(`akn:quotedText[2]`, aknModNode)?.textContent
 }
 
 /**
  * Provides the href of the destination of an akn:mod element.
  */
 export function getDestinationHref(aknModNode: Node) {
-  return evaluateXPath(`akn:ref/@href`, aknModNode)?.nodeValue
+  return evaluateXPathOnce(`akn:ref/@href`, aknModNode)?.nodeValue
 }
 
 /**
  * Provides the type of the akn:mod element.
  */
 export function getTextualModType(aknModNode: Node) {
-  return evaluateXPath(`@refersTo`, aknModNode)?.nodeValue as
+  return evaluateXPathOnce(`@refersTo`, aknModNode)?.nodeValue as
     | ModType
     | null
     | undefined
