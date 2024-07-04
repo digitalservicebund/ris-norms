@@ -93,7 +93,7 @@ public class ProprietaryController {
                     proprietaryFrameSchema.getSubtyp(),
                     proprietaryFrameSchema.getBezeichnungInVorlage(),
                     proprietaryFrameSchema.getArtDerNorm(),
-                    proprietaryFrameSchema.getNormgeber(),
+                    proprietaryFrameSchema.getStaat(),
                     proprietaryFrameSchema.getBeschliessendesOrgan(),
                     proprietaryFrameSchema.getQualifizierteMehrheit(),
                     proprietaryFrameSchema.getRessort(),

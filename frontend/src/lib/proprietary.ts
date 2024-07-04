@@ -278,7 +278,7 @@ export function udpateArtNorm(
  * -------------------------------------------------- */
 
 /** All possible dropdown values for norm provider */
-export const NormgeberValues = [
+export const StaatValues = [
   "DEU - Bundesrepublik Deutschland",
   "DDR - Deutsche Demokratische Republik",
   "BW - Baden-Württemberg",

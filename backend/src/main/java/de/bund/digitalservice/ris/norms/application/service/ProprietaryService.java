@@ -58,7 +58,7 @@ public class ProprietaryService
     metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.ART_DER_NORM, query.atDate(), query.metadata().artDerNorm());
     metadatenDs.updateSimpleMetadatum(
-        MetadatenDs.Metadata.NORMGEBER, query.atDate(), query.metadata().normgeber());
+        MetadatenDs.Metadata.STAAT, query.atDate(), query.metadata().staat());
     metadatenDs.updateSimpleMetadatum(
         MetadatenDs.Metadata.BESCHLIESSENDES_ORGAN,
         query.atDate(),

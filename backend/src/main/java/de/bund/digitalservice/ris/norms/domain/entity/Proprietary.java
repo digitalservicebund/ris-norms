@@ -178,14 +178,15 @@ public class Proprietary {
   }
 
   /**
-   * Returns the ("Normgeber") of the document from the MetadatenDs block at a specific date.
+   * Returns the ("Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder
+   * Rechtsmacht die Norm trägt") of the document from the MetadatenDs block at a specific date.
    *
    * @param date the specific date of the time boundary.
-   * @return "Normgeber" or empty if it doesn't exist.
+   * @return "Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder
+   *     Rechtsmacht die Norm trägt" or empty if it doesn't exist.
    */
-  public Optional<String> getNormgeber(final LocalDate date) {
-    return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.NORMGEBER, date));
+  public Optional<String> getStaat(final LocalDate date) {
+    return getMetadatenDs().flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.STAAT, date));
   }
 
   /**

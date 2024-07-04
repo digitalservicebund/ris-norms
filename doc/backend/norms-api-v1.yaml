@@ -735,9 +735,9 @@ components:
         artDerNorm:
           type: string
           description: SN,ÄN,ÜN ("Art der Norm") of the norm
-        normgeber:
+        staat:
           type: string
-          description: DEU,DDR,BW... ("Normgeber") of the norm
+          description: DEU,DDR,BW... ("Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt") of the norm
         beschliessendesOrgan:
           type: string
           description: ("Beschließendes Organ") of the norm

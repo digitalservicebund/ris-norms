@@ -34,7 +34,8 @@ public interface UpdateProprietaryFrameFromNormUseCase {
    * @param bezeichnungInVorlage - designation according to specification of the norm - "Bezeichnung
    *     gemäß Vorlage"
    * @param artDerNorm - "Art der Norm"
-   * @param normgeber - "Normgeber"
+   * @param staat - "Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder
+   *     Rechtsmacht die Norm trägt"
    * @param beschliessendesOrgan - "Beschließendes Organ"
    * @param qualifizierterMehrheit - "Beschlussfassung mit qualifizierter Mehrheit"
    * @param ressort - "Ressort"
@@ -47,7 +48,7 @@ public interface UpdateProprietaryFrameFromNormUseCase {
       String subtyp,
       String bezeichnungInVorlage,
       String artDerNorm,
-      String normgeber,
+      String staat,
       String beschliessendesOrgan,
       Boolean qualifizierterMehrheit,
       String ressort,

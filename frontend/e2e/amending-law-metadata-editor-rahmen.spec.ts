@@ -9,7 +9,7 @@ async function restoreInitialState(page: Page) {
     subtyp: "Rechtsverordnung",
     bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
     artDerNorm: "SN,ÜN",
-    normgeber: "BEO - Berlin (Ost)",
+    staat: "BEO - Berlin (Ost)",
     beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
     qualifizierteMehrheit: true,
     ressort: "BMVg - Bundesministerium der Verteidigung",
@@ -23,7 +23,7 @@ async function restoreInitialState(page: Page) {
     subtyp: "Gesetz im formellen Sinne",
     bezeichnungInVorlage: "Neue Testbezeichnung ab 2023",
     artDerNorm: "ÄN",
-    normgeber: "HA - Hamburg",
+    staat: "HA - Hamburg",
     beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
     qualifizierteMehrheit: false,
     ressort: "BMI - Bundesministerium des Innern und für Heimat",
@@ -566,12 +566,12 @@ test.describe("metadata view", () => {
     })
   })
 
-  test.describe("Normgeber", () => {
-    let normgeberDropdown: Locator
+  test.describe("Staat", () => {
+    let staatDropdown: Locator
 
     test.beforeAll(() => {
-      normgeberDropdown = sharedPage.getByRole("combobox", {
-        name: "Normgeber",
+      staatDropdown = sharedPage.getByRole("combobox", {
+        name: "Staat",
       })
     })
 
@@ -580,35 +580,35 @@ test.describe("metadata view", () => {
       await gotoTimeBoundary("2015-06-01")
 
       // Then
-      await expect(normgeberDropdown).toHaveValue("BEO - Berlin (Ost)")
+      await expect(staatDropdown).toHaveValue("BEO - Berlin (Ost)")
 
       // When
       await gotoTimeBoundary("2023-12-30")
 
       // Then
-      await expect(normgeberDropdown).toHaveValue("HA - Hamburg")
+      await expect(staatDropdown).toHaveValue("HA - Hamburg")
     })
 
     test("saves changes", async () => {
       // When
-      await normgeberDropdown.selectOption("BE - Berlin")
+      await staatDropdown.selectOption("BE - Berlin")
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(normgeberDropdown).toHaveValue("BE - Berlin")
+      await expect(staatDropdown).toHaveValue("BE - Berlin")
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
-      await mockPutResponse({ normgeber: "SL - Saarland" })
-      await expect(normgeberDropdown).toHaveValue("BE - Berlin")
+      await mockPutResponse({ staat: "SL - Saarland" })
+      await expect(staatDropdown).toHaveValue("BE - Berlin")
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(normgeberDropdown).toHaveValue("SL - Saarland")
+      await expect(staatDropdown).toHaveValue("SL - Saarland")
 
       // Cleanup
       await sharedPage.unrouteAll()

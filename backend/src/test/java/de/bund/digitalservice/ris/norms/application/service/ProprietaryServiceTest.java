@@ -117,7 +117,7 @@ class ProprietaryServiceTest {
       assertThat(result.getSubtyp(date)).isEmpty();
       assertThat(result.getBezeichnungInVorlage(date)).isEmpty();
       assertThat(result.getArtDerNorm(date)).isEmpty();
-      assertThat(result.getNormgeber(date)).isEmpty();
+      assertThat(result.getStaat(date)).isEmpty();
       assertThat(result.getBeschliessendesOrgan(date)).isEmpty();
       assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
       assertThat(result.getOrganisationsEinheit(date)).isEmpty();
@@ -159,7 +159,7 @@ class ProprietaryServiceTest {
       assertThat(result.getSubtyp(date)).contains("subtype");
       assertThat(result.getBezeichnungInVorlage(date)).contains("bezeichnungInVorlage");
       assertThat(result.getArtDerNorm(date)).contains("ÄN,ÜN");
-      assertThat(result.getNormgeber(date)).contains("DDR");
+      assertThat(result.getStaat(date)).contains("DDR");
       assertThat(result.getBeschliessendesOrgan(date)).contains("Landtag");
       assertThat(result.getQualifizierteMehrheit(date)).contains(false);
       assertThat(result.getRessort(date)).contains("BMJ - Bundesministerium der Justiz");
@@ -193,7 +193,7 @@ class ProprietaryServiceTest {
       assertThat(result.getSubtyp(date)).isEmpty();
       assertThat(result.getBezeichnungInVorlage(date)).isEmpty();
       assertThat(result.getArtDerNorm(date)).isEmpty();
-      assertThat(result.getNormgeber(date)).isEmpty();
+      assertThat(result.getStaat(date)).isEmpty();
       assertThat(result.getBeschliessendesOrgan(date)).isEmpty();
       assertThat(result.getQualifizierteMehrheit(date)).isEmpty();
       assertThat(result.getRessort(date)).isEmpty();

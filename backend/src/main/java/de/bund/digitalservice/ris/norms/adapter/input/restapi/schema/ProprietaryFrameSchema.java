@@ -15,7 +15,7 @@ public class ProprietaryFrameSchema {
   private String subtyp;
   private String bezeichnungInVorlage;
   private String artDerNorm;
-  private String normgeber;
+  private String staat;
   private String beschliessendesOrgan;
   private Boolean qualifizierteMehrheit;
   private String ressort;

@@ -28,8 +28,8 @@ export type RahmenProprietary = {
   /** DE “Bezeichnung gemäß Vorlage" */
   bezeichnungInVorlage?: string
 
-  /** DE “Normgeber" */
-  normgeber?: string
+  /** DE “Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt" */
+  staat?: string
 
   /** DE “Beschließendes Organ" */
   beschliessendesOrgan?: string

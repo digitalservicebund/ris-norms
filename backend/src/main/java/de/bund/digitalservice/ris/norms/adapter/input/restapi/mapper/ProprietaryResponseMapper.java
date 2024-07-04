@@ -30,7 +30,7 @@ public class ProprietaryResponseMapper {
         .subtyp(proprietary.getSubtyp(date).orElse(null))
         .bezeichnungInVorlage(proprietary.getBezeichnungInVorlage(date).orElse(null))
         .artDerNorm(proprietary.getArtDerNorm(date).orElse(null))
-        .normgeber(proprietary.getNormgeber(date).orElse(null))
+        .staat(proprietary.getStaat(date).orElse(null))
         .beschliessendesOrgan(proprietary.getBeschliessendesOrgan(date).orElse(null))
         .qualifizierteMehrheit(proprietary.getQualifizierteMehrheit(date).orElse(null))
         .ressort(proprietary.getRessort(date).orElse(null))

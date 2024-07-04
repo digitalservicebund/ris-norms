@@ -646,9 +646,9 @@ class ProprietaryTest {
   }
 
   @Nested
-  class Normgeber {
+  class Staat {
     @Test
-    void returnsNormgeber() {
+    void returnsStaat() {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
@@ -668,11 +668,11 @@ class ProprietaryTest {
                                                                       """))
               .build();
 
-      assertThat(proprietary.getNormgeber(LocalDate.parse("2010-10-10"))).contains("DEU");
+      assertThat(proprietary.getStaat(LocalDate.parse("2010-10-10"))).contains("DEU");
     }
 
     @Test
-    void returnsEmptyOptionalIfNormgeberIsMissing() {
+    void returnsEmptyOptionalIfStaatIsMissing() {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
@@ -692,11 +692,11 @@ class ProprietaryTest {
                                                                       """))
               .build();
 
-      assertThat(proprietary.getNormgeber(LocalDate.parse("2010-10-10"))).isEmpty();
+      assertThat(proprietary.getStaat(LocalDate.parse("2010-10-10"))).isEmpty();
     }
 
     @Test
-    void returnsTheNormgeberAtDate() {
+    void returnsTheStaatAtDate() {
       final Proprietary proprietary =
           Proprietary.builder()
               .node(
@@ -719,18 +719,18 @@ class ProprietaryTest {
                                                                       """))
               .build();
 
-      assertThat(proprietary.getNormgeber(LocalDate.parse("1980-01-01"))).contains("DEU");
+      assertThat(proprietary.getStaat(LocalDate.parse("1980-01-01"))).contains("DEU");
 
-      assertThat(proprietary.getNormgeber(LocalDate.parse("1990-01-01"))).contains("DDR");
-      assertThat(proprietary.getNormgeber(LocalDate.parse("1992-01-01"))).contains("DDR");
-      assertThat(proprietary.getNormgeber(LocalDate.parse("1994-12-31"))).contains("DDR");
+      assertThat(proprietary.getStaat(LocalDate.parse("1990-01-01"))).contains("DDR");
+      assertThat(proprietary.getStaat(LocalDate.parse("1992-01-01"))).contains("DDR");
+      assertThat(proprietary.getStaat(LocalDate.parse("1994-12-31"))).contains("DDR");
 
-      assertThat(proprietary.getNormgeber(LocalDate.parse("1995-01-01"))).contains("BW");
-      assertThat(proprietary.getNormgeber(LocalDate.parse("1998-01-01"))).contains("BW");
-      assertThat(proprietary.getNormgeber(LocalDate.parse("2000-12-31"))).contains("BW");
+      assertThat(proprietary.getStaat(LocalDate.parse("1995-01-01"))).contains("BW");
+      assertThat(proprietary.getStaat(LocalDate.parse("1998-01-01"))).contains("BW");
+      assertThat(proprietary.getStaat(LocalDate.parse("2000-12-31"))).contains("BW");
 
-      assertThat(proprietary.getNormgeber(LocalDate.parse("2001-01-01"))).contains("BY");
-      assertThat(proprietary.getNormgeber(LocalDate.parse("2024-01-01"))).contains("BY");
+      assertThat(proprietary.getStaat(LocalDate.parse("2001-01-01"))).contains("BY");
+      assertThat(proprietary.getStaat(LocalDate.parse("2024-01-01"))).contains("BY");
     }
   }
 

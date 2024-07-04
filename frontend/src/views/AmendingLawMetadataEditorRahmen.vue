@@ -23,7 +23,7 @@ import {
   RessortValues,
   getDocumentTypeFromMetadata,
   isArtNormTypePresent,
-  NormgeberValues,
+  StaatValues,
   udpateArtNorm,
   UNKNOWN_DOCUMENT_TYPE,
 } from "@/lib/proprietary"
@@ -93,7 +93,7 @@ const {
   artNormSnId,
   artNormAnId,
   artNormUnId,
-  normgeberId,
+  staatId,
   beschliessendesOrganId,
   qualifizierteMehrheitId,
   ressortId,
@@ -214,21 +214,21 @@ const bezeichnungInVorlage = computed<string>({
   },
 })
 
-const normgeber = computed<string>({
+const staat = computed<string>({
   get() {
-    return localData.value?.normgeber ?? ""
+    return localData.value?.staat ?? ""
   },
   set(value: string) {
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
-      draft.normgeber = value
+      draft.staat = value
     })
   },
 })
 
-const normgeberItems: DropdownItem[] = [
+const staatItems: DropdownItem[] = [
   { label: "", value: "" },
-  ...NormgeberValues.map((value) => ({ label: value, value })),
+  ...StaatValues.map((value) => ({ label: value, value })),
 ]
 
 const beschliessendesOrgan = computed<string>({
@@ -411,11 +411,16 @@ const {
               <fieldset class="contents">
                 <legend class="ds-label-02-bold col-span-2">Normgeber</legend>
 
-                <label :for="normgeberId">Normgeber</label>
+                <label :for="staatId"
+                  ><abbr
+                    title="Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt"
+                    >Staat</abbr
+                  ></label
+                >
                 <RisDropdownInput
-                  :id="normgeberId"
-                  v-model="normgeber"
-                  :items="normgeberItems"
+                  :id="staatId"
+                  v-model="staat"
+                  :items="staatItems"
                 />
 
                 <label :for="beschliessendesOrganId">

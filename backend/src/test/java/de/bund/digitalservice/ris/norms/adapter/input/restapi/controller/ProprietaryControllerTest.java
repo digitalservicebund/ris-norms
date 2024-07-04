@@ -87,7 +87,7 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("staat").value("DEU"))
           .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
           .andExpect(jsonPath("qualifizierteMehrheit").value(true))
           .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
@@ -117,7 +117,7 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("staat").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
           .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
           .andExpect(jsonPath("organisationsEinheit").isEmpty());
@@ -147,7 +147,7 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("staat").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
           .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
           .andExpect(jsonPath("organisationsEinheit").isEmpty());
@@ -201,7 +201,7 @@ class ProprietaryControllerTest {
                           + "\"subtyp\": \"new-subtyp\","
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
-                          + "\"normgeber\": \"DEU\","
+                          + "\"staat\": \"DEU\","
                           + "\"beschliessendesOrgan\": \"Bundestag\","
                           + "\"qualifizierteMehrheit\": true,"
                           + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"))
@@ -212,7 +212,7 @@ class ProprietaryControllerTest {
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("staat").value("DEU"))
           .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
           .andExpect(jsonPath("qualifizierteMehrheit").value(true))
           .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
@@ -234,7 +234,7 @@ class ProprietaryControllerTest {
                               .bezeichnungInVorlage()
                               .equals("new-bezeichnungInVorlage")
                           && query.metadata().artDerNorm().equals("SN,ÄN,ÜN")
-                          && query.metadata().normgeber().equals("DEU")
+                          && query.metadata().staat().equals("DEU")
                           && query.metadata().beschliessendesOrgan().equals("Bundestag")
                           && query.metadata().qualifizierterMehrheit().equals(true)
                           && query
@@ -264,7 +264,7 @@ class ProprietaryControllerTest {
                           + "\"subtyp\": \"new-subtyp\","
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
-                          + "\"normgeber\": \"DEU\","
+                          + "\"staat\": \"DEU\","
                           + "\"beschliessendesOrgan\": \"Bundestag\","
                           + "\"qualifizierteMehrheit\": true,"
                           + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"))
