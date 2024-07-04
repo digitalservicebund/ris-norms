@@ -13,4 +13,8 @@ vi.mock("@/services/xmlService", async (importOriginal) => ({
     useNamespaces({
       akn: "http://Inhaltsdaten.LegalDocML.de/1.6/",
     })(xpath, node, true),
+  evaluateXPath: (xpath: string, node: Node) =>
+    useNamespaces({
+      akn: "http://Inhaltsdaten.LegalDocML.de/1.6/",
+    })(xpath, node, false),
 }))
