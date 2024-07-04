@@ -95,7 +95,9 @@ watch(updateData, () => {
 watch(
   () => props.selectedMods[0],
   () => {
-    preview()
+    if (props.selectedMods.length === 1) {
+      preview()
+    }
   },
 )
 </script>

@@ -129,7 +129,9 @@ watch(updateData, () => {
 watch(
   () => props.selectedMods,
   () => {
-    preview()
+    if (props.selectedMods.length > 1) {
+      preview()
+    }
   },
   { deep: true, immediate: true },
 )
