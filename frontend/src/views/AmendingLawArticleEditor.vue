@@ -18,9 +18,10 @@ import { getNodeByEid } from "@/services/ldmldeService"
 import { useGetNorm } from "@/services/normService"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, Ref, ref, watch } from "vue"
+import { computed, Ref, ref, toValue, watch } from "vue"
 import { useModEidSelection } from "@/composables/useModEidSelection"
 import { useDebounce } from "@vueuse/core"
+import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -102,6 +103,15 @@ const showEditor: Ref<boolean> = useDebounce(
   computed(() => selectedMods.value.length > 0),
   20,
 )
+
+const normDocument = computed(() => {
+  const xmlValue = toValue(currentXml)
+  return xmlValue ? xmlStringToDocument(xmlValue) : null
+})
+
+const isSelected = (eId: string) => selectedMods.value.includes(eId)
+
+const classesForPreview = useModHighlightClasses(normDocument, isSelected)
 </script>
 
 <template>
@@ -178,9 +188,9 @@ const showEditor: Ref<boolean> = useDebounce(
                   v-else
                   class="ds-textarea flex-grow p-2"
                   :content="articleHtml ?? ''"
-                  highlight-mods
                   highlight-affected-document
                   :selected="selectedMods"
+                  :e-id-classes="classesForPreview"
                   @click:akn:mod="handleAknModClick"
                   @click="handlePreviewClick"
                 />
