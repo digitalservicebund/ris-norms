@@ -1,4 +1,4 @@
-import { evaluateXPath, xmlStringToDocument } from "@/services/xmlService"
+import { evaluateXPathOnce, xmlStringToDocument } from "@/services/xmlService"
 import { describe, expect, it } from "vitest"
 import {
   getActiveModificationByModEid,
@@ -76,7 +76,7 @@ describe("ldmldeService", () => {
       )
 
       expect(node).not.to.be.null
-      expect(evaluateXPath("@eId", node!)?.nodeValue).to.eq(
+      expect(evaluateXPathOnce("@eId", node!)?.nodeValue).to.eq(
         "meta-1_analysis-1_activemod-1_textualmod-1",
       )
     })

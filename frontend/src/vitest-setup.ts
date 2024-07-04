@@ -9,7 +9,7 @@ import { useNamespaces } from "xpath"
 // Therefore, we need to use a different library to evaluate the xpath.
 vi.mock("@/services/xmlService", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@/services/xmlService")>()),
-  evaluateXPath: (xpath: string, node: Node) =>
+  evaluateXPathOnce: (xpath: string, node: Node) =>
     useNamespaces({
       akn: "http://Inhaltsdaten.LegalDocML.de/1.6/",
     })(xpath, node, true),

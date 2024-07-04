@@ -344,16 +344,16 @@ watch(
 }
 
 .highlight-mods :deep(.akn-mod) {
-  @apply bg-highlight-mod-default border border-dotted border-gray-900 px-2;
+  @apply border border-dotted border-gray-900 bg-highlight-mod-default px-2;
 }
 
 .highlight-mods :deep(.akn-mod):hover,
 .highlight-mods :deep(.akn-mod):focus {
-  @apply border-highlight-mod-border bg-highlight-mod-hover border border-dotted px-2;
+  @apply border border-dotted border-highlight-mod-border bg-highlight-mod-hover px-2;
 }
 
 .highlight-mods :deep(.akn-mod.selected) {
-  @apply border-highlight-mod-border bg-highlight-mod-selected border border-solid px-2;
+  @apply border border-solid border-highlight-mod-border bg-highlight-mod-selected px-2;
 }
 
 .highlight-affected-document :deep(.akn-affectedDocument) {
