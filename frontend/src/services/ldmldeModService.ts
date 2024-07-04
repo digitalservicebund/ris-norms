@@ -1,4 +1,4 @@
-import { evaluateXPathOnce } from "@/services/xmlService"
+import { evaluateXPath, evaluateXPathOnce } from "@/services/xmlService"
 import { ModType, ModData } from "@/types/ModType"
 import {
   getActiveModificationByModEid,
@@ -10,6 +10,15 @@ import { getEventRefDate } from "@/services/ldmldeEventRefService"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
+
+/**
+ * Find the eIds of all akn:mod elements.
+ */
+export function getModEIds(node: Node): string[] {
+  return evaluateXPath(`//akn:mod/@eId`, node)
+    .map((eIdNode) => eIdNode.nodeValue)
+    .filter((value): value is string => value !== null)
+}
 
 /**
  * Provides the old text of an akn:mod element. For "aenderungsbefehl-ersetzen" this is the old text.
