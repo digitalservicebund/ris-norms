@@ -90,5 +90,5 @@ Run a specific browser e2e test:
 ```bash
 npm run test:e2e -- --project chromium --repeat-each 1
 npm run test:e2e -- --project firefox --repeat-each 1
-npm run test:e2e -- --project msedge --repeat-each 1
+npm run test:e2e -- --project edge --repeat-each 1
 ```
