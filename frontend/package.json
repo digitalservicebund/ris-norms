@@ -28,10 +28,16 @@
   },
   "dependencies": {
     "@codemirror/lang-xml": "^6.1.0",
+    "@types/lodash.isequal": "^4.5.8",
+    "@types/lodash.sortby": "^4.7.9",
+    "@types/lodash.uniqwith": "^4.5.9",
     "@vueuse/core": "^10.10.0",
     "codemirror": "^6.0.1",
     "dayjs": "^1.11.10",
     "immer": "^10.1.1",
+    "lodash.isequal": "^4.5.0",
+    "lodash.sortby": "^4.7.0",
+    "lodash.uniqwith": "^4.5.0",
     "maska": "^2.1.11",
     "vue": "~3.4.24",
     "vue-router": "~4.4.0"
