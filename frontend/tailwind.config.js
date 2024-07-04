@@ -12,7 +12,6 @@ module.exports = {
               hover: "rgba(196, 196, 196, 0.6)",
               selected: "rgba(224, 244, 255, 1)",
               default: "rgba(231, 231, 231, 0.4)",
-              border: "#4299F7",
             },
             1: {
               default: "#D0DFF0",
