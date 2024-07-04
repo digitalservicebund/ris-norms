@@ -132,14 +132,11 @@ test.describe("Url and selecting works", () => {
 })
 
 test.describe("Loading amending norm details", () => {
-  const BASE_URL =
-    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit"
-
-  test.beforeEach(async ({ page }) => {
-    await page.goto(BASE_URL)
-  })
-
   test(`see amending law number and article title`, async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+    )
+
     await expect(
       page.getByRole("navigation").getByText("BGBl. I 2017 S. 419"),
     ).toBeVisible()
@@ -152,6 +149,10 @@ test.describe("Loading amending norm details", () => {
   test(`load amending law xml and html render in their respective tabs`, async ({
     page,
   }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+    )
+
     const amendingLawSection = page.getByRole("region", {
       name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
     })
@@ -177,10 +178,46 @@ test.describe("Loading amending norm details", () => {
   test(`loading empty mod state when no command is selected`, async ({
     page,
   }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
+    )
+
     const textContent = page.getByText(
       "Wählen sie einen Änderungsbefehl zur Bearbeitung aus.",
     )
     await expect(textContent).toBeVisible()
+  })
+
+  test(`highlight mods in colors which change when hovered and selected`, async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
+    )
+
+    const amendingLawSection = page.getByRole("region", {
+      name: /^Änderungsbefehle/,
+    })
+
+    await expect(
+      amendingLawSection.getByText(/^In § 1 Absatz 1 Satz 1/),
+    ).toHaveCSS("background-color", "rgb(208, 223, 240)")
+
+    await expect(
+      amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/),
+    ).toHaveCSS("background-color", "rgb(208, 223, 240)")
+
+    await amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/).hover()
+
+    await expect(
+      amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/),
+    ).toHaveCSS("background-color", "rgb(166, 188, 221)")
+
+    await amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/).click()
+
+    await expect(
+      amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/),
+    ).toHaveCSS("background-color", "rgb(121, 153, 200)")
   })
 })
 
