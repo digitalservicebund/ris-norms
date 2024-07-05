@@ -76,6 +76,7 @@ const modEIds = computed(() => {
 const {
   values: selectedMods,
   deselectAll: deselectAllSelectedMods,
+  selectAll: selectAllMods,
   handleAknModClick,
 } = useModEidSelection(modEIds)
 
@@ -121,6 +122,13 @@ const showEditor: Ref<boolean> = useDebounce(
 const isSelected = (eId: string) => selectedMods.value.includes(eId)
 
 const classesForPreview = useModHighlightClasses(normDocument, isSelected)
+
+function handlePreviewKeyDown(e: KeyboardEvent) {
+  if (e.key === "a" && (e.metaKey || e.ctrlKey)) {
+    e.preventDefault()
+    selectAllMods()
+  }
+}
 </script>
 
 <template>
@@ -202,6 +210,7 @@ const classesForPreview = useModHighlightClasses(normDocument, isSelected)
                   :e-id-classes="classesForPreview"
                   @click:akn:mod="handleAknModClick"
                   @click="handlePreviewClick"
+                  @keydown="handlePreviewKeyDown"
                 />
               </template>
 

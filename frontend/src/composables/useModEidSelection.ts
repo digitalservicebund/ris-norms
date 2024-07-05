@@ -18,6 +18,10 @@ export function useModEidSelection(modEIds: MaybeRefOrGetter<string[]>): {
    */
   deselectAll: () => void
   /**
+   * Select all currently selected akn:mod elements
+   */
+  selectAll: () => void
+  /**
    * Handle a click (or keyboard) event that should impact the selection of the given akn:mod element. Takes care of multiselect functionality when the meta or ctrl keys are pressed during the event.
    *
    * @param eid the eId of the akn:mod element that should be impacted by this event
@@ -113,5 +117,6 @@ export function useModEidSelection(modEIds: MaybeRefOrGetter<string[]>): {
     values,
     handleAknModClick,
     deselectAll: clear,
+    selectAll: () => selectAll(toValue(modEIds) ?? []),
   }
 }
