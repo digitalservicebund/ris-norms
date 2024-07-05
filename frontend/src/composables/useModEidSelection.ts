@@ -85,6 +85,9 @@ export function useModEidSelection(modEIds: MaybeRefOrGetter<string[]>): {
         clear()
         selectAll(eIdsOfRange)
       }
+
+      // clear up selection created by shift click
+      getSelection()?.removeAllRanges()
     } else if (originalEvent.ctrlKey || originalEvent.metaKey) {
       toggle(eid)
     } else {
