@@ -23,7 +23,12 @@ export function useNormRender(
       if (!toValue(normXml)) return INVALID_URL
 
       const searchParams = new URLSearchParams()
-      searchParams.set("showMetadata", toValue(showMetadata) ? "true" : "false")
+      if (renderHtml) {
+        searchParams.set(
+          "showMetadata",
+          toValue(showMetadata) ? "true" : "false",
+        )
+      }
 
       const atValue = toValue(at)
       if (atValue) {
