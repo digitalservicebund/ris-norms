@@ -43,6 +43,3 @@ management:
       enabled: true
     liveness-state:
       enabled: true
-
-sentry:
-  exception-resolver-order: -2147483647

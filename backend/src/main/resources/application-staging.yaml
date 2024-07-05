@@ -1,3 +1,0 @@
-sentry:
-  environment: staging
-  traces-sample-rate: 0.01
