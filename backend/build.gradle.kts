@@ -208,12 +208,17 @@ tasks.named("checkstyleTest").configure {
 }
 
 sentry {
+
     // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
     // This enables source context, allowing you to see your source
     // code as part of your stack traces in Sentry.
-    includeSourceContext = true
+    // includeSourceContext = true
+
+    // Temporarily disabled since it didn't work when building with gradle in the docker container
+    includeSourceContext = false
 
     org = "digitalservice"
     projectName = "ris-norms-backend"
+    debug.set(true)
     authToken = System.getenv("SENTRY_AUTH_TOKEN")
 }
