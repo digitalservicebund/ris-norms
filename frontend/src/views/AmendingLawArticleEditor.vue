@@ -11,7 +11,7 @@ import RisTabs from "@/components/editor/RisTabs.vue"
 import { useArticle } from "@/composables/useArticle"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { useNormRender } from "@/composables/useNormRender"
+import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useNormXml } from "@/composables/useNormXml"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { getNodeByEid } from "@/services/ldmldeService"
@@ -84,7 +84,7 @@ const {
   data: articleHtml,
   isFetching: isFetchingArticleHtml,
   error: loadArticleHtmlError,
-} = useNormRender(articleXml)
+} = useNormRenderHtml(articleXml)
 const amendingLawActiveTab = ref("text")
 
 watch(xml, (xml) => {

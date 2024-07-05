@@ -12,9 +12,9 @@ describe("useNormRender", () => {
       .mockResolvedValueOnce(new Response(`<html>Metadata shown</html>`))
 
     const xml = "<law></law>"
-    const { useNormRender } = await import("./useNormRender")
+    const { useNormRenderHtml } = await import("./useNormRender")
 
-    const { data, isFinished } = useNormRender(xml, true)
+    const { data, isFinished } = useNormRenderHtml(xml, true)
     await vi.waitUntil(() => isFinished.value)
     expect(data.value).toBe(`<html>Metadata shown</html>`)
 
@@ -34,8 +34,8 @@ describe("useNormRender", () => {
   it("allows showMetadata to be explicitly set to false", async () => {
     const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue(new Response())
 
-    const { useNormRender } = await import("./useNormRender")
-    const { isFinished } = useNormRender("<law></law>", false)
+    const { useNormRenderHtml } = await import("./useNormRender")
+    const { isFinished } = useNormRenderHtml("<law></law>", false)
     await vi.waitUntil(() => isFinished.value)
 
     expect(fetchSpy).toHaveBeenCalledWith(
@@ -47,10 +47,9 @@ describe("useNormRender", () => {
   it("support setting a date", async () => {
     const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue(new Response())
 
-    const { useNormRender } = await import("./useNormRender")
-    const { isFinished } = useNormRender(
+    const { useNormRenderHtml } = await import("./useNormRender")
+    const { isFinished } = useNormRenderHtml(
       "<law></law>",
-      true,
       true,
       new Date(Date.UTC(2023, 0, 1)),
     )
@@ -65,9 +64,9 @@ describe("useNormRender", () => {
   it("support setting custom norms", async () => {
     const fetchSpy = vi.spyOn(global, "fetch").mockResolvedValue(new Response())
 
-    const { useNormRender } = await import("./useNormRender")
+    const { useNormRenderHtml } = await import("./useNormRender")
 
-    const { isFinished } = useNormRender("<law></law>", true, true, undefined, [
+    const { isFinished } = useNormRenderHtml("<law></law>", true, undefined, [
       "<xml>other-norm</xml>",
     ])
     await vi.waitUntil(() => isFinished.value)

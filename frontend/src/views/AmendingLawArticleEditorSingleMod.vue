@@ -7,7 +7,10 @@ import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useMod } from "@/composables/useMod"
-import { useNormRender } from "@/composables/useNormRender"
+import {
+  useNormRenderHtml,
+  useNormRenderXml,
+} from "@/composables/useNormRender"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { computed, ref, watch } from "vue"
 
@@ -60,10 +63,9 @@ const {
   data: previewHtml,
   isFetching: isFetchingPreviewHtml,
   error: loadPreviewHtmlError,
-} = useNormRender(
+} = useNormRenderHtml(
   targetNormZf0Xml,
   false,
-  true,
   computed(() =>
     timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
   ),
@@ -73,10 +75,8 @@ const {
   data: previewXml,
   isFetching: isFetchingPreviewXml,
   error: loadPreviewXmlError,
-} = useNormRender(
+} = useNormRenderXml(
   targetNormZf0Xml,
-  false,
-  false,
   computed(() =>
     timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
   ),

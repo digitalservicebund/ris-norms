@@ -10,7 +10,7 @@ import RisTooltip from "@/components/controls/RisTooltip.vue"
 import { computed, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import { useMods } from "@/composables/useMods"
-import { useNormRender } from "@/composables/useNormRender"
+import { useNormRenderHtml } from "@/composables/useNormRender"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
@@ -97,10 +97,9 @@ const {
   data: previewHtml,
   isFetching: isFetchingPreviewHtml,
   error: loadPreviewHtmlError,
-} = useNormRender(
+} = useNormRenderHtml(
   previewXml,
   false,
-  true,
   computed(() => {
     if (
       timeBoundary.value === "no_choice" ||
