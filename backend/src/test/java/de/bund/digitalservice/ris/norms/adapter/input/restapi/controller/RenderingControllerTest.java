@@ -45,6 +45,7 @@ class RenderingControllerTest {
         .perform(
             post("/api/v1/renderings")
                 .queryParam("showMetadata", "true")
+                .accept(MediaType.TEXT_HTML)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -86,6 +87,7 @@ class RenderingControllerTest {
         .perform(
             post("/api/v1/renderings")
                 .queryParam("showMetadata", "false")
+                .accept(MediaType.TEXT_HTML)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -128,6 +130,7 @@ class RenderingControllerTest {
             post("/api/v1/renderings")
                 .queryParam("showMetadata", "true")
                 .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
+                .accept(MediaType.TEXT_HTML)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -174,6 +177,7 @@ class RenderingControllerTest {
     mockMvc
         .perform(
             post("/api/v1/renderings")
+                .accept(MediaType.TEXT_HTML)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -206,6 +210,7 @@ class RenderingControllerTest {
             post("/api/v1/renderings")
                 .queryParam("showMetadata", "false")
                 .queryParam("atIsoDate", "2024-01-01T00:00:00.0Z")
+                .accept(MediaType.TEXT_HTML)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """

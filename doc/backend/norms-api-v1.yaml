@@ -610,6 +610,9 @@ paths:
             text/html:
               schema:
                 type: string
+            application/xml:
+              schema:
+                type: string
 
 components:
   schemas:

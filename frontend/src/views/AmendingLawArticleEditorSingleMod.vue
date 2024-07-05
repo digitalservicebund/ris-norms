@@ -21,7 +21,7 @@ const props = defineProps<{
 
 const eli = useEliPathParameter()
 
-const previewXml = ref<string>("")
+const targetNormZf0Xml = ref<string>("")
 
 const {
   data: timeBoundaries,
@@ -61,7 +61,21 @@ const {
   isFetching: isFetchingPreviewHtml,
   error: loadPreviewHtmlError,
 } = useNormRender(
-  previewXml,
+  targetNormZf0Xml,
+  false,
+  true,
+  computed(() =>
+    timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
+  ),
+  previewCustomNorms,
+)
+const {
+  data: previewXml,
+  isFetching: isFetchingPreviewXml,
+  error: loadPreviewXmlError,
+} = useNormRender(
+  targetNormZf0Xml,
+  false,
   false,
   computed(() =>
     timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
@@ -82,14 +96,14 @@ watch(
 watch(previewData, () => {
   if (!previewData.value) return
 
-  previewXml.value = previewData.value.targetNormZf0Xml
+  targetNormZf0Xml.value = previewData.value.targetNormZf0Xml
 })
 
 watch(updateData, () => {
   if (!updateData.value) return
 
   xml.value = updateData.value.amendingNormXml
-  previewXml.value = updateData.value.targetNormZf0Xml
+  targetNormZf0Xml.value = updateData.value.targetNormZf0Xml
 })
 
 watch(
@@ -175,12 +189,12 @@ watch(
 
       <template #xml>
         <div
-          v-if="isFetchingPreviewData"
+          v-if="isFetchingPreviewData || isFetchingPreviewXml"
           class="flex items-center justify-center"
         >
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
-        <div v-else-if="previewError">
+        <div v-else-if="loadPreviewXmlError || previewError">
           <RisCallout
             title="Die Vorschau konnte nicht erzeugt werden."
             variant="error"
@@ -190,7 +204,7 @@ watch(
           v-else
           class="flex-grow"
           :readonly="true"
-          :model-value="previewXml"
+          :model-value="previewXml ?? targetNormZf0Xml"
         ></RisCodeEditor>
       </template>
     </RisTabs>

@@ -100,6 +100,7 @@ const {
 } = useNormRender(
   previewXml,
   false,
+  true,
   computed(() => {
     if (
       timeBoundary.value === "no_choice" ||

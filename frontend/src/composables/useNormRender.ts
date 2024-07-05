@@ -7,12 +7,14 @@ import { UseFetchReturn } from "@vueuse/core"
  *
  * @param normXml XML of the norm that should be rendered
  * @param showMetadata Enable or disable metadata list at the beginning of the document
+ * @param renderHtml By default (true) renders HTML. When false then XML.
  * @param customNorms The XMLs of norms which are referenced by the norm (e.g. in passiveModifications) and should be used instead of the data stored.
  * @param at Passive modifications coming into effect before this date should be applied before rendering the HTML
  */
 export function useNormRender(
   normXml: MaybeRefOrGetter<string | undefined>,
   showMetadata: MaybeRefOrGetter<boolean> = false,
+  renderHtml: MaybeRefOrGetter<boolean> = true,
   at?: MaybeRefOrGetter<Date | undefined>,
   customNorms?: MaybeRefOrGetter<string[] | undefined>,
 ): UseFetchReturn<string> {
@@ -32,7 +34,7 @@ export function useNormRender(
     }),
     {
       headers: {
-        Accept: "text/html",
+        Accept: renderHtml ? "text/html" : "application/xml",
         "Content-Type": "application/json",
       },
     },

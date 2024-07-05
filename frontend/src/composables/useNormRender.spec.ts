@@ -51,6 +51,7 @@ describe("useNormRender", () => {
     const { isFinished } = useNormRender(
       "<law></law>",
       true,
+      true,
       new Date(Date.UTC(2023, 0, 1)),
     )
     await vi.waitUntil(() => isFinished.value)
@@ -66,7 +67,7 @@ describe("useNormRender", () => {
 
     const { useNormRender } = await import("./useNormRender")
 
-    const { isFinished } = useNormRender("<law></law>", true, undefined, [
+    const { isFinished } = useNormRender("<law></law>", true, true, undefined, [
       "<xml>other-norm</xml>",
     ])
     await vi.waitUntil(() => isFinished.value)
