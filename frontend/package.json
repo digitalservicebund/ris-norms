@@ -19,6 +19,9 @@
     "style:fix": "npm run prettier:fix && npm run eslint:fix",
     "test:a11y": "playwright test --project=a11y",
     "test:e2e": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:msedge": "playwright test --project=msedge",
     "histoire": "histoire dev",
     "audit:licences": "license-checker --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
   },

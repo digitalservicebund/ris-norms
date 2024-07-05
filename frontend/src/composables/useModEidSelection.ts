@@ -1,12 +1,14 @@
 import { useMultiSelection } from "@/composables/useMultiSelection"
 import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
-import { Ref, watch } from "vue"
+import { MaybeRefOrGetter, ref, Ref, toValue, watch } from "vue"
 
 /**
  * Provides an array of selected akn:mod elements (identified by their eIds) and provides an event-handler for events that should impact this selection.
  * The selection is also synchronized with the respective path-parameter.
+ *
+ * @param modEIds Array of the eIds of all akn:mod elements that can be selected. Ordered in the same way as in the UI.
  */
-export function useModEidSelection(): {
+export function useModEidSelection(modEIds: MaybeRefOrGetter<string[]>): {
   /**
    * The eIds of the currently selected akn:mod elements
    */
@@ -15,6 +17,10 @@ export function useModEidSelection(): {
    * Deselect all currently selected akn:mod elements
    */
   deselectAll: () => void
+  /**
+   * Select all currently selected akn:mod elements
+   */
+  selectAll: () => void
   /**
    * Handle a click (or keyboard) event that should impact the selection of the given akn:mod element. Takes care of multiselect functionality when the meta or ctrl keys are pressed during the event.
    *
@@ -29,7 +35,10 @@ export function useModEidSelection(): {
     originalEvent: MouseEvent | KeyboardEvent
   }) => void
 } {
-  const { values, select, toggle, deselectAll } = useMultiSelection<string>()
+  const { values, select, toggle, deselectAll, selectAll, clear } =
+    useMultiSelection<string>()
+
+  const lastClickedModEid = ref<string | null>(null)
 
   const modEidPathParameter = useModEidPathParameter()
 
@@ -51,6 +60,40 @@ export function useModEidSelection(): {
     }
   })
 
+  function handleAknModShiftClick({
+    eid,
+    originalEvent,
+  }: {
+    eid: string
+    originalEvent: MouseEvent | KeyboardEvent
+  }) {
+    const currentModEIds = toValue(modEIds)
+
+    const indexOfClickedMod = currentModEIds.indexOf(eid)
+    const indexOfLastClickedMod = lastClickedModEid.value
+      ? currentModEIds.indexOf(lastClickedModEid.value)
+      : 0
+
+    const eIdsOfRange =
+      indexOfLastClickedMod < indexOfClickedMod
+        ? currentModEIds.slice(indexOfLastClickedMod, indexOfClickedMod + 1)
+        : currentModEIds.slice(indexOfClickedMod, indexOfLastClickedMod + 1)
+
+    if (originalEvent.ctrlKey || originalEvent.metaKey) {
+      if (values.value.includes(eid)) {
+        deselectAll(eIdsOfRange)
+      } else {
+        selectAll(eIdsOfRange)
+      }
+    } else {
+      clear()
+      selectAll(eIdsOfRange)
+    }
+
+    // clear up selection created by shift click
+    getSelection()?.removeAllRanges()
+  }
+
   function handleAknModClick({
     eid,
     originalEvent,
@@ -58,17 +101,22 @@ export function useModEidSelection(): {
     eid: string
     originalEvent: MouseEvent | KeyboardEvent
   }) {
-    if (originalEvent.ctrlKey || originalEvent.metaKey) {
+    if (originalEvent.shiftKey) {
+      handleAknModShiftClick({ eid, originalEvent })
+    } else if (originalEvent.ctrlKey || originalEvent.metaKey) {
       toggle(eid)
     } else {
-      deselectAll()
+      clear()
       select(eid)
     }
+
+    lastClickedModEid.value = eid
   }
 
   return {
     values,
     handleAknModClick,
-    deselectAll,
+    deselectAll: clear,
+    selectAll: () => selectAll(toValue(modEIds) ?? []),
   }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProfile name="!(staging | production | uat)">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    </springProfile>
+    <springProfile name="staging,production,uat">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+        <appender name="SENTRY" class="io.sentry.logback.SentryAppender">
+            <options>
+                <dsn>${SENTRY_DSN}</dsn>
+                <environment>logger</environment>
+            </options>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="SENTRY"/>
+        </root>
+    </springProfile>
+</configuration>

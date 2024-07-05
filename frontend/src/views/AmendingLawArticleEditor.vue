@@ -22,6 +22,7 @@ import { computed, Ref, ref, toValue, watch } from "vue"
 import { useModEidSelection } from "@/composables/useModEidSelection"
 import { useDebounce } from "@vueuse/core"
 import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
+import { getModEIds } from "@/services/ldmldeModService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -30,12 +31,6 @@ const {
   isFetching: isFetchingAmendingLaw,
   error: loadAmendingLawError,
 } = useGetNorm(eli)
-
-const {
-  values: selectedMods,
-  deselectAll: deselectAllSelectedMods,
-  handleAknModClick,
-} = useModEidSelection()
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
@@ -64,6 +59,26 @@ const articleXml = computed(() => {
 
   return xmlNodeToString(articleNode)
 })
+
+const normDocument = computed(() => {
+  const xmlValue = toValue(currentXml)
+  return xmlValue ? xmlStringToDocument(xmlValue) : null
+})
+
+const modEIds = computed(() => {
+  if (!normDocument.value) {
+    return []
+  }
+
+  return getModEIds(normDocument.value)
+})
+
+const {
+  values: selectedMods,
+  deselectAll: deselectAllSelectedMods,
+  selectAll: selectAllMods,
+  handleAknModClick,
+} = useModEidSelection(modEIds)
 
 const {
   data: articleHtml,
@@ -104,14 +119,16 @@ const showEditor: Ref<boolean> = useDebounce(
   20,
 )
 
-const normDocument = computed(() => {
-  const xmlValue = toValue(currentXml)
-  return xmlValue ? xmlStringToDocument(xmlValue) : null
-})
-
 const isSelected = (eId: string) => selectedMods.value.includes(eId)
 
 const classesForPreview = useModHighlightClasses(normDocument, isSelected)
+
+function handlePreviewKeyDown(e: KeyboardEvent) {
+  if (e.key === "a" && (e.metaKey || e.ctrlKey)) {
+    e.preventDefault()
+    selectAllMods()
+  }
+}
 </script>
 
 <template>
@@ -193,6 +210,7 @@ const classesForPreview = useModHighlightClasses(normDocument, isSelected)
                   :e-id-classes="classesForPreview"
                   @click:akn:mod="handleAknModClick"
                   @click="handlePreviewClick"
+                  @keydown="handlePreviewKeyDown"
                 />
               </template>
 

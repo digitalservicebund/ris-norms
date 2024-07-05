@@ -130,6 +130,53 @@ test.describe("Url and selecting works", () => {
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
     )
   })
+
+  test(`Selecting a range of mods using Shift + click works`, async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
+    )
+
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+    })
+
+    await amendingLawSection.getByText("§ 1 Absatz 2 Satz 1").click()
+    await amendingLawSection
+      .getByText("§ 1 Absatz 5 Satz 1")
+      .click({ modifiers: ["Shift"] })
+
+    await expect(
+      page.getByRole("heading", {
+        level: 3,
+        name: "4 Änderungsbefehle bearbeiten",
+      }),
+    ).toBeVisible()
+  })
+
+  test(`Selecting all mods using Ctrl+A works`, async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+    )
+
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+    })
+
+    await amendingLawSection
+      .getByText("Beispielgesetz vom 1. Januar 1001")
+      .click()
+
+    await page.keyboard.press("ControlOrMeta+a")
+
+    await expect(
+      page.getByRole("heading", {
+        level: 3,
+        name: "10 Änderungsbefehle bearbeiten",
+      }),
+    ).toBeVisible()
+  })
 })
 
 test.describe("Loading amending norm details", () => {
@@ -222,23 +269,23 @@ test.describe("Loading amending norm details", () => {
   })
 })
 
-async function restoreInitialState(page: Page) {
-  const originalModState: ModData = {
-    refersTo:
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
-    timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
-    destinationHref:
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-    newText: "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3",
+test.describe("Editing a single mod", () => {
+  async function restoreInitialState(page: Page) {
+    const originalModState: ModData = {
+      refersTo:
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+      timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
+      destinationHref:
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+      newText: "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3",
+    }
+
+    await page.request.put(
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1",
+      { data: originalModState },
+    )
   }
 
-  await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1",
-    { data: originalModState },
-  )
-}
-
-test.describe("Editing a single mod", () => {
   let sharedPage: Page
   test.beforeAll(async ({ browser }) => {
     sharedPage = await browser.newPage()
@@ -471,12 +518,36 @@ test.describe("Editing a single mod", () => {
 })
 
 test.describe("Editing multiple mods", () => {
-  test("Loading of mod details with correct input values", async ({ page }) => {
-    await page.goto(
+  let sharedPage: Page
+
+  async function restoreInitialState() {
+    const originalModsState = {
+      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1":
+        { timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-1" },
+      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1":
+        { timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-1" },
+    }
+
+    await sharedPage.request.patch(
+      "api/v1/norms/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/mods",
+      { data: originalModsState },
+    )
+  }
+
+  test.beforeEach(async ({ browser }) => {
+    sharedPage = await browser.newPage()
+    await restoreInitialState()
+  })
+
+  test.afterEach(async () => {
+    await restoreInitialState()
+  })
+
+  test("Loading of mod details with correct input values", async () => {
+    await sharedPage.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
-
-    const amendingLawSection = page.getByRole("region", {
+    const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
     })
 
@@ -486,13 +557,13 @@ test.describe("Editing multiple mods", () => {
       .click({ modifiers: ["ControlOrMeta"] })
 
     await expect(
-      page.getByRole("heading", {
+      sharedPage.getByRole("heading", {
         level: 3,
         name: "2 Änderungsbefehle bearbeiten",
       }),
     ).toBeVisible()
 
-    const timeBoundariesElement = page.getByRole("combobox", {
+    const timeBoundariesElement = sharedPage.getByRole("combobox", {
       name: "Zeitgrenze",
     })
 
@@ -502,14 +573,12 @@ test.describe("Editing multiple mods", () => {
     await expect(timeBoundaryOptionElements).toHaveCount(3)
   })
 
-  test(`rendering the preview by default when clicking on a command`, async ({
-    page,
-  }) => {
-    await page.goto(
+  test(`rendering the preview by default when clicking on a command`, async () => {
+    await sharedPage.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
 
-    const amendingLawSection = page.getByRole("region", {
+    const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
     })
 
@@ -518,7 +587,7 @@ test.describe("Editing multiple mods", () => {
       .getByText("2. Fall")
       .click({ modifiers: ["ControlOrMeta"] })
 
-    const previewSection = page.getByRole("region", {
+    const previewSection = sharedPage.getByRole("region", {
       name: "Vorschau",
     })
 
@@ -527,12 +596,12 @@ test.describe("Editing multiple mods", () => {
     ).toBeVisible()
   })
 
-  test(`selecting and saving the time boundary`, async ({ page }) => {
-    await page.goto(
+  test(`selecting and saving the time boundary`, async () => {
+    await sharedPage.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
 
-    const amendingLawSection = page.getByRole("region", {
+    const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
     })
 
@@ -541,49 +610,38 @@ test.describe("Editing multiple mods", () => {
       .getByText("2. Fall")
       .click({ modifiers: ["ControlOrMeta"] })
 
-    await page
+    await sharedPage
       .getByRole("combobox", { name: "Zeitgrenze" })
       .selectOption("Keine Angabe")
 
-    await page.getByRole("button", { name: "Speichern" }).click()
+    await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
     await expect(
-      page.getByRole("tooltip", { name: "Speichern erfolgreich" }),
+      sharedPage.getByRole("tooltip", { name: "Speichern erfolgreich" }),
     ).toBeVisible()
-    await expect(page.getByRole("region", { name: "Vorschau" })).toContainText(
-      "2. Fall",
-    )
-
-    // reset to original value
-    await page
-      .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("1.3.1001")
-
-    await page.getByRole("button", { name: "Speichern" }).click()
-    await expect(page.getByRole("region", { name: "Vorschau" })).toContainText(
-      "2. Beispiel",
-    )
+    await expect(
+      sharedPage.getByRole("region", { name: "Vorschau" }),
+    ).toContainText("2. Fall")
   })
 
-  test(`show "Mehrere" and no preview if time boundaries differ`, async ({
-    page,
-  }) => {
-    await page.goto(
+  test(`show "Mehrere" and no preview if time boundaries differ`, async () => {
+    await sharedPage.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
 
-    const amendingLawSection = page.getByRole("region", {
+    const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
     })
 
     await amendingLawSection.getByText("1. Fall").click()
-    await page
+
+    await sharedPage
       .getByRole("combobox", { name: "Zeitgrenze" })
       .selectOption("Keine Angabe")
-    await page.getByRole("button", { name: "Speichern" }).click()
+    await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
     await expect(
-      page.getByRole("tooltip", { name: "Speichern erfolgreich" }),
+      sharedPage.getByRole("tooltip", { name: "Speichern erfolgreich" }),
     ).toBeVisible()
 
     await amendingLawSection
@@ -591,19 +649,13 @@ test.describe("Editing multiple mods", () => {
       .click({ modifiers: ["ControlOrMeta"] })
 
     await expect(
-      page.getByRole("combobox", { name: "Zeitgrenze" }),
+      sharedPage.getByRole("combobox", { name: "Zeitgrenze" }),
     ).toHaveValue("multiple")
 
     await expect(
-      page.getByText(
+      sharedPage.getByText(
         "Eine Vorschau kann nur für Änderungsbefehle mit der selben Zeitgrenze generiert werden.",
       ),
     ).toBeVisible()
-
-    // reset data
-    await page
-      .getByRole("combobox", { name: "Zeitgrenze" })
-      .selectOption("1.3.1001")
-    await page.getByRole("button", { name: "Speichern" }).click()
   })
 })

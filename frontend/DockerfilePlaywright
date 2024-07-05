@@ -1,7 +1,17 @@
 FROM mcr.microsoft.com/playwright:v1.45.1-jammy AS e2etest
-RUN npx --yes playwright install --with-deps chromium firefox msedge
 WORKDIR /usr/src/app
 COPY . .
 RUN npm install
 SHELL ["/bin/bash", "-c"]
-ENTRYPOINT ["npm", "run", "test:e2e"]
+
+FROM e2etest AS chromium
+RUN npx --yes playwright install --with-deps chromium
+ENTRYPOINT ["npm", "run", "test:chromium"]
+
+FROM e2etest AS firefox
+RUN npx --yes playwright install --with-deps firefox
+ENTRYPOINT ["npm", "run", "test:firefox"]
+
+FROM e2etest AS msedge
+RUN npx --yes playwright install --with-deps msedge
+ENTRYPOINT ["npm", "run", "test:msedge"]
