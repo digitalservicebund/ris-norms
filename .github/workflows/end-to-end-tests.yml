@@ -71,7 +71,7 @@ jobs:
 
           npm run dev &
           DEV_PID=$!
-          npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each 1
+          npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each 1 --fail-on-flaky-tests
           pkill -P $DEV_PID
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests
