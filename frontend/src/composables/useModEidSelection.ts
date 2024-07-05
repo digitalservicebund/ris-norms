@@ -56,7 +56,7 @@ export function useModEidSelection(modEIds: MaybeRefOrGetter<string[]>): {
     }
   })
 
-  function handleAknModClick({
+  function handleAknModShiftClick({
     eid,
     originalEvent,
   }: {
@@ -64,30 +64,41 @@ export function useModEidSelection(modEIds: MaybeRefOrGetter<string[]>): {
     originalEvent: MouseEvent | KeyboardEvent
   }) {
     const currentModEIds = toValue(modEIds)
-    if (originalEvent.shiftKey) {
-      const indexOfClickedMod = currentModEIds.indexOf(eid)
-      const indexOfLastClickedMod = lastClickedModEid.value
-        ? currentModEIds.indexOf(lastClickedModEid.value)
-        : 0
 
-      const eIdsOfRange =
-        indexOfLastClickedMod < indexOfClickedMod
-          ? currentModEIds.slice(indexOfLastClickedMod, indexOfClickedMod + 1)
-          : currentModEIds.slice(indexOfClickedMod, indexOfLastClickedMod + 1)
+    const indexOfClickedMod = currentModEIds.indexOf(eid)
+    const indexOfLastClickedMod = lastClickedModEid.value
+      ? currentModEIds.indexOf(lastClickedModEid.value)
+      : 0
 
-      if (originalEvent.ctrlKey || originalEvent.metaKey) {
-        if (values.value.includes(eid)) {
-          deselectAll(eIdsOfRange)
-        } else {
-          selectAll(eIdsOfRange)
-        }
+    const eIdsOfRange =
+      indexOfLastClickedMod < indexOfClickedMod
+        ? currentModEIds.slice(indexOfLastClickedMod, indexOfClickedMod + 1)
+        : currentModEIds.slice(indexOfClickedMod, indexOfLastClickedMod + 1)
+
+    if (originalEvent.ctrlKey || originalEvent.metaKey) {
+      if (values.value.includes(eid)) {
+        deselectAll(eIdsOfRange)
       } else {
-        clear()
         selectAll(eIdsOfRange)
       }
+    } else {
+      clear()
+      selectAll(eIdsOfRange)
+    }
 
-      // clear up selection created by shift click
-      getSelection()?.removeAllRanges()
+    // clear up selection created by shift click
+    getSelection()?.removeAllRanges()
+  }
+
+  function handleAknModClick({
+    eid,
+    originalEvent,
+  }: {
+    eid: string
+    originalEvent: MouseEvent | KeyboardEvent
+  }) {
+    if (originalEvent.shiftKey) {
+      handleAknModShiftClick({ eid, originalEvent })
     } else if (originalEvent.ctrlKey || originalEvent.metaKey) {
       toggle(eid)
     } else {
