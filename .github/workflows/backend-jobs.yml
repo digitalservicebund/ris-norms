@@ -11,10 +11,6 @@ on:
         required: true
         type: string
 
-env:
-  SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-
 jobs:
   validate-gradle-wrapper-and-setup-gradle:
     runs-on: ubuntu-latest
@@ -39,6 +35,9 @@ jobs:
       - name: Build backend
         working-directory: ./backend
         run: ./gradlew build --profile -x integrationTest -x test
+        with:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Upload build performance report
         uses: actions/upload-artifact@v4
         with:
