@@ -597,9 +597,6 @@ paths:
       requestBody:
         required: true
         content:
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/LegalDocML.de'
           application/json:
             schema:
               $ref: '#/components/schemas/RenderRequest'
