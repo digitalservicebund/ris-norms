@@ -63,12 +63,22 @@ describe("useMultiSelection", () => {
     })
   })
 
-  describe("deselectAll", () => {
+  describe("clear", () => {
     test("clears the selection", () => {
-      const { values, selectAll, deselectAll } = useMultiSelection<string>()
+      const { values, selectAll, clear } = useMultiSelection<string>()
       selectAll(["foo", "bar"])
-      deselectAll()
+      clear()
       expect(values.value).toHaveLength(0)
+    })
+  })
+
+  describe("deselectAll", () => {
+    test("deselects multiple values", () => {
+      const { values, selectAll, deselectAll } = useMultiSelection<string>()
+      selectAll(["foo", "bar", "baz"])
+      deselectAll(["foo", "bar"])
+      expect(values.value).toHaveLength(1)
+      expect(values.value).toContain("baz")
     })
   })
 })

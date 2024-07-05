@@ -14,11 +14,11 @@ export function useMultiSelection<T>(): {
    */
   toggle: (value: T) => void
   /**
-   * Deselect all elements.
+   * Remove all elements from the selection.
    */
-  deselectAll: () => void
+  clear: () => void
   /**
-   * Select the given elements.
+   * Select the given element.
    * @param value the value to select
    */
   select: (value: T) => void
@@ -27,6 +27,11 @@ export function useMultiSelection<T>(): {
    * @param values an array of elements to select
    */
   selectAll: (values: T[]) => void
+  /**
+   * Deselect all given element.
+   * @param values an array of elements to deselect
+   */
+  deselectAll: (values: T[]) => void
 } {
   const selectedValues: ShallowReactive<Set<T>> = shallowReactive(new Set<T>())
 
@@ -38,7 +43,7 @@ export function useMultiSelection<T>(): {
     }
   }
 
-  function deselectAll() {
+  function clear() {
     selectedValues.clear()
   }
 
@@ -50,11 +55,16 @@ export function useMultiSelection<T>(): {
     values.forEach((value) => selectedValues.add(value))
   }
 
+  function deselectAll(values: T[]) {
+    values.forEach((value) => selectedValues.delete(value))
+  }
+
   return {
     values: computed(() => [...selectedValues]),
     toggle,
     select,
     selectAll,
     deselectAll,
+    clear,
   }
 }

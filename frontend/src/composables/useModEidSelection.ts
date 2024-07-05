@@ -1,12 +1,14 @@
 import { useMultiSelection } from "@/composables/useMultiSelection"
 import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
-import { Ref, watch } from "vue"
+import { MaybeRefOrGetter, ref, Ref, toValue, watch } from "vue"
 
 /**
  * Provides an array of selected akn:mod elements (identified by their eIds) and provides an event-handler for events that should impact this selection.
  * The selection is also synchronized with the respective path-parameter.
+ *
+ * @param modEIds Array of the eIds of all akn:mod elements that can be selected. Ordered in the same way as in the UI.
  */
-export function useModEidSelection(): {
+export function useModEidSelection(modEIds: MaybeRefOrGetter<string[]>): {
   /**
    * The eIds of the currently selected akn:mod elements
    */
@@ -29,7 +31,10 @@ export function useModEidSelection(): {
     originalEvent: MouseEvent | KeyboardEvent
   }) => void
 } {
-  const { values, select, toggle, deselectAll } = useMultiSelection<string>()
+  const { values, select, toggle, deselectAll, selectAll, clear } =
+    useMultiSelection<string>()
+
+  const lastClickedModEid = ref<string | null>(null)
 
   const modEidPathParameter = useModEidPathParameter()
 
@@ -58,17 +63,41 @@ export function useModEidSelection(): {
     eid: string
     originalEvent: MouseEvent | KeyboardEvent
   }) {
-    if (originalEvent.ctrlKey || originalEvent.metaKey) {
+    const currentModEIds = toValue(modEIds)
+    if (originalEvent.shiftKey) {
+      const indexOfClickedMod = currentModEIds.indexOf(eid)
+      const indexOfLastClickedMod = lastClickedModEid.value
+        ? currentModEIds.indexOf(lastClickedModEid.value)
+        : 0
+
+      const eIdsOfRange =
+        indexOfLastClickedMod < indexOfClickedMod
+          ? currentModEIds.slice(indexOfLastClickedMod, indexOfClickedMod + 1)
+          : currentModEIds.slice(indexOfClickedMod, indexOfLastClickedMod + 1)
+
+      if (originalEvent.ctrlKey || originalEvent.metaKey) {
+        if (values.value.includes(eid)) {
+          deselectAll(eIdsOfRange)
+        } else {
+          selectAll(eIdsOfRange)
+        }
+      } else {
+        clear()
+        selectAll(eIdsOfRange)
+      }
+    } else if (originalEvent.ctrlKey || originalEvent.metaKey) {
       toggle(eid)
     } else {
-      deselectAll()
+      clear()
       select(eid)
     }
+
+    lastClickedModEid.value = eid
   }
 
   return {
     values,
     handleAknModClick,
-    deselectAll,
+    deselectAll: clear,
   }
 }

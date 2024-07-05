@@ -22,6 +22,7 @@ import { computed, Ref, ref, toValue, watch } from "vue"
 import { useModEidSelection } from "@/composables/useModEidSelection"
 import { useDebounce } from "@vueuse/core"
 import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
+import { getModEIds } from "@/services/ldmldeModService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -30,12 +31,6 @@ const {
   isFetching: isFetchingAmendingLaw,
   error: loadAmendingLawError,
 } = useGetNorm(eli)
-
-const {
-  values: selectedMods,
-  deselectAll: deselectAllSelectedMods,
-  handleAknModClick,
-} = useModEidSelection()
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
@@ -64,6 +59,25 @@ const articleXml = computed(() => {
 
   return xmlNodeToString(articleNode)
 })
+
+const normDocument = computed(() => {
+  const xmlValue = toValue(currentXml)
+  return xmlValue ? xmlStringToDocument(xmlValue) : null
+})
+
+const modEIds = computed(() => {
+  if (!normDocument.value) {
+    return []
+  }
+
+  return getModEIds(normDocument.value)
+})
+
+const {
+  values: selectedMods,
+  deselectAll: deselectAllSelectedMods,
+  handleAknModClick,
+} = useModEidSelection(modEIds)
 
 const {
   data: articleHtml,
@@ -103,11 +117,6 @@ const showEditor: Ref<boolean> = useDebounce(
   computed(() => selectedMods.value.length > 0),
   20,
 )
-
-const normDocument = computed(() => {
-  const xmlValue = toValue(currentXml)
-  return xmlValue ? xmlStringToDocument(xmlValue) : null
-})
 
 const isSelected = (eId: string) => selectedMods.value.includes(eId)
 
