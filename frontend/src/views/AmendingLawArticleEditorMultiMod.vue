@@ -137,7 +137,22 @@ watch(
 )
 </script>
 <template>
+  <!--
+    The router-view that includes this route is only rendered when at least one mod is selected. When exactly one mod is
+    selected this is represented in the url and another view will be rendered. But the router needs a moment (a few ms)
+    to update after the selection has changed. In this time this view still tries to render. Therefore we show a loading
+    spinner when only one mod is selected. This manly prevents some flakyness in some e2e tests as playwright otherwise
+    tries to fill out the form in this view.
+  -->
+  <div
+    v-if="props.selectedMods.length === 1"
+    class="col-span-1 mt-32 flex max-h-full flex-col items-center justify-center gap-8 pb-40"
+  >
+    <RisLoadingSpinner></RisLoadingSpinner>
+  </div>
+
   <section
+    v-else
     class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
     aria-labelledby="originalArticleTitle"
   >
