@@ -1,4 +1,5 @@
-import { test, expect } from "@playwright/test"
+import { test, expect, Page } from "@playwright/test"
+import { ModData } from "@/types/ModType"
 
 test(`navigate to article editor using side navigation`, async ({ page }) => {
   await page.goto(
@@ -221,26 +222,51 @@ test.describe("Loading amending norm details", () => {
   })
 })
 
+async function restoreInitialState(page: Page) {
+  const originalModState: ModData = {
+    refersTo:
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+    timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
+    destinationHref:
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+    newText: "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3",
+  }
+
+  await page.request.put(
+    "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1",
+    { data: originalModState },
+  )
+}
+
 test.describe("Editing a single mod", () => {
-  test("Loading of mod details with correct input values", async ({ page }) => {
-    page.goto(
+  let sharedPage: Page
+  test.beforeAll(async ({ browser }) => {
+    sharedPage = await browser.newPage()
+    await restoreInitialState(sharedPage)
+  })
+
+  test.afterAll(async () => {
+    await restoreInitialState(sharedPage)
+  })
+  test("Loading of mod details with correct input values", async () => {
+    await sharedPage.goto(
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
 
-    const amendingLawSection = page.getByRole("region", {
+    const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
     })
 
     await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
 
     await expect(
-      page.getByRole("heading", {
+      sharedPage.getByRole("heading", {
         level: 3,
         name: "Änderungsbefehl bearbeiten",
       }),
     ).toBeVisible()
 
-    const modFormSection = page.getByRole("region", {
+    const modFormSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehl bearbeiten",
     })
     await expect(modFormSection).toBeVisible()
@@ -308,18 +334,16 @@ test.describe("Editing a single mod", () => {
     const BASE_URL =
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit"
 
-    test.beforeEach(async ({ page }) => {
-      await page.goto(BASE_URL)
+    test.beforeEach(async () => {
+      await sharedPage.goto(BASE_URL)
     })
 
-    test(`rendering the preview by default when clicking on a command`, async ({
-      page,
-    }) => {
-      const amendingLawSection = page.getByRole("region", {
+    test(`rendering the preview by default when clicking on a command`, async () => {
+      const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
       })
       await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
-      const previewSection = page.getByRole("region", {
+      const previewSection = sharedPage.getByRole("region", {
         name: "Vorschau",
       })
       await expect(
@@ -334,18 +358,18 @@ test.describe("Editing a single mod", () => {
     const BASE_URL =
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit"
 
-    test.beforeEach(async ({ page }) => {
-      await page.goto(BASE_URL)
+    test.beforeEach(async () => {
+      await sharedPage.goto(BASE_URL)
     })
 
-    test(`editing and saving the quotedTextSecondElement`, async ({ page }) => {
-      const amendingLawSection = page.getByRole("region", {
+    test(`editing and saving the quotedTextSecondElement`, async () => {
+      const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
       })
 
       await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
 
-      const modFormSection = page.getByRole("region", {
+      const modFormSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehl bearbeiten",
       })
 
@@ -354,27 +378,21 @@ test.describe("Editing a single mod", () => {
         .fill("testing new text")
       await modFormSection.getByRole("button", { name: "Speichern" }).click()
 
-      const previewSection = page.getByRole("region", {
+      const previewSection = sharedPage.getByRole("region", {
         name: "Vorschau",
       })
 
       await expect(previewSection.getByText("testing new text")).toBeVisible()
-
-      // reset to original value
-      await modFormSection
-        .getByRole("textbox", { name: "Neuer Text Inhalt" })
-        .fill("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")
-      await modFormSection.getByRole("button", { name: "Speichern" }).click()
     })
 
-    test(`editing and saving the eid mod change`, async ({ page }) => {
-      const amendingLawSection = page.getByRole("region", {
+    test(`editing and saving the eid mod change`, async () => {
+      const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
       })
 
       await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
 
-      const modFormSection = page.getByRole("region", {
+      const modFormSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehl bearbeiten",
       })
 
@@ -390,41 +408,39 @@ test.describe("Editing a single mod", () => {
           "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
         ),
       ).toBeVisible()
-
-      // reset to original value
-      await modFormSection
-        .getByRole("textbox", { name: "zu ersetzende Textstelle" })
-        .fill(
-          "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-        )
-      await modFormSection.getByRole("button", { name: "Speichern" }).click()
     })
 
-    test(`selecting and saving the time boundary`, async ({ page }) => {
-      await page.goto(
-        "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
+    test(`selecting and saving the time boundary`, async () => {
+      // use api to create new time boundary
+      await sharedPage.request.put(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
+        {
+          data: [
+            {
+              date: "2017-03-16",
+              eventRefEid: "meta-1_lebzykl-1_ereignis-2",
+              temporalGroupEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
+            },
+            { date: "2023-10-10", eventRefEid: "" },
+          ],
+        },
       )
 
-      await page
-        .getByRole("textbox", { name: "Zeitgrenze hinzufügen" })
-        .fill("10.10.2023")
-      await page.getByRole("button", { name: "Speichern" }).click()
-
-      await page.goto(
+      await sharedPage.goto(
         "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
       )
 
-      const amendingLawSection = page.getByRole("region", {
+      const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
       })
 
       await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
 
-      const modFormSection = page.getByRole("region", {
+      const modFormSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehl bearbeiten",
       })
 
-      await page
+      await sharedPage
         .getByRole("combobox", { name: "Zeitgrenze" })
         .selectOption("2023-10-10")
 
@@ -434,31 +450,22 @@ test.describe("Editing a single mod", () => {
         amendingLawSection.getByText('date="2023-10-10"'),
       ).toBeVisible()
 
-      // reset to original value
-      await page
-        .getByRole("combobox", { name: "Zeitgrenze" })
-        .selectOption("2017-03-16")
-
-      await modFormSection.getByRole("button", { name: "Speichern" }).click()
-
-      await page.goto(
+      // delete test time boundary
+      await sharedPage.goto(
         "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/temporal-data",
       )
-
-      await page.request.put(
+      await sharedPage.request.put(
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
         {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          data: JSON.stringify([
-            { date: "2017-03-16", eventRefEid: "meta-1_lebzykl-1_ereignis-2" },
-          ]),
+          data: [
+            {
+              date: "2017-03-16",
+              eventRefEid: "meta-1_lebzykl-1_ereignis-2",
+              temporalGroupEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
+            },
+          ],
         },
       )
-
-      await page.reload()
     })
   })
 })
