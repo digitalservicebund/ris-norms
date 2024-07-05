@@ -18,6 +18,7 @@ plugins {
     alias(libs.plugins.versions)
     alias(libs.plugins.version.catalog.update)
     id("checkstyle")
+    alias(libs.plugins.sentry)
 }
 
 group = "de.bund.digitalservice"
@@ -204,4 +205,15 @@ checkstyle {
 
 tasks.named("checkstyleTest").configure {
     enabled = false
+}
+
+sentry {
+    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+    // This enables source context, allowing you to see your source
+    // code as part of your stack traces in Sentry.
+    includeSourceContext = true
+
+    org = "digitalservice"
+    projectName = "ris-norms-backend"
+    authToken = System.getenv("SENTRY_AUTH_TOKEN")
 }
