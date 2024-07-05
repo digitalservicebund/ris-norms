@@ -131,6 +131,30 @@ test.describe("Url and selecting works", () => {
     )
   })
 
+  test(`Selecting a range of mods using Shift + click works`, async ({
+    page,
+  }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
+    )
+
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+    })
+
+    await amendingLawSection.getByText("§ 1 Absatz 2 Satz 1").click()
+    await amendingLawSection
+      .getByText("§ 1 Absatz 5 Satz 1")
+      .click({ modifiers: ["Shift"] })
+
+    await expect(
+      page.getByRole("heading", {
+        level: 3,
+        name: "4 Änderungsbefehle bearbeiten",
+      }),
+    ).toBeVisible()
+  })
+
   test(`Selecting all mods using Ctrl+A works`, async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
