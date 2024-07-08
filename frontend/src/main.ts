@@ -9,10 +9,7 @@ initializeApiService(router)
 
 const app = createApp(App)
 
-if (
-  import.meta.env.VITE_SENTRY_DSN &&
-  import.meta.env.E2E_TESTS_RUNNING !== "true"
-) {
+if (import.meta.env.E2E_TESTS_RUNNING !== "true") {
   Sentry.init({
     app,
     dsn: import.meta.env.SENTRY_DSN,
