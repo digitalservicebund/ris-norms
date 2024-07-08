@@ -15,6 +15,7 @@ import {
 } from "vue"
 import { RouteLocationRaw, RouterLink, useRouter } from "vue-router"
 import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
+import { useDebounceFn } from "@vueuse/core"
 
 const props = withDefaults(
   defineProps<{
@@ -91,6 +92,12 @@ const pushBreadcrumb: HeaderContext["pushBreadcrumb"] = (...breadcrumb) => {
     breadcrumbsWithKey.forEach(({ key }) => removeBreadcrumb(key))
   }
 }
+
+function handleBreadcrumbClick(to: RouteLocationRaw) {
+  router.push(to)
+}
+
+const debouncedBreadcrumbClick = useDebounceFn(handleBreadcrumbClick, 20)
 
 // Expose header functionality to child components
 provide(HeaderContextProvider, {
@@ -233,7 +240,7 @@ export function useHeaderContext() {
               v-if="!link.isExactActive"
               class="ds-link-01-bold underline"
               :href="link.href"
-              @click="link.navigate()"
+              @click="debouncedBreadcrumbClick(crumb.to)"
             >
               {{ toValue(crumb.title) }}
             </a>
