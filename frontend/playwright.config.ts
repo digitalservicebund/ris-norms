@@ -31,6 +31,7 @@ const config: PlaywrightTestConfig = {
     {
       name: "msedge",
       use: { ...devices["Desktop Edge"], channel: "msedge" },
+      timeout: 30000,
     },
   ],
 }
