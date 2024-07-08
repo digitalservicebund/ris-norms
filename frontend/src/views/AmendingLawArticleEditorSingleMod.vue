@@ -118,6 +118,13 @@ watch(
       <RisLoadingSpinner></RisLoadingSpinner>
     </div>
 
+    <div v-else-if="textualModType !== 'aenderungsbefehl-ersetzen'">
+      <RisCallout
+        title='Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.'
+        variant="warning"
+      />
+    </div>
+
     <div v-else-if="loadTimeBoundariesError">
       <RisCallout
         title="Die Zeitgrenzen konnten nicht geladen werden."

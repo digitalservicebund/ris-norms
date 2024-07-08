@@ -174,7 +174,18 @@ watch(
       />
     </div>
 
-    <form class="grid grid-cols-1 gap-y-20">
+    <div
+      v-else-if="
+        mods.some((mod) => mod.textualModType !== 'aenderungsbefehl-ersetzen')
+      "
+    >
+      <RisCallout
+        title='Es können zurzeit nur "Ersetzen"-Änderungsbefehle bearbeitet werden.'
+        variant="warning"
+      />
+    </div>
+
+    <form v-else class="grid grid-cols-1 gap-y-20">
       <div class="grid grid-cols-2 gap-x-40">
         <RisDropdownInput
           id="timeBoundaries"

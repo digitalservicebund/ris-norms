@@ -1,9 +1,14 @@
 import { computed, MaybeRefOrGetter, ref, Ref, toValue, watch } from "vue"
-import { getTimeBoundaryDate, useUpdateMods } from "@/services/ldmldeModService"
+import {
+  getTextualModType,
+  getTimeBoundaryDate,
+  useUpdateMods,
+} from "@/services/ldmldeModService"
 import { xmlStringToDocument } from "@/services/xmlService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
-import { ModData } from "@/types/ModType"
+import { ModData, ModType } from "@/types/ModType"
 import { UseFetchReturn } from "@vueuse/core"
+import { getNodeByEid } from "@/services/ldmldeService"
 
 /**
  * Get data about multiple akn:mod elements. The data can be overwritten and updates whenever either the eid or xml change.
@@ -22,6 +27,7 @@ export function useMods(
     {
       eid: string
       timeBoundary: TemporalDataResponse | undefined
+      textualModType: ModType | ""
     }[]
   >
   preview: UseFetchReturn<{
@@ -42,6 +48,7 @@ export function useMods(
     {
       eid: string
       timeBoundary: { date: string; temporalGroupEid: string } | undefined
+      textualModType: ModType | ""
     }[]
   > = ref([])
 
@@ -55,9 +62,12 @@ export function useMods(
       }
 
       mods.value = toValue(eids).map((eid: string) => {
+        const modNode = getNodeByEid(doc, eid)
+
         return {
           eid,
           timeBoundary: getTimeBoundaryDate(doc, eid) ?? undefined,
+          textualModType: modNode ? getTextualModType(modNode) ?? "" : "",
         }
       })
     },
@@ -68,6 +78,7 @@ export function useMods(
     const entries: [string, Partial<ModData>][] = mods.value.map((mod) => [
       mod.eid,
       {
+        textualModType: mod.textualModType,
         timeBoundaryEid: mod.timeBoundary?.temporalGroupEid,
       },
     ])
