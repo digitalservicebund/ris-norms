@@ -77,12 +77,14 @@ describe("RisRadioInput", () => {
       data: () => ({ value: "" }),
       template: `
         <RadioInput
+            id="test"
           :model-value="value"
           @update:model-value="$emit('update:modelValue', $event)"
           name="radio"
           value="foo"
         />
         <RadioInput
+            id="test"
           :model-value="value"
           @update:model-value="$emit('update:modelValue', $event)"
           name="radio"
