@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from "node:url"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import { configDefaults } from "vitest/dist/config"
-import { sentryVitePlugin } from "@sentry/vite-plugin"
+// import { sentryVitePlugin } from "@sentry/vite-plugin"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,12 +13,12 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    sentryVitePlugin({
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: "digitalservice",
-      project: "ris-norms",
-      telemetry: process.env.VITEST !== "true", // disable telemetry during tests
-    }),
+    // sentryVitePlugin({
+    //   authToken: process.env.SENTRY_AUTH_TOKEN,
+    //   org: "digitalservice",
+    //   project: "ris-norms",
+    //   telemetry: process.env.VITEST !== "true", // disable telemetry during tests
+    // }),
     icons({
       scale: 1.3333, // ~24px at the current default font size of 18px
       compiler: "vue3",
