@@ -39,7 +39,7 @@ export function useModHighlightClasses(
     }))
   })
 
-  const timeBoundaries: ComputedRef<
+  const timeBoundariesOrderedByDate: ComputedRef<
     ({ date: string; temporalGroupEid: string } | null)[]
   > = computed(() =>
     sortBy(
@@ -52,16 +52,32 @@ export function useModHighlightClasses(
     ),
   )
 
+  /**
+   * Find the color that should be used for the given time boundary.
+   *
+   * There are 10 numbered colors from 1 to 10 and a default color as a fallback, see tailwind.config.js
+   *
+   * @param timeBoundary the time boundary for which the color needs to be determined
+   */
+  function findColorIdForTimeBoundary(
+    timeBoundary: {
+      date: string
+      temporalGroupEid: string
+    } | null,
+  ) {
+    const timeBoundaryIndex = timeBoundariesOrderedByDate.value.findIndex(
+      (a) => a?.temporalGroupEid === timeBoundary?.temporalGroupEid,
+    )
+
+    return timeBoundaryIndex !== -1 && timeBoundaryIndex < 10
+      ? `${timeBoundaryIndex + 1}`
+      : "default"
+  }
+
   return computed(() =>
     Object.fromEntries(
       modsWithTimeBoundaries.value.map(({ eId, timeBoundary }) => {
-        const timeBoundaryIndex = timeBoundaries.value.findIndex(
-          (a) => a?.temporalGroupEid === timeBoundary?.temporalGroupEid,
-        )
-        const colorId =
-          timeBoundaryIndex !== -1 && timeBoundaryIndex < 10
-            ? `${timeBoundaryIndex + 1}`
-            : "default"
+        const colorId = findColorIdForTimeBoundary(timeBoundary)
 
         const classes = ["border", "px-2"]
         if (isSelected(eId)) {
