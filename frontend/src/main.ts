@@ -9,16 +9,21 @@ initializeApiService(router)
 
 const app = createApp(App)
 
-Sentry.init({
-  app,
-  dsn: import.meta.env.SENTRY_DSN,
-  integrations: [
-    Sentry.browserTracingIntegration({ router }),
-    Sentry.captureConsoleIntegration(),
-  ],
-  tracesSampleRate: 1.0,
-  attachProps: true,
-  logErrors: true,
-})
+if (
+  import.meta.env.VITE_SENTRY_DSN &&
+  import.meta.env.E2E_TESTS_RUNNING !== "true"
+) {
+  Sentry.init({
+    app,
+    dsn: import.meta.env.SENTRY_DSN,
+    integrations: [
+      Sentry.browserTracingIntegration({ router }),
+      Sentry.captureConsoleIntegration(),
+    ],
+    tracesSampleRate: 1.0,
+    attachProps: true,
+    logErrors: true,
+  })
+}
 
 app.use(router).mount("#app")
