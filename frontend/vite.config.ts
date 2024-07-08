@@ -6,6 +6,8 @@ import { defineConfig } from "vite"
 import { configDefaults } from "vitest/dist/config"
 import { sentryVitePlugin } from "@sentry/vite-plugin"
 
+const isTest = process.env.VITEST === "true"
+
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
@@ -17,13 +19,14 @@ export default defineConfig({
       scale: 1.3333, // ~24px at the current default font size of 18px
       compiler: "vue3",
     }),
-    sentryVitePlugin({
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: "digitalservice",
-      project: "ris-norms-backend",
-      telemetry: process.env.VITEST !== "true",
-    }),
-  ],
+    !isTest &&
+      sentryVitePlugin({
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        org: "your-organization",
+        project: "your-project",
+        telemetry: process.env.VITEST !== "true",
+      }),
+  ].filter(Boolean),
   server: {
     proxy: {
       "/api": {
