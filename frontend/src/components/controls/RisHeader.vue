@@ -97,6 +97,10 @@ function handleBreadcrumbClick(to: RouteLocationRaw) {
   router.push(to)
 }
 
+/*
+ * Debounce the breadcrumb click handler with a delay of 20 milliseconds to prevent rapid consecutive navigation requests
+ * which can cause aborted fetch requests and display error messages in Firefox .
+ */
 const debouncedBreadcrumbClick = useDebounceFn(handleBreadcrumbClick, 20)
 
 // Expose header functionality to child components
