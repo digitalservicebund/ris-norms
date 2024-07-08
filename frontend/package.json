@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@codemirror/lang-xml": "^6.1.0",
-    "@sentry/vue": "^8.15.0",
     "@types/lodash.isequal": "^4.5.8",
     "@types/lodash.sortby": "^4.7.9",
     "@types/lodash.uniqwith": "^4.5.9",
@@ -53,7 +52,6 @@
     "@histoire/plugin-vue": "~0.17.17",
     "@iconify-json/ic": "~1.1.17",
     "@playwright/test": "~1.45.0",
-    "@sentry/vite-plugin": "^2.20.1",
     "@testing-library/jest-dom": "~6.4.0",
     "@testing-library/user-event": "^14.5.2",
     "@testing-library/vue": "~8.1.0",
