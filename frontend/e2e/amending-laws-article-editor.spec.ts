@@ -451,7 +451,18 @@ test.describe("Editing a single mod", () => {
       await modFormSection.getByRole("button", { name: "Speichern" }).click()
 
       await previewSection.getByRole("tab", { name: "xml" }).click()
-      await expect(previewSection.getByText("testing new text")).toBeVisible()
+
+      await previewSection
+        .getByText('<?xml version="1.0" encoding="UTF-8"?>')
+        .click()
+      await sharedPage.keyboard.press("ControlOrMeta+f")
+      await previewSection
+        .getByRole("textbox", { name: "Find" })
+        .fill("testing new text")
+      await previewSection.getByRole("button", { name: "next" }).click()
+      await expect(
+        previewSection.getByText("testing new text").first(),
+      ).toBeVisible()
     })
 
     test(`editing and saving the eid mod change`, async () => {
