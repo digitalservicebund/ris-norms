@@ -432,6 +432,28 @@ test.describe("Editing a single mod", () => {
       await expect(previewSection.getByText("testing new text")).toBeVisible()
     })
 
+    test(`preview of text to be replaced in xml`, async () => {
+      const amendingLawSection = sharedPage.getByRole("region", {
+        name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+      })
+      const modFormSection = sharedPage.getByRole("region", {
+        name: "Änderungsbefehl bearbeiten",
+      })
+      const previewSection = sharedPage.getByRole("region", {
+        name: "Vorschau",
+      })
+
+      await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
+
+      await modFormSection
+        .getByRole("textbox", { name: "Neuer Text Inhalt" })
+        .fill("testing new text")
+      await modFormSection.getByRole("button", { name: "Speichern" }).click()
+
+      await previewSection.getByRole("tab", { name: "xml" }).click()
+      await expect(previewSection.getByText("testing new text")).toBeVisible()
+    })
+
     test(`editing and saving the eid mod change`, async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
