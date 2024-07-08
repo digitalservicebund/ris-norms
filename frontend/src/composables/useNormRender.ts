@@ -69,7 +69,11 @@ export function useNormRenderXml(
         searchParams.set("atIsoDate", atValue.toISOString())
       }
 
-      return "renderings?" + searchParams.toString()
+      return (
+        "renderings" +
+        (searchParams.size > 0 ? "?" : "") +
+        searchParams.toString()
+      )
     }),
     {
       headers: {
