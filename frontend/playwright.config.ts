@@ -17,6 +17,7 @@ const config: PlaywrightTestConfig = {
     baseURL: process.env.E2E_BASE_URL,
     screenshot: { mode: "only-on-failure", fullPage: true },
     timezoneId: "Europe/Berlin",
+    trace: "retain-on-first-failure",
   },
   projects: [
     {
@@ -30,6 +31,7 @@ const config: PlaywrightTestConfig = {
     {
       name: "msedge",
       use: { ...devices["Desktop Edge"], channel: "msedge" },
+      timeout: 30000,
     },
   ],
 }

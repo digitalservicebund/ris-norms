@@ -8,6 +8,9 @@ describe("useMods", () => {
   })
 
   test("should provide the data about the mods", async () => {
+    vi.doMock("@/services/ldmldeService", () => ({
+      getNodeByEid: vi.fn().mockReturnValue({}),
+    }))
     vi.doMock("@/services/ldmldeModService", () => ({
       getTimeBoundaryDate: vi.fn().mockImplementation((xml, eid) => {
         switch (eid) {
@@ -18,6 +21,7 @@ describe("useMods", () => {
         }
         throw new Error("Called with wrong eid")
       }),
+      getTextualModType: vi.fn().mockReturnValue("aenderungsbefehl-ersetzen"),
       useUpdateMods: vi.fn(),
     }))
     const { useMods } = await import("./useMods")
@@ -28,10 +32,15 @@ describe("useMods", () => {
 
     expect(mods.value).toHaveLength(2)
     expect(mods.value[0].timeBoundary?.date).toBe("2020-01-01")
+    expect(mods.value[0].textualModType).toBe("aenderungsbefehl-ersetzen")
     expect(mods.value[1].timeBoundary?.date).toBe("2022-02-02")
+    expect(mods.value[1].textualModType).toBe("aenderungsbefehl-ersetzen")
   })
 
   test("should react if the eids change", async () => {
+    vi.doMock("@/services/ldmldeService", () => ({
+      getNodeByEid: vi.fn().mockReturnValue({}),
+    }))
     vi.doMock("@/services/ldmldeModService", () => ({
       getTimeBoundaryDate: vi.fn().mockImplementation((xml, eid) => {
         switch (eid) {
@@ -44,6 +53,7 @@ describe("useMods", () => {
         }
         throw new Error("Called with wrong eid")
       }),
+      getTextualModType: vi.fn().mockReturnValue("aenderungsbefehl-ersetzen"),
       useUpdateMods: vi.fn(),
     }))
     const { useMods } = await import("./useMods")
@@ -124,6 +134,7 @@ describe("useMods", () => {
           date: "2022-03-03",
           temporalGroupEid: "temporal-eid-1",
         },
+        textualModType: "aenderungsbefehl-ersetzen",
       },
     ]
     expect(mods.value[0].timeBoundary?.date).toBe("2022-03-03")
