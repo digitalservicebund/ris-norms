@@ -152,7 +152,7 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
               if (StringUtils.isNotEmpty(newValue)) {
                 // Create and set the new element
                 final Element newElement =
-                    NodeCreator.createElement("einzelelement", this.getNode());
+                    NodeCreator.createElement("meta:einzelelement", this.getNode());
                 newElement.setAttribute("href", "#%s".formatted(eid));
                 new Einzelelement(newElement)
                     .updateSimpleMetadatum(metadatumSingleElement, date, newValue);
