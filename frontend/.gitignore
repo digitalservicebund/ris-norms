@@ -14,6 +14,7 @@ dist-ssr
 *.local
 coverage
 test-results
+blob-report/
 
 # Editor directories and files
 .vscode/*
@@ -26,4 +27,4 @@ test-results
 *.sln
 *.sw?
 
-licence-report.csv
+frontend-licence-report.csv

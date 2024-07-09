@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.utils;
 
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -29,6 +31,11 @@ public final class NodeParser {
    */
   public static Optional<String> getValueFromExpression(String xPathExpression, Node sourceNode) {
     try {
+      // text nodes can not be used with xpaths
+      if (sourceNode.getNodeType() == Node.TEXT_NODE) {
+        return Optional.empty();
+      }
+
       // should be invoked on every method call since: An XPath object is not thread-safe and not
       // reentrant.
       final XPath xPath = XPathFactory.newInstance().newXPath();
@@ -37,6 +44,21 @@ public final class NodeParser {
     } catch (XPathExpressionException | NoSuchElementException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
+  }
+
+  /**
+   * Get the value of a mandatory node using an XPath expression on an input node. If node not
+   * found, throws a {@link MandatoryNodeNotFoundException}
+   *
+   * @param xPathExpression an XPath expression used for identifying the node that's returned
+   * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
+   *     Document extends Node)
+   * @return the Node identified by the <code>xPathExpression</code>
+   */
+  public static String getValueFromMandatoryNodeFromExpression(
+      String xPathExpression, Node sourceNode) {
+    return getValueFromExpression(xPathExpression, sourceNode)
+        .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
   }
 
   /**
@@ -69,14 +91,32 @@ public final class NodeParser {
    *     Document extends Node)
    * @return the Node identified by the <code>xPathExpression</code>
    */
-  public static Node getNodeFromExpression(String xPathExpression, Node sourceNode) {
+  public static Optional<Node> getNodeFromExpression(String xPathExpression, Node sourceNode) {
     try {
       final XPathFactory xpathfactory = XPathFactory.newInstance();
       final XPath xpath = xpathfactory.newXPath();
-      return (Node) xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
+      final var result = xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
+      if (result instanceof Node node) {
+        return Optional.of(node);
+      }
+      return Optional.empty();
     } catch (XPathExpressionException | NullPointerException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
+  }
+
+  /**
+   * Get single mandatory node using an XPath expression on an input node. If node not found, throws
+   * a {@link MandatoryNodeNotFoundException}
+   *
+   * @param xPathExpression an XPath expression used for identifying the node that's returned
+   * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
+   *     Document extends Node)
+   * @return the Node identified by the <code>xPathExpression</code>
+   */
+  public static Node getMandatoryNodeFromExpression(String xPathExpression, Node sourceNode) {
+    return getNodeFromExpression(xPathExpression, sourceNode)
+        .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
   }
 
   /**
@@ -98,5 +138,31 @@ public final class NodeParser {
     }
 
     return nodes;
+  }
+
+  private static MandatoryNodeNotFoundException throwMandatoryNotFoundException(
+      String xPathExpression, Node sourceNode) {
+    final Optional<String> optionalEli =
+        sourceNode.getOwnerDocument() == null
+            ? getEli((Document) sourceNode)
+            : getEli(sourceNode.getOwnerDocument());
+
+    final String nodeName = sourceNode.getNodeName();
+
+    return optionalEli
+        .map(
+            eli ->
+                "#document".equals(nodeName)
+                    ? new MandatoryNodeNotFoundException(xPathExpression, eli)
+                    : new MandatoryNodeNotFoundException(xPathExpression, nodeName, eli))
+        .orElseGet(() -> new MandatoryNodeNotFoundException(xPathExpression));
+  }
+
+  private static Optional<String> getEli(final Document document) {
+    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
+        .or(
+            () ->
+                NodeParser.getValueFromExpression("//FRBRManifestation/FRBRthis/@value", document)
+                    .map(m -> m.replace(".xml", "")));
   }
 }

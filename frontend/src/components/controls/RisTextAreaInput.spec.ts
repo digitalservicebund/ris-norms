@@ -73,6 +73,14 @@ describe("TextAreaInput", () => {
     expect(testModel).toBe("one two")
   })
 
+  test("emits blur event when textarea loses focus", async () => {
+    const { emitted } = renderComponent({})
+    const textarea = screen.getByRole("textbox") as HTMLTextAreaElement
+    await userEvent.type(textarea, " two")
+    await userEvent.tab()
+    expect(emitted("blur")).toBeTruthy()
+  })
+
   test("sets the textarea to readonly", () => {
     renderComponent({ readOnly: true })
     const textarea: HTMLTextAreaElement = screen.getByRole("textbox")

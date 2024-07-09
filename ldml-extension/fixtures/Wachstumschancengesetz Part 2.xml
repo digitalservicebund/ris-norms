@@ -48,8 +48,8 @@
             <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="c83d50dc-38d1-495c-a4a4-12d50b7909c3">
                <akn:textualMod type="substitution" GUID="1378474b-426f-4488-83e1-6adf3be72fea" eId="meta-1_analysis-1_activemod-1_textualmod-1">
                   <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" href="#hauptteil-1_para-7_abs-1_inhalt-1_text-1_ändbefehl-1" GUID="46928a7e-8665-41bd-923c-9617211239d5"></akn:source>
-                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" href="eli/bund/bgbl-1/2000/s717/regelungstext-1/hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1" GUID="1e15b64a-c408-4146-936f-faaf4d5fb36e"></akn:destination>
-                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-2" href="eli/bund/bgbl-1/2000/s717/regelungstext-1/hauptteil-1_para-2_abs-1_inhalt-1_text-1" GUID="cc8f0bd3-9c76-4542-b53f-b9da420faa16"></akn:destination>
+                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" href="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1/hauptteil-1_para-1_abs-2_untergl-1_listenelem-1_untergl-1_schlusstext-1.xml" GUID="1e15b64a-c408-4146-936f-faaf4d5fb36e"></akn:destination>
+                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-2" href="eli/bund/bgbl-1/2000/s717/2021-06-02/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1_inhalt-1_text-1.xml" GUID="cc8f0bd3-9c76-4542-b53f-b9da420faa16"></akn:destination>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2" eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1" GUID="7441cd9c-d0cd-41e1-b702-5355342ee068"></akn:force>
                </akn:textualMod>
             </akn:activeModifications>

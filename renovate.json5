@@ -4,10 +4,14 @@
     "config:recommended",
     ":disableDependencyDashboard" // not have a GitHub issue listing the open updates
   ],
+  "timezone": "Europe/Berlin",
+  "automergeSchedule": [ "before 5:30am every weekday",
+        "after 7:30am every weekday"], // branches are created, but not merged outside this schedule
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true
   },
+  "ignoreDeps": ["io.spring.dependency-management"],
   "packageRules": [
     {
       "matchUpdateTypes": [
@@ -18,10 +22,8 @@
         "pinDigest",
         "digest"
       ],
-      "timezone": "Europe/Berlin",
-      "schedule": ["every weekday before 5:30am and after 6:30am"], // branch creation only on weekdays
       "automerge": true,
-      "platformAutomerge": false, // this would require more repository setup
+      "platformAutomerge": false, // this would require more repository setup; also it interferes with automergeSchedule
       "automergeType": "branch" // only create PRs if tests fail (or stall)
     }
   ]

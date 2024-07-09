@@ -1,15 +1,17 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
-import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
+import de.bund.digitalservice.ris.norms.domain.entity.Eli;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -26,22 +28,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticleController {
 
   private final LoadNormUseCase loadNormUseCase;
-  private final LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase;
   private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
-  private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
+  private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
+  private final LoadZf0UseCase loadZf0UseCase;
 
   public ArticleController(
       LoadNormUseCase loadNormUseCase,
-      LoadNextVersionOfNormUseCase loadNextVersionOfNormUseCase,
       LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase) {
+      LoadArticleHtmlUseCase loadArticleHtmlUseCase,
+      LoadZf0UseCase loadZf0UseCase) {
     this.loadNormUseCase = loadNormUseCase;
-    this.loadNextVersionOfNormUseCase = loadNextVersionOfNormUseCase;
     this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
-    this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
+    this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
+    this.loadZf0UseCase = loadZf0UseCase;
   }
 
   /**
@@ -51,13 +53,7 @@ public class ArticleController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
+   * @param eli Eli of the request
    * @param amendedBy Filter the articles to articles amended by the given norm. Must be the eli of
    *     the amending norm. Requires amendedAt.
    * @param amendedAt Filter the articles to articles amended at the given livecycle event. Must be
@@ -68,30 +64,28 @@ public class ArticleController {
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<List<ArticleResponseSchema>> getArticles(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
-      @PathVariable final String subtype,
+      final Eli eli,
       @RequestParam final Optional<String> amendedBy,
       @RequestParam final Optional<String> amendedAt) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
-    final var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli));
+    final var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
 
     // amendedAt and amendedBy refer to passive modifications (i.e. amended at a specific
     // date or by a specific change law). So we collect a list of all passive modifications
     // matching both criteria.
+
     var passiveModificationsAmendedAtOrBy =
-        optionalNorm.stream()
-            .flatMap((Norm norm) -> norm.getPassiveModifications().stream())
+        optionalNorm
+            .flatMap(n -> n.getMeta().getAnalysis().map(Analysis::getPassiveModifications))
+            .orElse(Collections.emptyList())
+            .stream()
             .filter(
                 passiveModification -> {
                   if (amendedBy.isEmpty()) return true;
-                  else return passiveModification.getSourceEli().equals(amendedBy);
+                  else
+                    return passiveModification
+                        .getSourceHref()
+                        .flatMap(Href::getEli)
+                        .equals(amendedBy);
                 })
             .filter(
                 passiveModification -> {
@@ -121,8 +115,10 @@ public class ArticleController {
                   // now is to only return the articles that are going to be modified by
                   // those passive modifications.
                   return passiveModificationsAmendedAtOrBy.stream()
-                      .flatMap(
-                          passiveModification -> passiveModification.getDestinationEid().stream())
+                      .map(TextualMod::getDestinationHref)
+                      .flatMap(Optional::stream)
+                      .map(Href::getEId)
+                      .flatMap(Optional::stream)
                       .anyMatch(
                           destinationEid ->
                               // Modifications can be either on the article itself or anywhere
@@ -136,11 +132,14 @@ public class ArticleController {
                       article
                           .getAffectedDocumentEli()
                           .flatMap(
-                              affectedDocumentEli ->
-                                  loadNextVersionOfNormUseCase.loadNextVersionOfNorm(
-                                      new LoadNextVersionOfNormUseCase.Query(affectedDocumentEli)))
+                              eliTargetLaw ->
+                                  loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
+                          .map(
+                              targetLaw ->
+                                  loadZf0UseCase.loadOrCreateZf0(
+                                      new LoadZf0UseCase.Query(
+                                          optionalNorm.get(), targetLaw, true)))
                           .orElse(null);
-
                   return ArticleResponseMapper.fromNormArticle(article, targetLawZf0);
                 })
             .toList());
@@ -153,13 +152,7 @@ public class ArticleController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
+   * @param eli Eli of the request
    * @param refersTo DE: "Artikeltyp" - The articles are filtered to only include articles of this
    *     type.
    * @return A {@link ResponseEntity} containing the retrieved norm's articles as html.
@@ -168,20 +161,11 @@ public class ArticleController {
    */
   @GetMapping(produces = {TEXT_HTML_VALUE})
   public ResponseEntity<String> getArticlesRender(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
-      @PathVariable final String subtype,
-      @RequestParam(required = false, name = "refersTo") final String refersTo) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
+      final Eli eli, @RequestParam(required = false, name = "refersTo") final String refersTo) {
     String articles =
         loadSpecificArticleXmlFromNormUseCase
-            .loadSpecificArticles(new LoadSpecificArticleXmlFromNormUseCase.Query(eli, refersTo))
+            .loadSpecificArticles(
+                new LoadSpecificArticleXmlFromNormUseCase.Query(eli.getValue(), refersTo))
             .stream()
             .map(
                 xml ->
@@ -202,13 +186,7 @@ public class ArticleController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
+   * @param eli Eli of the request
    * @param eid eid of the article
    * @return A {@link ResponseEntity} containing the retrieved norm.
    *     <p>Returns HTTP 200 (OK) and the norm if found.
@@ -218,19 +196,10 @@ public class ArticleController {
       path = "/{eid}",
       produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<ArticleResponseSchema> getArticle(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
-      @PathVariable final String subtype,
-      @PathVariable final String eid) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
+      final Eli eli, @PathVariable final String eid) {
+    var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
     var optionalArticle =
-        loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
+        optionalNorm.map(Norm::getArticles).stream()
             .flatMap(List::stream)
             .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
             .findFirst();
@@ -244,11 +213,14 @@ public class ArticleController {
         article
             .getAffectedDocumentEli()
             .flatMap(
-                affectedDocumentEli ->
-                    loadNextVersionOfNormUseCase.loadNextVersionOfNorm(
-                        new LoadNextVersionOfNormUseCase.Query(affectedDocumentEli)))
+                eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
+            .map(
+                targetLaw ->
+                    loadZf0UseCase.loadOrCreateZf0(
+                        new LoadZf0UseCase.Query(optionalNorm.get(), targetLaw, true)))
             .orElse(null);
 
+    // The response type is richer than the domain "Norm" type, hence the separate mapper
     return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(article, targetLawZf0));
   }
 
@@ -259,13 +231,7 @@ public class ArticleController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
+   * @param eli Eli of the request
    * @param eid eid of the article
    * @param atIsoDate ISO date string indicating which modifications should be applied before the
    *     HTML gets rendered and returned.
@@ -277,55 +243,10 @@ public class ArticleController {
       path = "/{eid}",
       produces = {TEXT_HTML_VALUE})
   public ResponseEntity<String> getArticleRender(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
-      @PathVariable final String subtype,
-      @PathVariable final String eid,
-      @RequestParam Optional<String> atIsoDate) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
-    if (atIsoDate.isPresent()) {
-      try {
-        DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
-      } catch (Exception e) {
-        return ResponseEntity.badRequest().build();
-      }
-
-      return loadNormUseCase
-          .loadNorm(new LoadNormUseCase.Query(eli))
-          .map(
-              norm ->
-                  applyPassiveModificationsUseCase.applyPassiveModifications(
-                      new ApplyPassiveModificationsUseCase.Query(
-                          norm, Instant.parse(atIsoDate.get()))))
-          .map(Norm::getArticles)
-          .stream()
-          .flatMap(List::stream)
-          .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
-          .findFirst()
-          .map(article -> XmlMapper.toString(article.getNode()))
-          .map(
-              xml ->
-                  this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                      new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
-          .map(ResponseEntity::ok)
-          .orElse(ResponseEntity.notFound().build());
-    }
-
-    return loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli)).map(Norm::getArticles).stream()
-        .flatMap(List::stream)
-        .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
-        .findFirst()
-        .map(article -> XmlMapper.toString(article.getNode()))
-        .map(
-            xml ->
-                this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false)))
+      final Eli eli, @PathVariable final String eid, @RequestParam Optional<Instant> atIsoDate) {
+    return loadArticleHtmlUseCase
+        .loadArticleHtml(
+            new LoadArticleHtmlUseCase.Query(eli.getValue(), eid, atIsoDate.orElse(null)))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

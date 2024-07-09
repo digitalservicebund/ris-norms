@@ -13,14 +13,6 @@ const props = withDefaults(
     content: string
 
     /**
-     * Enable or disable highlighting of mod elements (these used to be amending
-     * commands in the source XML).
-     *
-     * @default false
-     */
-    highlightMods?: boolean
-
-    /**
      * Enable or disable highlighting of the affected document elements.
      *
      * @default false
@@ -31,11 +23,16 @@ const props = withDefaults(
      * EIds of the currently selected elements.
      */
     selected?: string[]
+
+    /**
+     * Classes that should be assigned to the elements with the given eIds.
+     */
+    eIdClasses?: { [eId: string]: string[] }
   }>(),
   {
-    highlightMods: false,
     highlightAffectedDocument: false,
     selected: () => [],
+    eIdClasses: () => ({}),
   },
 )
 
@@ -191,6 +188,36 @@ watch(
   },
   { immediate: true },
 )
+
+/**
+ * Setup and update the custom classes on elements.
+ */
+watch(
+  [() => props.eIdClasses, () => props.content],
+  async (value, oldValue, onCleanup) => {
+    // Need to wait for a tick in order to give Vue some time to render the HTML first
+    await nextTick()
+
+    const cleanupFunctions: (() => void)[] = []
+
+    Object.entries(props.eIdClasses).forEach(([eId, classNames]) => {
+      const element = container.value?.querySelector(`[data-eId="${eId}"]`)
+
+      if (!element) return
+
+      cleanupFunctions.push(() => {
+        element.classList.remove(...classNames)
+      })
+
+      element.classList.add(...classNames)
+    })
+
+    onCleanup(() => {
+      cleanupFunctions.forEach((cleanup) => cleanup())
+    })
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -201,7 +228,6 @@ watch(
       tabindex="0"
       class="flex h-full overflow-auto bg-white p-20"
       :class="{
-        'highlight-mods': highlightMods,
         'highlight-affected-document': highlightAffectedDocument,
       }"
       v-html="content"
@@ -305,19 +331,6 @@ watch(
 
 :deep(.akn-shortTitle) {
   @apply block font-normal;
-}
-
-.highlight-mods :deep(.akn-mod) {
-  @apply border border-dotted border-gray-900 bg-highlight-mod-default px-2;
-}
-
-.highlight-mods :deep(.akn-mod):hover,
-.highlight-mods :deep(.akn-mod):focus {
-  @apply border border-dotted border-highlight-mod-border bg-highlight-mod-hover px-2;
-}
-
-.highlight-mods :deep(.akn-mod.selected) {
-  @apply border border-solid border-highlight-mod-border bg-highlight-mod-selected px-2;
 }
 
 .highlight-affected-document :deep(.akn-affectedDocument) {

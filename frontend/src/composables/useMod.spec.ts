@@ -18,6 +18,7 @@ describe("useMod", () => {
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn().mockReturnValue("aenderungsbefehl-ersetzen"),
       getTimeBoundaryDate: vi.fn().mockReturnValue("2020-01-01"),
+      useUpdateModData: vi.fn(),
     }))
     vi.doMock("@/services/ldmldeService", () => ({
       getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),
@@ -30,7 +31,7 @@ describe("useMod", () => {
       quotedTextFirst,
       quotedTextSecond,
       timeBoundary,
-    } = useMod("eid", `<xml></xml>`)
+    } = useMod("eli", "eid", `<xml></xml>`)
 
     expect(destinationHref.value).toBe(
       "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/100-126.xml",
@@ -50,7 +51,7 @@ describe("useMod", () => {
       quotedTextFirst,
       quotedTextSecond,
       timeBoundary,
-    } = useMod(null, `<xml></xml>`)
+    } = useMod(null, null, `<xml></xml>`)
 
     expect(destinationHref.value).toBe("")
     expect(textualModType.value).toBe("")
@@ -66,13 +67,14 @@ describe("useMod", () => {
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
+      useUpdateModData: vi.fn(),
     }))
     vi.doMock("@/services/ldmldeService", () => ({
       getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),
     }))
     const { useMod } = await import("./useMod")
 
-    const { quotedTextSecond } = useMod("eid", `<xml></xml>`)
+    const { quotedTextSecond } = useMod("eli", "eid", `<xml></xml>`)
 
     expect(quotedTextSecond.value).toBe("new text")
     quotedTextSecond.value = "newer text"
@@ -86,6 +88,7 @@ describe("useMod", () => {
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
+      useUpdateModData: vi.fn(),
     }))
     vi.doMock("@/services/ldmldeService", () => ({
       getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),
@@ -93,7 +96,7 @@ describe("useMod", () => {
     const { useMod } = await import("./useMod")
 
     const eid = ref("eid1")
-    const { quotedTextSecond } = useMod(eid, `<xml></xml>`)
+    const { quotedTextSecond } = useMod("eli", eid, `<xml></xml>`)
 
     expect(quotedTextSecond.value).toBe("new text")
 
@@ -112,6 +115,7 @@ describe("useMod", () => {
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
+      useUpdateModData: vi.fn(),
     }))
     vi.doMock("@/services/ldmldeService", () => ({
       getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),
@@ -119,7 +123,7 @@ describe("useMod", () => {
     const { useMod } = await import("./useMod")
 
     const xml = ref("<xml></xml>")
-    const { quotedTextSecond } = useMod("eid1", xml)
+    const { quotedTextSecond } = useMod("eli", "eid1", xml)
 
     expect(quotedTextSecond.value).toBe("new text")
 
@@ -129,5 +133,37 @@ describe("useMod", () => {
     xml.value = "<xml>new</xml>"
     await nextTick()
     expect(quotedTextSecond.value).toBe("new text")
+  })
+
+  test("should create update and preview using useUpdateModData", async () => {
+    const eli = "test-eli"
+    const eid = "test-eid"
+
+    const useUpdateModData = vi.fn()
+
+    vi.doMock("@/services/ldmldeModService", () => ({
+      getDestinationHref: vi.fn(),
+      getQuotedTextFirst: vi.fn(),
+      getQuotedTextSecond: vi.fn(),
+      getTextualModType: vi.fn(),
+      getTimeBoundaryDate: vi.fn(),
+      useUpdateModData,
+    }))
+
+    const { useMod } = await import("./useMod")
+    useMod(eli, eid, `<xml></xml>`)
+
+    expect(useUpdateModData).toHaveBeenCalledWith(
+      eli,
+      eid,
+      expect.anything(),
+      false,
+    )
+    expect(useUpdateModData).toHaveBeenCalledWith(
+      eli,
+      eid,
+      expect.anything(),
+      true,
+    )
   })
 })

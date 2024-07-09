@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -9,9 +10,12 @@ import static org.mockito.Mockito.times;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadTimeBoundariesAmendedByUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTimeBoundariesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateTimeBoundariesUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
 import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
@@ -26,9 +30,10 @@ import org.slf4j.LoggerFactory;
 
 class TimeBoundaryServiceTest {
 
-  final DBService dbService = mock(DBService.class);
+  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
 
-  final TimeBoundaryService service = new TimeBoundaryService(dbService);
+  final TimeBoundaryService service = new TimeBoundaryService(loadNormPort, updateNormPort);
 
   @Nested
   class loadTimeBoundariesOfNorm {
@@ -71,25 +76,27 @@ class TimeBoundaryServiceTest {
                               </akn:akomaNtoso>
                             """))
               .build();
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
       var timeBoundaries =
           service.loadTimeBoundariesOfNorm(new LoadTimeBoundariesUseCase.Query(eli));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(timeBoundaries).hasSize(2);
 
       // handle 1st time boundary
-      assertThat(timeBoundaries.getFirst().getDate()).contains(LocalDate.parse("2023-12-30"));
+      assertThat(timeBoundaries.getFirst().getEventRef().getDate())
+          .contains(LocalDate.parse("2023-12-30"));
       assertThat(timeBoundaries.getFirst().getEventRefEid().get())
           .contains("meta-1_lebzykl-1_ereignis-2");
       assertThat(
               timeBoundaries
                   .getFirst()
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getParentNode()
                   .getAttributes()
                   .getNamedItem("eId")
@@ -98,7 +105,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .getFirst()
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getParentNode()
                   .getAttributes()
                   .getNamedItem("GUID")
@@ -109,7 +117,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .getFirst()
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("GUID")
                   .getNodeValue())
@@ -117,7 +126,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(0)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("refersTo")
                   .getNodeValue())
@@ -125,20 +135,23 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(0)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("start")
                   .getNodeValue())
           .contains("#" + timeBoundaries.get(0).getEventRefEid().get());
 
       // handle 2nd time boundary
-      assertThat(timeBoundaries.get(1).getDate()).contains(LocalDate.parse("2024-01-01"));
+      assertThat(timeBoundaries.get(1).getEventRef().getDate())
+          .contains(LocalDate.parse("2024-01-01"));
       assertThat(timeBoundaries.get(1).getEventRefEid().get())
           .contains("meta-1_lebzykl-1_ereignis-3");
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getParentNode()
                   .getAttributes()
                   .getNamedItem("eId")
@@ -147,7 +160,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getParentNode()
                   .getAttributes()
                   .getNamedItem("GUID")
@@ -158,7 +172,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("GUID")
                   .getNodeValue())
@@ -166,7 +181,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("refersTo")
                   .getNodeValue())
@@ -174,7 +190,8 @@ class TimeBoundaryServiceTest {
       assertThat(
               timeBoundaries
                   .get(1)
-                  .getTimeIntervalNode()
+                  .getTimeInterval()
+                  .getNode()
                   .getAttributes()
                   .getNamedItem("start")
                   .getNodeValue())
@@ -209,16 +226,127 @@ class TimeBoundaryServiceTest {
                                               </akn:akomaNtoso>
                                             """))
               .build();
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(norm));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
       var timeBoundaries =
           service.loadTimeBoundariesOfNorm(new LoadTimeBoundariesUseCase.Query(eli));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       assertThat(timeBoundaries).isEmpty();
+    }
+  }
+
+  @Nested
+  class loadTimeBoundariesAmendedBy {
+
+    @Test
+    void itCallsLoadTimeBoundariesAmendedByAndReturnsTimeBoundaries() {
+
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var amendedBy = "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1";
+
+      var norm =
+          Norm.builder()
+              .document(
+                  XmlMapper.toDocument(
+                      """
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                                    <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                                                                        http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                                       <akn:act name="regelungstext">
+                                          <!-- Metadaten -->
+                                          <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                                             <akn:analysis eId="meta-1_analysis-1" GUID="5a5d264e-431e-4dc1-b971-4bd81af8a0f4" source="attributsemantik-noch-undefiniert">
+                                                <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1" GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
+                                                   <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-1" GUID="06fb52c3-fce1-4be8-accc-3035452378ff" type="substitution">
+                                                      <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1" GUID="5384f580-110b-4f8a-8794-8b85c29aabdf" href="eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml" />
+                                                      <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1" GUID="2c26512f-fb04-45f2-8283-660274e52fdb" href="#para-9_abs-3" />
+                                                      <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1" GUID="45331583-4386-4e3f-b68f-5af327347874" period="#meta-1_geltzeiten-1_geltungszeitgr-2" />
+                                                   </akn:textualMod>
+                                                   <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2" GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2" type="substitution">
+                                                      <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1" GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5" href="eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml" />
+                                                      <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#para-20_abs-1/100-126" />
+                                                      <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1" GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb" period="#meta-1_geltzeiten-1_geltungszeitgr-3" />
+                                                   </akn:textualMod>
+                                                   <!-- Passive mod from different amending law -->
+                                                   <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2" GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2" type="substitution">
+                                                      <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-2_source-1" GUID="a5e43d31-65e1-4d99-a1aa-fb4695a94cf5" href="eli/bund/bgbl-1/2024/120/2024-06-28/1/deu/regelungstext-1/art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml" />
+                                                      <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1" GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd" href="#para-20_abs-1/100-126" />
+                                                      <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1" GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb" period="#meta-1_geltzeiten-1_geltungszeitgr-4" />
+                                                   </akn:textualMod>
+                                                </akn:passiveModifications>
+                                             </akn:analysis>
+                                             <akn:lifecycle eId="meta-1_lebzykl-1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
+                                                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29" source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
+                                                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2023-12-30" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                                                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="4539e3ee-3b35-4921-a249-93a98dbd7339" date="2024-01-01" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                                                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4" GUID="4539e3ee-3b35-4921-a249-93a98dbd7339" date="2024-02-28" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                                             </akn:lifecycle>
+                                             <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336" source="attributsemantik-noch-undefiniert">
+                                                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                                   <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                                </akn:temporalGroup>
+                                                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2" GUID="fdfaeef0-0300-4e5b-9e8b-14d2162bfb00">
+                                                   <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" GUID="8118030a-5fa4-4f9c-a880-b7ba19e5edfb" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-3" />
+                                                </akn:temporalGroup>
+                                                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3" GUID="fdfaeef0-0300-4e5b-9e8b-14d2162bfb00">
+                                                   <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1" GUID="8118030a-5fa4-4f9c-a880-b7ba19e5edfb" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-4" />
+                                                </akn:temporalGroup>
+                                                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-4" GUID="fdfaeef0-0300-4e5b-9e8b-14d2162bfb00">
+                                                   <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-4_gelzeitintervall-1" GUID="8118030a-5fa4-4f9c-a880-b7ba19e5edfb" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-4" />
+                                                </akn:temporalGroup>
+                                             </akn:temporalData>
+                                          </akn:meta>
+                                       </akn:act>
+                                    </akn:akomaNtoso>
+                                    """))
+              .build();
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When
+      var timeBoundaries =
+          service.loadTimeBoundariesAmendedBy(
+              new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendedBy));
+
+      // Then
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+
+      assertThat(timeBoundaries).hasSize(2);
+
+      assertThat(timeBoundaries.getFirst().getTemporalGroupEid())
+          .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
+      assertThat(timeBoundaries.getFirst().getTimeIntervalEid())
+          .contains("meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1");
+      assertThat(timeBoundaries.getFirst().getEventRefEid())
+          .contains("meta-1_lebzykl-1_ereignis-3");
+
+      assertThat(timeBoundaries.getLast().getTemporalGroupEid())
+          .contains("meta-1_geltzeiten-1_geltungszeitgr-3");
+      assertThat(timeBoundaries.getLast().getTimeIntervalEid())
+          .contains("meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1");
+      assertThat(timeBoundaries.getLast().getEventRefEid()).contains("meta-1_lebzykl-1_ereignis-4");
+    }
+
+    @Test
+    void itCallsLoadTimeBoundariesAmendedByAndThrowsNormNotFoundException() {
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var amendedBy = "eli/bund/bgbl-1/2024/81/2024-03-05/1/deu/regelungstext-1";
+
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+
+      Throwable thrown =
+          catchThrowable(
+              () ->
+                  service.loadTimeBoundariesAmendedBy(
+                      new LoadTimeBoundariesAmendedByUseCase.Query(eli, amendedBy)));
+
+      assertThat(thrown).isInstanceOf(NormNotFoundException.class);
     }
   }
 
@@ -279,8 +407,8 @@ class TimeBoundaryServiceTest {
       var normAfter = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
-      when(dbService.updateNorm(any())).thenReturn(Optional.of(normAfter));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(normAfter));
 
       // When
       var timeBoundaryChangeDataOldStays =
@@ -291,9 +419,9 @@ class TimeBoundaryServiceTest {
               new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataOldStays)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1))
+      verify(updateNormPort, times(1))
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), normAfter)));
 
       assertThat(result).isNotEmpty();
@@ -353,7 +481,7 @@ class TimeBoundaryServiceTest {
       var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
       // When
       var timeBoundaryChangeDataOldStays =
           new TimeBoundaryChangeData("meta-1_lebzykl-1_ereignis-2", LocalDate.parse("2023-12-30"));
@@ -365,17 +493,29 @@ class TimeBoundaryServiceTest {
               eli, List.of(timeBoundaryChangeDataOldStays, timeBoundaryChangeDataNewDate)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1))
+      verify(updateNormPort, times(1))
           .updateNorm(
               argThat(
                   argument ->
                       Objects.equals(
-                              argument.norm().getTimeBoundaries().getFirst().getDate().get(),
+                              argument
+                                  .norm()
+                                  .getTimeBoundaries()
+                                  .getFirst()
+                                  .getEventRef()
+                                  .getDate()
+                                  .get(),
                               LocalDate.parse("2023-12-30"))
                           && Objects.equals(
-                              argument.norm().getTimeBoundaries().getLast().getDate().get(),
+                              argument
+                                  .norm()
+                                  .getTimeBoundaries()
+                                  .getLast()
+                                  .getEventRef()
+                                  .getDate()
+                                  .get(),
                               LocalDate.parse("2024-01-02"))
                           && argument.norm().getTimeBoundaries().size() == 2));
     }
@@ -439,7 +579,7 @@ class TimeBoundaryServiceTest {
       var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
 
       // When
       var timeBoundaryChangeDataOldStays =
@@ -449,14 +589,20 @@ class TimeBoundaryServiceTest {
           new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataOldStays)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1))
+      verify(updateNormPort, times(1))
           .updateNorm(
               argThat(
                   argument ->
                       Objects.equals(
-                              argument.norm().getTimeBoundaries().getLast().getDate().get(),
+                              argument
+                                  .norm()
+                                  .getTimeBoundaries()
+                                  .getLast()
+                                  .getEventRef()
+                                  .getDate()
+                                  .get(),
                               LocalDate.parse("2023-12-30"))
                           && argument.norm().getTimeBoundaries().size() == 1));
     }
@@ -499,7 +645,7 @@ class TimeBoundaryServiceTest {
       var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
 
       // When
       var timeBoundaryChangeDataNewDate1 =
@@ -512,17 +658,30 @@ class TimeBoundaryServiceTest {
               eli, List.of(timeBoundaryChangeDataNewDate1, timeBoundaryChangeDataNewDate2)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1))
+      verify(updateNormPort, times(1))
           .updateNorm(
               argThat(
                   argument ->
                       LocalDate.parse("1980-01-01")
                               .equals(
-                                  argument.norm().getTimeBoundaries().getFirst().getDate().get())
+                                  argument
+                                      .norm()
+                                      .getTimeBoundaries()
+                                      .getFirst()
+                                      .getEventRef()
+                                      .getDate()
+                                      .get())
                           && LocalDate.parse("1990-01-01")
-                              .equals(argument.norm().getTimeBoundaries().get(1).getDate().get())
+                              .equals(
+                                  argument
+                                      .norm()
+                                      .getTimeBoundaries()
+                                      .get(1)
+                                      .getEventRef()
+                                      .getDate()
+                                      .get())
                           && argument.norm().getTimeBoundaries().size() == 2));
     }
 
@@ -571,7 +730,7 @@ class TimeBoundaryServiceTest {
       var normBefore = Norm.builder().document(XmlMapper.toDocument(xml)).build();
 
       // Given
-      when(dbService.loadNorm(any())).thenReturn(Optional.of(normBefore));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(normBefore));
 
       // When
       var timeBoundaryChangeDataNewDate1 =
@@ -582,9 +741,9 @@ class TimeBoundaryServiceTest {
           new UpdateTimeBoundariesUseCase.Query(eli, List.of(timeBoundaryChangeDataNewDate1)));
 
       // Then
-      verify(dbService, times(1))
+      verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(dbService, times(1)).updateNorm(any());
+      verify(updateNormPort, times(1)).updateNorm(any());
 
       assertThat(
               memoryAppender.contains(

@@ -1,10 +1,10 @@
 [versions]
-flyway = "10.13.0"
+flyway = "10.15.2"
 # @keep
 jacoco = "0.8.11"
 org-bouncycastle = "1.78.1"
 org-testcontainers = "1.19.8"
-spring-boot = "3.2.5"
+spring-boot = "3.3.1"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.3.0"
@@ -14,10 +14,11 @@ flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
-lombok = "org.projectlombok:lombok:1.18.32"
+lombok = "org.projectlombok:lombok:1.18.34"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.12.0"
 postgresql = "org.postgresql:postgresql:42.7.3"
-saxon-he = "net.sf.saxon:Saxon-HE:12.4"
+prometheus = "io.micrometer:micrometer-registry-prometheus:1.13.1"
+saxon-he = "net.sf.saxon:Saxon-HE:12.5"
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
@@ -25,8 +26,8 @@ spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
-spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.1"
-spring-security-test = "org.springframework.security:spring-security-test:6.2.4"
+spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.2"
+spring-security-test = "org.springframework.security:spring-security-test:6.3.1"
 spring-session-data-redis = { module = "org.springframework.session:spring-session-data-redis" }
 spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
@@ -34,8 +35,9 @@ testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", ve
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
 
 [plugins]
-dependency-license-report = "com.github.jk1.dependency-license-report:2.7"
-sonarqube = "org.sonarqube:5.0.0.4638"
+dependency-license-report = "com.github.jk1.dependency-license-report:2.8"
+sentry = "io.sentry.jvm.gradle:4.9.0"
+sonarqube = "org.sonarqube:5.1.0.4882"
 spotless = "com.diffplug.spotless:6.25.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.5"

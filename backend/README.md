@@ -18,13 +18,14 @@ Install the latest LTS version of node for running Spotless with Prettier.
 Set up and boot the postgres database and the redis database (from the project root):
 
 ```sh
-docker compose up postgres14 redis
+docker compose up postgres15 redis
 ```
 
 You can then start the backend with two different options:
 
 1. Running the `bootRun` Gradle task.
 2. Creating a Run/Debug config in your IDE with Spring support using the profile `local`
+   - This is important to initialize the bootstrap test data
 
 ## Tests
 
@@ -110,4 +111,13 @@ which is integrated not only into gradle but into lefthook (pre-commit)
 
 ```bash
 ./gradlew check
+```
+
+## Check for outdated libraries
+
+If the following statement prints a number > 0, then there are outdated libraries:
+
+```bash
+./gradlew versionCatalogUpdate
+jq .outdated.count build/dependencyUpdates/report.json
 ```

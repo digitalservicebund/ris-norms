@@ -6,47 +6,60 @@ import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CheckIcon from "~icons/ic/check"
 import { ModType } from "@/types/ModType"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import RisTooltip from "@/components/controls/RisTooltip.vue"
 
 const props = defineProps<{
+  /** Unique ID for the dro. */
+  id: string
   /** Either replacement, insertion or repeal */
   textualModType: ModType | ""
   /** the possible time boundaries in the format YYYY-MM-DD. */
-  timeBoundaries: string[]
-  /** Optional selected time boundary of the format YYYY-MM-DD */
-  selectedTimeBoundary?: string
-  /** Destination Href for mod */
-  destinationHref: string
+  timeBoundaries: TemporalDataResponse[]
   /** This is the text that will be replaced */
   quotedTextFirst?: string
-  /** This is the text that replaces quotedTextFirst */
-  quotedTextSecond?: string
-  /** Pass the preview function handler */
-  handleGeneratePreview?: () => void
+  isUpdating?: boolean
+  isUpdatingFinished?: boolean
+  updateError?: Error
 }>()
 
-const selectedTimeBoundaryModel = defineModel<string | undefined>(
+defineEmits<{
+  "generate-preview": []
+  "update-mod": []
+}>()
+/** Optional selected time boundary of the format YYYY-MM-DD */
+const selectedTimeBoundaryModel = defineModel<TemporalDataResponse | undefined>(
   "selectedTimeBoundary",
 )
+/** Destination Href for mod */
 const destinationHrefModel = defineModel<string>("destinationHref")
+/** This is the text that replaces quotedTextFirst */
 const quotedTextSecondModel = defineModel<string | undefined>(
   "quotedTextSecond",
 )
 
 const timeBoundaries = computed(() => {
   return [
-    ...props.timeBoundaries.map((date) => ({
-      label: new Date(date).toLocaleDateString("de"),
-      value: date,
+    ...props.timeBoundaries.map((boundary) => ({
+      label: new Date(boundary.date).toLocaleDateString("de", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
+      value: boundary.date,
     })),
     { label: "Keine Angabe", value: "no_choice" },
   ]
 })
 const selectedElement = computed({
   get() {
-    return selectedTimeBoundaryModel.value || "no_choice"
+    return selectedTimeBoundaryModel.value?.date || "no_choice"
   },
   set(value: string) {
-    selectedTimeBoundaryModel.value = value === "no_choice" ? undefined : value
+    selectedTimeBoundaryModel.value =
+      value === "no_choice"
+        ? undefined
+        : props.timeBoundaries.find((tb) => tb.date === value)
   },
 })
 
@@ -61,7 +74,12 @@ const destinationHrefEid = computed({
   set(newValue: string) {
     if (destinationHrefModel.value) {
       const parts = destinationHrefModel.value.split("/")
-      parts.splice(-2, 2, ...newValue.split("/"))
+      const newParts = newValue.split("/")
+      if (newParts.length === 2) {
+        parts.splice(-2, 2, ...newParts)
+      } else if (newParts.length === 1) {
+        parts.splice(-2, 2, newParts[0], "")
+      }
       destinationHrefModel.value = parts.join("/")
     }
   },
@@ -89,21 +107,20 @@ function modTypeLabel(modType: ModType | "") {
 </script>
 
 <template>
-  <form id="risModForm" class="grid grid-cols-1 gap-y-20" @submit.prevent>
+  <form :id="id" class="grid grid-cols-1 gap-y-20">
     <div class="grid grid-cols-2 gap-x-40">
-      <RisTextInput
-        id="textualModeType"
-        label="Änderungstyp"
-        :model-value="modTypeLabel(textualModType)"
-        read-only
-        size="small"
-      />
       <RisDropdownInput
         id="timeBoundaries"
         v-model="selectedElement"
         label="Zeitgrenze"
         :items="timeBoundaries"
-        :blur-handler="handleGeneratePreview"
+        @change="$emit('generate-preview')"
+      />
+      <RisTextInput
+        id="textualModeType"
+        label="Änderungstyp"
+        :model-value="modTypeLabel(textualModType)"
+        read-only
       />
     </div>
 
@@ -112,15 +129,13 @@ function modTypeLabel(modType: ModType | "") {
       label="ELI Zielgesetz"
       :model-value="destinationHrefEli"
       read-only
-      size="small"
     />
     <RisTextInput
       v-if="textualModType === 'aenderungsbefehl-ersetzen'"
       id="destinationHrefEid"
       v-model="destinationHrefEid"
       label="zu ersetzende Textstelle"
-      size="small"
-      :blur-handler="handleGeneratePreview"
+      @blur="$emit('generate-preview')"
     />
     <RisTextAreaInput
       v-if="textualModType === 'aenderungsbefehl-ersetzen'"
@@ -135,15 +150,36 @@ function modTypeLabel(modType: ModType | "") {
       v-model="quotedTextSecondModel"
       label="Neuer Text Inhalt"
       :rows="8"
-      :blur-handler="handleGeneratePreview"
+      @blur="$emit('generate-preview')"
     />
     <div class="flex gap-20">
       <RisTextButton
         label="Vorschau"
         variant="tertiary"
-        @click="handleGeneratePreview"
+        @click.prevent="$emit('generate-preview')"
       />
-      <RisTextButton label="Speichern" :icon="CheckIcon" disabled />
+
+      <div class="relative">
+        <RisTooltip
+          v-slot="{ ariaDescribedby }"
+          :visible="isUpdatingFinished"
+          :title="
+            updateError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'
+          "
+          alignment="right"
+          attachment="top"
+          :variant="updateError ? 'error' : 'success'"
+          allow-dismiss
+        >
+          <RisTextButton
+            :aria-describedby="ariaDescribedby"
+            label="Speichern"
+            :icon="CheckIcon"
+            :loading="isUpdating"
+            @click.prevent="$emit('update-mod')"
+          />
+        </RisTooltip>
+      </div>
     </div>
   </form>
 </template>

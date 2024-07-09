@@ -17,6 +17,8 @@ import com.tngtech.archunit.library.dependencies.SliceRule;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,16 +37,42 @@ class ArchitectureFitnessTest {
   static final String INPUT_PORT_LAYER_PACKAGES = BASE_PACKAGE + ".application.port.input";
   static final String OUTPUT_PORT_LAYER_PACKAGES = BASE_PACKAGE + ".application.port.output";
   static final String SERVICE_LAYER_PACKAGES = BASE_PACKAGE + ".application.service..";
+  static final String APPLICATION_EXCEPTION_PACKAGES = BASE_PACKAGE + ".application.exception..";
 
   static final String ADAPTER_LAYER_PACKAGES = BASE_PACKAGE + ".adapter..";
 
   static final String REPOSITORY_LAYER_PACKAGES =
       BASE_PACKAGE + ".adapter.output.database.repository";
+  static final String ADAPTER_OUTPUT = BASE_PACKAGE + ".adapter.output..";
   static final String DOMAIN_LAYER_PACKAGES = BASE_PACKAGE + ".domain..";
   static final String ENTITY_LAYER_PACKAGES = BASE_PACKAGE + ".domain.entity";
   static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value";
   static final String EXCEPTIONS_LAYER_PACKAGES = BASE_PACKAGE + ".domain.exceptions";
   static final String UTILS_LAYER_PACKAGES = BASE_PACKAGE + ".utils..";
+
+  static final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
+      new String[] {
+        "kotlin..",
+        "java..",
+        "org.jetbrains.annotations..",
+        "lombok..",
+        "org.w3c.dom..",
+        "org.apache.commons.lang3.."
+      };
+  static final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
+      new String[] {
+        UTILS_LAYER_PACKAGES,
+        DOMAIN_LAYER_PACKAGES,
+        "kotlin..",
+        "java..",
+        "javax.xml..",
+        "org.jetbrains.annotations..",
+        "lombok..",
+        "org.w3c.dom..",
+        "net.sf.saxon..",
+        "org.xml.sax..",
+        "org.slf4j..",
+      };
 
   @BeforeAll
   static void setUp() {
@@ -66,11 +94,6 @@ class ArchitectureFitnessTest {
 
   @Test
   void domainClassesShouldOnlyDependOnDomainUtilsOrSpecificStandardLibraries() {
-    final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
-        new String[] {
-          "kotlin..", "java..", "org.jetbrains.annotations..", "lombok..", "org.w3c.dom.."
-        };
-
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
@@ -87,28 +110,13 @@ class ArchitectureFitnessTest {
 
   @Test
   void utilsClassesShouldOnlyDependOnUtilsOrSpecificStandardLibraries() {
-    final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
-        new String[] {
-          "kotlin..",
-          "java..",
-          "javax.xml..",
-          "org.jetbrains.annotations..",
-          "lombok..",
-          "org.w3c.dom..",
-          "net.sf.saxon..",
-          "org.xml.sax..",
-        };
-
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
             .resideInAPackage(UTILS_LAYER_PACKAGES)
-            .should(
-                onlyDependOnClassesThat(
-                    resideInAPackage(UTILS_LAYER_PACKAGES)
-                        .or(
-                            JavaClass.Predicates.resideInAnyPackage(
-                                UTILITY_LAYER_ALLOWED_PACKAGES))));
+            .should()
+            .onlyDependOnClassesThat()
+            .resideInAnyPackage(UTILITY_LAYER_ALLOWED_PACKAGES);
     rule.check(classes);
   }
 
@@ -119,11 +127,8 @@ class ArchitectureFitnessTest {
             .that()
             .resideInAPackage(DOMAIN_LAYER_PACKAGES)
             .should()
-            .resideInAPackage(ENTITY_LAYER_PACKAGES)
-            .orShould()
-            .resideInAPackage(VALUE_LAYER_PACKAGES)
-            .orShould()
-            .resideInAPackage(EXCEPTIONS_LAYER_PACKAGES);
+            .resideInAnyPackage(
+                ENTITY_LAYER_PACKAGES, VALUE_LAYER_PACKAGES, EXCEPTIONS_LAYER_PACKAGES);
 
     rule.check(classes);
   }
@@ -156,6 +161,22 @@ class ArchitectureFitnessTest {
             .andShould()
             .dependOnClassesThat()
             .areAnnotatedWith(RestController.class);
+    rule.check(classes);
+  }
+
+  @Test
+  void controllerClassesShouldOnlyHaveUseCasesFields() {
+    ArchRule rule =
+        ArchRuleDefinition.noClasses()
+            .that()
+            .haveSimpleNameEndingWith("Controller")
+            .and()
+            .areAnnotatedWith(Controller.class)
+            .or()
+            .areAnnotatedWith(RestController.class)
+            .should(ArchCondition.from((new ShouldOnlyHaveUseCaseFields())))
+            .because(
+                "Controllers should only depend on use case interfaces, not on service implementations");
     rule.check(classes);
   }
 
@@ -220,22 +241,26 @@ class ArchitectureFitnessTest {
   }
 
   @Test
-  void applicationPackageShouldDependOnlyOnDomainAndSpecificExtras() {
+  void applicationPackageShouldNotDependOnAdapterPackage() {
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
             .resideInAPackage(APPLICATION_LAYER_PACKAGES)
             .should()
             .onlyDependOnClassesThat()
-            .resideInAPackage(DOMAIN_LAYER_PACKAGES)
-            .orShould()
-            .resideInAnyPackage(APPLICATION_LAYER_PACKAGES)
-            .orShould()
-            .resideInAnyPackage(UTILS_LAYER_PACKAGES)
-            .orShould()
-            .resideInAnyPackage("kotlin..", "java..", "org.jetbrains.annotations..")
-            .orShould()
-            .resideInAnyPackage("org.springframework.stereotype..", "org.slf4j..");
+            .resideOutsideOfPackage(ADAPTER_LAYER_PACKAGES);
+    rule.check(classes);
+  }
+
+  @Test
+  void outputPortMayNotDependOnApplicationLayerExceptions() {
+    ArchRule rule =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage(ADAPTER_OUTPUT)
+            .should()
+            .onlyDependOnClassesThat()
+            .resideOutsideOfPackage(APPLICATION_EXCEPTION_PACKAGES);
     rule.check(classes);
   }
 
@@ -246,11 +271,11 @@ class ArchitectureFitnessTest {
             .that()
             .resideInAPackage(APPLICATION_LAYER_PACKAGES)
             .should()
-            .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES)
-            .orShould()
-            .resideInAPackage(OUTPUT_PORT_LAYER_PACKAGES)
-            .orShould()
-            .resideInAPackage(SERVICE_LAYER_PACKAGES);
+            .resideInAnyPackage(
+                INPUT_PORT_LAYER_PACKAGES,
+                OUTPUT_PORT_LAYER_PACKAGES,
+                SERVICE_LAYER_PACKAGES,
+                APPLICATION_EXCEPTION_PACKAGES);
     rule.check(classes);
   }
 
@@ -286,10 +311,7 @@ class ArchitectureFitnessTest {
         ArchRuleDefinition.classes()
             .that()
             .resideInAnyPackage(INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES)
-            .and()
-            .doNotHaveSimpleName("Query")
-            .and()
-            .doNotHaveSimpleName("Command")
+            .and(new IsNotRecordClass())
             .and()
             .areNotAssignableTo(Exception.class)
             .should(ArchCondition.from((haveASingleMethod)))
@@ -395,6 +417,40 @@ class ArchitectureFitnessTest {
     @Override
     public boolean test(JavaMethod javaMethod) {
       return javaMethod.getParameters().size() == this.number;
+    }
+  }
+
+  static class IsNotRecordClass extends DescribedPredicate<JavaClass> {
+
+    public IsNotRecordClass() {
+      super("class is a record");
+    }
+
+    @Override
+    public boolean test(JavaClass javaClass) {
+      return !javaClass.isRecord();
+    }
+  }
+
+  static class ShouldOnlyHaveUseCaseFields extends DescribedPredicate<JavaClass> {
+
+    final Set<String> useCaseInterfaces =
+        classes.stream()
+            .filter(
+                javaClass ->
+                    javaClass.isInterface()
+                        && javaClass.getPackageName().startsWith(INPUT_PORT_LAYER_PACKAGES))
+            .map(JavaClass::getName)
+            .collect(Collectors.toSet());
+
+    public ShouldOnlyHaveUseCaseFields() {
+      super("Class has only fields that are use case interfaces");
+    }
+
+    @Override
+    public boolean test(JavaClass javaClass) {
+      return javaClass.getFields().stream()
+          .anyMatch(f -> !useCaseInterfaces.contains(f.getRawType().getName()));
     }
   }
 }

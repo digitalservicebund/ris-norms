@@ -15,8 +15,6 @@ const props = withDefaults(
     rows?: number
     /** Label for the form field. */
     label?: string
-    /** On blur handler for the textarea */
-    blurHandler?: () => void
   }>(),
   {
     modelValue: "",
@@ -24,7 +22,6 @@ const props = withDefaults(
     readOnly: false,
     rows: 2,
     label: undefined,
-    blurHandler: undefined,
   },
 )
 
@@ -35,6 +32,10 @@ const emit = defineEmits<{
    * (e.g. partial dates while typing) are handled internally and not emitted.
    */
   "update:modelValue": [value: string]
+  /**
+   * Emitted when the input field loses focus.
+   */
+  blur: []
 }>()
 
 const localValue = computed({
@@ -61,7 +62,7 @@ const localValue = computed({
       :readonly="readOnly"
       :rows="rows"
       :tabindex="readOnly ? -1 : Number($attrs.tabindex) || undefined"
-      @blur="blurHandler"
+      @blur="$emit('blur')"
     ></textarea>
   </div>
 </template>

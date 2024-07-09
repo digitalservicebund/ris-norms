@@ -1,5 +1,8 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import static de.bund.digitalservice.ris.norms.utils.NodeParser.getNodesFromExpression;
+
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
@@ -23,65 +26,32 @@ public class Norm {
   private final Document document;
 
   /**
-   * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns an Eli as {@link String} from a {@link Document} in a {@link Norm}. It tries to extract
+   * it first from the expression level, otherwise it tries to extract it from the manifestation
+   * level.
    *
    * @return An Eli
    */
-  public Optional<String> getEli() {
-    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document);
+  public String getEli() {
+    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
+        .orElseGet(
+            () ->
+                NodeParser.getValueFromMandatoryNodeFromExpression(
+                        "//FRBRManifestation/FRBRthis/@value", document)
+                    .replace(".xml", ""));
   }
 
   /**
-   * Returns an GUID as {@link UUID} from a {@link Document} in a {@link Norm}.
+   * Returns the current version GUID as {@link UUID} from the {@link Norm}.
    *
-   * @return An GUID of the document
+   * @return An GUID of the norm (of the expression level)
    */
-  public Optional<UUID> getGuid() {
-    return NodeParser.getValueFromExpression(
-            "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document)
-        .flatMap(
-            guid -> {
-              try {
-                return Optional.of(UUID.fromString(guid));
-              } catch (IllegalArgumentException e) {
-                return Optional.empty();
-              }
-            });
-  }
+  public UUID getGuid() {
+    var guid =
+        NodeParser.getValueFromMandatoryNodeFromExpression(
+            "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document);
 
-  /**
-   * Returns a FRBRname as {@link String} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The FRBRname
-   */
-  public Optional<String> getFRBRname() {
-    Optional<String> fRBRname =
-        NodeParser.getValueFromExpression("//FRBRWork/FRBRname/@value", document);
-
-    return fRBRname.map(
-        s ->
-            s.replace("bgbl-1", "BGBl. I")
-                .replace("bgbl-2", "BGBl. II")
-                .replace("banz-at", "BAnz AT"));
-  }
-
-  /**
-   * Returns a FRBRnumber as {@link String} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The FRBRnumber
-   */
-  public Optional<String> getFRBRnumber() {
-    return NodeParser.getValueFromExpression("//FRBRWork/FRBRnumber/@value", document);
-  }
-
-  /**
-   * Returns a FBRDateVerkuendun as {@link LocalDate} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The FBRDateVerkuendun
-   */
-  public Optional<LocalDate> getFBRDateVerkuendung() {
-    return NodeParser.getValueFromExpression("//FRBRWork/FRBRdate/@date", document)
-        .map(LocalDate::parse);
+    return UUID.fromString(guid);
   }
 
   /**
@@ -105,13 +75,12 @@ public class Norm {
   }
 
   /**
-   * Returns the short title as {@link String} from a {@link Document} in a {@link Norm}.
+   * Returns a {@link Meta} instance from a {@link Document} in a {@link Norm}.
    *
-   * @return The short title
+   * @return the meta node as {@link Meta}
    */
-  public Optional<String> getFna() {
-    return NodeParser.getValueFromExpression(
-        "//meta/proprietary/legalDocML.de_metadaten/fna", document);
+  public Meta getMeta() {
+    return new Meta(NodeParser.getMandatoryNodeFromExpression("//act/meta", document));
   }
 
   /**
@@ -120,63 +89,7 @@ public class Norm {
    * @return The list of articles
    */
   public List<Article> getArticles() {
-    return NodeParser.getNodesFromExpression("//body//article", document).stream()
-        .map(Article::new)
-        .toList();
-  }
-
-  /**
-   * Returns the GUID of the next version as {@link UUID} from a {@link Document} in a {@link Norm}.
-   *
-   * @return The GUID of the next version of the norm.
-   */
-  public Optional<UUID> getNextVersionGuid() {
-    return NodeParser.getValueFromExpression(
-            "//FRBRExpression/FRBRalias[@name='nachfolgende-version-id']/@value", document)
-        .flatMap(
-            guid -> {
-              try {
-                return Optional.of(UUID.fromString(guid));
-              } catch (IllegalArgumentException e) {
-                return Optional.empty();
-              }
-            });
-  }
-
-  /**
-   * Extracts a list of time boundaries (Zeitgrenzen) from the document.
-   *
-   * @return a list of {@link TimeBoundary} containing dates and event IDs.
-   */
-  public List<TimeBoundary> getTimeBoundaries() {
-    List<Node> timeIntervalNodes =
-        NodeParser.getNodesFromExpression("//temporalData/temporalGroup/timeInterval", document);
-
-    return timeIntervalNodes.stream()
-        .map(
-            node -> {
-              String eIdEventRef =
-                  node.getAttributes().getNamedItem("start").getNodeValue().replace("#", "");
-              String eventRefNodeExpression =
-                  String.format("//lifecycle/eventRef[@eId='%s']", eIdEventRef);
-              Node eventRefNode =
-                  NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
-
-              return (TimeBoundary)
-                  TimeBoundary.builder().timeIntervalNode(node).eventRefNode(eventRefNode).build();
-            })
-        .toList();
-  }
-
-  /**
-   * Extracts a list of passive modifications from the document.
-   *
-   * @return a list of passive modifications.
-   */
-  public List<PassiveModification> getPassiveModifications() {
-    return NodeParser.getNodesFromExpression("//passiveModifications/textualMod", document).stream()
-        .map(PassiveModification::new)
-        .toList();
+    return getNodesFromExpression("//body//article", document).stream().map(Article::new).toList();
   }
 
   /**
@@ -185,32 +98,44 @@ public class Norm {
    * @return a list of {@link Mod}s
    */
   public List<Mod> getMods() {
-    return NodeParser.getNodesFromExpression("//body//mod", document).stream()
-        .map(Mod::new)
-        .toList();
+    return getNodesFromExpression("//body//mod", document).stream().map(Mod::new).toList();
   }
 
   /**
-   * @return List of Strings with all eIds of all eventRef nodes where a related timeInterval exists
+   * Extracts a list of time boundaries (Zeitgrenzen) from the document.
+   *
+   * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
-  public List<String> getEventRefEids() {
-    return getTimeBoundaries().stream()
-        .map(TimeBoundary::getEventRefEid)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .toList();
+  public List<TimeBoundary> getTimeBoundaries() {
+    final List<TemporalGroup> temporalGroups = getMeta().getTemporalData().getTemporalGroups();
+    return getTimeBoundaries(temporalGroups);
   }
 
   /**
-   * @return List of Strings with all existing eIds of all temporalGroup nodes
+   * * Extracts a list of time boundaries (Zeitgrenzen) from the document of a pre-filtered given
+   * list of temporal groups.
+   *
+   * @param temporalGroups - the pre-filtered listed of temporal groups
+   * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
-  public List<String> getTemporalGroupEids() {
-    Node temporalData = NodeParser.getNodeFromExpression("//meta/temporalData", document);
-    List<Node> temporalGroups = NodeParser.nodeListToList(temporalData.getChildNodes());
-
+  public List<TimeBoundary> getTimeBoundaries(final List<TemporalGroup> temporalGroups) {
     return temporalGroups.stream()
-        .filter(node -> "akn:temporalGroup".equals(node.getNodeName()))
-        .map(node -> node.getAttributes().getNamedItem("eId").getNodeValue())
+        .map(
+            temporalGroup -> {
+              final TimeInterval timeInterval = temporalGroup.getTimeInterval();
+              final String eventRefEId = timeInterval.getEventRefEId().orElseThrow();
+              final EventRef eventRef =
+                  getMeta().getLifecycle().getEventRefs().stream()
+                      .filter(f -> Objects.equals(f.getEid().value(), eventRefEId))
+                      .findFirst()
+                      .orElseThrow();
+              return (TimeBoundary)
+                  TimeBoundary.builder()
+                      .temporalGroup(temporalGroup)
+                      .timeInterval(timeInterval)
+                      .eventRef(eventRef)
+                      .build();
+            })
         .toList();
   }
 
@@ -227,13 +152,13 @@ public class Norm {
    * @param temporalGroupEid EId of a temporal group
    * @return eid of the event ref of the start of the temporal group
    */
-  public Optional<String> getStartEventRefForTemporalGroup(String temporalGroupEid) {
-    return NodeParser.getValueFromExpression(
-            String.format(
-                "//meta/temporalData/temporalGroup[@eId='%s']/timeInterval/@start",
-                temporalGroupEid),
-            this.document)
-        .map(value -> value.replaceFirst("^#", ""));
+  public Optional<String> getStartEventRefForTemporalGroup(final String temporalGroupEid) {
+    return getMeta().getTemporalData().getTemporalGroups().stream()
+        .filter(
+            temporalGroup ->
+                temporalGroup.getEid().map(eid -> eid.equals(temporalGroupEid)).orElse(false))
+        .findFirst()
+        .flatMap(m -> m.getTimeInterval().getEventRefEId());
   }
 
   /**
@@ -241,8 +166,11 @@ public class Norm {
    * @return Start date of the event ref
    */
   public Optional<String> getStartDateForEventRef(String eId) {
-    return NodeParser.getValueFromExpression(
-        String.format("//meta/lifecycle/eventRef[@eId='%s']/@date", eId), this.document);
+    return getMeta().getLifecycle().getEventRefs().stream()
+        .filter(eventRef -> Objects.equals(eventRef.getEid().value(), eId))
+        .findFirst()
+        .flatMap(EventRef::getDate)
+        .map(LocalDate::toString);
   }
 
   /**
@@ -250,46 +178,106 @@ public class Norm {
    * The temporalData node will get a new temporalGroup node as child, which will have a new
    * timeInterval node as child.
    *
-   * @param timeBoundaryToAdd a {@link TimeBoundaryChangeData} containing a date and eid (null in
-   *     this case).
+   * @param date the {@link LocalDate} for the new time boundary.
+   * @param eventRefType the {@link EventRefType} for the new time boundary.
+   * @return the newly created {@link TemporalGroup}
    */
-  public void addTimeBoundary(TimeBoundaryChangeData timeBoundaryToAdd) {
-
-    // Calculate next possible eventRefEid
-    String nextPossibleEventRefEid = calculateNextPossibleEid(getEventRefEids());
-
+  public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
     // Create new eventRef node
-    Element eventRef = document.createElement("akn:eventRef");
-    eventRef.setAttribute("eId", nextPossibleEventRefEid);
-    eventRef.setAttribute("GUID", UUID.randomUUID().toString());
-    eventRef.setAttribute("date", timeBoundaryToAdd.date().toString());
+    final Node livecycle = getTimeBoundaries().getLast().getEventRef().getNode().getParentNode();
+    final Element eventRef =
+        NodeCreator.createElementWithEidAndGuid("akn:eventRef", "ereignis", livecycle);
+    eventRef.setAttribute("date", date.toString());
     eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
-    eventRef.setAttribute("type", "generation");
+    eventRef.setAttribute("type", eventRefType.getValue());
     eventRef.setAttribute("refersTo", "inkrafttreten");
-
-    // Append new eventRef node to lifecycle node
-    getTimeBoundaries().getLast().getEventRefNode().getParentNode().appendChild(eventRef);
-
-    // Calculate next possible temporalGroup Eid
-    String nextPossibleTemporalGroupEid = calculateNextPossibleEid(getTemporalGroupEids());
+    livecycle.appendChild(eventRef);
 
     // Create new temporalGroup node
-    Element temporalGroup = document.createElement("akn:temporalGroup");
-    temporalGroup.setAttribute("eId", nextPossibleTemporalGroupEid);
-    temporalGroup.setAttribute("GUID", UUID.randomUUID().toString());
+    final TemporalData temporalData = getMeta().getTemporalData();
+    final Element temporalGroup =
+        NodeCreator.createElementWithEidAndGuid(
+            "akn:temporalGroup", "geltungszeitgr", temporalData.getNode());
+    temporalData.getNode().appendChild(temporalGroup);
 
     // Create new timeInterval node
-    Element timeInterval = document.createElement("akn:timeInterval");
-    timeInterval.setAttribute("eId", nextPossibleTemporalGroupEid + "_gelzeitintervall-1");
-    timeInterval.setAttribute("GUID", UUID.randomUUID().toString());
+    final Element timeInterval =
+        NodeCreator.createElementWithEidAndGuid(
+            "akn:timeInterval", "gelzeitintervall", temporalGroup);
     timeInterval.setAttribute("refersTo", "geltungszeit");
-    timeInterval.setAttribute("start", "#" + nextPossibleEventRefEid);
-
-    // Append new timeInterval node to new temporalGroup node
+    final var eventRefEId = eventRef.getAttribute("eId");
+    timeInterval.setAttribute(
+        "start", new Href.Builder().setEId(eventRefEId).buildInternalReference().value());
     temporalGroup.appendChild(timeInterval);
 
-    // Append new temporalGroup node to temporalData node
-    NodeParser.getNodeFromExpression("//meta/temporalData", document).appendChild(temporalGroup);
+    return new TemporalGroup(temporalGroup);
+  }
+
+  /**
+   * Searches for a given eId and returns the number of matches.
+   *
+   * @param eId the eId of the element to search for.
+   * @return the number of nodes for a given eId.
+   */
+  public int getNumberOfNodesWithEid(String eId) {
+    return getNodesFromExpression("//*[@eId='%s']".formatted(eId), document).size();
+  }
+
+  /**
+   * Returns the element of the norm identified by the given eId.
+   *
+   * @param eId the eId of the element to return
+   * @return the selected element
+   */
+  public Optional<Node> getNodeByEId(String eId) {
+    return NodeParser.getNodeFromExpression(
+        String.format("//*[@eId='%s']", eId), this.getDocument());
+  }
+
+  /**
+   * Deletes the element of the norm identified by the given eId.
+   *
+   * @param eId the eId of the element to delete
+   * @return the deleted element or empty if nothing to delete was found
+   */
+  public Optional<Node> deleteByEId(String eId) {
+    var node = getNodeByEId(eId);
+    return node.map(n -> n.getParentNode().removeChild(n));
+  }
+
+  /**
+   * Deletes the temporal group if it is not referenced anymore in the norm.
+   *
+   * @param eId the eId of the temporal group to delete
+   * @return the deleted temporal group or empty if nothing was deleted
+   */
+  public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
+    final var nodesUsingTemporalData =
+        getNodesFromExpression(String.format("//*[@period='#%s']", eId), getDocument());
+
+    if (!nodesUsingTemporalData.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return deleteByEId(eId).map(TemporalGroup::new);
+  }
+
+  /**
+   * Deletes the event ref if it is not referenced anymore in the norm.
+   *
+   * @param eId the eId of the event ref to delete
+   * @return the deleted temporal ref node or empty if nothing was deleted
+   */
+  public Optional<Node> deleteEventRefIfUnused(String eId) {
+    final var nodesUsingTemporalData =
+        getNodesFromExpression(
+            String.format("//*[@start='#%s' or @end='#%s']", eId, eId), getDocument());
+
+    if (!nodesUsingTemporalData.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return deleteByEId(eId);
   }
 
   /**
@@ -299,46 +287,22 @@ public class Norm {
    */
   public void deleteTimeBoundary(TimeBoundaryChangeData timeBoundaryToDelete) {
     // delete eventRef node
-    String eventRefNodeExpression =
-        String.format("//lifecycle/eventRef[@eId='%s']", timeBoundaryToDelete.eid());
-    Node eventRefNode = NodeParser.getNodeFromExpression(eventRefNodeExpression, document);
-    eventRefNode.getParentNode().removeChild(eventRefNode);
+    deleteByEId(timeBoundaryToDelete.eid());
 
     // delete temporalGroup node and its timeInterval node children
     String timeIntervalNodeExpression =
         String.format(
             "//temporalData/temporalGroup/timeInterval[@start='#%s']", timeBoundaryToDelete.eid());
-    Node timeIntervalNode = NodeParser.getNodeFromExpression(timeIntervalNodeExpression, document);
-    Node temporalGroupNode = timeIntervalNode.getParentNode();
+    Optional<Node> timeIntervalNode =
+        NodeParser.getNodeFromExpression(timeIntervalNodeExpression, document);
+
+    if (timeIntervalNode.isEmpty()) {
+      return;
+    }
+
+    Node temporalGroupNode = timeIntervalNode.get().getParentNode();
     Node temporalDataNode = temporalGroupNode.getParentNode();
     temporalDataNode.removeChild(temporalGroupNode);
-  }
-
-  /**
-   * Calculates the next possible eId out of a list of eIds
-   *
-   * @param eIds List of identifiers within a document
-   *     "meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
-   * @return the next possible eid
-   */
-  public static String calculateNextPossibleEid(List<String> eIds) {
-    if (eIds.isEmpty()) throw new IllegalArgumentException("eIds is empty");
-
-    String eventRefStringFirst = eIds.getFirst();
-    String eventRefBase = eventRefStringFirst.substring(0, eventRefStringFirst.lastIndexOf('-'));
-
-    boolean allMatch =
-        eIds.stream()
-            .map(eventRefString -> eventRefString.substring(0, eventRefString.lastIndexOf('-')))
-            .allMatch(eventRefBase::equals);
-    if (!allMatch) throw new IllegalArgumentException("Not all eId-bases are equal");
-
-    final String lastNumberAsString =
-        Arrays.stream(eIds.stream().sorted().toList().getLast().split("-")).toList().getLast();
-
-    int nextId = Integer.parseInt(lastNumberAsString) + 1;
-
-    return eventRefBase + "-" + nextId;
   }
 
   @Override

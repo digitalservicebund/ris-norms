@@ -27,6 +27,6 @@ public class ArticleResponseMapper {
         article.getEid().orElse(null),
         article.getHeading().orElse(null),
         article.getAffectedDocumentEli().orElse(null),
-        Optional.ofNullable(targetLawZf0).flatMap(Norm::getEli).orElse(null));
+        Optional.ofNullable(targetLawZf0).map(Norm::getEli).orElse(null));
   }
 }

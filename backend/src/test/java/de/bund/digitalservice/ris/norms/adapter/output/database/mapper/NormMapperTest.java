@@ -81,7 +81,7 @@ class NormMapperTest {
     // Then
     assertThat(normDto).isNotNull();
     assertThat(XmlMapper.toDocument(normDto.getXml()).isEqualNode(norm.getDocument())).isTrue();
-    assertThat(normDto.getEli()).isEqualTo(norm.getEli().get());
-    assertThat(normDto.getGuid()).isEqualTo(norm.getGuid().get());
+    assertThat(normDto.getEli()).isEqualTo(norm.getEli());
+    assertThat(normDto.getGuid()).isEqualTo(norm.getGuid());
   }
 }

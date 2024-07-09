@@ -74,7 +74,7 @@ jobs:
         container-image-name: ${{ github.repository }}
         container-image-version: ${{ github.sha }}
       secrets: inherit # e.g. sonar token
-  
+
   # ######################
   # # Deploy new versions
   # ######################
@@ -92,7 +92,7 @@ jobs:
      permissions:
        id-token: write # Enable OIDC for gitsign
      steps:
-       - uses: chainguard-dev/actions/setup-gitsign@ba1a9c9ffe799736883d58f31caff18d85b2800e
+       - uses: chainguard-dev/actions/setup-gitsign@f94883c3bd16936401291899070258f855b5d849
        - name: Deploy new images
          uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
          with:
@@ -125,7 +125,7 @@ jobs:
       strategy:
         fail-fast: false
         matrix:
-          browser: [chromium, firefox, webkit]
+          browser: [chromium, firefox, msedge]
       uses: ./.github/workflows/end-to-end-tests.yml
       with:
         browser: ${{ matrix.browser }}
@@ -143,7 +143,7 @@ jobs:
        - name: Checkout code
          uses: actions/checkout@v4
        - name: Run Trivy vulnerability scanner in repo mode
-         uses: aquasecurity/trivy-action@b2933f565dbc598b29947660e66259e3c7bc8561
+         uses: aquasecurity/trivy-action@7c2007bcb556501da015201bcba5aa14069b74e2
          with:
            scan-type: "fs"
            format: "sarif"
@@ -185,5 +185,131 @@ jobs:
          # only on failure and if on "main" branch
          if: ${{ failure() && github.ref == 'refs/heads/main' }}
          uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
+         with:
+           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  ###################
+  # Generate reports
+  ###################
+
+   generate-test-reports:
+     if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+     needs:
+       - e2e-tests
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v4
+       - name: Setup Node
+         uses: actions/setup-node@v4
+         with:
+           node-version-file: ./frontend/.node-version
+           cache: npm
+           cache-dependency-path: ./frontend/package-lock.json
+       - name: Cache node_modules
+         uses: actions/cache@v4
+         id: cache-npm-cache
+         with:
+           # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
+           path: /home/runner/.npm
+           key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
+       - name: Install node modules
+         run: npm ci
+         working-directory: ./frontend
+       - name: Download blob reports from artifacts
+         uses: actions/download-artifact@v4
+         with:
+           path: ./frontend/all-blob-reports
+           pattern: test-results-blob-*
+       - name: Prepare test reports for merge
+         working-directory: ./frontend/all-blob-reports
+         run: |
+           for DIR in test-results-blob-*; do
+             unzip -o "$DIR/test-report.zip" -d "$DIR"
+             rm "$DIR/test-report.zip"
+             ZIP_FILE="../$(basename "$DIR").zip"
+             (cd "$DIR" && zip -r "$ZIP_FILE" ./*.jsonl)
+             rm -rf "$DIR"
+           done
+         shell: bash
+       - name: Merge into html report
+         run: npx playwright merge-reports --reporter html ./all-blob-reports
+         working-directory: ./frontend
+       - name: Upload html report to artifacts
+         uses: actions/upload-artifact@v4
+         with:
+           name: html-test-report
+           path: ./frontend/playwright-report
+
+   push-reports:
+     runs-on: ubuntu-latest
+     env:
+       reports-repo: digitalservicebund/ris-reports
+     needs:
+       - generate-test-reports
+       - backend-jobs
+     if: ${{ github.ref == 'refs/heads/main' }}
+     steps:
+       - uses: actions/checkout@v4
+         with:
+           repository: ${{ env.reports-repo }}
+           ssh-key: ${{ secrets.REPORTS_DEPLOY_KEY }}
+       - name: Setup git config
+         run: |
+           git config user.name "${{ github.repository }}"
+           # This email identifies the commit as GitHub Actions - see https://github.com/orgs/community/discussions/26560
+           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+       # Backend code documentation
+       - name: Backend Code Documentation - Download
+         uses: actions/download-artifact@v4
+         with:
+           name: backend-code-documentation
+           path: tmp/backend-code-documentation/
+       - name: Java - git add report
+         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+         with:
+           filePath: tmp/backend-code-documentation
+           destinationDir: norms-code-documentation/java
+           reportIsDirectory: true
+       # e2e test report
+       - name: E2E test reports - Download
+         uses: actions/download-artifact@v4
+         with:
+           name: html-test-report
+           path: tmp/html-test-report/
+       - name: E2E test reports - git add report
+         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+         with:
+           filePath: tmp/html-test-report/
+           destinationDir: test-reports/ris-norms
+           reportIsDirectory: true
+       # Licence reports
+       - name: Licence reports - Download
+         uses: actions/download-artifact@v4
+         with:
+           pattern: licence-reports-*
+           path: tmp/licence-reports/
+           merge-multiple: true
+       - name: Frontend licence report - git add report
+         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+         with:
+           filePath: tmp/licence-reports/frontend-licence-report.csv
+           destinationDir: licence-reports/frontend/ris-norms
+       - name: Backend licence report - git add report
+         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+         with:
+           filePath: tmp/licence-reports/backend-licence-report.csv
+           destinationDir: licence-reports/backend/ris-norms
+       # Push reports
+       - name: Push reports
+         run: |
+           git diff-index --cached --quiet HEAD ||
+             git commit \
+               -m ${{ toJSON(github.event.head_commit.message) }} \
+               -m "From commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" &&
+             git push origin main &&
+             echo "Pushed reports to ${{ github.server_url }}/${{ env.reports-repo }}" >> $GITHUB_STEP_SUMMARY
+       - name: Send status to Slack
+         uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+         if: ${{ failure() && github.ref == 'refs/heads/main' }}
          with:
            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

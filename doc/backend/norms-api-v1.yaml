@@ -72,6 +72,7 @@ paths:
           in: query
           schema:
             type: string
+            format: date-time
           description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
@@ -145,18 +146,50 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    eli:
-                      type: string
-                    title:
-                      type: string
-                    type:
-                      type: string
-                      enum: [preface, preamble, article, conclusions]
+                  $ref: '#/components/schemas/ElementResponse'
         '404':
           description: Norm could not be found by its ELI.
 
+  /norms/{eli}/elements/{eid}:
+    get:
+      summary: Get a single element inside a norm
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          example: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: eId of the element inside the norm
+          example: "hauptteil-1_art-3"
+          schema:
+            type: string
+        - name: atIsoDate
+          in: query
+          required: false
+          description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
+          example: "2017-03-01T00:00:00.000Z"
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: "The element inside the norm"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElementResponse'
+            text/html:
+              schema:
+                type: string
+        '400':
+          description: "Some parameter is invalid, e.g. `atIsoDate` could not be parsed into a date."
+        '404':
+          description: "The norm or the element could not be found."
 
   /norms/{eli}/articles:
     get:
@@ -219,6 +252,7 @@ paths:
           in: query
           schema:
             type: string
+            format: date-time
           description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
@@ -230,6 +264,55 @@ paths:
             text/html:
               schema:
                 type: string
+
+  /norms/{eli}/mods:
+    patch:
+      summary: Save changes to multiple akn:mod elements and update ZF0
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: dryRun
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Should the update not be saved?"
+      requestBody:
+        description: The updated amending commands
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: object mapping between eids and the change mods
+              additionalProperties:
+                $ref: '#/components/schemas/Mod'
+      responses:
+        '200':
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  amendingNormXml:
+                    type: string
+                    format: LegalDocML.de XML
+                  targetNormXml:
+                    type: array
+                    items:
+                      type: string
+                      format: LegalDocML.de XML
+        '400':
+          description: Bad Request
+        '422':
+          description: Unprocessable Content
+        '404':
+          description: Norm not found
 
   /norms/{eli}/mods/{eid}:
     put:
@@ -247,24 +330,35 @@ paths:
           description: the eId of the akn:mod
           schema:
             type: string
+        - name: dryRun
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Should the update not be saved?"
       requestBody:
         description: The updated amending command
         required: true
         content:
           application/json:
             schema:
-              type: array
-              items:
                 $ref: '#/components/schemas/Mod'
       responses:
         '200':
           description: Successful update
           content:
-            application/xml:
+            application/json:
               schema:
-                $ref: '#/components/schemas/LegalDocML.de'
+                type: object
+                properties:
+                  amendingNormXml:
+                    type: string
+                  targetNormXml:
+                    type: string
         '400':
           description: Bad Request
+        '422':
+          description: Unprocessable Content
         '404':
           description: Norm not found
 
@@ -320,56 +414,200 @@ paths:
         '404':
           description: Norm not found
 
-  /norms/{eli}/preview:
-    post:
-      summary: Call time machine to generate preview of applied amending law
+  /norms/{eli}/proprietary/{atDate}:
+    get:
+      summary: Get the proprietary metadata of a norm at the specified date
       parameters:
         - name: eli
           in: path
           required: true
-          description: ELI identifier of the target law
+          description: ELI of the norm
           schema:
             type: string
-      requestBody:
-        description: The XML of the amending law (which may be updated and not saved on DB)
-        required: true
-        content:
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/LegalDocML.de'
+        - name: atDate
+          in: path
+          required: false
+          description: date at which the metadata should be loaded
+          schema:
+            type: string
+            format: date
       responses:
         '200':
-          description: Successful response with preview of amended law
+          description: List of proprietary metadata at that date
           content:
-            application/xml:
+            'application/json':
               schema:
-                $ref: '#/components/schemas/LegalDocML.de'
+                $ref: '#/components/schemas/Metadata'
+        '404':
+          description: If the norm does not exist.
+    put:
+      summary: Replace the proprietary metadata of a norm at the specified date
+      parameters:
+        - name: eli
+          in: path
+          required: false
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: atDate
+          in: path
+          required: true
+          description: eId of the time boundary at which the metadata should be updated
+          schema:
+            type: string
+            format: date
+      requestBody:
+        description: The proprietary request schema containing several metadata.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
+      responses:
+        '200':
+          description: Metadata was updated successfully. Returns the updated metadata.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Metadata'
+        '404':
+          description: If the norm or the time boundary doesn't exist.
+
+  /norms/{eli}/proprietary/{eid}/{atDate}:
+    get:
+      summary: Get the proprietary metadata of a single element at the specified date
+      tags:
+        - under construction
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: the eId of the selected single element
+          schema:
+            type: string
+        - name: atDate
+          in: path
+          required: false
+          description: date at which the metadata should be loaded
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: List of proprietary metadata at that date for the single element
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SingleElementMetadata'
+        '404':
+          description: If the norm or the single element or the time boundary does not exist.
+    put:
+      summary: Replace the proprietary metadata of a single element at the specified date
+      tags:
+        - under construction
+      parameters:
+        - name: eli
+          in: path
+          required: false
+          description: ELI of the norm
+          schema:
+            type: string
+        - name: eid
+          in: path
+          required: true
+          description: the eId of the selected single element
+          schema:
+            type: string
+        - name: atDate
+          in: path
+          required: true
+          description: eId of the time boundary at which the metadata should be updated
+          schema:
+            type: string
+            format: date
+      requestBody:
+        description: The proprietary request schema containing several metadata.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleElementMetadata'
+      responses:
+        '200':
+          description: Metadata for a single element was updated successfully. Returns the updated metadata.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SingleElementMetadata'
+        '404':
+          description: If the norm or the single element or the time boundary doesn't exist.
+
+  /norms/{eli}/{eid}:
+    get:
+      summary: Get an element of a norm by its EID (currently only in HTML preview format)
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: ELI of the norm
+          schema:
+            type: string
+            example: eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1
+        - name: eid
+          in: path
+          required: true
+          description: EID of the element in the norm
+          schema:
+            type: string
+            example: hauptteil-1_art-3
+      responses:
+        '200':
+          description: An HTML rendering of the element
+          content:
             text/html:
               schema:
                 type: string
+        '404':
+          description: Norm or element not found
+
 
   /renderings:
     post:
       summary: Create and return an HTML rendering of the provided LDML.de XML
       parameters:
         - in: query
-          name: show_metadata
+          name: showMetadata
           schema:
             type: boolean
-            default: true
+            default: false
           description: Should the metadata table be included?
+        - name: atIsoDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+            default: "the current date"
+          description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (Only when providing application/json)"
       requestBody:
-        description: The LDML.de XML
         required: true
         content:
-          application/xml:
+          application/json:
             schema:
-              $ref: '#/components/schemas/LegalDocML.de'
+              $ref: '#/components/schemas/RenderRequest'
       responses:
         '200':
           description: HTML rendering the provided LDML.de XML
           content:
             text/html:
+              schema:
+                type: string
+            application/xml:
               schema:
                 type: string
 
@@ -416,6 +654,8 @@ components:
         date:
           type: string
           format: date
+        temporalGroupEid:
+          type: string
 
     Mod:
       type: object
@@ -425,8 +665,6 @@ components:
         timeBoundaryEid:
           type: string
         destinationHref:
-          type: string
-        oldText:
           type: string
         newText:
           type: string
@@ -444,9 +682,75 @@ components:
           items:
             type: string
 
+    RenderRequest:
+      type: object
+      properties:
+        norm:
+          description: The xml of the norm which should be rendered.
+          type: string
+          format: LegalDocML.de XML
+        customNorms:
+          type: object
+          additionalProperties:
+            description: The xmls of norms which are referenced by the norm (e.g. in passiveModifications) and should not be loaded from the database.
+            type: string
+            format: LegalDocML.de XML
+
     LegalDocML.de:
       type: object
       xml:
         name: akomaNtoso
         namespace: 'http://Inhaltsdaten.LegalDocML.de/1.6'
         prefix: akn
+
+    ElementResponse:
+      type: object
+      properties:
+        eli:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+          enum: [ preface, preamble, article, conclusions ]
+
+    Metadata:
+      type: object
+      properties:
+        fna:
+          type: string
+          description: FNA (Fundstellennachweis A) of the norm
+        art:
+          type: string
+          description: Art ("Art der Norm") of the norm
+        typ:
+          type: string
+          description: Type ("Typ") of the document
+        subtyp:
+          type: string
+          description: Subtype ("Subtyp") of the document
+        bezeichnungInVorlage:
+          type: string
+          description: Designation according to specification ("Bezeichnung gemäß Vorlage") of the document
+        artDerNorm:
+          type: string
+          description: SN,ÄN,ÜN ("Art der Norm") of the norm
+        staat:
+          type: string
+          description: DEU,DDR,BW... ("Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder Rechtsmacht die Norm trägt") of the norm
+        beschliessendesOrgan:
+          type: string
+          description: ("Beschließendes Organ") of the norm
+        qualifizierteMehrheit:
+          type: boolean
+          description: Boolean value if beschliessendesOrgan had a ("Qualifizierte Mehrheit") when deciding
+        organisationsEinheit:
+          type: string
+          description: ("Organisationseinheit")
+
+    SingleElementMetadata:
+      type: object
+      properties:
+        artDerNorm:
+          type: string
+          description: SN or ÄN or ÜN ("Art der Norm") of the single element

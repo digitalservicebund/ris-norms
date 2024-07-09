@@ -1,239 +1,242 @@
 <script setup lang="ts">
-import RisAmendingLawInfoHeader from "@/components/amendingLaws/RisAmendingLawInfoHeader.vue"
+import RisEmptyState from "@/components/RisEmptyState.vue"
+import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
+import RisHeader, {
+  HeaderBreadcrumb,
+} from "@/components/controls/RisHeader.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
-import { useAmendingLaw } from "@/composables/useAmendingLaw"
 import { useArticle } from "@/composables/useArticle"
-import { useArticleXml } from "@/composables/useArticleXml"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
-// import { useTargetLawXml } from "@/composables/useTargetLawXml"
+import { useNormRenderHtml } from "@/composables/useNormRender"
+import { useNormXml } from "@/composables/useNormXml"
+import { getFrbrDisplayText } from "@/lib/frbr"
+import { getNodeByEid } from "@/services/ldmldeService"
+import { useGetNorm } from "@/services/normService"
+import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, ref, watch, onMounted } from "vue"
-import IconArrowBack from "~icons/ic/baseline-arrow-back"
-import RisLawPreview from "@/components/RisLawPreview.vue"
-import { renderHtmlLaw } from "@/services/renderService"
-import RisModForm from "@/components/RisModForm.vue"
-import { useTemporalData } from "@/composables/useTemporalData"
-import { useMod } from "@/composables/useMod"
-import { useModEidPathParameter } from "@/composables/useModEidPathParameter"
-import RisEmptyState from "@/components/RisEmptyState.vue"
-import { previewNorm, previewNormAsHtml } from "@/services/normService"
+import { computed, Ref, ref, toValue, watch } from "vue"
+import { useModEidSelection } from "@/composables/useModEidSelection"
+import { useDebounce } from "@vueuse/core"
+import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
+import { getModEIds } from "@/services/ldmldeModService"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
-const amendingLaw = useAmendingLaw(eli)
-const selectedMod = useModEidPathParameter()
+const {
+  data: amendingLaw,
+  isFetching: isFetchingAmendingLaw,
+  error: loadAmendingLawError,
+} = useGetNorm(eli)
 
 const identifier = computed<LawElementIdentifier | undefined>(() =>
   eli.value && eid.value ? { eli: eli.value, eid: eid.value } : undefined,
 )
-const article = useArticle(identifier)
-const { xml: articleXml } = useArticleXml(identifier)
-const targetLawEli = computed(() => article.value?.affectedDocumentEli)
-// const { xml: targetLawXml } = useTargetLawXml(targetLawEli)
-const currentArticleXml = ref("")
-const renderedHtml = ref("")
-const previewXml = ref<string>("")
-const previewHtml = ref<string>("")
+const {
+  data: article,
+  isFetching: isFetchingArticle,
+  error: loadArticleError,
+} = useArticle(identifier)
+const {
+  data: xml,
+  isFetching: isFetchingXml,
+  error: loadXmlError,
+} = useNormXml(eli)
+const currentXml = ref("")
+const articleXml = computed(() => {
+  if (!eid.value) return undefined
+  if (!currentXml.value) return undefined
+
+  const xmlDocument = xmlStringToDocument(currentXml.value)
+  const articleNode = getNodeByEid(xmlDocument, eid.value)
+
+  if (!articleNode) {
+    return undefined
+  }
+
+  return xmlNodeToString(articleNode)
+})
+
+const normDocument = computed(() => {
+  const xmlValue = toValue(currentXml)
+  return xmlValue ? xmlStringToDocument(xmlValue) : null
+})
+
+const modEIds = computed(() => {
+  if (!normDocument.value) {
+    return []
+  }
+
+  return getModEIds(normDocument.value)
+})
+
+const {
+  values: selectedMods,
+  deselectAll: deselectAllSelectedMods,
+  selectAll: selectAllMods,
+  handleAknModClick,
+} = useModEidSelection(modEIds)
+
+const {
+  data: articleHtml,
+  isFetching: isFetchingArticleHtml,
+  error: loadArticleHtmlError,
+} = useNormRenderHtml(articleXml)
 const amendingLawActiveTab = ref("text")
 
-async function fetchAmendingLawRenderedHtml() {
-  try {
-    if (currentArticleXml.value) {
-      renderedHtml.value = await renderHtmlLaw(currentArticleXml.value, false)
-    }
-  } catch (error) {
-    console.error("Error fetching rendered HTML content:", error)
-  }
-}
-
-const initialize = async () => {
-  await fetchAmendingLawRenderedHtml()
-}
-onMounted(() => {
-  initialize()
-})
-
-watch(articleXml, fetchAmendingLawRenderedHtml, { immediate: true })
-watch(currentArticleXml, (newXml, oldXml) => {
-  if (newXml !== oldXml && amendingLawActiveTab.value === "text") {
-    fetchAmendingLawRenderedHtml()
+watch(xml, (xml) => {
+  if (xml) {
+    currentXml.value = xml
   }
 })
-watch(amendingLawActiveTab, (newActiveTab, oldActiveTab) => {
-  if (
-    newActiveTab === "text" &&
-    newActiveTab !== oldActiveTab &&
-    currentArticleXml.value
-  ) {
-    fetchAmendingLawRenderedHtml()
-  }
-})
-watch(articleXml, (articleXml) => {
-  if (articleXml) {
-    currentArticleXml.value = articleXml
-  }
-})
-
-function handleAknModClick({ eid }: { eid: string }) {
-  selectedMod.value = eid
-}
 
 function handlePreviewClick() {
-  selectedMod.value = ""
+  deselectAllSelectedMods()
 }
 
-async function handleGeneratePreview() {
-  if (!targetLawEli.value) return
-  try {
-    const [xmlContent, htmlContent] = await Promise.all([
-      previewNorm(targetLawEli.value, currentArticleXml.value),
-      previewNormAsHtml(targetLawEli.value, currentArticleXml.value),
-    ])
-    previewXml.value = xmlContent
-    previewHtml.value = htmlContent
-  } catch (error) {
-    alert("Vorschau konnte nicht erstellt werden")
-    console.error(error)
+const breadcrumbs = ref<HeaderBreadcrumb[]>([
+  {
+    key: "amendingLaw",
+    title: () =>
+      amendingLaw.value
+        ? getFrbrDisplayText(amendingLaw.value) ?? "..."
+        : "...",
+    to: `/amending-laws/${eli.value}/articles`,
+  },
+  {
+    key: "article",
+    title: () => article.value?.title ?? "...",
+  },
+  { key: "textconsolidation", title: "Textkonsolidierung" },
+])
+
+// give the url a moment to be updated before rendering the child routes
+const showEditor: Ref<boolean> = useDebounce(
+  computed(() => selectedMods.value.length > 0),
+  20,
+)
+
+const isSelected = (eId: string) => selectedMods.value.includes(eId)
+
+const classesForPreview = useModHighlightClasses(normDocument, isSelected)
+
+function handlePreviewKeyDown(e: KeyboardEvent) {
+  if (e.key === "a" && (e.metaKey || e.ctrlKey)) {
+    e.preventDefault()
+    selectAllMods()
   }
 }
-
-const { timeBoundaries } = useTemporalData(eli)
-const {
-  textualModType,
-  destinationHref,
-  quotedTextFirst,
-  quotedTextSecond,
-  timeBoundary,
-} = useMod(selectedMod, articleXml)
 </script>
 
 <template>
-  <div v-if="amendingLaw">
-    <RisAmendingLawInfoHeader :amending-law="amendingLaw" />
-
-    <router-link
-      class="ds-link-01-bold -mb-28 inline-flex h-80 items-center gap-12 px-40 text-blue-800"
-      :to="{ name: 'AmendingLawArticles' }"
-    >
-      <IconArrowBack class="text-18" alt="" />
-      <span>Zurück</span>
-    </router-link>
-
-    <div class="flex h-[calc(100vh-5rem)] flex-col px-40 pt-40">
-      <div class="mb-40 flex gap-16">
-        <div class="flex-grow">
-          <h1 class="ds-heading-02-reg">Artikel {{ article?.enumeration }}</h1>
-          <h2 class="ds-heading-03-reg">Änderungsbefehle prüfen</h2>
-        </div>
-      </div>
-      <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
-        <section
-          class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
-          aria-labelledby="changeCommandsEditor"
-        >
-          <h3
-            id="changeCommandsEditor"
-            class="ds-label-02-bold"
-            data-testid="amendingLawHeading"
-          >
-            <span class="block">Änderungsbefehle</span>
-            <span>{{ article?.title }}</span>
-          </h3>
-          <RisTabs
-            v-model:active-tab="amendingLawActiveTab"
-            :tabs="[
-              { id: 'text', label: 'Text' },
-              { id: 'xml', label: 'XML' },
-            ]"
-          >
-            <template #text>
-              <RisLawPreview
-                class="ds-textarea flex-grow p-2"
-                :content="renderedHtml"
-                highlight-mods
-                highlight-affected-document
-                :selected="selectedMod ? [selectedMod] : []"
-                @click:akn:mod="handleAknModClick"
-                @click="handlePreviewClick"
-              />
-            </template>
-            <template #xml>
-              <RisCodeEditor
-                v-model="currentArticleXml"
-                class="flex-grow"
-              ></RisCodeEditor>
-            </template>
-          </RisTabs>
-        </section>
-        <section
-          v-if="selectedMod"
-          class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
-          aria-labelledby="originalArticleTitle"
-        >
-          <h3
-            id="originalArticleTitle"
-            class="ds-label-02-bold"
-            data-testid="targetLawHeading"
-          >
-            Änderungsbefehle bearbeiten
-          </h3>
-          <RisModForm
-            id="risModForm"
-            v-model:textual-mod-type="textualModType"
-            v-model:destination-href="destinationHref"
-            v-model:quoted-text-second="quotedTextSecond"
-            v-model:selected-time-boundary="timeBoundary"
-            :quoted-text-first="quotedTextFirst"
-            :time-boundaries="timeBoundaries.map((boundary) => boundary.date)"
-            :handle-generate-preview="handleGeneratePreview"
-          />
-        </section>
-        <section
-          v-if="selectedMod && timeBoundary"
-          class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
-          aria-labelledby="changedArticlePreivew"
-        >
-          <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>
-          <RisTabs
-            :tabs="[
-              { id: 'text', label: 'Text' },
-              { id: 'xml', label: 'XML' },
-            ]"
-          >
-            <template #text>
-              <RisLawPreview
-                class="ds-textarea flex-grow p-2"
-                :content="previewHtml"
-              />
-            </template>
-            <template #xml>
-              <RisCodeEditor
-                class="flex-grow"
-                :readonly="true"
-                :model-value="previewXml"
-              ></RisCodeEditor>
-            </template>
-          </RisTabs>
-        </section>
-        <div v-if="selectedMod && !timeBoundary" class="gap flex-grow gap-32">
-          <RisEmptyState
-            text-content="Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten Änderungsbefehls zu sehen."
-            class="mt-[85px] h-fit"
-          />
-        </div>
-        <div
-          v-if="!selectedMod"
-          class="gap col-span-2 grid flex-grow grid-cols-2 gap-32"
-        >
-          <RisEmptyState
-            text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
-            class="mt-[85px] h-fit"
-          />
-        </div>
-      </div>
-    </div>
+  <div
+    v-if="isFetchingAmendingLaw || isFetchingArticle"
+    class="mt-20 flex items-center justify-center"
+  >
+    <RisLoadingSpinner></RisLoadingSpinner>
   </div>
-  <div v-else>Laden...</div>
+
+  <div v-else-if="loadAmendingLawError || !amendingLaw">
+    <RisCallout
+      title="Das Änderungsgesetz konnte nicht geladen werden."
+      variant="error"
+    />
+  </div>
+
+  <div v-else-if="loadArticleError">
+    <RisCallout
+      title="Der Artikel konnte nicht gefunden werden."
+      variant="error"
+    />
+  </div>
+
+  <div v-else>
+    <RisHeader :breadcrumbs>
+      <div class="flex h-[calc(100vh-5rem-5rem)] flex-col px-40 pt-40">
+        <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
+          <section
+            class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
+            aria-labelledby="changeCommandsEditor"
+          >
+            <h3 id="changeCommandsEditor" class="ds-label-02-bold">
+              <span class="block">Änderungsbefehle</span>
+              <span>{{ amendingLaw?.title }}</span>
+            </h3>
+
+            <div
+              v-if="isFetchingXml"
+              class="mt-20 flex items-center justify-center"
+            >
+              <RisLoadingSpinner></RisLoadingSpinner>
+            </div>
+
+            <div v-else-if="loadXmlError">
+              <RisCallout
+                title="Der Artikel konnte nicht geladen werden."
+                variant="error"
+              />
+            </div>
+
+            <RisTabs
+              v-else
+              v-model:active-tab="amendingLawActiveTab"
+              :tabs="[
+                { id: 'text', label: 'Text' },
+                { id: 'xml', label: 'XML' },
+              ]"
+            >
+              <template #text>
+                <div
+                  v-if="isFetchingArticleHtml"
+                  class="flex items-center justify-center"
+                >
+                  <RisLoadingSpinner></RisLoadingSpinner>
+                </div>
+                <div v-else-if="loadArticleHtmlError">
+                  <RisCallout
+                    title="Die Artikel-Vorschau konnte nicht erzeugt werden."
+                    variant="error"
+                  />
+                </div>
+                <RisLawPreview
+                  v-else
+                  class="ds-textarea flex-grow p-2"
+                  :content="articleHtml ?? ''"
+                  highlight-affected-document
+                  :selected="selectedMods"
+                  :e-id-classes="classesForPreview"
+                  @click:akn:mod="handleAknModClick"
+                  @click="handlePreviewClick"
+                  @keydown="handlePreviewKeyDown"
+                />
+              </template>
+
+              <template #xml>
+                <RisCodeEditor
+                  v-model="currentXml"
+                  class="flex-grow"
+                ></RisCodeEditor>
+              </template>
+            </RisTabs>
+          </section>
+
+          <router-view
+            v-if="showEditor"
+            v-model:xml="currentXml"
+            :selected-mods="selectedMods"
+          ></router-view>
+
+          <div v-else class="gap col-span-2 grid flex-grow grid-cols-2 gap-32">
+            <RisEmptyState
+              text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
+              class="mt-[85px] h-fit"
+            />
+          </div>
+        </div>
+      </div>
+    </RisHeader>
+  </div>
 </template>

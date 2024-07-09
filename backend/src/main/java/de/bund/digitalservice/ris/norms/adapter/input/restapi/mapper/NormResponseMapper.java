@@ -17,13 +17,13 @@ public class NormResponseMapper {
    */
   public static NormResponseSchema fromUseCaseData(final Norm norm) {
     return NormResponseSchema.builder()
-        .eli(norm.getEli().orElse(null))
+        .eli(norm.getEli())
         .title(norm.getTitle().orElse(null))
-        .frbrName(norm.getFRBRname().orElse(null))
-        .frbrNumber(norm.getFRBRnumber().orElse(null))
-        .frbrDateVerkuendung(norm.getFBRDateVerkuendung().orElse(null))
+        .frbrName(norm.getMeta().getFRBRWork().getFRBRname().orElse(null))
+        .frbrNumber(norm.getMeta().getFRBRWork().getFRBRnumber().orElse(null))
+        .frbrDateVerkuendung(norm.getMeta().getFRBRWork().getFBRDate())
         .shortTitle(norm.getShortTitle().orElse(null))
-        .fna(norm.getFna().orElse(null))
+        .fna(norm.getMeta().getOrCreateProprietary().getFna().orElse(null))
         .build();
   }
 }

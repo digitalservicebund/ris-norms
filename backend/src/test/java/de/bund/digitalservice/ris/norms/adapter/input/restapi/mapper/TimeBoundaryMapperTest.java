@@ -4,14 +4,16 @@ import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TimeBoundarySchema;
+import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.TemporalGroup;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
 import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
+import de.bund.digitalservice.ris.norms.domain.entity.TimeInterval;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.Node;
 
 class TimeBoundaryMapperTest {
 
@@ -45,9 +47,10 @@ class TimeBoundaryMapperTest {
   void canMapFromUseCaseData() {
     // Given
     Norm norm = new Norm(toDocument(xml));
-    Node timeIntervalNode = norm.getTimeBoundaries().getFirst().getTimeIntervalNode();
-    Node eventRefNode = norm.getTimeBoundaries().getFirst().getEventRefNode();
-    TimeBoundary timeBoundary = new TimeBoundary(timeIntervalNode, eventRefNode);
+    TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
+    EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
+    TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
+    TimeBoundary timeBoundary = new TimeBoundary(timeInterval, eventRef, temporalGroup);
 
     // When
     TimeBoundarySchema timeBoundarySchema = TimeBoundaryMapper.fromUseCaseData(timeBoundary);
@@ -77,7 +80,10 @@ class TimeBoundaryMapperTest {
       // Given
       List<TimeBoundarySchema> timeBoundaries =
           List.of(
-              new TimeBoundarySchema(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2"));
+              new TimeBoundarySchema(
+                  LocalDate.parse("2023-12-30"),
+                  "meta-1_lebzykl-1_ereignis-2",
+                  "meta-1_geltzeiten-1_geltungszeitgr-1"));
 
       // When
       List<TimeBoundaryChangeData> timeBoundaryChangeData =
@@ -94,8 +100,14 @@ class TimeBoundaryMapperTest {
       // Given
       List<TimeBoundarySchema> timeBoundaries =
           List.of(
-              new TimeBoundarySchema(LocalDate.parse("2023-12-30"), "meta-1_lebzykl-1_ereignis-2"),
-              new TimeBoundarySchema(LocalDate.parse("2016-01-28"), "meta-1_lebzykl-1_ereignis-1"));
+              new TimeBoundarySchema(
+                  LocalDate.parse("2023-12-30"),
+                  "meta-1_lebzykl-1_ereignis-2",
+                  "meta-1_geltzeiten-1_geltungszeitgr-1"),
+              new TimeBoundarySchema(
+                  LocalDate.parse("2016-01-28"),
+                  "meta-1_lebzykl-1_ereignis-1",
+                  "meta-1_geltzeiten-1_geltungszeitgr-1"));
 
       // When
       List<TimeBoundaryChangeData> timeBoundaryChangeData =

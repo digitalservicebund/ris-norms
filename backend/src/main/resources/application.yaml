@@ -27,7 +27,7 @@ management:
     enabled-by-default: false
     web:
       exposure:
-        include: health
+        include: health,prometheus
   endpoint:
     health:
       enabled: true
@@ -36,8 +36,13 @@ management:
           include: livenessState
         readiness:
           include: readinessState,db,redis
+    prometheus:
+      enabled: true
   health:
     readiness-state:
       enabled: true
     liveness-state:
       enabled: true
+
+sentry:
+  exception-resolver-order: -2147483647

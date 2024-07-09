@@ -4,7 +4,6 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResp
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /** Mapper class for converting to a {@link ReleaseResponseSchema}. */
@@ -26,9 +25,9 @@ public class ReleaseResponseMapper {
   public static ReleaseResponseSchema fromAnnouncement(
       final Announcement announcement, final List<Norm> affectedNorms) {
     return ReleaseResponseSchema.builder()
-        .amendingLawEli(announcement.getNorm().getEli().orElse(null))
+        .amendingLawEli(announcement.getNorm().getEli())
         .releaseAt(announcement.getReleasedByDocumentalistAt())
-        .zf0Elis(affectedNorms.stream().map(Norm::getEli).flatMap(Optional::stream).toList())
+        .zf0Elis(affectedNorms.stream().map(Norm::getEli).toList())
         .build();
   }
 }

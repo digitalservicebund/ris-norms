@@ -1,14 +1,43 @@
 import { xmlStringToDocument } from "@/services/xmlService"
-import { describe, expect, it } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import {
   getTextualModType,
   getDestinationHref,
   getQuotedTextSecond,
   getQuotedTextFirst,
   getTimeBoundaryDate,
+  getModEIds,
 } from "@/services/ldmldeModService"
+import { nextTick, ref } from "vue"
 
 describe("ldmldeModService", () => {
+  beforeEach(() => {
+    vi.resetModules()
+    vi.resetAllMocks()
+  })
+
+  describe("getModEIds", () => {
+    it("should find the eIds", () => {
+      const node = xmlStringToDocument(`
+        <akn:article  xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
+            <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+                <akn:ref GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/100-126.xml">§6 Absatz 3 Satz 5</akn:ref>
+            </akn:mod>
+            <akn:mod GUID="148c2f06-6e33-4af8-9f4a-3da67c888510" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"></akn:mod>
+        </akn:article>
+      `).childNodes.item(0)
+
+      const eIds = getModEIds(node)
+      expect(eIds).toHaveLength(2)
+      expect(eIds).toContain(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+      )
+      expect(eIds).toContain(
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+      )
+    })
+  })
+
   describe("getQuotedTextSecond", () => {
     it("should find second quoted text", () => {
       const node = xmlStringToDocument(`
@@ -120,7 +149,136 @@ describe("ldmldeModService", () => {
           xml,
           "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
         ),
-      ).to.eq("2023-12-30")
+      ).to.deep.equal({
+        date: "2023-12-30",
+        temporalGroupEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
+      })
+    })
+  })
+
+  describe("useUpdateModData", () => {
+    it("should make a PUT request with the correct data", async () => {
+      const eli = "eli"
+      const eid = "eid"
+      const updatedMods = {
+        refersTo: "test-refersTo",
+        timeBoundaryEid: "test-timeBoundaryEid",
+        destinationHref: "test-destinationHref",
+        newText: "test-newText",
+      }
+
+      const expectedResponse = {
+        targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
+        amendingNormXml: "<xml>amending-norm-xml</xml>",
+      }
+
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValueOnce(new Response(JSON.stringify(expectedResponse)))
+
+      const { useUpdateModData } = await import("./ldmldeModService")
+
+      const { data, execute, isFetching } = useUpdateModData(
+        eli,
+        eid,
+        updatedMods,
+      )
+      expect(isFetching.value).toBe(false)
+      await execute()
+      expect(data.value).toEqual(expectedResponse)
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        `/api/v1/norms/${eli}/mods/${eid}?`,
+        expect.objectContaining({
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(updatedMods),
+        }),
+      )
+    })
+
+    it("should reset isFinished once data changes", async () => {
+      vi.spyOn(global, "fetch").mockResolvedValueOnce(new Response("{}"))
+
+      const { useUpdateModData } = await import("./ldmldeModService")
+
+      const eli = ref("eli")
+      const { execute, isFinished } = useUpdateModData(eli, "eid", {
+        refersTo: "test-refersTo",
+        timeBoundaryEid: "test-timeBoundaryEid",
+        destinationHref: "test-destinationHref",
+        newText: "test-newText",
+      })
+      expect(isFinished.value).toBe(false)
+      await execute()
+      expect(isFinished.value).toBe(true)
+      eli.value = "new-eli"
+      await nextTick()
+      expect(isFinished.value).toBe(false)
+    })
+  })
+
+  describe("useUpdateMods", () => {
+    it("should make a PATCH request with the correct data", async () => {
+      const eli = "eli"
+      const updatedMods = {
+        "eid-1": {
+          timeBoundaryEid: "test-timeBoundaryEid",
+        },
+        "eid-2": {
+          timeBoundaryEid: "test-timeBoundaryEid",
+        },
+      }
+
+      const expectedResponse = {
+        targetNormZf0Xml: "<xml>target-norm-zf0-xml</xml>",
+        amendingNormXml: "<xml>amending-norm-xml</xml>",
+      }
+
+      const fetchSpy = vi
+        .spyOn(global, "fetch")
+        .mockResolvedValueOnce(new Response(JSON.stringify(expectedResponse)))
+
+      const { useUpdateMods } = await import("./ldmldeModService")
+
+      const { data, execute, isFetching } = useUpdateMods(eli, updatedMods)
+      expect(isFetching.value).toBe(false)
+      await execute()
+      expect(data.value).toEqual(expectedResponse)
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        `/api/v1/norms/${eli}/mods?`,
+        expect.objectContaining({
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(updatedMods),
+        }),
+      )
+    })
+
+    it("should reset isFinished once data changes", async () => {
+      vi.spyOn(global, "fetch").mockResolvedValueOnce(new Response("{}"))
+
+      const { useUpdateMods } = await import("./ldmldeModService")
+
+      const eli = ref("eli")
+      const { execute, isFinished } = useUpdateMods(eli, {
+        "eid-1": {
+          timeBoundaryEid: "test-timeBoundaryEid",
+        },
+      })
+      expect(isFinished.value).toBe(false)
+      await execute()
+      expect(isFinished.value).toBe(true)
+      eli.value = "new-eli"
+      await nextTick()
+      expect(isFinished.value).toBe(false)
     })
   })
 })

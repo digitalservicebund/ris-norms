@@ -4,5 +4,8 @@ export interface TemporalDataResponse {
   date: string
 
   /** ID of the event ref in the LDML document. */
-  eventRefEid: string
+  eventRefEid?: string
+
+  /** EID of the temporalgroup. */
+  temporalGroupEid?: string
 }

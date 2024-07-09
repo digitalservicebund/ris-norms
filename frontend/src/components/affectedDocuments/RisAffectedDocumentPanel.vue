@@ -3,6 +3,9 @@ import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { computed } from "vue"
 import IcOutlineModeEdit from "~icons/ic/outline-mode-edit"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
+import { useGetNorm } from "@/services/normService"
 
 const props = defineProps<{
   /**
@@ -12,15 +15,6 @@ const props = defineProps<{
    * yourself.
    */
   asListItem?: boolean
-
-  /** FNA number of the affected document. */
-  fna?: string
-
-  /** Abbreviated title of the affected document. */
-  shortTitle?: string
-
-  /** Full title of the affected document. */
-  title: string
 
   /**
    * ELI of the affected document. This is needed both for display.
@@ -33,6 +27,8 @@ const props = defineProps<{
    */
   zf0Eli: string
 }>()
+
+const { data: norm, isFetching, error } = useGetNorm(props.eli)
 
 const tag = computed<"li" | "div">(() => (props.asListItem ? "li" : "div"))
 
@@ -50,16 +46,29 @@ const editorUrl = computed<string>(
     :class="{ 'list-none': tag === 'li' }"
     class="flex gap-24 bg-blue-200 p-24"
   >
-    <div class="flex flex-1 flex-col gap-8">
-      <div v-if="fna || shortTitle">
-        <template v-if="fna">
-          FNA <span class="font-bold">{{ fna }}</span>
+    <div v-if="isFetching" class="flex flex-1 items-center justify-center">
+      <RisLoadingSpinner></RisLoadingSpinner>
+    </div>
+
+    <div v-else-if="error" class="flex-1">
+      <RisCallout
+        title="Der betroffene Normkomplex konnte nicht geladen werden."
+        variant="error"
+      />
+    </div>
+
+    <div v-else class="flex flex-1 flex-col gap-8">
+      <div v-if="norm?.fna || norm?.shortTitle">
+        <template v-if="norm?.fna">
+          FNA <span class="font-bold">{{ norm.fna }}</span>
         </template>
-        <span v-if="fna && shortTitle" class="mx-4 font-bold">-</span>
-        <span v-if="shortTitle" class="font-bold">{{ shortTitle }}</span>
+        <span v-if="norm.fna && norm.shortTitle" class="mx-4 font-bold">-</span>
+        <span v-if="norm.shortTitle" class="font-bold">{{
+          norm.shortTitle
+        }}</span>
       </div>
-      <div v-if="title">{{ title }}</div>
-      <div v-if="eli">{{ eli }}</div>
+      <div v-if="norm?.title">{{ norm.title }}</div>
+      <div v-if="norm?.eli">{{ norm.eli }}</div>
     </div>
 
     <div class="flex flex-none items-center">

@@ -1,12 +1,10 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.service.DBService;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundary;
-import de.bund.digitalservice.ris.norms.domain.entity.TimeBoundaryChangeData;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import java.time.LocalDate;
 import java.util.*;
@@ -20,11 +18,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTimeBoundariesUseCase {
-  private final DBService dbService;
+public class TimeBoundaryService
+    implements LoadTimeBoundariesUseCase,
+        LoadTimeBoundariesAmendedByUseCase,
+        UpdateTimeBoundariesUseCase {
 
-  public TimeBoundaryService(DBService dbService) {
-    this.dbService = dbService;
+  private final LoadNormPort loadNormPort;
+  private final UpdateNormPort updateNormPort;
+
+  public TimeBoundaryService(LoadNormPort loadNormPort, UpdateNormPort updateNormPort) {
+
+    this.loadNormPort = loadNormPort;
+    this.updateNormPort = updateNormPort;
   }
 
   /**
@@ -33,10 +38,40 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
    */
   @Override
   public List<TimeBoundary> loadTimeBoundariesOfNorm(LoadTimeBoundariesUseCase.Query query) {
-    return dbService
+    return loadNormPort
         .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(Norm::getTimeBoundaries)
-        .orElse(List.of());
+        .orElseThrow(() -> new NormNotFoundException(query.eli()))
+        .getTimeBoundaries();
+  }
+
+  @Override
+  public List<TimeBoundary> loadTimeBoundariesAmendedBy(
+      LoadTimeBoundariesAmendedByUseCase.Query query) {
+
+    final Norm norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    final List<String> temporalGroupEidAmendedBy =
+        norm.getMeta().getOrCreateAnalysis().getPassiveModifications().stream()
+            .filter(
+                f ->
+                    f.getSourceHref()
+                        .map(
+                            href ->
+                                href.getEli().isPresent()
+                                    && href.getEli().get().equals(query.amendingLawEli()))
+                        .orElse(false))
+            .map(m -> m.getForcePeriodEid().orElse(null))
+            .filter(Objects::nonNull)
+            .toList();
+
+    final List<TemporalGroup> temporalGroups =
+        norm.getMeta().getTemporalData().getTemporalGroups().stream()
+            .filter(f -> temporalGroupEidAmendedBy.contains(f.getEid().orElseThrow()))
+            .toList();
+    return norm.getTimeBoundaries(temporalGroups);
   }
 
   /**
@@ -45,7 +80,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
    */
   @Override
   public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
-    Optional<Norm> norm = dbService.loadNorm(new LoadNormPort.Command(query.eli()));
+    Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     Optional<Norm> normResponse = Optional.empty();
     if (norm.isPresent()) {
 
@@ -67,7 +102,7 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
 
       EidConsistencyGuardian.correctEids(norm.get().getDocument());
 
-      normResponse = dbService.updateNorm(new UpdateNormPort.Command(norm.get()));
+      normResponse = updateNormPort.updateNorm(new UpdateNormPort.Command(norm.get()));
     }
     return normResponse.map(Norm::getTimeBoundaries).orElse(List.of());
   }
@@ -130,8 +165,8 @@ public class TimeBoundaryService implements LoadTimeBoundariesUseCase, UpdateTim
   private void addTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {
     timeBoundaryChangeData.stream()
         .filter(tb -> tb.eid() == null || tb.eid().isEmpty())
-        .toList()
-        .forEach(norm::addTimeBoundary);
+        .map(TimeBoundaryChangeData::date)
+        .forEach(date -> norm.addTimeBoundary(date, EventRefType.GENERATION));
   }
 
   private List<TimeBoundaryChangeData> selectTimeBoundariesToDelete(

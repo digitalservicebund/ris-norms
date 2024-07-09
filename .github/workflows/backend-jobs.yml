@@ -35,13 +35,16 @@ jobs:
       - name: Build backend
         working-directory: ./backend
         run: ./gradlew build --profile -x integrationTest -x test
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Upload build performance report
         uses: actions/upload-artifact@v4
         with:
           name: performance-report
           path: backend/build/reports/profile/profile*.html
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
+        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -58,10 +61,12 @@ jobs:
           distribution: "temurin"
           cache: gradle
       - name: Run unit tests
+        env:
+          SPRING_PROFILES_ACTIVE: testing
         working-directory: ./backend
-        run: ./gradlew test -x integrationTest
+        run: ./gradlew clean test -x integrationTest
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
+        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -78,10 +83,12 @@ jobs:
           distribution: "temurin"
           cache: gradle
       - name: Run integration tests
+        env:
+          SPRING_PROFILES_ACTIVE: testing
         working-directory: ./backend
-        run: ./gradlew integrationTest -x test
+        run: ./gradlew clean integrationTest -x test
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
+        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -103,11 +110,11 @@ jobs:
       - name: Upload licence report
         uses: actions/upload-artifact@v4
         with:
-          name: backend-licence-report.csv
+          name: licence-reports-backend
           retention-days: 3
           path: backend/build/reports/dependency-license/backend-licence-report.csv
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
+        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main'}}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -144,7 +151,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
+        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -170,50 +177,7 @@ jobs:
           retention-days: 3
           path: backend/build/docs/javadoc/
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
-        if: ${{ failure() && github.ref == 'refs/heads/main' }}
-        with:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  push-reports:
-    runs-on: ubuntu-latest
-    env:
-      reports-repo: digitalservicebund/ris-reports
-    needs:
-      - backend-build
-      - generate-backend-code-documentation
-    if: ${{ github.ref == 'refs/heads/main' }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          repository: ${{ env.reports-repo }}
-          ssh-key: ${{ secrets.REPORTS_DEPLOY_KEY }}
-      - name: Setup git config
-        run: |
-          git config user.name "${{ github.repository }}"
-          # This email identifies the commit as GitHub Actions - see https://github.com/orgs/community/discussions/26560
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - name: Backend Code Documentation - Download
-        uses: actions/download-artifact@v4
-        with:
-          name: backend-code-documentation
-          path: tmp/backend-code-documentation/
-      - name: Java - git add report
-        uses: digitalservicebund/add-ris-report@32770d369cf00a8154bb6a17005d11cf781bfba3
-        with:
-          filePath: tmp/backend-code-documentation
-          destinationDir: norms-code-documentation/java
-          reportIsDirectory: true
-      - name: Push reports
-        run: |
-          git diff-index --cached --quiet HEAD ||
-            git commit \
-              -m ${{ toJSON(github.event.head_commit.message) }} \
-              -m "From commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" &&
-            git push origin main &&
-            echo "Pushed reports to ${{ github.server_url }}/${{ env.reports-repo }}" >> $GITHUB_STEP_SUMMARY
-      - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf
+        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

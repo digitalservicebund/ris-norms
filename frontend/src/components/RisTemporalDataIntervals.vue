@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import { defineModel, nextTick, ref, watch, computed } from "vue"
+import { nextTick, ref, watch, computed } from "vue"
 import RisDateInput from "@/components/controls/RisDateInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import DeleteOutlineIcon from "~icons/ic/outline-delete"
 import SortOutlineIcon from "~icons/ic/outline-arrow-downward"
 import dayjs from "dayjs"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
 
-type DateEntry = {
-  date: string
-  eventRefEid: string
-}
+const MAX_DATES = 100
 
 /** The current list of dates. */
-const dates = defineModel<DateEntry[]>("dates", {
+const dates = defineModel<TemporalDataResponse[]>("dates", {
   default: () => [],
 })
 
@@ -48,7 +46,7 @@ watch(newDate, async (newDateValue) => {
 </script>
 
 <template>
-  <form class="grid grid-cols-[6rem,1fr,min-content] items-center gap-4">
+  <form class="grid grid-cols-[6rem,1fr,min-content] items-start gap-4">
     <RisTextButton
       :icon="SortOutlineIcon"
       label="Nach Datum sortieren"
@@ -60,34 +58,35 @@ watch(newDate, async (newDateValue) => {
     <div></div>
 
     <template v-for="(dateEntry, index) in dates" :key="index">
-      <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-      <label :for="`date-${index}`">Zeitgrenze {{ index + 1 }}</label>
       <RisDateInput
         :id="`date-${index}`"
         v-model="dateEntry.date"
-        size="small"
-        data-testid="date-input-field"
+        :label="`Zeitgrenze ${index + 1}`"
+        label-position="left"
+        class="col-span-2 grid w-full grid-cols-subgrid"
+        label-class="w-[6rem]"
       />
       <RisTextButton
         :icon="DeleteOutlineIcon"
         variant="ghost"
         class="shrink-0"
+        size="small"
         :label="`Zeitgrenze ${index + 1} löschen`"
         type="button"
         :disabled="isDeleteDisabled"
-        :data-testid="`delete-button-${index}`"
         icon-only
         @click.prevent="removeDateInput(index)"
       />
     </template>
 
-    <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-    <label for="new-date">Zeitgrenze hinzufügen</label>
     <RisDateInput
+      v-if="dates.length < MAX_DATES"
       id="new-date"
       v-model="newDate"
-      size="small"
-      data-testid="new-date-input-field"
+      label="Zeitgrenze hinzufügen"
+      label-position="left"
+      class="col-span-2 -mt-4 grid w-full grid-cols-subgrid"
+      label-class="w-[6rem]"
     />
   </form>
 </template>

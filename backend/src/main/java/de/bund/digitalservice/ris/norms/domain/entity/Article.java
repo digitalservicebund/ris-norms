@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Article {
+  private static final String UNKNOWN = "UNKNOWN";
   private final Node node;
 
   /**
@@ -42,7 +44,16 @@ public class Article {
    * @return The eId of the article
    */
   public Optional<String> getEid() {
-    return NodeParser.getValueFromExpression("./@eId", this.node);
+    return EId.fromNode(getNode()).map(EId::value);
+  }
+
+  /**
+   * Returns the eId as {@link String} from a {@link Node} in a {@link Norm}.
+   *
+   * @return The eId of the article
+   */
+  public String getMandatoryEid() {
+    return EId.fromMandatoryNode(getNode()).value();
   }
 
   /**
@@ -65,12 +76,32 @@ public class Article {
   }
 
   /**
+   * Sets a new href for the affected document
+   *
+   * @param href The ELI of the affected document of the article
+   */
+  public void setAffectedDocumentEli(String href) {
+    Optional<Node> articleAffectedDocument =
+        NodeParser.getNodeFromExpression(".//affectedDocument/@href", this.node);
+    articleAffectedDocument.ifPresent(value -> value.setTextContent(href));
+  }
+
+  /**
    * Returns the refersTo attribute of the affected article as {@link String} from a {@link Node} in
    * a {@link Norm}.
    *
-   * @return The ELI of the affected document of the article
+   * @return The refersTo attribute of the article
    */
   public Optional<String> getRefersTo() {
     return NodeParser.getValueFromExpression("./@refersTo", this.node);
+  }
+
+  /**
+   * Extracts the {@link Mod} for this article.
+   *
+   * @return the {@link Mod}
+   */
+  public List<Mod> getMods() {
+    return NodeParser.getNodesFromExpression("./*//mod", this.node).stream().map(Mod::new).toList();
   }
 }

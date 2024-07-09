@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -27,5 +26,5 @@ public class NormResponseSchema {
 
   private String frbrNumber;
 
-  private LocalDate frbrDateVerkuendung;
+  private String frbrDateVerkuendung;
 }

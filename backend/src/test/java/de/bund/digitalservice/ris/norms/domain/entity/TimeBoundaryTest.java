@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.Node;
 
 class TimeBoundaryTest {
 
@@ -40,14 +39,15 @@ class TimeBoundaryTest {
     // given
 
     Norm norm = new Norm(toDocument(xml));
-    Node timeIntervalNode = norm.getTimeBoundaries().getFirst().getTimeIntervalNode();
-    Node eventRefNode = norm.getTimeBoundaries().getFirst().getEventRefNode();
+    TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
+    EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
+    TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
 
     // when
-    TimeBoundary tb = new TimeBoundary(timeIntervalNode, eventRefNode);
+    TimeBoundary tb = new TimeBoundary(timeInterval, eventRef, temporalGroup);
 
     // then
-    assertThat(tb.getDate()).contains(LocalDate.parse("2023-12-30"));
+    assertThat(tb.getEventRef().getDate()).contains(LocalDate.parse("2023-12-30"));
   }
 
   @Test
@@ -55,11 +55,12 @@ class TimeBoundaryTest {
     // given
 
     Norm norm = new Norm(toDocument(xml));
-    Node timeIntervalNode = norm.getTimeBoundaries().getFirst().getTimeIntervalNode();
-    Node eventRefNode = norm.getTimeBoundaries().getFirst().getEventRefNode();
+    TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
+    EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
+    TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
 
     // when
-    TimeBoundary tb = new TimeBoundary(timeIntervalNode, eventRefNode);
+    TimeBoundary tb = new TimeBoundary(timeInterval, eventRef, temporalGroup);
 
     // then
     assertThat(tb.getEventRefEid()).contains("meta-1_lebzykl-1_ereignis-2");
@@ -68,13 +69,13 @@ class TimeBoundaryTest {
   @Test
   void getTimeIntervalEid() {
     // given
-
     Norm norm = new Norm(toDocument(xml));
-    Node timeIntervalNode = norm.getTimeBoundaries().getFirst().getTimeIntervalNode();
-    Node eventRefNode = norm.getTimeBoundaries().getFirst().getEventRefNode();
+    TimeInterval timeInterval = norm.getTimeBoundaries().getFirst().getTimeInterval();
+    EventRef eventRef = norm.getTimeBoundaries().getFirst().getEventRef();
+    TemporalGroup temporalGroup = norm.getTimeBoundaries().getFirst().getTemporalGroup();
 
     // when
-    TimeBoundary tb = new TimeBoundary(timeIntervalNode, eventRefNode);
+    TimeBoundary tb = new TimeBoundary(timeInterval, eventRef, temporalGroup);
 
     // then
     assertThat(tb.getTimeIntervalEid())

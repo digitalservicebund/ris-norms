@@ -1,33 +1,44 @@
 <script setup lang="ts">
+import RisCallout from "@/components/controls/RisCallout.vue"
+import { useHeaderContext } from "@/components/controls/RisHeader.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import { computed, ref, watchEffect, onBeforeUnmount, onMounted } from "vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { getNormXmlByEli } from "@/services/normService"
 import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useGetNormXml } from "@/services/normService"
+import { computed, onBeforeUnmount, onUnmounted, ref, watch } from "vue"
+
+const { pushBreadcrumb } = useHeaderContext()
+const cleanupBreadcrumbs = pushBreadcrumb({ title: "Abgabe" })
+onUnmounted(() => cleanupBreadcrumbs())
 
 const eli = useEliPathParameter()
-const { releasedAt, releasedElis, fetchReleaseStatus, releaseAmendingLaw } =
-  useAmendingLawRelease(eli)
+const {
+  data: release,
+  release: {
+    execute: releaseAmendingLaw,
+    isFetching: isReleasing,
+    error: releaseError,
+  },
+  isFetching,
+  error: fetchError,
+} = useAmendingLawRelease(eli)
 const blobUrl = ref("")
 const zf0BlobUrls = ref<BlobUrlItem[]>([])
-
-onMounted(async () => {
-  await fetchReleaseStatus()
-})
 
 interface BlobUrlItem {
   zf0Eli: string
   zf0BlobUrl: string
 }
 
-watchEffect(async () => {
-  let newBlobUrl = ""
-  const newZf0BlobUrls = []
+watch(release, async () => {
+  if (release?.value?.amendingLawEli) {
+    const { data: xmlContent } = await useGetNormXml(
+      release.value.amendingLawEli,
+    )
 
-  if (releasedElis?.value?.amendingLawEli) {
-    const xmlContent = await getNormXmlByEli(releasedElis.value.amendingLawEli)
-    const blob = new Blob([xmlContent], { type: "application/xml" })
-    newBlobUrl = URL.createObjectURL(blob)
+    const blob = new Blob([xmlContent.value ?? ""], { type: "application/xml" })
+    const newBlobUrl = URL.createObjectURL(blob)
 
     if (blobUrl.value) {
       URL.revokeObjectURL(blobUrl.value)
@@ -35,10 +46,14 @@ watchEffect(async () => {
     blobUrl.value = newBlobUrl
   }
 
-  if (releasedElis.value?.zf0Elis) {
-    for (const zf0Eli of releasedElis.value.zf0Elis) {
-      const xmlContent = await getNormXmlByEli(zf0Eli)
-      const blob = new Blob([xmlContent], { type: "application/xml" })
+  if (release.value?.zf0Elis) {
+    const newZf0BlobUrls = []
+    for (const zf0Eli of release.value.zf0Elis) {
+      const { data: xmlContent } = await useGetNormXml(zf0Eli)
+
+      const blob = new Blob([xmlContent.value ?? ""], {
+        type: "application/xml",
+      })
       const blobUrlForZf0 = URL.createObjectURL(blob)
       newZf0BlobUrls.push({ zf0Eli, zf0BlobUrl: blobUrlForZf0 })
 
@@ -63,6 +78,9 @@ async function onRelease() {
   await releaseAmendingLaw()
 }
 
+const releasedAt = computed(() =>
+  release.value?.releaseAt ? new Date(release.value.releaseAt) : null,
+)
 const publishedAtDateTime = computed(() => releasedAt.value?.toISOString())
 const publishedAtTimeString = computed(() =>
   releasedAt.value?.toLocaleTimeString("de-DE", {
@@ -85,7 +103,25 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
       <h1 class="ds-heading-02-reg">Abgabe</h1>
 
       <div
-        v-if="releasedAt"
+        v-if="isFetching || isReleasing"
+        class="mt-20 flex items-center justify-center"
+      >
+        <RisLoadingSpinner></RisLoadingSpinner>
+      </div>
+
+      <div v-else-if="releaseError">
+        <RisCallout title="Abgabe nicht erfolgreich." variant="error" />
+      </div>
+
+      <div v-else-if="fetchError">
+        <RisCallout
+          title="Die letzte Abgabe konnte nicht geladen werden."
+          variant="error"
+        />
+      </div>
+
+      <div
+        v-else-if="releasedAt"
         aria-label="Infomodal"
         class="flex w-full gap-[0.625rem] border-[0.125rem] border-orange-200 bg-orange-100 px-[1.25rem] py-[1.125rem]"
       >
@@ -102,12 +138,12 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
             <ul class="list-disc pl-20">
               <li>
                 <a
-                  v-if="releasedElis"
+                  v-if="release"
                   :href="blobUrl"
-                  :download="formatEliForDownload(releasedElis?.amendingLawEli)"
+                  :download="formatEliForDownload(release.amendingLawEli)"
                   target="_blank"
                   class="underline"
-                  >{{ releasedElis?.amendingLawEli }}.xml</a
+                  >{{ release.amendingLawEli }}.xml</a
                 >
               </li>
               <li v-for="{ zf0Eli, zf0BlobUrl } in zf0BlobUrls" :key="zf0Eli">
@@ -131,6 +167,7 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
         variant="primary"
         size="small"
         label="Jetzt abgeben"
+        :loading="isReleasing"
         @click="onRelease"
       />
     </section>

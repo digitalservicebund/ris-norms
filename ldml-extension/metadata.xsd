@@ -4,183 +4,129 @@
            elementFormDefault="qualified"
            targetNamespace="http://DS.Metadaten.LegalDocML.de/1.6/"
            version="LegalDocML.de 1.6 (Dezember 2023)">
-<!-- ********************************* Hinweis zur Lizensierung ********************************* -->
-   <xs:annotation>
-      <xs:appinfo>
-         <copyright-hinweis>2024 DigitalService GmbH des Bundes</copyright-hinweis>
-         <lizenz url="https://opensource.org/license/mit/"
-                 kurzbezeichnung="MIT"
-                 langbezeichnung=""/>
-         <autor organisation="DigitalService GmbH des Bundes"
-                referat=""
-                organisatorischer-rahmen=""/>
-      </xs:appinfo>
-   </xs:annotation>
-   <!-- ******************************************************************************************** -->
-   <xs:element name="legalDocML.de_metadaten_ds">
-      <xs:complexType>
-         <xs:choice maxOccurs="unbounded">
-
-         <xs:element name="interne-referenz" minOccurs="0">
-            <xs:complexType>
-                <xs:sequence minOccurs="1" maxOccurs="unbounded">
-                    <xs:choice>
-                        <xs:element name="abweichendeGueltigkeit">
-                           <xs:complexType>
-                              <xs:attribute name="ausserkraft" type="eId-verweis" use="optional"/>
-                              <xs:attribute name="inkraft" type="eId-verweis" use="optional"/>
-                           </xs:complexType>
-                        </xs:element>
-                        <xs:element name="fassungsdatum" type="xs:date"/>
-                        <xs:element name="normgeber" type="normgeber-typ"/>
-                        <xs:element name="stand" type="xs:date">
-                            <xs:annotation>
-                                <xs:documentation>Beschreibung, welcher Stand hier gemeint ist und wie er anzugeben ist.</xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                    </xs:choice>
-                </xs:sequence>
-                <xs:attribute name="href" type="eId-verweis" use="required">
-                    <!-- 
-                        Hier wäre auch denkbar, statt auf die @eId auf die @GUID 
-                        zu verweisen, beides zu erlauben (entweder/oder) oder eben
-                        zwei Attribute (z. B. @eId-ref und @GUID-ref) zu deklarieren.
-                    -->
-                    <xs:annotation>
-                        <xs:documentation>Lokaler Verweis auf eine Stelle im Dokument, Erwartet wird das Rautesymbol (#), gefolgt von einer
-                            @eId.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="alt" type="xs:token" use="optional"/>
-            </xs:complexType>
-        </xs:element>
-        <xs:element name="aktenzeichen" type="xs:string" minOccurs="0"/>
-        <xs:element name="celex" type="xs:string" minOccurs="0"/>
-        <xs:element name="subtyp" type="artDerNorm" minOccurs="0"/>
-        <xs:element name="mitwirkung" type="xs:string" minOccurs="0"/>
-        <xs:element name="fundstelleNichtAmtlich" type="xs:string" minOccurs="0"/>
-        <xs:element name="qualifizierteMehrheit" type="xs:boolean" minOccurs="0"/>
-        <xs:element name="fnaAlt" type="xs:string" minOccurs="0"/>
-        <xs:element name="BGBL3" type="xs:string" minOccurs="0"/>
-        <xs:element name="note" minOccurs="0" maxOccurs="unbounded">
-         <xs:complexType mixed="true">
-            <xs:choice minOccurs="0">
-               <xs:element name="a">
-                  <xs:complexType mixed="true">
-                     <xs:choice minOccurs="0">
-                        <xs:element name="date"/>
-                     </xs:choice>
-                     <xs:attribute name="href" type="xs:string"/>
-                  </xs:complexType>
-               </xs:element>
+    <!-- ********************************* Hinweis zur Lizensierung ********************************* -->
+    <xs:annotation>
+        <xs:appinfo>
+            <copyright-hinweis>2024 DigitalService GmbH des Bundes</copyright-hinweis>
+            <lizenz url="https://opensource.org/license/mit/"
+                    kurzbezeichnung="MIT"
+                    langbezeichnung=""/>
+            <autor organisation="DigitalService GmbH des Bundes"
+                   referat=""
+                   organisatorischer-rahmen=""/>
+        </xs:appinfo>
+    </xs:annotation>
+    <xs:element name="legalDocML.de_metadaten_ds">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="fna" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="art" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="typ" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="subtyp" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="bezeichnungInVorlage" type="SimpleMetadataType" minOccurs="0"
+                            maxOccurs="unbounded"/>
+                <xs:element name="normgeber" type="SimpleMetadataType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="beschliessendesOrgan" type="BeschliessendesOrganType" minOccurs="0"
+                            maxOccurs="unbounded"/>
+                <xs:element name="organisationsEinheit" type="SimpleMetadataType" minOccurs="0"
+                            maxOccurs="unbounded"/>
+                <xs:element name="artDerNorm" type="ArtDerNormFrameType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="einzelelement" type="EinzelelementType" minOccurs="0" maxOccurs="unbounded"/>
             </xs:choice>
-            <xs:attribute name="type" type="xs:string" use="optional"/>
-         </xs:complexType> 
-        </xs:element>
-        <xs:element name="vollzitat" type="xs:string" minOccurs="0"/>
-            <xs:element name="risAbk" type="xs:string" minOccurs="0">
-               <xs:annotation>
-                  <xs:documentation>Die RIS-Abkürzung ist die systemeigene, menschenlesbare Abkürzung eines Normenkomplexes, die für die Dokumentation, 
-                     insbesondere bei der Bearbeitung von Referenzierungsrubriken verwendet wird. Sie wird intellektuell nach einem abgestimmten Regelwerk 
-                     (Konventionen) gebildet.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element name="keywords" type="keywords" minOccurs="0">
-               <xs:annotation>
-                  <xs:documentation>Schlagwörter auf Rahmenebene</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element name="einzelelemente" minOccurs="0">
-               <xs:annotation>
-                  <xs:documentation>Umfasst die einzelnen Elemente des Rechtsetzungsdokuments und seiner Teildokumente.</xs:documentation>
-               </xs:annotation>
-               <xs:complexType>
-                  <xs:sequence>
-                     <xs:element name="einzelelement" minOccurs="0" maxOccurs="unbounded">
-                        <xs:annotation>
-                           <xs:documentation>Metaangaben zu Einzelelementen</xs:documentation>
-                        </xs:annotation>
-                        <xs:complexType>
-                           <xs:all>
-                              <xs:element name="initiant" type="institution" minOccurs="0">
-                                 <xs:annotation>
-                                    <xs:documentation>Institution, welche die erste Fassung des Rechtsetzungsdokuments und seiner Teildokumente erstellt hat (z. B.
-                                             Bundesregierung, Bundestag usw.). Dieses Metadatum ist nur in der Entwurfsfassung relevant; in der Verkündungsfassung ist das
-                                             Literal "nicht-vorhanden" zu nutzen.</xs:documentation>
-                                 </xs:annotation>
-                              </xs:element>
-                              <xs:element name="bearbeitendeInstitution" type="institution" minOccurs="0">
-                                 <xs:annotation>
-                                    <xs:documentation>Institution, welche die vorliegende Fassung des Rechtsetzungsdokuments und seiner Teildokumente bearbeitet (z. B.
-                                             Bundesregierung, Bundestag usw.). Dieses Metadatum ist nur in der Entwurfsfassung relevant; in der Verkündungsfassung ist das
-                                             Literal "nicht-vorhanden" zu nutzen.</xs:documentation>
-                                 </xs:annotation>
-                              </xs:element>
-                              <xs:element name="artDerNorm" type="artDerNorm" minOccurs="0">
-                                 <xs:annotation>
-                                    <xs:documentation>Art der Norm</xs:documentation>
-                                 </xs:annotation>
-                              </xs:element>
-                              <xs:element name="keywords" type="keywords" minOccurs="0">
-                                 <xs:annotation>
-                                    <xs:documentation>Schlagwörter auf Einzelelementebene</xs:documentation>
-                                 </xs:annotation>
-                              </xs:element>
-                           </xs:all>
-                           <xs:attribute name="href" type="xs:string" use="required"/>
-                        </xs:complexType>
-                     </xs:element>
-                  </xs:sequence>
-               </xs:complexType>
-               <xs:unique name="definitions-input-unique">
-                  <xs:selector xpath="einzelelement"/>
-                  <xs:field xpath="@href"/>
-               </xs:unique>
-            </xs:element>
-         </xs:choice>
-      </xs:complexType>
-   </xs:element>
-   <xs:simpleType name="artDerNorm" final="restriction">
-      <xs:restriction base="xs:string">
-         <xs:enumeration value="SN"/>
-         <xs:enumeration value="ÄN"/>
-         <xs:enumeration value="ÜN"/>
-      </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name="institution" final="restriction">
-      <xs:restriction base="xs:string">
-         <xs:enumeration value="bundesregierung"/>
-         <xs:enumeration value="bundestag"/>
-         <xs:enumeration value="bundesrat"/>
-         <xs:enumeration value="bundespräsident"/>
-         <xs:enumeration value="bundeskanzler"/>
-         <xs:enumeration value="nicht-vorhanden"/>
-      </xs:restriction>
-   </xs:simpleType>
-   <xs:complexType name="keywords">
-      <xs:sequence>
-         <xs:element name="keyword" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Schlagwort</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-   </xs:complexType>
+        </xs:complexType>
+    </xs:element>
 
-   <xs:simpleType name="normgeber-typ" final="restriction">
-      <xs:annotation>
-          <xs:documentation>Beschreibung, was ein Normgeber genau ist und welchem Zweck die Angabe dient.</xs:documentation>
-      </xs:annotation>
-      <xs:restriction base="xs:string">
-          <xs:enumeration value="normgeber-a"/>
-          <xs:enumeration value="normgeber-b"/>
-          <xs:enumeration value="normgeber-c"/>
-          <xs:enumeration value="normgeber-d"/>
-      </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="eId-verweis">
-   <xs:restriction base="xs:string">
-       <xs:pattern value="#(([a-zäöüß0-9]+-[a-zäöüß0-9]+(\.[a-zäöüß0-9]+)*)_?)*"/>
-   </xs:restriction>
-  </xs:simpleType>
+    <xs:complexType name="EinzelelementType">
+        <xs:all>
+            <xs:element name="artDerNorm" type="ArtDerNormSingleElementType" minOccurs="0"/>
+        </xs:all>
+        <xs:attribute name="href" type="eId-verweis"/>
+    </xs:complexType>
+
+    <xs:complexType name="SimpleMetadataType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="start" type="xs:date"/>
+                <xs:attribute name="end">
+                    <xs:simpleType>
+                        <xs:union memberTypes="xs:date">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="unbestimmt"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:union>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="BeschliessendesOrganType">
+        <xs:simpleContent>
+            <xs:extension base="SimpleMetadataType">
+                <xs:attribute name="qualifizierteMehrheit" type="xs:boolean" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="ArtDerNormFrameContentType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(SN|ÄN|ÜN|SN,ÄN|SN,ÜN|ÄN,SN|ÄN,ÜN|ÜN,SN|ÜN,ÄN|ÄN,SN,ÜN|ÄN,ÜN,SN|SN,ÄN,ÜN|SN,ÜN,ÄN|ÜN,SN,ÄN|ÜN,ÄN,SN)"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ArtDerNormFrameType">
+        <xs:simpleContent>
+            <xs:extension base="ArtDerNormFrameContentType">
+                <xs:attribute name="start" type="xs:date"/>
+                <xs:attribute name="end">
+                    <xs:simpleType>
+                        <xs:union memberTypes="xs:date">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="unbestimmt"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:union>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="ArtDerNormSingleContentType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SN"/>
+            <xs:enumeration value="ÄN"/>
+            <xs:enumeration value="ÜN"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ArtDerNormSingleElementType">
+        <xs:simpleContent>
+            <xs:extension base="ArtDerNormSingleContentType">
+                <xs:attribute name="start" type="xs:date"/>
+                <xs:attribute name="end">
+                    <xs:simpleType>
+                        <xs:union memberTypes="xs:date">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="unbestimmt"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:union>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+
+    <xs:simpleType name="eId-verweis">
+        <xs:restriction base="xs:string">
+            <xs:pattern
+                    value="#(([a-zäöüß0-9]+-[a-zäöüß0-9]+(\.[a-zäöüß0-9]+)*)_)*((para|art|preambel|einleitung|schluss)-[a-zäöüß0-9]+(\.[a-zäöüß0-9]+)*)"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

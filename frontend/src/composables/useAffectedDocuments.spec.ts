@@ -1,6 +1,5 @@
-import { Article } from "@/types/article"
 import { beforeEach, describe, expect, test, vi } from "vitest"
-import { MaybeRefOrGetter, Ref, nextTick, ref, toValue, watch } from "vue"
+import { nextTick, ref } from "vue"
 
 describe("useAffectedDocuments", () => {
   beforeEach(() => {
@@ -9,82 +8,40 @@ describe("useAffectedDocuments", () => {
   })
 
   test("should provide the affected documents", async () => {
-    const useArticles = vi
-      .fn()
-      .mockReturnValue(
-        ref([
-          { affectedDocumentEli: "example/eli1" },
-          { affectedDocumentEli: "example/eli2" },
-          { affectedDocumentEli: "example/eli3" },
-          { affectedDocumentEli: "example/eli4" },
-        ]),
-      )
-
-    vi.doMock("@/composables/useArticles", () => ({
-      useArticles,
-    }))
-
-    const getNormByEli = vi
-      .fn()
-      .mockResolvedValue({ title: "affected document", eli: "example/eli" })
-
-    vi.doMock("@/services/normService", () => ({
-      getNormByEli,
-    }))
-
-    const { useAffectedDocuments } = await import("./useAffectedDocuments")
-
-    const documents = useAffectedDocuments(() => "example")
-
-    await vi.waitUntil(() => documents.value.length)
-
-    expect(documents.value).toHaveLength(4)
-    expect(getNormByEli).toHaveBeenCalled()
-  })
-
-  test("should load the affected documents when the ELI changes", async () => {
-    const useArticles = vi
-      .fn()
-      .mockImplementation(
-        (eli: MaybeRefOrGetter<string>): Ref<Partial<Article>[]> => {
-          const articles = ref<Partial<Article>[]>([
-            { affectedDocumentEli: "example/eli1" },
-          ])
-
-          watch(
-            () => toValue(eli),
-            () => {
-              articles.value = [
-                { affectedDocumentEli: "example/eli2" },
-                { affectedDocumentEli: "example/eli3" },
-              ]
-            },
-          )
-
-          return articles
+    const useArticles = vi.fn().mockReturnValue({
+      data: ref([
+        {
+          affectedDocumentEli: "example/eli1",
+          affectedDocumentZf0Eli: "example/zf0/eli1",
         },
-      )
+        {
+          affectedDocumentEli: "example/eli2",
+          affectedDocumentZf0Eli: "example/zf0/eli2",
+        },
+        {
+          affectedDocumentEli: "example/eli3",
+          affectedDocumentZf0Eli: "example/zf0/eli3",
+        },
+        {
+          affectedDocumentEli: "example/eli4",
+          affectedDocumentZf0Eli: "example/zf0/eli4",
+        },
+      ]),
+    })
 
-    vi.doMock("@/composables/useArticles", () => ({
+    vi.doMock("@/services/articleService", () => ({
       useArticles,
-    }))
-
-    const getNormByEli = vi
-      .fn()
-      .mockResolvedValue({ title: "affected document", eli: "example/eli" })
-
-    vi.doMock("@/services/normService", () => ({
-      getNormByEli,
     }))
 
     const { useAffectedDocuments } = await import("./useAffectedDocuments")
 
-    const eli = ref("0")
-    useAffectedDocuments(eli)
-
-    eli.value = "1"
+    const { data } = useAffectedDocuments(() => "example")
     await nextTick()
 
-    expect(getNormByEli).toHaveBeenCalledTimes(3)
+    expect(data.value).toHaveLength(4)
+    expect(data.value?.[0]).toStrictEqual({
+      eli: "example/eli1",
+      zf0Eli: "example/zf0/eli1",
+    })
   })
 })

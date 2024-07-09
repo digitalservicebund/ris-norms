@@ -6,7 +6,11 @@ import { ModType } from "@/types/ModType"
 
 describe("RisModForm", () => {
   const textualModType: ModType = "aenderungsbefehl-ersetzen"
-  const timeBoundaries = ["2024-12-31", "2025-01-01", "2026-06-15"]
+  const timeBoundaries = [
+    { date: "2024-12-31", temporalGroupEid: "eid-1" },
+    { date: "2025-01-01", temporalGroupEid: "eid-2" },
+    { date: "2026-06-15", temporalGroupEid: "eid-3" },
+  ]
   const destinationHref =
     "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/para-1_abs-1/5-53.xml"
   const quotedTextFirst = "Bundesministerium des Innern, für Bau und Heimat"
@@ -45,9 +49,9 @@ describe("RisModForm", () => {
 
     const timeBoundaryOptionElements = screen.getAllByRole("option")
     expect(timeBoundaryOptionElements.length).toBe(4)
-    expect(timeBoundaryOptionElements[0]).toHaveValue(timeBoundaries[0])
-    expect(timeBoundaryOptionElements[1]).toHaveValue(timeBoundaries[1])
-    expect(timeBoundaryOptionElements[2]).toHaveValue(timeBoundaries[2])
+    expect(timeBoundaryOptionElements[0]).toHaveValue(timeBoundaries[0].date)
+    expect(timeBoundaryOptionElements[1]).toHaveValue(timeBoundaries[1].date)
+    expect(timeBoundaryOptionElements[2]).toHaveValue(timeBoundaries[2].date)
 
     // Destination Href Eli
     const destinationHrefEliElement = screen.getByRole("textbox", {
@@ -136,7 +140,7 @@ describe("RisModForm", () => {
       name: "Zeitgrenze",
     })
     expect(timeBoundariesElement).toBeInTheDocument()
-    expect(timeBoundariesElement).toHaveDisplayValue(["1.1.2025"])
+    expect(timeBoundariesElement).toHaveDisplayValue(["01.01.2025"])
 
     const timeBoundaryOptionElements = screen.getAllByRole(
       "option",
@@ -151,9 +155,10 @@ describe("RisModForm", () => {
     )
   })
 
-  it("emits an update when the dropdown value is changed", async () => {
+  it("emits both an update & generate preview events when the dropdown value is changed", async () => {
     const user = userEvent.setup()
     const onUpdateSelectedTimeBoundary = vi.fn()
+    const onGeneratePreview = vi.fn()
 
     const props = {
       id: "risModForm",
@@ -162,6 +167,7 @@ describe("RisModForm", () => {
       selectedTimeBoundary: timeBoundaries[1],
       destinationHref,
       "onUpdate:selectedTimeBoundary": onUpdateSelectedTimeBoundary,
+      "onGenerate-preview": onGeneratePreview,
     }
 
     render(RisModForm, {
@@ -173,11 +179,12 @@ describe("RisModForm", () => {
     })
     expect(dropdown).toBeInTheDocument()
 
-    await user.selectOptions(dropdown, timeBoundaries[2])
+    await user.selectOptions(dropdown, timeBoundaries[2].date)
 
     expect(props.selectedTimeBoundary).toStrictEqual(timeBoundaries[1])
 
     expect(onUpdateSelectedTimeBoundary).toHaveBeenCalledWith(timeBoundaries[2])
+    expect(onGeneratePreview).toHaveBeenCalled()
   })
 
   it("emits an update when the destinationHrefEid input is changed", async () => {
@@ -210,9 +217,35 @@ describe("RisModForm", () => {
     )
   })
 
+  it("emits a generate preview event when the destinationHrefEid input is changed and then loses focus", async () => {
+    const user = userEvent.setup()
+    const onGeneratePreview = vi.fn()
+
+    const props = {
+      id: "risModForm",
+      textualModType,
+      timeBoundaries,
+      destinationHref,
+      "onGenerate-preview": onGeneratePreview,
+    }
+
+    render(RisModForm, {
+      props,
+    })
+
+    const destinationHrefEidInput = screen.getByRole("textbox", {
+      name: "zu ersetzende Textstelle",
+    })
+
+    await user.type(destinationHrefEidInput, "new-value")
+    await user.tab()
+    expect(onGeneratePreview).toHaveBeenCalled()
+  })
+
   it("emits an update when the quotedTextSecond input is changed", async () => {
     const user = userEvent.setup()
     const onUpdateQuotedTextSecond = vi.fn()
+    const onGeneratePreview = vi.fn()
 
     const props = {
       id: "risModForm",
@@ -221,6 +254,7 @@ describe("RisModForm", () => {
       destinationHref,
       quotedTextSecond,
       "onUpdate:quotedTextSecond": onUpdateQuotedTextSecond,
+      "onGenerate-preview": onGeneratePreview,
     }
 
     render(RisModForm, {
@@ -239,5 +273,84 @@ describe("RisModForm", () => {
     expect(onUpdateQuotedTextSecond).toHaveBeenCalledWith(
       expect.stringMatching(`${quotedTextSecond}new-value`),
     )
+
+    await user.tab()
+    expect(onGeneratePreview).toHaveBeenCalled()
+  })
+
+  it("emits a generate preview event when the quotedTextSecond input is changed and then loses focus", async () => {
+    const user = userEvent.setup()
+    const onGeneratePreview = vi.fn()
+
+    const props = {
+      id: "risModForm",
+      textualModType,
+      timeBoundaries,
+      destinationHref,
+      quotedTextSecond,
+      "onGenerate-preview": onGeneratePreview,
+    }
+
+    render(RisModForm, {
+      props,
+    })
+
+    const quotedTextSecondElement = screen.getByRole("textbox", {
+      name: "Neuer Text Inhalt",
+    })
+
+    await user.type(quotedTextSecondElement, "new-value")
+    await user.tab()
+    expect(onGeneratePreview).toHaveBeenCalled()
+  })
+
+  it("emits generate-preview when the preview button is clicked", async () => {
+    const user = userEvent.setup()
+    const onGeneratePreview = vi.fn()
+
+    render(RisModForm, {
+      props: {
+        id: "risModForm",
+        textualModType,
+        timeBoundaries,
+        destinationHref,
+        quotedTextSecond,
+        "onGenerate-preview": onGeneratePreview,
+      },
+    })
+
+    const previewButton = screen.getByRole("button", {
+      name: "Vorschau",
+    })
+    expect(previewButton).toBeInTheDocument()
+
+    await user.click(previewButton)
+
+    expect(onGeneratePreview).toHaveBeenCalled()
+  })
+
+  it("emits update-mod when the save button is clicked", async () => {
+    const user = userEvent.setup()
+    const onUpdateMod = vi.fn()
+
+    render(RisModForm, {
+      props: {
+        id: "risModForm",
+        textualModType,
+        timeBoundaries,
+        destinationHref,
+        quotedTextSecond,
+        "onUpdate-mod": onUpdateMod,
+      },
+    })
+
+    const saveButton = screen.getByRole("button", {
+      name: "Speichern",
+    })
+    expect(saveButton).toBeInTheDocument()
+
+    await user.click(saveButton)
+
+    expect(onUpdateMod).toHaveBeenCalled()
   })
 })

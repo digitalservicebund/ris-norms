@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/vue"
-import { describe, expect, test } from "vitest"
+import { beforeAll, describe, expect, test, vi } from "vitest"
 import { nextTick } from "vue"
 import RisCodeEditor from "./RisCodeEditor.vue"
 import { EditorView } from "codemirror"
@@ -8,6 +8,26 @@ describe("RisCodeEditor", () => {
   // We can't reliably test user interactions with the component in a unit test as parts of codemirror that get
   // called on interactions require a real browser. We therefore are creating some transactions on codemirror directly
   // to test the interactions between our component and codemirror.
+
+  beforeAll(() => {
+    const consoleError = console.error
+    vi.spyOn(console, "error").mockImplementation(
+      (...args: Parameters<typeof consoleError>) => {
+        // Codemirror does not fully work in our unit test environment (as it's not a real browser) and therefore throws
+        // an error. We want to hide this error to not cause confusion. This error does not impact the unit tests
+        // written in this file.
+        if (
+          args.length > 0 &&
+          args[0] instanceof Error &&
+          args[0].stack?.includes("textRange(...).getClientRects")
+        ) {
+          return
+        }
+
+        consoleError(...args)
+      },
+    )
+  })
 
   test("renders initial content", async () => {
     render(RisCodeEditor, {

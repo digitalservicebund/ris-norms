@@ -1,13 +1,17 @@
-FROM node:20.13.1 as frontend
+FROM node:20.15.0 AS frontend
 
 WORKDIR /frontend
 COPY frontend .
 RUN npm ci
 RUN npm run-script build
 
-FROM gradle:8.7-jdk21 as backend
+FROM gradle:8.8-jdk21 AS backend
+ARG SENTRY_AUTH_TOKEN
+ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
+
 WORKDIR /backend
 COPY backend .
+
 RUN mkdir -p src/main/resources/static
 COPY --from=frontend /frontend/dist src/main/resources/static
 RUN ./gradlew build --profile -x integrationTest -x test -x spotlessMisc

@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
-import static de.bund.digitalservice.ris.norms.utils.EliBuilder.buildEli;
 import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
@@ -12,11 +11,11 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementB
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
+import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,13 +68,7 @@ public class AnnouncementController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
+   * @param eli Eli of the request
    * @return A {@link ResponseEntity} containing the retrieved release.
    *     <p>Returns HTTP 200 (OK) and the release if found.
    *     <p>Returns HTTP 404 (Not Found) if no release is found.
@@ -84,23 +77,13 @@ public class AnnouncementController {
       path =
           "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ReleaseResponseSchema> getRelease(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
-      @PathVariable final String subtype) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
+  public ResponseEntity<ReleaseResponseSchema> getRelease(final Eli eli) {
     var affectedNorms =
         loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-            new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli));
+            new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue()));
 
     return loadAnnouncementByNormEliUseCase
-        .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(eli))
+        .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(eli.getValue()))
         .map(announcement -> ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms))
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
@@ -113,13 +96,7 @@ public class AnnouncementController {
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param agent DE: "Verkündungsblatt"
-   * @param year DE "Verkündungsjahr"
-   * @param naturalIdentifier DE: "Seitenzahl / Verkündungsnummer"
-   * @param pointInTime DE: "Versionsdatum"
-   * @param version DE: "Versionsnummer"
-   * @param language DE: "Sprache"
-   * @param subtype DE: "Dokumentenart"
+   * @param eli Eli of the request
    * @return A {@link ResponseEntity} containing the created release.
    *     <p>Returns HTTP 200 (OK) and the release was successful.
    *     <p>Returns HTTP 404 (Not Found) if no {@link Announcement} is found.
@@ -128,23 +105,14 @@ public class AnnouncementController {
       path =
           "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
       produces = {APPLICATION_JSON_VALUE})
-  public ResponseEntity<ReleaseResponseSchema> putRelease(
-      @PathVariable final String agent,
-      @PathVariable final String year,
-      @PathVariable final String naturalIdentifier,
-      @PathVariable final String pointInTime,
-      @PathVariable final String version,
-      @PathVariable final String language,
-      @PathVariable final String subtype) {
-    final String eli =
-        buildEli(agent, year, naturalIdentifier, pointInTime, version, language, subtype);
-
+  public ResponseEntity<ReleaseResponseSchema> putRelease(final Eli eli) {
     var announcementOptional =
-        releaseAnnouncementUseCase.releaseAnnouncement(new ReleaseAnnouncementUseCase.Query(eli));
+        releaseAnnouncementUseCase.releaseAnnouncement(
+            new ReleaseAnnouncementUseCase.Query(eli.getValue()));
 
     var affectedNorms =
         loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-            new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli));
+            new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue()));
 
     return announcementOptional
         .map(announcement -> ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms))

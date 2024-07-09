@@ -15,6 +15,19 @@
                     <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a"
                                   date="1964-08-05" name="verkuendungsfassung"/>
                 </akn:FRBRWork>
+                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
+                    <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                                  GUID="b82cc174-8fff-43bf-a434-5646de09e807"
+                                  value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"/>
+                    <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
+                                   GUID="a1e5c767-7742-4edd-a0ca-52318cb589aa"
+                                   name="previous-version-id"
+                                   value="b82cc174-8fff-43bf-a434-5646de09bbbb"/>
+                    <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
+                                   GUID="a1e5c767-7742-4edd-a0ca-52318cb555ba"
+                                   name="aktuelle-version-id"
+                                   value="8de2c22c-d706-498a-9d96-930d7a03d224"/>
+                </akn:FRBRExpression>
             </akn:identification>
             <akn:lifecycle eId="meta-1_lebzykl-1"
                            GUID="f551699c-7848-4a0d-ab11-1ef44f309504"
@@ -69,7 +82,7 @@
                                     href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
                         <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1"
                                          GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd"
-                                         href="#hauptteil-1_para-20_abs-1/100-126"/>
+                                         href="#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"/>
                         <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1"
                                    GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb"
                                    period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>

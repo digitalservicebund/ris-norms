@@ -1,13 +1,13 @@
+import RisTextInput from "@/components/controls/RisTextInput.vue"
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, test } from "vitest"
-import RisTextInput from "@/components/controls/RisTextInput.vue"
 
 function renderComponent(options?: {
   modelValue?: string
   placeholder?: string
   readOnly?: boolean
-  size?: string
+  size?: InstanceType<typeof RisTextInput>["$props"]["size"]
   label?: string
 }) {
   const user = userEvent.setup()
@@ -49,17 +49,25 @@ describe("TextInput", () => {
     expect(emitted("update:modelValue")).toEqual([["a"]])
   })
 
+  test("emits blur event when input loses focus", async () => {
+    const { emitted } = renderComponent()
+    const input = screen.getByRole("textbox")
+    await userEvent.type(input, "a")
+    await userEvent.tab()
+    expect(emitted("blur")).toBeTruthy()
+  })
+
   test("renders a read-only input", () => {
     renderComponent({ readOnly: true })
     const input = screen.getByRole("textbox")
     expect(input).toHaveAttribute("readonly")
   })
 
-  test("renders the regular variant by default", () => {
+  test("renders the small variant by default", () => {
     renderComponent()
     const input = screen.getByRole("textbox")
     expect(input).not.toHaveClass("ds-input-medium")
-    expect(input).not.toHaveClass("ds-input-small")
+    expect(input).toHaveClass("ds-input-small")
   })
 
   test("renders the regular variant", () => {
