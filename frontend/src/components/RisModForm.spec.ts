@@ -140,7 +140,7 @@ describe("RisModForm", () => {
       name: "Zeitgrenze",
     })
     expect(timeBoundariesElement).toBeInTheDocument()
-    expect(timeBoundariesElement).toHaveDisplayValue(["1.1.2025"])
+    expect(timeBoundariesElement).toHaveDisplayValue(["01.01.2025"])
 
     const timeBoundaryOptionElements = screen.getAllByRole(
       "option",

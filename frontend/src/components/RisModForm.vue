@@ -41,7 +41,11 @@ const quotedTextSecondModel = defineModel<string | undefined>(
 const timeBoundaries = computed(() => {
   return [
     ...props.timeBoundaries.map((boundary) => ({
-      label: new Date(boundary.date).toLocaleDateString("de"),
+      label: new Date(boundary.date).toLocaleDateString("de", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
       value: boundary.date,
     })),
     { label: "Keine Angabe", value: "no_choice" },
