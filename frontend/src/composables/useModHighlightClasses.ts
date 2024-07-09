@@ -1,8 +1,11 @@
 import { getModEIds, getTimeBoundaryDate } from "@/services/ldmldeModService"
 import { computed, ComputedRef, MaybeRefOrGetter, toValue } from "vue"
 import sortBy from "lodash.sortby"
-import uniqWith from "lodash.uniqwith"
-import isEqual from "lodash.isequal"
+import {
+  getTemporalGroupDate,
+  getTemporalGroupEId,
+  getTemporalGroupNodes,
+} from "@/services/ldmldeTemporalGroupService"
 
 /**
  * Provides the classes for highlighting the akn:mod elements of the given document.
@@ -39,18 +42,17 @@ export function useModHighlightClasses(
     }))
   })
 
-  const timeBoundariesOrderedByDate: ComputedRef<
-    ({ date: string; temporalGroupEid: string } | null)[]
-  > = computed(() =>
-    sortBy(
-      uniqWith(
-        modsWithTimeBoundaries.value.map(({ timeBoundary }) => timeBoundary),
-        isEqual,
-      ),
-      (timeBoundary) => timeBoundary?.date,
-      (timeBoundary) => timeBoundary?.temporalGroupEid,
-    ),
-  )
+  const orderedTemporalGroupEIds = computed(() => {
+    const doc = toValue(normDocument)
+
+    if (!doc) {
+      return []
+    }
+
+    return sortBy(getTemporalGroupNodes(doc), getTemporalGroupDate).map(
+      getTemporalGroupEId,
+    )
+  })
 
   /**
    * Find the color that should be used for the given time boundary.
@@ -65,12 +67,12 @@ export function useModHighlightClasses(
       temporalGroupEid: string
     } | null,
   ) {
-    const timeBoundaryIndex = timeBoundariesOrderedByDate.value.findIndex(
-      (a) => a?.temporalGroupEid === timeBoundary?.temporalGroupEid,
+    const temporalGroupIndex = orderedTemporalGroupEIds.value.findIndex(
+      (temporalGroupEId) => temporalGroupEId === timeBoundary?.temporalGroupEid,
     )
 
-    return timeBoundaryIndex !== -1 && timeBoundaryIndex < 10
-      ? `${timeBoundaryIndex + 1}`
+    return temporalGroupIndex !== -1 && temporalGroupIndex < 10
+      ? `${temporalGroupIndex + 1}`
       : "default"
   }
 

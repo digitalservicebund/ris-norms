@@ -5,8 +5,7 @@ import {
   getNodeByEid,
 } from "@/services/ldmldeService"
 import { getForcePeriod } from "@/services/ldmldeTextualModService"
-import { getStartEventRefEid } from "@/services/ldmldeTemporalGroupService"
-import { getEventRefDate } from "@/services/ldmldeEventRefService"
+import { getTemporalGroupDate } from "@/services/ldmldeTemporalGroupService"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
@@ -64,13 +63,7 @@ export function getTimeBoundaryDate(xml: Document, aknModEid: string) {
   const temporalGroupNode = getNodeByEid(xml, temporalGroupEid)
   if (!temporalGroupNode) return null
 
-  const eventRefEid = getStartEventRefEid(temporalGroupNode)
-  if (!eventRefEid) return null
-
-  const eventRefNode = getNodeByEid(xml, eventRefEid)
-  if (!eventRefNode) return null
-
-  const date = getEventRefDate(eventRefNode)
+  const date = getTemporalGroupDate(temporalGroupNode)
   if (!date) return null
 
   return { date, temporalGroupEid }

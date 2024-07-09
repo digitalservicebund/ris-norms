@@ -9,7 +9,6 @@ describe("useModEidSelection", () => {
   test("if there are no mods no classes are returned", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getModEIds: vi.fn().mockReturnValue([]),
-      getTimeBoundaryDate: vi.fn(),
     }))
 
     const { useModHighlightClasses } = await import("./useModHighlightClasses")
@@ -21,6 +20,7 @@ describe("useModEidSelection", () => {
   test("mods get classes in order of dates (oldest gets the first color)", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getModEIds: vi.fn().mockReturnValue(["eid-1", "eid-2"]),
+      getTemporalGroupNodes: vi.fn().mockReturnValue(["node-1", "node-2"]),
       getTimeBoundaryDate: vi
         .fn()
         .mockReturnValueOnce({
@@ -31,6 +31,14 @@ describe("useModEidSelection", () => {
           date: "2021-01-01",
           temporalGroupEid: "temporal-group-eid-2",
         }),
+      getTemporalGroupDate: vi
+        .fn()
+        .mockReturnValueOnce("2023-01-01")
+        .mockReturnValueOnce("2021-01-01"),
+      getTemporalGroupEId: vi
+        .fn()
+        .mockReturnValueOnce("temporal-group-eid-2")
+        .mockReturnValueOnce("temporal-group-eid-1"),
     }))
 
     const { useModHighlightClasses } = await import("./useModHighlightClasses")
@@ -75,6 +83,44 @@ describe("useModEidSelection", () => {
           "eid-11",
           "eid-12",
         ]),
+      getTemporalGroupNodes: vi
+        .fn()
+        .mockReturnValue([
+          "node-1",
+          "node-2",
+          "node-3",
+          "node-4",
+          "node-5",
+          "node-6",
+          "node-7",
+          "node-8",
+          "node-9",
+          "node-10",
+        ]),
+      getTemporalGroupDate: vi
+        .fn()
+        .mockReturnValueOnce("2021-01-01")
+        .mockReturnValueOnce("2021-01-02")
+        .mockReturnValueOnce("2021-01-03")
+        .mockReturnValueOnce("2021-01-04")
+        .mockReturnValueOnce("2021-01-05")
+        .mockReturnValueOnce("2021-01-06")
+        .mockReturnValueOnce("2021-01-07")
+        .mockReturnValueOnce("2021-01-08")
+        .mockReturnValueOnce("2021-01-09")
+        .mockReturnValueOnce("2021-01-10"),
+      getTemporalGroupEId: vi
+        .fn()
+        .mockReturnValueOnce("temporal-group-eid-1")
+        .mockReturnValueOnce("temporal-group-eid-2")
+        .mockReturnValueOnce("temporal-group-eid-3")
+        .mockReturnValueOnce("temporal-group-eid-4")
+        .mockReturnValueOnce("temporal-group-eid-5")
+        .mockReturnValueOnce("temporal-group-eid-6")
+        .mockReturnValueOnce("temporal-group-eid-7")
+        .mockReturnValueOnce("temporal-group-eid-8")
+        .mockReturnValueOnce("temporal-group-eid-9")
+        .mockReturnValueOnce("temporal-group-eid-10"),
       getTimeBoundaryDate: vi
         .fn()
         .mockReturnValueOnce({
@@ -161,6 +207,9 @@ describe("useModEidSelection", () => {
           temporalGroupEid: "temporal-group-eid-1",
         })
         .mockReturnValueOnce(null),
+      getTemporalGroupNodes: vi.fn().mockReturnValue(["node-1"]),
+      getTemporalGroupDate: vi.fn().mockReturnValueOnce("2023-01-01"),
+      getTemporalGroupEId: vi.fn().mockReturnValueOnce("temporal-group-eid-1"),
     }))
 
     const { useModHighlightClasses } = await import("./useModHighlightClasses")
@@ -179,9 +228,9 @@ describe("useModEidSelection", () => {
     expect(classes.value["eid-2"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-2-default`,
-      `hover:bg-highlight-mod-2-hover`,
-      `focus:bg-highlight-mod-2-hover`,
+      `bg-highlight-mod-default-default`,
+      `hover:bg-highlight-mod-default-hover`,
+      `focus:bg-highlight-mod-default-hover`,
       "border-dotted",
       "border-gray-900",
     ])
@@ -204,6 +253,19 @@ describe("useModEidSelection", () => {
           date: "2022-01-01",
           temporalGroupEid: "temporal-group-eid-3",
         }),
+      getTemporalGroupNodes: vi
+        .fn()
+        .mockReturnValue(["node-1", "node-2", "node-3"]),
+      getTemporalGroupDate: vi
+        .fn()
+        .mockReturnValueOnce("2023-01-01")
+        .mockReturnValueOnce("2023-01-01")
+        .mockReturnValueOnce("2022-01-01"),
+      getTemporalGroupEId: vi
+        .fn()
+        .mockReturnValueOnce("temporal-group-eid-3")
+        .mockReturnValueOnce("temporal-group-eid-1")
+        .mockReturnValueOnce("temporal-group-eid-2"),
     }))
 
     const { useModHighlightClasses } = await import("./useModHighlightClasses")
@@ -256,6 +318,15 @@ describe("useModEidSelection", () => {
           date: "2022-01-01",
           temporalGroupEid: "temporal-group-eid-2",
         }),
+      getTemporalGroupNodes: vi.fn().mockReturnValue(["node-1", "node-2"]),
+      getTemporalGroupDate: vi
+        .fn()
+        .mockReturnValueOnce("2023-01-01")
+        .mockReturnValueOnce("2022-01-01"),
+      getTemporalGroupEId: vi
+        .fn()
+        .mockReturnValueOnce("temporal-group-eid-2")
+        .mockReturnValueOnce("temporal-group-eid-1"),
     }))
 
     const { useModHighlightClasses } = await import("./useModHighlightClasses")
@@ -308,6 +379,15 @@ describe("useModEidSelection", () => {
           date: "2022-01-01",
           temporalGroupEid: "temporal-group-eid-2",
         }),
+      getTemporalGroupNodes: vi.fn().mockReturnValue(["node-1", "node-2"]),
+      getTemporalGroupDate: vi
+        .fn()
+        .mockReturnValueOnce("2023-01-01")
+        .mockReturnValueOnce("2022-01-01"),
+      getTemporalGroupEId: vi
+        .fn()
+        .mockReturnValueOnce("temporal-group-eid-2")
+        .mockReturnValueOnce("temporal-group-eid-1"),
     }))
 
     const { useModHighlightClasses } = await import("./useModHighlightClasses")
