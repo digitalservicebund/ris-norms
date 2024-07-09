@@ -1,4 +1,4 @@
 sentry:
   environment: staging
-  traces-sample-rate: 0.01
+  traces-sample-rate: 1.0
   max-request-body-size: always
