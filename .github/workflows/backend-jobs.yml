@@ -11,6 +11,9 @@ on:
         required: true
         type: string
 
+env:
+  SPRING_PROFILES_ACTIVE: testing
+
 jobs:
   validate-gradle-wrapper-and-setup-gradle:
     runs-on: ubuntu-latest
