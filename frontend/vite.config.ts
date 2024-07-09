@@ -22,8 +22,8 @@ export default defineConfig({
     !isTest &&
       sentryVitePlugin({
         authToken: process.env.SENTRY_AUTH_TOKEN,
-        org: "your-organization",
-        project: "your-project",
+        org: "digitalservice",
+        project: "ris-norms",
         telemetry: process.env.VITEST !== "true",
       }),
   ].filter(Boolean),

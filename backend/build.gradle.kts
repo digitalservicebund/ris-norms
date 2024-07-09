@@ -218,7 +218,7 @@ sentry {
     includeSourceContext = false
 
     org = "digitalservice"
-    projectName = "ris-norms-backend"
+    projectName = "ris-norms"
     debug.set(true)
     authToken = System.getenv("SENTRY_AUTH_TOKEN")
 }
