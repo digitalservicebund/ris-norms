@@ -12,7 +12,7 @@ const app = createApp(App)
 if (import.meta.env.E2E_TESTS_RUNNING !== "true") {
   Sentry.init({
     app,
-    dsn: import.meta.env.SENTRY_DSN,
+    dsn: "https://bc002a52fd187905497284bed2d771c1@o1248831.ingest.us.sentry.io/4507543284613120",
     initialScope: {
       tags: { source: "frontend" },
     },
