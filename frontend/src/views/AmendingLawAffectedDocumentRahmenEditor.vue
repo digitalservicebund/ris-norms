@@ -174,6 +174,12 @@ async function convertSelectionToRef({
     return
   }
 
+  console.log(eid)
+
+  if (!eid.includes("hauptteil") || !eid.includes("text")) {
+    return
+  }
+
   const doc = xmlStringToDocument(xml.value)
   const node = getNodeByEid(doc, eid)
 
