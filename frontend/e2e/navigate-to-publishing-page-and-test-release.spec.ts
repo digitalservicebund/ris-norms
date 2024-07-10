@@ -1,5 +1,14 @@
 import { test, expect, Page } from "@playwright/test"
 import { readFileSync } from "fs"
+import resetDatabase from "@e2e/database/resetDatabase"
+
+test.beforeAll(async () => {
+  await resetDatabase()
+})
+
+test.afterAll(async () => {
+  await resetDatabase()
+})
 
 test.describe("Publishing flow for an amending law", () => {
   async function verifyPublicationTime(
