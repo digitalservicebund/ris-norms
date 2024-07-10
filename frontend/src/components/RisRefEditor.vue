@@ -1,27 +1,77 @@
 <script setup lang="ts">
-import { computed } from "vue"
+import { ref, watch } from "vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
 
 const aknRef = defineModel<Element>({ required: true })
 
-const type = computed({
-  get: () => aknRef.value.getAttribute("type") ?? "Typ",
-  set: (newValue) => aknRef.value.setAttribute("type", newValue ?? ""),
+const type = ref("Typ")
+watch(type, () => {
+  aknRef.value.setAttribute("type", type.value)
 })
 
-const bezugsnorm = computed({
-  get: () => aknRef.value.getAttribute("bezugsnorm"),
-  set: (newValue) => aknRef.value.setAttribute("bezugsnorm", newValue ?? ""),
+const bezugsnorm = ref("")
+watch(bezugsnorm, () => {
+  aknRef.value.setAttribute("bezugsnorm", bezugsnorm.value)
 })
 
-const fassung = computed({
-  get: () => aknRef.value.getAttribute("fassung"),
-  set: (newValue) => aknRef.value.setAttribute("fassung", newValue ?? ""),
+const fassung = ref("")
+watch(fassung, () => {
+  aknRef.value.setAttribute("fassung", fassung.value)
 })
+
+watch(
+  aknRef,
+  () => {
+    type.value = aknRef.value.getAttribute("type") ?? "Typ"
+    bezugsnorm.value = aknRef.value.getAttribute("bezugsnorm") ?? ""
+    fassung.value = aknRef.value.getAttribute("fassung") ?? ""
+  },
+  { immediate: true },
+)
+
+async function handleCopy(e: ClipboardEvent) {
+  if (document.getSelection()?.type === "Range") {
+    return
+  }
+
+  e.preventDefault()
+
+  await navigator.clipboard.write([
+    new ClipboardItem({
+      "text/plain": new Blob(
+        [
+          JSON.stringify({
+            type: type.value,
+            bezugsnorm: bezugsnorm.value,
+            fassung: fassung.value,
+          }),
+        ],
+        { type: "text/plain" },
+      ),
+    }),
+  ])
+}
+
+async function handlePaste(e: ClipboardEvent) {
+  console.log(e)
+  const clipboardData = e.clipboardData?.getData("text/plain")
+
+  if (!clipboardData || !clipboardData.startsWith("{")) {
+    return
+  }
+
+  e.preventDefault()
+
+  const data = JSON.parse(clipboardData)
+
+  type.value = data.type
+  bezugsnorm.value = data.bezugsnorm
+  fassung.value = data.fassung
+}
 </script>
 
 <template>
-  <div>
+  <div @copy="handleCopy" @paste="handlePaste">
     <!-- eslint-disable vuejs-accessibility/form-control-has-label -->
     <select v-model="type" class="ds-select ds-select-small">
       <option>Zitierung</option>

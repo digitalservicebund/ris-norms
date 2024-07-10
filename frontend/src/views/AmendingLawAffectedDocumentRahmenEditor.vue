@@ -65,20 +65,26 @@ watch(savedData, (newData) => {
  * XML + HTML preview                                 *
  * -------------------------------------------------- */
 
-const newXml = ref("")
+const currentXml = ref("")
 const {
   data: xml,
   isFetching: xmlIsLoading,
   error: xmlError,
   execute: reloadXml,
   update: { execute: updateXml },
-} = useNormXml(affectedDocumentEli, newXml)
+} = useNormXml(affectedDocumentEli, currentXml)
+
+watch(xml, () => {
+  if (xml.value) {
+    currentXml.value = xml.value
+  }
+})
 
 const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useNormRender(xml, false, timeBoundaryAsDate)
+} = useNormRender(currentXml, false, timeBoundaryAsDate)
 
 function lengthWithoutWhitespace(str: string): number {
   return str.replaceAll(/\s/g, "").length
@@ -170,18 +176,15 @@ async function convertSelectionToRef({
   start: number
   end: number
 }): Promise<Element | void> {
-  if (!xml.value) {
+  if (!doc.value) {
     return
   }
-
-  console.log(eid)
 
   if (!eid.includes("hauptteil") || !eid.includes("text")) {
     return
   }
 
-  const doc = xmlStringToDocument(xml.value)
-  const node = getNodeByEid(doc, eid)
+  const node = getNodeByEid(doc.value, eid)
 
   if (!node) {
     return
@@ -202,21 +205,20 @@ async function convertSelectionToRef({
   range.setStart(childNodeForRange, startWithWhitespace)
   range.setEnd(childNodeForRange, endWithWhitespace)
 
-  const refElement: Element = doc.createElement("akn:ref")
+  const refElement: Element = doc.value.createElement("akn:ref")
   refElement.setAttribute("eId", Math.random().toString().replace(".", "-"))
   refElement.setAttribute("type", "Zitierung")
 
   range.surroundContents(refElement)
 
-  newXml.value = xmlNodeToString(doc)
-  await updateXml()
+  updateCurrentXml()
   return refElement
 }
 
 const doc = computed(() => {
-  if (!xml.value) return
+  if (!currentXml.value) return
 
-  return xmlStringToDocument(xml.value)
+  return xmlStringToDocument(currentXml.value)
 })
 
 const refs = computed(() => {
@@ -238,9 +240,15 @@ async function handleSelect(
   selectAknRef(getEid(aknRef))
 }
 
+function updateCurrentXml() {
+  if (doc.value) {
+    currentXml.value = xmlNodeToString(doc.value)
+  }
+}
+
 async function handleSave() {
   if (doc.value) {
-    newXml.value = xmlNodeToString(doc.value)
+    currentXml.value = xmlNodeToString(doc.value)
     await updateXml()
   }
 }
@@ -358,11 +366,12 @@ function handleAknRefClick({ eid }: { eid: string }) {
                   'border border-2 border-blue-800':
                     selectedRef == getEid(aknRef),
                 }"
-                @change="handleSave"
                 @focusin="selectAknRef(getEid(aknRef))"
               >
               </RisRefEditor>
             </div>
+
+            <RisTextButton label="Speichern" @click="updateXml" />
           </template>
 
           <template #xml>
@@ -378,7 +387,7 @@ function handleAknRefClick({ eid }: { eid: string }) {
 
             <RisCodeEditor
               v-else
-              :model-value="xml ?? ''"
+              :model-value="currentXml ?? ''"
               :readonly="true"
               class="flex-grow"
             />
