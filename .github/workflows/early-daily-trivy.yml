@@ -16,20 +16,22 @@ jobs:
   reset-trivy-cache:
     runs-on: ubuntu-latest
     steps:
-      - name: Remove all caches and database of the trivy scanner
-        uses: aquasecurity/trivy-action@7c2007bcb556501da015201bcba5aa14069b74e2
-        env:
-          TRIVY_RESET: true
-        with:
-          scan-type: "image"
+      # TODO with latest release 0.24.0 there is no environment variable for resetting cache anymore
+      # GH issue: https://github.com/aquasecurity/trivy-action/issues/372
+#      - name: Remove all caches and database of the trivy scanner
+#        uses: aquasecurity/trivy-action@d9cd5b1c23aaf8cb31bb09141028215828364bbb
+#        env:
+#          TRIVY_RESET: true
+#        with:
+#          scan-type: "image"
       - name: Download trivy vulnerabilities DB
-        uses: aquasecurity/trivy-action@7c2007bcb556501da015201bcba5aa14069b74e2
+        uses: aquasecurity/trivy-action@d9cd5b1c23aaf8cb31bb09141028215828364bbb
         env:
           TRIVY_DOWNLOAD_DB_ONLY: true
         with:
           scan-type: "image"
       - name: Download trivy Java index DB
-        uses: aquasecurity/trivy-action@7c2007bcb556501da015201bcba5aa14069b74e2
+        uses: aquasecurity/trivy-action@d9cd5b1c23aaf8cb31bb09141028215828364bbb
         env:
           TRIVY_DOWNLOAD_JAVA_DB_ONLY: true
         with:
@@ -48,7 +50,7 @@ jobs:
       - name: Run Trivy vulnerability file scanner
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
-        uses: aquasecurity/trivy-action@7c2007bcb556501da015201bcba5aa14069b74e2
+        uses: aquasecurity/trivy-action@d9cd5b1c23aaf8cb31bb09141028215828364bbb
         with:
           scan-type: "fs"
           scan-ref: "./frontend"
@@ -89,7 +91,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Trivy vulnerability image scanner
-        uses: aquasecurity/trivy-action@7c2007bcb556501da015201bcba5aa14069b74e2
+        uses: aquasecurity/trivy-action@d9cd5b1c23aaf8cb31bb09141028215828364bbb
         with:
           image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
           format: "sarif"
@@ -110,7 +112,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
           category: trivy-image-scan
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@7c2007bcb556501da015201bcba5aa14069b74e2
+        uses: aquasecurity/trivy-action@d9cd5b1c23aaf8cb31bb09141028215828364bbb
         env:
           TRIVY_USERNAME: ${{ github.actor }}
           TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
