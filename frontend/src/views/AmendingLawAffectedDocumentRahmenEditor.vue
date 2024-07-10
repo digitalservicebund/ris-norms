@@ -198,6 +198,7 @@ async function convertSelectionToRef({
 
   const refElement: Element = doc.createElement("akn:ref")
   refElement.setAttribute("eId", Math.random().toString().replace(".", "-"))
+  refElement.setAttribute("type", "Zitierung")
 
   range.surroundContents(refElement)
 
@@ -344,7 +345,7 @@ function handleAknRefClick({ eid }: { eid: string }) {
 
               <RisRefEditor
                 v-for="aknRef in refs"
-                :key="aknRef.textContent ?? undefined"
+                :key="getEid(aknRef)"
                 :model-value="aknRef"
                 class="col-span-4 grid grid-cols-subgrid"
                 :class="{

@@ -25,8 +25,8 @@ const fassung = computed({
     <!-- eslint-disable vuejs-accessibility/form-control-has-label -->
     <select v-model="type" class="ds-select ds-select-small">
       <option>Zitierung</option>
-      <option>Zitierung 2</option>
-      <option>Zitierung 3</option>
+      <option>Einschränkung von Grundrechten</option>
+      <option>Überleitungsvorschrift</option>
     </select>
     <RisTextInput
       id="bezugsnorm"
