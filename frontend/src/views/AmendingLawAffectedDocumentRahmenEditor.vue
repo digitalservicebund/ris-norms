@@ -80,6 +80,87 @@ const {
   error: renderError,
 } = useNormRender(xml, false, timeBoundaryAsDate)
 
+function lengthWithoutWhitespace(str: string): number {
+  return str.replaceAll(/\s/g, "").length
+}
+
+/**
+ * Converts a position within a string that ignores whitespace to one that includes the whitespace characters
+ */
+function positionWithoutWhitespaceToPosition(
+  str: string,
+  positionWithoutWhitespace: number,
+): number {
+  let charCount = 0
+  let nonWhitespaceCharCount = 0
+  while (nonWhitespaceCharCount < positionWithoutWhitespace) {
+    if (!str[charCount].match(/\s/)) {
+      nonWhitespaceCharCount++
+    }
+    charCount++
+  }
+
+  return charCount
+}
+
+function findChildNodeForRange(
+  node: Node,
+  startWithoutWhitespace: number,
+  endWithoutWhitespace: number,
+): {
+  node: Node | null
+  startWithWhitespace: number
+  endWithWhitespace: number
+} {
+  // find the child node for the range and the total length of the previous siblings
+  const { previousSiblingsTextLength, node: nodeOfRange } = Array.from(
+    node.childNodes,
+  ).reduce(
+    ({ previousSiblingsTextLength, node }, childNode) => {
+      if (node) {
+        return { previousSiblingsTextLength, node }
+      }
+
+      const textContent = childNode.textContent ?? ""
+
+      if (
+        previousSiblingsTextLength <= startWithoutWhitespace &&
+        previousSiblingsTextLength + lengthWithoutWhitespace(textContent) >=
+          endWithoutWhitespace
+      ) {
+        return { previousSiblingsTextLength, node: childNode }
+      }
+
+      return {
+        previousSiblingsTextLength:
+          previousSiblingsTextLength + lengthWithoutWhitespace(textContent),
+        node,
+      }
+    },
+    { previousSiblingsTextLength: 0, node: null as Node | null },
+  )
+
+  const textContent = nodeOfRange?.textContent ?? ""
+
+  let startWithWhitespace = positionWithoutWhitespaceToPosition(
+    textContent,
+    startWithoutWhitespace - previousSiblingsTextLength,
+  )
+  // do not start with a space
+  while (textContent[startWithWhitespace]?.match(/\s/)) {
+    startWithWhitespace++
+  }
+
+  return {
+    node: nodeOfRange,
+    startWithWhitespace,
+    endWithWhitespace: positionWithoutWhitespaceToPosition(
+      textContent,
+      endWithoutWhitespace - previousSiblingsTextLength,
+    ),
+  }
+}
+
 async function convertSelectionToRef({
   eid,
   start,
@@ -100,42 +181,21 @@ async function convertSelectionToRef({
     return
   }
 
-  const range = new Range()
-  range.selectNode(node)
+  const {
+    startWithWhitespace,
+    endWithWhitespace,
+    node: childNodeForRange,
+  } = findChildNodeForRange(node, start, end)
 
-  const textContent = node.textContent
-
-  if (!textContent) {
+  if (!childNodeForRange) {
     return
   }
 
-  console.log(start, end, textContent)
+  const range = new Range()
+  range.selectNode(node)
+  range.setStart(childNodeForRange, startWithWhitespace)
+  range.setEnd(childNodeForRange, endWithWhitespace)
 
-  // find the start position, counting spaces
-  let startWithSpaces = 0
-  for (let i = 0; i < start; ) {
-    if (!textContent[startWithSpaces].match(/\s/)) {
-      i++
-    }
-    startWithSpaces++
-  }
-
-  // do not start with a space
-  while (textContent[startWithSpaces].match(/\s/)) {
-    startWithSpaces++
-  }
-
-  // find the end position, counting spaces
-  let endWithSpaces = 0
-  for (let i = 0; i < end; ) {
-    if (!textContent[endWithSpaces].match(/\s/)) {
-      i++
-    }
-    endWithSpaces++
-  }
-
-  range.setStart(node.childNodes.item(0), startWithSpaces)
-  range.setEnd(node.childNodes.item(0), endWithSpaces)
   const refElement: Element = doc.createElement("akn:ref")
   refElement.setAttribute("eId", Math.random().toString().replace(".", "-"))
 

@@ -217,15 +217,22 @@ const selection = ref<Range | null>()
 const debouncedSelection = refDebounced(selection, 500)
 
 watch(debouncedSelection, () => {
-  const eid =
-    debouncedSelection.value?.startContainer.parentElement?.dataset.eid
-  if (!eid) {
+  const parentElement = debouncedSelection.value?.startContainer.parentElement
+  const eid = parentElement?.dataset.eid
+  if (!parentElement || !eid) {
     emit("select", null)
     return
   }
 
-  const textContent =
-    debouncedSelection.value.startContainer.parentElement?.textContent ?? ""
+  let previousSibling = debouncedSelection.value?.startContainer.previousSibling
+  let previousSiblingsTextLength = 0
+  while (previousSibling) {
+    previousSiblingsTextLength +=
+      previousSibling?.textContent?.replaceAll(/\s/g, "").length ?? 0
+    previousSibling = previousSibling.previousSibling
+  }
+
+  const textContent = debouncedSelection.value.startContainer.textContent ?? ""
 
   const startWithoutSpaces = textContent
     .slice(0, debouncedSelection.value.startOffset)
@@ -236,8 +243,8 @@ watch(debouncedSelection, () => {
 
   emit("select", {
     eid,
-    start: startWithoutSpaces,
-    end: endWithoutSpaces,
+    start: previousSiblingsTextLength + startWithoutSpaces,
+    end: previousSiblingsTextLength + endWithoutSpaces,
   })
 })
 
