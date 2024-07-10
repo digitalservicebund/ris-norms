@@ -102,8 +102,40 @@ async function convertSelectionToRef({
 
   const range = new Range()
   range.selectNode(node)
-  range.setStart(node.childNodes.item(0), start)
-  range.setEnd(node.childNodes.item(0), end)
+
+  const textContent = node.textContent
+
+  if (!textContent) {
+    return
+  }
+
+  console.log(start, end, textContent)
+
+  // find the start position, counting spaces
+  let startWithSpaces = 0
+  for (let i = 0; i < start; ) {
+    if (!textContent[startWithSpaces].match(/\s/)) {
+      i++
+    }
+    startWithSpaces++
+  }
+
+  // do not start with a space
+  while (textContent[startWithSpaces].match(/\s/)) {
+    startWithSpaces++
+  }
+
+  // find the end position, counting spaces
+  let endWithSpaces = 0
+  for (let i = 0; i < end; ) {
+    if (!textContent[endWithSpaces].match(/\s/)) {
+      i++
+    }
+    endWithSpaces++
+  }
+
+  range.setStart(node.childNodes.item(0), startWithSpaces)
+  range.setEnd(node.childNodes.item(0), endWithSpaces)
   const refElement: Element = doc.createElement("akn:ref")
   refElement.setAttribute("eId", Math.random().toString().replace(".", "-"))
 

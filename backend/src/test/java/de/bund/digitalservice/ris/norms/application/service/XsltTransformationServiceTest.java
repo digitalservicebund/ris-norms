@@ -30,7 +30,7 @@ import org.springframework.core.io.Resource;
 class XsltTransformationServiceTest {
   final Resource xsltResource = mock(Resource.class);
   final XsltTransformationService xsltTransformationService =
-      new XsltTransformationService(xsltResource, xsltResource);
+      new XsltTransformationService(xsltResource);
 
   @BeforeAll
   public static void setUp() {
@@ -204,7 +204,7 @@ class XsltTransformationServiceTest {
                 XsltTransformationService.class.getResource("/XSLT/html/legislation.xslt")));
 
     var result =
-        new XsltTransformationService(resource, resource)
+        new XsltTransformationService(resource)
             .transformLegalDocMlToHtml(
                 new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata));
 
@@ -229,7 +229,7 @@ class XsltTransformationServiceTest {
                 XsltTransformationService.class.getResource("/XSLT/html/legislation.xslt")));
 
     var result =
-        new XsltTransformationService(resource, resource)
+        new XsltTransformationService(resource)
             .transformLegalDocMlToHtml(
                 new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata));
 

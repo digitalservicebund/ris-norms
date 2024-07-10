@@ -19,13 +19,9 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
 
   private static final String SHOW_METADATA = "show-metadata";
   private final Resource xslt;
-  private final Resource xslt2;
 
-  public XsltTransformationService(
-      @Value("classpath:XSLT/html/legislation.xslt") Resource xslt,
-      @Value("classpath:XSLT/html/ldmlde.xslt") Resource xslt2) {
+  public XsltTransformationService(@Value("classpath:XSLT/html/legislation.xslt") Resource xslt) {
     this.xslt = xslt;
-    this.xslt2 = xslt2;
   }
 
   /**
@@ -36,21 +32,6 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
    */
   public String transformLegalDocMlToHtml(TransformLegalDocMlToHtmlUseCase.Query query) {
     try {
-      if (query.showMetadata()) {
-
-        Source xsltSource = new StreamSource(xslt2.getInputStream());
-        // Fix the location of the source so xsl:import works
-        xsltSource.setSystemId(xslt2.getURL().toString());
-        Transformer transformer = new TransformerFactoryImpl().newTransformer(xsltSource);
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setParameter("outputMode", "xml");
-
-        StringWriter output = new StringWriter();
-        transformer.transform(
-            new StreamSource(new ByteArrayInputStream(query.xml().getBytes())),
-            new StreamResult(output));
-        return output.toString();
-      }
       Source xsltSource = new StreamSource(xslt.getInputStream());
       // Fix the location of the source so xsl:import works
       xsltSource.setSystemId(xslt.getURL().toString());

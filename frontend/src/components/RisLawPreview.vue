@@ -219,15 +219,26 @@ const debouncedSelection = refDebounced(selection, 500)
 watch(debouncedSelection, () => {
   const eid =
     debouncedSelection.value?.startContainer.parentElement?.dataset.eid
-  if (eid) {
-    emit("select", {
-      eid,
-      start: debouncedSelection.value.startOffset,
-      end: debouncedSelection.value.endOffset,
-    })
-  } else {
+  if (!eid) {
     emit("select", null)
+    return
   }
+
+  const textContent =
+    debouncedSelection.value.startContainer.parentElement?.textContent ?? ""
+
+  const startWithoutSpaces = textContent
+    .slice(0, debouncedSelection.value.startOffset)
+    .replaceAll(/\s/g, "").length
+  const endWithoutSpaces = textContent
+    .slice(0, debouncedSelection.value.endOffset)
+    .replaceAll(/\s/g, "").length
+
+  emit("select", {
+    eid,
+    start: startWithoutSpaces,
+    end: endWithoutSpaces,
+  })
 })
 
 function limitSelectionToSelectableRanges() {
