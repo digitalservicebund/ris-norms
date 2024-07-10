@@ -19,7 +19,7 @@ jobs:
       - name: Remove all caches and database of the trivy scanner
         uses: aquasecurity/trivy-action@d9cd5b1c23aaf8cb31bb09141028215828364bbb
         env:
-          TRIVY_RESET: true
+          TRIVY_CLEAN: "all"
         with:
           scan-type: "image"
       - name: Download trivy vulnerabilities DB
