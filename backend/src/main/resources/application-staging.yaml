@@ -2,6 +2,7 @@ sentry:
   environment: staging
   traces-sample-rate: 1.0
   max-request-body-size: always
+  send-default-pii: on
 
 spring:
   datasource:
