@@ -1,4 +1,4 @@
-name: Pipeline
+name: Manual Branch Deploy to Staging
 
 on:
   # only run this workflow manually
