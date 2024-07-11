@@ -61,20 +61,20 @@ jobs:
 
    push-docker-image-job:
      if: ${{ github.ref == 'refs/heads/main' }}
-      needs:
-      - backend-jobs
-      - create-docker-image-job
-      permissions:
-        security-events: write # upload-sarif
-        packages: write
-        id-token: write
-        contents: read
-      uses: ./.github/workflows/push-docker-image-job.yml
-      with:
-        container-registry: ghcr.io
-        container-image-name: ${{ github.repository }}
-        container-image-version: ${{ github.sha }}
-      secrets: inherit # e.g. sonar token
+     needs:
+       - backend-jobs
+       - create-docker-image-job
+     permissions:
+       security-events: write # upload-sarif
+       packages: write
+       id-token: write
+       contents: read
+     uses: ./.github/workflows/push-docker-image-job.yml
+     with:
+       container-registry: ghcr.io
+       container-image-name: ${{ github.repository }}
+       container-image-version: ${{ github.sha }}
+     secrets: inherit # e.g. sonar token
 
   # ######################
   # # Deploy new versions
