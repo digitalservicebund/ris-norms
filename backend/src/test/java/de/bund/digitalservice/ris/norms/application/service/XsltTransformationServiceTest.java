@@ -268,6 +268,11 @@ class XsltTransformationServiceTest {
             "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
             "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.xml",
             false,
-            "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.html"));
+            "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.html"),
+        Arguments.arguments(
+            "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes",
+            "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes.xml",
+            false,
+            "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes.html"));
   }
 }

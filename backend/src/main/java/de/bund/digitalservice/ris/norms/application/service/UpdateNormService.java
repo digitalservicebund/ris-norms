@@ -160,7 +160,7 @@ public class UpdateNormService
         .ifPresent(
             mod -> {
               mod.setTargetHref(query.destinationHref());
-              mod.setNewText(query.newText());
+              mod.setNewContent(query.newContent());
             });
     return amendingNorm;
   }

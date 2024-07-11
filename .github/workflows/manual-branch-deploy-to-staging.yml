@@ -1,4 +1,4 @@
-name: Pipeline
+name: Manual Branch Deploy to Staging
 
 on:
   # only run this workflow manually
@@ -8,8 +8,32 @@ jobs:
   #############################################
   # jobs dispatched to a separate workflow file
   #############################################
+  check-if-image-exists:
+    runs-on: ubuntu-latest
+    outputs:
+      image-exists: ${{ contains(steps.*.outputs.image-exists, 'true') && 'true' || 'false' }}
+    steps:
+      - name: Log into container registry
+        uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check if image with commit sha already exists
+        run: docker manifest inspect ghcr.io/${{ github.repository }}:${{ github.sha }}
+      - name: Set output if image exists
+        id: set-output-1
+        if: ${{ success() }}
+        run: echo "image-exists=true" >> "$GITHUB_OUTPUT"
+      - name: Set output if image does not exist
+        id: set-output-2
+        if: ${{ failure() }}
+        run: echo "image-exists=false" >> "$GITHUB_OUTPUT"
 
   create-docker-image-job:
+    needs:
+      - check-if-image-exists
+    if: ${{ needs.check-if-image-exists.outputs.image-exists == 'false' }}
     permissions:
       security-events: write # upload-sarif
       packages: write
@@ -40,8 +64,9 @@ jobs:
   deploy-staging-job:
     needs:
       - push-docker-image-job
+      - check-if-image-exists
+    if: ${{ always() && ( needs.check-if-image-exists.outputs.image-exists == 'true' || needs.push-docker-image-job.result == 'success' ) }}
     permissions:
       id-token: write
     uses: ./.github/workflows/deploy-staging-job.yml
     secrets: inherit
-

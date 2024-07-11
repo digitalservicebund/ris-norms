@@ -54,19 +54,19 @@ class ModTest {
   }
 
   @Test
-  void getNewText() {
+  void getNewContent() {
     // when
-    var newText = mod.getNewText();
+    var newContent = mod.getNewContent();
 
     // then
-    assertThat(newText).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
+    assertThat(newContent).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
   }
 
   @Test
-  void setNewText() {
+  void setNewContent() {
     // when
-    mod.setNewText("new text");
-    var eid = mod.getNewText();
+    mod.setNewContent("new text");
+    var eid = mod.getNewContent();
 
     // then
     assertThat(eid).contains("new text");

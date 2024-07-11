@@ -277,7 +277,7 @@ test.describe("Editing a single mod", () => {
       timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-1",
       destinationHref:
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-      newText: "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3",
+      newContent: "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3",
     }
 
     await page.request.put(

@@ -650,7 +650,7 @@ class NormServiceTest {
               + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/"
               + newCharacterRange
               + ".xml";
-      String newText = "new text";
+      String newContent = "new text";
       when(loadNormPort.loadNorm(any()))
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));
@@ -670,7 +670,7 @@ class NormServiceTest {
               "refersTo",
               newTimeBoundaryEid, // <- this will be set
               newDestinationHref, // <- this will be set in ActivMods AND mod
-              newText,
+              newContent,
               false));
 
       // Then
@@ -694,7 +694,7 @@ class NormServiceTest {
               + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/"
               + newCharacterRange
               + ".xml";
-      String newText = "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3";
+      String newContent = "§ 9 Absatz 1 Satz 2, Absatz 2 oder 3";
       when(loadNormPort.loadNorm(any()))
           .thenReturn(Optional.of(amendingNorm))
           .thenReturn(Optional.of(targetNorm));
@@ -713,7 +713,7 @@ class NormServiceTest {
                   "refersTo",
                   newTimeBoundaryEid, // <- this will be set
                   newDestinationHref, // <- this will be set in ActivMods AND mod
-                  newText,
+                  newContent,
                   false));
 
       // Then
@@ -749,7 +749,7 @@ class NormServiceTest {
       final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetHref()).isPresent();
       assertThat(mod.getTargetHref().get().value()).contains(newDestinationHref);
-      assertThat(mod.getNewText()).contains(newText);
+      assertThat(mod.getNewContent()).contains(newContent);
       assertThat(returnedXml.get().targetNormZf0Xml())
           .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }
@@ -879,7 +879,7 @@ class NormServiceTest {
       assertThat(mod.getTargetHref().get().value())
           .contains(
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml");
-      assertThat(mod.getNewText()).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
+      assertThat(mod.getNewContent()).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
       assertThat(result.get().targetNormZf0Xml())
           .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }

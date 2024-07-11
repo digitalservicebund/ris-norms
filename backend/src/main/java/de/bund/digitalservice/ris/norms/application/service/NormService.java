@@ -115,7 +115,7 @@ public class NormService
    * @param eId the eId of the akn:mod
    * @param destinationHref the new destination href of the akn:mod
    * @param timeBoundaryEId the eid of the new time-boundary of the akn:mod
-   * @param newText the new future text of the akn:mod
+   * @param newContent the new future text of the akn:mod
    */
   private void updateModInPlace(
       Norm amendingNorm,
@@ -123,7 +123,7 @@ public class NormService
       String eId,
       String destinationHref,
       String timeBoundaryEId,
-      String newText) {
+      String newContent) {
     var targetNormEli = new Href(destinationHref).getEli();
     if (targetNormEli.isEmpty()) {
       throw new IllegalArgumentException("The destinationHref does not contain a eli");
@@ -132,7 +132,7 @@ public class NormService
     // Update active mods (meta and body) in amending law
     updateNormService.updateActiveModifications(
         new UpdateActiveModificationsUseCase.Query(
-            amendingNorm, eId, destinationHref, timeBoundaryEId, newText));
+            amendingNorm, eId, destinationHref, timeBoundaryEId, newContent));
 
     // Update passiv mods in ZF0
     updateNormService.updatePassiveModifications(
@@ -205,7 +205,7 @@ public class NormService
                   newModData.eId(),
                   mod.getTargetHref().map(Href::value).orElse(null),
                   newModData.timeBoundaryEId(),
-                  mod.getNewText().orElse(null));
+                  mod.getNewContent().orElse(null));
             });
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
@@ -245,7 +245,7 @@ public class NormService
         query.eid(),
         query.destinationHref(),
         query.timeBoundaryEid(),
-        query.newText());
+        query.newContent());
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {

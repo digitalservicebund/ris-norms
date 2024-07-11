@@ -30,7 +30,7 @@ public interface UpdateModUseCase {
    * @param refersTo - the type of the amending command
    * @param timeBoundaryEid - the eId of the temporal group of the time boundary
    * @param destinationHref - the ELI + eid + counting of the target law
-   * @param newText - the new text to replace the old one
+   * @param newContent - the new text to replace the old one
    * @param dryRun - if true the updating is executed but the results are discarded and not saved.
    *     Default: false
    */
@@ -40,7 +40,7 @@ public interface UpdateModUseCase {
       String refersTo,
       String timeBoundaryEid,
       String destinationHref,
-      String newText,
+      String newContent,
       boolean dryRun) {
     public Query(
         String eli,
@@ -48,8 +48,8 @@ public interface UpdateModUseCase {
         String refersTo,
         String timeBoundaryEid,
         String destinationHref,
-        String newText) {
-      this(eli, eid, refersTo, timeBoundaryEid, destinationHref, newText, false);
+        String newContent) {
+      this(eli, eid, refersTo, timeBoundaryEid, destinationHref, newContent, false);
     }
   }
 
