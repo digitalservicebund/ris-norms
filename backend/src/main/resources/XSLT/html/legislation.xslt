@@ -3,12 +3,12 @@
         version="2.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+        xmlns:math="http://www.w3.org/1998/Math/MathML"
         exclude-result-prefixes="#all"
 >
+    <xsl:import href="./legislation-metadata.xslt"/>
 
     <xsl:param name="show-metadata"/>
-
-    <xsl:import href="./legislation-metadata.xslt"/>
 
     <xsl:output method="html" version="5" include-content-type="no" encoding="utf-8" indent="yes"/>
 
@@ -198,12 +198,6 @@
         </xsl:element>
     </xsl:template>
 
-    <!-- Ignore these elements when rendering html -->
-    <xsl:template match="akn:meta"/>
-    <xsl:template match="akn:docStage"/>
-    <xsl:template match="akn:docProponent"/>
-    <xsl:template match="akn:blockContainer[@refersTo='inhaltsuebersicht']"/>
-
     <xsl:template name="attributes">
         <!-- set the class to the ldml.de tag -->
         <xsl:attribute name="class">
@@ -218,6 +212,37 @@
             <xsl:value-of select="."/>
         </xsl:attribute>
     </xsl:template>
+
+    <xsl:template match="akn:citations | akn:citation | akn:recitals | akn:recital | akn:foreign | akn:tblock | akn:toc | akn:tocItem">
+        <div>
+            <xsl:call-template name="attributes"/>
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="akn:book | akn:part | akn:chapter | akn:subchapter | akn:subsection | akn:title | akn:subtitle">
+        <section>
+            <xsl:call-template name="attributes"/>
+            <xsl:apply-templates/>
+        </section>
+    </xsl:template>
+
+    <xsl:template match="akn:documentRef | akn:componentRef">
+        <div>
+            <xsl:call-template name="attributes"/>
+            Ref: <xsl:value-of select="@eli"/>
+        </div>
+    </xsl:template>
+
+    <!-- MathML -->
+    <xsl:template match="math:math">
+        <xsl:copy-of select="."/>
+    </xsl:template>
+
+    <!-- Ignore these elements when rendering html -->
+    <xsl:template match="akn:meta"/>
+    <xsl:template match="akn:docStage"/>
+    <xsl:template match="akn:docProponent"/>
 
     <!--<xsl:template match="text()">-->
     <!--    <xsl:value-of select="normalize-space()"/>-->
