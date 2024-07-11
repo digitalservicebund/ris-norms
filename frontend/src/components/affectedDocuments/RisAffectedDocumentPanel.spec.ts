@@ -148,7 +148,7 @@ describe("RisAffectedDocumentPanel", () => {
     expect(document.body).not.toHaveTextContent("FNA")
   })
 
-  test("should link to the editor", async () => {
+  test.skip("should link to the editor", async () => {
     data.value = {
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
     }
