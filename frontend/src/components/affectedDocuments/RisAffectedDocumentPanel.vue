@@ -38,6 +38,11 @@ const editorUrl = computed<string>(
   () =>
     `/amending-laws/${eliParam.value}/affected-documents/${props.zf0Eli}/edit`,
 )
+
+const textMetadataUrl = computed<string>(
+  () =>
+    `/amending-laws/${eliParam.value}/affected-documents/${props.zf0Eli}/text-metadata`,
+)
 </script>
 
 <template>
@@ -77,6 +82,12 @@ const editorUrl = computed<string>(
         :icon="IcOutlineModeEdit"
         variant="ghost"
         :to="editorUrl"
+      />
+      <RisTextButton
+        label="Verweise bearbeiten"
+        :icon="IcOutlineModeEdit"
+        variant="ghost"
+        :to="textMetadataUrl"
       />
     </div>
   </component>
