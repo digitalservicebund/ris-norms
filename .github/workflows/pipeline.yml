@@ -60,62 +60,34 @@ jobs:
       secrets: inherit # e.g. sonar token
 
    push-docker-image-job:
-      needs:
-      - backend-jobs
-      - create-docker-image-job
-      permissions:
-        security-events: write # upload-sarif
-        packages: write
-        id-token: write
-        contents: read
-      uses: ./.github/workflows/push-docker-image-job.yml
-      with:
-        container-registry: ghcr.io
-        container-image-name: ${{ github.repository }}
-        container-image-version: ${{ github.sha }}
-      secrets: inherit # e.g. sonar token
+     if: ${{ github.ref == 'refs/heads/main' }}
+     needs:
+       - backend-jobs
+       - create-docker-image-job
+     permissions:
+       security-events: write # upload-sarif
+       packages: write
+       id-token: write
+       contents: read
+     uses: ./.github/workflows/push-docker-image-job.yml
+     with:
+       container-registry: ghcr.io
+       container-image-name: ${{ github.repository }}
+       container-image-version: ${{ github.sha }}
+     secrets: inherit # e.g. sonar token
 
   # ######################
   # # Deploy new versions
   # ######################
 
-   deploy-staging:
-     runs-on: ubuntu-latest
+   deploy-staging-job:
      if: ${{ github.ref == 'refs/heads/main' }}
-     concurrency: deploy-staging
-     environment: staging
      needs:
-       - frontend-jobs
-       - backend-jobs
        - push-docker-image-job
-       - e2e-tests
      permissions:
-       id-token: write # Enable OIDC for gitsign
-     steps:
-       - uses: chainguard-dev/actions/setup-gitsign@9d943fc9889a0c0795e3c2bd4b949a9b610ac02e
-       - name: Deploy new images
-         uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
-         with:
-           environment: staging
-           version: ${{ github.sha }}
-           deploying_repo: ris-norms
-           infra_repo: ris-norms-infra
-           deploy_key: ${{ secrets.DEPLOY_KEY }}
-           app: ris-norms-staging
-           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
-           argocd_server: ${{ secrets.ARGOCD_SERVER }}
-       - name: Track deploy
-         uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
-         with:
-           project: ris-norms
-           environment: staging
-           metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
-           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
-       - name: Send status to Slack
-         uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
-         if: ${{ failure() && github.ref == 'refs/heads/main' }}
-         with:
-           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+       id-token: write
+     uses: ./.github/workflows/deploy-staging-job.yml
+     secrets: inherit
 
   # ########################
   # # system test jobs

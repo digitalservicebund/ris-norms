@@ -14,7 +14,6 @@ on:
 jobs:
   push-docker-image:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
     permissions:
       contents: read
       id-token: write # This is used to complete the identity challenge with sigstore/fulcio..

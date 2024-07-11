@@ -1,0 +1,47 @@
+name: Pipeline
+
+on:
+  # only run this workflow manually
+  workflow_dispatch:
+
+jobs:
+  #############################################
+  # jobs dispatched to a separate workflow file
+  #############################################
+
+  create-docker-image-job:
+    permissions:
+      security-events: write # upload-sarif
+      packages: write
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/create-docker-image-job.yml
+    with:
+      container-registry: ghcr.io
+      container-image-name: ${{ github.repository }}
+      container-image-version: ${{ github.sha }}
+    secrets: inherit # e.g. sonar token
+
+  push-docker-image-job:
+    needs:
+      - create-docker-image-job
+    permissions:
+      security-events: write # upload-sarif
+      packages: write
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/push-docker-image-job.yml
+    with:
+      container-registry: ghcr.io
+      container-image-name: ${{ github.repository }}
+      container-image-version: ${{ github.sha }}
+    secrets: inherit # e.g. sonar token
+
+  deploy-staging-job:
+    needs:
+      - push-docker-image-job
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/deploy-staging-job.yml
+    secrets: inherit
+

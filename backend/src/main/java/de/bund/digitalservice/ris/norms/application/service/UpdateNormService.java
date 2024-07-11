@@ -122,7 +122,7 @@ public class UpdateNormService
                             activeModification
                                 .getDestinationHref()
                                 .flatMap(Href::getCharacterRange)
-                                .orElseThrow())
+                                .orElse(null))
                         .buildInternalReference()
                         .value(),
                     activeModification
