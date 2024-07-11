@@ -123,7 +123,7 @@ class ArticleControllerTest {
               .build();
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(loadZf0UseCase.loadZf0(any())).thenReturn(normZf0);
+      when(loadZf0UseCase.loadOrCreateZf0(any())).thenReturn(normZf0);
 
       // When
       mockMvc
@@ -154,7 +154,7 @@ class ArticleControllerTest {
                           argument.eli(),
                           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")));
       verify(loadZf0UseCase, times(1))
-          .loadZf0(argThat(argument -> Objects.equals(argument.amendingLaw(), norm)));
+          .loadOrCreateZf0(argThat(argument -> Objects.equals(argument.amendingLaw(), norm)));
     }
 
     @Test
@@ -339,7 +339,7 @@ class ArticleControllerTest {
               .build();
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(Optional.of(norm));
-      when(loadZf0UseCase.loadZf0(any())).thenReturn(normZf0);
+      when(loadZf0UseCase.loadOrCreateZf0(any())).thenReturn(normZf0);
 
       // When
       mockMvc
@@ -364,7 +364,7 @@ class ArticleControllerTest {
                           argument.eli(),
                           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")));
       verify(loadZf0UseCase, times(1))
-          .loadZf0(argThat(argument -> Objects.equals(argument.amendingLaw(), norm)));
+          .loadOrCreateZf0(argThat(argument -> Objects.equals(argument.amendingLaw(), norm)));
     }
 
     @Test

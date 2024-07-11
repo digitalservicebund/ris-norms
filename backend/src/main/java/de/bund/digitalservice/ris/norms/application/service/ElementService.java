@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
@@ -9,7 +10,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +118,7 @@ public class ElementService
 
   @Override
   public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query)
-      throws UnsupportedElementTypeException, NormNotFoundException {
+      throws UnsupportedElementTypeException {
     // No need to do anything if no types are requested
     if (query.elementType().isEmpty()) return List.of();
 

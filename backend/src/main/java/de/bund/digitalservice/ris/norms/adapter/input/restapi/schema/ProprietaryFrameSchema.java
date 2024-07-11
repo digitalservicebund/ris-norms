@@ -8,16 +8,16 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Data
 @SuperBuilder(toBuilder = true)
-public class ProprietarySchema {
+public class ProprietaryFrameSchema {
   private String fna;
   private String art;
   private String typ;
   private String subtyp;
   private String bezeichnungInVorlage;
   private String artDerNorm;
-  private String normgeber;
+  private String staat;
   private String beschliessendesOrgan;
   private Boolean qualifizierteMehrheit;
-  private String federfuehrung;
+  private String ressort;
   private String organisationsEinheit;
 }

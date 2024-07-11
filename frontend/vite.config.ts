@@ -4,16 +4,29 @@ import { fileURLToPath, URL } from "node:url"
 import icons from "unplugin-icons/vite"
 import { defineConfig } from "vite"
 import { configDefaults } from "vitest/dist/config"
+import { sentryVitePlugin } from "@sentry/vite-plugin"
+
+const isTest = process.env.VITEST === "true"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    sourcemap: true,
+  },
   plugins: [
     vue(),
     icons({
       scale: 1.3333, // ~24px at the current default font size of 18px
       compiler: "vue3",
     }),
-  ],
+    !isTest &&
+      sentryVitePlugin({
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        org: "digitalservice",
+        project: "ris-norms",
+        telemetry: process.env.VITEST !== "true",
+      }),
+  ].filter(Boolean),
   server: {
     proxy: {
       "/api": {
@@ -37,6 +50,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["lcov"],
+      // Changes to this also need to be reflected in the sonar-project.properties
       exclude: [
         // Configuration and generated outputs
         "**/[.]**",

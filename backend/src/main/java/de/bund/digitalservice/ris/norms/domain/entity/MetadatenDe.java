@@ -23,7 +23,7 @@ public class MetadatenDe extends Metadaten<MetadatenDe.Metadata> {
     FNA("./fna"),
     ART("./art"),
     TYP("./typ"),
-    FEDERFUEHRUNG("./federfuehrung/federfuehrend");
+    RESSORT("./federfuehrung/federfuehrend");
 
     private final String xpath;
 

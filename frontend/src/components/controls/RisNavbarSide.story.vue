@@ -52,7 +52,7 @@ function setupApp({ app }: { app: App }) {
 
 const menuItems = ref([
   {
-    label: "Vorgang",
+    label: "Verkündung",
     route: { name: "AmendingLaw" },
     children: [
       { label: "Zeitgrenzen anlegen", route: { name: "TemporalData" } },

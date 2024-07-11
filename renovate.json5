@@ -11,6 +11,7 @@
     "enabled": true,
     "automerge": true
   },
+  "ignoreDeps": ["io.spring.dependency-management"],
   "packageRules": [
     {
       "matchUpdateTypes": [

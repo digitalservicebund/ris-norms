@@ -136,7 +136,7 @@ public class ArticleController {
                                   loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
                           .map(
                               targetLaw ->
-                                  loadZf0UseCase.loadZf0(
+                                  loadZf0UseCase.loadOrCreateZf0(
                                       new LoadZf0UseCase.Query(
                                           optionalNorm.get(), targetLaw, true)))
                           .orElse(null);
@@ -216,7 +216,7 @@ public class ArticleController {
                 eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
             .map(
                 targetLaw ->
-                    loadZf0UseCase.loadZf0(
+                    loadZf0UseCase.loadOrCreateZf0(
                         new LoadZf0UseCase.Query(optionalNorm.get(), targetLaw, true)))
             .orElse(null);
 

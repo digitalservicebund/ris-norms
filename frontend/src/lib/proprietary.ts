@@ -278,7 +278,7 @@ export function udpateArtNorm(
  * -------------------------------------------------- */
 
 /** All possible dropdown values for norm provider */
-export const NormgeberValues = [
+export const StaatValues = [
   "DEU - Bundesrepublik Deutschland",
   "DDR - Deutsche Demokratische Republik",
   "BW - Baden-Württemberg",
@@ -345,8 +345,8 @@ export const BeschliessendesOrganValues = [
  * Federführung                                       *
  * -------------------------------------------------- */
 
-/** All possible values for the Federführung metadatum. */
-export const FederfuehrungValues = [
+/** All possible values for the Ressort metadatum. */
+export const RessortValues = [
   "AA - Auswärtiges Amt",
   "BKAmt - Bundeskanzleramt",
   "BMAS - Bundesministerium für Arbeit und Soziales",

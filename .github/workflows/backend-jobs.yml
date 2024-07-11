@@ -35,6 +35,9 @@ jobs:
       - name: Build backend
         working-directory: ./backend
         run: ./gradlew build --profile -x integrationTest -x test
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Upload build performance report
         uses: actions/upload-artifact@v4
         with:
@@ -58,8 +61,10 @@ jobs:
           distribution: "temurin"
           cache: gradle
       - name: Run unit tests
+        env:
+          SPRING_PROFILES_ACTIVE: testing
         working-directory: ./backend
-        run: ./gradlew test -x integrationTest
+        run: ./gradlew clean test -x integrationTest
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
@@ -78,8 +83,10 @@ jobs:
           distribution: "temurin"
           cache: gradle
       - name: Run integration tests
+        env:
+          SPRING_PROFILES_ACTIVE: testing
         working-directory: ./backend
-        run: ./gradlew integrationTest -x test
+        run: ./gradlew clean integrationTest -x test
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
         if: ${{ failure() && github.ref == 'refs/heads/main' }}

@@ -164,14 +164,29 @@ public class Proprietary {
   }
 
   /**
-   * Returns the ("Normgeber") of the document from the MetadatenDs block at a specific date.
+   * Returns the ("Art der Norm") which can be "SN or ÄN or ÜN" of the document from the MetadatenDs
+   * block for a single element at a specific date.
    *
    * @param date the specific date of the time boundary.
-   * @return "Normgeber" or empty if it doesn't exist.
+   * @param eid the eId of the single element
+   * @return "Art der Norm" or empty if it doesn't exist.
    */
-  public Optional<String> getNormgeber(final LocalDate date) {
+  public Optional<String> getArtDerNorm(final LocalDate date, final String eid) {
     return getMetadatenDs()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.NORMGEBER, date));
+        .flatMap(
+            m -> m.getSingleElementSimpleMetadatum(Einzelelement.Metadata.ART_DER_NORM, eid, date));
+  }
+
+  /**
+   * Returns the ("Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder
+   * Rechtsmacht die Norm trägt") of the document from the MetadatenDs block at a specific date.
+   *
+   * @param date the specific date of the time boundary.
+   * @return "Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder
+   *     Rechtsmacht die Norm trägt" or empty if it doesn't exist.
+   */
+  public Optional<String> getStaat(final LocalDate date) {
+    return getMetadatenDs().flatMap(m -> m.getSimpleMetadatum(MetadatenDs.Metadata.STAAT, date));
   }
 
   /**
@@ -209,9 +224,8 @@ public class Proprietary {
    * @param date the specific date of the time boundary.
    * @return "Beschließendes Organ" or empty if it doesn't exist.
    */
-  public Optional<String> getFederfuehrung(final LocalDate date) {
-    return getMetadatenDe()
-        .flatMap(m -> m.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, date));
+  public Optional<String> getRessort(final LocalDate date) {
+    return getMetadatenDe().flatMap(m -> m.getSimpleMetadatum(MetadatenDe.Metadata.RESSORT, date));
   }
 
   /**

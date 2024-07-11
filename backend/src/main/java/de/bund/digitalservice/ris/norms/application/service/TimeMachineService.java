@@ -1,12 +1,14 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
@@ -46,7 +48,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
     try {
       norm.getMeta();
-    } catch (final MandatoryNodeNotFound e) {
+    } catch (final MandatoryNodeNotFoundException e) {
       return norm;
     }
     norm.getMeta()
@@ -70,18 +72,31 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                     passiveModification
                         .getForcePeriodEid()
                         .flatMap(norm::getStartDateForTemporalGroup)
-                        .orElseThrow()))
+                        .orElseThrow(
+                            () ->
+                                new ValidationException(
+                                    "Did not find a start date for textual mod with eId %s"
+                                        .formatted(passiveModification.getEid())))))
         .flatMap(
             (TextualMod passiveModification) -> {
               var sourceEli =
-                  passiveModification.getSourceHref().flatMap(Href::getEli).orElseThrow();
+                  passiveModification
+                      .getSourceHref()
+                      .flatMap(Href::getEli)
+                      .orElseThrow(
+                          () ->
+                              new ValidationException(
+                                  "Did not find source href for textual mod with eId %s"
+                                      .formatted(passiveModification.getEid())));
 
               Norm amendingLaw;
               if (customNorms.containsKey(sourceEli)) {
                 amendingLaw = customNorms.get(sourceEli);
               } else {
                 amendingLaw =
-                    normService.loadNorm(new LoadNormUseCase.Query(sourceEli)).orElseThrow();
+                    normService
+                        .loadNorm(new LoadNormUseCase.Query(sourceEli))
+                        .orElseThrow(() -> new NormNotFoundException(sourceEli));
               }
 
               var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);

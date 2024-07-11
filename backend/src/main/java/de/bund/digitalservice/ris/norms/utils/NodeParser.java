@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.utils;
 
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public final class NodeParser {
 
   /**
    * Get the value of a mandatory node using an XPath expression on an input node. If node not
-   * found, throws a {@link MandatoryNodeNotFound}
+   * found, throws a {@link MandatoryNodeNotFoundException}
    *
    * @param xPathExpression an XPath expression used for identifying the node that's returned
    * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
@@ -107,7 +107,7 @@ public final class NodeParser {
 
   /**
    * Get single mandatory node using an XPath expression on an input node. If node not found, throws
-   * a {@link MandatoryNodeNotFound}
+   * a {@link MandatoryNodeNotFoundException}
    *
    * @param xPathExpression an XPath expression used for identifying the node that's returned
    * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
@@ -140,7 +140,7 @@ public final class NodeParser {
     return nodes;
   }
 
-  private static MandatoryNodeNotFound throwMandatoryNotFoundException(
+  private static MandatoryNodeNotFoundException throwMandatoryNotFoundException(
       String xPathExpression, Node sourceNode) {
     final Optional<String> optionalEli =
         sourceNode.getOwnerDocument() == null
@@ -153,9 +153,9 @@ public final class NodeParser {
         .map(
             eli ->
                 "#document".equals(nodeName)
-                    ? new MandatoryNodeNotFound(xPathExpression, eli)
-                    : new MandatoryNodeNotFound(xPathExpression, nodeName, eli))
-        .orElseGet(() -> new MandatoryNodeNotFound(xPathExpression));
+                    ? new MandatoryNodeNotFoundException(xPathExpression, eli)
+                    : new MandatoryNodeNotFoundException(xPathExpression, nodeName, eli))
+        .orElseGet(() -> new MandatoryNodeNotFoundException(xPathExpression));
   }
 
   private static Optional<String> getEli(final Document document) {

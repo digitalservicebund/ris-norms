@@ -1,38 +1,38 @@
-import { Proprietary } from "@/types/proprietary"
+import { RahmenProprietary } from "@/types/proprietary"
 import { Locator, Page, expect, test } from "@playwright/test"
 
 async function restoreInitialState(page: Page) {
-  const dataIn1970: Proprietary = {
+  const dataIn2015: RahmenProprietary = {
     fna: "210-5",
     art: "regelungstext",
     typ: "gesetz",
     subtyp: "Rechtsverordnung",
     bezeichnungInVorlage: "Testbezeichnung nach meiner Vorlage",
     artDerNorm: "SN,ÜN",
-    normgeber: "BEO - Berlin (Ost)",
+    staat: "BEO - Berlin (Ost)",
     beschliessendesOrgan: "BMinJ - Bundesministerium der Justiz",
     qualifizierteMehrheit: true,
-    federfuehrung: "BMVg - Bundesministerium der Verteidigung",
+    ressort: "BMVg - Bundesministerium der Verteidigung",
     organisationsEinheit: "Einheit 1",
   }
 
-  const dataIn2023: Proprietary = {
+  const dataIn2023: RahmenProprietary = {
     fna: "310-5",
     art: "regelungstext",
     typ: "gesetz",
     subtyp: "Gesetz im formellen Sinne",
     bezeichnungInVorlage: "Neue Testbezeichnung ab 2023",
     artDerNorm: "ÄN",
-    normgeber: "HA - Hamburg",
+    staat: "HA - Hamburg",
     beschliessendesOrgan: "BMinI - Bundesministerium des Innern",
     qualifizierteMehrheit: false,
-    federfuehrung: "BMI - Bundesministerium des Innern und für Heimat",
+    ressort: "BMI - Bundesministerium des Innern und für Heimat",
     organisationsEinheit: "Einheit 2",
   }
 
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/1970-01-01",
-    { data: dataIn1970 },
+    "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/proprietary/2015-06-01",
+    { data: dataIn2015 },
   )
 
   await page.request.put(
@@ -60,19 +60,19 @@ test.describe("navigate to page", () => {
     )
   })
 
-  test("displays affected document title", async ({ page }) => {
+  test("displays affected document short title", async ({ page }) => {
     // Given
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit",
     )
 
+    const header = page.getByRole("navigation")
+
     // Then
-    await expect(page.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
+    await expect(header.getByText("BGBl. I 2023 Nr. 413")).toBeVisible()
 
     await expect(
-      page.getByText(
-        "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
-      ),
+      header.getByText("Bundesverfassungsschutzgesetz"),
     ).toBeVisible()
   })
 
@@ -116,7 +116,7 @@ test.describe("preview", () => {
   test("shows the preview at different time boundaries", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
@@ -168,7 +168,7 @@ test.describe("XML view", () => {
   test("displays the XML of the target law", async ({ page }) => {
     // Given
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
     )
 
     // When
@@ -189,7 +189,7 @@ test.describe("XML view", () => {
     await restoreInitialState(page)
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
     )
 
     const editorRegion = page.getByRole("region", {
@@ -204,9 +204,7 @@ test.describe("XML view", () => {
     // Updating the FNA as an example for any change happening on the page
     await expect(fnaInput).toHaveValue("210-5")
     await fnaInput.fill("1234-56-78")
-    await editorRegion
-      .getByRole("button", { name: "Metadaten speichern" })
-      .click()
+    await page.getByRole("button", { name: "Speichern" }).click()
 
     // Then
     // Check the content of the XML reload call as we currently don't have a
@@ -231,12 +229,14 @@ test.describe("XML view", () => {
     await page.route(
       /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2023-12-29\/1\/deu\/regelungstext-1\?$/,
       async (request) => {
-        await request.abort()
+        const accept = await request.request().headerValue("Accept")
+        if (accept === "application/xml") await request.abort()
+        else await request.continue()
       },
     )
 
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/1970-01-01",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2015-06-01",
     )
 
     // When
@@ -256,9 +256,7 @@ test.describe("metadata view", () => {
   let sharedPage: Page
 
   async function saveMetadata() {
-    await sharedPage
-      .getByRole("button", { name: "Metadaten speichern" })
-      .click()
+    await sharedPage.getByRole("button", { name: "Speichern" }).click()
     await sharedPage.waitForResponse(/proprietary/)
   }
 
@@ -268,7 +266,7 @@ test.describe("metadata view", () => {
     )
   }
 
-  async function mockPutResponse(data: Proprietary) {
+  async function mockPutResponse(data: RahmenProprietary) {
     await sharedPage.route(/\/proprietary\/2023-12-30/, async (route) => {
       if (route.request().method() === "PUT") {
         const response = await route.fetch()
@@ -301,7 +299,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(fnaInput).toHaveValue("210-5")
@@ -350,7 +348,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
@@ -465,7 +463,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(artSnCheckbox).toBeChecked()
@@ -526,7 +524,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(bezeichnungInput).toHaveValue(
@@ -568,49 +566,49 @@ test.describe("metadata view", () => {
     })
   })
 
-  test.describe("Normgeber", () => {
-    let normgeberDropdown: Locator
+  test.describe("Staat", () => {
+    let staatDropdown: Locator
 
     test.beforeAll(() => {
-      normgeberDropdown = sharedPage.getByRole("combobox", {
-        name: "Normgeber",
+      staatDropdown = sharedPage.getByRole("combobox", {
+        name: "Staat",
       })
     })
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
-      await expect(normgeberDropdown).toHaveValue("BEO - Berlin (Ost)")
+      await expect(staatDropdown).toHaveValue("BEO - Berlin (Ost)")
 
       // When
       await gotoTimeBoundary("2023-12-30")
 
       // Then
-      await expect(normgeberDropdown).toHaveValue("HA - Hamburg")
+      await expect(staatDropdown).toHaveValue("HA - Hamburg")
     })
 
     test("saves changes", async () => {
       // When
-      await normgeberDropdown.selectOption("BE - Berlin")
+      await staatDropdown.selectOption("BE - Berlin")
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(normgeberDropdown).toHaveValue("BE - Berlin")
+      await expect(staatDropdown).toHaveValue("BE - Berlin")
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
-      await mockPutResponse({ normgeber: "SL - Saarland" })
-      await expect(normgeberDropdown).toHaveValue("BE - Berlin")
+      await mockPutResponse({ staat: "SL - Saarland" })
+      await expect(staatDropdown).toHaveValue("BE - Berlin")
 
       // When
       await saveMetadata()
 
       // Then
-      await expect(normgeberDropdown).toHaveValue("SL - Saarland")
+      await expect(staatDropdown).toHaveValue("SL - Saarland")
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -628,7 +626,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(organDropdown).toHaveValue(
@@ -681,7 +679,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(qualMehrheitCheckbox).toBeChecked()
@@ -719,21 +717,21 @@ test.describe("metadata view", () => {
     })
   })
 
-  test.describe("Federführung", () => {
-    let federfuehrungDropdown: Locator
+  test.describe("Ressort", () => {
+    let ressortDropdown: Locator
 
     test.beforeAll(() => {
-      federfuehrungDropdown = sharedPage.getByRole("combobox", {
-        name: "Federführung",
+      ressortDropdown = sharedPage.getByRole("combobox", {
+        name: "Ressort",
       })
     })
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
-      await expect(federfuehrungDropdown).toHaveValue(
+      await expect(ressortDropdown).toHaveValue(
         "BMVg - Bundesministerium der Verteidigung",
       )
 
@@ -741,29 +739,29 @@ test.describe("metadata view", () => {
       await gotoTimeBoundary("2023-12-30")
 
       // Then
-      await expect(federfuehrungDropdown).toHaveValue(
+      await expect(ressortDropdown).toHaveValue(
         "BMI - Bundesministerium des Innern und für Heimat",
       )
     })
 
     test("saves changes", async () => {
       // When
-      await federfuehrungDropdown.selectOption(
+      await ressortDropdown.selectOption(
         "BMVg - Bundesministerium der Verteidigung",
       )
       await saveMetadata()
       await sharedPage.reload()
 
       // Then
-      await expect(federfuehrungDropdown).toHaveValue(
+      await expect(ressortDropdown).toHaveValue(
         "BMVg - Bundesministerium der Verteidigung",
       )
     })
 
     test("is updated with backend state after saving", async () => {
       // Given
-      await mockPutResponse({ federfuehrung: "AA - Auswärtiges Amt" })
-      await expect(federfuehrungDropdown).toHaveValue(
+      await mockPutResponse({ ressort: "AA - Auswärtiges Amt" })
+      await expect(ressortDropdown).toHaveValue(
         "BMVg - Bundesministerium der Verteidigung",
       )
 
@@ -771,7 +769,7 @@ test.describe("metadata view", () => {
       await saveMetadata()
 
       // Then
-      await expect(federfuehrungDropdown).toHaveValue("AA - Auswärtiges Amt")
+      await expect(ressortDropdown).toHaveValue("AA - Auswärtiges Amt")
 
       // Cleanup
       await sharedPage.unrouteAll()
@@ -789,7 +787,7 @@ test.describe("metadata view", () => {
 
     test("displays at different time boundaries", async () => {
       // When
-      await gotoTimeBoundary("1970-01-01")
+      await gotoTimeBoundary("2015-06-01")
 
       // Then
       await expect(organisationsEinheitInput).toHaveValue("Einheit 1")
@@ -853,9 +851,7 @@ test.describe("metadata view", () => {
     await sharedPage.reload()
 
     // When
-    await sharedPage
-      .getByRole("button", { name: "Metadaten speichern" })
-      .click()
+    await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
     // Then
     await expect(
@@ -876,9 +872,7 @@ test.describe("metadata view", () => {
     await sharedPage.reload()
 
     // When
-    await sharedPage
-      .getByRole("button", { name: "Metadaten speichern" })
-      .click()
+    await sharedPage.getByRole("button", { name: "Speichern" }).click()
 
     // Then
     await expect(

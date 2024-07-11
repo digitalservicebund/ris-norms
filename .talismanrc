@@ -10,7 +10,7 @@ fileignoreconfig:
   - filename: frontend/Dockerfile
     checksum: 0db2e063587f46b2150f978f8dd9c5ce3d001fa8b89a1b67904f7a8363a6bd2a
   - filename: frontend/src/components/controls/RisNavbarSide.spec.ts
-    checksum: 671174b65f1c34d34870f93a9ef8ad7a1d43271384e09f4bb591c4d99055df92
+    checksum: a71106dff57951e5d873a7e5cfe6f407b71e832b0b73072328c7577412f8d2f6
   - filename: DockerfileApp
     checksum: 79dcfe570176f7ad6b8341bd0b358b2676355b34ba654c29ae267d54a03f7e64
   - filename: docker-compose.yaml
@@ -23,3 +23,5 @@ fileignoreconfig:
     checksum: 5c0674f231b81887605a677fdcb8944d1ed84159fa2bbb8790a2857816485339
   - filename: backend/src/main/resources/db/data/R__006_2024_108_2024-03-27_Wachstumschancengesetz-Part-3.sql
     checksum: 7e33c52305c6a9d6878bfd4a2f4de4bdeebde750cc3422b434defffd440b69e1
+  - filename: frontend/src/main.ts
+    checksum: 60d017cf049c98c9f10a0e348fdb68e1c97a64b0eb19c31e2a065b378c1f7546

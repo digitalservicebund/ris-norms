@@ -6,7 +6,7 @@ test.describe("Articles page", () => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
     )
-    await page.getByText("Artikelübersicht").click()
+    await page.getByRole("link", { name: "Artikelübersicht" }).click()
 
     await expect(page).toHaveURL(
       `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles`,
@@ -24,7 +24,7 @@ test.describe("Articles page", () => {
       await page.goto(`/amending-laws/${amendingLaw.eli}/articles`)
 
       // Menu
-      const locator = page.locator(`a:has-text("Artikelübersicht")`)
+      const locator = page.getByRole("link", { name: "Artikelübersicht" })
       await expect(locator).toHaveClass(/router-link-active/)
       await expect(locator).toHaveClass(/bg-blue-200/)
 

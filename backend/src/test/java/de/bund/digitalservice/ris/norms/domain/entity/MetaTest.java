@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +53,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getFRBRExpression);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getFRBRExpression);
   }
 
   @Test
@@ -99,7 +99,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getFRBRManifestation);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getFRBRManifestation);
   }
 
   @Test
@@ -145,7 +145,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getFRBRWork);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getFRBRWork);
   }
 
   @Test
@@ -193,7 +193,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getTemporalData);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getTemporalData);
   }
 
   @Test
@@ -339,7 +339,7 @@ class MetaTest {
                        """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, meta::getLifecycle);
+    assertThrows(MandatoryNodeNotFoundException.class, meta::getLifecycle);
   }
 
   @Test

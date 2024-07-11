@@ -20,6 +20,10 @@
                                   GUID="b82cc174-8fff-43bf-a434-5646de09e807"
                                   value="eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"/>
                     <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-1"
+                                   GUID="a1e5c767-7742-4edd-a0ca-52318cb589aa"
+                                   name="previous-version-id"
+                                   value="b82cc174-8fff-43bf-a434-5646de09bbbb"/>
+                    <akn:FRBRalias eId="meta-1_ident-1_frbrexpression-1_frbralias-2"
                                    GUID="a1e5c767-7742-4edd-a0ca-52318cb555ba"
                                    name="aktuelle-version-id"
                                    value="8de2c22c-d706-498a-9d96-930d7a03d224"/>

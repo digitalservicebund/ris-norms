@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import RisAffectedDocumentPanel from "@/components/affectedDocuments/RisAffectedDocumentPanel.vue"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useAffectedDocuments } from "@/composables/useAffectedDocuments"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { onUnmounted } from "vue"
 
 const eli = useEliPathParameter()
 const { data: affectedDocuments, isFetching, error } = useAffectedDocuments(eli)
+
+const { pushBreadcrumb } = useHeaderContext()
+const cleanupBreadcrumbs = pushBreadcrumb({
+  title: "Betroffene Normenkomplexe",
+})
+onUnmounted(() => cleanupBreadcrumbs())
 </script>
 
 <template>

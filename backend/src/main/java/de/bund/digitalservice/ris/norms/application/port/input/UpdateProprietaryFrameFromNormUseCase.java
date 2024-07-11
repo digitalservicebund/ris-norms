@@ -2,20 +2,18 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.time.LocalDate;
 
 /** Use case for updating metadata within the {@link Proprietary} node of a {@link Norm}. */
-public interface UpdateProprietaryFromNormUseCase {
+public interface UpdateProprietaryFrameFromNormUseCase {
   /**
    * Updates specific metadata from a {@link Norm}.
    *
    * @param query specifying the eli of ZF0, the date for the metadata as well as the metadata
    *     themselves.
    * @return Proprietary node of the norm with the updated metadata.
-   * @throws NormNotFoundException if the ZF0 doesn't exist
    */
-  Proprietary updateProprietaryFromNorm(Query query) throws NormNotFoundException;
+  Proprietary updateProprietaryFrameFromNorm(Query query);
 
   /**
    * Contains the parameters needed for loading proprietary metadata from a norm.
@@ -36,10 +34,11 @@ public interface UpdateProprietaryFromNormUseCase {
    * @param bezeichnungInVorlage - designation according to specification of the norm - "Bezeichnung
    *     gemäß Vorlage"
    * @param artDerNorm - "Art der Norm"
-   * @param normgeber - "Normgeber"
+   * @param staat - "Staat, Land, Stadt, Landkreis oder juristische Person, deren Hoheitsgewalt oder
+   *     Rechtsmacht die Norm trägt"
    * @param beschliessendesOrgan - "Beschließendes Organ"
    * @param qualifizierterMehrheit - "Beschlussfassung mit qualifizierter Mehrheit"
-   * @param federfuehrung - "Federführung"
+   * @param ressort - "Ressort"
    * @param organisationsEinheit - "Organisationseinheit"
    */
   record Metadata(
@@ -49,9 +48,9 @@ public interface UpdateProprietaryFromNormUseCase {
       String subtyp,
       String bezeichnungInVorlage,
       String artDerNorm,
-      String normgeber,
+      String staat,
       String beschliessendesOrgan,
       Boolean qualifizierterMehrheit,
-      String federfuehrung,
+      String ressort,
       String organisationsEinheit) {}
 }

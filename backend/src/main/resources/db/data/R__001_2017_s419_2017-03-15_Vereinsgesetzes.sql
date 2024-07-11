@@ -550,35 +550,16 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                           refersTo="ausfertigung"/>
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4"
                           GUID="2f0febd4-edbe-4c02-9aca-827ee943ae28"
-                          date="2017-03-23"
+                          date="2017-03-16"
                           source="attributsemantik-noch-undefiniert"
                           type="amendment"
                           refersTo="inkrafttreten"/>
-            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-5"
-                          GUID="d4404741-e72f-414f-98d0-4cbcdcdc4fac"
-                          date="2019-01-01"
-                          source="attributsemantik-noch-undefiniert"
-                          type="repeal"
-                          refersTo="ausserkrafttreten"/>
          </akn:lifecycle>
          <akn:analysis eId="meta-1_analysis-1"
                        GUID="5a5d264e-431e-4dc1-b971-4bd81af8a0f4"
                        source="attributsemantik-noch-undefiniert">
             <akn:passiveModifications eId="meta-1_analysis-1_pasmod-1"
                                       GUID="77aae58f-06c9-4189-af80-a5f3ada6432c">
-               <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-1"
-                               GUID="06fb52c3-fce1-4be8-accc-3035452378ff"
-                               type="substitution">
-                  <akn:source eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1"
-                              GUID="5384f580-110b-4f8a-8794-8b85c29aabdf"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
-                  <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
-                                   GUID="2c26512f-fb04-45f2-8283-660274e52fdb"
-                                   href="#hauptteil-1_para-9_abs-3"/>
-                  <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1"
-                             GUID="45331583-4386-4e3f-b68f-5af327347874"
-                             period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
-               </akn:textualMod>
                <akn:textualMod eId="meta-1_analysis-1_pasmod-1_textualmod-2"
                                GUID="26b091d0-1bb9-4c83-b940-f6788b2922f2"
                                type="substitution">
@@ -592,19 +573,6 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                              GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb"
                              period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
                </akn:textualMod>
-               <akn:forceMod eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1"
-                             GUID="67d3d11c-d0d5-4654-a3a9-2f1f51432703"
-                             type="endOfEnactment">
-                  <akn:source eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_source-1"
-                              GUID="f2e2f5ed-9cad-47e8-8bb5-c904bbce96fb"
-                              href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_inhalt-1_text-1.xml"/>
-                  <akn:destination eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_destination-1"
-                                   GUID="1e35f163-489d-45f4-892b-d91360857e43"
-                                   href="#eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1.xml"/>
-                  <akn:force eId="meta-1_analysis-1_pasmod-1_gelzeitaend-1_gelzeitnachw-1"
-                             GUID="80e80e33-82fe-4c8c-91a0-d1087521dabc"
-                             period="#geltungszeitgr-2"/>
-               </akn:forceMod>
             </akn:passiveModifications>
          </akn:analysis>
          <akn:temporalData eId="meta-1_geltzeiten-1"
@@ -623,13 +591,6 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                                  GUID="826b00c9-1069-44fa-a5fd-a5676e56c2f1"
                                  refersTo="geltungszeit"
                                  start="#meta-1_lebzykl-1_ereignis-4"/>
-            </akn:temporalGroup>
-            <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3"
-                               GUID="2dbb57fd-b1bf-4efd-8cdc-9e35be4f2e24">
-               <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1"
-                                 GUID="60a7f0fb-42c6-4897-8a65-853cd5c288c6"
-                                 refersTo="geltungszeit"
-                                 start="#meta-1_lebzykl-1_ereignis-5"/>
             </akn:temporalGroup>
          </akn:temporalData>
          <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->

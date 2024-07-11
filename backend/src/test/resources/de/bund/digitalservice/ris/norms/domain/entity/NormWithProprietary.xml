@@ -135,6 +135,9 @@
                     <meta:normgeber start="2003-01-01" end="unbestimmt">DEU</meta:normgeber>
                     <meta:beschliessendesOrgan start="2003-01-01" end="unbestimmt" qualifizierteMehrheit="true">Bundestag</meta:beschliessendesOrgan>
                     <meta:organisationsEinheit start="2003-01-01" end="unbestimmt">Organisationseinheit</meta:organisationsEinheit>
+                    <meta:einzelelement href="#hauptteil-1_abschnitt-0_para-1">
+                        <meta:artDerNorm end="unbestimmt" start="1980-01-01">SN</meta:artDerNorm>
+                    </meta:einzelelement>
                 </meta:legalDocML.de_metadaten_ds>
             </akn:proprietary>
         </akn:meta>

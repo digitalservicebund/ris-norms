@@ -65,7 +65,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("staat").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
           .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
           .andExpect(jsonPath("organisationsEinheit").isEmpty());
@@ -92,7 +92,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("staat").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
           .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
           .andExpect(jsonPath("organisationsEinheit").isEmpty());
@@ -119,7 +119,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("staat").value("DEU"))
           .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
           .andExpect(jsonPath("qualifizierteMehrheit").value(true))
           .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
@@ -145,7 +145,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"subtyp\": \"new-subtyp\","
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
-                          + "\"normgeber\": \"DEU\","
+                          + "\"staat\": \"DEU\","
                           + "\"beschliessendesOrgan\": \"Bundestag\","
                           + "\"qualifizierteMehrheit\": true,"
                           + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"))
@@ -173,7 +173,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"subtyp\": \"new-subtyp\","
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
                           + "\"artDerNorm\": \"ÄN,ÜN\","
-                          + "\"normgeber\": \"DDR\","
+                          + "\"staat\": \"DDR\","
                           + "\"beschliessendesOrgan\": \"LT\","
                           + "\"qualifizierteMehrheit\": false,"
                           + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"))
@@ -184,7 +184,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DDR"))
+          .andExpect(jsonPath("staat").value("DDR"))
           .andExpect(jsonPath("beschliessendesOrgan").value("LT"))
           .andExpect(jsonPath("qualifizierteMehrheit").value(false))
           .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
@@ -200,7 +200,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .contains("new-bezeichnungInVorlage");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
           .contains("ÄN,ÜN");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("DDR");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).contains("DDR");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
           .contains("LT");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
@@ -231,7 +231,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"subtyp\": null,"
                           + "\"bezeichnungInVorlage\": null,"
                           + "\"artDerNorm\": null,"
-                          + "\"normgeber\": null,"
+                          + "\"staat\": null,"
                           + "\"beschliessendesOrgan\": null,"
                           + "\"qualifizierteMehrheit\": null,"
                           + "\"organisationsEinheit\": null}"))
@@ -242,7 +242,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("staat").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
           .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
           .andExpect(jsonPath("organisationsEinheit").isEmpty());
@@ -257,7 +257,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
           .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
           .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
@@ -288,7 +288,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"subtyp\": \"\","
                           + "\"bezeichnungInVorlage\": \"\","
                           + "\"artDerNorm\": \"\","
-                          + "\"normgeber\": \"\","
+                          + "\"staat\": \"\","
                           + "\"beschliessendesOrgan\": \"\","
                           + "\"qualifizierteMehrheit\": false,"
                           + "\"organisationsEinheit\": \"\"}"))
@@ -299,7 +299,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").isEmpty())
           .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
           .andExpect(jsonPath("artDerNorm").isEmpty())
-          .andExpect(jsonPath("normgeber").isEmpty())
+          .andExpect(jsonPath("staat").isEmpty())
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
           .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
           .andExpect(jsonPath("organisationsEinheit").isEmpty());
@@ -314,7 +314,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBezeichnungInVorlage(date))
           .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date)).isEmpty();
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).isEmpty();
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
           .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
@@ -346,7 +346,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"subtyp\": \"new-subtyp\"," // no change
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," // no change
                           + "\"artDerNorm\": \"ÄN,ÜN\"," // no change
-                          + "\"normgeber\": \"DDR\"," // no change
+                          + "\"staat\": \"DDR\"," // no change
                           + "\"beschliessendesOrgan\": \"\"," // this will remove the...
                           + "\"qualifizierteMehrheit\": null," // ...qualifizierteMehrheit attr
                           + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}")) // no
@@ -358,7 +358,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DDR"))
+          .andExpect(jsonPath("staat").value("DDR"))
           .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
           .andExpect(
               jsonPath("qualifizierteMehrheit")
@@ -376,7 +376,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .contains("new-bezeichnungInVorlage");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
           .contains("ÄN,ÜN");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("DDR");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).contains("DDR");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
           .isEmpty();
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
@@ -406,7 +406,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"subtyp\": \"new-subtyp\","
                           + "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\","
                           + "\"artDerNorm\": \"SN,ÄN,ÜN\","
-                          + "\"normgeber\": \"DEU\","
+                          + "\"staat\": \"DEU\","
                           + "\"beschliessendesOrgan\": \"Bundestag\","
                           + "\"qualifizierteMehrheit\": true,"
                           + "\"organisationsEinheit\": \"Organisationseinheit\"}"))
@@ -417,7 +417,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("subtyp").value("new-subtyp"))
           .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
           .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-          .andExpect(jsonPath("normgeber").value("DEU"))
+          .andExpect(jsonPath("staat").value("DEU"))
           .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
           .andExpect(jsonPath("qualifizierteMehrheit").value(true))
           .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
@@ -433,13 +433,131 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
           .contains("new-bezeichnungInVorlage");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getArtDerNorm(date))
           .contains("SN,ÄN,ÜN");
-      assertThat(normLoaded.getMeta().getOrCreateProprietary().getNormgeber(date)).contains("DEU");
+      assertThat(normLoaded.getMeta().getOrCreateProprietary().getStaat(date)).contains("DEU");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getBeschliessendesOrgan(date))
           .contains("Bundestag");
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getQualifizierteMehrheit(date))
           .contains(true);
       assertThat(normLoaded.getMeta().getOrCreateProprietary().getOrganisationsEinheit(date))
           .contains("Organisationseinheit");
+    }
+  }
+
+  @Nested
+  class getProprietaryEinzelelementAtDate {
+
+    @Test
+    void return404IfNormNotFound() throws Exception {
+      // given no norm
+      var eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void returnEmptyValuesIfNormHasNoProprietaryAtAll() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("artDerNorm").isEmpty());
+    }
+
+    @Test
+    void returnEmptyValuesIfInvalidProprietaryDoesNotContainThem() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      var norm = NormFixtures.loadFromDisk("NormWithInvalidProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("artDerNorm").isEmpty());
+    }
+
+    @Test
+    void returnProprietaryEinzelelement() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      var norm = NormFixtures.loadFromDisk("NormWithProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
+                  .accept(MediaType.APPLICATION_JSON_VALUE))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("artDerNorm").value("SN"));
+    }
+  }
+
+  @Nested
+  class updateProprietaryEinzelelementAtDate {
+
+    @Test
+    void return404IfNormNotFound() throws Exception {
+      // given no norm
+      var eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      // when
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{eid}/{atDateString}", eli, eid, atDateString)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("{\"artDerNorm\": \"SN\"}"))
+          // then
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void createsProprietaryAndMetadatenDsAndEinzelelementAndSetsValue() throws Exception {
+      // given
+      var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      var eid = "hauptteil-1_abschnitt-0_para-1";
+      var atDateString = "2024-06-03";
+      var norm = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // when
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/proprietary/{eid}/{atDateString}", eli, eid, atDateString)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("{\"artDerNorm\": \"SN\"}"))
+          // then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("artDerNorm").value("SN"));
     }
   }
 }

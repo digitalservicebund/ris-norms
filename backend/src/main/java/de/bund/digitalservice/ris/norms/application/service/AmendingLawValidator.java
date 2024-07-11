@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
@@ -8,13 +9,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
-import de.bund.digitalservice.ris.norms.utils.exceptions.ValidationException;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
@@ -57,7 +52,14 @@ public class AmendingLawValidator {
         amendingNorm.getArticles().stream()
             .filter(
                 article -> {
-                  String articleRefersTo = article.getRefersToOrThrow();
+                  String articleRefersTo =
+                      article
+                          .getRefersTo()
+                          .orElseThrow(
+                              () ->
+                                  new ValidationException(
+                                      "For norm with Eli (%s): RefersTo is empty in article with eId %s"
+                                          .formatted(amendingNorm.getEli(), article.getEid())));
                   return Objects.equals(articleRefersTo, "hauptaenderung");
                 })
             .toList();
@@ -79,7 +81,7 @@ public class AmendingLawValidator {
                           new ValidationException(
                               String.format("Target law with eli %s missing", targetNormEli)));
           final Norm zf0Norm =
-              loadZf0Service.loadZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
+              loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
           singleModValidator.validate(zf0Norm, mod);
         });
   }
@@ -108,21 +110,19 @@ public class AmendingLawValidator {
                     .orElseThrow(
                         () -> {
                           String amendingNormEli = amendingNorm.getEli();
-                          return new XmlContentException(
+                          return new ValidationException(
                               "For norm with Eli (%s): ActiveModification Destination Href is empty where textualMod eId is %s"
                                   .formatted(
-                                      amendingNormEli, getTextualModEId(amendingNormEli, tm)),
-                              null);
+                                      amendingNormEli, getTextualModEId(amendingNormEli, tm)));
                         })
                     .getEli()
                     .orElseThrow(
                         () -> {
                           String amendingNormEli = amendingNorm.getEli();
-                          return new XmlContentException(
+                          return new ValidationException(
                               "For norm with Eli (%s): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is %s"
                                   .formatted(
-                                      amendingNormEli, getTextualModEId(amendingNormEli, tm)),
-                              null);
+                                      amendingNormEli, getTextualModEId(amendingNormEli, tm)));
                         }));
   }
 
@@ -130,28 +130,40 @@ public class AmendingLawValidator {
     amendingNorm.getArticles().stream()
         .filter(
             article -> {
-              String articleRefersTo = article.getRefersToOrThrow();
+              String articleRefersTo;
+              try {
+                articleRefersTo =
+                    article
+                        .getRefersTo()
+                        .orElseThrow(
+                            () ->
+                                new ValidationException(
+                                    "For norm with Eli (%s): RefersTo is empty in article with eId %s"
+                                        .formatted(amendingNorm.getEli(), article.getEid().get())));
+              } catch (NullPointerException e) {
+                throw new ValidationException(e.getMessage());
+              }
+
               return Objects.equals(articleRefersTo, "hauptaenderung");
             })
         .forEach(
             article -> {
               String amendingNormEli = amendingNorm.getEli();
-              String articleEId = article.getEidOrThrow();
+              String articleEId = article.getMandatoryEid();
               validateAknModEli(amendingNormEli, article, articleEId);
               validateAffectedDocumentEli(amendingNormEli, article, articleEId);
             });
   }
 
   private void validateAknModEli(String amendingNormEli, Article article, String articleEId) {
-    List<Mod> mods = article.getModsOrThrow();
+    List<Mod> mods = article.getMods();
     mods.forEach(
         mod -> {
           Optional<String> eli = getModTargetHref(amendingNormEli, mod, articleEId).getEli();
           if (eli.isEmpty()) {
-            throw new XmlContentException(
+            throw new ValidationException(
                 "For norm with Eli (%s): The Eli in aknMod href is empty in article with eId %s"
-                    .formatted(amendingNormEli, articleEId),
-                null);
+                    .formatted(amendingNormEli, articleEId));
           }
         });
   }
@@ -159,10 +171,9 @@ public class AmendingLawValidator {
   private void validateAffectedDocumentEli(
       String amendingNormEli, Article article, String articleEId) {
     if (article.getAffectedDocumentEli().isEmpty()) {
-      throw new XmlContentException(
+      throw new ValidationException(
           "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
-              .formatted(amendingNormEli, articleEId),
-          null);
+              .formatted(amendingNormEli, articleEId));
     }
   }
 
@@ -204,8 +215,8 @@ public class AmendingLawValidator {
 
     if (!affectedDocumentElis.equals(activeModificationsDestinationElis)
         && !activeModificationsDestinationElis.equals(aknModElis))
-      throw new XmlContentException(
-          "For norm with Eli (%s): Elis are not consistent".formatted(amendingNorm.getEli()), null);
+      throw new ValidationException(
+          "For norm with Eli (%s): Elis are not consistent".formatted(amendingNorm.getEli()));
   }
 
   /**
@@ -234,18 +245,17 @@ public class AmendingLawValidator {
             .flatMap(Optional::stream)
             .collect(Collectors.toSet());
     if (!activeModificationsDestinationHrefs.equals(aknModHrefs))
-      throw new XmlContentException(
-          "For norm with Eli (%s): Eids are not consistent".formatted(amendingNorm.getEli()), null);
+      throw new ValidationException(
+          "For norm with Eli (%s): Eids are not consistent".formatted(amendingNorm.getEli()));
   }
 
   private Href getModTargetHref(String eli, Mod m, String modEId) {
     return m.getTargetHref()
         .orElseThrow(
             () ->
-                new XmlContentException(
+                new ValidationException(
                     "For norm with Eli (%s): mod href is empty in article mod with eId %s"
-                        .formatted(eli, modEId),
-                    null));
+                        .formatted(eli, modEId)));
   }
 
   private String getTextualModEId(String eli, TextualMod textualMod) {
@@ -253,7 +263,7 @@ public class AmendingLawValidator {
         .getEid()
         .orElseThrow(
             () ->
-                new XmlContentException(
-                    "For norm with Eli (%s): TextualMod eId empty.".formatted(eli), null));
+                new ValidationException(
+                    "For norm with Eli (%s): TextualMod eId empty.".formatted(eli)));
   }
 }

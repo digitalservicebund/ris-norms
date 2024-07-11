@@ -59,7 +59,7 @@ with the name `SLACK_WEBHOOK_URL`, containing a url for [Incoming Webhooks](http
 
 Run dependencies from the root of the project:
 ```bash
-docker compose up -d postgres14 redis
+docker compose up -d postgres15 redis
 ```
 
 Run from `./backend`:
@@ -105,13 +105,21 @@ docker compose down
 Checkout the Frontend section [here](./frontend/README.md#quick-start) and for backend [here](./backend/README.md#tests).
 
 ## Run E2E Tests with Playwright inside Docker
-Be aware: This wipes your local database:
+Be aware: All the following wipes your local database.
+
+This is executing e2e tests for all browsers:
+```bash
+chmod u+x e2e.sh
+./e2e.sh
+```
+
+If you want to run only chromium:
 ```bash
 docker compose stop
 
 docker container prune -f
 
-docker volume rm ris-norms_postgres14-data
+docker volume rm ris-norms_postgres15-data
 
 docker compose build
 
@@ -119,13 +127,13 @@ docker compose up -d
 
 cd frontend
 
-docker build -t ris-norms-playwright -f DockerfilePlaywright .
+docker build -t ris-norms-playwright-chromium --target chromium -f DockerfilePlaywright .
 
-docker run --name ris-norms-playwright -it --rm \
--e E2E_BASE_URL="http://nginx:8080" \
--e TZ="Europe/Berlin" \
---network ris-norms_default \
--v $(pwd)/test-results:/usr/src/app/test-results \
-ris-norms-playwright
+docker run --name ris-norms-playwright-chromium -it --rm \
+    -e E2E_BASE_URL="http://nginx:8080" \
+    -e TZ="Europe/Berlin" \
+    --network ris-norms_default \
+    -v $(pwd)/test-results:/usr/src/app/test-results \
+    ris-norms-playwright--chromium
 ```
 Screenshots for failed tests are stored in `./frontend/test-results/`.

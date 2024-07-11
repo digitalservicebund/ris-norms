@@ -17,19 +17,21 @@ const config: PlaywrightTestConfig = {
     baseURL: process.env.E2E_BASE_URL,
     screenshot: { mode: "only-on-failure", fullPage: true },
     timezoneId: "Europe/Berlin",
+    trace: "retain-on-first-failure",
   },
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"], channel: "chrome" },
+      use: { ...devices["Desktop Chrome"] },
     },
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
     },
     {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      name: "msedge",
+      use: { ...devices["Desktop Edge"], channel: "msedge" },
+      timeout: 30000,
     },
   ],
 }

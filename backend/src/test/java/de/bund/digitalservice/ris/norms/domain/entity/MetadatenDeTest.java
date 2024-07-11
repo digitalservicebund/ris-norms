@@ -102,7 +102,7 @@ class MetadatenDeTest {
   }
 
   @Test
-  void getFederfuehrung() {
+  void getRessort() {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
@@ -119,24 +119,24 @@ class MetadatenDeTest {
 
     assertThat(
             metadatenDe.getSimpleMetadatum(
-                MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.parse("1990-01-01")))
+                MetadatenDe.Metadata.RESSORT, LocalDate.parse("1990-01-01")))
         .isEmpty();
     assertThat(
             metadatenDe.getSimpleMetadatum(
-                MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.parse("2002-10-01")))
+                MetadatenDe.Metadata.RESSORT, LocalDate.parse("2002-10-01")))
         .contains("Bundesministerium der Justiz");
     assertThat(
             metadatenDe.getSimpleMetadatum(
-                MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.parse("2022-12-01")))
+                MetadatenDe.Metadata.RESSORT, LocalDate.parse("2022-12-01")))
         .contains("Bundesministerium des Innern und für Heimat");
     assertThat(
             metadatenDe.getSimpleMetadatum(
-                MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.parse("2024-06-18")))
+                MetadatenDe.Metadata.RESSORT, LocalDate.parse("2024-06-18")))
         .contains("Bundesministerium des Innern und für Heimat");
   }
 
   @Test
-  void getFederfuehrungNotPresent() {
+  void getRessortNotPresent() {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
@@ -147,12 +147,12 @@ class MetadatenDeTest {
                                                             """))
             .build();
 
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, LocalDate.MAX))
+    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.RESSORT, LocalDate.MAX))
         .isEmpty();
   }
 
   @Test
-  void setFederfuehrungUpdate() {
+  void setRessortUpdate() {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
@@ -168,20 +168,19 @@ class MetadatenDeTest {
             .build();
 
     final LocalDate atDate = LocalDate.parse("2002-10-01");
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
+    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.RESSORT, atDate))
         .contains("Bundesministerium der Justiz");
-    assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(2);
+    assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.RESSORT.getXpath())).hasSize(2);
 
-    metadatenDe.updateSimpleMetadatum(
-        MetadatenDe.Metadata.FEDERFUEHRUNG, atDate, "test federfuehrung");
+    metadatenDe.updateSimpleMetadatum(MetadatenDe.Metadata.RESSORT, atDate, "test ressort");
 
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
-        .contains("test federfuehrung");
-    assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(2);
+    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.RESSORT, atDate))
+        .contains("test ressort");
+    assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.RESSORT.getXpath())).hasSize(2);
   }
 
   @Test
-  void setFederfuehrungCreate() {
+  void setRessortCreate() {
     final MetadatenDe metadatenDe =
         MetadatenDe.builder()
             .node(
@@ -197,15 +196,13 @@ class MetadatenDeTest {
             .build();
 
     final LocalDate atDate = LocalDate.parse("1990-01-01");
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
-        .isEmpty();
-    assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(2);
+    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.RESSORT, atDate)).isEmpty();
+    assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.RESSORT.getXpath())).hasSize(2);
 
-    metadatenDe.updateSimpleMetadatum(
-        MetadatenDe.Metadata.FEDERFUEHRUNG, atDate, "test federfuehrung");
+    metadatenDe.updateSimpleMetadatum(MetadatenDe.Metadata.RESSORT, atDate, "test ressort");
 
-    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.FEDERFUEHRUNG, atDate))
-        .contains("test federfuehrung");
-    assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.FEDERFUEHRUNG.getXpath())).hasSize(3);
+    assertThat(metadatenDe.getSimpleMetadatum(MetadatenDe.Metadata.RESSORT, atDate))
+        .contains("test ressort");
+    assertThat(metadatenDe.getNodes(MetadatenDe.Metadata.RESSORT.getXpath())).hasSize(3);
   }
 }

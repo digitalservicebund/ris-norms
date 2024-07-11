@@ -4,15 +4,19 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.UpdateModResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.UpdateModsResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModsRequestSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.UpdateModsResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import jakarta.validation.Valid;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +40,7 @@ public class NormController {
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
   private final UpdateModUseCase updateModUseCase;
+  private final UpdateModsUseCase updateModsUseCase;
 
   public NormController(
       LoadNormUseCase loadNormUseCase,
@@ -43,13 +48,15 @@ public class NormController {
       UpdateNormXmlUseCase updateNormXmlUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
       ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
-      UpdateModUseCase updateModUseCase) {
+      UpdateModUseCase updateModUseCase,
+      UpdateModsUseCase updateModsUseCase) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.updateNormXmlUseCase = updateNormXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.applyPassiveModificationsUseCase = applyPassiveModificationsUseCase;
     this.updateModUseCase = updateModUseCase;
+    this.updateModsUseCase = updateModsUseCase;
   }
 
   /**
@@ -174,12 +181,12 @@ public class NormController {
   }
 
   /**
-   * Update an amending command of an amending law and consecutively creates/updates all ZF0 of all
-   * affected documents.
+   * Update an amending command of an amending law and consecutively creates/updates the ZF0 the
+   * affected document.
    *
    * @param eli Eli of the request
    * @param eid the eId of the akn:mod within the amending law
-   * @param updateModRequestSchema the amending command to update
+   * @param updateModRequestSchema the new data about the akn:mod element
    * @param dryRun Should the save operation only be previewed and not actually persisted?
    * @return A {@link ResponseEntity} containing the updated xml of the amending law.
    *     <p>Returns HTTP 200 (OK) if both amending law and zf0 successfully uddated.
@@ -209,5 +216,43 @@ public class NormController {
         .map(UpdateModResponseMapper::fromResult)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Update multiple akn:mod elements of an amending law and consecutively creates/updates all ZF0
+   * of all affected documents.
+   *
+   * @param eli Eli of the request
+   * @param updateModsRequestSchema the eids and changes for the amending commands to update
+   * @param dryRun Should the save operation only be previewed and not actually persisted?
+   * @return A {@link ResponseEntity} containing the updated xmls of the norms.
+   *     <p>Returns HTTP 200 (OK) if the amending law and all zf0 successfully updated.
+   *     <p>Returns HTTP 404 (Not Found) if amending law, target law or node within target law not
+   *     found.
+   */
+  @PatchMapping(
+      path = "/mods",
+      consumes = {APPLICATION_JSON_VALUE},
+      produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<UpdateModsResponseSchema> updateMods(
+      final Eli eli,
+      @RequestBody @Valid
+          final Map<String, UpdateModsRequestSchema.ModUpdate> updateModsRequestSchema,
+      @RequestParam(defaultValue = "false") final Boolean dryRun) {
+
+    return updateModsUseCase
+        .updateMods(
+            new UpdateModsUseCase.Query(
+                eli.getValue(),
+                updateModsRequestSchema.entrySet().stream()
+                    .map(
+                        entry ->
+                            new UpdateModsUseCase.NewModData(
+                                entry.getKey(), entry.getValue().timeBoundaryEid()))
+                    .toList(),
+                dryRun))
+        .map(UpdateModsResponseMapper::fromResult)
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.unprocessableEntity().build());
   }
 }

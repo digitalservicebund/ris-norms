@@ -138,6 +138,26 @@ describe("TemporalDataService", () => {
         expect.anything(),
       )
     })
+
+    it("loads with the amendedBy filter", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetTemporalDataTimeBoundaries } = await import(
+        "@/services/temporalDataService"
+      )
+
+      const eli = ref("fake/eli/1")
+      useGetTemporalDataTimeBoundaries(eli, { amendedBy: "amendedby" })
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/timeBoundaries?amendedBy=amendedby",
+          expect.any(Object),
+        ),
+      )
+    })
   })
 
   describe("useUpdateTemporalDataTimeBoundaries", () => {

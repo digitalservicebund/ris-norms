@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/vue"
 import { describe, expect, test, vi } from "vitest"
 import RisLawPreview from "./RisLawPreview.vue"
 import { userEvent } from "@testing-library/user-event"
+import { nextTick } from "vue"
 
 describe("RisLawPreview", () => {
   test("should render provided content", () => {
@@ -133,5 +134,34 @@ describe("RisLawPreview", () => {
     await userEvent.click(screen.getByRole("button", { name: "CHANGED MOD" }))
 
     expect(handler).toHaveBeenCalledTimes(2)
+  })
+
+  test("should set and update classes of element with the specified eId", async () => {
+    const renderResult = render(RisLawPreview, {
+      props: {
+        content:
+          "<div><span class='longTitle'>Test Title</span><div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888510'>MOD</div></div>",
+        eIdClasses: {
+          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1":
+            ["class-1", "class-2"],
+        },
+      },
+    })
+
+    await nextTick()
+    expect(screen.getByText("MOD")).toHaveClass("class-1")
+    expect(screen.getByText("MOD")).toHaveClass("class-2")
+
+    await renderResult.rerender({
+      eIdClasses: {
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1":
+          ["class-3", "class-2"],
+      },
+    })
+
+    await nextTick()
+    expect(screen.getByText("MOD")).not.toHaveClass("class-1")
+    expect(screen.getByText("MOD")).toHaveClass("class-2")
+    expect(screen.getByText("MOD")).toHaveClass("class-3")
   })
 })

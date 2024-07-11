@@ -13,7 +13,7 @@ export function xmlNodeToString(node: Node): string {
 }
 
 /**
- * Evaluate a xpath expression on the given node.
+ * Evaluate a xpath expression on the given node once.
  *
  * When using this method in a unit test this method might need to be overwritten by a mock implementation using the library "xpath".
  * The DOM implementation used by our unit tests (jsdom) does not have great xpath support and might fail at certain expressions.
@@ -27,6 +27,13 @@ export function evaluateXPathOnce(xpath: string, node: Node) {
     .iterateNext()
 }
 
+/**
+ * Evaluate a xpath expression on the given node and return all results.
+ *
+ * When using this method in a unit test this method might need to be overwritten by a mock implementation using the library "xpath".
+ * The DOM implementation used by our unit tests (jsdom) does not have great xpath support and might fail at certain expressions.
+ * This is done globally using the vitest-setup.ts
+ */
 export function evaluateXPath(xpath: string, node: Node): Node[] {
   const evaluator = new XPathEvaluator()
 

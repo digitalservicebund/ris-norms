@@ -9,10 +9,10 @@ import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
 import {
-  useGetProprietary,
-  usePutProprietary,
+  useGetRahmenProprietary,
+  usePutRahmenProprietary,
 } from "@/services/proprietaryService"
-import { Proprietary } from "@/types/proprietary"
+import { RahmenProprietary } from "@/types/proprietary"
 import { computed, ref, watch } from "vue"
 import { getNodeByEid } from "@/services/ldmldeService"
 import {
@@ -20,31 +20,36 @@ import {
   xmlNodeToString,
   xmlStringToDocument,
 } from "@/services/xmlService"
-import { useNormRender } from "@/composables/useNormRender"
 import RisRefEditor from "@/components/RisRefEditor.vue"
 import CloseIcon from "~icons/ic/close"
 import { useDebounceFn } from "@vueuse/core"
+import { useHeaderContext } from "@/components/controls/RisHeader.vue"
+import { useNormRenderHtml } from "@/composables/useNormRender"
+import RisTooltip from "@/components/controls/RisTooltip.vue"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
+const { actionTeleportTarget } = useHeaderContext()
 
 /* -------------------------------------------------- *
  * API handling                                       *
  * -------------------------------------------------- */
 
-const localData = ref<Proprietary | null>(null)
+const localData = ref<RahmenProprietary | null>(null)
 
 const {
   data,
   isFetching,
   error: fetchError,
-} = useGetProprietary(affectedDocumentEli, { atDate: timeBoundaryAsDate })
+} = useGetRahmenProprietary(affectedDocumentEli, {
+  atDate: timeBoundaryAsDate,
+})
 
 watch(data, (newData) => {
   localData.value = newData
 })
 
-const { data: savedData } = usePutProprietary(
+const { data: savedData } = usePutRahmenProprietary(
   localData,
   affectedDocumentEli,
   { atDate: timeBoundaryAsDate },
@@ -72,7 +77,12 @@ const {
   isFetching: xmlIsLoading,
   error: xmlError,
   execute: reloadXml,
-  update: { execute: updateXml },
+  update: {
+    execute: updateXml,
+    isFetching: isSaving,
+    isFinished: hasSaved,
+    error: saveError,
+  },
 } = useNormXml(affectedDocumentEli, currentXml)
 
 watch(xml, () => {
@@ -85,7 +95,7 @@ const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useNormRender(currentXml, false, timeBoundaryAsDate)
+} = useNormRenderHtml(currentXml, false, timeBoundaryAsDate)
 
 function lengthWithoutWhitespace(str: string): number {
   return str.replaceAll(/\s/g, "").length
@@ -367,8 +377,6 @@ const handleRefChange = useDebounceFn(updateCurrentXml, 1000, { maxWait: 5000 })
               >
               </RisRefEditor>
             </div>
-
-            <RisTextButton label="Speichern" @click="updateXml" />
           </template>
 
           <template #xml>
@@ -390,6 +398,33 @@ const handleRefChange = useDebounceFn(updateCurrentXml, 1000, { maxWait: 5000 })
             />
           </template>
         </RisTabs>
+
+        <!-- Save button -->
+        <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
+          <div class="relative">
+            <RisTooltip
+              v-slot="{ ariaDescribedby }"
+              :title="
+                hasSaved && saveError
+                  ? 'Speichern fehlgeschlagen'
+                  : 'Gespeichert!'
+              "
+              :variant="hasSaved && saveError ? 'error' : 'success'"
+              :visible="hasSaved"
+              allow-dismiss
+              alignment="right"
+              attachment="bottom"
+            >
+              <RisTextButton
+                :aria-describedby
+                :disabled="isFetching || !!fetchError"
+                :loading="isSaving"
+                label="Speichern"
+                @click="updateXml()"
+              />
+            </RisTooltip>
+          </div>
+        </Teleport>
       </section>
     </div>
   </div>

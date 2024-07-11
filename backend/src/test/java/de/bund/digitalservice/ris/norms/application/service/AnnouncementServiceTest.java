@@ -220,7 +220,8 @@ class AnnouncementServiceTest {
           .thenReturn(Optional.of(announcement));
       // Should return target law but we dont care what is returned, since we also mock the loadZf0
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
-      when(loadZf0Service.loadZf0(argThat(argument -> argument.amendingLaw().equals(amendingNorm))))
+      when(loadZf0Service.loadOrCreateZf0(
+              argThat(argument -> argument.amendingLaw().equals(amendingNorm))))
           .thenReturn(affectedNormZf0);
 
       // When

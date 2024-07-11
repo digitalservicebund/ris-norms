@@ -32,9 +32,8 @@ public class SecurityConfig {
                     .requestMatchers(
                         "/.well-known/security.txt",
                         "/favicon.svg",
-                        "/actuator/health",
-                        "/actuator/health/readiness",
-                        "/actuator/health/liveness",
+                        "/actuator/health/**",
+                        "/actuator/prometheus",
                         "/api/**",
                         "/index.html",
                         "/",

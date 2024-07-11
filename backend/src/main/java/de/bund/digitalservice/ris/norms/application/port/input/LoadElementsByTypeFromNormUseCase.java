@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.application.service.ElementService;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.w3c.dom.Node;
@@ -15,11 +14,9 @@ public interface LoadElementsByTypeFromNormUseCase {
    *
    * @return List of elements from the norm
    * @param query Query used for identifying the elements
-   * @throws NormNotFoundException if no norm with that ELI exists
    * @throws UnsupportedElementTypeException when providing an invalid type
    */
-  List<Node> loadElementsByTypeFromNorm(Query query)
-      throws NormNotFoundException, UnsupportedElementTypeException;
+  List<Node> loadElementsByTypeFromNorm(Query query) throws UnsupportedElementTypeException;
 
   /**
    * Contains the parameters needed for loading an element from a norm.

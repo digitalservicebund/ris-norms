@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.InternalErrorExceptionHandler;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions.FrameWorkExceptionHandler;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.EventRef;
@@ -47,6 +47,7 @@ class TimeBoundaryControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
+  @MockBean private LoadTimeBoundariesAmendedByUseCase loadTimeBoundariesAmendedByUseCase;
   @MockBean private UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase;
 
   @Nested
@@ -98,20 +99,61 @@ class TimeBoundaryControllerTest {
     }
 
     @Test
-    void getTimeBoundariesReturns404() throws Exception {
+    void getTimeBoundariesAmendedBy() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/DOESNOTEXIST";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String amendedBy = "eli/bund/bgbl-1/2023/412/2024-01-19/1/deu/regelungstext-1";
 
-      when(loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(any())).thenReturn(List.of());
+      final String eventRef =
+          """
+                            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="176435e5-1324-4718-b09a-ef4b63bcacf0" date="2017-03-16" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten" />
+                          """
+              .strip();
+
+      final String timeInterval =
+          """
+                            <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                          """
+              .strip();
+
+      final String temporalGroup =
+          """
+                          <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                              <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                                           </akn:temporalGroup>
+                          """
+              .strip();
+
+      List<TimeBoundary> timeBoundaries =
+          List.of(
+              new TimeBoundary(
+                  new TimeInterval(XmlMapper.toNode(timeInterval)),
+                  new EventRef(XmlMapper.toNode(eventRef)),
+                  new TemporalGroup(XmlMapper.toNode(temporalGroup))));
+
+      when(loadTimeBoundariesAmendedByUseCase.loadTimeBoundariesAmendedBy(any()))
+          .thenReturn(timeBoundaries);
 
       // When // Then
       mockMvc
           .perform(
-              get("/api/v1/norms/{eli}/timeBoundaries", eli).accept(MediaType.APPLICATION_JSON))
-          .andExpect(status().isNotFound());
+              get("/api/v1/norms/{eli}/timeBoundaries?amendedBy={amendedBy}", eli, amendedBy)
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$", hasSize(1)))
+          .andExpect(jsonPath("$[0].date", is("2017-03-16")))
+          .andExpect(jsonPath("$[0].eventRefEid", is("meta-1_lebzykl-1_ereignis-2")))
+          .andExpect(jsonPath("$[0].temporalGroupEid", is("meta-1_geltzeiten-1_geltungszeitgr-1")));
 
-      verify(loadTimeBoundariesUseCase, times(1))
-          .loadTimeBoundariesOfNorm(any(LoadTimeBoundariesUseCase.Query.class));
+      verify(loadTimeBoundariesAmendedByUseCase, times(1))
+          .loadTimeBoundariesAmendedBy(any(LoadTimeBoundariesAmendedByUseCase.Query.class));
+
+      verify(loadTimeBoundariesAmendedByUseCase, times(1))
+          .loadTimeBoundariesAmendedBy(
+              argThat(
+                  query ->
+                      Objects.equals(query.eli(), eli)
+                          && Objects.equals(query.amendingLawEli(), amendedBy)));
     }
   }
 
@@ -181,7 +223,7 @@ class TimeBoundaryControllerTest {
     void updateTimeBoundariesMultipleSameDatesReturns400() throws Exception {
       // Given
       MemoryAppender memoryAppender;
-      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(FrameWorkExceptionHandler.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
       logger.setLevel(Level.ALL);
@@ -237,7 +279,7 @@ class TimeBoundaryControllerTest {
     void updateTimeBoundariesWithEmptyListReturns400() throws Exception {
       // Given
       MemoryAppender memoryAppender;
-      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(FrameWorkExceptionHandler.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
       logger.setLevel(Level.ALL);
@@ -273,7 +315,7 @@ class TimeBoundaryControllerTest {
     void updateTimeBoundariesReturnsDateIsNull() throws Exception {
       // Given
       MemoryAppender memoryAppender;
-      Logger logger = (Logger) LoggerFactory.getLogger(InternalErrorExceptionHandler.class);
+      Logger logger = (Logger) LoggerFactory.getLogger(FrameWorkExceptionHandler.class);
       memoryAppender = new MemoryAppender();
       memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
       logger.setLevel(Level.ALL);

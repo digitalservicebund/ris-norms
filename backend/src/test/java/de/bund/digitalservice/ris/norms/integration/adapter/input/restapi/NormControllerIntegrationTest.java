@@ -672,4 +672,252 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isUnprocessableEntity());
     }
   }
+
+  @Nested
+  class UpdateMods {
+
+    @Test
+    void itUpdatesASingleMod() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      // When
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+                              {
+                                "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
+                                }
+                              }
+                          """))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/destination/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod/ref/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod/quotedText[2]",
+                              equalTo("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/destination/@href",
+                              equalTo(
+                                  "#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-5")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/source/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml")))));
+
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(
+              xpath(
+                      "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period")
+                  .string("#meta-1_geltzeiten-1_geltungszeitgr-2"));
+    }
+
+    @Test
+    void itUpdatesMultipleMods() throws Exception {
+      // When
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMultipleSimpleMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(
+              NormFixtures.loadFromDisk("NormWithMultipleSimpleModsTargetNorm.xml")));
+
+      // When
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+                              {
+                                "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1": {
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
+                                },
+                                "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                                }
+                              }
+                          """))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-2\"]/force/@period",
+                              equalTo("")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-1\"]/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-2\"]/force/@period",
+                              equalTo("")))));
+
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(
+              xpath(
+                      "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period")
+                  .string("#meta-1_geltzeiten-1_geltungszeitgr-2"))
+          .andExpect(
+              xpath(
+                      "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-2\"]/force/@period")
+                  .string(""));
+    }
+
+    @Test
+    void itDryRunsTheUpdate() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      // When
+      mockMvc
+          .perform(
+              patch(
+                      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods?dryRun=true")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+                              {
+                                "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                                  "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-2"
+                                }
+                              }
+                          """))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-2")))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-1\"]/force/@period",
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-5")))));
+
+      // saved norm is unchanged
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(
+              xpath(
+                      "//textualMod[@eId=\"meta-1_analysis-1_activemod-1_textualmod-1\"]/force/@period")
+                  .string(equalTo("#meta-1_geltzeiten-1_geltungszeitgr-1")));
+    }
+
+    @Test
+    void itReturnsBadRequestAndDoesNotSaveIt() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      // When (the eid does not exist)
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+                            {
+                              "hauptteil-1_art-1_abs-23_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1": {
+                                "timeBoundaryEid": "meta-1_geltzeiten-1_geltungszeitgr-1"
+                              }
+                            }
+                          """))
+          // Then
+          .andExpect(status().isUnprocessableEntity());
+    }
+  }
 }

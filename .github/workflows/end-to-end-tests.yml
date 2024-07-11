@@ -6,6 +6,11 @@ on:
         type: string
         default: chromium
 
+env:
+  E2E_TESTS_RUNNING: 'true'
+  SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
@@ -20,7 +25,7 @@ jobs:
           distribution: "temurin"
           cache: gradle
       - name: Start PostgreSQL
-        run: docker compose up --detach postgres14 redis
+        run: docker compose up --detach postgres15 redis
       - name: Start backend in the background (via .gradlew and nohup)
         run: nohup ./gradlew bootRun > /tmp/nohup.out &
         working-directory: ./backend
@@ -58,6 +63,7 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}-${{ inputs.browser }}
       - name: Install playwright browsers
+        if: steps.cache-browser-binaries.outputs.cache-hit != 'true'
         run: |
           npx --yes playwright install --with-deps ${{ inputs.browser }}
         working-directory: ./frontend
@@ -70,7 +76,7 @@ jobs:
 
           npm run dev &
           DEV_PID=$!
-          npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each 1
+          npm run test:e2e -- --project ${{ inputs.browser }} --repeat-each 1 --fail-on-flaky-tests
           pkill -P $DEV_PID
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests

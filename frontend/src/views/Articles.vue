@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import RisInfoModal from "@/components/controls/RisInfoModal.vue"
-import { useArticles } from "@/services/articleService"
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import { useHeaderContext } from "@/components/controls/RisHeader.vue"
+import RisInfoModal from "@/components/controls/RisInfoModal.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useArticles } from "@/services/articleService"
+import { onUnmounted } from "vue"
 
 const eli = useEliPathParameter()
 const { data: articles, isFetching, error } = useArticles(eli)
+
+const { pushBreadcrumb } = useHeaderContext()
+const cleanupBreadcrumbs = pushBreadcrumb({ title: "Artikelübersicht" })
+onUnmounted(() => cleanupBreadcrumbs())
 </script>
 
 <template>

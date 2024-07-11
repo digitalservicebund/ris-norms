@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFound;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -126,7 +126,8 @@ class FRBRExpressionTest {
                               """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, frbrExpression::getFRBRaliasCurrentVersionId);
+    assertThrows(
+        MandatoryNodeNotFoundException.class, frbrExpression::getFRBRaliasCurrentVersionId);
   }
 
   @Test
@@ -186,7 +187,7 @@ class FRBRExpressionTest {
                                   """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, frbrExpression::getFRBRaliasNextVersionId);
+    assertThrows(MandatoryNodeNotFoundException.class, frbrExpression::getFRBRaliasNextVersionId);
   }
 
   @Test
@@ -287,7 +288,7 @@ class FRBRExpressionTest {
                                   """))
             .build();
 
-    assertThrows(MandatoryNodeNotFound.class, frbrExpression::getFBRDate);
+    assertThrows(MandatoryNodeNotFoundException.class, frbrExpression::getFBRDate);
   }
 
   @Test

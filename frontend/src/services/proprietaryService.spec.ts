@@ -1,4 +1,4 @@
-import { Proprietary } from "@/types/proprietary"
+import { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
@@ -11,7 +11,7 @@ describe("proprietaryService", () => {
 
   describe("useProprietaryService", () => {
     it("provides the data from the API", async () => {
-      const fixtures: Proprietary = {
+      const fixtures: RahmenProprietary = {
         fna: "foo",
       }
 
@@ -24,7 +24,10 @@ describe("proprietaryService", () => {
 
       const { useProprietaryService } = await import("./proprietaryService")
 
-      const result = useProprietaryService("fake/eli", { atDate: "2024-06-10" })
+      const result = useProprietaryService("fake/eli", {
+        atDate: "2024-06-10",
+        eid: null,
+      })
       expect(result.data.value).toBeTruthy()
 
       vi.doUnmock("@/services/apiService")
@@ -38,7 +41,7 @@ describe("proprietaryService", () => {
       const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("")
-      useProprietaryService(eli, { atDate: "2024-06-10" })
+      useProprietaryService(eli, { atDate: "2024-06-10", eid: null })
       await flushPromises()
       expect(fetchSpy).not.toHaveBeenCalled()
     })
@@ -53,7 +56,7 @@ describe("proprietaryService", () => {
       const eli = ref("fake/eli/1")
       useProprietaryService(
         eli,
-        { atDate: "2024-06-10" },
+        { atDate: "2024-06-10", eid: null },
         { immediate: true, refetch: true },
       )
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
@@ -73,7 +76,7 @@ describe("proprietaryService", () => {
       const eli = ref("fake/eli/1")
       useProprietaryService(
         eli,
-        { atDate: "2024-06-10" },
+        { atDate: "2024-06-10", eid: null },
         { immediate: true, refetch: true },
       )
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
@@ -90,7 +93,7 @@ describe("proprietaryService", () => {
       const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
-      useProprietaryService(eli, { atDate: "2024-04-06" })
+      useProprietaryService(eli, { atDate: "2024-04-06", eid: null })
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
@@ -108,7 +111,7 @@ describe("proprietaryService", () => {
       const { useProprietaryService } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
-      useProprietaryService(eli, { atDate: new Date(2024, 6, 4) })
+      useProprietaryService(eli, { atDate: new Date(2024, 6, 4), eid: null })
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
@@ -129,7 +132,7 @@ describe("proprietaryService", () => {
       const date = ref("2024-06-04")
       useProprietaryService(
         eli,
-        { atDate: date },
+        { atDate: date, eid: null },
         { immediate: true, refetch: true },
       )
       await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
@@ -148,16 +151,88 @@ describe("proprietaryService", () => {
       const eli = ref("fake/eli/1")
       useProprietaryService(
         eli,
-        { atDate: undefined },
+        { atDate: undefined, eid: null },
         { immediate: true, refetch: true },
       )
       await flushPromises()
 
       expect(fetchSpy).not.toHaveBeenCalled()
     })
+
+    it("loads with an eId", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useProprietaryService } = await import("./proprietaryService")
+
+      const eid = ref("fake_eid")
+      useProprietaryService("fake/eli/1", { atDate: "2024-04-06", eid })
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/fake_eid/2024-04-06",
+          expect.any(Object),
+        ),
+      )
+    })
+
+    it("reloads when the eId changes", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useProprietaryService } = await import("./proprietaryService")
+
+      const eid = ref("fake_eid_1")
+      useProprietaryService(
+        "fake/eli/1",
+        { atDate: "2024-04-06", eid },
+        { immediate: true, refetch: true },
+      )
+      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
+
+      eid.value = "fake_eid_2"
+      await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
+    })
+
+    it("does not reload when the eId is provided but empty", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useProprietaryService } = await import("./proprietaryService")
+
+      const eid = ref()
+      useProprietaryService(
+        "fake/eli/1",
+        { atDate: undefined, eid },
+        { immediate: true, refetch: true },
+      )
+      await flushPromises()
+
+      expect(fetchSpy).not.toHaveBeenCalled()
+    })
+
+    it("reloads when the eId is null", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useProprietaryService } = await import("./proprietaryService")
+
+      useProprietaryService(
+        "fake/eli/1",
+        { atDate: "2024-04-06", eid: null },
+        { immediate: true, refetch: true },
+      )
+      await flushPromises()
+
+      expect(fetchSpy).toHaveBeenCalled()
+    })
   })
 
-  describe("useGetProprietary", () => {
+  describe("useGetRahmenProprietary", () => {
     beforeEach(() => {
       vi.resetAllMocks()
       vi.resetModules()
@@ -168,9 +243,9 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useGetProprietary } = await import("./proprietaryService")
+      const { useGetRahmenProprietary } = await import("./proprietaryService")
 
-      useGetProprietary("fake/eli/1", { atDate: new Date("2024-05-13") })
+      useGetRahmenProprietary("fake/eli/1", { atDate: new Date("2024-05-13") })
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
@@ -189,10 +264,10 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { useGetProprietary } = await import("./proprietaryService")
+      const { useGetRahmenProprietary } = await import("./proprietaryService")
 
       const eli = ref("fake/eli/1")
-      useGetProprietary(eli, { atDate: new Date("2024-05-13") })
+      useGetRahmenProprietary(eli, { atDate: new Date("2024-05-13") })
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
@@ -215,7 +290,7 @@ describe("proprietaryService", () => {
     })
   })
 
-  describe("usePutProprietary", () => {
+  describe("usePutRahmenProprietary", () => {
     beforeEach(() => {
       vi.resetAllMocks()
       vi.resetModules()
@@ -226,10 +301,10 @@ describe("proprietaryService", () => {
         .spyOn(window, "fetch")
         .mockResolvedValue(new Response("{}"))
 
-      const { usePutProprietary } = await import("./proprietaryService")
+      const { usePutRahmenProprietary } = await import("./proprietaryService")
 
-      const data = ref<Proprietary>({ fna: "4711" })
-      const { execute } = usePutProprietary(data, "fake/eli/1", {
+      const data = ref<RahmenProprietary>({ fna: "4711" })
+      const { execute } = usePutRahmenProprietary(data, "fake/eli/1", {
         atDate: new Date("2024-05-13"),
       })
 
@@ -246,6 +321,108 @@ describe("proprietaryService", () => {
             headers: expect.objectContaining({ Accept: "application/json" }),
             method: "PUT",
             body: '{"fna":"4712"}',
+          }),
+        ),
+      )
+    })
+  })
+
+  describe("useGetElementProprietary", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("loads the data from the API", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElementProprietary } = await import("./proprietaryService")
+
+      useGetElementProprietary("fake/eli/1", "fake_eid", {
+        atDate: new Date("2024-05-13"),
+      })
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/fake_eid/2024-05-13",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/json",
+            }),
+          }),
+        ),
+      )
+    })
+
+    it("reloads when parameters change", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { useGetElementProprietary } = await import("./proprietaryService")
+
+      const eid = ref("fake_eid_1")
+      useGetElementProprietary("fake/eli/1", eid, {
+        atDate: new Date("2024-05-13"),
+      })
+
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/fake_eid_1/2024-05-13",
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/json",
+            }),
+          }),
+        )
+      })
+
+      eid.value = "fake_eid_2"
+      await vi.waitFor(() => {
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/fake_eid_2/2024-05-13",
+          expect.any(Object),
+        )
+      })
+    })
+  })
+
+  describe("usePutElementProprietary", () => {
+    beforeEach(() => {
+      vi.resetAllMocks()
+      vi.resetModules()
+    })
+
+    it("sends the data to the API on changes", async () => {
+      const fetchSpy = vi
+        .spyOn(window, "fetch")
+        .mockResolvedValue(new Response("{}"))
+
+      const { usePutElementProprietary } = await import("./proprietaryService")
+
+      const data = ref<ElementProprietary>({ artDerNorm: "SN" })
+      const { execute } = usePutElementProprietary(
+        data,
+        "fake/eli/1",
+        "fake_eid",
+        { atDate: new Date("2024-05-13") },
+      )
+
+      await flushPromises()
+      expect(fetchSpy).not.toHaveBeenCalled()
+
+      data.value = { artDerNorm: "UN" }
+      execute()
+
+      await vi.waitFor(() =>
+        expect(fetchSpy).toHaveBeenCalledWith(
+          "/api/v1/norms/fake/eli/1/proprietary/fake_eid/2024-05-13",
+          expect.objectContaining({
+            headers: expect.objectContaining({ Accept: "application/json" }),
+            method: "PUT",
+            body: '{"artDerNorm":"UN"}',
           }),
         ),
       )

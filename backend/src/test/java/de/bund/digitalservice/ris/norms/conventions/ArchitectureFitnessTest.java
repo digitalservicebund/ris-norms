@@ -37,16 +37,42 @@ class ArchitectureFitnessTest {
   static final String INPUT_PORT_LAYER_PACKAGES = BASE_PACKAGE + ".application.port.input";
   static final String OUTPUT_PORT_LAYER_PACKAGES = BASE_PACKAGE + ".application.port.output";
   static final String SERVICE_LAYER_PACKAGES = BASE_PACKAGE + ".application.service..";
+  static final String APPLICATION_EXCEPTION_PACKAGES = BASE_PACKAGE + ".application.exception..";
 
   static final String ADAPTER_LAYER_PACKAGES = BASE_PACKAGE + ".adapter..";
 
   static final String REPOSITORY_LAYER_PACKAGES =
       BASE_PACKAGE + ".adapter.output.database.repository";
+  static final String ADAPTER_OUTPUT = BASE_PACKAGE + ".adapter.output..";
   static final String DOMAIN_LAYER_PACKAGES = BASE_PACKAGE + ".domain..";
   static final String ENTITY_LAYER_PACKAGES = BASE_PACKAGE + ".domain.entity";
   static final String VALUE_LAYER_PACKAGES = BASE_PACKAGE + ".domain.value";
   static final String EXCEPTIONS_LAYER_PACKAGES = BASE_PACKAGE + ".domain.exceptions";
   static final String UTILS_LAYER_PACKAGES = BASE_PACKAGE + ".utils..";
+
+  static final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
+      new String[] {
+        "kotlin..",
+        "java..",
+        "org.jetbrains.annotations..",
+        "lombok..",
+        "org.w3c.dom..",
+        "org.apache.commons.lang3.."
+      };
+  static final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
+      new String[] {
+        UTILS_LAYER_PACKAGES,
+        DOMAIN_LAYER_PACKAGES,
+        "kotlin..",
+        "java..",
+        "javax.xml..",
+        "org.jetbrains.annotations..",
+        "lombok..",
+        "org.w3c.dom..",
+        "net.sf.saxon..",
+        "org.xml.sax..",
+        "org.slf4j..",
+      };
 
   @BeforeAll
   static void setUp() {
@@ -68,16 +94,6 @@ class ArchitectureFitnessTest {
 
   @Test
   void domainClassesShouldOnlyDependOnDomainUtilsOrSpecificStandardLibraries() {
-    final String[] DOMAIN_LAYER_ALLOWED_PACKAGES =
-        new String[] {
-          "kotlin..",
-          "java..",
-          "org.jetbrains.annotations..",
-          "lombok..",
-          "org.w3c.dom..",
-          "org.apache.commons.lang3.."
-        };
-
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
@@ -94,21 +110,6 @@ class ArchitectureFitnessTest {
 
   @Test
   void utilsClassesShouldOnlyDependOnUtilsOrSpecificStandardLibraries() {
-    final String[] UTILITY_LAYER_ALLOWED_PACKAGES =
-        new String[] {
-          UTILS_LAYER_PACKAGES,
-          DOMAIN_LAYER_PACKAGES,
-          "kotlin..",
-          "java..",
-          "javax.xml..",
-          "org.jetbrains.annotations..",
-          "lombok..",
-          "org.w3c.dom..",
-          "net.sf.saxon..",
-          "org.xml.sax..",
-          "org.slf4j..",
-        };
-
     ArchRule rule =
         ArchRuleDefinition.classes()
             .that()
@@ -252,6 +253,18 @@ class ArchitectureFitnessTest {
   }
 
   @Test
+  void outputPortMayNotDependOnApplicationLayerExceptions() {
+    ArchRule rule =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage(ADAPTER_OUTPUT)
+            .should()
+            .onlyDependOnClassesThat()
+            .resideOutsideOfPackage(APPLICATION_EXCEPTION_PACKAGES);
+    rule.check(classes);
+  }
+
+  @Test
   void allClassesOfTheApplicationShouldBeSortedIntoTheFollowingPackages() {
     ArchRule rule =
         ArchRuleDefinition.classes()
@@ -259,7 +272,10 @@ class ArchitectureFitnessTest {
             .resideInAPackage(APPLICATION_LAYER_PACKAGES)
             .should()
             .resideInAnyPackage(
-                INPUT_PORT_LAYER_PACKAGES, OUTPUT_PORT_LAYER_PACKAGES, SERVICE_LAYER_PACKAGES);
+                INPUT_PORT_LAYER_PACKAGES,
+                OUTPUT_PORT_LAYER_PACKAGES,
+                SERVICE_LAYER_PACKAGES,
+                APPLICATION_EXCEPTION_PACKAGES);
     rule.check(classes);
   }
 

@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import RisCallout from "@/components/controls/RisCallout.vue"
+import { useHeaderContext } from "@/components/controls/RisHeader.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import { computed, ref, onBeforeUnmount, watch } from "vue"
+import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetNormXml } from "@/services/normService"
-import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
-import RisCallout from "@/components/controls/RisCallout.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import { computed, onBeforeUnmount, onUnmounted, ref, watch } from "vue"
+
+const { pushBreadcrumb } = useHeaderContext()
+const cleanupBreadcrumbs = pushBreadcrumb({ title: "Abgabe" })
+onUnmounted(() => cleanupBreadcrumbs())
 
 const eli = useEliPathParameter()
 const {

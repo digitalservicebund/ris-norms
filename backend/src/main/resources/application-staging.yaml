@@ -1,0 +1,10 @@
+sentry:
+  environment: staging
+  traces-sample-rate: 1.0
+  max-request-body-size: always
+  send-default-pii: on
+
+spring:
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:postgresql://${database.host:localhost}:${database.port:5432}/${database.database:risnorms}

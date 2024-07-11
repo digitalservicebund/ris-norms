@@ -1,15 +1,23 @@
-import { evaluateXPathOnce } from "@/services/xmlService"
+import { evaluateXPath, evaluateXPathOnce } from "@/services/xmlService"
 import { ModType, ModData } from "@/types/ModType"
 import {
   getActiveModificationByModEid,
   getNodeByEid,
 } from "@/services/ldmldeService"
 import { getForcePeriod } from "@/services/ldmldeTextualModService"
-import { getStartEventRefEid } from "@/services/ldmldeTemporalGroupService"
-import { getEventRefDate } from "@/services/ldmldeEventRefService"
+import { getTemporalGroupDate } from "@/services/ldmldeTemporalGroupService"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import { computed, MaybeRefOrGetter, ref, toValue, watch } from "vue"
 import { UseFetchReturn } from "@vueuse/core"
+
+/**
+ * Find the eIds of all akn:mod elements.
+ */
+export function getModEIds(node: Node): string[] {
+  return evaluateXPath(`//akn:mod/@eId`, node)
+    .map((eIdNode) => eIdNode.nodeValue)
+    .filter((value): value is string => value !== null)
+}
 
 /**
  * Provides the old text of an akn:mod element. For "aenderungsbefehl-ersetzen" this is the old text.
@@ -55,13 +63,7 @@ export function getTimeBoundaryDate(xml: Document, aknModEid: string) {
   const temporalGroupNode = getNodeByEid(xml, temporalGroupEid)
   if (!temporalGroupNode) return null
 
-  const eventRefEid = getStartEventRefEid(temporalGroupNode)
-  if (!eventRefEid) return null
-
-  const eventRefNode = getNodeByEid(xml, eventRefEid)
-  if (!eventRefNode) return null
-
-  const date = getEventRefDate(eventRefNode)
+  const date = getTemporalGroupDate(temporalGroupNode)
   if (!date) return null
 
   return { date, temporalGroupEid }
@@ -120,6 +122,65 @@ export function useUpdateModData(
       () => toValue(updatedMods),
       () => toValue(dryRun),
     ],
+    () => {
+      isFinished.value = false
+    },
+  )
+
+  return {
+    ...apiFetch,
+    isFinished,
+  }
+}
+
+/**
+ * Composable for saving updated mods to the server.
+ *
+ * @param eli - The ELI of the norm.
+ * @param updatedMods - A object mapping eids to the updated mod objects.
+ * @param dryRun - Should the save operation only be previewed and not actually persisted?
+ */
+export function useUpdateMods(
+  eli: MaybeRefOrGetter<string | null>,
+  updatedMods: MaybeRefOrGetter<{
+    [eid: string]: Pick<ModData, "timeBoundaryEid">
+  }>,
+  dryRun: MaybeRefOrGetter<boolean> = false,
+): UseFetchReturn<{
+  amendingNormXml: string
+  targetNormZf0Xml: string
+}> {
+  const apiFetch: UseFetchReturn<{
+    amendingNormXml: string
+    targetNormZf0Xml: string
+  }> = useApiFetch(
+    computed(() => {
+      if (!toValue(eli) || !toValue(updatedMods)) {
+        return INVALID_URL
+      }
+
+      const params = new URLSearchParams()
+
+      if (toValue(dryRun)) {
+        params.set("dryRun", "true")
+      }
+
+      return `/norms/${toValue(eli)}/mods?${params.toString()}`
+    }),
+    {
+      immediate: false,
+    },
+  )
+    .json()
+    .patch(updatedMods)
+
+  // reset isFinished when data changes
+  const isFinished = ref(false)
+  watch(apiFetch.isFinished, () => {
+    isFinished.value = apiFetch.isFinished.value
+  })
+  watch(
+    [() => toValue(eli), () => toValue(updatedMods), () => toValue(dryRun)],
     () => {
       isFinished.value = false
     },

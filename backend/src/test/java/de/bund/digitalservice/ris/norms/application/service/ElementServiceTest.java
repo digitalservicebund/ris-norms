@@ -5,13 +5,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormNotFoundException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -367,7 +367,7 @@ class ElementServiceTest {
   @Nested
   class loadElementsByTypeFromNorm {
     @Test
-    void returnsAllSupportedTypesFromANorm() throws Exception {
+    void returnsAllSupportedTypesFromANorm() {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -390,7 +390,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void returnsASubsetOfTypesFromANorm() throws Exception {
+    void returnsASubsetOfTypesFromANorm() {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -407,7 +407,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void returnsEmptyListIfTypeIsNotInNorm() throws Exception {
+    void returnsEmptyListIfTypeIsNotInNorm() {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -422,7 +422,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void returnsEmptyListIfTypesAreEmpty() throws Exception {
+    void returnsEmptyListIfTypesAreEmpty() {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
@@ -456,16 +456,16 @@ class ElementServiceTest {
       // Given
       // Nothing given -> Loading should fail
 
+      LoadElementsByTypeFromNormUseCase.Query query =
+          new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"));
+
       // When / Then
-      assertThatThrownBy(
-              () ->
-                  service.loadElementsByTypeFromNorm(
-                      new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"))))
+      assertThatThrownBy(() -> service.loadElementsByTypeFromNorm(query))
           .isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
-    void filtersReturnedElementsByAmendingNorm() throws Exception {
+    void filtersReturnedElementsByAmendingNorm() {
       // Given
       var targetNorm =
           NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
@@ -487,7 +487,7 @@ class ElementServiceTest {
     }
 
     @Test
-    void returnsEmptyListIfNoElementIsAffectedByTheAmendingNorm() throws Exception {
+    void returnsEmptyListIfNoElementIsAffectedByTheAmendingNorm() {
       // Given
       var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       var targetNormEli = targetNorm.getEli();

@@ -6,11 +6,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
-import de.bund.digitalservice.ris.norms.utils.exceptions.XmlContentException;
 import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -41,7 +41,7 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): RefersTo is empty in article with eId hauptteil-1_art-1");
   }
@@ -57,7 +57,7 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href is empty where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
   }
@@ -79,7 +79,7 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
   }
@@ -112,7 +112,7 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): TextualMod eId empty.");
   }
@@ -134,7 +134,7 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The Eli in aknMod href is empty in article with eId hauptteil-1_art-1");
   }
@@ -151,7 +151,7 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): AffectedDocument href is empty in article with eId hauptteil-1_art-1");
   }
@@ -175,7 +175,7 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Elis are not consistent");
   }
@@ -199,7 +199,7 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(XmlContentException.class)
+        .isInstanceOf(ValidationException.class)
         .hasMessageContaining(
             "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Eids are not consistent");
   }

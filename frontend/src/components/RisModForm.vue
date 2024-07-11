@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
-import { computed, ref } from "vue"
+import { computed } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CheckIcon from "~icons/ic/check"
@@ -16,14 +16,8 @@ const props = defineProps<{
   textualModType: ModType | ""
   /** the possible time boundaries in the format YYYY-MM-DD. */
   timeBoundaries: TemporalDataResponse[]
-  /** Optional selected time boundary of the format YYYY-MM-DD */
-  selectedTimeBoundary?: { date: string; temporalGroupEid: string }
-  /** Destination Href for mod */
-  destinationHref: string
   /** This is the text that will be replaced */
   quotedTextFirst?: string
-  /** This is the text that replaces quotedTextFirst */
-  quotedTextSecond?: string
   isUpdating?: boolean
   isUpdatingFinished?: boolean
   updateError?: Error
@@ -33,10 +27,13 @@ defineEmits<{
   "generate-preview": []
   "update-mod": []
 }>()
+/** Optional selected time boundary of the format YYYY-MM-DD */
 const selectedTimeBoundaryModel = defineModel<TemporalDataResponse | undefined>(
   "selectedTimeBoundary",
 )
+/** Destination Href for mod */
 const destinationHrefModel = defineModel<string>("destinationHref")
+/** This is the text that replaces quotedTextFirst */
 const quotedTextSecondModel = defineModel<string | undefined>(
   "quotedTextSecond",
 )
@@ -44,7 +41,11 @@ const quotedTextSecondModel = defineModel<string | undefined>(
 const timeBoundaries = computed(() => {
   return [
     ...props.timeBoundaries.map((boundary) => ({
-      label: new Date(boundary.date).toLocaleDateString("de"),
+      label: new Date(boundary.date).toLocaleDateString("de", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
       value: boundary.date,
     })),
     { label: "Keine Angabe", value: "no_choice" },
@@ -62,20 +63,15 @@ const selectedElement = computed({
   },
 })
 
-const temporaryEid = ref(
-  destinationHrefModel.value?.split("/").slice(-2).join("/") || "",
-)
-
 const destinationHrefEli = computed(() =>
   destinationHrefModel.value?.split("/").slice(0, -2).join("/"),
 )
 
 const destinationHrefEid = computed({
   get() {
-    return temporaryEid.value
+    return destinationHrefModel.value?.split("/").slice(-2).join("/") || ""
   },
   set(newValue: string) {
-    temporaryEid.value = newValue
     if (destinationHrefModel.value) {
       const parts = destinationHrefModel.value.split("/")
       const newParts = newValue.split("/")
@@ -113,18 +109,18 @@ function modTypeLabel(modType: ModType | "") {
 <template>
   <form :id="id" class="grid grid-cols-1 gap-y-20">
     <div class="grid grid-cols-2 gap-x-40">
-      <RisTextInput
-        id="textualModeType"
-        label="Änderungstyp"
-        :model-value="modTypeLabel(textualModType)"
-        read-only
-      />
       <RisDropdownInput
         id="timeBoundaries"
         v-model="selectedElement"
         label="Zeitgrenze"
         :items="timeBoundaries"
         @change="$emit('generate-preview')"
+      />
+      <RisTextInput
+        id="textualModeType"
+        label="Änderungstyp"
+        :model-value="modTypeLabel(textualModType)"
+        read-only
       />
     </div>
 
@@ -173,6 +169,7 @@ function modTypeLabel(modType: ModType | "") {
           alignment="right"
           attachment="top"
           :variant="updateError ? 'error' : 'success'"
+          allow-dismiss
         >
           <RisTextButton
             :aria-describedby="ariaDescribedby"
