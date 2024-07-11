@@ -3,20 +3,24 @@ import { ref, watch } from "vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
 
 const aknRef = defineModel<Element>({ required: true })
+const emit = defineEmits(["change"])
 
 const type = ref("Typ")
 watch(type, () => {
   aknRef.value.setAttribute("type", type.value)
+  emit("change")
 })
 
 const bezugsnorm = ref("")
 watch(bezugsnorm, () => {
   aknRef.value.setAttribute("bezugsnorm", bezugsnorm.value)
+  emit("change")
 })
 
 const fassung = ref("")
 watch(fassung, () => {
   aknRef.value.setAttribute("fassung", fassung.value)
+  emit("change")
 })
 
 watch(

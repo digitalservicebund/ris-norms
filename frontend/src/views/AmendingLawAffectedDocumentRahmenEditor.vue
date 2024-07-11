@@ -23,6 +23,7 @@ import {
 import { useNormRender } from "@/composables/useNormRender"
 import RisRefEditor from "@/components/RisRefEditor.vue"
 import CloseIcon from "~icons/ic/close"
+import { useDebounceFn } from "@vueuse/core"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -246,13 +247,6 @@ function updateCurrentXml() {
   }
 }
 
-async function handleSave() {
-  if (doc.value) {
-    currentXml.value = xmlNodeToString(doc.value)
-    await updateXml()
-  }
-}
-
 function eidToSlotName(eid: string) {
   return `eid:${eid}`
 }
@@ -265,7 +259,7 @@ function handleDeleteRef(element: Element) {
   const childNodes: Node[] = []
   element.childNodes.forEach((e) => childNodes.push(e))
   element.replaceWith(...childNodes)
-  handleSave()
+  updateCurrentXml()
 }
 
 const selectedRef = ref<string>()
@@ -277,6 +271,8 @@ function selectAknRef(eid: string) {
 function handleAknRefClick({ eid }: { eid: string }) {
   selectAknRef(eid)
 }
+
+const handleRefChange = useDebounceFn(updateCurrentXml, 1000, { maxWait: 5000 })
 </script>
 
 <template>
@@ -367,6 +363,7 @@ function handleAknRefClick({ eid }: { eid: string }) {
                     selectedRef == getEid(aknRef),
                 }"
                 @focusin="selectAknRef(getEid(aknRef))"
+                @change="handleRefChange"
               >
               </RisRefEditor>
             </div>
