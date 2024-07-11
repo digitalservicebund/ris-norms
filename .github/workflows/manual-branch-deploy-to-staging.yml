@@ -11,7 +11,7 @@ jobs:
   check-if-image-exists:
     runs-on: ubuntu-latest
     outputs:
-      image-exists:
+      image-exists: ${{ contains(steps.*.outputs.image-exists, 'true') && 'true' || 'false' }}
     steps:
       - name: Log into container registry
         uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446
@@ -22,9 +22,11 @@ jobs:
       - name: Check if image with commit sha already exists
         run: docker manifest inspect ghcr.io/${{ github.repository }}:${{ github.sha }}
       - name: Set output if image exists
+        id: set-output-1
         if: ${{ success() }}
         run: echo "image-exists=true" >> "$GITHUB_OUTPUT"
       - name: Set output if image does not exist
+        id: set-output-2
         if: ${{ failure() }}
         run: echo "image-exists=false" >> "$GITHUB_OUTPUT"
 
