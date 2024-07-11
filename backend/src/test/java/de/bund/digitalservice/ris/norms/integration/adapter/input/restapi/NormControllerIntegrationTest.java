@@ -565,7 +565,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
       String characterCount = "9-34";
       String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
-      String newText = "new test text";
+      String newContent = "new test text";
 
       // When
       mockMvc
@@ -580,8 +580,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                           + timeBoundaryEId
                           + "\", \"destinationHref\": \""
                           + destinationHref
-                          + "\", \"newText\": \""
-                          + newText
+                          + "\", \"newContent\": \""
+                          + newContent
                           + "\"}"))
           // Then
           .andExpect(status().isOk())
@@ -606,7 +606,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       XmlMatcher.xml(hasXPath("//body//mod/ref/@href", equalTo(destinationHref)))))
           .andExpect(
               jsonPath("amendingNormXml")
-                  .value(XmlMatcher.xml(hasXPath("//body//mod/quotedText[2]", equalTo(newText)))))
+                  .value(
+                      XmlMatcher.xml(hasXPath("//body//mod/quotedText[2]", equalTo(newContent)))))
           .andExpect(
               jsonPath("targetNormZf0Xml")
                   .value(
@@ -650,7 +651,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
       String characterCount = "9-35"; // 9-34 would be correct -> This is wrong on purpose
       String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
-      String newText = "new test text"; // This is not being validated
+      String newContent = "new test text"; // This is not being validated
 
       // When
       mockMvc
@@ -665,8 +666,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                           + timeBoundaryEId
                           + "\", \"destinationHref\": \""
                           + destinationHref
-                          + "\", \"newText\": \""
-                          + newText
+                          + "\", \"newContent\": \""
+                          + newContent
                           + "\"}"))
           // Then
           .andExpect(status().isUnprocessableEntity());

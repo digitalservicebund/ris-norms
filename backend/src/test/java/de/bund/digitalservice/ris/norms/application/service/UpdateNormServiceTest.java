@@ -201,7 +201,7 @@ class UpdateNormServiceTest {
   @Nested
   class updateActiveModifications {
     @Test
-    void itChangesDestinationHrefTimeBoundaryEIdAndNewText() {
+    void itChangesDestinationHrefTimeBoundaryEIdAndNewContent() {
 
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -215,13 +215,13 @@ class UpdateNormServiceTest {
               + newCharacterRange
               + ".xml";
       String newTimeBoundaryEid = "#time-boundary-eid";
-      String newText = "new-text";
+      String newContent = "new-text";
 
       // When
       var updatedAmendingNorm =
           updateNormService.updateActiveModifications(
               new UpdateActiveModificationsUseCase.Query(
-                  amendingLaw, eId, newDestinationHref, newTimeBoundaryEid, newText));
+                  amendingLaw, eId, newDestinationHref, newTimeBoundaryEid, newContent));
 
       // Then
       final TextualMod activeModifications =
@@ -238,7 +238,7 @@ class UpdateNormServiceTest {
               .filter(f -> f.getEid().orElseThrow().equals(eId))
               .findFirst()
               .orElseThrow();
-      assertThat(mod.getNewText()).contains(newText);
+      assertThat(mod.getNewContent()).contains(newContent);
     }
   }
 }

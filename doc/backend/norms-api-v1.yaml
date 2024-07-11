@@ -666,7 +666,7 @@ components:
           type: string
         destinationHref:
           type: string
-        newText:
+        newContent:
           type: string
 
     ReleaseResponse:

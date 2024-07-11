@@ -99,7 +99,7 @@ export function useMod(
       refersTo: eidValue,
       timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
       destinationHref: destinationHref.value,
-      newText: quotedTextSecond.value,
+      newContent: quotedTextSecond.value,
     }
   })
   const preview = useUpdateModData(eli, eid, modData, true)

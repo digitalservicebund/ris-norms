@@ -164,7 +164,7 @@ describe("ldmldeModService", () => {
         refersTo: "test-refersTo",
         timeBoundaryEid: "test-timeBoundaryEid",
         destinationHref: "test-destinationHref",
-        newText: "test-newText",
+        newContent: "test-newContent",
       }
 
       const expectedResponse = {
@@ -210,7 +210,7 @@ describe("ldmldeModService", () => {
         refersTo: "test-refersTo",
         timeBoundaryEid: "test-timeBoundaryEid",
         destinationHref: "test-destinationHref",
-        newText: "test-newText",
+        newContent: "test-newContent",
       })
       expect(isFinished.value).toBe(false)
       await execute()

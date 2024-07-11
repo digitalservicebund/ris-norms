@@ -75,7 +75,7 @@ public class Mod {
    *
    * @return The text that will replace the old text
    */
-  public Optional<String> getNewText() {
+  public Optional<String> getNewContent() {
     return NodeParser.getValueFromExpression("normalize-space(./quotedText[2])", this.node);
   }
 
@@ -104,12 +104,12 @@ public class Mod {
   /**
    * Updates the quoted text that will be used to replace the old text once the mod is applied.
    *
-   * @param newText - the replacing text
+   * @param newContent - the replacing text
    */
-  public void setNewText(final String newText) {
-    final Node newTextNode =
+  public void setNewContent(final String newContent) {
+    final Node newContentNode =
         NodeParser.getNodeFromExpression("./quotedText[2]", this.node).orElseThrow();
-    newTextNode.setTextContent(newText);
+    newContentNode.setTextContent(newContent);
   }
 
   /**
@@ -119,7 +119,8 @@ public class Mod {
    * @return is it using a quotedText structure
    */
   public boolean usesQuotedText() {
-    final Optional<Node> newTextNode = NodeParser.getNodeFromExpression("./quotedText", this.node);
-    return newTextNode.isPresent();
+    final Optional<Node> newContentNode =
+        NodeParser.getNodeFromExpression("./quotedText", this.node);
+    return newContentNode.isPresent();
   }
 }

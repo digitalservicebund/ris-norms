@@ -107,7 +107,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               if (mod.getTargetHref().isEmpty()
                   || mod.getTargetHref().get().getEId().isEmpty()
                   || mod.getOldText().isEmpty()
-                  || mod.getNewText().isEmpty()) {
+                  || mod.getNewContent().isEmpty()) {
                 return;
               }
 
@@ -133,7 +133,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                   nodeToChange
                       .get()
                       .getTextContent()
-                      .replaceFirst(mod.getOldText().get(), mod.getNewText().get());
+                      .replaceFirst(mod.getOldText().get(), mod.getNewContent().get());
               nodeToChange.get().setTextContent(modifiedTextContent);
             });
 

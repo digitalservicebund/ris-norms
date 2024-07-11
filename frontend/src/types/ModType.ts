@@ -9,5 +9,5 @@ export interface ModData {
   refersTo: string
   timeBoundaryEid?: string
   destinationHref: string
-  newText: string
+  newContent: string
 }
