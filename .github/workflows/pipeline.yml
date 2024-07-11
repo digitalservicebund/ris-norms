@@ -63,7 +63,9 @@ jobs:
      if: ${{ github.ref == 'refs/heads/main' }}
      needs:
        - backend-jobs
+       - frontend-jobs
        - create-docker-image-job
+       - e2e-tests
      permissions:
        security-events: write # upload-sarif
        packages: write
@@ -83,7 +85,10 @@ jobs:
    deploy-staging-job:
      if: ${{ github.ref == 'refs/heads/main' }}
      needs:
+       - frontend-jobs
+       - backend-jobs
        - push-docker-image-job
+       - e2e-tests
      permissions:
        id-token: write
      uses: ./.github/workflows/deploy-staging-job.yml

@@ -104,7 +104,7 @@ pre-push:
         which gh 2>&1 >/dev/null || exit 0
 
         conclusion="$(
-          gh run list --branch main --workflow pipeline --json conclusion,status \
+          gh run list --branch main --workflow pipeline.yml --json conclusion,status \
           --jq '[.[] | select(.status=="completed")][0].conclusion' \
         )"
 
