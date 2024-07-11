@@ -96,5 +96,3 @@ async function handlePaste(e: ClipboardEvent) {
     ></RisTextInput>
   </div>
 </template>
-
-<style scoped></style>
