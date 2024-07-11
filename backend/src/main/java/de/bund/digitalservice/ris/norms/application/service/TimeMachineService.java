@@ -12,9 +12,11 @@ import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundEx
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Node;
 
 /**
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
@@ -129,14 +131,31 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                 return;
               }
 
-              final var modifiedTextContent =
-                  nodeToChange
-                      .get()
-                      .getTextContent()
-                      .replaceFirst(mod.getOldText().get(), mod.getNewText().get());
-              nodeToChange.get().setTextContent(modifiedTextContent);
+              var childNodeToModify =
+                  findFirstDeepestChildNodeWithText(nodeToChange.get(), mod.getOldText().get());
+
+              childNodeToModify.ifPresent(
+                  childNode ->
+                      childNode.setTextContent(
+                          childNode
+                              .getTextContent()
+                              .replaceFirst(mod.getOldText().get(), mod.getNewText().get())));
             });
 
     return norm;
+  }
+
+  private Optional<Node> findFirstDeepestChildNodeWithText(Node node, String textToFind) {
+    if (node.hasChildNodes()) {
+      return NodeParser.nodeListToList(node.getChildNodes()).stream()
+          .flatMap(childNode -> findFirstDeepestChildNodeWithText(childNode, textToFind).stream())
+          .findFirst();
+    }
+
+    if (node.getTextContent().contains(textToFind)) {
+      return Optional.of(node);
+    }
+
+    return Optional.empty();
   }
 }
