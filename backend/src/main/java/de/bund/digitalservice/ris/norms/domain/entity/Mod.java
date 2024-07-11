@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -75,7 +76,7 @@ public class Mod {
    *
    * @return The text that will replace the old text
    */
-  public Optional<String> getNewContent() {
+  public Optional<String> getNewText() {
     return NodeParser.getValueFromExpression("normalize-space(./quotedText[2])", this.node);
   }
 
@@ -106,10 +107,26 @@ public class Mod {
    *
    * @param newContent - the replacing text
    */
-  public void setNewContent(final String newContent) {
+  public void setNewText(final String newContent) {
     final Node newContentNode =
         NodeParser.getNodeFromExpression("./quotedText[2]", this.node).orElseThrow();
     newContentNode.setTextContent(newContent);
+  }
+
+  /**
+   * Updates the quoted structure that will be used to replace the node once the mod is applied.
+   *
+   * @param newContent - the replacing text
+   */
+  public void updateWithQuotedStructure(String newContent) {
+    final Node oldQuotedStructure =
+        NodeParser.getNodeFromExpression("./quotedStructure", this.node).orElseThrow();
+    final Node quotedStructureParent = oldQuotedStructure.getParentNode();
+    final Node newQuotedStructure = XmlMapper.toNode(newContent);
+
+    final Node newQuotedStructureImported =
+        oldQuotedStructure.getOwnerDocument().importNode(newQuotedStructure, true);
+    quotedStructureParent.replaceChild(newQuotedStructureImported, oldQuotedStructure);
   }
 
   /**
@@ -121,6 +138,17 @@ public class Mod {
   public boolean usesQuotedText() {
     final Optional<Node> newContentNode =
         NodeParser.getNodeFromExpression("./quotedText", this.node);
+    return newContentNode.isPresent();
+  }
+
+  /**
+   * Checks weather a quotedStructure was used for a substitution.
+   *
+   * @return is it using a quotedStructure
+   */
+  public boolean usesQuotedStructure() {
+    final Optional<Node> newContentNode =
+        NodeParser.getNodeFromExpression("./quotedStructure", this.node);
     return newContentNode.isPresent();
   }
 }

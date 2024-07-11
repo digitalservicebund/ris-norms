@@ -238,7 +238,7 @@ class UpdateNormServiceTest {
               .filter(f -> f.getEid().orElseThrow().equals(eId))
               .findFirst()
               .orElseThrow();
-      assertThat(mod.getNewContent()).contains(newContent);
+      assertThat(mod.getNewText()).contains(newContent);
     }
   }
 }

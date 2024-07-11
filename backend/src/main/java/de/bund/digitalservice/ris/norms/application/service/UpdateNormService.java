@@ -155,12 +155,30 @@ public class UpdateNormService
 
     // Edit mod in body
     amendingNorm.getMods().stream()
-        .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eId()))
+        .filter(
+            mod ->
+                mod.getEid().isPresent()
+                    && mod.getEid().get().equals(query.eId())
+                    && mod.usesQuotedText())
         .findFirst()
         .ifPresent(
             mod -> {
               mod.setTargetHref(query.destinationHref());
-              mod.setNewContent(query.newContent());
+              mod.setNewText(query.newContent());
+            });
+
+    // replace node by quoted structure
+    amendingNorm.getMods().stream()
+        .filter(
+            mod ->
+                mod.getEid().isPresent()
+                    && mod.getEid().get().equals(query.eId())
+                    && mod.usesQuotedStructure())
+        .findFirst()
+        .ifPresent(
+            mod -> {
+              mod.setTargetHref(query.destinationHref());
+              mod.updateWithQuotedStructure(query.newContent());
             });
     return amendingNorm;
   }
