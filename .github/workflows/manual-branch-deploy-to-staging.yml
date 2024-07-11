@@ -20,9 +20,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Check if image with commit sha already exists
-        run:
-          docker manifest inspect ghcr.io/${{ github.repository }}:${{ github.sha }} > /dev/null
-          test $? -eq 0 && echo "image-exists=true" >> "$GITHUB_OUTPUT" || echo "image-exists=false" >> "$GITHUB_OUTPUT"
+        run: docker manifest inspect ghcr.io/${{ github.repository }}:${{ github.sha }}
+      - name: Set output if image exists
+        if: ${{ success() }}
+        run: echo "image-exists=true" >> "$GITHUB_OUTPUT"
+      - name: Set output if image does not exist
+        if: ${{ failure() }}
+        run: echo "image-exists=false" >> "$GITHUB_OUTPUT"
 
   create-docker-image-job:
     needs:
