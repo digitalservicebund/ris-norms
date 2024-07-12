@@ -26,7 +26,6 @@ import { useNormRenderHtml } from "@/composables/useNormRender"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
-import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -300,11 +299,6 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 function handleModClick(e: { eid: string }) {
   selectedMod.value = e.eid
 }
-
-const highlightModClasses = useModHighlightClasses(
-  doc,
-  (eid) => eid === selectedMod.value,
-)
 </script>
 
 <template>
@@ -343,10 +337,10 @@ const highlightModClasses = useModHighlightClasses(
 
             <RisLawPreview
               v-else
+              id="norm-preview"
               class="ds-textarea flex-grow p-2"
               :content="render ?? ''"
-              :selected="selectedRef ? [selectedRef] : []"
-              :e-id-classes="highlightModClasses"
+              :selected="selectedMod ? [selectedMod] : []"
               @click:akn:mod="handleModClick"
             ></RisLawPreview>
           </section>
@@ -373,6 +367,7 @@ const highlightModClasses = useModHighlightClasses(
 
             <RisLawPreview
               v-else
+              id="mod-preview"
               class="ds-textarea flex-grow p-2"
               :content="render2 ?? ''"
               :selected="selectedRef ? [selectedRef] : []"
@@ -493,3 +488,33 @@ const highlightModClasses = useModHighlightClasses(
     </RisHeader>
   </div>
 </template>
+
+<style scoped>
+#norm-preview :deep(.akn-mod) {
+  @apply block border border-[#4299F7] bg-[#E7E7E766] px-2;
+}
+
+#norm-preview :deep(.akn-mod.selected) {
+  @apply block bg-[#fef7bd];
+}
+
+#norm-preview :deep(.akn-mod):hover {
+  @apply block bg-[#fef7bd];
+}
+
+#norm-preview :deep(.akn-quotedText .akn-ref) {
+  @apply bg-highlight-mod-10-default;
+}
+
+#mod-preview :deep(.akn-ref) {
+  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
+}
+
+#mod-preview :deep(.akn-ref):hover {
+  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
+}
+
+#mod-preview :deep(.akn-ref.selected) {
+  @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
+}
+</style>

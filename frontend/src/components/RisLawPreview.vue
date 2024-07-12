@@ -488,18 +488,6 @@ watch(
   @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
 }
 
-:deep(.akn-ref) {
-  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
-}
-
-:deep(.akn-ref):hover {
-  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
-}
-
-:deep(.akn-ref.selected) {
-  @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
-}
-
 :deep([role="button"]) {
   @apply cursor-pointer;
 }
