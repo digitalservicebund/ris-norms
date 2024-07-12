@@ -668,6 +668,7 @@ components:
           type: string
         newContent:
           type: string
+          description: In case of a quotedText a String with the new text or in case of quotedStructure the new content within a quotedStructure
 
     ReleaseResponse:
       type: object

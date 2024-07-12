@@ -96,25 +96,36 @@ class ModTest {
 
     final String newQuotedStructureMod =
         """
-              <akn:quotedStructure GUID="9cb0572a-2933-473e-823f-5541ab360561" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
-                <akn:longTitle GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
-                  <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
-                    <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">new text</akn:docTitle>
-                    <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
-                  </akn:p>
-                </akn:longTitle>
-              </akn:quotedStructure>
+          <akn:longTitle GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
+            <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
+              <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">new text</akn:docTitle>
+              <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+            </akn:p>
+          </akn:longTitle>
+          <akn:paragraph>
+            <akn:num>(1)</akn:num>
+            <akn:content>
+              <akn:p> new paragraph
+              </akn:p>
+            </akn:content>
+          </akn:paragraph>
       """;
 
     // when
     quotedStructureMod.updateWithQuotedStructure(newQuotedStructureMod);
-    final Node newParagraph =
+    final Node newTitle =
         NodeParser.getNodeFromExpression(
                 "./quotedStructure/longTitle/p/docTitle", quotedStructureMod.getNode())
             .orElseThrow();
 
+    final Node newParagraph =
+        NodeParser.getNodeFromExpression(
+                "./quotedStructure/paragraph/content/p", quotedStructureMod.getNode())
+            .orElseThrow();
+
     // then
-    assertThat(newParagraph.getTextContent()).contains("new text");
+    assertThat(newTitle.getTextContent()).contains("new text");
+    assertThat(newParagraph.getTextContent()).contains("new paragraph");
   }
 
   @Test

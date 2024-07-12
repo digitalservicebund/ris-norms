@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -119,14 +120,18 @@ public class Mod {
    * @param newContent - the replacing text
    */
   public void updateWithQuotedStructure(String newContent) {
-    final Node oldQuotedStructure =
+    final Node targetQuotedStructure =
         NodeParser.getNodeFromExpression("./quotedStructure", this.node).orElseThrow();
-    final Node quotedStructureParent = oldQuotedStructure.getParentNode();
-    final Node newQuotedStructure = XmlMapper.toNode(newContent);
+    final List<Node> children = NodeParser.nodeListToList(targetQuotedStructure.getChildNodes());
+    final List<Node> newQuotedStructureContent = XmlMapper.danglingNodestoNodeList(newContent);
 
-    final Node newQuotedStructureImported =
-        oldQuotedStructure.getOwnerDocument().importNode(newQuotedStructure, true);
-    quotedStructureParent.replaceChild(newQuotedStructureImported, oldQuotedStructure);
+    children.forEach(targetQuotedStructure::removeChild);
+
+    final List<Node> newQuotedStructureContentImported =
+        newQuotedStructureContent.stream()
+            .map(n -> targetQuotedStructure.getOwnerDocument().importNode(n, true))
+            .toList();
+    newQuotedStructureContentImported.forEach(targetQuotedStructure::appendChild);
   }
 
   /**

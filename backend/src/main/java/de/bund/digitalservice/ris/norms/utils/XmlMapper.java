@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -59,6 +60,19 @@ public class XmlMapper {
    */
   public static Node toNode(String xmlText) {
     return toDocument(xmlText).getDocumentElement();
+  }
+
+  /**
+   * Maps a xml string representing several nodes without a document to a {@link List} of {@link
+   * Node}.
+   *
+   * @param xmlText The input string containing xml to be mapped to a {@link List} of {@link Node}
+   * @return the resulting {@link List} of {@link Node}
+   */
+  public static List<Node> danglingNodestoNodeList(String xmlText) {
+    // use a single node root as a placeholder to create a document
+    Node rootNode = toNode("<root>" + xmlText + "</root>");
+    return NodeParser.nodeListToList(rootNode.getChildNodes());
   }
 
   /**
