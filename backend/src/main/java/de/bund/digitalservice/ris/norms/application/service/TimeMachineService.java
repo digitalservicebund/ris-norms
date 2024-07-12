@@ -109,42 +109,29 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
             })
         .forEach(
             mod -> {
-              try {
-                String targetEid =
-                    mod.getTargetHref()
-                        .orElseThrow(
-                            () ->
-                                new MandatoryNodeNotFoundException(
-                                    "./ref/@href", mod.getMandatoryEid(), norm.getEli()))
-                        .getEId()
-                        .orElseThrow(
-                            () ->
-                                new MandatoryNodeNotFoundException(
-                                    "eId in href", mod.getMandatoryEid(), norm.getEli()));
-
-                final Node targetNode =
-                    NodeParser.getMandatoryNodeFromExpression(
-                        String.format("//*[@eId='%s']", targetEid), norm.getDocument());
-
-                if (mod.usesQuotedText()) applyQuotedText(mod, targetNode);
-
-              } catch (final MandatoryNodeNotFoundException e) {
-                log.debug("Mandatory Node not found: ", e);
+              if (mod.getTargetHref().isEmpty() || mod.getTargetHref().get().getEId().isEmpty()) {
+                return;
               }
+
+              final var targetEid = mod.getTargetHref().get().getEId().get();
+              final var targetNode =
+                  NodeParser.getNodeFromExpression(
+                      String.format("//*[@eId='%s']", targetEid), norm.getDocument());
+
+              if (targetNode.isEmpty()) {
+                return;
+              }
+
+              if (mod.usesQuotedText()) applyQuotedText(mod, targetNode.get());
             });
 
     return norm;
   }
 
   private void applyQuotedText(Mod mod, Node targetNode) {
-    String oldText =
-        mod.getOldText()
-            .orElseThrow(
-                () -> new MandatoryNodeNotFoundException("normalize-space(./quotedText[1])"));
-    String newText =
-        mod.getNewText()
-            .orElseThrow(
-                () -> new MandatoryNodeNotFoundException("normalize-space(./quotedText[2])"));
+    if (mod.getOldText().isEmpty() || mod.getNewText().isEmpty()) return;
+    String oldText = mod.getOldText().get();
+    String newText = mod.getNewText().get();
 
     String xPathOldText = String.format("//*[text()[contains(.,'%s')]]", oldText);
     final Node nodeToChange = NodeParser.getMandatoryNodeFromExpression(xPathOldText, targetNode);
