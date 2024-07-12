@@ -4,7 +4,6 @@ import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CopyIcon from "~icons/ic/outline-content-copy"
 import CloseIcon from "~icons/ic/close"
-
 const aknRef = defineModel<Element>({ required: true })
 const emit = defineEmits(["change", "delete"])
 
@@ -17,6 +16,11 @@ watch(type, () => {
 const bezugsnorm = ref("")
 watch(bezugsnorm, () => {
   aknRef.value.setAttribute("bezugsnorm", bezugsnorm.value)
+
+  if (bezugsnorm.value.length > 10) {
+    href.value = "eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+  }
+
   emit("change")
 })
 
@@ -26,12 +30,19 @@ watch(fassung, () => {
   emit("change")
 })
 
+const href = ref("")
+watch(href, () => {
+  aknRef.value.setAttribute("href", href.value)
+  emit("change")
+})
+
 watch(
   aknRef,
   () => {
     type.value = aknRef.value.getAttribute("type") ?? "Typ"
     bezugsnorm.value = aknRef.value.getAttribute("bezugsnorm") ?? ""
     fassung.value = aknRef.value.getAttribute("fassung") ?? ""
+    href.value = aknRef.value.getAttribute("href") ?? ""
   },
   { immediate: true },
 )
@@ -137,6 +148,10 @@ function handleDeleteClick() {
         :icon="CloseIcon"
         @click="handleDeleteClick"
       ></RisTextButton>
+    </div>
+
+    <div v-if="href" class="col-span-4 p-4">
+      {{ href }}
     </div>
   </div>
 </template>
