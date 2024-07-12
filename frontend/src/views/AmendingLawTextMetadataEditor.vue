@@ -385,15 +385,21 @@ const highlightModClasses = useModHighlightClasses(
                 :key="getEid(aknRef)"
               >
                 <RisTextButton
-                  class="relative -left-[12px] -top-[4px] w-0 rounded-full"
+                  class="relative -left-[7px] -top-[7px] w-0 rounded-full"
                   style="padding: 0"
-                  :icon="CloseIcon"
                   label="löschen"
+                  :icon="CloseIcon"
                   icon-only
                   size="small"
                   variant="ghost"
                   @click="handleDeleteRef(aknRef)"
-                ></RisTextButton>
+                >
+                  <template #icon>
+                    <CloseIcon
+                      class="h-[18px] w-[18px] flex-shrink-0 rounded-full bg-blue-700 text-white"
+                    ></CloseIcon>
+                  </template>
+                </RisTextButton>
               </template>
             </RisLawPreview>
           </section>
@@ -412,11 +418,12 @@ const highlightModClasses = useModHighlightClasses(
             >
               <template #editor>
                 <div
-                  class="grid grid-cols-3 items-center gap-y-14 overflow-auto"
+                  class="grid grid-cols-[1fr,1fr,1fr,max-content] items-center gap-y-10 overflow-auto"
                 >
                   <div>Typ</div>
                   <div>Bezugsnorm</div>
                   <div>Fassung</div>
+                  <div></div>
 
                   <RisRefEditor
                     v-for="aknRef in refs"
@@ -424,7 +431,7 @@ const highlightModClasses = useModHighlightClasses(
                     :model-value="aknRef"
                     class="col-span-4 grid grid-cols-subgrid"
                     :class="{
-                      'border border-2 border-blue-800':
+                      'border-1 border border-blue-800':
                         selectedRef == getEid(aknRef),
                     }"
                     @focusin="selectAknRef(getEid(aknRef))"
