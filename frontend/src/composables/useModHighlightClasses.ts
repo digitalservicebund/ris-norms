@@ -16,7 +16,7 @@ import {
  * @returns An object containing for each eId an array of classes to apply to the element of that eId
  */
 export function useModHighlightClasses(
-  normDocument: MaybeRefOrGetter<Document | null>,
+  normDocument: MaybeRefOrGetter<Document | null | undefined>,
   isSelected: (modEId: string) => boolean,
 ): ComputedRef<{ [eId: string]: string[] }> {
   const modEIds = computed(() => {

@@ -8,15 +8,11 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { useTimeBoundaryPathParameter } from "@/composables/useTimeBoundaryPathParameter"
-import {
-  useGetRahmenProprietary,
-  usePutRahmenProprietary,
-} from "@/services/proprietaryService"
-import { RahmenProprietary } from "@/types/proprietary"
 import { computed, ref, watch } from "vue"
 import { getNodeByEid } from "@/services/ldmldeService"
 import {
   evaluateXPath,
+  evaluateXPathOnce,
   xmlNodeToString,
   xmlStringToDocument,
 } from "@/services/xmlService"
@@ -30,45 +26,11 @@ import { useNormRenderHtml } from "@/composables/useNormRender"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
+import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
-
-/* -------------------------------------------------- *
- * API handling                                       *
- * -------------------------------------------------- */
-
-const localData = ref<RahmenProprietary | null>(null)
-
-const {
-  data,
-  isFetching,
-  error: fetchError,
-} = useGetRahmenProprietary(affectedDocumentEli, {
-  atDate: timeBoundaryAsDate,
-})
-
-watch(data, (newData) => {
-  localData.value = newData
-})
-
-const { data: savedData } = usePutRahmenProprietary(
-  localData,
-  affectedDocumentEli,
-  { atDate: timeBoundaryAsDate },
-  {
-    afterFetch(c) {
-      // Whenever the metadata has been saved successfully, reload the
-      // XML to keep it in sync
-      reloadXml()
-      return c
-    },
-  },
-).put(localData)
-
-watch(savedData, (newData) => {
-  localData.value = newData
-})
+const amendingLawEli = useEliPathParameter()
 
 /* -------------------------------------------------- *
  * XML + HTML preview                                 *
@@ -79,14 +41,13 @@ const {
   data: xml,
   isFetching: xmlIsLoading,
   error: xmlError,
-  execute: reloadXml,
   update: {
     execute: updateXml,
     isFetching: isSaving,
     isFinished: hasSaved,
     error: saveError,
   },
-} = useNormXml(affectedDocumentEli, currentXml)
+} = useNormXml(amendingLawEli, currentXml)
 
 watch(xml, () => {
   if (xml.value) {
@@ -94,11 +55,40 @@ watch(xml, () => {
   }
 })
 
+const doc = computed(() => {
+  if (!currentXml.value) return
+
+  return xmlStringToDocument(currentXml.value)
+})
+
 const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
 } = useNormRenderHtml(currentXml, false, timeBoundaryAsDate)
+
+const selectedMod = ref()
+
+const selectedModNewContentNode = computed(() => {
+  if (!doc.value || !selectedMod.value) return ""
+
+  const modNode = getNodeByEid(doc.value, selectedMod.value)
+  if (!modNode) return ""
+
+  return evaluateXPathOnce(
+    "./akn:quotedStructure | ./akn:quotedText[2]",
+    modNode,
+  )
+})
+
+const { data: render2 } = useNormRenderHtml(
+  computed(() => {
+    if (!selectedModNewContentNode.value) return ""
+    return xmlNodeToString(selectedModNewContentNode.value)
+  }),
+  false,
+  timeBoundaryAsDate,
+)
 
 function lengthWithoutWhitespace(str: string): number {
   return str.replaceAll(/\s/g, "").length
@@ -194,10 +184,6 @@ async function convertSelectionToRef({
     return
   }
 
-  if (!eid.includes("hauptteil") || !eid.includes("text")) {
-    return
-  }
-
   const node = getNodeByEid(doc.value, eid)
 
   if (!node) {
@@ -229,16 +215,13 @@ async function convertSelectionToRef({
   return refElement
 }
 
-const doc = computed(() => {
-  if (!currentXml.value) return
-
-  return xmlStringToDocument(currentXml.value)
-})
-
 const refs = computed(() => {
-  if (!doc.value) return []
+  if (!selectedModNewContentNode.value) return []
 
-  return evaluateXPath("//akn:ref", doc.value) as Element[]
+  return evaluateXPath(
+    ".//akn:ref",
+    selectedModNewContentNode.value,
+  ) as Element[]
 })
 
 async function handleSelect(
@@ -277,6 +260,8 @@ function handleDeleteRef(element: Element) {
 
 const selectedRef = ref<string>()
 
+watch(selectedMod, () => (selectedRef.value = undefined))
+
 function selectAknRef(eid: string) {
   selectedRef.value = eid
 }
@@ -286,8 +271,6 @@ function handleAknRefClick({ eid }: { eid: string }) {
 }
 
 const handleRefChange = useDebounceFn(updateCurrentXml, 1000, { maxWait: 5000 })
-
-const amendingLawEli = useEliPathParameter()
 
 const {
   data: amendingLaw,
@@ -313,6 +296,15 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   },
   { key: "metadataEditor", title: "Textbasierte Metadaten" },
 ])
+
+function handleModClick(e: { eid: string }) {
+  selectedMod.value = e.eid
+}
+
+const highlightModClasses = useModHighlightClasses(
+  doc,
+  (eid) => eid === selectedMod.value,
+)
 </script>
 
 <template>
@@ -334,13 +326,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     <RisHeader v-else :breadcrumbs>
       <!-- eslint-disable vuejs-accessibility/label-has-for -->
       <div class="flex flex-col overflow-hidden p-40">
-        <div class="flex gap-16">
-          <div class="flex-grow">
-            <h2 class="ds-heading-03-reg">Verweise</h2>
-          </div>
-        </div>
-
-        <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-32">
+        <div class="gap grid min-h-0 flex-grow grid-cols-3 grid-rows-1 gap-32">
           <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
             <div
               v-if="renderIsLoading && !render"
@@ -359,6 +345,36 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
               v-else
               class="ds-textarea flex-grow p-2"
               :content="render ?? ''"
+              :selected="selectedRef ? [selectedRef] : []"
+              :e-id-classes="highlightModClasses"
+              @click:akn:mod="handleModClick"
+            ></RisLawPreview>
+          </section>
+
+          <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
+            <RisCallout
+              v-if="!selectedMod"
+              variant="neutral"
+              title="Bitte wähle einen Änderungsbefehl aus"
+            />
+
+            <div
+              v-else-if="renderIsLoading && !render"
+              class="my-16 flex justify-center"
+            >
+              <RisLoadingSpinner />
+            </div>
+
+            <RisCallout
+              v-else-if="renderError"
+              variant="error"
+              title="Die Vorschau konnte nicht geladen werden."
+            />
+
+            <RisLawPreview
+              v-else
+              class="ds-textarea flex-grow p-2"
+              :content="render2 ?? ''"
               :selected="selectedRef ? [selectedRef] : []"
               @click:akn:ref="handleAknRefClick"
               @select="handleSelect"
@@ -383,6 +399,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           </section>
 
           <section
+            v-if="selectedMod"
             class="flex flex-col gap-8"
             aria-label="Metadaten bearbeiten"
           >
@@ -394,18 +411,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
               ]"
             >
               <template #editor>
-                <div v-if="isFetching" class="my-16 flex justify-center">
-                  <RisLoadingSpinner />
-                </div>
-
-                <RisCallout
-                  v-else-if="fetchError"
-                  variant="error"
-                  title="Die Metadaten konnten nicht geladen werden."
-                />
-
                 <div
-                  v-else
                   class="grid grid-cols-3 items-center gap-y-14 overflow-auto"
                 >
                   <div>Typ</div>
@@ -468,7 +474,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           >
             <RisTextButton
               :aria-describedby
-              :disabled="isFetching || !!fetchError"
+              :disabled="isSaving"
               :loading="isSaving"
               label="Speichern"
               @click="updateXml()"

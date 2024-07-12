@@ -224,8 +224,16 @@ watch(debouncedSelection, () => {
   let previousSibling = debouncedSelection.value?.startContainer.previousSibling
   let previousSiblingsTextLength = 0
   while (previousSibling) {
-    previousSiblingsTextLength +=
-      previousSibling?.textContent?.replaceAll(/\s/g, "").length ?? 0
+    if (
+      previousSibling.nodeType !== Node.ELEMENT_NODE ||
+      !(
+        (previousSibling as Element).classList.contains("akn-quote-endQuote") ||
+        (previousSibling as Element).classList.contains("akn-quote-startQuote")
+      )
+    ) {
+      previousSiblingsTextLength +=
+        previousSibling?.textContent?.replaceAll(/\s/g, "").length ?? 0
+    }
     previousSibling = previousSibling.previousSibling
   }
 
@@ -290,8 +298,10 @@ useEventListener(document, "selectionchange", () => {
   }
 })
 
+const uniqueId = Math.random().toString(16).substring(2)
+
 function getElementByEid(eid: string) {
-  return document.querySelector(`[data-eId="${eid}"]`)
+  return document.querySelector(`#preview-${uniqueId} [data-eId="${eid}"]`)
 }
 
 function teleportEidSlotNameToEid(slotName: string) {
@@ -342,6 +352,7 @@ watch(
   <div class="overflow-hidden">
     <!-- eslint-disable vue/no-v-html -->
     <div
+      :id="uniqueId"
       ref="container"
       tabindex="0"
       class="flex h-full overflow-auto bg-white p-20"
