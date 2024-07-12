@@ -352,7 +352,7 @@ watch(
   <div class="overflow-hidden">
     <!-- eslint-disable vue/no-v-html -->
     <div
-      :id="uniqueId"
+      :id="`preview-${uniqueId}`"
       ref="container"
       tabindex="0"
       class="flex h-full overflow-auto bg-white p-20"
