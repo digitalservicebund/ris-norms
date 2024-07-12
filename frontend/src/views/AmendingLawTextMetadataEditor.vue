@@ -418,7 +418,7 @@ const highlightModClasses = useModHighlightClasses(
             >
               <template #editor>
                 <div
-                  class="grid grid-cols-[1fr,1fr,1fr,max-content] items-center gap-y-10 overflow-auto"
+                  class="grid grid-cols-[1fr,1fr,1fr,max-content] items-center gap-y-10 overflow-auto pb-1"
                 >
                   <div>Typ</div>
                   <div>Bezugsnorm</div>
@@ -429,9 +429,9 @@ const highlightModClasses = useModHighlightClasses(
                     v-for="aknRef in refs"
                     :key="getEid(aknRef)"
                     :model-value="aknRef"
-                    class="col-span-4 grid grid-cols-subgrid"
+                    class="col-span-4 mx-1 grid grid-cols-subgrid"
                     :class="{
-                      'border-1 border border-blue-800':
+                      'ring ring-1 ring-blue-800':
                         selectedRef == getEid(aknRef),
                     }"
                     @focusin="selectAknRef(getEid(aknRef))"

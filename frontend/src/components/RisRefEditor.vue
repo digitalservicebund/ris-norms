@@ -4,6 +4,7 @@ import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CopyIcon from "~icons/ic/outline-content-copy"
 import CloseIcon from "~icons/ic/close"
+
 const aknRef = defineModel<Element>({ required: true })
 const emit = defineEmits(["change", "delete"])
 
@@ -107,6 +108,62 @@ async function handlePaste(e: ClipboardEvent) {
 function handleDeleteClick() {
   emit("delete")
 }
+
+function handleBezugsnormKeydownDown(e: KeyboardEvent) {
+  const bezugsnormInputs = document.querySelectorAll<HTMLElement>("#bezugsnorm")
+
+  const currentInputIndex = Array.from(bezugsnormInputs).findIndex(
+    (input) => input == e.target,
+  )
+
+  if (bezugsnormInputs[currentInputIndex + 1]) {
+    bezugsnormInputs[currentInputIndex + 1].focus()
+  } else {
+    bezugsnormInputs[0].focus()
+  }
+}
+
+function handleBezugsnormKeydownUp(e: KeyboardEvent) {
+  const bezugsnormInputs = document.querySelectorAll<HTMLElement>("#bezugsnorm")
+
+  const currentInputIndex = Array.from(bezugsnormInputs).findIndex(
+    (input) => input == e.target,
+  )
+
+  if (currentInputIndex === 0) {
+    bezugsnormInputs[bezugsnormInputs.length - 1].focus()
+  } else {
+    bezugsnormInputs[currentInputIndex - 1].focus()
+  }
+}
+
+function handleFassungKeydownDown(e: KeyboardEvent) {
+  const fassungInputs = document.querySelectorAll<HTMLElement>("#fassung")
+
+  const currentInputIndex = Array.from(fassungInputs).findIndex(
+    (input) => input == e.target,
+  )
+
+  if (fassungInputs[currentInputIndex + 1]) {
+    fassungInputs[currentInputIndex + 1].focus()
+  } else {
+    fassungInputs[0].focus()
+  }
+}
+
+function handleFassungKeydownUp(e: KeyboardEvent) {
+  const fassungInputs = document.querySelectorAll<HTMLElement>("#fassung")
+
+  const currentInputIndex = Array.from(fassungInputs).findIndex(
+    (input) => input == e.target,
+  )
+
+  if (currentInputIndex === 0) {
+    fassungInputs[fassungInputs.length - 1].focus()
+  } else {
+    fassungInputs[currentInputIndex - 1].focus()
+  }
+}
 </script>
 
 <template>
@@ -122,12 +179,16 @@ function handleDeleteClick() {
       v-model="bezugsnorm"
       placeholder="Bezugsnorm"
       size="small"
+      @keydown.down="handleBezugsnormKeydownDown"
+      @keydown.up="handleBezugsnormKeydownUp"
     ></RisTextInput>
     <RisTextInput
       id="fassung"
       v-model="fassung"
       placeholder="Fassung"
       size="small"
+      @keydown.down="handleFassungKeydownDown"
+      @keydown.up="handleFassungKeydownUp"
     ></RisTextInput>
 
     <div>
