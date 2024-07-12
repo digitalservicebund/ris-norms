@@ -4,6 +4,7 @@ import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CopyIcon from "~icons/ic/outline-content-copy"
 import CloseIcon from "~icons/ic/close"
+import IcOutlineAutoFixHigh from "~icons/ic/outline-auto-fix-high"
 
 const aknRef = defineModel<Element>({ required: true })
 const emit = defineEmits(["change", "delete"])
@@ -20,6 +21,17 @@ watch(bezugsnorm, () => {
 
   if (bezugsnorm.value.length > 10) {
     href.value = "eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+  }
+
+  emit("change")
+})
+
+const bezugsnormAutomated = ref(false)
+watch(bezugsnormAutomated, () => {
+  if (bezugsnormAutomated.value) {
+    aknRef.value.setAttribute("bezugsnorm-automated", "true")
+  } else {
+    aknRef.value.removeAttribute("bezugsnorm-automated")
   }
 
   emit("change")
@@ -44,6 +56,9 @@ watch(
     bezugsnorm.value = aknRef.value.getAttribute("bezugsnorm") ?? ""
     fassung.value = aknRef.value.getAttribute("fassung") ?? ""
     href.value = aknRef.value.getAttribute("href") ?? ""
+    bezugsnormAutomated.value = aknRef.value.hasAttribute(
+      "bezugsnorm-automated",
+    )
   },
   { immediate: true },
 )
@@ -103,6 +118,7 @@ async function handlePaste(e: ClipboardEvent) {
   type.value = data.type
   bezugsnorm.value = data.bezugsnorm
   fassung.value = data.fassung
+  bezugsnormAutomated.value = data.bezugsnormAutomated || false
 }
 
 function handleDeleteClick() {
@@ -164,6 +180,10 @@ function handleFassungKeydownUp(e: KeyboardEvent) {
     fassungInputs[currentInputIndex - 1].focus()
   }
 }
+
+function handleBezugsnormChange() {
+  bezugsnormAutomated.value = false
+}
 </script>
 
 <template>
@@ -181,7 +201,12 @@ function handleFassungKeydownUp(e: KeyboardEvent) {
       size="small"
       @keydown.down="handleBezugsnormKeydownDown"
       @keydown.up="handleBezugsnormKeydownUp"
-    ></RisTextInput>
+      @change="handleBezugsnormChange"
+    >
+      <template v-if="bezugsnormAutomated" #suffix>
+        <IcOutlineAutoFixHigh></IcOutlineAutoFixHigh>
+      </template>
+    </RisTextInput>
     <RisTextInput
       id="fassung"
       v-model="fassung"
