@@ -20,6 +20,7 @@ export default defineConfig({
       compiler: "vue3",
     }),
     !isTest &&
+      process.env.NODE_ENV === "production" &&
       sentryVitePlugin({
         authToken: process.env.SENTRY_AUTH_TOKEN,
         org: "digitalservice",
