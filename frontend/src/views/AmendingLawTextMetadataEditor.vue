@@ -429,6 +429,7 @@ const highlightModClasses = useModHighlightClasses(
                     }"
                     @focusin="selectAknRef(getEid(aknRef))"
                     @change="handleRefChange"
+                    @delete="handleDeleteRef(aknRef)"
                   >
                   </RisRefEditor>
                 </div>

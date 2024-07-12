@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref, watch } from "vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
+import CopyIcon from "~icons/ic/outline-content-copy"
+import CloseIcon from "~icons/ic/close"
 
 const aknRef = defineModel<Element>({ required: true })
-const emit = defineEmits(["change"])
+const emit = defineEmits(["change", "delete"])
 
 const type = ref("Typ")
 watch(type, () => {
@@ -32,6 +35,23 @@ watch(
   },
   { immediate: true },
 )
+
+async function handleCopyClick() {
+  await navigator.clipboard.write([
+    new ClipboardItem({
+      "text/plain": new Blob(
+        [
+          JSON.stringify({
+            type: type.value,
+            bezugsnorm: bezugsnorm.value,
+            fassung: fassung.value,
+          }),
+        ],
+        { type: "text/plain" },
+      ),
+    }),
+  ])
+}
 
 async function handleCopy(e: ClipboardEvent) {
   if (document.getSelection()?.type === "Range") {
@@ -72,6 +92,10 @@ async function handlePaste(e: ClipboardEvent) {
   bezugsnorm.value = data.bezugsnorm
   fassung.value = data.fassung
 }
+
+function handleDeleteClick() {
+  emit("delete")
+}
 </script>
 
 <template>
@@ -94,5 +118,25 @@ async function handlePaste(e: ClipboardEvent) {
       placeholder="Fassung"
       size="small"
     ></RisTextInput>
+
+    <div>
+      <RisTextButton
+        size="small"
+        variant="ghost"
+        label="Kopieren"
+        icon-only
+        :icon="CopyIcon"
+        @click="handleCopyClick"
+      ></RisTextButton>
+
+      <RisTextButton
+        size="small"
+        variant="ghost"
+        label="Löschen"
+        icon-only
+        :icon="CloseIcon"
+        @click="handleDeleteClick"
+      ></RisTextButton>
+    </div>
   </div>
 </template>
