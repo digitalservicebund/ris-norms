@@ -299,6 +299,22 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 function handleModClick(e: { eid: string }) {
   selectedMod.value = e.eid
 }
+
+watch(selectedRef, () => {
+  document
+    .querySelector(`#mod-preview [data-eId="${selectedRef.value}"]`)
+    ?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    })
+
+  document
+    .getElementById(`ris-ref-editor-${selectedRef.value}`)
+    ?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    })
+})
 </script>
 
 <template>
@@ -319,7 +335,7 @@ function handleModClick(e: { eid: string }) {
 
     <RisHeader v-else :breadcrumbs>
       <!-- eslint-disable vuejs-accessibility/label-has-for -->
-      <div class="flex flex-col overflow-hidden p-40">
+      <div class="flex h-[calc(100vh-5rem-5rem)] flex-col p-40">
         <div class="gap grid min-h-0 flex-grow grid-cols-3 grid-rows-1 gap-32">
           <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
             <div
@@ -422,6 +438,7 @@ function handleModClick(e: { eid: string }) {
 
                   <RisRefEditor
                     v-for="aknRef in refs"
+                    :id="`ris-ref-editor-${getEid(aknRef)}`"
                     :key="getEid(aknRef)"
                     :model-value="aknRef"
                     class="col-span-4 mx-1 grid grid-cols-subgrid"
@@ -448,12 +465,7 @@ function handleModClick(e: { eid: string }) {
                   title="Die XML-Ansicht konnte nicht geladen werden."
                 />
 
-                <RisCodeEditor
-                  v-else
-                  :model-value="currentXml ?? ''"
-                  :readonly="true"
-                  class="flex-grow"
-                />
+                <RisCodeEditor v-else v-model="currentXml" class="flex-grow" />
               </template>
             </RisTabs>
           </section>
@@ -500,6 +512,10 @@ function handleModClick(e: { eid: string }) {
 
 #norm-preview :deep(.akn-mod):hover {
   @apply block bg-[#fef7bd];
+}
+
+#norm-preview :deep(.akn-quotedStructure .akn-ref) {
+  @apply bg-highlight-mod-10-default;
 }
 
 #norm-preview :deep(.akn-quotedText .akn-ref) {

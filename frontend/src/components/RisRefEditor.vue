@@ -19,7 +19,7 @@ const bezugsnorm = ref("")
 watch(bezugsnorm, () => {
   aknRef.value.setAttribute("bezugsnorm", bezugsnorm.value)
 
-  if (bezugsnorm.value.length > 10) {
+  if (bezugsnorm.value.length > 5) {
     href.value = "eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
   }
 
@@ -104,7 +104,6 @@ async function handleCopy(e: ClipboardEvent) {
 }
 
 async function handlePaste(e: ClipboardEvent) {
-  console.log(e)
   const clipboardData = e.clipboardData?.getData("text/plain")
 
   if (!clipboardData || !clipboardData.startsWith("{")) {
