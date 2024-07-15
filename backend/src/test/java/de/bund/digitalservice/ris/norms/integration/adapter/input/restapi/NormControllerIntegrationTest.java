@@ -208,7 +208,14 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .node(
                       hasXPath(
                           "//h1//*[@data-eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1\"]",
-                          containsString("Geändertes fiktives Beispielgesetz"))));
+                          containsString("Geändertes fiktives Beispielgesetz"))))
+          .andExpect(
+              content()
+                  .node(
+                      hasXPath(
+                          "//section//*[@data-eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_ernormen-1_ernorm-1_text-1\"]",
+                          containsString(
+                              "Aufgrund der Spezikikation von Änderungsbefehlen können Strukturen und Gliederungseinheiten"))));
     }
   }
 
