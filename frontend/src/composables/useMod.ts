@@ -96,7 +96,7 @@ export function useMod(
     if (
       !eidValue ||
       destinationHref.value === "" ||
-      quotedTextSecond.value === ""
+      (quotedStructureContent.value === "" && quotedTextSecond.value === "")
     )
       return null
 
@@ -105,6 +105,7 @@ export function useMod(
       timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
       destinationHref: destinationHref.value,
       newContent: quotedTextSecond.value,
+      quotedStructureContent: quotedStructureContent.value,
     }
   })
   const preview = useUpdateModData(eli, eid, modData, true)
