@@ -185,6 +185,31 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                           equalTo(
                               "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes"))));
     }
+
+    @Test
+    void itCallsNormServiceAndReturnsLawWithPassiveModsApplied() throws Exception {
+      // Given
+      final Norm targetLawNorm =
+          NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
+      final Norm amendingLawNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+
+      // When
+      normRepository.save(NormMapper.mapToDto(targetLawNorm));
+      normRepository.save(NormMapper.mapToDto(amendingLawNorm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1?atIsoDate=2025-01-01T10:15:30Z")
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isOk())
+          .andExpect(
+              content()
+                  .node(
+                      hasXPath(
+                          "//h1//*[@data-eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1\"]",
+                          containsString("Geändertes fiktives Beispielgesetz"))));
+    }
   }
 
   @Nested
