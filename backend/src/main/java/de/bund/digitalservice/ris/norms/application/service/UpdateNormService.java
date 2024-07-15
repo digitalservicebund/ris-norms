@@ -175,10 +175,7 @@ public class UpdateNormService
                     && mod.getEid().get().equals(query.eId())
                     && mod.usesQuotedStructure())
         .findFirst()
-        .ifPresent(
-            mod -> {
-              mod.setTargetHref(query.destinationHref());
-            });
+        .ifPresent(mod -> mod.setTargetHref(query.destinationHref()));
     return amendingNorm;
   }
 }
