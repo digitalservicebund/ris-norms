@@ -13,6 +13,7 @@ import {
 } from "@/composables/useNormRender"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { computed, ref, watch } from "vue"
+import { useGetNormHtml } from "@/services/normService"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -121,6 +122,21 @@ watch(updateData, () => {
   targetNormZf0Xml.value = updateData.value.targetNormZf0Xml
 })
 
+const destinationHrefEli = computed(() =>
+  destinationHref.value?.split("/").slice(0, -1).join("/"),
+)
+const targetLawHtml = ref("")
+watch(
+  destinationHrefEli,
+  async (newEli) => {
+    if (newEli) {
+      const { data } = await useGetNormHtml(newEli)
+      targetLawHtml.value = data.value ?? ""
+    }
+  },
+  { immediate: true },
+)
+
 watch(
   () => props.selectedMods[0],
   () => {
@@ -174,6 +190,7 @@ watch(
       :is-updating="isUpdating"
       :is-updating-finished="isUpdatingFinished"
       :update-error="saveError"
+      :target-law-html-html="targetLawHtml"
       @generate-preview="preview"
       @update-mod="update"
     />
