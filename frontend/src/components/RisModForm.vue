@@ -8,6 +8,7 @@ import CheckIcon from "~icons/ic/check"
 import { ModType } from "@/types/ModType"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
+import RisLawPreview from "@/components/RisLawPreview.vue"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -18,6 +19,8 @@ const props = defineProps<{
   timeBoundaries: TemporalDataResponse[]
   /** This is the text that will be replaced */
   quotedTextFirst?: string
+  /** The quoted structure content */
+  quotedStructureContent?: string | null
   isUpdating?: boolean
   isUpdatingFinished?: boolean
   updateError?: Error
@@ -130,28 +133,52 @@ function modTypeLabel(modType: ModType | "") {
       :model-value="destinationHrefEli"
       read-only
     />
-    <RisTextInput
-      v-if="textualModType === 'aenderungsbefehl-ersetzen'"
-      id="destinationHrefEid"
-      v-model="destinationHrefEid"
-      label="zu ersetzende Textstelle"
-      @blur="$emit('generate-preview')"
-    />
-    <RisTextAreaInput
-      v-if="textualModType === 'aenderungsbefehl-ersetzen'"
-      id="quotedTextFirst"
-      label="zu ersetzender Text"
-      :model-value="quotedTextFirst"
-      read-only
-      :rows="8"
-    />
-    <RisTextAreaInput
-      id="quotedTextSecond"
-      v-model="quotedTextSecondModel"
-      label="Neuer Text Inhalt"
-      :rows="8"
-      @blur="$emit('generate-preview')"
-    />
+    <!-- Conditional Rendering Based on ModType and Quoted Structure Presence -->
+    <template
+      v-if="
+        textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
+      "
+    >
+      <RisTextAreaInput
+        id="elementToBeReplaced"
+        v-model="destinationHrefEid"
+        label="zu ersetzendes Element"
+        :rows="8"
+        @blur="$emit('generate-preview')"
+      />
+      <div class="mt-4">
+        <span class="ds-label">Neues Element</span>
+        <RisLawPreview
+          id="replacingElement"
+          :content="quotedStructureContent"
+          :rows="8"
+          read-only
+        />
+      </div>
+    </template>
+    <template v-else-if="textualModType === 'aenderungsbefehl-ersetzen'">
+      <RisTextInput
+        id="destinationHrefEid"
+        v-model="destinationHrefEid"
+        label="zu ersetzende Textstelle"
+        @blur="$emit('generate-preview')"
+      />
+      <RisTextAreaInput
+        id="quotedTextFirst"
+        label="zu ersetzender Text"
+        :model-value="quotedTextFirst"
+        read-only
+        :rows="8"
+      />
+      <RisTextAreaInput
+        id="quotedTextSecond"
+        v-model="quotedTextSecondModel"
+        label="Neuer Text Inhalt"
+        :rows="8"
+        @blur="$emit('generate-preview')"
+      />
+    </template>
+
     <div class="flex gap-20">
       <RisTextButton
         label="Vorschau"
