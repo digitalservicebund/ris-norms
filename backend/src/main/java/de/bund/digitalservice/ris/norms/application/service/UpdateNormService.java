@@ -178,7 +178,6 @@ public class UpdateNormService
         .ifPresent(
             mod -> {
               mod.setTargetHref(query.destinationHref());
-              mod.updateWithQuotedStructure(query.newContent());
             });
     return amendingNorm;
   }

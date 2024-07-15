@@ -1,8 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -112,26 +110,6 @@ public class Mod {
     final Node newContentNode =
         NodeParser.getNodeFromExpression("./quotedText[2]", this.node).orElseThrow();
     newContentNode.setTextContent(newContent);
-  }
-
-  /**
-   * Updates the quoted structure that will be used to replace the node once the mod is applied.
-   *
-   * @param newContent - the replacing text
-   */
-  public void updateWithQuotedStructure(String newContent) {
-    final Node targetQuotedStructure =
-        NodeParser.getNodeFromExpression("./quotedStructure", this.node).orElseThrow();
-    final List<Node> children = NodeParser.nodeListToList(targetQuotedStructure.getChildNodes());
-    final List<Node> newQuotedStructureContent = XmlMapper.danglingNodestoNodeList(newContent);
-
-    children.forEach(targetQuotedStructure::removeChild);
-
-    final List<Node> newQuotedStructureContentImported =
-        newQuotedStructureContent.stream()
-            .map(n -> targetQuotedStructure.getOwnerDocument().importNode(n, true))
-            .toList();
-    newQuotedStructureContentImported.forEach(targetQuotedStructure::appendChild);
   }
 
   /**
