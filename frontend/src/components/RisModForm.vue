@@ -24,6 +24,7 @@ const props = defineProps<{
   isUpdating?: boolean
   isUpdatingFinished?: boolean
   updateError?: Error
+  targetLawHtmlHtml?: string
 }>()
 
 defineEmits<{
@@ -139,13 +140,18 @@ function modTypeLabel(modType: ModType | "") {
         textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
       "
     >
-      <RisTextAreaInput
-        id="elementToBeReplaced"
-        v-model="destinationHrefEid"
-        label="zu ersetzendes Element"
-        :rows="8"
-        @blur="$emit('generate-preview')"
-      />
+      <div class="mt-4 max-h-[300px] overflow-y-auto">
+        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+        <label for="replacingElement" class="ds-label"
+          >zu ersetzendes Element</label
+        >
+        <RisLawPreview
+          id="elementToBeReplaced"
+          data-testid="elementToBeReplaced"
+          :content="targetLawHtmlHtml ?? ''"
+          :rows="8"
+        />
+      </div>
       <div class="mt-4">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label">Neues Element</label>
