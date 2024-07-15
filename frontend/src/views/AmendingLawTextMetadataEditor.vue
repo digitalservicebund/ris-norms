@@ -27,7 +27,6 @@ import RisTooltip from "@/components/controls/RisTooltip.vue"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
 
-const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
 const amendingLawEli = useEliPathParameter()
 
@@ -277,9 +276,6 @@ const {
   error: amendingLawError,
 } = useGetNorm(amendingLawEli)
 
-const { data: affectedDocument, error: affectedDocumentError } =
-  useGetNorm(affectedDocumentEli)
-
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
     key: "amendingLaw",
@@ -287,11 +283,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
       amendingLaw.value
         ? getFrbrDisplayText(amendingLaw.value) ?? "..."
         : "...",
-    to: `/amending-laws/${amendingLawEli.value}/affected-documents`,
-  },
-  {
-    key: "affectedDocument",
-    title: () => affectedDocument.value?.shortTitle ?? "...",
+    to: `/amending-laws/${amendingLawEli.value}`,
   },
   { key: "metadataEditor", title: "Textbasierte Metadaten" },
 ])
@@ -326,7 +318,7 @@ watch(selectedRef, () => {
       <RisLoadingSpinner />
     </div>
 
-    <div v-else-if="amendingLawError || affectedDocumentError" class="p-40">
+    <div v-else-if="amendingLawError" class="p-40">
       <RisCallout
         title="Das Gesetz konnte nicht geladen werden."
         variant="error"

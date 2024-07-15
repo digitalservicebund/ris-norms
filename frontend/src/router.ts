@@ -77,7 +77,7 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
-    path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/text-metadata`,
+    path: `/amending-laws/${createEliPathParameter()}/text-metadata`,
     name: "Prototype",
     component: () => import("@/views/AmendingLawTextMetadataEditor.vue"),
   },
