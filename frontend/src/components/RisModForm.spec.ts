@@ -15,6 +15,7 @@ describe("RisModForm", () => {
     "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/para-1_abs-1/5-53.xml"
   const quotedTextFirst = "Bundesministerium des Innern, für Bau und Heimat"
   const quotedTextSecond = "Bundesministerium des Innern und für Heimat"
+  const quotedStructureContent = "<quotedStructure>content</quotedStructure>"
 
   it("Should render the form with only mandatory fields", () => {
     render(RisModForm, {
@@ -153,6 +154,29 @@ describe("RisModForm", () => {
     expect(timeBoundaryOptionElements[noChoiceOptionIndex]).toHaveValue(
       "no_choice",
     )
+  })
+
+  it("Should render the form with quoted structure content", () => {
+    render(RisModForm, {
+      props: {
+        id: "risModForm",
+        textualModType,
+        timeBoundaries,
+        destinationHref,
+        quotedStructureContent,
+      },
+    })
+
+    const elementToBeReplaced = screen.getByRole("textbox", {
+      name: "zu ersetzendes Element",
+    })
+    expect(elementToBeReplaced).toBeInTheDocument()
+    expect(elementToBeReplaced).toHaveValue("para-1_abs-1/5-53.xml")
+    expect(elementToBeReplaced).not.toHaveAttribute("readonly")
+
+    const quotedStructureElement = screen.getByTestId("replacingElement")
+    expect(quotedStructureElement).toBeInTheDocument()
+    expect(quotedStructureElement).toHaveTextContent("content")
   })
 
   it("emits both an update & generate preview events when the dropdown value is changed", async () => {

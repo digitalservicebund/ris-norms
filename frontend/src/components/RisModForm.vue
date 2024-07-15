@@ -147,12 +147,13 @@ function modTypeLabel(modType: ModType | "") {
         @blur="$emit('generate-preview')"
       />
       <div class="mt-4">
-        <span class="ds-label">Neues Element</span>
+        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+        <label for="replacingElement" class="ds-label">Neues Element</label>
         <RisLawPreview
           id="replacingElement"
+          data-testid="replacingElement"
           :content="quotedStructureContent"
           :rows="8"
-          read-only
         />
       </div>
     </template>
