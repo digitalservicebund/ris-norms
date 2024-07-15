@@ -77,11 +77,11 @@ module.exports = {
   safelist: [
     // classes used dynamically by useModHighlightClasses
     {
-      pattern: /bg-highlight-mod-(\d|default)-(default|hover|selected)/,
+      pattern: /bg-highlight-mod-(\d+|default)-(default|hover|selected)/,
       variants: ["hover", "focus"],
     },
     {
-      pattern: /border-highlight-mod-(\d|default)-selected/,
+      pattern: /border-highlight-mod-(\d+|default)-selected/,
     },
     "border",
     "px-2",
