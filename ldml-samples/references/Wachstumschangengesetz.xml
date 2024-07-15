@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                                                                                                                                              http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+    <akn:act name="regelungstext">
+        <akn:meta GUID="1d1d770a-9ff0-45e6-878d-911c98dd9cd4" eId="meta-1">
+            <akn:identification GUID="4dcd65df-8560-4d97-9325-e32deba192cf" eId="meta-1_ident-1"
+                                source="attributsemantik-noch-undefiniert">
+                <akn:FRBRWork GUID="7ae2285c-9020-4036-9bce-4e3be460a29a" eId="meta-1_ident-1_frbrwork-1">
+                    <akn:FRBRthis GUID="cc954333-2c08-4f2d-800e-baab97a61115" eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
+                                  value="eli/bund/bgbl-1/1002/10/regelungstext-1"/>
+                    <akn:FRBRuri GUID="57356a8b-5983-4efe-9f7f-7a507d23df13" eId="meta-1_ident-1_frbrwork-1_frbruri-1"
+                                 value="eli/bund/bgbl-1/1002/10"/>
+                    <akn:FRBRalias GUID="88509c2e-eb73-466b-8388-009e23ece0d7"
+                                   eId="meta-1_ident-1_frbrwork-1_frbralias-1" name="übergreifende-id"
+                                   value="f96cfae4-4fce-4c72-9186-0d84778dc11c"/>
+                    <akn:FRBRdate GUID="ec0d1b3e-fc1e-472f-a4b2-0fc54b5d0224" date="1002-01-10"
+                                  eId="meta-1_ident-1_frbrwork-1_frbrdate-1" name="verkuendungsfassung"/>
+                    <akn:FRBRauthor GUID="7c4cffcc-061a-4826-a605-efc024553b9c"
+                                    eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
+                                    href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRcountry GUID="60aab79e-4b89-4d48-99b6-529c474398c1"
+                                     eId="meta-1_ident-1_frbrwork-1_frbrcountry-1" value="de"/>
+                    <akn:FRBRnumber GUID="12ec247c-a819-47e0-8570-1b8942f40820"
+                                    eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" value="10"/>
+                    <akn:FRBRname GUID="99698450-cd5f-4fcc-b2ca-c24bc6216ea5" eId="meta-1_ident-1_frbrwork-1_frbrname-1"
+                                  value="bgbl-1"/>
+                    <akn:FRBRsubtype GUID="6f9b66b3-db19-4543-9db0-6a3bfe6a8929"
+                                     eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" value="regelungstext-1"/>
+                </akn:FRBRWork>
+                <akn:FRBRExpression GUID="b7a74512-05c5-48f4-af1e-11578e5ecec2" eId="meta-1_ident-1_frbrexpression-1">
+                    <akn:FRBRthis GUID="a5dfab3c-a646-4633-9fc2-7496e14fb28f"
+                                  eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                                  value="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1"/>
+                    <akn:FRBRuri GUID="ef04bbf0-f502-4b53-9863-ed3193a4b1bd"
+                                 eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
+                                 value="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu"/>
+                    <akn:FRBRalias GUID="031754e0-3f61-4484-8185-8c59ff4244fa"
+                                   eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id"
+                                   value="c4166ebb-b6df-4f61-8ac1-1d6399cc80ef"/>
+                    <akn:FRBRalias GUID="fa481503-200a-4bee-95d8-eee4dfd31695"
+                                   eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id"
+                                   value="5773cb41-adfe-47ca-b684-dde0c83c7b39"/>
+                    <akn:FRBRauthor GUID="631e316b-540e-48ec-9532-08fa8e250ec8"
+                                    eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
+                                    href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRdate GUID="46ba1df6-0764-4d9c-a5b3-e7a6df746230" date="1002-01-10"
+                                  eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" name="verkuendung"/>
+                    <akn:FRBRlanguage GUID="fdd84eea-0f30-4898-9689-00a122fd9dcb"
+                                      eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" language="deu"/>
+                    <akn:FRBRversionNumber GUID="41e042d3-23f7-4142-94b2-1f7cb2e94322"
+                                           eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1" value="1"/>
+                </akn:FRBRExpression>
+                <akn:FRBRManifestation GUID="966416cc-1a99-4496-aaca-6a84a67cdc8e"
+                                       eId="meta-1_ident-1_frbrmanifestation-1">
+                    <akn:FRBRthis GUID="b98122db-6c85-4047-b910-5872f1f58d5d"
+                                  eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                  value="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRuri GUID="586db454-7dde-44de-b21e-290bfcf12da3"
+                                 eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                 value="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRdate GUID="c764890a-3801-481d-9171-b25a374c3fa2" date="1002-01-10"
+                                  eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" name="generierung"/>
+                    <akn:FRBRauthor GUID="262a2241-a71c-4d1f-a97a-e77731a25194"
+                                    eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" href="recht.bund.de"/>
+                    <akn:FRBRformat GUID="a4ff1d85-5499-4089-bd1b-38e9c622dba3"
+                                    eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>
+                </akn:FRBRManifestation>
+            </akn:identification>
+            <akn:lifecycle GUID="dcfa52f5-a67a-4306-8e37-8ad190788de9" eId="meta-1_lebzykl-1"
+                           source="attributsemantik-noch-undefiniert">
+                <akn:eventRef GUID="d4e59051-fd39-4caf-bb5d-bdcd2dde7d1c" date="1002-01-10"
+                              eId="meta-1_lebzykl-1_ereignis-1" refersTo="ausfertigung"
+                              source="attributsemantik-noch-undefiniert" type="generation"/>
+                <akn:eventRef GUID="25276ab9-c149-4fc9-9cef-0181244833e1" date="1002-01-11"
+                              eId="meta-1_lebzykl-1_ereignis-2" refersTo="inkrafttreten"
+                              source="attributsemantik-noch-undefiniert" type="generation"/>
+            </akn:lifecycle>
+            <akn:analysis GUID="72cd555b-de7d-4d5e-ba2e-4dc50800400f" eId="meta-1_analysis-1"
+                          source="attributsemantik-noch-undefiniert">
+                <akn:activeModifications GUID="ca13a0cc-8f37-42c7-920b-f0d2fb59c81c"
+                                         eId="meta-1_analysis-1_activemod-1">
+                    <akn:textualMod GUID="e3bf66b0-20be-4624-a169-3e039c82c570"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-1" type="substitution">
+                        <akn:source GUID="27ea9f31-b2c4-4676-be56-e11f66e1e290"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="a11bbebf-a4ce-4eec-9fbf-235c67a200ab"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
+                                         href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml"/>
+                        <akn:force GUID="6a886205-ba36-49e7-9ed4-64651834d621"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="caaf8130-ad4c-4356-b648-35c5df54786f"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-2" type="substitution">
+                        <akn:source GUID="907a4e8c-cfa2-469a-8cf0-e9981daed1cb"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="f16cdf54-e9e9-4927-aab0-cc95cc887617"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1"
+                                         href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/preambel-1_ernormen-1.xml"/>
+                        <akn:force GUID="e9d88628-9659-4d7b-8440-6c0f9903d0e1"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="9c42431b-96c0-46db-afd4-ceb9fbd56613"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-3" type="substitution">
+                        <akn:source GUID="03f884ea-8b3d-43f7-a30d-5a3b525b40c4"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-3_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="453e43cd-820d-4318-857e-1b332b99ddd5"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-3_destination-1"
+                                         href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/preambel-1_präambeln-1.xml"/>
+                        <akn:force GUID="01f75234-e2bb-472f-8bcf-22b3cb677e4d"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-3_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="ae8e4880-4385-4e54-9b7c-1337d8015d33"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-4" type="substitution">
+                        <akn:source GUID="30406542-d2e5-41fb-81ae-da19efa66aae"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-4_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="dc780027-452c-41eb-850c-af483bbdc2dc"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-4_destination-1"
+                                         href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/preambel-1_blockcontainer-1.xml"/>
+                        <akn:force GUID="9a8da48a-b837-45ea-8395-09bc895df4b0"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-4_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="9232fb7b-20ad-478f-8c04-a956e9b9d2b9"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-5" type="substitution">
+                        <akn:source GUID="8aa0c8a5-63c3-446f-818b-3d8a27663a17"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-5_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="332ef748-f2c0-4cb2-8b76-8266876d8bc4"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-5_destination-1"
+                                         href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml"/>
+                        <akn:force GUID="e2b0a428-a6bc-4455-a605-6f3eecf5119a"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-5_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="4bb7b3b5-c022-4df5-a14d-52ce66c330b1"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-6" type="substitution">
+                        <akn:source GUID="4eae7856-ad4f-4897-b47f-8658b6b55c8b"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-6_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-b_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="6b9d1419-0ac3-4443-baa2-c0b3be7caf5a"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-6_destination-1"
+                                         href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2_inhalt-1_exmarkup-1.xml"/>
+                        <akn:force GUID="8b83a895-60f7-4787-b259-0a7f0c078d03"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-6_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="2b4008ad-8432-4b2c-9fec-1cb1fe9e8ce3"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-7" type="substitution">
+                        <akn:source GUID="e579beee-8194-4c33-9eb3-d0d08c0bb209"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-7_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="5e2f3a4d-89c9-438d-842f-7e82b1b70a2d"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-7_destination-1"
+                                         href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-2.xml"/>
+                        <akn:force GUID="d23b859c-1f25-48fa-ab0e-2c7391df581e"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-7_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                </akn:activeModifications>
+            </akn:analysis>
+            <akn:temporalData GUID="3f4c6b1a-7626-43f3-9bde-a5c6b5ec77a1" eId="meta-1_geltzeiten-1"
+                              source="attributsemantik-noch-undefiniert">
+                <akn:temporalGroup GUID="a1d55356-5204-4dbd-8da2-3938dca0dac7"
+                                   eId="meta-1_geltzeiten-1_geltungszeitgr-1">
+                    <akn:timeInterval GUID="e0121343-fc18-4cc9-adf2-e053ab8ae34b"
+                                      eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
+                                      refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-1"/>
+                </akn:temporalGroup>
+                <akn:temporalGroup GUID="2300a585-4522-446d-8555-31462886d6e5"
+                                   eId="meta-1_geltzeiten-1_geltungszeitgr-2">
+                    <akn:timeInterval GUID="3e1a2cfe-49f7-40b2-9c10-e960fae34de9"
+                                      eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1"
+                                      refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2"/>
+                </akn:temporalGroup>
+            </akn:temporalData>
+        </akn:meta>
+
+        <akn:preface GUID="0c50befb-5451-4192-a052-e2efbd25347d" eId="einleitung-1">
+            <akn:longTitle GUID="f18e2df5-e8a3-4046-ad76-4753d6b9507c" eId="einleitung-1_doktitel-1">
+                <akn:p GUID="7d999f27-335d-4fa5-964f-9b761ebe4cdb" eId="einleitung-1_doktitel-1_text-1">
+                    <akn:docTitle GUID="214a4065-2b9f-4f02-9113-89787e9cf8b8"
+                                  eId="einleitung-1_doktitel-1_text-1_doctitel-1">Wachstumschancengesetz
+                    </akn:docTitle>
+                </akn:p>
+            </akn:longTitle>
+        </akn:preface>
+
+        <akn:body GUID="e6720f3f-951d-45cc-8edd-b05480727c71" eId="hauptteil-1">
+            <akn:article GUID="4d5d8b32-f818-4407-ae56-3bc283acf4fa" eId="hauptteil-1_para-1"
+                         period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="eingebundene-stammform">
+                <akn:num GUID="f234ff66-06fa-4b72-8555-23a6559acf3d" eId="hauptteil-1_para-1_bezeichnung-1">
+                    <akn:marker GUID="0642872b-5dbc-45ef-8f07-76a3c11e9abd"
+                                eId="hauptteil-1_para-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                </akn:num>
+                <akn:heading GUID="68b539af-5c6a-47ef-99d8-8f4574dfa729" eId="hauptteil-1_para-1_überschrift-1">Artikel
+                    3 Weitere Änderung des Einkommensteuergesetzes
+                </akn:heading>
+                <akn:paragraph GUID="de615c8e-7045-4067-8d79-fcb80714e476" eId="hauptteil-1_para-1_abs-1">
+                    <akn:num GUID="d789f737-763e-40ce-b12a-aa68a1c6e9b6" eId="hauptteil-1_para-1_abs-1_bezeichnung-1">
+                        <akn:marker GUID="5aef21a6-8619-43ba-8ab5-55bafda33517"
+                                    eId="hauptteil-1_para-1_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                    </akn:num>
+                    <akn:list GUID="83a2fb8b-fc93-4d8a-b353-e2670c4200e9"
+                              eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1">
+                        <akn:intro GUID="37fbd50f-8833-4aa4-9ade-8b6269f5b707"
+                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_intro-1">
+                            <akn:p GUID="dc6d126a-c019-4495-a4b4-10869956dc3e"
+                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_intro-1_text-1">
+                                Das Einkommensteuergesetz, das zuletzt durch Artikel 2 dieses Gesetzes geändert worden
+                                ist, wird wie folgt geändert:
+                            </akn:p>
+                        </akn:intro>
+                        <akn:point GUID="6c8b4258-0797-41b7-83c5-3d716e0479fa"
+                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c">
+                            <akn:num GUID="e6b145cd-d6ad-486c-aae4-2a643066e7b0"
+                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_bezeichnung-1">
+                                <akn:marker GUID="bf426539-29c5-4380-814e-a946a2711dd8"
+                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_bezeichnung-1_zaehlbez-1"
+                                            name="c"/>
+                                6.
+                            </akn:num>
+                            <akn:content GUID="4c64154c-8fce-46eb-b97b-2886d99fef1e"
+                                         eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1">
+                                <akn:p GUID="529ca863-c7b2-4f7d-b74e-7209b74b7d32"
+                                       eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1">
+                                    <akn:mod GUID="d351ba17-8ac9-4c49-981c-7175b5575e99"
+                                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1"
+                                             refersTo="aenderungsbefehl-ersetzen">
+                                        <akn:ref bezugsnorm-automated="true" GUID="9f512228-08c9-4278-a8e6-3edf5e189a8c"
+                                                 eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_ref-1"
+                                                 href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-2.xml">
+                                            § 34a
+                                        </akn:ref>
+                                        wird wie folgt gefasst:
+                                        <akn:quotedStructure GUID="b2fbc227-6aa8-49bc-8d07-e1004f2cd25e"
+                                                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1"
+                                                             endQuote="“" startQuote="„">
+
+                                            <akn:article GUID="628b7653-68d5-483f-b265-be0a6a5c7aea"
+                                                         eId="hauptteil-1_para-2" period="#geltungszeitgr-1"
+                                                         refersTo="geltungszeitregel">
+                                                <akn:num GUID="41f85859-9eed-4b05-8d59-4d92983fdd0c"
+                                                         eId="hauptteil-1_para-2_bezeichnung-1">
+                                                    <akn:marker GUID="b47cfc67-7544-44a6-ad27-5da7ea7f053d"
+                                                                eId="hauptteil-1_para-2_bezeichnung-1_zaehlbez-1"
+                                                                name="2"/>
+                                                </akn:num>
+                                                <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                             eId="hauptteil-1_para-2_überschrift-1">§ 34a Begünstigung
+                                                    der nicht entnommenen Gewinne
+                                                </akn:heading>
+                                                <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                               eId="hauptteil-1_para-2_abs-1">
+                                                    <akn:num GUID="df00a213-4a1d-44fa-9df5-27979493b0f1"
+                                                             eId="hauptteil-1_para-2_abs-1_bezeichnung-1">
+                                                        <akn:marker GUID="f03f382c-d9f5-4a24-bf3b-b3695d57e86a"
+                                                                    eId="hauptteil-1_para-2_abs-1_bezeichnung-1_zaehlbez-1"
+                                                                    name="1"/>
+                                                    </akn:num>
+                                                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                                 eId="hauptteil-1_para-2_abs-1_inhalt-1">
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (1)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c1"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_untergl-1_intro-1_text-1">
+                                                                Sind in dem zu versteuernden Einkommen nicht entnommene
+                                                                Gewinne aus Land- und Forstwirtschaft, Gewerbebetrieb
+                                                                oder selbständiger Arbeit (<akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §2 Abs. 1 Satz 1 Nr. 1-3"
+                                                                    eId="ref-0-9912202484366821"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 2 Absatz 1 Satz 1 Nummer 1 bis
+                                                                3</akn:ref>) im Sinne des <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 2"
+                                                                    eId="ref-0-017209341097645048"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatzes 2
+                                                            </akn:ref> enthalten, ist die Einkommensteuer für diese
+                                                                Gewinne auf Antrag des Steuerpflichtigen ganz oder
+                                                                teilweise mit einem Steuersatz von 28,25 Prozent zu
+                                                                berechnen; dies gilt nicht, soweit für die Gewinne der
+                                                                Freibetrag nach <akn:ref bezugsnorm-automated="true"
+                                                                                         bezugsnorm="EStG §16 Abs. 4"
+                                                                                         eId="ref-0-9373654852587034"
+                                                                                         href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                         type="Zitierung">§ 16 Absatz 4
+                                                            </akn:ref> oder die Steuerermäßigung nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34 Abs. 3"
+                                                                    eId="ref-0-14857759524344005"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 34 Absatz 3
+                                                            </akn:ref> in Anspruch genommen wird oder es sich um Gewinne
+                                                                im Sinne des <akn:ref bezugsnorm-automated="true"
+                                                                                      bezugsnorm="EStG §18 Abs. 1 Nr. 4"
+                                                                                      eId="ref-0-3875935872914693"
+                                                                                      href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                      type="Zitierung">§ 18 Absatz 1
+                                                                Nummer 4
+                                                            </akn:ref> handelt. Der Antrag nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 1 Satz 1"
+                                                                    eId="ref-0-9144478735443504"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Satz 1
+                                                            </akn:ref> ist für jeden Betrieb oder Mitunternehmeranteil
+                                                                für jeden Veranlagungszeitraum gesondert bei dem für die
+                                                                Einkommensbesteuerung zuständigen Finanzamt zu stellen. <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="AO §233a Abs. 2a"
+                                                                    eId="ref-0-4482228378277342"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 233a Absatz 2a der Abgabenordnung
+                                                            </akn:ref> ist entsprechend anzuwenden. Bei
+                                                                Mitunternehmeranteilen kann der Steuerpflichtige den
+                                                                Antrag nur stellen, wenn sein Anteil am nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §4 Abs. 1 Satz 1"
+                                                                    eId="ref-0-7637033886961067"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 4 Absatz 1 Satz 1
+                                                            </akn:ref> oder <akn:ref bezugsnorm-automated="true"
+                                                                                     bezugsnorm="EStG §5"
+                                                                                     eId="ref-0-7484422990330113"
+                                                                                     href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                     type="Zitierung">§ 5
+                                                            </akn:ref> ermittelten Gewinn mehr als 10 Prozent beträgt
+                                                                oder 10 000 Euro übersteigt. Der Antrag kann bis zur
+                                                                Unanfechtbarkeit des Einkommensteuerbescheids für den
+                                                                nächsten Veranlagungszeitraum vom Steuerpflichtigen ganz
+                                                                oder teilweise zurückgenommen werden; der
+                                                                Einkommensteuerbescheid ist entsprechend zu ändern. Die
+                                                                Festsetzungsfrist endet insoweit nicht, bevor die
+                                                                Festsetzungsfrist für den nächsten Veranlagungszeitraum
+                                                                abgelaufen ist.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (2)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c2"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-3_untergl-1_intro-1_text-1">
+                                                                Der nicht entnommene Gewinn des Betriebs oder
+                                                                Mitunternehmeranteils ist der nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §4 Abs. 1 Satz 1"
+                                                                    eId="ref-0-20083879872804467"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 4 Absatz 1 Satz 1
+                                                            </akn:ref> oder <akn:ref bezugsnorm-automated="true"
+                                                                                     bezugsnorm="EStG §5"
+                                                                                     eId="ref-0-7722056573583072"
+                                                                                     href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                     type="Zitierung">§ 5
+                                                            </akn:ref> ermittelte Gewinn vermindert um den positiven
+                                                                Saldo der Entnahmen und Einlagen des Wirtschaftsjahres
+                                                                vermehrt um die Gewerbesteuer des Wirtschaftsjahres.
+                                                                Entnahmen für die Zahlung der Einkommensteuer nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34 Abs. 1 Satz 1"
+                                                                    eId="ref-0-18935761169388"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatz 1 Satz 1
+                                                            </akn:ref> und des darauf entfallenden
+                                                                Solidaritätszuschlages bleiben außer Ansatz. Entnahmen
+                                                                gelten vorrangig bis zur Höhe der Einkommensteuer im
+                                                                Sinne des <akn:ref bezugsnorm-automated="true"
+                                                                                   bezugsnorm="EStG §34a Abs. 1 Satz. 1"
+                                                                                   eId="ref-0-33197303170650505"
+                                                                                   href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                   type="Zitierung">Absatzes 1 Satz 1
+                                                            </akn:ref> und des darauf entfallenden
+                                                                Solidaritätszuschlages als zur Zahlung dieser Beträge
+                                                                verwendet.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (3)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c3"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-4_untergl-1_intro-1_text-1">
+                                                                Der Begünstigungsbetrag ist der im Veranlagungszeitraum
+                                                                nach <akn:ref bezugsnorm-automated="true"
+                                                                              bezugsnorm="EStG §34a Abs. 1 Satz 1"
+                                                                              eId="ref-0-296787641709491"
+                                                                              href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                              type="Zitierung">Absatz 1 Satz 1
+                                                            </akn:ref> auf Antrag begünstigte Gewinn. Der
+                                                                Begünstigungsbetrag des Veranlagungszeitraums,
+                                                                vermindert um die darauf entfallende Steuerbelastung
+                                                                nach <akn:ref bezugsnorm-automated="true"
+                                                                              bezugsnorm="EStG §34a Abs. 1"
+                                                                              eId="ref-0-691235615718832"
+                                                                              href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                              type="Zitierung">Absatz 1
+                                                            </akn:ref> und den darauf entfallenden Solidaritätszuschlag,
+                                                                vermehrt um den nachversteuerungspflichtigen Betrag des
+                                                                Vorjahres und den auf diesen Betrieb oder
+                                                                Mitunternehmeranteil nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 5"
+                                                                    eId="ref-0-41217082296930396"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatz 5
+                                                            </akn:ref> übertragenen nachversteuerungspflichtigen Betrag,
+                                                                vermindert um den Nachversteuerungsbetrag im Sinne des <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 4 "
+                                                                    eId="ref-0-009768620596132482"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatzes 4
+                                                            </akn:ref> und den auf einen anderen Betrieb oder
+                                                                Mitunternehmeranteil nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 5"
+                                                                    eId="ref-0-16102518568671997"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatz 5
+                                                            </akn:ref> übertragenen nachversteuerungspflichtigen Betrag,
+                                                                ist der nachversteuerungspflichtige Betrag des Betriebs
+                                                                oder Mitunternehmeranteils zum Ende des
+                                                                Veranlagungszeitraums. Dieser ist für jeden Betrieb oder
+                                                                Mitunternehmeranteil jährlich gesondert festzustellen.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (4)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c1"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-5_untergl-1_intro-1_text-1">
+                                                                Übersteigt der positive Saldo der Entnahmen und Einlagen
+                                                                des Wirtschaftsjahres bei einem Betrieb oder
+                                                                Mitunternehmeranteil den nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §4 Abs. 5 Satz 1 "
+                                                                    eId="ref-0-7839784192452612"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 4 Absatz 1 Satz 1
+                                                            </akn:ref> oder <akn:ref bezugsnorm-automated="true"
+                                                                                     bezugsnorm="EStG §5"
+                                                                                     eId="ref-0-288069190247364"
+                                                                                     href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                     type="Zitierung">§ 5
+                                                            </akn:ref> ermittelten Gewinn (Nachversteuerungsbetrag), ist
+                                                                vorbehaltlich <akn:ref bezugsnorm-automated="true"
+                                                                                       bezugsnorm="EStG §34a Abs. 5 "
+                                                                                       eId="ref-0-7473554901641297"
+                                                                                       href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                       type="Zitierung">Absatz 5
+                                                            </akn:ref> eine Nachversteuerung durchzuführen, soweit zum
+                                                                Ende des vorangegangenen Veranlagungszeitraums ein
+                                                                nachversteuerungspflichtiger Betrag nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 3"
+                                                                    eId="ref-0-42906696872427874"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatz 3
+                                                            </akn:ref> festgestellt wurde. Die Einkommensteuer auf den
+                                                                Nachversteuerungsbetrag beträgt 25 Prozent. Der
+                                                                Nachversteuerungsbetrag ist um die Beträge, die für die
+                                                                Erbschaftsteuer (Schenkungsteuer) anlässlich der
+                                                                Übertragung des Betriebs oder Mitunternehmeranteils
+                                                                entnommen wurden, zu vermindern.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (5)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c1"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-6_untergl-1_intro-1_text-1">
+                                                                Die Übertragung oder Überführung eines Wirtschaftsguts
+                                                                nach <akn:ref bezugsnorm-automated="true"
+                                                                              bezugsnorm="EStG §6 5 Satz 1-3"
+                                                                              eId="ref-0-2228433990563854"
+                                                                              href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                              type="Zitierung">§ 6 Absatz 5 Satz 1 bis 3
+                                                            </akn:ref> führt unter den Voraussetzungen des <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 4 "
+                                                                    eId="ref-0-0736784390482561"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatzes 4
+                                                            </akn:ref> zur Nachversteuerung. Eine Nachversteuerung
+                                                                findet nicht statt, wenn der Steuerpflichtige beantragt,
+                                                                den nachversteuerungspflichtigen Betrag in Höhe des
+                                                                Buchwerts des übertragenen oder überführten
+                                                                Wirtschaftsguts, höchstens jedoch in Höhe des
+                                                                Nachversteuerungsbetrags, den die Übertragung oder
+                                                                Überführung des Wirtschaftsguts ausgelöst hätte, auf den
+                                                                anderen Betrieb oder Mitunternehmeranteil zu übertragen.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (6)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c1"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-7_untergl-1_intro-1_text-1">
+                                                                Eine Nachversteuerung des nachversteuerungspflichtigen
+                                                                Betrags nach <akn:ref bezugsnorm-automated="true"
+                                                                                      bezugsnorm="EStG §34a Abs. 4 "
+                                                                                      eId="ref-0-41437521801805643"
+                                                                                      href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                      type="Zitierung">Absatz 4
+                                                            </akn:ref> ist durchzuführen
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (7)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c1"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-8_untergl-1_intro-1_text-1">
+                                                                In den Fällen der unentgeltlichen Übertragung eines
+                                                                Betriebs oder Mitunternehmeranteils nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §6 Abs. 3 "
+                                                                    eId="ref-0-14589158960584836"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 6 Absatz 3
+                                                            </akn:ref> hat der Rechtsnachfolger den
+                                                                nachversteuerungspflichtigen Betrag des Rechtsvorgängers
+                                                                fortzuführen; <akn:ref bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 6 Satz 1 Nr. 3 und Satz 2 Nr. 3 "
+                                                                    eId="ref-0-7613068953143156"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatz 6 Satz 1 Nummer 3 und Satz 2
+                                                                Nummer 3
+                                                            </akn:ref> bleiben unberührt. Bei unentgeltlicher Aufnahme
+                                                                einer natürlichen Person in ein bestehendes
+                                                                Einzelunternehmen oder unentgeltlicher Übertragung eines
+                                                                Teils eines Mitunternehmeranteils auf eine natürliche
+                                                                Person hat der Rechtsnachfolger den
+                                                                nachversteuerungspflichtigen Betrag anteilig
+                                                                fortzuführen. Maßgeblich ist der Anteil des übertragenen
+                                                                Betriebsvermögens an dem Betriebsvermögen des
+                                                                Rechtsvorgängers vor der Übertragung. In den Fällen der
+                                                                Einbringung eines Betriebs oder Mitunternehmeranteils zu
+                                                                Buchwerten nach <akn:ref bezugsnorm-automated="true"
+                                                                                         bezugsnorm="UmwStG §24"
+                                                                                         eId="ref-0-32217522979456725"
+                                                                                         href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                         type="Zitierung">§ 24 des
+                                                                Umwandlungssteuergesetzes
+                                                            </akn:ref> geht der für den eingebrachten Betrieb oder
+                                                                Mitunternehmeranteil festgestellte
+                                                                nachversteuerungspflichtige Betrag auf den neuen
+                                                                Mitunternehmeranteil über. Bei Einbringung eines Teils
+                                                                eines Mitunternehmeranteils zu Buchwerten nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="UmwStG §24" eId="ref-0-7171790781546097"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 24 des Umwandlungssteuergesetzes
+                                                            </akn:ref> geht der nachversteuerungspflichtige Betrag
+                                                                anteilig auf den neuen Mitunternehmeranteil über; <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 7 Satz 3 "
+                                                                    eId="ref-0-2544157080156899"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Satz 3
+                                                            </akn:ref> gilt entsprechend.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (8)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c1"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-9_untergl-1_intro-1_text-1">
+                                                                Negative Einkünfte dürfen nicht mit ermäßigt besteuerten
+                                                                Gewinnen im Sinne von <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 1 Satz 1 "
+                                                                    eId="ref-0-3950682373745551"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatz 1 Satz 1
+                                                            </akn:ref> ausgeglichen werden; sie dürfen insoweit auch
+                                                                nicht nach <akn:ref bezugsnorm-automated="true"
+                                                                                    bezugsnorm="EStG §10d"
+                                                                                    eId="ref-0-21918202755853344"
+                                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                    type="Zitierung">§ 10d
+                                                            </akn:ref> abgezogen werden.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (9)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c1"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-10_untergl-1_intro-1_text-1">
+                                                                Zuständig für den Erlass der Feststellungsbescheide über
+                                                                den nachversteuerungspflichtigen Betrag ist das für die
+                                                                Einkommensbesteuerung zuständige Finanzamt. Die
+                                                                Feststellungsbescheide können nur insoweit angegriffen
+                                                                werden, als sich der nachversteuerungspflichtige Betrag
+                                                                gegenüber dem nachversteuerungspflichtigen Betrag des
+                                                                Vorjahres verändert hat. Die gesonderten Feststellungen
+                                                                nach <akn:ref bezugsnorm-automated="true"
+                                                                              bezugsnorm="EStG §34a Satz 1 "
+                                                                              eId="ref-0-8660251500780058"
+                                                                              href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                              type="Zitierung">Satz 1
+                                                            </akn:ref> können mit dem Einkommensteuerbescheid verbunden
+                                                                werden.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (10)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c1"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-11_untergl-1_intro-1_text-1">
+                                                                Sind Einkünfte aus Land- und Forstwirtschaft,
+                                                                Gewerbebetrieb oder selbständiger Arbeit nach § 180
+                                                                Absatz 1 Satz 1 Nummer 2 Buchstabe a oder b der
+                                                                Abgabenordnung gesondert festzustellen, können auch die
+                                                                Höhe der Entnahmen und Einlagen sowie weitere nach den <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 1-7"
+                                                                    eId="ref-0-13109786241030008"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absätzen 1 bis 7
+                                                            </akn:ref> erforderliche Besteuerungsgrundlagen gesondert
+                                                                festgestellt werden. Zuständig für die gesonderten
+                                                                Feststellungen nach <akn:ref bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Satz 1 "
+                                                                    eId="ref-0-9188553864840703"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Satz 1
+                                                            </akn:ref> ist das Finanzamt, das für die gesonderte
+                                                                Feststellung nach <akn:ref bezugsnorm-automated="true"
+                                                                    bezugsnorm="AO §180 Abs. 1 Satz 1 Nr. 2 "
+                                                                    eId="ref-0-491461362409086"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 180 Absatz 1 Satz 1 Nummer 2 der
+                                                                Abgabenordnung
+                                                            </akn:ref> zuständig ist. Die gesonderten Feststellungen
+                                                                nach <akn:ref bezugsnorm-automated="true"
+                                                                              bezugsnorm="EStG §34a Abs. 10 Satz 1 "
+                                                                              eId="ref-0-4568670848948708"
+                                                                              href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                              type="Zitierung">Satz 1
+                                                            </akn:ref> können mit der Feststellung nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="AO §180 Abs. 1 Satz 1 Nr. 2 "
+                                                                    eId="ref-0-12197948532295322"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 180 Absatz 1 Satz 1 Nummer 2 der
+                                                                Abgabenordnung
+                                                            </akn:ref> verbunden werden. Die Feststellungsfrist für die
+                                                                gesonderte Feststellung nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 10 Satz 1 "
+                                                                    eId="ref-0-5427613260480562"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Satz 1
+                                                            </akn:ref> endet nicht vor Ablauf der Feststellungsfrist für
+                                                                die Feststellung nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="AO §180 Abs. 1 Satz 1 Nr. 2 "
+                                                                    eId="ref-0-9826499743253603"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 180 Absatz 1 Satz 1 Nummer 2 der
+                                                                Abgabenordnung</akn:ref>.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                        <akn:point GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2">
+                                                            <akn:num GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391"
+                                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1">
+                                                                <akn:marker GUID="83c24d77-eb17-4bf4-970d-22f85d3ee592"
+                                                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-2_bezeichnung-1_zaehlbez-1"
+                                                                            name="2"/>
+                                                                (11)
+                                                            </akn:num>
+                                                            <akn:p GUID="64182da3-fa83-4e3d-896d-7085fdd555c1"
+                                                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-12_untergl-1_intro-1_text-1">
+                                                                Der Bescheid über die gesonderte Feststellung des
+                                                                nachversteuerungspflichtigen Betrags ist zu erlassen,
+                                                                aufzuheben oder zu ändern, soweit der Steuerpflichtige
+                                                                einen Antrag nach <akn:ref bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 1 "
+                                                                    eId="ref-0-5529293999723401"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatz 1
+                                                            </akn:ref> stellt oder diesen ganz oder teilweise
+                                                                zurücknimmt und sich die Besteuerungsgrundlagen im
+                                                                Einkommensteuerbescheid ändern. Dies gilt entsprechend,
+                                                                wenn der Erlass, die Aufhebung oder Änderung des
+                                                                Einkommensteuerbescheids mangels steuerlicher Auswirkung
+                                                                unterbleibt. Die Feststellungsfrist endet nicht, bevor
+                                                                die Festsetzungsfrist für den Veranlagungszeitraum
+                                                                abgelaufen ist, auf dessen Schluss der
+                                                                nachversteuerungspflichtige Betrag und das
+                                                                nachversteuerungsfreie Entnahmevolumen des Betriebs oder
+                                                                Mitunternehmeranteils gesondert festzustellen sind. Der
+                                                                Einkommensteuerbescheid ist zu erlassen, aufzuheben oder
+                                                                zu ändern, soweit der Steuerpflichtige einen Antrag nach <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 1 "
+                                                                    eId="ref-0-4162132059907344"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Absatz 1
+                                                            </akn:ref> stellt oder diesen ganz oder teilweise
+                                                                zurücknimmt und sich die gesonderte Feststellung des
+                                                                nachversteuerungspflichtigen Betrags ändert. Für die
+                                                                Festsetzungsfrist gilt <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnorm="EStG §34a Abs. 11 Satz 3"
+                                                                    eId="ref-0-017372952517316298"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Satz 3
+                                                            </akn:ref> sinngemäß.
+                                                            </akn:p>
+
+                                                        </akn:point>
+                                                    </akn:content>
+                                                </akn:paragraph>
+                                            </akn:article>
+
+
+                                        </akn:quotedStructure>
+                                    </akn:mod>
+                                </akn:p>
+                            </akn:content>
+                        </akn:point>
+                    </akn:list>
+                </akn:paragraph>
+            </akn:article>
+
+            <akn:article GUID="628b7653-68d5-483f-b265-be0a6a5c7aea" eId="hauptteil-1_para-2" period="#geltungszeitgr-1"
+                         refersTo="geltungszeitregel">
+                <akn:num GUID="41f85859-9eed-4b05-8d59-4d92983fdd0c" eId="hauptteil-1_para-2_bezeichnung-1">
+                    <akn:marker GUID="b47cfc67-7544-44a6-ad27-5da7ea7f053d"
+                                eId="hauptteil-1_para-2_bezeichnung-1_zaehlbez-1" name="2"/>
+                </akn:num>
+                <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab" eId="hauptteil-1_para-2_überschrift-1">
+                    Inkrafttreten
+                </akn:heading>
+                <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae" eId="hauptteil-1_para-2_abs-1">
+                    <akn:num GUID="df00a213-4a1d-44fa-9df5-27979493b0f1" eId="hauptteil-1_para-2_abs-1_bezeichnung-1">
+                        <akn:marker GUID="f03f382c-d9f5-4a24-bf3b-b3695d57e86a"
+                                    eId="hauptteil-1_para-2_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                    </akn:num>
+                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321" eId="hauptteil-1_para-2_abs-1_inhalt-1">
+                        <akn:p GUID="de1b70eb-c26f-4223-bfa4-ed0ffd974314"
+                               eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1">Dieses Gesetz tritt <akn:date
+                                GUID="28f26c1e-2329-4082-887a-a3c1b19a1b7b" date="1002-01-02"
+                                eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1_datum-1" refersTo="inkrafttreten-datum">am
+                            Tag nach der Verkündung
+                        </akn:date> in Kraft.
+                        </akn:p>
+                    </akn:content>
+                </akn:paragraph>
+            </akn:article>
+        </akn:body>
+    </akn:act>
+</akn:akomaNtoso>
