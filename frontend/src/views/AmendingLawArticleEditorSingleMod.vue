@@ -37,6 +37,7 @@ const {
   quotedTextFirst,
   quotedTextSecond,
   timeBoundary,
+  quotedStructureContent,
   preview: {
     data: previewData,
     execute: preview,
@@ -81,6 +82,20 @@ const {
     timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
   ),
   previewCustomNorms,
+)
+
+const quotedStructureHtmlContent = ref<string | undefined>(undefined)
+const { data: quotedStructureHtml } = useNormRenderHtml(
+  quotedStructureContent,
+  false,
+)
+
+watch(
+  () => quotedStructureHtml.value,
+  (newValue) => {
+    quotedStructureHtmlContent.value = newValue ?? undefined
+  },
+  { immediate: true },
 )
 
 watch(
@@ -153,6 +168,7 @@ watch(
       v-model:destination-href="destinationHref"
       v-model:quoted-text-second="quotedTextSecond"
       v-model:selected-time-boundary="timeBoundary"
+      :quoted-structure-content="quotedStructureHtmlContent"
       :quoted-text-first="quotedTextFirst"
       :time-boundaries="timeBoundaries ?? []"
       :is-updating="isUpdating"

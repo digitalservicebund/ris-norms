@@ -1,4 +1,8 @@
-import { evaluateXPath, evaluateXPathOnce } from "@/services/xmlService"
+import {
+  evaluateXPath,
+  evaluateXPathOnce,
+  xmlNodeToString,
+} from "@/services/xmlService"
 import { ModType, ModData } from "@/types/ModType"
 import {
   getActiveModificationByModEid,
@@ -48,6 +52,19 @@ export function getTextualModType(aknModNode: Node) {
     | ModType
     | null
     | undefined
+}
+
+/**
+ * Get the content of the akn:quotedStructure.
+ */
+export function getQuotedStructureContent(
+  aknModNode: Node,
+): string | undefined {
+  const quotedStructureNode = evaluateXPathOnce(
+    `akn:quotedStructure`,
+    aknModNode,
+  )
+  return quotedStructureNode ? xmlNodeToString(quotedStructureNode) : undefined
 }
 
 /**
