@@ -15,8 +15,18 @@ watch(type, () => {
   emit("change")
 })
 
+function autoDetectBezugsnormTest(bezugsnorm: string) {
+  return bezugsnorm
+    .replaceAll(/(?<=\s)(a|A)(?<absatz>[\d-]+)(?=\s)/g, "Abs. $<absatz>")
+    .replaceAll(/(?<=\s)(s|S)(?<satz>[\d-]+)(?=\s)/g, "Satz $<satz>")
+    .replaceAll(/(?<=\s)(n|N)(?<nummer>[\d-]+)(?=\s)/g, "Nr. $<nummer>")
+    .replaceAll(/(?<=\s)(b|B)(?<buchstabe>\w)(?=\s)/g, "Buchstabe $<buchstabe>")
+}
+
 const bezugsnorm = ref("")
 watch(bezugsnorm, () => {
+  bezugsnorm.value = autoDetectBezugsnormTest(bezugsnorm.value)
+
   aknRef.value.setAttribute("bezugsnorm", bezugsnorm.value)
 
   if (bezugsnorm.value.length > 5) {
