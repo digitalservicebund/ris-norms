@@ -113,6 +113,15 @@ public class Mod {
   }
 
   /**
+   * Returns the quoted structure as {@link Node}.
+   *
+   * @return The quotedStructure which content will be replaced
+   */
+  public Optional<Node> getQuotedStructure() {
+    return NodeParser.getNodeFromExpression("./quotedStructure", this.node);
+  }
+
+  /**
    * Checks weather a quotedText was used for a substitution. If not it is probably a
    * quotedStructure.
    *

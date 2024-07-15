@@ -13,6 +13,7 @@ import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundEx
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
@@ -123,6 +124,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               }
 
               if (mod.usesQuotedText()) applyQuotedText(mod, targetNode.get());
+              if (mod.usesQuotedStructure()) applyQuotedStructure(mod, targetNode.get());
             });
 
     return norm;
@@ -138,5 +140,20 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
     final String modifiedTextContent = nodeToChange.getTextContent().replaceFirst(oldText, newText);
     nodeToChange.setTextContent(modifiedTextContent);
+  }
+
+  private void applyQuotedStructure(Mod mod, Node targetQuotedStructure) {
+    if (mod.getQuotedStructure().isEmpty()) return;
+
+    final List<Node> children = NodeParser.nodeListToList(targetQuotedStructure.getChildNodes());
+    children.forEach(targetQuotedStructure::removeChild);
+
+    final List<Node> newQuotedStructureContent =
+        NodeParser.nodeListToList(mod.getQuotedStructure().get().getChildNodes());
+    final List<Node> newQuotedStructureContentImported =
+        newQuotedStructureContent.stream()
+            .map(n -> targetQuotedStructure.getOwnerDocument().importNode(n, true))
+            .toList();
+    newQuotedStructureContentImported.forEach(targetQuotedStructure::appendChild);
   }
 }

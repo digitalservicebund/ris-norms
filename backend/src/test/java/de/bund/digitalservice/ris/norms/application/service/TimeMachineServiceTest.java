@@ -220,5 +220,30 @@ class TimeMachineServiceTest {
           .isEqualToIgnoringWhitespace(
               "entgegen § 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
     }
+
+    @Test
+    void applyOnePassiveModificationQuotedStructure() {
+      // given
+      final var targetLawNorm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
+
+      final var amendingLawNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(targetLawNorm, Instant.MAX));
+
+      // then
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              "Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen");
+    }
   }
 }
