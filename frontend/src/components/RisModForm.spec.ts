@@ -16,6 +16,7 @@ describe("RisModForm", () => {
   const quotedTextFirst = "Bundesministerium des Innern, für Bau und Heimat"
   const quotedTextSecond = "Bundesministerium des Innern und für Heimat"
   const quotedStructureContent = "<quotedStructure>content</quotedStructure>"
+  const targetLawHtmlHtml = "<p>Target Law Content</p>"
 
   it("Should render the form with only mandatory fields", () => {
     render(RisModForm, {
@@ -164,15 +165,13 @@ describe("RisModForm", () => {
         timeBoundaries,
         destinationHref,
         quotedStructureContent,
+        targetLawHtmlHtml,
       },
     })
 
-    const elementToBeReplaced = screen.getByRole("textbox", {
-      name: "zu ersetzendes Element",
-    })
+    const elementToBeReplaced = screen.getByTestId("elementToBeReplaced")
     expect(elementToBeReplaced).toBeInTheDocument()
-    expect(elementToBeReplaced).toHaveValue("para-1_abs-1/5-53.xml")
-    expect(elementToBeReplaced).not.toHaveAttribute("readonly")
+    expect(elementToBeReplaced.innerHTML).toContain("Target Law Content")
 
     const quotedStructureElement = screen.getByTestId("replacingElement")
     expect(quotedStructureElement).toBeInTheDocument()
