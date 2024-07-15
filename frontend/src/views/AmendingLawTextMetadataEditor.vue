@@ -204,7 +204,10 @@ async function convertSelectionToRef({
   range.setEnd(childNodeForRange, endWithWhitespace)
 
   const refElement: Element = doc.value.createElement("akn:ref")
-  refElement.setAttribute("eId", Math.random().toString().replace(".", "-"))
+  refElement.setAttribute(
+    "eId",
+    `ref-${Math.random().toString().replace(".", "-")}`,
+  )
   refElement.setAttribute("type", "Zitierung")
 
   range.surroundContents(refElement)
@@ -226,6 +229,10 @@ async function handleSelect(
   selection: { eid: string; start: number; end: number } | null,
 ) {
   if (!selection || selection.start === selection.end) {
+    return
+  }
+
+  if (selection.eid.includes("ref-")) {
     return
   }
 
