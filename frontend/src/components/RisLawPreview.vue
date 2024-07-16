@@ -472,6 +472,10 @@ watch(
   @apply font-bold;
 }
 
+:deep(.akn-paragraph .akn-heading) {
+  @apply font-bold;
+}
+
 :deep(.akn-shortTitle) {
   @apply block font-normal;
 }

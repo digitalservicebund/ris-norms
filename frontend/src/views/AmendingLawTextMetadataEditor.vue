@@ -319,6 +319,12 @@ watch(selectedRef, () => {
       block: "nearest",
     })
 })
+
+const modSelectionHidden = ref(false)
+
+watch(selectedMod, () => {
+  modSelectionHidden.value = !!selectedMod.value
+})
 </script>
 
 <template>
@@ -340,8 +346,27 @@ watch(selectedRef, () => {
     <RisHeader v-else :breadcrumbs>
       <!-- eslint-disable vuejs-accessibility/label-has-for -->
       <div class="flex h-[calc(100vh-5rem-5rem)] flex-col p-40">
-        <div class="gap grid min-h-0 flex-grow grid-cols-3 grid-rows-1 gap-32">
-          <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
+        <div
+          class="gap grid min-h-0 flex-grow grid-rows-1 gap-32"
+          :class="{
+            'grid-cols-3': !modSelectionHidden,
+            'grid-cols-2': modSelectionHidden,
+          }"
+        >
+          <section
+            v-if="!modSelectionHidden"
+            class="flex flex-col gap-8"
+            aria-label="Vorschau"
+          >
+            <RisTextButton
+              size="small"
+              variant="link"
+              class="left-0 float-left w-fit"
+              label="Mod Auswahl ausblenden"
+              :disabled="!selectedMod"
+              @click="modSelectionHidden = true"
+            ></RisTextButton>
+
             <div
               v-if="renderIsLoading && !render"
               class="my-16 flex justify-center"
@@ -365,7 +390,22 @@ watch(selectedRef, () => {
             ></RisLawPreview>
           </section>
 
-          <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
+          <section
+            class="flex flex-col gap-8"
+            aria-label="Vorschau"
+            :class="{
+              'mt-[40px]': !modSelectionHidden,
+            }"
+          >
+            <RisTextButton
+              v-if="modSelectionHidden"
+              size="small"
+              variant="link"
+              class="left-0 float-left w-fit"
+              label="Mod Auswahl anzeigen"
+              @click="modSelectionHidden = !modSelectionHidden"
+            ></RisTextButton>
+
             <RisCallout
               v-if="!selectedMod"
               variant="neutral"
@@ -421,7 +461,7 @@ watch(selectedRef, () => {
 
           <section
             v-if="selectedMod"
-            class="flex flex-col gap-8"
+            class="mt-8 flex flex-col gap-8"
             aria-label="Metadaten bearbeiten"
           >
             <RisTabs
