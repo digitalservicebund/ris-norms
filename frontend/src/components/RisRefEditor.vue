@@ -4,7 +4,6 @@ import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CopyIcon from "~icons/ic/outline-content-copy"
 import CloseIcon from "~icons/ic/close"
-import IcOutlineAutoFixHigh from "~icons/ic/outline-auto-fix-high"
 
 const aknRef = defineModel<Element>({ required: true })
 const emit = defineEmits(["change", "delete"])
@@ -268,11 +267,7 @@ function handleBezugsnormChange() {
       @keydown.down="handleBezugsnormExtensionKeydownDown"
       @keydown.up="handleBezugsnormExtensionKeydownUp"
       @change="handleBezugsnormChange"
-    >
-      <template v-if="bezugsnormAutomated" #suffix>
-        <IcOutlineAutoFixHigh></IcOutlineAutoFixHigh>
-      </template>
-    </RisTextInput>
+    ></RisTextInput>
     <RisTextInput
       id="fassung"
       v-model="fassung"
