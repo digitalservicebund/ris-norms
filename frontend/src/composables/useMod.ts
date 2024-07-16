@@ -53,7 +53,7 @@ export function useMod(
   const timeBoundary = ref<
     { date: string; temporalGroupEid: string } | undefined
   >()
-  const quotedStructureContent = ref<string | undefined>(undefined)
+  const quotedStructureContent = ref<string | undefined>()
 
   function reset() {
     textualModType.value = ""
