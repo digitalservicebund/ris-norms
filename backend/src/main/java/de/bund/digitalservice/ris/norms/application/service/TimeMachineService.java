@@ -142,18 +142,21 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     nodeToChange.setTextContent(modifiedTextContent);
   }
 
-  private void applyQuotedStructure(Mod mod, Node targetQuotedStructure) {
+  private void applyQuotedStructure(Mod mod, Node targetNode) {
     if (mod.getQuotedStructure().isEmpty()) return;
-
-    final List<Node> children = NodeParser.nodeListToList(targetQuotedStructure.getChildNodes());
-    children.forEach(targetQuotedStructure::removeChild);
 
     final List<Node> newQuotedStructureContent =
         NodeParser.nodeListToList(mod.getQuotedStructure().get().getChildNodes());
     final List<Node> newQuotedStructureContentImported =
         newQuotedStructureContent.stream()
-            .map(n -> targetQuotedStructure.getOwnerDocument().importNode(n, true))
+            .map(n -> targetNode.getOwnerDocument().importNode(n, true))
             .toList();
-    newQuotedStructureContentImported.forEach(targetQuotedStructure::appendChild);
+
+    final Node parentNode = targetNode.getParentNode();
+    parentNode.removeChild(targetNode);
+    newQuotedStructureContentImported.forEach(parentNode::appendChild);
+
+    // TODO replace eid of the content of quotedStructure with the corresponding eId in the target
+    // law
   }
 }
