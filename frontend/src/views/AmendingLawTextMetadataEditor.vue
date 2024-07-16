@@ -300,6 +300,55 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   { key: "metadataEditor", title: "Textbasierte Metadaten" },
 ])
 
+const REGEX =
+  /(?:Anhang(?: \w+(?: Teil \w+(?: Buchstabe \w+(?: Unterabsatz \w+(?: Satz \w+)?)?)?)?)?|Anlage(?: \w+)?(?:(?:.*?) vom \d+\. (?:.*?) \d+)?(?: \((?:R|B)GBl\.(?: \d+)? I(?:I)? (?:S\. \w+(?:, \d+)?(?:\; \d+ I S\. \d+)?|Nr\. \d+)\))?|Artikel(?:s)? \w+(?: Nummer \w+(?: Absatz \w+)?)? der Verordnung vom \d+\. (?:.*?) \d+ \((?:R|B)GBl\.(?: \d+)? I(?:I)? (?:S\. \w+(?:, \d+)?(?:\; \d+ I S\. \d+)?|Nr\. \d+)\)|Artikel(?:s)? \w+(?: Nummer \w+(?: (?:Abs(?:atz|.)?) \w+)?)?(?: (?:Abs(?:atz|.)?) \w+(?: Satz \d+(?: und \d+)?)?)? des (?:G|(?:.*?)g)esetzes(?: vom \d+\. (?:.*?) \d+ \((?:R|B)GBl\.(?: \d+)? I(?:I)? (?:S\. \w+(?:, \d+)?(?:\; \d+ I S\. \d+)?|Nr\. \d+)\))?|Artikel \w+(?: (?:Abs(?:atz|.)?) \d+(?: (?:und|oder) \d+)?(?: (?:Unterabs|S)atz \d+(?: (?:und|oder) \d+)?(?: [a-zA-Z]+ Gedankenstrich)?| Buchstabe \w+(?: Satz \w+)?)?| Buchstabe \w+| Nummer \d+(?: Satz \d+)?)?|(?<!§)§ \w+(?: (?:(?:Abs(?:atz|.) (?:\w+(?: (?:und|bis|oder) \w+)?)(?: Satz (?:\w+(?: (?:und|bis|oder) \w+)?)(?: (?:Nummer|Nr.) (?:\w+(?: (?:und|bis|oder) \w+)?)(?: Buchstabe \w+(?: Satz \w+)?| Satz \w+(?: Buchstabe \w+)?)?| Buchstabe \w+)?| (?:Nummer|Nr.) (?:\w+(?: (?:und|bis|oder) \w+)?)(?: Satz (?:\w+(?: (?:und|bis|oder) \w+)?)(?: (?:Nummer|Nr.) \w+| Buchstabe \w+)?| Buchstabe \w+(?: Satz \w+| und \w+)?)?| Buchstabe \w+)?)|Nummer \w+(?: Satz \w+(?: und \w+| Buchstabe \w+(?: Satz \w+)?)?)?|Satz \w+)| in der Fassung der Bekanntmachung)?(?:(?:.*?) vom \d+\. (?:.*?) \d+ \((?:R|B)GBl\.(?: \d+)? I(?:I)? (?:S\. \w+(?:, \d+)?(?:\; \d+ I S\. \d+)?|Nr\. \d+)\)| des (?:.*?)(?:-G|g)esetzes)?|§§ (\w+), (\w+) (?:des ((?:.*?)gesetz(?:es)?)|der (?:.*?)ordnung)|Richtlinie(?: \(EU\))? \d+\/\d+(?:\/EG|\/EWG)?|Richtlinien(?: \(EU\))? \d+\/\d+(?:\/EG|\/EWG)? und \d+\/\d+(?:\/EG|\/EWG)?|(?:(?:[a-zA-ZüöäÜÄÖ]*?)v|V)erordnung \((?:EG|EU)\)(?: Nr.)? \d+\/\d+(?:(?:.*?) \(ABl\. L \w+ vom \d+\.\d+\.\d+\, S\. \d+\))?|(?:Verordnungen|und|,) \((?:EG|EU|EWG)\)(?: Nr.)? \d+\/\d+|(?:[a-z0-9A-Z\-üöäßÜÖÄ]+(?: und [a-z0-9A-Z\-üöäßÜÖÄ]+)?)?(?:[gG]esetz|[vV]erordnung|Protokoll zum|ordnung)(?:.*?) vom \d+\. (?:.*?) \d+ \((?:R|B)GBl\.(?: \d+)? I(?:I)? (?:S\. \w+(?:, \d+)?(?:\; \d+ I S\. \d+)?|Nr\. \d+)\)(?: in der Fassung des § \d+ Abs\. \d+ des (?:.*?)gesetzes vom \d+\. (?:.*?) \d+ \((?:R|B)GBl\.(?: \d+)? I(?:I)? (?:S\. \w+(?:, \d+)?(?:\; \d+ I S\. \d+)?|Nr\. \d+)\)|, (?:die|das)(?: zuletzt)? durch Artikel \d+(?: Absatz \d+)? (?:des Gesetzes|der Verordnung) vom \d+\. (?:.*?) \d+ \((?:R|B)GBl\.(?: \d+)? I(?:I)? (?:S\. \w+(?:, \d+)?(?:\; \d+ I S\. \d+)?|Nr\. \d+)\))?(?: geändert worden ist)?)/g
+
+function addRefs(node: Node) {
+  if (node.nodeType === Node.TEXT_NODE) {
+    node.textContent =
+      node.textContent?.replaceAll(/[\r\n]+/g, " ").replaceAll(/\s+/g, " ") ??
+      ""
+    const text = node.textContent
+
+    const results = text?.matchAll(REGEX) ?? []
+
+    ;[...results].reverse().forEach((match) => {
+      const range = new Range()
+      range.selectNode(node.parentNode!)
+      range.setStart(node, match.index)
+      range.setEnd(node, match.index + match[0].length)
+
+      const refElement: Element = node.ownerDocument!.createElement("akn:ref")
+      refElement.setAttribute(
+        "eId",
+        `ref-${Math.random().toString().replace(".", "-")}`,
+      )
+      refElement.setAttribute("type", "Zitierung")
+      refElement.setAttribute(
+        "bezugsnormExtension",
+        range.cloneContents().textContent?.replaceAll(/\s+/g, " ") ?? "",
+      )
+      refElement.setAttribute("bezugsnorm-automated", "true")
+
+      range.surroundContents(refElement)
+    })
+  } else {
+    node.childNodes.forEach((childNode) => {
+      addRefs(childNode)
+    })
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+;(window as any).runRefRegex = () => {
+  const docu = selectedModNewContentNode.value
+
+  if (docu) {
+    addRefs(docu)
+    updateCurrentXml()
+  }
+}
+
 function handleModClick(e: { eid: string }) {
   selectedMod.value = e.eid
 }
