@@ -207,18 +207,19 @@ tasks.named("checkstyleTest").configure {
     enabled = false
 }
 
-sentry {
+if (System.getProperty("spring.profiles.active") == "staging") {
+    sentry {
+        // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+        // This enables source context, allowing you to see your source
+        // code as part of your stack traces in Sentry.
+        // includeSourceContext = true
 
-    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
-    // This enables source context, allowing you to see your source
-    // code as part of your stack traces in Sentry.
-    // includeSourceContext = true
+        // Temporarily disabled since it didn't work when building with gradle in the docker container
+        includeSourceContext = false
 
-    // Temporarily disabled since it didn't work when building with gradle in the docker container
-    includeSourceContext = false
-
-    org = "digitalservice"
-    projectName = "ris-norms"
-    debug.set(true)
-    authToken = System.getenv("SENTRY_AUTH_TOKEN")
+        org = "digitalservice"
+        projectName = "ris-norms"
+        debug.set(true)
+        authToken = System.getenv("SENTRY_AUTH_TOKEN")
+    }
 }

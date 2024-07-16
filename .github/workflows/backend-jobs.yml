@@ -61,8 +61,6 @@ jobs:
           distribution: "temurin"
           cache: gradle
       - name: Run unit tests
-        env:
-          SPRING_PROFILES_ACTIVE: testing
         working-directory: ./backend
         run: ./gradlew clean test -x integrationTest
       - name: Send status to Slack
@@ -83,8 +81,6 @@ jobs:
           distribution: "temurin"
           cache: gradle
       - name: Run integration tests
-        env:
-          SPRING_PROFILES_ACTIVE: testing
         working-directory: ./backend
         run: ./gradlew clean integrationTest -x test
       - name: Send status to Slack
