@@ -46,3 +46,4 @@ management:
 
 sentry:
   exception-resolver-order: -2147483647
+  ignored-exceptions-for-type: de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException, de.bund.digitalservice.ris.norms.application.exception.ValidationException
