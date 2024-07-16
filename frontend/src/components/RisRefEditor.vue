@@ -29,9 +29,20 @@ watch(bezugsnorm, () => {
 
   aknRef.value.setAttribute("bezugsnorm", bezugsnorm.value)
 
-  if (bezugsnorm.value.length > 5) {
+  if (bezugsnorm.value.length > 3) {
     href.value = "eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
   }
+
+  emit("change")
+})
+
+const bezugsnormExtension = ref("")
+watch(bezugsnormExtension, () => {
+  bezugsnormExtension.value = autoDetectBezugsnormTest(
+    bezugsnormExtension.value,
+  )
+
+  aknRef.value.setAttribute("bezugsnormExtension", bezugsnormExtension.value)
 
   emit("change")
 })
@@ -64,6 +75,8 @@ watch(
   () => {
     type.value = aknRef.value.getAttribute("type") ?? "Typ"
     bezugsnorm.value = aknRef.value.getAttribute("bezugsnorm") ?? ""
+    bezugsnormExtension.value =
+      aknRef.value.getAttribute("bezugsnormExtension") ?? ""
     fassung.value = aknRef.value.getAttribute("fassung") ?? ""
     href.value = aknRef.value.getAttribute("href") ?? ""
     bezugsnormAutomated.value = aknRef.value.hasAttribute(
@@ -104,6 +117,7 @@ async function handleCopy(e: ClipboardEvent) {
           JSON.stringify({
             type: type.value,
             bezugsnorm: bezugsnorm.value,
+            bezugsnormExtension: bezugsnormExtension.value,
             fassung: fassung.value,
           }),
         ],
@@ -126,6 +140,7 @@ async function handlePaste(e: ClipboardEvent) {
 
   type.value = data.type
   bezugsnorm.value = data.bezugsnorm
+  bezugsnormExtension.value = data.bezugsnormExtension
   fassung.value = data.fassung
   bezugsnormAutomated.value = data.bezugsnormAutomated || false
 }
@@ -150,6 +165,38 @@ function handleBezugsnormKeydownDown(e: KeyboardEvent) {
 
 function handleBezugsnormKeydownUp(e: KeyboardEvent) {
   const bezugsnormInputs = document.querySelectorAll<HTMLElement>("#bezugsnorm")
+
+  const currentInputIndex = Array.from(bezugsnormInputs).findIndex(
+    (input) => input == e.target,
+  )
+
+  if (currentInputIndex === 0) {
+    bezugsnormInputs[bezugsnormInputs.length - 1].focus()
+  } else {
+    bezugsnormInputs[currentInputIndex - 1].focus()
+  }
+}
+
+function handleBezugsnormExtensionKeydownDown(e: KeyboardEvent) {
+  const bezugsnormInputs = document.querySelectorAll<HTMLElement>(
+    "#bezugsnormExtension",
+  )
+
+  const currentInputIndex = Array.from(bezugsnormInputs).findIndex(
+    (input) => input == e.target,
+  )
+
+  if (bezugsnormInputs[currentInputIndex + 1]) {
+    bezugsnormInputs[currentInputIndex + 1].focus()
+  } else {
+    bezugsnormInputs[0].focus()
+  }
+}
+
+function handleBezugsnormExtensionKeydownUp(e: KeyboardEvent) {
+  const bezugsnormInputs = document.querySelectorAll<HTMLElement>(
+    "#bezugsnormExtension",
+  )
 
   const currentInputIndex = Array.from(bezugsnormInputs).findIndex(
     (input) => input == e.target,
@@ -212,6 +259,16 @@ function handleBezugsnormChange() {
       @keydown.up="handleBezugsnormKeydownUp"
       @change="handleBezugsnormChange"
     >
+    </RisTextInput>
+    <RisTextInput
+      id="bezugsnormExtension"
+      v-model="bezugsnormExtension"
+      placeholder="Ergänzung zur Bezugsnorm"
+      size="small"
+      @keydown.down="handleBezugsnormExtensionKeydownDown"
+      @keydown.up="handleBezugsnormExtensionKeydownUp"
+      @change="handleBezugsnormChange"
+    >
       <template v-if="bezugsnormAutomated" #suffix>
         <IcOutlineAutoFixHigh></IcOutlineAutoFixHigh>
       </template>
@@ -245,7 +302,7 @@ function handleBezugsnormChange() {
       ></RisTextButton>
     </div>
 
-    <div v-if="href" class="col-span-4 p-4">
+    <div v-if="href" class="col-span-5 p-4">
       {{ href }}
     </div>
   </div>

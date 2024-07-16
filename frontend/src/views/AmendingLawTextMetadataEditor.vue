@@ -428,10 +428,11 @@ watch(selectedRef, () => {
             >
               <template #editor>
                 <div
-                  class="grid grid-cols-[1fr,1fr,1fr,max-content] items-center gap-y-10 overflow-auto pb-1"
+                  class="grid grid-cols-[1fr,1fr,2fr,1fr,max-content] items-center gap-y-10 overflow-auto pb-1"
                 >
                   <div>Typ</div>
                   <div>Bezugsnorm</div>
+                  <div>Ergänzung zur Bezugsnorm</div>
                   <div>Fassung</div>
                   <div></div>
 
@@ -440,7 +441,7 @@ watch(selectedRef, () => {
                     :id="`ris-ref-editor-${getEid(aknRef)}`"
                     :key="getEid(aknRef)"
                     :model-value="aknRef"
-                    class="col-span-4 mx-1 grid grid-cols-subgrid"
+                    class="col-span-5 mx-1 grid grid-cols-subgrid"
                     :class="{
                       'ring ring-1 ring-blue-800':
                         selectedRef == getEid(aknRef),
