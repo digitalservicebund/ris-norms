@@ -83,7 +83,24 @@ const errorMessage = computed(() => {
       {{ label }}
     </label>
     <div class="flex flex-col">
+      <div v-if="$slots.suffix" class="ds-input-group">
+        <input
+          :id="id"
+          v-model="modelValue"
+          class="ds-input"
+          :class="conditionalClasses"
+          :placeholder="placeholder"
+          :readonly="readOnly"
+          :tabindex="tabindex"
+          type="text"
+          @blur="$emit('blur')"
+        />
+        <div class="ds-input-suffix">
+          <slot name="suffix"></slot>
+        </div>
+      </div>
       <input
+        v-else
         :id="id"
         v-model="modelValue"
         class="ds-input"

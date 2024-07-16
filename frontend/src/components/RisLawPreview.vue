@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nextTick, ref, useAttrs, watch } from "vue"
+import { refDebounced, useEventListener } from "@vueuse/core"
 
 const props = withDefaults(
   defineProps<{
@@ -59,6 +60,13 @@ const emit = defineEmits<{
        */
       originalEvent: MouseEvent | KeyboardEvent
     },
+  ]
+  select: [
+    {
+      eid: string
+      start: number
+      end: number
+    } | null,
   ]
 }>()
 
@@ -189,6 +197,126 @@ watch(
   { immediate: true },
 )
 
+function hasAsParentElement(element: Node, parentElement: Node): boolean {
+  const elementParent = element.parentElement
+  if (!elementParent) {
+    return false
+  }
+
+  if (elementParent === parentElement) {
+    return true
+  }
+
+  return hasAsParentElement(elementParent, parentElement)
+}
+
+const selection = ref<Range | null>()
+const debouncedSelection = refDebounced(selection, 500)
+
+watch(debouncedSelection, () => {
+  const parentElement = debouncedSelection.value?.startContainer.parentElement
+  const eid = parentElement?.dataset.eid
+  if (!parentElement || !eid) {
+    emit("select", null)
+    return
+  }
+
+  let previousSibling = debouncedSelection.value?.startContainer.previousSibling
+  let previousSiblingsTextLength = 0
+  while (previousSibling) {
+    if (
+      previousSibling.nodeType !== Node.ELEMENT_NODE ||
+      !(
+        (previousSibling as Element).classList.contains("akn-quote-endQuote") ||
+        (previousSibling as Element).classList.contains("akn-quote-startQuote")
+      )
+    ) {
+      previousSiblingsTextLength +=
+        previousSibling?.textContent?.replaceAll(/\s/g, "").length ?? 0
+    }
+    previousSibling = previousSibling.previousSibling
+  }
+
+  const textContent = debouncedSelection.value.startContainer.textContent ?? ""
+
+  const startWithoutSpaces = textContent
+    .slice(0, debouncedSelection.value.startOffset)
+    .replaceAll(/\s/g, "").length
+  const endWithoutSpaces = textContent
+    .slice(0, debouncedSelection.value.endOffset)
+    .replaceAll(/\s/g, "").length
+
+  emit("select", {
+    eid,
+    start: previousSiblingsTextLength + startWithoutSpaces,
+    end: previousSiblingsTextLength + endWithoutSpaces,
+  })
+})
+
+function limitSelectionToSelectableRanges() {
+  const selection = getSelection()
+
+  if (
+    selection?.anchorNode &&
+    selection.anchorNode.nodeType === 3 &&
+    selection.anchorNode.parentNode !== selection.focusNode?.parentNode
+  ) {
+    if (selection.anchorNode === selection.focusNode) {
+      selection.extend(
+        selection.anchorNode,
+        selection.anchorNode.textContent?.length,
+      )
+    } else if (
+      selection.anchorNode.parentNode &&
+      selection.anchorNode.parentNode.lastChild
+    ) {
+      selection.extend(
+        selection.anchorNode.parentNode.lastChild,
+        selection.anchorNode.parentNode.lastChild.textContent?.length,
+      )
+    }
+  }
+}
+
+useEventListener(document, "selectionchange", () => {
+  const currentSelection = getSelection()
+  if (
+    !container.value ||
+    !currentSelection?.anchorNode ||
+    !hasAsParentElement(currentSelection.anchorNode, container.value)
+  ) {
+    selection.value = null
+    return
+  }
+
+  limitSelectionToSelectableRanges()
+
+  const range = getSelection()?.getRangeAt(0)
+
+  if (range) {
+    selection.value = range
+  }
+})
+
+const uniqueId = Math.random().toString(16).substring(2)
+
+function getElementByEid(eid: string) {
+  return document.querySelector(`#preview-${uniqueId} [data-eId="${eid}"]`)
+}
+
+function teleportEidSlotNameToEid(slotName: string) {
+  return slotName.substring(4)
+}
+
+const contentHash = ref("")
+watch(
+  () => props.content,
+  async () => {
+    await nextTick()
+    contentHash.value = props.content
+  },
+)
+
 /**
  * Setup and update the custom classes on elements.
  */
@@ -224,6 +352,7 @@ watch(
   <div class="overflow-hidden">
     <!-- eslint-disable vue/no-v-html -->
     <div
+      :id="`preview-${uniqueId}`"
       ref="container"
       tabindex="0"
       class="flex h-full overflow-auto bg-white p-20"
@@ -233,6 +362,20 @@ watch(
       v-html="content"
     ></div>
     <!-- eslint-enable vue/no-v-html -->
+
+    <template
+      v-for="name in Object.keys($slots).filter((key) =>
+        key.startsWith('eid:'),
+      )"
+      :key="`${contentHash}-${name}`"
+    >
+      <Teleport
+        v-if="getElementByEid(teleportEidSlotNameToEid(name))"
+        :to="getElementByEid(teleportEidSlotNameToEid(name))"
+      >
+        <slot :name="name"></slot>
+      </Teleport>
+    </template>
   </div>
 </template>
 
@@ -326,6 +469,10 @@ watch(
 }
 
 :deep(.akn-longTitle) {
+  @apply font-bold;
+}
+
+:deep(.akn-paragraph .akn-heading) {
   @apply font-bold;
 }
 

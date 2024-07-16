@@ -120,7 +120,9 @@ const linkBindings = computed(() => {
     :aria-busy="loading || undefined"
     v-bind="linkBindings"
   >
-    <component :is="icon" v-if="icon" class="ds-button-icon" alt="" />
+    <slot name="icon">
+      <component :is="icon" v-if="icon" class="ds-button-icon" alt="" />
+    </slot>
     <span
       v-if="!iconOnly"
       class="ds-button-label"
