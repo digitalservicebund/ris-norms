@@ -18,6 +18,9 @@ describe("useMod", () => {
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn().mockReturnValue("aenderungsbefehl-ersetzen"),
       getTimeBoundaryDate: vi.fn().mockReturnValue("2020-01-01"),
+      getQuotedStructureContent: vi
+        .fn()
+        .mockReturnValue("<quotedStructure>content</quotedStructure>"), // Added mock
       useUpdateModData: vi.fn(),
     }))
     vi.doMock("@/services/ldmldeService", () => ({
@@ -31,6 +34,7 @@ describe("useMod", () => {
       quotedTextFirst,
       quotedTextSecond,
       timeBoundary,
+      quotedStructureContent, // Added expectation
     } = useMod("eli", "eid", `<xml></xml>`)
 
     expect(destinationHref.value).toBe(
@@ -40,6 +44,9 @@ describe("useMod", () => {
     expect(quotedTextFirst.value).toBe("old text")
     expect(quotedTextSecond.value).toBe("new text")
     expect(timeBoundary.value).toBe("2020-01-01")
+    expect(quotedStructureContent.value).toBe(
+      "<quotedStructure>content</quotedStructure>",
+    ) // Added expectation
   })
 
   test("should provide default values without a mod eid", async () => {
@@ -51,6 +58,7 @@ describe("useMod", () => {
       quotedTextFirst,
       quotedTextSecond,
       timeBoundary,
+      quotedStructureContent, // Added expectation
     } = useMod(null, null, `<xml></xml>`)
 
     expect(destinationHref.value).toBe("")
@@ -58,6 +66,7 @@ describe("useMod", () => {
     expect(quotedTextFirst.value).toBe("")
     expect(quotedTextSecond.value).toBe("")
     expect(timeBoundary.value).toBeUndefined()
+    expect(quotedStructureContent.value).toBeUndefined() // Added expectation
   })
 
   test("should support changing the values of the returned refs", async () => {
@@ -68,6 +77,9 @@ describe("useMod", () => {
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
       useUpdateModData: vi.fn(),
+      getQuotedStructureContent: vi
+        .fn()
+        .mockReturnValue("<quotedStructure>content</quotedStructure>"), // Added mock
     }))
     vi.doMock("@/services/ldmldeService", () => ({
       getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),
@@ -89,6 +101,9 @@ describe("useMod", () => {
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
       useUpdateModData: vi.fn(),
+      getQuotedStructureContent: vi
+        .fn()
+        .mockReturnValue("<quotedStructure>content</quotedStructure>"), // Added mock
     }))
     vi.doMock("@/services/ldmldeService", () => ({
       getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),
@@ -116,6 +131,9 @@ describe("useMod", () => {
       getTextualModType: vi.fn(),
       getTimeBoundaryDate: vi.fn(),
       useUpdateModData: vi.fn(),
+      getQuotedStructureContent: vi
+        .fn()
+        .mockReturnValue("<quotedStructure>content</quotedStructure>"), // Added mock
     }))
     vi.doMock("@/services/ldmldeService", () => ({
       getNodeByEid: vi.fn().mockReturnValue({ object: "that is not null" }),

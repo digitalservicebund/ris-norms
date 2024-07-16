@@ -8,6 +8,7 @@ import {
   getTextualModType,
   getTimeBoundaryDate,
   useUpdateModData,
+  getQuotedStructureContent,
 } from "@/services/ldmldeModService"
 import { ModType } from "@/types/ModType"
 import { UseFetchReturn } from "@vueuse/core"
@@ -30,6 +31,7 @@ export function useMod(
   quotedTextFirst: Ref<string>
   quotedTextSecond: Ref<string>
   timeBoundary: Ref<{ date: string; temporalGroupEid: string } | undefined>
+  quotedStructureContent: Ref<string | undefined>
   update: UseFetchReturn<{
     amendingNormXml: string
     targetNormZf0Xml: string
@@ -51,6 +53,7 @@ export function useMod(
   const timeBoundary = ref<
     { date: string; temporalGroupEid: string } | undefined
   >()
+  const quotedStructureContent = ref<string | undefined>()
 
   function reset() {
     textualModType.value = ""
@@ -58,6 +61,7 @@ export function useMod(
     quotedTextFirst.value = ""
     quotedTextSecond.value = ""
     timeBoundary.value = undefined
+    quotedStructureContent.value = undefined
   }
 
   watch(
@@ -79,6 +83,7 @@ export function useMod(
       destinationHref.value = getDestinationHref(modNode) ?? ""
       quotedTextFirst.value = getQuotedTextFirst(modNode) ?? ""
       quotedTextSecond.value = getQuotedTextSecond(modNode) ?? ""
+      quotedStructureContent.value = getQuotedStructureContent(modNode)
       timeBoundary.value =
         getTimeBoundaryDate(normDocument.value, eidValue) ?? undefined
     },
@@ -91,7 +96,7 @@ export function useMod(
     if (
       !eidValue ||
       destinationHref.value === "" ||
-      quotedTextSecond.value === ""
+      (quotedStructureContent.value === "" && quotedTextSecond.value === "")
     )
       return null
 
@@ -100,6 +105,7 @@ export function useMod(
       timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
       destinationHref: destinationHref.value,
       newContent: quotedTextSecond.value,
+      quotedStructureContent: quotedStructureContent.value,
     }
   })
   const preview = useUpdateModData(eli, eid, modData, true)
@@ -110,6 +116,7 @@ export function useMod(
     destinationHref,
     quotedTextFirst,
     quotedTextSecond,
+    quotedStructureContent,
     timeBoundary,
     preview,
     update,
