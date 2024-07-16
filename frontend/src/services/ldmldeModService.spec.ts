@@ -109,7 +109,7 @@ describe("ldmldeModService", () => {
           <akn:quotedText GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196" eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2" endQuote="“" startQuote="„">nach Ablauf von fünf Jahren</akn:quotedText>
           ersetzt.
         </akn:mod>
-      `).childNodes.item(0)
+      `).documentElement
 
       expect(getTextualModType(node)).to.eq("aenderungsbefehl-ersetzen")
     })
