@@ -209,6 +209,11 @@ async function convertSelectionToRef({
     `ref-${Math.random().toString().replace(".", "-")}`,
   )
   refElement.setAttribute("type", "Zitierung")
+  refElement.setAttribute(
+    "bezugsnormExtension",
+    range.cloneContents().textContent?.replaceAll(/\s+/g, " ") ?? "",
+  )
+  refElement.setAttribute("bezugsnorm-automated", "true")
 
   range.surroundContents(refElement)
 
