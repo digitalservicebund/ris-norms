@@ -1,0 +1,1541 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                       http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+    <akn:act name="regelungstext">
+        <akn:meta GUID="2481817a-0bb8-4acc-a107-f7b1ca005bd5" eId="meta-1">
+            <akn:identification GUID="0f860fc3-2320-4bdb-95fd-39cc7c74c74a" eId="meta-1_ident-1"
+                                source="attributsemantik-noch-undefiniert">
+                <akn:FRBRWork GUID="a99d08e2-c8e1-454a-a744-a900d114a09f" eId="meta-1_ident-1_frbrwork-1">
+                    <akn:FRBRthis GUID="f878644d-a0cd-4395-8068-5dd57a20211a" eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
+                                  value="eli/bund/bgbl-1/1001/2/regelungstext-1"/>
+                    <akn:FRBRuri GUID="a933d5e0-f55b-4e47-8099-dfc16e9bd246" eId="meta-1_ident-1_frbrwork-1_frbruri-1"
+                                 value="eli/bund/bgbl-1/1001/2"/>
+                    <akn:FRBRalias GUID="e60ca8fb-0e4a-4597-864f-3d3e451baa76"
+                                   eId="meta-1_ident-1_frbrwork-1_frbralias-1" name="übergreifende-id"
+                                   value="f96cfae4-4fce-4c72-9186-0d84778dc11c"/>
+                    <akn:FRBRdate GUID="f6db6ec9-0d77-465c-b3d9-6b362fd12172" date="1001-02-01"
+                                  eId="meta-1_ident-1_frbrwork-1_frbrdate-1" name="verkuendungsfassung"/>
+                    <akn:FRBRauthor GUID="a9212ee8-b829-458a-8fe7-209afb86f830"
+                                    eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"
+                                    href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRcountry GUID="8717ed8b-17bb-4be0-9cc1-697f323fa8e0"
+                                     eId="meta-1_ident-1_frbrwork-1_frbrcountry-1" value="de"/>
+                    <akn:FRBRnumber GUID="e19a8ae2-2214-48f4-94a4-7a56e0dc4972"
+                                    eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" value="2"/>
+                    <akn:FRBRname GUID="a4ce4461-b0c0-4072-8308-6d71f532add8" eId="meta-1_ident-1_frbrwork-1_frbrname-1"
+                                  value="bgbl-1"/>
+                    <akn:FRBRsubtype GUID="854c6c39-5bc4-4685-bc3a-5d250f5bf4c9"
+                                     eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" value="regelungstext-1"/>
+                </akn:FRBRWork>
+                <akn:FRBRExpression GUID="3a260f57-c05b-4829-b1af-d90a2155f830" eId="meta-1_ident-1_frbrexpression-1">
+                    <akn:FRBRthis GUID="48ea5be1-ede2-4d25-826e-8580b20856c2"
+                                  eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                                  value="eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1"/>
+                    <akn:FRBRuri GUID="ed14cdff-f228-45a8-8273-c69b9249e268"
+                                 eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
+                                 value="eli/bund/bgbl-1/1001/2/1001-02-01/1/deu"/>
+                    <akn:FRBRalias GUID="c8020f26-0573-4fbd-9206-b7e94254e5a1"
+                                   eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="vorherige-version-id"
+                                   value="f260b43f-6218-4bd7-ac1a-f5f46d190bfb"/>
+                    <akn:FRBRalias GUID="3525add7-7254-4e86-b42c-09e21dda2337"
+                                   eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="aktuelle-version-id"
+                                   value="e7abd358-32cb-4fc2-8a1a-b033961f3708"/>
+                    <akn:FRBRauthor GUID="d9e42e16-093c-4f59-9ab1-8c22a88b0145"
+                                    eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"
+                                    href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRdate GUID="eb396949-e619-4d8c-a1d8-437a54d12e0f" date="1001-02-01"
+                                  eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" name="verkuendung"/>
+                    <akn:FRBRlanguage GUID="98969700-0dd6-4ecf-9586-a57b78fec36c"
+                                      eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" language="deu"/>
+                    <akn:FRBRversionNumber GUID="77c781e0-c3d1-4353-84db-8ae9592259bf"
+                                           eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1" value="1"/>
+                </akn:FRBRExpression>
+                <akn:FRBRManifestation GUID="98aa282b-b68b-438f-b12e-19a5d0504a62"
+                                       eId="meta-1_ident-1_frbrmanifestation-1">
+                    <akn:FRBRthis GUID="d7e17b04-d21a-49a1-bd17-8dbc6e438ab1"
+                                  eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                                  value="eli/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRuri GUID="73b70a33-ba32-4ed8-acad-31588cb67270"
+                                 eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
+                                 value="eli/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRdate GUID="1b64cc67-d985-452a-ba9c-76f132474003" date="1001-02-01"
+                                  eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" name="generierung"/>
+                    <akn:FRBRauthor GUID="4dcee985-9163-4f95-8587-e4531da25e6b"
+                                    eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" href="recht.bund.de"/>
+                    <akn:FRBRformat GUID="5012d395-a7e4-4f81-9ed5-3f2d3f238772"
+                                    eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>
+                </akn:FRBRManifestation>
+            </akn:identification>
+            <akn:lifecycle GUID="cb34c0a4-cc3b-4aa8-ad37-6d3c1ad62034" eId="meta-1_lebzykl-1"
+                           source="attributsemantik-noch-undefiniert">
+                <akn:eventRef GUID="82e43683-5f23-40cb-a10a-63717e935fff" date="1001-02-01"
+                              eId="meta-1_lebzykl-1_ereignis-1" refersTo="ausfertigung"
+                              source="attributsemantik-noch-undefiniert" type="generation"/>
+                <akn:eventRef GUID="052e1cf2-9b4f-44de-8270-0817e5cc6bd6" date="1001-03-01"
+                              eId="meta-1_lebzykl-1_ereignis-2" refersTo="inkrafttreten"
+                              source="attributsemantik-noch-undefiniert" type="generation"/>
+            </akn:lifecycle>
+            <akn:analysis GUID="72dea665-8b66-44c3-bba1-6843491a19df" eId="meta-1_analysis-1"
+                          source="attributsemantik-noch-undefiniert">
+                <akn:activeModifications GUID="fa86151f-b89f-4ce8-981f-919ddfb496a8"
+                                         eId="meta-1_analysis-1_activemod-1">
+                    <akn:textualMod GUID="9b71b8e2-83d8-436f-9d57-0968b0cd4231"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-1" type="substitution">
+                        <akn:source GUID="ca72970e-2b7a-4b8a-9145-9ea9633c2935"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="4fe75978-b19d-4b5c-9116-f0570be39741"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml"/>
+                        <akn:force GUID="493eb720-ae47-4db6-a2b8-9700f61a0860"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="fbf0225d-37c3-4603-b851-627ba9f90f30"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-2" type="substitution">
+                        <akn:source GUID="828bede0-5d47-4f38-812a-5d37bdd92d82"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="66594ba2-0d9a-4680-b1a2-48a134ba013e"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-2_inhalt-1_text-1/29-36.xml"/>
+                        <akn:force GUID="6c653919-35ad-47fc-ae34-ce2b175ea298"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="02165fe9-81f8-4306-a9f5-777a46c0c351"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-3" type="substitution">
+                        <akn:source GUID="89b038cc-f255-4cc5-8f22-0bb0a0e5b998"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-3_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="98b8c5de-9cfa-4cf6-a3ee-96b6d15331b9"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-3_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-3_inhalt-1_text-1/29-36.xml"/>
+                        <akn:force GUID="70fdf551-ceb7-4678-be64-3e3a66d89a18"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-3_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="b971343a-e55e-4022-8a5e-843c028598ad"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-4" type="substitution">
+                        <akn:source GUID="c68e47d1-ef47-4cf8-86f0-2307d4463b82"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-4_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-4_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="338edcbf-f159-46b3-a2d6-f030e56db0dc"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-4_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-4_inhalt-1_text-1/29-36.xml"/>
+                        <akn:force GUID="1450ed7e-7582-45e1-b87d-415996a6708a"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-4_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="f4f28141-ef8c-4f03-a00f-c42f270a7d65"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-5" type="substitution">
+                        <akn:source GUID="b8a91795-278e-45c9-bfd9-05c2bc601dce"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-5_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="15d145bc-6276-4ff6-8038-1720d2057856"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-5_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-5_inhalt-1_text-1/29-36.xml"/>
+                        <akn:force GUID="481379f7-57f8-4fbc-9e40-e682bb3b3620"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-5_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="7dedbf83-0a23-4d6e-9775-7490dd17030a"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-6" type="substitution">
+                        <akn:source GUID="37f758a4-edf7-482e-a60b-42ca741a646a"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-6_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-6_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="61b33a97-5a4a-42bd-8327-2544ab4f2eb5"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-6_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-6_inhalt-1_text-1/29-36.xml"/>
+                        <akn:force GUID="afeb1c64-cb4b-4ff4-923c-f84bfd9c61b3"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-6_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="26c21156-f877-40bc-88b2-22c92819e694"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-7" type="substitution">
+                        <akn:source GUID="20b75521-c023-4769-b759-f04e9eca4b8b"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-7_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-7_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="d176c546-27c7-4ee8-a244-67b4b11bc624"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-7_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-7_inhalt-1_text-1/29-36.xml"/>
+                        <akn:force GUID="f36eec63-c115-477f-b47c-2ccd38311596"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-7_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="41e5b919-8db8-4a3b-8521-baf0882ec430"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-8" type="substitution">
+                        <akn:source GUID="f659a5a6-97fb-4855-8a72-34da38c8942a"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-8_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-8_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="0447cf32-ab6c-42ac-b30d-47f9f79555c3"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-8_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-8_inhalt-1_text-1/29-36.xml"/>
+                        <akn:force GUID="cb945cd1-1521-4a37-80d7-ef5e3ac91669"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-8_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="cb8aae73-3bcf-4abc-99c4-cd19b587b439"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-9" type="substitution">
+                        <akn:source GUID="dbbbefb3-c857-4024-a03a-264515105be1"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-9_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-9_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="d934e0e5-6ec7-4c84-a911-2923b4a73339"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-9_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-9_inhalt-1_text-1/29-36.xml"/>
+                        <akn:force GUID="7c76d439-ea69-48aa-b927-a56a8995608b"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-9_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="2b00350d-6b68-4a4a-9761-edbe89c0a15f"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-10" type="substitution">
+                        <akn:source GUID="fbfdf6c4-ee9c-41cc-9cc4-a3a11bd18d3c"
+                                    eId="meta-1_analysis-1_activemod-1_textualmod-10_source-1"
+                                    href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-10_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="9af11846-3f34-4adb-8e94-d542cd31a735"
+                                         eId="meta-1_analysis-1_activemod-1_textualmod-10_destination-1"
+                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-10_inhalt-1_text-1/29-37.xml"/>
+                        <akn:force GUID="cd00feef-9296-4698-9421-f4d2d3ba0d42"
+                                   eId="meta-1_analysis-1_activemod-1_textualmod-10_gelzeitnachw-1"
+                                   period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
+                    </akn:textualMod>
+                </akn:activeModifications>
+            </akn:analysis>
+            <akn:temporalData GUID="bab788c9-65b2-43f8-9c70-6223806966d7" eId="meta-1_geltzeiten-1"
+                              source="attributsemantik-noch-undefiniert">
+                <akn:temporalGroup GUID="8ceeab6a-175d-42ec-b1a5-f2e90e626939"
+                                   eId="meta-1_geltzeiten-1_geltungszeitgr-1">
+                    <akn:timeInterval GUID="b5f2b610-ea4e-43dc-9262-8afe1a812145"
+                                      eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
+                                      refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2"/>
+                </akn:temporalGroup>
+            </akn:temporalData>
+        </akn:meta>
+
+        <akn:preface GUID="5d844674-c11c-45bf-9bb8-4d54fe108c66" eId="einleitung-1">
+            <akn:longTitle GUID="3d58e9de-af6a-42ab-b038-82471f592194" eId="einleitung-1_doktitel-1">
+                <akn:p GUID="306cb459-2f68-4a8d-9faf-9ef782e210fc" eId="einleitung-1_doktitel-1_text-1">
+                    <akn:docTitle GUID="d7bc7faa-6219-4d40-a9f8-bfba2c880544"
+                                  eId="einleitung-1_doktitel-1_text-1_doctitel-1">Änderung der
+                        Seefischerei-Bußgeldverordnung
+                    </akn:docTitle>
+                </akn:p>
+            </akn:longTitle>
+            <akn:block GUID="b4e33ab5-76e4-4ad6-bf3a-75801880174a" eId="einleitung-1_block-1"
+                       name="attributsemantik-noch-undefiniert">
+                <akn:date GUID="9cb899ea-35f5-45ae-95b6-4fe8090cba07" date="1900-01-01"
+                          eId="einleitung-1_block-1_datum-1" refersTo="ausfertigung-datum">Vom 01.02.1001
+                </akn:date>
+            </akn:block>
+        </akn:preface>
+
+        <akn:body GUID="7053de15-c6f1-4a0e-888f-abe626a12306" eId="hauptteil-1">
+            <akn:article GUID="6654b284-d298-4bde-af54-e237551c8ebe" eId="hauptteil-1_para-1" period="#geltungszeitgr-1"
+                         refersTo="hauptaenderung">
+                <akn:num GUID="078ca3ce-a2be-4237-b012-2f5d83401d09" eId="hauptteil-1_para-1_bezeichnung-1">
+                    <akn:marker GUID="11766493-ae2b-4ea6-9845-3f6fca5c3cd8"
+                                eId="hauptteil-1_para-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                </akn:num>
+                <akn:heading GUID="62620100-65c6-4bed-a49c-fb0a60414f80" eId="hauptteil-1_para-1_überschrift-1">Artikel
+                    1
+                </akn:heading>
+                <akn:paragraph GUID="c80e5e74-a3b1-4c98-a668-95ab790c6b07" eId="hauptteil-1_para-1_abs-1">
+                    <akn:num GUID="e7fd99c2-3965-482b-a8ce-1eec51983bca" eId="hauptteil-1_para-1_abs-1_bezeichnung-1">
+                        <akn:marker GUID="326a02c2-43e1-4552-8d0a-8ff0797fc832"
+                                    eId="hauptteil-1_para-1_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                    </akn:num>
+                    <akn:list GUID="1f152276-7132-44a7-8835-381fcb042827" eId="hauptteil-1_para-1_abs-1_untergl-1">
+                        <akn:intro GUID="2ec2c333-f252-4b1f-b9ce-61371e8b4337"
+                                   eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1">
+                            <akn:p GUID="d4ce4527-3d4d-4f86-b911-ec20b54dcd23"
+                                   eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1_text-1">Die
+                                Seefischerei-Bußgeldverordnung vom 16. Juni 1998 (BGBl. I S. 1355), die zuletzt durch
+                                Artikel 1 der Verordnung vom 7. Februar 2018 (BGBl. I S. 196) geändert worden ist, wird
+                                wie folgt geändert:
+                            </akn:p>
+                        </akn:intro>
+                        <akn:point GUID="07514672-034e-4d17-bfe1-d7fdc6b1b52a"
+                                   eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1">
+                            <akn:num GUID="92bc9cfc-fef7-4599-aaa7-c391085b3ec0"
+                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1">
+                                <akn:marker GUID="e7b01902-84a6-42e1-861c-251ffec75327"
+                                            eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1"
+                                            name="1"/>1.
+                            </akn:num>
+                            <akn:content GUID="05bedf71-934f-4925-9046-c7c44be11778"
+                                         eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1">
+                                <akn:p GUID="64c3a0f5-b7b9-43c3-8c76-02753ca6a84c"
+                                       eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1">
+                                    <akn:mod GUID="90d43fa8-59db-41da-a4bb-06df093f5323"
+                                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
+                                             refersTo="aenderungsbefehl-ersetzen">
+                                        Die <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a46c3"
+                                                     eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1"
+                                                     href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_inhalt-1_text-1/29-36.xml">
+                                        §§ 5 bis 41
+                                    </akn:ref> werden durch die folgenden §§ 5 bis 39 ersetzt:
+
+                                        <akn:quotedStructure GUID="b2fbc227-6aa8-49bc-8d07-e1004f2cd25e"
+                                                             eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-c_inhalt-1_text-1_ändbefehl-1_quotstruct-1"
+                                                             endQuote="“" startQuote="„">
+                                            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                           eId="hauptteil-1_para-2_abs-1">
+                                                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                             eId="hauptteil-1_para-2_abs-1_inhalt-1">
+                                                    <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                                 eId="hauptteil-1_para-2_überschrift-1">§ 5 Durchsetzung
+                                                        bestimmter Vorschriften der <akn:ref
+                                                                bezugsnorm="Verordnung (EG) Nr. 1035/2001"
+                                                                bezugsnormExtension="" eId="ref-0-9617557337121745"
+                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                type="Zitierung">Verordnung (EG) Nr. 1035/2001
+                                                        </akn:ref>
+                                                    </akn:heading>
+                                                    <akn:p eId="hauptteil-1_para-2_text-1">Ordnungswidrig im Sinne des <akn:ref
+                                                            bezugsnorm="SeeFischG"
+                                                            bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe a"
+                                                            eId="ref-0-06703773065801477"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe a des
+                                                        Seefischereigesetzes
+                                                    </akn:ref> handelt, wer vorsätzlich oder fahrlässig entgegen <akn:ref
+                                                            bezugsnorm-automated="true" bezugsnormExtension="Artikel 17"
+                                                            eId="ref-0-7968501267950343" type="Zitierung">Artikel 17
+                                                    </akn:ref> der <akn:ref bezugsnorm="Verordnung (EG) Nr. 1035/2001"
+                                                                            bezugsnormExtension="des Rates vom 22. Mai 2001 zur Einführung einer Fangdokumentationsregelung für Dissostichus spp. (ABl. L 145 vom 31.5.2001, S. 1)"
+                                                                            eId="ref-0-8933746010061943" fassung=""
+                                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                            type="Zitierung">Verordnung (EG) Nr.
+                                                        1035/2001 des Rates vom 22. Mai 2001 zur Einführung einer
+                                                        Fangdokumentationsregelung für Dissostichus spp. (ABl. L 145 vom
+                                                        31.5.2001, S. 1)</akn:ref>, die zuletzt durch die <akn:ref
+                                                            bezugsnorm="Verordnung (EG) Nr. 1368/2006"
+                                                            bezugsnormExtension="" eId="ref-0-4627809830470402"
+                                                            fassung=" (ABl. L 253 vom 16.9.2006, S. 1)"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">Verordnung (EG) Nr. 1368/2006 (ABl. L 253
+                                                        vom 16.9.2006, S. 1)
+                                                    </akn:ref> geändert worden ist, Dissostichus spp. einführt oder
+                                                        ausführt.
+                                                    </akn:p>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                           eId="hauptteil-2_para-2_abs-1">
+                                                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                             eId="hauptteil-2_para-2_abs-1_inhalt-1">
+                                                    <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                                 eId="hauptteil-2_para-2_überschrift-1">§ 6 Durchsetzung
+                                                        bestimmter Vorschriften der <akn:ref
+                                                                bezugsnorm="Verordnung (EG) Nr. 2056/2001"
+                                                                bezugsnormExtension="" eId="ref-0-11763343438070817"
+                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                type="Zitierung">Verordnung (EG) Nr. 2056/2001
+                                                        </akn:ref>
+                                                    </akn:heading>
+                                                    <akn:p eId="hauptteil-2_para-2_text-1">Ordnungswidrig im Sinne des <akn:ref
+                                                            bezugsnorm="SeeFischG"
+                                                            bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe a"
+                                                            eId="ref-0-6257418751349548"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe a des
+                                                        Seefischereigesetzes
+                                                    </akn:ref> handelt, wer gegen die <akn:ref
+                                                            bezugsnorm="Verordnung (EG) Nr. 2056/2001"
+                                                            bezugsnormExtension=" der Kommission vom 19. Oktober 2001 mit zusätzlichen technischen Maßnahmen zur Wiederauffüllung der Kabeljaubestände in der Nordsee und westlich von Schottland (ABl. L 277 vom 20.10.2001, S. 13)"
+                                                            eId="ref-0-7239475556797965" fassung=""
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">Verordnung (EG) Nr. 2056/2001 der
+                                                        Kommission vom 19. Oktober 2001 mit zusätzlichen technischen
+                                                        Maßnahmen zur Wiederauffüllung der Kabeljaubestände in der
+                                                        Nordsee und westlich von Schottland (ABl. L 277 vom 20.10.2001,
+                                                        S. 13)</akn:ref>, die durch die <akn:ref
+                                                            bezugsnorm="Durchführungsverordnung (EU) 2015/1897 "
+                                                            bezugsnormExtension="" eId="ref-0-17590906676982532"
+                                                            fassung="(ABl. L 277 vom 22.10.2015, S. 11)"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">Durchführungsverordnung (EU) 2015/1897
+                                                        (ABl. L 277 vom 22.10.2015, S. 11)
+                                                    </akn:ref> geändert worden ist, verstößt, indem er vorsätzlich oder
+                                                        fahrlässig
+                                                        <akn:point>
+                                                            <akn:num>1.</akn:num>
+                                                            <akn:p eId="hauptteil-2_para-2_überschrift-1_point_1">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 4 Nummer 5"
+                                                                                  eId="ref-0-5462283042890372"
+                                                                                  type="Zitierung">Artikel 4 Nummer 5
+                                                            </akn:ref> ein dort genanntes Netz mitführt oder ausbringt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>2.</akn:num>
+                                                            <akn:p eId="hauptteil-2_para-2_überschrift-1_point_2">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 5 Absatz 1 oder 2 Satz 1"
+                                                                                  eId="ref-0-5566184389192845"
+                                                                                  type="Zitierung">Artikel 5 Absatz 1
+                                                                oder 2 Satz 1
+                                                            </akn:ref> oder <akn:ref bezugsnorm-automated="true"
+                                                                                     bezugsnormExtension="Artikel 8 Absatz 1 Satz 1"
+                                                                                     eId="ref-0-8886299014405417"
+                                                                                     type="Zitierung">Artikel 8
+                                                                Absatz 1 Satz 1
+                                                            </akn:ref> ein dort genanntes Netz einsetzt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>3.</akn:num>
+                                                            <akn:p eId="hauptteil-2_para-2_überschrift-1_point_3">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 5 Absatz 3 Satz 1"
+                                                                                  eId="ref-0-07230776525330129"
+                                                                                  type="Zitierung">Artikel 5 Absatz 3
+                                                                Satz 1
+                                                            </akn:ref> eine dort genannte
+                                                                Baumkurre mitführt oder einsetzt oder
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>4.</akn:num>
+                                                            <akn:p eId="hauptteil-2_para-2_überschrift-1_point_4">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 6 Absatz 1"
+                                                                                  eId="ref-0-30788847765918126"
+                                                                                  type="Zitierung">Artikel 6 Absatz 1
+                                                            </akn:ref> eine dort genannte Baumkurre
+                                                                einsetzt.
+                                                            </akn:p>
+                                                        </akn:point>
+                                                    </akn:p>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                           eId="hauptteil-3_para-2_abs-1">
+                                                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                             eId="hauptteil-3_para-2_abs-1_inhalt-1">
+                                                    <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                                 eId="hauptteil-3_para-2_überschrift-1">§ 7 Durchsetzung
+                                                        bestimmter Vorschriften der <akn:ref
+                                                                bezugsnorm="Verordnung (EG) Nr. 494/2002"
+                                                                bezugsnormExtension="" eId="ref-0-7280405893642632"
+                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                type="Zitierung">Verordnung (EG) Nr. 494/2002
+                                                        </akn:ref>
+                                                    </akn:heading>
+                                                    <akn:p eId="hauptteil-3_para-2_text-1">Ordnungswidrig im Sinne des <akn:ref
+                                                            bezugsnorm="SeeFischG"
+                                                            bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe a"
+                                                            eId="ref-0-9309836797279789"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe a des
+                                                        Seefischereigesetzes
+                                                    </akn:ref> handelt, wer gegen die <akn:ref
+                                                            bezugsnorm="Verordnung (EG) Nr. 494/2002"
+                                                            bezugsnormExtension="der Kommission vom 19. März 2002 mit zusätzlichen technischen Maßnahmen zur Wiederauffüllung des Seehechtsbestands in den ICES-Gebieten III, IV, V, VI und VII sowie VIII a, b, d, e (ABl. L 77 vom 20.3.2002, S. 8)"
+                                                            eId="ref-0-5012654757176345"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">Verordnung (EG) Nr. 494/2002 der Kommission
+                                                        vom 19. März 2002 mit zusätzlichen technischen Maßnahmen zur
+                                                        Wiederauffüllung des Seehechtsbestands in den ICES-Gebieten III,
+                                                        IV, V, VI und VII sowie VIII a, b, d, e (ABl. L 77 vom
+                                                        20.3.2002, S. 8)</akn:ref>, die durch die <akn:ref
+                                                            bezugsnorm="Durchführungsverordnung (EU) 2015/1867"
+                                                            bezugsnormExtension="" eId="ref-0-8686934338849932"
+                                                            fassung=" (ABl. L 275 vom 20.10.2015, S. 20)"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">Durchführungsverordnung (EU) 2015/1867
+                                                        (ABl. L 275 vom 20.10.2015, S. 20)
+                                                    </akn:ref> geändert worden ist, verstößt, indem er vorsätzlich oder
+                                                        fahrlässig
+                                                        <akn:point>
+                                                            <akn:num>1.</akn:num>
+                                                            <akn:p eId="hauptteil-3_para-2_überschrift-1_point_1">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 3"
+                                                                                  eId="ref-0-8506850637314642"
+                                                                                  type="Zitierung">Artikel 3
+                                                            </akn:ref> ein dort genanntes Netz oder ein dort genanntes
+                                                                Netzteil verwendet,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>2.</akn:num>
+                                                            <akn:p eId="hauptteil-3_para-2_überschrift-1_point_2">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 4"
+                                                                                  eId="ref-0-9450486853210718"
+                                                                                  type="Zitierung">Artikel 4
+                                                            </akn:ref> Satz 1 eine dort genannte Baumkurre mitführt oder
+                                                                ausbringt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>3.</akn:num>
+                                                            <akn:p eId="hauptteil-3_para-2_überschrift-1_point_3">
+                                                                entgegen Artikel 5 Absatz 2 Satz 1 erster oder zweiter
+                                                                Gedankenstrich oder Artikel 6 Absatz 1 oder 2 ein dort
+                                                                genanntes Netz oder eine dort genannte Baumkurre
+                                                                einsetzt oder zu Wasser lässt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>4.</akn:num>
+                                                            <akn:p eId="hauptteil-3_para-2_überschrift-1_point_4">
+                                                                entgegen Artikel 5 Absatz 2 Satz 2 erster Gedankenstrich
+                                                                oder Satz 3 erster Gedankenstrich Fischfang betreibt
+                                                                oder
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>5.</akn:num>
+                                                            <akn:p eId="hauptteil-3_para-2_überschrift-1_point_5">
+                                                                entgegen Artikel 5 Absatz 2 Satz 2 zweiter
+                                                                Gedankenstrich oder Satz 3 zweiter Gedankenstrich ein
+                                                                dort genanntes Fanggerät zu Wasser lässt oder ausbringt.
+                                                            </akn:p>
+                                                        </akn:point>
+                                                    </akn:p>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                           eId="hauptteil-4_para-2_abs-1">
+                                                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                             eId="hauptteil-4_para-2_abs-1_inhalt-1">
+                                                    <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                                 eId="hauptteil-4_para-2_überschrift-1">§ 8 Durchsetzung
+                                                        bestimmter Vorschriften der <akn:ref
+                                                                bezugsnorm="Verordnung (EG) Nr. 1185/2003"
+                                                                bezugsnormExtension="" eId="ref-0-4733245750013737"
+                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                type="Zitierung">Verordnung (EG) Nr. 1185/2003
+                                                        </akn:ref>
+                                                    </akn:heading>
+                                                    <akn:p eId="hauptteil-4_para-2_text-1">Ordnungswidrig im Sinne des <akn:ref
+                                                            bezugsnorm="SeeFischG"
+                                                            bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe a"
+                                                            eId="ref-0-6917649239891366"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe a des
+                                                        Seefischereigesetzes
+                                                    </akn:ref> handelt, wer gegen die <akn:ref
+                                                            bezugsnorm="Verordnung (EG) Nr. 1185/2003"
+                                                            bezugsnormExtension=" des Rates vom 26. Juni 2003 über das Abtrennen von Haifischflossen an Bord von Schiffen (ABl. L 167 vom 4.7.2003, S. 1)"
+                                                            eId="ref-0-7516683911305375"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">Verordnung (EG) Nr. 1185/2003 des Rates vom
+                                                        26. Juni 2003 über das Abtrennen von Haifischflossen an Bord von
+                                                        Schiffen (ABl. L 167 vom 4.7.2003, S. 1)</akn:ref>, die durch
+                                                        die <akn:ref bezugsnorm="Verordnung (EU) Nr. 605/2013"
+                                                                     bezugsnormExtension="" eId="ref-0-4747412897790839"
+                                                                     fassung=" (ABl. L 181 vom 29.6.2013, S. 1)"
+                                                                     href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                     type="Zitierung">Verordnung (EU) Nr. 605/2013 (ABl.
+                                                            L 181 vom 29.6.2013, S. 1)
+                                                        </akn:ref> geändert worden ist, verstößt, indem er vorsätzlich
+                                                        oder fahrlässig
+                                                        <akn:point>
+                                                            <akn:num>1.</akn:num>
+                                                            <akn:p eId="hauptteil-4_para-2_überschrift-1_point_1">
+                                                                entgegen Artikel 3 Absatz 1 eine Haifischflosse
+                                                                abtrennt, mitführt, umlädt oder anlandet oder
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>2.</akn:num>
+                                                            <akn:p eId="hauptteil-4_para-2_überschrift-1_point_2">
+                                                                entgegen Artikel 3 Absatz 2 eine Haifischflosse kauft
+                                                                oder zum Verkauf anbietet.
+                                                            </akn:p>
+                                                        </akn:point>
+                                                    </akn:p>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                           eId="hauptteil-5_para-2_abs-1">
+                                                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                             eId="hauptteil-5_para-2_abs-1_inhalt-1">
+                                                    <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                                 eId="hauptteil-5_para-2_überschrift-1">§ 9 Durchsetzung
+                                                        bestimmter Vorschriften der <akn:ref
+                                                                bezugsnorm="Verordnung (EG) Nr. 1984/2003"
+                                                                bezugsnormExtension="" eId="ref-0-9212753300714436"
+                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                type="Zitierung">Verordnung (EG) Nr. 1984/2003
+                                                        </akn:ref>
+                                                    </akn:heading>
+                                                    <akn:p eId="hauptteil-5-para-2_text-1">Ordnungswidrig im Sinne des <akn:ref
+                                                            bezugsnorm="Seefischereigesetzes"
+                                                            bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe a"
+                                                            eId="ref-0-785661983161219"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe a des
+                                                        Seefischereigesetzes
+                                                    </akn:ref> handelt, wer gegen die <akn:ref
+                                                            bezugsnorm="Verordnung (EG) Nr. 1984/2003"
+                                                            bezugsnormExtension=" des Rates vom 8. April 2003 über eine Regelung zur statistischen Erfassung von Schwertfisch und Großaugenthun in der Gemeinschaft (ABl. L 295 vom 13.11.2003, S. 1)"
+                                                            eId="ref-0-8074501593579937"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">Verordnung (EG) Nr. 1984/2003 des Rates vom
+                                                        8. April 2003 über eine Regelung zur statistischen Erfassung von
+                                                        Schwertfisch und Großaugenthun in der Gemeinschaft (ABl. L 295
+                                                        vom 13.11.2003, S. 1)</akn:ref>, die zuletzt durch die <akn:ref
+                                                            bezugsnorm="Verordnung (EU) 2022/2343"
+                                                            bezugsnormExtension="" eId="ref-0-9970374073200039"
+                                                            fassung=" (ABl. L 311 vom 2.12.2022, S. 1)"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">Verordnung (EU) 2022/2343 (ABl. L 311 vom
+                                                        2.12.2022, S. 1)
+                                                    </akn:ref> geändert worden ist, verstößt, indem er vorsätzlich oder
+                                                        fahrlässig
+                                                        <akn:point>
+                                                            <akn:num>1.</akn:num>
+                                                            <akn:p eId="hauptteil-5_para-2_überschrift-1_point_1">
+                                                                entgegen Artikel 4 Absatz 5 Fisch einer dort genannten
+                                                                Art einführt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>2.</akn:num>
+                                                            <akn:p eId="hauptteil-5_para-2_überschrift-1_point_2">
+                                                                entgegen Artikel 5 Absatz 5 Fisch einer dort genannten
+                                                                Art ausführt oder
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>3.</akn:num>
+                                                            <akn:p eId="hauptteil-5_para-2_überschrift-1_point_3">
+                                                                entgegen Artikel 6 Absatz 6 Fisch einer dort genannten
+                                                                Art wieder ausführt oder einführt.
+                                                            </akn:p>
+                                                        </akn:point>
+                                                    </akn:p>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                           eId="hauptteil-6_para-2_abs-1">
+                                                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                             eId="hauptteil-6_para-2_abs-1_inhalt-1">
+                                                    <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                                 eId="hauptteil-6_para-2_überschrift-1">§ 10
+                                                        Durchsetzung bestimmter Vorschriften der <akn:ref
+                                                                bezugsnorm="Verordnung (EG) Nr. 600/2004"
+                                                                bezugsnormExtension="" eId="ref-0-2148771316477871"
+                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                type="Zitierung">Verordnung (EG) Nr. 600/2004
+                                                        </akn:ref>
+                                                    </akn:heading>
+                                                    <akn:p eId="hauptteil-6_para-2_text-1">Ordnungswidrig im Sinne des <akn:ref
+                                                            bezugsnorm="SeeFischG"
+                                                            bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe a"
+                                                            eId="ref-0-813018583814966"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe a des
+                                                        Seefischereigesetzes
+                                                    </akn:ref> handelt, wer gegen die <akn:ref
+                                                            bezugsnorm="Verordnung (EG) Nr. 600/2004"
+                                                            bezugsnormExtension=" des Rates vom 22. März 2004 mit technischen Maßnahmen für die Fischerei im Bereich des Übereinkommens über die Erhaltung der lebenden Meeresschätze der Antarktis (ABl. L 97 vom 1.4.2004, S. 1)"
+                                                            eId="ref-0-049885790021110266"
+                                                            href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                            type="Zitierung">Verordnung (EG) Nr. 600/2004 des Rates vom
+                                                        22. März 2004 mit technischen Maßnahmen für die Fischerei im
+                                                        Bereich des Übereinkommens über die Erhaltung der lebenden
+                                                        Meeresschätze der Antarktis (ABl. L 97 vom 1.4.2004, S. 1)
+                                                    </akn:ref> verstößt, indem er vorsätzlich oder fahrlässig
+                                                        <akn:point>
+                                                            <akn:num>1.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_1">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 3 Absatz 1"
+                                                                                          eId="ref-0-3764665328861678"
+                                                                                          type="Zitierung">Artikel 3
+                                                                    Absatz 1</akn:ref>, 2, 3 Satz 1, Absatz 4 oder 6
+                                                                eine Fischerei ausübt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>2.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_2">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 4 Absatz 1"
+                                                                                          eId="ref-0-6055891831544131"
+                                                                                          type="Zitierung">Artikel 4
+                                                                    Absatz 1
+                                                                </akn:ref> ein dort genanntes Netz oder eine Snurrewade
+                                                                einsetzt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>3.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_3">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 4 Absatz 2"
+                                                                                  eId="ref-0-9169132792691344"
+                                                                                  type="Zitierung">Artikel 4 Absatz 2
+                                                            </akn:ref> eine Vorrichtung verwendet,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>4.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_4">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 6 Absatz 1 Satz 1"
+                                                                                          eId="ref-0-20354858303979562"
+                                                                                          type="Zitierung">Artikel 6
+                                                                    Absatz 1 Satz 1
+                                                                </akn:ref> zweiter Halbsatz einen Krebs nicht
+                                                                unverzüglich freilässt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>5.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_5">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 7 Absatz 1 Unterabsatz 1 oder 2"
+                                                                                  eId="ref-0-45023962011986396"
+                                                                                  type="Zitierung">Artikel 7 Absatz 1
+                                                                Unterabsatz 1 oder 2
+                                                            </akn:ref> einen Verpackungsgurt verwendet,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>6.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_6">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 7 Absatz 3"
+                                                                                          eId="ref-0-17475645798152106"
+                                                                                          type="Zitierung">Artikel 7
+                                                                    Absatz 3
+                                                                </akn:ref> erster Halbsatz Plastikrückstände nicht an
+                                                                Bord aufbewahrt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>7.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_7">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 8 Absatz 1 Satz 3"
+                                                                                          eId="ref-0-030427258556377845"
+                                                                                          type="Zitierung">Artikel 8
+                                                                    Absatz 1 Satz 3
+                                                                </akn:ref> einen Köder verwendet,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>8.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_8">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 8 Absatz 2 Satz 1"
+                                                                                  eId="ref-0-08639481543502558"
+                                                                                  type="Zitierung">Artikel 8 Absatz 2
+                                                                Satz 1
+                                                            </akn:ref> eine Langleine ausbringt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>9.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_9">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 8 Absatz 3 Satz 1"
+                                                                                          eId="ref-0-9775894018550697"
+                                                                                          type="Zitierung">Artikel 8
+                                                                    Absatz 3 Satz 1
+                                                                </akn:ref> oder <akn:ref bezugsnorm-automated="true"
+                                                                                         bezugsnormExtension="Artikel 9 Absatz 3"
+                                                                                         eId="ref-0-6667475381256289"
+                                                                                         type="Zitierung">Artikel 9
+                                                                    Absatz 3
+                                                                </akn:ref> Fischabfälle über Bord wirft,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>10.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_10">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 9 Absatz 1"
+                                                                                  eId="ref-0-4083838725478852"
+                                                                                  type="Zitierung">Artikel 9 Absatz 1
+                                                            </akn:ref> ein Netzsteuerkabel verwendet,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>11.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_11">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 10 Absatz 1 oder 2"
+                                                                                          eId="ref-0-6280260319154953"
+                                                                                          type="Zitierung">Artikel 10
+                                                                    Absatz 1 oder 2
+                                                                </akn:ref> ein Fischereifahrzeug nicht, nicht richtig
+                                                                oder nicht unverzüglich nach Erreichen des
+                                                                Beifangvolumens an einen anderen Fangplatz begibt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>12.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_12">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 11 Absatz 3 Satz 2"
+                                                                                          eId="ref-0-5770363043798927"
+                                                                                          type="Zitierung">Artikel 11
+                                                                    Absatz 3 Satz 2
+                                                                </akn:ref> erster Halbsatz den Fischfang nicht
+                                                                einstellt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>13.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_13">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 12 Absatz 1"
+                                                                                  eId="ref-0-3309125191449418"
+                                                                                  type="Zitierung">Artikel 12 Absatz 1
+                                                            </akn:ref> Fischerei ausübt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>14.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_14">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 12 Absatz 2 Satz 1"
+                                                                                          eId="ref-0-02953049564010546"
+                                                                                          type="Zitierung">Artikel 12
+                                                                    Absatz 2 Satz 1
+                                                                </akn:ref> ein Fischereifahrzeug nicht, nicht richtig
+                                                                oder nicht unverzüglich nach Erreichen der dort
+                                                                genannten Fangmenge an einen dort genannten Fangplatz
+                                                                begibt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>15.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_15">als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 12 Absatz 3"
+                                                                                          eId="ref-0-27347088848905066"
+                                                                                          type="Zitierung">Artikel 12
+                                                                    Absatz 3
+                                                                </akn:ref> die Fangtätigkeit nicht, nicht richtig, nicht
+                                                                vollständig oder nicht rechtzeitig einstellt,
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>16.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_16">
+                                                                als Kapitän entgegen <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnormExtension="Artikel 12 Absatz 4"
+                                                                    eId="ref-0-719366741745286" type="Zitierung">Artikel
+                                                                12 Absatz 4
+                                                            </akn:ref> Hols zu
+                                                                Forschungszwecken nicht, nicht richtig, nicht
+                                                                vollständig, nicht in der vorgeschriebenen Weise oder
+                                                                nicht rechtzeitig ausführt oder
+                                                            </akn:p>
+                                                        </akn:point>
+                                                        <akn:point>
+                                                            <akn:num>17.</akn:num>
+                                                            <akn:p eId="hauptteil-6_para-2_überschrift-1_point_17">
+                                                                entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                  bezugsnormExtension="Artikel 14 Absatz 1, 2 oder 3"
+                                                                                  eId="ref-0-07190181622095038"
+                                                                                  type="Zitierung">Artikel 14 Absatz 1,
+                                                                2 oder 3
+                                                            </akn:ref> eine dort
+                                                                genannte Person nicht an Bord nimmt.
+                                                            </akn:p>
+                                                        </akn:point>
+                                                    </akn:p>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                           eId="hauptteil-7_para-2_abs-1">
+                                                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                             eId="hauptteil-7_para-2_abs-1_inhalt-1">
+                                                    <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                                 eId="hauptteil-7_para-2_überschrift-1">§ 11
+                                                        Durchsetzung bestimmter Vorschriften der <akn:ref
+                                                                bezugsnorm="Verordnung (EG) Nr. 601/2004"
+                                                                bezugsnormExtension="" eId="ref-0-24645012551995293"
+                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                type="Zitierung">Verordnung (EG) Nr. 601/2004
+                                                        </akn:ref>
+                                                    </akn:heading>
+                                                    <akn:list eId="hauptteil-7_para-2_text-1">
+                                                        <akn:p>
+                                                            <akn:num>(1)</akn:num>
+                                                            <akn:p eId="hauptteil-7_para-2_überschrift-1_abs-1">
+                                                                Ordnungswidrig im Sinne des <akn:ref
+                                                                    bezugsnorm="SeeFischG"
+                                                                    bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe a"
+                                                                    eId="ref-0-9328362879944831"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe a
+                                                                des Seefischereigesetzes
+                                                            </akn:ref> handelt, wer gegen die <akn:ref
+                                                                    bezugsnorm="Verordnung (EG) Nr. 601/2004 "
+                                                                    bezugsnormExtension="des Rates vom 22. März 2004 zur Festlegung von Kontrollmaßnahmen für die Fischerei im Regelungsbereich des Übereinkommens über die Erhaltung der lebenden Meeresschätze der Antarktis und zur Aufhebung der Verordnungen (EWG) Nr. 3943/90, (EG) Nr. 66/98 und (EG) Nr. 1721/1999 (ABl. L 97 vom 1.4.2004, S. 16)"
+                                                                    eId="ref-0-6057571108739481"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Verordnung (EG) Nr. 601/2004 des
+                                                                Rates vom 22. März 2004 zur Festlegung von
+                                                                Kontrollmaßnahmen für die Fischerei im Regelungsbereich
+                                                                des Übereinkommens über die Erhaltung der lebenden
+                                                                Meeresschätze der Antarktis und zur Aufhebung der
+                                                                Verordnungen (EWG) Nr. 3943/90, (EG) Nr. 66/98 und (EG)
+                                                                Nr. 1721/1999 (ABl. L 97 vom 1.4.2004, S. 16)</akn:ref>,
+                                                                die zuletzt durch die <akn:ref
+                                                                    bezugsnorm="Verordnung (EG) Nr. 1005/2008"
+                                                                    bezugsnormExtension="" eId="ref-0-6632568669005496"
+                                                                    fassung=" (ABl. L 286 vom 29.10.2008, S. 1)"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Verordnung (EG) Nr. 1005/2008 (ABl.
+                                                                L 286 vom 29.10.2008, S. 1)
+                                                            </akn:ref> geändert worden ist, verstößt, indem er
+                                                                vorsätzlich oder fahrlässig
+                                                                <akn:point>
+                                                                    <akn:num>1.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_1">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 3 Absatz 1"
+                                                                            eId="ref-0-8042819496415978"
+                                                                            type="Zitierung">Artikel 3 Absatz 1
+                                                                    </akn:ref> fischt oder einen Fang an Bord behält,
+                                                                        umlädt oder anlandet,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>2.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_2">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 6 Absatz 1"
+                                                                                          eId="ref-0-002224288164979882"
+                                                                                          type="Zitierung">Artikel 6
+                                                                        Absatz 1
+                                                                    </akn:ref> oder <akn:ref bezugsnorm-automated="true"
+                                                                                             bezugsnormExtension="Artikel 7 Absatz 1"
+                                                                                             eId="ref-0-38675761556969523"
+                                                                                             type="Zitierung">Artikel 7
+                                                                        Absatz 1
+                                                                    </akn:ref> eine Fischerei oder eine
+                                                                        Versuchsfischerei ausübt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>3.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_3">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 7a Buchstabe a"
+                                                                            eId="ref-0-7954705544699279"
+                                                                            type="Zitierung">Artikel 7a Buchstabe a
+                                                                    </akn:ref> einen dort genannten Stoff ins Meer
+                                                                        einbringt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>4.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_4">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 7a Buchstabe b"
+                                                                                          eId="ref-0-6333653224108917"
+                                                                                          type="Zitierung">Artikel 7a
+                                                                        Buchstabe b
+                                                                    </akn:ref> lebendes Geflügel oder einen lebenden
+                                                                        Vogel verbringt oder dort genanntes Geflügel
+                                                                        nicht, nicht richtig oder nicht vollständig
+                                                                        entfernt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>5.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_5">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 7a Buchstabe c"
+                                                                                          eId="ref-0-2526048323682313"
+                                                                                          type="Zitierung">Artikel 7a
+                                                                        Buchstabe c
+                                                                    </akn:ref> Dissostichus
+                                                                        spp. fischt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>6.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_6">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 7b Absatz 1 Buchstabe a Satz 1"
+                                                                            eId="ref-0-9618135266862113"
+                                                                            type="Zitierung">Artikel 7b Absatz 1
+                                                                        Buchstabe a Satz 1
+                                                                    </akn:ref> ein dort genanntes Exemplar
+                                                                        nicht markiert oder nicht wieder freilässt oder
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>7.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_7">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 7b Absatz 1 Buchstabe d"
+                                                                            eId="ref-0-8087491363288073"
+                                                                            type="Zitierung">Artikel 7b Absatz 1
+                                                                        Buchstabe d
+                                                                    </akn:ref> einen Fisch freilässt.(2)
+                                                                        Ordnungswidrig im Sinne des <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe b des Seefischereigesetzes"
+                                                                            eId="ref-0-08873643703592848"
+                                                                            type="Zitierung">§ 18 Absatz 2 Nummer
+                                                                        11 Buchstabe b des Seefischereigesetzes
+                                                                    </akn:ref> handelt,
+                                                                        wer gegen die
+                                                                        <akn:ref
+                                                                                bezugsnorm="Verordnung (EG) Nr. 601/2004"
+                                                                                bezugsnormExtension=""
+                                                                                eId="ref-0-8033599947014831"
+                                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                                type="Zitierung">Verordnung (EG) Nr.
+                                                                            601/2004
+                                                                        </akn:ref>
+                                                                        verstößt, indem er vorsätzlich oder fahrlässig
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                            </akn:p>
+                                                        </akn:p>
+                                                        <akn:p>
+                                                            <akn:num>(2)</akn:num>
+                                                            <akn:p eId="hauptteil-7_para-2_überschrift-1_abs-2">
+                                                                Ordnungswidrig im Sinne des <akn:ref
+                                                                    bezugsnorm="SeeFischG"
+                                                                    bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe b"
+                                                                    eId="ref-0-5963186804570972"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe b
+                                                                des Seefischereigesetzes
+                                                            </akn:ref> handelt, wer gegen die <akn:ref
+                                                                    bezugsnorm="Verordnung (EG) Nr. 601/2004"
+                                                                    bezugsnormExtension="" eId="ref-0-5740291167554796"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Verordnung (EG) Nr. 601/2004
+                                                            </akn:ref> verstößt, indem er vorsätzlich oder fahrlässig
+                                                                <akn:point>
+                                                                    <akn:num>1.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_8">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 4 Absatz 1"
+                                                                            eId="ref-0-7774145367427794"
+                                                                            type="Zitierung">Artikel 4 Absatz 1
+                                                                    </akn:ref> eine Fangerlaubnis und eine beglaubigte
+                                                                        Kopie nicht mitführt oder nicht, nicht richtig
+                                                                        oder nicht rechtzeitig vorlegt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>2.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_9">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 9 Absatz 1"
+                                                                            eId="ref-0-609683488443215"
+                                                                            type="Zitierung">Artikel 9 Absatz 1
+                                                                    </akn:ref> eine Angabe nicht, nicht richtig, nicht
+                                                                        vollständig oder nicht rechtzeitig macht,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>3.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_10">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 13 Absatz 1"
+                                                                            eId="ref-0-9590934791436709"
+                                                                            type="Zitierung">Artikel 13 Absatz 1
+                                                                    </akn:ref> erster Halbsatz, <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 14 Absatz 1"
+                                                                            eId="ref-0-5757773587009352"
+                                                                            type="Zitierung">Artikel 14 Absatz
+                                                                        1</akn:ref>, <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 17 Absatz 1"
+                                                                            eId="ref-0-3661523647254332"
+                                                                            type="Zitierung">Artikel 17 Absatz
+                                                                        1</akn:ref>, <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 18 Absatz 1"
+                                                                            eId="ref-0-2516007899627484"
+                                                                            type="Zitierung">Artikel 18 Absatz 1
+                                                                    </akn:ref> oder <akn:ref bezugsnorm-automated="true"
+                                                                                             bezugsnormExtension="Artikel 19 Absatz 1 Satz 1"
+                                                                                             eId="ref-0-7274185275466634"
+                                                                                             type="Zitierung">Artikel 19
+                                                                        Absatz 1 Satz 1
+                                                                    </akn:ref> die dort genannten Daten oder eine dort
+                                                                        genannte Angabe nicht, nicht richtig, nicht
+                                                                        vollständig, nicht in der vorgeschriebenen Weise
+                                                                        oder nicht rechtzeitig übermittelt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>4.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_11">
+                                                                        als Kapitän entgegen
+                                                                        <akn:ref bezugsnorm-automated="true"
+                                                                                 bezugsnormExtension="Artikel 24 Absatz 2 Satz 1"
+                                                                                 eId="ref-0-8634953527071882"
+                                                                                 type="Zitierung">Artikel 24 Absatz 2
+                                                                            Satz 1
+                                                                        </akn:ref>
+                                                                        einer dort genannten Person das Übersetzen nicht
+                                                                        oder nicht richtig gestattet oder
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>5.</akn:num>
+                                                                    <akn:p eId="hauptteil-7_para-2_überschrift-1_point_12">
+                                                                        als Kapitän entgegen
+                                                                        <akn:ref bezugsnorm-automated="true"
+                                                                                 bezugsnormExtension="Artikel 27 Absatz 2 Satz 1"
+                                                                                 eId="ref-0-3959497762770543"
+                                                                                 type="Zitierung">Artikel 27 Absatz 2
+                                                                            Satz 1
+                                                                        </akn:ref>
+                                                                        eine Anmeldung nicht oder nicht rechtzeitig
+                                                                        macht oder eine Erklärung nicht, nicht richtig,
+                                                                        nicht vollständig oder nicht rechtzeitig abgibt.
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                            </akn:p>
+                                                        </akn:p>
+                                                    </akn:list>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                           eId="hauptteil-8_para-2_abs-1">
+                                                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                             eId="hauptteil-8_para-2_abs-1_inhalt-1">
+                                                    <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                                 eId="hauptteil-8_para-2_überschrift-1">§ 12
+                                                        Durchsetzung bestimmter Vorschriften der <akn:ref
+                                                                bezugsnorm="Verordnung (EG) Nr. 734/2008"
+                                                                bezugsnormExtension="" eId="ref-0-3169056436773465"
+                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                type="Zitierung">Verordnung (EG) Nr. 734/2008
+                                                        </akn:ref>
+                                                    </akn:heading>
+                                                    <akn:list eId="hauptteil-8_para-2_text-1">
+                                                        <akn:p>
+                                                            <akn:num>(1)</akn:num>
+                                                            <akn:p eId="hauptteil-8_para-2_überschrift-1_abs-1">
+                                                                Ordnungswidrig im Sinne des <akn:ref
+                                                                    bezugsnorm="SeeFischG"
+                                                                    bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe a des Seefischereigesetzes"
+                                                                    eId="ref-0-5753856654601417"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe a
+                                                                des Seefischereigesetzes
+                                                            </akn:ref> handelt, wer gegen die <akn:ref
+                                                                    bezugsnorm="Verordnung (EG) Nr. 734/2008 "
+                                                                    bezugsnormExtension="des Rates vom 15. Juli 2008 zum Schutz empfindlicher Tiefseeökosysteme vor den schädlichen Auswirkungen von Grundfanggeräten (ABl. L 201 vom 30.7.2008, S. 8)"
+                                                                    eId="ref-0-14944799519073548"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Verordnung (EG) Nr. 734/2008 des
+                                                                Rates vom 15. Juli 2008 zum Schutz empfindlicher
+                                                                Tiefseeökosysteme vor den schädlichen Auswirkungen von
+                                                                Grundfanggeräten (ABl. L 201 vom 30.7.2008, S. 8)
+                                                            </akn:ref> verstößt, indem er vorsätzlich oder fahrlässig
+                                                                <akn:point>
+                                                                    <akn:num>1.</akn:num>
+                                                                    <akn:p eId="hauptteil-8_para-2_überschrift-1_point_1">
+                                                                        ohne Fangerlaubnis nach <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 3 Absatz 1"
+                                                                            eId="ref-0-35073935089911523"
+                                                                            type="Zitierung">Artikel 3 Absatz 1
+                                                                    </akn:ref> eine Fischereitätigkeit ausführt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>2.</akn:num>
+                                                                    <akn:p eId="hauptteil-8_para-2_überschrift-1_point_2">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 7 Absatz 1 Satz 1"
+                                                                            eId="ref-0-3826569460757516"
+                                                                            type="Zitierung">Artikel 7 Absatz 1 Satz 1
+                                                                    </akn:ref> eine Fischereitätigkeit nicht, nicht
+                                                                        richtig, nicht vollständig oder nicht
+                                                                        rechtzeitig einstellt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>3.</akn:num>
+                                                                    <akn:p eId="hauptteil-8_para-2_überschrift-1_point_3">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 7 Absatz 1 Satz 2"
+                                                                                          eId="ref-0-941825185571064"
+                                                                                          type="Zitierung">Artikel 7
+                                                                        Absatz 1 Satz 2
+                                                                    </akn:ref> eine Fischereitätigkeit wieder aufnimmt
+                                                                        oder
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>4.</akn:num>
+                                                                    <akn:p eId="hauptteil-8_para-2_überschrift-1_point_4">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 9 Absatz 2"
+                                                                            eId="ref-0-25743673258801736"
+                                                                            type="Zitierung">Artikel 9 Absatz 2
+                                                                    </akn:ref> den Hafen wieder verlässt.
+                                                                    </akn:p>
+                                                                </akn:point>
+
+                                                            </akn:p>
+                                                        </akn:p>
+                                                        <akn:p>
+                                                            <akn:num>(2)</akn:num>
+                                                            <akn:p eId="hauptteil-8_para-2_überschrift-1_abs-2">
+                                                                Ordnungswidrig im Sinne des <akn:ref
+                                                                    bezugsnorm="SeeFischG"
+                                                                    bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe b des Seefischereigesetzes"
+                                                                    eId="ref-0-49652459129555404"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe b
+                                                                des Seefischereigesetzes
+                                                            </akn:ref> handelt, wer vorsätzlich oder fahrlässig als
+                                                                Kapitän entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 5 Absatz 2 Satz 1"
+                                                                                          eId="ref-0-8295638954730957"
+                                                                                          type="Zitierung">Artikel 5
+                                                                Absatz 2 Satz 1</akn:ref>, <akn:ref
+                                                                    bezugsnorm-automated="true"
+                                                                    bezugsnormExtension="Artikel 7 Absatz 3"
+                                                                    eId="ref-0-5151559772565331" type="Zitierung">
+                                                                Artikel 7 Absatz 3
+                                                            </akn:ref> oder <akn:ref bezugsnorm-automated="true"
+                                                                                     bezugsnormExtension="Artikel 9 Absatz 1"
+                                                                                     eId="ref-0-01465838368917205"
+                                                                                     type="Zitierung">Artikel 9 Absatz 1
+                                                            </akn:ref> der <akn:ref
+                                                                    bezugsnorm="Verordnung (EG) Nr. 734/2008"
+                                                                    bezugsnormExtension=""
+                                                                    eId="ref-0-052521492030475736"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Verordnung (EG) Nr. 734/2008
+                                                            </akn:ref> eine Mitteilung nicht, nicht richtig, nicht
+                                                                vollständig oder nicht rechtzeitig macht.
+                                                            </akn:p>
+                                                        </akn:p>
+                                                    </akn:list>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                            <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae"
+                                                           eId="hauptteil-9_para-2_abs-1">
+                                                <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321"
+                                                             eId="hauptteil-9_para-2_abs-1_inhalt-1">
+                                                    <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab"
+                                                                 eId="hauptteil-9_para-2_überschrift-1">§ 13
+                                                        Durchsetzung bestimmter Vorschriften der <akn:ref
+                                                                bezugsnorm="Verordnung (EG) Nr. 1005/2008"
+                                                                bezugsnormExtension="" eId="ref-0-5423928655662209"
+                                                                href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                type="Zitierung">Verordnung (EG) Nr. 1005/2008
+                                                        </akn:ref>
+                                                    </akn:heading>
+                                                    <akn:list eId="hauptteil-9_para-2_text-1">
+                                                        <akn:p>
+                                                            <akn:num>(1)</akn:num>
+                                                            <akn:p eId="hauptteil-9_para-2_überschrift-1_abs-1">
+                                                                Ordnungswidrig im Sinne des <akn:ref
+                                                                    bezugsnorm="SeeFischG"
+                                                                    bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe a des Seefischereigesetzes"
+                                                                    eId="ref-0-058669640009241464"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe a
+                                                                des Seefischereigesetzes
+                                                            </akn:ref> handelt, wer gegen die <akn:ref
+                                                                    bezugsnorm="Verordnung (EG) Nr. 1005/2008"
+                                                                    bezugsnormExtension="" eId="ref-0-7200489308474891"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Verordnung (EG) Nr. 1005/2008
+                                                            </akn:ref> des Rates vom 29. September 2008 über ein
+                                                                Gemeinschaftssystem zur Verhinderung, Bekämpfung und
+                                                                Unterbindung der illegalen, nicht gemeldeten und
+                                                                unregulierten Fischerei, zur Änderung der
+                                                                <akn:ref bezugsnorm="Verordnungen (EWG) Nr. 2847/93"
+                                                                         bezugsnormExtension=""
+                                                                         eId="ref-0-5612063862173851"
+                                                                         href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                         type="Zitierung">Verordnungen (EWG) Nr. 2847/93
+                                                                </akn:ref>
+                                                                <akn:ref bezugsnorm-automated="true"
+                                                                         bezugsnormExtension=", (EG) Nr. 1936/2001"
+                                                                         eId="ref-0-7838872667977523" type="Zitierung">,
+                                                                    (EG) Nr. 1936/2001
+                                                                </akn:ref>
+                                                                <akn:ref bezugsnorm-automated="true"
+                                                                         bezugsnormExtension="und (EG) Nr. 601/2004"
+                                                                         eId="ref-0-8867791462766643" type="Zitierung">
+                                                                    und (EG) Nr. 601/2004
+                                                                </akn:ref> und zur Aufhebung der <akn:ref
+                                                                    bezugsnorm="Verordnungen (EG) Nr. 1093/94"
+                                                                    bezugsnormExtension="" eId="ref-0-27910905185221324"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Verordnungen (EG) Nr. 1093/94
+                                                            </akn:ref>
+                                                                <akn:ref bezugsnorm-automated="true"
+                                                                         bezugsnormExtension="und (EG) Nr. 1447/1999"
+                                                                         eId="ref-0-35560142969306874" type="Zitierung">
+                                                                    und (EG) Nr. 1447/1999
+                                                                </akn:ref> (ABl. L 286 vom 29.10.2008, S. 1; L 22 vom
+                                                                26.1.2011, S. 8), die zuletzt durch die <akn:ref
+                                                                    bezugsnorm="Verordnung (EU) 2023/2842"
+                                                                    bezugsnormExtension="" eId="ref-0-9033771731059728"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Verordnung (EU) 2023/2842
+                                                            </akn:ref> (ABl. L, 2023/2842, 20.12.2023) geändert worden
+                                                                ist, verstößt, indem er vorsätzlich oder fahrlässig
+                                                                <akn:point>
+                                                                    <akn:num>1.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_1">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 4 Absatz 3"
+                                                                                          eId="ref-0-9076683912856163"
+                                                                                          type="Zitierung">Artikel 4
+                                                                        Absatz 3
+                                                                    </akn:ref> in Gemeinschaftsgewässern umlädt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>2.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_2">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 4 Absatz 4"
+                                                                            eId="ref-0-4324299551898332"
+                                                                            type="Zitierung">Artikel 4 Absatz 4
+                                                                    </akn:ref> einen Fang umlädt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>3.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_3">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 12 Absatz 1 oder 2"
+                                                                                          eId="ref-0-03462845748143262"
+                                                                                          type="Zitierung">Artikel 12
+                                                                        Absatz 1 oder 2
+                                                                    </akn:ref> ein Fischereierzeugnis einführt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>4.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_4">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 37 Nummer 3"
+                                                                                          eId="ref-0-8284246560602038"
+                                                                                          type="Zitierung">Artikel 37
+                                                                        Nummer 3
+                                                                    </akn:ref> ein dort genanntes Fischereifahrzeug
+                                                                        chartert,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>5.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_5">
+                                                                        als Kapitän entgegen <akn:ref
+                                                                            bezugsnorm-automated="true"
+                                                                            bezugsnormExtension="Artikel 37 Nummer 4"
+                                                                            eId="ref-0-8427131656799218"
+                                                                            type="Zitierung">Artikel 37 Nummer 4
+                                                                    </akn:ref> eine Fischverarbeitungstätigkeit
+                                                                        übernimmt oder sich an einer Umladung oder einem
+                                                                        Fangeinsatz beteiligt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>6.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_6">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 37 Nummer 5 Satz 2"
+                                                                                          eId="ref-0-9783505705094528"
+                                                                                          type="Zitierung">Artikel 37
+                                                                        Nummer 5 Satz 2
+                                                                    </akn:ref> in einen Hafen einläuft,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>7.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_7">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 38 Nummer 2"
+                                                                                          eId="ref-0-6372172305884747"
+                                                                                          type="Zitierung">Artikel 38
+                                                                        Nummer 2
+                                                                    </akn:ref> ein dort genanntes Fischereierfahrzeug
+                                                                        erwirbt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>8.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_8">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 38 Nummer 3"
+                                                                                          eId="ref-0-012710851654773148"
+                                                                                          type="Zitierung">Artikel 38
+                                                                        Nummer 3
+                                                                    </akn:ref> ein dort genanntes Fischereifahrzeug
+                                                                        umflaggt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>9.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_9">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 38 Nummer 5"
+                                                                                          eId="ref-0-047569951181605674"
+                                                                                          type="Zitierung">Artikel 38
+                                                                        Nummer 5
+                                                                    </akn:ref> ein dort genanntes Fischereifahrzeug
+                                                                        ausführt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>10.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_10">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 38 Nummer 10"
+                                                                                          eId="ref-0-19040241829269267"
+                                                                                          type="Zitierung">Artikel 38
+                                                                        Nummer 10
+                                                                    </akn:ref> ein Fischereifahrzeug betreibt, besitzt
+                                                                        oder managt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>11.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_11">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 38 Nummer 11"
+                                                                                          eId="ref-0-7576670634549927"
+                                                                                          type="Zitierung">Artikel 38
+                                                                        Nummer 11
+                                                                    </akn:ref> anlandet oder umlädt oder
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>12.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_12">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 40 Absatz 2"
+                                                                                          eId="ref-0-47147518861061144"
+                                                                                          type="Zitierung">Artikel 40
+                                                                        Absatz 2
+                                                                    </akn:ref> ein Fischereifahrzeug verkauft oder
+                                                                        exportiert.
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                            </akn:p>
+                                                        </akn:p>
+                                                        <akn:p>
+                                                            <akn:num>(2)</akn:num>
+                                                            <akn:p eId="hauptteil-9_para-2_überschrift-1_abs-2">
+                                                                Ordnungswidrig im Sinne des <akn:ref
+                                                                    bezugsnorm="SeeFischG"
+                                                                    bezugsnormExtension="§ 18 Absatz 2 Nummer 11 Buchstabe b"
+                                                                    eId="ref-0-8068005591717768"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">§ 18 Absatz 2 Nummer 11 Buchstabe b
+                                                                des Seefischereigesetzes
+                                                            </akn:ref> handelt, wer gegen die <akn:ref
+                                                                    bezugsnorm="Verordnung (EG) Nr. 1005/2008"
+                                                                    bezugsnormExtension="" eId="ref-0-6801845291838107"
+                                                                    href="eli/bund/bgbl-1/0001/1/0001-01-01/1/deu/regelungstext-1"
+                                                                    type="Zitierung">Verordnung (EG) Nr. 1005/2008
+                                                            </akn:ref> verstößt, indem er vorsätzlich oder fahrlässig
+                                                                <akn:point>
+                                                                    <akn:num>1.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_28">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 14 Absatz 1 Unterabsatz 1"
+                                                                                          eId="ref-0-550183048679302"
+                                                                                          type="Zitierung">Artikel 14
+                                                                        Absatz 1 Unterabsatz 1
+                                                                    </akn:ref> Satz 1 Buchstabe a oder b eine dort
+                                                                        genannte Unterlage nicht, nicht richtig, nicht
+                                                                        vollständig, nicht in der vorgeschriebenen Weise
+                                                                        oder nicht rechtzeitig vorlegt,
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>2.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_29">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 14 Absatz 2 Satz 1"
+                                                                                          eId="ref-0-9015427080725182"
+                                                                                          type="Zitierung">Artikel 14
+                                                                        Absatz 2 Satz 1
+                                                                    </akn:ref> eine dort genannte Erklärung nicht, nicht
+                                                                        richtig, nicht vollständig oder nicht
+                                                                        rechtzeitig vorlegt oder
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                                <akn:point>
+                                                                    <akn:num>3.</akn:num>
+                                                                    <akn:p eId="hauptteil-9_para-2_überschrift-1_point_30">
+                                                                        entgegen <akn:ref bezugsnorm-automated="true"
+                                                                                          bezugsnormExtension="Artikel 16 Absatz 1 Satz 1"
+                                                                                          eId="ref-0-5447405674736423"
+                                                                                          type="Zitierung">Artikel 16
+                                                                        Absatz 1 Satz 1
+                                                                    </akn:ref> eine validierte Fangbescheinigung nicht,
+                                                                        nicht richtig oder nicht rechtzeitig vorlegt.
+                                                                    </akn:p>
+                                                                </akn:point>
+                                                            </akn:p>
+                                                        </akn:p>
+                                                    </akn:list>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                        </akn:quotedStructure>
+                                    </akn:mod>
+                                </akn:p>
+                            </akn:content>
+                        </akn:point>
+                    </akn:list>
+                </akn:paragraph>
+            </akn:article>
+
+            <akn:article GUID="db1c822f-5626-41ae-afc0-6b3249915504" eId="hauptteil-1_para-2" period="#geltungszeitgr-1"
+                         refersTo="geltungszeitregel">
+                <akn:num GUID="b78a76fc-5760-427b-aa31-fdab68178d18" eId="hauptteil-1_para-2_bezeichnung-1">
+                    <akn:marker GUID="af366809-ad76-463a-81e8-ac3b9a15113d"
+                                eId="hauptteil-1_para-2_bezeichnung-1_zaehlbez-1" name="3"/>Artikel 2
+                </akn:num>
+                <akn:heading GUID="085ab201-8f3f-45b1-89fd-1667187d521a" eId="hauptteil-1_para-2_überschrift-1">
+                    Inkrafttreten
+                </akn:heading>
+                <akn:paragraph GUID="9a26af8c-128d-4d39-91c6-180c7d62d24a" eId="hauptteil-1_para-2_abs-1">
+                    <akn:num GUID="71de5c66-3092-42bc-bd0b-3b7f1fac4b2b" eId="hauptteil-1_para-2_abs-1_bezeichnung-1">
+                        <akn:marker GUID="df020fbc-a262-4f2c-a833-c06f6a5aadc3"
+                                    eId="hauptteil-1_para-2_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                    </akn:num>
+                    <akn:content GUID="d45e1330-98dd-47a9-9fd8-140c791fe11f" eId="hauptteil-1_para-2_abs-1_inhalt-1">
+                        <akn:p GUID="17bcf744-c7d1-48a8-bd64-456b683892f8"
+                               eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1">Dieses Gesetz tritt am <akn:date
+                                GUID="0a9f074a-a72c-45b9-ae11-99ca687dd52c" date="1001-03-01"
+                                eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1_datum-1" refersTo="inkrafttreten-datum">
+                            01.03.1001
+                        </akn:date> in Kraft.
+                        </akn:p>
+                    </akn:content>
+                </akn:paragraph>
+            </akn:article>
+        </akn:body>
+    </akn:act>
+</akn:akomaNtoso>
