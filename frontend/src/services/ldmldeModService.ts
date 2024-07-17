@@ -64,7 +64,15 @@ export function getQuotedStructureContent(
     `akn:quotedStructure`,
     aknModNode,
   )
-  return quotedStructureNode ? xmlNodeToString(quotedStructureNode) : undefined
+  if (!quotedStructureNode) {
+    return undefined
+  }
+
+  const innerContent = evaluateXPath(
+    `node()[not(self::akn:quote-startQuote) and not(self::akn:quote-endQuote)]`,
+    quotedStructureNode,
+  )
+  return innerContent.map((node) => xmlNodeToString(node)).join("")
 }
 
 /**
