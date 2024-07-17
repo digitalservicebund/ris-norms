@@ -122,7 +122,7 @@ public class Mod {
   }
 
   /**
-   * Checks weather a quotedText was used for a substitution. If not it is probably a
+   * Checks whether a quotedText was used for a substitution. If not it is probably a
    * quotedStructure.
    *
    * @return is it using a quotedText structure
@@ -134,7 +134,7 @@ public class Mod {
   }
 
   /**
-   * Checks weather a quotedStructure was used for a substitution.
+   * Checks whether a quotedStructure was used for a substitution.
    *
    * @return is it using a quotedStructure
    */
