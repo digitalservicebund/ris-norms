@@ -27,7 +27,7 @@ const props = defineProps<{
   targetLawHtmlHtml?: string
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   "generate-preview": []
   "update-mod": []
 }>()
@@ -89,12 +89,23 @@ const destinationHrefEid = computed({
     if (destinationHrefModel.value) {
       const parts = destinationHrefModel.value.split("/")
       const newParts = newValue.split("/")
-      if (newParts.length === 2) {
-        parts.splice(-2, 2, ...newParts)
-      } else if (newParts.length === 1) {
-        parts.splice(-2, 2, newParts[0], "")
+
+      if (
+        props.textualModType === "aenderungsbefehl-ersetzen" &&
+        props.quotedStructureContent
+      ) {
+        if (newParts.length === 1) {
+          parts.splice(-1, 1, newParts[0])
+        }
+      } else if (props.textualModType === "aenderungsbefehl-ersetzen") {
+        if (newParts.length === 2) {
+          parts.splice(-2, 2, ...newParts)
+        } else if (newParts.length === 1) {
+          parts.splice(-2, 2, newParts[0], "")
+        }
       }
       destinationHrefModel.value = parts.join("/")
+      emit("generate-preview")
     }
   },
 })
@@ -123,8 +134,6 @@ interface AknElementClickEvent {
   eid: string
   guid: string
 }
-
-const eidCurrentSelectedElement = ref<string | null>(null)
 const handleAknElementClick = (e: AknElementClickEvent) => {
   destinationHrefEid.value = e.eid
 }
@@ -142,7 +151,7 @@ watch(
         if (container) {
           const element = container.querySelector(`[data-eid="${newEid}"]`)
           if (element) {
-            eidCurrentSelectedElement.value = newEid
+            destinationHrefEid.value = newEid
             element.scrollIntoView({ behavior: "smooth", block: "center" })
           } else {
             container.scrollTo?.({ top: 0, behavior: "smooth" })
@@ -487,24 +496,20 @@ watch(
 }
 
 :deep([class^="akn-"]:hover):not(:has([class^="akn-"]:hover)) {
-  background-color: #e5f7ff;
-  border-color: #4299f7;
+  @apply border-highlight-quotedStructure-hover-border bg-highlight-quotedStructure-hover-background;
 }
 
 :deep([class^="akn-"]:hover):not(:has([class^="akn-"]:hover)):before,
 :deep([class^="akn-"]:hover):not(:has([class^="akn-"]:hover)):after {
-  background-color: #b9e8ff;
-  border-color: #4299f7;
+  @apply border-highlight-quotedStructure-hover-innerHover-border bg-highlight-quotedStructure-hover-innerHover-background;
 }
 
 :deep([class^="akn-"].selected) {
-  background-color: #b9e8ff;
-  border-color: #4299f7;
+  @apply border-highlight-quotedStructure-hover-border bg-highlight-quotedStructure-selected-content;
 }
 
 :deep([class^="akn-"].selected):before,
 :deep([class^="akn-"].selected):after {
-  background-color: #78ccff;
-  border-color: #004b76;
+  @apply border-highlight-quotedStructure-selected-pseudo-border bg-highlight-quotedStructure-selected-pseudo-background;
 }
 </style>

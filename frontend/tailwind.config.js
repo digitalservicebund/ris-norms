@@ -70,6 +70,24 @@ module.exports = {
             default: "rgba(255, 154, 251, 0.2)",
             border: "#FE4AF7",
           },
+          quotedStructure: {
+            hover: {
+              background: "#e5f7ff",
+              border: "#4299f7",
+              innerHover: {
+                background: "#b9e8ff",
+                border: "#4299f7",
+              },
+            },
+            selected: {
+              content: "#b9e8ff",
+              border: "#004b76",
+              pseudo: {
+                background: "#78ccff",
+                border: "#004b76",
+              },
+            },
+          },
         },
       },
     },
