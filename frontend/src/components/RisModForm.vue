@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
 import RisTextInput from "@/components/controls/RisTextInput.vue"
-import { computed } from "vue"
+import { computed, nextTick, ref, watch } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CheckIcon from "~icons/ic/check"
@@ -57,7 +57,7 @@ const timeBoundaries = computed(() => {
 })
 const selectedElement = computed({
   get() {
-    return selectedTimeBoundaryModel.value?.date || "no_choice"
+    return selectedTimeBoundaryModel.value?.date ?? "no_choice"
   },
   set(value: string) {
     selectedTimeBoundaryModel.value =
@@ -73,7 +73,17 @@ const destinationHrefEli = computed(() =>
 
 const destinationHrefEid = computed({
   get() {
-    return destinationHrefModel.value?.split("/").slice(-2).join("/") || ""
+    let eid = ""
+    if (
+      props.textualModType === "aenderungsbefehl-ersetzen" &&
+      props.quotedStructureContent
+    ) {
+      eid = destinationHrefModel.value?.split("/").slice(-1).join("/") ?? ""
+      return eid.replace(".xml", "")
+    } else if (props.textualModType === "aenderungsbefehl-ersetzen") {
+      eid = destinationHrefModel.value?.split("/").slice(-2).join("/") ?? ""
+    }
+    return eid
   },
   set(newValue: string) {
     if (destinationHrefModel.value) {
@@ -108,6 +118,41 @@ function modTypeLabel(modType: ModType | "") {
       return "Keine Angabe"
   }
 }
+
+interface AknElementClickEvent {
+  eid: string
+  guid: string
+}
+
+const eidCurrentSelectedElement = ref<string | null>(null)
+const handleAknElementClick = (e: AknElementClickEvent) => {
+  destinationHrefEid.value = e.eid
+}
+
+const elementToBeReplacedRef = ref<InstanceType<typeof RisLawPreview> | null>(
+  null,
+)
+
+watch(
+  destinationHrefEid,
+  (newEid) => {
+    if (newEid) {
+      nextTick(() => {
+        const container = elementToBeReplacedRef.value?.$el
+        if (container) {
+          const element = container.querySelector(`[data-eid="${newEid}"]`)
+          if (element) {
+            eidCurrentSelectedElement.value = newEid
+            element.scrollIntoView({ behavior: "smooth", block: "center" })
+          } else {
+            container.scrollTo?.({ top: 0, behavior: "smooth" })
+          }
+        }
+      })
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -134,7 +179,6 @@ function modTypeLabel(modType: ModType | "") {
       :model-value="destinationHrefEli"
       read-only
     />
-    <!-- Conditional Rendering Based on ModType and Quoted Structure Presence -->
     <template
       v-if="
         textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
@@ -147,17 +191,55 @@ function modTypeLabel(modType: ModType | "") {
         >
         <RisLawPreview
           id="elementToBeReplaced"
+          ref="elementToBeReplacedRef"
           data-testid="elementToBeReplaced"
           :content="targetLawHtmlHtml ?? ''"
+          highlight-affected-document
           :rows="8"
+          :selected="destinationHrefEid == null ? [] : [destinationHrefEid]"
+          @click:akn:list="handleAknElementClick"
+          @click:akn:long-title="handleAknElementClick"
+          @click:akn:citations="handleAknElementClick"
+          @click:akn:recitals="handleAknElementClick"
+          @click:akn:recital="handleAknElementClick"
+          @click:akn:block-container="handleAknElementClick"
+          @click:akn:book="handleAknElementClick"
+          @click:akn:part="handleAknElementClick"
+          @click:akn:chapter="handleAknElementClick"
+          @click:akn:subchapter="handleAknElementClick"
+          @click:akn:section="handleAknElementClick"
+          @click:akn:subsection="handleAknElementClick"
+          @click:akn:title="handleAknElementClick"
+          @click:akn:subtitle="handleAknElementClick"
+          @click:akn:article="handleAknElementClick"
+          @click:akn:paragraph="handleAknElementClick"
+          @click:akn:document-ref="handleAknElementClick"
+          @click:akn:component-ref="handleAknElementClick"
+          @click:akn:point="handleAknElementClick"
+          @click:akn:wrap-up="handleAknElementClick"
+          @click:akn:foreign="handleAknElementClick"
+          @click:akn:tblock="handleAknElementClick"
+          @click:akn:toc="handleAknElementClick"
+          @click:akn:toc-item="handleAknElementClick"
+          @click:akn:p="handleAknElementClick"
+          @click:akn:block="handleAknElementClick"
+          @click:akn:num="handleAknElementClick"
+          @click:akn:heading="handleAknElementClick"
+          @click:akn:td="handleAknElementClick"
+          @click:akn:th="handleAknElementClick"
+          @click:akn:tr="handleAknElementClick"
+          @click:akn:ol="handleAknElementClick"
+          @click:akn:ul="handleAknElementClick"
+          @click:akn:table="handleAknElementClick"
         />
       </div>
-      <div class="mt-4">
+      <div class="mt-4 max-h-[200px] overflow-y-auto">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label">Neues Element</label>
         <RisLawPreview
           id="replacingElement"
           data-testid="replacingElement"
+          highlight-affected-document
           :content="quotedStructureContent"
           :rows="8"
         />
@@ -217,3 +299,212 @@ function modTypeLabel(modType: ModType | "") {
     </div>
   </form>
 </template>
+
+<style scoped>
+:deep([class^="akn-"]):before,
+:deep([class^="akn-"]):after {
+  @apply border border-solid border-gray-500 bg-gray-300 px-2;
+}
+
+:deep([class^="akn-"]):before {
+  border-radius: 0.375rem 0 0 0.375rem;
+  border-right: none;
+}
+
+:deep([class^="akn-"]):after {
+  border-radius: 0 0.375rem 0.375rem 0;
+  border-left: none;
+}
+
+:deep(.akn-longTitle):before,
+:deep(.akn-longTitle):after {
+  content: "long title";
+}
+
+:deep(.akn-citations):before,
+:deep(.akn-citations):after {
+  content: "citations";
+}
+
+:deep(.akn-recitals):before,
+:deep(.akn-recitals):after {
+  content: "recitals";
+}
+
+:deep(.akn-recital):before,
+:deep(.akn-recital):after {
+  content: "recital";
+}
+
+:deep(.akn-blockContainer):before,
+:deep(.akn-blockContainer):after {
+  content: "block container";
+}
+
+:deep(.akn-book):before,
+:deep(.akn-book):after {
+  content: "book";
+}
+
+:deep(.akn-part):before,
+:deep(.akn-part):after {
+  content: "part";
+}
+
+:deep(.akn-chapter):before,
+:deep(.akn-chapter):after {
+  content: "chapter";
+}
+
+:deep(.akn-subchapter):before,
+:deep(.akn-subchapter):after {
+  content: "subchapter";
+}
+
+:deep(.akn-section):before,
+:deep(.akn-section):after {
+  content: "section";
+}
+
+:deep(.akn-subsection):before,
+:deep(.akn-subsection):after {
+  content: "subsection";
+}
+
+:deep(.akn-title):before,
+:deep(.akn-title):after {
+  content: "title";
+}
+
+:deep(.akn-subtitle):before,
+:deep(.akn-subtitle):after {
+  content: "subtitle";
+}
+
+:deep(.akn-article):before,
+:deep(.akn-article):after {
+  content: "article";
+}
+
+:deep(.akn-paragraph):before,
+:deep(.akn-paragraph):after {
+  content: "paragraph";
+}
+
+:deep(.akn-list):before,
+:deep(.akn-list):after {
+  content: "list";
+}
+
+:deep(.akn-documentRef):before,
+:deep(.akn-documentRef):after {
+  content: "document ref";
+}
+
+:deep(.akn-componentRef):before,
+:deep(.akn-componentRef):after {
+  content: "component ref";
+}
+
+:deep(.akn-point):before,
+:deep(.akn-point):after {
+  content: "point";
+}
+
+:deep(.akn-wrapUp):before,
+:deep(.akn-wrapUp):after {
+  content: "wrap up";
+}
+
+:deep(.akn-foreign):before,
+:deep(.akn-foreign):after {
+  content: "foreign";
+}
+
+:deep(.akn-tblock):before,
+:deep(.akn-tblock):after {
+  content: "tblock";
+}
+
+:deep(.akn-toc):before,
+:deep(.akn-toc):after {
+  content: "toc";
+}
+
+:deep(.akn-tocItem):before,
+:deep(.akn-tocItem):after {
+  content: "toc item";
+}
+
+:deep(.akn-p):before,
+:deep(.akn-p):after {
+  content: "p";
+}
+
+:deep(.akn-block):before,
+:deep(.akn-block):after {
+  content: "block";
+}
+
+:deep(.akn-num):before,
+:deep(.akn-num):after {
+  content: "num";
+}
+
+:deep(.akn-heading):before,
+:deep(.akn-heading):after {
+  content: "heading";
+}
+
+:deep(.akn-td):before,
+:deep(.akn-td):after {
+  content: "td";
+}
+
+:deep(.akn-th):before,
+:deep(.akn-th):after {
+  content: "th";
+}
+
+:deep(.akn-tr):before,
+:deep(.akn-tr):after {
+  content: "tr";
+}
+
+:deep(.akn-ol):before,
+:deep(.akn-ol):after {
+  content: "ol";
+}
+
+:deep(.akn-ul):before,
+:deep(.akn-ul):after {
+  content: "ul";
+}
+
+:deep(.akn-table):before,
+:deep(.akn-table):after {
+  content: "table";
+}
+
+:deep([class^="akn-"]:hover):not(:has([class^="akn-"]:hover)) {
+  background-color: #e5f7ff;
+  border-color: #4299f7;
+}
+
+:deep([class^="akn-"]:hover):not(:has([class^="akn-"]:hover)):before,
+:deep([class^="akn-"]:hover):not(:has([class^="akn-"]:hover)):after {
+  background-color: #b9e8ff;
+  border-color: #4299f7;
+}
+
+:deep([class^="akn-"].selected) {
+  background-color: #b9e8ff;
+  border-color: #4299f7;
+}
+
+:deep([class^="akn-"].selected):before,
+:deep([class^="akn-"].selected):after {
+  background-color: #78ccff;
+  border-color: #004b76;
+}
+</style>
