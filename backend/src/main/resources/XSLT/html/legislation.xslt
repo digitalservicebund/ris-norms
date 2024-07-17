@@ -43,6 +43,14 @@
         </xsl:if>
     </xsl:template>
 
+    <!-- Priority template for akn:longTitle within akn:quotedStructure -->
+    <xsl:template match="akn:quotedStructure//akn:longTitle" priority="2">
+        <span>
+            <xsl:call-template name="attributes"/>
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
+
     <xsl:template match="akn:longTitle">
         <h1>
             <xsl:call-template name="attributes"/>

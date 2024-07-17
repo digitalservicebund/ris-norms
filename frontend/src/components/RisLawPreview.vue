@@ -329,6 +329,10 @@ watch(
   @apply font-bold;
 }
 
+:deep(.akn-quotedStructure .akn-longTitle) {
+  @apply font-normal;
+}
+
 :deep(.akn-shortTitle) {
   @apply block font-normal;
 }

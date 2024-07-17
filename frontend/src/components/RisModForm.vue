@@ -8,6 +8,7 @@ import CheckIcon from "~icons/ic/check"
 import { ModType } from "@/types/ModType"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
+import RisLawPreview from "@/components/RisLawPreview.vue"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -18,9 +19,12 @@ const props = defineProps<{
   timeBoundaries: TemporalDataResponse[]
   /** This is the text that will be replaced */
   quotedTextFirst?: string
+  /** The quoted structure content */
+  quotedStructureContent?: string | null
   isUpdating?: boolean
   isUpdatingFinished?: boolean
   updateError?: Error
+  targetLawHtmlHtml?: string
 }>()
 
 defineEmits<{
@@ -130,28 +134,58 @@ function modTypeLabel(modType: ModType | "") {
       :model-value="destinationHrefEli"
       read-only
     />
-    <RisTextInput
-      v-if="textualModType === 'aenderungsbefehl-ersetzen'"
-      id="destinationHrefEid"
-      v-model="destinationHrefEid"
-      label="zu ersetzende Textstelle"
-      @blur="$emit('generate-preview')"
-    />
-    <RisTextAreaInput
-      v-if="textualModType === 'aenderungsbefehl-ersetzen'"
-      id="quotedTextFirst"
-      label="zu ersetzender Text"
-      :model-value="quotedTextFirst"
-      read-only
-      :rows="8"
-    />
-    <RisTextAreaInput
-      id="quotedTextSecond"
-      v-model="quotedTextSecondModel"
-      label="Neuer Text Inhalt"
-      :rows="8"
-      @blur="$emit('generate-preview')"
-    />
+    <!-- Conditional Rendering Based on ModType and Quoted Structure Presence -->
+    <template
+      v-if="
+        textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
+      "
+    >
+      <div class="mt-4 max-h-[300px] overflow-y-auto">
+        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+        <label for="replacingElement" class="ds-label"
+          >zu ersetzendes Element</label
+        >
+        <RisLawPreview
+          id="elementToBeReplaced"
+          data-testid="elementToBeReplaced"
+          :content="targetLawHtmlHtml ?? ''"
+          :rows="8"
+        />
+      </div>
+      <div class="mt-4">
+        <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
+        <label for="replacingElement" class="ds-label">Neues Element</label>
+        <RisLawPreview
+          id="replacingElement"
+          data-testid="replacingElement"
+          :content="quotedStructureContent"
+          :rows="8"
+        />
+      </div>
+    </template>
+    <template v-else-if="textualModType === 'aenderungsbefehl-ersetzen'">
+      <RisTextInput
+        id="destinationHrefEid"
+        v-model="destinationHrefEid"
+        label="zu ersetzende Textstelle"
+        @blur="$emit('generate-preview')"
+      />
+      <RisTextAreaInput
+        id="quotedTextFirst"
+        label="zu ersetzender Text"
+        :model-value="quotedTextFirst"
+        read-only
+        :rows="8"
+      />
+      <RisTextAreaInput
+        id="quotedTextSecond"
+        v-model="quotedTextSecondModel"
+        label="Neuer Text Inhalt"
+        :rows="8"
+        @blur="$emit('generate-preview')"
+      />
+    </template>
+
     <div class="flex gap-20">
       <RisTextButton
         label="Vorschau"
