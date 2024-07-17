@@ -225,8 +225,8 @@ class TimeMachineServiceTest {
     void applyOnePassiveModificationQuotedStructure() {
       // given
       final var targetLawNorm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
-
       final var amendingLawNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      final var expectedResult = NormFixtures.loadFromDisk("NormWithAppliedQuotedStructure.xml");
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
 
@@ -236,14 +236,7 @@ class TimeMachineServiceTest {
               new ApplyPassiveModificationsUseCase.Query(targetLawNorm, Instant.MAX));
 
       // then
-      var changedNodeValue =
-          NodeParser.getValueFromExpression(
-              "//*[@eId=\"hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1\"]",
-              result.getDocument());
-      assertThat(changedNodeValue).isPresent();
-      assertThat(changedNodeValue.get())
-          .isEqualToIgnoringWhitespace(
-              "Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen");
+      assertThat(result.getDocument()).hasToString(expectedResult.getDocument().toString());
     }
   }
 }
