@@ -193,7 +193,7 @@ watch(
         textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
       "
     >
-      <div class="mt-4 max-h-[300px] overflow-y-auto">
+      <div class="mt-4">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label"
           >zu ersetzendes Element</label
@@ -201,6 +201,7 @@ watch(
         <RisLawPreview
           id="elementToBeReplaced"
           ref="elementToBeReplacedRef"
+          class="max-h-[300px] overflow-y-auto"
           data-testid="elementToBeReplaced"
           :content="targetLawHtmlHtml ?? ''"
           highlight-affected-document
@@ -242,11 +243,12 @@ watch(
           @click:akn:table="handleAknElementClick"
         />
       </div>
-      <div class="mt-4 max-h-[200px] overflow-y-auto">
+      <div class="mt-4">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label">Neues Element</label>
         <RisLawPreview
           id="replacingElement"
+          class="max-h-[200px] overflow-y-auto"
           data-testid="replacingElement"
           highlight-affected-document
           :content="quotedStructureContent"
