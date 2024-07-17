@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
@@ -381,6 +382,46 @@ class EidConsistencyGuardianTest {
     final Diff diff =
         DiffBuilder.compare(Input.from(correctedDocument))
             .withTest(Input.from(XmlMapper.toDocument(exectedResult)))
+            .ignoreWhitespace()
+            .build();
+    assertThat(diff.hasDifferences()).isFalse();
+  }
+
+  @Test
+  void itCorrectParentEid() {
+
+    var sampleXml =
+        """
+                    <akn:longTitle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
+                      <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
+                        <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
+                        <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                      </akn:p>
+                    </akn:longTitle>
+                    """;
+
+    // When
+    final Node node = XmlMapper.toNode(sampleXml);
+    final Node updatedNode =
+        EidConsistencyGuardian.correctRootParentEid(
+            node,
+            "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1",
+            "einleitung-1");
+
+    // Then
+    var expectedXml =
+        """
+                    <akn:longTitle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="einleitung-1_doktitel-1">
+                      <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="einleitung-1_doktitel-1_text-1">
+                        <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="einleitung-1_doktitel-1_text-1_doctitel-1">Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
+                        <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="einleitung-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                      </akn:p>
+                    </akn:longTitle>
+                    """;
+
+    final Diff diff =
+        DiffBuilder.compare(Input.from(updatedNode))
+            .withTest(Input.from(XmlMapper.toNode(expectedXml)))
             .ignoreWhitespace()
             .build();
     assertThat(diff.hasDifferences()).isFalse();
