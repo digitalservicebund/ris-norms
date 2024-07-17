@@ -6,12 +6,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadNormXmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticleXmlFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateModUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateModsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateNormXmlUseCase;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
@@ -22,6 +18,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -586,17 +583,24 @@ class NormServiceTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
-      // When
-      var result =
-          service.updateMod(
-              new UpdateModUseCase.Query(
-                  eli, "eid", "refersTo", "time-boundary-eid", "destinanation-href", "new text"));
+      // when/than
+      var throwable =
+          AssertionsForClassTypes.catchThrowable(
+              () ->
+                  service.updateMod(
+                      new UpdateModUseCase.Query(
+                          eli,
+                          "eid",
+                          "refersTo",
+                          "time-boundary-eid",
+                          "destinanation-href",
+                          "new text")));
 
-      // Then
+      assertThat(throwable).isInstanceOf(NormNotFoundException.class);
+
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(result).isEmpty();
     }
 
     @Test
@@ -749,7 +753,7 @@ class NormServiceTest {
       final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetHref()).isPresent();
       assertThat(mod.getTargetHref().get().value()).contains(newDestinationHref);
-      assertThat(mod.getNewContent()).contains(newContent);
+      assertThat(mod.getNewText()).contains(newContent);
       assertThat(returnedXml.get().targetNormZf0Xml())
           .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }
@@ -879,7 +883,7 @@ class NormServiceTest {
       assertThat(mod.getTargetHref().get().value())
           .contains(
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml");
-      assertThat(mod.getNewContent()).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
+      assertThat(mod.getNewText()).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
       assertThat(result.get().targetNormZf0Xml())
           .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }

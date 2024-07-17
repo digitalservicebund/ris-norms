@@ -205,7 +205,7 @@ public class NormService
                   newModData.eId(),
                   mod.getTargetHref().map(Href::value).orElse(null),
                   newModData.timeBoundaryEId(),
-                  mod.getNewContent().orElse(null));
+                  mod.getNewText().orElse(null));
             });
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
@@ -225,7 +225,7 @@ public class NormService
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (amendingNormOptional.isEmpty()) {
-      return Optional.empty();
+      throw new NormNotFoundException(query.eli());
     }
     final Norm amendingNorm = amendingNormOptional.get();
 

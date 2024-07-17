@@ -4,17 +4,19 @@ import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundExcept
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Node;
 
 /**
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
  * "https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/tree/main/Spezifikation?ref_type=heads">LDML-details</a>
  */
 @Service
+@Slf4j
 public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
   private final NormService normService;
@@ -51,6 +54,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     } catch (final MandatoryNodeNotFoundException e) {
       return norm;
     }
+
     norm.getMeta()
         .getAnalysis()
         .map(analysis -> analysis.getPassiveModifications().stream())
@@ -104,10 +108,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
             })
         .forEach(
             mod -> {
-              if (mod.getTargetHref().isEmpty()
-                  || mod.getTargetHref().get().getEId().isEmpty()
-                  || mod.getOldText().isEmpty()
-                  || mod.getNewContent().isEmpty()) {
+              if (mod.getTargetHref().isEmpty() || mod.getTargetHref().get().getEId().isEmpty()) {
                 return;
               }
 
@@ -120,23 +121,45 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                 return;
               }
 
-              final var nodeToChange =
-                  NodeParser.getNodeFromExpression(
-                      String.format("//*[text()[contains(.,'%s')]]", mod.getOldText().get()),
-                      targetNode.get());
-
-              if (nodeToChange.isEmpty()) {
-                return;
-              }
-
-              final var modifiedTextContent =
-                  nodeToChange
-                      .get()
-                      .getTextContent()
-                      .replaceFirst(mod.getOldText().get(), mod.getNewContent().get());
-              nodeToChange.get().setTextContent(modifiedTextContent);
+              if (mod.usesQuotedText()) applyQuotedText(mod, targetNode.get());
+              if (mod.usesQuotedStructure()) applyQuotedStructure(mod, targetNode.get());
             });
 
     return norm;
+  }
+
+  private void applyQuotedText(Mod mod, Node targetNode) {
+    if (mod.getOldText().isEmpty() || mod.getNewText().isEmpty()) return;
+    String oldText = mod.getOldText().get();
+    String newText = mod.getNewText().get();
+
+    String xPathOldText = String.format("//*[text()[contains(.,'%s')]]", oldText);
+    final Node nodeToChange = NodeParser.getMandatoryNodeFromExpression(xPathOldText, targetNode);
+
+    final String modifiedTextContent = nodeToChange.getTextContent().replaceFirst(oldText, newText);
+    nodeToChange.setTextContent(modifiedTextContent);
+  }
+
+  private void applyQuotedStructure(Mod mod, Node targetNode) {
+    if (mod.getQuotedStructure().isEmpty()) return;
+
+    final List<Node> newQuotedStructureContent =
+        NodeParser.nodeListToList(mod.getQuotedStructure().get().getChildNodes());
+
+    final Node newChildFragment = targetNode.getOwnerDocument().createDocumentFragment();
+    newQuotedStructureContent.forEach(
+        node -> {
+          Node importedChild = targetNode.getOwnerDocument().importNode(node, true);
+          newChildFragment.appendChild(importedChild);
+        });
+
+    final Node parentNode = targetNode.getParentNode();
+    targetNode.getParentNode().replaceChild(newChildFragment, targetNode);
+
+    // TODO test for this behaviour
+    final String quotedStructureEid = EId.fromMandatoryNode(mod.getQuotedStructure().get()).value();
+    final String targetParentNodeEid = EId.fromMandatoryNode(parentNode).value();
+    EidConsistencyGuardian.correctRootParentEid(
+        parentNode, quotedStructureEid, targetParentNodeEid);
   }
 }

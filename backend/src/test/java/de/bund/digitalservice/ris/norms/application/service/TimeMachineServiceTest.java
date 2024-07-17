@@ -14,6 +14,9 @@ import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.Diff;
 
 class TimeMachineServiceTest {
   final NormService normService = mock(NormService.class);
@@ -219,6 +222,30 @@ class TimeMachineServiceTest {
       assertThat(changedNodeValue.get())
           .isEqualToIgnoringWhitespace(
               "entgegen § 9 Abs. 1 Satz 2, Abs. 2 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+    }
+
+    @Test
+    void applyOnePassiveModificationQuotedStructure() {
+      // given
+      final var targetLawNorm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
+      final var amendingLawNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      final var expectedResult = NormFixtures.loadFromDisk("NormWithAppliedQuotedStructure.xml");
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(targetLawNorm, Instant.MAX));
+
+      // then
+      final Diff diff =
+          DiffBuilder.compare(Input.from(result.getDocument()))
+              .withTest(Input.from(expectedResult.getDocument()))
+              .ignoreWhitespace()
+              .withNodeFilter(node -> !node.getNodeName().equals("akn:meta"))
+              .build();
+      assertThat(diff.hasDifferences()).isFalse();
     }
   }
 }

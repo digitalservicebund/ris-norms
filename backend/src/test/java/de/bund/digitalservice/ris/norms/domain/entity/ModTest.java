@@ -26,11 +26,28 @@ class ModTest {
                         ersetzt.</akn:mod>
               """;
 
+  private static final String QUOTED_STRUCTURE_MOD =
+      """
+              <akn:mod GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"> Der <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt durch:
+                <akn:quotedStructure GUID="9cb0572a-2933-473e-823f-5541ab360561" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
+                  <akn:longTitle GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
+                    <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
+                      <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
+                      <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                    </akn:p>
+                  </akn:longTitle>
+                </akn:quotedStructure>
+              </akn:mod>
+        """;
+
   private Mod mod;
+  private Mod quotedStructureMod;
 
   @BeforeEach
   void setUp() {
+
     mod = Mod.builder().node(XmlMapper.toNode(COMMON_XML)).build();
+    quotedStructureMod = Mod.builder().node(XmlMapper.toNode(QUOTED_STRUCTURE_MOD)).build();
   }
 
   @Test
@@ -54,19 +71,19 @@ class ModTest {
   }
 
   @Test
-  void getNewContent() {
+  void getNewText() {
     // when
-    var newContent = mod.getNewContent();
+    var newContent = mod.getNewText();
 
     // then
     assertThat(newContent).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
   }
 
   @Test
-  void setNewContent() {
+  void setNewText() {
     // when
-    mod.setNewContent("new text");
-    var eid = mod.getNewContent();
+    mod.setNewText("new text");
+    var eid = mod.getNewText();
 
     // then
     assertThat(eid).contains("new text");
@@ -102,6 +119,15 @@ class ModTest {
 
     // then
     assertThat(isQuoted).isTrue();
+  }
+
+  @Test
+  void usesQuotedStructure() {
+    // when
+    var isStructure = quotedStructureMod.usesQuotedStructure();
+
+    // then
+    assertThat(isStructure).isTrue();
   }
 
   @Test

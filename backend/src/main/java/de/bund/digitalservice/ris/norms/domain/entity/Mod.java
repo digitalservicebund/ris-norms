@@ -75,7 +75,7 @@ public class Mod {
    *
    * @return The text that will replace the old text
    */
-  public Optional<String> getNewContent() {
+  public Optional<String> getNewText() {
     return NodeParser.getValueFromExpression("normalize-space(./quotedText[2])", this.node);
   }
 
@@ -106,14 +106,23 @@ public class Mod {
    *
    * @param newContent - the replacing text
    */
-  public void setNewContent(final String newContent) {
+  public void setNewText(final String newContent) {
     final Node newContentNode =
         NodeParser.getNodeFromExpression("./quotedText[2]", this.node).orElseThrow();
     newContentNode.setTextContent(newContent);
   }
 
   /**
-   * Checks weather a quotedText was used for a substitution. If not it is probably a
+   * Returns the quoted structure as {@link Node}.
+   *
+   * @return The quotedStructure which content will be replaced
+   */
+  public Optional<Node> getQuotedStructure() {
+    return NodeParser.getNodeFromExpression("./quotedStructure", this.node);
+  }
+
+  /**
+   * Checks whether a quotedText was used for a substitution. If not it is probably a
    * quotedStructure.
    *
    * @return is it using a quotedText structure
@@ -121,6 +130,17 @@ public class Mod {
   public boolean usesQuotedText() {
     final Optional<Node> newContentNode =
         NodeParser.getNodeFromExpression("./quotedText", this.node);
+    return newContentNode.isPresent();
+  }
+
+  /**
+   * Checks whether a quotedStructure was used for a substitution.
+   *
+   * @return is it using a quotedStructure
+   */
+  public boolean usesQuotedStructure() {
+    final Optional<Node> newContentNode =
+        NodeParser.getNodeFromExpression("./quotedStructure", this.node);
     return newContentNode.isPresent();
   }
 }

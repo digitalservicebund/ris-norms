@@ -204,4 +204,31 @@ public final class EidConsistencyGuardian {
         .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
         .forEach(node -> updateReferencesInAttributes((Element) node, oldId, newId));
   }
+
+  /**
+   * Updates the same old eId parent part of all node elements, beginning with the first element of
+   * the node.
+   *
+   * @param node - the node of XML to be corrected
+   * @param oldParentEid - the old parent eId to be replaced
+   * @param newParentEid - the new parent eId to replaced with
+   * @return the updated node
+   */
+  public static Node correctRootParentEid(
+      final Node node, final String oldParentEid, final String newParentEid) {
+    if (node.getNodeType() == Node.ELEMENT_NODE) {
+      final Element element = (Element) node;
+      if (element.hasAttribute("eId")) {
+        final String eId = element.getAttribute("eId");
+        if (!eId.equals(newParentEid) && eId.startsWith(oldParentEid)) {
+          final String newEid = newParentEid + eId.substring(oldParentEid.length());
+          element.setAttribute("eId", newEid);
+        }
+      }
+      // Recursively process child nodes
+      final List<Node> childNodes = NodeParser.nodeListToList(element.getChildNodes());
+      childNodes.forEach(f -> correctRootParentEid(f, oldParentEid, newParentEid));
+    }
+    return node;
+  }
 }

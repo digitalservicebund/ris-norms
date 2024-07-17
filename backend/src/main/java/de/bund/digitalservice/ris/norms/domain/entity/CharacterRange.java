@@ -44,7 +44,7 @@ public record CharacterRange(String characterRange) {
   }
 
   /**
-   * Checks weather the character range is valid
+   * Checks whether the character range is valid
    *
    * @return {@link boolean} if the character range is valid
    */

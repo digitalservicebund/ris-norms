@@ -549,7 +549,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", "?dryRun=true"})
-    void itUpdatesAMod(String queryParameters) throws Exception {
+    void itUpdatesAQuotedTextMod(String queryParameters) throws Exception {
       // When
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
       normRepository.save(
@@ -632,6 +632,86 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(
               xpath("//passiveModifications/textualMod/destination/@href")
                   .string("#" + eId + "/" + characterCount));
+    }
+
+    @Test
+    void itUpdatesAQuotedStructureMod() throws Exception {
+      // When
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(
+              NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml")));
+
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-2";
+      String eli = "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1";
+      String eId = "einleitung-1_doktitel-1";
+      String destinationHref = eli + "/" + eId + ".xml";
+      String newContent = "THIS_IS_NOT_BEING_HANDLED";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"newContent\": \""
+                          + newContent
+                          + "\"}"))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/destination/@href",
+                              equalTo(destinationHref)))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod/force/@period",
+                              equalTo("#" + timeBoundaryEId)))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(hasXPath("//body//mod/ref/@href", equalTo(destinationHref)))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/destination/@href",
+                              equalTo("#" + eId)))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod/source/@href",
+                              equalTo(
+                                  "eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml")))));
+
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(
+              xpath("//passiveModifications/textualMod/destination/@href").string("#" + eId));
     }
 
     @Test
