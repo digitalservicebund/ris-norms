@@ -333,6 +333,30 @@ watch(
   @apply font-normal;
 }
 
+:deep(.akn-quotedStructure .akn-quote-startQuote) {
+  @apply hidden;
+}
+
+:deep(.akn-quotedStructure .akn-quote-endQuote) {
+  @apply hidden;
+}
+
+:deep(.akn-quotedStructure > :nth-child(2)::before) {
+  @apply content-['„'];
+}
+
+:deep(.akn-quotedStructure > :nth-child(2) *) {
+  @apply inline;
+}
+
+:deep(.akn-quotedStructure > :nth-last-child(2)::after) {
+  @apply content-['“'];
+}
+
+:deep(.akn-quotedStructure > :nth-last-child(2) *) {
+  @apply inline;
+}
+
 :deep(.akn-shortTitle) {
   @apply block font-normal;
 }
