@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
 import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -12,7 +13,8 @@ import lombok.experimental.SuperBuilder;
 public class UpdateModRequestSchema {
 
   @NotNull private String refersTo;
-  private String timeBoundaryEid;
+  @Nullable private String timeBoundaryEid;
   @NotNull private String destinationHref;
+  @Nullable private String destinationUpTo; // TODO should this be an optional instead?
   @NotNull private String newContent;
 }

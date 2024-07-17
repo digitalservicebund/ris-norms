@@ -590,7 +590,13 @@ class NormServiceTest {
       var result =
           service.updateMod(
               new UpdateModUseCase.Query(
-                  eli, "eid", "refersTo", "time-boundary-eid", "destinanation-href", "new text"));
+                  eli,
+                  "eid",
+                  "refersTo",
+                  "time-boundary-eid",
+                  "destinanation-href",
+                  null,
+                  "new text"));
 
       // Then
       verify(loadNormPort, times(1))
@@ -615,6 +621,7 @@ class NormServiceTest {
                   "refersTo",
                   "time-boundary-eid",
                   "#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE",
+                  null,
                   "new text"));
 
       // Then
@@ -670,6 +677,7 @@ class NormServiceTest {
               "refersTo",
               newTimeBoundaryEid, // <- this will be set
               newDestinationHref, // <- this will be set in ActivMods AND mod
+              null,
               newContent,
               false));
 
@@ -713,6 +721,7 @@ class NormServiceTest {
                   "refersTo",
                   newTimeBoundaryEid, // <- this will be set
                   newDestinationHref, // <- this will be set in ActivMods AND mod
+                  null,
                   newContent,
                   false));
 

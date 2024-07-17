@@ -108,12 +108,14 @@ public class NormService
   }
 
   /**
-   * Updates the akn:mod with the given eId. The amendingNorm and zf0Norm are updated in place.
+   * Updates the akn:mod, akn:activeModifications and akn:passiveModifications with the given eId.
+   * The amendingNorm and zf0Norm are updated in place.
    *
    * @param amendingNorm the norm in which the akn:mod exists
    * @param zf0Norm the zf0 version of the norm targeted by the akn:mod
    * @param eId the eId of the akn:mod
    * @param destinationHref the new destination href of the akn:mod
+   * @param destinationUpTo the last element that should be replaced
    * @param timeBoundaryEId the eid of the new time-boundary of the akn:mod
    * @param newContent the new future text of the akn:mod
    */
@@ -122,6 +124,7 @@ public class NormService
       Norm zf0Norm,
       String eId,
       String destinationHref,
+      String destinationUpTo,
       String timeBoundaryEId,
       String newContent) {
     var targetNormEli = new Href(destinationHref).getEli();
@@ -130,9 +133,9 @@ public class NormService
     }
 
     // Update active mods (meta and body) in amending law
-    updateNormService.updateActiveModifications(
+    updateNormService.updateActiveModifications( // TODO name is misleading it also updates akn:mod
         new UpdateActiveModificationsUseCase.Query(
-            amendingNorm, eId, destinationHref, timeBoundaryEId, newContent));
+            amendingNorm, eId, destinationHref, destinationUpTo, timeBoundaryEId, newContent));
 
     // Update passiv mods in ZF0
     updateNormService.updatePassiveModifications(
@@ -204,6 +207,7 @@ public class NormService
                   zf0Norm,
                   newModData.eId(),
                   mod.getTargetHref().map(Href::value).orElse(null),
+                  null,
                   newModData.timeBoundaryEId(),
                   mod.getNewContent().orElse(null));
             });
@@ -244,6 +248,7 @@ public class NormService
         zf0Norm,
         query.eid(),
         query.destinationHref(),
+        query.destinationUpTo(),
         query.timeBoundaryEid(),
         query.newContent());
 

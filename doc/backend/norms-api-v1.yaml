@@ -666,6 +666,8 @@ components:
           type: string
         destinationHref:
           type: string
+        destinationUpTo:
+          type: string
         newContent:
           type: string
 

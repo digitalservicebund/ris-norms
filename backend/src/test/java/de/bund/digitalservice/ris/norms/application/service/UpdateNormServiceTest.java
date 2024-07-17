@@ -221,7 +221,7 @@ class UpdateNormServiceTest {
       var updatedAmendingNorm =
           updateNormService.updateActiveModifications(
               new UpdateActiveModificationsUseCase.Query(
-                  amendingLaw, eId, newDestinationHref, newTimeBoundaryEid, newContent));
+                  amendingLaw, eId, newDestinationHref, null, newTimeBoundaryEid, newContent));
 
       // Then
       final TextualMod activeModifications =
@@ -239,6 +239,37 @@ class UpdateNormServiceTest {
               .findFirst()
               .orElseThrow();
       assertThat(mod.getNewContent()).contains(newContent);
+    }
+
+    @Test
+    void itChangesUpTo() {
+
+      // Given
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      String targetNormEli = targetNorm.getEli();
+      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String newDestinationHref =
+          targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+      String newDestinationUpTo =
+          targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
+      String newContent = "new-text";
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw, eId, newDestinationHref, newDestinationUpTo, null, newContent));
+
+      // Then
+      final TextualMod activeModifications =
+          updatedAmendingNorm
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getActiveModifications)
+              .orElse(Collections.emptyList())
+              .getFirst();
+      assertThat(activeModifications.getDestinationUpTo()).contains(new Href(newDestinationUpTo));
     }
   }
 }

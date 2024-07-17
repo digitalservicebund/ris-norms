@@ -135,7 +135,9 @@ public class UpdateNormService
   }
 
   @Override
-  public Norm updateActiveModifications(UpdateActiveModificationsUseCase.Query query) {
+  public Norm updateActiveModifications(
+      UpdateActiveModificationsUseCase.Query
+          query) { // TODO should this be a use case? No external use
     final Norm amendingNorm = query.amendingNorm();
     // Edit mod in meta
     amendingNorm
@@ -150,11 +152,12 @@ public class UpdateNormService
         .ifPresent(
             activeMod -> {
               activeMod.setDestinationHref(query.destinationHref());
-              activeMod.setForcePeriodEid(query.timeBoundaryEid());
+              activeMod.setDestinationUpTo(query.destinationUpTo());
+              activeMod.setForcePeriodEid(query.timeBoundaryEid()); // this is nullable
             });
 
     // Edit mod in body
-    amendingNorm.getMods().stream()
+    amendingNorm.getMods().stream() // TODO should this be a separate public function?
         .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eId()))
         .findFirst()
         .ifPresent(
