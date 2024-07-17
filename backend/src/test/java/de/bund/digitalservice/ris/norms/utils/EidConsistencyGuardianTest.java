@@ -392,12 +392,20 @@ class EidConsistencyGuardianTest {
 
     var sampleXml =
         """
-                    <akn:longTitle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
-                      <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
-                        <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
-                        <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
-                      </akn:p>
-                    </akn:longTitle>
+                    <akn:preface xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="da7b34fb-69e8-4ede-abd1-a047ea34f576" eId="einleitung-1">
+                      <akn:longTitle  GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
+                        <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
+                          <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
+                          <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                        </akn:p>
+                      </akn:longTitle>
+                      <akn:longTitle  GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-2">
+                        <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-2_text-1">
+                          <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-2_text-1_doctitel-1">Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
+                          <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-2_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                        </akn:p>
+                      </akn:longTitle>
+                    </akn:preface>
                     """;
 
     // When
@@ -411,12 +419,20 @@ class EidConsistencyGuardianTest {
     // Then
     var expectedXml =
         """
-                    <akn:longTitle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="einleitung-1_doktitel-1">
-                      <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="einleitung-1_doktitel-1_text-1">
-                        <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="einleitung-1_doktitel-1_text-1_doctitel-1">Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
-                        <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="einleitung-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
-                      </akn:p>
-                    </akn:longTitle>
+                    <akn:preface xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="da7b34fb-69e8-4ede-abd1-a047ea34f576" eId="einleitung-1">
+                      <akn:longTitle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="einleitung-1_doktitel-1">
+                        <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="einleitung-1_doktitel-1_text-1">
+                          <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="einleitung-1_doktitel-1_text-1_doctitel-1">Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
+                          <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="einleitung-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                        </akn:p>
+                      </akn:longTitle>
+                      <akn:longTitle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="einleitung-1_doktitel-2">
+                        <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="einleitung-1_doktitel-2_text-1">
+                          <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="einleitung-1_doktitel-2_text-1_doctitel-1">Geändertes fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
+                          <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="einleitung-1_doktitel-2_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                        </akn:p>
+                      </akn:longTitle>
+                    </akn:preface>
                     """;
 
     final Diff diff =

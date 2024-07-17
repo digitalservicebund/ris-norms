@@ -220,7 +220,7 @@ public final class EidConsistencyGuardian {
       final Element element = (Element) node;
       if (element.hasAttribute("eId")) {
         final String eId = element.getAttribute("eId");
-        if (eId.startsWith(oldParentEid)) {
+        if (!eId.equals(newParentEid) && eId.startsWith(oldParentEid)) {
           final String newEid = newParentEid + eId.substring(oldParentEid.length());
           element.setAttribute("eId", newEid);
         }

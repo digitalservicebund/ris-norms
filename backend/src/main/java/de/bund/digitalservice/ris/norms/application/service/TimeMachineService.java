@@ -4,10 +4,8 @@ import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundExcept
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Mod;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.time.Duration;
@@ -155,8 +153,10 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     final Node parentNode = targetNode.getParentNode();
     parentNode.removeChild(targetNode);
     newQuotedStructureContentImported.forEach(parentNode::appendChild);
-
-    // TODO replace eid of the content of quotedStructure with the corresponding eId in the target
-    // law
+    // TODO test for this behaviour
+    final String quotedStructureEid = EId.fromMandatoryNode(mod.getQuotedStructure().get()).value();
+    final String targetParentNodeEid = EId.fromMandatoryNode(parentNode).value();
+    EidConsistencyGuardian.correctRootParentEid(
+        parentNode, quotedStructureEid, targetParentNodeEid);
   }
 }
