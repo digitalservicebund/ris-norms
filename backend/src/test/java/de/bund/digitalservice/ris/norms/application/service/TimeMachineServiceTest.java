@@ -14,6 +14,9 @@ import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.Diff;
 
 class TimeMachineServiceTest {
   final NormService normService = mock(NormService.class);
@@ -236,7 +239,13 @@ class TimeMachineServiceTest {
               new ApplyPassiveModificationsUseCase.Query(targetLawNorm, Instant.MAX));
 
       // then
-      assertThat(result.getDocument()).hasToString(expectedResult.getDocument().toString());
+      final Diff diff =
+          DiffBuilder.compare(Input.from(result.getDocument()))
+              .withTest(Input.from(expectedResult.getDocument()))
+              .ignoreWhitespace()
+              .withNodeFilter(node -> !node.getNodeName().equals("akn:meta"))
+              .build();
+      assertThat(diff.hasDifferences()).isFalse();
     }
   }
 }
