@@ -137,45 +137,40 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
         </RisCallout>
       </div>
 
-      <div
+      <RisCallout
         v-else-if="releasedAt"
-        aria-label="Infomodal"
-        class="flex w-full gap-[0.625rem] border-[0.125rem] border-orange-200 bg-orange-100 px-[1.25rem] py-[1.125rem]"
+        title="Die Abgabe ist aktuell als Prototyp verfügbar."
+        variant="warning"
       >
-        <div class="flex flex-col gap-4">
-          <span class="ds-label-02-bold">
-            Die Abgabe ist aktuell als Prototyp verfügbar.
-          </span>
-          <span class="ds-body-01-reg">
-            Dieses Änderungsgesetz wurde zuletzt abgegeben am
-            <time :datetime="publishedAtDateTime">
-              {{ publishedAtDateString }} um {{ publishedAtTimeString }} Uhr.
-              Die aktuelle Version kann hier eingesehen werden:
-            </time>
-            <ul class="list-disc pl-20">
-              <li>
-                <a
-                  v-if="release"
-                  :href="blobUrl"
-                  :download="formatEliForDownload(release.amendingLawEli)"
-                  target="_blank"
-                  class="underline"
-                  >{{ release.amendingLawEli }}.xml</a
-                >
-              </li>
-              <li v-for="{ zf0Eli, zf0BlobUrl } in zf0BlobUrls" :key="zf0Eli">
-                <a
-                  :href="zf0BlobUrl"
-                  :download="formatEliForDownload(zf0Eli)"
-                  target="_blank"
-                  class="underline"
-                  >{{ zf0Eli }}.xml</a
-                >
-              </li>
-            </ul>
-          </span>
-        </div>
-      </div>
+        <p class="mt-4 leading-snug">
+          Dieses Änderungsgesetz wurde zuletzt abgegeben am
+          <time :datetime="publishedAtDateTime">
+            {{ publishedAtDateString }} um {{ publishedAtTimeString }} Uhr. Die
+            aktuelle Version kann hier eingesehen werden:
+          </time>
+        </p>
+        <ul class="list-disc pl-20">
+          <li>
+            <a
+              v-if="release"
+              :href="blobUrl"
+              :download="formatEliForDownload(release.amendingLawEli)"
+              target="_blank"
+              class="underline"
+              >{{ release.amendingLawEli }}.xml</a
+            >
+          </li>
+          <li v-for="{ zf0Eli, zf0BlobUrl } in zf0BlobUrls" :key="zf0Eli">
+            <a
+              :href="zf0BlobUrl"
+              :download="formatEliForDownload(zf0Eli)"
+              target="_blank"
+              class="underline"
+              >{{ zf0Eli }}.xml</a
+            >
+          </li>
+        </ul>
+      </RisCallout>
 
       <span v-else>Das Gesetz wurde noch nicht veröffentlicht.</span>
 
