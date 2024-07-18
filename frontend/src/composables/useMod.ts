@@ -101,7 +101,7 @@ export function useMod(
       return null
 
     return {
-      refersTo: eidValue,
+      refersTo: textualModType.value,
       timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
       destinationHref: destinationHref.value,
       newContent: quotedStructureContent.value
