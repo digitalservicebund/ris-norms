@@ -659,12 +659,18 @@ components:
 
     Mod:
       type: object
+      required:
+        - refersTo
+        - destinationHref
+        - newContent
       properties:
         refersTo:
           type: string
         timeBoundaryEid:
           type: string
         destinationHref:
+          type: string
+        destinationUpTo:
           type: string
         newContent:
           type: string
