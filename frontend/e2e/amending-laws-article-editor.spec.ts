@@ -707,7 +707,7 @@ test.describe("Quoted Structure", () => {
       )
 
       const amendingLawSection = page.getByRole("region", {
-        name: "Änderungsbefehle Erstes Gesetz zur Änderung des Strukturänderungsgesetzes",
+        name: "Änderungsbefehle",
       })
 
       await amendingLawSection.getByText("Fiktives Beispielgesetz").click()
@@ -776,7 +776,7 @@ test.describe("Quoted Structure", () => {
         "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
       )
       const amendingLawSection = page.getByRole("region", {
-        name: "Änderungsbefehle Erstes Gesetz zur Änderung des Strukturänderungsgesetzes",
+        name: "Änderungsbefehle",
       })
       const previewSection = page.getByRole("region", {
         name: "Vorschau",
@@ -847,7 +847,7 @@ test.describe("Quoted Structure", () => {
 
     test(`selecting and saving the time boundary`, async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
-        name: "Änderungsbefehle Erstes Gesetz zur Änderung des Strukturänderungsgesetzes",
+        name: "Änderungsbefehle",
       })
 
       await amendingLawSection.getByText("Fiktives Beispielgesetz").click()
@@ -870,7 +870,7 @@ test.describe("Quoted Structure", () => {
 
     test(`select another target node and see preview`, async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
-        name: "Änderungsbefehle Erstes Gesetz zur Änderung des Strukturänderungsgesetzes",
+        name: "Änderungsbefehle",
       })
       const modFormSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehl bearbeiten",
