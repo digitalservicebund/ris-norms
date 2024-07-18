@@ -152,7 +152,11 @@ watch(
           const element = container.querySelector(`[data-eid="${newEid}"]`)
           if (element) {
             destinationHrefEid.value = newEid
-            element.scrollIntoView({ behavior: "smooth", block: "center" })
+            element.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+              inline: "start",
+            })
           } else {
             container.scrollTo?.({ top: 0, behavior: "smooth" })
           }
