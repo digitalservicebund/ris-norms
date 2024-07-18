@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import RisAlert from "@/components/controls/RisAlert.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -65,11 +66,16 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     <RisLoadingSpinner />
   </div>
 
-  <div v-else-if="error || !amendingLaw">
+  <div v-else-if="error || !amendingLaw" class="m-24">
     <RisCallout
       title="Das Änderungsgesetz konnte nicht geladen werden."
       variant="error"
-    />
+    >
+      <p v-if="error?.sentryEventId">
+        Fehler-ID:
+        <RisCopyableLabel :text="error.sentryEventId" name="Fehler-ID" />
+      </p>
+    </RisCallout>
   </div>
 
   <div

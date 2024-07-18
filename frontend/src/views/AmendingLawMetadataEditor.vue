@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -109,18 +110,49 @@ const {
       <RisLoadingSpinner />
     </div>
 
-    <div v-else-if="amendingLawError || affectedDocumentError" class="p-24">
+    <div v-else-if="amendingLawError" class="p-24">
       <RisCallout
         title="Das Gesetz konnte nicht geladen werden."
         variant="error"
-      />
+      >
+        <p v-if="amendingLawError.sentryEventId">
+          Fehler-ID:
+          <RisCopyableLabel
+            :text="amendingLawError.sentryEventId"
+            name="Fehler-ID"
+          />
+        </p>
+      </RisCallout>
+    </div>
+
+    <div v-else-if="affectedDocumentError" class="p-24">
+      <RisCallout
+        title="Das Gesetz konnte nicht geladen werden."
+        variant="error"
+      >
+        <p v-if="affectedDocumentError.sentryEventId">
+          Fehler-ID:
+          <RisCopyableLabel
+            :text="affectedDocumentError.sentryEventId"
+            name="Fehler-ID"
+          />
+        </p>
+      </RisCallout>
     </div>
 
     <div v-else-if="timeBoundariesError" class="p-24">
       <RisCallout
         title="Die Zeitgrenzen konnten nicht geladen werden."
         variant="error"
-      />
+      >
+        <p v-if="timeBoundariesError.sentryEventId">
+          Fehler-ID:
+          <RisCopyableLabel
+            :text="timeBoundariesError.sentryEventId"
+            name="Fehler-ID"
+          />
+        </p>
+      </RisCallout>
     </div>
 
     <div
@@ -190,7 +222,16 @@ const {
             title="Artikel konnten nicht geladen werden."
             class="mx-16"
             variant="error"
-          />
+          >
+            <p v-if="elementsError.sentryEventId">
+              Fehler-ID:
+              <RisCopyableLabel
+                :text="elementsError.sentryEventId"
+                name="Fehler-ID"
+                class="break-all"
+              />
+            </p>
+          </RisCallout>
 
           <RisEmptyState
             v-else-if="!elements?.length"

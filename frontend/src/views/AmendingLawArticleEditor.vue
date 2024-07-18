@@ -2,6 +2,7 @@
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -11,18 +12,18 @@ import RisTabs from "@/components/editor/RisTabs.vue"
 import { useArticle } from "@/composables/useArticle"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useModEidSelection } from "@/composables/useModEidSelection"
+import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useNormXml } from "@/composables/useNormXml"
 import { getFrbrDisplayText } from "@/lib/frbr"
+import { getModEIds } from "@/services/ldmldeModService"
 import { getNodeByEid } from "@/services/ldmldeService"
 import { useGetNorm } from "@/services/normService"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
-import { computed, Ref, ref, toValue, watch } from "vue"
-import { useModEidSelection } from "@/composables/useModEidSelection"
 import { useDebounce } from "@vueuse/core"
-import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
-import { getModEIds } from "@/services/ldmldeModService"
+import { computed, Ref, ref, toValue, watch } from "vue"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -139,18 +140,34 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
     <RisLoadingSpinner></RisLoadingSpinner>
   </div>
 
-  <div v-else-if="loadAmendingLawError || !amendingLaw">
+  <div v-else-if="loadAmendingLawError || !amendingLaw" class="m-24">
     <RisCallout
       title="Das Änderungsgesetz konnte nicht geladen werden."
       variant="error"
-    />
+    >
+      <p v-if="loadAmendingLawError?.sentryEventId">
+        Fehler-ID:
+        <RisCopyableLabel
+          :text="loadAmendingLawError.sentryEventId"
+          name="Fehler-ID"
+        />
+      </p>
+    </RisCallout>
   </div>
 
-  <div v-else-if="loadArticleError">
+  <div v-else-if="loadArticleError" class="m-24">
     <RisCallout
       title="Der Artikel konnte nicht gefunden werden."
       variant="error"
-    />
+    >
+      <p v-if="loadArticleError.sentryEventId">
+        Fehler-ID:
+        <RisCopyableLabel
+          :text="loadArticleError.sentryEventId"
+          name="Fehler-ID"
+        />
+      </p>
+    </RisCallout>
   </div>
 
   <div v-else>
@@ -176,7 +193,15 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
               <RisCallout
                 title="Der Artikel konnte nicht geladen werden."
                 variant="error"
-              />
+              >
+                <p v-if="loadXmlError.sentryEventId">
+                  Fehler-ID:
+                  <RisCopyableLabel
+                    :text="loadXmlError.sentryEventId"
+                    name="Fehler-ID"
+                  />
+                </p>
+              </RisCallout>
             </div>
 
             <RisTabs
@@ -198,7 +223,15 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
                   <RisCallout
                     title="Die Artikel-Vorschau konnte nicht erzeugt werden."
                     variant="error"
-                  />
+                  >
+                    <p v-if="loadArticleHtmlError.sentryEventId">
+                      Fehler-ID:
+                      <RisCopyableLabel
+                        :text="loadArticleHtmlError.sentryEventId"
+                        name="Fehler-ID"
+                      />
+                    </p>
+                  </RisCallout>
                 </div>
                 <RisLawPreview
                   v-else
@@ -230,7 +263,7 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
 
           <div
             v-else
-            class="gap col-span-2 mt-[62px] grid flex-grow grid-cols-2 gap-32"
+            class="gap col-span-2 mt-[60px] grid flex-grow grid-cols-2 gap-32"
           >
             <RisEmptyState
               text-content="Wählen Sie einen Änderungsbefehl zur Bearbeitung aus."

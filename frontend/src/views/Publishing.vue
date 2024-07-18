@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
@@ -110,14 +111,30 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
       </div>
 
       <div v-else-if="releaseError">
-        <RisCallout title="Abgabe nicht erfolgreich." variant="error" />
+        <RisCallout title="Abgabe nicht erfolgreich." variant="error">
+          <p v-if="releaseError.sentryEventId">
+            Fehler-ID:
+            <RisCopyableLabel
+              :text="releaseError.sentryEventId"
+              name="Fehler-ID"
+            />
+          </p>
+        </RisCallout>
       </div>
 
       <div v-else-if="fetchError">
         <RisCallout
           title="Die letzte Abgabe konnte nicht geladen werden."
           variant="error"
-        />
+        >
+          <p v-if="fetchError.sentryEventId">
+            Fehler-ID:
+            <RisCopyableLabel
+              :text="fetchError.sentryEventId"
+              name="Fehler-ID"
+            />
+          </p>
+        </RisCallout>
       </div>
 
       <div
