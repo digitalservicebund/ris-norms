@@ -693,19 +693,7 @@ test.describe("Editing multiple mods", () => {
   })
 })
 
-test.describe.skip("Quoted Structure", () => {
-  test(`Navigation to base url opens editor without selected mods`, async ({
-    page,
-  }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
-    )
-
-    await expect(
-      page.getByText("Wählen sie einen Änderungsbefehl zur Bearbeitung aus."),
-    ).toBeVisible()
-  })
-
+test.describe("Quoted Structure", () => {
   test(`Navigation to url with selected mod opens editor with selected mod`, async ({
     page,
   }) => {
@@ -713,31 +701,8 @@ test.describe.skip("Quoted Structure", () => {
       "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1",
     )
 
-    await expect(page.getByTestId("elementToBeReplaced")).toBeVisible()
-    await expect(page.getByTestId("replacingElement")).toBeVisible()
-
-    await expect(
-      page.getByRole("textbox", {
-        name: "zu ersetzende Textstelle",
-      }),
-    ).toBeHidden()
-  })
-
-  test(`Selecting mod updates url`, async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
-    )
-
-    const amendingLawSection = page.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
-    })
-
-    await amendingLawSection
-      .getByText("Der Titel des Gesetzes wird ersetzt durch:")
-      .click()
-
-    await expect(page).toHaveURL(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1",
+    await expect(page.getByTestId("replacingElement")).toHaveText(
+      "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen (Strukturänderungsgesetz)",
     )
   })
 })
