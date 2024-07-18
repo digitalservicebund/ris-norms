@@ -109,14 +109,14 @@ const {
       <RisLoadingSpinner />
     </div>
 
-    <div v-else-if="amendingLawError || affectedDocumentError" class="p-40">
+    <div v-else-if="amendingLawError || affectedDocumentError" class="p-24">
       <RisCallout
         title="Das Gesetz konnte nicht geladen werden."
         variant="error"
       />
     </div>
 
-    <div v-else-if="timeBoundariesError" class="p-40">
+    <div v-else-if="timeBoundariesError" class="p-24">
       <RisCallout
         title="Die Zeitgrenzen konnten nicht geladen werden."
         variant="error"
@@ -170,7 +170,7 @@ const {
               name: 'AmendingLawMetadataEditorRahmen',
               params: { timeBoundary: selectedTimeBoundary },
             }"
-            class="ds-label-01-reg px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
+            class="px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
             exact-active-class="font-bold underline bg-blue-200"
           >
             Rahmen

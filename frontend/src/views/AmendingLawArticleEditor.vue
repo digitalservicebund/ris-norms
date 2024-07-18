@@ -155,15 +155,14 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
 
   <div v-else>
     <RisHeader :breadcrumbs>
-      <div class="flex h-[calc(100vh-5rem-5rem)] flex-col px-40 pt-40">
-        <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-32">
+      <div class="flex h-[calc(100vh-5rem-5rem)] flex-col px-24 pt-24">
+        <div class="gap grid min-h-0 flex-grow grid-cols-3 gap-24">
           <section
-            class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
+            class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-24"
             aria-labelledby="changeCommandsEditor"
           >
             <h3 id="changeCommandsEditor" class="ds-label-02-bold">
               <span class="block">Änderungsbefehle</span>
-              <span>{{ amendingLaw?.title }}</span>
             </h3>
 
             <div
@@ -229,10 +228,13 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
             :selected-mods="selectedMods"
           ></router-view>
 
-          <div v-else class="gap col-span-2 grid flex-grow grid-cols-2 gap-32">
+          <div
+            v-else
+            class="gap col-span-2 mt-[62px] grid flex-grow grid-cols-2 gap-32"
+          >
             <RisEmptyState
-              text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
-              class="mt-[85px] h-fit"
+              text-content="Wählen Sie einen Änderungsbefehl zur Bearbeitung aus."
+              class="h-fit"
             />
           </div>
         </div>

@@ -149,10 +149,10 @@ watch(
 
 <template>
   <section
-    class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
+    class="col-span-1 flex max-h-full flex-col gap-8 pb-24"
     aria-labelledby="originalArticleTitle"
   >
-    <h3 id="originalArticleTitle" class="ds-label-02-bold">
+    <h3 id="originalArticleTitle" class="ds-label-02-bold mb-6">
       Änderungsbefehl bearbeiten
     </h3>
 
@@ -197,7 +197,7 @@ watch(
   </section>
 
   <section
-    class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
+    class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-24"
     aria-labelledby="changedArticlePreivew"
   >
     <h3 id="changedArticlePreivew" class="ds-label-02-bold">Vorschau</h3>

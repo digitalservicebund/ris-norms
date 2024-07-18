@@ -3,7 +3,7 @@ import RisEmptyState from "./RisEmptyState.vue"
 import UploadFileOutlineRounded from "~icons/ic/baseline-upload-file"
 
 const textContent =
-  "Wählen sie eine Zeitgrenze, um eine Vorschau des konsolidierten Änderungsbefehls zu sehen"
+  "Wählen Sie eine Zeitgrenze, um eine Vorschau des konsolidierten Änderungsbefehls zu sehen"
 </script>
 
 <template>

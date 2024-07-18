@@ -28,8 +28,8 @@ const classesForPreview = useModHighlightClasses(normDocument, () => false)
 </script>
 
 <template>
-  <div class="p-40">
-    <h1 class="ds-heading-02-reg mb-40">Verkündung</h1>
+  <div class="p-24">
+    <h1 class="ds-heading-02-reg mb-24">Verkündung</h1>
     <div v-if="error || loadXmlError" class="w-2/3">
       <RisCallout
         title="Der Text der Verkündung konnte nicht geladen werden."

@@ -202,7 +202,7 @@ export function useHeaderContext() {
 
 <template>
   <header
-    class="flex min-h-80 items-center gap-12 border-b border-solid border-b-gray-400 bg-blue-200 p-16 pr-32"
+    class="flex min-h-80 items-center gap-12 border-b border-solid border-b-gray-400 bg-blue-200 p-16 pr-24"
     v-bind="$attrs"
   >
     <section class="flex items-center">
