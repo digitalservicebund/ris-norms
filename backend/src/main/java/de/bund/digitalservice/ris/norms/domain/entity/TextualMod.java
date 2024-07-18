@@ -6,6 +6,7 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Class representing an akn:textualMod. */
@@ -51,6 +52,15 @@ public class TextualMod {
     return NodeParser.getValueFromExpression("./destination/@href", this.node).map(Href::new);
   }
 
+  /**
+   * Returns the destination href as {@link String}.
+   *
+   * @return The destination href of the modification
+   */
+  public Optional<Href> getDestinationUpTo() {
+    return NodeParser.getValueFromExpression("./destination/@upTo", this.node).map(Href::new);
+  }
+
   private Node getOrCreateDestinationNode() {
     return NodeParser.getNodeFromExpression("./destination", this.node)
         .orElseGet(
@@ -74,6 +84,18 @@ public class TextualMod {
    */
   public void setDestinationHref(final String destinationHref) {
     getOrCreateDestinationNode().getAttributes().getNamedItem("href").setNodeValue(destinationHref);
+  }
+
+  /**
+   * Updates the href attribute of the destination node within the modification
+   *
+   * @param destinationUpTo - the destination href of the last to be replaced element
+   */
+  public void setDestinationUpTo(final String destinationUpTo) {
+    if (destinationUpTo != null) {
+      Element element = (Element) getOrCreateDestinationNode();
+      element.setAttribute("upTo", destinationUpTo);
+    }
   }
 
   /**

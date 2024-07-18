@@ -21,6 +21,8 @@ public interface UpdateActiveModificationsUseCase {
    * @param amendingNorm The amendingNorm containing activeModifications, that should be updated
    * @param eId the eId of the akn:mod within the amending norm
    * @param destinationHref - the ELI + eid + character range of the target norm
+   * @param destinationUpTo - the ELI + eid of last element in the target norm that should be
+   *     replaced
    * @param timeBoundaryEid - the eId of the temporal group of the time boundary
    * @param newContent - the new text to replace the old one
    */
@@ -28,6 +30,7 @@ public interface UpdateActiveModificationsUseCase {
       Norm amendingNorm,
       String eId,
       String destinationHref,
+      String destinationUpTo,
       String timeBoundaryEid,
       String newContent) {}
 }

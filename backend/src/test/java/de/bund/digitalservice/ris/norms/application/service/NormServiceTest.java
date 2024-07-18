@@ -594,6 +594,7 @@ class NormServiceTest {
                           "refersTo",
                           "time-boundary-eid",
                           "destinanation-href",
+                          null,
                           "new text")));
 
       assertThat(throwable).isInstanceOf(NormNotFoundException.class);
@@ -619,6 +620,7 @@ class NormServiceTest {
                   "refersTo",
                   "time-boundary-eid",
                   "#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE",
+                  null,
                   "new text"));
 
       // Then
@@ -674,6 +676,7 @@ class NormServiceTest {
               "refersTo",
               newTimeBoundaryEid, // <- this will be set
               newDestinationHref, // <- this will be set in ActivMods AND mod
+              null,
               newContent,
               false));
 
@@ -717,6 +720,7 @@ class NormServiceTest {
                   "refersTo",
                   newTimeBoundaryEid, // <- this will be set
                   newDestinationHref, // <- this will be set in ActivMods AND mod
+                  null,
                   newContent,
                   false));
 
