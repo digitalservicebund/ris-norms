@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import ExpandMoreIcon from "~icons/ic/baseline-expand-more"
+import IcBaselineChevronRight from "~icons/ic/baseline-chevron-right"
 
 const props = defineProps<{
   /** ELI of the norm. */
@@ -63,7 +63,7 @@ const frbrDateVerkuendungGerman = computed(() => {
     </div>
 
     <button class="text-blue-800">
-      <ExpandMoreIcon class="h-24 w-24" />
+      <IcBaselineChevronRight class="h-24 w-24" />
       <span class="sr-only">Details anzeigen</span>
     </button>
   </div>

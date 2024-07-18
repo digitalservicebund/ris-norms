@@ -16,8 +16,8 @@ onUnmounted(() => cleanupBreadcrumbs())
 </script>
 
 <template>
-  <div class="p-40">
-    <h1 class="ds-heading-02-reg mb-40">Enthaltene Artikel</h1>
+  <div class="p-24">
+    <h1 class="ds-heading-02-reg mb-24">Enthaltene Artikel</h1>
     <div v-if="isFetching" class="flex items-center justify-center">
       <RisLoadingSpinner />
     </div>

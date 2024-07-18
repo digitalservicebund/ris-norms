@@ -1,8 +1,8 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="p-40">
-    <h1 class="ds-heading-02-reg mb-40">
+  <div class="p-24">
+    <h1 class="ds-heading-02-reg mb-24">
       <span class="font-bold">404</span> - Seite nicht gefunden
     </h1>
     <div class="flex w-full flex-col gap-12 md:w-1/2">

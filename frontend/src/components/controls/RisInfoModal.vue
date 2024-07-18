@@ -26,7 +26,7 @@ withDefaults(
 </script>
 
 <template>
-  <div class="mt-32 flex w-full justify-between gap-24 bg-blue-200 p-24">
+  <div class="mt-16 flex w-full justify-between gap-24 bg-blue-200 p-24">
     <div class="flex flex-col">
       <span class="ds-label-02-bold">{{ title }}</span>
       <span class="ds-body-01-reg">{{ description }}</span>

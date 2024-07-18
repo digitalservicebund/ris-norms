@@ -146,17 +146,17 @@ watch(
   -->
   <div
     v-if="props.selectedMods.length === 1"
-    class="col-span-1 mt-32 flex max-h-full flex-col items-center justify-center gap-8 pb-40"
+    class="col-span-1 mt-32 flex max-h-full flex-col items-center justify-center gap-8 pb-24"
   >
     <RisLoadingSpinner></RisLoadingSpinner>
   </div>
 
   <section
     v-else
-    class="col-span-1 mt-32 flex max-h-full flex-col gap-8 pb-40"
+    class="col-span-1 flex max-h-full flex-col gap-8 pb-24"
     aria-labelledby="originalArticleTitle"
   >
-    <h3 id="originalArticleTitle" class="ds-label-02-bold">
+    <h3 id="originalArticleTitle" class="ds-label-02-bold mb-6">
       {{ props.selectedMods.length }} Änderungsbefehle bearbeiten
     </h3>
 
@@ -185,7 +185,7 @@ watch(
       />
     </div>
 
-    <form v-else class="grid grid-cols-1 gap-y-20">
+    <form v-else class="grid grid-cols-1 gap-y-12">
       <div class="grid grid-cols-2 gap-x-40">
         <RisDropdownInput
           id="timeBoundaries"
@@ -196,7 +196,7 @@ watch(
         />
       </div>
 
-      <div class="flex gap-20">
+      <div class="flex">
         <RisTextButton
           label="Vorschau"
           variant="tertiary"
@@ -204,7 +204,7 @@ watch(
           @click.prevent="preview"
         />
 
-        <div class="relative">
+        <div class="relative ml-auto">
           <RisTooltip
             v-slot="{ ariaDescribedby }"
             :visible="isUpdatingFinished"
@@ -230,15 +230,18 @@ watch(
     </form>
   </section>
 
-  <div v-if="timeBoundary === 'multiple'" class="col-span-1 flex-grow">
+  <div
+    v-if="timeBoundary === 'multiple'"
+    class="col-span-1 mt-[62px] flex-grow"
+  >
     <RisEmptyState
       text-content="Eine Vorschau kann nur für Änderungsbefehle mit der selben Zeitgrenze generiert werden."
-      class="mt-[85px] h-fit"
+      class="h-fit"
     />
   </div>
   <section
     v-else
-    class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-40"
+    class="col-span-1 mt-24 flex max-h-full flex-col gap-8 overflow-hidden pb-24"
     aria-labelledby="changedArticlePreview"
   >
     <h3 id="changedArticlePreview" class="ds-label-02-bold">Vorschau</h3>
