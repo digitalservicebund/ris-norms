@@ -165,8 +165,8 @@ watch(
 </script>
 
 <template>
-  <form :id="id" class="grid grid-cols-1 gap-y-20">
-    <div class="grid grid-cols-2 gap-x-40">
+  <form :id="id" class="grid grid-cols-1 gap-y-12">
+    <div class="grid grid-cols-2 gap-x-16">
       <RisDropdownInput
         id="timeBoundaries"
         v-model="selectedElement"
@@ -279,14 +279,14 @@ watch(
       />
     </template>
 
-    <div class="flex gap-20">
+    <div class="flex">
       <RisTextButton
         label="Vorschau"
         variant="tertiary"
         @click.prevent="$emit('generate-preview')"
       />
 
-      <div class="relative">
+      <div class="relative ml-auto">
         <RisTooltip
           v-slot="{ ariaDescribedby }"
           :visible="isUpdatingFinished"

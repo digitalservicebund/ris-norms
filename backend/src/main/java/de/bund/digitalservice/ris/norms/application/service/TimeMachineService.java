@@ -156,7 +156,6 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     final Node parentNode = targetNode.getParentNode();
     targetNode.getParentNode().replaceChild(newChildFragment, targetNode);
 
-    // TODO test for this behaviour
     final String quotedStructureEid = EId.fromMandatoryNode(mod.getQuotedStructure().get()).value();
     final String targetParentNodeEid = EId.fromMandatoryNode(parentNode).value();
     EidConsistencyGuardian.correctRootParentEid(

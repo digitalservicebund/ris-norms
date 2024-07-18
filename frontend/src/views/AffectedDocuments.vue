@@ -18,8 +18,8 @@ onUnmounted(() => cleanupBreadcrumbs())
 </script>
 
 <template>
-  <div class="p-40">
-    <h1 class="ds-heading-02-reg mb-40">Betroffene Normenkomplexe</h1>
+  <div class="p-24">
+    <h1 class="ds-heading-02-reg mb-24">Betroffene Normenkomplexe</h1>
 
     <div v-if="isFetching" class="mt-20 flex items-center justify-center">
       <RisLoadingSpinner></RisLoadingSpinner>
@@ -32,7 +32,7 @@ onUnmounted(() => cleanupBreadcrumbs())
       />
     </div>
 
-    <ul v-else>
+    <ul v-else class="space-y-16">
       <RisAffectedDocumentPanel
         v-for="{ eli: affectedDocumentEli, zf0Eli } in affectedDocuments"
         :key="affectedDocumentEli"

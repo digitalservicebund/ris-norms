@@ -98,7 +98,7 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
 </script>
 
 <template>
-  <div class="flex flex-col p-40">
+  <div class="flex flex-col p-24">
     <section class="flex flex-col gap-20">
       <h1 class="ds-heading-02-reg">Abgabe</h1>
 

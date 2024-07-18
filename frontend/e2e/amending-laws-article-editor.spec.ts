@@ -28,7 +28,7 @@ test.describe("Url and selecting works", () => {
     )
 
     await expect(
-      page.getByText("Wählen sie einen Änderungsbefehl zur Bearbeitung aus."),
+      page.getByText("Wählen Sie einen Änderungsbefehl zur Bearbeitung aus."),
     ).toBeVisible()
   })
 
@@ -52,7 +52,7 @@ test.describe("Url and selecting works", () => {
     )
 
     const amendingLawSection = page.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection.getByText("§ 1 Absatz 1 Satz 1").click()
@@ -68,7 +68,7 @@ test.describe("Url and selecting works", () => {
     )
 
     const amendingLawSection = page.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection.getByText("wie folgt geändert").click()
@@ -84,7 +84,7 @@ test.describe("Url and selecting works", () => {
     )
 
     const amendingLawSection = page.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection
@@ -109,7 +109,7 @@ test.describe("Url and selecting works", () => {
     )
 
     const amendingLawSection = page.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection
@@ -139,7 +139,7 @@ test.describe("Url and selecting works", () => {
     )
 
     const amendingLawSection = page.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection.getByText("§ 1 Absatz 2 Satz 1").click()
@@ -161,7 +161,7 @@ test.describe("Url and selecting works", () => {
     )
 
     const amendingLawSection = page.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection
@@ -202,14 +202,8 @@ test.describe("Loading amending norm details", () => {
     )
 
     const amendingLawSection = page.getByRole("region", {
-      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+      name: "Änderungsbefehle",
     })
-
-    await expect(
-      amendingLawSection.getByText(
-        "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
-      ),
-    ).toBeVisible()
 
     await expect(
       amendingLawSection.getByRole("tab", { name: "xml" }),
@@ -231,7 +225,7 @@ test.describe("Loading amending norm details", () => {
     )
 
     const textContent = page.getByText(
-      "Wählen sie einen Änderungsbefehl zur Bearbeitung aus.",
+      "Wählen Sie einen Änderungsbefehl zur Bearbeitung aus.",
     )
     await expect(textContent).toBeVisible()
   })
@@ -301,7 +295,7 @@ test.describe("Editing a single mod", () => {
     )
 
     const amendingLawSection = sharedPage.getByRole("region", {
-      name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
@@ -387,7 +381,7 @@ test.describe("Editing a single mod", () => {
 
     test(`rendering the preview by default when clicking on a command`, async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
-        name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+        name: "Änderungsbefehle",
       })
       await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
       const previewSection = sharedPage.getByRole("region", {
@@ -411,7 +405,7 @@ test.describe("Editing a single mod", () => {
 
     test(`editing and saving the quotedTextSecondElement`, async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
-        name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+        name: "Änderungsbefehle",
       })
 
       await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
@@ -434,7 +428,7 @@ test.describe("Editing a single mod", () => {
 
     test(`preview of text to be replaced in xml`, async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
-        name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+        name: "Änderungsbefehle",
       })
       const modFormSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehl bearbeiten",
@@ -467,7 +461,7 @@ test.describe("Editing a single mod", () => {
 
     test(`editing and saving the eid mod change`, async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
-        name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+        name: "Änderungsbefehle",
       })
 
       await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
@@ -511,7 +505,7 @@ test.describe("Editing a single mod", () => {
       )
 
       const amendingLawSection = sharedPage.getByRole("region", {
-        name: "Änderungsbefehle Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes",
+        name: "Änderungsbefehle",
       })
 
       await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
@@ -581,7 +575,7 @@ test.describe("Editing multiple mods", () => {
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
     const amendingLawSection = sharedPage.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection.getByText("1. Fall").click()
@@ -612,7 +606,7 @@ test.describe("Editing multiple mods", () => {
     )
 
     const amendingLawSection = sharedPage.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection.getByText("1. Fall").click()
@@ -635,7 +629,7 @@ test.describe("Editing multiple mods", () => {
     )
 
     const amendingLawSection = sharedPage.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection.getByText("1. Fall").click()
@@ -663,7 +657,7 @@ test.describe("Editing multiple mods", () => {
     )
 
     const amendingLawSection = sharedPage.getByRole("region", {
-      name: "Änderungsbefehle Gesetz zur Änderung des Beispielgesetzes",
+      name: "Änderungsbefehle",
     })
 
     await amendingLawSection.getByText("1. Fall").click()

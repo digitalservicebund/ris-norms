@@ -118,28 +118,28 @@ const {
   <!-- eslint-disable vuejs-accessibility/label-has-for -->
   <div
     v-if="elementIsLoading"
-    class="flex h-full items-center justify-center p-40"
+    class="flex h-full items-center justify-center p-24"
   >
     <RisLoadingSpinner />
   </div>
 
-  <div v-else-if="elementError" class="p-40">
+  <div v-else-if="elementError" class="p-24">
     <RisCallout
       variant="error"
       title="Das Element konnte nicht geladen werden."
     />
   </div>
 
-  <div v-else class="flex flex-col overflow-hidden p-40">
+  <div v-else class="flex flex-col overflow-hidden p-24">
     <div class="flex gap-16">
       <div class="flex-grow">
-        <h2 class="ds-heading-03-reg">
+        <h2 class="ds-label-02-bold">
           {{ element?.title }}
         </h2>
       </div>
     </div>
 
-    <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-32">
+    <div class="gap grid min-h-0 flex-grow grid-cols-2 grid-rows-1 gap-16">
       <section class="mt-32 flex flex-col gap-8" aria-label="Vorschau">
         <div v-if="renderIsLoading" class="my-16 flex justify-center">
           <RisLoadingSpinner />
