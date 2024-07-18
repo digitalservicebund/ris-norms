@@ -1,3 +1,4 @@
+import { captureException } from "@sentry/vue"
 import { createFetch, UseFetchReturn } from "@vueuse/core"
 import type { Router } from "vue-router"
 
@@ -76,6 +77,10 @@ export const useApiFetch = createFetch({
           error: null,
         }
       }
+
+      // Report error and attach Sentry event ID so we can display it in the UI
+      const eventId = captureException(fetchContext)
+      if (fetchContext.error) fetchContext.error.sentryEventId = eventId
 
       return fetchContext
     },
