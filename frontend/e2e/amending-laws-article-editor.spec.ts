@@ -694,15 +694,105 @@ test.describe("Editing multiple mods", () => {
 })
 
 test.describe("Quoted Structure", () => {
-  test(`Navigation to url with selected mod opens editor with selected mod`, async ({
-    page,
-  }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1",
-    )
+  test.describe("Navigation", () => {
+    test(`Navigation to url with selected mod opens editor with selected mod`, async ({
+      page,
+    }) => {
+      await page.goto(
+        "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1",
+      )
 
-    await expect(page.getByTestId("replacingElement")).toHaveText(
-      "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen (Strukturänderungsgesetz)",
-    )
+      await expect(page.getByTestId("replacingElement")).toHaveText(
+        "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen (Strukturänderungsgesetz)",
+      )
+    })
+  })
+
+  test.describe("Mod details", () => {
+    async function restoreInitialState(page: Page) {
+      const originalModState: ModData = {
+        refersTo: "aenderungsbefehl-ersetzen",
+        timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-2",
+        destinationHref:
+          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml",
+        newContent: "NOT USED",
+      }
+
+      await page.request.put(
+        "/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1",
+        { data: originalModState },
+      )
+    }
+
+    let sharedPage: Page
+    test.beforeAll(async ({ browser }) => {
+      sharedPage = await browser.newPage()
+      await restoreInitialState(sharedPage)
+    })
+
+    test.afterAll(async () => {
+      await restoreInitialState(sharedPage)
+    })
+
+    test("Loading of mod details with correct input values", async () => {
+      await sharedPage.goto(
+        "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
+      )
+
+      const amendingLawSection = sharedPage.getByRole("region", {
+        name: "Änderungsbefehle Erstes Gesetz zur Änderung des Strukturänderungsgesetzes",
+      })
+
+      await amendingLawSection.getByText("Fiktives Beispielgesetz").click()
+
+      await expect(
+        sharedPage.getByRole("heading", {
+          level: 3,
+          name: "Änderungsbefehl bearbeiten",
+        }),
+      ).toBeVisible()
+
+      const modFormSection = sharedPage.getByRole("region", {
+        name: "Änderungsbefehl bearbeiten",
+      })
+      await expect(modFormSection).toBeVisible()
+
+      // Textual Mode Type
+      const textualModeTypeElement = modFormSection.getByRole("textbox", {
+        name: "Änderungstyp",
+      })
+      await expect(textualModeTypeElement).toBeVisible()
+      await expect(textualModeTypeElement).toHaveValue("Ersetzen")
+      await expect(textualModeTypeElement).toHaveAttribute("readonly", "")
+
+      // Time Boundaries
+      const timeBoundariesElement = modFormSection.getByRole("combobox", {
+        name: "Zeitgrenze",
+      })
+      await expect(timeBoundariesElement).toBeVisible()
+      await expect(timeBoundariesElement).toHaveValue("1002-01-11")
+
+      const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
+      await expect(timeBoundaryOptionElements).toHaveCount(3)
+
+      // // Destination Href Eli
+      const destinationHrefEliElement = modFormSection.getByRole("textbox", {
+        name: "ELI Zielgesetz",
+      })
+      await expect(destinationHrefEliElement).toBeVisible()
+      await expect(destinationHrefEliElement).toHaveValue(
+        "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu",
+      )
+      await expect(destinationHrefEliElement).toHaveAttribute("readonly", "")
+
+      // TODO zu ersetzendes Element
+
+      await expect(sharedPage.getByTestId("replacingElement")).toHaveText(
+        "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen (Strukturänderungsgesetz)",
+      )
+    })
+
+    // TODO update mod details
+    // test.skip("Update mod details", async () => {})
   })
 })
