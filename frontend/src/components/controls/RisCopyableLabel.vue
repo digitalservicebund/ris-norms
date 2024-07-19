@@ -51,7 +51,7 @@ async function copy() {
     @click="copy()"
   >
     {{ text }}
-    <IcBaselineContentCopy v-if="!copySuccess" />
-    <IcBaselineCheck v-else />
+    <IcBaselineContentCopy v-if="!copySuccess" class="flex-none" />
+    <IcBaselineCheck v-else class="flex-none" />
   </button>
 </template>
