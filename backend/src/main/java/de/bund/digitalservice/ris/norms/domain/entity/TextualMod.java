@@ -43,12 +43,21 @@ public class TextualMod {
   }
 
   /**
-   * Returns the destination href as {@link String}.
+   * Returns the destination href as {@link Href}.
    *
    * @return The destination href of the modification
    */
   public Optional<Href> getDestinationHref() {
     return NodeParser.getValueFromExpression("./destination/@href", this.node).map(Href::new);
+  }
+
+  /**
+   * Returns the destination upTo as {@link Href}.
+   *
+   * @return The destination upTo of the modification
+   */
+  public Optional<Href> getDestinationUpTo() {
+    return NodeParser.getValueFromExpression("./destination/@upTo", this.node).map(Href::new);
   }
 
   private Node getOrCreateDestinationNode() {
