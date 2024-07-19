@@ -4,7 +4,7 @@ flyway = "10.15.2"
 jacoco = "0.8.11"
 org-bouncycastle = "1.78.1"
 org-testcontainers = "1.19.8"
-spring-boot = "3.3.1"
+spring-boot = "3.3.2"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.3.0"
