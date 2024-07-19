@@ -47,7 +47,8 @@ async function copy() {
   <button
     :aria-label="`${name} in die Zwischenablage kopieren`"
     :title="`${name} in die Zwischenablage kopieren`"
-    class="ds-link-02-reg inline-flex items-center gap-4"
+    class="ds-link-02-reg inline-flex items-center gap-4 text-left"
+    type="button"
     @click="copy()"
   >
     {{ text }}
