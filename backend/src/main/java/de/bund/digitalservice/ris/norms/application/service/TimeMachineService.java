@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -131,7 +132,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               }
               if (modData.oldText().isPresent()) applyQuotedText(modData, targetNode.get());
               if (modData.quotedStructure().isPresent())
-                applyQuotedStructure(modData, targetNode.get());
+                applyQuotedStructure(modData, targetNode.get(), norm);
             });
 
     return norm;
@@ -156,8 +157,24 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     nodeToChange.setTextContent(modifiedTextContent);
   }
 
-  private void applyQuotedStructure(final ModData modData, final Node targetNode) {
+  private void applyQuotedStructure(
+      final ModData modData, final Node targetNode, final Norm targetZf0Norm) {
     if (modData.quotedStructure().isEmpty()) return;
+
+    Optional<Node> upToTargetNode = Optional.empty();
+    if (modData.targetUpToRef().isPresent()) {
+      if (modData.targetUpToRef().get().getEId().isEmpty()) {
+        return;
+      } else {
+        final var upToTargetNodeEid = modData.targetUpToRef().get().getEId().get();
+        upToTargetNode =
+            NodeParser.getNodeFromExpression(
+                String.format("//*[@eId='%s']", upToTargetNodeEid), targetZf0Norm.getDocument());
+        if (upToTargetNode.isEmpty()) {
+          return;
+        }
+      }
+    }
 
     final List<Node> newQuotedStructureContent =
         NodeParser.nodeListToList(modData.quotedStructure().get().getChildNodes());
@@ -169,8 +186,20 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
           newChildFragment.appendChild(importedChild);
         });
 
+    // Collect nodes to be replaced
+    final List<Node> nodesToReplace = new ArrayList<>();
+    nodesToReplace.add(targetNode);
+    Node currentNode = targetNode.getNextSibling();
+    while (currentNode != null
+        && (upToTargetNode.isPresent() && currentNode != upToTargetNode.get())) {
+      nodesToReplace.add(currentNode);
+      currentNode = currentNode.getNextSibling();
+    }
+    // Delete nodes that should be replaced
     final Node parentNode = targetNode.getParentNode();
-    targetNode.getParentNode().replaceChild(newChildFragment, targetNode);
+    nodesToReplace.forEach(parentNode::removeChild);
+    // Insert fragment with new nodes
+    parentNode.insertBefore(newChildFragment, currentNode);
 
     final String quotedStructureEid =
         EId.fromMandatoryNode(modData.quotedStructure().get()).value();
