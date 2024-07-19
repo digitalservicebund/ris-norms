@@ -24,6 +24,12 @@ test.describe("Validation errors on check modifications page", () => {
       page.getByText("Die Vorschau konnte nicht erzeugt werden."),
     ).toBeVisible()
 
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
+
     await page.getByRole("button", { name: "Speichern" }).click()
 
     await expect(page.getByText("Fehler beim Speichern")).toBeVisible()
@@ -52,6 +58,12 @@ test.describe("Validation errors on check modifications page", () => {
       page.getByText("Die Vorschau konnte nicht erzeugt werden."),
     ).toBeVisible()
 
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
+
     await page.getByRole("button", { name: "Speichern" }).click()
 
     await expect(page.getByText("Fehler beim Speichern")).toBeVisible()
@@ -78,6 +90,12 @@ test.describe("Validation errors on check modifications page", () => {
 
     await expect(
       page.getByText("Die Vorschau konnte nicht erzeugt werden."),
+    ).toBeVisible()
+
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
     ).toBeVisible()
 
     await page.getByRole("button", { name: "Speichern" }).click()

@@ -159,6 +159,12 @@ test.describe("preview", () => {
       previewRegion.getByText("Die Vorschau konnte nicht geladen werden."),
     ).toBeVisible()
 
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
+
     // Cleanup
     await page.unrouteAll()
   })
@@ -245,6 +251,12 @@ test.describe("XML view", () => {
     // Then
     await expect(
       page.getByText("Die XML-Ansicht konnte nicht geladen werden."),
+    ).toBeVisible()
+
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
     ).toBeVisible()
 
     // Cleanup
@@ -877,6 +889,12 @@ test.describe("metadata view", () => {
     // Then
     await expect(
       sharedPage.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
+    ).toBeVisible()
+
+    await expect(
+      sharedPage.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
     ).toBeVisible()
 
     await sharedPage.unrouteAll()

@@ -182,6 +182,12 @@ test.describe("Error handling for Temporal Data page", () => {
     await expect(
       page.getByText("Es wurde kein Inkrafttreten-Artikel gefunden."),
     ).toBeVisible()
+
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
   })
 
   test("displays error tooltip when API call to save timeboundaries is called with an empty input field", async ({
@@ -205,5 +211,11 @@ test.describe("Error handling for Temporal Data page", () => {
     await page.getByRole("button", { name: "Speichern" }).click()
 
     await expect(page.getByText("Fehler beim Speichern")).toBeVisible()
+
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
   })
 })

@@ -51,5 +51,11 @@ test("should display a loading error message when the API call fails", async ({
     page.getByText("Der Text der Verkündung konnte nicht geladen werden."),
   ).toBeVisible()
 
+  await expect(
+    page.getByRole("button", {
+      name: "Fehler-ID in die Zwischenablage kopieren",
+    }),
+  ).toBeVisible()
+
   await page.unrouteAll()
 })

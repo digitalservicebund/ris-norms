@@ -32,6 +32,12 @@ test.describe("Redirect and start page content", () => {
     await expect(
       page.getByText("Die Liste der Verkündungen konnte nicht geladen werden."),
     ).toBeVisible()
+
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
   })
 })
 

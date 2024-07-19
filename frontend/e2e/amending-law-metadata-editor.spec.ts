@@ -30,6 +30,12 @@ test.describe("navigate to page", () => {
       page.getByText("Die Zeitgrenzen konnten nicht geladen werden."),
     ).toBeVisible()
 
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
+
     await page.unrouteAll()
   })
 
