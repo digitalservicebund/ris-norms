@@ -2,6 +2,7 @@
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisTemporalDataIntervals from "@/components/RisTemporalDataIntervals.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
@@ -56,7 +57,15 @@ onUnmounted(() => cleanupBreadcrumbs())
         <RisCallout
           title="Es wurde kein Inkrafttreten-Artikel gefunden."
           variant="error"
-        />
+        >
+          <p v-if="entryIntoForceError.sentryEventId">
+            Fehler-ID:
+            <RisCopyableLabel
+              :text="entryIntoForceError.sentryEventId"
+              name="Fehler-ID"
+            />
+          </p>
+        </RisCallout>
       </div>
     </template>
 
@@ -65,7 +74,15 @@ onUnmounted(() => cleanupBreadcrumbs())
         <RisCallout
           title="Zeitgrenzen konnten nicht geladen werden."
           variant="error"
-        />
+        >
+          <p v-if="loadTimeBoundariesError.sentryEventId">
+            Fehler-ID:
+            <RisCopyableLabel
+              :text="loadTimeBoundariesError.sentryEventId"
+              name="Fehler-ID"
+            />
+          </p>
+        </RisCallout>
       </div>
     </template>
 

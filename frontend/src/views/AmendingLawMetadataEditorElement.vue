@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisRadioInput from "@/components/controls/RisRadioInput.vue"
@@ -127,7 +128,12 @@ const {
     <RisCallout
       variant="error"
       title="Das Element konnte nicht geladen werden."
-    />
+    >
+      <p v-if="elementError.sentryEventId">
+        Fehler-ID:
+        <RisCopyableLabel :text="elementError.sentryEventId" name="Fehler-ID" />
+      </p>
+    </RisCallout>
   </div>
 
   <div v-else class="flex flex-col overflow-hidden p-24">
@@ -149,7 +155,15 @@ const {
           v-else-if="renderError"
           variant="error"
           title="Die Vorschau konnte nicht geladen werden."
-        />
+        >
+          <p v-if="renderError.sentryEventId">
+            Fehler-ID:
+            <RisCopyableLabel
+              :text="renderError.sentryEventId"
+              name="Fehler-ID"
+            />
+          </p>
+        </RisCallout>
 
         <RisLawPreview
           v-else
@@ -175,7 +189,15 @@ const {
               v-else-if="fetchError"
               variant="error"
               title="Die Metadaten konnten nicht geladen werden."
-            />
+            >
+              <p v-if="fetchError.sentryEventId">
+                Fehler-ID:
+                <RisCopyableLabel
+                  :text="fetchError.sentryEventId"
+                  name="Fehler-ID"
+                />
+              </p>
+            </RisCallout>
 
             <form
               v-else
@@ -225,7 +247,15 @@ const {
               v-else-if="xmlError"
               variant="error"
               title="Die XML-Ansicht konnte nicht geladen werden."
-            />
+            >
+              <p v-if="xmlError.sentryEventId">
+                Fehler-ID:
+                <RisCopyableLabel
+                  :text="xmlError.sentryEventId"
+                  name="Fehler-ID"
+                />
+              </p>
+            </RisCallout>
 
             <RisCodeEditor
               :model-value="xml ?? ''"
