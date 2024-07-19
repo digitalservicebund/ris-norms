@@ -269,7 +269,6 @@ const {
         <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
           <div class="relative">
             <RisTooltip
-              v-slot="{ ariaDescribedby }"
               :title="
                 hasSaved && saveError
                   ? 'Speichern fehlgeschlagen'
@@ -281,13 +280,24 @@ const {
               alignment="right"
               attachment="bottom"
             >
-              <RisTextButton
-                :aria-describedby
-                :disabled="isFetching || !!fetchError"
-                :loading="isSaving"
-                label="Speichern"
-                @click="save()"
-              />
+              <template #default="{ ariaDescribedby }">
+                <RisTextButton
+                  :aria-describedby
+                  :disabled="isFetching || !!fetchError"
+                  :loading="isSaving"
+                  label="Speichern"
+                  @click="save()"
+                />
+              </template>
+
+              <template #message>
+                <RisCopyableLabel
+                  v-if="saveError?.sentryEventId"
+                  name="Fehler-ID"
+                  text="Fehler-ID kopieren"
+                  :value="saveError?.sentryEventId"
+                />
+              </template>
             </RisTooltip>
           </div>
         </Teleport>

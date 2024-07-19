@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput from "@/components/controls/RisDropdownInput.vue"
-import RisTextInput from "@/components/controls/RisTextInput.vue"
-import { computed, nextTick, ref, watch } from "vue"
 import RisTextAreaInput from "@/components/controls/RisTextAreaInput.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
-import CheckIcon from "~icons/ic/check"
-import { ModType } from "@/types/ModType"
-import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
+import { ModType } from "@/types/ModType"
+import { TemporalDataResponse } from "@/types/temporalDataResponse"
+import { computed, nextTick, ref, watch } from "vue"
+import CheckIcon from "~icons/ic/check"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -23,7 +24,7 @@ const props = defineProps<{
   quotedStructureContent?: string | null
   isUpdating?: boolean
   isUpdatingFinished?: boolean
-  updateError?: Error
+  updateError?: any // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are `any`
   targetLawHtmlHtml?: string
 }>()
 
@@ -288,7 +289,6 @@ watch(
 
       <div class="relative ml-auto">
         <RisTooltip
-          v-slot="{ ariaDescribedby }"
           :visible="isUpdatingFinished"
           :title="
             updateError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'
@@ -298,13 +298,24 @@ watch(
           :variant="updateError ? 'error' : 'success'"
           allow-dismiss
         >
-          <RisTextButton
-            :aria-describedby="ariaDescribedby"
-            label="Speichern"
-            :icon="CheckIcon"
-            :loading="isUpdating"
-            @click.prevent="$emit('update-mod')"
-          />
+          <template #default="{ ariaDescribedby }">
+            <RisTextButton
+              :aria-describedby="ariaDescribedby"
+              label="Speichern"
+              :icon="CheckIcon"
+              :loading="isUpdating"
+              @click.prevent="$emit('update-mod')"
+            />
+          </template>
+
+          <template #message>
+            <RisCopyableLabel
+              v-if="updateError?.sentryEventId"
+              name="Fehler-ID"
+              text="Fehler-ID kopieren"
+              :value="updateError?.sentryEventId"
+            />
+          </template>
         </RisTooltip>
       </div>
     </div>

@@ -215,24 +215,34 @@ watch(
 
         <div class="relative ml-auto">
           <RisTooltip
-            v-slot="{ ariaDescribedby }"
             :visible="isUpdatingFinished"
             :title="
-              saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'
+              saveError ? 'Fehler beim Speichern yo' : 'Speichern erfolgreich'
             "
             alignment="right"
             attachment="top"
             :variant="saveError ? 'error' : 'success'"
             allow-dismiss
           >
-            <RisTextButton
-              :aria-describedby="ariaDescribedby"
-              label="Speichern"
-              :icon="CheckIcon"
-              :loading="isUpdating"
-              :disabled="timeBoundary === 'multiple'"
-              @click.prevent="update"
-            />
+            <template #default="{ ariaDescribedby }">
+              <RisTextButton
+                :aria-describedby="ariaDescribedby"
+                label="Speichern"
+                :icon="CheckIcon"
+                :loading="isUpdating"
+                :disabled="timeBoundary === 'multiple'"
+                @click.prevent="update"
+              />
+            </template>
+
+            <template #message>
+              <RisCopyableLabel
+                v-if="saveError?.sentryEventId"
+                name="Fehler-ID"
+                text="Fehler-ID kopieren"
+                :value="saveError?.sentryEventId"
+              />
+            </template>
           </RisTooltip>
         </div>
       </div>
