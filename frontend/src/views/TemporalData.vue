@@ -87,7 +87,7 @@ onUnmounted(() => cleanupBreadcrumbs())
     </template>
 
     <template v-else-if="entryIntoForceArticleHtml">
-      <div class="relative col-span-3 mb-40 flex items-center justify-between">
+      <div class="relative col-span-3 mb-24 flex items-center justify-between">
         <h1 class="ds-heading-02-reg">Zeitgrenzen anlegen</h1>
       </div>
 
@@ -107,7 +107,6 @@ onUnmounted(() => cleanupBreadcrumbs())
     <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
       <div class="relative">
         <RisTooltip
-          v-slot="{ ariaDescribedby }"
           :title="saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'"
           :variant="saveError ? 'error' : 'success'"
           :visible="isSavingFinished"
@@ -115,13 +114,24 @@ onUnmounted(() => cleanupBreadcrumbs())
           alignment="right"
           attachment="bottom"
         >
-          <RisTextButton
-            :aria-describedby="ariaDescribedby"
-            :disabled="isFetchingTemporalData || isFetchingEntryIntoForce"
-            :loading="isSaving"
-            label="Speichern"
-            @click="saveTemporalData"
-          />
+          <template #default="{ ariaDescribedby }">
+            <RisTextButton
+              :aria-describedby="ariaDescribedby"
+              :disabled="isFetchingTemporalData || isFetchingEntryIntoForce"
+              :loading="isSaving"
+              label="Speichern"
+              @click="saveTemporalData"
+            />
+          </template>
+
+          <template #message>
+            <RisCopyableLabel
+              v-if="saveError?.sentryEventId"
+              name="Fehler-ID"
+              text="Fehler-ID kopieren"
+              :value="saveError?.sentryEventId"
+            />
+          </template>
         </RisTooltip>
       </div>
     </Teleport>

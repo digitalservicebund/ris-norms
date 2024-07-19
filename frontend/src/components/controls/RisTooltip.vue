@@ -1,17 +1,13 @@
 <script setup lang="ts">
 import { useElementId } from "@/composables/useElementId"
-import { computed } from "vue"
+import { useElementSize } from "@vueuse/core"
+import { computed, ref } from "vue"
 import RisCallout from "./RisCallout.vue"
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     /** Title of the tooltip. */
     title: string
-
-    /**
-     * Content of the tooltip.
-     */
-    content?: string
 
     /**
      * Visual variant of the tooltip.
@@ -65,6 +61,8 @@ const slots = defineSlots<{
      */
     ariaDescribedby: string
   }): any // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  message(): any // eslint-disable-line @typescript-eslint/no-explicit-any
 }>()
 
 const hasChildren = computed(() => Boolean(slots.default))
@@ -77,6 +75,27 @@ const hasChildren = computed(() => Boolean(slots.default))
 const visible = defineModel<boolean>("visible", { default: true })
 
 const { ariaId } = useElementId("tooltip")
+
+/* -------------------------------------------------- *
+ * Positioning                                        *
+ * -------------------------------------------------- */
+
+const contentEl = ref<HTMLElement | null>(null)
+const { height: contentHeight } = useElementSize(contentEl)
+
+const calloutEl = ref<HTMLElement | null>(null)
+const { height: calloutHeight } = useElementSize(calloutEl)
+
+const translate = computed(() => {
+  if (!hasChildren.value) return undefined
+  else if (props.attachment === "bottom") {
+    // Content size + arrow size
+    return `0 ${contentHeight.value + 8}px`
+  } else if (props.attachment === "top") {
+    // Content size + arrow size + padding
+    return `0 -${calloutHeight.value + 8 + 32}px`
+  } else return undefined
+})
 </script>
 
 <template>
@@ -86,22 +105,20 @@ const { ariaId } = useElementId("tooltip")
       :id="ariaId"
       :data-alignment="alignment"
       :data-attachment="attachment"
-      class="group inline-block data-[alignment=left]:left-0 data-[alignment=right]:right-0"
-      :class="{
-        absolute: hasChildren,
-        'translate-y-full': hasChildren && attachment === 'bottom',
-        '-translate-y-[calc(100%+8px)]': hasChildren && attachment === 'top',
-      }"
+      class="group inline-block w-max data-[alignment=left]:left-0 data-[alignment=right]:right-0"
+      :class="{ absolute: hasChildren, 'z-10': hasChildren }"
+      :style="{ translate }"
       role="tooltip"
     >
       <RisCallout
+        ref="calloutEl"
         :allow-dismiss
         :title
         :variant
         visible
         @update:visible="visible = false"
       >
-        {{ content }}
+        <slot name="message" />
       </RisCallout>
       <span
         :data-variant="variant"
@@ -109,8 +126,8 @@ const { ariaId } = useElementId("tooltip")
       ></span>
     </span>
 
-    <template v-if="$slots.default">
+    <span v-if="$slots.default" ref="contentEl" class="inline-block">
       <slot :aria-describedby="ariaId" />
-    </template>
+    </span>
   </span>
 </template>
