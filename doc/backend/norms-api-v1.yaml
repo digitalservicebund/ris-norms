@@ -661,6 +661,7 @@ components:
       type: object
       required:
         - refersTo
+        - timeBoundaryEid
         - destinationHref
         - newContent
       properties:
