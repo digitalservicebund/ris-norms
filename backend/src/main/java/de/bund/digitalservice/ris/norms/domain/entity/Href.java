@@ -68,6 +68,19 @@ public record Href(String value) {
   }
 
   /**
+   * Get the eId of the parent element in the href
+   *
+   * @return The parent's eId of the href or empty if no eid is included.
+   */
+  public Optional<String> getParentEId() {
+    Optional<String> wholeEid = getEId();
+    if (wholeEid.isPresent()) {
+      int lastUnderscoreIndex = wholeEid.get().lastIndexOf("_");
+      return Optional.of(wholeEid.get().substring(0, lastUnderscoreIndex));
+    } else return Optional.empty();
+  }
+
+  /**
    * Get the character range of the href
    *
    * @return The character range of the href or empty if no character range is included.

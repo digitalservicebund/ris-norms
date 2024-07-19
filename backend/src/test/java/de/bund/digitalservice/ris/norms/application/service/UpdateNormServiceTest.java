@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -201,7 +202,7 @@ class UpdateNormServiceTest {
   @Nested
   class updateActiveModifications {
     @Test
-    void itChangesDestinationHrefTimeBoundaryEIdAndNewContent() {
+    void itChangesActiveModForQuotedText() {
 
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -242,34 +243,158 @@ class UpdateNormServiceTest {
     }
 
     @Test
-    void itChangesUpTo() {
+    void itChangesActiveModForQuotedStructureRangeMod() {
 
       // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
       String targetNormEli = targetNorm.getEli();
-      String eId = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
       String newDestinationHref =
           targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
       String newDestinationUpTo =
           targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
+      String newTimeBoundaryEid = "#time-boundary-eid";
       String newContent = "new-text";
 
       // When
       var updatedAmendingNorm =
           updateNormService.updateActiveModifications(
               new UpdateActiveModificationsUseCase.Query(
-                  amendingLaw, eId, newDestinationHref, newDestinationUpTo, null, newContent));
+                  amendingLaw,
+                  eId,
+                  newDestinationHref,
+                  newDestinationUpTo,
+                  newTimeBoundaryEid,
+                  newContent));
 
       // Then
-      final TextualMod activeModifications =
+      final Optional<TextualMod> activeModifications =
           updatedAmendingNorm
               .getMeta()
               .getAnalysis()
               .map(Analysis::getActiveModifications)
               .orElse(Collections.emptyList())
-              .getFirst();
-      assertThat(activeModifications.getDestinationUpTo()).contains(new Href(newDestinationUpTo));
+              .stream()
+              .filter(
+                  activeMod ->
+                      activeMod.getSourceHref().get().toString().replace("#", "").equals(eId))
+              .findFirst();
+      assertThat(activeModifications).isPresent();
+      assertThat(activeModifications.get().getForcePeriodEid()).contains(newTimeBoundaryEid);
+      assertThat(activeModifications.get().getDestinationHref())
+          .contains(new Href(newDestinationHref));
+      assertThat(activeModifications.get().getDestinationUpTo())
+          .contains(new Href(newDestinationUpTo));
+    }
+
+    @Test
+    void itChangesActiveModForQuotedStructureSingleTargetMod() {
+
+      // Given
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      String targetNormEli = targetNorm.getEli();
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String newDestinationHref =
+          targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+      String newDestinationUpTo = null;
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      String newContent = "new-text";
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw,
+                  eId,
+                  newDestinationHref,
+                  newDestinationUpTo,
+                  newTimeBoundaryEid,
+                  newContent));
+
+      // Then
+      final Optional<TextualMod> activeModifications =
+          updatedAmendingNorm
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getActiveModifications)
+              .orElse(Collections.emptyList())
+              .stream()
+              .filter(
+                  activeMod ->
+                      activeMod.getSourceHref().get().toString().replace("#", "").equals(eId))
+              .findFirst();
+      assertThat(activeModifications).isPresent();
+      assertThat(activeModifications.get().getDestinationHref())
+          .contains(new Href(newDestinationHref));
+      assertThat(activeModifications.get().getDestinationUpTo()).isNotPresent();
+      assertThat(activeModifications.get().getForcePeriodEid()).contains(newTimeBoundaryEid);
+    }
+
+    @Test
+    void itDeletesUpToInActiveModForQuotedStructureSingleTargetMod() {
+
+      // Given
+      Norm amendingLawSetup = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNormSetup = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      String targetNormEliSetup = targetNormSetup.getEli();
+      String eIdSetup =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String newDestinationHrefSetup =
+          targetNormEliSetup + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+      String newDestinationUpToSetup =
+          targetNormEliSetup + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
+      String newTimeBoundaryEidSetup = "#time-boundary-eid";
+      String newContentSetup = "new-text";
+
+      updateNormService.updateActiveModifications(
+          new UpdateActiveModificationsUseCase.Query(
+              amendingLawSetup,
+              eIdSetup,
+              newDestinationHrefSetup,
+              newDestinationUpToSetup,
+              newTimeBoundaryEidSetup,
+              newContentSetup));
+
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      String targetNormEli = targetNorm.getEli();
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String newDestinationHref =
+          targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+      String newDestinationUpTo = null;
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      String newContent = "new-text";
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw,
+                  eId,
+                  newDestinationHref,
+                  newDestinationUpTo,
+                  newTimeBoundaryEid,
+                  newContent));
+
+      // Then
+      final Optional<TextualMod> activeModifications =
+          updatedAmendingNorm
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getActiveModifications)
+              .orElse(Collections.emptyList())
+              .stream()
+              .filter(
+                  activeMod ->
+                      activeMod.getSourceHref().get().toString().replace("#", "").equals(eId))
+              .findFirst();
+      assertThat(activeModifications).isPresent();
+      assertThat(activeModifications.get().getDestinationHref())
+          .contains(new Href(newDestinationHref));
+      assertThat(activeModifications.get().getDestinationUpTo()).isNotPresent();
+      assertThat(activeModifications.get().getForcePeriodEid()).contains(newTimeBoundaryEid);
     }
   }
 }

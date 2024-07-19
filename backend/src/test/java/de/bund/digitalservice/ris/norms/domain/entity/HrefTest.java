@@ -84,6 +84,28 @@ class HrefTest {
   }
 
   @Nested
+  class getParentEId {
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "#hauptteil-1_para-20_abs-1/100-126",
+          "#hauptteil-1_para-20_abs-1",
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1/100-126.xml",
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1.xml"
+        })
+    void itShouldProvideTheParentEId(String hrefString) {
+      // given
+      var href = new Href(hrefString);
+
+      // when
+      var eId = href.getParentEId();
+
+      // then
+      assertThat(eId).contains("hauptteil-1_para-20");
+    }
+  }
+
+  @Nested
   class getCharacterRange {
     @Test
     void itShouldProvideTheCharacterRangeForRelativeHrefs() {

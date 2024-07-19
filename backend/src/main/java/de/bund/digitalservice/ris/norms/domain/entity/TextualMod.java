@@ -52,15 +52,6 @@ public class TextualMod {
     return NodeParser.getValueFromExpression("./destination/@href", this.node).map(Href::new);
   }
 
-  /**
-   * Returns the destination href as {@link String}.
-   *
-   * @return The destination href of the modification
-   */
-  public Optional<Href> getDestinationUpTo() {
-    return NodeParser.getValueFromExpression("./destination/@upTo", this.node).map(Href::new);
-  }
-
   private Node getOrCreateDestinationNode() {
     return NodeParser.getNodeFromExpression("./destination", this.node)
         .orElseGet(
@@ -78,6 +69,15 @@ public class TextualMod {
   }
 
   /**
+   * Returns the destination href as {@link String}.
+   *
+   * @return The destination href of the modification
+   */
+  public Optional<Href> getDestinationUpTo() {
+    return NodeParser.getValueFromExpression("./destination/@upTo", this.node).map(Href::new);
+  }
+
+  /**
    * Updates the href attribute of the destination node within the modification
    *
    * @param destinationHref - the new destination href of the modification
@@ -87,7 +87,7 @@ public class TextualMod {
   }
 
   /**
-   * Updates the href attribute of the destination node within the modification
+   * Updates the upTo attribute of the destination node within the modification
    *
    * @param destinationUpTo - the destination href of the last to be replaced element
    */
@@ -95,6 +95,13 @@ public class TextualMod {
     if (destinationUpTo != null) {
       Element element = (Element) getOrCreateDestinationNode();
       element.setAttribute("upTo", destinationUpTo);
+    }
+  }
+
+  /** Removes the upTo attribute of the destination node within the modification */
+  public void deleteDestinationUpTo() {
+    if (getOrCreateDestinationNode().getAttributes().getNamedItem("upTo") != null) {
+      getOrCreateDestinationNode().getAttributes().removeNamedItem("upTo");
     }
   }
 

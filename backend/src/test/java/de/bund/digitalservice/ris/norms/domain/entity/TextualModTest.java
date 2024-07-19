@@ -89,6 +89,44 @@ class TextualModTest {
   }
 
   @Test
+  void setDestinationUpto() {
+    // when
+    textualMod.setDestinationUpTo(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml");
+    var destinationUpTo = textualMod.getDestinationUpTo();
+
+    // then
+    assertThat(destinationUpTo)
+        .contains(
+            new Href(
+                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml"));
+  }
+
+  @Test
+  void deleteDestinationUpto() {
+    // given
+    textualMod.setDestinationUpTo(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml");
+
+    // when
+    textualMod.deleteDestinationUpTo();
+
+    // then
+    var destinationUpTo = textualMod.getDestinationUpTo();
+    assertThat(destinationUpTo).isNotPresent();
+  }
+
+  @Test
+  void ignoreDeleteInDestinationUptoWhenNotPresent() {
+    // when
+    textualMod.deleteDestinationUpTo();
+
+    // then
+    var destinationUpTo = textualMod.getDestinationUpTo();
+    assertThat(destinationUpTo).isNotPresent();
+  }
+
+  @Test
   void getForcePeriodEid() {
     // when
     var forcePeriodEid = textualMod.getForcePeriodEid();
