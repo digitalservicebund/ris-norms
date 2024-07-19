@@ -67,7 +67,7 @@ export function useMods(
         return {
           eid,
           timeBoundary: getTimeBoundaryDate(doc, eid) ?? undefined,
-          textualModType: modNode ? getTextualModType(modNode) ?? "" : "",
+          textualModType: modNode ? (getTextualModType(modNode) ?? "") : "",
         }
       })
     },

@@ -51,7 +51,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     key: "amendingLaw",
     title: () =>
       amendingLaw.value
-        ? getFrbrDisplayText(amendingLaw.value) ?? "..."
+        ? (getFrbrDisplayText(amendingLaw.value) ?? "...")
         : "...",
     to: `/amending-laws/${eli.value}`,
   },
