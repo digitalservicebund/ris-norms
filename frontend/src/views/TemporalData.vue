@@ -44,7 +44,7 @@ onUnmounted(() => cleanupBreadcrumbs())
 
 <template>
   <div
-    class="grid h-full grid-cols-3 grid-rows-[5rem,1fr] gap-x-32 overflow-hidden p-24"
+    class="grid h-full grid-cols-3 grid-rows-[min-content,1fr] gap-x-32 overflow-hidden p-24"
   >
     <template v-if="isFetchingEntryIntoForce || isFetchingTemporalData">
       <div class="col-span-3 flex items-center justify-center">
