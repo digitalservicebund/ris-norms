@@ -9,11 +9,6 @@ withDefaults(
     title: string
 
     /**
-     * Content of the tooltip.
-     */
-    content?: string
-
-    /**
      * Visual variant of the tooltip.
      * @default "neutral"
      */
@@ -65,6 +60,8 @@ const slots = defineSlots<{
      */
     ariaDescribedby: string
   }): any // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  message(): any // eslint-disable-line @typescript-eslint/no-explicit-any
 }>()
 
 const hasChildren = computed(() => Boolean(slots.default))
@@ -101,7 +98,7 @@ const { ariaId } = useElementId("tooltip")
         visible
         @update:visible="visible = false"
       >
-        {{ content }}
+        <slot name="message" />
       </RisCallout>
       <span
         :data-variant="variant"
