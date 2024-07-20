@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -142,5 +143,71 @@ public class Mod {
     final Optional<Node> newContentNode =
         NodeParser.getNodeFromExpression("./quotedStructure", this.node);
     return newContentNode.isPresent();
+  }
+
+  /**
+   * Checks whether the mod has a range ref (rref)
+   *
+   * @return whether the mod has a range ref (rref)
+   */
+  public boolean hasRangeRef() {
+    final Optional<Node> rangeRefNode = NodeParser.getNodeFromExpression("./rref", this.node);
+    return rangeRefNode.isPresent();
+  }
+
+  /**
+   * Updates the range ref UpTo attribute
+   *
+   * @param destinationUpTo - the UpTo attribute that should be updated
+   */
+  public void setRangeRefUpTo(String destinationUpTo) {
+    if (destinationUpTo != null && getRangeRef().isPresent()) {
+      Element element = (Element) getRangeRef().get();
+      element.setAttribute("upTo", destinationUpTo);
+    }
+  }
+
+  /**
+   * Returns the range ref href attribute of the target law that is modified.
+   *
+   * @return The href of the akn:ref of the akn:mod.
+   */
+  public Optional<Node> getRangeRef() {
+    return NodeParser.getNodeFromExpression("./rref", this.node);
+  }
+
+  /**
+   * Checks whether the mod has a regular ref tag (ref)
+   *
+   * @return whether the mod has a regular ref tag (ref)
+   */
+  public boolean hasRef() {
+    final Optional<Node> rangeRefNode = NodeParser.getNodeFromExpression("./ref", this.node);
+    return rangeRefNode.isPresent();
+  }
+
+  /**
+   * Returns a regular ref tag (ref) as node
+   *
+   * @return a regular ref tag (ref) as node
+   */
+  public Optional<Node> getRef() {
+    return NodeParser.getNodeFromExpression("./ref", this.node);
+  }
+
+  /**
+   * Updates a regular ref to a range ref tag also setting the than needed UpTo attribute
+   *
+   * @param destinationUpTo - the UpTo attribute that should be set
+   */
+  public void convertRefToRangeRef(String destinationUpTo) {
+    // TODO make it work
+    //    if (destinationUpTo != null && getRef().isPresent()) {
+    //      Element element = (Element) getRef().get();
+    //      var document = element.getOwnerDocument();
+    //      document.renameNode(
+    //          element, "http://Inhaltsdaten.LegalDocML.de/1.7/", "akn:rref");
+    //      element.setAttribute("upTo", destinationUpTo);
+    //    }
   }
 }

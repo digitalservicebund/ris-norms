@@ -167,7 +167,7 @@ public class UpdateNormService
       UpdateActiveModificationsUseCase.Query query,
       Optional<TextualMod> activeModification,
       Optional<Mod> inTextMod) {
-    if (activeModification.isPresent()
+    if (activeModification.isPresent() // TODO remove
         && activeModification.get().getType().isPresent()
         && activeModification.get().getType().get().equals("substitution")
         && inTextMod.isPresent()
@@ -185,7 +185,6 @@ public class UpdateNormService
       inTextMod.ifPresent(
           mod -> {
             mod.setTargetHref(query.destinationHref());
-            // ToDo replace node(s) by quoted structure
             // ToDo if applicable change rref to ref and delete upTo attribute
           });
     }
@@ -195,16 +194,18 @@ public class UpdateNormService
       UpdateActiveModificationsUseCase.Query query,
       Optional<TextualMod> activeModification,
       Optional<Mod> inTextMod) {
-    if (activeModification.isPresent()
+    if (activeModification.isPresent() // TODO remove
         && activeModification.get().getType().isPresent()
         && activeModification.get().getType().get().equals("substitution")
-        && inTextMod.isPresent()
+        && inTextMod.isPresent() // TODO move to public
         && inTextMod.get().usesQuotedStructure()
         && query.destinationUpTo() != null
         && !query.destinationUpTo().isBlank()) {
 
-      if (!isDestinationUpToValid(query.destinationHref(), query.destinationUpTo()))
-        throw new IllegalArgumentException("The destinationHref and do nor share the same parent.");
+      if (!isDestinationUpToValid(
+          query.destinationHref(),
+          query.destinationUpTo())) // TODO Validate in xml if they are siblings;
+      throw new IllegalArgumentException("The destinationHref and do nor share the same parent.");
 
       activeModification.ifPresent(
           activeMod -> {
@@ -217,7 +218,11 @@ public class UpdateNormService
       inTextMod.ifPresent(
           mod -> {
             mod.setTargetHref(query.destinationHref());
-            //  ToDo replace node(s) by quoted structure
+            if (mod.hasRangeRef()) {
+              mod.setRangeRefUpTo(query.destinationUpTo());
+            } else if (mod.hasRef()) {
+              mod.convertRefToRangeRef(query.destinationUpTo());
+            }
             // ToDo if applicable change ref to rref and set upTo attribute
           });
     }
@@ -227,7 +232,7 @@ public class UpdateNormService
       UpdateActiveModificationsUseCase.Query query,
       Optional<TextualMod> activeModification,
       Optional<Mod> inTextMod) {
-    if (activeModification.isPresent()
+    if (activeModification.isPresent() // TODO remove
         && activeModification.get().getType().isPresent()
         && activeModification.get().getType().get().equals("substitution")
         && inTextMod.isPresent()

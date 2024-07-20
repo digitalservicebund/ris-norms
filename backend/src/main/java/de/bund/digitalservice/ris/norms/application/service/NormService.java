@@ -129,7 +129,8 @@ public class NormService
       String newContent) {
     var targetNormEli = new Href(destinationHref).getEli();
     if (targetNormEli.isEmpty()) {
-      throw new IllegalArgumentException("The destinationHref does not contain a eli");
+      throw new IllegalArgumentException(
+          "The destinationHref does not contain a eli"); // TODO ValidationException
     }
 
     // Update active mods (meta and body) in amending law
