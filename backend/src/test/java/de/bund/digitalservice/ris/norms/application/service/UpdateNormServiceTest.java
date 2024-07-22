@@ -210,7 +210,7 @@ class UpdateNormServiceTest {
 
       final Norm zf0Law =
           NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
-      final String targetLawELi = "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1";
+      final String targetLawELi = "eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1";
 
       // When
       var updatedZfoLaw =
