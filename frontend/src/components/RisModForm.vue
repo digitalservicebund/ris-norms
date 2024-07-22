@@ -134,18 +134,28 @@ function modTypeLabel(modType: ModType | "") {
       return "Keine Angabe"
   }
 }
+/** Intermediate destination range Eid */
+const destinationRangeUptoEid = ref<string | undefined>()
+
+watch(destinationRangeUptoEid, (newEid) => {
+  if (newEid) {
+    destinationUpToModel.value = `${destinationHrefEli.value}/${newEid}.xml`
+  } else {
+    destinationUpToModel.value = ""
+  }
+})
 
 const selectedElements = computed(() => {
   if (destinationHrefEid.value == null) {
     return []
   }
-  if (destinationUpToModel.value == null) {
+  if (destinationRangeUptoEid.value == null) {
     return [destinationHrefEid.value]
   }
   const container = elementToBeReplacedRef.value?.$el
   return getAllEidsBetween(
     destinationHrefEid.value,
-    destinationUpToModel.value,
+    destinationRangeUptoEid.value,
     container,
   )
 })
@@ -194,10 +204,10 @@ function handleAknElementClick({
     if (parentElement !== clickedParentElement) {
       return
     }
-    destinationUpToModel.value = `${destinationHrefEli.value}/${eid}.xml`
+    destinationRangeUptoEid.value = eid
   } else {
     destinationHrefEid.value = eid
-    destinationUpToModel.value = undefined
+    destinationRangeUptoEid.value = undefined
   }
 }
 
