@@ -185,7 +185,7 @@ public class UpdateNormService
   private static void updateQuotedStructureSubstitutionSingleTarget(
       final UpdateActiveModificationsUseCase.Query query, final Mod inTextMod) {
     if (StringUtils.isNotEmpty(query.destinationUpTo())) {
-      // TODO replace akn:ref with akn:rref
+      inTextMod.replaceRefWithRref(query.destinationHref(), query.destinationUpTo());
     } else {
       inTextMod.setTargetRefHref(query.destinationHref());
     }
@@ -197,7 +197,7 @@ public class UpdateNormService
       inTextMod.setTargetRrefHref(query.destinationHref());
       inTextMod.setTargetRrefUpTo(query.destinationUpTo());
     } else {
-      // TODO akn:rref with akn:ref
+      inTextMod.replaceRrefWithRef(query.destinationHref());
     }
   }
 }

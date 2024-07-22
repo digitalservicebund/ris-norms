@@ -440,5 +440,101 @@ class UpdateNormServiceTest {
       assertThat(activeModifications.get().getDestinationUpTo()).isNotPresent();
       assertThat(activeModifications.get().getForcePeriodEid()).contains(newTimeBoundaryEid);
     }
+
+    @Test
+    void itReplacesRefWithRrefAfterPassingUpTo() {
+
+      // Given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      final Norm targetNorm =
+          NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      final String modEid =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1";
+      final String newDestinationHref = targetNorm.getEli() + "/hauptteil-1_para-2_abs-1.xml";
+      final String newDestinationUpTo = targetNorm.getEli() + "/hauptteil-1_para-2_abs-3.xml";
+
+      final Optional<Mod> modBeforeUpdate =
+          amendingLaw.getMods().stream()
+              .filter(m -> m.getMandatoryEid().equals(modEid))
+              .findFirst();
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw,
+                  modEid,
+                  newDestinationHref,
+                  newDestinationUpTo,
+                  "#time-boundary-eid",
+                  "<test></test>"));
+
+      // Then
+      final Optional<Mod> updatedMod =
+          updatedAmendingNorm.getMods().stream()
+              .filter(m -> m.getMandatoryEid().equals(modEid))
+              .findFirst();
+      assertThat(updatedMod).isPresent();
+      assertThat(updatedMod.get().getTargetRefHref()).isEmpty();
+      assertThat(updatedMod.get().getTargetRrefHref()).isPresent();
+      assertThat(updatedMod.get().getTargetRrefHref())
+          .isPresent()
+          .get()
+          .hasToString(
+              "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml");
+      assertThat(updatedMod.get().getTargetRrefUpTo()).isPresent();
+      assertThat(updatedMod.get().getTargetRrefUpTo())
+          .isPresent()
+          .get()
+          .hasToString(
+              "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3.xml");
+      assertThat(updatedMod.get().getNode().getTextContent())
+          .isEqualTo(modBeforeUpdate.get().getNode().getTextContent());
+    }
+
+    @Test
+    void itReplacesRrefWithRefAfterNotPassingUpTo() {
+
+      // Given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Norm targetNorm =
+          NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      final String modEid =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      final String newDestinationHref = targetNorm.getEli() + "/hauptteil-1_para-2_abs-2.xml";
+
+      final Optional<Mod> modBeforeUpdate =
+          amendingLaw.getMods().stream()
+              .filter(m -> m.getMandatoryEid().equals(modEid))
+              .findFirst();
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw,
+                  modEid,
+                  newDestinationHref,
+                  null,
+                  "#time-boundary-eid",
+                  "<test></test>"));
+
+      // Then
+      final Optional<Mod> updatedMod =
+          updatedAmendingNorm.getMods().stream()
+              .filter(m -> m.getMandatoryEid().equals(modEid))
+              .findFirst();
+      assertThat(updatedMod).isPresent();
+      assertThat(updatedMod.get().getTargetRrefHref()).isEmpty();
+      assertThat(updatedMod.get().getTargetRrefUpTo()).isEmpty();
+      assertThat(updatedMod.get().getTargetRefHref()).isPresent();
+      assertThat(updatedMod.get().getTargetRefHref())
+          .isPresent()
+          .get()
+          .hasToString(
+              "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml");
+      assertThat(updatedMod.get().getNode().getTextContent())
+          .isEqualTo(modBeforeUpdate.get().getNode().getTextContent());
+    }
   }
 }

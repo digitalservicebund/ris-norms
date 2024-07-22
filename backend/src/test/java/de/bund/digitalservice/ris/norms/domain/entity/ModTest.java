@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -240,5 +241,33 @@ class ModTest {
     // then
     var updatedText = quotedTextMod.getOldText();
     assertThat(updatedText).contains("new old text");
+  }
+
+  @Test
+  void replaceRefWithRref() {
+    quotedStructureRefMod.replaceRefWithRref("new-destination-href", "new-destination-upto");
+
+    final Optional<Href> targetRefHref = quotedStructureRefMod.getTargetRefHref();
+    assertThat(targetRefHref).isEmpty();
+
+    final Optional<Href> targetRrefHref = quotedStructureRefMod.getTargetRrefHref();
+    assertThat(targetRrefHref).isPresent();
+    assertThat(targetRrefHref.get().value()).isEqualTo("new-destination-href");
+
+    final Optional<Href> targetRrefUpTo = quotedStructureRefMod.getTargetRrefUpTo();
+    assertThat(targetRrefUpTo).isPresent();
+    assertThat(targetRrefUpTo.get().value()).isEqualTo("new-destination-upto");
+  }
+
+  @Test
+  void replaceRrefWithRef() {
+    quotedStructureRrefMod.replaceRrefWithRef("new-destination-href");
+
+    final Optional<Href> targetRrefHref = quotedStructureRrefMod.getTargetRrefHref();
+    assertThat(targetRrefHref).isEmpty();
+
+    final Optional<Href> targetRefHref = quotedStructureRrefMod.getTargetRefHref();
+    assertThat(targetRefHref).isPresent();
+    assertThat(targetRefHref.get().value()).isEqualTo("new-destination-href");
   }
 }

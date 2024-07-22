@@ -1,11 +1,13 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -199,5 +201,43 @@ public class Mod {
         .getAttributes()
         .getNamedItem("upTo")
         .setNodeValue(destinationUpTo);
+  }
+
+  /**
+   * Replaces an akn:ref with an akn:rref and updates the href and upTo attributes with the given
+   * values. It also copy&paste for now the text content of the old node.
+   *
+   * @param destinationHref the new destination href
+   * @param destinationUpTo the new destination upTo
+   */
+  public void replaceRefWithRref(final String destinationHref, final String destinationUpTo) {
+    final Node refNode = NodeParser.getNodeFromExpression(REF_XPATH, this.node).orElseThrow();
+
+    final Element rrefElement = NodeCreator.createElement("akn:rref", this.node);
+    rrefElement.setAttribute("eId", EId.fromMandatoryNode(refNode).value());
+    rrefElement.setAttribute("href", destinationHref);
+    rrefElement.setAttribute("upTo", destinationUpTo);
+
+    rrefElement.setTextContent(refNode.getTextContent());
+
+    this.node.replaceChild(rrefElement, refNode);
+  }
+
+  /**
+   * Replaces an akn:rref with an akn:ref and updates the href and upTo attributes with a new
+   * destination href. It also copy&paste for now the text content of the old node.
+   *
+   * @param destinationHref the new destination href
+   */
+  public void replaceRrefWithRef(final String destinationHref) {
+    final Node rrefNode = NodeParser.getNodeFromExpression(RREF_XPATH, this.node).orElseThrow();
+
+    final Element refElement = NodeCreator.createElement("akn:ref", this.node);
+    refElement.setAttribute("eId", EId.fromMandatoryNode(rrefNode).value());
+    refElement.setAttribute("href", destinationHref);
+
+    refElement.setTextContent(rrefNode.getTextContent());
+
+    this.node.replaceChild(refElement, rrefNode);
   }
 }
