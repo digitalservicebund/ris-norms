@@ -14,7 +14,7 @@ jobs:
       image-exists: ${{ contains(steps.*.outputs.image-exists, 'true') && 'true' || 'false' }}
     steps:
       - name: Log into container registry
-        uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
