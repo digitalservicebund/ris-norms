@@ -108,12 +108,14 @@ public class NormService
   }
 
   /**
-   * Updates the akn:mod with the given eId. The amendingNorm and zf0Norm are updated in place.
+   * Updates the akn:mod, akn:activeModifications and akn:passiveModifications with the given eId.
+   * The amendingNorm and zf0Norm are updated in place.
    *
    * @param amendingNorm the norm in which the akn:mod exists
    * @param zf0Norm the zf0 version of the norm targeted by the akn:mod
    * @param eId the eId of the akn:mod
    * @param destinationHref the new destination href of the akn:mod
+   * @param destinationUpTo the last element that should be replaced
    * @param timeBoundaryEId the eid of the new time-boundary of the akn:mod
    * @param newContent the new future text of the akn:mod
    */
@@ -122,17 +124,18 @@ public class NormService
       Norm zf0Norm,
       String eId,
       String destinationHref,
+      String destinationUpTo,
       String timeBoundaryEId,
       String newContent) {
     var targetNormEli = new Href(destinationHref).getEli();
     if (targetNormEli.isEmpty()) {
-      throw new IllegalArgumentException("The destinationHref does not contain a eli");
+      throw new ValidationException("The destinationHref does not contain a eli");
     }
 
     // Update active mods (meta and body) in amending law
     updateNormService.updateActiveModifications(
         new UpdateActiveModificationsUseCase.Query(
-            amendingNorm, eId, destinationHref, timeBoundaryEId, newContent));
+            amendingNorm, eId, destinationHref, destinationUpTo, timeBoundaryEId, newContent));
 
     // Update passiv mods in ZF0
     updateNormService.updatePassiveModifications(
@@ -169,7 +172,7 @@ public class NormService
         amendingNorm
             .getNodeByEId(query.mods().stream().findAny().orElseThrow().eId())
             .map(Mod::new)
-            .flatMap(Mod::getTargetHref)
+            .flatMap(Mod::getTargetRefHref)
             .flatMap(Href::getEli);
     if (targetNormEli.isEmpty()) {
       return Optional.empty();
@@ -179,7 +182,7 @@ public class NormService
         .allMatch(
             modData -> {
               final var mod = amendingNorm.getNodeByEId(modData.eId()).map(Mod::new);
-              final var eli = mod.flatMap(Mod::getTargetHref).flatMap(Href::getEli);
+              final var eli = mod.flatMap(Mod::getTargetRefHref).flatMap(Href::getEli);
               return eli.equals(targetNormEli);
             })) {
       throw new IllegalArgumentException("Not all mods have the same target norm");
@@ -203,7 +206,8 @@ public class NormService
                   amendingNorm,
                   zf0Norm,
                   newModData.eId(),
-                  mod.getTargetHref().map(Href::value).orElse(null),
+                  mod.getTargetRefHref().map(Href::value).orElse(null),
+                  null,
                   newModData.timeBoundaryEId(),
                   mod.getNewText().orElse(null));
             });
@@ -244,6 +248,7 @@ public class NormService
         zf0Norm,
         query.eid(),
         query.destinationHref(),
+        query.destinationUpTo(),
         query.timeBoundaryEid(),
         query.newContent());
 

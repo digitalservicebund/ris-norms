@@ -6,6 +6,8 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Class representing an akn:textualMod. */
@@ -83,6 +85,20 @@ public class TextualMod {
    */
   public void setDestinationHref(final String destinationHref) {
     getOrCreateDestinationNode().getAttributes().getNamedItem("href").setNodeValue(destinationHref);
+  }
+
+  /**
+   * Updates the upTo attribute of the destination node within the modification
+   *
+   * @param destinationUpTo - the destination href of the last to be replaced element
+   */
+  public void setDestinationUpTo(final String destinationUpTo) {
+    Element element = (Element) getOrCreateDestinationNode();
+    if (StringUtils.isNotEmpty(destinationUpTo)) {
+      element.setAttribute("upTo", destinationUpTo);
+    } else {
+      element.removeAttribute("upTo");
+    }
   }
 
   /**

@@ -594,6 +594,7 @@ class NormServiceTest {
                           "refersTo",
                           "time-boundary-eid",
                           "destinanation-href",
+                          null,
                           "new text")));
 
       assertThat(throwable).isInstanceOf(NormNotFoundException.class);
@@ -619,6 +620,7 @@ class NormServiceTest {
                   "refersTo",
                   "time-boundary-eid",
                   "#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE",
+                  null,
                   "new text"));
 
       // Then
@@ -674,6 +676,7 @@ class NormServiceTest {
               "refersTo",
               newTimeBoundaryEid, // <- this will be set
               newDestinationHref, // <- this will be set in ActivMods AND mod
+              null,
               newContent,
               false));
 
@@ -717,6 +720,7 @@ class NormServiceTest {
                   "refersTo",
                   newTimeBoundaryEid, // <- this will be set
                   newDestinationHref, // <- this will be set in ActivMods AND mod
+                  null,
                   newContent,
                   false));
 
@@ -751,8 +755,8 @@ class NormServiceTest {
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
-      assertThat(mod.getTargetHref()).isPresent();
-      assertThat(mod.getTargetHref().get().value()).contains(newDestinationHref);
+      assertThat(mod.getTargetRefHref()).isPresent();
+      assertThat(mod.getTargetRefHref().get().value()).contains(newDestinationHref);
       assertThat(mod.getNewText()).contains(newContent);
       assertThat(returnedXml.get().targetNormZf0Xml())
           .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
@@ -879,8 +883,8 @@ class NormServiceTest {
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
-      assertThat(mod.getTargetHref()).isPresent();
-      assertThat(mod.getTargetHref().get().value())
+      assertThat(mod.getTargetRefHref()).isPresent();
+      assertThat(mod.getTargetRefHref().get().value())
           .contains(
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml");
       assertThat(mod.getNewText()).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");

@@ -52,6 +52,9 @@ public class SingleModValidator {
           StringUtils.normalizeSpace(activeMod.getMandatoryOldText()),
           StringUtils.normalizeSpace(zf0TargetedNode.getTextContent()));
     }
+    if (activeMod.usesQuotedStructure()) {
+      validateQuotedStructure(affectedPassiveMod, zf0Norm, targetNodeEid, zf0TargetedNode);
+    }
   }
 
   private void validateQuotedText(
@@ -91,5 +94,43 @@ public class SingleModValidator {
       throw new ValidationException(
           "The character range %s of passive mod with eId %s within ZF0 norm with eli %s does not resolve to the targeted text to be replaced."
               .formatted(characterRange, passiveModEid, zf0NormEli));
+  }
+
+  private void validateQuotedStructure(
+      final TextualMod affectedPassiveMod,
+      final Norm zf0Norm,
+      final String targetNodeEid,
+      final Node targetNode)
+      throws ValidationException {
+
+    affectedPassiveMod
+        .getDestinationUpTo()
+        .ifPresent(
+            upToHref -> {
+              final String targetUpToNodeEid = upToHref.getEId().orElseThrow();
+
+              final Node zf0TargetedUpToNode =
+                  zf0Norm
+                      .getNodeByEId(targetUpToNodeEid)
+                      .orElseThrow(
+                          () ->
+                              new ValidationException(
+                                  "Target upTo node with eid %s not present in ZF0 norm with eli %s."
+                                      .formatted(targetUpToNodeEid, zf0Norm.getEli())));
+
+              if (targetNode.getParentNode() != zf0TargetedUpToNode.getParentNode()) {
+                throw new ValidationException(
+                    "Target node with eid %s and target upTo node with eid %s are not siblings in ZF0 norm with eli %s."
+                        .formatted(targetNodeEid, targetUpToNodeEid, zf0Norm.getEli()));
+              }
+
+              if ((targetNode.compareDocumentPosition(zf0TargetedUpToNode)
+                      & Node.DOCUMENT_POSITION_FOLLOWING)
+                  == 0) {
+                throw new ValidationException(
+                    "Target node with eid %s does not appear before target upTo node with eid %s in ZF0 norm with eli %s."
+                        .formatted(targetNodeEid, targetUpToNodeEid, zf0Norm.getEli()));
+              }
+            });
   }
 }

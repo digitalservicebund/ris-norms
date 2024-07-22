@@ -68,7 +68,7 @@ public class LoadZf0Service implements LoadZf0UseCase {
   }
 
   Norm loadZf0(Norm amendingLaw, Mod mod) {
-    Optional<String> targetNormEliOptional = mod.getTargetHref().flatMap(Href::getEli);
+    Optional<String> targetNormEliOptional = mod.getTargetRefHref().flatMap(Href::getEli);
     String targetNormEli;
     if (targetNormEliOptional.isPresent()) {
       targetNormEli = targetNormEliOptional.get();

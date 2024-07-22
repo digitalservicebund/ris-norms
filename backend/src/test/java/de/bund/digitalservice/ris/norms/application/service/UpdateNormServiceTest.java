@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -196,12 +197,56 @@ class UpdateNormServiceTest {
               new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"));
       assertThat(newPassiveModification.getForcePeriodEid()).isEmpty();
     }
+
+    @Test
+    void itAddsOnePassiveModificationWithUpTo() {
+
+      // Given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final TextualMod activeMod =
+          amendingLaw.getMeta().getOrCreateAnalysis().getActiveModifications().getFirst();
+      activeMod.setDestinationUpTo(
+          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml");
+
+      final Norm zf0Law =
+          NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
+      final String targetLawELi = "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1";
+
+      // When
+      var updatedZfoLaw =
+          updateNormService.updatePassiveModifications(
+              new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLawELi));
+
+      // Then
+      final List<TextualMod> passiveModifications =
+          updatedZfoLaw
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getPassiveModifications)
+              .orElse(Collections.emptyList());
+      assertThat(passiveModifications).hasSize(1);
+
+      var newPassiveModification = passiveModifications.getFirst();
+      assertThat(newPassiveModification.getType()).contains("substitution");
+      assertThat(newPassiveModification.getSourceHref())
+          .contains(
+              new Href(
+                  "eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"));
+      assertThat(newPassiveModification.getDestinationHref())
+          .contains(new Href("#hauptteil-1_para-2_abs-1"));
+      assertThat(newPassiveModification.getDestinationUpTo())
+          .contains(new Href("#hauptteil-1_para-2_abs-2"));
+      assertThat(
+              updatedZfoLaw.getStartDateForTemporalGroup(
+                  newPassiveModification.getForcePeriodEid().orElseThrow()))
+          .contains("1002-01-11");
+    }
   }
 
   @Nested
   class updateActiveModifications {
     @Test
-    void itChangesDestinationHrefTimeBoundaryEIdAndNewContent() {
+    void itChangesActiveModForQuotedText() {
 
       // Given
       Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -221,7 +266,7 @@ class UpdateNormServiceTest {
       var updatedAmendingNorm =
           updateNormService.updateActiveModifications(
               new UpdateActiveModificationsUseCase.Query(
-                  amendingLaw, eId, newDestinationHref, newTimeBoundaryEid, newContent));
+                  amendingLaw, eId, newDestinationHref, null, newTimeBoundaryEid, newContent));
 
       // Then
       final TextualMod activeModifications =
@@ -239,6 +284,257 @@ class UpdateNormServiceTest {
               .findFirst()
               .orElseThrow();
       assertThat(mod.getNewText()).contains(newContent);
+    }
+
+    @Test
+    void itChangesActiveModForQuotedStructureRangeMod() {
+
+      // Given
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      String targetNormEli = targetNorm.getEli();
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String newDestinationHref =
+          targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+      String newDestinationUpTo =
+          targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      String newContent = "new-text";
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw,
+                  eId,
+                  newDestinationHref,
+                  newDestinationUpTo,
+                  newTimeBoundaryEid,
+                  newContent));
+
+      // Then
+      final Optional<TextualMod> activeModifications =
+          updatedAmendingNorm
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getActiveModifications)
+              .orElse(Collections.emptyList())
+              .stream()
+              .filter(
+                  activeMod ->
+                      activeMod.getSourceHref().get().toString().replace("#", "").equals(eId))
+              .findFirst();
+      assertThat(activeModifications).isPresent();
+      assertThat(activeModifications.get().getForcePeriodEid()).contains(newTimeBoundaryEid);
+      assertThat(activeModifications.get().getDestinationHref())
+          .contains(new Href(newDestinationHref));
+      assertThat(activeModifications.get().getDestinationUpTo())
+          .contains(new Href(newDestinationUpTo));
+    }
+
+    @Test
+    void itChangesActiveModForQuotedStructureSingleTargetMod() {
+
+      // Given
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      String targetNormEli = targetNorm.getEli();
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String newDestinationHref =
+          targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+      String newDestinationUpTo = null;
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      String newContent = "new-text";
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw,
+                  eId,
+                  newDestinationHref,
+                  newDestinationUpTo,
+                  newTimeBoundaryEid,
+                  newContent));
+
+      // Then
+      final Optional<TextualMod> activeModifications =
+          updatedAmendingNorm
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getActiveModifications)
+              .orElse(Collections.emptyList())
+              .stream()
+              .filter(
+                  activeMod ->
+                      activeMod.getSourceHref().get().toString().replace("#", "").equals(eId))
+              .findFirst();
+      assertThat(activeModifications).isPresent();
+      assertThat(activeModifications.get().getDestinationHref())
+          .contains(new Href(newDestinationHref));
+      assertThat(activeModifications.get().getDestinationUpTo()).isNotPresent();
+      assertThat(activeModifications.get().getForcePeriodEid()).contains(newTimeBoundaryEid);
+    }
+
+    @Test
+    void itDeletesUpToInActiveModForQuotedStructureSingleTargetMod() {
+
+      // Given
+      Norm amendingLawSetup = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNormSetup = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      String targetNormEliSetup = targetNormSetup.getEli();
+      String eIdSetup =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String newDestinationHrefSetup =
+          targetNormEliSetup + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+      String newDestinationUpToSetup =
+          targetNormEliSetup + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-2/";
+      String newTimeBoundaryEidSetup = "#time-boundary-eid";
+      String newContentSetup = "new-text";
+
+      updateNormService.updateActiveModifications(
+          new UpdateActiveModificationsUseCase.Query(
+              amendingLawSetup,
+              eIdSetup,
+              newDestinationHrefSetup,
+              newDestinationUpToSetup,
+              newTimeBoundaryEidSetup,
+              newContentSetup));
+
+      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      String targetNormEli = targetNorm.getEli();
+      String eId = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      String newDestinationHref =
+          targetNormEli + "/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/";
+      String newDestinationUpTo = null;
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      String newContent = "new-text";
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw,
+                  eId,
+                  newDestinationHref,
+                  newDestinationUpTo,
+                  newTimeBoundaryEid,
+                  newContent));
+
+      // Then
+      final Optional<TextualMod> activeModifications =
+          updatedAmendingNorm
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getActiveModifications)
+              .orElse(Collections.emptyList())
+              .stream()
+              .filter(
+                  activeMod ->
+                      activeMod.getSourceHref().get().toString().replace("#", "").equals(eId))
+              .findFirst();
+      assertThat(activeModifications).isPresent();
+      assertThat(activeModifications.get().getDestinationHref())
+          .contains(new Href(newDestinationHref));
+      assertThat(activeModifications.get().getDestinationUpTo()).isNotPresent();
+      assertThat(activeModifications.get().getForcePeriodEid()).contains(newTimeBoundaryEid);
+    }
+
+    @Test
+    void itReplacesRefWithRrefAfterPassingUpTo() {
+
+      // Given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
+      final Norm targetNorm =
+          NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      final String modEid =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1";
+      final String newDestinationHref = targetNorm.getEli() + "/hauptteil-1_para-2_abs-1.xml";
+      final String newDestinationUpTo = targetNorm.getEli() + "/hauptteil-1_para-2_abs-3.xml";
+
+      final Optional<Mod> modBeforeUpdate =
+          amendingLaw.getMods().stream()
+              .filter(m -> m.getMandatoryEid().equals(modEid))
+              .findFirst();
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw,
+                  modEid,
+                  newDestinationHref,
+                  newDestinationUpTo,
+                  "#time-boundary-eid",
+                  "<test></test>"));
+
+      // Then
+      final Optional<Mod> updatedMod =
+          updatedAmendingNorm.getMods().stream()
+              .filter(m -> m.getMandatoryEid().equals(modEid))
+              .findFirst();
+      assertThat(updatedMod).isPresent();
+      assertThat(updatedMod.get().getTargetRefHref()).isEmpty();
+      assertThat(updatedMod.get().getTargetRrefHref()).isPresent();
+      assertThat(updatedMod.get().getTargetRrefHref())
+          .isPresent()
+          .get()
+          .hasToString(
+              "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml");
+      assertThat(updatedMod.get().getTargetRrefUpTo()).isPresent();
+      assertThat(updatedMod.get().getTargetRrefUpTo())
+          .isPresent()
+          .get()
+          .hasToString(
+              "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3.xml");
+      assertThat(updatedMod.get().getNode().getTextContent())
+          .isEqualTo(modBeforeUpdate.get().getNode().getTextContent());
+    }
+
+    @Test
+    void itReplacesRrefWithRefAfterNotPassingUpTo() {
+
+      // Given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Norm targetNorm =
+          NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml");
+      final String modEid =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+      final String newDestinationHref = targetNorm.getEli() + "/hauptteil-1_para-2_abs-2.xml";
+
+      final Optional<Mod> modBeforeUpdate =
+          amendingLaw.getMods().stream()
+              .filter(m -> m.getMandatoryEid().equals(modEid))
+              .findFirst();
+
+      // When
+      var updatedAmendingNorm =
+          updateNormService.updateActiveModifications(
+              new UpdateActiveModificationsUseCase.Query(
+                  amendingLaw,
+                  modEid,
+                  newDestinationHref,
+                  null,
+                  "#time-boundary-eid",
+                  "<test></test>"));
+
+      // Then
+      final Optional<Mod> updatedMod =
+          updatedAmendingNorm.getMods().stream()
+              .filter(m -> m.getMandatoryEid().equals(modEid))
+              .findFirst();
+      assertThat(updatedMod).isPresent();
+      assertThat(updatedMod.get().getTargetRrefHref()).isEmpty();
+      assertThat(updatedMod.get().getTargetRrefUpTo()).isEmpty();
+      assertThat(updatedMod.get().getTargetRefHref()).isPresent();
+      assertThat(updatedMod.get().getTargetRefHref())
+          .isPresent()
+          .get()
+          .hasToString(
+              "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml");
+      assertThat(updatedMod.get().getNode().getTextContent())
+          .isEqualTo(modBeforeUpdate.get().getNode().getTextContent());
     }
   }
 }

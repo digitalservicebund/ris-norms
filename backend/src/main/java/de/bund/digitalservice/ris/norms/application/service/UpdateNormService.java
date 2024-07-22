@@ -2,16 +2,14 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateActiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.EventRefType;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 /** Service for updating norms. */
@@ -129,14 +127,23 @@ public class UpdateNormService
                         .getForcePeriodEid()
                         .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
                         .map(eId -> new Href.Builder().setEId(eId).buildInternalReference().value())
+                        .orElse(null),
+                    activeModification
+                        .getDestinationUpTo()
+                        .map(
+                            upToHref ->
+                                new Href.Builder()
+                                    .setEId(upToHref.getEId().orElseThrow())
+                                    .buildInternalReference()
+                                    .value())
                         .orElse(null)));
-
     return norm;
   }
 
   @Override
   public Norm updateActiveModifications(UpdateActiveModificationsUseCase.Query query) {
     final Norm amendingNorm = query.amendingNorm();
+
     // Edit mod in meta
     amendingNorm
         .getMeta()
@@ -151,31 +158,46 @@ public class UpdateNormService
             activeMod -> {
               activeMod.setDestinationHref(query.destinationHref());
               activeMod.setForcePeriodEid(query.timeBoundaryEid());
+              activeMod.setDestinationUpTo(query.destinationUpTo());
             });
 
-    // Edit mod in body
+    // Edit mod in meta
     amendingNorm.getMods().stream()
-        .filter(
-            mod ->
-                mod.getEid().isPresent()
-                    && mod.getEid().get().equals(query.eId())
-                    && mod.usesQuotedText())
+        .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eId()))
         .findFirst()
         .ifPresent(
-            mod -> {
-              mod.setTargetHref(query.destinationHref());
-              mod.setNewText(query.newContent());
+            inTextMod -> {
+              if (inTextMod.usesQuotedText()) {
+                inTextMod.setTargetRefHref(query.destinationHref());
+                inTextMod.setNewText(query.newContent());
+              }
+              if (inTextMod.usesQuotedStructure()) {
+                if (inTextMod.hasRref()) {
+                  updateQuotedStructureSubstitutionRangeTarget(query, inTextMod);
+                } else {
+                  updateQuotedStructureSubstitutionSingleTarget(query, inTextMod);
+                }
+              }
             });
-
-    // replace node by quoted structure
-    amendingNorm.getMods().stream()
-        .filter(
-            mod ->
-                mod.getEid().isPresent()
-                    && mod.getEid().get().equals(query.eId())
-                    && mod.usesQuotedStructure())
-        .findFirst()
-        .ifPresent(mod -> mod.setTargetHref(query.destinationHref()));
     return amendingNorm;
+  }
+
+  private static void updateQuotedStructureSubstitutionSingleTarget(
+      final UpdateActiveModificationsUseCase.Query query, final Mod inTextMod) {
+    if (StringUtils.isNotEmpty(query.destinationUpTo())) {
+      inTextMod.replaceRefWithRref(query.destinationHref(), query.destinationUpTo());
+    } else {
+      inTextMod.setTargetRefHref(query.destinationHref());
+    }
+  }
+
+  private static void updateQuotedStructureSubstitutionRangeTarget(
+      final UpdateActiveModificationsUseCase.Query query, final Mod inTextMod) {
+    if (StringUtils.isNotEmpty(query.destinationUpTo())) {
+      inTextMod.setTargetRrefHref(query.destinationHref());
+      inTextMod.setTargetRrefUpTo(query.destinationUpTo());
+    } else {
+      inTextMod.replaceRrefWithRef(query.destinationHref());
+    }
   }
 }

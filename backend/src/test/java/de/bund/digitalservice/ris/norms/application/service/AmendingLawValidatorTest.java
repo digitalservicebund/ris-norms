@@ -127,7 +127,7 @@ class AmendingLawValidatorTest {
         .getFirst()
         .getMods()
         .getFirst()
-        .setTargetHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
+        .setTargetRefHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));

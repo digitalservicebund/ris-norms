@@ -1,11 +1,13 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -21,6 +23,9 @@ import org.w3c.dom.Node;
 @EqualsAndHashCode
 public class Mod {
   private final Node node;
+
+  private static final String REF_XPATH = "./ref";
+  private static final String RREF_XPATH = "./rref";
 
   /**
    * Returns the eId as {@link String}.
@@ -80,12 +85,12 @@ public class Mod {
   }
 
   /**
-   * Returns the href of the target law that is modified.
+   * Returns the href of the akn:ref of the target law that is modified.
    *
    * @return The href of the akn:ref of the akn:mod.
    */
-  public Optional<Href> getTargetHref() {
-    return NodeParser.getValueFromExpression("./ref/@href", this.node).map(Href::new);
+  public Optional<Href> getTargetRefHref() {
+    return NodeParser.getValueFromExpression(REF_XPATH + "/@href", this.node).map(Href::new);
   }
 
   /**
@@ -93,8 +98,30 @@ public class Mod {
    *
    * @param newHref - the new ELI + eId of the target law
    */
-  public void setTargetHref(final String newHref) {
-    NodeParser.getNodeFromExpression("./ref", this.node)
+  public void setTargetRefHref(final String newHref) {
+    NodeParser.getNodeFromExpression(REF_XPATH, this.node)
+        .orElseThrow()
+        .getAttributes()
+        .getNamedItem("href")
+        .setNodeValue(newHref);
+  }
+
+  /**
+   * Returns the href of the akn:rref of the target law that is modified.
+   *
+   * @return The href of the akn:rref of the akn:mod.
+   */
+  public Optional<Href> getTargetRrefHref() {
+    return NodeParser.getValueFromExpression(RREF_XPATH + "/@href", this.node).map(Href::new);
+  }
+
+  /**
+   * Updates the href attribute of akn:rref node within the akn:mode of the body.
+   *
+   * @param newHref - the new ELI + eId of the target law
+   */
+  public void setTargetRrefHref(final String newHref) {
+    NodeParser.getNodeFromExpression(RREF_XPATH, this.node)
         .orElseThrow()
         .getAttributes()
         .getNamedItem("href")
@@ -142,5 +169,75 @@ public class Mod {
     final Optional<Node> newContentNode =
         NodeParser.getNodeFromExpression("./quotedStructure", this.node);
     return newContentNode.isPresent();
+  }
+
+  /**
+   * Checks whether the mod has a range ref (rref)
+   *
+   * @return whether the mod has a range ref (rref)
+   */
+  public boolean hasRref() {
+    final Optional<Node> rangeRefNode = NodeParser.getNodeFromExpression(RREF_XPATH, this.node);
+    return rangeRefNode.isPresent();
+  }
+
+  /**
+   * Returns the upTo of the akn:rref of the target law that is modified.
+   *
+   * @return The href of the akn:rref of the akn:mod.
+   */
+  public Optional<Href> getTargetRrefUpTo() {
+    return NodeParser.getValueFromExpression("./rref/@upTo", this.node).map(Href::new);
+  }
+
+  /**
+   * Updates the range ref UpTo attribute
+   *
+   * @param destinationUpTo - the UpTo attribute that should be updated
+   */
+  public void setTargetRrefUpTo(final String destinationUpTo) {
+    NodeParser.getNodeFromExpression(RREF_XPATH, this.node)
+        .orElseThrow()
+        .getAttributes()
+        .getNamedItem("upTo")
+        .setNodeValue(destinationUpTo);
+  }
+
+  /**
+   * Replaces an akn:ref with an akn:rref and updates the href and upTo attributes with the given
+   * values. It also copies for now the text content of the old node.
+   *
+   * @param destinationHref the new destination href
+   * @param destinationUpTo the new destination upTo
+   */
+  public void replaceRefWithRref(final String destinationHref, final String destinationUpTo) {
+    final Node refNode = NodeParser.getNodeFromExpression(REF_XPATH, this.node).orElseThrow();
+
+    final Element rrefElement = NodeCreator.createElement("akn:rref", this.node);
+    rrefElement.setAttribute("eId", EId.fromMandatoryNode(refNode).value());
+    rrefElement.setAttribute("href", destinationHref);
+    rrefElement.setAttribute("upTo", destinationUpTo);
+
+    rrefElement.setTextContent(refNode.getTextContent());
+
+    this.node.replaceChild(rrefElement, refNode);
+  }
+
+  /**
+   * Replaces an akn:rref with an akn:ref and updates the href and upTo attributes with a new
+   * destination href. It also copies for now the text content of the old node.
+   *
+   * @param destinationHref the new destination href
+   */
+  public void replaceRrefWithRef(final String destinationHref) {
+    final Node rrefNode = NodeParser.getNodeFromExpression(RREF_XPATH, this.node).orElseThrow();
+
+    final Element refElement = NodeCreator.createElement("akn:ref", this.node);
+    refElement.setAttribute("eId", EId.fromMandatoryNode(rrefNode).value());
+    refElement.setAttribute("href", destinationHref);
+
+    refElement.setTextContent(rrefNode.getTextContent());
+
+    this.node.replaceChild(refElement, rrefNode);
   }
 }
