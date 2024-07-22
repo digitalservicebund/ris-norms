@@ -149,16 +149,6 @@ const selectedElements = computed(() => {
     container,
   )
 })
-
-function getNextEid(
-  currentEid: string,
-  container: HTMLElement,
-): string | undefined {
-  const element = container.querySelector(`[data-eid="${currentEid}"]`)
-  const currentIndex = element?.nextElementSibling?.getAttribute("data-eid")
-  return currentIndex ?? undefined
-}
-
 function getAllEidsBetween(
   startEid: string,
   endEid: string,
@@ -204,11 +194,7 @@ function handleAknElementClick({
     if (parentElement !== clickedParentElement) {
       return
     }
-    const nextEid = getNextEid(eid, container)
-    destinationUpToModel.value = nextEid
-      ? `${destinationHrefEli.value}/${nextEid}.xml`
-      : undefined
-    console.log("UPTO", destinationUpToModel)
+    destinationUpToModel.value = `${destinationHrefEli.value}/${eid}.xml`
   } else {
     destinationHrefEid.value = eid
     destinationUpToModel.value = undefined
