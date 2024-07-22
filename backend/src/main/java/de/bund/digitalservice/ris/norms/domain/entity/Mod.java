@@ -205,7 +205,7 @@ public class Mod {
 
   /**
    * Replaces an akn:ref with an akn:rref and updates the href and upTo attributes with the given
-   * values. It also copy&paste for now the text content of the old node.
+   * values. It also copies for now the text content of the old node.
    *
    * @param destinationHref the new destination href
    * @param destinationUpTo the new destination upTo
@@ -225,7 +225,7 @@ public class Mod {
 
   /**
    * Replaces an akn:rref with an akn:ref and updates the href and upTo attributes with a new
-   * destination href. It also copy&paste for now the text content of the old node.
+   * destination href. It also copies for now the text content of the old node.
    *
    * @param destinationHref the new destination href
    */
