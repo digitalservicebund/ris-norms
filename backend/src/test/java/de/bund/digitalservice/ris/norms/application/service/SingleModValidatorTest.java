@@ -355,20 +355,54 @@ class SingleModValidatorTest {
   @Nested
   class quotedStructure {
     @Test
-    void validationSuccess() {
+    void validationSuccessNoUpTo() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       final Node modNode =
           amendingNorm
               .getNodeByEId(
-                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
+                  "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
               .orElseThrow();
       final Mod mod = new Mod(modNode);
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
+
+      // when then
+      Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
+    }
+
+    @Test
+    void validationSuccessWithUpTo() {
+      // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Node modNode =
+          amendingNorm
+              .getNodeByEId(
+                  "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      final Norm zf0Norm =
+          NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
+
+      // when then
+      Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
+    }
+
+    @Test
+    void upToNodeNotPresent() {
+      // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Node modNode =
+          amendingNorm
+              .getNodeByEId(
+                  "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      final Norm zf0Norm =
+          NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
+
       final TextualMod passiveMod =
           zf0Norm.getMeta().getAnalysis().orElseThrow().getPassiveModifications().getFirst();
-      passiveMod.setDestinationHref(
-          "#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
+      passiveMod.setDestinationUpTo("#not-present-href");
 
       // when
       Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
@@ -377,7 +411,62 @@ class SingleModValidatorTest {
       assertThat(thrown)
           .isInstanceOf(ValidationException.class)
           .hasMessageContaining(
-              "Target node with eid hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 not present");
+              "Target upTo node with eid not-present-href not present in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.");
+    }
+
+    @Test
+    void upToNodeAndTargetNodeNotSiblings() {
+      // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Node modNode =
+          amendingNorm
+              .getNodeByEId(
+                  "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      final Norm zf0Norm =
+          NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
+
+      final TextualMod passiveMod =
+          zf0Norm.getMeta().getAnalysis().orElseThrow().getPassiveModifications().getFirst();
+      passiveMod.setDestinationUpTo("#hauptteil-1_para-3");
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(ValidationException.class)
+          .hasMessageContaining(
+              "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-3 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.");
+    }
+
+    @Test
+    void upToNodeBeforeTargetNode() {
+      // given
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final Node modNode =
+          amendingNorm
+              .getNodeByEId(
+                  "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1")
+              .orElseThrow();
+      final Mod mod = new Mod(modNode);
+      final Norm zf0Norm =
+          NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
+
+      final TextualMod passiveMod =
+          zf0Norm.getMeta().getAnalysis().orElseThrow().getPassiveModifications().getFirst();
+      passiveMod.setDestinationHref("#hauptteil-1_para-2_abs-3");
+      passiveMod.setDestinationUpTo("#hauptteil-1_para-2_abs-1");
+
+      // when
+      Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
+
+      // then
+      assertThat(thrown)
+          .isInstanceOf(ValidationException.class)
+          .hasMessageContaining(
+              "Target node with eid hauptteil-1_para-2_abs-3 does not appear before target upTo node with eid hauptteil-1_para-2_abs-1 in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.");
     }
   }
 }
