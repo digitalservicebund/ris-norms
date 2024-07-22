@@ -72,9 +72,19 @@ const selectedElement = computed({
   },
 })
 
-const destinationHrefEli = computed(() =>
-  destinationHrefModel.value?.split("/").slice(0, -2).join("/"),
-)
+const destinationHrefEli = computed(() => {
+  const parts = destinationHrefModel.value?.split("/") || []
+
+  if (
+    props.textualModType === "aenderungsbefehl-ersetzen" &&
+    props.quotedStructureContent
+  ) {
+    return parts.slice(0, -1).join("/")
+  } else if (props.textualModType === "aenderungsbefehl-ersetzen") {
+    return parts.slice(0, -2).join("/")
+  }
+  return ""
+})
 
 const destinationHrefEid = computed({
   get() {
@@ -139,7 +149,8 @@ const destinationRangeUptoEid = ref<string | undefined>()
 
 watch(destinationRangeUptoEid, (newEid) => {
   if (newEid) {
-    destinationUpToModel.value = `${destinationHrefEli.value}/${newEid}.xml`
+    destinationUpToModel.value = `${destinationHrefEli.value}/${newEid}`
+    emit("generate-preview")
   } else {
     destinationUpToModel.value = ""
   }
