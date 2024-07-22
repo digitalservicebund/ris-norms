@@ -715,6 +715,160 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void itUpdatesAQuotedStructureModFromRefToRref() throws Exception {
+      // When
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(
+              NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml")));
+
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-2";
+      String eli = "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1";
+      String destinationHrefEid = "hauptteil-1_para-2_abs-1";
+      String destinationHref = eli + "/" + destinationHrefEid + ".xml";
+      String destinationUpToEid = "hauptteil-1_para-2_abs-3";
+      String destinationUpTo = eli + "/" + destinationUpToEid + ".xml";
+      String newContent = "THIS_IS_NOT_BEING_HANDLED";
+
+      String modEid =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/"
+                      + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"newContent\": \""
+                          + newContent
+                          + "\", \"destinationUpTo\": \""
+                          + destinationUpTo
+                          + "\"}"))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod[@eId='meta-1_analysis-1_activemod-1_textualmod-5']/destination/@href",
+                              equalTo(destinationHref)))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod[@eId='meta-1_analysis-1_activemod-1_textualmod-5']/destination/@upTo",
+                              equalTo(destinationUpTo)))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod[@eId='" + modEid + "']/rref/@href",
+                              equalTo(destinationHref)))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod[@eId='" + modEid + "']/rref/@upTo",
+                              equalTo(destinationUpTo)))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod[@eId='meta-1_analysis-1_pasmod-1_textualmod-5']/destination/@href",
+                              equalTo("#" + destinationHrefEid)))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod[@eId='meta-1_analysis-1_pasmod-1_textualmod-5']/destination/@upTo",
+                              equalTo("#" + destinationUpToEid)))));
+    }
+
+    @Test
+    void itUpdatesAQuotedStructureModFromRrefToRef() throws Exception {
+      // When
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(
+              NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(
+              NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml")));
+
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-2";
+      String eli = "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1";
+      String destinationHrefEid = "hauptteil-1_para-2_abs-1";
+      String destinationHref = eli + "/" + destinationHrefEid + ".xml";
+      String newContent = "THIS_IS_NOT_BEING_HANDLED";
+
+      String modEid = "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/"
+                      + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"newContent\": \""
+                          + newContent
+                          + "\", \"destinationUpTo\": \""
+                          + "\"}"))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("amendingNormXml", notNullValue()))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//activeModifications/textualMod[@eId='meta-1_analysis-1_activemod-1_textualmod-1']/destination/@href",
+                              equalTo(destinationHref)))))
+          .andExpect(
+              jsonPath("amendingNormXml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//body//mod[@eId='" + modEid + "']/ref/@href",
+                              equalTo(destinationHref)))))
+          .andExpect(
+              jsonPath("targetNormZf0Xml")
+                  .value(
+                      XmlMatcher.xml(
+                          hasXPath(
+                              "//passiveModifications/textualMod[@eId='meta-1_analysis-1_pasmod-1_textualmod-1']/destination/@href",
+                              equalTo("#" + destinationHrefEid)))));
+    }
+
+    @Test
     void itReturnsBadRequestAndDoesNotSaveIt() throws Exception {
       // When
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));

@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 public class UpdateModRequestSchema {
 
   @NotNull private String refersTo;
-  @NotNull private String timeBoundaryEid;
+  @Nullable private String timeBoundaryEid;
   @NotNull private String destinationHref;
   @Nullable private String destinationUpTo;
   @NotNull private String newContent;
