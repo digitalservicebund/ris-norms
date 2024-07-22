@@ -190,9 +190,12 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     final List<Node> nodesToReplace = new ArrayList<>();
     nodesToReplace.add(targetNode);
     Node currentNode = targetNode.getNextSibling();
-    while (currentNode != null
-        && (upToTargetNode.isPresent() && currentNode != upToTargetNode.get())) {
+    while (upToTargetNode.isPresent() && currentNode != null) {
       nodesToReplace.add(currentNode);
+      if (currentNode == upToTargetNode.get()) {
+        currentNode = currentNode.getNextSibling();
+        break;
+      }
       currentNode = currentNode.getNextSibling();
     }
     // Delete nodes that should be replaced
