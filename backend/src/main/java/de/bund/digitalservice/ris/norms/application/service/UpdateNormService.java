@@ -127,8 +127,16 @@ public class UpdateNormService
                         .getForcePeriodEid()
                         .map(amendingNormTemporalGroupEidsToNormTemporalGroupEids::get)
                         .map(eId -> new Href.Builder().setEId(eId).buildInternalReference().value())
+                        .orElse(null),
+                    activeModification
+                        .getDestinationUpTo()
+                        .map(
+                            upToHref ->
+                                new Href.Builder()
+                                    .setEId(upToHref.getEId().orElseThrow())
+                                    .buildInternalReference()
+                                    .value())
                         .orElse(null)));
-
     return norm;
   }
 

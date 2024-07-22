@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Node;
 
 /** Class representing the akn:analysis */
@@ -56,13 +57,18 @@ public class Analysis {
    *
    * @param type the type of the textual mod (this is different from the @refersTo property of an
    *     akn:mod)
-   * @param sourceHref the href our the source of the textual mod
-   * @param destinationHref the href our the destination of the textual mod
+   * @param sourceHref the href of the source of the textual mod
+   * @param destinationHref the href of the destination of the textual mod
    * @param periodHref the href to the geltungszeitgruppe of the textual mod
+   * @param destinationUpTo the upTo of the destination of the textual mod
    * @return the newly create passive modification
    */
   public TextualMod addPassiveModification(
-      String type, String sourceHref, String destinationHref, String periodHref) {
+      String type,
+      String sourceHref,
+      String destinationHref,
+      String periodHref,
+      String destinationUpTo) {
     var passiveModificationsNode = getOrCreatePassiveModificationsNode();
 
     var textualMod =
@@ -78,6 +84,9 @@ public class Analysis {
     var destination =
         NodeCreator.createElementWithEidAndGuid("akn:destination", "destination", textualMod);
     destination.setAttribute("href", destinationHref);
+    if (StringUtils.isNotEmpty(destinationUpTo)) {
+      destination.setAttribute("upTo", destinationUpTo);
+    }
     textualMod.appendChild(destination);
 
     var force = NodeCreator.createElementWithEidAndGuid("akn:force", "gelzeitnachw", textualMod);

@@ -197,6 +197,50 @@ class UpdateNormServiceTest {
               new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"));
       assertThat(newPassiveModification.getForcePeriodEid()).isEmpty();
     }
+
+    @Test
+    void itAddsOnePassiveModificationWithUpTo() {
+
+      // Given
+      final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final TextualMod activeMod =
+          amendingLaw.getMeta().getOrCreateAnalysis().getActiveModifications().getFirst();
+      activeMod.setDestinationUpTo(
+          "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml");
+
+      final Norm zf0Law =
+          NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
+      final String targetLawELi = "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1";
+
+      // When
+      var updatedZfoLaw =
+          updateNormService.updatePassiveModifications(
+              new UpdatePassiveModificationsUseCase.Query(zf0Law, amendingLaw, targetLawELi));
+
+      // Then
+      final List<TextualMod> passiveModifications =
+          updatedZfoLaw
+              .getMeta()
+              .getAnalysis()
+              .map(Analysis::getPassiveModifications)
+              .orElse(Collections.emptyList());
+      assertThat(passiveModifications).hasSize(1);
+
+      var newPassiveModification = passiveModifications.getFirst();
+      assertThat(newPassiveModification.getType()).contains("substitution");
+      assertThat(newPassiveModification.getSourceHref())
+          .contains(
+              new Href(
+                  "eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"));
+      assertThat(newPassiveModification.getDestinationHref())
+          .contains(new Href("#hauptteil-1_para-2_abs-1"));
+      assertThat(newPassiveModification.getDestinationUpTo())
+          .contains(new Href("#hauptteil-1_para-2_abs-2"));
+      assertThat(
+              updatedZfoLaw.getStartDateForTemporalGroup(
+                  newPassiveModification.getForcePeriodEid().orElseThrow()))
+          .contains("1002-01-11");
+    }
   }
 
   @Nested

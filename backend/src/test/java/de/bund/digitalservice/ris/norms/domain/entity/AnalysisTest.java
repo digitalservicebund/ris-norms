@@ -150,7 +150,7 @@ class AnalysisTest {
   }
 
   @Test
-  void itShouldCreateANewPassiveModification() {
+  void itShouldCreateANewPassiveModificationWithouUpTo() {
     final Analysis analysis =
         Analysis.builder()
             .node(
@@ -173,7 +173,8 @@ class AnalysisTest {
         "substitution",
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml",
         "#hauptteil-1_para-20_abs-1/100-126",
-        "#meta-1_geltzeiten-1_geltungszeitgr-2");
+        "#meta-1_geltzeiten-1_geltungszeitgr-2",
+        null);
     assertThat(analysis.getPassiveModifications()).hasSize(2);
 
     final TextualMod addedPassiveMod = analysis.getPassiveModifications().getLast();
@@ -185,6 +186,49 @@ class AnalysisTest {
     assertThat(addedPassiveMod.getType()).contains("substitution");
     assertThat(addedPassiveMod.getDestinationHref())
         .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
+    assertThat(addedPassiveMod.getForcePeriodEid())
+        .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
+  }
+
+  @Test
+  void itShouldCreateANewPassiveModificationWithUpTo() {
+    final Analysis analysis =
+        Analysis.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+                                          <akn:analysis GUID="72cd555b-de7d-4d5e-ba2e-4dc50800400f" eId="meta-1_analysis-1" source="attributsemantik-noch-undefiniert">
+                                            <akn:passiveModifications GUID="ca13a0cc-8f37-42c7-920b-f0d2fb59c81c" eId="meta-1_analysis-1_activemod-1">
+                                              <akn:textualMod GUID="ae8e4880-4385-4e54-9b7c-1337d8015d33" eId="meta-1_analysis-1_activemod-1_textualmod-1" type="substitution">
+                                                <akn:source GUID="30406542-d2e5-41fb-81ae-da19efa66aae" eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
+                                                <akn:destination GUID="dc780027-452c-41eb-850c-af483bbdc2dc" eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" href="#hauptteil-1_para-2_abs-1.xml" upTo="#hauptteil-1_para-2_abs-3.xml"/>
+                                                <akn:force GUID="9a8da48a-b837-45ea-8395-09bc895df4b0" eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1" period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                                              </akn:textualMod>
+                                            </akn:passiveModifications>
+                                          </akn:analysis>
+                                          """))
+            .build();
+
+    assertThat(analysis.getPassiveModifications()).hasSize(1);
+    analysis.addPassiveModification(
+        "substitution",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml",
+        "#hauptteil-1_para-20_abs-1",
+        "#meta-1_geltzeiten-1_geltungszeitgr-2",
+        "#hauptteil-1_para-20_abs-3");
+    assertThat(analysis.getPassiveModifications()).hasSize(2);
+
+    final TextualMod addedPassiveMod = analysis.getPassiveModifications().getLast();
+
+    assertThat(addedPassiveMod.getSourceHref())
+        .contains(
+            new Href(
+                "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
+    assertThat(addedPassiveMod.getType()).contains("substitution");
+    assertThat(addedPassiveMod.getDestinationHref())
+        .contains(new Href("#hauptteil-1_para-20_abs-1"));
+    assertThat(addedPassiveMod.getDestinationUpTo())
+        .contains(new Href("#hauptteil-1_para-20_abs-3"));
     assertThat(addedPassiveMod.getForcePeriodEid())
         .contains("meta-1_geltzeiten-1_geltungszeitgr-2");
   }
