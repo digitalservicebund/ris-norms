@@ -204,7 +204,24 @@ function handleAknElementClick({
     if (parentElement !== clickedParentElement) {
       return
     }
-    destinationRangeUptoEid.value = eid
+    const siblingElements = Array.from(
+      parentElement.querySelectorAll("[data-eid]"),
+    ) as HTMLElement[]
+    const clickedIndex = siblingElements.findIndex(
+      (el) => el.getAttribute("data-eid") === eid,
+    )
+    const selectedIndex = siblingElements.findIndex(
+      (el) => el.getAttribute("data-eid") === destinationHrefEid.value,
+    )
+    if (clickedIndex < 0 || selectedIndex < 0) return
+    const [startIndex, endIndex] = [selectedIndex, clickedIndex].sort(
+      (a, b) => a - b,
+    )
+    const selectedEids = siblingElements
+      .slice(startIndex, endIndex + 1)
+      .map((el) => el.getAttribute("data-eid")!)
+    destinationHrefEid.value = selectedEids[0]
+    destinationRangeUptoEid.value = selectedEids[selectedEids.length - 1]
   } else {
     destinationHrefEid.value = eid
     destinationRangeUptoEid.value = undefined
