@@ -233,15 +233,16 @@ const elementToBeReplacedRef = ref<InstanceType<typeof RisLawPreview> | null>(
 )
 
 watch(
-  destinationHrefEid,
-  (newEid) => {
-    if (newEid) {
+  [destinationHrefEid, () => props.targetLawHtmlHtml],
+  () => {
+    if (destinationHrefEid.value) {
       nextTick(() => {
         const container = elementToBeReplacedRef.value?.$el
         if (container) {
-          const element = container.querySelector(`[data-eid="${newEid}"]`)
+          const element = container.querySelector(
+            `[data-eid="${destinationHrefEid.value}"]`,
+          )
           if (element) {
-            destinationHrefEid.value = newEid
             element.scrollIntoView({
               behavior: "smooth",
               block: "center",
