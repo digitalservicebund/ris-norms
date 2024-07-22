@@ -1,4 +1,4 @@
-import { captureException } from "@sentry/vue"
+import * as Sentry from "@sentry/vue"
 import { createFetch, UseFetchReturn } from "@vueuse/core"
 import type { Router } from "vue-router"
 
@@ -78,9 +78,10 @@ export const useApiFetch = createFetch({
         }
       }
 
-      // Report error and attach Sentry event ID so we can display it in the UI
-      const eventId = captureException(fetchContext)
-      if (fetchContext.error) fetchContext.error.sentryEventId = eventId
+      // TODO: (Malte Laukötter, 2024-07-22) as this is static data we do not need to set it here but should instead move this directly to the error message component or a composable or so. Also its no longer the eventId but traceId. This is only a very quick fix so I can validate that it actually works. And will be replaced by a proper change in the next days.
+      if (fetchContext.error)
+        fetchContext.error.sentryEventId =
+          Sentry.getCurrentScope().getScopeData().propagationContext.traceId
 
       return fetchContext
     },
