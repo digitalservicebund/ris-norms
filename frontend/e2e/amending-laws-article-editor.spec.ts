@@ -748,7 +748,7 @@ test.describe("Quoted Structure", () => {
       })
       await expect(destinationHrefEliElement).toBeVisible()
       await expect(destinationHrefEliElement).toHaveValue(
-        "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu",
+        "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1",
       )
       await expect(destinationHrefEliElement).toHaveAttribute("readonly", "")
 
