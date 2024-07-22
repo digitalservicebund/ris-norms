@@ -38,6 +38,10 @@ const selectedTimeBoundaryModel = defineModel<TemporalDataResponse | undefined>(
 )
 /** Destination Href for mod */
 const destinationHrefModel = defineModel<string>("destinationHref")
+
+/** This is the range of the text that will be replaced */
+const destinationUpToModel = defineModel<string>("destinationUpTo")
+
 /** This is the text that replaces quotedTextFirst */
 const quotedTextSecondModel = defineModel<string | undefined>(
   "quotedTextSecond",
@@ -131,12 +135,84 @@ function modTypeLabel(modType: ModType | "") {
   }
 }
 
-interface AknElementClickEvent {
-  eid: string
-  guid: string
+const selectedElements = computed(() => {
+  if (destinationHrefEid.value == null) {
+    return []
+  }
+  if (destinationUpToModel.value == null) {
+    return [destinationHrefEid.value]
+  }
+  const container = elementToBeReplacedRef.value?.$el
+  return getAllEidsBetween(
+    destinationHrefEid.value,
+    destinationUpToModel.value,
+    container,
+  )
+})
+
+function getNextEid(
+  currentEid: string,
+  container: HTMLElement,
+): string | undefined {
+  const element = container.querySelector(`[data-eid="${currentEid}"]`)
+  const currentIndex = element?.nextElementSibling?.getAttribute("data-eid")
+  return currentIndex ?? undefined
 }
-const handleAknElementClick = (e: AknElementClickEvent) => {
-  destinationHrefEid.value = e.eid
+
+function getAllEidsBetween(
+  startEid: string,
+  endEid: string,
+  container: HTMLElement,
+) {
+  const eids: string[] = []
+  let collect = false
+
+  const elements = container.querySelectorAll("[data-eid]")
+  elements.forEach((el) => {
+    const eid = el.getAttribute("data-eid")
+    if (eid === startEid || eid === endEid) {
+      if (!collect) {
+        eids.push(eid)
+        collect = true
+      } else {
+        eids.push(eid!)
+        collect = false
+      }
+    } else if (collect && eid) {
+      eids.push(eid)
+    }
+  })
+  return eids
+}
+
+function handleAknElementClick({
+  eid,
+  originalEvent,
+}: {
+  eid: string
+  originalEvent: MouseEvent | KeyboardEvent
+}) {
+  originalEvent.preventDefault()
+  if (originalEvent.shiftKey) {
+    const container = elementToBeReplacedRef.value?.$el
+    const destinationElement = container?.querySelector(
+      `[data-eid="${destinationHrefEid.value}"]`,
+    )
+    const parentElement = destinationElement?.parentElement
+    const clickedElement = container?.querySelector(`[data-eid="${eid}"]`)
+    const clickedParentElement = clickedElement?.parentElement
+    if (parentElement !== clickedParentElement) {
+      return
+    }
+    const nextEid = getNextEid(eid, container)
+    destinationUpToModel.value = nextEid
+      ? `${destinationHrefEli.value}/${nextEid}.xml`
+      : undefined
+    console.log("UPTO", destinationUpToModel)
+  } else {
+    destinationHrefEid.value = eid
+    destinationUpToModel.value = undefined
+  }
 }
 
 const elementToBeReplacedRef = ref<InstanceType<typeof RisLawPreview> | null>(
@@ -211,7 +287,7 @@ watch(
           :content="targetLawHtmlHtml ?? ''"
           highlight-affected-document
           :rows="8"
-          :selected="destinationHrefEid == null ? [] : [destinationHrefEid]"
+          :selected="selectedElements"
           @click:akn:list="handleAknElementClick"
           @click:akn:long-title="handleAknElementClick"
           @click:akn:citations="handleAknElementClick"
