@@ -129,12 +129,11 @@ public class NormService
       String newContent) {
     var targetNormEli = new Href(destinationHref).getEli();
     if (targetNormEli.isEmpty()) {
-      throw new IllegalArgumentException(
-          "The destinationHref does not contain a eli"); // TODO ValidationException
+      throw new ValidationException("The destinationHref does not contain a eli");
     }
 
     // Update active mods (meta and body) in amending law
-    updateNormService.updateActiveModifications( // TODO name is misleading it also updates akn:mod
+    updateNormService.updateActiveModifications(
         new UpdateActiveModificationsUseCase.Query(
             amendingNorm, eId, destinationHref, destinationUpTo, timeBoundaryEId, newContent));
 
@@ -173,7 +172,7 @@ public class NormService
         amendingNorm
             .getNodeByEId(query.mods().stream().findAny().orElseThrow().eId())
             .map(Mod::new)
-            .flatMap(Mod::getTargetHref)
+            .flatMap(Mod::getTargetRefHref)
             .flatMap(Href::getEli);
     if (targetNormEli.isEmpty()) {
       return Optional.empty();
@@ -183,7 +182,7 @@ public class NormService
         .allMatch(
             modData -> {
               final var mod = amendingNorm.getNodeByEId(modData.eId()).map(Mod::new);
-              final var eli = mod.flatMap(Mod::getTargetHref).flatMap(Href::getEli);
+              final var eli = mod.flatMap(Mod::getTargetRefHref).flatMap(Href::getEli);
               return eli.equals(targetNormEli);
             })) {
       throw new IllegalArgumentException("Not all mods have the same target norm");
@@ -207,7 +206,7 @@ public class NormService
                   amendingNorm,
                   zf0Norm,
                   newModData.eId(),
-                  mod.getTargetHref().map(Href::value).orElse(null),
+                  mod.getTargetRefHref().map(Href::value).orElse(null),
                   null,
                   newModData.timeBoundaryEId(),
                   mod.getNewText().orElse(null));

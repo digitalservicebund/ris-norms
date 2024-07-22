@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -22,6 +21,9 @@ import org.w3c.dom.Node;
 @EqualsAndHashCode
 public class Mod {
   private final Node node;
+
+  private static final String REF_XPATH = "./ref";
+  private static final String RREF_XPATH = "./rref";
 
   /**
    * Returns the eId as {@link String}.
@@ -81,12 +83,12 @@ public class Mod {
   }
 
   /**
-   * Returns the href of the target law that is modified.
+   * Returns the href of the akn:ref of the target law that is modified.
    *
    * @return The href of the akn:ref of the akn:mod.
    */
-  public Optional<Href> getTargetHref() {
-    return NodeParser.getValueFromExpression("./ref/@href", this.node).map(Href::new);
+  public Optional<Href> getTargetRefHref() {
+    return NodeParser.getValueFromExpression(REF_XPATH + "/@href", this.node).map(Href::new);
   }
 
   /**
@@ -94,8 +96,30 @@ public class Mod {
    *
    * @param newHref - the new ELI + eId of the target law
    */
-  public void setTargetHref(final String newHref) {
-    NodeParser.getNodeFromExpression("./ref", this.node)
+  public void setTargetRefHref(final String newHref) {
+    NodeParser.getNodeFromExpression(REF_XPATH, this.node)
+        .orElseThrow()
+        .getAttributes()
+        .getNamedItem("href")
+        .setNodeValue(newHref);
+  }
+
+  /**
+   * Returns the href of the akn:rref of the target law that is modified.
+   *
+   * @return The href of the akn:rref of the akn:mod.
+   */
+  public Optional<Href> getTargetRrefHref() {
+    return NodeParser.getValueFromExpression(RREF_XPATH + "/@href", this.node).map(Href::new);
+  }
+
+  /**
+   * Updates the href attribute of akn:rref node within the akn:mode of the body.
+   *
+   * @param newHref - the new ELI + eId of the target law
+   */
+  public void setTargetRrefHref(final String newHref) {
+    NodeParser.getNodeFromExpression(RREF_XPATH, this.node)
         .orElseThrow()
         .getAttributes()
         .getNamedItem("href")
@@ -150,9 +174,18 @@ public class Mod {
    *
    * @return whether the mod has a range ref (rref)
    */
-  public boolean hasRangeRef() {
-    final Optional<Node> rangeRefNode = NodeParser.getNodeFromExpression("./rref", this.node);
+  public boolean hasRref() {
+    final Optional<Node> rangeRefNode = NodeParser.getNodeFromExpression(RREF_XPATH, this.node);
     return rangeRefNode.isPresent();
+  }
+
+  /**
+   * Returns the upTo of the akn:rref of the target law that is modified.
+   *
+   * @return The href of the akn:rref of the akn:mod.
+   */
+  public Optional<Href> getTargetRrefUpTo() {
+    return NodeParser.getValueFromExpression("./rref/@upTo", this.node).map(Href::new);
   }
 
   /**
@@ -160,54 +193,11 @@ public class Mod {
    *
    * @param destinationUpTo - the UpTo attribute that should be updated
    */
-  public void setRangeRefUpTo(String destinationUpTo) {
-    if (destinationUpTo != null && getRangeRef().isPresent()) {
-      Element element = (Element) getRangeRef().get();
-      element.setAttribute("upTo", destinationUpTo);
-    }
-  }
-
-  /**
-   * Returns the range ref href attribute of the target law that is modified.
-   *
-   * @return The href of the akn:ref of the akn:mod.
-   */
-  public Optional<Node> getRangeRef() {
-    return NodeParser.getNodeFromExpression("./rref", this.node);
-  }
-
-  /**
-   * Checks whether the mod has a regular ref tag (ref)
-   *
-   * @return whether the mod has a regular ref tag (ref)
-   */
-  public boolean hasRef() {
-    final Optional<Node> rangeRefNode = NodeParser.getNodeFromExpression("./ref", this.node);
-    return rangeRefNode.isPresent();
-  }
-
-  /**
-   * Returns a regular ref tag (ref) as node
-   *
-   * @return a regular ref tag (ref) as node
-   */
-  public Optional<Node> getRef() {
-    return NodeParser.getNodeFromExpression("./ref", this.node);
-  }
-
-  /**
-   * Updates a regular ref to a range ref tag also setting the than needed UpTo attribute
-   *
-   * @param destinationUpTo - the UpTo attribute that should be set
-   */
-  public void convertRefToRangeRef(String destinationUpTo) {
-    // TODO make it work
-    //    if (destinationUpTo != null && getRef().isPresent()) {
-    //      Element element = (Element) getRef().get();
-    //      var document = element.getOwnerDocument();
-    //      document.renameNode(
-    //          element, "http://Inhaltsdaten.LegalDocML.de/1.7/", "akn:rref");
-    //      element.setAttribute("upTo", destinationUpTo);
-    //    }
+  public void setTargetRrefUpTo(final String destinationUpTo) {
+    NodeParser.getNodeFromExpression(RREF_XPATH, this.node)
+        .orElseThrow()
+        .getAttributes()
+        .getNamedItem("upTo")
+        .setNodeValue(destinationUpTo);
   }
 }

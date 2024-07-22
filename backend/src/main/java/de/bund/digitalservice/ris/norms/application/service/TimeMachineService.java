@@ -108,11 +108,12 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
             })
         .forEach(
             mod -> {
-              if (mod.getTargetHref().isEmpty() || mod.getTargetHref().get().getEId().isEmpty()) {
+              if (mod.getTargetRefHref().isEmpty()
+                  || mod.getTargetRefHref().get().getEId().isEmpty()) {
                 return;
               }
 
-              final var targetEid = mod.getTargetHref().get().getEId().get();
+              final var targetEid = mod.getTargetRefHref().get().getEId().get();
               final var targetNode =
                   NodeParser.getNodeFromExpression(
                       String.format("//*[@eId='%s']", targetEid), norm.getDocument());

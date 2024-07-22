@@ -138,7 +138,7 @@ class LoadZf0ServiceTest {
     when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(zf0Law));
     when(loadNormPort.loadNorm((any()))).thenReturn(Optional.of(targetLaw));
     Mod mod = amendingLaw.getMods().getFirst();
-    mod.setTargetHref("");
+    mod.setTargetRefHref("");
 
     // When
     final Throwable thrown = catchThrowable(() -> loadZf0Service.loadZf0(amendingLaw, mod));

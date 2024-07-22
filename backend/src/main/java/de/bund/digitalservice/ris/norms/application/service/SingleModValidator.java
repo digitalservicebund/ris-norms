@@ -52,6 +52,9 @@ public class SingleModValidator {
           StringUtils.normalizeSpace(activeMod.getMandatoryOldText()),
           StringUtils.normalizeSpace(zf0TargetedNode.getTextContent()));
     }
+    if (activeMod.usesQuotedStructure()) {
+      validateQuotedStructure(zf0NormEli, affectedPassiveMod, zf0Norm);
+    }
   }
 
   private void validateQuotedText(
@@ -91,5 +94,14 @@ public class SingleModValidator {
       throw new ValidationException(
           "The character range %s of passive mod with eId %s within ZF0 norm with eli %s does not resolve to the targeted text to be replaced."
               .formatted(characterRange, passiveModEid, zf0NormEli));
+  }
+
+  private void validateQuotedStructure(
+      final String zf0NormEli, final TextualMod affectedPassiveMod, final Norm zf0Norm)
+      throws ValidationException {
+
+    // TODO check if destinationUpTo resolves to existing node
+
+    // TODO check if href node and upTo node are siblings from same parent node
   }
 }

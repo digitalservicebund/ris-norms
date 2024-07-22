@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 /** Service for updating norms. */
@@ -132,135 +133,63 @@ public class UpdateNormService
   }
 
   @Override
-  public Norm updateActiveModifications(
-      UpdateActiveModificationsUseCase.Query
-          query) { // TODO should this be a use case? No external use
+  public Norm updateActiveModifications(UpdateActiveModificationsUseCase.Query query) {
     final Norm amendingNorm = query.amendingNorm();
 
-    Optional<TextualMod> activeModification =
-        amendingNorm
-            .getMeta()
-            .getAnalysis()
-            .map(analysis -> analysis.getActiveModifications().stream())
-            .orElse(Stream.empty())
-            .filter(
-                activeMod ->
-                    activeMod
-                        .getSourceHref()
-                        .flatMap(Href::getEId)
-                        .equals(Optional.of(query.eId()))) // sourceHref is changeCommand Eid
-            .findFirst();
+    // Edit mod in meta
+    amendingNorm
+        .getMeta()
+        .getAnalysis()
+        .map(analysis -> analysis.getActiveModifications().stream())
+        .orElse(Stream.empty())
+        .filter(
+            activeMod ->
+                activeMod.getSourceHref().flatMap(Href::getEId).equals(Optional.of(query.eId())))
+        .findFirst()
+        .ifPresent(
+            activeMod -> {
+              activeMod.setDestinationHref(query.destinationHref());
+              activeMod.setForcePeriodEid(query.timeBoundaryEid());
+              activeMod.setDestinationUpTo(query.destinationUpTo());
+            });
 
-    Optional<Mod> inTextMod =
-        amendingNorm.getMods().stream()
-            .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eId()))
-            .findFirst();
-
-    updateQuotedTextSubstitution(query, activeModification, inTextMod);
-    updateQuotedStructureSubstitutionSingleTarget(query, activeModification, inTextMod);
-    updateQuotedStructureSubstitutionRangeTarget(query, activeModification, inTextMod);
-
+    // Edit mod in meta
+    amendingNorm.getMods().stream()
+        .filter(mod -> mod.getEid().isPresent() && mod.getEid().get().equals(query.eId()))
+        .findFirst()
+        .ifPresent(
+            inTextMod -> {
+              if (inTextMod.usesQuotedText()) {
+                inTextMod.setTargetRefHref(query.destinationHref());
+                inTextMod.setNewText(query.newContent());
+              }
+              if (inTextMod.usesQuotedStructure()) {
+                if (inTextMod.hasRref()) {
+                  updateQuotedStructureSubstitutionRangeTarget(query, inTextMod);
+                } else {
+                  updateQuotedStructureSubstitutionSingleTarget(query, inTextMod);
+                }
+              }
+            });
     return amendingNorm;
   }
 
   private static void updateQuotedStructureSubstitutionSingleTarget(
-      UpdateActiveModificationsUseCase.Query query,
-      Optional<TextualMod> activeModification,
-      Optional<Mod> inTextMod) {
-    if (activeModification.isPresent() // TODO remove
-        && activeModification.get().getType().isPresent()
-        && activeModification.get().getType().get().equals("substitution")
-        && inTextMod.isPresent()
-        && inTextMod.get().usesQuotedStructure()
-        && (query.destinationUpTo() == null || query.destinationUpTo().isBlank())) {
-
-      activeModification.ifPresent(
-          activeMod -> {
-            activeMod.setDestinationHref(query.destinationHref());
-            activeMod.setForcePeriodEid(query.timeBoundaryEid()); // this is nullable
-            if (activeMod.getDestinationUpTo().isPresent()) activeMod.deleteDestinationUpTo();
-          });
-
-      // Edit mod in body: replace node by quoted structure
-      inTextMod.ifPresent(
-          mod -> {
-            mod.setTargetHref(query.destinationHref());
-            // ToDo if applicable change rref to ref and delete upTo attribute
-          });
+      final UpdateActiveModificationsUseCase.Query query, final Mod inTextMod) {
+    if (StringUtils.isNotEmpty(query.destinationUpTo())) {
+      // TODO replace akn:ref with akn:rref
+    } else {
+      inTextMod.setTargetRefHref(query.destinationHref());
     }
   }
 
   private static void updateQuotedStructureSubstitutionRangeTarget(
-      UpdateActiveModificationsUseCase.Query query,
-      Optional<TextualMod> activeModification,
-      Optional<Mod> inTextMod) {
-    if (activeModification.isPresent() // TODO remove
-        && activeModification.get().getType().isPresent()
-        && activeModification.get().getType().get().equals("substitution")
-        && inTextMod.isPresent() // TODO move to public
-        && inTextMod.get().usesQuotedStructure()
-        && query.destinationUpTo() != null
-        && !query.destinationUpTo().isBlank()) {
-
-      if (!isDestinationUpToValid(
-          query.destinationHref(),
-          query.destinationUpTo())) // TODO Validate in xml if they are siblings;
-      throw new IllegalArgumentException("The destinationHref and do nor share the same parent.");
-
-      activeModification.ifPresent(
-          activeMod -> {
-            activeMod.setDestinationHref(query.destinationHref());
-            activeMod.setDestinationUpTo(query.destinationUpTo());
-            activeMod.setForcePeriodEid(query.timeBoundaryEid()); // this is nullable
-          });
-
-      // Edit mod in body: replace node by quoted structure
-      inTextMod.ifPresent(
-          mod -> {
-            mod.setTargetHref(query.destinationHref());
-            if (mod.hasRangeRef()) {
-              mod.setRangeRefUpTo(query.destinationUpTo());
-            } else if (mod.hasRef()) {
-              mod.convertRefToRangeRef(query.destinationUpTo());
-            }
-            // ToDo if applicable change ref to rref and set upTo attribute
-          });
+      final UpdateActiveModificationsUseCase.Query query, final Mod inTextMod) {
+    if (StringUtils.isNotEmpty(query.destinationUpTo())) {
+      inTextMod.setTargetRrefHref(query.destinationHref());
+      inTextMod.setTargetRrefUpTo(query.destinationUpTo());
+    } else {
+      // TODO akn:rref with akn:ref
     }
-  }
-
-  private static void updateQuotedTextSubstitution(
-      UpdateActiveModificationsUseCase.Query query,
-      Optional<TextualMod> activeModification,
-      Optional<Mod> inTextMod) {
-    if (activeModification.isPresent() // TODO remove
-        && activeModification.get().getType().isPresent()
-        && activeModification.get().getType().get().equals("substitution")
-        && inTextMod.isPresent()
-        && inTextMod.get().usesQuotedText()) {
-
-      // Edit mod in meta
-      activeModification.ifPresent(
-          activeMod -> {
-            activeMod.setDestinationHref(query.destinationHref());
-            activeMod.setForcePeriodEid(query.timeBoundaryEid()); // this is nullable
-          });
-
-      // Edit mod in body
-      inTextMod.ifPresent(
-          mod -> {
-            mod.setTargetHref(query.destinationHref());
-            mod.setNewText(query.newContent());
-          });
-    }
-  }
-
-  private static boolean isDestinationUpToValid(
-      String destinationHrefString, String destinationUpToString) {
-    Href destinationHref = new Href(destinationHrefString);
-    Href destinationUpToHref = new Href(destinationUpToString);
-
-    return destinationHref.getParentEId().isPresent()
-        && destinationUpToHref.getParentEId().isPresent()
-        && destinationHref.getParentEId().equals(destinationUpToHref.getParentEId());
   }
 }

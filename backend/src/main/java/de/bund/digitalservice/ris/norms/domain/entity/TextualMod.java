@@ -6,6 +6,7 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -92,16 +93,11 @@ public class TextualMod {
    * @param destinationUpTo - the destination href of the last to be replaced element
    */
   public void setDestinationUpTo(final String destinationUpTo) {
-    if (destinationUpTo != null) {
-      Element element = (Element) getOrCreateDestinationNode();
+    Element element = (Element) getOrCreateDestinationNode();
+    if (StringUtils.isNotEmpty(destinationUpTo)) {
       element.setAttribute("upTo", destinationUpTo);
-    }
-  }
-
-  /** Removes the upTo attribute of the destination node within the modification */
-  public void deleteDestinationUpTo() {
-    if (getOrCreateDestinationNode().getAttributes().getNamedItem("upTo") != null) {
-      getOrCreateDestinationNode().getAttributes().removeNamedItem("upTo");
+    } else {
+      element.removeAttribute("upTo");
     }
   }
 

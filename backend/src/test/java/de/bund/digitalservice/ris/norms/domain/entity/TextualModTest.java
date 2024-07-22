@@ -109,7 +109,7 @@ class TextualModTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-9_abs-3/100-130.xml");
 
     // when
-    textualMod.deleteDestinationUpTo();
+    textualMod.setDestinationUpTo(null);
 
     // then
     var destinationUpTo = textualMod.getDestinationUpTo();
@@ -119,7 +119,7 @@ class TextualModTest {
   @Test
   void ignoreDeleteInDestinationUptoWhenNotPresent() {
     // when
-    textualMod.deleteDestinationUpTo();
+    textualMod.setDestinationUpTo(null);
 
     // then
     var destinationUpTo = textualMod.getDestinationUpTo();

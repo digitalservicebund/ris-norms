@@ -69,7 +69,7 @@ public class AmendingLawValidator {
     mods.forEach(
         mod -> {
           final String targetNormEli =
-              mod.getTargetHref()
+              mod.getTargetRefHref()
                   .orElseThrow(() -> new ValidationException("Target href missing"))
                   .getEli()
                   .orElseThrow(() -> new ValidationException("Target eli missing"));
@@ -207,7 +207,7 @@ public class AmendingLawValidator {
         amendingNorm.getArticles().stream()
             .map(Article::getMods)
             .flatMap(List::stream)
-            .map(Mod::getTargetHref)
+            .map(Mod::getTargetRefHref)
             .flatMap(Optional::stream)
             .map(Href::getEli)
             .flatMap(Optional::stream)
@@ -241,7 +241,7 @@ public class AmendingLawValidator {
         amendingNorm.getArticles().stream()
             .map(Article::getMods)
             .flatMap(List::stream)
-            .map(Mod::getTargetHref)
+            .map(Mod::getTargetRefHref)
             .flatMap(Optional::stream)
             .collect(Collectors.toSet());
     if (!activeModificationsDestinationHrefs.equals(aknModHrefs))
@@ -250,7 +250,7 @@ public class AmendingLawValidator {
   }
 
   private Href getModTargetHref(String eli, Mod m, String modEId) {
-    return m.getTargetHref()
+    return m.getTargetRefHref()
         .orElseThrow(
             () ->
                 new ValidationException(

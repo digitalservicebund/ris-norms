@@ -187,7 +187,7 @@ Abs.
         .getFirst()
         .setDestinationHref(href);
 
-    mod.setTargetHref(href);
+    mod.setTargetRefHref(href);
     mod.setOldText("§ 9 Abs. 1 Satz 2, Abs. 2");
 
     final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -224,7 +224,7 @@ Abs.
         .getFirst()
         .setDestinationHref(href);
 
-    mod.setTargetHref(href);
+    mod.setTargetRefHref(href);
     mod.setOldText("§ 9 Abs. 1 Satz 2, Abs. 2");
 
     final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
@@ -244,7 +244,7 @@ Abs.
                 "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
             .orElseThrow();
     final Mod mod = new Mod(modNode);
-    mod.setTargetHref(
+    mod.setTargetRefHref(
         new Href.Builder()
             .setEli(amendingNormEli)
             .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
