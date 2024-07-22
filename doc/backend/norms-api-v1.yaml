@@ -290,7 +290,7 @@ paths:
               type: object
               description: object mapping between eids and the change mods
               additionalProperties:
-                $ref: '#/components/schemas/Mod'
+                $ref: '#/components/schemas/TimeBoundaryMod'
       responses:
         '200':
           description: Successful update
@@ -659,6 +659,11 @@ components:
 
     Mod:
       type: object
+      required:
+        - refersTo
+        - timeBoundaryEid
+        - destinationHref
+        - newContent
       properties:
         refersTo:
           type: string
@@ -666,9 +671,19 @@ components:
           type: string
         destinationHref:
           type: string
+        destinationUpTo:
+          type: string
         newContent:
           type: string
           description: In case of a quotedText a String with the new text or in case of quotedStructure the new content within a quotedStructure
+
+    TimeBoundaryMod:
+      type: object
+      required:
+        - timeBoundaryEid
+      properties:
+        timeBoundaryEid:
+          type: string
 
     ReleaseResponse:
       type: object

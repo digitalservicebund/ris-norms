@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                                                                                                                                              http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+    <akn:act name="regelungstext">
+        <akn:meta GUID="e4589a5f-34d9-4a3b-bcdb-558e1c36b69b" eId="meta-1">
+            <akn:identification GUID="f3e17ed2-7f8b-4658-858b-c73bb1c6ca24" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRWork GUID="12f4b363-48d8-4fd3-aee2-a5f525ea14b4" eId="meta-1_ident-1_frbrwork-1">
+                    <akn:FRBRthis GUID="b7d16407-5d18-4af1-aa67-731a7a7758ac" eId="meta-1_ident-1_frbrwork-1_frbrthis-1" value="eli/bund/bgbl-1/1002/1/regelungstext-1"/>
+                    <akn:FRBRuri GUID="6130a9a2-85bd-483c-b326-31095830276e" eId="meta-1_ident-1_frbrwork-1_frbruri-1" value="eli/bund/bgbl-1/1002/1"/>
+                    <akn:FRBRalias GUID="43863563-e2e9-4d93-9249-239a45127274" eId="meta-1_ident-1_frbrwork-1_frbralias-1" name="übergreifende-id" value="f96cfae4-4fce-4c72-9186-0d84778dc11c"/>
+                    <akn:FRBRdate GUID="5fd62927-fb0e-4167-b073-2b2577ac0ecf" date="1002-01-01" eId="meta-1_ident-1_frbrwork-1_frbrdate-1" name="verkuendungsfassung"/>
+                    <akn:FRBRauthor GUID="a551da99-a71a-4179-8f53-4a31a7e64a30" eId="meta-1_ident-1_frbrwork-1_frbrauthor-1" href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRcountry GUID="e386ef70-4f71-4590-b940-093207a82c47" eId="meta-1_ident-1_frbrwork-1_frbrcountry-1" value="de"/>
+                    <akn:FRBRnumber GUID="af7bebd5-85de-42d9-b5b0-519798d65112" eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" value="1"/>
+                    <akn:FRBRname GUID="1d5fac51-3d5e-4f07-9f79-92c32dd42cbb" eId="meta-1_ident-1_frbrwork-1_frbrname-1" value="bgbl-1"/>
+                    <akn:FRBRsubtype GUID="6d2b4986-4728-4e62-9326-fb337a6a43ea" eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" value="regelungstext-1"/>
+                </akn:FRBRWork>
+                <akn:FRBRExpression GUID="67247b7c-2285-490d-a0f2-a1c805f2f140" eId="meta-1_ident-1_frbrexpression-1">
+                    <akn:FRBRthis GUID="e3e82a45-e271-4f24-936d-94cae114db58" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1"/>
+                    <akn:FRBRuri GUID="a6997dd0-1a12-43df-a02a-7c2d70b29f1a" eId="meta-1_ident-1_frbrexpression-1_frbruri-1" value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu"/>
+                    <akn:FRBRalias GUID="43bd6e06-3017-470c-a91f-18318154885a" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="e4e034dd-61b9-43aa-b4f9-b778dc6adfda"/>
+                    <akn:FRBRalias GUID="1700bef9-6d4d-48c1-b0bc-f066dd9d3bf8" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="7f8ef8e8-9ec5-4e5a-9b81-7647ed3c5e5f"/>
+                    <akn:FRBRauthor GUID="7f11bff8-c09d-40d0-a0bb-3f2542514116" eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRdate GUID="31cc9f31-f6b7-45d2-ac42-383d694afa9a" date="1002-01-10" eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" name="aenderung"/>
+                    <akn:FRBRlanguage GUID="256f67ea-2aa5-4e3f-959e-807b3f7dd934" eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" language="deu"/>
+                    <akn:FRBRversionNumber GUID="202c3b86-b8a4-4cd5-ac59-f8dd36151c57" eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1" value="1"/>
+                    <akn:FRBRalias GUID="c5c8c525-1cd5-458c-b445-8e9da7bb064f" eId="meta-1_ident-1_frbrexpression-1_meta-1_ident-1_frbrexpression-1_frbralias-1-1" name="vorherige-version-id" value="63ef9358-8755-46e4-bf6a-21f379014597"/>
+                </akn:FRBRExpression>
+                <akn:FRBRManifestation GUID="321497df-3c8b-4168-a50a-ac359fc62ea3" eId="meta-1_ident-1_frbrmanifestation-1">
+                    <akn:FRBRthis GUID="b73c60f8-03fb-4a98-9bd1-990ff334dbd9" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" value="eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1"/>
+                    <akn:FRBRuri GUID="3346b7be-37e3-4e26-8cd5-1d4fb70def3b" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRdate GUID="ef351e86-937d-455d-81d0-8b7688470a4d" date="2024-07-17" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" name="generierung"/>
+                    <akn:FRBRauthor GUID="c3ca80c3-4273-43a9-8072-94659d7b57cb" eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" href="recht.bund.de"/>
+                    <akn:FRBRformat GUID="80b4c27c-9973-43e7-986a-1b36d88309dd" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>
+                </akn:FRBRManifestation>
+            </akn:identification>
+            <akn:lifecycle GUID="58320eb1-0dba-47a3-9195-5d1e09ab2d56" eId="meta-1_lebzykl-1" source="attributsemantik-noch-undefiniert">
+                <akn:eventRef GUID="cd6cd3ee-7628-43ca-862a-bb9201bf0102" date="1002-01-01" eId="meta-1_lebzykl-1_ereignis-1" refersTo="ausfertigung" source="attributsemantik-noch-undefiniert" type="generation"/>
+                <akn:eventRef GUID="5aae7828-5d08-4517-b0a6-fdeb28715664" date="1002-01-11" eId="meta-1_lebzykl-1_ereignis-2" refersTo="inkrafttreten" source="attributsemantik-noch-undefiniert" type="amendment"/>
+            </akn:lifecycle>
+            <akn:analysis GUID="290ce609-5578-4403-a49e-54c5b5bceefa" eId="meta-1_analysis-1" source="attributsemantik-noch-undefiniert">
+                <akn:passiveModifications GUID="b73e1d73-7a3c-4bb6-9da3-e87c7e4c8769" eId="meta-1_analysis-1_pasmod-1">
+                    <akn:textualMod GUID="e0a10fd4-a3a9-4170-9c54-4a831a7dcc4c" eId="meta-1_analysis-1_pasmod-1_textualmod-1" type="substitution">
+                        <akn:source GUID="9ac26542-2b70-456a-b417-69a104d77ba7" eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1" href="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
+                        <akn:destination GUID="5269594a-3edf-42d7-8777-c7f48587ab3b" eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1" href="#hauptteil-1_para-2_abs-1" upTo="#hauptteil-1_para-2_abs-3"/>
+                        <akn:force GUID="3534c839-9d20-4845-8a9b-70d3e8c60790" eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1" period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                </akn:passiveModifications>
+            </akn:analysis>
+            <akn:temporalData GUID="3311a6c3-e607-49c1-9c45-580bd47c9e97" eId="meta-1_geltzeiten-1" source="attributsemantik-noch-undefiniert">
+                <akn:temporalGroup GUID="91740dce-e847-4c2b-9eaa-4829080f84ce" eId="meta-1_geltzeiten-1_geltungszeitgr-1">
+                    <akn:timeInterval GUID="e782673b-9174-4723-ae56-3570fbe9c777" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-1"/>
+                </akn:temporalGroup>
+                <akn:temporalGroup GUID="dd97b11c-ad86-4c1d-b3aa-6b1b29bf21e3" eId="meta-1_geltzeiten-1_geltungszeitgr-2">
+                    <akn:timeInterval GUID="496c056d-d7db-44c7-a06f-ca77b0b1380b" eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2"/>
+                </akn:temporalGroup>
+            </akn:temporalData>
+        </akn:meta>
+        <akn:preface GUID="da7b34fb-69e8-4ede-abd1-a047ea34f576" eId="einleitung-1">
+            <akn:longTitle GUID="f5ae76f0-b1bc-47e5-9431-8c972acdc95d" eId="einleitung-1_doktitel-1">
+                <akn:p GUID="b899a440-1b6c-4347-b444-35e88aff1593" eId="einleitung-1_doktitel-1_text-1">
+                    <akn:docTitle GUID="a3fe0152-c96a-4fe2-a37d-d4aa5614df4a" eId="einleitung-1_doktitel-1_text-1_doctitel-1">Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten</akn:docTitle>
+                    <akn:shortTitle GUID="6dd93158-ed25-4498-b751-406cd2844489" eId="einleitung-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                </akn:p>
+            </akn:longTitle>
+        </akn:preface>
+        <akn:preamble GUID="71ae51ad-9f44-4638-844c-c942b7a69d8b" eId="preambel-1">
+            <akn:citations GUID="c053cf65-d974-441d-b4c5-a2c731b19dd4" eId="preambel-1_ernormen-1">
+                <akn:citation GUID="5e3b534d-c1b1-4fc5-ae75-2b655128333b" eId="preambel-1_ernormen-1_ernorm-1">
+                    <akn:p GUID="23574046-b394-4229-adfa-00b6a4ea6be7" eId="preambel-1_ernormen-1_ernorm-1_text-1">Die Bundesregierung wird ermächtigt, durch Rechtsverordnung ohne Zustimmung des Bundesrates die zur Durchführung dieses Gesetzes erforderlichen Rechtsvorschriften zu erlassen. Hierzu gehören insbesondere Regelungen über die organisatorische Umsetzung der in diesem Gesetz festgelegten Maßnahmen, die Festlegung technischer Standards sowie Bestimmungen zur Überwachung und Kontrolle der Einhaltung der gesetzlichen Vorgaben. </akn:p>
+                </akn:citation>
+            </akn:citations>
+            <akn:recitals GUID="51e46c5b-c4bb-45d1-acf1-25e0a53964b3" eId="preambel-1_präambeln-1">
+                <akn:heading GUID="7e84b63e-37c4-460a-b67f-7866a653353f" eId="preambel-1_präambeln-1_überschrift-1">Präambel</akn:heading>
+                <akn:recital GUID="43fc850d-4e0b-4912-a4b2-3a1093aec7e3" eId="preambel-1_präambeln-1_präambelinh-1">
+                    <akn:p GUID="d6bf49e6-aac7-404a-bd04-a342b59149a9" eId="preambel-1_präambeln-1_präambelinh-1_text-1">Im Bewusstsein der Verantwortung gegenüber den Bürgerinnen und Bürgern, sowie im Bestreben, die Effizienz und Transparenz der staatlichen Strukturen zu erhöhen, hat der Deutsche Bundestag das nachstehende Gesetz beschlossen. Ziel dieses Gesetzes ist es, bestehende Strukturen und Gliederungseinheiten in Dokumenten unter Berücksichtigung moderner Technologien zu ersetzen, zu vereinheitlichen und zu optimieren. Dabei sollen sowohl die Interessen der Bürgerinnen und Bürger als auch die Anforderungen an eine zukunftsfähige und digitalisierte Verwaltung gleichermaßen gewahrt werden.</akn:p>
+                    <akn:p GUID="f8a5e105-ead0-498b-90a1-8c620c518af2" eId="preambel-1_präambeln-1_präambelinh-1_text-2">Dieses Gesetz beruht auf den Grundsätzen der Rechtstaatlichkeit, der Wirtschaftlichkeit und der Bürgernähe. Es stellt sicher, dass die Anpassungen an Gesetzen und Verordnungen, transparent und effektiv durchgeführt werden.</akn:p>
+                </akn:recital>
+            </akn:recitals>
+            <akn:blockContainer GUID="2ba7f606-03c7-4ec4-a59b-556c0ea71d48" eId="preambel-1_blockcontainer-1" refersTo="inhaltsuebersicht">
+                <akn:heading GUID="452faca7-0338-4e5e-998a-71ae39461177" eId="preambel-1_blockcontainer-1_überschrift-1">Inhaltsübersicht</akn:heading>
+                <akn:toc GUID="7b739da3-76cd-424f-a5cc-54aca2cadf57" eId="preambel-1_blockcontainer-1_inhuebs-1">
+                    <akn:tocItem GUID="3c30b450-5184-4fc3-9605-3ebed57b8e56" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-1" href="" level="1">
+                        <akn:span GUID="0233dbe9-3262-43f9-9e12-2bfd4ae9a32b" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-1_span-1">Abschnitt 1</akn:span>
+                        <akn:span GUID="43378668-b4bd-4b49-9c57-9b9f9f714bd3" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-1_span-2">Allgemeine Vorschriften</akn:span>
+                    </akn:tocItem>
+                    <akn:tocItem GUID="4f8a4ba6-899d-4fbc-834a-28e31ff1e81a" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-2" href="" level="2">
+                        <akn:span GUID="7c32fd7a-2620-477a-9957-f1a1d658b414" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-2_span-1">§ 1</akn:span>
+                        <akn:span GUID="1ec98a37-e0c1-4b59-b43d-7241e30fc925" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-2_span-2">Abfallwirtschaftliche Ziele</akn:span>
+                    </akn:tocItem>
+                    <akn:tocItem GUID="55e0edcd-581b-410b-a0b1-19e95cbafbc1" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-3" href="" level="2">
+                        <akn:span GUID="e9b4bacd-f798-4fa0-bcbc-0dac6dd99173" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-3_span-1">§ 2</akn:span>
+                        <akn:span GUID="7daec9c6-59bc-4c22-8d94-cd3ed54bfde0" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-3_span-2">Anwendungsbereich</akn:span>
+                    </akn:tocItem>
+                    <akn:tocItem GUID="63a969e9-d599-4092-b473-f5fdf4354fb4" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-4" href="" level="2">
+                        <akn:span GUID="c1d18001-5b86-44a4-a16e-f62bc1eead19" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-4_span-1">§ 3</akn:span>
+                        <akn:span GUID="e4c72c65-63a3-492a-ae82-f624b7e9537e" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-4_span-2">Begriffsbestimmungen</akn:span>
+                    </akn:tocItem>
+                    <akn:tocItem GUID="5454c562-ab9b-4664-85be-79148724b0d0" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-5" href="" level="1">
+                        <akn:span GUID="df745f1a-83c4-48d1-8559-33685d4c2bab" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-5_span-1">Abschnitt 2</akn:span>
+                        <akn:span GUID="49058523-e45e-4b5f-b102-6a8d14cb5b2b" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-5_span-2">Pflichten beim Inverkehrbringen von Elektro- und Elektronikgeräten</akn:span>
+                    </akn:tocItem>
+                    <akn:tocItem GUID="cd997e76-22b3-438b-8071-09326072f225" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-6" href="" level="2">
+                        <akn:span GUID="3267672a-fbff-45fb-b52e-107deabc3f09" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-6_span-1">§ 4</akn:span>
+                        <akn:span GUID="3721594c-add4-49a6-8a0b-cfd984dc0fbf" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-6_span-2">Produktionskonzeption</akn:span>
+                    </akn:tocItem>
+                    <akn:tocItem GUID="27a19912-53d5-4757-98e0-66e5ecaf55d6" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-7" href="" level="2">
+                        <akn:span GUID="afd13c7e-5c04-47e9-80cf-2534bae3dace" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-7_span-1">§ 5</akn:span>
+                        <akn:span GUID="648160b4-5820-4e34-aca7-2d955fcd3b9e" eId="preambel-1_blockcontainer-1_inhuebs-1_eintrag-7_span-2">Einrichten der Gemeinsamen Stelle</akn:span>
+                    </akn:tocItem>
+                </akn:toc>
+            </akn:blockContainer>
+        </akn:preamble>
+        <akn:body GUID="7d6a4198-6a65-4f9c-aeff-d9e57c361102" eId="hauptteil-1">
+            <akn:article GUID="4e450050-0ada-4f9a-ab3e-34d48ed7dded" eId="hauptteil-1_para-1" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="eingebundene-stammform">
+                <akn:num GUID="11b74348-a016-45de-bf6b-4ec15bc96a96" eId="hauptteil-1_para-1_bezeichnung-1">
+                    <akn:marker GUID="ba3fa73a-2f79-486e-b238-d69a7e534d5a" eId="hauptteil-1_para-1_bezeichnung-1_zaehlbez-1" name="1"/>§ 1
+                </akn:num>
+                <akn:heading GUID="adbfd292-9813-44c8-be67-4f2a57810e15" eId="hauptteil-1_para-1_überschrift-1">Gesetz zur Einbindung eines Regelungstextes in Stammform</akn:heading>
+                <akn:componentRef GUID="45725af6-3346-4828-980d-9e010ce4abd3" eId="hauptteil-1_para-1_stfmverweis-1" showAs="regelungstext-eingebundene-stammform" src="01-06_instanz_01_regelungstext-eingebundene-stammform.xml"/>
+            </akn:article>
+            <akn:article GUID="bfc6170d-9ae5-49e6-bae9-c1255efe03b6" eId="hauptteil-1_para-2" period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+                <akn:num GUID="568e52b1-eeee-46d6-b5f0-c81a677fb275" eId="hauptteil-1_para-2_bezeichnung-1">
+                    <akn:marker GUID="207fdb16-d646-4ec7-936e-4b0a0215acd3" eId="hauptteil-1_para-2_bezeichnung-1_zaehlbez-1" name="2"/> § 2
+                </akn:num>
+                <akn:heading GUID="85ad062d-4e0e-4730-9131-c6c89752a732" eId="hauptteil-1_para-2_überschrift-1"> Anwendung in Absätzen und Aufzählungen </akn:heading>
+                <akn:paragraph GUID="cbf61857-bcd3-4ca3-b3f2-20e7ad0b8661" eId="hauptteil-1_para-2_abs-1">
+                    <akn:num GUID="fbd88274-37a4-43c5-b821-ef4b71b2ce80" eId="hauptteil-1_para-2_abs-1_bezeichnung-1">
+                        <akn:marker GUID="488d48dc-5621-4be9-801c-154c3814cce4" eId="hauptteil-1_para-2_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>(1)
+                    </akn:num>
+                    <akn:content GUID="d9776e83-53f7-4363-8aee-56dd2130e85b" eId="hauptteil-1_para-2_abs-1_inhalt-1">
+                        <akn:p GUID="70440b91-57ac-4951-8663-695ff0966f19" eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1">Dieses Gesetz findet Anwendung auf alle definierten Struktur und Gliederungsebenen.</akn:p>
+                    </akn:content>
+                </akn:paragraph>
+                <akn:paragraph GUID="f0730675-7e3f-45bb-a2ee-46c1d89ffd94" eId="hauptteil-1_para-2_abs-2">
+                    <akn:num GUID="29201137-5d19-46bf-96ba-ee0855731641" eId="hauptteil-1_para-2_abs-2_bezeichnung-1">
+                        <akn:marker GUID="39deda28-4526-4dd9-be07-d99f95d54705" eId="hauptteil-1_para-2_abs-2_bezeichnung-1_zaehlbez-1" name="2"/>(2)
+                    </akn:num>
+                    <akn:content GUID="1d16bd72-6671-4127-afd1-ed574c0260b9" eId="hauptteil-1_para-2_abs-2_inhalt-1">
+                        <akn:p GUID="6c34ea8a-808c-4f63-a233-348fdba174b8" eId="hauptteil-1_para-2_abs-2_inhalt-1_text-1">Die Berechnung der Anwendung erfolgt nach folgender Formel: </akn:p>
+                        <akn:foreign GUID="81b97a2e-a68c-486d-a6b6-7eee1b28e863" eId="hauptteil-1_para-2_abs-2_inhalt-1_exmarkup-1">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                                <mrow xmlns="">
+                                    <mi>f</mi>
+                                    <mo>(</mo>
+                                    <mi>x</mi>
+                                    <mo>)</mo>
+                                    <mo>=</mo>
+                                    <mfrac>
+                                        <mrow>
+                                            <mi>a</mi>
+                                            <msup>
+                                                <mi>x</mi>
+                                                <mn>3</mn>
+                                            </msup>
+                                            <mo>+</mo>
+                                            <mi>b</mi>
+                                            <msup>
+                                                <mi>x</mi>
+                                                <mn>2</mn>
+                                            </msup>
+                                            <mo>+</mo>
+                                            <mi>c</mi>
+                                            <mi>x</mi>
+                                            <mo>+</mo>
+                                            <mi>d</mi>
+                                        </mrow>
+                                        <mrow>
+                                            <msqrt>
+                                                <mi>e</mi>
+                                                <mi>x</mi>
+                                                <mo>+</mo>
+                                                <mn>1</mn>
+                                            </msqrt>
+                                        </mrow>
+                                    </mfrac>
+                                    <mo>+</mo>
+                                    <msup>
+                                        <mrow>
+                                            <mo>(</mo>
+                                            <mi>g</mi>
+                                            <mi>x</mi>
+                                            <mo>+</mo>
+                                            <mi>h</mi>
+                                            <mo>)</mo>
+                                        </mrow>
+                                        <mn>2</mn>
+                                    </msup>
+                                    <mo>=</mo>
+                                    <munderover>
+                                        <mo>∫</mo>
+                                        <mn>0</mn>
+                                        <mn>∞</mn>
+                                    </munderover>
+                                    <mfrac>
+                                        <mrow>
+                                            <mi>k</mi>
+                                            <mo>+</mo>
+                                            <mi>l</mi>
+                                            <mi>t</mi>
+                                        </mrow>
+                                        <msup>
+                                            <mrow>
+                                                <mo>(</mo>
+                                                <mi>m</mi>
+                                                <mi>t</mi>
+                                                <mo>+</mo>
+                                                <mn>1</mn>
+                                                <mo>)</mo>
+                                            </mrow>
+                                            <mn>3</mn>
+                                        </msup>
+                                    </mfrac>
+                                    <mo>d</mo>
+                                    <mi>t</mi>
+                                </mrow>
+                            </math>
+                        </akn:foreign>
+                    </akn:content>
+                </akn:paragraph>
+                <akn:paragraph GUID="9707ddb3-6b7d-4d38-84fa-6f3d38aa6cd6" eId="hauptteil-1_para-2_abs-3">
+                    <akn:num GUID="e88eccd4-3982-40f9-859c-a1dbeb041049" eId="hauptteil-1_para-2_abs-3_bezeichnung-1">
+                        <akn:marker GUID="34ba6bde-f0c9-40ce-a503-bedaaf024248" eId="hauptteil-1_para-2_abs-3_bezeichnung-1_zaehlbez-1" name="3"/>(3)
+                    </akn:num>
+                    <akn:list GUID="77d313f3-e315-4e7f-be96-425910ecfce9" eId="hauptteil-1_para-2_abs-3_untergl-1">
+                        <akn:intro GUID="22ebfacf-261e-4eee-bedb-abbbd4d6b1ff" eId="hauptteil-1_para-2_abs-3_untergl-1_intro-1">
+                            <akn:p GUID="fdfd2276-28cb-4024-9c84-2e91df5195fb" eId="hauptteil-1_para-2_abs-3_untergl-1_intro-1_text-1">Die Bestimmungen dieses Gesetzes gelten insbesondere für:</akn:p>
+                        </akn:intro>
+                        <akn:point GUID="42f4f096-fba5-4b1a-bc4d-6121f65df406" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1">
+                            <akn:num GUID="1d789e82-5784-4be9-9073-d7b48ebef194" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_bezeichnung-1">
+                                <akn:marker GUID="925e7d6a-7ea6-4f45-b4b7-c81693daec44" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1" name="1"/>1.
+                            </akn:num>
+                            <akn:list GUID="c8e81179-ed0b-4bfe-8d3c-6be1e6033c16" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a">
+                                <akn:intro GUID="2348ae40-4138-47a7-927a-ea372fa6ac38" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_intro-1">
+                                    <akn:p GUID="7f2242ae-101e-47b9-b5d2-56744245d60a" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_intro-1_text-1">Gliederungen im Regelungstext wie zum Beispiel</akn:p>
+                                </akn:intro>
+                                <akn:point GUID="30fb6904-1965-49fc-a829-f7821c8b2291" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-a">
+                                    <akn:num GUID="2c944bf4-f610-425a-b0bf-fc14211bad91" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-a_bezeichnung-1">
+                                        <akn:marker GUID="d40dca54-8a7b-4024-aef1-f8a116654aa0" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-a_bezeichnung-1_zaehlbez-1" name="a"/>a)
+                                    </akn:num>
+                                    <akn:content GUID="c5d96ead-a686-4179-8c70-5f5c53af0934" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-a_inhalt-1">
+                                        <akn:p GUID="4e3a68e1-a6dc-48a4-85ee-692473dd6231" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-a_inhalt-1_text-1"> Bücher, </akn:p>
+                                    </akn:content>
+                                </akn:point>
+                                <akn:point GUID="a847f9da-9a41-4d4e-beab-874fb6beec7f" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b">
+                                    <akn:num GUID="a0419aca-7a16-4cb3-a57d-003ed60a4e69" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b_bezeichnung-1">
+                                        <akn:marker GUID="0fe58896-51b7-4264-97b6-c3b366268a3b" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b_bezeichnung-1_zaehlbez-1" name="b"/>b)
+                                    </akn:num>
+                                    <akn:content GUID="2746d6e9-1b49-43fb-9054-0bc34c0ac0f2" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b_inhalt-1">
+                                        <akn:p GUID="e15cee5a-8ec9-4eee-afbe-2ee07c8fc5f9" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b_inhalt-1_text-1"> Teile, </akn:p>
+                                    </akn:content>
+                                </akn:point>
+                                <akn:point GUID="a878aadd-56bd-4c34-86ba-a0849c7bfbf3" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-c">
+                                    <akn:num GUID="3c013250-64a7-4535-b757-3c6ac877cb94" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-c_bezeichnung-1">
+                                        <akn:marker GUID="9c6c63cc-c502-41c0-9a65-24b49aafc131" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-c_bezeichnung-1_zaehlbez-1" name="c"/>c)
+                                    </akn:num>
+                                    <akn:content GUID="c5d5a246-43e4-40db-a91e-06a086d981a6" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-c_inhalt-1">
+                                        <akn:p GUID="f1ba5f60-e071-47d6-97d6-491d30be51cf" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-c_inhalt-1_text-1">Kapitel, </akn:p>
+                                    </akn:content>
+                                </akn:point>
+                                <akn:point GUID="f2c786e3-3c26-4dc1-9599-1d522bcc8af9" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-d">
+                                    <akn:num GUID="807913f9-728a-4a3f-a772-35b9fa2bcd25" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-d_bezeichnung-1">
+                                        <akn:marker GUID="494fbd20-bd1a-4bda-b49d-be44add49ba1" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-d_bezeichnung-1_zaehlbez-1" name="d"/>d)
+                                    </akn:num>
+                                    <akn:content GUID="c6983d2a-af15-4e40-9c26-a378470c111d" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-d_inhalt-1">
+                                        <akn:p GUID="c57bf26a-9405-4c66-83ae-3b9bf55503e4" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-d_inhalt-1_text-1">Unterkapitel, </akn:p>
+                                    </akn:content>
+                                </akn:point>
+                                <akn:point GUID="9f0d217e-4a6d-421d-9599-f1a879b63860" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-e">
+                                    <akn:num GUID="e423719f-f908-4bb3-a290-32aa8fa63683" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-e_bezeichnung-1">
+                                        <akn:marker GUID="4c6b8150-4adc-4220-9f63-8cf2784f1076" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-e_bezeichnung-1_zaehlbez-1" name="e"/>e)
+                                    </akn:num>
+                                    <akn:content GUID="f6977c7a-a812-4d72-9cff-da1293d7ae5e" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-e_inhalt-1">
+                                        <akn:p GUID="13e13f1f-ea29-42b2-b88c-7af9e5fa3366" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-e_inhalt-1_text-1">Abschnitte, </akn:p>
+                                    </akn:content>
+                                </akn:point>
+                                <akn:point GUID="f00ee52f-b58f-46d4-91e8-05de4a81718f" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f">
+                                    <akn:num GUID="b09cb1f7-62c9-4563-9a0c-f9d4fb2cda8b" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f_bezeichnung-1">
+                                        <akn:marker GUID="dd6a6b5f-89a9-4b3b-8b6e-3643a6c6d528" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f_bezeichnung-1_zaehlbez-1" name="f"/>f)
+                                    </akn:num>
+                                    <akn:content GUID="f1c373e0-1507-4ea3-9bd2-312bb8d5f592" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f_inhalt-1">
+                                        <akn:p GUID="e547d37f-1ceb-4de5-9a6b-8acc741fddce" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f_inhalt-1_text-1">oder Unterabschnitte.</akn:p>
+                                    </akn:content>
+                                </akn:point>
+                            </akn:list>
+                        </akn:point>
+                        <akn:point GUID="99159f32-63e4-4da6-80d0-407ea9bad874" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2">
+                            <akn:num GUID="fb3d9d69-af4e-402c-ae99-56a2777bbdbf" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_bezeichnung-1">
+                                <akn:marker GUID="ebfbc46d-6ea6-4237-b594-646f6b0110c3" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1" name="2"/>2.
+                            </akn:num>
+                            <akn:list GUID="52e88b8c-b605-49b2-a142-76614e7d7048" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a">
+                                <akn:intro GUID="cef19ac0-b58a-49a7-bd56-cbcba149cab6" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_intro-1">
+                                    <akn:p GUID="36a5e8be-4f2a-4226-90b6-7280b48c66d8" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_intro-1_text-1">Elemente zur Darstellung von Tabellen wie zum Beispiel</akn:p>
+                                </akn:intro>
+                                <akn:point GUID="b5455df0-61fe-4644-8b97-121c1b3988d0" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-a">
+                                    <akn:num GUID="7e242cff-afeb-4e80-b301-f7d1bc55ce15" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-a_bezeichnung-1">
+                                        <akn:marker GUID="cce256e5-d7dd-44c9-b71d-bc9817c3bfef" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-a_bezeichnung-1_zaehlbez-1" name="a"/>a)
+                                    </akn:num>
+                                    <akn:content GUID="bf6c6b01-19dd-497a-b84d-8eda925fb9e5" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-a_inhalt-1">
+                                        <akn:p GUID="247a6350-eadd-457d-9ef1-c50e3ab056ae" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-a_inhalt-1_text-1"> Überschriften, </akn:p>
+                                    </akn:content>
+                                </akn:point>
+                                <akn:point GUID="59b76042-31e3-41e5-9875-d887a10ce13c" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-b">
+                                    <akn:num GUID="04c17bf2-b9bc-4387-b143-ac18cc55e0bd" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-b_bezeichnung-1">
+                                        <akn:marker GUID="f4a1cdd8-fc4e-42a5-9e2d-8f12a62900b0" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-b_bezeichnung-1_zaehlbez-1" name="b"/>b)
+                                    </akn:num>
+                                    <akn:content GUID="d21f7fa8-943a-49c2-bb79-a2a8e9bb98ff" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-b_inhalt-1">
+                                        <akn:p GUID="e4ecb7b1-382d-418e-b36d-64bd0bf29901" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-b_inhalt-1_text-1"> Zeilen, </akn:p>
+                                    </akn:content>
+                                </akn:point>
+                                <akn:point GUID="81d88f81-0bbb-43a2-91fe-2b38762c9310" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-c">
+                                    <akn:num GUID="346c9516-c4cd-4884-a7d0-37ad7a7a576e" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-c_bezeichnung-1">
+                                        <akn:marker GUID="929b8a67-edbf-49d6-b623-c2466373e806" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-c_bezeichnung-1_zaehlbez-1" name="c"/>c)
+                                    </akn:num>
+                                    <akn:content GUID="5225e0b8-74c8-42bc-bc32-61df705ead79" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-c_inhalt-1">
+                                        <akn:p GUID="7371ea25-4a4c-46d4-8c67-4eb3da863ccd" eId="hauptteil-1_para-2_abs-3_untergl-1_listenelem-2_untergl-a_listenelem-c_inhalt-1_text-1">oder Zellen.</akn:p>
+                                    </akn:content>
+                                </akn:point>
+                            </akn:list>
+                        </akn:point>
+                        <akn:wrapUp GUID="fb9193e9-cec8-4cf9-8339-71aa2d7239fb" eId="hauptteil-1_para-2_abs-3_untergl-1_schlusstext-1">
+                            <akn:p GUID="e58e82ff-beb0-480a-ba3e-adf1250698e8" eId="hauptteil-1_para-2_abs-3_untergl-1_schlusstext-1_text-1"> In besonderen Fällen können auch Teile der Präambel, Inhaltsübersicht, Anlagen- oder Stammformverweise geändert werden. </akn:p>
+                        </akn:wrapUp>
+                    </akn:list>
+                </akn:paragraph>
+            </akn:article>
+            <akn:article GUID="1be51a4a-f9ca-41c3-b255-183ddaebf165" eId="hauptteil-1_para-3" period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+                <akn:num GUID="5f9595ec-0d72-4563-8e05-e245317c8d64" eId="hauptteil-1_para-3_bezeichnung-1">
+                    <akn:marker GUID="0086831f-7ce6-478d-808a-b25361c6b026" eId="hauptteil-1_para-3_bezeichnung-1_zaehlbez-1" name="3"/> § 3
+                </akn:num>
+                <akn:heading GUID="83ee0040-d389-4a69-9d91-d80a2442ece2" eId="hauptteil-1_para-3_überschrift-1"> Anwendung in Tabellen </akn:heading>
+                <akn:paragraph GUID="2c762004-0463-414e-93c3-01598c8e6519" eId="hauptteil-1_para-3_abs-1">
+                    <akn:num GUID="f2ac24a6-6a1f-41fb-8fd5-380e63e301f9" eId="hauptteil-1_para-3_abs-1_bezeichnung-1">
+                        <akn:marker GUID="d245d7fa-3ed0-4b7c-b249-fbe270ef2784" eId="hauptteil-1_para-3_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                    </akn:num>
+                    <akn:content GUID="76713fcf-afac-4f86-8fe1-903050a7c39b" eId="hauptteil-1_para-3_abs-1_inhalt-1">
+                        <akn:p GUID="077810b3-5796-4b43-a8bc-b47414c865b6" eId="hauptteil-1_para-3_abs-1_inhalt-1_text-1"> Folgende Strukturelemente eines Regelungstextes können mittels aenderungZitatStruktur verändert werden: </akn:p>
+                        <akn:table GUID="9b450a5f-ba43-4088-b4ab-92e358e914ea" border="0" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1">
+                            <akn:tr GUID="1e43716f-b64a-4aca-bc39-bfadb2657e69" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-1">
+                                <akn:th GUID="9035b4d9-1682-4f28-8b77-209464555e6d" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-1_tabellekopf-1" style="width:200">
+                                    <akn:p GUID="d15585de-744e-4dd9-bd17-8f93aeff5443" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-1_tabellekopf-1_text-1">Fachliche Klasse </akn:p>
+                                </akn:th>
+                                <akn:th GUID="dd686009-d4dd-4bc7-a51e-407a1130c40c" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-1_tabellekopf-2" style="width:200">
+                                    <akn:p GUID="b1e0c172-e3e4-41e5-8bb3-eda56cb5e4a2" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-1_tabellekopf-2_text-1">AKN-Entsprechung </akn:p>
+                                </akn:th>
+                            </akn:tr>
+                            <akn:tr GUID="612bcaf3-7f85-4999-a7c0-fca028c51993" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-2">
+                                <akn:td GUID="4a6e041c-df9e-4137-a9ce-d0bf40fbbe9f" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-2_tabelleinh-1" style="text-align:right">
+                                    <akn:p GUID="d82adbfe-f933-4c61-8185-cb5f0113f876" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-2_tabelleinh-1_text-1">dokumentenkopfTitel</akn:p>
+                                </akn:td>
+                                <akn:td GUID="48164833-3c55-4627-9902-98cee075a499" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-2_tabelleinh-2">
+                                    <akn:p GUID="3afc5301-7879-4dd9-b8bc-c7f495bcd8da" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-2_tabelleinh-2_text-1">akn:longTitle</akn:p>
+                                </akn:td>
+                            </akn:tr>
+                            <akn:tr GUID="56c81c6f-ffc0-40d5-ac32-d34fec63a356" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-3">
+                                <akn:td GUID="4f342221-2eef-4ff0-9804-8d805452f6b8" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-3_tabelleinh-1" style="text-align:right">
+                                    <akn:p GUID="4d947a92-29da-4c35-9fb6-a3d462ce5127" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-3_tabelleinh-1_text-1">ermaechtigungsnormen</akn:p>
+                                </akn:td>
+                                <akn:td GUID="8d0660d7-74da-495a-a683-dde825c3a964" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-3_tabelleinh-2">
+                                    <akn:p GUID="059a38eb-24eb-4544-a5e7-a9154018f6ba" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-3_tabelleinh-2_text-1">akn:citations</akn:p>
+                                </akn:td>
+                            </akn:tr>
+                            <akn:tr GUID="f8cf0e64-93e2-45d3-849e-72b6e3f8fadf" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-4">
+                                <akn:td GUID="9cf3f1df-a214-4f97-9f0d-6a1301c29142" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-4_tabelleinh-1" style="text-align:right">
+                                    <akn:p GUID="1396a17a-24ae-460a-98d0-96fc2ef21413" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-4_tabelleinh-1_text-1">praeambel</akn:p>
+                                </akn:td>
+                                <akn:td GUID="b2878fcc-f3ce-449e-9a2a-15c786897a21" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-4_tabelleinh-2">
+                                    <akn:p GUID="6b77e4f4-f2de-45c7-bee6-f9442748c103" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-4_tabelleinh-2_text-1">akn:recitals</akn:p>
+                                </akn:td>
+                            </akn:tr>
+                            <akn:tr GUID="d7ecbbdc-8d51-4b21-8e54-1eb50a304cb2" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-5">
+                                <akn:td GUID="1d54244e-a376-4f1c-bae1-d08d5bd213fd" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-5_tabelleinh-1" style="text-align:right">
+                                    <akn:p GUID="64498d60-03aa-4e0f-afaa-2ee42990af72" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-5_tabelleinh-1_text-1">praeambelInhalt</akn:p>
+                                </akn:td>
+                                <akn:td GUID="eb72efe3-2410-4d4e-be89-300375ad02db" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-5_tabelleinh-2">
+                                    <akn:p GUID="6d3b0e32-b5ea-46e2-92ce-a461a637b538" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-5_tabelleinh-2_text-1">akn:recital</akn:p>
+                                </akn:td>
+                            </akn:tr>
+                            <akn:tr GUID="2af10492-8451-4b94-a640-8a6d81cd7052" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-6">
+                                <akn:td GUID="7bae2b81-6000-4ca4-b7a8-1fbcbca7377c" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-6_tabelleinh-1" style="text-align:right">
+                                    <akn:p GUID="5cb295d9-c775-4005-a3f7-0b93a9da5263" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-6_tabelleinh-1_text-1">verzeichniscontainer</akn:p>
+                                </akn:td>
+                                <akn:td GUID="cf57c02b-f5c1-4df4-98a5-bbbd15b82cf2" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-6_tabelleinh-2">
+                                    <akn:p GUID="bd4a6c9b-9ff3-482d-9637-a2989e1d1f67" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-6_tabelleinh-2_text-1">akn:blockContainer</akn:p>
+                                </akn:td>
+                            </akn:tr>
+                            <akn:tr GUID="be2d6154-6351-4621-b3e8-bba038210e22" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7">
+                                <akn:td GUID="b5840f8a-171c-4a92-9ce9-0a8c3afe186a" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1" style="text-align:right">
+                                    <akn:ul GUID="95d8b684-796a-4252-9b8a-fe4bc5918a9c" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1">
+                                        <akn:li GUID="d456d8ca-0e63-4edc-8dee-bad65d30a3c9" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-1" value="•">
+                                            <akn:p GUID="8a12e0f5-1f44-4613-8519-571c7b685398" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-1_text-1">gliederungBuch</akn:p>
+                                        </akn:li>
+                                        <akn:li GUID="348fc9f9-39b7-4469-a836-c75a4852b265" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-2" value="•">
+                                            <akn:p GUID="4e46962c-1223-43fc-bf7c-365e6600393c" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-2_text-1">gliederungTeil</akn:p>
+                                        </akn:li>
+                                        <akn:li GUID="fc725abb-9609-44ee-8f90-9324571b94e3" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-3" value="•">
+                                            <akn:p GUID="67579455-65ff-4851-bf8d-afa67e97633e" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-3_text-1">gliederungKapitel</akn:p>
+                                        </akn:li>
+                                        <akn:li GUID="24d9fc13-a026-40a0-87d9-45c145b91bb3" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-4" value="•">
+                                            <akn:p GUID="ceff1546-c4ef-43b0-bf65-a00e99c9e65e" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-4_text-1">gliederungUnterkapitel</akn:p>
+                                        </akn:li>
+                                    </akn:ul>
+                                </akn:td>
+                                <akn:td GUID="7a0eb58d-fb0d-4b31-8674-6c324e4bbaf0" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2">
+                                    <akn:ol GUID="6efdf889-580b-44f9-af7c-b677f60693b7" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1">
+                                        <akn:li GUID="1d44dcd9-0303-4364-a263-e7f423f768f8" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-1" value="1">
+                                            <akn:p GUID="62e16ea4-1924-4d37-8f0d-a3bc08985894" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-1_text-1">akn:book</akn:p>
+                                        </akn:li>
+                                        <akn:li GUID="8cff81e4-7cb4-419a-9c38-93fc6282f798" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-2" value="2">
+                                            <akn:p GUID="3ff6fbfc-cc8e-444d-8c0e-df1d9be1dff5" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-2_text-1">akn:part</akn:p>
+                                        </akn:li>
+                                        <akn:li GUID="51d2335e-32c7-4f2d-af05-ebcbe760e94c" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-3" value="3">
+                                            <akn:p GUID="426b882d-fd9f-453f-a9fc-461b94730dcd" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-3_text-1">akn:chapter</akn:p>
+                                        </akn:li>
+                                        <akn:li GUID="5a9bc50b-4ce6-4764-bc31-d9f4825ee79b" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-4" value="4">
+                                            <akn:p GUID="3025d90a-9e95-4b14-8715-d7cda785629c" eId="hauptteil-1_para-3_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-4_text-1">akn:subchapter</akn:p>
+                                        </akn:li>
+                                    </akn:ol>
+                                </akn:td>
+                            </akn:tr>
+                        </akn:table>
+                        <akn:p GUID="01a085ad-aa4a-4380-b9d3-92d1fc0f4eb5" eId="hauptteil-1_para-3_abs-1_inhalt-1_text-2"> Die Tabelle ist nur ein Auszug aus der Spezifikation und erhebt keinen Anspruch auf Vollständigkeit. </akn:p>
+                    </akn:content>
+                </akn:paragraph>
+            </akn:article>
+            <akn:article GUID="4064775d-5f92-4f12-ae03-602bb4f536c4" eId="hauptteil-1_para-4" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
+                <akn:num GUID="3fb666fa-e062-4b19-a629-161bf005f660" eId="hauptteil-1_para-4_bezeichnung-1">
+                    <akn:marker GUID="0324f9a6-d049-466f-a674-35cb4e93a38b" eId="hauptteil-1_para-4_bezeichnung-1_zaehlbez-1" name="4"/>§ 4
+                </akn:num>
+                <akn:heading GUID="c03385cc-38d4-4312-93b0-9576d8c5f90b" eId="hauptteil-1_para-4_überschrift-1">Inkrafttreten</akn:heading>
+                <akn:paragraph GUID="78aee261-bbd0-4d63-9802-c535ca881a6c" eId="hauptteil-1_para-4_abs-1">
+                    <akn:num GUID="79d2bbe5-c1b4-4b3c-bbb7-a7ca53182cb5" eId="hauptteil-1_para-4_abs-1_bezeichnung-1">
+                        <akn:marker GUID="ffeb8e25-22c7-424b-bd64-796d9a8e39c0" eId="hauptteil-1_para-4_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                    </akn:num>
+                    <akn:content GUID="9b9f7291-af45-4ef1-9aaa-0747f62bd4c2" eId="hauptteil-1_para-4_abs-1_inhalt-1">
+                        <akn:p GUID="63a5a73b-e6ba-4281-bccd-051a622de97f" eId="hauptteil-1_para-4_abs-1_inhalt-1_text-1"> Dieses Gesetz tritt
+                            <akn:date GUID="b51ab039-7f0a-401a-86b8-506484cba0a6" date="1002-01-02" eId="hauptteil-1_para-4_abs-1_inhalt-1_text-1_datum-1" refersTo="inkrafttreten-datum">am Tag nach der Verkündung</akn:date> in Kraft.
+                        </akn:p>
+                    </akn:content>
+                </akn:paragraph>
+            </akn:article>
+        </akn:body>
+    </akn:act>
+</akn:akomaNtoso>

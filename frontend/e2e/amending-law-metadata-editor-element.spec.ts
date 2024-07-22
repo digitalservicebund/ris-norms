@@ -42,6 +42,12 @@ test.describe("navigate to page", () => {
       page.getByText("Das Element konnte nicht geladen werden."),
     ).toBeVisible()
 
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
+
     // Cleanup
     await page.unrouteAll()
   })
@@ -162,6 +168,12 @@ test.describe("preview", () => {
       previewRegion.getByText("Die Vorschau konnte nicht geladen werden."),
     ).toBeVisible()
 
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
+
     // Cleanup
     await page.unrouteAll()
   })
@@ -238,6 +250,12 @@ test.describe("XML view", () => {
     // Then
     await expect(
       page.getByText("Die XML-Ansicht konnte nicht geladen werden."),
+    ).toBeVisible()
+
+    await expect(
+      page.getByRole("button", {
+        name: "Fehler-ID in die Zwischenablage kopieren",
+      }),
     ).toBeVisible()
 
     // Cleanup

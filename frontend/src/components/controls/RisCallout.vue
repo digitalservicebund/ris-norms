@@ -38,10 +38,10 @@ const visible = defineModel<boolean>("visible", { default: true })
     v-if="visible"
     data-testid="callout-wrapper"
     :data-variant="variant"
-    class="group grid grid-cols-[min-content,1fr,min-content] items-start gap-x-8 border-l-8 border-l-blue-900 bg-blue-200 p-16 data-[variant=error]:border-l-red-900 data-[variant=success]:border-l-green-900 data-[variant=warning]:border-l-yellow-900 data-[variant=error]:bg-red-200 data-[variant=success]:bg-green-200 data-[variant=warning]:bg-yellow-200"
+    class="group grid grid-cols-[min-content,1fr,min-content] items-center gap-x-8 border-l-8 border-l-blue-900 bg-blue-200 p-16 data-[variant=error]:border-l-red-900 data-[variant=success]:border-l-green-900 data-[variant=warning]:border-l-yellow-900 data-[variant=error]:bg-red-200 data-[variant=success]:bg-green-200 data-[variant=warning]:bg-yellow-200"
   >
     <div
-      class="pt-1 group-data-[variant=error]:text-red-900 group-data-[variant=success]:text-green-900 group-data-[variant=warning]:text-yellow-900"
+      class="group-data-[variant=error]:text-red-900 group-data-[variant=success]:text-green-900 group-data-[variant=warning]:text-yellow-900"
     >
       <slot name="icon">
         <IconErrorOutline />

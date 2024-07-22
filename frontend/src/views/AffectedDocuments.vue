@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import RisAffectedDocumentPanel from "@/components/affectedDocuments/RisAffectedDocumentPanel.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useAffectedDocuments } from "@/composables/useAffectedDocuments"
@@ -25,12 +26,16 @@ onUnmounted(() => cleanupBreadcrumbs())
       <RisLoadingSpinner></RisLoadingSpinner>
     </div>
 
-    <div v-else-if="error" class="w-1/2">
-      <RisCallout
-        title="Die Liste der betroffenen Normkomplexen konnte nicht geladen werden."
-        variant="error"
-      />
-    </div>
+    <RisCallout
+      v-else-if="error"
+      title="Die Liste der betroffenen Normkomplexe konnte nicht geladen werden."
+      variant="error"
+    >
+      <p v-if="error.sentryEventId">
+        Fehler-ID:
+        <RisCopyableLabel :text="error.sentryEventId" name="Fehler-ID" />
+      </p>
+    </RisCallout>
 
     <ul v-else class="space-y-16">
       <RisAffectedDocumentPanel

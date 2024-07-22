@@ -1,9 +1,9 @@
 [versions]
-flyway = "10.15.2"
+flyway = "10.16.0"
 # @keep
 jacoco = "0.8.11"
 org-bouncycastle = "1.78.1"
-org-testcontainers = "1.19.8"
+org-testcontainers = "1.20.0"
 spring-boot = "3.3.1"
 
 [libraries]

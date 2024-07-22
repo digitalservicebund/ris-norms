@@ -247,5 +247,32 @@ class TimeMachineServiceTest {
               .build();
       assertThat(diff.hasDifferences()).isFalse();
     }
+
+    @Test
+    void applyOnePassiveModificationQuotedStructureWithUpTo() {
+      // given
+      final var targetLawNorm =
+          NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
+      final var amendingLawNorm =
+          NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      final var expectedResult =
+          NormFixtures.loadFromDisk("NormWithAppliedQuotedStructureAndUpTo.xml");
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(targetLawNorm, Instant.MAX));
+
+      // then
+      final Diff diff =
+          DiffBuilder.compare(Input.from(result.getDocument()))
+              .withTest(Input.from(expectedResult.getDocument()))
+              .ignoreWhitespace()
+              .withNodeFilter(node -> !node.getNodeName().equals("akn:meta"))
+              .build();
+      assertThat(diff.hasDifferences()).isFalse();
+    }
   }
 }

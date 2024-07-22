@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisInfoModal from "@/components/controls/RisInfoModal.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
@@ -25,7 +26,12 @@ onUnmounted(() => cleanupBreadcrumbs())
       <RisCallout
         title="Die Liste der Artikel konnte nicht geladen werden."
         variant="error"
-      />
+      >
+        <p v-if="error.sentryEventId">
+          Fehler-ID:
+          <RisCopyableLabel :text="error.sentryEventId" name="Fehler-ID" />
+        </p>
+      </RisCallout>
     </div>
     <RisInfoModal
       v-for="article in articles"

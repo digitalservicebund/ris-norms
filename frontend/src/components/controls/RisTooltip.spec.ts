@@ -180,4 +180,20 @@ describe("RisTooltip", () => {
     render(RisTooltip, { props: { title: "Foo" } })
     expect(screen.getByRole("tooltip")).toBeVisible()
   })
+
+  test("shows a message in the tooltip", () => {
+    const component = defineComponent({
+      components: { RisTooltip },
+      template: `
+        <RisTooltip title="Foo">
+          <template #message>
+            <p>Hello world</p>
+          </template>
+        </RisTooltip>
+      `,
+    })
+    render(component)
+
+    expect(screen.getByText("Hello world")).toBeInTheDocument()
+  })
 })

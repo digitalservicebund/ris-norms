@@ -101,11 +101,12 @@ export function useMod(
       return null
 
     return {
-      refersTo: eidValue,
+      refersTo: textualModType.value,
       timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
       destinationHref: destinationHref.value,
-      newContent: quotedTextSecond.value,
-      quotedStructureContent: quotedStructureContent.value,
+      newContent: quotedStructureContent.value
+        ? quotedStructureContent.value
+        : quotedTextSecond.value,
     }
   })
   const preview = useUpdateModData(eli, eid, modData, true)

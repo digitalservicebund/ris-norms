@@ -53,7 +53,7 @@ public class SingleModValidator {
           StringUtils.normalizeSpace(zf0TargetedNode.getTextContent()));
     }
     if (activeMod.usesQuotedStructure()) {
-      validateQuotedStructure(zf0NormEli, affectedPassiveMod, zf0Norm);
+      validateQuotedStructure(affectedPassiveMod, zf0Norm, zf0TargetedNode);
     }
   }
 
@@ -97,11 +97,28 @@ public class SingleModValidator {
   }
 
   private void validateQuotedStructure(
-      final String zf0NormEli, final TextualMod affectedPassiveMod, final Norm zf0Norm)
+      final TextualMod affectedPassiveMod, final Norm zf0Norm, final Node targetNode)
       throws ValidationException {
 
-    // TODO check if destinationUpTo resolves to existing node
+    final String targetUpToNodeEid =
+        affectedPassiveMod.getDestinationUpTo().orElseThrow().getEId().orElseThrow();
 
-    // TODO check if href node and upTo node are siblings from same parent node
+    final Node zf0TargetedUpToNode =
+        zf0Norm
+            .getNodeByEId(targetUpToNodeEid)
+            .orElseThrow(
+                () ->
+                    new ValidationException(
+                        "Target upTo node with eid %s not present in ZF0 norm with eli %s."
+                            .formatted(targetUpToNodeEid, zf0Norm.getEli())));
+
+    if (targetNode.getParentNode() != zf0TargetedUpToNode.getParentNode()) {
+      throw new ValidationException("Target node and target upTo node are not siblings.");
+    }
+
+    if ((targetNode.compareDocumentPosition(zf0TargetedUpToNode) & Node.DOCUMENT_POSITION_FOLLOWING)
+        == 0) {
+      throw new ValidationException("targetNode does not appear before zf0TargetedUpToNode.");
+    }
   }
 }

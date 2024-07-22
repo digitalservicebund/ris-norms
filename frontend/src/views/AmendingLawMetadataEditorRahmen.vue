@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisCheckboxInput from "@/components/controls/RisCheckboxInput.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
@@ -20,9 +21,9 @@ import {
   BeschliessendesOrganValues,
   DocumentTypeValue,
   DocumentTypeValues,
-  RessortValues,
   getDocumentTypeFromMetadata,
   isArtNormTypePresent,
+  RessortValues,
   StaatValues,
   udpateArtNorm,
   UNKNOWN_DOCUMENT_TYPE,
@@ -329,7 +330,15 @@ const {
           v-else-if="renderError"
           variant="error"
           title="Die Vorschau konnte nicht geladen werden."
-        />
+        >
+          <p v-if="renderError.sentryEventId">
+            Fehler-ID:
+            <RisCopyableLabel
+              :text="renderError.sentryEventId"
+              name="Fehler-ID"
+            />
+          </p>
+        </RisCallout>
 
         <RisLawPreview
           v-else
@@ -355,7 +364,15 @@ const {
               v-else-if="fetchError"
               variant="error"
               title="Die Metadaten konnten nicht geladen werden."
-            />
+            >
+              <p v-if="fetchError.sentryEventId">
+                Fehler-ID:
+                <RisCopyableLabel
+                  :text="fetchError.sentryEventId"
+                  name="Fehler-ID"
+                />
+              </p>
+            </RisCallout>
 
             <form
               v-else
@@ -473,7 +490,15 @@ const {
               v-else-if="xmlError"
               variant="error"
               title="Die XML-Ansicht konnte nicht geladen werden."
-            />
+            >
+              <p v-if="xmlError.sentryEventId">
+                Fehler-ID:
+                <RisCopyableLabel
+                  :text="xmlError.sentryEventId"
+                  name="Fehler-ID"
+                />
+              </p>
+            </RisCallout>
 
             <RisCodeEditor
               v-else
@@ -488,7 +513,6 @@ const {
         <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
           <div class="relative">
             <RisTooltip
-              v-slot="{ ariaDescribedby }"
               :title="
                 hasSaved && saveError
                   ? 'Speichern fehlgeschlagen'
@@ -500,13 +524,24 @@ const {
               alignment="right"
               attachment="bottom"
             >
-              <RisTextButton
-                :aria-describedby
-                :disabled="isFetching || !!fetchError"
-                :loading="isSaving"
-                label="Speichern"
-                @click="save()"
-              />
+              <template #default="{ ariaDescribedby }">
+                <RisTextButton
+                  :aria-describedby
+                  :disabled="isFetching || !!fetchError"
+                  :loading="isSaving"
+                  label="Speichern"
+                  @click="save()"
+                />
+              </template>
+
+              <template #message>
+                <RisCopyableLabel
+                  v-if="saveError?.sentryEventId"
+                  name="Fehler-ID"
+                  text="Fehler-ID kopieren"
+                  :value="saveError?.sentryEventId"
+                />
+              </template>
             </RisTooltip>
           </div>
         </Teleport>

@@ -445,3 +445,5 @@ VALUES ('f260b43f-6218-4bd7-ac1a-f5f46d190bfb', 'eli/bund/bgbl-1/1001/1/1001-01-
 -- Announcement
 INSERT INTO announcements (id, eli, released_by_documentalist_at)
 VALUES ('30f69b20-892e-4381-9c38-53ab71edfcf6', 'eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1', NULL);
+
+-- Re-seeding

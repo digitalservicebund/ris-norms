@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import RisTextButton from "./RisTextButton.vue"
+import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisTooltip from "./RisTooltip.vue"
 </script>
 
@@ -80,6 +81,16 @@ import RisTooltip from "./RisTooltip.vue"
     <Variant title="Standalone">
       <div class="py-8">
         <RisTooltip title="Something went wrong" />
+      </div>
+    </Variant>
+
+    <Variant title="With content">
+      <div class="py-8">
+        <RisTooltip title="Something went wrong">
+          <template #message>
+            <RisCopyableLabel text="Copy error ID" value="4711" />
+          </template>
+        </RisTooltip>
       </div>
     </Variant>
   </Story>
