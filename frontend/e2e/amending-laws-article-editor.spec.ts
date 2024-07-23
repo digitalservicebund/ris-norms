@@ -1,7 +1,7 @@
 import { test, expect, Page } from "@playwright/test"
 import { ModData } from "@/types/ModType"
 
-test(`navigate to article editor using side navigation`, async ({ page }) => {
+test("navigate to article editor using side navigation", async ({ page }) => {
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
   )
@@ -9,18 +9,18 @@ test(`navigate to article editor using side navigation`, async ({ page }) => {
   await page.getByRole("link", { name: "Artikelübersicht" }).click()
 
   await expect(page).toHaveURL(
-    `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles`,
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles",
   )
 
   await page.getByText("Änderungsbefehl prüfen").first().click()
 
   await expect(page).toHaveURL(
-    `/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit`,
+    "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
   )
 })
 
 test.describe("Url and selecting works", () => {
-  test(`Navigation to base url opens editor without selected mods`, async ({
+  test("Navigation to base url opens editor without selected mods", async ({
     page,
   }) => {
     await page.goto(
@@ -32,7 +32,7 @@ test.describe("Url and selecting works", () => {
     ).toBeVisible()
   })
 
-  test(`Navigation to url with selected mod opens editor with selected mod`, async ({
+  test("Navigation to url with selected mod opens editor with selected mod", async ({
     page,
   }) => {
     await page.goto(
@@ -46,7 +46,7 @@ test.describe("Url and selecting works", () => {
     ).toHaveValue("1. Beispiel")
   })
 
-  test(`Selecting mod updates url`, async ({ page }) => {
+  test("Selecting mod updates url", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
@@ -62,7 +62,7 @@ test.describe("Url and selecting works", () => {
     )
   })
 
-  test(`Deselecting mod updates url`, async ({ page }) => {
+  test("Deselecting mod updates url", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
     )
@@ -78,7 +78,7 @@ test.describe("Url and selecting works", () => {
     )
   })
 
-  test(`Selecting multiple mod updates url`, async ({ page }) => {
+  test("Selecting multiple mod updates url", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
     )
@@ -103,7 +103,7 @@ test.describe("Url and selecting works", () => {
     )
   })
 
-  test(`Deselecting some mod works`, async ({ page }) => {
+  test("Deselecting some mod works", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
     )
@@ -131,7 +131,7 @@ test.describe("Url and selecting works", () => {
     )
   })
 
-  test(`Selecting a range of mods using Shift + click works`, async ({
+  test("Selecting a range of mods using Shift + click works", async ({
     page,
   }) => {
     await page.goto(
@@ -155,7 +155,7 @@ test.describe("Url and selecting works", () => {
     ).toBeVisible()
   })
 
-  test(`Selecting all mods using Ctrl+A works`, async ({ page }) => {
+  test("Selecting all mods using Ctrl+A works", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
     )
@@ -180,7 +180,7 @@ test.describe("Url and selecting works", () => {
 })
 
 test.describe("Loading amending norm details", () => {
-  test(`see amending law number and article title`, async ({ page }) => {
+  test("see amending law number and article title", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
@@ -194,7 +194,7 @@ test.describe("Loading amending norm details", () => {
     ).toBeVisible()
   })
 
-  test(`load amending law xml and html render in their respective tabs`, async ({
+  test("load amending law xml and html render in their respective tabs", async ({
     page,
   }) => {
     await page.goto(
@@ -217,7 +217,7 @@ test.describe("Loading amending norm details", () => {
     ).toBeVisible()
   })
 
-  test(`loading empty mod state when no command is selected`, async ({
+  test("loading empty mod state when no command is selected", async ({
     page,
   }) => {
     await page.goto(
@@ -230,7 +230,7 @@ test.describe("Loading amending norm details", () => {
     await expect(textContent).toBeVisible()
   })
 
-  test(`highlight mods in colors which change when hovered and selected`, async ({
+  test("highlight mods in colors which change when hovered and selected", async ({
     page,
   }) => {
     await page.goto(
@@ -379,7 +379,7 @@ test.describe("Editing a single mod", () => {
       await sharedPage.goto(BASE_URL)
     })
 
-    test(`rendering the preview by default when clicking on a command`, async () => {
+    test("rendering the preview by default when clicking on a command", async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle",
       })
@@ -403,7 +403,7 @@ test.describe("Editing a single mod", () => {
       await sharedPage.goto(BASE_URL)
     })
 
-    test(`editing and saving the quotedTextSecondElement`, async () => {
+    test("editing and saving the quotedTextSecondElement", async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle",
       })
@@ -426,7 +426,7 @@ test.describe("Editing a single mod", () => {
       await expect(previewSection.getByText("testing new text")).toBeVisible()
     })
 
-    test(`preview of text to be replaced in xml`, async () => {
+    test("preview of text to be replaced in xml", async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle",
       })
@@ -459,7 +459,7 @@ test.describe("Editing a single mod", () => {
       ).toBeVisible()
     })
 
-    test(`editing and saving the eid mod change`, async () => {
+    test("editing and saving the eid mod change", async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle",
       })
@@ -484,7 +484,7 @@ test.describe("Editing a single mod", () => {
       ).toBeVisible()
     })
 
-    test(`selecting and saving the time boundary`, async () => {
+    test("selecting and saving the time boundary", async () => {
       // use api to create new time boundary
       await sharedPage.request.put(
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/timeBoundaries",
@@ -600,7 +600,7 @@ test.describe("Editing multiple mods", () => {
     await expect(timeBoundaryOptionElements).toHaveCount(3)
   })
 
-  test(`rendering the preview by default when clicking on a command`, async () => {
+  test("rendering the preview by default when clicking on a command", async () => {
     await sharedPage.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
@@ -623,7 +623,7 @@ test.describe("Editing multiple mods", () => {
     ).toBeVisible()
   })
 
-  test(`selecting and saving the time boundary`, async () => {
+  test("selecting and saving the time boundary", async () => {
     await sharedPage.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
@@ -651,7 +651,7 @@ test.describe("Editing multiple mods", () => {
     ).toContainText("2. Fall")
   })
 
-  test(`show "Mehrere" and no preview if time boundaries differ`, async () => {
+  test("show 'Mehrere' and no preview if time boundaries differ", async () => {
     await sharedPage.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
@@ -688,7 +688,7 @@ test.describe("Editing multiple mods", () => {
 })
 
 test.describe("Quoted Structure", () => {
-  test(`Navigation to url with selected mod opens editor with selected mod`, async ({
+  test("Navigation to url with selected mod opens editor with selected mod", async ({
     page,
   }) => {
     await page.goto(
@@ -845,7 +845,7 @@ test.describe("Quoted Structure", () => {
       await sharedPage.goto(BASE_URL)
     })
 
-    test(`selecting and saving the time boundary`, async () => {
+    test("selecting and saving the time boundary", async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle",
       })
@@ -868,7 +868,7 @@ test.describe("Quoted Structure", () => {
       ).toHaveValue("1002-01-10")
     })
 
-    test(`select another target node and see preview`, async () => {
+    test("select another target node and see preview", async () => {
       const amendingLawSection = sharedPage.getByRole("region", {
         name: "Änderungsbefehle",
       })
