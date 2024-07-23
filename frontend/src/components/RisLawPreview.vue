@@ -13,13 +13,6 @@ const props = withDefaults(
     content: string
 
     /**
-     * Enable or disable highlighting of the affected document elements.
-     *
-     * @default false
-     */
-    highlightAffectedDocument?: boolean
-
-    /**
      * EIds of the currently selected elements.
      */
     selected?: string[]
@@ -227,9 +220,6 @@ watch(
       ref="container"
       tabindex="0"
       class="flex h-full overflow-auto bg-white p-20"
-      :class="{
-        'highlight-affected-document': highlightAffectedDocument,
-      }"
       v-html="content"
     ></div>
     <!-- eslint-enable vue/no-v-html -->
@@ -353,18 +343,6 @@ watch(
 
 :deep(.akn-shortTitle) {
   @apply block font-normal;
-}
-
-.highlight-affected-document :deep(.akn-affectedDocument) {
-  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
-}
-
-.highlight-affected-document :deep(.akn-affectedDocument):hover {
-  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
-}
-
-.highlight-affected-document :deep(.akn-affectedDocument.selected) {
-  @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
 }
 
 :deep([role="button"]) {

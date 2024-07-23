@@ -49,7 +49,6 @@ function handleClick({ eid }: { eid: string }) {
     <Variant title="Default">
       <RisLawPreview
         :content="content"
-        highlight-affected-document
         :selected="selected"
         @click:akn:mod="handleClick"
         @click:akn:article="handleClick"

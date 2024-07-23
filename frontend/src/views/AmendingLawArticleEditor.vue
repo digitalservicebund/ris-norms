@@ -196,9 +196,8 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
                 </div>
                 <RisLawPreview
                   v-else
-                  class="ds-textarea flex-grow p-2"
+                  class="amendingLawPreview ds-textarea flex-grow p-2"
                   :content="articleHtml ?? ''"
-                  highlight-affected-document
                   :selected="selectedMods"
                   :e-id-classes="classesForPreview"
                   @click:akn:mod="handleAknModClick"
@@ -236,3 +235,13 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
     </RisHeader>
   </div>
 </template>
+
+<style scoped>
+.amendingLawPreview :deep(.akn-affectedDocument) {
+  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
+}
+
+.amendingLawPreview :deep(.akn-affectedDocument):hover {
+  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
+}
+</style>

@@ -39,9 +39,18 @@ const classesForPreview = useModHighlightClasses(normDocument, () => false)
     <div v-else class="rounded-sm bg-white px-24 py-24 shadow-md">
       <RisLawPreview
         :content="amendingLawHtml ?? ''"
-        highlight-affected-document
         :e-id-classes="classesForPreview"
       />
     </div>
   </div>
 </template>
+
+<style scoped>
+:deep(.akn-affectedDocument) {
+  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
+}
+
+:deep(.akn-affectedDocument):hover {
+  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
+}
+</style>

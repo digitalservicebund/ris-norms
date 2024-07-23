@@ -310,7 +310,6 @@ const sentryTraceId = useSentryTraceId()
           class="max-h-[250px] overflow-y-auto"
           data-testid="elementToBeReplaced"
           :content="targetLawHtmlHtml ?? ''"
-          highlight-affected-document
           :rows="8"
           :selected="selectedElements"
           @click:akn:list="handleAknElementClick"
@@ -356,7 +355,6 @@ const sentryTraceId = useSentryTraceId()
           id="replacingElement"
           class="h-[150px] overflow-y-auto"
           data-testid="replacingElement"
-          highlight-affected-document
           :content="quotedStructureContent"
           :rows="8"
         />
