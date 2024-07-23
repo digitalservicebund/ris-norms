@@ -144,32 +144,23 @@ function modTypeLabel(modType: ModType | "") {
       return "Keine Angabe"
   }
 }
-/** Intermediate destination range Eid */
-const destinationRangeUptoEid = ref<string | undefined>()
 
-watch(destinationRangeUptoEid, (newEid) => {
-  if (newEid) {
-    destinationUpToModel.value = `${destinationHrefEli.value}/${newEid}`
+const destinationRangeUptoEid = computed({
+  get() {
+    let eid = ""
+    eid = destinationUpToModel.value?.split("/").slice(-1).join("/") ?? ""
+    return eid.replace(".xml", "")
+  },
+  set(newValue: string) {
+    if (newValue) {
+      destinationUpToModel.value = `${destinationHrefEli.value}/${newValue}`
+    } else {
+      destinationUpToModel.value = ""
+    }
     emit("generate-preview")
-  } else {
-    destinationUpToModel.value = ""
-  }
+  },
 })
 
-const selectedElements = computed(() => {
-  if (destinationHrefEid.value == null) {
-    return []
-  }
-  if (destinationRangeUptoEid.value == null) {
-    return [destinationHrefEid.value]
-  }
-  const container = elementToBeReplacedRef.value?.$el
-  return getAllEidsBetween(
-    destinationHrefEid.value,
-    destinationRangeUptoEid.value,
-    container,
-  )
-})
 function getAllEidsBetween(
   startEid: string,
   endEid: string,
@@ -205,42 +196,76 @@ function handleAknElementClick({
 }) {
   originalEvent.preventDefault()
   if (originalEvent.shiftKey) {
-    const container = elementToBeReplacedRef.value?.$el
-    const destinationElement = container?.querySelector(
-      `[data-eid="${destinationHrefEid.value}"]`,
-    )
-    const parentElement = destinationElement?.parentElement
-    const clickedElement = container?.querySelector(`[data-eid="${eid}"]`)
-    const clickedParentElement = clickedElement?.parentElement
-    if (parentElement !== clickedParentElement) {
-      return
-    }
-    const siblingElements = Array.from(
-      parentElement.querySelectorAll("[data-eid]"),
-    ) as HTMLElement[]
-    const clickedIndex = siblingElements.findIndex(
-      (el) => el.getAttribute("data-eid") === eid,
-    )
-    const selectedIndex = siblingElements.findIndex(
-      (el) => el.getAttribute("data-eid") === destinationHrefEid.value,
-    )
-    if (clickedIndex < 0 || selectedIndex < 0) return
-    const [startIndex, endIndex] = [selectedIndex, clickedIndex].sort(
-      (a, b) => a - b,
-    )
-    const selectedEids = siblingElements
-      .slice(startIndex, endIndex + 1)
-      .map((el) => el.getAttribute("data-eid")!)
-    destinationHrefEid.value = selectedEids[0]
-    destinationRangeUptoEid.value = selectedEids[selectedEids.length - 1]
+    // const container = elementToBeReplacedRef.value?.$el
+    // const destinationElement = container?.querySelector(
+    //   `[data-eid="${destinationHrefEid.value}"]`,
+    // )
+    // const parentElement = destinationElement?.parentElement
+    // const clickedElement = container?.querySelector(`[data-eid="${eid}"]`)
+    // const clickedParentElement = clickedElement?.parentElement
+    // if (parentElement !== clickedParentElement) {
+    //   return
+    // }
+    // const siblingElements = Array.from(
+    //   parentElement.querySelectorAll("[data-eid]"),
+    // ) as HTMLElement[]
+    // const clickedIndex = siblingElements.findIndex(
+    //   (el) => el.getAttribute("data-eid") === eid,
+    // )
+    // const selectedIndex = siblingElements.findIndex(
+    //   (el) => el.getAttribute("data-eid") === destinationHrefEid.value,
+    // )
+    // if (clickedIndex < 0 || selectedIndex < 0) return
+    // const [startIndex, endIndex] = [selectedIndex, clickedIndex].sort(
+    //   (a, b) => a - b,
+    // )
+    // const selectedEids = siblingElements
+    //   .slice(startIndex, endIndex + 1)
+    //   .map((el) => el.getAttribute("data-eid")!)
+    // destinationHrefEid.value = selectedEids[0]
+    // destinationRangeUptoEid.value = selectedEids[selectedEids.length - 1]
+    destinationRangeUptoEid.value = eid
   } else {
     destinationHrefEid.value = eid
-    destinationRangeUptoEid.value = undefined
+    destinationRangeUptoEid.value = ""
   }
 }
 
 const elementToBeReplacedRef = ref<InstanceType<typeof RisLawPreview> | null>(
   null,
+)
+
+const selectedElements = ref()
+
+watch(
+  [
+    destinationRangeUptoEid,
+    destinationHrefEid,
+    elementToBeReplacedRef,
+    () => props.targetLawHtmlHtml,
+  ],
+  async () => {
+    if (destinationHrefEid.value == null) {
+      selectedElements.value = []
+      return
+    }
+    if (destinationRangeUptoEid.value == "") {
+      selectedElements.value = [destinationHrefEid.value]
+      return
+    }
+
+    const container = elementToBeReplacedRef.value?.$el
+    if (container == null) {
+      return
+    }
+    await nextTick()
+    selectedElements.value = getAllEidsBetween(
+      destinationHrefEid.value,
+      destinationRangeUptoEid.value,
+      elementToBeReplacedRef.value?.$el,
+    )
+  },
+  { immediate: true },
 )
 
 watch(
