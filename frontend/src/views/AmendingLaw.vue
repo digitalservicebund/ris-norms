@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import RisAlert from "@/components/controls/RisAlert.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -7,7 +6,6 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
-import { useAlerts } from "@/composables/useAlerts"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
@@ -42,8 +40,6 @@ const menuItems: LevelOneMenuItem[] = [
 
 const eli = useEliPathParameter()
 const { data: amendingLaw, isFetching, error } = useGetNorm(eli)
-
-const { alerts, hideAlert } = useAlerts()
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -84,14 +80,6 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
       />
 
       <div class="col-span-1 overflow-auto">
-        <RisAlert
-          v-for="[key, { variant, message }] in alerts"
-          :key="key"
-          :variant="variant"
-          @click="hideAlert(key)"
-        >
-          {{ message }}
-        </RisAlert>
         <RouterView />
       </div>
     </RisHeader>
