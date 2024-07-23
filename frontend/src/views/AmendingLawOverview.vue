@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useModHighlightClasses } from "@/composables/useModHighlightClasses"
@@ -9,6 +7,7 @@ import { useNormXml } from "@/composables/useNormXml"
 import { useGetNormHtml } from "@/services/normService"
 import { xmlStringToDocument } from "@/services/xmlService"
 import { computed, toValue } from "vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const eli = useEliPathParameter()
 
@@ -32,18 +31,9 @@ const classesForPreview = useModHighlightClasses(normDocument, () => false)
   <div class="p-24">
     <h1 class="ds-heading-02-reg mb-24">Verkündung</h1>
     <div v-if="error || loadXmlError">
-      <RisCallout
+      <RisErrorCallout
         title="Der Text der Verkündung konnte nicht geladen werden."
-        variant="error"
-      >
-        <p v-if="error.sentryEventId || loadXmlError.sentryEventId">
-          Fehler-ID:
-          <RisCopyableLabel
-            :text="error.sentryEventId || loadXmlError.sentryEventId"
-            name="Fehler-ID"
-          />
-        </p>
-      </RisCallout>
+      />
     </div>
     <RisLoadingSpinner v-else-if="isFetching || isFetchingXml" />
     <div v-else class="rounded-sm bg-white px-24 py-24 shadow-md">

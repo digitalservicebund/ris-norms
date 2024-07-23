@@ -32,7 +32,7 @@ test.describe("navigate to page", () => {
 
     await expect(
       page.getByRole("button", {
-        name: "Fehler-ID in die Zwischenablage kopieren",
+        name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
 

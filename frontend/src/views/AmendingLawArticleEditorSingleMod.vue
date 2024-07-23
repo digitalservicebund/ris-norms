@@ -2,7 +2,6 @@
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisModForm from "@/components/RisModForm.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -15,6 +14,7 @@ import {
 import { useTemporalData } from "@/composables/useTemporalData"
 import { useGetNormHtml } from "@/services/normService"
 import { computed, ref, watch } from "vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -173,18 +173,7 @@ watch(
     </div>
 
     <div v-else-if="loadTimeBoundariesError">
-      <RisCallout
-        title="Die Zeitgrenzen konnten nicht geladen werden."
-        variant="error"
-      >
-        <p v-if="loadTimeBoundariesError.sentryEventId">
-          Fehler-ID:
-          <RisCopyableLabel
-            :text="loadTimeBoundariesError.sentryEventId"
-            name="Fehler-ID"
-          />
-        </p>
-      </RisCallout>
+      <RisErrorCallout title="Die Zeitgrenzen konnten nicht geladen werden." />
     </div>
 
     <RisModForm
@@ -226,32 +215,10 @@ watch(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewHtmlError">
-          <RisCallout
-            title="Die Vorschau konnte nicht erzeugt werden."
-            variant="error"
-          >
-            <p v-if="loadPreviewHtmlError.sentryEventId">
-              Fehler-ID:
-              <RisCopyableLabel
-                :text="loadPreviewHtmlError.sentryEventId"
-                name="Fehler-ID"
-              />
-            </p>
-          </RisCallout>
+          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
         </div>
         <div v-else-if="previewError">
-          <RisCallout
-            title="Die Vorschau konnte nicht erzeugt werden."
-            variant="error"
-          >
-            <p v-if="previewError.sentryEventId">
-              Fehler-ID:
-              <RisCopyableLabel
-                :text="previewError.sentryEventId"
-                name="Fehler-ID"
-              />
-            </p>
-          </RisCallout>
+          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
         </div>
         <RisLawPreview
           v-else
@@ -268,32 +235,13 @@ watch(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewXmlError">
-          <RisCallout
-            title="Die Vorschau konnte nicht erzeugt werden."
-            variant="error"
-          >
-            <p v-if="loadPreviewXmlError.sentryEventId">
-              Fehler-ID:
-              <RisCopyableLabel
-                :text="loadPreviewXmlError.sentryEventId"
-                name="Fehler-ID"
-              />
-            </p>
-          </RisCallout>
+          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
         </div>
         <div v-else-if="previewError">
-          <RisCallout
+          <RisErrorCallout
             title="Die Vorschau konnte nicht erzeugt werden."
             variant="error"
-          >
-            <p v-if="previewError.sentryEventId">
-              Fehler-ID:
-              <RisCopyableLabel
-                :text="previewError.sentryEventId"
-                name="Fehler-ID"
-              />
-            </p>
-          </RisCallout>
+          />
         </div>
         <RisCodeEditor
           v-else

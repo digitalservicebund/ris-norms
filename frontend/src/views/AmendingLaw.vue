@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import RisAlert from "@/components/controls/RisAlert.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -15,6 +13,7 @@ import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
 import { ref } from "vue"
 import { RouterView } from "vue-router"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -67,15 +66,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   </div>
 
   <div v-else-if="error || !amendingLaw" class="m-24">
-    <RisCallout
-      title="Das Änderungsgesetz konnte nicht geladen werden."
-      variant="error"
-    >
-      <p v-if="error?.sentryEventId">
-        Fehler-ID:
-        <RisCopyableLabel :text="error.sentryEventId" name="Fehler-ID" />
-      </p>
-    </RisCallout>
+    <RisErrorCallout title="Das Änderungsgesetz konnte nicht geladen werden." />
   </div>
 
   <div

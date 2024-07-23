@@ -161,7 +161,7 @@ test.describe("preview", () => {
 
     await expect(
       page.getByRole("button", {
-        name: "Fehler-ID in die Zwischenablage kopieren",
+        name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
 
@@ -255,7 +255,7 @@ test.describe("XML view", () => {
 
     await expect(
       page.getByRole("button", {
-        name: "Fehler-ID in die Zwischenablage kopieren",
+        name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
 
@@ -893,7 +893,7 @@ test.describe("metadata view", () => {
 
     await expect(
       sharedPage.getByRole("button", {
-        name: "Fehler-ID in die Zwischenablage kopieren",
+        name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
 

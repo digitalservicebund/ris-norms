@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetNorm } from "@/services/normService"
 import { computed } from "vue"
 import IcOutlineModeEdit from "~icons/ic/outline-mode-edit"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const props = defineProps<{
   /**
@@ -52,15 +51,9 @@ const editorUrl = computed<string>(
     </div>
 
     <div v-else-if="error" class="flex-1">
-      <RisCallout
+      <RisErrorCallout
         title="Der betroffene Normkomplex konnte nicht geladen werden."
-        variant="error"
-      >
-        <p v-if="error.sentryEventId">
-          Fehler-ID:
-          <RisCopyableLabel :text="error.sentryEventId" name="Fehler-ID" />
-        </p>
-      </RisCallout>
+      />
     </div>
 
     <div v-else class="flex flex-1 flex-col gap-8">

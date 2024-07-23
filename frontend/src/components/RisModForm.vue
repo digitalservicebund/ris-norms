@@ -10,6 +10,7 @@ import { ModType } from "@/types/ModType"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import { computed, nextTick, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -265,6 +266,8 @@ watch(
   },
   { immediate: true },
 )
+
+const sentryTraceId = useSentryTraceId()
 </script>
 
 <template>
@@ -412,10 +415,10 @@ watch(
 
           <template #message>
             <RisCopyableLabel
-              v-if="updateError?.sentryEventId"
-              name="Fehler-ID"
-              text="Fehler-ID kopieren"
-              :value="updateError?.sentryEventId"
+              v-if="updateError"
+              name="Trace-ID"
+              text="Trace-ID kopieren"
+              :value="sentryTraceId"
             />
           </template>
         </RisTooltip>
