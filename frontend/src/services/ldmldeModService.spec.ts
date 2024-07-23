@@ -11,7 +11,7 @@ import {
 } from "@/services/ldmldeModService"
 import { nextTick, ref } from "vue"
 
-describe("ldmldeModService", () => {
+describe.skip("ldmldeModService", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()

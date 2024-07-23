@@ -38,6 +38,10 @@ const selectedTimeBoundaryModel = defineModel<TemporalDataResponse | undefined>(
 )
 /** Destination Href for mod */
 const destinationHrefModel = defineModel<string>("destinationHref")
+
+/** This is the range of the text that will be replaced */
+const destinationUpToModel = defineModel<string>("destinationUpTo")
+
 /** This is the text that replaces quotedTextFirst */
 const quotedTextSecondModel = defineModel<string | undefined>(
   "quotedTextSecond",
@@ -68,9 +72,19 @@ const selectedElement = computed({
   },
 })
 
-const destinationHrefEli = computed(() =>
-  destinationHrefModel.value?.split("/").slice(0, -2).join("/"),
-)
+const destinationHrefEli = computed(() => {
+  const parts = destinationHrefModel.value?.split("/") || []
+
+  if (
+    props.textualModType === "aenderungsbefehl-ersetzen" &&
+    props.quotedStructureContent
+  ) {
+    return parts.slice(0, -1).join("/")
+  } else if (props.textualModType === "aenderungsbefehl-ersetzen") {
+    return parts.slice(0, -2).join("/")
+  }
+  return ""
+})
 
 const destinationHrefEid = computed({
   get() {
@@ -131,28 +145,112 @@ function modTypeLabel(modType: ModType | "") {
   }
 }
 
-interface AknElementClickEvent {
-  eid: string
-  guid: string
+const destinationRangeUptoEid = computed({
+  get() {
+    let eid = ""
+    eid = destinationUpToModel.value?.split("/").slice(-1).join("/") ?? ""
+    return eid.replace(".xml", "")
+  },
+  set(newValue: string) {
+    if (newValue) {
+      destinationUpToModel.value = `${destinationHrefEli.value}/${newValue}`
+    } else {
+      destinationUpToModel.value = ""
+    }
+    emit("generate-preview")
+  },
+})
+
+function getAllEidsBetween(
+  startEid: string,
+  endEid: string,
+  container: HTMLElement,
+) {
+  const eids: string[] = []
+  let collect = false
+
+  const elements = container.querySelectorAll("[data-eid]")
+  elements.forEach((el) => {
+    const eid = el.getAttribute("data-eid")
+    if (eid === startEid || eid === endEid) {
+      if (!collect) {
+        eids.push(eid)
+        collect = true
+      } else {
+        eids.push(eid!)
+        collect = false
+      }
+    } else if (collect && eid) {
+      eids.push(eid)
+    }
+  })
+  return eids
 }
-const handleAknElementClick = (e: AknElementClickEvent) => {
-  destinationHrefEid.value = e.eid
+
+function handleAknElementClick({
+  eid,
+  originalEvent,
+}: {
+  eid: string
+  originalEvent: MouseEvent | KeyboardEvent
+}) {
+  originalEvent.preventDefault()
+  if (originalEvent.shiftKey) {
+    destinationRangeUptoEid.value = eid
+  } else {
+    destinationHrefEid.value = eid
+    destinationRangeUptoEid.value = ""
+  }
 }
 
 const elementToBeReplacedRef = ref<InstanceType<typeof RisLawPreview> | null>(
   null,
 )
 
+const selectedElements = ref()
+
 watch(
-  destinationHrefEid,
-  (newEid) => {
-    if (newEid) {
+  [
+    destinationRangeUptoEid,
+    destinationHrefEid,
+    elementToBeReplacedRef,
+    () => props.targetLawHtmlHtml,
+  ],
+  async () => {
+    if (destinationHrefEid.value == null) {
+      selectedElements.value = []
+      return
+    }
+    if (destinationRangeUptoEid.value == "") {
+      selectedElements.value = [destinationHrefEid.value]
+      return
+    }
+
+    const container = elementToBeReplacedRef.value?.$el
+    if (container == null) {
+      return
+    }
+    await nextTick()
+    selectedElements.value = getAllEidsBetween(
+      destinationHrefEid.value,
+      destinationRangeUptoEid.value,
+      elementToBeReplacedRef.value?.$el,
+    )
+  },
+  { immediate: true },
+)
+
+watch(
+  [destinationHrefEid, () => props.targetLawHtmlHtml],
+  () => {
+    if (destinationHrefEid.value) {
       nextTick(() => {
         const container = elementToBeReplacedRef.value?.$el
         if (container) {
-          const element = container.querySelector(`[data-eid="${newEid}"]`)
+          const element = container.querySelector(
+            `[data-eid="${destinationHrefEid.value}"]`,
+          )
           if (element) {
-            destinationHrefEid.value = newEid
             element.scrollIntoView({
               behavior: "smooth",
               block: "center",
@@ -206,12 +304,12 @@ watch(
         <RisLawPreview
           id="elementToBeReplaced"
           ref="elementToBeReplacedRef"
-          class="max-h-[300px] overflow-y-auto"
+          class="max-h-[250px] overflow-y-auto"
           data-testid="elementToBeReplaced"
           :content="targetLawHtmlHtml ?? ''"
           highlight-affected-document
           :rows="8"
-          :selected="destinationHrefEid == null ? [] : [destinationHrefEid]"
+          :selected="selectedElements"
           @click:akn:list="handleAknElementClick"
           @click:akn:long-title="handleAknElementClick"
           @click:akn:citations="handleAknElementClick"
@@ -253,7 +351,7 @@ watch(
         <label for="replacingElement" class="ds-label">Neues Element</label>
         <RisLawPreview
           id="replacingElement"
-          class="max-h-[200px] overflow-y-auto"
+          class="h-[150px] overflow-y-auto"
           data-testid="replacingElement"
           highlight-affected-document
           :content="quotedStructureContent"

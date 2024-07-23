@@ -40,6 +40,7 @@ const {
   quotedTextSecond,
   timeBoundary,
   quotedStructureContent,
+  destinationUpToHref,
   preview: {
     data: previewData,
     execute: preview,
@@ -193,6 +194,7 @@ watch(
       v-model:destination-href="destinationHref"
       v-model:quoted-text-second="quotedTextSecond"
       v-model:selected-time-boundary="timeBoundary"
+      v-model:destination-up-to="destinationUpToHref"
       :quoted-structure-content="quotedStructureHtmlContent"
       :quoted-text-first="quotedTextFirst"
       :time-boundaries="timeBoundaries ?? []"

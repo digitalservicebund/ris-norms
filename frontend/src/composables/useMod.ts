@@ -9,6 +9,8 @@ import {
   getTimeBoundaryDate,
   useUpdateModData,
   getQuotedStructureContent,
+  getDestinationRange,
+  getDestinationRangeUpto,
 } from "@/services/ldmldeModService"
 import { ModType } from "@/types/ModType"
 import { UseFetchReturn } from "@vueuse/core"
@@ -28,6 +30,7 @@ export function useMod(
 ): {
   textualModType: Ref<ModType | "">
   destinationHref: Ref<string>
+  destinationUpToHref: Ref<string>
   quotedTextFirst: Ref<string>
   quotedTextSecond: Ref<string>
   timeBoundary: Ref<{ date: string; temporalGroupEid: string } | undefined>
@@ -48,6 +51,7 @@ export function useMod(
 
   const textualModType = ref<ModType | "">("")
   const destinationHref = ref<string>("")
+  const destinationUpToHref = ref<string>("")
   const quotedTextFirst = ref<string>("")
   const quotedTextSecond = ref<string>("")
   const timeBoundary = ref<
@@ -58,6 +62,7 @@ export function useMod(
   function reset() {
     textualModType.value = ""
     destinationHref.value = ""
+    destinationUpToHref.value = ""
     quotedTextFirst.value = ""
     quotedTextSecond.value = ""
     timeBoundary.value = undefined
@@ -80,7 +85,9 @@ export function useMod(
       }
 
       textualModType.value = getTextualModType(modNode) ?? ""
-      destinationHref.value = getDestinationHref(modNode) ?? ""
+      destinationHref.value =
+        getDestinationRange(modNode) ?? getDestinationHref(modNode) ?? ""
+      destinationUpToHref.value = getDestinationRangeUpto(modNode) ?? ""
       quotedTextFirst.value = getQuotedTextFirst(modNode) ?? ""
       quotedTextSecond.value = getQuotedTextSecond(modNode) ?? ""
       quotedStructureContent.value = getQuotedStructureContent(modNode)
@@ -104,6 +111,7 @@ export function useMod(
       refersTo: textualModType.value,
       timeBoundaryEid: timeBoundary.value?.temporalGroupEid,
       destinationHref: destinationHref.value,
+      destinationUpTo: destinationUpToHref.value,
       newContent: quotedStructureContent.value
         ? quotedStructureContent.value
         : quotedTextSecond.value,
@@ -115,6 +123,7 @@ export function useMod(
   return {
     textualModType,
     destinationHref,
+    destinationUpToHref,
     quotedTextFirst,
     quotedTextSecond,
     quotedStructureContent,
