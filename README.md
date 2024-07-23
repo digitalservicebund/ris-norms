@@ -35,7 +35,7 @@ There are two places where documentation can be found:
 
 # Development
 
-Please refer to [`DEVELOPING.md`](./DEVELOPING.md) for details.
+Please refer to [`DEVELOPING.md`](./DEVELOPING.md) for further details.
 
 # Contributions Welcome!
 
