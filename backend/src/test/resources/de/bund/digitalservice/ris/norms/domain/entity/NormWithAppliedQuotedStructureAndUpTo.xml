@@ -15,7 +15,7 @@
                 </akn:FRBRWork>
                 <akn:FRBRExpression GUID="67247b7c-2285-490d-a0f2-a1c805f2f140" eId="meta-1_ident-1_frbrexpression-1">
                     <akn:FRBRthis GUID="e3e82a45-e271-4f24-936d-94cae114db58" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1"/>
-                    <akn:FRBRuri GUID="a6997dd0-1a12-43df-a02a-7c2d70b29f1a" eId="meta-1_ident-1_frbrexpression-1_frbruri-1" value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu"/>
+                    <akn:FRBRuri GUID="a6997dd0-1a12-43df-a02a-7c2d70b29f1a" eId="meta-1_ident-1_frbrexpression-1_frbruri-1" value="eli/bund/bgbl-1/1002/1/1002-01-10/1/deu"/>
                     <akn:FRBRalias GUID="43bd6e06-3017-470c-a91f-18318154885a" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="e4e034dd-61b9-43aa-b4f9-b778dc6adfda"/>
                     <akn:FRBRalias GUID="1700bef9-6d4d-48c1-b0bc-f066dd9d3bf8" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="7f8ef8e8-9ec5-4e5a-9b81-7647ed3c5e5f"/>
                     <akn:FRBRauthor GUID="7f11bff8-c09d-40d0-a0bb-3f2542514116" eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" href="recht.bund.de/institution/bundesregierung"/>
@@ -26,7 +26,7 @@
                 </akn:FRBRExpression>
                 <akn:FRBRManifestation GUID="321497df-3c8b-4168-a50a-ac359fc62ea3" eId="meta-1_ident-1_frbrmanifestation-1">
                     <akn:FRBRthis GUID="b73c60f8-03fb-4a98-9bd1-990ff334dbd9" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" value="eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1"/>
-                    <akn:FRBRuri GUID="3346b7be-37e3-4e26-8cd5-1d4fb70def3b" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" value="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRuri GUID="3346b7be-37e3-4e26-8cd5-1d4fb70def3b" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" value="eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.xml"/>
                     <akn:FRBRdate GUID="ef351e86-937d-455d-81d0-8b7688470a4d" date="2024-07-17" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" name="generierung"/>
                     <akn:FRBRauthor GUID="c3ca80c3-4273-43a9-8072-94659d7b57cb" eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" href="recht.bund.de"/>
                     <akn:FRBRformat GUID="80b4c27c-9973-43e7-986a-1b36d88309dd" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>
