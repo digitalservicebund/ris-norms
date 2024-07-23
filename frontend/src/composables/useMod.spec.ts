@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { nextTick, ref } from "vue"
 
-describe.skip("useMod", () => {
+describe("useMod", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -135,9 +135,11 @@ describe.skip("useMod", () => {
     expect(quotedStructureContent.value).toBeUndefined()
   })
 
-  test("should suppor t changing the values of the returned refs", async () => {
+  test("should support changing the values of the returned refs", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi.fn(),
+      getDestinationRange: vi.fn(),
+      getDestinationRangeUpto: vi.fn(),
       getQuotedTextFirst: vi.fn(),
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn(),
@@ -162,6 +164,8 @@ describe.skip("useMod", () => {
   test("should overwrite the changed values when the eid changes", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi.fn(),
+      getDestinationRange: vi.fn(),
+      getDestinationRangeUpto: vi.fn(),
       getQuotedTextFirst: vi.fn(),
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn(),
@@ -192,6 +196,8 @@ describe.skip("useMod", () => {
   test("should overwrite the changed values when the xml changes", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi.fn(),
+      getDestinationRange: vi.fn(),
+      getDestinationRangeUpto: vi.fn(),
       getQuotedTextFirst: vi.fn(),
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn(),
