@@ -15,7 +15,7 @@ class TimeIntervalTest {
             .node(
                 XmlMapper.toNode(
                     """
-                              <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
+                        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2" />
                            """))
             .build();
 
@@ -30,7 +30,7 @@ class TimeIntervalTest {
             .node(
                 XmlMapper.toNode(
                     """
-                                              <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" />
+                        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" />
                                            """))
             .build();
 

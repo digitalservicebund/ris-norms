@@ -1065,7 +1065,7 @@ class NormTest {
     Node parentNode =
         XmlMapper.toNode(
             """
-                            <akn:temporalData eId="meta-1_geltzeiten-1"
+                <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_geltzeiten-1"
                                                           GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"
                                                           source="attributsemantik-noch-undefiniert">
                                 <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
@@ -1091,7 +1091,7 @@ class NormTest {
     Node parentNode =
         XmlMapper.toNode(
             """
-                            <akn:temporalData eId="meta-1_geltzeiten-1"
+                <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_geltzeiten-1"
                                                           GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"
                                                           source="attributsemantik-noch-undefiniert">
                             </akn:temporalData>

@@ -45,7 +45,8 @@ class EIdTest {
   void fromNode() {
     // given
     var node =
-        XmlMapper.toNode("<akn:mod eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />");
+        XmlMapper.toNode(
+            "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />");
     // when
     var eId = EId.fromNode(node);
     // then
@@ -57,7 +58,8 @@ class EIdTest {
   void fromMandatoryNode() {
     // given
     var node =
-        XmlMapper.toNode("<akn:mod eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />");
+        XmlMapper.toNode(
+            "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3\" />");
     // when
     var eId = EId.fromMandatoryNode(node);
     // then
@@ -67,7 +69,9 @@ class EIdTest {
   @Test
   void fromMandatoryNodeThrowsMandatoryNodeNotFoundException() {
     // given
-    var node = XmlMapper.toNode("<akn:mod eId=\"\" />");
+    var node =
+        XmlMapper.toNode(
+            "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId=\"\" />");
 
     // when/then
     assertThatThrownBy(() -> EId.fromMandatoryNode(node))

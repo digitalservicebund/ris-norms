@@ -10,7 +10,7 @@ class TextualModTest {
 
   private static final String COMMON_XML =
       """
-          <akn:textualMod eId="meta-1_analysis-1_activemod-1_textualmod-1"
+          <akn:textualMod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_analysis-1_activemod-1_textualmod-1"
                           GUID="2e5533d3-d0e3-43ba-aa1a-5859d108eb46"
                           type="substitution">
             <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1"
