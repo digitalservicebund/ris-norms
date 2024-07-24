@@ -10,36 +10,45 @@ import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
+import ModSelectionPanel from "@/components/references/ModSelectionPanel.vue"
+import { useNormXml } from "@/composables/useNormXml"
 
-const amendingLawEli = useEliPathParameter()
+const amendingNormEli = useEliPathParameter()
 const {
-  data: amendingLaw,
-  isFetching: amendingLawIsLoading,
-  error: amendingLawError,
-} = useGetNorm(amendingLawEli)
+  data: amendingNorm,
+  isFetching: amendingNormIsLoading,
+  error: amendingNormError,
+} = useGetNorm(amendingNormEli)
+const {
+  data: amendingNormXml,
+  isFetching: amendingNormXmlIsLoading,
+  error: amendingNormXmlError,
+} = useNormXml(amendingNormEli)
 
-const affectedDocumentEli = useEliPathParameter("affectedDocument")
+const affectedNormEli = useEliPathParameter("affectedDocument")
 const {
-  data: affectedDocument,
-  isFetching: affectedDocumentIsLoading,
-  error: affectedDocumentError,
-} = useGetNorm(affectedDocumentEli)
+  data: affectedNorm,
+  isFetching: affectedNormIsLoading,
+  error: affectedNormError,
+} = useGetNorm(affectedNormEli)
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
-    key: "amendingLaw",
+    key: "amendingNorm",
     title: () =>
-      amendingLaw.value
-        ? (getFrbrDisplayText(amendingLaw.value) ?? "...")
+      amendingNorm.value
+        ? (getFrbrDisplayText(amendingNorm.value) ?? "...")
         : "...",
-    to: `/amending-laws/${amendingLawEli.value}/affected-documents`,
+    to: `/amending-laws/${amendingNormEli.value}/affected-documents`,
   },
   {
-    key: "affectedDocument",
-    title: () => affectedDocument.value?.shortTitle ?? "...",
+    key: "affectedNorm",
+    title: () => affectedNorm.value?.shortTitle ?? "...",
   },
   { key: "textMetadataEditor", title: "Textbasierte Metadaten" },
 ])
+
+const selectedModEId = ref<string | undefined>()
 
 const isSaving = ref(false)
 const hasSaved = ref(false)
@@ -49,13 +58,20 @@ const saveError = ref("")
 <template>
   <div class="h-[calc(100dvh-5rem-1px)] bg-gray-100">
     <div
-      v-if="amendingLawIsLoading || affectedDocumentIsLoading"
+      v-if="
+        amendingNormIsLoading ||
+        affectedNormIsLoading ||
+        amendingNormXmlIsLoading
+      "
       class="flex h-full items-center justify-center"
     >
       <RisLoadingSpinner />
     </div>
 
-    <div v-else-if="amendingLawError || affectedDocumentError" class="p-24">
+    <div
+      v-else-if="amendingNormError || affectedNormError || amendingNormXmlError"
+      class="p-24"
+    >
       <RisCallout
         title="Das Gesetz konnte nicht geladen werden."
         variant="error"
@@ -66,7 +82,15 @@ const saveError = ref("")
       <div
         class="grid h-[calc(100vh-5rem-5rem-1px)] grid-cols-3 grid-rows-1 gap-32 p-40"
       >
-        <section aria-label="Mod Auswahl">Mod Auswahl</section>
+        <section aria-label="Mod Auswahl">
+          <div>Mod Selection Panel</div>
+          <ModSelectionPanel
+            v-if="amendingNormXml"
+            v-model="selectedModEId"
+            class="h-full overflow-hidden"
+            :norm-xml="amendingNormXml"
+          />
+        </section>
         <section aria-label="Ref Selektion">Ref Selektion</section>
         <section aria-label="Ref Tabelle">Ref Tabelle</section>
       </div>
