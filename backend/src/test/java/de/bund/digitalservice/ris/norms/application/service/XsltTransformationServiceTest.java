@@ -59,7 +59,7 @@ class XsltTransformationServiceTest {
 
     var result =
         xsltTransformationService.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query("<data>Test</data>", false));
+            new TransformLegalDocMlToHtmlUseCase.Query("<data>Test</data>", false, false));
 
     assertThat(result).isEqualToIgnoringWhitespace("<span>Test</span>");
   }
@@ -98,7 +98,7 @@ class XsltTransformationServiceTest {
 
     var result =
         xsltTransformationService.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query("<data>Test</data>", true));
+            new TransformLegalDocMlToHtmlUseCase.Query("<data>Test</data>", true, false));
 
     assertThat(result)
         .isEqualToIgnoringWhitespace(
@@ -144,7 +144,7 @@ class XsltTransformationServiceTest {
 
     var result =
         xsltTransformationService.transformLegalDocMlToHtml(
-            new TransformLegalDocMlToHtmlUseCase.Query("<data>Test</data>", false));
+            new TransformLegalDocMlToHtmlUseCase.Query("<data>Test</data>", false, false));
 
     assertThat(result)
         .isEqualToIgnoringWhitespace(
@@ -180,7 +180,7 @@ class XsltTransformationServiceTest {
             () ->
                 xsltTransformationService.transformLegalDocMlToHtml(
                     new TransformLegalDocMlToHtmlUseCase.Query(
-                        "<data><invalid xml</data>", false)));
+                        "<data><invalid xml</data>", false, false)));
 
     assertThat(throwable).isInstanceOf(XmlProcessingException.class);
     assertThat(throwable.getMessage())
@@ -194,7 +194,7 @@ class XsltTransformationServiceTest {
   @ParameterizedTest(name = "{0}")
   @MethodSource("shouldTransformXmlArgumentsProvider")
   void shouldTransformXml(
-      String name, String xmlFile, Boolean showMetadata, String expectedHtmlFile)
+      String xmlFile, Boolean showMetadata, String expectedHtmlFile, Boolean snippet)
       throws IOException {
     var xml = loadTestResource(xmlFile);
     var expectedHtml = loadTestResource(expectedHtmlFile);
@@ -206,7 +206,7 @@ class XsltTransformationServiceTest {
     var result =
         new XsltTransformationService(resource)
             .transformLegalDocMlToHtml(
-                new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata));
+                new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata, snippet));
 
     assertThat(result).isEqualToIgnoringWhitespace(expectedHtml);
   }
@@ -220,7 +220,7 @@ class XsltTransformationServiceTest {
   @MethodSource("shouldTransformXmlArgumentsProvider")
   @Disabled("This is not a real test but can be used to regenerate the expected html files.")
   void generateExpectedHtmlForShouldTransformXml(
-      String name, String xmlFile, Boolean showMetadata, String expectedHtmlFile)
+      String xmlFile, Boolean showMetadata, String expectedHtmlFile, Boolean snippet)
       throws IOException {
     var xml = loadTestResource(xmlFile);
     var resource =
@@ -231,7 +231,7 @@ class XsltTransformationServiceTest {
     var result =
         new XsltTransformationService(resource)
             .transformLegalDocMlToHtml(
-                new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata));
+                new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata, snippet));
 
     assertThat(result).isNotEmpty();
 
@@ -255,24 +255,25 @@ class XsltTransformationServiceTest {
   static Stream<Arguments> shouldTransformXmlArgumentsProvider() {
     return Stream.of(
         Arguments.arguments(
-            "Bundesverfassungsschutzgesetz",
             "Bundesverfassungsschutzgesetz.xml",
             false,
-            "Bundesverfassungsschutzgesetz.html"),
+            "Bundesverfassungsschutzgesetz.html",
+            false),
         Arguments.arguments(
-            "Bundesverfassungsschutzgesetz with metadata",
             "Bundesverfassungsschutzgesetz.xml",
             true,
-            "Bundesverfassungsschutzgesetz-with-metadata.html"),
+            "Bundesverfassungsschutzgesetz-with-metadata.html",
+            false),
         Arguments.arguments(
-            "Gesetz zum ersten Teil der Reform des Nachrichtendienstrechts",
             "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.xml",
             false,
-            "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.html"),
+            "Gesetz_zum_ersten_Teil_der_Reform_des_Nachrichtendienstrechts.html",
+            false),
         Arguments.arguments(
-            "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes",
             "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes.xml",
             false,
-            "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes.html"));
+            "Erstes_Gesetz_zur_Änderung_des_Strukturänderungsgesetzes.html",
+            false),
+        Arguments.arguments("Snippet.xml", false, "Snippet.html", true));
   }
 }

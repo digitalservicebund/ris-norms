@@ -49,6 +49,6 @@ public class ArticleService implements LoadArticleHtmlUseCase {
         .map(
             xml ->
                 xsltTransformationService.transformLegalDocMlToHtml(
-                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false)));
+                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)));
   }
 }

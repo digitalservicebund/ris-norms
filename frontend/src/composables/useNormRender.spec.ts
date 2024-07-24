@@ -51,6 +51,7 @@ describe("useNormRenderHtml", () => {
     const { isFinished } = useNormRenderHtml(
       "<law></law>",
       true,
+      false,
       new Date(Date.UTC(2023, 0, 1)),
     )
     await vi.waitUntil(() => isFinished.value)
@@ -66,15 +67,44 @@ describe("useNormRenderHtml", () => {
 
     const { useNormRenderHtml } = await import("./useNormRender")
 
-    const { isFinished } = useNormRenderHtml("<law></law>", true, undefined, [
-      "<xml>other-norm</xml>",
-    ])
+    const { isFinished } = useNormRenderHtml(
+      "<law></law>",
+      true,
+      false,
+      undefined,
+      ["<xml>other-norm</xml>"],
+    )
     await vi.waitUntil(() => isFinished.value)
 
     expect(fetchSpy).toHaveBeenCalledWith(
       "/api/v1/renderings?showMetadata=true",
       expect.objectContaining({
         body: expect.stringMatching("<xml>other-norm</xml>"),
+      }),
+    )
+  })
+
+  it("calls the API with snippet set to true", async () => {
+    const fetchSpy = vi
+      .spyOn(global, "fetch")
+      .mockResolvedValueOnce(new Response(`<html>Metadata shown</html>`))
+
+    const xml = "<law></law>"
+    const { useNormRenderHtml } = await import("./useNormRender")
+
+    const { data, isFinished } = useNormRenderHtml(xml, false, true)
+    await vi.waitUntil(() => isFinished.value)
+    expect(data.value).toBe(`<html>Metadata shown</html>`)
+
+    expect(fetchSpy).toHaveBeenCalledWith(
+      "/api/v1/renderings?showMetadata=false&snippet=true",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({
+          Accept: "text/html",
+          "Content-Type": "application/json",
+        }),
+        body: expect.stringContaining(xml),
       }),
     )
   })

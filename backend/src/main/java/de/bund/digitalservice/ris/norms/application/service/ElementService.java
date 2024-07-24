@@ -96,7 +96,7 @@ public class ElementService
       final LoadElementHtmlFromNormUseCase.Query query) {
     return loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid()))
         .map(XmlMapper::toString)
-        .map(rawXml -> new TransformLegalDocMlToHtmlUseCase.Query(rawXml, false))
+        .map(rawXml -> new TransformLegalDocMlToHtmlUseCase.Query(rawXml, false, false))
         .map(xsltTransformationService::transformLegalDocMlToHtml);
   }
 
@@ -112,7 +112,8 @@ public class ElementService
                 NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument()))
         .map(
             element ->
-                new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false))
+                new TransformLegalDocMlToHtmlUseCase.Query(
+                    XmlMapper.toString(element), false, false))
         .map(xsltTransformationService::transformLegalDocMlToHtml);
   }
 

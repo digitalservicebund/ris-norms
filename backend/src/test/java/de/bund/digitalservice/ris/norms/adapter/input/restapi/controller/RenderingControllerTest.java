@@ -74,7 +74,8 @@ class RenderingControllerTest {
           .transformLegalDocMlToHtml(
               new TransformLegalDocMlToHtmlUseCase.Query(
                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>",
-                  true));
+                  true,
+                  false));
     }
 
     @Test
@@ -116,6 +117,7 @@ class RenderingControllerTest {
           .transformLegalDocMlToHtml(
               new TransformLegalDocMlToHtmlUseCase.Query(
                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>",
+                  false,
                   false));
     }
 
@@ -149,7 +151,8 @@ class RenderingControllerTest {
           .transformLegalDocMlToHtml(
               new TransformLegalDocMlToHtmlUseCase.Query(
                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?><law>applied-passive-modification</law>",
-                  true));
+                  true,
+                  false));
       verify(applyPassiveModificationsUseCase, times(1))
           .applyPassiveModifications(
               AdditionalMatchers.and(
@@ -238,6 +241,32 @@ class RenderingControllerTest {
                           .getFirstChild()
                           .getTextContent()
                           .equals("amending-law")));
+    }
+
+    @Test
+    void getHtmlPreviewWithSnippetTrue() throws Exception {
+
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
+          .thenReturn("<html></html>");
+      mockMvc
+          .perform(
+              post("/api/v1/renderings")
+                  .queryParam("snippet", "true")
+                  .accept(MediaType.TEXT_HTML)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+                                       {
+                                          "norm": "<law>original-law</law>"
+                                        }
+                                        """))
+          .andExpect(status().isOk())
+          .andExpect(content().string("<html></html>"));
+
+      verify(applyPassiveModificationsUseCase, times(0)).applyPassiveModifications(any());
+      verify(transformLegalDocMlToHtmlUseCase, times(1))
+          .transformLegalDocMlToHtml(
+              new TransformLegalDocMlToHtmlUseCase.Query("<law>original-law</law>", false, true));
     }
   }
 

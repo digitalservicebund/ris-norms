@@ -70,6 +70,7 @@ const {
 } = useNormRenderHtml(
   targetNormZf0Xml,
   false,
+  false,
   computed(() =>
     timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
   ),
@@ -91,6 +92,7 @@ const quotedStructureHtmlContent = ref<string | undefined>(undefined)
 const { data: quotedStructureHtml } = useNormRenderHtml(
   quotedStructureContent,
   false,
+  true,
 )
 
 watch(

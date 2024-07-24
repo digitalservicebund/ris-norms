@@ -7,12 +7,14 @@ import { UseFetchReturn } from "@vueuse/core"
  *
  * @param normXml XML of the norm that should be rendered
  * @param showMetadata Enable or disable metadata list at the beginning of the document
+ * @param snippet If the XML sent is only a snippet of a norm
  * @param customNorms The XMLs of norms which are referenced by the norm (e.g. in passiveModifications) and should be used instead of the data stored.
  * @param at Passive modifications coming into effect before this date should be applied before rendering the HTML
  */
 export function useNormRenderHtml(
   normXml: MaybeRefOrGetter<string | undefined>,
   showMetadata: MaybeRefOrGetter<boolean> = false,
+  snippet: MaybeRefOrGetter<boolean> = false,
   at?: MaybeRefOrGetter<Date | undefined>,
   customNorms?: MaybeRefOrGetter<string[] | undefined>,
 ): UseFetchReturn<string> {
@@ -22,7 +24,10 @@ export function useNormRenderHtml(
 
       const searchParams = new URLSearchParams()
       searchParams.set("showMetadata", toValue(showMetadata) ? "true" : "false")
-
+      const snippetValue = toValue(snippet)
+      if (snippetValue) {
+        searchParams.set("snippet", toValue(snippet) ? "true" : "false")
+      }
       const atValue = toValue(at)
       if (atValue) {
         searchParams.set("atIsoDate", atValue.toISOString())

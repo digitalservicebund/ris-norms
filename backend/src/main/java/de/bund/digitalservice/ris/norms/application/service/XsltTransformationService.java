@@ -39,10 +39,16 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
       transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
       transformer.setParameter(SHOW_METADATA, query.showMetadata());
       transformer.setParameter("outputMode", "html");
-
+      String inputXml = query.xml();
+      if (query.snippet()) {
+        inputXml =
+            "<akn:akomaNtoso xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\">"
+                + inputXml
+                + "</akn:akomaNtoso>";
+      }
       StringWriter output = new StringWriter();
       transformer.transform(
-          new StreamSource(new ByteArrayInputStream(query.xml().getBytes())),
+          new StreamSource(new ByteArrayInputStream(inputXml.getBytes())),
           new StreamResult(output));
       return output.toString();
     } catch (IOException | TransformerException e) {
