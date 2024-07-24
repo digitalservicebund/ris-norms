@@ -94,6 +94,11 @@ const routes: readonly RouteRecordRaw[] = [
     ],
   },
   {
+    path: `/amending-laws/${createEliPathParameter()}/affected-documents/${createEliPathParameter("affectedDocument")}/references`,
+    name: "References",
+    component: () => import("@/views/References.vue"),
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("@/views/404NotFound.vue"),
