@@ -761,10 +761,7 @@ test.describe("Quoted Structure", () => {
 
       await expect(selectedElementLocator).toBeInViewport()
 
-      await expect(selectedElementLocator).toHaveCSS(
-        "background-color",
-        "rgb(185, 232, 255)",
-      )
+      await expect(selectedElementLocator).toHaveClass(/selected/)
 
       await expect(page.getByTestId("replacingElement")).toHaveText(
         "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen (Strukturänderungsgesetz)",
