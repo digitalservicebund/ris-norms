@@ -67,14 +67,12 @@ const {
   data: previewHtml,
   isFetching: isFetchingPreviewHtml,
   error: loadPreviewHtmlError,
-} = useNormRenderHtml(
-  targetNormZf0Xml,
-  false,
-  computed(() =>
+} = useNormRenderHtml(targetNormZf0Xml, {
+  at: computed(() =>
     timeBoundary.value ? new Date(timeBoundary.value.date) : undefined,
   ),
-  previewCustomNorms,
-)
+  customNorms: previewCustomNorms,
+})
 const {
   data: previewXml,
   isFetching: isFetchingPreviewXml,
@@ -90,7 +88,7 @@ const {
 const quotedStructureHtmlContent = ref<string | undefined>(undefined)
 const { data: quotedStructureHtml } = useNormRenderHtml(
   quotedStructureContent,
-  false,
+  { snippet: true },
 )
 
 watch(

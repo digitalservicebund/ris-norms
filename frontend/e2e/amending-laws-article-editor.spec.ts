@@ -883,7 +883,10 @@ test.describe("Quoted Structure", () => {
       )
 
       await elementToBeReplacedField
-        .getByRole("button", { name: "citations pDie" })
+        .getByRole("button", {
+          name: "headingGesetz zur Einbindung eines Regelungstextes in Stammformheading",
+          exact: true,
+        })
         .click()
 
       await modFormSection.getByRole("button", { name: "Speichern" }).click()

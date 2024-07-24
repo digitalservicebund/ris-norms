@@ -17,6 +17,7 @@ public interface TransformLegalDocMlToHtmlUseCase {
    *
    * @param xml The XML representation of the law.
    * @param showMetadata Should the metadata section be included in the HTML?
+   * @param snippet if the XML passed is just a snippet of a norm
    */
-  record Query(String xml, boolean showMetadata) {}
+  record Query(String xml, boolean showMetadata, boolean snippet) {}
 }

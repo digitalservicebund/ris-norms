@@ -39,6 +39,7 @@ public class RenderingController {
    *     and any additional norms that should be used instead of the saved once for rendering the
    *     norm.
    * @param showMetadata A boolean indicating whether metadata should be included in the rendering.
+   * @param snippet A boolean indicating whether the XML passed is just a snippet.
    * @param atIsoDate ISO date string indicating which modifications should be applied before the
    *     HTML gets rendered and returned. If no date is provided the current date is used.
    * @return A {@link ResponseEntity} containing the HTML rendering of the law document.
@@ -49,11 +50,14 @@ public class RenderingController {
   public ResponseEntity<String> getHtmlPreview(
       @RequestBody final PreviewRequestSchema previewRequestSchema,
       @RequestParam(defaultValue = "false") boolean showMetadata,
+      @RequestParam(defaultValue = "false") boolean snippet,
       @RequestParam Optional<Instant> atIsoDate) {
     return ResponseEntity.ok(
         this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
             new TransformLegalDocMlToHtmlUseCase.Query(
-                render(previewRequestSchema, atIsoDate), showMetadata)));
+                snippet ? previewRequestSchema.getNorm() : render(previewRequestSchema, atIsoDate),
+                showMetadata,
+                snippet)));
   }
 
   /**
