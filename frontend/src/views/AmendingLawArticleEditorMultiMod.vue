@@ -98,11 +98,8 @@ const {
   data: previewHtml,
   isFetching: isFetchingPreviewHtml,
   error: loadPreviewHtmlError,
-} = useNormRenderHtml(
-  previewXml,
-  false,
-  false,
-  computed(() => {
+} = useNormRenderHtml(previewXml, {
+  at: computed(() => {
     if (
       timeBoundary.value === "no_choice" ||
       timeBoundary.value === "multiple"
@@ -112,8 +109,8 @@ const {
 
     return new Date(timeBoundary.value)
   }),
-  previewCustomNorms,
-)
+  customNorms: previewCustomNorms,
+})
 
 watch(previewData, () => {
   if (!previewData.value) return
