@@ -97,7 +97,7 @@ const saveError = ref("")
 </script>
 
 <template>
-  <div class="h-[calc(100dvh-5rem-1px)] bg-gray-100">
+  <div class="flex h-[calc(100dvh-5rem-1px)] flex-col bg-gray-100">
     <div
       v-if="
         amendingNormIsLoading ||
@@ -121,61 +121,70 @@ const saveError = ref("")
 
     <RisHeader v-else :breadcrumbs>
       <div
-        class="grid h-[calc(100vh-5rem-5rem-1px)] grid-cols-3 grid-rows-1 gap-32 p-40"
+        class="grid flex-grow grid-cols-3 grid-rows-1 gap-32 overflow-hidden p-40"
       >
-        <section aria-label="Mod Auswahl">
-          <div>Mod Selection Panel</div>
+        <section aria-label="Änderungsbefehle" class="flex flex-col">
+          <div>Änderungsbefehle</div>
           <ModSelectionPanel
             v-if="amendingNormXml"
             v-model="selectedModEId"
-            class="h-full overflow-hidden"
+            class="overflow-hidden"
             :norm-xml="amendingNormXml"
           />
         </section>
-        <section aria-label="Ref Selektion">
-          Ref Selektion
-          <RefSelectionPanel
-            v-if="selectedModQuotedContentXmlString"
-            v-model:selected-ref="selectedRefEId"
-            v-model:xml-snippet="selectedModQuotedContentXmlString"
-            class="h-full overflow-hidden"
+
+        <div
+          class="col-span-2 grid grid-cols-subgrid grid-rows-[minmax(0,max-content),max-content,max-content]"
+        >
+          <section aria-label="Textbasierte Metadaten" class="flex flex-col">
+            <div>Textbasierte Metadaten</div>
+            <RefSelectionPanel
+              v-if="selectedModQuotedContentXmlString"
+              v-model:selected-ref="selectedRefEId"
+              v-model:xml-snippet="selectedModQuotedContentXmlString"
+              class="overflow-hidden"
+            />
+          </section>
+          <section aria-label="Verweise" class="flex flex-col">
+            <div>Verweise</div>
+            <RefEditorTable
+              v-if="selectedModQuotedContentXmlString"
+              v-model:selected-ref="selectedRefEId"
+              v-model:xml-snippet="selectedModQuotedContentXmlString"
+              class="overflow-hidden"
+            />
+          </section>
+
+          <hr
+            class="col-span-2 mb-16 mt-32 border border-solid border-gray-400"
           />
-        </section>
-        <section aria-label="Ref Tabelle">
-          Ref Tabelle
-          <RefEditorTable
-            v-if="selectedModQuotedContentXmlString"
-            v-model:selected-ref="selectedRefEId"
-            v-model:xml-snippet="selectedModQuotedContentXmlString"
-            class="h-full overflow-hidden"
-          />
-        </section>
+
+          <div class="col-span-2 flex flex-row-reverse">
+            <RisTooltip
+              v-slot="{ ariaDescribedby }"
+              :title="
+                hasSaved && saveError
+                  ? 'Speichern fehlgeschlagen'
+                  : 'Gespeichert!'
+              "
+              :variant="hasSaved && saveError ? 'error' : 'success'"
+              :visible="hasSaved"
+              allow-dismiss
+              alignment="right"
+              attachment="bottom"
+            >
+              <RisTextButton
+                :aria-describedby
+                :disabled="isSaving"
+                :loading="isSaving"
+                label="Speichern"
+              />
+            </RisTooltip>
+          </div>
+        </div>
       </div>
 
-      <template #action>
-        <div class="relative">
-          <RisTooltip
-            v-slot="{ ariaDescribedby }"
-            :title="
-              hasSaved && saveError
-                ? 'Speichern fehlgeschlagen'
-                : 'Gespeichert!'
-            "
-            :variant="hasSaved && saveError ? 'error' : 'success'"
-            :visible="hasSaved"
-            allow-dismiss
-            alignment="right"
-            attachment="bottom"
-          >
-            <RisTextButton
-              :aria-describedby
-              :disabled="isSaving"
-              :loading="isSaving"
-              label="Speichern"
-            />
-          </RisTooltip>
-        </div>
-      </template>
+      <template #action></template>
     </RisHeader>
   </div>
 </template>
