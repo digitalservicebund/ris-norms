@@ -1,7 +1,14 @@
 /**
- * Convert the text representation of an xml document to a Document
+ * Convert the text representation of a xml document to a Document
  */
 export function xmlStringToDocument(xmlString: string): Document {
+  return new DOMParser().parseFromString(xmlString, "application/xml")
+}
+
+/**
+ * Convert the text representation of a xml node to a Node
+ */
+export function xmlStringToNode(xmlString: string): Node {
   return new DOMParser().parseFromString(xmlString, "application/xml")
 }
 
