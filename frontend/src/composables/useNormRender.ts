@@ -6,29 +6,36 @@ import { UseFetchReturn } from "@vueuse/core"
  * Composable for rendering the XML of a norm as HTML.
  *
  * @param normXml XML of the norm that should be rendered
- * @param showMetadata Enable or disable metadata list at the beginning of the document
- * @param customNorms The XMLs of norms which are referenced by the norm (e.g. in passiveModifications) and should be used instead of the data stored.
- * @param at Passive modifications coming into effect before this date should be applied before rendering the HTML
+ * @param options optional additional filters and queries
  */
 export function useNormRenderHtml(
   normXml: MaybeRefOrGetter<string | undefined>,
-  showMetadata: MaybeRefOrGetter<boolean> = false,
-  at?: MaybeRefOrGetter<Date | undefined>,
-  customNorms?: MaybeRefOrGetter<string[] | undefined>,
+  options?: {
+    /** Enable or disable metadata list at the beginning of the document */
+    showMetadata?: MaybeRefOrGetter<boolean>
+    /** If the XML sent is only a snippet of a norm */
+    snippet?: MaybeRefOrGetter<boolean>
+    /** Passive modifications coming into effect before this date should be applied before rendering the HTML */
+    at?: MaybeRefOrGetter<Date | undefined>
+    /** The XMLs of norms which are referenced by the norm (e.g. in passiveModifications) and should be used instead of the data stored. */
+    customNorms?: MaybeRefOrGetter<string[] | undefined>
+  },
 ): UseFetchReturn<string> {
   return useApiFetch<string>(
     computed(() => {
       if (!toValue(normXml)) return INVALID_URL
 
       const searchParams = new URLSearchParams()
-      searchParams.set("showMetadata", toValue(showMetadata) ? "true" : "false")
+      const showMetadataVal = toValue(options?.showMetadata)
+      if (showMetadataVal)
+        searchParams.set("showMetadata", showMetadataVal ? "true" : "false")
+      const snippetVal = toValue(options?.snippet)
+      if (snippetVal) searchParams.set("snippet", snippetVal ? "true" : "false")
+      const atVal = toValue(options?.at)
+      if (atVal) searchParams.set("atIsoDate", atVal.toISOString())
 
-      const atValue = toValue(at)
-      if (atValue) {
-        searchParams.set("atIsoDate", atValue.toISOString())
-      }
-
-      return "renderings?" + searchParams.toString()
+      const queryString = searchParams.toString()
+      return queryString ? `renderings?${queryString}` : "renderings"
     }),
     {
       headers: {
@@ -42,7 +49,7 @@ export function useNormRenderHtml(
   ).post(
     computed(() => ({
       norm: toValue(normXml),
-      customNorms: toValue(customNorms),
+      customNorms: toValue(options?.customNorms),
     })),
   )
 }

@@ -152,7 +152,7 @@ class LoadZf0ServiceTest {
                 .getAnalysis()
                 .map(analysis -> analysis.getPassiveModifications().stream())
                 .orElse(Stream.empty()))
-        .hasSize(1);
+        .hasSize(2);
     final TextualMod firstActiveMod =
         amendingLaw
             .getMeta()
@@ -179,6 +179,33 @@ class LoadZf0ServiceTest {
         .isEqualTo(firstPassiveMod.getDestinationHref().orElseThrow().toString().replace("#", ""));
     assertThat(firstActiveMod.getDestinationUpTo().orElseThrow().getEId().orElseThrow())
         .isEqualTo(firstPassiveMod.getDestinationUpTo().orElseThrow().toString().replace("#", ""));
+
+    final TextualMod secondActiveMod =
+        amendingLaw
+            .getMeta()
+            .getAnalysis()
+            .map(analysis -> analysis.getActiveModifications().stream())
+            .orElse(Stream.empty())
+            .toList()
+            .getLast();
+    final TextualMod secondPassiveMod =
+        zf0Norm
+            .getMeta()
+            .getAnalysis()
+            .map(analysis -> analysis.getPassiveModifications().stream())
+            .orElse(Stream.empty())
+            .toList()
+            .getLast();
+    assertThat(secondPassiveMod.getType()).isEqualTo(secondActiveMod.getType());
+    assertThat(secondPassiveMod.getSourceHref().orElseThrow().getEli().orElseThrow())
+        .isEqualTo(amendingLaw.getEli());
+    assertThat(secondPassiveMod.getDestinationHref().orElseThrow().getEId())
+        .isEqualTo(secondActiveMod.getDestinationHref().orElseThrow().getEId());
+    assertThat(secondPassiveMod.getForcePeriodEid()).isNotEmpty();
+    assertThat(secondActiveMod.getDestinationHref().orElseThrow().getEId().orElseThrow())
+        .isEqualTo(secondPassiveMod.getDestinationHref().orElseThrow().toString().replace("#", ""));
+    assertThat(secondPassiveMod.getDestinationUpTo().orElseThrow().getEId().orElseThrow())
+        .isEqualTo(secondPassiveMod.getDestinationUpTo().orElseThrow().toString().replace("#", ""));
   }
 
   @Test

@@ -26,7 +26,7 @@ test.describe("Validation errors on check modifications page", () => {
 
     await expect(
       page.getByRole("button", {
-        name: "Fehler-ID in die Zwischenablage kopieren",
+        name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
 
@@ -60,7 +60,7 @@ test.describe("Validation errors on check modifications page", () => {
 
     await expect(
       page.getByRole("button", {
-        name: "Fehler-ID in die Zwischenablage kopieren",
+        name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
 
@@ -94,7 +94,7 @@ test.describe("Validation errors on check modifications page", () => {
 
     await expect(
       page.getByRole("button", {
-        name: "Fehler-ID in die Zwischenablage kopieren",
+        name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
 

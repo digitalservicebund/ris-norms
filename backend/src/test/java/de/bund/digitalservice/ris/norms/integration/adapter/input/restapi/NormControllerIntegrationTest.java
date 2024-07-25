@@ -827,7 +827,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
       // When
       mockMvc
           .perform(
-              put("/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/"
+              put("/api/v1/norms/eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1/mods/"
                       + modEid)
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)

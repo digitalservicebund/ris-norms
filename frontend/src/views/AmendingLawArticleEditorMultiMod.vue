@@ -15,6 +15,8 @@ import { useNormRenderHtml } from "@/composables/useNormRender"
 import { useTemporalData } from "@/composables/useTemporalData"
 import { computed, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -98,10 +100,8 @@ const {
   data: previewHtml,
   isFetching: isFetchingPreviewHtml,
   error: loadPreviewHtmlError,
-} = useNormRenderHtml(
-  previewXml,
-  false,
-  computed(() => {
+} = useNormRenderHtml(previewXml, {
+  at: computed(() => {
     if (
       timeBoundary.value === "no_choice" ||
       timeBoundary.value === "multiple"
@@ -111,8 +111,8 @@ const {
 
     return new Date(timeBoundary.value)
   }),
-  previewCustomNorms,
-)
+  customNorms: previewCustomNorms,
+})
 
 watch(previewData, () => {
   if (!previewData.value) return
@@ -136,6 +136,8 @@ watch(
   },
   { deep: true, immediate: true },
 )
+
+const sentryTraceId = useSentryTraceId()
 </script>
 <template>
   <!--
@@ -169,18 +171,7 @@ watch(
     </div>
 
     <div v-else-if="loadTimeBoundariesError">
-      <RisCallout
-        title="Die Zeitgrenzen konnten nicht geladen werden."
-        variant="error"
-      >
-        <p v-if="loadTimeBoundariesError.sentryEventId">
-          Fehler-ID:
-          <RisCopyableLabel
-            :text="loadTimeBoundariesError.sentryEventId"
-            name="Fehler-ID"
-          />
-        </p>
-      </RisCallout>
+      <RisErrorCallout title="Die Zeitgrenzen konnten nicht geladen werden." />
     </div>
 
     <div
@@ -217,7 +208,7 @@ watch(
           <RisTooltip
             :visible="isUpdatingFinished"
             :title="
-              saveError ? 'Fehler beim Speichern yo' : 'Speichern erfolgreich'
+              saveError ? 'Fehler beim Speichern' : 'Speichern erfolgreich'
             "
             alignment="right"
             attachment="top"
@@ -237,10 +228,10 @@ watch(
 
             <template #message>
               <RisCopyableLabel
-                v-if="saveError?.sentryEventId"
-                name="Fehler-ID"
-                text="Fehler-ID kopieren"
-                :value="saveError?.sentryEventId"
+                v-if="saveError"
+                name="Trace-ID"
+                text="Trace-ID kopieren"
+                :value="sentryTraceId"
               />
             </template>
           </RisTooltip>
@@ -278,32 +269,10 @@ watch(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewHtmlError">
-          <RisCallout
-            title="Die Vorschau konnte nicht erzeugt werden."
-            variant="error"
-          >
-            <p v-if="loadPreviewHtmlError.sentryEventId">
-              Fehler-ID:
-              <RisCopyableLabel
-                :text="loadPreviewHtmlError.sentryEventId"
-                name="Fehler-ID"
-              />
-            </p>
-          </RisCallout>
+          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
         </div>
         <div v-else-if="previewError">
-          <RisCallout
-            title="Die Vorschau konnte nicht erzeugt werden."
-            variant="error"
-          >
-            <p v-if="previewError.sentryEventId">
-              Fehler-ID:
-              <RisCopyableLabel
-                :text="previewError.sentryEventId"
-                name="Fehler-ID"
-              />
-            </p>
-          </RisCallout>
+          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
         </div>
         <RisLawPreview
           v-else
@@ -320,18 +289,7 @@ watch(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="previewError">
-          <RisCallout
-            title="Die Vorschau konnte nicht erzeugt werden."
-            variant="error"
-          >
-            <p v-if="previewError.sentryEventId">
-              Fehler-ID:
-              <RisCopyableLabel
-                :text="previewError.sentryEventId"
-                name="Fehler-ID"
-              />
-            </p>
-          </RisCallout>
+          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
         </div>
         <RisCodeEditor
           v-else

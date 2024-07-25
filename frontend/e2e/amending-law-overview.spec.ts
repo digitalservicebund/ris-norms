@@ -53,7 +53,7 @@ test("should display a loading error message when the API call fails", async ({
 
   await expect(
     page.getByRole("button", {
-      name: "Fehler-ID in die Zwischenablage kopieren",
+      name: "Trace-ID in die Zwischenablage kopieren",
     }),
   ).toBeVisible()
 

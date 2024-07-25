@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
 import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
@@ -22,6 +21,8 @@ import {
 import { ElementProprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import { computed, ref, watch } from "vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const elementEid = useEidPathParameter()
@@ -113,6 +114,8 @@ const {
 } = useGetElementHtml(affectedDocumentEli, elementEid, {
   at: timeBoundaryAsDate,
 })
+
+const sentryTraceId = useSentryTraceId()
 </script>
 
 <template>
@@ -125,15 +128,8 @@ const {
   </div>
 
   <div v-else-if="elementError" class="p-24">
-    <RisCallout
-      variant="error"
-      title="Das Element konnte nicht geladen werden."
-    >
-      <p v-if="elementError.sentryEventId">
-        Fehler-ID:
-        <RisCopyableLabel :text="elementError.sentryEventId" name="Fehler-ID" />
-      </p>
-    </RisCallout>
+    <RisErrorCallout title="Das Element konnte nicht geladen werden.">
+    </RisErrorCallout>
   </div>
 
   <div v-else class="flex flex-col overflow-hidden p-24">
@@ -151,19 +147,10 @@ const {
           <RisLoadingSpinner />
         </div>
 
-        <RisCallout
+        <RisErrorCallout
           v-else-if="renderError"
-          variant="error"
           title="Die Vorschau konnte nicht geladen werden."
-        >
-          <p v-if="renderError.sentryEventId">
-            Fehler-ID:
-            <RisCopyableLabel
-              :text="renderError.sentryEventId"
-              name="Fehler-ID"
-            />
-          </p>
-        </RisCallout>
+        />
 
         <RisLawPreview
           v-else
@@ -185,19 +172,10 @@ const {
               <RisLoadingSpinner />
             </div>
 
-            <RisCallout
+            <RisErrorCallout
               v-else-if="fetchError"
-              variant="error"
               title="Die Metadaten konnten nicht geladen werden."
-            >
-              <p v-if="fetchError.sentryEventId">
-                Fehler-ID:
-                <RisCopyableLabel
-                  :text="fetchError.sentryEventId"
-                  name="Fehler-ID"
-                />
-              </p>
-            </RisCallout>
+            />
 
             <form
               v-else
@@ -243,19 +221,10 @@ const {
               <RisLoadingSpinner />
             </div>
 
-            <RisCallout
+            <RisErrorCallout
               v-else-if="xmlError"
-              variant="error"
               title="Die XML-Ansicht konnte nicht geladen werden."
-            >
-              <p v-if="xmlError.sentryEventId">
-                Fehler-ID:
-                <RisCopyableLabel
-                  :text="xmlError.sentryEventId"
-                  name="Fehler-ID"
-                />
-              </p>
-            </RisCallout>
+            />
 
             <RisCodeEditor
               :model-value="xml ?? ''"
@@ -292,10 +261,10 @@ const {
 
               <template #message>
                 <RisCopyableLabel
-                  v-if="saveError?.sentryEventId"
-                  name="Fehler-ID"
-                  text="Fehler-ID kopieren"
-                  :value="saveError?.sentryEventId"
+                  v-if="saveError"
+                  name="Trace-ID"
+                  text="Trace-ID kopieren"
+                  :value="sentryTraceId"
                 />
               </template>
             </RisTooltip>

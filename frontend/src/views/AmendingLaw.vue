@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import RisAlert from "@/components/controls/RisAlert.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -9,12 +6,12 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisNavbarSide, {
   LevelOneMenuItem,
 } from "@/components/controls/RisNavbarSide.vue"
-import { useAlerts } from "@/composables/useAlerts"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
 import { ref } from "vue"
 import { RouterView } from "vue-router"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const menuItems: LevelOneMenuItem[] = [
   {
@@ -44,8 +41,6 @@ const menuItems: LevelOneMenuItem[] = [
 const eli = useEliPathParameter()
 const { data: amendingLaw, isFetching, error } = useGetNorm(eli)
 
-const { alerts, hideAlert } = useAlerts()
-
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
     key: "amendingLaw",
@@ -67,15 +62,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   </div>
 
   <div v-else-if="error || !amendingLaw" class="m-24">
-    <RisCallout
-      title="Das Änderungsgesetz konnte nicht geladen werden."
-      variant="error"
-    >
-      <p v-if="error?.sentryEventId">
-        Fehler-ID:
-        <RisCopyableLabel :text="error.sentryEventId" name="Fehler-ID" />
-      </p>
-    </RisCallout>
+    <RisErrorCallout title="Das Änderungsgesetz konnte nicht geladen werden." />
   </div>
 
   <div
@@ -93,14 +80,6 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
       />
 
       <div class="col-span-1 overflow-auto">
-        <RisAlert
-          v-for="[key, { variant, message }] in alerts"
-          :key="key"
-          :variant="variant"
-          @click="hideAlert(key)"
-        >
-          {{ message }}
-        </RisAlert>
         <RouterView />
       </div>
     </RisHeader>

@@ -17,7 +17,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
         """
                 <root>
-                  <akn:meta>
+            <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
                      <parentA eId="parent-1">
                          <childA eId="parent-1_child-1"></childA>
                          <childA eId="parent-1_child-2"></childA>
@@ -49,7 +49,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
         """
                 <root>
-                  <akn:meta>
+            <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
                      <parentA eId="parent-1">
                          <childA eId="parent-1_child-1"></childA>
                          <childA eId="parent-1_child-2"></childA>
@@ -70,7 +70,7 @@ class EidConsistencyGuardianTest {
     var expectedXml =
         """
                 <root>
-                  <akn:meta>
+            <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
                      <parentA eId="parent-1">
                          <childA eId="parent-1_child-1"></childA>
                          <childA eId="parent-1_child-2"></childA>
@@ -97,7 +97,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
         """
                     <root>
-                      <akn:meta>
+            <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
                          <parentA eId="parent-2">
                              <childA eId="parent-2_child-1"></childA>
                              <childA eId="parent-2_child-2"></childA>
@@ -118,7 +118,7 @@ class EidConsistencyGuardianTest {
     var expectedXml =
         """
                     <root>
-                      <akn:meta>
+            <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
                          <parentA eId="parent-1">
                              <childA eId="parent-1_child-1"></childA>
                              <childA eId="parent-1_child-2"></childA>
@@ -146,7 +146,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
         """
                     <root>
-                      <akn:meta>
+            <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
                          <parentA eId="parent-2">
                              <childA eId="parent-2_child-2"></childA>
                              <childA eId="parent-2_child-1"></childA>
@@ -171,7 +171,7 @@ class EidConsistencyGuardianTest {
     var expectedXml =
         """
                     <root>
-                    <akn:meta>
+            <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
                        <parentA eId="parent-1">
                            <childA eId="parent-1_child-1"></childA>
                            <childA eId="parent-1_child-2"></childA>
@@ -203,7 +203,7 @@ class EidConsistencyGuardianTest {
     var sampleXml =
         """
                     <root>
-                      <akn:meta>
+            <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
                          <parentA eId="parent-1">
                              <childA eId="parent-1_child-1"></childA>
                              <childA eId="parent-1_child-2"></childA>
@@ -234,7 +234,7 @@ class EidConsistencyGuardianTest {
     var expectedXml =
         """
                     <root>
-                      <akn:meta>
+            <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/">
                          <parentA eId="parent-1">
                              <childA eId="parent-1_child-1"></childA>
                              <childA eId="parent-1_child-2"></childA>

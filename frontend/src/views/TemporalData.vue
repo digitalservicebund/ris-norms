@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisTemporalDataIntervals from "@/components/RisTemporalDataIntervals.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
 import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
@@ -12,6 +11,8 @@ import { useTemporalData } from "@/composables/useTemporalData"
 import { useGetEntryIntoForceHtml } from "@/services/temporalDataService"
 import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import { onUnmounted, ref, watch } from "vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 
 const eli = useEliPathParameter()
 const dates = ref<TemporalDataResponse[]>([])
@@ -40,6 +41,8 @@ const {
 const { pushBreadcrumb, actionTeleportTarget } = useHeaderContext()
 const cleanupBreadcrumbs = pushBreadcrumb({ title: "Zeitgrenzen anlegen" })
 onUnmounted(() => cleanupBreadcrumbs())
+
+const sentryTraceId = useSentryTraceId()
 </script>
 
 <template>
@@ -54,35 +57,15 @@ onUnmounted(() => cleanupBreadcrumbs())
 
     <template v-else-if="entryIntoForceError">
       <div class="col-span-3">
-        <RisCallout
+        <RisErrorCallout
           title="Es wurde kein Inkrafttreten-Artikel gefunden."
-          variant="error"
-        >
-          <p v-if="entryIntoForceError.sentryEventId">
-            Fehler-ID:
-            <RisCopyableLabel
-              :text="entryIntoForceError.sentryEventId"
-              name="Fehler-ID"
-            />
-          </p>
-        </RisCallout>
+        />
       </div>
     </template>
 
     <template v-else-if="loadTimeBoundariesError">
       <div class="col-span-3">
-        <RisCallout
-          title="Zeitgrenzen konnten nicht geladen werden."
-          variant="error"
-        >
-          <p v-if="loadTimeBoundariesError.sentryEventId">
-            Fehler-ID:
-            <RisCopyableLabel
-              :text="loadTimeBoundariesError.sentryEventId"
-              name="Fehler-ID"
-            />
-          </p>
-        </RisCallout>
+        <RisErrorCallout title="Zeitgrenzen konnten nicht geladen werden." />
       </div>
     </template>
 
@@ -126,10 +109,10 @@ onUnmounted(() => cleanupBreadcrumbs())
 
           <template #message>
             <RisCopyableLabel
-              v-if="saveError?.sentryEventId"
-              name="Fehler-ID"
-              text="Fehler-ID kopieren"
-              :value="saveError?.sentryEventId"
+              v-if="saveError"
+              name="Trace-ID"
+              text="Trace-ID kopieren"
+              :value="sentryTraceId"
             />
           </template>
         </RisTooltip>

@@ -937,5 +937,52 @@ class NormServiceTest {
 
       assertThat(result).isPresent();
     }
+
+    @Test
+    void itUpdatesUsingRref() {
+      // Given
+      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureModsAndUpTo.xml");
+      String amendingNormEli = amendingNorm.getEli();
+      Norm targetNorm =
+          NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructureAndUpTo.xml");
+      String targetNormEli = targetNorm.getEli();
+      Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
+
+      when(loadNormPort.loadNorm(any()))
+          .thenReturn(Optional.of(amendingNorm))
+          .thenReturn(Optional.of(targetNorm));
+      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
+      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
+
+      // When
+      var result =
+          service.updateMods(
+              new UpdateModsUseCase.Query(
+                  amendingNormEli,
+                  List.of(
+                      new UpdateModsUseCase.NewModData(
+                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+                          "#meta-1_geltzeiten-1_geltungszeitgr-2"),
+                      new UpdateModsUseCase.NewModData(
+                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                          "#meta-1_geltzeiten-1_geltungszeitgr-2")),
+                  false));
+
+      // Then
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), amendingNormEli)));
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), targetNormEli)));
+      verify(loadZf0Service, times(1)).loadOrCreateZf0(any());
+      verify(updateNormService, times(2)).updateActiveModifications(any());
+      verify(updateNormService, times(2)).updatePassiveModifications(any());
+      verify(updateNormPort, times(1)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
+
+      assertThat(result).isPresent();
+    }
   }
 }

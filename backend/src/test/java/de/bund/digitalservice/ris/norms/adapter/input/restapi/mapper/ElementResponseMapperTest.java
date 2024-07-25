@@ -14,7 +14,7 @@ class ElementResponseMapperTest {
     var node =
         XmlMapper.toNode(
             """
-            <akn:article GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
+                    <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
               <akn:num GUID="000" eId="hauptteil-1_bezeichnung-1">
                 <akn:marker GUID="000" eId="hauptteil-1_bezeichnung-1_zaehlbez-1" name="1"/>
                 § 1
@@ -41,7 +41,7 @@ class ElementResponseMapperTest {
     var node =
         XmlMapper.toNode(
             """
-            <akn:article GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
+                    <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
               <akn:heading GUID="000" eId="hauptteil-1_überschrift-1">
                 Überschrift des Artikels
               </akn:heading>
@@ -64,7 +64,7 @@ class ElementResponseMapperTest {
     var node =
         XmlMapper.toNode(
             """
-            <akn:article GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
+                    <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
               <akn:num GUID="000" eId="hauptteil-1_bezeichnung-1">
                 <akn:marker GUID="000" eId="hauptteil-1_bezeichnung-1_zaehlbez-1" name="1"/>
                 § 1
@@ -88,7 +88,7 @@ class ElementResponseMapperTest {
     var node =
         XmlMapper.toNode(
             """
-            <akn:article GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
+                    <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="000" eId="hauptteil-1_para-1" refersTo="stammform">
               <akn:paragraph GUID="000" eId="hauptteil-1_abs-1"></akn:paragraph>
             </akn:article>
             """);
@@ -108,7 +108,7 @@ class ElementResponseMapperTest {
     var node =
         XmlMapper.toNode(
             """
-            <akn:preface eId="einleitung-1" GUID="000">
+                    <akn:preface xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="einleitung-1" GUID="000">
               <akn:longTitle></akn:longTitle>
               <akn:block></akn:block>
             </akn:preface>
@@ -129,7 +129,7 @@ class ElementResponseMapperTest {
     var node =
         XmlMapper.toNode(
             """
-            <akn:preamble eId="preambel-1" GUID="000">
+                    <akn:preamble xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="preambel-1" GUID="000">
               <akn:formula></akn:formula>
             </akn:preamble>
             """);
@@ -170,7 +170,7 @@ class ElementResponseMapperTest {
     var node =
         XmlMapper.toNode(
             """
-            <akn:someRandomNode eId="random-1" GUID="000">
+                    <akn:someRandomNode xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="random-1" GUID="000">
             </akn:someRandomNode>
             """);
 
@@ -189,7 +189,7 @@ class ElementResponseMapperTest {
     var node =
         XmlMapper.toNode(
             """
-            <akn:preface GUID="000">
+                    <akn:preface xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="000">
               <akn:longTitle></akn:longTitle>
               <akn:block></akn:block>
             </akn:preface>

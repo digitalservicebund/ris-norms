@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisInfoModal from "@/components/controls/RisInfoModal.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useArticles } from "@/services/articleService"
 import { onUnmounted } from "vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const eli = useEliPathParameter()
 const { data: articles, isFetching, error } = useArticles(eli)
@@ -23,15 +22,9 @@ onUnmounted(() => cleanupBreadcrumbs())
       <RisLoadingSpinner />
     </div>
     <div v-else-if="error">
-      <RisCallout
+      <RisErrorCallout
         title="Die Liste der Artikel konnte nicht geladen werden."
-        variant="error"
-      >
-        <p v-if="error.sentryEventId">
-          Fehler-ID:
-          <RisCopyableLabel :text="error.sentryEventId" name="Fehler-ID" />
-        </p>
-      </RisCallout>
+      />
     </div>
     <RisInfoModal
       v-for="article in articles"

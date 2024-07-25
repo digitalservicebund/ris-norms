@@ -1,4 +1,178 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+DELETE FROM announcements WHERE id = 'e68bb04b-ccb0-42bb-be5b-595eb691158b';
+DELETE FROM norms WHERE guid = '01eadc2f-a602-417f-ab00-4e70a3d77ad7';
+DELETE FROM norms WHERE guid = '526c42a0-63e2-4f77-a60d-0e351f4a7a61';
+
+-- Amending law
+INSERT INTO norms (guid, eli, xml)
+VALUES ('01eadc2f-a602-417f-ab00-4e70a3d77ad7', 'eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd                                                                                                                                              http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+    <akn:act name="regelungstext">
+        <akn:meta GUID="1d1d770a-9ff0-45e6-878d-911c98dd9cd4" eId="meta-1">
+            <akn:identification GUID="4dcd65df-8560-4d97-9325-e32deba192cf" eId="meta-1_ident-1" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRWork GUID="7ae2285c-9020-4036-9bce-4e3be460a29a" eId="meta-1_ident-1_frbrwork-1">
+                    <akn:FRBRthis GUID="cc954333-2c08-4f2d-800e-baab97a61115" eId="meta-1_ident-1_frbrwork-1_frbrthis-1" value="eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1"/>
+                    <akn:FRBRuri GUID="57356a8b-5983-4efe-9f7f-7a507d23df13" eId="meta-1_ident-1_frbrwork-1_frbruri-1" value="eli/bund/bgbl-1/2002/22"/>
+                    <akn:FRBRalias GUID="88509c2e-eb73-466b-8388-009e23ece0d7" eId="meta-1_ident-1_frbrwork-1_frbralias-1" name="übergreifende-id" value="7be4bf9d-13ea-4c53-9d87-40cf5d7b09ff"/>
+                    <akn:FRBRdate GUID="ec0d1b3e-fc1e-472f-a4b2-0fc54b5d0224" date="2002-02-20" eId="meta-1_ident-1_frbrwork-1_frbrdate-1" name="verkuendungsfassung"/>
+                    <akn:FRBRauthor GUID="7c4cffcc-061a-4826-a605-efc024553b9c" eId="meta-1_ident-1_frbrwork-1_frbrauthor-1" href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRcountry GUID="60aab79e-4b89-4d48-99b6-529c474398c1" eId="meta-1_ident-1_frbrwork-1_frbrcountry-1" value="de"/>
+                    <akn:FRBRnumber GUID="12ec247c-a819-47e0-8570-1b8942f40820" eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" value="22"/>
+                    <akn:FRBRname GUID="99698450-cd5f-4fcc-b2ca-c24bc6216ea5" eId="meta-1_ident-1_frbrwork-1_frbrname-1" value="bgbl-1"/>
+                    <akn:FRBRsubtype GUID="6f9b66b3-db19-4543-9db0-6a3bfe6a8929" eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1" value="regelungstext-1"/>
+                </akn:FRBRWork>
+                <akn:FRBRExpression GUID="b7a74512-05c5-48f4-af1e-11578e5ecec2" eId="meta-1_ident-1_frbrexpression-1">
+                    <akn:FRBRthis GUID="a5dfab3c-a646-4633-9fc2-7496e14fb28f" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" value="eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1"/>
+                    <akn:FRBRuri GUID="ef04bbf0-f502-4b53-9863-ed3193a4b1bd" eId="meta-1_ident-1_frbrexpression-1_frbruri-1" value="eli/bund/bgbl-1/2002/22/2002-02-20/1/deu"/>
+                    <akn:FRBRalias GUID="031754e0-3f61-4484-8185-8c59ff4244fa" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="01eadc2f-a602-417f-ab00-4e70a3d77ad7"/>
+                    <akn:FRBRalias GUID="fa481503-200a-4bee-95d8-eee4dfd31695" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="5773cb41-adfe-47ca-b684-dde0c83c7b39"/>
+                    <akn:FRBRauthor GUID="631e316b-540e-48ec-9532-08fa8e250ec8" eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1" href="recht.bund.de/institution/bundesregierung"/>
+                    <akn:FRBRdate GUID="46ba1df6-0764-4d9c-a5b3-e7a6df746230" date="2002-02-20" eId="meta-1_ident-1_frbrexpression-1_frbrdate-1" name="verkuendung"/>
+                    <akn:FRBRlanguage GUID="fdd84eea-0f30-4898-9689-00a122fd9dcb" eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1" language="deu"/>
+                    <akn:FRBRversionNumber GUID="41e042d3-23f7-4142-94b2-1f7cb2e94322" eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1" value="1"/>
+                </akn:FRBRExpression>
+                <akn:FRBRManifestation GUID="966416cc-1a99-4496-aaca-6a84a67cdc8e" eId="meta-1_ident-1_frbrmanifestation-1">
+                    <akn:FRBRthis GUID="b98122db-6c85-4047-b910-5872f1f58d5d" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" value="eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRuri GUID="586db454-7dde-44de-b21e-290bfcf12da3" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" value="eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1.xml"/>
+                    <akn:FRBRdate GUID="c764890a-3801-481d-9171-b25a374c3fa2" date="2002-02-20" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" name="generierung"/>
+                    <akn:FRBRauthor GUID="262a2241-a71c-4d1f-a97a-e77731a25194" eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" href="recht.bund.de"/>
+                    <akn:FRBRformat GUID="a4ff1d85-5499-4089-bd1b-38e9c622dba3" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1" value="xml"/>
+                </akn:FRBRManifestation>
+            </akn:identification>
+            <akn:lifecycle GUID="dcfa52f5-a67a-4306-8e37-8ad190788de9" eId="meta-1_lebzykl-1" source="attributsemantik-noch-undefiniert">
+                <akn:eventRef GUID="d4e59051-fd39-4caf-bb5d-bdcd2dde7d1c" date="2002-02-20" eId="meta-1_lebzykl-1_ereignis-1" refersTo="ausfertigung" source="attributsemantik-noch-undefiniert" type="generation"/>
+                <akn:eventRef GUID="25276ab9-c149-4fc9-9cef-0181244833e1" date="2002-02-21" eId="meta-1_lebzykl-1_ereignis-2" refersTo="inkrafttreten" source="attributsemantik-noch-undefiniert" type="generation"/>
+            </akn:lifecycle>
+            <akn:analysis GUID="72cd555b-de7d-4d5e-ba2e-4dc50800400f" eId="meta-1_analysis-1" source="attributsemantik-noch-undefiniert">
+                <akn:activeModifications GUID="ca13a0cc-8f37-42c7-920b-f0d2fb59c81c" eId="meta-1_analysis-1_activemod-1">
+                    <akn:textualMod GUID="ae8e4880-4385-4e54-9b7c-1337d8015d33" eId="meta-1_analysis-1_activemod-1_textualmod-1" type="substitution">
+                        <akn:source GUID="30406542-d2e5-41fb-81ae-da19efa66aae" eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="dc780027-452c-41eb-850c-af483bbdc2dc" eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" href="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml"/>
+                        <akn:force GUID="9a8da48a-b837-45ea-8395-09bc895df4b0" eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1" period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                    <akn:textualMod GUID="c339ce6b-ca1c-4a3e-a563-821f15c3c492" eId="meta-1_analysis-1_activemod-1_textualmod-2" type="substitution">
+                        <akn:source GUID="0af0b6f9-b4fa-47bb-b4fb-18cde81905b8" eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
+                        <akn:destination GUID="6d354a73-d442-4a14-a5a9-c848474d5cfc" eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" href="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f.xml"/>
+                        <akn:force GUID="155388d0-9171-482d-bb02-2267acbadbed" eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
+                    </akn:textualMod>
+                </akn:activeModifications>
+            </akn:analysis>
+            <akn:temporalData GUID="3f4c6b1a-7626-43f3-9bde-a5c6b5ec77a1" eId="meta-1_geltzeiten-1" source="attributsemantik-noch-undefiniert">
+                <akn:temporalGroup GUID="a1d55356-5204-4dbd-8da2-3938dca0dac7" eId="meta-1_geltzeiten-1_geltungszeitgr-1">
+                    <akn:timeInterval GUID="e0121343-fc18-4cc9-adf2-e053ab8ae34b" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-1"/>
+                </akn:temporalGroup>
+                <akn:temporalGroup GUID="2300a585-4522-446d-8555-31462886d6e5" eId="meta-1_geltzeiten-1_geltungszeitgr-2">
+                    <akn:timeInterval GUID="3e1a2cfe-49f7-40b2-9c10-e960fae34de9" eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2"/>
+                </akn:temporalGroup>
+            </akn:temporalData>
+        </akn:meta>
+
+        <akn:preface GUID="0c50befb-5451-4192-a052-e2efbd25347d" eId="einleitung-1">
+            <akn:longTitle GUID="f18e2df5-e8a3-4046-ad76-4753d6b9507c" eId="einleitung-1_doktitel-1">
+                <akn:p GUID="7d999f27-335d-4fa5-964f-9b761ebe4cdb" eId="einleitung-1_doktitel-1_text-1">
+                    <akn:docTitle GUID="214a4065-2b9f-4f02-9113-89787e9cf8b8" eId="einleitung-1_doktitel-1_text-1_doctitel-1">Erstes Gesetz zur Änderung des Strukturänderungsgesetzes</akn:docTitle>
+                </akn:p>
+            </akn:longTitle>
+        </akn:preface>
+
+        <akn:preamble GUID="fad0459d-f995-4f1e-8ec7-340e8a0da839" eId="preambel-1">
+            <akn:formula GUID="0e220f68-9fd9-465a-9222-c45413d82991" eId="preambel-1_formel-1" name="attributsemantik-noch-undefiniert" refersTo="eingangsformel">
+                <akn:p GUID="9109bafb-dba9-4154-a073-e6d32530ac57" eId="preambel-1_formel-1_text-1"> Der <akn:organization GUID="0da4c1af-0d07-47bd-ad87-734e2357e2de" eId="preambel-1_formel-1_text-1_org-1" refersTo="attributsemantik-noch-undefiniert" title="Bundestag">Bundestag</akn:organization> hat das folgende Gesetz beschlossen:</akn:p>
+            </akn:formula>
+        </akn:preamble>
+
+        <akn:body GUID="e6720f3f-951d-45cc-8edd-b05480727c71" eId="hauptteil-1">
+            <akn:article GUID="4d5d8b32-f818-4407-ae56-3bc283acf4fa" eId="hauptteil-1_para-1" period="#meta-1_geltzeiten-1_geltungszeitgr-1" refersTo="eingebundene-stammform">
+                <akn:num GUID="f234ff66-06fa-4b72-8555-23a6559acf3d" eId="hauptteil-1_para-1_bezeichnung-1">
+                    <akn:marker GUID="0642872b-5dbc-45ef-8f07-76a3c11e9abd" eId="hauptteil-1_para-1_bezeichnung-1_zaehlbez-1" name="1"/></akn:num>
+                <akn:heading GUID="68b539af-5c6a-47ef-99d8-8f4574dfa729" eId="hauptteil-1_para-1_überschrift-1">Artikel 1</akn:heading>
+                <akn:paragraph GUID="de615c8e-7045-4067-8d79-fcb80714e476" eId="hauptteil-1_para-1_abs-1">
+                    <akn:num GUID="d789f737-763e-40ce-b12a-aa68a1c6e9b6" eId="hauptteil-1_para-1_abs-1_bezeichnung-1">
+                        <akn:marker GUID="5aef21a6-8619-43ba-8ab5-55bafda33517" eId="hauptteil-1_para-1_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                    </akn:num>
+                    <akn:list GUID="f3e39c51-760e-418f-b8c5-57170d3480a3" eId="hauptteil-1_para-1_abs-1_untergl-1">
+                        <akn:intro GUID="40067ab2-e780-40db-bd02-2813f1036ac8" eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1">
+                            <akn:p GUID="5ea6d74d-6330-43d0-9f25-5569c627a549" eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1_text-1"> Das
+                                <akn:affectedDocument GUID="6af56003-a242-480c-a51c-c56f7642b4b7" eId="hauptteil-1_para-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1" href="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1">Bereichgesetz vom 1. Januar 1999 (BGBl. 1999 I Nr. 66)</akn:affectedDocument> wird wie folgt geändert:
+                            </akn:p>
+                        </akn:intro>
+                        <akn:point GUID="8f5e1c26-85e9-4609-a619-4eb1881582aa" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1">
+                            <akn:num GUID="ebb6f4f1-2da0-4ba8-ad6d-77d131603494" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1">
+                                <akn:marker GUID="2b6b9149-dc18-4024-b99c-79ab86a27cb7" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_bezeichnung-1_zaehlbez-1" name="1"/>1.</akn:num>
+                            <akn:content GUID="d9a3cdef-a1ac-40c7-bbee-c44b2c202b1b" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1">
+                                <akn:p GUID="4d2ed12d-9234-4a9b-aa85-ef356b33a540" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1">
+                                    <akn:mod GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+                                        <akn:rref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml">§ 2 Absätze 1 bis 2</akn:rref> des Gesetzes werden ersetzt durch:
+                                        <akn:quotedStructure GUID="9cb0572a-2933-473e-823f-5541ab360561" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
+                                            <akn:paragraph GUID="69243922-59f2-4733-b590-55d7e8cfdf03" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-1">
+                                                <akn:num GUID="2626b5a4-2b15-43d1-9297-3949099ca6dc" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-1_bezeichnung-1">
+                                                    <akn:marker GUID="f87d5214-4fc2-48d8-8c9b-9a0875666c8b" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-1_bezeichnung-1_zaehlbez-1" name="1"/>(1)</akn:num>
+                                                <akn:content GUID="f5e3fa13-3ed9-41c4-a4ee-91db57abdd51" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-1_inhalt-1">
+                                                    <akn:p GUID="fabee05a-1bba-4898-bd30-3472717fc013" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-1_inhalt-1_text-1">Dieses Gesetz findet keine Anwendung.</akn:p>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                            <akn:paragraph GUID="0c404488-4159-4756-8467-2400daa1c489" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-2">
+                                                <akn:num GUID="f092a2b3-3000-49b7-b3ef-33ae42b5d9e5" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-2_bezeichnung-1">
+                                                    <akn:marker GUID="9f5566d7-3df4-43f6-851a-2499b7582580" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-2_bezeichnung-1_zaehlbez-1" name="2"/>(2)</akn:num>
+                                                <akn:content GUID="7633905f-63df-4490-ad09-e13b67c6118a" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-2_inhalt-1">
+                                                    <akn:p GUID="be070e72-ff49-4b99-98da-45e3a6154faf" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_para-2_inhalt-1_text-1">Die mathematische Formel wurde entfernt.</akn:p>
+                                                </akn:content>
+                                            </akn:paragraph>
+                                        </akn:quotedStructure>
+                                    </akn:mod>
+                                </akn:p>
+                            </akn:content>
+                        </akn:point>
+                        <akn:point GUID="c87a5344-e030-4471-a8a5-2deb4712cbe6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2">
+                            <akn:num GUID="30a34413-955a-4eab-9354-b569cf0fa40b" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_bezeichnung-1">
+                                <akn:marker GUID="1ed68726-6cd0-43f4-bbd5-56e7c5c8a7d9" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1" name="2"/>2.</akn:num>
+                            <akn:content GUID="ead90607-aeca-434f-a4f8-9e9536830ac3" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1">
+                                <akn:p GUID="32c46b5b-9276-4b81-8b06-e29d4dbab8f5" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">
+                                    <akn:mod GUID="ba11efa1-41d3-44ee-8c53-deb51d1fa1e8" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
+                                        <akn:rref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f.xml">§ 2 Absatz 3 Nummer 1 Buchstaben b) bis f)</akn:rref> des Gesetzes werden ersetzt durch:
+                                        <akn:quotedStructure GUID="9cb0572a-2933-473e-823f-5541ab360561" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
+                                            <akn:point eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-b" GUID="a847f9da-9a41-4d4e-beab-874fb6beec7f">
+                                                <akn:num eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-b_bezeichnung-1" GUID="a0419aca-7a16-4cb3-a57d-003ed60a4e69">
+                                                    <akn:marker eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-b_bezeichnung-1_zaehlbez-1" GUID="0fe58896-51b7-4264-97b6-c3b366268a3b" name="b" />b)</akn:num>
+                                                <akn:content eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-b_inhalt-1" GUID="2746d6e9-1b49-43fb-9054-0bc34c0ac0f2">
+                                                    <akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-b_inhalt-1_text-1" GUID="e15cee5a-8ec9-4eee-afbe-2ee07c8fc5f9">Zeitschriften,</akn:p>
+                                                </akn:content>
+                                            </akn:point>
+                                            <akn:point eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-c" GUID="a847f9da-9a41-4d4e-beab-874fb6beec7f">
+                                                <akn:num eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-c_bezeichnung-1" GUID="a0419aca-7a16-4cb3-a57d-003ed60a4e69">
+                                                    <akn:marker eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-c_bezeichnung-1_zaehlbez-1" GUID="0fe58896-51b7-4264-97b6-c3b366268a3b" name="c" />c)</akn:num>
+                                                <akn:content eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-c_inhalt-1" GUID="2746d6e9-1b49-43fb-9054-0bc34c0ac0f2">
+                                                    <akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-c_inhalt-1_text-1" GUID="e15cee5a-8ec9-4eee-afbe-2ee07c8fc5f9">Spiele.</akn:p>
+                                                </akn:content>
+                                            </akn:point>
+                                        </akn:quotedStructure>
+                                    </akn:mod>
+                                </akn:p>
+                            </akn:content>
+                        </akn:point>
+                    </akn:list>
+                </akn:paragraph>
+            </akn:article>
+            <akn:article GUID="628b7653-68d5-483f-b265-be0a6a5c7aea" eId="hauptteil-1_para-2" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
+                <akn:num GUID="41f85859-9eed-4b05-8d59-4d92983fdd0c" eId="hauptteil-1_para-2_bezeichnung-1">
+                    <akn:marker GUID="b47cfc67-7544-44a6-ad27-5da7ea7f053d" eId="hauptteil-1_para-2_bezeichnung-1_zaehlbez-1" name="2"/></akn:num>
+                <akn:heading GUID="e696f540-586c-4725-ae49-654bb28918ab" eId="hauptteil-1_para-2_überschrift-1">Inkrafttreten</akn:heading>
+                <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae" eId="hauptteil-1_para-2_abs-1">
+                    <akn:num GUID="df00a213-4a1d-44fa-9df5-27979493b0f1" eId="hauptteil-1_para-2_abs-1_bezeichnung-1">
+                        <akn:marker GUID="f03f382c-d9f5-4a24-bf3b-b3695d57e86a" eId="hauptteil-1_para-2_abs-1_bezeichnung-1_zaehlbez-1" name="1"/>
+                    </akn:num>
+                    <akn:content GUID="0f24a464-a987-4eab-be22-2badb8cc3321" eId="hauptteil-1_para-2_abs-1_inhalt-1">
+                        <akn:p GUID="de1b70eb-c26f-4223-bfa4-ed0ffd974314" eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1"> Dieses Gesetz tritt <akn:date GUID="28f26c1e-2329-4082-887a-a3c1b19a1b7b" date="1002-01-02" eId="hauptteil-1_para-2_abs-1_inhalt-1_text-1_datum-1" refersTo="inkrafttreten-datum">am Tag nach der Verkündung</akn:date> in Kraft. </akn:p>
+                    </akn:content>
+                </akn:paragraph>
+            </akn:article>
+        </akn:body>
+    </akn:act>
+</akn:akomaNtoso>
+');
+
+-- Target law
+INSERT INTO norms (guid, eli, xml)
+VALUES ('526c42a0-63e2-4f77-a60d-0e351f4a7a61', 'eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1', '<?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
     <akn:act name="regelungstext">
         <akn:meta eId="meta-1" GUID="e4589a5f-34d9-4a3b-bcdb-558e1c36b69b">
@@ -192,3 +366,8 @@
         </akn:body>
     </akn:act>
 </akn:akomaNtoso>
+');
+
+-- Announcement
+INSERT INTO announcements (id, eli, released_by_documentalist_at)
+VALUES ('e68bb04b-ccb0-42bb-be5b-595eb691158b', 'eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1', NULL);

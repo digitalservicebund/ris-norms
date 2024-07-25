@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import RisAmendingLawCard from "@/components/amendingLaws/RisAmendingLawCard.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useGetAmendingLaws } from "@/services/announcementService"
 import { RouterLink } from "vue-router"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const { isFetching, error, data: amendingLaws } = useGetAmendingLaws()
 </script>
@@ -14,15 +13,9 @@ const { isFetching, error, data: amendingLaws } = useGetAmendingLaws()
     <h1 class="ds-heading-02-reg mb-24">Verkündungen</h1>
     <div>
       <div v-if="error" class="w-1/2">
-        <RisCallout
+        <RisErrorCallout
           title="Die Liste der Verkündungen konnte nicht geladen werden."
-          variant="error"
-        >
-          <p v-if="error.sentryEventId">
-            Fehler-ID:
-            <RisCopyableLabel :text="error.sentryEventId" name="Fehler-ID" />
-          </p>
-        </RisCallout>
+        />
       </div>
       <RisLoadingSpinner v-if="isFetching" />
       <div v-else class="flex flex-col gap-8">

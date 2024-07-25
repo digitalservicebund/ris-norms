@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -24,6 +22,7 @@ import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { LawElementIdentifier } from "@/types/lawElementIdentifier"
 import { useDebounce } from "@vueuse/core"
 import { computed, Ref, ref, toValue, watch } from "vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const eid = useEidPathParameter()
 const eli = useEliPathParameter()
@@ -141,33 +140,12 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
   </div>
 
   <div v-else-if="loadAmendingLawError || !amendingLaw" class="m-24">
-    <RisCallout
-      title="Das Änderungsgesetz konnte nicht geladen werden."
-      variant="error"
-    >
-      <p v-if="loadAmendingLawError?.sentryEventId">
-        Fehler-ID:
-        <RisCopyableLabel
-          :text="loadAmendingLawError.sentryEventId"
-          name="Fehler-ID"
-        />
-      </p>
-    </RisCallout>
+    <RisErrorCallout title="Das Änderungsgesetz konnte nicht geladen werden." />
   </div>
 
   <div v-else-if="loadArticleError" class="m-24">
-    <RisCallout
-      title="Der Artikel konnte nicht gefunden werden."
-      variant="error"
-    >
-      <p v-if="loadArticleError.sentryEventId">
-        Fehler-ID:
-        <RisCopyableLabel
-          :text="loadArticleError.sentryEventId"
-          name="Fehler-ID"
-        />
-      </p>
-    </RisCallout>
+    <RisErrorCallout title="Der Artikel konnte nicht gefunden werden.">
+    </RisErrorCallout>
   </div>
 
   <div v-else>
@@ -190,18 +168,9 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
             </div>
 
             <div v-else-if="loadXmlError">
-              <RisCallout
+              <RisErrorCallout
                 title="Der Artikel konnte nicht geladen werden."
-                variant="error"
-              >
-                <p v-if="loadXmlError.sentryEventId">
-                  Fehler-ID:
-                  <RisCopyableLabel
-                    :text="loadXmlError.sentryEventId"
-                    name="Fehler-ID"
-                  />
-                </p>
-              </RisCallout>
+              />
             </div>
 
             <RisTabs
@@ -220,24 +189,15 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
                   <RisLoadingSpinner></RisLoadingSpinner>
                 </div>
                 <div v-else-if="loadArticleHtmlError">
-                  <RisCallout
+                  <RisErrorCallout
                     title="Die Artikel-Vorschau konnte nicht erzeugt werden."
                     variant="error"
-                  >
-                    <p v-if="loadArticleHtmlError.sentryEventId">
-                      Fehler-ID:
-                      <RisCopyableLabel
-                        :text="loadArticleHtmlError.sentryEventId"
-                        name="Fehler-ID"
-                      />
-                    </p>
-                  </RisCallout>
+                  />
                 </div>
                 <RisLawPreview
                   v-else
-                  class="ds-textarea flex-grow p-2"
+                  class="amendingLawPreview ds-textarea flex-grow p-2"
                   :content="articleHtml ?? ''"
-                  highlight-affected-document
                   :selected="selectedMods"
                   :e-id-classes="classesForPreview"
                   @click:akn:mod="handleAknModClick"
@@ -275,3 +235,13 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
     </RisHeader>
   </div>
 </template>
+
+<style scoped>
+.amendingLawPreview :deep(.akn-affectedDocument) {
+  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
+}
+
+.amendingLawPreview :deep(.akn-affectedDocument):hover {
+  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
+}
+</style>

@@ -185,7 +185,7 @@ test.describe("Error handling for Temporal Data page", () => {
 
     await expect(
       page.getByRole("button", {
-        name: "Fehler-ID in die Zwischenablage kopieren",
+        name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
   })
@@ -214,7 +214,7 @@ test.describe("Error handling for Temporal Data page", () => {
 
     await expect(
       page.getByRole("button", {
-        name: "Fehler-ID in die Zwischenablage kopieren",
+        name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
   })

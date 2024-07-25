@@ -170,7 +170,7 @@ public class ArticleController {
             .map(
                 xml ->
                     this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                            new TransformLegalDocMlToHtmlUseCase.Query(xml, false))
+                            new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false))
                         + "\n")
             .reduce("", String::concat);
 

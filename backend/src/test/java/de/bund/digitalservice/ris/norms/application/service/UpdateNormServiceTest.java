@@ -210,7 +210,7 @@ class UpdateNormServiceTest {
 
       final Norm zf0Law =
           NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
-      final String targetLawELi = "eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1";
+      final String targetLawELi = "eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1";
 
       // When
       var updatedZfoLaw =
@@ -224,22 +224,37 @@ class UpdateNormServiceTest {
               .getAnalysis()
               .map(Analysis::getPassiveModifications)
               .orElse(Collections.emptyList());
-      assertThat(passiveModifications).hasSize(1);
+      assertThat(passiveModifications).hasSize(2);
 
-      var newPassiveModification = passiveModifications.getFirst();
-      assertThat(newPassiveModification.getType()).contains("substitution");
-      assertThat(newPassiveModification.getSourceHref())
+      var firstPassMod = passiveModifications.getFirst();
+      assertThat(firstPassMod.getType()).contains("substitution");
+      assertThat(firstPassMod.getSourceHref())
           .contains(
               new Href(
-                  "eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"));
-      assertThat(newPassiveModification.getDestinationHref())
-          .contains(new Href("#hauptteil-1_para-2_abs-1"));
-      assertThat(newPassiveModification.getDestinationUpTo())
-          .contains(new Href("#hauptteil-1_para-2_abs-2"));
+                  "eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"));
+      assertThat(firstPassMod.getDestinationHref()).contains(new Href("#hauptteil-1_para-2_abs-1"));
+      assertThat(firstPassMod.getDestinationUpTo()).contains(new Href("#hauptteil-1_para-2_abs-2"));
       assertThat(
               updatedZfoLaw.getStartDateForTemporalGroup(
-                  newPassiveModification.getForcePeriodEid().orElseThrow()))
-          .contains("1002-01-11");
+                  firstPassMod.getForcePeriodEid().orElseThrow()))
+          .contains("2002-02-21");
+
+      var secondPassMod = passiveModifications.getLast();
+      assertThat(secondPassMod.getType()).contains("substitution");
+      assertThat(secondPassMod.getSourceHref())
+          .contains(
+              new Href(
+                  "eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
+      assertThat(secondPassMod.getDestinationHref())
+          .contains(
+              new Href("#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b"));
+      assertThat(secondPassMod.getDestinationUpTo())
+          .contains(
+              new Href("#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f"));
+      assertThat(
+              updatedZfoLaw.getStartDateForTemporalGroup(
+                  secondPassMod.getForcePeriodEid().orElseThrow()))
+          .contains("2002-02-21");
     }
   }
 

@@ -85,6 +85,7 @@ export function useGetRahmenProprietary(
  * Convenience shorthand for `useProprietaryService` that sets the correct
  * configuration for putting JSON data of the frame ("Rahmen", i.e. whole norm).
  *
+ * @param updateData The new proprietary data
  * @param eli ELI of the norm
  * @param options Optional additional filters and queries
  * @param [fetchOptions={}] Optional configuration for fetch behavior
@@ -132,6 +133,7 @@ export function useGetElementProprietary(
  * Convenience shorthand for `useProprietaryService` that sets the correct
  * configuration for putting JSON data of an individual element of the norm.
  *
+ * @param updateData The new proprietary data
  * @param eli ELI of the norm
  * @param eid eId of the element
  * @param options Optional additional filters and queries
@@ -139,7 +141,7 @@ export function useGetElementProprietary(
  * @returns Reactive fetch wrapper
  */
 export function usePutElementProprietary(
-  updateData: MaybeRefOrGetter<RahmenProprietary | null>,
+  updateData: MaybeRefOrGetter<ElementProprietary | null>,
   eli: Parameters<typeof useProprietaryService>["0"],
   eid: Parameters<typeof useProprietaryService>["1"]["eid"],
   options: Omit<Parameters<typeof useProprietaryService>["1"], "eid">,

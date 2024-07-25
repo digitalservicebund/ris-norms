@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
-import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisTextButton from "@/components/controls/RisTextButton.vue"
@@ -8,6 +7,7 @@ import { useAmendingLawRelease } from "@/composables/useAmendingLawRelease"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetNormXml } from "@/services/normService"
 import { computed, onBeforeUnmount, onUnmounted, ref, watch } from "vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 
 const { pushBreadcrumb } = useHeaderContext()
 const cleanupBreadcrumbs = pushBreadcrumb({ title: "Abgabe" })
@@ -111,30 +111,13 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
       </div>
 
       <div v-else-if="releaseError">
-        <RisCallout title="Abgabe nicht erfolgreich." variant="error">
-          <p v-if="releaseError.sentryEventId">
-            Fehler-ID:
-            <RisCopyableLabel
-              :text="releaseError.sentryEventId"
-              name="Fehler-ID"
-            />
-          </p>
-        </RisCallout>
+        <RisErrorCallout title="Abgabe nicht erfolgreich." />
       </div>
 
       <div v-else-if="fetchError">
-        <RisCallout
+        <RisErrorCallout
           title="Die letzte Abgabe konnte nicht geladen werden."
-          variant="error"
-        >
-          <p v-if="fetchError.sentryEventId">
-            Fehler-ID:
-            <RisCopyableLabel
-              :text="fetchError.sentryEventId"
-              name="Fehler-ID"
-            />
-          </p>
-        </RisCallout>
+        />
       </div>
 
       <RisCallout

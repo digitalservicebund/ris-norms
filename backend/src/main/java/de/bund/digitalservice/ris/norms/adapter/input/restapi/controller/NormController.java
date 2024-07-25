@@ -139,7 +139,7 @@ public class NormController {
                   ResponseEntity.ok(
                       this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
                           new TransformLegalDocMlToHtmlUseCase.Query(
-                              XmlMapper.toString(norm.getDocument()), showMetadata))))
+                              XmlMapper.toString(norm.getDocument()), showMetadata, false))))
           .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -149,7 +149,7 @@ public class NormController {
             xml ->
                 ResponseEntity.ok(
                     this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata))))
+                        new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata, false))))
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
