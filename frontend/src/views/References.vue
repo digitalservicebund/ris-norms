@@ -15,6 +15,7 @@ import { useNormXml } from "@/composables/useNormXml"
 import RefSelectionPanel from "@/components/references/RefSelectionPanel.vue"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
+import RefEditorTable from "@/components/references/RefEditorTable.vue"
 
 const amendingNormEli = useEliPathParameter()
 const {
@@ -140,7 +141,15 @@ const saveError = ref("")
             class="h-full overflow-hidden"
           />
         </section>
-        <section aria-label="Ref Tabelle">Ref Tabelle</section>
+        <section aria-label="Ref Tabelle">
+          Ref Tabelle
+          <RefEditorTable
+            v-if="selectedModQuotedContentXmlString"
+            v-model:selected-ref="selectedRefEId"
+            v-model:xml-snippet="selectedModQuotedContentXmlString"
+            class="h-full overflow-hidden"
+          />
+        </section>
       </div>
 
       <template #action>

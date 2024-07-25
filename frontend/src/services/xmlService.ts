@@ -6,13 +6,6 @@ export function xmlStringToDocument(xmlString: string): Document {
 }
 
 /**
- * Convert the text representation of a xml node to a Node
- */
-export function xmlStringToNode(xmlString: string): Node {
-  return new DOMParser().parseFromString(xmlString, "application/xml")
-}
-
-/**
  * Convert a xml node to a text representation of it.
  */
 export function xmlNodeToString(node: Node): string {
