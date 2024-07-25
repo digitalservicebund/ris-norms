@@ -122,9 +122,10 @@ watch(updateData, () => {
   targetNormZf0Xml.value = updateData.value.targetNormZf0Xml
 })
 
-const destinationHrefEli = computed(() =>
-  destinationHref.value?.split("/").slice(0, -1).join("/"),
-)
+const destinationHrefEli = computed(() => {
+  const parts = destinationHref.value?.split("regelungstext-1")
+  return parts ? parts[0] + "regelungstext-1" : ""
+})
 const targetLawHtml = ref("")
 watch(
   destinationHrefEli,
