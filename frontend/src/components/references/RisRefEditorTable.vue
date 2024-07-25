@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RefEditor from "@/components/references/RefEditor.vue"
+import RefEditor from "@/components/references/RisRefEditor.vue"
 import { computed, triggerRef } from "vue"
 import {
   evaluateXPathOnce,
