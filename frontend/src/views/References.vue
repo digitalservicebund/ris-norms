@@ -122,10 +122,12 @@ const saveError = ref("")
 
     <RisHeader v-else :breadcrumbs>
       <div
-        class="grid flex-grow grid-cols-3 grid-rows-1 gap-32 overflow-hidden p-40"
+        class="grid flex-grow grid-cols-3 grid-rows-1 gap-32 overflow-hidden p-24"
       >
-        <section aria-label="Änderungsbefehle" class="flex flex-col">
-          <div>Änderungsbefehle</div>
+        <section aria-labelledby="changeCommandsHeading" class="flex flex-col">
+          <h3 id="changeCommandsHeading" class="ds-label-02-bold mb-12 block">
+            Änderungsbefehle
+          </h3>
           <ModSelectionPanel
             v-if="amendingNormXml"
             v-model="selectedModEId"
@@ -137,8 +139,16 @@ const saveError = ref("")
         <div
           class="col-span-2 grid grid-cols-subgrid grid-rows-[minmax(0,max-content),max-content,max-content]"
         >
-          <section aria-label="Textbasierte Metadaten" class="flex flex-col">
-            <div>Textbasierte Metadaten</div>
+          <section
+            aria-labelledby="textBasedMetadataHeading"
+            class="flex flex-col"
+          >
+            <h3
+              id="textBasedMetadataHeading"
+              class="ds-label-02-bold mb-12 block"
+            >
+              Textbasierte Metadaten
+            </h3>
             <RefSelectionPanel
               v-if="selectedModEId && selectedModQuotedContentXmlString"
               v-model:selected-ref="selectedRefEId"
@@ -152,10 +162,12 @@ const saveError = ref("")
           </section>
           <section
             v-if="selectedModEId"
-            aria-label="Verweise"
+            aria-labelledby="referencesHeading"
             class="flex flex-col"
           >
-            <div>Verweise</div>
+            <h3 id="referencesHeading" class="ds-label-02-bold mb-12 block">
+              Verweise
+            </h3>
             <RefEditorTable
               v-if="selectedModQuotedContentXmlString"
               v-model:selected-ref="selectedRefEId"
