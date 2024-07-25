@@ -13,7 +13,11 @@ import RisTextButton from "@/components/controls/RisTextButton.vue"
 import ModSelectionPanel from "@/components/references/RisModSelectionPanel.vue"
 import { useNormXml } from "@/composables/useNormXml"
 import RefSelectionPanel from "@/components/references/RisRefSelectionPanel.vue"
-import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
+import {
+  evaluateXPathOnce,
+  xmlNodeToString,
+  xmlStringToDocument,
+} from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 import RefEditorTable from "@/components/references/RisRefEditorTable.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
@@ -61,12 +65,19 @@ const amendingNormDocument = computed(() =>
 )
 
 const selectedModQuotedContent = computed(() => {
-  if (selectedModEId.value) {
-    // TODO: (Malte Laukötter, 2024-07-25) get the quoted text / quoted structure instead of the whole node
-    return getNodeByEid(amendingNormDocument.value, selectedModEId.value)
+  if (!selectedModEId.value) {
+    return null
   }
-  return null
+
+  const node = getNodeByEid(amendingNormDocument.value, selectedModEId.value)
+
+  if (!node) {
+    return null
+  }
+
+  return evaluateXPathOnce("./akn:quotedStructure | ./akn:quotedText[2]", node)
 })
+
 const selectedModQuotedContentXmlString = computed({
   get() {
     if (selectedModQuotedContent.value) {

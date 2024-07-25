@@ -44,3 +44,13 @@ function test() {
     />
   </div>
 </template>
+
+<style scoped>
+:deep(.akn-quotedStructure .akn-quote-startQuote) {
+  display: none;
+}
+
+:deep(.akn-quotedStructure .akn-quote-endQuote) {
+  display: none;
+}
+</style>
