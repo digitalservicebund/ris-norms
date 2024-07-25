@@ -411,7 +411,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
           .isInstanceOf(ValidationException.class)
           .hasMessageContaining(
-              "Target upTo node with eid not-present-href not present in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.");
+              "Target upTo node with eid not-present-href not present in ZF0 norm with eli eli/bund/bgbl-1/1999/66/2002-02-20/1/deu/regelungstext-1.");
     }
 
     @Test
@@ -429,7 +429,8 @@ class SingleModValidatorTest {
 
       final TextualMod passiveMod =
           zf0Norm.getMeta().getAnalysis().orElseThrow().getPassiveModifications().getFirst();
-      passiveMod.setDestinationUpTo("#hauptteil-1_para-3");
+      passiveMod.setDestinationUpTo(
+          "#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b");
 
       // when
       Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
@@ -438,7 +439,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
           .isInstanceOf(ValidationException.class)
           .hasMessageContaining(
-              "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-3 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.");
+              "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1999/66/2002-02-20/1/deu/regelungstext-1.");
     }
 
     @Test
@@ -466,7 +467,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
           .isInstanceOf(ValidationException.class)
           .hasMessageContaining(
-              "Target node with eid hauptteil-1_para-2_abs-3 does not appear before target upTo node with eid hauptteil-1_para-2_abs-1 in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.");
+              "Target node with eid hauptteil-1_para-2_abs-3 does not appear before target upTo node with eid hauptteil-1_para-2_abs-1 in ZF0 norm with eli eli/bund/bgbl-1/1999/66/2002-02-20/1/deu/regelungstext-1.");
     }
   }
 }
