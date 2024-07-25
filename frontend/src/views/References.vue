@@ -16,6 +16,7 @@ import RefSelectionPanel from "@/components/references/RefSelectionPanel.vue"
 import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 import RefEditorTable from "@/components/references/RefEditorTable.vue"
+import RisEmptyState from "@/components/RisEmptyState.vue"
 
 const amendingNormEli = useEliPathParameter()
 const {
@@ -139,13 +140,21 @@ const saveError = ref("")
           <section aria-label="Textbasierte Metadaten" class="flex flex-col">
             <div>Textbasierte Metadaten</div>
             <RefSelectionPanel
-              v-if="selectedModQuotedContentXmlString"
+              v-if="selectedModEId && selectedModQuotedContentXmlString"
               v-model:selected-ref="selectedRefEId"
               v-model:xml-snippet="selectedModQuotedContentXmlString"
               class="overflow-hidden"
             />
+            <RisEmptyState
+              v-else
+              text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
+            />
           </section>
-          <section aria-label="Verweise" class="flex flex-col">
+          <section
+            v-if="selectedModEId"
+            aria-label="Verweise"
+            class="flex flex-col"
+          >
             <div>Verweise</div>
             <RefEditorTable
               v-if="selectedModQuotedContentXmlString"
@@ -156,10 +165,11 @@ const saveError = ref("")
           </section>
 
           <hr
+            v-if="selectedModEId"
             class="col-span-2 mb-16 mt-32 border border-solid border-gray-400"
           />
 
-          <div class="col-span-2 flex flex-row-reverse">
+          <div v-if="selectedModEId" class="col-span-2 flex flex-row-reverse">
             <RisTooltip
               v-slot="{ ariaDescribedby }"
               :title="
@@ -183,8 +193,6 @@ const saveError = ref("")
           </div>
         </div>
       </div>
-
-      <template #action></template>
     </RisHeader>
   </div>
 </template>
