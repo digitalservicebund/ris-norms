@@ -113,35 +113,17 @@
         </div>
     </xsl:template>
 
-    <!-- handle the quote characters of the attribute-group akn:quote (used by e.g. quotedText and quotedStructure)-->
-    <xsl:template name="quote">
-        <span class="akn-quote-startQuote">
-            <xsl:value-of select="@startQuote"/>
-        </span>
-        <xsl:apply-templates/>
-        <span class="akn-quote-endQuote">
-            <xsl:choose>
-                <xsl:when test="@endQuote">
-                    <xsl:value-of select="@endQuote"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="@startQuote"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </span>
-    </xsl:template>
-
     <xsl:template match="akn:quotedText">
         <span>
             <xsl:call-template name="attributes"/>
-            <xsl:call-template name="quote"/>
+            <xsl:apply-templates/>
         </span>
     </xsl:template>
 
     <xsl:template match="akn:quotedStructure">
         <div>
             <xsl:call-template name="attributes"/>
-            <xsl:call-template name="quote"/>
+            <xsl:apply-templates/>
         </div>
     </xsl:template>
 

@@ -323,21 +323,24 @@ watch(
   @apply font-normal;
 }
 
-:deep(.akn-quotedStructure .akn-quote-startQuote) {
-  @apply inline;
+:deep(.akn-quotedText::before) {
+  content: "„";
 }
 
-:deep(.akn-quotedStructure .akn-quote-endQuote) {
-  @apply inline;
+:deep(.akn-quotedText::after) {
+  content: "“";
 }
 
-:deep(.akn-quotedStructure > :nth-child(2)),
-:deep(.akn-quotedStructure > :nth-child(2) *) {
-  @apply inline;
+:deep(.akn-quotedStructure > :first-child::before) {
+  content: "„";
 }
 
-:deep(.akn-quotedStructure > :nth-last-child(2)),
-:deep(.akn-quotedStructure > :nth-last-child(2) *) {
+:deep(.akn-quotedStructure > :last-child::after) {
+  content: "“";
+}
+
+:deep(.akn-quotedStructure > :last-child),
+:deep(.akn-quotedStructure > :last-child *) {
   @apply inline;
 }
 
