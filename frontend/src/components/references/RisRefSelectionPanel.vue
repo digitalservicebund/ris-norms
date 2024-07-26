@@ -3,6 +3,11 @@ import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useNormRenderHtml } from "@/composables/useNormRender"
+import { computed, ref, watch } from "vue"
+import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
+import { useAknTextSelection } from "@/composables/useAknTextSelection"
+import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"
+import { createNewRefElement } from "@/lib/ref"
 
 const selectedRef = defineModel<string>("selectedRef")
 const xmlSnippet = defineModel<string>("xmlSnippet")
@@ -13,16 +18,53 @@ const {
   error: renderError,
 } = useNormRenderHtml(xmlSnippet, { snippet: true })
 
-function test() {
-  xmlSnippet.value = `<akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"> Der <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt durch: <akn:quotedStructure GUID="9cb0572a-2933-473e-823f-5541ab360561" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
-                      <akn:longTitle GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
-                        <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
-                          <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
-                          <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz!!!) </akn:shortTitle>
-                        </akn:p>
-                      </akn:longTitle>
-                    </akn:quotedStructure>
-                  </akn:mod>`
+const xmlDocument = computed(() =>
+  xmlSnippet.value ? xmlStringToDocument(xmlSnippet.value) : undefined,
+)
+
+function rangeToAknRef(range: Range) {
+  const aknRef = createNewRefElement(range.startContainer)
+  if (!aknRef) {
+    return
+  }
+
+  range.surroundContents(aknRef)
+
+  if (xmlDocument.value) {
+    xmlSnippet.value = xmlNodeToString(xmlDocument.value)
+  }
+}
+
+const preview = ref<HTMLElement | null>()
+const currentSelectedRange = useAknTextSelection(preview)
+const selection = ref<Range>()
+
+watch(currentSelectedRange, () => {
+  if (!currentSelectedRange.value?.collapsed) {
+    selection.value = currentSelectedRange.value
+  } else {
+    selection.value = undefined
+  }
+})
+
+function handleSelectionStart() {
+  selection.value = undefined
+}
+
+function handleSelectionEnd() {
+  if (!selection.value || !xmlDocument.value) {
+    return
+  }
+
+  const rangeInLdml = htmlRenderRangeToLdmlDeRange(
+    selection.value,
+    xmlDocument.value,
+  )
+  if (!rangeInLdml) {
+    return
+  }
+
+  rangeToAknRef(rangeInLdml)
 }
 </script>
 
@@ -36,12 +78,17 @@ function test() {
       variant="error"
       title="Die Vorschau konnte nicht geladen werden."
     />
-    <RisLawPreview
-      class="ds-textarea flex-grow p-2"
-      :content="render ?? ''"
-      :selected="selectedRef ? [selectedRef] : []"
-      @click="test"
-    />
+    <div ref="preview" class="flex flex-grow flex-col">
+      <RisLawPreview
+        class="ds-textarea flex-grow p-2"
+        :content="render ?? ''"
+        :selected="selectedRef ? [selectedRef] : []"
+        @focusin="handleSelectionStart"
+        @focusout="handleSelectionEnd"
+        @mousedown="handleSelectionStart"
+        @mouseup="handleSelectionEnd"
+      />
+    </div>
   </div>
 </template>
 
@@ -52,5 +99,17 @@ function test() {
 
 :deep(.akn-quotedStructure .akn-quote-endQuote) {
   display: none;
+}
+
+:deep(.akn-ref) {
+  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
+}
+
+:deep(.akn-ref):hover {
+  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
+}
+
+:deep(.akn-ref.selected) {
+  @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
 }
 </style>
