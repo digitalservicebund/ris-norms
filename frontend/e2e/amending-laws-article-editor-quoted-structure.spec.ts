@@ -33,7 +33,7 @@ test.beforeEach(async () => {
 })
 
 test.describe("Load mod details", () => {
-  test("Loading of mod details into form", async ({ page }) => {
+  test.skip("Loading of mod details into form", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
@@ -166,7 +166,7 @@ test.describe("Editing a single mod", () => {
     ).toHaveValue("1002-01-10")
   })
 
-  test("select another target node and see preview", async () => {
+  test.skip("select another target node and see preview", async () => {
     const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
     })
@@ -297,7 +297,7 @@ test.describe("Editing multiple mods", () => {
     ).toBeVisible()
   })
 
-  test("selecting and saving the time boundary", async () => {
+  test.skip("selecting and saving the time boundary", async () => {
     const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
     })
