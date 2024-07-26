@@ -71,7 +71,7 @@ describe("RisRefSelectionPanel", () => {
     expect(errorMessage).toBeInTheDocument()
   })
 
-  it("Highlighting a part of the text creates a new akn:ref element and the xmlSnippet is updated", async () => {
+  it("Highlighting a part of the text creates a new akn:ref element, the xmlSnippet is updated and the newly created element is selected", async () => {
     const renderResult = render(RisRefSelectionPanel, {
       props: {
         xmlSnippet:
@@ -93,14 +93,47 @@ describe("RisRefSelectionPanel", () => {
       { keys: "[/MouseLeft]" },
     ])
 
-    const updateModelValueEvents = renderResult.emitted("update:xmlSnippet")
-    expect(updateModelValueEvents).toHaveLength(1)
+    const updateXmlSnippetEvents = renderResult.emitted("update:xmlSnippet")
+    expect(updateXmlSnippetEvents).toHaveLength(1)
 
-    const updatedXml = updateModelValueEvents[0] as string
+    const updatedXml = updateXmlSnippetEvents[0] as string
     const updatedXmlNode = xmlStringToDocument(updatedXml)
 
     const newRef = getNodeByEid(updatedXmlNode, "quot-1_p-1_ref-1")
     expect(newRef).exist
     expect(newRef?.textContent).toEqual("for a third")
+
+    const selectedRefUpdateEvents = renderResult.emitted("update:selectedRef")
+    expect(selectedRefUpdateEvents).toHaveLength(1)
+    expect(selectedRefUpdateEvents[0]).toEqual(["quot-1_p-1_ref-1"])
+  })
+
+  it("selects a akn:ref element if it is clicked on", async () => {
+    const renderResult = render(RisRefSelectionPanel, {
+      props: {
+        xmlSnippet: "<xml></xml>",
+      },
+    })
+
+    await nextTick()
+
+    await userEvent.click(screen.getByText("a ref"))
+
+    const selectedRefUpdateEvents = renderResult.emitted("update:selectedRef")
+    expect(selectedRefUpdateEvents).toHaveLength(1)
+    expect(selectedRefUpdateEvents[0]).toEqual(["quot-1_ref-1"])
+  })
+
+  it("highlights the selected element", async () => {
+    render(RisRefSelectionPanel, {
+      props: {
+        xmlSnippet: "<xml></xml>",
+        selectedRef: "quot-1_ref-2",
+      },
+    })
+
+    await nextTick()
+
+    expect(screen.getByText("a second ref")).toHaveClass("selected")
   })
 })

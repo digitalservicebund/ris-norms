@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
-import RisLawPreview from "@/components/RisLawPreview.vue"
+import RisLawPreview, {
+  AknElementClickEvent,
+} from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { computed, ref, watch } from "vue"
-import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
+import {
+  evaluateXPathOnce,
+  xmlNodeToString,
+  xmlStringToDocument,
+} from "@/services/xmlService"
 import { useAknTextSelection } from "@/composables/useAknTextSelection"
 import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"
 import { createNewRefElement } from "@/lib/ref"
@@ -33,6 +39,8 @@ function rangeToAknRef(range: Range) {
   if (xmlDocument.value) {
     xmlSnippet.value = xmlNodeToString(xmlDocument.value)
   }
+
+  return aknRef
 }
 
 const preview = ref<HTMLElement | null>()
@@ -64,7 +72,23 @@ function handleSelectionEnd() {
     return
   }
 
-  rangeToAknRef(rangeInLdml)
+  const refElement = rangeToAknRef(rangeInLdml)
+
+  if (!refElement) {
+    return
+  }
+
+  const newRefEId = evaluateXPathOnce("./@eId", refElement)?.nodeValue
+
+  if (!newRefEId) {
+    return
+  }
+
+  selectedRef.value = newRefEId
+}
+
+function handleAknRefClick({ eid }: AknElementClickEvent) {
+  selectedRef.value = eid
 }
 </script>
 
@@ -87,6 +111,7 @@ function handleSelectionEnd() {
         @focusout="handleSelectionEnd"
         @mousedown="handleSelectionStart"
         @mouseup="handleSelectionEnd"
+        @click:akn:ref="handleAknRefClick"
       />
     </div>
   </div>
