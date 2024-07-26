@@ -45,16 +45,16 @@ export function getDestinationHref(aknModNode: Node) {
 }
 
 /**
- * Provides the upTo of the destination of an akn:mod element.
+ * Provides the upTo of the akn:rref of an akn:mod element.
  */
 export function getDestinationRangeUpto(aknModNode: Node) {
   return evaluateXPathOnce(`akn:rref/@upTo`, aknModNode)?.nodeValue
 }
 
 /**
- * Provides the href of the destination of an akn:mod element.
+ * Provides the href of the akn:rref of an akn:mod element.
  */
-export function getDestinationRange(aknModNode: Node) {
+export function getDestinationRangeHref(aknModNode: Node) {
   return evaluateXPathOnce(`akn:rref/@href`, aknModNode)?.nodeValue
 }
 

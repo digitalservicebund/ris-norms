@@ -90,7 +90,7 @@ describe("RisModForm", () => {
     expect(quotedTextSecondElement).not.toHaveAttribute("readonly")
   })
 
-  it("Should render the form with optional fields", () => {
+  it("Should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen'", () => {
     render(RisModForm, {
       props: {
         id: "risModForm",
@@ -102,15 +102,62 @@ describe("RisModForm", () => {
       },
     })
 
-    const quotedTextFirstElement = screen.getByRole("textbox", {
-      name: "zu ersetzender Text",
-    })
-    expect(quotedTextFirstElement).toHaveValue(quotedTextFirst)
+    expect(
+      screen.getByRole("textbox", {
+        name: "zu ersetzende Textstelle",
+      }),
+    ).toHaveValue("para-1_abs-1/5-53.xml")
 
-    const quotedTextSecondElement = screen.getByRole("textbox", {
-      name: "Neuer Text Inhalt",
+    expect(
+      screen.getByRole("textbox", {
+        name: "zu ersetzender Text",
+      }),
+    ).toHaveValue(quotedTextFirst)
+
+    expect(
+      screen.getByRole("textbox", {
+        name: "Neuer Text Inhalt",
+      }),
+    ).toHaveValue(quotedTextSecond)
+
+    expect(screen.queryByTestId("elementToBeReplaced")).not.toBeInTheDocument()
+    expect(screen.queryByTestId("replacingElement")).not.toBeInTheDocument()
+  })
+
+  it("Should render the form with conditional fields for when textualModType === 'aenderungsbefehl-ersetzen' and there is a quotedStructureContent", () => {
+    render(RisModForm, {
+      props: {
+        id: "risModForm",
+        textualModType,
+        timeBoundaries,
+        destinationHref,
+        targetLawHtmlHtml,
+        quotedStructureContent,
+      },
     })
-    expect(quotedTextSecondElement).toHaveValue(quotedTextSecond)
+
+    expect(screen.getByTestId("elementToBeReplaced").innerHTML).toContain(
+      targetLawHtmlHtml,
+    )
+    expect(screen.getByTestId("replacingElement")).toHaveTextContent("content")
+
+    expect(
+      screen.queryByRole("textbox", {
+        name: "zu ersetzende Textstelle",
+      }),
+    ).not.toBeInTheDocument()
+
+    expect(
+      screen.queryByRole("textbox", {
+        name: "zu ersetzender Text",
+      }),
+    ).not.toBeInTheDocument()
+
+    expect(
+      screen.queryByRole("textbox", {
+        name: "Neuer Text Inhalt",
+      }),
+    ).not.toBeInTheDocument()
   })
 
   it("Should render the form when timeBoundaries are empty", () => {

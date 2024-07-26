@@ -9,7 +9,7 @@ import {
   getTimeBoundaryDate,
   useUpdateModData,
   getQuotedStructureContent,
-  getDestinationRange,
+  getDestinationRangeHref,
   getDestinationRangeUpto,
 } from "@/services/ldmldeModService"
 import { ModType } from "@/types/ModType"
@@ -86,7 +86,7 @@ export function useMod(
 
       textualModType.value = getTextualModType(modNode) ?? ""
       destinationHref.value =
-        getDestinationRange(modNode) ?? getDestinationHref(modNode) ?? ""
+        getDestinationRangeHref(modNode) ?? getDestinationHref(modNode) ?? ""
       destinationUpToHref.value = getDestinationRangeUpto(modNode) ?? ""
       quotedTextFirst.value = getQuotedTextFirst(modNode) ?? ""
       quotedTextSecond.value = getQuotedTextSecond(modNode) ?? ""
