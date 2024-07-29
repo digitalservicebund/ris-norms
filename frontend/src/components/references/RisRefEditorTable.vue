@@ -2,6 +2,7 @@
 import RefEditor from "@/components/references/RisRefEditor.vue"
 import { computed, triggerRef } from "vue"
 import {
+  evaluateXPath,
   evaluateXPathOnce,
   xmlNodeToString,
   xmlStringToDocument,
@@ -18,9 +19,8 @@ const xmlNode = computed(() => {
   return xmlStringToDocument(xmlSnippet.value)
 })
 
-// TODO: (Malte Laukötter, 2024-07-25) get the refs from that node
 const refs = computed<Node[]>(() =>
-  Array.from(xmlNode.value?.firstChild?.childNodes ?? []),
+  xmlNode.value ? evaluateXPath(".//akn:ref", xmlNode.value) : [],
 )
 
 function isChildNode(node: Node): node is ChildNode {
@@ -69,7 +69,7 @@ function getEId(ref: Node) {
 <template>
   <div>
     <div
-      class="grid max-h-full grid-cols-[1fr,1fr,max-content] items-center gap-4 overflow-auto"
+      class="grid max-h-full grid-cols-[1fr,1fr,max-content] items-center overflow-auto"
     >
       <div>Typ</div>
       <div>Eli</div>
@@ -78,7 +78,8 @@ function getEId(ref: Node) {
       <div
         v-for="ref in refs"
         :key="getEId(ref)"
-        class="col-span-3 grid grid-cols-subgrid"
+        :data-testid="`ris-ref-editor-${getEId(ref)}`"
+        class="col-span-3 m-2 grid grid-cols-subgrid"
         :class="{
           'ring-2 ring-blue-800': selectedRef === getEId(ref),
         }"
