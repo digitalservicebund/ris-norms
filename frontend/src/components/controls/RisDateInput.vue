@@ -2,7 +2,8 @@
 import { ValidationError } from "@/types/validationError"
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
-import { MaskaDetail, vMaska } from "maska"
+import { MaskaDetail } from "maska"
+import { vMaska } from "maska/vue"
 import { computed, ref, watch } from "vue"
 import IconErrorOutline from "~icons/ic/baseline-error-outline"
 
