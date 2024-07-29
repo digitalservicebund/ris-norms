@@ -14,6 +14,7 @@ import {
 import { useAknTextSelection } from "@/composables/useAknTextSelection"
 import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"
 import { createNewRefElement } from "@/lib/ref"
+import { useDebounce } from "@vueuse/core"
 
 /**
  * The eId of the currently selected akn:ref element.
@@ -29,6 +30,13 @@ const {
   isFetching: renderLoading,
   error: renderError,
 } = useNormRenderHtml(xmlSnippet, { snippet: true })
+/**
+ * Debounced render loading.
+ *
+ * Most of the time the render request is really fast and the loading spinner is only shown for a few ms. This is a bit
+ * annoying when marking many akn:ref elements. Therefore, we only show the loading spinner when the load takes a while.
+ */
+const debouncedRenderLoading = useDebounce(renderLoading, 500)
 
 const xmlDocument = computed(() =>
   xmlSnippet.value ? xmlStringToDocument(xmlSnippet.value) : undefined,
@@ -100,17 +108,19 @@ function handleAknRefClick({ eid }: AknElementClickEvent) {
 
 <template>
   <div class="flex flex-col">
-    <div v-if="renderLoading" class="flex justify-center">
-      <RisLoadingSpinner />
-    </div>
     <RisCallout
-      v-else-if="renderError"
+      v-if="!debouncedRenderLoading && renderError"
       variant="error"
       title="Die Vorschau konnte nicht geladen werden."
     />
-    <div ref="preview" class="flex flex-grow flex-col">
+    <div
+      v-else
+      ref="preview"
+      clazz="flex flex-grow flex-col"
+      class="grid flex-grow grid-cols-1"
+    >
       <RisLawPreview
-        class="ds-textarea flex-grow p-2"
+        class="ds-textarea col-start-1 row-start-1 min-h-[100px] flex-grow p-2"
         :content="render ?? ''"
         :selected="selectedRef ? [selectedRef] : []"
         @focusin="handleSelectionStart"
@@ -119,6 +129,14 @@ function handleAknRefClick({ eid }: AknElementClickEvent) {
         @mouseup="handleSelectionEnd"
         @click:akn:ref="handleAknRefClick"
       />
+      <div
+        v-if="debouncedRenderLoading"
+        class="col-start-1 row-start-1 flex-grow bg-gray-500 bg-opacity-75"
+      >
+        <div class="mt-20 flex justify-center">
+          <RisLoadingSpinner />
+        </div>
+      </div>
     </div>
   </div>
 </template>
