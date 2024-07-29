@@ -115,7 +115,7 @@ test.describe("Load mod details", () => {
 
     await expect(
       previewSection.getByText(
-        "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten (Strukturänderungsgesetz)",
+        "Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten (Strukturänderungsgesetz)",
       ),
     ).toBeHidden()
 
@@ -356,6 +356,109 @@ test.describe("Editing multiple mods", () => {
       sharedPage.getByText(
         "Eine Vorschau kann nur für Änderungsbefehle mit der selben Zeitgrenze generiert werden.",
       ),
+    ).toBeVisible()
+  })
+})
+
+test.describe("Range mod", () => {
+  test("Loading of mod details into form", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
+    )
+
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle",
+    })
+
+    const previewSection = page.getByRole("region", {
+      name: "Vorschau",
+    })
+
+    await amendingLawSection
+      .getByText("Absatz 2 Nummer 2 bis Nummer 3 wird ersetzt durch:")
+      .click()
+
+    await expect(
+      page.getByRole("heading", {
+        level: 3,
+        name: "Änderungsbefehl bearbeiten",
+      }),
+    ).toBeVisible()
+
+    const modFormSection = page.getByRole("region", {
+      name: "Änderungsbefehl bearbeiten",
+    })
+    await expect(modFormSection).toBeVisible()
+
+    // Textual Mode Type
+    const textualModeTypeElement = modFormSection.getByRole("textbox", {
+      name: "Änderungstyp",
+    })
+    await expect(textualModeTypeElement).toBeVisible()
+    await expect(textualModeTypeElement).toHaveValue("Ersetzen")
+    await expect(textualModeTypeElement).toHaveAttribute("readonly", "")
+
+    // Time Boundaries
+    const timeBoundariesElement = modFormSection.getByRole("combobox", {
+      name: "Zeitgrenze",
+    })
+    await expect(timeBoundariesElement).toBeVisible()
+    await expect(timeBoundariesElement).toHaveValue("1002-01-11")
+
+    const timeBoundaryOptionElements = timeBoundariesElement.locator("option")
+    await expect(timeBoundaryOptionElements).toHaveCount(3)
+
+    // // Destination Href Eli
+    const destinationHrefEliElement = modFormSection.getByRole("textbox", {
+      name: "ELI Zielgesetz",
+    })
+    await expect(destinationHrefEliElement).toBeVisible()
+    await expect(destinationHrefEliElement).toHaveValue(
+      "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1",
+    )
+    await expect(destinationHrefEliElement).toHaveAttribute("readonly", "")
+
+    const elementToBeReplacedField = page.getByTestId("elementToBeReplaced")
+
+    const firstSelectedElementLocator = elementToBeReplacedField.getByRole(
+      "button",
+      {
+        name: "point num2.num pder Anzahl der betroffenen Mitarbeiterinnen und Mitarbeiter,p point",
+        exact: true,
+      },
+    )
+    await expect(firstSelectedElementLocator).toBeInViewport()
+    await expect(firstSelectedElementLocator).toHaveClass(/selected/)
+
+    const secondSelectedElementLocator = elementToBeReplacedField.getByRole(
+      "button",
+      {
+        name: "point num3.num pden spezifischen regionalen Anforderungen und Besonderheiten. p point",
+        exact: true,
+      },
+    )
+    await expect(secondSelectedElementLocator).toBeInViewport()
+    await expect(secondSelectedElementLocator).toHaveClass(/selected/)
+
+    await expect(page.getByTestId("replacingElement")).toHaveText(
+      "2. den spezifischen regionalen Anforderungen.",
+    )
+
+    await previewSection.getByRole("tab", { name: "xml" }).click()
+
+    // Do a search
+    await previewSection
+      .getByText('<?xml version="1.0" encoding="UTF-8"?>')
+      .click()
+    await page.keyboard.press("ControlOrMeta+f")
+    await previewSection
+      .getByRole("textbox", { name: "Find" })
+      .fill("den spezifischen regionalen Anforderungen.")
+    await previewSection.getByRole("button", { name: "next" }).click()
+    await expect(
+      previewSection
+        .getByText("den spezifischen regionalen Anforderungen.")
+        .first(),
     ).toBeVisible()
   })
 })
