@@ -50,7 +50,7 @@ function handleAknModClick({ eid }: AknElementClickEvent) {
 
 <style scoped>
 :deep(.akn-mod) {
-  @apply block border border-[#4299F7] bg-[#E7E7E766] px-2;
+  @apply block border border-[#4299F7] bg-[#f5f5f5] px-2;
 }
 
 :deep(.akn-mod.selected) {

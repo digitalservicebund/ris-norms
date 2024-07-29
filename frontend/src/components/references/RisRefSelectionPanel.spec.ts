@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { render, screen } from "@testing-library/vue"
 import { nextTick, ref } from "vue"
 import RisRefSelectionPanel from "@/components/references/RisRefSelectionPanel.vue"
@@ -6,10 +6,8 @@ import { userEvent } from "@testing-library/user-event"
 import { xmlStringToDocument } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
 
-const renderData = ref(
-  "<div class='akn-quotedText' data-eId='quot-1'>Render of <div class='akn-ref' data-eId='quot-1_ref-1'>a ref</div> and <div class='akn-ref' data-eId='quot-1_ref-2'>a second ref</div> and <p class='akn-p' data-eId='quot-1_p-1'>place for a third ref</p></div>",
-)
-const renderIsFetching = ref(false)
+const renderData = ref<string>()
+const renderIsFetching = ref<boolean>()
 const renderError = ref<string>()
 
 vi.mock("@/composables/useNormRender", () => ({
@@ -21,6 +19,13 @@ vi.mock("@/composables/useNormRender", () => ({
 }))
 
 describe("RisRefSelectionPanel", () => {
+  beforeEach(() => {
+    renderData.value =
+      "<div class='akn-quotedText' data-eId='quot-1'>Render of <div class='akn-ref' data-eId='quot-1_ref-1'>a ref</div> and <div class='akn-ref' data-eId='quot-1_ref-2'>a second ref</div> and <p class='akn-p' data-eId='quot-1_p-1'>place for a third ref</p></div>"
+    renderIsFetching.value = false
+    renderError.value = undefined
+  })
+
   it("Should render the html of the xml snippet", async () => {
     render(RisRefSelectionPanel, {
       props: {
@@ -49,9 +54,8 @@ describe("RisRefSelectionPanel", () => {
     expect(loadingIndicator).toBeInTheDocument()
 
     renderIsFetching.value = false
-    await nextTick()
 
-    expect(loadingIndicator).not.toBeInTheDocument()
+    expect.poll(() => loadingIndicator).not.toBeInTheDocument()
   })
 
   it("Should show error when one exists", async () => {
