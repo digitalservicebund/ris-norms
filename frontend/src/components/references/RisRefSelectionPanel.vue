@@ -15,7 +15,13 @@ import { useAknTextSelection } from "@/composables/useAknTextSelection"
 import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"
 import { createNewRefElement } from "@/lib/ref"
 
+/**
+ * The eId of the currently selected akn:ref element.
+ */
 const selectedRef = defineModel<string>("selectedRef")
+/**
+ * The XML-String (LDML.de) of the akn:quotedText or akn:quotedStructure element in which akn:ref's should be displayed.
+ */
 const xmlSnippet = defineModel<string>("xmlSnippet")
 
 const {

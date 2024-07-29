@@ -16,6 +16,7 @@ function isChildNode(node: Node): node is ChildNode {
 
 /**
  * Finds the node in the LDML.de document that corresponds to the given node in the html-render of the LDML.de document
+ *
  * @param node the node of the html render whose equivalent should be found
  * @param ldmlDocument the LDML.de document
  */
@@ -49,7 +50,8 @@ export function findHtmlNodeInLdml(
 /**
  * Finds the offset that is the corresponds to the same text range in the LDML.de node.
  *
- * This corrects for the spacing differences (additional spaces) between the html render and the ldml.de-xml.
+ * This corrects for the spacing differences (additional spaces) between the html render and the ldml.de-xml. This is
+ * done by counting multiple directly following whitespace characters as one character.
  *
  * @param htmlNode the node within the html render of the ldml node
  * @param htmlOffset the offset to find in the ldml node
@@ -83,6 +85,11 @@ export function findHtmlOffsetInLdmlNode(
 
 /**
  * Converts a Range within a html-render of a LMDL.de xml to a range within that xml document.
+ *
+ * This is done by finding the nodes (of the xml) that correspond to the nodes of the html-range
+ * {@see findHtmlNodeInLdml} and then converting the character offsets within these nodes
+ * {@see findHtmlOffsetInLdmlNode}.
+ *
  * @param htmlRange The Range within the html
  * @param ldmlDocument The LDML.de Document in which this range should be found
  */

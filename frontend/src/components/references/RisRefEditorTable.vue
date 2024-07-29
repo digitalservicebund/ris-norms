@@ -8,7 +8,13 @@ import {
   xmlStringToDocument,
 } from "@/services/xmlService"
 
+/**
+ * The eId of the currently selected akn:ref element.
+ */
 const selectedRef = defineModel<string>("selectedRef")
+/**
+ * The XML-String (LDML.de) of the akn:quotedText or akn:quotedStructure element whose akn:ref's should be displayed.
+ */
 const xmlSnippet = defineModel<string>("xmlSnippet")
 
 const xmlNode = computed(() => {

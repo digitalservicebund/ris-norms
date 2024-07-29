@@ -7,9 +7,15 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
 
 const props = defineProps<{
+  /**
+   * XML-String (LDML.de) of the norm to display and in which a akn:mod element can be selected.
+   */
   normXml: string
 }>()
 
+/**
+ * The eId of the currently selected akn:mod element.
+ */
 const selectedModEId = defineModel<string>()
 
 const {

@@ -2,9 +2,15 @@
 import RisTextButton from "@/components/controls/RisTextButton.vue"
 import CloseIcon from "~icons/ic/close"
 
+/**
+ * The XML-String (LDML.de) of the akn:ref element.
+ */
 defineModel<string>("xmlSnippet")
 
 defineEmits<{
+  /**
+   * The akn:ref element should be removed.
+   */
   delete: []
 }>()
 </script>
