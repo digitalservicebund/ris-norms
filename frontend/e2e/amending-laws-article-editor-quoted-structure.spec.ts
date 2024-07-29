@@ -33,7 +33,7 @@ test.beforeEach(async () => {
 })
 
 test.describe("Load mod details", () => {
-  test.skip("Loading of mod details into form", async ({ page }) => {
+  test("Loading of mod details into form", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
@@ -88,7 +88,7 @@ test.describe("Load mod details", () => {
 
     const selectedElementLocator = elementToBeReplacedField.getByRole(
       "button",
-      { name: "long title p Fiktives" },
+      { name: "long title p Beispielgesetz" },
     )
 
     await expect(selectedElementLocator).toBeInViewport()
@@ -166,7 +166,7 @@ test.describe("Editing a single mod", () => {
     ).toHaveValue("1002-01-10")
   })
 
-  test.skip("select another target node and see preview", async () => {
+  test("select another target node and see preview", async () => {
     const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
     })
@@ -185,7 +185,7 @@ test.describe("Editing a single mod", () => {
 
     await elementToBeReplacedField
       .getByRole("button", {
-        name: "headingGesetz zur Einbindung eines Regelungstextes in Stammformheading",
+        name: "headingStrukturen und Gliederungsebenenheading",
         exact: true,
       })
       .click()
@@ -194,7 +194,7 @@ test.describe("Editing a single mod", () => {
 
     await expect(
       previewSection.getByText(
-        "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten (Strukturänderungsgesetz)",
+        "Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten (Strukturänderungsgesetz)",
       ),
     ).toBeVisible()
 
@@ -297,7 +297,7 @@ test.describe("Editing multiple mods", () => {
     ).toBeVisible()
   })
 
-  test.skip("selecting and saving the time boundary", async () => {
+  test("selecting and saving the time boundary", async () => {
     const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
     })
@@ -323,7 +323,7 @@ test.describe("Editing multiple mods", () => {
 
     await expect(
       previewSection.getByText(
-        "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten (Strukturänderungsgesetz)",
+        "Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten (Strukturänderungsgesetz)",
       ),
     ).toBeVisible()
   })
