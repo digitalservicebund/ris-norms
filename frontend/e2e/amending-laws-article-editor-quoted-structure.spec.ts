@@ -461,4 +461,85 @@ test.describe("Range mod", () => {
         .first(),
     ).toBeVisible()
   })
+
+  test("Changing target range to single range", async ({ page }) => {
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
+    )
+
+    const amendingLawSection = page.getByRole("region", {
+      name: "Änderungsbefehle",
+    })
+
+    const modFormSection = page.getByRole("region", {
+      name: "Änderungsbefehl bearbeiten",
+    })
+
+    const previewSection = page.getByRole("region", {
+      name: "Vorschau",
+    })
+
+    await amendingLawSection
+      .getByText("Absatz 2 Nummer 2 bis Nummer 3 wird ersetzt durch:")
+      .click()
+
+    await expect(
+      page.getByRole("heading", {
+        level: 3,
+        name: "Änderungsbefehl bearbeiten",
+      }),
+    ).toBeVisible()
+
+    await expect(modFormSection).toBeVisible()
+
+    const elementToBeReplacedField = page.getByTestId("elementToBeReplaced")
+
+    const firstSelectedElementLocator = elementToBeReplacedField.getByRole(
+      "button",
+      {
+        name: "point num2.num pder Anzahl der betroffenen Mitarbeiterinnen und Mitarbeiter,p point",
+        exact: true,
+      },
+    )
+    await expect(firstSelectedElementLocator).toBeInViewport()
+    await expect(firstSelectedElementLocator).toHaveClass(/selected/)
+
+    const secondSelectedElementLocator = elementToBeReplacedField.getByRole(
+      "button",
+      {
+        name: "point num3.num pden spezifischen regionalen Anforderungen und Besonderheiten. p point",
+        exact: true,
+      },
+    )
+    await expect(secondSelectedElementLocator).toBeInViewport()
+    await expect(secondSelectedElementLocator).toHaveClass(/selected/)
+
+    await expect(page.getByTestId("replacingElement")).toHaveText(
+      "2. den spezifischen regionalen Anforderungen.",
+    )
+
+    // Select only the first point to replace
+    await firstSelectedElementLocator.click()
+
+    await expect(secondSelectedElementLocator).not.toHaveClass(/selected/)
+
+    await previewSection.getByRole("tab", { name: "xml" }).click()
+
+    // Do a search
+    await previewSection
+      .getByText('<?xml version="1.0" encoding="UTF-8"?>')
+      .click()
+    await page.keyboard.press("ControlOrMeta+f")
+    await previewSection
+      .getByRole("textbox", { name: "Find" })
+      .fill("den spezifischen regionalen Anforderungen und Besonderheiten.")
+    await previewSection.getByRole("button", { name: "next" }).click()
+    await expect(
+      previewSection
+        .getByText(
+          "den spezifischen regionalen Anforderungen und Besonderheiten.",
+        )
+        .first(),
+    ).toBeVisible()
+  })
 })
