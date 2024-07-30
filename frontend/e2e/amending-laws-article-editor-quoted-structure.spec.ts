@@ -570,14 +570,15 @@ test.describe("Range mod", () => {
     await expect(firstSelectedElementLocator).toBeInViewport()
     await expect(firstSelectedElementLocator).toHaveClass(/selected/)
 
-    // Select range
-    // Click again first element, and use x=0 and y=0 position so that it is clicked at the top-left corner
-    await firstSelectedElementLocator.click({
-      position: {
-        x: 0,
-        y: 0,
-      },
-    })
+    // Select range with keyboard navigation (because of frontend having nested interactive elements)
+    await firstSelectedElementLocator.focus()
+    await sharedPage.keyboard.press("Tab")
+    await sharedPage.keyboard.press("Tab")
+    await sharedPage.keyboard.press("Tab")
+    await sharedPage.keyboard.down("Shift")
+    await sharedPage.keyboard.press("Enter")
+    await sharedPage.keyboard.up("Shift")
+
     const secondSelectedElementLocator = elementToBeReplacedField.getByRole(
       "button",
       {
@@ -585,14 +586,6 @@ test.describe("Range mod", () => {
         exact: true,
       },
     )
-    // Shift-click now second element, and also use x=0 and y=0 position so that it is clicked at the top-left corner
-    await secondSelectedElementLocator.click({
-      position: {
-        x: 0,
-        y: 0,
-      },
-      modifiers: ["Shift"],
-    })
     await expect(secondSelectedElementLocator).toHaveClass(/selected/)
 
     await previewSection.getByRole("tab", { name: "xml" }).click()
