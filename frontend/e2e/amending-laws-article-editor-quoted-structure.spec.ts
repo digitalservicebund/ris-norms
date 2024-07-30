@@ -33,25 +33,21 @@ test.beforeEach(async () => {
 })
 
 test.describe("Load mod details", () => {
-  test("Loading of mod details into form", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
-    )
-
-    const amendingLawSection = page.getByRole("region", {
+  test("Loading of mod details into form", async () => {
+    const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
     })
 
     await amendingLawSection.getByText("Fiktives Beispielgesetz").click()
 
     await expect(
-      page.getByRole("heading", {
+      sharedPage.getByRole("heading", {
         level: 3,
         name: "Änderungsbefehl bearbeiten",
       }),
     ).toBeVisible()
 
-    const modFormSection = page.getByRole("region", {
+    const modFormSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehl bearbeiten",
     })
     await expect(modFormSection).toBeVisible()
@@ -84,7 +80,9 @@ test.describe("Load mod details", () => {
     )
     await expect(destinationHrefEliElement).toHaveAttribute("readonly", "")
 
-    const elementToBeReplacedField = page.getByTestId("elementToBeReplaced")
+    const elementToBeReplacedField = sharedPage.getByTestId(
+      "elementToBeReplaced",
+    )
 
     const selectedElementLocator = elementToBeReplacedField.getByRole(
       "button",
@@ -95,19 +93,16 @@ test.describe("Load mod details", () => {
 
     await expect(selectedElementLocator).toHaveClass(/selected/)
 
-    await expect(page.getByTestId("replacingElement")).toHaveText(
+    await expect(sharedPage.getByTestId("replacingElement")).toHaveText(
       "Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen (Strukturänderungsgesetz)",
     )
   })
 
-  test("Display preview of time machine", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
-    )
-    const amendingLawSection = page.getByRole("region", {
+  test("Display preview of time machine", async () => {
+    const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
     })
-    const previewSection = page.getByRole("region", {
+    const previewSection = sharedPage.getByRole("region", {
       name: "Vorschau",
     })
 
@@ -131,7 +126,7 @@ test.describe("Load mod details", () => {
     await previewSection
       .getByText('<?xml version="1.0" encoding="UTF-8"?>')
       .click()
-    await page.keyboard.press("ControlOrMeta+f")
+    await sharedPage.keyboard.press("ControlOrMeta+f")
     await previewSection
       .getByRole("textbox", { name: "Find" })
       .fill("mit Änderungsbefehlen")
@@ -222,8 +217,6 @@ test.describe("Editing a single mod", () => {
 })
 
 test.describe("Editing multiple mods", () => {
-  let sharedPage: Page
-
   async function restoreInitialState() {
     const originalModsState = {
       "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1":
@@ -361,16 +354,12 @@ test.describe("Editing multiple mods", () => {
 })
 
 test.describe("Range mod", () => {
-  test("Loading of mod details into form", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
-    )
-
-    const amendingLawSection = page.getByRole("region", {
+  test("Loading of mod details into form", async () => {
+    const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
     })
 
-    const previewSection = page.getByRole("region", {
+    const previewSection = sharedPage.getByRole("region", {
       name: "Vorschau",
     })
 
@@ -379,13 +368,13 @@ test.describe("Range mod", () => {
       .click()
 
     await expect(
-      page.getByRole("heading", {
+      sharedPage.getByRole("heading", {
         level: 3,
         name: "Änderungsbefehl bearbeiten",
       }),
     ).toBeVisible()
 
-    const modFormSection = page.getByRole("region", {
+    const modFormSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehl bearbeiten",
     })
     await expect(modFormSection).toBeVisible()
@@ -418,7 +407,9 @@ test.describe("Range mod", () => {
     )
     await expect(destinationHrefEliElement).toHaveAttribute("readonly", "")
 
-    const elementToBeReplacedField = page.getByTestId("elementToBeReplaced")
+    const elementToBeReplacedField = sharedPage.getByTestId(
+      "elementToBeReplaced",
+    )
 
     const firstSelectedElementLocator = elementToBeReplacedField.getByRole(
       "button",
@@ -440,7 +431,7 @@ test.describe("Range mod", () => {
     await expect(secondSelectedElementLocator).toBeInViewport()
     await expect(secondSelectedElementLocator).toHaveClass(/selected/)
 
-    await expect(page.getByTestId("replacingElement")).toHaveText(
+    await expect(sharedPage.getByTestId("replacingElement")).toHaveText(
       "2. den spezifischen regionalen Anforderungen.",
     )
 
@@ -450,7 +441,7 @@ test.describe("Range mod", () => {
     await previewSection
       .getByText('<?xml version="1.0" encoding="UTF-8"?>')
       .click()
-    await page.keyboard.press("ControlOrMeta+f")
+    await sharedPage.keyboard.press("ControlOrMeta+f")
     await previewSection
       .getByRole("textbox", { name: "Find" })
       .fill("den spezifischen regionalen Anforderungen.")
@@ -462,20 +453,16 @@ test.describe("Range mod", () => {
     ).toBeVisible()
   })
 
-  test("Changing target range to single range", async ({ page }) => {
-    await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
-    )
-
-    const amendingLawSection = page.getByRole("region", {
+  test("Changing target range to single range", async () => {
+    const amendingLawSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehle",
     })
 
-    const modFormSection = page.getByRole("region", {
+    const modFormSection = sharedPage.getByRole("region", {
       name: "Änderungsbefehl bearbeiten",
     })
 
-    const previewSection = page.getByRole("region", {
+    const previewSection = sharedPage.getByRole("region", {
       name: "Vorschau",
     })
 
@@ -484,7 +471,7 @@ test.describe("Range mod", () => {
       .click()
 
     await expect(
-      page.getByRole("heading", {
+      sharedPage.getByRole("heading", {
         level: 3,
         name: "Änderungsbefehl bearbeiten",
       }),
@@ -492,7 +479,9 @@ test.describe("Range mod", () => {
 
     await expect(modFormSection).toBeVisible()
 
-    const elementToBeReplacedField = page.getByTestId("elementToBeReplaced")
+    const elementToBeReplacedField = sharedPage.getByTestId(
+      "elementToBeReplaced",
+    )
 
     const firstSelectedElementLocator = elementToBeReplacedField.getByRole(
       "button",
@@ -514,7 +503,7 @@ test.describe("Range mod", () => {
     await expect(secondSelectedElementLocator).toBeInViewport()
     await expect(secondSelectedElementLocator).toHaveClass(/selected/)
 
-    await expect(page.getByTestId("replacingElement")).toHaveText(
+    await expect(sharedPage.getByTestId("replacingElement")).toHaveText(
       "2. den spezifischen regionalen Anforderungen.",
     )
 
@@ -529,7 +518,7 @@ test.describe("Range mod", () => {
     await previewSection
       .getByText('<?xml version="1.0" encoding="UTF-8"?>')
       .click()
-    await page.keyboard.press("ControlOrMeta+f")
+    await sharedPage.keyboard.press("ControlOrMeta+f")
     await previewSection
       .getByRole("textbox", { name: "Find" })
       .fill("den spezifischen regionalen Anforderungen und Besonderheiten.")
@@ -541,5 +530,88 @@ test.describe("Range mod", () => {
         )
         .first(),
     ).toBeVisible()
+  })
+
+  test("Changing single range to target range", async () => {
+    const amendingLawSection = sharedPage.getByRole("region", {
+      name: "Änderungsbefehle",
+    })
+
+    const modFormSection = sharedPage.getByRole("region", {
+      name: "Änderungsbefehl bearbeiten",
+    })
+
+    const previewSection = sharedPage.getByRole("region", {
+      name: "Vorschau",
+    })
+
+    await amendingLawSection.getByText("Absatz 1 wird ersetzt durch:").click()
+
+    await expect(
+      sharedPage.getByRole("heading", {
+        level: 3,
+        name: "Änderungsbefehl bearbeiten",
+      }),
+    ).toBeVisible()
+
+    await expect(modFormSection).toBeVisible()
+
+    const elementToBeReplacedField = sharedPage.getByTestId(
+      "elementToBeReplaced",
+    )
+
+    const firstSelectedElementLocator = elementToBeReplacedField.getByRole(
+      "button",
+      {
+        name: "paragraph num(1)num pDieses Gesetz findet Anwendung auf alle definierten Struktur und Gliederungsebenen.p paragraph",
+        exact: true,
+      },
+    )
+    await expect(firstSelectedElementLocator).toBeInViewport()
+    await expect(firstSelectedElementLocator).toHaveClass(/selected/)
+
+    // Select range
+    // Click again first element, and use x=0 and y=0 position so that it is clicked at the top-left corner
+    await firstSelectedElementLocator.click({
+      position: {
+        x: 0,
+        y: 0,
+      },
+    })
+    const secondSelectedElementLocator = elementToBeReplacedField.getByRole(
+      "button",
+      {
+        name: "paragraph num(2)num pDie Berechnung der Anwendung erfolgt nach folgender Formel: p foreign foreign paragraph",
+        exact: true,
+      },
+    )
+    // Shift-click now second element, and also use x=0 and y=0 position so that it is clicked at the top-left corner
+    await secondSelectedElementLocator.click({
+      position: {
+        x: 0,
+        y: 0,
+      },
+      modifiers: ["Shift"],
+    })
+    await expect(secondSelectedElementLocator).toHaveClass(/selected/)
+
+    await previewSection.getByRole("tab", { name: "xml" }).click()
+
+    // Do a search
+    await previewSection
+      .getByText('<?xml version="1.0" encoding="UTF-8"?>')
+      .click()
+    await sharedPage.keyboard.press("ControlOrMeta+f")
+    await previewSection
+      .getByRole("textbox", { name: "Find" })
+      .fill("Die Berechnung der Anwendung erfolgt nach folgender Formel:")
+    await previewSection.getByRole("button", { name: "next" }).click()
+    await expect(
+      previewSection
+        .getByText(
+          "Die Berechnung der Anwendung erfolgt nach folgender Formel:",
+        )
+        .first(),
+    ).toBeHidden()
   })
 })
