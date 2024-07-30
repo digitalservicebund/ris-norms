@@ -107,25 +107,25 @@ public class Mod {
   }
 
   /**
-   * Returns the href of the akn:rref of the target law that is modified.
+   * Returns the from of the akn:rref of the target law that is modified.
    *
-   * @return The href of the akn:rref of the akn:mod.
+   * @return The from of the akn:rref of the akn:mod.
    */
-  public Optional<Href> getTargetRrefHref() {
-    return NodeParser.getValueFromExpression(RREF_XPATH + "/@href", this.node).map(Href::new);
+  public Optional<Href> getTargetRrefFrom() {
+    return NodeParser.getValueFromExpression(RREF_XPATH + "/@from", this.node).map(Href::new);
   }
 
   /**
-   * Updates the href attribute of akn:rref node within the akn:mode of the body.
+   * Updates the from attribute of akn:rref node within the akn:mode of the body.
    *
-   * @param newHref - the new ELI + eId of the target law
+   * @param newFrom - the new ELI + eId of the target law
    */
-  public void setTargetRrefHref(final String newHref) {
+  public void setTargetRrefFrom(final String newFrom) {
     NodeParser.getNodeFromExpression(RREF_XPATH, this.node)
         .orElseThrow()
         .getAttributes()
-        .getNamedItem("href")
-        .setNodeValue(newHref);
+        .getNamedItem("from")
+        .setNodeValue(newFrom);
   }
 
   /**
@@ -184,7 +184,7 @@ public class Mod {
   /**
    * Returns the upTo of the akn:rref of the target law that is modified.
    *
-   * @return The href of the akn:rref of the akn:mod.
+   * @return The upTo of the akn:rref of the akn:mod.
    */
   public Optional<Href> getTargetRrefUpTo() {
     return NodeParser.getValueFromExpression("./rref/@upTo", this.node).map(Href::new);
@@ -207,15 +207,15 @@ public class Mod {
    * Replaces an akn:ref with an akn:rref and updates the href and upTo attributes with the given
    * values. It also copies for now the text content of the old node.
    *
-   * @param destinationHref the new destination href
+   * @param destinationFrom the new destination from
    * @param destinationUpTo the new destination upTo
    */
-  public void replaceRefWithRref(final String destinationHref, final String destinationUpTo) {
+  public void replaceRefWithRref(final String destinationFrom, final String destinationUpTo) {
     final Node refNode = NodeParser.getNodeFromExpression(REF_XPATH, this.node).orElseThrow();
 
     final Element rrefElement = NodeCreator.createElement("akn:rref", this.node);
     rrefElement.setAttribute("eId", EId.fromMandatoryNode(refNode).value());
-    rrefElement.setAttribute("href", destinationHref);
+    rrefElement.setAttribute("from", destinationFrom);
     rrefElement.setAttribute("upTo", destinationUpTo);
 
     rrefElement.setTextContent(refNode.getTextContent());
