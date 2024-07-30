@@ -20,6 +20,12 @@ const props = defineProps<{
   placeholder?: string
   /** Optional label for the field */
   label?: string
+  /** Optional aria-label for the field */
+  ariaLabel?: string
+  /**
+   * Additional classes for the select element
+   */
+  selectClasses?: string | Record<string, boolean>
 }>()
 
 /** Selected value of the dropdown. */
@@ -42,8 +48,10 @@ const hasPlaceholder = computed(() =>
       :id="id"
       v-model="modelValue"
       class="ds-select ds-select-small text-ellipsis"
+      :class="selectClasses"
       :data-placeholder="hasPlaceholder ? true : undefined"
       tabindex="0"
+      :aria-label="ariaLabel"
     >
       <option v-if="placeholder && !modelValue" disabled value="">
         {{ placeholder }}

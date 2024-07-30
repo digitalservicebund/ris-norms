@@ -7,6 +7,7 @@ import {
   xmlNodeToString,
   xmlStringToDocument,
 } from "@/services/xmlService"
+import { useDebounceFn } from "@vueuse/core"
 
 /**
  * The eId of the currently selected akn:ref element.
@@ -63,9 +64,9 @@ function replace(ref: Node, newXml: string) {
   updateXmlString()
 }
 
-function updateXmlString() {
+const updateXmlString = useDebounceFn(() => {
   xmlSnippet.value = xmlNode.value ? xmlNodeToString(xmlNode.value) : ""
-}
+}, 250)
 
 function getEId(ref: Node) {
   return evaluateXPathOnce("./@eId", ref)?.nodeValue ?? ""
@@ -75,27 +76,28 @@ function getEId(ref: Node) {
 <template>
   <div>
     <div
-      class="grid max-h-full grid-cols-[1fr,1fr,max-content] items-center overflow-auto"
+      class="grid max-h-full grid-cols-[3fr,8fr,max-content] items-center overflow-auto"
     >
       <div>Typ</div>
-      <div>Eli</div>
+      <div>ELI mit Zielstelle</div>
       <div></div>
 
-      <div
+      <section
         v-for="ref in refs"
         :key="getEId(ref)"
-        :data-testid="`ris-ref-editor-${getEId(ref)}`"
-        class="col-span-3 m-2 grid grid-cols-subgrid"
+        class="col-span-3 grid grid-cols-subgrid p-4"
         :class="{
-          'ring-2 ring-blue-800': selectedRef === getEId(ref),
+          'bg-blue-300': selectedRef === getEId(ref),
         }"
+        :aria-label="ref.textContent ?? 'leere Referenz'"
+        @focusin="selectedRef = getEId(ref)"
       >
         <RefEditor
           :xml-snippet="xmlNodeToString(ref)"
           @update:xml-snippet="(value: string) => replace(ref, value)"
           @delete="deleteRef(ref)"
         ></RefEditor>
-      </div>
+      </section>
     </div>
   </div>
 </template>

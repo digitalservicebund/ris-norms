@@ -1,7 +1,7 @@
 import { userEvent } from "@testing-library/user-event"
 import { render, screen } from "@testing-library/vue"
 import { describe, expect, test } from "vitest"
-import RisDropdowninput, {
+import RisDropdownInput, {
   DropdownItem,
 } from "@/components/controls/RisDropdownInput.vue"
 
@@ -23,7 +23,7 @@ function renderComponent(options?: {
     placeholder: options?.placeholder,
     label: options?.label,
   }
-  const utils = render(RisDropdowninput, { props })
+  const utils = render(RisDropdownInput, { props })
   return { user, props, ...utils }
 }
 
@@ -123,5 +123,29 @@ describe("Dropdown Input", () => {
 
     await user.selectOptions(screen.getByRole("combobox"), "test")
     expect(emitted("update:modelValue")).toBeUndefined()
+  })
+
+  test("supports adding an ariaLabel", async () => {
+    render(RisDropdownInput, {
+      props: {
+        id: "a-id",
+        items: [],
+        ariaLabel: "Label",
+      },
+    })
+
+    expect(screen.getByRole("combobox", { name: "Label" })).toBeInTheDocument()
+  })
+
+  test("supports adding additional classes to the select", async () => {
+    render(RisDropdownInput, {
+      props: {
+        id: "a-id",
+        items: [],
+        selectClasses: "test-class",
+      },
+    })
+
+    expect(screen.getByRole("combobox")).toHaveClass("test-class")
   })
 })

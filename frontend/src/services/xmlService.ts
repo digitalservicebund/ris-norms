@@ -51,3 +51,10 @@ export function evaluateXPath(xpath: string, node: Node): Node[] {
 
   return nodes
 }
+
+/**
+ * Is the node an Element?
+ */
+export function isElement(node: Node): node is Element {
+  return node.nodeType === Node.ELEMENT_NODE
+}
