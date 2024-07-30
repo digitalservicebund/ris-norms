@@ -172,7 +172,7 @@ public class NormService
         amendingNorm
             .getNodeByEId(query.mods().stream().findAny().orElseThrow().eId())
             .map(Mod::new)
-            .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefHref))
+            .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
             .flatMap(Href::getEli);
     if (targetNormEli.isEmpty()) {
       return Optional.empty();
@@ -184,7 +184,7 @@ public class NormService
               final var modNode = amendingNorm.getNodeByEId(modData.eId()).map(Mod::new);
               final var eli =
                   modNode
-                      .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefHref))
+                      .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
                       .flatMap(Href::getEli);
               return eli.equals(targetNormEli);
             })) {
@@ -209,7 +209,7 @@ public class NormService
                   amendingNorm,
                   zf0Norm,
                   newModData.eId(),
-                  mod.getTargetRefHref().or(mod::getTargetRrefHref).map(Href::value).orElse(null),
+                  mod.getTargetRefHref().or(mod::getTargetRrefFrom).map(Href::value).orElse(null),
                   null,
                   newModData.timeBoundaryEId(),
                   mod.getNewText().orElse(null));

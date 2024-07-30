@@ -84,12 +84,15 @@ public class Norm {
   }
 
   /**
-   * Returns a list of articles as {@link List} from a {@link Document} in a {@link Norm}.
+   * Returns a list of articles as {@link List} from a {@link Document} in a {@link Norm}. It
+   * filters out articles within akn:mod
    *
    * @return The list of articles
    */
   public List<Article> getArticles() {
-    return getNodesFromExpression("//body//article", document).stream().map(Article::new).toList();
+    return getNodesFromExpression("//body//article[not(ancestor-or-self::mod)]", document).stream()
+        .map(Article::new)
+        .toList();
   }
 
   /**

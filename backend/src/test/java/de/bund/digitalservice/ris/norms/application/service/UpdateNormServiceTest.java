@@ -491,8 +491,8 @@ class UpdateNormServiceTest {
               .findFirst();
       assertThat(updatedMod).isPresent();
       assertThat(updatedMod.get().getTargetRefHref()).isEmpty();
-      assertThat(updatedMod.get().getTargetRrefHref()).isPresent();
-      assertThat(updatedMod.get().getTargetRrefHref())
+      assertThat(updatedMod.get().getTargetRrefFrom()).isPresent();
+      assertThat(updatedMod.get().getTargetRrefFrom())
           .isPresent()
           .get()
           .hasToString(
@@ -540,7 +540,7 @@ class UpdateNormServiceTest {
               .filter(m -> m.getMandatoryEid().equals(modEid))
               .findFirst();
       assertThat(updatedMod).isPresent();
-      assertThat(updatedMod.get().getTargetRrefHref()).isEmpty();
+      assertThat(updatedMod.get().getTargetRrefFrom()).isEmpty();
       assertThat(updatedMod.get().getTargetRrefUpTo()).isEmpty();
       assertThat(updatedMod.get().getTargetRefHref()).isPresent();
       assertThat(updatedMod.get().getTargetRefHref())
