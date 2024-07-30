@@ -18,7 +18,7 @@ describe("useMod", () => {
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn().mockReturnValue("aenderungsbefehl-ersetzen"),
       getTimeBoundaryDate: vi.fn().mockReturnValue("2020-01-01"),
-      getDestinationRangeHref: vi
+      getDestinationRangeFrom: vi
         .fn()
         .mockReturnValue(
           "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/100-127.xml",
@@ -63,7 +63,7 @@ describe("useMod", () => {
     )
   })
 
-  test("should fallback to getDestinationHref if getDestinationRangeHref is not present", async () => {
+  test("should fallback to getDestinationHref if getDestinationRangeFrom is not present", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi
         .fn()
@@ -74,7 +74,7 @@ describe("useMod", () => {
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
       getTextualModType: vi.fn().mockReturnValue("aenderungsbefehl-ersetzen"),
       getTimeBoundaryDate: vi.fn().mockReturnValue("2020-01-01"),
-      getDestinationRangeHref: vi.fn().mockReturnValue(undefined),
+      getDestinationRangeFrom: vi.fn().mockReturnValue(undefined),
       getDestinationRangeUpto: vi
         .fn()
         .mockReturnValue(
@@ -138,7 +138,7 @@ describe("useMod", () => {
   test("should support changing the values of the returned refs", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi.fn(),
-      getDestinationRangeHref: vi.fn(),
+      getDestinationRangeFrom: vi.fn(),
       getDestinationRangeUpto: vi.fn(),
       getQuotedTextFirst: vi.fn(),
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
@@ -164,7 +164,7 @@ describe("useMod", () => {
   test("should overwrite the changed values when the eid changes", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi.fn(),
-      getDestinationRangeHref: vi.fn(),
+      getDestinationRangeFrom: vi.fn(),
       getDestinationRangeUpto: vi.fn(),
       getQuotedTextFirst: vi.fn(),
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),
@@ -196,7 +196,7 @@ describe("useMod", () => {
   test("should overwrite the changed values when the xml changes", async () => {
     vi.doMock("@/services/ldmldeModService", () => ({
       getDestinationHref: vi.fn(),
-      getDestinationRangeHref: vi.fn(),
+      getDestinationRangeFrom: vi.fn(),
       getDestinationRangeUpto: vi.fn(),
       getQuotedTextFirst: vi.fn(),
       getQuotedTextSecond: vi.fn().mockReturnValue("new text"),

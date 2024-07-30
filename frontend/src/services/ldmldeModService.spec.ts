@@ -8,7 +8,7 @@ import {
   getTimeBoundaryDate,
   getModEIds,
   getQuotedStructureContent,
-  getDestinationRangeHref,
+  getDestinationRangeFrom,
   getDestinationRangeUpto,
 } from "@/services/ldmldeModService"
 import { nextTick, ref } from "vue"
@@ -327,17 +327,17 @@ describe("ldmldeModService", () => {
         </akn:mod>
       `).childNodes.item(0)
 
-      expect(getDestinationRangeHref(node)).toBeUndefined()
+      expect(getDestinationRangeFrom(node)).toBeUndefined()
     })
 
     it("should find the destination range href", () => {
       const node = xmlStringToDocument(`
              <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"  GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
-                 <akn:rref eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2">§ 2 Absätze 1 bis 2</akn:rref> des Gesetzes werden ersetzt durch:
+                 <akn:rref eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" from="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2">§ 2 Absätze 1 bis 2</akn:rref> des Gesetzes werden ersetzt durch:
             </akn:mod>
       `).childNodes.item(0)
 
-      expect(getDestinationRangeHref(node)).to.be.eq(
+      expect(getDestinationRangeFrom(node)).to.be.eq(
         "eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml",
       )
     })
@@ -363,7 +363,7 @@ describe("ldmldeModService", () => {
     it("should find the destination range upTo", () => {
       const node = xmlStringToDocument(`
              <akn:mod xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"  GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
-                 <akn:rref eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml">§ 2 Absätze 1 bis 2</akn:rref> des Gesetzes werden ersetzt durch:
+                 <akn:rref eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" from="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-1.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-2.xml">§ 2 Absätze 1 bis 2</akn:rref> des Gesetzes werden ersetzt durch:
             </akn:mod>
       `).childNodes.item(0)
 

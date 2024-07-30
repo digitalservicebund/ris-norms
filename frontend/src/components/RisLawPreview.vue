@@ -29,6 +29,24 @@ const props = withDefaults(
   },
 )
 
+/**
+ * Event for a click event on a specific akn element.
+ */
+export type AknElementClickEvent = {
+  /**
+   * Eid of the element that was clicked.
+   */
+  eid: string
+  /**
+   * GUID of the element that was clicked.
+   */
+  guid?: string
+  /**
+   * The original event.
+   */
+  originalEvent: MouseEvent | KeyboardEvent
+}
+
 const emit = defineEmits<{
   /**
    * Event fired when clicking on an HTML-element for the specified LDML.de element.
@@ -37,22 +55,7 @@ const emit = defineEmits<{
    *
    * E.g. `@click:akn:article` will fire for every click on a part of the preview that is showing an article.
    */
-  [key: `click:akn:${string}`]: [
-    {
-      /**
-       * Eid of the element that was clicked.
-       */
-      eid: string
-      /**
-       * GUID of the element that was clicked.
-       */
-      guid?: string
-      /**
-       * The original event.
-       */
-      originalEvent: MouseEvent | KeyboardEvent
-    },
-  ]
+  [key: `click:akn:${string}`]: [AknElementClickEvent]
 }>()
 
 const attrs = useAttrs()

@@ -778,7 +778,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .value(
                       XmlMatcher.xml(
                           hasXPath(
-                              "//body//mod[@eId='" + modEid + "']/rref/@href",
+                              "//body//mod[@eId='" + modEid + "']/rref/@from",
                               equalTo(destinationHref)))))
           .andExpect(
               jsonPath("amendingNormXml")

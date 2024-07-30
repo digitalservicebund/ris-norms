@@ -194,7 +194,7 @@ public class UpdateNormService
   private static void updateQuotedStructureSubstitutionRangeTarget(
       final UpdateActiveModificationsUseCase.Query query, final Mod inTextMod) {
     if (StringUtils.isNotEmpty(query.destinationUpTo())) {
-      inTextMod.setTargetRrefHref(query.destinationHref());
+      inTextMod.setTargetRrefFrom(query.destinationHref());
       inTextMod.setTargetRrefUpTo(query.destinationUpTo());
     } else {
       inTextMod.replaceRrefWithRef(query.destinationHref());
