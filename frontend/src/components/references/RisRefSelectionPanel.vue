@@ -98,6 +98,7 @@ function handleSelectionEnd() {
     return
   }
 
+  selection.value = undefined
   selectedRef.value = newRefEId
 }
 

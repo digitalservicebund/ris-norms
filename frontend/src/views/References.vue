@@ -2,25 +2,15 @@
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
-import { computed, ref, triggerRef } from "vue"
+import { ref } from "vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
 import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisTooltip from "@/components/controls/RisTooltip.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
 import ModSelectionPanel from "@/components/references/RisModSelectionPanel.vue"
 import { useNormXml } from "@/composables/useNormXml"
-import RefSelectionPanel from "@/components/references/RisRefSelectionPanel.vue"
-import {
-  evaluateXPathOnce,
-  xmlNodeToString,
-  xmlStringToDocument,
-} from "@/services/xmlService"
-import { getNodeByEid } from "@/services/ldmldeService"
-import RefEditorTable from "@/components/references/RisRefEditorTable.vue"
-import RisEmptyState from "@/components/RisEmptyState.vue"
+import RisQuotedContentRefEditor from "@/components/references/RisModRefsEditor.vue"
 
 const amendingNormEli = useEliPathParameter()
 const {
@@ -28,11 +18,18 @@ const {
   isFetching: amendingNormIsLoading,
   error: amendingNormError,
 } = useGetNorm(amendingNormEli)
+const newNormXml = ref()
 const {
   data: amendingNormXml,
   isFetching: amendingNormXmlIsLoading,
   error: amendingNormXmlError,
-} = useNormXml(amendingNormEli)
+  update: {
+    execute: save,
+    isFetching: isSaving,
+    isFinished: hasSaved,
+    error: saveError,
+  },
+} = useNormXml(amendingNormEli, newNormXml)
 
 const affectedNormEli = useEliPathParameter("affectedDocument")
 const {
@@ -58,54 +55,11 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 ])
 
 const selectedModEId = ref<string | undefined>()
-const selectedRefEId = ref<string | undefined>()
 
-const amendingNormDocument = computed(() =>
-  xmlStringToDocument(amendingNormXml.value ?? ""),
-)
-
-const selectedModQuotedContent = computed(() => {
-  if (!selectedModEId.value) {
-    return null
-  }
-
-  const node = getNodeByEid(amendingNormDocument.value, selectedModEId.value)
-
-  if (!node) {
-    return null
-  }
-
-  return evaluateXPathOnce("./akn:quotedStructure | ./akn:quotedText[2]", node)
-})
-
-const selectedModQuotedContentXmlString = computed({
-  get() {
-    if (selectedModQuotedContent.value) {
-      return xmlNodeToString(selectedModQuotedContent.value)
-    }
-
-    return ""
-  },
-  set(newValue) {
-    const parentNode = selectedModQuotedContent.value?.parentNode
-    if (!parentNode) {
-      return
-    }
-
-    const newNode = xmlStringToDocument(newValue).firstChild
-    if (!newNode) {
-      return
-    }
-
-    parentNode.replaceChild(newNode, selectedModQuotedContent.value)
-    // we mutate the norm Document (as a side effect), so we need to trigger a recompute of all things that use it
-    triggerRef(amendingNormDocument)
-  },
-})
-
-const isSaving = ref(false)
-const hasSaved = ref(false)
-const saveError = ref("")
+function handleSave(xml: string) {
+  newNormXml.value = xml
+  save()
+}
 </script>
 
 <template>
@@ -147,74 +101,17 @@ const saveError = ref("")
           />
         </section>
 
-        <div
-          class="col-span-2 grid grid-cols-subgrid grid-rows-[minmax(0,max-content),max-content,max-content]"
-        >
-          <section
-            aria-labelledby="textBasedMetadataHeading"
-            class="flex flex-col"
-          >
-            <h3
-              id="textBasedMetadataHeading"
-              class="ds-label-02-bold mb-12 block"
-            >
-              Textbasierte Metadaten
-            </h3>
-            <RefSelectionPanel
-              v-if="selectedModEId && selectedModQuotedContentXmlString"
-              v-model:selected-ref="selectedRefEId"
-              v-model:xml-snippet="selectedModQuotedContentXmlString"
-              class="overflow-hidden"
-            />
-            <RisEmptyState
-              v-else
-              text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
-            />
-          </section>
-          <section
-            v-if="selectedModEId"
-            aria-labelledby="referencesHeading"
-            class="flex flex-col"
-          >
-            <h3 id="referencesHeading" class="ds-label-02-bold mb-12 block">
-              Verweise
-            </h3>
-            <RefEditorTable
-              v-if="selectedModQuotedContentXmlString"
-              v-model:selected-ref="selectedRefEId"
-              v-model:xml-snippet="selectedModQuotedContentXmlString"
-              class="overflow-hidden"
-            />
-          </section>
-
-          <hr
-            v-if="selectedModEId"
-            class="col-span-2 mb-16 mt-32 border border-solid border-gray-400"
-          />
-
-          <div v-if="selectedModEId" class="col-span-2 flex flex-row-reverse">
-            <RisTooltip
-              v-slot="{ ariaDescribedby }"
-              :title="
-                hasSaved && saveError
-                  ? 'Speichern fehlgeschlagen'
-                  : 'Gespeichert!'
-              "
-              :variant="hasSaved && saveError ? 'error' : 'success'"
-              :visible="hasSaved"
-              allow-dismiss
-              alignment="right"
-              attachment="bottom"
-            >
-              <RisTextButton
-                :aria-describedby
-                :disabled="isSaving"
-                :loading="isSaving"
-                label="Speichern"
-              />
-            </RisTooltip>
-          </div>
-        </div>
+        <RisQuotedContentRefEditor
+          v-if="selectedModEId && amendingNormXml"
+          :norm-xml="amendingNormXml"
+          :selected-mod-e-id="selectedModEId"
+          :eli="amendingNormEli"
+          class="col-span-2 grid grid-cols-subgrid"
+          :has-saved="hasSaved"
+          :is-saving="isSaving"
+          :save-error="saveError"
+          @save="handleSave"
+        ></RisQuotedContentRefEditor>
       </div>
     </RisHeader>
   </div>

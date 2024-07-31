@@ -38,7 +38,6 @@ function deleteRef(ref: Node) {
   if (!isChildNode(ref)) {
     return
   }
-
   const childNodes: Node[] = []
   ref.childNodes.forEach((e) => childNodes.push(e))
   ref.replaceWith(...childNodes)
