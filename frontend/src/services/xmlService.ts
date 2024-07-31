@@ -58,3 +58,10 @@ export function evaluateXPath(xpath: string, node: Node): Node[] {
 export function isElement(node: Node): node is Element {
   return node.nodeType === Node.ELEMENT_NODE
 }
+
+/**
+ * Is the node a ChildNode?
+ */
+export function isChildNode(node: Node): node is ChildNode {
+  return node.parentNode !== null
+}

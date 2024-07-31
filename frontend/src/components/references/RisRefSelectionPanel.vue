@@ -5,7 +5,7 @@ import RisLawPreview, {
 } from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useNormRenderHtml } from "@/composables/useNormRender"
-import { computed, ref, watch } from "vue"
+import { computed, ref, triggerRef, watch } from "vue"
 import {
   evaluateXPathOnce,
   xmlNodeToString,
@@ -13,8 +13,11 @@ import {
 } from "@/services/xmlService"
 import { useAknTextSelection } from "@/composables/useAknTextSelection"
 import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"
-import { createNewRefElement } from "@/lib/ref"
+import { createNewRefElement, deleteRef } from "@/lib/ref"
 import { useDebounce } from "@vueuse/core"
+import CloseIcon from "~icons/ic/close"
+import RisTextButton from "@/components/controls/RisTextButton.vue"
+import { getNodeByEid } from "@/services/ldmldeService"
 
 /**
  * The eId of the currently selected akn:ref element.
@@ -105,6 +108,26 @@ function handleSelectionEnd() {
 function handleAknRefClick({ eid }: AknElementClickEvent) {
   selectedRef.value = eid
 }
+
+function handleDelete(eId: string) {
+  if (!xmlDocument.value) {
+    return
+  }
+
+  const ref = getNodeByEid(xmlDocument.value, eId)
+  if (!ref) {
+    return
+  }
+
+  deleteRef(ref)
+  triggerRef(xmlDocument)
+
+  xmlSnippet.value = xmlNodeToString(xmlDocument.value)
+}
+
+function eidToSlotName(eid: string) {
+  return `eid:${eid}`
+}
 </script>
 
 <template>
@@ -114,12 +137,7 @@ function handleAknRefClick({ eid }: AknElementClickEvent) {
       variant="error"
       title="Die Vorschau konnte nicht geladen werden."
     />
-    <div
-      v-else
-      ref="preview"
-      clazz="flex flex-grow flex-col"
-      class="grid flex-grow grid-cols-1"
-    >
+    <div v-else ref="preview" class="grid flex-grow grid-cols-1">
       <RisLawPreview
         class="ds-textarea col-start-1 row-start-1 min-h-[100px] flex-grow p-2"
         :content="render ?? ''"
@@ -129,7 +147,27 @@ function handleAknRefClick({ eid }: AknElementClickEvent) {
         @mousedown="handleSelectionStart"
         @mouseup="handleSelectionEnd"
         @click:akn:ref="handleAknRefClick"
-      />
+      >
+        <template v-if="selectedRef" #[eidToSlotName(selectedRef)]>
+          <RisTextButton
+            :key="selectedRef"
+            class="relative -left-[6px] -top-[12px] w-0 rounded-full"
+            style="padding: 0"
+            label="Löschen"
+            :icon="CloseIcon"
+            icon-only
+            size="small"
+            variant="ghost"
+            @click="handleDelete(selectedRef)"
+          >
+            <template #icon>
+              <CloseIcon
+                class="h-[18px] w-[18px] flex-shrink-0 rounded-full bg-blue-700 text-white"
+              ></CloseIcon>
+            </template>
+          </RisTextButton>
+        </template>
+      </RisLawPreview>
       <div
         v-if="debouncedRenderLoading"
         class="col-start-1 row-start-1 flex-grow bg-gray-500 bg-opacity-75"

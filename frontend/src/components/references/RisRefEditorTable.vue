@@ -4,10 +4,12 @@ import { computed, triggerRef } from "vue"
 import {
   evaluateXPath,
   evaluateXPathOnce,
+  isChildNode,
   xmlNodeToString,
   xmlStringToDocument,
 } from "@/services/xmlService"
 import { useDebounceFn } from "@vueuse/core"
+import { deleteRef } from "@/lib/ref"
 
 /**
  * The eId of the currently selected akn:ref element.
@@ -30,19 +32,9 @@ const refs = computed<Node[]>(() =>
   xmlNode.value ? evaluateXPath(".//akn:ref", xmlNode.value) : [],
 )
 
-function isChildNode(node: Node): node is ChildNode {
-  return node.parentNode !== null
-}
-
-function deleteRef(ref: Node) {
-  if (!isChildNode(ref)) {
-    return
-  }
-  const childNodes: Node[] = []
-  ref.childNodes.forEach((e) => childNodes.push(e))
-  ref.replaceWith(...childNodes)
+function handleDelete(ref: Node) {
+  deleteRef(ref)
   triggerRef(xmlNode)
-
   updateXmlString()
 }
 
@@ -94,7 +86,7 @@ function getEId(ref: Node) {
         <RefEditor
           :xml-snippet="xmlNodeToString(ref)"
           @update:xml-snippet="(value: string) => replace(ref, value)"
-          @delete="deleteRef(ref)"
+          @delete="handleDelete(ref)"
         ></RefEditor>
       </section>
     </div>

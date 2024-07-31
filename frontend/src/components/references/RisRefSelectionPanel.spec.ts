@@ -140,4 +140,24 @@ describe("RisRefSelectionPanel", () => {
 
     expect(screen.getByText("a second ref")).toHaveClass("selected")
   })
+
+  it("click on the delete icon deletes the akn:ref element", async () => {
+    const renderResult = render(RisRefSelectionPanel, {
+      props: {
+        xmlSnippet:
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref></akn:quotedText>",
+      },
+    })
+
+    await nextTick()
+
+    await userEvent.click(screen.getByText("a ref"))
+    await userEvent.click(screen.getByRole("button", { name: "Löschen" }))
+
+    const updateXmlSnippetEvents = renderResult.emitted("update:xmlSnippet")
+    expect(updateXmlSnippetEvents).toHaveLength(1)
+    expect(updateXmlSnippetEvents[0]).toEqual([
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="quot-1">Render of a ref and <akn:ref eId="quot-1_ref-2">a second ref</akn:ref></akn:quotedText>`,
+    ])
+  })
 })

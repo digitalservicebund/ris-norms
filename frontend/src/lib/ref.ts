@@ -1,4 +1,8 @@
-import { evaluateXPath, evaluateXPathOnce } from "@/services/xmlService"
+import {
+  evaluateXPath,
+  evaluateXPathOnce,
+  isChildNode,
+} from "@/services/xmlService"
 import { v4 as uuidv4 } from "uuid"
 
 /**
@@ -47,4 +51,18 @@ export function createNewRefElement(parentElement: Node) {
   aknRef.setAttribute("GUID", uuidv4())
 
   return aknRef
+}
+
+/**
+ * Delete the given akn:ref node. It replaces the node by it's content.
+ *
+ * @param ref the akn:ref node to remove.
+ */
+export function deleteRef(ref: Node) {
+  if (!isChildNode(ref)) {
+    return
+  }
+  const childNodes: Node[] = []
+  ref.childNodes.forEach((e) => childNodes.push(e))
+  ref.replaceWith(...childNodes)
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { nextTick, ref, useAttrs, watch } from "vue"
+import { nextTick, ref, SetupContext, useAttrs, watch } from "vue"
+import { v4 as uuidV4 } from "uuid"
 
 const props = withDefaults(
   defineProps<{
@@ -214,6 +215,42 @@ watch(
   },
   { immediate: true },
 )
+
+/**
+ * We must pass $slots to this method in the render, and it is not possible to use a computed value.
+ * `useSlots` is not reactive but $slots is so this is necessary to be able to react to slots created after the initial
+ * render of this component.
+ *
+ * @param slots $slots
+ */
+function getTeleportSlotEIds(slots: SetupContext["slots"]) {
+  return Object.keys(slots)
+    .filter((key) => key.startsWith("eid:"))
+    .map((name) => name.substring(4))
+}
+
+function getTeleportTarget(eId: string) {
+  if (!container.value) {
+    return
+  }
+
+  return container.value.querySelector(`[data-eId='${eId}']`)
+}
+
+/**
+ * We need to update this id whenever a new preview has been rendered to trick vue into updating the
+ * teleport targets in case there is a new eId in the preview.
+ */
+const uniqueId = ref("")
+
+watch(
+  [() => props.content],
+  async () => {
+    await nextTick()
+    uniqueId.value = uuidV4()
+  },
+  { deep: true },
+)
 </script>
 
 <template>
@@ -226,6 +263,15 @@ watch(
       v-html="content"
     ></div>
     <!-- eslint-enable vue/no-v-html -->
+
+    <template
+      v-for="eId in getTeleportSlotEIds($slots)"
+      :key="`${uniqueId}-${eId}`"
+    >
+      <Teleport v-if="getTeleportTarget(eId)" :to="getTeleportTarget(eId)">
+        <slot :name="`eid:${eId}`"></slot>
+      </Teleport>
+    </template>
   </div>
 </template>
 

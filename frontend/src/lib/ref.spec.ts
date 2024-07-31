@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest"
-import { createNewRefElement, getNextRefEId } from "@/lib/ref"
-import { xmlStringToDocument } from "@/services/xmlService"
+import { createNewRefElement, deleteRef, getNextRefEId } from "@/lib/ref"
+import { xmlNodeToString, xmlStringToDocument } from "@/services/xmlService"
+import { getNodeByEid } from "@/services/ldmldeService"
 
 describe("getNextRefEId", () => {
   test("creates the correct eId if no ref exists", () => {
@@ -50,5 +51,22 @@ describe("createNewRefElement", () => {
     expect(result?.nodeName).toEqual("ref")
     expect(result?.getAttribute("eId")).toEqual("quot-1_ref-1")
     expect(result?.getAttribute("GUID")).toHaveLength(36)
+  })
+})
+
+describe("deleteRef", () => {
+  test("deletes a akn:ref element", () => {
+    const ldmlDocument = xmlStringToDocument(
+      "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref></akn:quotedText>",
+    )
+
+    const ref = getNodeByEid(ldmlDocument, "quot-1_ref-2")
+    expect(ref).exist
+
+    deleteRef(ref!)
+
+    expect(xmlNodeToString(ldmlDocument)).toEqual(
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="quot-1">Render of <akn:ref eId="quot-1_ref-1">a ref</akn:ref> and a second ref</akn:quotedText>`,
+    )
   })
 })
