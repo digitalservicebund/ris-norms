@@ -142,6 +142,7 @@ function eidToSlotName(eid: string) {
         class="ds-textarea col-start-1 row-start-1 min-h-[100px] flex-grow p-2"
         :content="render ?? ''"
         :selected="selectedRef ? [selectedRef] : []"
+        :e-id-classes="selectedRef ? { [selectedRef]: ['relative'] } : {}"
         @focusin="handleSelectionStart"
         @focusout="handleSelectionEnd"
         @mousedown="handleSelectionStart"
@@ -151,8 +152,8 @@ function eidToSlotName(eid: string) {
         <template v-if="selectedRef" #[eidToSlotName(selectedRef)]>
           <RisTextButton
             :key="selectedRef"
-            class="relative -left-[6px] -top-[12px] w-0 rounded-full"
-            style="padding: 0"
+            class="-right-[10px] -top-[14px] rounded-full"
+            style="padding: 0; position: absolute"
             label="Löschen"
             :icon="CloseIcon"
             icon-only

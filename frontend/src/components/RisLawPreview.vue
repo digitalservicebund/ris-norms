@@ -104,6 +104,7 @@ function makeElementClickable(
 
   element.tabIndex = 0
   element.role = "button"
+  element.ariaLabel = element.innerText
 }
 
 /**
