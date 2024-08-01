@@ -52,7 +52,10 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
   await page.mouse.move(textBoundingBox!.x + 145, textBoundingBox!.y)
   await page.mouse.up()
 
-  const newRefRegion = page.getByRole("region", { name: "Unterstützung der" })
+  const newRefRegion = page.getByRole("region", {
+    name: "Unterstützung der",
+    exact: true,
+  })
 
   await expect(newRefRegion).toBeVisible()
 
@@ -73,7 +76,9 @@ test("should be able to select a mod, add a new ref and edit it's refersTo and h
     .getByRole("button", { name: /Absatz 2 bis Absatz 3 wird ersetzt durch/ })
     .click()
 
-  await page.getByRole("button", { name: "Unterstützung der" }).click()
+  await page
+    .getByRole("button", { name: "Unterstützung der", exact: true })
+    .click()
 
   await expect(newRefRegion.getByRole("combobox", { name: "Typ" })).toHaveValue(
     "zitierung",
@@ -129,20 +134,26 @@ test("should be able to select a mod, add two new ref's and delete one using the
   await expect(ref2Highlight).toBeVisible()
 
   await expect(
-    page.getByRole("region", { name: "Unterstützung der" }),
+    page.getByRole("region", { name: "Unterstützung der", exact: true }),
   ).toBeVisible()
   await expect(
-    page.getByRole("region", { name: "zentrale Koordinierungsstelle" }),
+    page.getByRole("region", {
+      name: "zentrale Koordinierungsstelle",
+      exact: true,
+    }),
   ).toBeVisible()
 
   await ref1Highlight.click()
   await ref1Highlight.getByRole("button", { name: "Löschen" }).click()
 
   await expect(
-    page.getByRole("region", { name: "Unterstützung der" }),
+    page.getByRole("region", { name: "Unterstützung der", exact: true }),
   ).toBeHidden()
   await expect(
-    page.getByRole("region", { name: "zentrale Koordinierungsstelle" }),
+    page.getByRole("region", {
+      name: "zentrale Koordinierungsstelle",
+      exact: true,
+    }),
   ).toBeVisible()
   await expect(ref1Highlight).toBeHidden()
   await expect(ref2Highlight).toBeVisible()

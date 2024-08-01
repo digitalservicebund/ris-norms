@@ -86,7 +86,7 @@ test.describe("Load mod details", () => {
 
     const selectedElementLocator = elementToBeReplacedField.getByRole(
       "button",
-      { name: "long title p Beispielgesetz" },
+      { name: "long title", exact: true },
     )
 
     await expect(selectedElementLocator).toBeInViewport()
@@ -180,9 +180,12 @@ test.describe("Editing a single mod", () => {
 
     await elementToBeReplacedField
       .getByRole("button", {
-        name: "headingStrukturen und Gliederungsebenenheading",
+        name: "heading",
         exact: true,
       })
+      .and(
+        elementToBeReplacedField.getByText("Strukturen und Gliederungsebenen"),
+      )
       .click()
 
     await modFormSection.getByRole("button", { name: "Speichern" }).click()
@@ -411,23 +414,22 @@ test.describe("Range mod", () => {
       "elementToBeReplaced",
     )
 
-    const firstSelectedElementLocator = elementToBeReplacedField.getByRole(
-      "button",
-      {
-        name: "point num2.num pder Anzahl der betroffenen Mitarbeiterinnen und Mitarbeiter,p point",
+    const firstSelectedElementLocator = elementToBeReplacedField
+      .getByRole("button", {
+        name: "point",
         exact: true,
-      },
-    )
+      })
+      .and(elementToBeReplacedField.getByText("2. der Anzahl der"))
     await expect(firstSelectedElementLocator).toBeInViewport()
     await expect(firstSelectedElementLocator).toHaveClass(/selected/)
 
-    const secondSelectedElementLocator = elementToBeReplacedField.getByRole(
-      "button",
-      {
-        name: "point num3.num pden spezifischen regionalen Anforderungen und Besonderheiten. p point",
+    const secondSelectedElementLocator = elementToBeReplacedField
+      .getByRole("button", {
+        name: "point",
         exact: true,
-      },
-    )
+      })
+      .and(elementToBeReplacedField.getByText("3. den spezifischen"))
+
     await expect(secondSelectedElementLocator).toBeInViewport()
     await expect(secondSelectedElementLocator).toHaveClass(/selected/)
 
@@ -483,23 +485,22 @@ test.describe("Range mod", () => {
       "elementToBeReplaced",
     )
 
-    const firstSelectedElementLocator = elementToBeReplacedField.getByRole(
-      "button",
-      {
-        name: "point num2.num pder Anzahl der betroffenen Mitarbeiterinnen und Mitarbeiter,p point",
+    const firstSelectedElementLocator = elementToBeReplacedField
+      .getByRole("button", {
+        name: "point",
         exact: true,
-      },
-    )
+      })
+      .and(elementToBeReplacedField.getByText("2. der Anzahl der"))
     await expect(firstSelectedElementLocator).toBeInViewport()
     await expect(firstSelectedElementLocator).toHaveClass(/selected/)
 
-    const secondSelectedElementLocator = elementToBeReplacedField.getByRole(
-      "button",
-      {
-        name: "point num3.num pden spezifischen regionalen Anforderungen und Besonderheiten. p point",
+    const secondSelectedElementLocator = elementToBeReplacedField
+      .getByRole("button", {
+        name: "point",
         exact: true,
-      },
-    )
+      })
+      .and(elementToBeReplacedField.getByText("3. den spezifischen"))
+
     await expect(secondSelectedElementLocator).toBeInViewport()
     await expect(secondSelectedElementLocator).toHaveClass(/selected/)
 
@@ -560,13 +561,13 @@ test.describe("Range mod", () => {
       "elementToBeReplaced",
     )
 
-    const firstSelectedElementLocator = elementToBeReplacedField.getByRole(
-      "button",
-      {
-        name: "paragraph num(1)num pDieses Gesetz findet Anwendung auf alle definierten Struktur und Gliederungsebenen.p paragraph",
+    const firstSelectedElementLocator = elementToBeReplacedField
+      .getByRole("button", {
+        name: "paragraph",
         exact: true,
-      },
-    )
+      })
+      .and(elementToBeReplacedField.getByText("(1) Dieses Gesetz findet"))
+
     await expect(firstSelectedElementLocator).toBeInViewport()
     await expect(firstSelectedElementLocator).toHaveClass(/selected/)
 
@@ -579,13 +580,15 @@ test.describe("Range mod", () => {
     await sharedPage.keyboard.press("Enter")
     await sharedPage.keyboard.up("Shift")
 
-    const secondSelectedElementLocator = elementToBeReplacedField.getByRole(
-      "button",
-      {
-        name: "paragraph num(2)num pDie Berechnung der Anwendung erfolgt nach folgender Formel: p foreign foreign paragraph",
+    const secondSelectedElementLocator = elementToBeReplacedField
+      .getByRole("button", {
+        name: "paragraph",
         exact: true,
-      },
-    )
+      })
+      .and(
+        elementToBeReplacedField.getByText("(2) Die Berechnung der Anwendung"),
+      )
+
     await expect(secondSelectedElementLocator).toHaveClass(/selected/)
 
     await previewSection.getByRole("tab", { name: "xml" }).click()

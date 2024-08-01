@@ -53,6 +53,7 @@ const emit = defineEmits<{
    * Event fired when clicking on an HTML-element for the specified LDML.de element.
    *
    * Event handlers, a11y properties and so on are only created for elements for which an event handler is registered.
+   * By providing an additional attribute of the form `akn:${string}-aria-label` a label for the created button can be provided.
    *
    * E.g. `@click:akn:article` will fire for every click on a part of the preview that is showing an article.
    */
@@ -104,7 +105,6 @@ function makeElementClickable(
 
   element.tabIndex = 0
   element.role = "button"
-  element.ariaLabel = element.innerText
 }
 
 /**
@@ -118,6 +118,7 @@ watch(
 
     const abortController = new AbortController()
     onCleanup(() => abortController.abort())
+    console.log(attrs)
 
     Object.keys(attrs)
       .filter((key) => key.startsWith("onClick:akn:"))
@@ -147,6 +148,18 @@ watch(
                 signal: abortController.signal,
               },
             )
+
+            const aknElementNameWithDashes = aknElement
+              .replaceAll(/([A-Z])/g, "-$1")
+              .toLowerCase()
+
+            const label =
+              attrs[`akn:${aknElementNameWithDashes}-aria-label`] ??
+              htmlElement.innerText
+
+            if (typeof label === "string") {
+              htmlElement.ariaLabel = label
+            }
           })
       })
   },
