@@ -4,8 +4,9 @@ import RisTextButton from "@/components/controls/RisTextButton.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useGetNorm } from "@/services/normService"
 import { computed } from "vue"
-import IcOutlineModeEdit from "~icons/ic/outline-mode-edit"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import IcOutlineBorderColor from "~icons/ic/outline-border-color"
+import IcOutlinePostAdd from "~icons/ic/outline-post-add"
 
 const props = defineProps<{
   /**
@@ -75,16 +76,16 @@ const referenceEditorUrl = computed<string>(
       <div v-if="norm?.eli">{{ norm.eli }}</div>
     </div>
 
-    <div class="flex flex-none items-center">
+    <div class="flex flex-none flex-col items-start">
       <RisTextButton
         label="Inhaltliche Auszeichnungen"
-        :icon="IcOutlineModeEdit"
+        :icon="IcOutlineBorderColor"
         variant="ghost"
         :to="referenceEditorUrl"
       />
       <RisTextButton
         label="Metadaten dokumentieren"
-        :icon="IcOutlineModeEdit"
+        :icon="IcOutlinePostAdd"
         variant="ghost"
         :to="editorUrl"
       />
