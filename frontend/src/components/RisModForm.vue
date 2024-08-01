@@ -314,7 +314,7 @@ const sentryTraceId = useSentryTraceId()
       <div class="mt-4">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label"
-          >zu ersetzendes Element</label
+          >Zu ersetzendes Element</label
         >
         <RisLawPreview
           id="elementToBeReplaced"
