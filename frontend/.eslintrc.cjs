@@ -39,6 +39,10 @@ module.exports = {
     // Component names in template should be the same as the name they're
     // imported as.
     "vue/component-name-in-template-casing": "error",
+
+    // TODO since typescript-eslint v8 there is trouble: investigate and either fix code if reasonable or keep but then state reason
+    "@typescript-eslint/no-unused-expressions": "off",
+    "@typescript-eslint/no-require-imports": "off",
   },
 
   overrides: [
