@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -50,6 +51,31 @@ class NodeCreatorTest {
     assertThat(childTestNode).isEqualTo(newElement);
     assertThat(childTestNode.getAttributes().getNamedItem("GUID")).isNotNull();
     assertThat(childTestNode.getAttributes().getNamedItem("eId").getNodeValue())
+        .isEqualTo("test-1_child-test-1");
+  }
+
+  @Test
+  void createElementWithStaticEidAndGuidNoAppend() {
+    // given
+    final Document document =
+        XmlMapper.toDocument(
+            """
+                                                                  <root>
+                                                                      <test eId="test-1">test value</test>
+                                                                  </root>""");
+    final Node testNode = NodeParser.getMandatoryNodeFromExpression("//test", document);
+
+    // when
+    final Element newElement =
+        NodeCreator.createElementWithStaticEidAndGuidNoAppend(
+            "childTest", "child-test-1", testNode);
+
+    // Then
+    final Optional<Node> childTestNode =
+        NodeParser.getNodeFromExpression("//test/childTest", document);
+    assertThat(childTestNode).isEmpty();
+    assertThat(newElement.getAttributes().getNamedItem("GUID")).isNotNull();
+    assertThat(newElement.getAttributes().getNamedItem("eId").getNodeValue())
         .isEqualTo("test-1_child-test-1");
   }
 

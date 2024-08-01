@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 class ModTest {
 
@@ -187,12 +188,106 @@ class ModTest {
   }
 
   @Test
+  void getSecondQuotedText() {
+    // when
+    final Optional<Node> secondQuotedText = quotedTextMod.getSecondQuotedText();
+
+    // then
+    assertThat(secondQuotedText).isPresent();
+    assertThat(secondQuotedText.get().getAttributes().getNamedItem("GUID").getNodeValue())
+        .isEqualTo("dd25bdb6-4ef4-4ef5-808c-27579b6ae196");
+    assertThat(secondQuotedText.get().getAttributes().getNamedItem("eId").getNodeValue())
+        .isEqualTo(
+            "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2");
+    assertThat(secondQuotedText.get().getTextContent())
+        .isEqualTo("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
+  }
+
+  @Test
   void usesQuotedStructure() {
     // when
     var isStructure = quotedStructureRefMod.usesQuotedStructure();
 
     // then
     assertThat(isStructure).isTrue();
+  }
+
+  @Test
+  void getQuotedStructure() {
+    // when
+    final Optional<Node> quotedStructure = quotedStructureRefMod.getQuotedStructure();
+
+    // then
+    assertThat(quotedStructure).isPresent();
+    assertThat(quotedStructure.get().getAttributes().getNamedItem("GUID").getNodeValue())
+        .isEqualTo("9cb0572a-2933-473e-823f-5541ab360561");
+    assertThat(quotedStructure.get().getAttributes().getNamedItem("eId").getNodeValue())
+        .isEqualTo(
+            "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1");
+    assertThat(quotedStructure.get().getChildNodes().getLength()).isGreaterThan(1);
+  }
+
+  @Test
+  void quotedTextDoesNotContainRef() {
+    assertThat(quotedTextMod.containsRef()).isFalse();
+  }
+
+  @Test
+  void quotedTextContainsRef() {
+
+    final Mod mod =
+        Mod.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+           <akn:mod eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
+                GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
+                refersTo="aenderungsbefehl-ersetzen">In <akn:ref eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
+                   GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
+                   href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird
+          die Angabe <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
+                          GUID="694459c4-ef66-4f87-bb78-a332054a2216"
+                          startQuote="„"
+                          endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die
+          Wörter <akn:quotedText eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
+                          GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196"
+                          startQuote="„"
+                          endQuote="“"><akn:ref>§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:ref></akn:quotedText>
+          ersetzt.</akn:mod>
+          """))
+            .build();
+
+    assertThat(mod.containsRef()).isTrue();
+  }
+
+  @Test
+  void quotedStructureDoesNotContainRef() {
+    assertThat(quotedStructureRefMod.containsRef()).isFalse();
+  }
+
+  @Test
+  void quotedStructureContainsRef() {
+
+    final Mod mod =
+        Mod.builder()
+            .node(
+                XmlMapper.toNode(
+                    """
+              <akn:mod GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen"> Der
+                <akn:ref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/einleitung-1_doktitel-1.xml">Titel</akn:ref> des Gesetzes wird ersetzt durch:
+                <akn:quotedStructure GUID="9cb0572a-2933-473e-823f-5541ab360561" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
+                  <akn:longTitle GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1">
+                    <akn:p GUID="6ad3f708-b3be-4dbf-b149-a61e72678105" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1">
+                      <akn:docTitle GUID="ab481c1a-db58-4b6a-886c-1e9301952c34" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_doctitel-1">Fiktives <akn:ref>Beispielgesetz</akn:ref> für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
+                      <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quotstruct-1_doktitel-1_text-1_kurztitel-1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                    </akn:p>
+                  </akn:longTitle>
+                </akn:quotedStructure>
+              </akn:mod>
+              """))
+            .build();
+
+    assertThat(mod.containsRef()).isTrue();
   }
 
   @Test

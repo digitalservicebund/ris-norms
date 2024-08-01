@@ -46,6 +46,24 @@ public class NodeCreator {
   }
 
   /**
+   * Create a new element with both an eId and a GUID. The new element is NOT appended to the given
+   * parent node. The parent node is only needed for calculating the eId of the new child
+   *
+   * @param tagName the tag name of the new element
+   * @param eidPartName the name for the last part of the eid for the new element
+   * @param parentNode the element of which this newly created element should be a child, just for
+   *     calculating the eId
+   * @return the newly created element
+   */
+  public static Element createElementWithStaticEidAndGuidNoAppend(
+      final String tagName, final String eidPartName, final Node parentNode) {
+    var newElement = parentNode.getOwnerDocument().createElement(tagName);
+    newElement.setAttribute("eId", EId.fromMandatoryNode(parentNode) + "_" + eidPartName);
+    newElement.setAttribute("GUID", UUID.randomUUID().toString());
+    return newElement;
+  }
+
+  /**
    * Calculates the next possible eId for the given eIdPartType and parent node.
    *
    * @param parentNode The parent node under which this new eId should be used

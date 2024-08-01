@@ -149,6 +149,31 @@ public class Mod {
   }
 
   /**
+   * Returns the second quoted text as {@link Node}.
+   *
+   * @return The second quoted text
+   */
+  public Optional<Node> getSecondQuotedText() {
+    return NodeParser.getNodeFromExpression("./quotedText[2]", this.node);
+  }
+
+  /**
+   * Checks whether the mod contains an akn:ref
+   *
+   * @return true or false
+   */
+  public boolean containsRef() {
+    final Optional<Node> quotedTextNode = getSecondQuotedText();
+    final Optional<Node> quotedStructureNode = getQuotedStructure();
+    if (quotedTextNode.isPresent()) {
+      return NodeParser.getNodeFromExpression(REF_XPATH, quotedTextNode.get()).isPresent();
+    } else if (quotedStructureNode.isPresent()) {
+      return !NodeParser.getNodesFromExpression(".//quotedStructure//ref", this.node).isEmpty();
+    }
+    return false;
+  }
+
+  /**
    * Checks whether a quotedText was used for a substitution. If not it is probably a
    * quotedStructure.
    *

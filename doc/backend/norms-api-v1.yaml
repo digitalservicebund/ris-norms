@@ -476,8 +476,6 @@ paths:
   /norms/{eli}/proprietary/{eid}/{atDate}:
     get:
       summary: Get the proprietary metadata of a single element at the specified date
-      tags:
-        - under construction
       parameters:
         - name: eli
           in: path
@@ -610,6 +608,26 @@ paths:
             application/xml:
               schema:
                 type: string
+
+  /references/{eli}:
+    post:
+      summary: Find and create references in the norm
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: eli of the norm
+          schema:
+            type: string
+      responses:
+          '200':
+            description: Successful response
+            content:
+              application/xml:
+                schema:
+                  $ref: '#/components/schemas/LegalDocML.de'
+          '404':
+            description: Norm could not be found by its ELI.
 
 components:
   schemas:
