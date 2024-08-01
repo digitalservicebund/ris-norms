@@ -311,7 +311,7 @@ const sentryTraceId = useSentryTraceId()
         textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
       "
     >
-      <div class="mt-4">
+      <div class="flex flex-col gap-2">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label"
           >Zu ersetzendes Element</label
@@ -319,10 +319,9 @@ const sentryTraceId = useSentryTraceId()
         <RisLawPreview
           id="elementToBeReplaced"
           ref="elementToBeReplacedRef"
-          class="max-h-[250px] overflow-y-auto"
+          class="ds-textarea max-h-[250px] overflow-y-auto p-2"
           data-testid="elementToBeReplaced"
           :content="targetLawHtmlHtml ?? ''"
-          :rows="8"
           :selected="selectedElements"
           @click:akn:list="handleAknElementClick"
           @click:akn:long-title="handleAknElementClick"
@@ -362,15 +361,14 @@ const sentryTraceId = useSentryTraceId()
           @mousedown="handleMouseDown"
         />
       </div>
-      <div class="mt-4">
+      <div class="flex flex-col gap-2">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label">Neues Element</label>
         <RisLawPreview
           id="replacingElement"
-          class="h-[150px] overflow-y-auto"
+          class="ds-textarea h-[150px] overflow-y-auto p-2"
           data-testid="replacingElement"
           :content="quotedStructureContent"
-          :rows="8"
         />
       </div>
     </template>
