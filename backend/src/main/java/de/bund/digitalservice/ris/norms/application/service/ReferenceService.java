@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Element;
@@ -121,7 +120,7 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
         .matcher(text)
         .results()
         .map(match -> new MatchInfo(match.group(), match.start(), match.end() - 1))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   record MatchInfo(String reference, int start, int end) {}
