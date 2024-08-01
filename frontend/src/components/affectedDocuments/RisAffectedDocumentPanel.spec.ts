@@ -54,7 +54,12 @@ describe("RisAffectedDocumentPanel", () => {
 
     expect(screen.getByText("Some title")).toBeInTheDocument()
     expect(screen.getByText(eli)).toBeInTheDocument()
-    expect(screen.getByText("Metadaten bearbeiten")).toBeInTheDocument()
+    expect(
+      screen.getByRole("link", { name: "Metadaten dokumentieren" }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole("link", { name: "Inhaltliche Auszeichnungen" }),
+    ).toBeInTheDocument()
   })
 
   test("should render fna", async () => {
@@ -148,7 +153,7 @@ describe("RisAffectedDocumentPanel", () => {
     expect(document.body).not.toHaveTextContent("FNA")
   })
 
-  test("should link to the editor", async () => {
+  test("should link to the metadata editor", async () => {
     data.value = {
       eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
     }
@@ -162,11 +167,37 @@ describe("RisAffectedDocumentPanel", () => {
       global: { plugins: [router] },
     })
 
-    expect(screen.getByRole("link")).toHaveAttribute(
+    expect(
+      screen.getByRole("link", { name: "Metadaten dokumentieren" }),
+    ).toHaveAttribute(
       "href",
       // Due to the mocking the ELI param is undefined, but we don't care
       // about the specific value anyways
       "#/amending-laws/undefined/affected-documents/bar/edit",
+    )
+  })
+
+  test("should link to the reference editor", async () => {
+    data.value = {
+      eli: "eli/bund/bgbl-1/1968/s537/1968-05-19/18/deu/regelungstext-1",
+    }
+
+    const { default: RisAffectedDocumentPanel } = await import(
+      "@/components/affectedDocuments/RisAffectedDocumentPanel.vue"
+    )
+
+    render(RisAffectedDocumentPanel, {
+      props: { eli: "foo", zf0Eli: "bar" },
+      global: { plugins: [router] },
+    })
+
+    expect(
+      screen.getByRole("link", { name: "Inhaltliche Auszeichnungen" }),
+    ).toHaveAttribute(
+      "href",
+      // Due to the mocking the ELI param is undefined, but we don't care
+      // about the specific value anyways
+      "#/amending-laws/undefined/affected-documents/bar/references",
     )
   })
 

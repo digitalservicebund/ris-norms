@@ -1,14 +1,15 @@
 import { test, expect } from "@playwright/test"
 
-// TODO: (Malte Laukötter, 2024-07-31) add when a link to the page exists
-/*test("navigate to amending law overview", async ({ page }) => {
+test("navigate to amending law overview", async ({ page }) => {
   await page.goto("/amending-laws")
-  await page.getByRole("link", { name: "BGBl. I 2023 Nr. 413" }).click()
+  await page.getByRole("link", { name: "BGBl. I 1002 Nr. 10" }).click()
+  await page.getByRole("link", { name: "Betroffene Normenkomplexe" }).click()
+  await page.getByRole("link", { name: "Inhaltliche Auszeichnungen" }).click()
 
   await expect(page).toHaveURL(
-    "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references",
   )
-})*/
+})
 
 test("see breadcrumb", async ({ page }) => {
   await page.goto(

@@ -191,7 +191,7 @@ test.describe("XML view", () => {
     // Then
     await expect(
       page
-        .getByRole("region", { name: "Metadaten bearbeiten" })
+        .getByRole("region", { name: "Metadaten dokumentieren" })
         .getByText(
           'value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"',
         ),

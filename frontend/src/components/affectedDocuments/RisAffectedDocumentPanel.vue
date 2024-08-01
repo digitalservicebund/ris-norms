@@ -38,6 +38,11 @@ const editorUrl = computed<string>(
   () =>
     `/amending-laws/${eliParam.value}/affected-documents/${props.zf0Eli}/edit`,
 )
+
+const referenceEditorUrl = computed<string>(
+  () =>
+    `/amending-laws/${eliParam.value}/affected-documents/${props.zf0Eli}/references`,
+)
 </script>
 
 <template>
@@ -72,7 +77,13 @@ const editorUrl = computed<string>(
 
     <div class="flex flex-none items-center">
       <RisTextButton
-        label="Metadaten bearbeiten"
+        label="Inhaltliche Auszeichnungen"
+        :icon="IcOutlineModeEdit"
+        variant="ghost"
+        :to="referenceEditorUrl"
+      />
+      <RisTextButton
+        label="Metadaten dokumentieren"
         :icon="IcOutlineModeEdit"
         variant="ghost"
         :to="editorUrl"

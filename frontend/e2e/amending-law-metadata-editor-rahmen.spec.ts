@@ -49,7 +49,7 @@ test.describe("navigate to page", () => {
     )
 
     // When
-    await page.getByRole("link", { name: "Metadaten bearbeiten" }).click()
+    await page.getByRole("link", { name: "Metadaten dokumentieren" }).click()
 
     // Then
     // Only expect the URL to be somewhat equal to the following. The reason is that
@@ -183,7 +183,7 @@ test.describe("XML view", () => {
     // Then
     await expect(
       page
-        .getByRole("region", { name: "Metadaten bearbeiten" })
+        .getByRole("region", { name: "Metadaten dokumentieren" })
         .getByText(
           'value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1"',
         ),
@@ -199,7 +199,7 @@ test.describe("XML view", () => {
     )
 
     const editorRegion = page.getByRole("region", {
-      name: "Metadaten bearbeiten",
+      name: "Metadaten dokumentieren",
     })
 
     const fnaInput = editorRegion.getByRole("textbox", {
@@ -846,7 +846,7 @@ test.describe("metadata view", () => {
     await sharedPage.reload()
 
     const editorRegion = sharedPage.getByRole("region", {
-      name: "Metadaten bearbeiten",
+      name: "Metadaten dokumentieren",
     })
 
     // Then

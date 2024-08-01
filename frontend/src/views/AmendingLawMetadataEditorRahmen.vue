@@ -342,7 +342,7 @@ const sentryTraceId = useSentryTraceId()
         />
       </section>
 
-      <section class="flex flex-col gap-8" aria-label="Metadaten bearbeiten">
+      <section class="flex flex-col gap-8" aria-label="Metadaten dokumentieren">
         <RisTabs
           align="right"
           :tabs="[

@@ -47,7 +47,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
     key: "affectedDocument",
     title: () => affectedDocument.value?.shortTitle ?? "...",
   },
-  { key: "metadataEditor", title: "Metadaten bearbeiten" },
+  { key: "metadataEditor", title: "Metadaten dokumentieren" },
 ])
 
 /* -------------------------------------------------- *

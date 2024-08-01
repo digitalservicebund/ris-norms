@@ -26,7 +26,7 @@ test.describe("Affected documents page", () => {
 
         // Metadata button
         await expect(
-          element.getByRole("link", { name: "Metadaten bearbeiten" }),
+          element.getByRole("link", { name: "Metadaten dokumentieren" }),
         ).toBeVisible()
       }
 
