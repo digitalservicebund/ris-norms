@@ -267,6 +267,18 @@ watch(
   { immediate: true },
 )
 
+function handlePreviewKeyDown(e: KeyboardEvent) {
+  if (e.key === "a" && (e.metaKey || e.ctrlKey)) {
+    e.preventDefault()
+  }
+}
+
+function handleMouseDown(e: MouseEvent) {
+  if (e.ctrlKey || e.shiftKey || e.metaKey) {
+    e.preventDefault()
+  }
+}
+
 const sentryTraceId = useSentryTraceId()
 </script>
 
@@ -346,6 +358,8 @@ const sentryTraceId = useSentryTraceId()
           @click:akn:ol="handleAknElementClick"
           @click:akn:ul="handleAknElementClick"
           @click:akn:table="handleAknElementClick"
+          @keydown="handlePreviewKeyDown"
+          @mousedown="handleMouseDown"
         />
       </div>
       <div class="mt-4">
