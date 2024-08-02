@@ -113,6 +113,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                           new ModData(
                               passiveModification.getDestinationHref(),
                               passiveModification.getDestinationUpTo(),
+                              m.getSecondQuotedText(),
                               m.getOldText(),
                               m.getNewText(),
                               m.getQuotedStructure()));
@@ -130,7 +131,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               if (targetNode.isEmpty()) {
                 return;
               }
-              if (modData.oldText().isPresent()) applyQuotedText(modData, targetNode.get());
+              if (modData.secondQuotedText().isPresent())
+                applyQuotedText(modData, targetNode.get());
               if (modData.quotedStructure().isPresent())
                 applyQuotedStructure(modData, targetNode.get(), norm);
             });
@@ -141,6 +143,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
   record ModData(
       Optional<Href> targetHref,
       Optional<Href> targetUpToRef,
+      Optional<Node> secondQuotedText,
       Optional<String> oldText,
       Optional<String> newText,
       Optional<Node> quotedStructure) {}
@@ -150,11 +153,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     String oldText = modData.oldText().get();
     String newText = modData.newText().get();
 
-    String xPathOldText = String.format("//*[text()[contains(.,'%s')]]", oldText);
-    final Node nodeToChange = NodeParser.getMandatoryNodeFromExpression(xPathOldText, targetNode);
-
-    final String modifiedTextContent = nodeToChange.getTextContent().replaceFirst(oldText, newText);
-    nodeToChange.setTextContent(modifiedTextContent);
+    final String modifiedTextContent = targetNode.getTextContent().replaceFirst(oldText, newText);
+    targetNode.setTextContent(modifiedTextContent);
   }
 
   private void applyQuotedStructure(

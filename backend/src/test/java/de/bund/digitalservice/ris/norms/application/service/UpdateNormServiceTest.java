@@ -128,7 +128,8 @@ class UpdateNormServiceTest {
               new Href(
                   "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
       assertThat(newPassiveModification1.getDestinationHref())
-          .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
+          .contains(
+              new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34"));
       assertThat(
               updatedZfoLaw.getStartDateForTemporalGroup(
                   newPassiveModification1.getForcePeriodEid().orElseThrow()))
@@ -147,7 +148,8 @@ class UpdateNormServiceTest {
               new Href(
                   "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-2_ändbefehl-1.xml"));
       assertThat(newPassiveModification2.getDestinationHref())
-          .contains(new Href("#hauptteil-1_para-20_abs-1/100-126"));
+          .contains(
+              new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/10-34"));
       assertThat(
               updatedZfoLaw.getStartDateForTemporalGroup(
                   newPassiveModification2.getForcePeriodEid().orElseThrow()))
