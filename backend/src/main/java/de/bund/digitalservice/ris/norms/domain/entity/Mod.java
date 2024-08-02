@@ -80,8 +80,8 @@ public class Mod {
    *
    * @return The text that will replace the old text
    */
-  public Optional<String> getNewText() {
-    return NodeParser.getValueFromExpression("normalize-space(./quotedText[2])", this.node);
+  public Optional<Node> getNewText() {
+    return NodeParser.getNodeFromExpression("./quotedText[2]", this.node);
   }
 
   /**

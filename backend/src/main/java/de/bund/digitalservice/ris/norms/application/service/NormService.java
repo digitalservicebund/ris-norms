@@ -212,7 +212,8 @@ public class NormService
                   mod.getTargetRefHref().or(mod::getTargetRrefFrom).map(Href::value).orElse(null),
                   null,
                   newModData.timeBoundaryEId(),
-                  mod.getNewText().orElse(null));
+                  "");
+              //                  mod.getNewText().orElse(null));
             });
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)

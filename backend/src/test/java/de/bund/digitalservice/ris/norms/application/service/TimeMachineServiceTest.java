@@ -225,6 +225,31 @@ class TimeMachineServiceTest {
     }
 
     @Test
+    void applyPassiveModificationWithOneChildElement() {
+      // given
+      final var norm =
+          NormFixtures.loadFromDisk("NormWithPassiveModificationsAndChildrenInQuotedText.xml");
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithModsAndChildrenInQuotedText.xml");
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
+
+      // then
+      var changedNodeValue =
+          NodeParser.getValueFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              result.getDocument());
+      assertThat(changedNodeValue).isPresent();
+      assertThat(changedNodeValue.get())
+          .isEqualToIgnoringWhitespace(
+              "entgegen § 9 Absatz <akn:ref eId=\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2\" GUID=\"dd25bdb6-4ef4-4ef5-808c-27579b6ae800\" href=\"#\">1</akn:ref> Satz 2, Absatz 2 oder 3 Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,");
+    }
+
+    @Test
     void applyOnePassiveModificationQuotedStructure() {
       // given
       final var targetLawNorm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");

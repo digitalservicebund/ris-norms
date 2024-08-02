@@ -59,9 +59,9 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
     norm.getMeta()
         .getAnalysis()
-        .map(analysis -> analysis.getPassiveModifications().stream())
+        .map(analysis -> analysis.getPassiveModifications().stream()) // Get passive mods
         .orElse(Stream.empty())
-        .filter(
+        .filter( // Filter by mods that should be applied based on the date
             (TextualMod passiveModification) -> {
               final var startDate =
                   passiveModification
@@ -72,7 +72,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               // when no start date exists we do not want to apply the mod
               return startDate.isPresent() && startDate.get().isBefore(actualDate);
             })
-        .sorted(
+        .sorted( // Sort by start date
             Comparator.comparing(
                 (TextualMod passiveModification) ->
                     passiveModification
@@ -83,7 +83,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                                 new ValidationException(
                                     "Did not find a start date for textual mod with eId %s"
                                         .formatted(passiveModification.getEid())))))
-        .flatMap(
+        .flatMap( // Map to all data we need (inkl. amending law)
             (TextualMod passiveModification) -> {
               var sourceEli =
                   passiveModification
@@ -117,7 +117,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                               m.getNewText(),
                               m.getQuotedStructure()));
             })
-        .forEach(
+        .forEach( // Apply changes inside the mods
             modData -> {
               if (modData.targetHref().isEmpty() || modData.targetHref().get().getEId().isEmpty()) {
                 return;
@@ -142,19 +142,43 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
       Optional<Href> targetHref,
       Optional<Href> targetUpToRef,
       Optional<String> oldText,
-      Optional<String> newText,
+      Optional<Node> newText,
       Optional<Node> quotedStructure) {}
 
   private void applyQuotedText(final ModData modData, Node targetNode) {
     if (modData.oldText().isEmpty() || modData.newText().isEmpty()) return;
     String oldText = modData.oldText().get();
-    String newText = modData.newText().get();
+    Node newText = modData.newText().get();
 
     String xPathOldText = String.format("//*[text()[contains(.,'%s')]]", oldText);
     final Node nodeToChange = NodeParser.getMandatoryNodeFromExpression(xPathOldText, targetNode);
 
-    final String modifiedTextContent = nodeToChange.getTextContent().replaceFirst(oldText, newText);
-    nodeToChange.setTextContent(modifiedTextContent);
+    // Fragment
+    final Node newChildFragment = nodeToChange.getOwnerDocument().createDocumentFragment();
+
+    final CharacterRange range = modData.targetHref.orElseThrow().getCharacterRange().orElseThrow();
+    final String beforeText = nodeToChange.getTextContent().substring(0, range.getStart());
+    final String afterText = nodeToChange.getTextContent().substring(range.getEnd());
+
+    if (!beforeText.isBlank()) {
+      newChildFragment.appendChild(nodeToChange.getOwnerDocument().createTextNode(beforeText));
+    }
+
+    final List<Node> children =
+        modData.newText().map(n -> n.getChildNodes()).map(NodeParser::nodeListToList).orElseThrow();
+    children.forEach(
+        child -> {
+          final var imported = newChildFragment.getOwnerDocument().importNode(child, true);
+          newChildFragment.appendChild(imported);
+        });
+
+    if (!afterText.isBlank()) {
+      newChildFragment.appendChild(nodeToChange.getOwnerDocument().createTextNode(afterText));
+    }
+
+    nodeToChange.getParentNode().replaceChild(newChildFragment, nodeToChange);
+
+    final var str = nodeToChange.getParentNode();
   }
 
   private void applyQuotedStructure(
