@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
@@ -271,6 +272,41 @@ class TimeMachineServiceTest {
               .withTest(Input.from(expectedResult.getDocument()))
               .ignoreWhitespace()
               .withNodeFilter(node -> !node.getNodeName().equals("akn:meta"))
+              .build();
+      assertThat(diff.hasDifferences()).isFalse();
+    }
+
+    @Test
+    void applyQuotedTextWithRefs() {
+      // given
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedTextModAndRefs.xml");
+
+      final Node expectedNode =
+          XmlMapper.toNode(
+              """
+<?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">entgegen § 9 Absatz 1 <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a46c3" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-1" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Satz 2</akn:ref>, Absatz 2 oder 3
+                                        Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
+                """);
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
+
+      // then
+      final Optional<Node> updatedNode =
+          NodeParser.getNodeFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              result.getDocument());
+      assertThat(updatedNode).isPresent();
+      final Diff diff =
+          DiffBuilder.compare(Input.from(updatedNode.get()))
+              .withTest(Input.from(expectedNode))
+              .ignoreWhitespace()
               .build();
       assertThat(diff.hasDifferences()).isFalse();
     }
