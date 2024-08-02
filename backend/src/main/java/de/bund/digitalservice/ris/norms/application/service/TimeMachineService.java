@@ -8,6 +8,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
+import io.micrometer.common.util.StringUtils;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
@@ -109,14 +111,11 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               return amendingLaw.getMods().stream()
                   .filter(mod -> mod.getEid().equals(sourceEid))
                   .map(
-                      m ->
+                      mod ->
                           new ModData(
                               passiveModification.getDestinationHref(),
                               passiveModification.getDestinationUpTo(),
-                              m.getSecondQuotedText(),
-                              m.getOldText(),
-                              m.getNewText(),
-                              m.getQuotedStructure()));
+                              mod));
             })
         .forEach(
             modData -> {
@@ -131,35 +130,80 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               if (targetNode.isEmpty()) {
                 return;
               }
-              if (modData.secondQuotedText().isPresent())
+              if (modData.mod().getSecondQuotedText().isPresent())
                 applyQuotedText(modData, targetNode.get());
-              if (modData.quotedStructure().isPresent())
+              if (modData.mod().getQuotedStructure().isPresent())
                 applyQuotedStructure(modData, targetNode.get(), norm);
             });
 
     return norm;
   }
 
-  record ModData(
-      Optional<Href> targetHref,
-      Optional<Href> targetUpToRef,
-      Optional<Node> secondQuotedText,
-      Optional<String> oldText,
-      Optional<String> newText,
-      Optional<Node> quotedStructure) {}
+  record ModData(Optional<Href> targetHref, Optional<Href> targetUpToRef, Mod mod) {}
 
   private void applyQuotedText(final ModData modData, Node targetNode) {
-    if (modData.oldText().isEmpty() || modData.newText().isEmpty()) return;
-    String oldText = modData.oldText().get();
-    String newText = modData.newText().get();
+    final Mod mod = modData.mod();
+    if (mod.getSecondQuotedText().isEmpty()
+        || mod.getOldText().isEmpty()
+        || mod.getNewText().isEmpty()) return;
+    String oldText = mod.getOldText().get();
+    String newText = mod.getNewText().get();
 
-    final String modifiedTextContent = targetNode.getTextContent().replaceFirst(oldText, newText);
-    targetNode.setTextContent(modifiedTextContent);
+    if (mod.containsRef()) {
+      final Node secondQuotedTextNode = mod.getSecondQuotedText().get();
+
+      // Get the target node's current text content and remove unnecessary whitespaces, for the
+      // character counting from mod to work
+      final String targetText = targetNode.getTextContent().trim().replaceAll("\\s+", " ");
+
+      // Get the start and end index of the old text, within the cleaned old text of the target node
+      final int startIndex = targetText.indexOf(oldText);
+      final int endIndex = startIndex + oldText.length();
+
+      // Split the text into three parts: before, replacement, after
+      final String beforeText = targetText.substring(0, startIndex);
+      final String afterText = targetText.substring(endIndex + 1);
+
+      // Clear the target node's content
+      while (targetNode.hasChildNodes()) {
+        targetNode.removeChild(targetNode.getFirstChild());
+      }
+
+      // Import beforeText
+      if (StringUtils.isNotEmpty(beforeText)) {
+        final Text beforeTextNode = targetNode.getOwnerDocument().createTextNode(beforeText);
+        targetNode.appendChild(beforeTextNode);
+      }
+
+      // Import content of quotedText from amending law (which include akn:refs) using importNode
+      // because of different documents
+      NodeParser.nodeListToList(secondQuotedTextNode.getChildNodes())
+          .forEach(
+              child -> {
+                final Node importedChild = targetNode.getOwnerDocument().importNode(child, true);
+                targetNode.appendChild(importedChild);
+              });
+
+      // Import afterText
+      if (StringUtils.isNotEmpty(afterText)) {
+        final Text afterTextNode = targetNode.getOwnerDocument().createTextNode(afterText);
+        targetNode.appendChild(afterTextNode);
+      }
+
+      // Correct eids of akn:ref
+      final String quotedTextEid = EId.fromMandatoryNode(mod.getSecondQuotedText().get()).value();
+      final String targetParentNodeEid = EId.fromMandatoryNode(targetNode).value();
+      EidConsistencyGuardian.correctRootParentEid(targetNode, quotedTextEid, targetParentNodeEid);
+    } else {
+      final String modifiedTextContent = targetNode.getTextContent().replaceFirst(oldText, newText);
+      targetNode.setTextContent(modifiedTextContent);
+    }
   }
 
   private void applyQuotedStructure(
       final ModData modData, final Node targetNode, final Norm targetZf0Norm) {
-    if (modData.quotedStructure().isEmpty()) return;
+    final Mod mod = modData.mod();
+    if (mod.getQuotedStructure().isEmpty()) return;
 
     Optional<Node> upToTargetNode = Optional.empty();
     if (modData.targetUpToRef().isPresent()) {
@@ -177,7 +221,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     }
 
     final List<Node> newQuotedStructureContent =
-        NodeParser.nodeListToList(modData.quotedStructure().get().getChildNodes());
+        NodeParser.nodeListToList(mod.getQuotedStructure().get().getChildNodes());
 
     final Node newChildFragment = targetNode.getOwnerDocument().createDocumentFragment();
     newQuotedStructureContent.forEach(
@@ -204,8 +248,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     // Insert fragment with new nodes
     parentNode.insertBefore(newChildFragment, currentNode);
 
-    final String quotedStructureEid =
-        EId.fromMandatoryNode(modData.quotedStructure().get()).value();
+    final String quotedStructureEid = EId.fromMandatoryNode(mod.getQuotedStructure().get()).value();
     final String targetParentNodeEid = EId.fromMandatoryNode(parentNode).value();
     EidConsistencyGuardian.correctRootParentEid(
         parentNode, quotedStructureEid, targetParentNodeEid);
