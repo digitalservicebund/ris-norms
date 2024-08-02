@@ -252,6 +252,8 @@ watch(
             `[data-eid="${destinationHrefEid.value}"]`,
           )
           if (element) {
+            element.style.scrollMarginLeft = "20px"
+            element.style.scrollMarginTop = "20px"
             element.scrollIntoView({
               behavior: "smooth",
               block: "start",
