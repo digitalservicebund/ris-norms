@@ -118,7 +118,6 @@ watch(
 
     const abortController = new AbortController()
     onCleanup(() => abortController.abort())
-    console.log(attrs)
 
     Object.keys(attrs)
       .filter((key) => key.startsWith("onClick:akn:"))
