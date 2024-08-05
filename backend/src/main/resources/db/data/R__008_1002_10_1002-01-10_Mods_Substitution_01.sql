@@ -772,40 +772,6 @@ VALUES ('63ef9358-8755-46e4-bf6a-21f379014597', 'eli/bund/bgbl-1/1002/1/1002-01-
                     <akn:p GUID="98067c96-4c16-4f56-8f6b-6aaca1eb657e" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-6_tabelleinh-2_text-1">akn:blockContainer</akn:p>
                   </akn:td>
                 </akn:tr>
-                <akn:tr GUID="7ce0be4d-fd15-4e0c-9d80-707d333b24c5" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7">
-                  <akn:td style="text-align:right" GUID="3d8f04c3-0bb0-4a6f-9587-6ffbb1af4aff" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1">
-                    <akn:ul GUID="ab46e079-1927-4d2c-8540-9d9493de0862" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1">
-                      <akn:li value="•" GUID="9b1364dc-b5cd-4a0e-a9b8-e81f53ecd971" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-1">
-                        <akn:p GUID="296a9794-8c56-464f-a8ff-5f816b35fcfe" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-1_text-1">gliederungBuch</akn:p>
-                      </akn:li>
-                      <akn:li value="•" GUID="07d0d8d4-c49a-4674-8f1b-dd8f00fbf0d2" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-2">
-                        <akn:p GUID="cdc8b322-8629-4af4-b8c6-c90897bd5704" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-2_text-1">gliederungTeil</akn:p>
-                      </akn:li>
-                      <akn:li value="•" GUID="5c82762b-d5f3-41e7-a7d6-90c84089412a" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-3">
-                        <akn:p GUID="8402a074-1351-4497-aaf1-89b49f957205" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-3_text-1">gliederungKapitel</akn:p>
-                      </akn:li>
-                      <akn:li value="•" GUID="0a5adbdd-382f-4ed2-b618-233ddc0403e8" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-4">
-                        <akn:p GUID="297a90f8-6904-42fd-b944-8adc36d0802a" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-1_listeunge-1_listenelem-4_text-1">gliederungUnterkapitel</akn:p>
-                      </akn:li>
-                    </akn:ul>
-                  </akn:td>
-                  <akn:td GUID="7b672cbe-6f7a-4d21-ab0d-63ef4b0a479b" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2">
-                    <akn:ol GUID="6a16e988-9b05-4af5-8fb0-1673c16c7aad" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1">
-                      <akn:li value="1" GUID="7a4afa38-2747-4f61-ad44-c01aa1f47ac3" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-1">
-                        <akn:p GUID="bad18ef9-57a8-4c37-b803-5355a9384afb" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-1_text-1">akn:book</akn:p>
-                      </akn:li>
-                      <akn:li value="2" GUID="a75153c0-0807-4a1e-a894-bc3622be1d9d" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-2">
-                        <akn:p GUID="b9e11d78-aa60-4d03-8449-d45b3eb0524f" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-2_text-1">akn:part</akn:p>
-                      </akn:li>
-                      <akn:li value="3" GUID="875c0462-fc8c-49ff-90b0-9b89fb1ddd4a" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-3">
-                        <akn:p GUID="643d833d-6ed6-4416-9e67-df6175ea9297" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-3_text-1">akn:chapter</akn:p>
-                      </akn:li>
-                      <akn:li value="4" GUID="8607dc53-b864-45d7-b7f8-d96d7abd80ad" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-4">
-                        <akn:p GUID="cb895b10-98cc-4a16-be5b-7d6c17263fcc" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_tabelle-1_tabellereihe-7_tabelleinh-2_listegeor-1_listenelem-4_text-1">akn:subchapter</akn:p>
-                      </akn:li>
-                    </akn:ol>
-                  </akn:td>
-                </akn:tr>
               </akn:table>
               <akn:p GUID="5b06d8ee-e918-4376-871a-5b36cdb3219e" eId="hauptteil-1_buch-1_para-2_abs-1_inhalt-1_text-2">Die Tabelle ist nur ein Auszug aus der Spezifikation und erhebt keinen Anspruch auf Vollständigkeit.</akn:p>
             </akn:content>
