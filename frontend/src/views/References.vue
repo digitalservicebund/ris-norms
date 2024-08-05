@@ -2,7 +2,7 @@
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
-import { ref } from "vue"
+import { ref, onMounted, watch } from "vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -11,6 +11,7 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import ModSelectionPanel from "@/components/references/RisModSelectionPanel.vue"
 import { useNormXml } from "@/composables/useNormXml"
 import RisQuotedContentRefEditor from "@/components/references/RisModRefsEditor.vue"
+import { useFetchReferences } from "@/composables/useFetchReferences"
 
 const amendingNormEli = useEliPathParameter()
 const {
@@ -60,6 +61,25 @@ function handleSave(xml: string) {
   newNormXml.value = xml
   save()
 }
+
+const isFetchingReferences = ref()
+const referencesError = ref()
+
+function fetchReferences() {
+  const { isFetching, error } = useFetchReferences(amendingNormEli)
+
+  watch(isFetching, (newIsFetching) => {
+    isFetchingReferences.value = newIsFetching
+  })
+
+  watch(error, (newError) => {
+    referencesError.value = newError
+  })
+}
+
+onMounted(() => {
+  fetchReferences()
+})
 </script>
 
 <template>
@@ -68,7 +88,8 @@ function handleSave(xml: string) {
       v-if="
         amendingNormIsLoading ||
         affectedNormIsLoading ||
-        amendingNormXmlIsLoading
+        amendingNormXmlIsLoading ||
+        isFetchingReferences
       "
       class="flex h-full items-center justify-center"
     >
@@ -76,7 +97,12 @@ function handleSave(xml: string) {
     </div>
 
     <div
-      v-else-if="amendingNormError || affectedNormError || amendingNormXmlError"
+      v-else-if="
+        amendingNormError ||
+        affectedNormError ||
+        amendingNormXmlError ||
+        referencesError
+      "
       class="p-24"
     >
       <RisCallout
@@ -98,6 +124,7 @@ function handleSave(xml: string) {
             v-model="selectedModEId"
             class="overflow-hidden"
             :norm-xml="amendingNormXml"
+            :disabled="isFetchingReferences"
           />
         </section>
 
