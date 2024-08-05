@@ -76,7 +76,7 @@ const referenceEditorUrl = computed<string>(
       <div v-if="norm?.eli">{{ norm.eli }}</div>
     </div>
 
-    <div class="flex flex-none flex-col items-start">
+    <div class="flex flex-none flex-col items-start justify-center">
       <RisTextButton
         label="Inhaltliche Auszeichnungen"
         :icon="IcOutlineBorderColor"
