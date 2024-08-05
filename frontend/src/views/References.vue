@@ -121,9 +121,12 @@ onMounted(() => {
           <ModSelectionPanel
             v-if="amendingNormXml"
             v-model="selectedModEId"
-            class="overflow-hidden"
             :norm-xml="amendingNormXml"
-            :disabled="isFetchingReferences"
+            :class="[
+              'overflow-hidden',
+              { 'pointer-events-none': isFetchingReferences },
+            ]"
+            data-testid="mod-selection-panel"
           />
         </section>
 
