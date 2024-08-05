@@ -12,6 +12,7 @@ import ModSelectionPanel from "@/components/references/RisModSelectionPanel.vue"
 import { useNormXml } from "@/composables/useNormXml"
 import RisQuotedContentRefEditor from "@/components/references/RisModRefsEditor.vue"
 import { useFetchReferences } from "@/composables/useFetchReferences"
+import RisAlert from "@/components/controls/RisAlert.vue"
 
 const amendingNormEli = useEliPathParameter()
 const {
@@ -64,6 +65,7 @@ function handleSave(xml: string) {
 
 const isFetchingReferences = ref()
 const referencesError = ref()
+const showErrorAlert = ref(false)
 
 function fetchReferences() {
   const { isFetching, error } = useFetchReferences(amendingNormEli)
@@ -74,7 +76,20 @@ function fetchReferences() {
 
   watch(error, (newError) => {
     referencesError.value = newError
+    showErrorAlert.value = true // Show the alert when there is an error
   })
+}
+
+interface ApiError {
+  response?: {
+    status?: number
+    message?: string
+  }
+}
+
+function isNotFoundError(error: ApiError): boolean {
+  console.log(error?.response?.status)
+  return error?.response?.status === 404
 }
 
 onMounted(() => {
@@ -84,6 +99,19 @@ onMounted(() => {
 
 <template>
   <div class="flex h-[calc(100dvh-5rem-1px)] flex-col bg-gray-100">
+    <RisAlert
+      v-if="
+        showErrorAlert && referencesError && !isNotFoundError(referencesError)
+      "
+      variant="error"
+      @close="showErrorAlert = false"
+    >
+      <p>
+        Die automatische Referenzierung konnte nicht durchgeführt werden. Sie
+        können den Fehler schließen und die Referenzen manuell bearbeiten.
+      </p>
+    </RisAlert>
+
     <div
       v-if="
         amendingNormIsLoading ||
@@ -96,12 +124,7 @@ onMounted(() => {
     </div>
 
     <div
-      v-else-if="
-        amendingNormError ||
-        affectedNormError ||
-        amendingNormXmlError ||
-        referencesError
-      "
+      v-else-if="amendingNormError || affectedNormError || amendingNormXmlError"
       class="p-24"
     >
       <RisCallout

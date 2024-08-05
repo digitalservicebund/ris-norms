@@ -42,6 +42,36 @@ test("handles API call still in progress and disables mod selection", async ({
   ).toBeHidden()
 })
 
+test("handles API call error response not 404, shows alert and allows continued mod selection", async ({
+  page,
+}) => {
+  await page.route(/\/api\/v1\/references\/.*/, (route) => {
+    route.fulfill({
+      status: 500, // Mock a server error response
+      body: JSON.stringify({ message: "Internal Server Error" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+  })
+
+  await page.goto(
+    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references",
+  )
+
+  // Check if the alert is displayed
+  const alert = page.locator('div[role="alert"]')
+  await expect(alert).toBeVisible()
+  await expect(alert).toContainText(
+    "Die automatische Referenzierung konnte nicht durchgeführt werden.",
+  )
+
+  const closeButton = alert.locator('button[aria-label="Schließen"]')
+  await closeButton.click()
+
+  await expect(alert).toBeHidden()
+})
+
 test("see breadcrumb", async ({ page }) => {
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references",
