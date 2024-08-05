@@ -88,8 +88,7 @@ onMounted(() => {
       v-if="
         amendingNormIsLoading ||
         affectedNormIsLoading ||
-        amendingNormXmlIsLoading ||
-        isFetchingReferences
+        amendingNormXmlIsLoading
       "
       class="flex h-full items-center justify-center"
     >
