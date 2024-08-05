@@ -11,7 +11,7 @@ test("navigate to amending law overview", async ({ page }) => {
   )
 })
 
-test.skip("handles API call still in progress and disables mod selection", async ({
+test("handles API call still in progress and disables mod selection", async ({
   page,
 }) => {
   await page.route(/\/api\/v1\/references\/.*/, (route) => {
