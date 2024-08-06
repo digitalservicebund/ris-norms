@@ -11,7 +11,7 @@
     "enabled": true,
     "automerge": true
   },
-  "ignoreDeps": ["io.spring.dependency-management", "org.springframework.boot", "@sentry/vue"],
+  "ignoreDeps": ["io.spring.dependency-management", "org.springframework.boot"],
   "packageRules": [
     {
       "matchUpdateTypes": [
