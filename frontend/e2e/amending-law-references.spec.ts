@@ -58,17 +58,14 @@ test("handles API call error response not 404, shows alert and allows continued 
   await page.goto(
     "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references",
   )
-
-  // Check if the alert is displayed
-  const alert = page.locator('div[role="alert"]')
+  const alert = page.getByTestId("callout-wrapper")
   await expect(alert).toBeVisible()
   await expect(alert).toContainText(
-    "Die automatische Referenzierung konnte nicht durchgeführt werden.",
+    "Automatische Referenzierung fehlgeschlagen",
   )
 
-  const closeButton = alert.locator('button[aria-label="Schließen"]')
+  const closeButton = page.getByRole("button", { name: "Schließen" })
   await closeButton.click()
-
   await expect(alert).toBeHidden()
 })
 

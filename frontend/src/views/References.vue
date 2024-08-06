@@ -2,7 +2,7 @@
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
-import { ref, onMounted, watch } from "vue"
+import { ref, computed } from "vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -11,8 +11,7 @@ import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import ModSelectionPanel from "@/components/references/RisModSelectionPanel.vue"
 import { useNormXml } from "@/composables/useNormXml"
 import RisQuotedContentRefEditor from "@/components/references/RisModRefsEditor.vue"
-import { useFetchReferences } from "@/composables/useFetchReferences"
-import RisAlert from "@/components/controls/RisAlert.vue"
+import { useGetReferences } from "@/services/referencesService"
 
 const amendingNormEli = useEliPathParameter()
 const {
@@ -63,54 +62,24 @@ function handleSave(xml: string) {
   save()
 }
 
-const isFetchingReferences = ref()
-const referencesError = ref()
-const showErrorAlert = ref(false)
+const { isFetching: isFetchingReferences, error: referencesError } =
+  useGetReferences(amendingNormEli)
 
-function fetchReferences() {
-  const { isFetching, error } = useFetchReferences(amendingNormEli)
-
-  watch(isFetching, (newIsFetching) => {
-    isFetchingReferences.value = newIsFetching
-  })
-
-  watch(error, (newError) => {
-    referencesError.value = newError
-    showErrorAlert.value = true // Show the alert when there is an error
-  })
-}
-
-interface ApiError {
-  response?: {
-    status?: number
-    message?: string
-  }
-}
-
-function isNotFoundError(error: ApiError): boolean {
-  console.log(error?.response?.status)
-  return error?.response?.status === 404
-}
-
-onMounted(() => {
-  fetchReferences()
-})
+const showReferencesError = computed(
+  () => referencesError.value && referencesError.value.response?.status !== 404,
+)
 </script>
 
 <template>
   <div class="flex h-[calc(100dvh-5rem-1px)] flex-col bg-gray-100">
-    <RisAlert
-      v-if="
-        showErrorAlert && referencesError && !isNotFoundError(referencesError)
-      "
-      variant="error"
-      @close="showErrorAlert = false"
+    <RisCallout
+      v-if="showReferencesError"
+      variant="warning"
+      allow-dismiss
+      title="Automatische Referenzierung fehlgeschlagen"
     >
-      <p>
-        Die automatische Referenzierung konnte nicht durchgeführt werden. Sie
-        können den Fehler schließen und die Referenzen manuell bearbeiten.
-      </p>
-    </RisAlert>
+      <p>Fehler schließen und Referenzen manuell bearbeiten.</p>
+    </RisCallout>
 
     <div
       v-if="
@@ -147,7 +116,9 @@ onMounted(() => {
             :norm-xml="amendingNormXml"
             :class="[
               'overflow-hidden',
-              { 'pointer-events-none': isFetchingReferences },
+              {
+                'pointer-events-none cursor-not-allowed': isFetchingReferences,
+              },
             ]"
             data-testid="mod-selection-panel"
           />
