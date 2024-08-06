@@ -7,7 +7,7 @@ import { UseFetchReturn } from "@vueuse/core"
  *
  * @param eli ELI of the norm
  */
-export function useFetchReferences(
+export function useGetReferences(
   eli: MaybeRefOrGetter<string | undefined>,
 ): UseFetchReturn<string> {
   const url = computed(() => {
