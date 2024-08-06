@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import { useEliPathParameter } from "@/composables/useEliPathParameter"
-import { getFrbrDisplayText } from "@/lib/frbr"
-import { useGetNorm } from "@/services/normService"
-import { ref, computed } from "vue"
+import RisCallout from "@/components/controls/RisCallout.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import ModSelectionPanel from "@/components/references/RisModSelectionPanel.vue"
-import { useNormXml } from "@/composables/useNormXml"
 import RisQuotedContentRefEditor from "@/components/references/RisModRefsEditor.vue"
+import ModSelectionPanel from "@/components/references/RisModSelectionPanel.vue"
+import { useEliPathParameter } from "@/composables/useEliPathParameter"
+import { useNormXml } from "@/composables/useNormXml"
+import { getFrbrDisplayText } from "@/lib/frbr"
+import { useGetNorm } from "@/services/normService"
 import { useGetReferences } from "@/services/referencesService"
+import { computed, ref, watchEffect } from "vue"
+
+/* -------------------------------------------------- *
+ * Previews                                           *
+ * -------------------------------------------------- */
 
 const amendingNormEli = useEliPathParameter()
 const {
@@ -19,7 +23,20 @@ const {
   isFetching: amendingNormIsLoading,
   error: amendingNormError,
 } = useGetNorm(amendingNormEli)
+
+const affectedNormEli = useEliPathParameter("affectedDocument")
+const {
+  data: affectedNorm,
+  isFetching: affectedNormIsLoading,
+  error: affectedNormError,
+} = useGetNorm(affectedNormEli)
+
+/* -------------------------------------------------- *
+ * Data and states for editing                        *
+ * -------------------------------------------------- */
+
 const newNormXml = ref()
+
 const {
   data: amendingNormXml,
   isFetching: amendingNormXmlIsLoading,
@@ -32,12 +49,40 @@ const {
   },
 } = useNormXml(amendingNormEli, newNormXml)
 
-const affectedNormEli = useEliPathParameter("affectedDocument")
+function handleSave(xml: string) {
+  newNormXml.value = xml
+  save()
+}
+
+const selectedModEId = ref<string | undefined>()
+
+/* -------------------------------------------------- *
+ * Ref auto detection                                 *
+ * -------------------------------------------------- */
+
 const {
-  data: affectedNorm,
-  isFetching: affectedNormIsLoading,
-  error: affectedNormError,
-} = useGetNorm(affectedNormEli)
+  isFetching: isFetchingReferences,
+  error: referencesError,
+  isFinished: fetchingReferencesFinished,
+  data: detectedReferences,
+} = useGetReferences(amendingNormEli)
+
+watchEffect(() => {
+  if (fetchingReferencesFinished.value && !referencesError.value) {
+    // Replace the XML we already have with the XML containing the refs. If refs
+    // existed before, this will be identical. If not, this will contain the
+    // automatically detected refs.
+    amendingNormXml.value = detectedReferences.value
+  }
+})
+
+const showReferencesError = computed(
+  () => referencesError.value && referencesError.value.response?.status !== 404,
+)
+
+/* -------------------------------------------------- *
+ * Header                                             *
+ * -------------------------------------------------- */
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -54,20 +99,6 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   },
   { key: "textMetadataEditor", title: "Textbasierte Metadaten" },
 ])
-
-const selectedModEId = ref<string | undefined>()
-
-function handleSave(xml: string) {
-  newNormXml.value = xml
-  save()
-}
-
-const { isFetching: isFetchingReferences, error: referencesError } =
-  useGetReferences(amendingNormEli)
-
-const showReferencesError = computed(
-  () => referencesError.value && referencesError.value.response?.status !== 404,
-)
 </script>
 
 <template>
@@ -78,7 +109,9 @@ const showReferencesError = computed(
       allow-dismiss
       title="Automatische Referenzierung fehlgeschlagen"
     >
-      <p>Fehler schließen und Referenzen manuell bearbeiten.</p>
+      <p>
+        Sie können diese Warnung schließen und Referenzen manuell bearbeiten.
+      </p>
     </RisCallout>
 
     <div
