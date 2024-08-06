@@ -35,4 +35,30 @@ test.describe("Affected documents page", () => {
       await expect(page).toHaveURL("/amending-laws")
     })
   }
+
+  test("shows an error if the affected documents could not be loaded", async ({
+    page,
+  }) => {
+    await page.route(/articles/, (route) => {
+      route.abort()
+    })
+
+    await page.goto(
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents",
+    )
+
+    await expect(
+      page.getByText(
+        "Die Liste der betroffenen Normkomplexe konnte nicht geladen werden.",
+      ),
+    ).toBeVisible()
+
+    await expect(
+      page.getByRole("button", {
+        name: "Trace-ID in die Zwischenablage kopieren",
+      }),
+    ).toBeVisible()
+
+    await page.unrouteAll()
+  })
 })
