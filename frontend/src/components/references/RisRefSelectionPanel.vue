@@ -152,8 +152,7 @@ function eidToSlotName(eid: string) {
         <template v-if="selectedRef" #[eidToSlotName(selectedRef)]>
           <RisTextButton
             :key="selectedRef"
-            class="-right-[10px] -top-[14px] rounded-full"
-            style="padding: 0; position: absolute"
+            class="!absolute -translate-x-6 -translate-y-10 rounded-full !p-0"
             label="Löschen"
             :icon="CloseIcon"
             icon-only
