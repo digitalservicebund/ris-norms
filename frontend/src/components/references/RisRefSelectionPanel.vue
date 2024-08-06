@@ -131,13 +131,13 @@ function eidToSlotName(eid: string) {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex h-full flex-col">
     <RisCallout
       v-if="!debouncedRenderLoading && renderError"
       variant="error"
       title="Die Vorschau konnte nicht geladen werden."
     />
-    <div v-else ref="preview" class="grid flex-grow grid-cols-1">
+    <div v-else ref="preview" class="grid flex-grow grid-cols-1 overflow-auto">
       <RisLawPreview
         class="ds-textarea col-start-1 row-start-1 min-h-[100px] flex-grow p-2"
         :content="render ?? ''"
