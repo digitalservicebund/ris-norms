@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisAffectedDocumentPanel from "@/components/affectedDocuments/RisAffectedDocumentPanel.vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import { useAffectedDocuments } from "@/composables/useAffectedDocuments"
