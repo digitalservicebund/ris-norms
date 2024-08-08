@@ -146,7 +146,9 @@ test.describe("manage temporal data for an amending law", () => {
         .fill("01.05.2023")
     }
 
-    await expect(page.getByRole("textbox")).toHaveCount(100)
+    await expect(page.getByRole("textbox", { name: /Zeitgrenze/ })).toHaveCount(
+      100,
+    )
 
     await expect(
       page.getByRole("textbox", { name: "Zeitgrenze 100" }),
