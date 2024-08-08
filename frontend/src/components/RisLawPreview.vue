@@ -289,6 +289,9 @@ watch(
  * Focus handling                                     *
  * -------------------------------------------------- */
 
+// NB: If we need this in more places in the future, consider extracting
+// this into a composable to reuse it in other places!
+
 const ids = useElementId()
 
 /**
