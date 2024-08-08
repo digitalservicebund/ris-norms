@@ -1,23 +1,22 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisLawPreview, {
   AknElementClickEvent,
 } from "@/components/RisLawPreview.vue"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
+import { useAknTextSelection } from "@/composables/useAknTextSelection"
 import { useNormRenderHtml } from "@/composables/useNormRender"
-import { computed, ref, triggerRef, watch } from "vue"
+import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"
+import { createNewRefElement, deleteRef } from "@/lib/ref"
+import { getNodeByEid } from "@/services/ldmldeService"
 import {
   evaluateXPathOnce,
   xmlNodeToString,
   xmlStringToDocument,
 } from "@/services/xmlService"
-import { useAknTextSelection } from "@/composables/useAknTextSelection"
-import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"
-import { createNewRefElement, deleteRef } from "@/lib/ref"
 import { useDebounce } from "@vueuse/core"
+import { computed, ref, triggerRef, watch } from "vue"
 import CloseIcon from "~icons/ic/close"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
-import { getNodeByEid } from "@/services/ldmldeService"
 
 /**
  * The eId of the currently selected akn:ref element.
@@ -150,22 +149,14 @@ function eidToSlotName(eid: string) {
         @click:akn:ref="handleAknRefClick"
       >
         <template v-if="selectedRef" #[eidToSlotName(selectedRef)]>
-          <RisTextButton
+          <button
             :key="selectedRef"
-            class="!absolute -translate-x-6 -translate-y-10 rounded-full !p-0"
-            label="Löschen"
-            :icon="CloseIcon"
-            icon-only
-            size="small"
-            variant="ghost"
+            class="!absolute -translate-x-6 -translate-y-10 rounded-full bg-blue-700 leading-none outline-offset-2 hover:outline hover:outline-2 hover:outline-gray-600 focus:outline focus:outline-4 focus:outline-blue-800"
             @click="handleDelete(selectedRef)"
           >
-            <template #icon>
-              <CloseIcon
-                class="h-[18px] w-[18px] flex-shrink-0 rounded-full bg-blue-700 text-white"
-              ></CloseIcon>
-            </template>
-          </RisTextButton>
+            <CloseIcon class="h-20 w-20 flex-none text-white" />
+            <span class="sr-only">Löschen</span>
+          </button>
         </template>
       </RisLawPreview>
       <div

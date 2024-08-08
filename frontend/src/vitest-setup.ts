@@ -18,3 +18,7 @@ vi.mock("@/services/xmlService", async (importOriginal) => ({
       akn: "http://Inhaltsdaten.LegalDocML.de/1.6/",
     })(xpath, node, false),
 }))
+
+// JSDom doesn't implement layout-related functionality such as scrollIntoView. This
+// is used in many places (e.g. wherever the Preview is used), so mocking it globally.
+Element.prototype.scrollIntoView ??= vi.fn()

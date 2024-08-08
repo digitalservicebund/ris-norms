@@ -4,8 +4,8 @@ import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisQuotedContentRefEditor from "@/components/references/RisModRefsEditor.vue"
-import ModSelectionPanel from "@/components/references/RisModSelectionPanel.vue"
+import RisModRefsEditor from "@/components/references/RisModRefsEditor.vue"
+import RisModSelectionPanel from "@/components/references/RisModSelectionPanel.vue"
 import { useEliPathParameter } from "@/composables/useEliPathParameter"
 import { useNormXml } from "@/composables/useNormXml"
 import { getFrbrDisplayText } from "@/lib/frbr"
@@ -143,7 +143,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           <h3 id="changeCommandsHeading" class="ds-label-02-bold mb-12 block">
             Änderungsbefehle
           </h3>
-          <ModSelectionPanel
+          <RisModSelectionPanel
             v-if="amendingNormXml"
             v-model="selectedModEId"
             :norm-xml="amendingNormXml"
@@ -157,7 +157,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           />
         </section>
 
-        <RisQuotedContentRefEditor
+        <RisModRefsEditor
           v-if="selectedModEId && amendingNormXml"
           :norm-xml="amendingNormXml"
           :selected-mod-e-id="selectedModEId"
@@ -167,7 +167,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
           :is-saving="isSaving"
           :save-error="saveError"
           @save="handleSave"
-        ></RisQuotedContentRefEditor>
+        />
       </div>
     </RisHeader>
   </div>

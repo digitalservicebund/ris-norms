@@ -1,8 +1,8 @@
+import { userEvent } from "@testing-library/user-event"
 import { render, screen, waitFor } from "@testing-library/vue"
 import { describe, expect, test, vi } from "vitest"
-import RisLawPreview from "./RisLawPreview.vue"
-import { userEvent } from "@testing-library/user-event"
 import { nextTick } from "vue"
+import RisLawPreview from "./RisLawPreview.vue"
 
 describe("RisLawPreview", () => {
   test("should render provided content", () => {
@@ -36,12 +36,13 @@ describe("RisLawPreview", () => {
     })
   })
 
-  test("should emit click event when using keyboard navigation", async () => {
+  test("should emit click event when using keyboard navigation without arrows", async () => {
     const user = userEvent.setup()
     const handler = vi.fn()
 
     render(RisLawPreview, {
       props: {
+        arrowFocus: false,
         content:
           "<div><span class='longTitle'>Test Title</span><div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888510'>MOD</div></div>",
       },
@@ -63,6 +64,210 @@ describe("RisLawPreview", () => {
       guid: "148c2f06-6e33-4af8-9f4a-3da67c888510",
       originalEvent: expect.anything(),
     })
+  })
+
+  test("should emit click event when using keyboard navigation with arrows", async () => {
+    const user = userEvent.setup()
+    const handler = vi.fn()
+
+    render(RisLawPreview, {
+      props: {
+        content:
+          "<div><span class='longTitle'>Test Title</span><div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888510'>MOD</div></div>",
+      },
+      attrs: {
+        "onClick:akn:mod": handler,
+      },
+    })
+
+    await waitFor(() => screen.getByRole("button"))
+
+    await user.tab()
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD" })).toHaveClass("focused")
+
+    await user.keyboard("{Enter}")
+
+    expect(handler).toHaveBeenCalledWith({
+      eid: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+      guid: "148c2f06-6e33-4af8-9f4a-3da67c888510",
+      originalEvent: expect.anything(),
+    })
+  })
+
+  test("should move the focus up and down then using keyboard navigation with arrows", async () => {
+    const user = userEvent.setup()
+    const handler = vi.fn()
+
+    render(RisLawPreview, {
+      props: {
+        content: `<div>
+            <span class='longTitle'>Test Title</span>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888511'>MOD1</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-2' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888512'>MOD2</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-3' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888513'>MOD3</div>
+          </div>`,
+      },
+      attrs: {
+        "onClick:akn:mod": handler,
+      },
+    })
+
+    await waitFor(() => screen.getAllByRole("button"))
+
+    await user.tab()
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD1" })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD2" })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD3" })).toHaveClass("focused")
+
+    await user.keyboard("{Enter}")
+    expect(handler).toHaveBeenCalledWith({
+      eid: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-3",
+      guid: "148c2f06-6e33-4af8-9f4a-3da67c888513",
+      originalEvent: expect.anything(),
+    })
+
+    await user.keyboard("{ArrowUp}")
+    expect(screen.getByRole("button", { name: "MOD2" })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowUp}")
+    expect(screen.getByRole("button", { name: "MOD1" })).toHaveClass("focused")
+  })
+
+  test("should not move the focus before the first element", async () => {
+    const user = userEvent.setup()
+    const handler = vi.fn()
+
+    render(RisLawPreview, {
+      props: {
+        content: `<div>
+            <span class='longTitle'>Test Title</span>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888511'>MOD1</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-2' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888512'>MOD2</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-3' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888513'>MOD3</div>
+          </div>`,
+      },
+      attrs: {
+        "onClick:akn:mod": handler,
+      },
+    })
+
+    await waitFor(() => screen.getAllByRole("button"))
+
+    await user.tab()
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD1" })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowUp}")
+    expect(screen.getByRole("button", { name: "MOD1" })).toHaveClass("focused")
+  })
+
+  test("should not move the focus past the last element", async () => {
+    const user = userEvent.setup()
+    const handler = vi.fn()
+
+    render(RisLawPreview, {
+      props: {
+        content: `<div>
+            <span class='longTitle'>Test Title</span>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888511'>MOD1</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-2' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888512'>MOD2</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-3' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888513'>MOD3</div>
+          </div>`,
+      },
+      attrs: {
+        "onClick:akn:mod": handler,
+      },
+    })
+
+    await waitFor(() => screen.getAllByRole("button"))
+
+    await user.tab()
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD1" })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD2" })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD3" })).toHaveClass("focused")
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD3" })).toHaveClass("focused")
+  })
+
+  test("should automatically focus the selected element", async () => {
+    const user = userEvent.setup()
+    const handler = vi.fn()
+
+    const { rerender } = render(RisLawPreview, {
+      props: {
+        content: `<div>
+            <span class='longTitle'>Test Title</span>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888511'>MOD1</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-2' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888512'>MOD2</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-3' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888513'>MOD3</div>
+          </div>`,
+      },
+      attrs: {
+        "onClick:akn:mod": handler,
+      },
+    })
+
+    await waitFor(() => screen.getAllByRole("button"))
+
+    await user.tab()
+
+    await user.keyboard("{ArrowDown}")
+    expect(screen.getByRole("button", { name: "MOD1" })).toHaveClass("focused")
+
+    await rerender({
+      selected: [
+        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-3",
+      ],
+    })
+
+    expect(screen.getByRole("button", { name: "MOD3" })).toHaveClass("focused")
+  })
+
+  test("should set the active descendant", async () => {
+    const user = userEvent.setup()
+    const handler = vi.fn()
+
+    render(RisLawPreview, {
+      props: {
+        content: `<div>
+            <span class='longTitle'>Test Title</span>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888511'>MOD1</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-2' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888512'>MOD2</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-3' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888513'>MOD3</div>
+          </div>`,
+      },
+      attrs: {
+        "onClick:akn:mod": handler,
+      },
+    })
+
+    await waitFor(() => screen.getAllByRole("button"))
+
+    const textbox = screen.getByRole("textbox")
+    expect(textbox).not.toHaveAttribute("aria-activedescendant")
+
+    await user.tab()
+
+    await user.keyboard("{ArrowDown}")
+    const selected = screen.getByRole("button", { name: "MOD1" })
+
+    expect(selected).toHaveClass("focused")
+    expect(textbox).toHaveAttribute("aria-activedescendant", selected.id)
   })
 
   test("should have .selected class for selected elements", async () => {
