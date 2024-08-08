@@ -238,6 +238,38 @@ describe("RisLawPreview", () => {
     expect(screen.getByRole("button", { name: "MOD3" })).toHaveClass("focused")
   })
 
+  test("should set the active descendant", async () => {
+    const user = userEvent.setup()
+    const handler = vi.fn()
+
+    render(RisLawPreview, {
+      props: {
+        content: `<div>
+            <span class='longTitle'>Test Title</span>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888511'>MOD1</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-2' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888512'>MOD2</div>
+            <div class='akn-mod' data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-3' data-GUID='148c2f06-6e33-4af8-9f4a-3da67c888513'>MOD3</div>
+          </div>`,
+      },
+      attrs: {
+        "onClick:akn:mod": handler,
+      },
+    })
+
+    await waitFor(() => screen.getAllByRole("button"))
+
+    const textbox = screen.getByRole("textbox")
+    expect(textbox).not.toHaveAttribute("aria-activedescendant")
+
+    await user.tab()
+
+    await user.keyboard("{ArrowDown}")
+    const selected = screen.getByRole("button", { name: "MOD1" })
+
+    expect(selected).toHaveClass("focused")
+    expect(textbox).toHaveAttribute("aria-activedescendant", selected.id)
+  })
+
   test("should have .selected class for selected elements", async () => {
     render(RisLawPreview, {
       props: {

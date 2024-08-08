@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useElementId } from "@/composables/useElementId"
 import { v4 as uuidV4 } from "uuid"
 import { nextTick, ref, SetupContext, useAttrs, watch } from "vue"
 
@@ -99,6 +100,7 @@ function makeElementClickable(
   eventListenerOptions: AddEventListenerOptions,
 ) {
   element.role = "button"
+  if (element.dataset.eid) element.id = ids[element.dataset.eid]
 
   element.addEventListener(
     "click",
@@ -287,6 +289,8 @@ watch(
  * Focus handling                                     *
  * -------------------------------------------------- */
 
+const ids = useElementId()
+
 /**
  * Used for keeping track of the elements that have been made interactive. Needed
  * for focus handling.
@@ -296,6 +300,8 @@ let interactiveEls: HTMLElement[] = []
 /** Index of the currently focused element in the `interactiveEls` list. */
 const focusedEl = ref(-1)
 
+const activeDescendant = ref<string>()
+
 watch(focusedEl, (next, prev) => {
   if (interactiveEls[prev]) {
     interactiveEls[prev].classList.remove("focused")
@@ -304,6 +310,9 @@ watch(focusedEl, (next, prev) => {
   if (interactiveEls[next]) {
     interactiveEls[next].classList.add("focused")
     interactiveEls[next].scrollIntoView({ behavior: "smooth", block: "center" })
+    activeDescendant.value = interactiveEls[next].id
+  } else {
+    activeDescendant.value = undefined
   }
 })
 
@@ -354,9 +363,11 @@ watch(
     <!-- eslint-disable vuejs-accessibility/no-static-element-interactions -->
     <div
       ref="container"
-      tabindex="0"
-      data-testid="preview-container"
+      :aria-activedescendant="activeDescendant"
+      :role="arrowFocus ? 'textbox' : undefined"
       class="preview-container flex h-full overflow-auto bg-white p-20 -outline-offset-2 focus:outline focus:outline-4 focus:outline-blue-800"
+      data-testid="preview-container"
+      tabindex="0"
       @keypress.enter="triggerFocusedElement"
       @keydown.up="moveFocusUp"
       @keydown.down="moveFocusDown"
