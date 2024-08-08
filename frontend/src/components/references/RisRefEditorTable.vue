@@ -62,6 +62,16 @@ const updateXmlString = useDebounceFn(() => {
 function getEId(ref: Node) {
   return evaluateXPathOnce("./@eId", ref)?.nodeValue ?? ""
 }
+
+function selectPreviousRef(relativeTo: number) {
+  const index = Math.max(0, relativeTo - 1)
+  if (refs.value[index]) selectedRef.value = getEId(refs.value[index])
+}
+
+function selectNextRef(relativeTo: number) {
+  const index = Math.min(relativeTo + 1, refs.value.length)
+  if (refs.value[index]) selectedRef.value = getEId(refs.value[index])
+}
 </script>
 
 <template>
@@ -74,7 +84,7 @@ function getEId(ref: Node) {
       <div></div>
 
       <section
-        v-for="ref in refs"
+        v-for="(ref, i) in refs"
         :key="getEId(ref)"
         class="col-span-3 grid grid-cols-subgrid p-4"
         :class="{
@@ -85,8 +95,11 @@ function getEId(ref: Node) {
       >
         <RefEditor
           :xml-snippet="xmlNodeToString(ref)"
+          :grab-focus="selectedRef === getEId(ref)"
           @update:xml-snippet="(value: string) => replace(ref, value)"
           @delete="handleDelete(ref)"
+          @select-previous="selectPreviousRef(i)"
+          @select-next="selectNextRef(i)"
         ></RefEditor>
       </section>
     </div>
