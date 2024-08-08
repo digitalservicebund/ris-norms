@@ -95,6 +95,7 @@ watch(
     label="Löschen"
     icon-only
     :icon="CloseIcon"
+    class="focus:-outline-offset-4"
     @click="$emit('delete')"
   />
 </template>
