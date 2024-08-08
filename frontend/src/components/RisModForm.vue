@@ -325,6 +325,7 @@ const sentryTraceId = useSentryTraceId()
           data-testid="elementToBeReplaced"
           :content="targetLawHtmlHtml ?? ''"
           :selected="selectedElements"
+          :arrow-focus="false"
           akn:long-title-aria-label="long title"
           akn:citations-aria-label="citations"
           akn:recitals-aria-label="recitals"
@@ -404,6 +405,7 @@ const sentryTraceId = useSentryTraceId()
           id="replacingElement"
           class="ds-textarea h-[150px] overflow-y-auto p-2"
           data-testid="replacingElement"
+          :arrow-focus="false"
           :content="quotedStructureContent"
         />
       </div>
