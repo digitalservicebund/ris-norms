@@ -36,10 +36,10 @@ function createUseElementId(): (prefix?: string) => Record<string, string> {
  *
  * ```ts
  * // Via destructuring
- * const { idOne, idTwo, idThree } = createUseElementId()
+ * const { idOne, idTwo, idThree } = useElementId()
  *
  * // Via object access
- * const ids = createUseElementId()
+ * const ids = useElementId()
  * const idOne = ids.idOne
  * ```
  */
