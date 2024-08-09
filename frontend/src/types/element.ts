@@ -6,6 +6,8 @@ export type ElementType =
   | "part"
   | "preamble"
   | "preface"
+  | "section"
+  | "subsection"
   | "subtitle"
   | "title"
 

@@ -130,7 +130,7 @@ paths:
             type: array
             items:
               type: string
-              enum: [preface, preamble, article, conclusions]
+              enum: [article, chapter, book, part, conclusions, preface, preamble, subsection, section, title, subtitle]
         - name: amendedBy
           in: query
           required: false

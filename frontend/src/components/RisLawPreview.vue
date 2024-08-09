@@ -392,7 +392,7 @@ watch(
 
 <style scoped>
 .preview-container:focus :deep(.focused) {
-  @apply relative z-10 outline outline-4 outline-offset-2 outline-blue-800;
+  @apply relative z-10 outline outline-2 outline-offset-2 outline-blue-800;
 }
 
 :deep(:is(table, thead, td)) {
