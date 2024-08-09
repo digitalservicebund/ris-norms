@@ -181,14 +181,14 @@ function eidToSlotName(eid: string) {
 }
 
 :deep(.akn-ref) {
-  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
+  @apply border border-dotted border-blue-800 bg-highlight-mod-1-default px-2;
 }
 
 :deep(.akn-ref):hover {
-  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
+  @apply border border-dotted border-blue-800 bg-highlight-mod-1-hover px-2;
 }
 
 :deep(.akn-ref.selected) {
-  @apply border border-solid border-highlight-affectedDocument-border bg-highlight-affectedDocument-selected px-2;
+  @apply border border-solid border-blue-800 bg-highlight-mod-1-selected px-2;
 }
 </style>
