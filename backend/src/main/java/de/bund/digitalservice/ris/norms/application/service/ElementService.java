@@ -37,9 +37,16 @@ public class ElementService
   /** The types of elements that can be retrieved from a norm. */
   public enum ElementType {
     ARTICLE("article"),
+    BOOK("book"),
+    CHAPTER("chapter"),
     CONCLUSIONS("conclusions"),
+    PART("part"),
     PREAMBLE("preamble"),
-    PREFACE("preface");
+    PREFACE("preface"),
+    SECTION("section"),
+    SUBSECTION("subsection"),
+    SUBTITLE("subtitle"),
+    TITLE("title");
 
     public final String label;
 
@@ -67,11 +74,20 @@ public class ElementService
   }
 
   private final Map<ElementType, String> xPathsForTypes =
+      // Note that the paths for book, chatper, part, section, subsection, subtitle, and title are
+      // preliminary and untested due to lack of test data. Will be updated in RISDEV-4530.
       Map.ofEntries(
-          Map.entry(ElementType.PREFACE, "//act/preface"),
-          Map.entry(ElementType.PREAMBLE, "//act/preamble"),
           Map.entry(ElementType.ARTICLE, "//body//article"),
-          Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"));
+          Map.entry(ElementType.BOOK, "//book"),
+          Map.entry(ElementType.CHAPTER, "//chapter"),
+          Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"),
+          Map.entry(ElementType.PART, "//part"),
+          Map.entry(ElementType.PREAMBLE, "//act/preamble"),
+          Map.entry(ElementType.PREFACE, "//act/preface"),
+          Map.entry(ElementType.SECTION, "//section"),
+          Map.entry(ElementType.SUBSECTION, "//subsection"),
+          Map.entry(ElementType.SUBTITLE, "//subtitle"),
+          Map.entry(ElementType.TITLE, "//title"));
 
   public ElementService(
       LoadNormPort loadNormPort,
