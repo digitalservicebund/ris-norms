@@ -50,18 +50,18 @@ describe("useModEidSelection", () => {
     expect(classes.value["eid-1"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-2-default`,
-      `hover:bg-highlight-mod-2-hover`,
-      `focus:bg-highlight-mod-2-hover`,
+      `bg-highlight-2-default`,
+      `hover:bg-highlight-2-hover`,
+      `focus:bg-highlight-2-hover`,
       "border-dotted",
       "border-gray-900",
     ])
     expect(classes.value["eid-2"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-1-default`,
-      `hover:bg-highlight-mod-1-hover`,
-      `focus:bg-highlight-mod-1-hover`,
+      `bg-highlight-1-default`,
+      `hover:bg-highlight-1-hover`,
+      `focus:bg-highlight-1-hover`,
       "border-dotted",
       "border-gray-900",
     ])
@@ -184,18 +184,18 @@ describe("useModEidSelection", () => {
     expect(classes.value["eid-11"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-default-default`,
-      `hover:bg-highlight-mod-default-hover`,
-      `focus:bg-highlight-mod-default-hover`,
+      `bg-highlight-default-default`,
+      `hover:bg-highlight-default-hover`,
+      `focus:bg-highlight-default-hover`,
       "border-dotted",
       "border-gray-900",
     ])
     expect(classes.value["eid-12"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-default-default`,
-      `hover:bg-highlight-mod-default-hover`,
-      `focus:bg-highlight-mod-default-hover`,
+      `bg-highlight-default-default`,
+      `hover:bg-highlight-default-hover`,
+      `focus:bg-highlight-default-hover`,
       "border-dotted",
       "border-gray-900",
     ])
@@ -225,18 +225,18 @@ describe("useModEidSelection", () => {
     expect(classes.value["eid-1"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-1-default`,
-      `hover:bg-highlight-mod-1-hover`,
-      `focus:bg-highlight-mod-1-hover`,
+      `bg-highlight-1-default`,
+      `hover:bg-highlight-1-hover`,
+      `focus:bg-highlight-1-hover`,
       "border-dotted",
       "border-gray-900",
     ])
     expect(classes.value["eid-2"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-default-default`,
-      `hover:bg-highlight-mod-default-hover`,
-      `focus:bg-highlight-mod-default-hover`,
+      `bg-highlight-default-default`,
+      `hover:bg-highlight-default-hover`,
+      `focus:bg-highlight-default-hover`,
       "border-dotted",
       "border-gray-900",
     ])
@@ -283,27 +283,27 @@ describe("useModEidSelection", () => {
     expect(classes.value["eid-1"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-2-default`,
-      `hover:bg-highlight-mod-2-hover`,
-      `focus:bg-highlight-mod-2-hover`,
+      `bg-highlight-2-default`,
+      `hover:bg-highlight-2-hover`,
+      `focus:bg-highlight-2-hover`,
       "border-dotted",
       "border-gray-900",
     ])
     expect(classes.value["eid-2"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-3-default`,
-      `hover:bg-highlight-mod-3-hover`,
-      `focus:bg-highlight-mod-3-hover`,
+      `bg-highlight-3-default`,
+      `hover:bg-highlight-3-hover`,
+      `focus:bg-highlight-3-hover`,
       "border-dotted",
       "border-gray-900",
     ])
     expect(classes.value["eid-3"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-1-default`,
-      `hover:bg-highlight-mod-1-hover`,
-      `focus:bg-highlight-mod-1-hover`,
+      `bg-highlight-1-default`,
+      `hover:bg-highlight-1-hover`,
+      `focus:bg-highlight-1-hover`,
       "border-dotted",
       "border-gray-900",
     ])
@@ -346,27 +346,27 @@ describe("useModEidSelection", () => {
     expect(classes.value["eid-1"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-2-default`,
-      `hover:bg-highlight-mod-2-hover`,
-      `focus:bg-highlight-mod-2-hover`,
+      `bg-highlight-2-default`,
+      `hover:bg-highlight-2-hover`,
+      `focus:bg-highlight-2-hover`,
       "border-dotted",
       "border-gray-900",
     ])
     expect(classes.value["eid-2"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-2-default`,
-      `hover:bg-highlight-mod-2-hover`,
-      `focus:bg-highlight-mod-2-hover`,
+      `bg-highlight-2-default`,
+      `hover:bg-highlight-2-hover`,
+      `focus:bg-highlight-2-hover`,
       "border-dotted",
       "border-gray-900",
     ])
     expect(classes.value["eid-3"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-1-default`,
-      `hover:bg-highlight-mod-1-hover`,
-      `focus:bg-highlight-mod-1-hover`,
+      `bg-highlight-1-default`,
+      `hover:bg-highlight-1-hover`,
+      `focus:bg-highlight-1-hover`,
       "border-dotted",
       "border-gray-900",
     ])
@@ -409,23 +409,23 @@ describe("useModEidSelection", () => {
     expect(classes.value["eid-1"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-2-selected`,
+      `bg-highlight-2-selected`,
       "border-solid",
-      "border-highlight-mod-2-selected",
+      "border-highlight-2-selected",
     ])
     expect(classes.value["eid-2"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-2-selected`,
+      `bg-highlight-2-selected`,
       "border-solid",
-      "border-highlight-mod-2-selected",
+      "border-highlight-2-selected",
     ])
     expect(classes.value["eid-3"]).toEqual([
       "border",
       "px-2",
-      `bg-highlight-mod-1-selected`,
+      `bg-highlight-1-selected`,
       "border-solid",
-      "border-highlight-mod-1-selected",
+      "border-highlight-1-selected",
     ])
   })
 })

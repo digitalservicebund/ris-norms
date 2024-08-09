@@ -50,14 +50,14 @@ function handleAknModClick({ eid }: AknElementClickEvent) {
 
 <style scoped>
 :deep(.akn-mod) {
-  @apply block border border-dotted border-blue-800 bg-highlight-mod-1-default px-2;
+  @apply block border border-dotted border-blue-800 bg-highlight-1-default px-2;
 }
 
 :deep(.akn-mod.selected) {
-  @apply block bg-highlight-mod-1-selected;
+  @apply block bg-highlight-1-selected;
 }
 
 :deep(.akn-mod):hover {
-  @apply block bg-highlight-mod-1-hover;
+  @apply block bg-highlight-1-hover;
 }
 </style>

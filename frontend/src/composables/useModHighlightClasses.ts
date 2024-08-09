@@ -84,15 +84,15 @@ export function useModHighlightClasses(
         const classes = ["border", "px-2"]
         if (isSelected(eId)) {
           classes.push(
-            `bg-highlight-mod-${colorId}-selected`,
+            `bg-highlight-${colorId}-selected`,
             "border-solid",
-            `border-highlight-mod-${colorId}-selected`,
+            `border-highlight-${colorId}-selected`,
           )
         } else {
           classes.push(
-            `bg-highlight-mod-${colorId}-default`,
-            `hover:bg-highlight-mod-${colorId}-hover`,
-            `focus:bg-highlight-mod-${colorId}-hover`,
+            `bg-highlight-${colorId}-default`,
+            `hover:bg-highlight-${colorId}-hover`,
+            `focus:bg-highlight-${colorId}-hover`,
             "border-dotted",
             "border-gray-900",
           )
