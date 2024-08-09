@@ -9,9 +9,9 @@ module.exports = {
         highlight: {
           mod: {
             default: {
-              hover: "#dcdcdc",
-              selected: "#e0f4ff",
-              default: "#f5f5f5",
+              hover: "#94E8FE",
+              selected: "#94E8FE",
+              default: "#D6F7FE",
             },
             1: {
               default: "#D0F1F5",
