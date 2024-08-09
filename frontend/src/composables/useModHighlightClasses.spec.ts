@@ -48,22 +48,26 @@ describe("useModEidSelection", () => {
     const classes = useModHighlightClasses(new Document(), () => false)
 
     expect(classes.value["eid-1"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-2-default`,
       `hover:bg-highlight-2-hover`,
       `focus:bg-highlight-2-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
     expect(classes.value["eid-2"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-1-default`,
       `hover:bg-highlight-1-hover`,
       `focus:bg-highlight-1-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
   })
 
@@ -182,22 +186,26 @@ describe("useModEidSelection", () => {
     const classes = useModHighlightClasses(new Document(), () => false)
 
     expect(classes.value["eid-11"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-default-default`,
       `hover:bg-highlight-default-hover`,
       `focus:bg-highlight-default-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
     expect(classes.value["eid-12"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-default-default`,
       `hover:bg-highlight-default-hover`,
       `focus:bg-highlight-default-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
   })
 
@@ -223,22 +231,26 @@ describe("useModEidSelection", () => {
     const classes = useModHighlightClasses(new Document(), () => false)
 
     expect(classes.value["eid-1"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-1-default`,
       `hover:bg-highlight-1-hover`,
       `focus:bg-highlight-1-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
     expect(classes.value["eid-2"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-default-default`,
       `hover:bg-highlight-default-hover`,
       `focus:bg-highlight-default-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
   })
 
@@ -281,31 +293,37 @@ describe("useModEidSelection", () => {
     const classes = useModHighlightClasses(new Document(), () => false)
 
     expect(classes.value["eid-1"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-2-default`,
       `hover:bg-highlight-2-hover`,
       `focus:bg-highlight-2-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
     expect(classes.value["eid-2"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-3-default`,
       `hover:bg-highlight-3-hover`,
       `focus:bg-highlight-3-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
     expect(classes.value["eid-3"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-1-default`,
       `hover:bg-highlight-1-hover`,
       `focus:bg-highlight-1-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
   })
 
@@ -344,31 +362,37 @@ describe("useModEidSelection", () => {
     const classes = useModHighlightClasses(new Document(), () => false)
 
     expect(classes.value["eid-1"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-2-default`,
       `hover:bg-highlight-2-hover`,
       `focus:bg-highlight-2-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
     expect(classes.value["eid-2"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-2-default`,
       `hover:bg-highlight-2-hover`,
       `focus:bg-highlight-2-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
     expect(classes.value["eid-3"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-1-default`,
       `hover:bg-highlight-1-hover`,
       `focus:bg-highlight-1-hover`,
-      "border-dotted",
-      "border-gray-900",
+      "outline-dotted",
+      "outline",
+      "outline-1",
+      "hover:outline-2",
     ])
   })
 
@@ -407,25 +431,25 @@ describe("useModEidSelection", () => {
     const classes = useModHighlightClasses(new Document(), () => true)
 
     expect(classes.value["eid-1"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-2-selected`,
-      "border-solid",
-      "border-highlight-2-selected",
+      "outline-2",
+      "outline",
     ])
     expect(classes.value["eid-2"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-2-selected`,
-      "border-solid",
-      "border-highlight-2-selected",
+      "outline-2",
+      "outline",
     ])
     expect(classes.value["eid-3"]).toEqual([
-      "border",
       "px-2",
+      "outline-blue-800",
       `bg-highlight-1-selected`,
-      "border-solid",
-      "border-highlight-1-selected",
+      "outline-2",
+      "outline",
     ])
   })
 })
