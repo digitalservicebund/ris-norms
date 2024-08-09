@@ -200,23 +200,23 @@ test.describe("Mod selection and url behaviour", () => {
 
     await expect(
       amendingLawSection.getByText(/^In § 1 Absatz 1 Satz 1/),
-    ).toHaveCSS("background-color", "rgb(208, 223, 240)")
+    ).toHaveCSS("background-color", "rgb(208, 241, 245)")
 
     await expect(
       amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/),
-    ).toHaveCSS("background-color", "rgb(208, 223, 240)")
+    ).toHaveCSS("background-color", "rgb(208, 241, 245)")
 
     await amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/).hover()
 
     await expect(
       amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/),
-    ).toHaveCSS("background-color", "rgb(166, 188, 221)")
+    ).toHaveCSS("background-color", "rgb(136, 215, 227)")
 
     await amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/).click()
 
     await expect(
       amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/),
-    ).toHaveCSS("background-color", "rgb(121, 153, 200)")
+    ).toHaveCSS("background-color", "rgb(136, 215, 227)")
   })
 })
 
