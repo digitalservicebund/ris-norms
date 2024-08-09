@@ -7,62 +7,60 @@ module.exports = {
     extend: {
       colors: {
         highlight: {
-          mod: {
-            default: {
-              hover: "#dcdcdc",
-              selected: "#e0f4ff",
-              default: "#f5f5f5",
-            },
-            1: {
-              default: "#D0DFF0",
-              hover: "#A6BCDD",
-              selected: "#7999C8",
-            },
-            2: {
-              default: "#E5F7FF",
-              hover: "#B9E8FF",
-              selected: "#78CCFF",
-            },
-            3: {
-              default: "#DDFFF5",
-              hover: "#B6FFE9",
-              selected: "#77FFD3",
-            },
-            4: {
-              default: "#E9FFE5",
-              hover: "#C6FFBA",
-              selected: "#81FF6E",
-            },
-            5: {
-              default: "#FEF7BD",
-              hover: "#FFED78",
-              selected: "#F9D32A",
-            },
-            6: {
-              default: "#FBEECE",
-              hover: "#FFDDAD",
-              selected: "#FFBB6B",
-            },
-            7: {
-              default: "#FFE9E0",
-              hover: "#FFCAC6",
-              selected: "#FF9E98",
-            },
-            8: {
-              default: "#FFEDFF",
-              hover: "#FFCCFF",
-              selected: "#FF9CFF",
-            },
-            9: {
-              default: "#F7EDFF",
-              hover: "#E4C2FF",
-              selected: "#CD99FE",
-            },
-            10: {
-              default: "#E8E4FF",
-              hover: "#C5BCFF",
-              selected: "#A496F0",
-            },
+          default: {
+            hover: "#94E8FE",
+            selected: "#94E8FE",
+            default: "#D6F7FE",
+          },
+          1: {
+            default: "#D0F1F5",
+            hover: "#88D7E3",
+            selected: "#88D7E3",
+          },
+          2: {
+            default: "#FEF4CA",
+            hover: "#FAE17A",
+            selected: "#FAE17A",
+          },
+          3: {
+            default: "#EAD9FC",
+            hover: "#C69CF8",
+            selected: "#C69CF8",
+          },
+          4: {
+            default: "#DDFDD8",
+            hover: "#A7F998",
+            selected: "#A7F998",
+          },
+          5: {
+            default: "#FEE8D2",
+            hover: "#FAC08F",
+            selected: "#FAC08F",
+          },
+          6: {
+            default: "#D6F7FE",
+            hover: "#94E8FE",
+            selected: "#94E8FE",
+          },
+          7: {
+            default: "#FDDDDD",
+            hover: "#FAA6A6",
+            selected: "#FAA6A6",
+          },
+          8: {
+            default: "#E0E0FB",
+            hover: "#ADADF3",
+            selected: "#ADADF3",
+          },
+          9: {
+            default: "#D2FBF0",
+            hover: "#8BF2D6",
+            selected: "#8BF2D6",
+          },
+          10: {
+            default: "#D8E6F2",
+            hover: "#9DBBDC",
+            selected: "#9DBBDC",
           },
           affectedDocument: {
             hover: "rgba(255, 154, 251, 0.4)",
@@ -95,11 +93,11 @@ module.exports = {
   safelist: [
     // classes used dynamically by useModHighlightClasses
     {
-      pattern: /bg-highlight-mod-(\d+|default)-(default|hover|selected)/,
+      pattern: /bg-highlight-(\d+|default)-(default|hover|selected)/,
       variants: ["hover", "focus"],
     },
     {
-      pattern: /border-highlight-mod-(\d+|default)-selected/,
+      pattern: /border-highlight-(\d+|default)-selected/,
     },
     "border",
     "px-2",

@@ -81,20 +81,22 @@ export function useModHighlightClasses(
       modsWithTimeBoundaries.value.map(({ eId, timeBoundary }) => {
         const colorId = findColorIdForTimeBoundary(timeBoundary)
 
-        const classes = ["border", "px-2"]
+        const classes = ["px-2", "outline-blue-800"]
         if (isSelected(eId)) {
           classes.push(
-            `bg-highlight-mod-${colorId}-selected`,
-            "border-solid",
-            `border-highlight-mod-${colorId}-selected`,
+            `bg-highlight-${colorId}-selected`,
+            "outline-2",
+            "outline",
           )
         } else {
           classes.push(
-            `bg-highlight-mod-${colorId}-default`,
-            `hover:bg-highlight-mod-${colorId}-hover`,
-            `focus:bg-highlight-mod-${colorId}-hover`,
-            "border-dotted",
-            "border-gray-900",
+            `bg-highlight-${colorId}-default`,
+            `hover:bg-highlight-${colorId}-hover`,
+            `focus:bg-highlight-${colorId}-hover`,
+            "outline-dotted",
+            "outline",
+            "outline-1",
+            "hover:outline-2",
           )
         }
 

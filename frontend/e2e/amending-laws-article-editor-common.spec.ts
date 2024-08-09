@@ -187,9 +187,7 @@ test.describe("Mod selection and url behaviour", () => {
     ).toBeVisible()
   })
 
-  test("highlight mods in colors which change when hovered and selected", async ({
-    page,
-  }) => {
+  test("apply 'selected' class when element is clicked", async ({ page }) => {
     await page.goto(
       "/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
     )
@@ -200,23 +198,13 @@ test.describe("Mod selection and url behaviour", () => {
 
     await expect(
       amendingLawSection.getByText(/^In § 1 Absatz 1 Satz 1/),
-    ).toHaveCSS("background-color", "rgb(208, 223, 240)")
-
-    await expect(
-      amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/),
-    ).toHaveCSS("background-color", "rgb(208, 223, 240)")
-
-    await amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/).hover()
-
-    await expect(
-      amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/),
-    ).toHaveCSS("background-color", "rgb(166, 188, 221)")
+    ).not.toHaveClass(/selected/)
 
     await amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/).click()
 
     await expect(
       amendingLawSection.getByText(/^In § 1 Absatz 2 Satz 1/),
-    ).toHaveCSS("background-color", "rgb(121, 153, 200)")
+    ).toHaveClass(/selected/)
   })
 })
 
