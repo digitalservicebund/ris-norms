@@ -342,8 +342,6 @@ const sentryTraceId = useSentryTraceId()
           akn:article-aria-label="article"
           akn:paragraph-aria-label="paragraph"
           akn:list-aria-label="list"
-          akn:document-ref-aria-label="document ref"
-          akn:component-ref-aria-label="component ref"
           akn:point-aria-label="point"
           akn:wrap-up-aria-label="wrap up"
           akn:foreign-aria-label="foreign"
@@ -376,8 +374,6 @@ const sentryTraceId = useSentryTraceId()
           @click:akn:subtitle="handleAknElementClick"
           @click:akn:article="handleAknElementClick"
           @click:akn:paragraph="handleAknElementClick"
-          @click:akn:document-ref="handleAknElementClick"
-          @click:akn:component-ref="handleAknElementClick"
           @click:akn:point="handleAknElementClick"
           @click:akn:wrap-up="handleAknElementClick"
           @click:akn:foreign="handleAknElementClick"
@@ -482,59 +478,25 @@ const sentryTraceId = useSentryTraceId()
 
 :deep(
     :is(
-        /* block elements + akn:num */
         .akn-article,
-        .akn-attachment,
-        .akn-attachments,
         .akn-block,
         .akn-blockContainer,
-        .akn-blockList,
-        .akn-body,
         .akn-book,
-        .akn-caption,
         .akn-chapter,
-        .akn-citation,
         .akn-citations,
-        .akn-collectionBody,
-        .akn-component,
-        .akn-componentRef,
-        .akn-components,
-        .akn-conclusions,
-        .akn-content,
-        .akn-docAuthority,
-        .akn-docDate,
-        .akn-docNumber,
-        .akn-docProponent,
-        .akn-docStage,
-        .akn-docTitle,
-        .akn-docType,
         .akn-foreign,
-        .akn-formula,
-        .akn-hcontainer,
         .akn-heading,
-        .akn-intro,
-        .akn-item,
-        .akn-li,
         .akn-list,
-        .akn-listIntroduction,
-        .akn-listWrapUp,
         .akn-longTitle,
-        .akn-mainBody,
-        .akn-mod,
         .akn-num,
         .akn-ol,
         .akn-p,
         .akn-paragraph,
         .akn-part,
         .akn-point,
-        .akn-preamble,
-        .akn-preface,
-        .akn-quotedStructure,
         .akn-recital,
         .akn-recitals,
         .akn-section,
-        .akn-signature,
-        .akn-source,
         .akn-subchapter,
         .akn-subsection,
         .akn-subtitle,
@@ -556,11 +518,10 @@ const sentryTraceId = useSentryTraceId()
     @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
   }
 
-  /**
-   * Special styling to place akn:num and akn:heading in same row
-   */
-
   :deep(& :is(h1, h2, h3, h4, h5):has(.akn-num):has(.akn-heading)) {
+    /**
+     * Special styling to place akn:num and akn:heading in same row
+     */
     @apply grid grid-cols-[max-content,1fr] gap-8;
 
     :deep(& .akn-heading) {
@@ -596,6 +557,7 @@ const sentryTraceId = useSentryTraceId()
         .akn-br,
         .akn-date,
         .akn-documentRef,
+        .akn-componentRef,
         .akn-eol,
         .akn-eop,
         .akn-i,
@@ -617,8 +579,10 @@ const sentryTraceId = useSentryTraceId()
         .akn-sup,
         .akn-u
       )
-  ):not(:empty) {
-  @apply inline border border-[#004B76] bg-[#D6F7FE];
+  ) {
+  :deep(&):not(:empty) {
+    @apply inline border border-[#004B76] bg-[#D6F7FE];
+  }
 }
 
 :deep(.akn-longTitle):before {
@@ -683,14 +647,6 @@ const sentryTraceId = useSentryTraceId()
 
 :deep(.akn-list):before {
   content: "list";
-}
-
-:deep(.akn-documentRef):before {
-  content: "document ref";
-}
-
-:deep(.akn-componentRef):before {
-  content: "component ref";
 }
 
 :deep(.akn-point):before {
