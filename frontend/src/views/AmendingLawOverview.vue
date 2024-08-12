@@ -47,10 +47,10 @@ const classesForPreview = useModHighlightClasses(normDocument, () => false)
 
 <style scoped>
 :deep(.akn-affectedDocument) {
-  @apply border border-dotted border-gray-900 bg-highlight-affectedDocument-default px-2;
+  @apply bg-highlight-affectedDocument-default px-2 outline outline-dotted outline-blue-800;
 }
 
 :deep(.akn-affectedDocument):hover {
-  @apply border border-dotted border-highlight-affectedDocument-border bg-highlight-affectedDocument-hover px-2;
+  @apply bg-highlight-affectedDocument-hover px-2 outline outline-dotted outline-2 outline-blue-800;
 }
 </style>
