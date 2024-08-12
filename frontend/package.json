@@ -69,7 +69,7 @@
     "eslint-plugin-import": "~2.29.1",
     "eslint-plugin-playwright": "~1.6.0",
     "eslint-plugin-prettier": "~5.2.0",
-    "eslint-plugin-testing-library": "~6.2.2",
+    "eslint-plugin-testing-library": "~6.3.0",
     "eslint-plugin-vue": "~9.27.0",
     "eslint-plugin-vue-scoped-css": "~2.8.0",
     "eslint-plugin-vuejs-accessibility": "~2.4.0",
