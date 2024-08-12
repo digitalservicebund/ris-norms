@@ -476,206 +476,272 @@ const sentryTraceId = useSentryTraceId()
 </template>
 
 <style scoped>
-:deep([class^="akn-"]):before,
-:deep([class^="akn-"]):after {
-  @apply border border-solid border-gray-500 bg-gray-300 px-2;
+/* block elements */
+:deep(
+    :is(
+        .akn-article,
+        .akn-attachment,
+        .akn-attachments,
+        .akn-block,
+        .akn-blockContainer,
+        .akn-blockList,
+        .akn-body,
+        .akn-book,
+        .akn-caption,
+        .akn-chapter,
+        .akn-citation,
+        .akn-citations,
+        .akn-collectionBody,
+        .akn-component,
+        .akn-componentRef,
+        .akn-components,
+        .akn-conclusions,
+        .akn-content,
+        .akn-docAuthority,
+        .akn-docDate,
+        .akn-docNumber,
+        .akn-docProponent,
+        .akn-docStage,
+        .akn-docTitle,
+        .akn-docType,
+        .akn-foreign,
+        .akn-formula,
+        .akn-hcontainer,
+        .akn-heading,
+        .akn-intro,
+        .akn-item,
+        .akn-li,
+        .akn-list,
+        .akn-listIntroduction,
+        .akn-listWrapUp,
+        .akn-longTitle,
+        .akn-mainBody,
+        .akn-mod,
+        .akn-ol,
+        .akn-p,
+        .akn-paragraph,
+        .akn-part,
+        .akn-point,
+        .akn-preamble,
+        .akn-preface,
+        .akn-quotedStructure,
+        .akn-recital,
+        .akn-recitals,
+        .akn-section,
+        .akn-signature,
+        .akn-source,
+        .akn-subchapter,
+        .akn-subsection,
+        .akn-subtitle,
+        .akn-table,
+        .akn-tblock,
+        .akn-td,
+        .akn-th,
+        .akn-title,
+        .akn-toc,
+        .akn-tocItem,
+        .akn-tr,
+        .akn-ul,
+        .akn-wrapUp
+      )
+  ) {
+  @apply block rounded border border-dashed border-highlight-quotedStructure-selected-border p-8;
+
+  /* has a next child, aka a gap-8 for a non grid element */
+
+  :deep(&:has(+ *)) {
+    @apply mb-8;
+  }
+
+  :deep(&):before {
+    @apply block px-2 font-font-family-condensed text-[#4E596A];
+    font-size: medium;
+  }
+
+  :deep(&.selected) {
+    @apply -mx-1 border-2 border-solid border-black bg-[#B0EFFE];
+
+    :deep(&):before {
+      @apply font-bold text-black;
+    }
+  }
+
+  :deep(&):hover:not(:has([class^="akn-"]:hover)):not(.selected) {
+    @apply -mx-1 border-2 border-[#004B76] bg-[#D6F7FE];
+  }
 }
 
-:deep([class^="akn-"]):before {
-  border-radius: 0.375rem 0 0 0.375rem;
-  border-right: none;
+/* inline elements */
+:deep(
+    :is(
+        .akn-a,
+        .akn-abbr,
+        .akn-affectedDocument,
+        .akn-authorialNote,
+        .akn-b,
+        .akn-br,
+        .akn-date,
+        .akn-documentRef,
+        .akn-eol,
+        .akn-eop,
+        .akn-i,
+        .akn-img,
+        .akn-inline,
+        .akn-location,
+        .akn-marker,
+        .akn-mod,
+        .akn-num,
+        .akn-organization,
+        .akn-person,
+        .akn-quotedText,
+        .akn-ref,
+        .akn-relatedDocument,
+        .akn-role,
+        .akn-rref,
+        .akn-session,
+        .akn-shortTitle,
+        .akn-span,
+        .akn-sub,
+        .akn-sup,
+        .akn-u
+      )
+  ) {
+  @apply inline border border-[#004B76] bg-[#D6F7FE];
 }
 
-:deep([class^="akn-"]):after {
-  border-radius: 0 0.375rem 0.375rem 0;
-  border-left: none;
-}
-
-:deep(.akn-longTitle):before,
-:deep(.akn-longTitle):after {
+:deep(.akn-longTitle):before {
   content: "long title";
 }
 
-:deep(.akn-citations):before,
-:deep(.akn-citations):after {
+:deep(.akn-citations):before {
   content: "citations";
 }
 
-:deep(.akn-recitals):before,
-:deep(.akn-recitals):after {
+:deep(.akn-recitals):before {
   content: "recitals";
 }
 
-:deep(.akn-recital):before,
-:deep(.akn-recital):after {
+:deep(.akn-recital):before {
   content: "recital";
 }
 
-:deep(.akn-blockContainer):before,
-:deep(.akn-blockContainer):after {
+:deep(.akn-blockContainer):before {
   content: "block container";
 }
 
-:deep(.akn-book):before,
-:deep(.akn-book):after {
+:deep(.akn-book):before {
   content: "book";
 }
 
-:deep(.akn-part):before,
-:deep(.akn-part):after {
+:deep(.akn-part):before {
   content: "part";
 }
 
-:deep(.akn-chapter):before,
-:deep(.akn-chapter):after {
+:deep(.akn-chapter):before {
   content: "chapter";
 }
 
-:deep(.akn-subchapter):before,
-:deep(.akn-subchapter):after {
+:deep(.akn-subchapter):before {
   content: "subchapter";
 }
 
-:deep(.akn-section):before,
-:deep(.akn-section):after {
+:deep(.akn-section):before {
   content: "section";
 }
 
-:deep(.akn-subsection):before,
-:deep(.akn-subsection):after {
+:deep(.akn-subsection):before {
   content: "subsection";
 }
 
-:deep(.akn-title):before,
-:deep(.akn-title):after {
+:deep(.akn-title):before {
   content: "title";
 }
 
-:deep(.akn-subtitle):before,
-:deep(.akn-subtitle):after {
+:deep(.akn-subtitle):before {
   content: "subtitle";
 }
 
-:deep(.akn-article):before,
-:deep(.akn-article):after {
+:deep(.akn-article):before {
   content: "article";
 }
 
-:deep(.akn-paragraph):before,
-:deep(.akn-paragraph):after {
+:deep(.akn-paragraph):before {
   content: "paragraph";
 }
 
-:deep(.akn-list):before,
-:deep(.akn-list):after {
+:deep(.akn-list):before {
   content: "list";
 }
 
-:deep(.akn-documentRef):before,
-:deep(.akn-documentRef):after {
+:deep(.akn-documentRef):before {
   content: "document ref";
 }
 
-:deep(.akn-componentRef):before,
-:deep(.akn-componentRef):after {
+:deep(.akn-componentRef):before {
   content: "component ref";
 }
 
-:deep(.akn-point):before,
-:deep(.akn-point):after {
+:deep(.akn-point):before {
   content: "point";
 }
 
-:deep(.akn-wrapUp):before,
-:deep(.akn-wrapUp):after {
+:deep(.akn-wrapUp):before {
   content: "wrap up";
 }
 
-:deep(.akn-foreign):before,
-:deep(.akn-foreign):after {
+:deep(.akn-foreign):before {
   content: "foreign";
 }
 
-:deep(.akn-tblock):before,
-:deep(.akn-tblock):after {
+:deep(.akn-tblock):before {
   content: "tblock";
 }
 
-:deep(.akn-toc):before,
-:deep(.akn-toc):after {
+:deep(.akn-toc):before {
   content: "toc";
 }
 
-:deep(.akn-tocItem):before,
-:deep(.akn-tocItem):after {
+:deep(.akn-tocItem):before {
   content: "toc item";
 }
 
-:deep(.akn-p):before,
-:deep(.akn-p):after {
+:deep(.akn-p):before {
   content: "p";
 }
 
-:deep(.akn-block):before,
-:deep(.akn-block):after {
+:deep(.akn-block):before {
   content: "block";
 }
 
-:deep(.akn-num):before,
-:deep(.akn-num):after {
+:deep(.akn-num):before {
   content: "num";
 }
 
-:deep(.akn-heading):before,
-:deep(.akn-heading):after {
+:deep(.akn-heading):before {
   content: "heading";
 }
 
-:deep(.akn-td):before,
-:deep(.akn-td):after {
+:deep(.akn-td):before {
   content: "td";
 }
 
-:deep(.akn-th):before,
-:deep(.akn-th):after {
+:deep(.akn-th):before {
   content: "th";
 }
 
-:deep(.akn-tr):before,
-:deep(.akn-tr):after {
+:deep(.akn-tr):before {
   content: "tr";
 }
 
-:deep(.akn-ol):before,
-:deep(.akn-ol):after {
+:deep(.akn-ol):before {
   content: "ol";
 }
 
-:deep(.akn-ul):before,
-:deep(.akn-ul):after {
+:deep(.akn-ul):before {
   content: "ul";
 }
 
-:deep(.akn-table):before,
-:deep(.akn-table):after {
+:deep(.akn-table):before {
   content: "table";
-}
-
-:deep([class^="akn-"]:hover):not(:has([class^="akn-"]:hover)) {
-  @apply border-highlight-quotedStructure-hover-border bg-highlight-quotedStructure-hover-background;
-}
-
-:deep([class^="akn-"]:hover):not(:has([class^="akn-"]:hover)):before,
-:deep([class^="akn-"]:hover):not(:has([class^="akn-"]:hover)):after {
-  @apply border-highlight-quotedStructure-hover-innerHover-border bg-highlight-quotedStructure-hover-innerHover-background;
-}
-
-:deep([class^="akn-"].selected) {
-  @apply border-highlight-quotedStructure-hover-border bg-highlight-quotedStructure-selected-content;
-}
-
-:deep([class^="akn-"].selected):before,
-:deep([class^="akn-"].selected):after {
-  @apply border-highlight-quotedStructure-selected-pseudo-border bg-highlight-quotedStructure-selected-pseudo-background;
 }
 </style>
