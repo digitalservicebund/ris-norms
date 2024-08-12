@@ -96,7 +96,17 @@ const {
   error: elementsError,
 } = useGetElements(
   affectedDocumentEli,
-  ["article", "conclusions", "preamble", "preface"],
+  [
+    "article",
+    "conclusions",
+    "preamble",
+    "preface",
+    "book",
+    "chapter",
+    "part",
+    "subtitle",
+    "title",
+  ],
   { amendedBy: amendingLawEli },
 )
 </script>
@@ -206,7 +216,13 @@ const {
               v-for="element in elements"
               :key="element.eid"
               :to="{
-                name: 'AmendingLawMetadataEditorElement',
+                name:
+                  element.type === 'article' ||
+                  element.type === 'conclusions' ||
+                  element.type === 'preamble' ||
+                  element.type === 'preface'
+                    ? 'AmendingLawMetadataEditorElement'
+                    : 'AmendingLawMetadataEditorOutlineElement',
                 params: {
                   eid: element.eid,
                   timeBoundary: selectedTimeBoundary,
