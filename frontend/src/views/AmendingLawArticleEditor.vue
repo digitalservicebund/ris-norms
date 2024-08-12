@@ -238,7 +238,7 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
 
 <style scoped>
 .amendingLawPreview :deep(.akn-affectedDocument) {
-  @apply bg-highlight-affectedDocument-default px-2 outline outline-dotted outline-blue-800;
+  @apply bg-highlight-affectedDocument-default px-2 outline outline-dotted outline-1 outline-blue-800;
 }
 
 .amendingLawPreview :deep(.akn-affectedDocument):hover {
