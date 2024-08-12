@@ -472,10 +472,6 @@ const sentryTraceId = useSentryTraceId()
 </template>
 
 <style scoped>
-:deep(.akn-akomaNtoso :has(+ *)) {
-  @apply mb-8;
-}
-
 :deep(
     :is(
         .akn-article,
@@ -514,27 +510,41 @@ const sentryTraceId = useSentryTraceId()
   ) {
   @apply block rounded border border-dashed border-highlight-quotedStructure-selected-border p-8;
 
+  :deep(&:not(:is(:last-child))) {
+    @apply mb-8;
+  }
+
   :deep(&):before {
     @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
   }
 
-  :deep(& :is(h1, h2, h3, h4, h5):has(.akn-num):has(.akn-heading)) {
+  :deep(&:has(> :is(.akn-num))),
+  :deep(& > :is(h1, h2, h3, h4, h5):has(> :is(.akn-num))) {
     /**
-     * Special styling to place akn:num and akn:heading in same row
+     * Special styling to place akn:num and the element following it in the same row.
+     * Sometimes the akn:num and a akn:heading are placed within a h1,h2,h3,...-tag. We also want to place them in the same row.
      */
-    @apply grid grid-cols-[max-content,1fr] gap-8;
+    @apply grid grid-cols-[min-content,1fr] gap-8;
 
-    :deep(& .akn-heading) {
-      @apply h-full;
+    :deep(&):before {
+      @apply col-span-full;
     }
 
-    :deep(& .akn-num) {
-      @apply h-full;
+    :deep(& > :nth-child(1)) {
+      @apply col-span-1 col-start-1 h-full;
+    }
+
+    :deep(& > :nth-child(2)) {
+      @apply col-span-1 col-start-2 h-full;
+    }
+
+    :deep(& *) {
+      @apply col-span-full;
     }
   }
 
   :deep(&.selected) {
-    @apply -mx-1 border-2 border-solid border-black bg-[#B0EFFE];
+    @apply border-2 border-solid border-black bg-[#B0EFFE];
 
     :deep(&):before {
       @apply ds-label-03-bold text-black;
@@ -542,7 +552,7 @@ const sentryTraceId = useSentryTraceId()
   }
 
   :deep(&):hover:not(:has([class^="akn-"]:hover)):not(.selected) {
-    @apply -mx-1 border-2 border-[#004B76] bg-[#D6F7FE];
+    @apply border-2 border-[#004B76] bg-[#D6F7FE];
   }
 }
 
