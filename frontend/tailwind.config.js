@@ -63,10 +63,9 @@ module.exports = {
             selected: "#9DBBDC",
           },
           affectedDocument: {
-            hover: "rgba(255, 154, 251, 0.4)",
-            selected: "rgba(255, 154, 251, 1)",
-            default: "rgba(255, 154, 251, 0.2)",
-            border: "#FE4AF7",
+            default: "#FFEBFE", // Light pink for default state
+            hover: "#FFB7FB", // Brighter pink for hover state
+            selected: "#FFB7FB", // Same brighter pink for selected state
           },
           quotedStructure: {
             hover: {
