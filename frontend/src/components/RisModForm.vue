@@ -476,9 +476,13 @@ const sentryTraceId = useSentryTraceId()
 </template>
 
 <style scoped>
-/* block elements */
+:deep(.akn-akomaNtoso :has(+ *)) {
+  @apply mb-8;
+}
+
 :deep(
     :is(
+        /* block elements + akn:num */
         .akn-article,
         .akn-attachment,
         .akn-attachments,
@@ -517,6 +521,7 @@ const sentryTraceId = useSentryTraceId()
         .akn-longTitle,
         .akn-mainBody,
         .akn-mod,
+        .akn-num,
         .akn-ol,
         .akn-p,
         .akn-paragraph,
@@ -547,22 +552,31 @@ const sentryTraceId = useSentryTraceId()
   ) {
   @apply block rounded border border-dashed border-highlight-quotedStructure-selected-border p-8;
 
-  /* has a next child, aka a gap-8 for a non grid element */
-
-  :deep(&:has(+ *)) {
-    @apply mb-8;
+  :deep(&):before {
+    @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
   }
 
-  :deep(&):before {
-    @apply block px-2 font-font-family-condensed text-[#4E596A];
-    font-size: medium;
+  /**
+   * Special styling to place akn:num and akn:heading in same row
+   */
+
+  :deep(& :is(h1, h2, h3, h4, h5):has(.akn-num):has(.akn-heading)) {
+    @apply grid grid-cols-[max-content,1fr] gap-8;
+
+    :deep(& .akn-heading) {
+      @apply h-full;
+    }
+
+    :deep(& .akn-num) {
+      @apply h-full;
+    }
   }
 
   :deep(&.selected) {
     @apply -mx-1 border-2 border-solid border-black bg-[#B0EFFE];
 
     :deep(&):before {
-      @apply font-bold text-black;
+      @apply ds-label-03-bold text-black;
     }
   }
 
@@ -571,9 +585,9 @@ const sentryTraceId = useSentryTraceId()
   }
 }
 
-/* inline elements */
 :deep(
     :is(
+        /* inline elements without akn:num */
         .akn-a,
         .akn-abbr,
         .akn-affectedDocument,
@@ -589,8 +603,6 @@ const sentryTraceId = useSentryTraceId()
         .akn-inline,
         .akn-location,
         .akn-marker,
-        .akn-mod,
-        .akn-num,
         .akn-organization,
         .akn-person,
         .akn-quotedText,
@@ -605,7 +617,7 @@ const sentryTraceId = useSentryTraceId()
         .akn-sup,
         .akn-u
       )
-  ) {
+  ):not(:empty) {
   @apply inline border border-[#004B76] bg-[#D6F7FE];
 }
 
