@@ -215,8 +215,6 @@ watch(
           `[data-eid="${destinationHrefEid.value}"]`,
         )
         if (element) {
-          element.style.scrollMarginLeft = "20px"
-          element.style.scrollMarginTop = "20px"
           element.scrollIntoView({
             behavior: "smooth",
             block: "start",
@@ -529,6 +527,10 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
 </style>
 
 <style scoped>
+#elementToBeReplaced * {
+  @apply scroll-m-20;
+}
+
 :deep(
     :is(
         /* inline elements without akn:num */
