@@ -11,6 +11,7 @@ import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import { computed, nextTick, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import { useEIdRange } from "@/composables/useSelectedElements"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -175,32 +176,6 @@ const destinationRangeUptoEid = computed({
   },
 })
 
-function getAllEidsBetween(
-  startEid: string,
-  endEid: string,
-  container: HTMLElement,
-) {
-  const eids: string[] = []
-  let collect = false
-
-  const elements = container.querySelectorAll("[data-eid]")
-  elements.forEach((el) => {
-    const eid = el.getAttribute("data-eid")
-    if (eid === startEid || eid === endEid) {
-      if (!collect) {
-        eids.push(eid)
-        collect = true
-      } else {
-        eids.push(eid!)
-        collect = false
-      }
-    } else if (collect && eid) {
-      eids.push(eid)
-    }
-  })
-  return eids
-}
-
 function handleAknElementClick({
   eid,
   originalEvent,
@@ -221,62 +196,36 @@ const elementToBeReplacedRef = ref<InstanceType<typeof RisLawPreview> | null>(
   null,
 )
 
-const selectedElements = ref()
-
-watch(
-  [
-    destinationRangeUptoEid,
-    destinationHrefEid,
-    elementToBeReplacedRef,
-    () => props.targetLawHtml,
-  ],
-  async () => {
-    if (destinationHrefEid.value == null) {
-      selectedElements.value = []
-      return
-    }
-    if (destinationRangeUptoEid.value == "") {
-      selectedElements.value = [destinationHrefEid.value]
-      return
-    }
-
-    const container = elementToBeReplacedRef.value?.$el
-    if (container == null) {
-      return
-    }
-    await nextTick()
-    selectedElements.value = getAllEidsBetween(
-      destinationHrefEid.value,
-      destinationRangeUptoEid.value,
-      elementToBeReplacedRef.value?.$el,
-    )
-  },
-  { immediate: true },
+const selectedElements = useEIdRange(
+  destinationHrefEid,
+  destinationRangeUptoEid,
+  computed(() => props.targetLawHtml),
+  elementToBeReplacedRef,
 )
 
 watch(
   [destinationHrefEid, () => props.targetLawHtml],
-  () => {
+  async () => {
     if (destinationHrefEid.value) {
-      nextTick(() => {
-        const container = elementToBeReplacedRef.value?.$el
-        if (container) {
-          const element = container.querySelector(
-            `[data-eid="${destinationHrefEid.value}"]`,
-          )
-          if (element) {
-            element.style.scrollMarginLeft = "20px"
-            element.style.scrollMarginTop = "20px"
-            element.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-              inline: "start",
-            })
-          } else {
-            container.scrollTo?.({ top: 0, behavior: "smooth" })
-          }
+      await nextTick()
+
+      const container = elementToBeReplacedRef.value?.$el
+      if (container) {
+        const element = container.querySelector(
+          `[data-eid="${destinationHrefEid.value}"]`,
+        )
+        if (element) {
+          element.style.scrollMarginLeft = "20px"
+          element.style.scrollMarginTop = "20px"
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            inline: "start",
+          })
+        } else {
+          container.scrollTo?.({ top: 0, behavior: "smooth" })
         }
-      })
+      }
     }
   },
   { immediate: true },
