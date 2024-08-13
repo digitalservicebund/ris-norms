@@ -200,7 +200,6 @@ const selectedElements = useEIdRange(
   destinationHrefEid,
   destinationRangeUptoEid,
   computed(() => props.targetLawHtml),
-  elementToBeReplacedRef,
 )
 
 watch(

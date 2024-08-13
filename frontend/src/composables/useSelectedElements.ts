@@ -1,24 +1,20 @@
-import { nextTick, Ref, ref, watch } from "vue"
-import RisLawPreview from "@/components/RisLawPreview.vue"
+import { Ref, ref, toValue, watch } from "vue"
 
 /**
  * Finds the eIds of all elements between the startEId and the endEId.
  *
  * @param startEId the eId of the first element
  * @param endEId the eId of the last element (including)
- * @param previewElement the preview element in which the html render of the norm in which the eIds should be found is rendered.
+ * @param normHtml the html render of the norm in which the elements should be found.
  */
-function getAllEidsBetween(
-  startEId: string,
-  endEId: string,
-  previewElement: InstanceType<typeof RisLawPreview>,
-) {
+function getAllEidsBetween(startEId: string, endEId: string, normHtml: string) {
+  const htmlRender = document.createElement("div")
+  htmlRender.innerHTML = normHtml
+
   const eids: string[] = []
   let collect = false
 
-  const elements = (previewElement.$el as HTMLElement).querySelectorAll(
-    "[data-eid]",
-  )
+  const elements = htmlRender.querySelectorAll("[data-eid]")
   elements.forEach((el) => {
     const eid = el.getAttribute("data-eid")
     if (eid === startEId || eid === endEId) {
@@ -42,18 +38,16 @@ function getAllEidsBetween(
  * @param startEId the eId of the first element of the range
  * @param endEId the eId of the last element of the range (including). If empty the range is just the startEId.
  * @param previewHtml the html render of the norm in which the range should be found.
- * @param previewElement the preview element in which the html is rendered.
  */
 export function useEIdRange(
   startEId: Ref<string>,
   endEId: Ref<string>,
   previewHtml: Ref<string | undefined>,
-  previewElement: Ref<InstanceType<typeof RisLawPreview> | null>,
 ) {
   const selectedElements = ref<string[]>([])
 
   watch(
-    [startEId, endEId, previewElement, () => previewHtml],
+    [startEId, endEId, previewHtml],
     async () => {
       if (startEId.value == null) {
         selectedElements.value = []
@@ -64,16 +58,10 @@ export function useEIdRange(
         return
       }
 
-      if (previewElement.value == null) {
-        return
-      }
-
-      await nextTick()
-
       selectedElements.value = getAllEidsBetween(
         startEId.value,
         endEId.value,
-        previewElement.value,
+        toValue(previewHtml) ?? "",
       )
     },
     { immediate: true },
