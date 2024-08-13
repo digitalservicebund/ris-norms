@@ -11,7 +11,7 @@ import { TemporalDataResponse } from "@/types/temporalDataResponse"
 import { computed, nextTick, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { useEIdRange } from "@/composables/useSelectedElements"
+import { useEIdRange } from "@/composables/useEIdRange"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
