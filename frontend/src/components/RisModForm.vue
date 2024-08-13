@@ -521,7 +521,7 @@ const sentryTraceId = useSentryTraceId()
    * The selector selects all elements that have a akn:num as first child.
    */
   :deep(&:has(> :is(.akn-num))),
-  :deep(& > :is(h1, h2, h3, h4, h5):has(> :is(.akn-num))) {
+  :deep(&) > :deep(:is(h1, h2, h3, h4, h5):has(> :is(.akn-num))) {
     @apply grid grid-cols-[min-content,1fr] gap-8;
 
     /* before part of the element that includes the akn:num */
@@ -530,18 +530,20 @@ const sentryTraceId = useSentryTraceId()
     }
 
     /* the akn:num element */
-    :deep(& > :nth-child(1)) {
+
+    :deep(&) > :deep(:nth-child(1)) {
       @apply col-span-1 col-start-1 h-full;
     }
 
     /* the part directly after the akn:num element, typically a akn:heading */
-    :deep(& > :nth-child(2)) {
+
+    :deep(&) > :deep(:nth-child(2)) {
       @apply col-span-1 col-start-2 h-full;
     }
 
     /* all direct child elements */
 
-    :deep(& > *) {
+    :deep(&) > :deep(*) {
       @apply col-span-full;
     }
   }
