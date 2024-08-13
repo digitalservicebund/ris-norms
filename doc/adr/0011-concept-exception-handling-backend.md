@@ -1,4 +1,4 @@
-# 10. How to use exceptions in the backend
+# 11. How to use exceptions in the backend
 
 Date: 2024-06-28
 
