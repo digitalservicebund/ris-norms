@@ -282,6 +282,55 @@ function handleMouseDown(e: MouseEvent) {
 }
 
 const sentryTraceId = useSentryTraceId()
+
+const selectableAknElements: string[] = [
+  "akn:list",
+  "akn:long-title",
+  "akn:citations",
+  "akn:recitals",
+  "akn:recital",
+  "akn:block-container",
+  "akn:book",
+  "akn:part",
+  "akn:chapter",
+  "akn:subchapter",
+  "akn:section",
+  "akn:subsection",
+  "akn:title",
+  "akn:subtitle",
+  "akn:article",
+  "akn:paragraph",
+  "akn:point",
+  "akn:wrap-up",
+  "akn:foreign",
+  "akn:tblock",
+  "akn:toc",
+  "akn:toc-item",
+  "akn:p",
+  "akn:block",
+  "akn:num",
+  "akn:heading",
+  "akn:td",
+  "akn:th",
+  "akn:tr",
+  "akn:ol",
+  "akn:ul",
+  "akn:table",
+]
+
+const selectableAknElementsLabels = Object.fromEntries(
+  selectableAknElements.map((aknElement) => [
+    `${aknElement}-aria-label`,
+    aknElement.split(":")[1].replaceAll("-", " "),
+  ]),
+)
+
+const selectableAknElementsEventHandlers = Object.fromEntries(
+  selectableAknElements.map((aknElement) => [
+    `click:${aknElement}`,
+    handleAknElementClick,
+  ]),
+)
 </script>
 
 <template>
@@ -319,6 +368,7 @@ const sentryTraceId = useSentryTraceId()
           >Zu ersetzendes Element</label
         >
         <RisLawPreview
+          v-bind="selectableAknElementsLabels"
           id="elementToBeReplaced"
           ref="elementToBeReplacedRef"
           class="ds-textarea max-h-[250px] overflow-y-auto p-2"
@@ -327,70 +377,7 @@ const sentryTraceId = useSentryTraceId()
           :content="targetLawHtmlHtml ?? ''"
           :selected="selectedElements"
           :arrow-focus="false"
-          akn:long-title-aria-label="long title"
-          akn:citations-aria-label="citations"
-          akn:recitals-aria-label="recitals"
-          akn:recital-aria-label="recital"
-          akn:block-container-aria-label="block container"
-          akn:book-aria-label="book"
-          akn:part-aria-label="part"
-          akn:chapter-aria-label="chapter"
-          akn:subchapter-aria-label="subchapter"
-          akn:section-aria-label="section"
-          akn:subsection-aria-label="subsection"
-          akn:title-aria-label="title"
-          akn:subtitle-aria-label="subtitle"
-          akn:article-aria-label="article"
-          akn:paragraph-aria-label="paragraph"
-          akn:list-aria-label="list"
-          akn:point-aria-label="point"
-          akn:wrap-up-aria-label="wrap up"
-          akn:foreign-aria-label="foreign"
-          akn:tblock-aria-label="tblock"
-          akn:toc-aria-label="toc"
-          akn:toc-item-aria-label="toc item"
-          akn:p-aria-label="p"
-          akn:block-aria-label="block"
-          akn:num-aria-label="num"
-          akn:heading-aria-label="heading"
-          akn:td-aria-label="td"
-          akn:th-aria-label="th"
-          akn:tr-aria-label="tr"
-          akn:ol-aria-label="ol"
-          akn:ul-aria-label="ul"
-          akn:table-aria-label="table"
-          @click:akn:list="handleAknElementClick"
-          @click:akn:long-title="handleAknElementClick"
-          @click:akn:citations="handleAknElementClick"
-          @click:akn:recitals="handleAknElementClick"
-          @click:akn:recital="handleAknElementClick"
-          @click:akn:block-container="handleAknElementClick"
-          @click:akn:book="handleAknElementClick"
-          @click:akn:part="handleAknElementClick"
-          @click:akn:chapter="handleAknElementClick"
-          @click:akn:subchapter="handleAknElementClick"
-          @click:akn:section="handleAknElementClick"
-          @click:akn:subsection="handleAknElementClick"
-          @click:akn:title="handleAknElementClick"
-          @click:akn:subtitle="handleAknElementClick"
-          @click:akn:article="handleAknElementClick"
-          @click:akn:paragraph="handleAknElementClick"
-          @click:akn:point="handleAknElementClick"
-          @click:akn:wrap-up="handleAknElementClick"
-          @click:akn:foreign="handleAknElementClick"
-          @click:akn:tblock="handleAknElementClick"
-          @click:akn:toc="handleAknElementClick"
-          @click:akn:toc-item="handleAknElementClick"
-          @click:akn:p="handleAknElementClick"
-          @click:akn:block="handleAknElementClick"
-          @click:akn:num="handleAknElementClick"
-          @click:akn:heading="handleAknElementClick"
-          @click:akn:td="handleAknElementClick"
-          @click:akn:th="handleAknElementClick"
-          @click:akn:tr="handleAknElementClick"
-          @click:akn:ol="handleAknElementClick"
-          @click:akn:ul="handleAknElementClick"
-          @click:akn:table="handleAknElementClick"
+          v-on="selectableAknElementsEventHandlers"
           @keydown="handlePreviewKeyDown"
           @mousedown="handleMouseDown"
         />
