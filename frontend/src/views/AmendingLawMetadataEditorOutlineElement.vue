@@ -22,13 +22,9 @@ const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetElementHtml(
-  affectedDocumentEli,
-  "hauptteil-1_abschnitt-erster_para-2",
-  {
-    at: timeBoundaryAsDate,
-  },
-)
+} = useGetElementHtml(affectedDocumentEli, elementEid, {
+  at: timeBoundaryAsDate,
+})
 </script>
 
 <template>
