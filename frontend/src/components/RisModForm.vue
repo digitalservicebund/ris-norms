@@ -549,7 +549,7 @@ const sentryTraceId = useSentryTraceId()
   }
 
   :deep(&.selected) {
-    @apply border-2 border-solid border-highlight-elementSelect-selected-border bg-highlight-elementSelect-selected-background;
+    @apply border-transparent bg-highlight-elementSelect-selected-background ring-2 ring-highlight-elementSelect-selected-border;
 
     :deep(&):before {
       @apply ds-label-03-bold text-black;
@@ -558,7 +558,7 @@ const sentryTraceId = useSentryTraceId()
 
   /* The most deeply nested element that is currently hovered and not selected */
   :deep(&):hover:not(:has([class^="akn-"]:hover)):not(.selected) {
-    @apply border-2 border-highlight-elementSelect-hover-border bg-highlight-elementSelect-hover-background;
+    @apply border-transparent bg-highlight-elementSelect-hover-background ring-2 ring-highlight-elementSelect-hover-border;
   }
 
   /* Add a small gap behind all elements that are not the last child element of their parent */
