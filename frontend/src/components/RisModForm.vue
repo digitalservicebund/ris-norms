@@ -514,7 +514,7 @@ const sentryTraceId = useSentryTraceId()
     ) {
     @apply block min-w-min rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
 
-    :before {
+    &:before {
       @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
     }
 
@@ -524,34 +524,35 @@ const sentryTraceId = useSentryTraceId()
      *
      * The selector selects all elements that have a akn:num as first child.
      */
-
     &:has(> :is(:global(.akn-num))),
     & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) {
       @apply grid grid-cols-[min-content,1fr] gap-8;
+    }
 
-      /* before part of the element that includes the akn:num */
+    &:has(> :is(:global(.akn-num))):before,
+    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))):before {
+      @apply col-span-full;
+    }
 
-      &:before {
-        @apply col-span-full;
-      }
+    /* the akn:num element */
 
-      /* the akn:num element */
+    &:has(> :is(:global(.akn-num))) > :nth-child(1),
+    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) > :nth-child(1) {
+      @apply col-span-1 col-start-1 h-full;
+    }
 
-      & > :nth-child(1) {
-        @apply col-span-1 col-start-1 h-full;
-      }
+    /* the part directly after the akn:num element, typically a akn:heading */
 
-      /* the part directly after the akn:num element, typically a akn:heading */
+    &:has(> :is(:global(.akn-num))) > :nth-child(2),
+    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) > :nth-child(2) {
+      @apply col-span-1 col-start-2 h-full;
+    }
 
-      & > :nth-child(2) {
-        @apply col-span-1 col-start-2 h-full;
-      }
+    /* all direct child elements */
 
-      /* all direct child elements */
-
-      & > * {
-        @apply col-span-full;
-      }
+    &:has(> :is(:global(.akn-num))) > *,
+    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) > * {
+      @apply col-span-full;
     }
 
     &:global(.selected) {
