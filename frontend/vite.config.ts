@@ -12,6 +12,7 @@ const isTest = process.env.VITEST === "true"
 export default defineConfig({
   build: {
     sourcemap: true,
+    target: ["edge127", "firefox115", "chrome127"],
   },
   plugins: [
     vue(),

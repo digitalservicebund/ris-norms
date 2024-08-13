@@ -322,6 +322,7 @@ const sentryTraceId = useSentryTraceId()
           id="elementToBeReplaced"
           ref="elementToBeReplacedRef"
           class="ds-textarea max-h-[250px] overflow-y-auto p-2"
+          :class="$style.preview"
           data-testid="elementToBeReplaced"
           :content="targetLawHtmlHtml ?? ''"
           :selected="selectedElements"
@@ -400,6 +401,7 @@ const sentryTraceId = useSentryTraceId()
         <RisLawPreview
           id="replacingElement"
           class="ds-textarea h-[150px] overflow-y-auto p-2"
+          :class="$style.preview"
           data-testid="replacingElement"
           :arrow-focus="false"
           :content="quotedStructureContent"
@@ -471,103 +473,112 @@ const sentryTraceId = useSentryTraceId()
   </form>
 </template>
 
-<style scoped>
-:deep(
-    :is(
-        .akn-article,
-        .akn-block,
-        .akn-blockContainer,
-        .akn-book,
-        .akn-chapter,
-        .akn-citations,
-        .akn-foreign,
-        .akn-heading,
-        .akn-list,
-        .akn-longTitle,
-        .akn-num,
-        .akn-ol,
-        .akn-p,
-        .akn-paragraph,
-        .akn-part,
-        .akn-point,
-        .akn-recital,
-        .akn-recitals,
-        .akn-section,
-        .akn-subchapter,
-        .akn-subsection,
-        .akn-subtitle,
-        .akn-table,
-        .akn-tblock,
-        .akn-td,
-        .akn-th,
-        .akn-title,
-        .akn-toc,
-        .akn-tocItem,
-        .akn-tr,
-        .akn-ul,
-        .akn-wrapUp
-      )
-  ) {
-  @apply block min-w-min rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
+<!-- We need to use a module for this part of the styling as there is a bug in vue that wrongly converts some tags in nested scoped styling -->
+<style module>
+.preview {
+  :global(
+      :is(
+          .akn-article,
+          .akn-block,
+          .akn-blockContainer,
+          .akn-book,
+          .akn-chapter,
+          .akn-citations,
+          .akn-foreign,
+          .akn-heading,
+          .akn-list,
+          .akn-longTitle,
+          .akn-num,
+          .akn-ol,
+          .akn-p,
+          .akn-paragraph,
+          .akn-part,
+          .akn-point,
+          .akn-recital,
+          .akn-recitals,
+          .akn-section,
+          .akn-subchapter,
+          .akn-subsection,
+          .akn-subtitle,
+          .akn-table,
+          .akn-tblock,
+          .akn-td,
+          .akn-th,
+          .akn-title,
+          .akn-toc,
+          .akn-tocItem,
+          .akn-tr,
+          .akn-ul,
+          .akn-wrapUp
+        )
+    ) {
+    @apply block min-w-min rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
 
-  :deep(&):before {
-    @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
-  }
-
-  /**
-   * Special styling to place akn:num and the element following it in the same row.
-   * Sometimes the akn:num and a akn:heading are placed within a h1,h2,h3,...-tag. We also want to place them in the same row.
-   *
-   * The selector selects all elements that have a akn:num as first child.
-   */
-  :deep(&:has(> :is(.akn-num))),
-  :deep(&) > :deep(:is(h1, h2, h3, h4, h5):has(> :is(.akn-num))) {
-    @apply grid grid-cols-[min-content,1fr] gap-8;
-
-    /* before part of the element that includes the akn:num */
-    :deep(&):before {
-      @apply col-span-full;
+    :before {
+      @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
     }
 
-    /* the akn:num element */
+    /**
+     * Special styling to place akn:num and the element following it in the same row.
+     * Sometimes the akn:num and a akn:heading are placed within a h1,h2,h3,...-tag. We also want to place them in the same row.
+     *
+     * The selector selects all elements that have a akn:num as first child.
+     */
 
-    :deep(&) > :deep(:nth-child(1)) {
-      @apply col-span-1 col-start-1 h-full;
+    &:has(> :is(:global(.akn-num))),
+    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) {
+      @apply grid grid-cols-[min-content,1fr] gap-8;
+
+      /* before part of the element that includes the akn:num */
+
+      &:before {
+        @apply col-span-full;
+      }
+
+      /* the akn:num element */
+
+      & > :nth-child(1) {
+        @apply col-span-1 col-start-1 h-full;
+      }
+
+      /* the part directly after the akn:num element, typically a akn:heading */
+
+      & > :nth-child(2) {
+        @apply col-span-1 col-start-2 h-full;
+      }
+
+      /* all direct child elements */
+
+      & > * {
+        @apply col-span-full;
+      }
     }
 
-    /* the part directly after the akn:num element, typically a akn:heading */
+    &:global(.selected) {
+      @apply border-transparent bg-highlight-elementSelect-selected-background outline outline-2 outline-highlight-elementSelect-selected-border;
 
-    :deep(&) > :deep(:nth-child(2)) {
-      @apply col-span-1 col-start-2 h-full;
+      &:before {
+        @apply ds-label-03-bold text-black;
+      }
     }
 
-    /* all direct child elements */
+    /* The most deeply nested element that is currently hovered and not selected */
 
-    :deep(&) > :deep(*) {
-      @apply col-span-full;
+    &:hover:not(:has([class^="akn-"]:hover)):not(:global(.selected)) {
+      @apply border-transparent bg-highlight-elementSelect-hover-background outline-dashed outline-2 outline-highlight-elementSelect-hover-border;
     }
-  }
 
-  :deep(&.selected) {
-    @apply border-transparent bg-highlight-elementSelect-selected-background outline outline-2 outline-highlight-elementSelect-selected-border;
+    /* Add a small gap behind all elements that are not the last child element of their parent */
 
-    :deep(&):before {
-      @apply ds-label-03-bold text-black;
+    &:not(:is(:last-child)),
+    & > :is(h1, h2, h3, h4, h5):not(:is(:last-child)) {
+      @apply mb-8 mr-0;
     }
-  }
-
-  /* The most deeply nested element that is currently hovered and not selected */
-  :deep(&):hover:not(:has([class^="akn-"]:hover)):not(.selected) {
-    @apply border-transparent bg-highlight-elementSelect-hover-background outline-dashed outline-2 outline-highlight-elementSelect-hover-border;
-  }
-
-  /* Add a small gap behind all elements that are not the last child element of their parent */
-
-  :deep(:is(&, & > :is(h1, h2, h3, h4, h5)):not(:is(:last-child))) {
-    @apply mb-8 mr-0;
   }
 }
+</style>
 
+<style scoped>
 :deep(
     :is(
         /* inline elements without akn:num */
