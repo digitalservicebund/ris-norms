@@ -508,7 +508,7 @@ const sentryTraceId = useSentryTraceId()
         .akn-wrapUp
       )
   ) {
-  @apply block min-w-min rounded border border-dashed border-highlight-elementSelect-default-border p-8;
+  @apply block min-w-min rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
 
   :deep(&):before {
     @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
@@ -549,7 +549,7 @@ const sentryTraceId = useSentryTraceId()
   }
 
   :deep(&.selected) {
-    @apply border-transparent bg-highlight-elementSelect-selected-background ring-2 ring-highlight-elementSelect-selected-border;
+    @apply border-transparent bg-highlight-elementSelect-selected-background outline outline-2 outline-highlight-elementSelect-selected-border;
 
     :deep(&):before {
       @apply ds-label-03-bold text-black;
@@ -558,7 +558,7 @@ const sentryTraceId = useSentryTraceId()
 
   /* The most deeply nested element that is currently hovered and not selected */
   :deep(&):hover:not(:has([class^="akn-"]:hover)):not(.selected) {
-    @apply border-transparent bg-highlight-elementSelect-hover-background ring-2 ring-highlight-elementSelect-hover-border;
+    @apply border-transparent bg-highlight-elementSelect-hover-background outline-dashed outline-2 outline-highlight-elementSelect-hover-border;
   }
 
   /* Add a small gap behind all elements that are not the last child element of their parent */
