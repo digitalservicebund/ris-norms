@@ -11,7 +11,7 @@ function getAllEidsBetween(startEId: string, endEId: string, normHtml: string) {
   const htmlRender = document.createElement("div")
   htmlRender.innerHTML = normHtml
 
-  const eids: string[] = []
+  const eIds: string[] = []
   let collect = false
 
   const elements = htmlRender.querySelectorAll("[data-eid]")
@@ -19,17 +19,17 @@ function getAllEidsBetween(startEId: string, endEId: string, normHtml: string) {
     const eid = el.getAttribute("data-eid")
     if (eid === startEId || eid === endEId) {
       if (!collect) {
-        eids.push(eid)
+        eIds.push(eid)
         collect = true
       } else {
-        eids.push(eid!)
+        eIds.push(eid!)
         collect = false
       }
     } else if (collect && eid) {
-      eids.push(eid)
+      eIds.push(eid)
     }
   })
-  return eids
+  return eIds
 }
 
 /**
@@ -40,25 +40,25 @@ function getAllEidsBetween(startEId: string, endEId: string, normHtml: string) {
  * @param previewHtml the html render of the norm in which the range should be found.
  */
 export function useEIdRange(
-  startEId: Ref<string>,
+  startEId: Ref<string | null>,
   endEId: Ref<string>,
   previewHtml: Ref<string | undefined>,
 ) {
-  const selectedElements = ref<string[]>([])
+  const eIds = ref<string[]>([])
 
   watch(
     [startEId, endEId, previewHtml],
     async () => {
       if (startEId.value == null) {
-        selectedElements.value = []
+        eIds.value = []
         return
       }
       if (endEId.value == "") {
-        selectedElements.value = [startEId.value]
+        eIds.value = [startEId.value]
         return
       }
 
-      selectedElements.value = getAllEidsBetween(
+      eIds.value = getAllEidsBetween(
         startEId.value,
         endEId.value,
         toValue(previewHtml) ?? "",
@@ -67,5 +67,5 @@ export function useEIdRange(
     { immediate: true },
   )
 
-  return selectedElements
+  return eIds
 }
