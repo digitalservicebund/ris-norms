@@ -13,8 +13,8 @@ test.describe.skip("Outline Elements Navigation", () => {
           { title: "Part 1", eid: "part-1", type: "part" },
           { title: "Subtitle 1", eid: "subtitle-1", type: "subtitle" },
           {
-            title: "Main Title",
-            eid: "hauptteil-1_abschnitt-erster_para-2",
+            title: "Main Title", //replace this with the actual title test data element
+            eid: "hauptteil-1_abschnitt-erster_para-2", // replace this with the actual eid test data  element
             type: "title",
           },
           {
@@ -41,10 +41,10 @@ test.describe.skip("Outline Elements Navigation", () => {
       "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30",
     )
 
-    await page.getByRole("link", { name: "Main Title" }).click()
+    await page.getByRole("link", { name: "Main Title" }).click() // replace this with the actual title test data element
 
     await expect(
-      page.getByRole("heading", { level: 2, name: "Main Title" }),
+      page.getByRole("heading", { level: 2, name: "Main Title" }), // replace this with the actual title test data element
     ).toBeVisible()
 
     await expect(
