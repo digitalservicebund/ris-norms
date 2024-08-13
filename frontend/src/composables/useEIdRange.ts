@@ -22,7 +22,7 @@ function getAllEidsBetween(startEId: string, endEId: string, normHtml: string) {
         eIds.push(eid)
         collect = true
       } else {
-        eIds.push(eid!)
+        eIds.push(eid)
         collect = false
       }
     } else if (collect && eid) {

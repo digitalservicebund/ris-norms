@@ -90,6 +90,39 @@ const destinationHrefEli = computed(() => {
   return ""
 })
 
+function updateHrefEId(
+  oldHref: string,
+  newEIdWithOptionalCharacterRange: string,
+): string {
+  const newParts = newEIdWithOptionalCharacterRange.split("/")
+
+  switch (props.textualModType) {
+    case "aenderungsbefehl-ersetzen":
+      if (isQuotedStructure.value) {
+        if (newParts.length !== 1) {
+          return oldHref
+        }
+
+        return oldHref.split("/").toSpliced(-1, 1, newParts[0]).join("/")
+      }
+
+      if (newParts.length === 1) {
+        return oldHref.split("/").toSpliced(-2, 2, newParts[0], "").join("/")
+      }
+
+      if (newParts.length === 2) {
+        return oldHref
+          .split("/")
+          .toSpliced(-2, 2, ...newParts)
+          .join("/")
+      }
+
+      return oldHref
+  }
+
+  return oldHref
+}
+
 const destinationHrefEid = computed({
   get() {
     switch (props.textualModType) {
@@ -111,28 +144,16 @@ const destinationHrefEid = computed({
     return ""
   },
   set(newValue: string) {
-    if (destinationHrefModel.value) {
-      const parts = destinationHrefModel.value.split("/")
-      const newParts = newValue.split("/")
-
-      switch (props.textualModType) {
-        case "aenderungsbefehl-ersetzen":
-          if (isQuotedStructure.value) {
-            if (newParts.length === 1) {
-              parts.splice(-1, 1, newParts[0])
-            }
-          } else {
-            if (newParts.length === 2) {
-              parts.splice(-2, 2, ...newParts)
-            } else if (newParts.length === 1) {
-              parts.splice(-2, 2, newParts[0], "")
-            }
-          }
-      }
-      destinationHrefModel.value = parts.join("/")
-
-      emit("generate-preview")
+    if (!destinationHrefModel.value) {
+      return
     }
+
+    destinationHrefModel.value = updateHrefEId(
+      destinationHrefModel.value,
+      newValue,
+    )
+
+    emit("generate-preview")
   },
 })
 
