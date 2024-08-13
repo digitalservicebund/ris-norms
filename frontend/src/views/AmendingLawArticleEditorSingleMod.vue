@@ -189,7 +189,7 @@ watch(
       :is-updating="isUpdating"
       :is-updating-finished="isUpdatingFinished"
       :update-error="saveError"
-      :target-law-html-html="targetLawHtml"
+      :target-law-html="targetLawHtml"
       @generate-preview="preview"
       @update-mod="update"
     />

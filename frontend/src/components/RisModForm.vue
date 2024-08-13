@@ -26,7 +26,7 @@ const props = defineProps<{
   isUpdating?: boolean
   isUpdatingFinished?: boolean
   updateError?: any // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are `any`
-  targetLawHtmlHtml?: string
+  targetLawHtml?: string
 }>()
 
 const emit = defineEmits<{
@@ -73,54 +73,63 @@ const selectedElement = computed({
   },
 })
 
+const isQuotedStructure = computed(() => !!props.quotedStructureContent)
+
 const destinationHrefEli = computed(() => {
   const parts = destinationHrefModel.value?.split("/") || []
 
-  if (
-    props.textualModType === "aenderungsbefehl-ersetzen" &&
-    props.quotedStructureContent
-  ) {
-    return parts.slice(0, -1).join("/")
-  } else if (props.textualModType === "aenderungsbefehl-ersetzen") {
-    return parts.slice(0, -2).join("/")
+  switch (props.textualModType) {
+    case "aenderungsbefehl-ersetzen":
+      if (isQuotedStructure.value) {
+        return parts.slice(0, -1).join("/")
+      } else {
+        return parts.slice(0, -2).join("/")
+      }
   }
   return ""
 })
 
 const destinationHrefEid = computed({
   get() {
-    let eid = ""
-    if (
-      props.textualModType === "aenderungsbefehl-ersetzen" &&
-      props.quotedStructureContent
-    ) {
-      eid = destinationHrefModel.value?.split("/").slice(-1).join("/") ?? ""
-      return eid.replace(".xml", "")
-    } else if (props.textualModType === "aenderungsbefehl-ersetzen") {
-      eid = destinationHrefModel.value?.split("/").slice(-2).join("/") ?? ""
+    switch (props.textualModType) {
+      case "aenderungsbefehl-ersetzen":
+        if (isQuotedStructure.value) {
+          return (
+            destinationHrefModel.value
+              ?.split("/")
+              .slice(-1)
+              .join("/")
+              ?.replace(".xml", "") ?? ""
+          )
+        } else {
+          return (
+            destinationHrefModel.value?.split("/").slice(-2).join("/") ?? ""
+          )
+        }
     }
-    return eid
+    return ""
   },
   set(newValue: string) {
     if (destinationHrefModel.value) {
       const parts = destinationHrefModel.value.split("/")
       const newParts = newValue.split("/")
 
-      if (
-        props.textualModType === "aenderungsbefehl-ersetzen" &&
-        props.quotedStructureContent
-      ) {
-        if (newParts.length === 1) {
-          parts.splice(-1, 1, newParts[0])
-        }
-      } else if (props.textualModType === "aenderungsbefehl-ersetzen") {
-        if (newParts.length === 2) {
-          parts.splice(-2, 2, ...newParts)
-        } else if (newParts.length === 1) {
-          parts.splice(-2, 2, newParts[0], "")
-        }
+      switch (props.textualModType) {
+        case "aenderungsbefehl-ersetzen":
+          if (isQuotedStructure.value) {
+            if (newParts.length === 1) {
+              parts.splice(-1, 1, newParts[0])
+            }
+          } else {
+            if (newParts.length === 2) {
+              parts.splice(-2, 2, ...newParts)
+            } else if (newParts.length === 1) {
+              parts.splice(-2, 2, newParts[0], "")
+            }
+          }
       }
       destinationHrefModel.value = parts.join("/")
+
       emit("generate-preview")
     }
   },
@@ -148,9 +157,13 @@ function modTypeLabel(modType: ModType | "") {
 
 const destinationRangeUptoEid = computed({
   get() {
-    let eid = ""
-    eid = destinationUpToModel.value?.split("/").slice(-1).join("/") ?? ""
-    return eid.replace(".xml", "")
+    return (
+      destinationUpToModel.value
+        ?.split("/")
+        .slice(-1)
+        .join("/")
+        .replace(".xml", "") ?? ""
+    )
   },
   set(newValue: string) {
     if (newValue) {
@@ -215,7 +228,7 @@ watch(
     destinationRangeUptoEid,
     destinationHrefEid,
     elementToBeReplacedRef,
-    () => props.targetLawHtmlHtml,
+    () => props.targetLawHtml,
   ],
   async () => {
     if (destinationHrefEid.value == null) {
@@ -242,7 +255,7 @@ watch(
 )
 
 watch(
-  [destinationHrefEid, () => props.targetLawHtmlHtml],
+  [destinationHrefEid, () => props.targetLawHtml],
   () => {
     if (destinationHrefEid.value) {
       nextTick(() => {
@@ -374,7 +387,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           class="ds-textarea max-h-[250px] overflow-y-auto p-2"
           :class="$style.preview"
           data-testid="elementToBeReplaced"
-          :content="targetLawHtmlHtml ?? ''"
+          :content="targetLawHtml ?? ''"
           :selected="selectedElements"
           :arrow-focus="false"
           v-on="selectableAknElementsEventHandlers"
