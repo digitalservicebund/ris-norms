@@ -508,51 +508,61 @@ const sentryTraceId = useSentryTraceId()
         .akn-wrapUp
       )
   ) {
-  @apply block rounded border border-dashed border-highlight-quotedStructure-selected-border p-8;
-
-  :deep(&:not(:is(:last-child))) {
-    @apply mb-8;
-  }
+  @apply block min-w-min rounded border border-dashed border-highlight-elementSelect-default-border p-8;
 
   :deep(&):before {
     @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
   }
 
+  /**
+   * Special styling to place akn:num and the element following it in the same row.
+   * Sometimes the akn:num and a akn:heading are placed within a h1,h2,h3,...-tag. We also want to place them in the same row.
+   *
+   * The selector selects all elements that have a akn:num as first child.
+   */
   :deep(&:has(> :is(.akn-num))),
   :deep(& > :is(h1, h2, h3, h4, h5):has(> :is(.akn-num))) {
-    /**
-     * Special styling to place akn:num and the element following it in the same row.
-     * Sometimes the akn:num and a akn:heading are placed within a h1,h2,h3,...-tag. We also want to place them in the same row.
-     */
     @apply grid grid-cols-[min-content,1fr] gap-8;
 
+    /* before part of the element that includes the akn:num */
     :deep(&):before {
       @apply col-span-full;
     }
 
+    /* the akn:num element */
     :deep(& > :nth-child(1)) {
       @apply col-span-1 col-start-1 h-full;
     }
 
+    /* the part directly after the akn:num element, typically a akn:heading */
     :deep(& > :nth-child(2)) {
       @apply col-span-1 col-start-2 h-full;
     }
 
-    :deep(& *) {
+    /* all direct child elements */
+
+    :deep(& > *) {
       @apply col-span-full;
     }
   }
 
   :deep(&.selected) {
-    @apply border-2 border-solid border-black bg-[#B0EFFE];
+    @apply border-2 border-solid border-highlight-elementSelect-selected-border bg-highlight-elementSelect-selected-background;
 
     :deep(&):before {
       @apply ds-label-03-bold text-black;
     }
   }
 
+  /* The most deeply nested element that is currently hovered and not selected */
   :deep(&):hover:not(:has([class^="akn-"]:hover)):not(.selected) {
-    @apply border-2 border-[#004B76] bg-[#D6F7FE];
+    @apply border-2 border-highlight-elementSelect-hover-border bg-highlight-elementSelect-hover-background;
+  }
+
+  /* Add a small gap behind all elements that are not the last child element of their parent */
+
+  :deep(:is(&, & > :is(h1, h2, h3, h4, h5)):not(:is(:last-child))) {
+    @apply mb-8 mr-0;
   }
 }
 
@@ -591,7 +601,7 @@ const sentryTraceId = useSentryTraceId()
       )
   ) {
   :deep(&):not(:empty) {
-    @apply inline border border-[#004B76] bg-[#D6F7FE];
+    @apply inline border border-highlight-elementSelect-hover-border bg-highlight-elementSelect-hover-background;
   }
 }
 

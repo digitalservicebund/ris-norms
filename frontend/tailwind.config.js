@@ -85,6 +85,19 @@ module.exports = {
               },
             },
           },
+          elementSelect: {
+            default: {
+              border: "#004b76",
+            },
+            selected: {
+              background: "#B0EFFE",
+              border: "#000",
+            },
+            hover: {
+              background: "#D6F7FE",
+              border: "#004B76",
+            },
+          },
         },
       },
     },
