@@ -217,6 +217,71 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(jsonPath("$[4].eid").value("schluss-1"))
           .andExpect(jsonPath("$[4].type").value("conclusions"));
     }
+
+    @Test
+    void itReturnsEntriesWithBookPartChapterTitleSubtitleSectionAndSubsectionInformation()
+        throws Exception {
+      // given
+      var norm = NormFixtures.loadFromDisk("NormWithGliederung.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+      var url =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
+              + "?type=book"
+              + "&type=part"
+              + "&type=chapter"
+              + "&type=title"
+              + "&type=subtitle"
+              + "&type=section"
+              + "&type=subsection";
+
+      // when
+      mockMvc
+          .perform(get(url))
+          // then
+          .andExpect(status().isOk())
+          // book
+          .andExpect(jsonPath("$[0]").exists())
+          .andExpect(jsonPath("$[0].title").value("Buch 1 Überschrift Buch"))
+          .andExpect(jsonPath("$[0].eid").value("hauptteil-1_buch-1"))
+          .andExpect(jsonPath("$[0].type").value("book"))
+          // part
+          .andExpect(jsonPath("$[1]").exists())
+          .andExpect(jsonPath("$[1].title").value("Teil 1 Überschrift Teil"))
+          .andExpect(jsonPath("$[1].eid").value("hauptteil-1_buch-1_teil-1"))
+          .andExpect(jsonPath("$[1].type").value("part"))
+          // chapter
+          .andExpect(jsonPath("$[2]").exists())
+          .andExpect(jsonPath("$[2].title").value("Kapitel 1 Überschrift Kapitel"))
+          .andExpect(jsonPath("$[2].eid").value("hauptteil-1_buch-1_teil-1_kapitel-1"))
+          .andExpect(jsonPath("$[2].type").value("chapter"))
+          // section
+          .andExpect(jsonPath("$[3]").exists())
+          .andExpect(jsonPath("$[3].title").value("Abschnitt 1 Überschrift Abschnitt"))
+          .andExpect(jsonPath("$[3].eid").value("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1"))
+          .andExpect(jsonPath("$[3].type").value("section"))
+          // subsection
+          .andExpect(jsonPath("$[4]").exists())
+          .andExpect(jsonPath("$[4].title").value("Unterabschnitt 1 Überschrift Unterabschnitt"))
+          .andExpect(
+              jsonPath("$[4].eid")
+                  .value("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1"))
+          .andExpect(jsonPath("$[4].type").value("subsection"))
+          // title
+          .andExpect(jsonPath("$[5]").exists())
+          .andExpect(jsonPath("$[5].title").value("Titel 1 Überschrift Titel"))
+          .andExpect(
+              jsonPath("$[5].eid")
+                  .value("hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1"))
+          .andExpect(jsonPath("$[5].type").value("title"))
+          // subtitle
+          .andExpect(jsonPath("$[6]").exists())
+          .andExpect(jsonPath("$[6].title").value("Untertitel 1 Überschrift Untertitel"))
+          .andExpect(
+              jsonPath("$[6].eid")
+                  .value(
+                      "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1"))
+          .andExpect(jsonPath("$[6].type").value("subtitle"));
+    }
   }
 
   @Nested

@@ -78,16 +78,16 @@ public class ElementService
       // preliminary and untested due to lack of test data. Will be updated in RISDEV-4530.
       Map.ofEntries(
           Map.entry(ElementType.ARTICLE, "//body//article"),
-          Map.entry(ElementType.BOOK, "//book"),
-          Map.entry(ElementType.CHAPTER, "//chapter"),
+          Map.entry(ElementType.BOOK, "//body//book"),
+          Map.entry(ElementType.CHAPTER, "//body//chapter"),
           Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"),
-          Map.entry(ElementType.PART, "//part"),
+          Map.entry(ElementType.PART, "//body//part"),
           Map.entry(ElementType.PREAMBLE, "//act/preamble"),
           Map.entry(ElementType.PREFACE, "//act/preface"),
-          Map.entry(ElementType.SECTION, "//section"),
-          Map.entry(ElementType.SUBSECTION, "//subsection"),
-          Map.entry(ElementType.SUBTITLE, "//subtitle"),
-          Map.entry(ElementType.TITLE, "//title"));
+          Map.entry(ElementType.SECTION, "//body//section"),
+          Map.entry(ElementType.SUBSECTION, "//body//subsection"),
+          Map.entry(ElementType.SUBTITLE, "//body//subtitle"),
+          Map.entry(ElementType.TITLE, "//body//title"));
 
   public ElementService(
       LoadNormPort loadNormPort,
