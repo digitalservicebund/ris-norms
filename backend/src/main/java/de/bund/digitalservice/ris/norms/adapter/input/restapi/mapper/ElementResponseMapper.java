@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.service.ElementService;
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Map;
+import java.util.Set;
 import org.w3c.dom.Node;
 
 /** Mapper class for converting between {@link Node} and {@link ElementResponseSchema}. */
@@ -29,7 +30,9 @@ public class ElementResponseMapper {
 
     if (staticNodeTitles.containsKey(nodeTypeName)) {
       title = staticNodeTitles.get(nodeTypeName);
-    } else if (nodeTypeName.equals("ARTICLE")) {
+    } else if (Set.of(
+            "ARTICLE", "BOOK", "PART", "CHAPTER", "SECTION", "SUBSECTION", "TITLE", "SUBTITLE")
+        .contains(nodeTypeName)) {
       var num = NodeParser.getValueFromExpression("./num", node).orElse("").strip();
       var heading = NodeParser.getValueFromExpression("./heading", node).orElse("").strip();
       title = (num + " " + heading).strip();
