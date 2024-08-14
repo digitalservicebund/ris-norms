@@ -104,6 +104,8 @@ const {
     "book",
     "chapter",
     "part",
+    "section",
+    "subsection",
     "subtitle",
     "title",
   ],
