@@ -202,13 +202,15 @@ test.describe("Editing a single mod", () => {
       .fill(
         "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
       )
+
+    const saveResponsePromise = sharedPage.waitForResponse("**/norms/eli/**")
     await modFormSection.getByRole("button", { name: "Speichern" }).click()
-    await amendingLawSection.getByRole("tab", { name: "xml" }).click()
-    await expect(
-      amendingLawSection.getByText(
-        "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
-      ),
-    ).toBeVisible()
+
+    // Then
+    const saveResponse = await (await saveResponsePromise).json()
+    expect(saveResponse.amendingNormXml).toContain(
+      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+    )
   })
 
   test("selecting and saving the time boundary", async () => {
@@ -245,11 +247,12 @@ test.describe("Editing a single mod", () => {
       .getByRole("combobox", { name: "Zeitgrenze" })
       .selectOption("2023-10-10")
 
+    const saveResponsePromise = sharedPage.waitForResponse("**/norms/eli/**")
     await modFormSection.getByRole("button", { name: "Speichern" }).click()
-    await amendingLawSection.getByRole("tab", { name: "xml" }).click()
-    await expect(
-      amendingLawSection.getByText('date="2023-10-10"'),
-    ).toBeVisible()
+
+    // Then
+    const saveResponse = await (await saveResponsePromise).json()
+    expect(saveResponse.amendingNormXml).toContain('date="2023-10-10"')
 
     // delete test time boundary
     await sharedPage.goto(
