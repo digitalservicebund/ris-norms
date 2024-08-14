@@ -151,7 +151,9 @@ watch(
       .map((key) => key.replace("onClick:akn:", ""))
       .forEach((aknElement) => {
         container.value
-          ?.querySelectorAll(`.akn-${aknElement}`)
+          ?.querySelectorAll(
+            `.akn-${aknElement.replaceAll(/-(\w)/g, (_, captureGroup) => captureGroup.toUpperCase())}`,
+          )
           ?.forEach((htmlElement) => {
             if (!(htmlElement instanceof HTMLElement)) return
 
