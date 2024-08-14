@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
-    "@sentry/vue": "~8.25.0",
+    "@sentry/vue": "~8.26.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~10.0.0",
     "@vueuse/core": "~10.11.0",
