@@ -96,9 +96,45 @@ const {
   error: elementsError,
 } = useGetElements(
   affectedDocumentEli,
-  ["article", "conclusions", "preamble", "preface"],
+  [
+    "article",
+    "conclusions",
+    "preamble",
+    "preface",
+    "book",
+    "chapter",
+    "part",
+    "section",
+    "subsection",
+    "subtitle",
+    "title",
+  ],
   { amendedBy: amendingLawEli },
 )
+
+const elementLinks = computed(() => {
+  if (!elements.value) {
+    return []
+  }
+
+  return elements.value.map((el) => ({
+    eid: el.eid,
+    title: el.title,
+    route: {
+      name:
+        el.type === "article" ||
+        el.type === "conclusions" ||
+        el.type === "preamble" ||
+        el.type === "preface"
+          ? "AmendingLawMetadataEditorElement"
+          : "AmendingLawMetadataEditorOutlineElement",
+      params: {
+        eid: el.eid,
+        timeBoundary: selectedTimeBoundary.value,
+      },
+    },
+  }))
+})
 </script>
 
 <template>
@@ -203,22 +239,16 @@ const {
           <!-- Render conditionally on selectedTimeBoundary to prevent missing param errors in the route -->
           <template v-if="selectedTimeBoundary">
             <router-link
-              v-for="element in elements"
-              :key="element.eid"
-              :to="{
-                name: 'AmendingLawMetadataEditorElement',
-                params: {
-                  eid: element.eid,
-                  timeBoundary: selectedTimeBoundary,
-                },
-              }"
+              v-for="link in elementLinks"
+              :key="link.eid"
+              :to="link.route"
               active-class="font-bold underline bg-blue-200"
               class="ds-label-02-reg block px-16 py-8 hover:bg-blue-200 hover:underline focus:bg-blue-200 focus:underline"
             >
               <span
                 class="block overflow-hidden text-ellipsis whitespace-nowrap"
               >
-                {{ element.title }}
+                {{ link.title }}
               </span>
             </router-link>
           </template>
