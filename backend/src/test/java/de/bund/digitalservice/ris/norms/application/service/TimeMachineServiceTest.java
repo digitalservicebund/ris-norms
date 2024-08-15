@@ -319,28 +319,6 @@ class TimeMachineServiceTest {
   class applyQuotedText {
     @Test
     void applyQuotedTextOnNodeEmptyAfterRemovingWhitespace() throws Exception {
-      // given
-      //     final String quotedTextMod = """
-      //   <akn:mod eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
-      //         GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
-      //         refersTo="aenderungsbefehl-ersetzen">In <akn:ref
-      // eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
-      //            GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
-      //
-      // href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/para-20_abs-1/100-126.xml">§ 20 Absatz 1 Satz 2</akn:ref> wird
-      //   die Angabe <akn:quotedText
-      // eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
-      //                   GUID="694459c4-ef66-4f87-bb78-a332054a2216"
-      //                   startQuote="„"
-      //                   endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die
-      //   Wörter <akn:quotedText
-      // eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
-      //                   GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196"
-      //                   startQuote="„"
-      //                   endQuote="“">§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:quotedText>
-      //   ersetzt.</akn:mod>
-      //   """;
-
       final String quotedTextMod =
           """
                     <akn:mod
@@ -376,14 +354,14 @@ class TimeMachineServiceTest {
           Optional.of(
               XmlMapper.toNode(
                   """
-                            <?xml version="1.0" encoding="UTF-8"?>
-                            <akn:p
-                                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483"
-                                eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                            ></akn:p>
-                                            """)); // will be modified when applying the quoted text
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <akn:p
+                                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483"
+                                        eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
+                                    ></akn:p>
+                                                    """)); // will be modified when applying the quoted text
 
       // obtaining the private method using reflection
       Method applyQuotedTextPrivateMethod =
@@ -394,6 +372,8 @@ class TimeMachineServiceTest {
       applyQuotedTextPrivateMethod.invoke(timeMachineService, modData, targetNode.get());
 
       // then
+      // TODO: assert the actual change made, not just that the function threw an
+      // exception
       assertThat(targetNode).isPresent();
     }
   }

@@ -161,8 +161,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
       final int endIndex = startIndex + oldText.length();
 
       // Split the text into three parts: before, replacement, after
-      final String beforeText = targetText.substring(0, startIndex);
-      final String afterText = targetText.substring(endIndex + 1);
+      final String beforeText = targetText.length() > 0 ? targetText.substring(0, startIndex) : "";
+      final String afterText = targetText.length() > 0 ? targetText.substring(endIndex + 1) : "";
 
       // Clear the target node's content
       while (targetNode.hasChildNodes()) {
