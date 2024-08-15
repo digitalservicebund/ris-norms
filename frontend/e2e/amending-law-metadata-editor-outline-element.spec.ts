@@ -5,10 +5,14 @@ test.describe("navigate to page", () => {
     page,
   }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/edit",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/",
     )
 
-    await page.getByRole("link", { name: "Beispielkapitel" }).click()
+    await page
+      .getByRole("link", {
+        name: "Erster Abschnitt Zusammenarbeit, Aufgaben der Verfassungsschutzbehörden",
+      })
+      .click()
 
     await expect(
       page.getByText(
@@ -21,11 +25,14 @@ test.describe("navigate to page", () => {
     page,
   }) => {
     await page.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/edit/1002-01-11/outline/hauptteil-1_buch-4_kapitel-1",
+      "/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/2023-12-30/outline/hauptteil-1_abschnitt-erster",
     )
 
     await expect(
-      page.getByRole("heading", { level: 2, name: "Beispielkapitel" }),
+      page.getByRole("region", { name: "Vorschau" }).getByRole("heading", {
+        level: 2,
+        name: "Erster Abschnitt Zusammenarbeit, Aufgaben der Verfassungsschutzbehörden",
+      }),
     ).toBeVisible()
   })
 })
