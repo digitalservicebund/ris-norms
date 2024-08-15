@@ -73,7 +73,7 @@ const {
       >
         <RisCallout
           variant="warning"
-          title="Aktuell sind keine Metadaten auf Gliederungsebene implementiert"
+          title="Aktuell sind keine Metadaten auf Gliederungsebene implementiert."
         />
       </section>
     </div>
