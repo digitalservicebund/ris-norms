@@ -35,7 +35,7 @@ testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", ve
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
 
 [plugins]
-dependency-license-report = "com.github.jk1.dependency-license-report:2.8"
+dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
 sentry = "io.sentry.jvm.gradle:4.11.0"
 sonarqube = "org.sonarqube:5.1.0.4882"
 spotless = "com.diffplug.spotless:6.25.0"
