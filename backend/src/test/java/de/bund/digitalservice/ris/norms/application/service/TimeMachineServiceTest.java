@@ -310,5 +310,29 @@ class TimeMachineServiceTest {
               .build();
       assertThat(diff.hasDifferences()).isFalse();
     }
+
+    @Test
+    void acceptQuotedTextWithRefsOnEmptyTargetNode() {
+      // given
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      norm.getNodeByEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+          .get()
+          .setTextContent("");
+
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedTextModAndRefs.xml");
+
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+
+      // when
+      timeMachineService.applyPassiveModifications(
+          new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
+
+      // then
+      final Optional<Node> updatedNode =
+          NodeParser.getNodeFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              norm.getDocument());
+      assertThat(updatedNode).isPresent();
+    }
   }
 }
