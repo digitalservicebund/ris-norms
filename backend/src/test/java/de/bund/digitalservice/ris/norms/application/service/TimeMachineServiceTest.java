@@ -5,13 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
-import de.bund.digitalservice.ris.norms.application.service.TimeMachineService.ModData;
-import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
@@ -313,75 +310,22 @@ class TimeMachineServiceTest {
               .build();
       assertThat(diff.hasDifferences()).isFalse();
     }
-  }
 
-  @Nested
-  class applyQuotedText {
-    // NOTE: we're testing a private method, here. This should be an exception. If
-    // you feel like you need it, too, please talk to the team first.
     @Test
-    void applyQuotedTextOnNodeEmptyAfterRemovingWhitespace() throws Exception {
-      final String quotedTextMod =
-          """
-                    <akn:mod
-                                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
-                                            GUID="148c2f06-6e33-4af8-9f4a-3da67c888510"
-                                            refersTo="aenderungsbefehl-ersetzen">In <akn:ref
-                                            eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
-                                            GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
-                                            href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml">
-                                        § 20 Absatz 1 Satz 2
-                                    </akn:ref> wird
-                                        die Angabe <akn:quotedText
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-1"
-                                                GUID="694459c4-ef66-4f87-bb78-a332054a2216"
-                                                startQuote="„"
-                                                endQuote="“">§ 9 Abs. 1 Satz 2, Abs. 2
-                                        </akn:quotedText> durch die
-                                        Wörter
-                                        <akn:quotedText
-                                                eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2"
-                                                GUID="dd25bdb6-4ef4-4ef5-808c-27579b6ae196"
-                                                startQuote="„"
-                                                endQuote="“">§ 9 Absatz 1 <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a46c3"
-                                                                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2_ref-1"
-                                                                                   href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Satz 2</akn:ref>, Absatz 2 oder 3
-                                        </akn:quotedText>
-                                        ersetzt.
-                                    </akn:mod>
-                    """;
-      final Mod mod = Mod.builder().node(XmlMapper.toNode(quotedTextMod)).build();
-      final ModData modData = new ModData(null, null, mod);
-      final String nodeString =
-          """
-                    <?xml version="1.0" encoding="UTF-8"?>
-                    <akn:p
-                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483"
-                        eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                    ></akn:p>
-                                    """;
-      final Node targetNode =
-          XmlMapper.toNode(nodeString); // will be modified when applying the quoted text
-      final Node unchangedTargetNodeClone =
-          XmlMapper.toNode(nodeString); // used for comparison after applying
-      // method
+    void acceptQuotedTextWithRefsOnEmptyTargetNode() {
+      // given
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      norm.getNodeByEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
+          .get()
+          .setTextContent("");
 
-      // NOTE: we're testing a private method, here. This should be an exception. If
-      // you feel like you need it, too, please talk to the team first.
+      final var amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedTextModAndRefs.xml");
 
-      // obtaining the private method using reflection
-      Method applyQuotedTextPrivateMethod =
-          TimeMachineService.class.getDeclaredMethod("applyQuotedText", ModData.class, Node.class);
-      applyQuotedTextPrivateMethod.setAccessible(true);
+      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
-      // when
-      applyQuotedTextPrivateMethod.invoke(timeMachineService, modData, targetNode);
-
-      // then
-      assertThat(XmlMapper.toString(unchangedTargetNodeClone))
-          .isEqualTo(XmlMapper.toString(unchangedTargetNodeClone));
+      // when then
+      timeMachineService.applyPassiveModifications(
+          new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
     }
   }
 }
