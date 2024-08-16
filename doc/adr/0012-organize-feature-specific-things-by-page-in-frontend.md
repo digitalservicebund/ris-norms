@@ -92,6 +92,8 @@ something and we need to introduce some further nesting there.
 It could also be the case that we add some larger features that are not view-specific. In that case we could still add
 some `features` folder to organize everything related to that feature.
 
+Also the urls of our application could change and with this proposale they would be tightly coupled.
+
 ## Further details
 
 <details>
