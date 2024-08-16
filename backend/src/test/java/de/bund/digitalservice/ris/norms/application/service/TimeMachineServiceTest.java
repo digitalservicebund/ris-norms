@@ -317,6 +317,8 @@ class TimeMachineServiceTest {
 
   @Nested
   class applyQuotedText {
+    // NOTE: we're testing a private method, here. This should be an exception. If
+    // you feel like you need it, too, please talk to the team first.
     @Test
     void applyQuotedTextOnNodeEmptyAfterRemovingWhitespace() throws Exception {
       final String quotedTextMod =
@@ -350,10 +352,8 @@ class TimeMachineServiceTest {
                     """;
       final Mod mod = Mod.builder().node(XmlMapper.toNode(quotedTextMod)).build();
       final ModData modData = new ModData(null, null, mod);
-      final Optional<Node> targetNode =
-          Optional.of(
-              XmlMapper.toNode(
-                  """
+      final String nodeString =
+          """
                                     <?xml version="1.0" encoding="UTF-8"?>
                                     <akn:p
                                         xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
@@ -361,7 +361,14 @@ class TimeMachineServiceTest {
                                         GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483"
                                         eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
                                     ></akn:p>
-                                                    """)); // will be modified when applying the quoted text
+                                                    """;
+      final Node targetNode =
+          XmlMapper.toNode(nodeString); // will be modified when applying the quoted text
+      final Node unchangedTargetNodeClone =
+          XmlMapper.toNode(nodeString); // used for comparison after applying method
+
+      // NOTE: we're testing a private method, here. This should be an exception. If
+      // you feel like you need it, too, please talk to the team first.
 
       // obtaining the private method using reflection
       Method applyQuotedTextPrivateMethod =
@@ -369,12 +376,13 @@ class TimeMachineServiceTest {
       applyQuotedTextPrivateMethod.setAccessible(true);
 
       // when
-      applyQuotedTextPrivateMethod.invoke(timeMachineService, modData, targetNode.get());
+      applyQuotedTextPrivateMethod.invoke(timeMachineService, modData, targetNode);
 
       // then
-      // TODO: assert the actual change made, not just that the function threw an
-      // exception
-      assertThat(targetNode).isPresent();
+      assertThat(
+              XmlMapper.toString(unchangedTargetNodeClone)
+                  .equals(XmlMapper.toString(unchangedTargetNodeClone)))
+          .isTrue();
     }
   }
 }
