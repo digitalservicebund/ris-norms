@@ -354,18 +354,19 @@ class TimeMachineServiceTest {
       final ModData modData = new ModData(null, null, mod);
       final String nodeString =
           """
-                                    <?xml version="1.0" encoding="UTF-8"?>
-                                    <akn:p
-                                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                        GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483"
-                                        eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                                    ></akn:p>
-                                                    """;
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <akn:p
+                        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483"
+                        eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
+                    ></akn:p>
+                                    """;
       final Node targetNode =
           XmlMapper.toNode(nodeString); // will be modified when applying the quoted text
       final Node unchangedTargetNodeClone =
-          XmlMapper.toNode(nodeString); // used for comparison after applying method
+          XmlMapper.toNode(nodeString); // used for comparison after applying
+      // method
 
       // NOTE: we're testing a private method, here. This should be an exception. If
       // you feel like you need it, too, please talk to the team first.
@@ -379,10 +380,8 @@ class TimeMachineServiceTest {
       applyQuotedTextPrivateMethod.invoke(timeMachineService, modData, targetNode);
 
       // then
-      assertThat(
-              XmlMapper.toString(unchangedTargetNodeClone)
-                  .equals(XmlMapper.toString(unchangedTargetNodeClone)))
-          .isTrue();
+      assertThat(XmlMapper.toString(unchangedTargetNodeClone))
+          .isEqualTo(XmlMapper.toString(unchangedTargetNodeClone));
     }
   }
 }
