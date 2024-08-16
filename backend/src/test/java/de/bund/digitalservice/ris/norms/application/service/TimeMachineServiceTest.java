@@ -34,24 +34,24 @@ class TimeMachineServiceTest {
               .document(
                   XmlMapper.toDocument(
                       """
-                                            <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                                            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                                   http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                                               <akn:act name="regelungstext">
-                                                  <!-- Metadaten -->
-                                                  <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
-                                                     <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
-                                                        <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
-                                                            <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
-                                                            <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
-                                                            <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
-                                                         </akn:FRBRWork>
-                                                    </akn:identification>
-                                                  </akn:meta>
-                                               </akn:act>
-                                            </akn:akomaNtoso>
-                                            """))
+                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                             http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                         <akn:act name="regelungstext">
+                            <!-- Metadaten -->
+                            <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                               <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                                  <akn:FRBRWork eId="meta-1_ident-1_frbrwork-1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
+                                      <akn:FRBRnumber eId="meta-1_ident-1_frbrwork-1_frbrnumber-1" GUID="b82cc174-8fff-43bf-a434-5646de09e807" value="s593" />
+                                      <akn:FRBRname eId="meta-1_ident-1_frbrwork-1_frbrname-1" GUID="374e5873-9c62-4e3d-9dbe-1b865ba0b327" value="BGBl. I" />
+                                      <akn:FRBRdate eId="meta-1_ident-1_frbrwork-1_frbrdate-1" GUID="5a628f8c-65d0-4854-87cc-6fd01a2d7a9a" date="1964-08-05" name="verkuendungsfassung" />
+                                   </akn:FRBRWork>
+                              </akn:identification>
+                            </akn:meta>
+                         </akn:act>
+                      </akn:akomaNtoso>
+                      """))
               .build();
 
       // when
@@ -137,18 +137,18 @@ class TimeMachineServiceTest {
       assertThat(changedNodeValue.get())
           .isEqualToIgnoringWhitespace(
               """
-                                    Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen
-                                                                    entsprechend §
-                                                                    64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die
-                                                                    Angaben, die die
-                                                                    Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der
-                                                                    Protokolldaten
-                                                                    ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der
-                                                                    Datenschutzkontrolle, der
-                                                                    Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
-                                                                    Die
-                                                                    Protokolldaten sind nach Ablauf von fünf Jahren zu löschen.
-                                    """);
+                              Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen
+                                                              entsprechend §
+                                                              64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die
+                                                              Angaben, die die
+                                                              Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der
+                                                              Protokolldaten
+                                                              ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der
+                                                              Datenschutzkontrolle, der
+                                                              Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
+                                                              Die
+                                                              Protokolldaten sind nach Ablauf von fünf Jahren zu löschen.
+                              """);
     }
 
     @Test
@@ -286,9 +286,9 @@ class TimeMachineServiceTest {
       final Node expectedNode =
           XmlMapper.toNode(
               """
-                            <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">entgegen § 9 Absatz 1 <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a46c3" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-1" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Satz 2</akn:ref>, Absatz 2 oder 3
-                                                                    Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
-                                            """);
+<?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">entgegen § 9 Absatz 1 <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a46c3" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-1" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Satz 2</akn:ref>, Absatz 2 oder 3
+                                        Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
+                """);
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
