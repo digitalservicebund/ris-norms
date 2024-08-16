@@ -156,7 +156,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
       // whitespaces, for the
       // character counting from mod to work
       final String targetText = targetNode.getTextContent().trim().replaceAll("\\s+", " ");
-      if (targetText.length() == 0) return;
+      if (targetText.isEmpty()) return;
 
       // Get the start and end index of the old text, within the cleaned old text of
       // the target node
