@@ -323,9 +323,16 @@ class TimeMachineServiceTest {
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
-      // when then
+      // when
       timeMachineService.applyPassiveModifications(
           new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
+
+      // then
+      final Optional<Node> updatedNode =
+          NodeParser.getNodeFromExpression(
+              "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
+              norm.getDocument());
+      assertThat(updatedNode).isPresent();
     }
   }
 }
