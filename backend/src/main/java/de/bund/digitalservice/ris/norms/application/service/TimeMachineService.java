@@ -152,12 +152,14 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     if (mod.containsRef()) {
       final Node secondQuotedTextNode = mod.getSecondQuotedText().get();
 
-      // Get the target node's current text content and remove unnecessary whitespaces, for the
+      // Get the target node's current text content and remove unnecessary
+      // whitespaces, for the
       // character counting from mod to work
       final String targetText = targetNode.getTextContent().trim().replaceAll("\\s+", " ");
       if (targetText.length() == 0) return;
 
-      // Get the start and end index of the old text, within the cleaned old text of the target node
+      // Get the start and end index of the old text, within the cleaned old text of
+      // the target node
       final int startIndex = targetText.indexOf(oldText);
       final int endIndex = startIndex + oldText.length();
 
@@ -176,7 +178,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         targetNode.appendChild(beforeTextNode);
       }
 
-      // Import content of quotedText from amending law (which include akn:refs) using importNode
+      // Import content of quotedText from amending law (which include akn:refs) using
+      // importNode
       // because of different documents
       NodeParser.nodeListToList(secondQuotedTextNode.getChildNodes())
           .forEach(
