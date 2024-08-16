@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.46.0-jammy AS e2etest
+FROM mcr.microsoft.com/playwright:v1.46.1-jammy AS e2etest
 WORKDIR /usr/src/app
 COPY . .
 RUN npm install
