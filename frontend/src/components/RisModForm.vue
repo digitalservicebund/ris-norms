@@ -314,7 +314,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
 </script>
 
 <template>
-  <form :id="id" class="grid grid-cols-1 gap-y-12">
+  <form :id="id" class="grid max-h-full grid-cols-1 gap-y-12 overflow-hidden">
     <div class="grid grid-cols-2 gap-x-16">
       <RisDropdownInput
         id="timeBoundaries"
@@ -337,12 +337,13 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
       :model-value="destinationHrefEli"
       read-only
     />
-    <template
+    <div
       v-if="
         textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
       "
+      class="grid max-h-full grid-cols-subgrid grid-rows-[2fr,1fr] gap-y-12 overflow-hidden"
     >
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2 overflow-hidden">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label"
           >Zu ersetzendes Element</label
@@ -351,7 +352,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           v-bind="selectableAknElementsLabels"
           id="elementToBeReplaced"
           ref="elementToBeReplacedRef"
-          class="ds-textarea max-h-[250px] overflow-y-auto p-2"
+          class="ds-textarea overflow-y-auto p-2"
           :class="$style.preview"
           data-testid="elementToBeReplaced"
           :content="targetLawHtml ?? ''"
@@ -362,19 +363,19 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           @mousedown="handleMouseDown"
         />
       </div>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2 overflow-hidden">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label">Neues Element</label>
         <RisLawPreview
           id="replacingElement"
-          class="ds-textarea h-[150px] overflow-y-auto p-2"
+          class="ds-textarea h-full overflow-y-auto p-2"
           :class="$style.preview"
           data-testid="replacingElement"
           :arrow-focus="false"
           :content="quotedStructureContent"
         />
       </div>
-    </template>
+    </div>
     <template v-else-if="textualModType === 'aenderungsbefehl-ersetzen'">
       <RisTextInput
         id="destinationHrefEid"
