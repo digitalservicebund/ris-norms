@@ -498,43 +498,6 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
       @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
     }
 
-    /**
-     * Special styling to place akn:num and the element following it in the same row.
-     * Sometimes the akn:num and a akn:heading are placed within a h1,h2,h3,...-tag. We also want to place them in the same row.
-     *
-     * The selector selects all elements that have a akn:num as first child.
-     */
-    &:has(> :is(:global(.akn-num))),
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) {
-      @apply grid grid-cols-[max-content,1fr] gap-8;
-    }
-
-    &:has(> :is(:global(.akn-num))):before,
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))):before {
-      @apply col-span-full;
-    }
-
-    /* the akn:num element */
-
-    &:has(> :is(:global(.akn-num))) > :nth-child(1),
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) > :nth-child(1) {
-      @apply col-span-1 col-start-1 h-full;
-    }
-
-    /* the part directly after the akn:num element, typically a akn:heading */
-
-    &:has(> :is(:global(.akn-num))) > :nth-child(2),
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) > :nth-child(2) {
-      @apply col-span-1 col-start-2 h-full;
-    }
-
-    /* all direct child elements */
-
-    &:has(> :is(:global(.akn-num))) > *,
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) > * {
-      @apply col-span-full;
-    }
-
     &:global(.selected) {
       @apply border-transparent bg-highlight-elementSelect-selected-background outline outline-2 outline-highlight-elementSelect-selected-border;
 
@@ -561,10 +524,42 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
   :global(.akn-tr) {
     @apply grid auto-cols-fr grid-flow-col grid-rows-[min-content,1fr] gap-8;
 
-    > * {
-      @apply row-start-2 mb-0;
+    &:before {
+      @apply -mb-8;
     }
   }
+
+  :global(.akn-tr) > * {
+    @apply row-start-2 mb-0;
+  }
+}
+
+/**
+ * Special styling for akn:num
+ */
+.preview :has(> :first-child:is(:global(.akn-num)):not(:only-child)),
+.preview
+  :has(
+    > :first-child:is(h1, h2, h3, h4, h5) > :only-child:is(:global(.akn-num))
+  ) {
+  @apply grid grid-cols-[max-content,1fr] gap-x-8;
+
+  &:before {
+    @apply col-span-full;
+  }
+
+  :first-child {
+    @apply col-span-1 col-start-1 h-fit;
+  }
+}
+
+.preview :has(> :first-child:is(:global(.akn-num)):not(:only-child)) > *,
+.preview
+  :has(
+    > :first-child:is(h1, h2, h3, h4, h5) > :only-child:is(:global(.akn-num))
+  )
+  > * {
+  @apply col-span-1 col-start-2;
 }
 </style>
 
