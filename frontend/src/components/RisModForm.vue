@@ -494,7 +494,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
      */
     &:has(> :is(:global(.akn-num))),
     & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) {
-      @apply grid grid-cols-[min-content,1fr] gap-8;
+      @apply grid grid-cols-[max-content,1fr] gap-8;
     }
 
     &:has(> :is(:global(.akn-num))):before,
