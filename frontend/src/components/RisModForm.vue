@@ -358,6 +358,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           :content="targetLawHtml ?? ''"
           :selected="selectedElements"
           :arrow-focus="false"
+          :styled="false"
           v-on="selectableAknElementsEventHandlers"
           @keydown="handlePreviewKeyDown"
           @mousedown="handleMouseDown"
@@ -373,6 +374,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           data-testid="replacingElement"
           :arrow-focus="false"
           :content="quotedStructureContent"
+          :styled="false"
         />
       </div>
     </div>
@@ -444,6 +446,16 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
 <!-- We need to use a module for this part of the styling as there is a bug in vue that wrongly converts some tags in nested scoped styling -->
 <style module>
 .preview {
+  [class^="akn-"],
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  tbody {
+    @apply block w-full;
+  }
+
   :global(
       :is(
           .akn-article,
@@ -480,7 +492,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           .akn-wrapUp
         )
     ) {
-    @apply block min-w-min rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
+    @apply rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
 
     &:before {
       @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
@@ -536,12 +548,21 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
     &:hover:not(:has([class^="akn-"]:hover)):not(:global(.selected)) {
       @apply border-transparent bg-highlight-elementSelect-hover-background outline-dashed outline-2 outline-highlight-elementSelect-hover-border;
     }
+  }
 
-    /* Add a small gap behind all elements that are not the last child element of their parent */
+  :not(:is(:last-child)) {
+    @apply mb-8 mr-0;
+  }
 
-    &:not(:is(:last-child)),
-    & > :is(h1, h2, h3, h4, h5):not(:is(:last-child)) {
-      @apply mb-8 mr-0;
+  /**
+   * Special styling for showing table rows in one row
+   */
+
+  :global(.akn-tr) {
+    @apply grid auto-cols-fr grid-flow-col grid-rows-[min-content,1fr] gap-8;
+
+    > * {
+      @apply row-start-2 mb-0;
     }
   }
 }
