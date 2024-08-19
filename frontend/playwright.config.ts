@@ -13,7 +13,7 @@ const config: PlaywrightTestConfig = {
       ? [["dot"], ["blob", { outputFile: "./blob-report/test-report.zip" }]]
       : "list",
   use: {
-    viewport: { width: 1280, height: 720 },
+    viewport: { width: 1440, height: 1080 },
     baseURL: process.env.E2E_BASE_URL,
     screenshot: { mode: "only-on-failure", fullPage: true },
     timezoneId: "Europe/Berlin",
