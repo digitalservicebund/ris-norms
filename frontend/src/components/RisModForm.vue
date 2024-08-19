@@ -453,7 +453,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
   h4,
   h5,
   tbody {
-    @apply block w-full;
+    @apply block w-min min-w-full;
   }
 
   :global(
