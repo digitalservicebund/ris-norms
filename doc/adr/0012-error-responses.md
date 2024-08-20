@@ -1,10 +1,10 @@
-# 13. Error responses
+# 12. Error responses
 
-Date: 202x-xx-xx
+Date: 2024-08-20
 
 ## Status
 
-Proposal
+Accepted
 
 ## Context
 
