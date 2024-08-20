@@ -27,11 +27,18 @@ sent by an API.
 We follow [RFC-9457 (Problem Details for HTTP APIs)](https://www.rfc-editor.org/rfc/rfc9457) for our error responses.
 All error responses are JSON objects.
 
-The `type` field always starts with `/errors/`. Therefore, all errors are relative to our application.
+The `type` field always starts with `/errors/`. Therefore, all errors are URLs relative to our application.
 
 For errors related to a specific norm the `instance` field is filled with the eli of the norm starting with `/eli/`.
 
 Both `title` and `details` are written in english.
+
+Only the `type` field is required. All other fields are optional.
+
+In general at least `type`, `instance` and `title` should be filled out to help with debugging. Also, all additional
+information that is required for writing a good error message should be provided as additional fields (extension
+members). For this it might be helpful to write a `details` message and provide all variables used in it as additional
+fields.
 
 ### Multiple error messages in one response
 
@@ -40,7 +47,7 @@ RFC-9457 for `HTTP/1.1 422 Unprocessable Content`.
 
 The multiple errors MUST be of the same general type. Otherwise, only the most severe error is reported. E.g. it is
 possible to send multiple `norm-not-valid` errors but not a `norm-not-valid` error at the same time as
-a `norm-not-found` error.
+a `norm-not-found` error. In this case only the `norm-not-found` error will be sent.
 
 The response includes an additional `errors` array. The elements of the `errors` array can have the same fields as the
 global object. If no `type` is provided it is assumed that it is the same as the parent type.
@@ -61,7 +68,7 @@ document:
 
 ### Displaying messages for the user
 
-To create messages to display to the user the `type` must be used in combination with the extension members. The `title`
+To create messages to display to the user the `type` must be used in combination with the other fields. The `title`
 and `details` may not be parsed or used for the translation.
 
 ### Examples
