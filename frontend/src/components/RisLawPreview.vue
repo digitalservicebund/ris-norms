@@ -137,6 +137,15 @@ function makeElementClickable(
 }
 
 /**
+ * Used for keeping track of the elements that have been made interactive. Needed
+ * for focus handling.
+ */
+let interactiveEls: HTMLElement[] = []
+
+/** Index of the currently focused element in the `interactiveEls` list. */
+const focusedEl = ref(-1)
+
+/**
  * Wire up event handling for click events whenever the document changes.
  */
 watch(
@@ -168,10 +177,14 @@ watch(
 
             if (!eid) return
 
+            const elementIndex = interactiveEls.push(htmlElement)
+
             makeElementClickable(
               htmlElement,
               (event) => {
                 event.stopPropagation()
+                focusedEl.value = elementIndex
+
                 emit(`click:akn:${aknElement}`, {
                   eid,
                   guid,
@@ -180,8 +193,6 @@ watch(
               },
               { signal: abortController.signal },
             )
-
-            interactiveEls.push(htmlElement)
 
             const aknElementNameWithDashes = aknElement
               .replaceAll(/([A-Z])/g, "-$1")
@@ -301,15 +312,6 @@ watch(
 // this into a composable to reuse it in other places!
 
 const ids = useElementId()
-
-/**
- * Used for keeping track of the elements that have been made interactive. Needed
- * for focus handling.
- */
-let interactiveEls: HTMLElement[] = []
-
-/** Index of the currently focused element in the `interactiveEls` list. */
-const focusedEl = ref(-1)
 
 const activeDescendant = ref<string>()
 
