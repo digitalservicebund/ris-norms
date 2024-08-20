@@ -11,7 +11,7 @@
     "enabled": true,
     "automerge": true
   },
-  "ignoreDeps": ["io.spring.dependency-management", "org.springframework.boot"],
+  "ignoreDeps": [],
   "packageRules": [
     {
       "groupName": "all non-major frontend dependencies",
