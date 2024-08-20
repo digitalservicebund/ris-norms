@@ -12,17 +12,15 @@ on:
         type: string
 
 jobs:
-  validate-gradle-wrapper-and-setup-gradle:
+  setup-gradle:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
   backend-build:
-    needs: [validate-gradle-wrapper-and-setup-gradle]
+    needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -50,7 +48,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   backend-unit-tests:
-    needs: [validate-gradle-wrapper-and-setup-gradle]
+    needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -70,7 +68,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   backend-integration-tests:
-    needs: [validate-gradle-wrapper-and-setup-gradle]
+    needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,7 +88,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   audit-licenses-backend:
-    needs: [validate-gradle-wrapper-and-setup-gradle]
+    needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -116,7 +114,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   analyze-backend-with-sonar-cube:
-    needs: [validate-gradle-wrapper-and-setup-gradle]
+    needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -153,7 +151,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   generate-backend-code-documentation:
-    needs: [validate-gradle-wrapper-and-setup-gradle]
+    needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
