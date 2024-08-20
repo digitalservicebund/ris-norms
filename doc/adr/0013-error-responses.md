@@ -75,7 +75,7 @@ Example error response for NormNotFound:
 {
  "type": "/errors/norm-not-found",
  "title": "Norm not found.",
- "detail": "The requested norm could not be found.",
+ "details": "The requested norm (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1) could not be found.",
  "instance": "/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
 }
 ```
@@ -88,16 +88,39 @@ Example error response for validation:
  "title": "Norm validation failed.",
  "instance": "/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
  "errors": [{
-    "type": "/errors/norm-not-valid/quoted-structure/target-and-up-to-are-not-siblings
-    "detail": "Target node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-2 and target upTo node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-3 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/2024-03-05/1/deu/regelungstext-1.",
+    "type": "/errors/norm-not-valid/quoted-structure/target-and-up-to-are-not-siblings"
+    "title": "Target node und upTo node are not siblings",
+    "details": "Target node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-2 and target upTo node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-3 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/2024-03-05/1/deu/regelungstext-1.",
     "eid": "hauptteil-1_para-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1_rref-1",
     "hrefEid": "hauptteil-1_buch-2_kapitel-1_para-3_abs-2"
     "upToEid": "hauptteil-1_buch-2_kapitel-1_para-3_abs-3",
     "zf0Eli": "eli/bund/bgbl-1/1002/1/2024-03-05/1/deu/regelungstext-1"
  }, {
-    "type": "/errors/norm-not-valid/textual-mod/destination-href-empty
-    "detail": "ActiveModification Destination Href is empty",
+    "type": "/errors/norm-not-valid/textual-mod/destination-href-empty",
+    "title": "Destination Href is empty",
     "eid": "meta-1_analysis-1_activemod-1_textualmod-1"
+ }]
+}
+```
+
+Example error response for an invalid json object:
+
+```
+{
+ "type": "/errors/proprietary-frame-schema-not-valid",
+ "title": "ProprietaryFrameSchema not valid.",
+ "errors": [{
+    "pointer": "/fna",
+    "type": "/errors/proprietary-frame-schema-not-valid/fna-does-not-exist",
+    "title": "FNA does not exist.",
+    "details": "FNA \"48\" does not exist.",
+    "instance": "48"
+ }, {
+    "pointer": "/ressort",
+    "type": "/errors/proprietary-frame-schema-not-valid/ressort-does-not-exist",
+    "title": "Ressort does not exist.",
+    "details": "Ressort \"Bundesministerium für GIFs und Memes\" does not exist.",
+    "instance": "Bundesministerium für GIFs und Memes"
  }]
 }
 ```
