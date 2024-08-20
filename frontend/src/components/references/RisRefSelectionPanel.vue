@@ -131,7 +131,7 @@ function eidToSlotName(eid: string) {
 </script>
 
 <template>
-  <div class="flex h-full flex-col">
+  <div class="flex max-h-full flex-col">
     <RisCallout
       v-if="!debouncedRenderLoading && renderError"
       variant="error"
