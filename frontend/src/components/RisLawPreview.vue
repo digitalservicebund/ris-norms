@@ -177,7 +177,7 @@ watch(
 
             if (!eid) return
 
-            const elementIndex = interactiveEls.push(htmlElement)
+            const elementIndex = interactiveEls.push(htmlElement) - 1
 
             makeElementClickable(
               htmlElement,
