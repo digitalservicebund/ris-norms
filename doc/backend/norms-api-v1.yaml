@@ -746,7 +746,7 @@ components:
           type: string
         type:
           type: string
-          enum: [ preface, preamble, article, conclusions ]
+          enum: [ preface, preamble, article, conclusions, book, chapter, part, section, subsection, title, subtitle ]
 
     Metadata:
       type: object

@@ -1,6 +1,6 @@
 sentry:
   environment: staging
-  traces-sample-rate: 1.0
+  traces-sample-rate: 0.01
   max-request-body-size: always
   send-default-pii: on
 

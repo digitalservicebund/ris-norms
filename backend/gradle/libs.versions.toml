@@ -4,7 +4,7 @@ flyway = "10.17.1"
 jacoco = "0.8.11"
 org-bouncycastle = "1.78.1"
 org-testcontainers = "1.20.1"
-spring-boot = "3.3.1"
+spring-boot = "3.3.2"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.3.0"
@@ -27,7 +27,7 @@ spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-star
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.1.3"
-spring-security-test = "org.springframework.security:spring-security-test:6.3.1"
+spring-security-test = "org.springframework.security:spring-security-test:6.3.2"
 spring-session-data-redis = { module = "org.springframework.session:spring-session-data-redis" }
 spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
@@ -35,12 +35,12 @@ testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", ve
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
 
 [plugins]
-dependency-license-report = "com.github.jk1.dependency-license-report:2.8"
+dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
 sentry = "io.sentry.jvm.gradle:4.11.0"
 sonarqube = "org.sonarqube:5.1.0.4882"
 spotless = "com.diffplug.spotless:6.25.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
-spring-dependency-management = "io.spring.dependency-management:1.1.5"
+spring-dependency-management = "io.spring.dependency-management:1.1.6"
 test-logger = "com.adarshr.test-logger:4.0.0"
 version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
 versions = "com.github.ben-manes.versions:0.51.0"

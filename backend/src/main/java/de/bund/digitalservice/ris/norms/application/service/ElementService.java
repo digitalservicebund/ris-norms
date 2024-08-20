@@ -74,8 +74,6 @@ public class ElementService
   }
 
   private final Map<ElementType, String> xPathsForTypes =
-      // Note that the paths for book, chatper, part, section, subsection, subtitle, and title are
-      // preliminary and untested due to lack of test data. Will be updated in RISDEV-4530.
       Map.ofEntries(
           Map.entry(ElementType.ARTICLE, "//body//article"),
           Map.entry(ElementType.BOOK, "//body//book"),

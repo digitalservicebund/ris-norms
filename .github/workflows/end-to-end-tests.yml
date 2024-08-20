@@ -27,14 +27,6 @@ jobs:
       - name: Start backend in the background (via .gradlew and nohup)
         run: nohup ./gradlew bootRun > /tmp/nohup.out &
         working-directory: ./backend
-      - name: Wait for backend to start
-        run: |
-          while [ `grep -c 8080 /tmp/nohup.out` -lt 1 ] ;
-          do
-          echo "sleeping for 1 second"
-          sleep 1
-          done
-        working-directory: ./backend
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -65,6 +57,14 @@ jobs:
         run: |
           npx --yes playwright install --with-deps ${{ inputs.browser }}
         working-directory: ./frontend
+      - name: Wait for backend to start
+        run: |
+          while [ `grep -c 8080 /tmp/nohup.out` -lt 1 ] ;
+          do
+          echo "sleeping for 1 second"
+          sleep 1
+          done
+        working-directory: ./backend
       - name: Run e2e tests in ${{ inputs.browser }} against localhost
         env:
           E2E_BASE_URL: "http://localhost:5173"

@@ -78,6 +78,7 @@ test.describe("sidebar navigation", () => {
     await expect(links).toHaveText(
       [
         "Rahmen",
+        "Erster Abschnitt Zusammenarbeit, Aufgaben der Verfassungsschutzbehörden",
         "§ 2 Verfassungsschutzbehörden",
         "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
       ],
@@ -99,6 +100,7 @@ test.describe("sidebar navigation", () => {
     await expect(links).toHaveText(
       [
         "Rahmen",
+        "Erster Abschnitt Zusammenarbeit, Aufgaben der Verfassungsschutzbehörden",
         "§ 2 Verfassungsschutzbehörden",
         "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
       ],
@@ -139,7 +141,7 @@ test.describe("sidebar navigation", () => {
     page,
   }) => {
     await page.route(
-      /elements\?type=article&type=conclusions&type=preamble&type=preface&amendedBy=eli/,
+      /elements\?type=article&type=conclusions&type=preamble&type=preface&type=book&type=chapter&type=part&type=section&type=subsection&type=subtitle&type=title&amendedBy=eli/,
       (route) => {
         route.abort()
       },
@@ -158,9 +160,9 @@ test.describe("sidebar navigation", () => {
 
   test("shows an empty state when no elements are found", async ({ page }) => {
     await page.route(
-      /elements\?type=article&type=conclusions&type=preamble&type=preface&amendedBy=eli/,
+      /elements\?type=article&type=conclusions&type=preamble&type=preface&type=book&type=chapter&type=part&type=section&type=subsection&type=subtitle&type=title&amendedBy=eli/,
       async (route) => {
-        await route.fulfill({ status: 200, json: {} })
+        await route.fulfill({ status: 200, json: [] })
       },
     )
 

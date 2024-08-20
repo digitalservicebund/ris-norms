@@ -430,7 +430,6 @@ test.describe("Range mod", () => {
       })
       .and(elementToBeReplacedField.getByText("3. den spezifischen"))
 
-    await expect(secondSelectedElementLocator).toBeInViewport()
     await expect(secondSelectedElementLocator).toHaveClass(/selected/)
 
     await expect(sharedPage.getByTestId("replacingElement")).toHaveText(
@@ -501,7 +500,6 @@ test.describe("Range mod", () => {
       })
       .and(elementToBeReplacedField.getByText("3. den spezifischen"))
 
-    await expect(secondSelectedElementLocator).toBeInViewport()
     await expect(secondSelectedElementLocator).toHaveClass(/selected/)
 
     await expect(sharedPage.getByTestId("replacingElement")).toHaveText(

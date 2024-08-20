@@ -6,14 +6,18 @@
   ],
   "timezone": "Europe/Berlin",
   "automergeSchedule": [ "before 5:30am every weekday",
-        "after 7:30am every weekday"], // branches are created, but not merged outside this schedule
+        "after 7pm every weekday"], // branches are created, but not merged outside this schedule. Not in working hours because of rebases
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true
   },
-  "ignoreDeps": ["io.spring.dependency-management", "org.springframework.boot"],
+  "ignoreDeps": [],
   "packageRules": [
     {
+      "groupName": "all non-major frontend dependencies",
+      "matchPaths": [
+        "frontend/**"
+      ],
       "matchUpdateTypes": [
         "minor",
         "patch",
@@ -22,9 +26,30 @@
         "pinDigest",
         "digest"
       ],
-      "automerge": true,
+      "labels": [
+        "frontend-updates"
+      ],
       "platformAutomerge": false, // this would require more repository setup; also it interferes with automergeSchedule
-      "automergeType": "branch" // only create PRs if tests fail (or stall)
+      "automergeType": "branch" // default is "pr", creates brancha nd PR. With "branch" it only creates PR if fails
+    },
+    {
+      "groupName": "all non-major backend dependencies",
+      "matchPaths": [
+        "backend/**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest"
+      ],
+      "labels": [
+        "backend-updates"
+      ],
+      "platformAutomerge": false, // this would require more repository setup; also it interferes with automergeSchedule
+      "automergeType": "branch" // default is "pr", creates brancha nd PR. With "branch" it only creates PR if fails
     }
   ]
 }

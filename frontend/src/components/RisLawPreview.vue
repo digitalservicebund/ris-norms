@@ -35,12 +35,18 @@ const props = withDefaults(
      * (e.g. structural replacements).
      */
     arrowFocus?: boolean
+
+    /**
+     * Should the default styling for norms be applied? Default: true
+     */
+    styled?: boolean
   }>(),
   {
     highlightAffectedDocument: false,
     selected: () => [],
     eIdClasses: () => ({}),
     arrowFocus: true,
+    styled: true,
   },
 )
 
@@ -371,6 +377,9 @@ watch(
       :aria-activedescendant="activeDescendant"
       :role="arrowFocus ? 'textbox' : undefined"
       class="preview-container flex h-full overflow-auto bg-white p-20 -outline-offset-2 focus:outline focus:outline-4 focus:outline-blue-800"
+      :class="{
+        'default-norm-style': styled,
+      }"
       data-testid="preview-container"
       tabindex="0"
       @keypress.enter="triggerFocusedElement"
@@ -394,127 +403,127 @@ watch(
 
 <style scoped>
 .preview-container:focus :deep(.focused) {
-  @apply relative z-10 outline outline-2 outline-offset-2 outline-blue-800;
+  @apply relative z-10 outline outline-4 -outline-offset-2 outline-blue-800;
 }
 
-:deep(:is(table, thead, td)) {
+.default-norm-style :deep(:is(table, thead, td)) {
   @apply border border-blue-400;
 }
 
-:deep(:is(thead, td:first-child)) {
+.default-norm-style :deep(:is(thead, td:first-child)) {
   @apply font-bold;
 }
 
-:deep(thead) {
+.default-norm-style :deep(thead) {
   @apply bg-blue-100;
 }
 
-:deep(td) {
+.default-norm-style :deep(td) {
   @apply p-8;
 }
 
-:deep(td:empty::before) {
+.default-norm-style :deep(td:empty::before) {
   content: "-";
 }
 
-:deep(.metadata) {
+.default-norm-style :deep(.metadata) {
   @apply mb-24;
 }
 
-:deep(.akn-act) {
+.default-norm-style :deep(.akn-act) {
   @apply flex flex-col;
 }
 
-:deep(.akn-preface) {
+.default-norm-style :deep(.akn-preface) {
   @apply mb-24;
 }
 
-:deep(h1) {
+.default-norm-style :deep(h1) {
   @apply text-2xl;
 }
 
-:deep(.akn-body) {
+.default-norm-style :deep(.akn-body) {
   @apply my-24 flex flex-col gap-24;
 }
 
-:deep(.akn-section) {
+.default-norm-style :deep(.akn-section) {
   @apply flex flex-col gap-24;
 }
 
-:deep(.akn-section h2) {
+.default-norm-style :deep(.akn-section h2) {
   @apply text-xl;
 }
 
-:deep(.akn-article h3) {
+.default-norm-style :deep(.akn-article h3) {
   @apply text-lg;
 }
 
-:deep(.akn-paragraph) {
+.default-norm-style :deep(.akn-paragraph) {
   @apply flex flex-row;
 }
 
-:deep(.akn-paragraph .akn-num) {
+.default-norm-style :deep(.akn-paragraph .akn-num) {
   @apply mr-8;
 }
 
-:deep(.akn-point) {
+.default-norm-style :deep(.akn-point) {
   @apply mb-4 flex flex-row;
 }
 
-:deep(.akn-point .akn-num) {
+.default-norm-style :deep(.akn-point .akn-num) {
   @apply mr-8;
 }
 
-:deep(.akn-conclusions) {
+.default-norm-style :deep(.akn-conclusions) {
   @apply flex flex-col gap-24;
 }
 
-:deep(.akn-signature) {
+.default-norm-style :deep(.akn-signature) {
   @apply block;
 }
 
-:deep(.akn-intro) {
+.default-norm-style :deep(.akn-intro) {
   @apply mb-4 block;
 }
 
-:deep(.akn-a) {
+.default-norm-style :deep(.akn-a) {
   @apply underline;
 }
 
-:deep(.akn-num + .akn-heading) {
+.default-norm-style :deep(.akn-num + .akn-heading) {
   @apply pl-4;
 }
 
-:deep(.akn-longTitle) {
+.default-norm-style :deep(.akn-longTitle) {
   @apply font-bold;
 }
 
-:deep(.akn-quotedStructure .akn-longTitle) {
+.default-norm-style :deep(.akn-quotedStructure .akn-longTitle) {
   @apply font-normal;
 }
 
-:deep(.akn-quotedText::before) {
+.default-norm-style :deep(.akn-quotedText::before) {
   content: "„";
 }
 
-:deep(.akn-quotedText::after) {
+.default-norm-style :deep(.akn-quotedText::after) {
   content: "“";
 }
 
-:deep(.akn-quotedStructure > :first-child::before) {
+.default-norm-style :deep(.akn-quotedStructure > :first-child::before) {
   content: "„";
 }
 
-:deep(.akn-quotedStructure > :last-child::after) {
+.default-norm-style :deep(.akn-quotedStructure > :last-child::after) {
   content: "“";
 }
 
-:deep(.akn-quotedStructure > :last-child),
-:deep(.akn-quotedStructure > :last-child *) {
+.default-norm-style :deep(.akn-quotedStructure > :last-child),
+.default-norm-style :deep(.akn-quotedStructure > :last-child *) {
   @apply inline;
 }
 
-:deep(.akn-shortTitle) {
+.default-norm-style :deep(.akn-shortTitle) {
   @apply block font-normal;
 }
 

@@ -314,7 +314,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
 </script>
 
 <template>
-  <form :id="id" class="grid grid-cols-1 gap-y-12">
+  <form :id="id" class="grid max-h-full grid-cols-1 gap-y-12 overflow-hidden">
     <div class="grid grid-cols-2 gap-x-16">
       <RisDropdownInput
         id="timeBoundaries"
@@ -337,12 +337,13 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
       :model-value="destinationHrefEli"
       read-only
     />
-    <template
+    <div
       v-if="
         textualModType === 'aenderungsbefehl-ersetzen' && quotedStructureContent
       "
+      class="grid max-h-full grid-cols-subgrid grid-rows-[2fr,1fr] gap-y-12 overflow-hidden"
     >
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2 overflow-hidden">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label"
           >Zu ersetzendes Element</label
@@ -351,30 +352,32 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           v-bind="selectableAknElementsLabels"
           id="elementToBeReplaced"
           ref="elementToBeReplacedRef"
-          class="ds-textarea max-h-[250px] overflow-y-auto p-2"
+          class="ds-textarea overflow-y-auto p-2"
           :class="$style.preview"
           data-testid="elementToBeReplaced"
           :content="targetLawHtml ?? ''"
           :selected="selectedElements"
           :arrow-focus="false"
+          :styled="false"
           v-on="selectableAknElementsEventHandlers"
           @keydown="handlePreviewKeyDown"
           @mousedown="handleMouseDown"
         />
       </div>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2 overflow-hidden">
         <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
         <label for="replacingElement" class="ds-label">Neues Element</label>
         <RisLawPreview
           id="replacingElement"
-          class="ds-textarea h-[150px] overflow-y-auto p-2"
+          class="ds-textarea h-full overflow-y-auto p-2"
           :class="$style.preview"
           data-testid="replacingElement"
           :arrow-focus="false"
           :content="quotedStructureContent"
+          :styled="false"
         />
       </div>
-    </template>
+    </div>
     <template v-else-if="textualModType === 'aenderungsbefehl-ersetzen'">
       <RisTextInput
         id="destinationHrefEid"
@@ -443,6 +446,16 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
 <!-- We need to use a module for this part of the styling as there is a bug in vue that wrongly converts some tags in nested scoped styling -->
 <style module>
 .preview {
+  [class^="akn-"],
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  tbody {
+    @apply block w-min min-w-full;
+  }
+
   :global(
       :is(
           .akn-article,
@@ -479,47 +492,10 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           .akn-wrapUp
         )
     ) {
-    @apply block min-w-min rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
+    @apply rounded p-8 outline outline-dashed outline-1 outline-highlight-elementSelect-default-border;
 
     &:before {
       @apply ds-label-03-reg block px-2 pb-8 text-start font-[monospace] text-[#4E596A];
-    }
-
-    /**
-     * Special styling to place akn:num and the element following it in the same row.
-     * Sometimes the akn:num and a akn:heading are placed within a h1,h2,h3,...-tag. We also want to place them in the same row.
-     *
-     * The selector selects all elements that have a akn:num as first child.
-     */
-    &:has(> :is(:global(.akn-num))),
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) {
-      @apply grid grid-cols-[min-content,1fr] gap-8;
-    }
-
-    &:has(> :is(:global(.akn-num))):before,
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))):before {
-      @apply col-span-full;
-    }
-
-    /* the akn:num element */
-
-    &:has(> :is(:global(.akn-num))) > :nth-child(1),
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) > :nth-child(1) {
-      @apply col-span-1 col-start-1 h-full;
-    }
-
-    /* the part directly after the akn:num element, typically a akn:heading */
-
-    &:has(> :is(:global(.akn-num))) > :nth-child(2),
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) > :nth-child(2) {
-      @apply col-span-1 col-start-2 h-full;
-    }
-
-    /* all direct child elements */
-
-    &:has(> :is(:global(.akn-num))) > *,
-    & > :is(h1, h2, h3, h4, h5):has(> :is(:global(.akn-num))) > * {
-      @apply col-span-full;
     }
 
     &:global(.selected) {
@@ -535,14 +511,55 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
     &:hover:not(:has([class^="akn-"]:hover)):not(:global(.selected)) {
       @apply border-transparent bg-highlight-elementSelect-hover-background outline-dashed outline-2 outline-highlight-elementSelect-hover-border;
     }
+  }
 
-    /* Add a small gap behind all elements that are not the last child element of their parent */
+  :not(:is(:last-child)) {
+    @apply mb-8 mr-0;
+  }
 
-    &:not(:is(:last-child)),
-    & > :is(h1, h2, h3, h4, h5):not(:is(:last-child)) {
-      @apply mb-8 mr-0;
+  /**
+   * Special styling for showing table rows in one row
+   */
+
+  :global(.akn-tr) {
+    @apply grid auto-cols-fr grid-flow-col grid-rows-[min-content,1fr] gap-8;
+
+    &:before {
+      @apply -mb-8;
     }
   }
+
+  :global(.akn-tr) > * {
+    @apply row-start-2 mb-0;
+  }
+}
+
+/**
+ * Special styling for akn:num
+ */
+.preview :has(> :first-child:is(:global(.akn-num)):not(:only-child)),
+.preview
+  :has(
+    > :first-child:is(h1, h2, h3, h4, h5) > :only-child:is(:global(.akn-num))
+  ) {
+  @apply grid grid-cols-[max-content,1fr] gap-x-8;
+
+  &:before {
+    @apply col-span-full;
+  }
+
+  :first-child {
+    @apply col-span-1 col-start-1 h-fit;
+  }
+}
+
+.preview :has(> :first-child:is(:global(.akn-num)):not(:only-child)) > *,
+.preview
+  :has(
+    > :first-child:is(h1, h2, h3, h4, h5) > :only-child:is(:global(.akn-num))
+  )
+  > * {
+  @apply col-span-1 col-start-2;
 }
 </style>
 

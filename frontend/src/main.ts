@@ -21,7 +21,7 @@ if (import.meta.env.PROD && import.meta.env.E2E_TESTS_RUNNING !== "true") {
       Sentry.browserTracingIntegration({ router }),
       Sentry.captureConsoleIntegration(),
     ],
-    tracesSampleRate: 1.0,
+    tracesSampleRate: 0.01,
     attachProps: true,
     logErrors: true,
   })

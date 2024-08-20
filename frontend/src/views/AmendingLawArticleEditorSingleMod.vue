@@ -150,7 +150,7 @@ watch(
 
 <template>
   <section
-    class="col-span-1 flex max-h-full flex-col gap-8 pb-24"
+    class="col-span-1 flex max-h-full flex-col gap-8 overflow-hidden pb-24"
     aria-labelledby="originalArticleTitle"
   >
     <h3 id="originalArticleTitle" class="ds-label-02-bold mb-6">

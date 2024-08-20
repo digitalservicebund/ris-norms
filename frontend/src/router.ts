@@ -91,6 +91,12 @@ const routes: readonly RouteRecordRaw[] = [
         name: "AmendingLawMetadataEditorElement",
         component: () => import("@/views/AmendingLawMetadataEditorElement.vue"),
       },
+      {
+        path: ":timeBoundary/outline/:eid",
+        name: "AmendingLawMetadataEditorOutlineElement",
+        component: () =>
+          import("@/views/AmendingLawMetadataEditorOutlineElement.vue"),
+      },
     ],
   },
   {
