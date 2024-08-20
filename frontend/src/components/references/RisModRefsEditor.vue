@@ -11,6 +11,7 @@ import {
   xmlStringToDocument,
 } from "@/services/xmlService"
 import { getNodeByEid } from "@/services/ldmldeService"
+import { useRoute, useRouter } from "vue-router"
 
 const props = defineProps<{
   normXml: string
@@ -77,7 +78,21 @@ const selectedModQuotedContentXmlString = computed({
   },
 })
 
-const selectedRefEId = ref()
+const router = useRouter()
+const route = useRoute()
+
+const selectedRefEId = computed({
+  get() {
+    return route.params.refEid?.toString()
+  },
+  set(newEid) {
+    router.replace({
+      params: {
+        refEid: newEid ?? "",
+      },
+    })
+  },
+})
 
 function handleSave() {
   if (!amendingNormDocument.value) {

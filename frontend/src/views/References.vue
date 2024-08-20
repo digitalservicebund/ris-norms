@@ -12,6 +12,7 @@ import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
 import { useGetReferences } from "@/services/referencesService"
 import { computed, ref, watchEffect } from "vue"
+import { useRoute, useRouter } from "vue-router"
 
 /* -------------------------------------------------- *
  * Previews                                           *
@@ -54,7 +55,22 @@ function handleSave(xml: string) {
   save()
 }
 
-const selectedModEId = ref<string | undefined>()
+const router = useRouter()
+const route = useRoute()
+
+const selectedModEId = computed({
+  get() {
+    return route.params.modEid?.toString()
+  },
+  set(newEid) {
+    router.replace({
+      params: {
+        modEid: newEid ?? "",
+        refEid: "",
+      },
+    })
+  },
+})
 
 /* -------------------------------------------------- *
  * Ref auto detection                                 *

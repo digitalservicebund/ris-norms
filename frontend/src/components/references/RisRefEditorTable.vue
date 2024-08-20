@@ -36,6 +36,7 @@ function handleDelete(ref: Node) {
   deleteRef(ref)
   triggerRef(xmlNode)
   updateXmlString()
+  selectedRef.value = undefined
 }
 
 function replace(ref: Node, newXml: string) {

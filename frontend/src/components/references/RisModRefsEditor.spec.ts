@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { getByRole, render, screen } from "@testing-library/vue"
-import { nextTick, ref } from "vue"
+import { nextTick, reactive, ref } from "vue"
 import { userEvent } from "@testing-library/user-event"
-import RisModRefsEditor from "@/components/references/RisModRefsEditor.vue"
+import { RouteLocationRaw } from "vue-router"
 
 const renderData = ref<string>()
 const renderIsFetching = ref<boolean>()
@@ -18,6 +18,9 @@ vi.mock("@/composables/useNormRender", () => ({
 
 describe("RisModRefsEditor", () => {
   beforeEach(() => {
+    vi.resetAllMocks()
+    vi.resetModules()
+
     renderData.value =
       "<div class='akn-quotedText' data-eId='mod-1_quot-2'>Render of <div class='akn-ref' data-eId='mod-1_quot-2_ref-1'>a ref</div> and <div class='akn-ref' data-eId='mod-1_quot-2_ref-2'>a second ref</div> and <p class='akn-p' data-eId='mod-1_quot-2_p-1'>place for a third ref</p></div>"
     renderIsFetching.value = false
@@ -25,6 +28,19 @@ describe("RisModRefsEditor", () => {
   })
 
   it("Should render the html of the second quotedText of the selected mod", async () => {
+    vi.doMock("vue-router", () => ({
+      useRoute: vi.fn().mockReturnValue({
+        params: {
+          refEid: undefined,
+        },
+      }),
+      useRouter: vi.fn(),
+    }))
+
+    const { default: RisModRefsEditor } = await import(
+      "@/components/references/RisModRefsEditor.vue"
+    )
+
     render(RisModRefsEditor, {
       props: {
         normXml: `
@@ -53,6 +69,18 @@ describe("RisModRefsEditor", () => {
   })
 
   it("Should save the updated xml from the RisRefSelectionPanel", async () => {
+    vi.doMock("vue-router", () => ({
+      useRoute: vi.fn().mockReturnValue({
+        params: {
+          refEid: undefined,
+        },
+      }),
+      useRouter: vi.fn(),
+    }))
+
+    const { default: RisModRefsEditor } = await import(
+      "@/components/references/RisModRefsEditor.vue"
+    )
     const user = userEvent.setup()
 
     const renderResult = render(RisModRefsEditor, {
@@ -112,6 +140,18 @@ describe("RisModRefsEditor", () => {
   })
 
   it("Should save the updated xml from the RisRefEditorTable", async () => {
+    vi.doMock("vue-router", () => ({
+      useRoute: vi.fn().mockReturnValue({
+        params: {
+          refEid: undefined,
+        },
+      }),
+      useRouter: vi.fn(),
+    }))
+
+    const { default: RisModRefsEditor } = await import(
+      "@/components/references/RisModRefsEditor.vue"
+    )
     const user = userEvent.setup()
 
     const renderResult = render(RisModRefsEditor, {
@@ -170,6 +210,24 @@ describe("RisModRefsEditor", () => {
   })
 
   it("Should sync selected refs", async () => {
+    const route: RouteLocationRaw = reactive({
+      params: {
+        refEid: undefined,
+      },
+    })
+
+    vi.doMock("vue-router", () => ({
+      useRoute: vi.fn().mockReturnValue(route),
+      useRouter: vi.fn().mockReturnValue({
+        replace: (newRoute: { params: { refEid: string | undefined } }) => {
+          route.params = newRoute?.params ?? {}
+        },
+      }),
+    }))
+
+    const { default: RisModRefsEditor } = await import(
+      "@/components/references/RisModRefsEditor.vue"
+    )
     render(RisModRefsEditor, {
       props: {
         normXml: `

@@ -122,6 +122,7 @@ function handleDelete(eId: string) {
   triggerRef(xmlDocument)
 
   xmlSnippet.value = xmlNodeToString(xmlDocument.value)
+  selectedRef.value = undefined
 }
 
 function eidToSlotName(eid: string) {
@@ -152,7 +153,7 @@ function eidToSlotName(eid: string) {
           <button
             :key="selectedRef"
             class="!absolute -translate-x-6 -translate-y-10 rounded-full bg-blue-700 leading-none outline-offset-2 hover:outline hover:outline-2 hover:outline-gray-600 focus:outline focus:outline-4 focus:outline-blue-800"
-            @click="handleDelete(selectedRef)"
+            @click.stop="handleDelete(selectedRef)"
           >
             <CloseIcon class="h-20 w-20 flex-none text-white" />
             <span class="sr-only">Löschen</span>
