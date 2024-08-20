@@ -52,19 +52,15 @@ a `norm-not-found` error. In this case only the `norm-not-found` error will be s
 The response includes an additional `errors` array. The elements of the `errors` array can have the same fields as the
 global object. If no `type` is provided it is assumed that it is the same as the parent type.
 
-For both JSON and LegalDocML.de some additional fields are defined to reference parts of a JSON-object or LDML.de
-document:
+### Extension Members (additional fields)
 
-#### JSON
+We expect certain extension members to be needed by many errors. Therefore, here are some predefined extension members
+that can be used when needed and may not be used for other purposes:
 
 - `pointer`: a JSON-Pointer ([RFC-6901](https://www.rfc-editor.org/info/rfc6901)) referencing the field of the JSON
   object responsible for this error
-
-#### LegalDocML.de
-
-- `eid`: an eId (LegalDocML.de) referencing the part of the norm responsible for the error (preferred)
-- `guid`: a GUID (LegalDocML.de) referencing the part of the norm responsible for the error (optionally or as
-  alternative to the eid)
+- `eid`: an eId (LegalDocML.de) referencing the part of the norm responsible for the error
+- `guid`: a GUID (LegalDocML.de) referencing the part of the norm responsible for the error
 
 ### Displaying messages for the user
 
