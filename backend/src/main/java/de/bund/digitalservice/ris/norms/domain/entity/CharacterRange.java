@@ -1,6 +1,11 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import org.w3c.dom.Node;
 
 /**
  * Represents a character range within LDML.de.
@@ -52,6 +57,100 @@ public record CharacterRange(String characterRange) {
     final String regex = "^\\d+-\\d+$";
     final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
     return pattern.matcher(characterRange()).matches() && isEndGreaterStart();
+  }
+
+  /**
+   * Finds the text-content of the range within the given node.
+   *
+   * @param node the node in which the range should be found
+   * @return the text-content of the range
+   */
+  public String findTextInNode(Node node) {
+    var text =
+        getNodesInRange(node).stream().map(Node::getTextContent).collect(Collectors.joining());
+    node.normalize();
+    return text;
+  }
+
+  /**
+   * Finds the nodes that make up the given range within the given node.
+   *
+   * <p>SIDE-EFFECT: This might split text-nodes into multiple text nodes to be able to return
+   * exactly the range. Please call Node::normalize after you are finished working with the nodes.
+   *
+   * @param node the node in which the range should be found
+   * @return a list of nodes that represent the given range
+   */
+  public List<Node> getNodesInRange(Node node) {
+    switch (node.getNodeType()) {
+      case Node.TEXT_NODE -> {
+        final var textContent = node.getTextContent();
+
+        if (textContent.length() <= getStart()) {
+          return List.of();
+        }
+
+        if (getStart() == 0 && getEnd() == textContent.length()) {
+          return List.of(node);
+        }
+
+        node.getParentNode()
+            .insertBefore(
+                node.getOwnerDocument().createTextNode(textContent.substring(0, getStart())), node);
+
+        final var rangeNode =
+            node.getParentNode()
+                .insertBefore(
+                    node.getOwnerDocument()
+                        .createTextNode(
+                            textContent.substring(
+                                getStart(), Math.min(textContent.length(), getEnd()))),
+                    node);
+
+        if (getEnd() < textContent.length()) {
+          node.getParentNode()
+              .insertBefore(
+                  node.getOwnerDocument()
+                      .createTextNode(textContent.substring(getEnd(), textContent.length())),
+                  node);
+        }
+
+        node.getParentNode().removeChild(node);
+
+        return List.of(rangeNode);
+      }
+      case Node.ELEMENT_NODE -> {
+        var start = getStart();
+        var end = getEnd();
+        List<Node> nodesInRange = new ArrayList();
+
+        for (Node childNode : NodeParser.nodeListToList(node.getChildNodes())) {
+          if (start <= 0 && end >= childNode.getTextContent().length()) {
+            nodesInRange.add(childNode);
+          } else {
+            var newRange =
+                new Builder()
+                    .start(Math.max(0, start))
+                    .end(Math.min(childNode.getTextContent().length(), end))
+                    .build();
+
+            nodesInRange.addAll(newRange.getNodesInRange(childNode));
+          }
+
+          start -= childNode.getTextContent().length();
+          end -= childNode.getTextContent().length();
+
+          if (end <= 0) {
+            return nodesInRange;
+          }
+        }
+
+        throw new RuntimeException("Character Range not found");
+      }
+      default -> {
+        throw new RuntimeException("Unexpected node type");
+      }
+    }
   }
 
   /** Builder for creating a new {@link CharacterRange}. */
