@@ -348,6 +348,25 @@ class TimeBoundaryControllerTest {
     }
 
     @Test
+    void validationFailureInSingleQuotesForValidJsonResponse() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/timeBoundaries", eli)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("[{\"date\": null, \"eventRefEid\": null}]"))
+          // Then
+          .andExpect(
+              result ->
+                  assertThat(result.getResponse().getContentAsString())
+                      .contains("400 BAD_REQUEST 'Validation failure'"));
+    }
+
+    @Test
     void updateTimeBoundariesReturns404() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/DOESNOTEXIST";
