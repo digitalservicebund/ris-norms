@@ -63,8 +63,10 @@ public class FrameWorkExceptionHandler {
 
     log.error("HandlerMethodValidationException: {}", e.getMessage(), e);
 
+    final String safeMessage = e.getMessage().replace("\"", "'");
+
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+        .body(CONTENT_FORMAT_TEMPLATE.formatted(safeMessage));
   }
 
   /**
