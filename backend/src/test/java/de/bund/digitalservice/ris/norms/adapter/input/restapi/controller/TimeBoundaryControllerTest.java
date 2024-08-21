@@ -344,7 +344,13 @@ class TimeBoundaryControllerTest {
           .andExpect(
               result ->
                   assertThat(memoryAppender.contains("Date must not be null", Level.ERROR))
-                      .isTrue());
+                      .isTrue())
+          .andExpect(
+              result ->
+                  assertThat(
+                          // error message format must not break JSON (double double quotes)s
+                          result.getResponse().getContentAsString())
+                      .contains("400 BAD_REQUEST 'Validation failure'"));
     }
 
     @Test
