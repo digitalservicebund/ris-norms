@@ -161,4 +161,32 @@ class ReferenceServiceTest {
             .build();
     assertThat(diff.hasDifferences()).isFalse();
   }
+
+  @Test
+  void itDoesNotFindReferencesInNum() {
+    // Given
+    final String eli = "eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1";
+    final Norm norm = NormFixtures.loadFromDisk("NormWithReferencesInNumToSkip.xml");
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+    when(updateNormPort.updateNorm(any())).thenReturn(any());
+
+    // When
+    final String result =
+        service.findAndCreateReferences(new ReferenceRecognitionUseCase.Query(eli));
+
+    // Then
+    verify(loadNormPort, times(1))
+        .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+    verify(updateNormPort, times(1))
+        .updateNorm(argThat(argument -> Objects.equals(argument.norm(), norm)));
+
+    final Norm sameNormReload = NormFixtures.loadFromDisk("NormWithReferencesInNumToSkip.xml");
+    final Diff diff =
+        DiffBuilder.compare(Input.from(XmlMapper.toDocument(result)))
+            .withTest(Input.from(sameNormReload.getDocument()))
+            .ignoreWhitespace()
+            .withAttributeFilter(attribute -> !attribute.getName().equals("GUID"))
+            .build();
+    assertThat(diff.hasDifferences()).isFalse();
+  }
 }

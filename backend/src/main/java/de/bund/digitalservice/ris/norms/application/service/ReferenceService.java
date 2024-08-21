@@ -60,7 +60,9 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
               final short nodeType = child.getNodeType();
               if (nodeType == Node.TEXT_NODE) {
                 final String textContent = child.getTextContent();
-                if (textContent != null && !textContent.trim().isEmpty()) {
+                if (textContent != null
+                    && !textContent.trim().isEmpty()
+                    && !child.getParentNode().getNodeName().equals("akn:num")) {
                   final String cleandText = textContent.trim().replaceAll("\\s+", " ");
                   final List<MatchInfo> matches = findReferences(cleandText);
                   replaceMatchesWithNewNodes(child.getParentNode(), child, matches);
