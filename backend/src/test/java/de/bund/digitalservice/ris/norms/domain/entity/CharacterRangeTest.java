@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -160,6 +161,25 @@ public class CharacterRangeTest {
               """
                   <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-1">A simple foo of which we want to find a part.</akn:p>
                   """);
+    }
+
+    @Test
+    void itShouldFindRangeInAValidatedNormIgnoringIndentation() {
+      // given //when
+      var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml", true);
+
+      var n2 =
+          NodeParser.getNodeFromExpression(
+              "//*[@eId='hauptteil-1_para-20_abs-1_untergl-1_listenelem-1_inhalt-1']",
+              norm.getDocument());
+
+      var nodesInRange = new CharacterRange("101-118").getNodesInRange(n2.get());
+
+      // then
+      assertThat(nodesInRange).hasSize(1);
+      var firstNode = nodesInRange.get(0);
+
+      assertThat(firstNode.getTextContent()).isEqualTo("organisatorischen");
     }
 
     @Test

@@ -7,9 +7,12 @@ import java.util.Objects;
 import org.apache.commons.io.IOUtils;
 
 public class NormFixtures {
-
   public static Norm loadFromDisk(final String fileName) {
-    return Norm.builder().document(XmlMapper.toDocument(loadNormFile(fileName))).build();
+    return loadFromDisk(fileName, false);
+  }
+
+  public static Norm loadFromDisk(final String fileName, boolean validated) {
+    return Norm.builder().document(XmlMapper.toDocument(loadNormFile(fileName), validated)).build();
   }
 
   private static String loadNormFile(final String fileName) {
