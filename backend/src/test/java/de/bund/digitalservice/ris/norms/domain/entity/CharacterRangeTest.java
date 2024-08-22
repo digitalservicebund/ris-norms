@@ -152,9 +152,9 @@ public class CharacterRangeTest {
 
       // then
       assertThat(nodesInRange).hasSize(1);
-      assertThat(nodesInRange.get(0).getTextContent()).isEqualTo("text");
+      assertThat(nodesInRange.getFirst().getTextContent()).isEqualTo("text");
 
-      nodesInRange.get(0).setTextContent("foo");
+      nodesInRange.getFirst().setTextContent("foo");
 
       assertThat(XmlMapper.toString(node))
           .isEqualToIgnoringWhitespace(
@@ -177,7 +177,7 @@ public class CharacterRangeTest {
 
       // then
       assertThat(nodesInRange).hasSize(1);
-      var firstNode = nodesInRange.get(0);
+      var firstNode = nodesInRange.getFirst();
 
       assertThat(firstNode.getTextContent()).isEqualTo("organisatorischen");
     }
@@ -194,7 +194,7 @@ public class CharacterRangeTest {
 
       // then
       assertThat(nodesInRange).hasSize(1);
-      var firstNode = nodesInRange.get(0);
+      var firstNode = nodesInRange.getFirst();
 
       assertThat(firstNode.getTextContent()).isEqualTo("text");
       firstNode
@@ -220,11 +220,11 @@ public class CharacterRangeTest {
 
       // then
       assertThat(nodesInRange).hasSize(3);
-      assertThat(nodesInRange.get(0).getTextContent()).isEqualTo("simple ");
+      assertThat(nodesInRange.getFirst().getTextContent()).isEqualTo("simple ");
       assertThat(nodesInRange.get(1).getTextContent()).isEqualTo("text");
       assertThat(nodesInRange.get(2).getTextContent()).isEqualTo(" of");
 
-      var firstNode = nodesInRange.get(0);
+      var firstNode = nodesInRange.getFirst();
       firstNode
           .getParentNode()
           .insertBefore(firstNode.getOwnerDocument().createTextNode("new text"), firstNode);

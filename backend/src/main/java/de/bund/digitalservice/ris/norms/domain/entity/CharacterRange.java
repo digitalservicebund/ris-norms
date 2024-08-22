@@ -73,6 +73,49 @@ public record CharacterRange(String characterRange) {
   }
 
   /**
+   * Splits the given text node into multiple text nodes and returns the text node that includes the
+   * range from start to end of the text content.
+   *
+   * <p>A call to Node::normalize undoes this.
+   *
+   * @param textNode A text node
+   * @param start start of the text range within the node
+   * @param end end (excluding) of the text range within the node
+   * @return a text node that represents exactly the range
+   */
+  private Node extractTextNodeForRange(Node textNode, int start, int end) {
+    final var textContent = textNode.getTextContent();
+
+    // text before selection
+    if (start != 0) {
+      textNode
+          .getParentNode()
+          .insertBefore(
+              textNode.getOwnerDocument().createTextNode(textContent.substring(0, start)),
+              textNode);
+    }
+
+    // selected text
+    final var rangeTextContent = textContent.substring(start, Math.min(textContent.length(), end));
+    final var rangeNode =
+        textNode
+            .getParentNode()
+            .insertBefore(textNode.getOwnerDocument().createTextNode(rangeTextContent), textNode);
+
+    // text after selection
+    if (end < textContent.length()) {
+      textNode
+          .getParentNode()
+          .insertBefore(
+              textNode.getOwnerDocument().createTextNode(textContent.substring(end)), textNode);
+    }
+
+    textNode.getParentNode().removeChild(textNode);
+
+    return rangeNode;
+  }
+
+  /**
    * Finds the nodes that make up the given range within the given node.
    *
    * <p>SIDE-EFFECT: This might split text-nodes into multiple text nodes to be able to return
@@ -82,74 +125,52 @@ public record CharacterRange(String characterRange) {
    * @return a list of nodes that represent the given range
    */
   public List<Node> getNodesInRange(Node node) {
+    if (node.getTextContent().length() < getStart()) {
+      throw new IndexOutOfBoundsException();
+    }
+
+    if (node.getTextContent().length() < getEnd()) {
+      throw new IndexOutOfBoundsException();
+    }
+
+    if (getStart() == 0 && getEnd() == node.getTextContent().length()) {
+      return List.of(node);
+    }
+
     switch (node.getNodeType()) {
       case Node.TEXT_NODE -> {
-        final var textContent = node.getTextContent();
-
-        if (textContent.length() <= getStart()) {
-          return List.of();
-        }
-
-        if (getStart() == 0 && getEnd() == textContent.length()) {
-          return List.of(node);
-        }
-
-        node.getParentNode()
-            .insertBefore(
-                node.getOwnerDocument().createTextNode(textContent.substring(0, getStart())), node);
-
-        final var rangeNode =
-            node.getParentNode()
-                .insertBefore(
-                    node.getOwnerDocument()
-                        .createTextNode(
-                            textContent.substring(
-                                getStart(), Math.min(textContent.length(), getEnd()))),
-                    node);
-
-        if (getEnd() < textContent.length()) {
-          node.getParentNode()
-              .insertBefore(
-                  node.getOwnerDocument()
-                      .createTextNode(textContent.substring(getEnd(), textContent.length())),
-                  node);
-        }
-
-        node.getParentNode().removeChild(node);
-
+        final var rangeNode = extractTextNodeForRange(node, getStart(), getEnd());
         return List.of(rangeNode);
       }
       case Node.ELEMENT_NODE -> {
-        var start = getStart();
-        var end = getEnd();
-        List<Node> nodesInRange = new ArrayList();
+        int start = getStart();
+        int end = getEnd();
+        List<Node> nodesInRange = new ArrayList<>();
 
         for (Node childNode : NodeParser.nodeListToList(node.getChildNodes())) {
-          if (start <= 0 && end >= childNode.getTextContent().length()) {
-            nodesInRange.add(childNode);
-          } else {
+          int textContentLength = childNode.getTextContent().length();
+          if (start < textContentLength) {
             var newRange =
                 new Builder()
                     .start(Math.max(0, start))
-                    .end(Math.min(childNode.getTextContent().length(), end))
+                    .end(Math.min(textContentLength, end))
                     .build();
 
             nodesInRange.addAll(newRange.getNodesInRange(childNode));
           }
 
-          start -= childNode.getTextContent().length();
-          end -= childNode.getTextContent().length();
+          start -= textContentLength;
+          end -= textContentLength;
 
           if (end <= 0) {
             return nodesInRange;
           }
         }
 
-        throw new RuntimeException("Character Range not found");
+        throw new IndexOutOfBoundsException();
       }
-      default -> {
-        throw new RuntimeException("Unexpected node type");
-      }
+      default ->
+          throw new UnsupportedOperationException("Unsupported node type: " + node.getNodeType());
     }
   }
 
