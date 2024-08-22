@@ -14,6 +14,16 @@ Information on the modules can be found in their respective folder's README file
 
 # The Main Repository
 
+## Git Submodules
+
+The repository uses a git submodule to include the LegalDocMl.de specification and schemas. Please run the following to
+download it:
+
+```sh
+git submodule init
+git submodule update
+```
+
 ## Architecture Decision Records
 
 [Architecture decisions](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)

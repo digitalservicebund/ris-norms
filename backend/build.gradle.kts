@@ -152,6 +152,15 @@ tasks {
     named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
         args("--spring.profiles.active=local")
     }
+
+    processResources {
+        // include the ldml.de schema
+        from("../ldml-extension") {
+            includeEmptyDirs = false
+            include("**/*.xsd")
+            into("./schema")
+        }
+    }
 }
 
 spotless {

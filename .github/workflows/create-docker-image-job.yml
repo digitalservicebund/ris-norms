@@ -21,6 +21,8 @@ jobs:
       - name: Print example variable's
         run: echo "${{ inputs.example-variable}}"
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: Build docker image
         run: docker build --tag ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }} -f DockerfileApp .
       - name: Run Trivy vulnerability image scanner
