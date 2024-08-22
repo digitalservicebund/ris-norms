@@ -10,28 +10,33 @@ This repository contains a web app supporting the Federal Documentation of Statu
 
 The name "RIS Norms" refers to
 
-- "RIS", which is the German acronym for "Information system on the law" (DE: "Rechtsinformationssystem")
+- "RIS", which is the German acronym for "information system on the law" (DE: "Rechtsinformationssystem")
 - "Norms", which makes explicit that within RIS, we're explicitly dealing with federal laws and similar documents (and not, for example, with court verdicts)
 
-# Structure of the Repository
+# Top Level Structure of the Repository
 
+## Code
 This is a mono-repository containing
 
-- [`./frontend`](./frontend) - The main browser-based entry point for users of _RIS-norms_
 - [`./backend`](./backend) - The backend service
-- [`./ldml-extension`](./ldml-extension) - Extensions to the [LDML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) schema
+- [`./frontend`](./frontend) - The main browser-based entry point for users of _RIS-norms_
+- [`./ldml-extension`](./ldml-extension) - Extensions to the [LegalDocDML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) schema
+- [`./regex`](./regex/) - A utility for creating regex schemas
 
-Each of the above has its own `README.md` with more details on that component.
+Each of the above has its own `README.md` with more.
 
-# Additional Documentation
-There are two places where documentation can be found:
-- This projects's [`./doc`](./doc) folder, most notably containing information on
+## Sample Data
+- [`./ldml-samples`](./ldml-samples/) contains files in the [LegalDocML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) format for testing and reference purposes
+
+## Documentation
+- [`./doc`](./doc) contains information on
   -  the domain model
   -  the API specification and
   -  our Architecture Decision Records (ADR)
-- The general [RIS Documentation](https://digitalservicebund.github.io/ris-reports/), especially
-  - the [architecture diagrams](https://digitalservicebund.github.io/ris-reports/docs/architecture/diagrams_list.html)
-  - the backend [JavaDocs](https://digitalservicebund.github.io/ris-reports/docs/backend-code-documentation/norms-java.html)
+
+- Additionally, there is the general [RIS Documentation](https://digitalservicebund.github.io/ris-reports/), which shows the RIS Norms
+  - [architecture diagrams](https://digitalservicebund.github.io/ris-reports/docs/architecture/diagrams_list.html)
+  - backend [JavaDocs](https://digitalservicebund.github.io/ris-reports/docs/backend-code-documentation/norms-java.html)
 
 # Development
 
