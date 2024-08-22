@@ -1,10 +1,10 @@
 [versions]
-flyway = "10.17.1"
+flyway = "10.17.2"
 # @keep
 jacoco = "0.8.11"
 org-bouncycastle = "1.78.1"
 org-testcontainers = "1.20.1"
-spring-boot = "3.3.2"
+spring-boot = "3.3.3"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.3.0"
@@ -16,7 +16,7 @@ flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 lombok = "org.projectlombok:lombok:1.18.34"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.12.0"
-postgresql = "org.postgresql:postgresql:42.7.3"
+postgresql = "org.postgresql:postgresql:42.7.4"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.13.3"
 saxon-he = "net.sf.saxon:Saxon-HE:12.5"
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
