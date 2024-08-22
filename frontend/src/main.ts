@@ -1,13 +1,21 @@
+import { RisUi } from "@digitalservicebund/ris-ui/primevue"
+import "@digitalservicebund/ris-ui/primevue/style.css"
+import * as Sentry from "@sentry/vue"
+import PrimeVue from "primevue/config"
 import { createApp } from "vue"
-import "./style.css"
 import App from "./App.vue"
 import router from "./router"
-import * as Sentry from "@sentry/vue"
 import { initializeApiService } from "./services/apiService"
+import "./style.css"
 
 initializeApiService(router)
 
 const app = createApp(App)
+
+app.use(PrimeVue, {
+  pt: RisUi,
+  unstyled: true,
+})
 
 if (import.meta.env.PROD && import.meta.env.E2E_TESTS_RUNNING !== "true") {
   Sentry.init({

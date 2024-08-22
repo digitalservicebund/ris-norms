@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
+    "@digitalservicebund/ris-ui": "~0.0.1",
     "@sentry/vue": "~8.26.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~10.0.0",
@@ -40,6 +41,7 @@
     "immer": "~10.1.1",
     "lodash.sortby": "~4.7.0",
     "maska": "~3.0.0",
+    "primevue": "~4.0.4",
     "uuid": "~10.0.0",
     "vue": "~3.4.24",
     "vue-router": "~4.4.0"
