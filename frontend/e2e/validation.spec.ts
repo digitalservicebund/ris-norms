@@ -85,7 +85,7 @@ test.describe("Validation errors on check modifications page", () => {
     )
     expect(response.status()).toBe(422)
     expect((await response.json()).message).toBe(
-      "The character range 9-3400 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within length of target node content.",
+      "The character range 9-3400 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within the target node.",
     )
 
     await expect(

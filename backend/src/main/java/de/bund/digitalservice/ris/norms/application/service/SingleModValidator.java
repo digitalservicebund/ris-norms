@@ -50,7 +50,7 @@ public class SingleModValidator {
           zf0NormEli,
           affectedPassiveMod,
           StringUtils.normalizeSpace(activeMod.getMandatoryOldText()),
-          StringUtils.normalizeSpace(zf0TargetedNode.getTextContent()));
+          zf0TargetedNode);
     }
     if (activeMod.usesQuotedStructure()) {
       validateQuotedStructure(affectedPassiveMod, zf0Norm, targetNodeEid, zf0TargetedNode);
@@ -61,7 +61,7 @@ public class SingleModValidator {
       final String zf0NormEli,
       final TextualMod passivemod,
       String amendingNormOldText,
-      String targetParagraphOldText)
+      Node targetNode)
       throws ValidationException {
 
     final Href destinationHref = passivemod.getDestinationHref().orElseThrow();
@@ -80,20 +80,16 @@ public class SingleModValidator {
           "The character range %s of passive mod with eId %s within ZF0 norm with eli %s has invalid format."
               .formatted(characterRange, passiveModEid, zf0NormEli));
 
-    final int modStart = characterRange.getStart();
-    final int modEnd = characterRange.getEnd();
-
-    // counting is null based e.g. 0 is the position of the first character; spaces are counted see
-    // https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de/-/blob/1.6/Spezifikation/LegalDocML.de_1.6.pdf?ref_type=tags page 85
-    if (targetParagraphOldText.length() < modEnd)
+    try {
+      if (!characterRange.findTextInNode(targetNode).equals(amendingNormOldText))
+        throw new ValidationException(
+            "The character range %s of passive mod with eId %s within ZF0 norm with eli %s does not resolve to the targeted text to be replaced."
+                .formatted(characterRange, passiveModEid, zf0NormEli));
+    } catch (IndexOutOfBoundsException exception) {
       throw new ValidationException(
-          "The character range %s of passive mod with eId %s within ZF0 norm with eli %s is not within length of target node content."
+          "The character range %s of passive mod with eId %s within ZF0 norm with eli %s is not within the target node."
               .formatted(characterRange, passiveModEid, zf0NormEli));
-
-    if (!targetParagraphOldText.substring(modStart, modEnd).equals(amendingNormOldText))
-      throw new ValidationException(
-          "The character range %s of passive mod with eId %s within ZF0 norm with eli %s does not resolve to the targeted text to be replaced."
-              .formatted(characterRange, passiveModEid, zf0NormEli));
+    }
   }
 
   private void validateQuotedStructure(

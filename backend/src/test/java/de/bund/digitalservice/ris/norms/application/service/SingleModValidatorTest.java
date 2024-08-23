@@ -121,48 +121,6 @@ class SingleModValidatorTest {
     }
 
     @Test
-    void validationSuccessfulEvenWithManySpacesAndLineBreaks() {
-      // given
-      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      final Node modNode =
-          amendingNorm
-              .getNodeByEId(
-                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1")
-              .orElseThrow();
-      final Mod mod = new Mod(modNode);
-      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      Node zf0TargetNode =
-          zf0Norm
-              .getNodeByEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-              .orElseThrow();
-
-      // sets quotedText[1] in amending norm: imagine a xml formatting script did the following
-      // (note the new lines)
-      mod.setOldText(
-          """
-                                                                     §             9
-      Abs.
-                                        1
-                                         Satz 2,
-                                                       Abs. 2
-                                                                     """);
-
-      // and ZF0 experienced something similar
-      zf0TargetNode.setTextContent(
-          """
-                    entgegen          § 9          Abs.
-
-              1          Satz 2,
-                                                       Abs.           2
-
-                                                        Kennezichen eines verbotenen Vereins
-                          oder einer Ersatzorganisation verwendet,""");
-
-      // when/then: both are equal due to usage of StringUtils.normalizeSpace()
-      Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
-    }
-
-    @Test
     void validationSuccessfulUntilEndOfParagraph() {
       // given
       final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -337,7 +295,7 @@ class SingleModValidatorTest {
       passiveMod.setDestinationHref(
           new Href.Builder()
               .setEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-              .setCharacterRange(new CharacterRange("9-113"))
+              .setCharacterRange(new CharacterRange("9-1113"))
               .buildInternalReference()
               .value());
 
@@ -348,7 +306,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
           .isInstanceOf(ValidationException.class)
           .hasMessageContaining(
-              "The character range 9-113 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within length of target node content.");
+              "The character range 9-1113 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within the target node.");
     }
   }
 
