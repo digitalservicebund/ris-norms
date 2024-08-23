@@ -8,6 +8,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 /**
@@ -83,5 +84,27 @@ public class FrameWorkExceptionHandler {
 
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
         .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  }
+
+  /**
+   * Exception handler method for ignoring {@link AsyncRequestNotUsableException}. Wrapper exception
+   * from Spring for {@link org.apache.catalina.connector.ClientAbortException} For more details on
+   * why Spring introduced this new wrapper, see <a
+   * href="https://github.com/spring-projects/spring-framework/issues/32340">Github Issue
+   * #32340</a>. No further handling needed, it is an exception coming from the Servlet container
+   * and indicates response that is no longer usable. It would normally be handled by {@link
+   * org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver} but since we have
+   * a handler for {@link Exception} (see above) the default handler has no chance. Therefore, we
+   * need this one that is returning nothing. For more context check the thread in <a
+   * href="https://github.com/spring-projects/spring-framework/issues/32509">here</a>
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with no return
+   */
+  @ExceptionHandler(AsyncRequestNotUsableException.class)
+  public ResponseEntity<Object> handleAsyncRequestNotUsableException(
+      AsyncRequestNotUsableException e) {
+    log.debug("Async request was not usable: ", e);
+    return null;
   }
 }
