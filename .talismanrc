@@ -24,4 +24,4 @@ fileignoreconfig:
   - filename: backend/src/main/resources/db/data/R__006_2024_108_2024-03-27_Wachstumschancengesetz-Part-3.sql
     checksum: 342f813d7e24fccf4ac7d60f66b19bbd637dc45b334bd77d2d349df5726aac1f
   - filename: frontend/src/main.ts
-    checksum: 99358f1168bc7b59578c99da83c93ebacf5c764d444d169efd7f812a4beeec9d
+    checksum: 4115f71d18d5a65b0115241a2c9e8b556fc8038d0f8975dec494290115fb1317

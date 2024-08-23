@@ -1,11 +1,9 @@
-@import "@digitalservice4germany/angie/fonts.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-gray-100 font-font-family-sans font-normal;
+    @apply bg-gray-100;
   }
 }

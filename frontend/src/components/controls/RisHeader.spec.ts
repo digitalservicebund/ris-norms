@@ -1,13 +1,12 @@
 import { userEvent } from "@testing-library/user-event"
 import { render, screen, within } from "@testing-library/vue"
-import { GlobalMountOptions } from "@vue/test-utils/dist/types"
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest"
 import { defineComponent, nextTick, onUnmounted, ref } from "vue"
 import { Router, createRouter, createWebHashHistory } from "vue-router"
 import RisHeader, { useHeaderContext } from "./RisHeader.vue"
 
 describe("RisHeader", () => {
-  let global: GlobalMountOptions
+  let global = {}
   let router: Router
 
   beforeAll(async () => {

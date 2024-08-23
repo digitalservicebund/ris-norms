@@ -1,8 +1,15 @@
+const {
+  RisUiPlugin,
+  RisUiPreset,
+} = require("@digitalservicebund/ris-ui/tailwind")
+
+const angie = require("@digitalservice4germany/angie")
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{html,vue,js,ts}"],
-  presets: [require("@digitalservice4germany/style-dictionary/tailwind")],
-  plugins: [require("@digitalservice4germany/angie")],
+  presets: [RisUiPreset],
+  plugins: [RisUiPlugin, angie],
   theme: {
     extend: {
       colors: {

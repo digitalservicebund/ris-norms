@@ -6,8 +6,6 @@ import RisDropdownInput, {
 } from "@/components/controls/RisDropdownInput.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
-import RisTextInput from "@/components/controls/RisTextInput.vue"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -37,6 +35,8 @@ import { produce } from "immer"
 import { computed, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import InputText from "primevue/inputtext"
+import Button from "primevue/button"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const { timeBoundaryAsDate } = useTimeBoundaryPathParameter()
@@ -368,7 +368,7 @@ const sentryTraceId = useSentryTraceId()
               <fieldset class="contents">
                 <legend class="ds-label-02-bold col-span-2">Sachgebiet</legend>
                 <label :for="fnaId">Sachgebiet</label>
-                <RisTextInput :id="fnaId" v-model="fna" />
+                <InputText :id="fnaId" v-model="fna" />
               </fieldset>
 
               <fieldset class="contents">
@@ -405,7 +405,7 @@ const sentryTraceId = useSentryTraceId()
                 <label :for="bezeichnungInVorlageId">
                   Bezeichnung gemäß Vorlage
                 </label>
-                <RisTextInput
+                <InputText
                   :id="bezeichnungInVorlageId"
                   v-model="bezeichnungInVorlage"
                 />
@@ -459,7 +459,7 @@ const sentryTraceId = useSentryTraceId()
                 <label :for="organisationsEinheitId">
                   Organisationseinheit
                 </label>
-                <RisTextInput
+                <InputText
                   :id="organisationsEinheitId"
                   v-model="organisationsEinheit"
                 />
@@ -502,10 +502,11 @@ const sentryTraceId = useSentryTraceId()
               attachment="bottom"
             >
               <template #default="{ ariaDescribedby }">
-                <RisTextButton
+                <Button
                   :aria-describedby
                   :disabled="isFetching || !!fetchError"
                   :loading="isSaving"
+                  severity="primary"
                   label="Speichern"
                   @click="save()"
                 />
