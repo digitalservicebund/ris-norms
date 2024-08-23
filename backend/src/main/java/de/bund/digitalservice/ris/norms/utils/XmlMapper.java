@@ -42,7 +42,7 @@ public class XmlMapper {
    * Maps a string containing xml to a {@link Document}.
    *
    * @param xmlText The input string containing xml to be mapped to a {@link Document}
-   * @param validateSchema Should the schmea of the XML be validated to be valid LDML.de? When this
+   * @param validateSchema Should the schema of the XML be validated to be valid LDML.de? When this
    *     is false all whitespace will be treated as significant.
    * @return the resulting {@link Document}
    */

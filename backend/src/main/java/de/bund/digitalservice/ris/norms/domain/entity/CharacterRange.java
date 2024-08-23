@@ -126,11 +126,15 @@ public record CharacterRange(String characterRange) {
    */
   public List<Node> getNodesInRange(Node node) {
     if (node.getTextContent().length() < getStart()) {
-      throw new IndexOutOfBoundsException();
+      throw new IndexOutOfBoundsException(
+          "Start (%d) is after the end of the text content (length: %d)."
+              .formatted(getStart(), node.getTextContent().length()));
     }
 
     if (node.getTextContent().length() < getEnd()) {
-      throw new IndexOutOfBoundsException();
+      throw new IndexOutOfBoundsException(
+          "End (%d) is after the end of the text content (length: %d)."
+              .formatted(getEnd(), node.getTextContent().length()));
     }
 
     if (getStart() == 0 && getEnd() == node.getTextContent().length()) {
@@ -167,7 +171,8 @@ public record CharacterRange(String characterRange) {
           }
         }
 
-        throw new IndexOutOfBoundsException();
+        throw new IndexOutOfBoundsException(
+            "Expected end (%d) to be <= 0 after iterating all child nodes.".formatted(end));
       }
       default ->
           throw new UnsupportedOperationException("Unsupported node type: " + node.getNodeType());
