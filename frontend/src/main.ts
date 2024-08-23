@@ -1,5 +1,6 @@
-import { RisUi } from "@digitalservicebund/ris-ui/primevue"
+import { RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
 import "@digitalservicebund/ris-ui/primevue/style.css"
+import "@digitalservicebund/ris-ui/fonts.css"
 import * as Sentry from "@sentry/vue"
 import PrimeVue from "primevue/config"
 import { createApp } from "vue"
@@ -13,7 +14,7 @@ initializeApiService(router)
 const app = createApp(App)
 
 app.use(PrimeVue, {
-  pt: RisUi,
+  pt: RisUiTheme,
   unstyled: true,
 })
 
