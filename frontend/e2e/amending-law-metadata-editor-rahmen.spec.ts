@@ -122,8 +122,8 @@ test.describe("preview", () => {
     const preview = page.getByRole("region", { name: "Vorschau" })
 
     // Then
-    await expect(preview).toHaveText(
-      /.*am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt.*/,
+    await expect(preview).toContainText(
+      "am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt",
     )
 
     // When

@@ -71,7 +71,7 @@ VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-1
                   <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6"
                      href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" />
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3/100-126.xml" />
+                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/667-734.xml" />
                   <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1" GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
                      period="#meta-1_geltzeiten-1_geltungszeitgr-1" />
                </akn:textualMod>
@@ -80,7 +80,7 @@ VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-1
                   <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" GUID="73241841-5d63-4400-96ae-214f6ee28db6"
                      href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1" />
                   <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" GUID="7324e417-e849-4269-8320-9f0173b39626"
-                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-2_abs-1/146-194.xml" />
+                     href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1_text-1/146-194.xml" />
                   <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" GUID="7324abe9-1102-4d29-9d25-a44643354519"
                      period="#meta-1_geltzeiten-1_geltungszeitgr-2" />
                </akn:textualMod>
@@ -431,13 +431,7 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
                             <akn:marker eId="hauptteil-1_abschnitt-erster_para-2_abs-1_bezeichnung-1_zaehlbez-1"
                                 GUID="8dc7c64f-2149-4974-9848-27e3db89433b" name="1" /> (1) </akn:num>
                         <akn:content eId="hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1" GUID="ff56d90a-4212-4e1b-af21-6f69802cf985">
-                            <akn:p eId="hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1_text-1" GUID="49f99c1e-8f78-4f2c-ab4c-8ecda1bb40f3">
-                                Für die Zusammenarbeit des Bundes mit den Ländern unterhält der Bund ein Bundesamt für Verfassungsschutz als
-                                Bundesoberbehörde. Es
-                                untersteht dem Bundesministerium des Innern, für Bau und Heimat. Das Bundesamt für Verfassungsschutz darf einer
-                                polizeilichen
-                                Dienststelle nicht angegliedert werden.
-                            </akn:p>
+                            <akn:p eId="hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1_text-1" GUID="49f99c1e-8f78-4f2c-ab4c-8ecda1bb40f3">Für die Zusammenarbeit des Bundes mit den Ländern unterhält der Bund ein Bundesamt für Verfassungsschutz als Bundesoberbehörde. Es untersteht dem Bundesministerium des Innern, für Bau und Heimat. Das Bundesamt für Verfassungsschutz darf einer polizeilichen Dienststelle nicht angegliedert werden.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <akn:paragraph eId="hauptteil-1_abschnitt-erster_para-2_abs-2" GUID="f02b5576-bddb-48ee-b22e-f8d99a59a180">
@@ -1150,19 +1144,7 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
                             <akn:marker eId="hauptteil-1_abschnitt-erster_para-6_abs-3_bezeichnung-1_zaehlbez-1"
                                 GUID="faad9c8d-1f4e-4769-a680-0f5b88264f29" name="3" /> (3) </akn:num>
                         <akn:content eId="hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3" GUID="944063df-58ac-4d96-a701-76ddb0f2092a">
-                            <akn:p eId="hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1" GUID="f0f1dad3-1995-40f4-a92b-4d807f22a6bd">
-                                Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen
-                                entsprechend §
-                                64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die
-                                Angaben, die die
-                                Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der
-                                Protokolldaten
-                                ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der
-                                Datenschutzkontrolle, der
-                                Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
-                                Die
-                                Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.
-                            </akn:p>
+                            <akn:p eId="hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1" GUID="f0f1dad3-1995-40f4-a92b-4d807f22a6bd">Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen entsprechend § 64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die Angaben, die die Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der Protokolldaten ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der Datenschutzkontrolle, der Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden. Die Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                 </akn:article>
@@ -2675,23 +2657,7 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
                             <akn:marker eId="hauptteil-1_abschnitt-zweiter_para-13_abs-4_bezeichnung-1_zaehlbez-1"
                                 GUID="bbfef4b5-b84a-4cd8-91d7-7e44151faf3b" name="4" /> (4) </akn:num>
                         <akn:content eId="hauptteil-1_abschnitt-zweiter_para-13_abs-4_inhalt-4" GUID="87ff2c76-def4-4c71-b419-fbf215c2488e">
-                            <akn:p eId="hauptteil-1_abschnitt-zweiter_para-13_abs-4_inhalt-4_text-1" GUID="88265645-538e-4d2a-8a77-2f6721b061bd">
-                                Akten oder Auszüge aus Akten dürfen auch in elektronischer Form geführt werden. Insoweit kommen die Regelungen über
-                                die Verwendung und
-                                Berichtigung personenbezogener Daten in Akten zur Anwendung. Eine Abfrage personenbezogener Daten ist insoweit nur
-                                zulässig, wenn die
-                                Voraussetzungen des § 10 Absatz 1 Nummer 1 oder Nummer 2 vorliegen und die Person das 14. Lebensjahr vollendet hat.
-                                Der automatisierte
-                                Abgleich dieser personenbezogenen Daten ist nur beschränkt auf Akten eng umgrenzter Anwendungsgebiete zulässig. Bei
-                                jeder Abfrage sind
-                                für Zwecke der Datenschutzkontrolle der Zeitpunkt, die Angaben, die die Feststellung der abgefragten Daten
-                                ermöglichen, sowie Angaben
-                                zur Feststellung des Abfragenden zu protokollieren. Die protokollierten Daten dürfen nur für Zwecke der
-                                Datenschutzkontrolle, der
-                                Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
-                                Die
-                                Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.
-                            </akn:p>
+                            <akn:p eId="hauptteil-1_abschnitt-zweiter_para-13_abs-4_inhalt-4_text-1" GUID="88265645-538e-4d2a-8a77-2f6721b061bd">Akten oder Auszüge aus Akten dürfen auch in elektronischer Form geführt werden. Insoweit kommen die Regelungen über die Verwendung und Berichtigung personenbezogener Daten in Akten zur Anwendung. Eine Abfrage personenbezogener Daten ist insoweit nur zulässig, wenn die Voraussetzungen des § 10 Absatz 1 Nummer 1 oder Nummer 2 vorliegen und die Person das 14. Lebensjahr vollendet hat. Der automatisierte Abgleich dieser personenbezogenen Daten ist nur beschränkt auf Akten eng umgrenzter Anwendungsgebiete zulässig. Bei jeder Abfrage sind für Zwecke der Datenschutzkontrolle der Zeitpunkt, die Angaben, die die Feststellung der abgefragten Daten ermöglichen, sowie Angaben zur Feststellung des Abfragenden zu protokollieren. Die protokollierten Daten dürfen nur für Zwecke der Datenschutzkontrolle, der Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden. Die Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                 </akn:article>
@@ -3204,15 +3170,7 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
                             <akn:marker eId="hauptteil-1_abschnitt-dritter_para-18_abs-5_bezeichnung-1_zaehlbez-1"
                                 GUID="3ee38073-df17-4727-9b3b-124e59181fcc" name="5" /> (5) </akn:num>
                         <akn:content eId="hauptteil-1_abschnitt-dritter_para-18_abs-5_inhalt-5" GUID="06ff6fd7-fd9f-49d1-bad1-57d05bdab422">
-                            <akn:p eId="hauptteil-1_abschnitt-dritter_para-18_abs-5_inhalt-5_text-1" GUID="4d2f53ba-ca68-49b8-aef8-bc98d1272a6e">
-                                Die Ersuchen nach Absatz 3 sind aktenkundig zu machen. Über die Einsichtnahme nach Absatz 4 hat das Bundesamt für
-                                Verfassungsschutz
-                                einen Nachweis zu führen, aus dem der Zweck und die Veranlassung, die ersuchte Behörde und die Aktenfundstelle
-                                hervorgehen; die
-                                Nachweise sind gesondert aufzubewahren, gegen unberechtigten Zugriff zu sichern und am Ende des Kalenderjahres, das
-                                dem Jahr ihrer
-                                Erstellung folgt, zu vernichten.
-                            </akn:p>
+                            <akn:p eId="hauptteil-1_abschnitt-dritter_para-18_abs-5_inhalt-5_text-1" GUID="4d2f53ba-ca68-49b8-aef8-bc98d1272a6e">Die Ersuchen nach Absatz 3 sind aktenkundig zu machen. Über die Einsichtnahme nach Absatz 4 hat das Bundesamt für Verfassungsschutz einen Nachweis zu führen, aus dem der Zweck und die Veranlassung, die ersuchte Behörde und die Aktenfundstelle hervorgehen; die Nachweise sind gesondert aufzubewahren, gegen unberechtigten Zugriff zu sichern und am Ende des Kalenderjahres, das dem Jahr ihrer Erstellung folgt, zu vernichten.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <akn:paragraph eId="hauptteil-1_abschnitt-dritter_para-18_abs-6" GUID="6f45d666-7c50-431a-9f19-5d4f7ee7aea8">
@@ -4542,7 +4500,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                                     href="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
                         <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
                                          GUID="94c1e417-e849-4269-8320-9f0173b39626"
-                                         href="#hauptteil-1_abschnitt-erster_para-6_abs-3"/>
+                                         href="#hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/667-734"/>
                         <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1"
                                    GUID="6f5eabe9-1102-4d29-9d25-a44643354519"
                                    period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
@@ -4556,7 +4514,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                                     href="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
                         <akn:destination eId="meta-1_analysis-1_pasmod-2_textualmod-1_destination-1"
                                          GUID="3724e417-e849-4269-8320-9f0173b39626"
-                                         href="#hauptteil-1_abschnitt-erster_para-2_abs-1"/>
+                                         href="#hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1_text-1/146-194"/>
                         <akn:force eId="meta-1_analysis-1_pasmod-2_textualmod-1_gelzeitnachw-1"
                                    GUID="3724abe9-1102-4d29-9d25-a44643354519"
                                    period="#meta-1_geltzeiten-1_geltungszeitgr-3"/>
@@ -4699,13 +4657,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                             <akn:marker eId="hauptteil-1_abschnitt-erster_para-2_abs-1_bezeichnung-1_zaehlbez-1"
                                 GUID="8dc7c64f-2149-4974-9848-27e3db89433b" name="1" /> (1) </akn:num>
                         <akn:content eId="hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1" GUID="ff56d90a-4212-4e1b-af21-6f69802cf985">
-                            <akn:p eId="hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1_text-1" GUID="49f99c1e-8f78-4f2c-ab4c-8ecda1bb40f3">
-                                Für die Zusammenarbeit des Bundes mit den Ländern unterhält der Bund ein Bundesamt für Verfassungsschutz als
-                                Bundesoberbehörde. Es
-                                untersteht dem Bundesministerium des Innern, für Bau und Heimat. Das Bundesamt für Verfassungsschutz darf einer
-                                polizeilichen
-                                Dienststelle nicht angegliedert werden.
-                            </akn:p>
+                            <akn:p eId="hauptteil-1_abschnitt-erster_para-2_abs-1_inhalt-1_text-1" GUID="49f99c1e-8f78-4f2c-ab4c-8ecda1bb40f3">Für die Zusammenarbeit des Bundes mit den Ländern unterhält der Bund ein Bundesamt für Verfassungsschutz als Bundesoberbehörde. Es untersteht dem Bundesministerium des Innern, für Bau und Heimat. Das Bundesamt für Verfassungsschutz darf einer polizeilichen Dienststelle nicht angegliedert werden.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <akn:paragraph eId="hauptteil-1_abschnitt-erster_para-2_abs-2" GUID="f02b5576-bddb-48ee-b22e-f8d99a59a180">
@@ -5418,19 +5370,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                             <akn:marker eId="hauptteil-1_abschnitt-erster_para-6_abs-3_bezeichnung-1_zaehlbez-1"
                                 GUID="faad9c8d-1f4e-4769-a680-0f5b88264f29" name="3" /> (3) </akn:num>
                         <akn:content eId="hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3" GUID="944063df-58ac-4d96-a701-76ddb0f2092a">
-                            <akn:p eId="hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1" GUID="f0f1dad3-1995-40f4-a92b-4d807f22a6bd">
-                                Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen
-                                entsprechend §
-                                64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die
-                                Angaben, die die
-                                Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der
-                                Protokolldaten
-                                ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der
-                                Datenschutzkontrolle, der
-                                Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
-                                Die
-                                Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.
-                            </akn:p>
+                            <akn:p eId="hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1" GUID="f0f1dad3-1995-40f4-a92b-4d807f22a6bd">Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen entsprechend § 64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die Angaben, die die Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der Protokolldaten ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der Datenschutzkontrolle, der Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden. Die Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                 </akn:article>
@@ -6943,23 +6883,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                             <akn:marker eId="hauptteil-1_abschnitt-zweiter_para-13_abs-4_bezeichnung-1_zaehlbez-1"
                                 GUID="bbfef4b5-b84a-4cd8-91d7-7e44151faf3b" name="4" /> (4) </akn:num>
                         <akn:content eId="hauptteil-1_abschnitt-zweiter_para-13_abs-4_inhalt-4" GUID="87ff2c76-def4-4c71-b419-fbf215c2488e">
-                            <akn:p eId="hauptteil-1_abschnitt-zweiter_para-13_abs-4_inhalt-4_text-1" GUID="88265645-538e-4d2a-8a77-2f6721b061bd">
-                                Akten oder Auszüge aus Akten dürfen auch in elektronischer Form geführt werden. Insoweit kommen die Regelungen über
-                                die Verwendung und
-                                Berichtigung personenbezogener Daten in Akten zur Anwendung. Eine Abfrage personenbezogener Daten ist insoweit nur
-                                zulässig, wenn die
-                                Voraussetzungen des § 10 Absatz 1 Nummer 1 oder Nummer 2 vorliegen und die Person das 14. Lebensjahr vollendet hat.
-                                Der automatisierte
-                                Abgleich dieser personenbezogenen Daten ist nur beschränkt auf Akten eng umgrenzter Anwendungsgebiete zulässig. Bei
-                                jeder Abfrage sind
-                                für Zwecke der Datenschutzkontrolle der Zeitpunkt, die Angaben, die die Feststellung der abgefragten Daten
-                                ermöglichen, sowie Angaben
-                                zur Feststellung des Abfragenden zu protokollieren. Die protokollierten Daten dürfen nur für Zwecke der
-                                Datenschutzkontrolle, der
-                                Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
-                                Die
-                                Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.
-                            </akn:p>
+                            <akn:p eId="hauptteil-1_abschnitt-zweiter_para-13_abs-4_inhalt-4_text-1" GUID="88265645-538e-4d2a-8a77-2f6721b061bd">Akten oder Auszüge aus Akten dürfen auch in elektronischer Form geführt werden. Insoweit kommen die Regelungen über die Verwendung und Berichtigung personenbezogener Daten in Akten zur Anwendung. Eine Abfrage personenbezogener Daten ist insoweit nur zulässig, wenn die Voraussetzungen des § 10 Absatz 1 Nummer 1 oder Nummer 2 vorliegen und die Person das 14. Lebensjahr vollendet hat. Der automatisierte Abgleich dieser personenbezogenen Daten ist nur beschränkt auf Akten eng umgrenzter Anwendungsgebiete zulässig. Bei jeder Abfrage sind für Zwecke der Datenschutzkontrolle der Zeitpunkt, die Angaben, die die Feststellung der abgefragten Daten ermöglichen, sowie Angaben zur Feststellung des Abfragenden zu protokollieren. Die protokollierten Daten dürfen nur für Zwecke der Datenschutzkontrolle, der Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden. Die Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                 </akn:article>
@@ -7472,15 +7396,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                             <akn:marker eId="hauptteil-1_abschnitt-dritter_para-18_abs-5_bezeichnung-1_zaehlbez-1"
                                 GUID="3ee38073-df17-4727-9b3b-124e59181fcc" name="5" /> (5) </akn:num>
                         <akn:content eId="hauptteil-1_abschnitt-dritter_para-18_abs-5_inhalt-5" GUID="06ff6fd7-fd9f-49d1-bad1-57d05bdab422">
-                            <akn:p eId="hauptteil-1_abschnitt-dritter_para-18_abs-5_inhalt-5_text-1" GUID="4d2f53ba-ca68-49b8-aef8-bc98d1272a6e">
-                                Die Ersuchen nach Absatz 3 sind aktenkundig zu machen. Über die Einsichtnahme nach Absatz 4 hat das Bundesamt für
-                                Verfassungsschutz
-                                einen Nachweis zu führen, aus dem der Zweck und die Veranlassung, die ersuchte Behörde und die Aktenfundstelle
-                                hervorgehen; die
-                                Nachweise sind gesondert aufzubewahren, gegen unberechtigten Zugriff zu sichern und am Ende des Kalenderjahres, das
-                                dem Jahr ihrer
-                                Erstellung folgt, zu vernichten.
-                            </akn:p>
+                            <akn:p eId="hauptteil-1_abschnitt-dritter_para-18_abs-5_inhalt-5_text-1" GUID="4d2f53ba-ca68-49b8-aef8-bc98d1272a6e">Die Ersuchen nach Absatz 3 sind aktenkundig zu machen. Über die Einsichtnahme nach Absatz 4 hat das Bundesamt für Verfassungsschutz einen Nachweis zu führen, aus dem der Zweck und die Veranlassung, die ersuchte Behörde und die Aktenfundstelle hervorgehen; die Nachweise sind gesondert aufzubewahren, gegen unberechtigten Zugriff zu sichern und am Ende des Kalenderjahres, das dem Jahr ihrer Erstellung folgt, zu vernichten.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <akn:paragraph eId="hauptteil-1_abschnitt-dritter_para-18_abs-6" GUID="6f45d666-7c50-431a-9f19-5d4f7ee7aea8">
@@ -7628,23 +7544,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
                             <akn:marker eId="hauptteil-1_abschnitt-dritter_para-19_abs-4_bezeichnung-1_zaehlbez-1"
                                 GUID="db19f58f-ec4a-4601-965e-8d1b4ba59281" name="4" /> (4) </akn:num>
                         <akn:content eId="hauptteil-1_abschnitt-dritter_para-19_abs-4_inhalt-4" GUID="15954190-c7dd-42b3-bb4a-0b93ec593f94">
-                            <akn:p eId="hauptteil-1_abschnitt-dritter_para-19_abs-4_inhalt-4_text-1" GUID="804b39bf-e26d-427a-83a8-50fc5957325f">
-                                Personenbezogene Daten dürfen an andere Stellen nicht übermittelt werden, es sei denn, dass dies zum Schutz der
-                                freiheitlichen
-                                demokratischen Grundordnung, des Bestandes oder der Sicherheit des Bundes oder eines Landes erforderlich ist und der
-                                Bundesminister
-                                des Innern seine Zustimmung erteilt hat. Das Bundesamt für Verfassungsschutz führt über die Auskunft nach Satz 1 einen
-                                Nachweis, aus
-                                dem der Zweck der Übermittlung, ihre Veranlassung, die Aktenfundstelle und der Empfänger hervorgehen; die Nachweise
-                                sind gesondert
-                                aufzubewahren, gegen unberechtigten Zugriff zu sichern und am Ende des Kalenderjahres, das dem Jahr ihrer Erstellung
-                                folgt, zu
-                                vernichten. Der Empfänger darf die übermittelten Daten nur für den Zweck verwenden, zu dem sie ihm übermittelt wurden.
-                                Der Empfänger
-                                ist auf die Verwendungsbeschränkung und darauf hinzuweisen, dass das Bundesamt für Verfassungsschutz sich vorbehält,
-                                um Auskunft über
-                                die vorgenommene Verwendung der Daten zu bitten.
-                            </akn:p>
+                            <akn:p eId="hauptteil-1_abschnitt-dritter_para-19_abs-4_inhalt-4_text-1" GUID="804b39bf-e26d-427a-83a8-50fc5957325f">Personenbezogene Daten dürfen an andere Stellen nicht übermittelt werden, es sei denn, dass dies zum Schutz der freiheitlichen demokratischen Grundordnung, des Bestandes oder der Sicherheit des Bundes oder eines Landes erforderlich ist und der Bundesminister des Innern seine Zustimmung erteilt hat. Das Bundesamt für Verfassungsschutz führt über die Auskunft nach Satz 1 einen Nachweis, aus dem der Zweck der Übermittlung, ihre Veranlassung, die Aktenfundstelle und der Empfänger hervorgehen; die Nachweise sind gesondert aufzubewahren, gegen unberechtigten Zugriff zu sichern und am Ende des Kalenderjahres, das dem Jahr ihrer Erstellung folgt, zu vernichten. Der Empfänger darf die übermittelten Daten nur für den Zweck verwenden, zu dem sie ihm übermittelt wurden. Der Empfänger ist auf die Verwendungsbeschränkung und darauf hinzuweisen, dass das Bundesamt für Verfassungsschutz sich vorbehält, um Auskunft über die vorgenommene Verwendung der Daten zu bitten.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                     <akn:paragraph eId="hauptteil-1_abschnitt-dritter_para-19_abs-5" GUID="ee29d180-0b39-4ae3-a9fe-ddfdf5e87440">

@@ -165,7 +165,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     }
 
     if (modData.targetHref.get().getCharacterRange().isEmpty()) {
-      throw new IllegalArgumentException("Character range is empty.");
+      throw new IllegalArgumentException(
+          "Destination has empty character range (%s)".formatted(modData.targetHref.get()));
     }
 
     final var characterRange = modData.targetHref.get().getCharacterRange().get();
@@ -177,9 +178,11 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     if (!Objects.equals(
         characterRange.findTextInNode(targetNode), modData.mod().getOldText().get())) {
       throw new IllegalArgumentException(
-          "Old text (%s) is not the same as the text of the character range (%s)."
+          "Old text (%s) is not the same as the text of the character range (%s). Text of the node: %s"
               .formatted(
-                  modData.mod().getOldText().get(), characterRange.findTextInNode(targetNode)));
+                  modData.mod().getOldText().get(),
+                  characterRange.findTextInNode(targetNode),
+                  targetNode.getTextContent()));
     }
 
     final var nodesToBeReplaced = characterRange.getNodesInRange(targetNode);

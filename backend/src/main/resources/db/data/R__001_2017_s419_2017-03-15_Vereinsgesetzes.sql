@@ -568,7 +568,7 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                               href="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"/>
                   <akn:destination eId="meta-1_analysis-1_pasmod-1_textualmod-2_destination-1"
                                    GUID="8c0418f1-b6fa-4110-8820-cf0db752c5bd"
-                                   href="#hauptteil-1_para-20_abs-1/100-126"/>
+                                   href="#auptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/100-126"/>
                   <akn:force eId="meta-1_analysis-1_pasmod-1_textualmod-2_gelzeitnachw-1"
                              GUID="e5962d3b-9bb8-4eb0-8d8f-131a5114fddb"
                              period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
@@ -814,9 +814,7 @@ VALUES ('a0bdb90e-31ca-4a48-b773-89cf858208fa', 'eli/bund/bgbl-1/1964/s593/2017-
                                     name="2"/>2. </akn:num>
                      <akn:content eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1"
                                   GUID="7e835e4b-52eb-4fa1-9698-d7a42589d715">
-                        <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                               GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">entgegen § 9 Abs. 1 Satz 2, Abs. 2
-                           Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
+                        <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1" GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">entgegen § 9 Abs. 1 Satz 2, Abs. 2 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
                      </akn:content>
                   </akn:point>
                   <akn:wrapUp eId="hauptteil-1_para-20_abs-1_untergl-1_schlusstext-1"

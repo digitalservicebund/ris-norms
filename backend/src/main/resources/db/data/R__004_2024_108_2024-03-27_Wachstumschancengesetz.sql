@@ -54,7 +54,7 @@ VALUES ('c58770da-120c-4d46-9f19-737be72590b7', 'eli/bund/bgbl-1/2024/108/2024-0
             <akn:activeModifications eId="meta-1_analysis-1_activemod-1" GUID="127e593d-6ce7-4ee1-8c1d-8ab537593a25">
                <akn:textualMod type="substitution" GUID="de2d69cd-691b-4b61-b1fb-db471d9f52aa" eId="meta-1_analysis-1_activemod-1_textualmod-1">
                   <akn:source eId="meta-1_analysis-1_activemod-1_textualmod-1_source-1" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" GUID="c42641b3-e987-4013-b713-52017ca0ca78"></akn:source>
-                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-26_bezeichnung-1_zaehlbez-1/284-449.xml" GUID="e99747be-63b9-4729-adf3-b4b4299e188b"></akn:destination>
+                  <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1" href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-27_abs-6_inhalt-1_text-1/302-338.xml" GUID="e99747be-63b9-4729-adf3-b4b4299e188b"></akn:destination>
                   <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2" eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1" GUID="362f30ad-343c-4b8e-8bb4-993c8a0f5256"></akn:force>
                </akn:textualMod>
                <akn:textualMod type="substitution" GUID="a9447c63-fd78-44b9-9426-48ea9e86cf68" eId="meta-1_analysis-1_activemod-1_textualmod-2">
@@ -135,7 +135,7 @@ VALUES ('c58770da-120c-4d46-9f19-737be72590b7', 'eli/bund/bgbl-1/2024/108/2024-0
                      <akn:content eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1" GUID="63c7840e-f93f-497a-843f-3afbd9ec8784">
                         <akn:p eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861a">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861b">
-                              In <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-26_bezeichnung-1_zaehlbez-1/284-449.xml" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861c">§ 6b Absatz 6 Satz 2</akn:ref> werden die Wörter „<akn:quotedText startQuote="„" endQuote="“" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861d">§ 7 Absatz 4 Satz 1 und Absatz 5</akn:quotedText>“ durch die Wörter „<akn:quotedText startQuote="„" endQuote="“" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2" GUID="a8786a31-bf59-41f9-b945-7785ed93861f">§ 7 Absatz 4 Satz 1, Absatz 5 und 5a</akn:quotedText>“ ersetzt.
+                              In <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_para-27_abs-6_inhalt-1_text-1/302-338.xml" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861c">§ 6b Absatz 6 Satz 2</akn:ref> werden die Wörter „<akn:quotedText startQuote="„" endQuote="“" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-1" GUID="a8786a31-bf59-41f9-b945-7785ed93861d">§ 7 Absatz 4 Satz 1, Absatz 5 und 5a</akn:quotedText>“ durch die Wörter „<akn:quotedText startQuote="„" endQuote="“" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2" GUID="a8786a31-bf59-41f9-b945-7785ed93861f">§ 7 Absatz 4 Satz 1 und Absatz 5</akn:quotedText>“ ersetzt.
                            </akn:mod>
                         </akn:p>
                      </akn:content>
@@ -1004,9 +1004,7 @@ VALUES ('c2e78146-833b-4d78-a055-27f05eeaf018', 'eli/bund/bgbl-1/2009/s3366/2023
                      <akn:num eId="hauptteil-1_para-27_abs-6_bezeichnung-1" GUID="c38a41af-4911-4b1a-9404-929912af983e">
                         <akn:marker eId="hauptteil-1_para-27_abs-6_bezeichnung-1_zaehlbez-1" GUID="00aa91c0-6457-4200-bce9-a6350377c58f" name="6"></akn:marker>(6)</akn:num>
                      <akn:content eId="hauptteil-1_para-27_abs-6_inhalt-1" GUID="88b5a47f-40ad-485a-9745-5caa81f93e44">
-                        <akn:p GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5" eId="hauptteil-1_para-27_abs-6_inhalt-1_text-1">
-                        Ist ein Betrag nach Absatz 1 oder 3 abgezogen worden, so tritt für die Absetzungen für Abnutzung oder Substanzverringerung oder in den Fällen des § 6 Absatz 2 und Absatz 2a im Wirtschaftsjahr des Abzugs der verbleibende Betrag an die Stelle der Anschaffungs- oder Herstellungskosten. In den Fällen des § 7 Absatz 4 Satz 1, Absatz 5 und 5a sind die um den Abzugsbetrag nach Absatz 1 oder 3 geminderten Anschaffungs- oder Herstellungskosten maßgebend.
-                     </akn:p>
+                        <akn:p GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5" eId="hauptteil-1_para-27_abs-6_inhalt-1_text-1">Ist ein Betrag nach Absatz 1 oder 3 abgezogen worden, so tritt für die Absetzungen für Abnutzung oder Substanzverringerung oder in den Fällen des § 6 Absatz 2 und Absatz 2a im Wirtschaftsjahr des Abzugs der verbleibende Betrag an die Stelle der Anschaffungs- oder Herstellungskosten. In den Fällen des § 7 Absatz 4 Satz 1, Absatz 5 und 5a sind die um den Abzugsbetrag nach Absatz 1 oder 3 geminderten Anschaffungs- oder Herstellungskosten maßgebend.</akn:p>
                      </akn:content>
                   </akn:paragraph>
                </akn:article>
@@ -1562,7 +1560,7 @@ VALUES ('5d84cd1d-3575-4a03-bb6c-f17834e392fe', 'eli/bund/bgbl-1/2009/s3366/2024
                                     href="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"
                                     GUID="c42641b3-e987-4013-b713-52017ca0ca78"></akn:source>
                         <akn:destination eId="meta-1_analysis-1_passivemod-1_textualmod-1_destination-1"
-                                         href="#hauptteil-1_para-26_bezeichnung-1_zaehlbez-1/284-449.xml"
+                                         href="#hauptteil-1_para-27_abs-6_inhalt-1_text-1/302-338"
                                          GUID="e99747be-63b9-4729-adf3-b4b4299e188b"></akn:destination>
                         <akn:force period="#meta-1_geltzeiten-1_geltungszeitgr-2"
                                    eId="meta-1_analysis-1_passivemod-1_textualmod-1_gelzeitnachw-1"
@@ -2192,14 +2190,7 @@ VALUES ('5d84cd1d-3575-4a03-bb6c-f17834e392fe', 'eli/bund/bgbl-1/2009/s3366/2024
                     </akn:num>
                     <akn:content eId="hauptteil-1_para-27_abs-6_inhalt-1" GUID="88b5a47f-40ad-485a-9745-5caa81f93e44">
                         <akn:p GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"
-                               eId="hauptteil-1_para-27_abs-6_inhalt-1_text-1">
-                            Ist ein Betrag nach Absatz 1 oder 3 abgezogen worden, so tritt für die Absetzungen für
-                            Abnutzung oder Substanzverringerung oder in den Fällen des § 6 Absatz 2 und Absatz 2a im
-                            Wirtschaftsjahr des Abzugs der verbleibende Betrag an die Stelle der Anschaffungs- oder
-                            Herstellungskosten. In den Fällen des § 7 Absatz 4 Satz 1, Absatz 5 und 5a sind die um den
-                            Abzugsbetrag nach Absatz 1 oder 3 geminderten Anschaffungs- oder Herstellungskosten
-                            maßgebend.
-                        </akn:p>
+                               eId="hauptteil-1_para-27_abs-6_inhalt-1_text-1">Ist ein Betrag nach Absatz 1 oder 3 abgezogen worden, so tritt für die Absetzungen für Abnutzung oder Substanzverringerung oder in den Fällen des § 6 Absatz 2 und Absatz 2a im Wirtschaftsjahr des Abzugs der verbleibende Betrag an die Stelle der Anschaffungs- oder Herstellungskosten. In den Fällen des § 7 Absatz 4 Satz 1, Absatz 5 und 5a sind die um den Abzugsbetrag nach Absatz 1 oder 3 geminderten Anschaffungs- oder Herstellungskosten maßgebend.</akn:p>
                     </akn:content>
                 </akn:paragraph>
             </akn:article>
