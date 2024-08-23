@@ -41,7 +41,9 @@
                 <akn:passiveModifications GUID="cd241744-ace4-436c-a0e3-dc1ee8caf3ac" eId="meta-1_analysis-1_pasmod-1">
                     <akn:textualMod GUID="2e5533d3-d0e3-43ba-aa1a-5859d108eb46" eId="meta-1_analysis-1_pasmod-1_textualmod-1" type="substitution">
                         <akn:source GUID="8b3e1841-5d63-4400-96ae-214f6ee28db6" eId="meta-1_analysis-1_pasmod-1_textualmod-1_source-1" href="eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1.xml"/>
-                        <akn:destination GUID="94c1e417-e849-4269-8320-9f0173b39626" eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1" href="#hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/668-734.xml"/>
+                        <akn:destination GUID="94c1e417-e849-4269-8320-9f0173b39626"
+                                         eId="meta-1_analysis-1_pasmod-1_textualmod-1_destination-1"
+                                         href="#hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1/667-734"/>
                         <akn:force GUID="6f5eabe9-1102-4d29-9d25-a44643354519" eId="meta-1_analysis-1_pasmod-1_textualmod-1_gelzeitnachw-1" period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
                     </akn:textualMod>
                 </akn:passiveModifications>
@@ -1363,19 +1365,8 @@
                         <akn:num GUID="850a006f-9d24-48a5-8df1-20f3db53d947" eId="hauptteil-1_abschnitt-erster_para-6_abs-3_bezeichnung-1">
                             <akn:marker GUID="faad9c8d-1f4e-4769-a680-0f5b88264f29" eId="hauptteil-1_abschnitt-erster_para-6_abs-3_bezeichnung-1_zaehlbez-1" name="3"/> (3) </akn:num>
                         <akn:content GUID="944063df-58ac-4d96-a701-76ddb0f2092a" eId="hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3">
-                            <akn:p GUID="f0f1dad3-1995-40f4-a92b-4d807f22a6bd" eId="hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1">
-                                Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen
-                                entsprechend §
-                                64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die
-                                Angaben, die die
-                                Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der
-                                Protokolldaten
-                                ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der
-                                Datenschutzkontrolle, der
-                                Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden.
-                                Die
-                                Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.
-                            </akn:p>
+                            <akn:p GUID="f0f1dad3-1995-40f4-a92b-4d807f22a6bd"
+                                   eId="hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-1">Das Bundesamt für Verfassungsschutz trifft für die gemeinsamen Dateien die technischen und organisatorischen Maßnahmen entsprechend § 64 des Bundesdatenschutzgesetzes. Es hat bei jedem Zugriff für Zwecke der Datenschutzkontrolle den Zeitpunkt, die Angaben, die die Feststellung der abgefragten Datensätze ermöglichen, sowie die abfragende Stelle zu protokollieren. Die Auswertung der Protokolldaten ist nach dem Stand der Technik zu gewährleisten. Die protokollierten Daten dürfen nur für Zwecke der Datenschutzkontrolle, der Datensicherung oder zur Sicherstellung eines ordnungsgemäßen Betriebs der Datenverarbeitungsanlage verwendet werden. Die Protokolldaten sind am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt, zu löschen.</akn:p>
                         </akn:content>
                     </akn:paragraph>
                 </akn:article>

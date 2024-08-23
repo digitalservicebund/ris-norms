@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -115,70 +116,88 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                               passiveModification.getDestinationUpTo(),
                               mod));
             })
-        .forEach(
-            modData -> {
-              if (modData.targetHref().isEmpty() || modData.targetHref().get().getEId().isEmpty()) {
-                return;
-              }
-              final var targetEid = modData.targetHref().get().getEId().get();
-              final var targetNode =
-                  NodeParser.getNodeFromExpression(
-                      String.format("//*[@eId='%s']", targetEid), norm.getDocument());
-
-              if (targetNode.isEmpty()) {
-                return;
-              }
-              if (modData.mod().getSecondQuotedText().isPresent())
-                applyQuotedText(modData, targetNode.get());
-              if (modData.mod().getQuotedStructure().isPresent())
-                applyQuotedStructure(modData, targetNode.get(), norm);
-            });
+        .forEach(modData -> applyMod(modData, norm));
 
     return norm;
   }
 
   record ModData(Optional<Href> targetHref, Optional<Href> targetUpToRef, Mod mod) {}
 
-  private void applyQuotedText(final ModData modData, Node targetNode) {
-    final Mod mod = modData.mod();
-    if (mod.getSecondQuotedText().isEmpty()
-        || mod.getOldText().isEmpty()
-        || mod.getNewText().isEmpty()) return;
-
-    if (mod.containsRef()) {
-      final Node secondQuotedTextNode = mod.getSecondQuotedText().get();
-
-      if (modData.targetHref.isEmpty()) {
-        throw new IllegalArgumentException("Target href is empty.");
-      }
-
-      if (modData.targetHref.get().getCharacterRange().isEmpty()) {
-        throw new IllegalArgumentException("Character range is empty.");
-      }
-
-      final var characterRange = modData.targetHref.get().getCharacterRange().get();
-      final var nodesToBeReplaced = characterRange.getNodesInRange(targetNode);
-
-      final var newChildFragment = targetNode.getOwnerDocument().createDocumentFragment();
-
-      // Import content of quotedText from amending law (which include akn:refs) using importNode
-      // because of different documents
-      NodeParser.nodeListToList(secondQuotedTextNode.getChildNodes())
-          .forEach(
-              child -> {
-                final Node importedChild = targetNode.getOwnerDocument().importNode(child, true);
-                newChildFragment.appendChild(importedChild);
-              });
-
-      final String quotedTextEid = EId.fromMandatoryNode(mod.getSecondQuotedText().get()).value();
-
-      replaceNodes(nodesToBeReplaced, newChildFragment, quotedTextEid);
-
-    } else {
-      final String modifiedTextContent =
-          targetNode.getTextContent().replaceFirst(mod.getOldText().get(), mod.getNewText().get());
-      targetNode.setTextContent(modifiedTextContent);
+  private void applyMod(final ModData modData, final Norm targetZf0Norm) {
+    if (modData.targetHref().isEmpty() || modData.targetHref().get().getEId().isEmpty()) {
+      return;
     }
+
+    final var targetEid = modData.targetHref().get().getEId().get();
+    final var targetNode =
+        NodeParser.getNodeFromExpression(
+            String.format("//*[@eId='%s']", targetEid), targetZf0Norm.getDocument());
+
+    if (targetNode.isEmpty()) {
+      return;
+    }
+
+    if (modData.mod().getSecondQuotedText().isPresent()) {
+      try {
+        applyQuotedText(modData, targetNode.get());
+      } catch (IllegalArgumentException | IndexOutOfBoundsException exception) {
+        log.info(
+            "Could not apply quoted text mod (%s)".formatted(modData.mod().getMandatoryEid()),
+            exception);
+      }
+    } else if (modData.mod().getQuotedStructure().isPresent()) {
+      applyQuotedStructure(modData, targetNode.get(), targetZf0Norm);
+    }
+  }
+
+  private void applyQuotedText(final ModData modData, Node targetNode)
+      throws IllegalArgumentException, IndexOutOfBoundsException {
+    final Mod mod = modData.mod();
+
+    if (mod.getSecondQuotedText().isEmpty()) {
+      throw new IllegalArgumentException("Second quoted text (new text) is empty.");
+    }
+
+    final Node secondQuotedTextNode = mod.getSecondQuotedText().get();
+
+    if (modData.targetHref.isEmpty()) {
+      throw new IllegalArgumentException("Target href is empty.");
+    }
+
+    if (modData.targetHref.get().getCharacterRange().isEmpty()) {
+      throw new IllegalArgumentException("Character range is empty.");
+    }
+
+    final var characterRange = modData.targetHref.get().getCharacterRange().get();
+
+    if (modData.mod().getOldText().isEmpty()) {
+      throw new IllegalArgumentException("Old text is empty.");
+    }
+
+    if (!Objects.equals(
+        characterRange.findTextInNode(targetNode), modData.mod().getOldText().get())) {
+      throw new IllegalArgumentException(
+          "Old text (%s) is not the same as the text of the character range (%s)."
+              .formatted(
+                  modData.mod().getOldText().get(), characterRange.findTextInNode(targetNode)));
+    }
+
+    final var nodesToBeReplaced = characterRange.getNodesInRange(targetNode);
+
+    final var newChildFragment = targetNode.getOwnerDocument().createDocumentFragment();
+
+    // Import content of quotedText from amending law (which include akn:refs) using importNode
+    // because of different documents
+    NodeParser.nodeListToList(secondQuotedTextNode.getChildNodes())
+        .forEach(
+            child -> {
+              final Node importedChild = targetNode.getOwnerDocument().importNode(child, true);
+              newChildFragment.appendChild(importedChild);
+            });
+
+    final String quotedTextEid = EId.fromMandatoryNode(mod.getSecondQuotedText().get()).value();
+
+    replaceNodes(nodesToBeReplaced, newChildFragment, quotedTextEid);
   }
 
   private void applyQuotedStructure(

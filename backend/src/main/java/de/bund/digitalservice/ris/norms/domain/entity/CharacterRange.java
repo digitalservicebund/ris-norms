@@ -124,7 +124,7 @@ public record CharacterRange(String characterRange) {
    * @param node the node in which the range should be found
    * @return a list of nodes that represent the given range
    */
-  public List<Node> getNodesInRange(Node node) {
+  public List<Node> getNodesInRange(Node node) throws IndexOutOfBoundsException {
     if (node.getTextContent().length() < getStart()) {
       throw new IndexOutOfBoundsException(
           "Start (%d) is after the end of the text content (length: %d)."
