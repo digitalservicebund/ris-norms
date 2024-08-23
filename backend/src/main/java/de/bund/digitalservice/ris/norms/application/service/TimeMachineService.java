@@ -153,36 +153,29 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
   private void applyQuotedText(final ModData modData, Node targetNode)
       throws IllegalArgumentException, IndexOutOfBoundsException {
     final Mod mod = modData.mod();
+    final Node secondQuotedTextNode =
+        mod.getSecondQuotedText()
+            .orElseThrow(
+                () -> new IllegalArgumentException("Second quoted text (new text) is empty."));
+    final var targetHref =
+        modData
+            .targetHref()
+            .orElseThrow(() -> new IllegalArgumentException("Target href is empty."));
+    final var characterRange =
+        targetHref
+            .getCharacterRange()
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Destination has empty character range (%s)".formatted(targetHref)));
+    final var oldText =
+        mod.getOldText().orElseThrow(() -> new IllegalArgumentException("Old text is empty."));
 
-    if (mod.getSecondQuotedText().isEmpty()) {
-      throw new IllegalArgumentException("Second quoted text (new text) is empty.");
-    }
-
-    final Node secondQuotedTextNode = mod.getSecondQuotedText().get();
-
-    if (modData.targetHref.isEmpty()) {
-      throw new IllegalArgumentException("Target href is empty.");
-    }
-
-    if (modData.targetHref.get().getCharacterRange().isEmpty()) {
-      throw new IllegalArgumentException(
-          "Destination has empty character range (%s)".formatted(modData.targetHref.get()));
-    }
-
-    final var characterRange = modData.targetHref.get().getCharacterRange().get();
-
-    if (modData.mod().getOldText().isEmpty()) {
-      throw new IllegalArgumentException("Old text is empty.");
-    }
-
-    if (!Objects.equals(
-        characterRange.findTextInNode(targetNode), modData.mod().getOldText().get())) {
+    if (!Objects.equals(characterRange.findTextInNode(targetNode), oldText)) {
       throw new IllegalArgumentException(
           "Old text (%s) is not the same as the text of the character range (%s). Text of the node: %s"
               .formatted(
-                  modData.mod().getOldText().get(),
-                  characterRange.findTextInNode(targetNode),
-                  targetNode.getTextContent()));
+                  oldText, characterRange.findTextInNode(targetNode), targetNode.getTextContent()));
     }
 
     final var nodesToBeReplaced = characterRange.getNodesInRange(targetNode);
