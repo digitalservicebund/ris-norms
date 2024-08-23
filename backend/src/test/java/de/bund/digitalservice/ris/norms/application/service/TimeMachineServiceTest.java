@@ -306,33 +306,45 @@ class TimeMachineServiceTest {
       final Diff diff =
           DiffBuilder.compare(Input.from(updatedNode.get()))
               .withTest(Input.from(expectedNode))
-              .ignoreWhitespace()
+              .normalizeWhitespace()
               .build();
       assertThat(diff.hasDifferences()).isFalse();
     }
 
     @Test
-    void acceptQuotedTextWithRefsOnEmptyTargetNode() {
+    void applyQuotedTextWithRefsToNodeWithExistingRefs() {
       // given
-      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-      norm.getNodeByEId("hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")
-          .get()
-          .setTextContent("");
+      final var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsAndExistingRef.xml");
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedTextModAndRefs.xml");
+
+      final Node expectedNode =
+          XmlMapper.toNode(
+              """
+                  <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">entgegen § 9 Absatz 1 <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a46c3" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-1" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Satz 2</akn:ref>, Absatz 2 oder 3
+                     Kennezichen eines verbotenen Vereins oder einer <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a33c3" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-2" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Ersatzorganisation</akn:ref> verwendet,
+                  </akn:p>
+                                  """);
 
       when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
-      timeMachineService.applyPassiveModifications(
-          new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
+      Norm result =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.MAX));
 
       // then
       final Optional<Node> updatedNode =
           NodeParser.getNodeFromExpression(
               "//*[@eId=\"hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1\"]",
-              norm.getDocument());
+              result.getDocument());
       assertThat(updatedNode).isPresent();
+      final Diff diff =
+          DiffBuilder.compare(Input.from(updatedNode.get()))
+              .withTest(Input.from(expectedNode))
+              .normalizeWhitespace()
+              .build();
+      assertThat(diff.hasDifferences()).isFalse();
     }
   }
 }

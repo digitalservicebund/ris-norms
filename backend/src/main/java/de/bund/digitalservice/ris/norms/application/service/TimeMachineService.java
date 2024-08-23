@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
-import io.micrometer.common.util.StringUtils;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 
 /**
  * Namespace for business Logics related to "time machine" functionality, i.e. to applying LDML.de
@@ -146,35 +144,22 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     if (mod.getSecondQuotedText().isEmpty()
         || mod.getOldText().isEmpty()
         || mod.getNewText().isEmpty()) return;
-    String oldText = mod.getOldText().get();
-    String newText = mod.getNewText().get();
 
     if (mod.containsRef()) {
       final Node secondQuotedTextNode = mod.getSecondQuotedText().get();
 
-      // Get the target node's current text content and remove unnecessary whitespaces, for the
-      // character counting from mod to work
-      final String targetText = targetNode.getTextContent().trim().replaceAll("\\s+", " ");
-      if (targetText.isEmpty()) return;
-
-      // Get the start and end index of the old text, within the cleaned old text of the target node
-      final int startIndex = targetText.indexOf(oldText);
-      final int endIndex = startIndex + oldText.length();
-
-      // Split the text into three parts: before, replacement, after
-      final String beforeText = targetText.substring(0, startIndex);
-      final String afterText = targetText.substring(endIndex + 1);
-
-      // Clear the target node's content
-      while (targetNode.hasChildNodes()) {
-        targetNode.removeChild(targetNode.getFirstChild());
+      if (modData.targetHref.isEmpty()) {
+        throw new IllegalArgumentException("Target href is empty.");
       }
 
-      // Import beforeText
-      if (StringUtils.isNotEmpty(beforeText)) {
-        final Text beforeTextNode = targetNode.getOwnerDocument().createTextNode(beforeText);
-        targetNode.appendChild(beforeTextNode);
+      if (modData.targetHref.get().getCharacterRange().isEmpty()) {
+        throw new IllegalArgumentException("Character range is empty.");
       }
+
+      final var characterRange = modData.targetHref.get().getCharacterRange().get();
+      final var nodesToBeReplaced = characterRange.getNodesInRange(targetNode);
+
+      final var newChildFragment = targetNode.getOwnerDocument().createDocumentFragment();
 
       // Import content of quotedText from amending law (which include akn:refs) using importNode
       // because of different documents
@@ -182,21 +167,16 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
           .forEach(
               child -> {
                 final Node importedChild = targetNode.getOwnerDocument().importNode(child, true);
-                targetNode.appendChild(importedChild);
+                newChildFragment.appendChild(importedChild);
               });
 
-      // Import afterText
-      if (StringUtils.isNotEmpty(afterText)) {
-        final Text afterTextNode = targetNode.getOwnerDocument().createTextNode(afterText);
-        targetNode.appendChild(afterTextNode);
-      }
-
-      // Correct eids of akn:ref
       final String quotedTextEid = EId.fromMandatoryNode(mod.getSecondQuotedText().get()).value();
-      final String targetParentNodeEid = EId.fromMandatoryNode(targetNode).value();
-      EidConsistencyGuardian.correctRootParentEid(targetNode, quotedTextEid, targetParentNodeEid);
+
+      replaceNodes(nodesToBeReplaced, newChildFragment, quotedTextEid);
+
     } else {
-      final String modifiedTextContent = targetNode.getTextContent().replaceFirst(oldText, newText);
+      final String modifiedTextContent =
+          targetNode.getTextContent().replaceFirst(mod.getOldText().get(), mod.getNewText().get());
       targetNode.setTextContent(modifiedTextContent);
     }
   }
@@ -238,20 +218,34 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     while (upToTargetNode.isPresent() && currentNode != null) {
       nodesToReplace.add(currentNode);
       if (currentNode == upToTargetNode.get()) {
-        currentNode = currentNode.getNextSibling();
         break;
       }
       currentNode = currentNode.getNextSibling();
     }
-    // Delete nodes that should be replaced
-    final Node parentNode = targetNode.getParentNode();
-    nodesToReplace.forEach(parentNode::removeChild);
-    // Insert fragment with new nodes
-    parentNode.insertBefore(newChildFragment, currentNode);
 
     final String quotedStructureEid = EId.fromMandatoryNode(mod.getQuotedStructure().get()).value();
-    final String targetParentNodeEid = EId.fromMandatoryNode(parentNode).value();
-    EidConsistencyGuardian.correctRootParentEid(
-        parentNode, quotedStructureEid, targetParentNodeEid);
+
+    replaceNodes(nodesToReplace, newChildFragment, quotedStructureEid);
+  }
+
+  private void replaceNodes(
+      final List<Node> targetNodes, final Node newNode, final String oldParentEId) {
+    if (targetNodes.isEmpty()) {
+      return;
+    }
+
+    final var parentNode = targetNodes.getFirst().getParentNode();
+
+    if (targetNodes.stream().anyMatch(node -> node.getParentNode() != parentNode)) {
+      throw new IllegalArgumentException("Not all target nodes are siblings.");
+    }
+
+    final var firstNode = targetNodes.getFirst();
+    parentNode.insertBefore(newNode, firstNode);
+    targetNodes.forEach(parentNode::removeChild);
+
+    // Correct eids of new content
+    final String targetParentNodeEId = EId.fromMandatoryNode(parentNode).value();
+    EidConsistencyGuardian.correctRootParentEid(parentNode, oldParentEId, targetParentNodeEId);
   }
 }
