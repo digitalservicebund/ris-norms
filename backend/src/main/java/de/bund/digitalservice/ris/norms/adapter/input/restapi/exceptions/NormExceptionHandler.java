@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
+import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.TransformationException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
@@ -66,6 +67,21 @@ public class NormExceptionHandler {
   public ResponseEntity<String> handleException(final NormNotFoundException e) {
 
     log.error("NormNotFoundException: {}", e.getMessage(), e);
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  }
+
+  /**
+   * Exception handler method for handling {@link ArticleNotFoundException}.
+   *
+   * @param e The exception that occured.
+   * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
+   */
+  @ExceptionHandler(ArticleNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<String> handleException(final ArticleNotFoundException e) {
+    log.error("ArticleNotFoundException: {}", e.getMessage(), e);
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));

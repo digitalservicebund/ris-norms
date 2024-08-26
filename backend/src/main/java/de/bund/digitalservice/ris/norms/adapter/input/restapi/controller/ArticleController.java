@@ -4,6 +4,8 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
+import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
@@ -197,31 +199,31 @@ public class ArticleController {
       produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<ArticleResponseSchema> getArticle(
       final Eli eli, @PathVariable final String eid) {
-    var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
-    var optionalArticle =
-        optionalNorm.map(Norm::getArticles).stream()
-            .flatMap(List::stream)
+    final var eliValue = eli.getValue();
+
+    final var norm =
+        loadNormUseCase
+            .loadNorm(new LoadNormUseCase.Query(eliValue))
+            .orElseThrow(() -> new NormNotFoundException(eliValue));
+
+    final var foundArticle =
+        norm.getArticles().stream()
             .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
-            .findFirst();
+            .findFirst()
+            .orElseThrow(() -> new ArticleNotFoundException(eliValue, eid));
 
-    if (optionalArticle.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    var article = optionalArticle.get();
     var targetLawZf0 =
-        article
+        foundArticle
             .getAffectedDocumentEli()
             .flatMap(
                 eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
             .map(
                 targetLaw ->
-                    loadZf0UseCase.loadOrCreateZf0(
-                        new LoadZf0UseCase.Query(optionalNorm.get(), targetLaw, true)))
+                    loadZf0UseCase.loadOrCreateZf0(new LoadZf0UseCase.Query(norm, targetLaw, true)))
             .orElse(null);
 
     // The response type is richer than the domain "Norm" type, hence the separate mapper
-    return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(article, targetLawZf0));
+    return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(foundArticle, targetLawZf0));
   }
 
   /**
