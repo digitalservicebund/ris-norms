@@ -106,7 +106,6 @@ class ReferenceServiceTest {
     final Diff diff =
         DiffBuilder.compare(Input.from(XmlMapper.toDocument(result)))
             .withTest(Input.from(norm.getDocument()))
-            .ignoreWhitespace()
             .build();
     assertThat(diff.hasDifferences()).isFalse();
   }
@@ -129,7 +128,6 @@ class ReferenceServiceTest {
     final Diff diff =
         DiffBuilder.compare(Input.from(XmlMapper.toDocument(result)))
             .withTest(Input.from(norm.getDocument()))
-            .ignoreWhitespace()
             .build();
     assertThat(diff.hasDifferences()).isFalse();
   }
@@ -156,7 +154,6 @@ class ReferenceServiceTest {
     final Diff diff =
         DiffBuilder.compare(Input.from(XmlMapper.toDocument(result)))
             .withTest(Input.from(expectedUpdatedNorm.getDocument()))
-            .ignoreWhitespace()
             .withAttributeFilter(attribute -> !attribute.getName().equals("GUID"))
             .build();
     assertThat(diff.hasDifferences()).isFalse();
