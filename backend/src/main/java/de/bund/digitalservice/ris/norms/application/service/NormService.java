@@ -26,7 +26,7 @@ public class NormService
     implements LoadNormUseCase,
         LoadNormXmlUseCase,
         UpdateNormXmlUseCase,
-        LoadSpecificArticleXmlFromNormUseCase,
+        LoadSpecificArticlesXmlFromNormUseCase,
         UpdateModUseCase,
         UpdateModsUseCase {
   private final LoadNormPort loadNormPort;
@@ -90,7 +90,8 @@ public class NormService
   }
 
   @Override
-  public List<String> loadSpecificArticles(LoadSpecificArticleXmlFromNormUseCase.Query query) {
+  public List<String> loadSpecificArticlesXmlFromNorm(
+      LoadSpecificArticlesXmlFromNormUseCase.Query query) {
     List<Article> articles =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(query.eli()))

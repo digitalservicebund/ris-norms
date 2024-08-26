@@ -2,23 +2,22 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
-import java.util.Optional;
 
 /**
- * Interface representing the use case for loading a specific type of Article in a {@link Norm}.
+ * Interface representing the use case for loading a specific type of article in a {@link Norm}.
  * Implementations of this interface should provide functionality to load articles based on a given
  * query.
  */
-public interface LoadSpecificArticleXmlFromNormUseCase {
+public interface LoadSpecificArticlesXmlFromNormUseCase {
 
   /**
-   * Retrieves a norm based on the provided query.
+   * Retrieves articles of a specific type based on the provided query.
    *
    * @param query The query containing the ELI (European Legislation Identifier) of the norm.
-   * @return An {@link Optional} containing the loaded Xml-{@link String} if found, or empty if not
+   * @return An {@link List} containing the loaded Xml-{@link String}s if found, or empty if not
    *     found.
    */
-  List<String> loadSpecificArticles(Query query);
+  List<String> loadSpecificArticlesXmlFromNorm(Query query);
 
   /**
    * A record representing the query for loading a norm. The query includes the ELI (European

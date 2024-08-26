@@ -33,7 +33,7 @@ class ArticleControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadNormUseCase loadNormUseCase;
-  @MockBean private LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
+  @MockBean private LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private LoadArticleHtmlUseCase loadArticleHtmlUseCase;
   @MockBean private LoadZf0UseCase loadZf0UseCase;
@@ -236,7 +236,7 @@ class ArticleControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadSpecificArticleXmlFromNormUseCase.loadSpecificArticles(any()))
+      when(loadSpecificArticlesXmlFromNormUseCase.loadSpecificArticlesXmlFromNorm(any()))
           .thenReturn(List.of(xml));
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 

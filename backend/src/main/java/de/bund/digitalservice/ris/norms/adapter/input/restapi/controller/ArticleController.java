@@ -28,19 +28,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticleController {
 
   private final LoadNormUseCase loadNormUseCase;
-  private final LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase;
+  private final LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   private final LoadArticleHtmlUseCase loadArticleHtmlUseCase;
   private final LoadZf0UseCase loadZf0UseCase;
 
   public ArticleController(
       LoadNormUseCase loadNormUseCase,
-      LoadSpecificArticleXmlFromNormUseCase loadSpecificArticleXmlFromNormUseCase,
+      LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase,
       TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
       LoadArticleHtmlUseCase loadArticleHtmlUseCase,
       LoadZf0UseCase loadZf0UseCase) {
     this.loadNormUseCase = loadNormUseCase;
-    this.loadSpecificArticleXmlFromNormUseCase = loadSpecificArticleXmlFromNormUseCase;
+    this.loadSpecificArticlesXmlFromNormUseCase = loadSpecificArticlesXmlFromNormUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
     this.loadArticleHtmlUseCase = loadArticleHtmlUseCase;
     this.loadZf0UseCase = loadZf0UseCase;
@@ -163,9 +163,9 @@ public class ArticleController {
   public ResponseEntity<String> getArticlesRender(
       final Eli eli, @RequestParam(required = false, name = "refersTo") final String refersTo) {
     String articles =
-        loadSpecificArticleXmlFromNormUseCase
-            .loadSpecificArticles(
-                new LoadSpecificArticleXmlFromNormUseCase.Query(eli.getValue(), refersTo))
+        loadSpecificArticlesXmlFromNormUseCase
+            .loadSpecificArticlesXmlFromNorm(
+                new LoadSpecificArticlesXmlFromNormUseCase.Query(eli.getValue(), refersTo))
             .stream()
             .map(
                 xml ->

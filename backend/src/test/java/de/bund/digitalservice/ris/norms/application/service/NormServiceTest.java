@@ -502,7 +502,8 @@ class NormServiceTest {
 
       // When
       var xmls =
-          service.loadSpecificArticles(new LoadSpecificArticleXmlFromNormUseCase.Query(eli, null));
+          service.loadSpecificArticlesXmlFromNorm(
+              new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, null));
 
       // Then
       verify(loadNormPort, times(1))
@@ -520,8 +521,8 @@ class NormServiceTest {
 
       // When
       var xmls =
-          service.loadSpecificArticles(
-              new LoadSpecificArticleXmlFromNormUseCase.Query(eli, "geltungszeitregel"));
+          service.loadSpecificArticlesXmlFromNorm(
+              new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel"));
 
       // Then
       verify(loadNormPort, times(1))
@@ -531,7 +532,7 @@ class NormServiceTest {
   }
 
   @Test
-  void loadSpecificArticles() {
+  void loadSpecificArticlesXmlFromNorm() {
     // Given
     var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
@@ -564,8 +565,8 @@ class NormServiceTest {
 
     // When
     var xmls =
-        service.loadSpecificArticles(
-            new LoadSpecificArticleXmlFromNormUseCase.Query(eli, "geltungszeitregel"));
+        service.loadSpecificArticlesXmlFromNorm(
+            new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel"));
 
     // Then
     verify(loadNormPort, times(1))
