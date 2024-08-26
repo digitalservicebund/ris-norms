@@ -50,4 +50,58 @@ public record EId(String value) {
   public static EId fromMandatoryNode(Node node) {
     return new EId(NodeParser.getValueFromMandatoryNodeFromExpression("./@eId", node));
   }
+
+  /**
+   * Creates the expected EId for the given node given that the parent nodes eId is correct.
+   *
+   * <p>See LDML.de 1.6 Section 7.1.1
+   *
+   * @param node the node for which the eId should be calculated
+   * @return the expected EId for that node
+   */
+  public static Optional<EId> forNode(Node node) {
+    final Optional<EId> parentEId = EId.fromNode(node.getParentNode());
+
+    final Optional<EIdPartType> eIdPartType = EIdPartType.forAknElement(node);
+
+    if (eIdPartType.isEmpty()) {
+      return Optional.empty();
+    }
+
+    var newEIdPart =
+        new EIdPart(eIdPartType.get().getName(), findEIdPosition(node, eIdPartType.get()));
+
+    return parentEId
+        .map(eId -> eId.addPart(newEIdPart))
+        .or(() -> Optional.of(new EId(newEIdPart.value())));
+  }
+
+  private static String findEIdPosition(Node node, EIdPartType eIdPartType) {
+    if (node.getNodeName().equals("akn:li")
+        && node.getParentNode().getNodeName().equals("akn:ol")) {
+      return node.getAttributes().getNamedItem("value").getNodeValue().replace(".", "");
+    }
+
+    return NodeParser.getValueFromExpression("./num/marker", node)
+        .orElseGet(
+            () -> {
+              var position = 1;
+              var previousSibling = node.getPreviousSibling();
+              while (previousSibling != null) {
+                var eId = EId.fromNode(previousSibling);
+
+                if (eId.isPresent()) {
+                  var previousSiblingEIdType = eId.get().getParts().getLast().getType();
+
+                  if (previousSiblingEIdType.equals(eIdPartType.getName())) {
+                    position++;
+                  }
+                }
+
+                previousSibling = previousSibling.getPreviousSibling();
+              }
+
+              return "%d".formatted(position);
+            });
+  }
 }
