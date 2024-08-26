@@ -75,7 +75,9 @@ class ReferenceControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
             xpath(
                     "//quotedStructure//heading[@eId='hauptteil-1_para-2_überschrift-1']/ref[2]/text()")
-                .string("Verordnung (EG) Nr. 1035/2001"))
+                .string(
+                    "Verordnung (EG) Nr.\n"
+                        + "                                                        1035/2001"))
         .andExpect(
             xpath(
                     "//quotedText[@eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quottext-2']/ref/@eId")

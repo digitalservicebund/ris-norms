@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
@@ -59,13 +60,24 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
             child -> {
               final short nodeType = child.getNodeType();
               if (nodeType == Node.TEXT_NODE) {
-                final String textContent = child.getTextContent();
-                if (textContent != null
-                    && !textContent.trim().isEmpty()
+                final String originalText = child.getTextContent();
+                if (originalText != null
+                    && !originalText.trim().isEmpty()
                     && !child.getParentNode().getNodeName().equals("akn:num")) {
-                  final String cleandText = textContent.trim().replaceAll("\\s+", " ");
-                  final List<MatchInfo> matches = findReferences(cleandText);
-                  replaceMatchesWithNewNodes(child.getParentNode(), child, matches);
+
+                  final String cleanedText = originalText.trim().replaceAll("\\s+", " ");
+                  // Create mapping to original indexes
+                  final List<Integer> originalIndexMapping =
+                      createOriginalIndexMapping(originalText, cleanedText);
+
+                  final List<MatchInfo> matches = findReferences(cleanedText);
+
+                  // Adjust match indices to original text and retrieve original matched text
+                  final List<MatchInfo> adjustedMatches =
+                      adjustMatchesToOriginalText(matches, originalIndexMapping, originalText);
+
+                  replaceMatchesWithNewNodes(
+                      child.getParentNode(), child, adjustedMatches, originalText);
                 }
               } else if (nodeType == Node.ELEMENT_NODE) {
                 findAndCreateReferencesInNode(child);
@@ -73,47 +85,20 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
             });
   }
 
-  private static void replaceMatchesWithNewNodes(
-      final Node parent, final Node textNodeToReplace, final List<MatchInfo> matches) {
-    final String originalText = textNodeToReplace.getTextContent().trim().replaceAll("\\s+", " ");
-    int currentPositionInText = 0;
-    int refCounter = 1;
-
-    // Create fragment to then replace the old node with the fragment
-    final Node newChildFragment = parent.getOwnerDocument().createDocumentFragment();
-
-    for (final MatchInfo match : matches) {
-      // Text before the match (and also text between matches)
-      if (currentPositionInText < match.start()) {
-        final String beforeText = originalText.substring(currentPositionInText, match.start());
-        if (!beforeText.isBlank()) { // Avoid adding empty text nodes
-          final Text beforeTextNode = parent.getOwnerDocument().createTextNode(beforeText);
-          newChildFragment.appendChild(beforeTextNode);
-        }
+  private static List<Integer> createOriginalIndexMapping(
+      final String originalText, final String cleanedText) {
+    final List<Integer> mapping = new ArrayList<>();
+    int originalIndex = 0;
+    for (char character : cleanedText.toCharArray()) {
+      // Move originalIndex forward until it matches the current cleanedText character
+      while (originalIndex < originalText.length()
+          && originalText.charAt(originalIndex) != character) {
+        originalIndex++;
       }
-
-      // The matched text, replace with new element
-      final Element newElement =
-          NodeCreator.createElementWithStaticEidAndGuidNoAppend(
-              "akn:ref", "ref-" + refCounter, parent);
-      newElement.setAttribute("href", "");
-      newElement.setTextContent(match.reference());
-      newChildFragment.appendChild(newElement);
-
-      // Update lastIndex and refCounter
-      currentPositionInText = match.end() + 1;
-      refCounter++;
+      mapping.add(originalIndex);
+      originalIndex++;
     }
-
-    // Text after the last match
-    if (currentPositionInText < originalText.length()) {
-      final String afterText = originalText.substring(currentPositionInText);
-      if (!afterText.isBlank()) { // Avoid adding empty text nodes
-        final Text afterTextNode = parent.getOwnerDocument().createTextNode(afterText);
-        newChildFragment.appendChild(afterTextNode);
-      }
-    }
-    parent.replaceChild(newChildFragment, textNodeToReplace);
+    return mapping;
   }
 
   private List<MatchInfo> findReferences(final String text) {
@@ -123,6 +108,76 @@ public class ReferenceService implements ReferenceRecognitionUseCase {
         .results()
         .map(match -> new MatchInfo(match.group(), match.start(), match.end() - 1))
         .toList();
+  }
+
+  private static List<MatchInfo> adjustMatchesToOriginalText(
+      final List<MatchInfo> matches,
+      final List<Integer> originalIndexMapping,
+      final String originalText) {
+    final List<MatchInfo> adjustedMatches = new ArrayList<>();
+
+    for (MatchInfo match : matches) {
+      final int originalStart = originalIndexMapping.get(match.start());
+      final int originalEnd =
+          (match.end() < originalIndexMapping.size())
+              ? originalIndexMapping.get(match.end())
+              : originalIndexMapping.getLast();
+
+      // Extract the exact match from the original text
+      final String originalMatchedText = originalText.substring(originalStart, originalEnd + 1);
+
+      adjustedMatches.add(new MatchInfo(originalMatchedText, originalStart, originalEnd));
+    }
+
+    return adjustedMatches;
+  }
+
+  private static void replaceMatchesWithNewNodes(
+      final Node parent,
+      final Node textNodeToReplace,
+      final List<MatchInfo> matches,
+      final String originalText) {
+
+    int currentPositionInText = 0;
+    int refCounter = 1;
+
+    // Create fragment to replace the old node with the fragment
+    final Node newChildFragment = parent.getOwnerDocument().createDocumentFragment();
+
+    for (final MatchInfo match : matches) {
+      // Text before the match (and also text between matches)
+      if (currentPositionInText < match.start()) {
+        final String beforeText = originalText.substring(currentPositionInText, match.start());
+        if (!beforeText.isEmpty()) {
+          final Text beforeTextNode = parent.getOwnerDocument().createTextNode(beforeText);
+          newChildFragment.appendChild(beforeTextNode);
+        }
+      }
+
+      // The matched text, replace with new element
+      final String matchedText = originalText.substring(match.start(), match.end() + 1);
+      final Element newElement =
+          NodeCreator.createElementWithStaticEidAndGuidNoAppend(
+              "akn:ref", "ref-" + refCounter, parent);
+      newElement.setAttribute("href", "");
+      newElement.setTextContent(matchedText);
+      newChildFragment.appendChild(newElement);
+
+      // Update currentPositionInText and refCounter
+      currentPositionInText = match.end() + 1;
+      refCounter++;
+    }
+
+    // Text after the last match
+    if (currentPositionInText < originalText.length()) {
+      final String afterText = originalText.substring(currentPositionInText);
+      if (!afterText.isEmpty()) {
+        final Text afterTextNode = parent.getOwnerDocument().createTextNode(afterText);
+        newChildFragment.appendChild(afterTextNode);
+      }
+    }
+
+    parent.replaceChild(newChildFragment, textNodeToReplace);
   }
 
   record MatchInfo(String reference, int start, int end) {}
