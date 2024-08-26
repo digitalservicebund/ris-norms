@@ -153,9 +153,14 @@ public enum EIdPartType {
    * @return the type part of the last element of the eId for the given element
    */
   static Optional<EIdPartType> forAknElement(Node aknElement) {
+    // See Schematron rules SCH-00570 and SCH-00580
     if (aknElement.getNodeName().equals("akn:article")) {
-      // See Schematron rules SCH-00570 and SCH-00580
-      var refersTo = aknElement.getAttributes().getNamedItem("refersTo").getNodeValue();
+      var refersToAttribute = aknElement.getAttributes().getNamedItem("refersTo");
+      if (refersToAttribute == null) {
+        return Optional.of(EIdPartType.PARA);
+      }
+
+      var refersTo = refersToAttribute.getNodeValue();
 
       return switch (refersTo) {
         case "mantelform", "vertragsgesetz", "vertragsverordnung" -> Optional.of(EIdPartType.ART);

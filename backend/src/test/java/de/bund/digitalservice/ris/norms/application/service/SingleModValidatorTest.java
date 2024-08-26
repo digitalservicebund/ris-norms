@@ -388,7 +388,7 @@ class SingleModValidatorTest {
       final TextualMod passiveMod =
           zf0Norm.getMeta().getAnalysis().orElseThrow().getPassiveModifications().getFirst();
       passiveMod.setDestinationUpTo(
-          "#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b");
+          "#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-b");
 
       // when
       Throwable thrown = catchThrowable(() -> underTest.validate(zf0Norm, mod));
@@ -397,7 +397,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
           .isInstanceOf(ValidationException.class)
           .hasMessageContaining(
-              "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1999/66/2002-02-20/1/deu/regelungstext-1.");
+              "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-b are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1999/66/2002-02-20/1/deu/regelungstext-1.");
     }
 
     @Test

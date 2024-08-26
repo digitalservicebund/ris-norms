@@ -24,6 +24,7 @@ class EIdPartTypeTest {
           <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" refersTo="vertragsverordnung" />,art
           <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" refersTo="hauptaenderung" />,para
           <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" refersTo="folgeaenderung" />,para
+          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" />,para
           """)
   void itShouldGetTheCorrectEIdPartTypeForAknElements(String xml, String eIdPartName) {
     var node = XmlMapper.toNode(xml);

@@ -118,6 +118,8 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
             })
         .forEach(modData -> applyMod(modData, norm));
 
+    EidConsistencyGuardian.correctEids(norm.getDocument());
+
     return norm;
   }
 
@@ -258,9 +260,5 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     final var firstNode = targetNodes.getFirst();
     parentNode.insertBefore(newNode, firstNode);
     targetNodes.forEach(parentNode::removeChild);
-
-    // Correct eids of new content
-    final String targetParentNodeEId = EId.fromMandatoryNode(parentNode).value();
-    EidConsistencyGuardian.correctRootParentEid(parentNode, oldParentEId, targetParentNodeEId);
   }
 }

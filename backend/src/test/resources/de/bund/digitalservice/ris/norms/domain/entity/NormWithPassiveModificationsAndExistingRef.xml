@@ -183,12 +183,15 @@
                             <akn:content eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1"
                                          GUID="7e835e4b-52eb-4fa1-9698-d7a42589d715">
                                 <akn:p eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1"
-                                       GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483">entgegen <akn:ref
-                                        GUID="514f37b3-5f75-4ee4-a110-6bad8c5a3aaa"
+                                       GUID="0ba9a471-e9ef-44c4-b5da-f69f068a4483"><akn:ref
+                                        GUID="514f37b3-5f75-4ee4-a110-6bad8c5a4bbb"
                                         eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-1"
+                                        href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">entgegen</akn:ref> <akn:ref
+                                        GUID="514f37b3-5f75-4ee4-a110-6bad8c5a3fab"
+                                        eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-2"
                                         href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">§ 9 Abs. 1 Satz 2, Abs. 2</akn:ref> Kennezichen eines verbotenen Vereins oder einer <akn:ref
                                             GUID="514f37b3-5f75-4ee4-a110-6bad8c5a33c3"
-                                            eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-2"
+                                            eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-3"
                                             href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Ersatzorganisation</akn:ref> verwendet,</akn:p>
                             </akn:content>
                         </akn:point>

@@ -143,6 +143,21 @@ class EIdTest {
     }
 
     @Test
+    void itShouldProvideEIdForNodeWithNestedNumWithNameAttribute() {
+      var node =
+          XmlMapper.toNode(
+              "<akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" refersTo=\"stammform\"><akn:num><akn:marker name=\"3a\" />§ 3a</akn:num></akn:article>");
+      // when
+      var optionalEId = EId.forNode(node);
+      // then
+      assertThat(optionalEId)
+          .hasValueSatisfying(
+              eId -> {
+                assertThat(eId.value()).isEqualTo("para-3a");
+              });
+    }
+
+    @Test
     void itShouldProvideEIdForLiElementNestedInOl() {
       var node =
           XmlMapper.toNode(

@@ -249,10 +249,10 @@ class UpdateNormServiceTest {
                   "eli/bund/bgbl-1/2002/22/2002-02-20/1/deu/regelungstext-1/hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1.xml"));
       assertThat(secondPassMod.getDestinationHref())
           .contains(
-              new Href("#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b"));
+              new Href("#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-b"));
       assertThat(secondPassMod.getDestinationUpTo())
           .contains(
-              new Href("#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f"));
+              new Href("#hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-f"));
       assertThat(
               updatedZfoLaw.getStartDateForTemporalGroup(
                   secondPassMod.getForcePeriodEid().orElseThrow()))

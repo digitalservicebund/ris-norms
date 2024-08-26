@@ -44,7 +44,10 @@
           </akn:textualMod>
           <akn:textualMod GUID="c339ce6b-ca1c-4a3e-a563-821f15c3c492" eId="meta-1_analysis-1_activemod-1_textualmod-2" type="substitution">
             <akn:source GUID="0af0b6f9-b4fa-47bb-b4fb-18cde81905b8" eId="meta-1_analysis-1_activemod-1_textualmod-2_source-1" href="#hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"/>
-            <akn:destination GUID="6d354a73-d442-4a14-a5a9-c848474d5cfc" eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1" href="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f.xml"/>
+            <akn:destination GUID="6d354a73-d442-4a14-a5a9-c848474d5cfc"
+                             eId="meta-1_analysis-1_activemod-1_textualmod-2_destination-1"
+                             href="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-b.xml"
+                             upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-f.xml"/>
             <akn:force GUID="155388d0-9171-482d-bb02-2267acbadbed" eId="meta-1_analysis-1_activemod-1_textualmod-2_gelzeitnachw-1" period="#meta-1_geltzeiten-1_geltungszeitgr-2"/>
           </akn:textualMod>
         </akn:activeModifications>
@@ -121,7 +124,10 @@
               <akn:content GUID="ead90607-aeca-434f-a4f8-9e9536830ac3" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1">
                 <akn:p GUID="32c46b5b-9276-4b81-8b06-e29d4dbab8f5" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1">
                   <akn:mod GUID="ba11efa1-41d3-44ee-8c53-deb51d1fa1e8" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1" refersTo="aenderungsbefehl-ersetzen">
-                    <akn:rref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1" from="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-b.xml" upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-a_listenelem-f.xml">§ 2 Absatz 3 Nummer 1 Buchstaben b) bis f)</akn:rref> des Gesetzes werden ersetzt durch:
+                    <akn:rref GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d"
+                              eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_ref-1"
+                              from="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-b.xml"
+                              upTo="eli/bund/bgbl-1/1999/66/1999-01-01/1/deu/regelungstext-1/hauptteil-1_para-2_abs-3_untergl-1_listenelem-1_untergl-1_listenelem-f.xml">§ 2 Absatz 3 Nummer 1 Buchstaben b) bis f)</akn:rref> des Gesetzes werden ersetzt durch:
                     <akn:quotedStructure GUID="9cb0572a-2933-473e-823f-5541ab360561" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1" endQuote="“" startQuote="„">
                       <akn:point GUID="a847f9da-9a41-4d4e-beab-874fb6beec7f" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-b">
                         <akn:num GUID="a0419aca-7a16-4cb3-a57d-003ed60a4e69" eId="hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_listenelem-b_bezeichnung-1">

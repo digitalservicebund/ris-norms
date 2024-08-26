@@ -83,6 +83,7 @@ public record EId(String value) {
     }
 
     return NodeParser.getValueFromExpression("./num/marker", node)
+        .or(() -> NodeParser.getValueFromExpression("./num/marker/@name", node))
         .orElseGet(
             () -> {
               var position = 1;
