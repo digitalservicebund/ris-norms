@@ -62,6 +62,18 @@
                     <akn:timeInterval GUID="d519d7f0-6fcf-4b0f-a2fc-7647f1879100" eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1" refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2"/>
                 </akn:temporalGroup>
             </akn:temporalData>
+          <akn:proprietary eId="meta-1_proprietary-1" GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
+                           source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+              <meta:typ>gesetz</meta:typ>
+              <meta:form>stammform</meta:form>
+              <meta:fassung>verkuendungsfassung</meta:fassung>
+              <meta:art>regelungstext</meta:art>
+              <meta:initiant>bundesregierung</meta:initiant>
+              <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+              <meta:fna>nicht-vorhanden</meta:fna>
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
         </akn:meta>
         <akn:preface GUID="da7b34fb-69e8-4ede-abd1-a047ea34f576" eId="einleitung-1">
             <akn:longTitle GUID="f5ae76f0-b1bc-47e5-9431-8c972acdc95d" eId="einleitung-1_doktitel-1">

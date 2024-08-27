@@ -176,6 +176,18 @@
                                       start="#meta-1_lebzykl-1_ereignis-6"/>
                 </akn:temporalGroup>
             </akn:temporalData>
+          <akn:proprietary eId="meta-1_proprietary-1" GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
+                           source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+              <meta:typ>gesetz</meta:typ>
+              <meta:form>stammform</meta:form>
+              <meta:fassung>verkuendungsfassung</meta:fassung>
+              <meta:art>regelungstext</meta:art>
+              <meta:initiant>bundesregierung</meta:initiant>
+              <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+              <meta:fna>nicht-vorhanden</meta:fna>
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
         </akn:meta>
 
         <akn:body eId="hauptteil-1" GUID="6c5d6dc7-f14b-4e1d-8f8b-570a13aeff9c">

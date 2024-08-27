@@ -11,7 +11,7 @@ async function restoreInitialState(page: Page) {
   }
 
   await page.request.put(
-    "/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1",
+    "/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_%C3%A4ndbefehl-1",
     { data: originalModState },
   )
 }
@@ -26,7 +26,7 @@ test.afterAll(async () => {
   await restoreInitialState(sharedPage)
 })
 const BASE_URL =
-  "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit"
+  "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit"
 
 test.beforeEach(async () => {
   await sharedPage.goto(BASE_URL)
@@ -222,9 +222,9 @@ test.describe("Editing a single mod", () => {
 test.describe("Editing multiple mods", () => {
   async function restoreInitialState() {
     const originalModsState = {
-      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1":
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1":
         { timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-2" },
-      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1":
+      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1":
         { timeBoundaryEid: "meta-1_geltzeiten-1_geltungszeitgr-2" },
     }
     await sharedPage.request.patch(
@@ -237,7 +237,7 @@ test.describe("Editing multiple mods", () => {
     sharedPage = await browser.newPage()
     await restoreInitialState()
     await sharedPage.goto(
-      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_para-1/edit",
+      "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/articles/hauptteil-1_art-1/edit",
     )
   })
 

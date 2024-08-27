@@ -48,6 +48,17 @@ VALUES ('d33c67a0-2be2-4728-932d-5abae5a84422', 'eli/bund/bgbl-1/1000/1/1000-01-
           <akn:timeInterval start="#meta-1_lebzykl-1_ereignis-1" refersTo="geltungszeit" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="90afcb18-ec43-468b-b914-d37d4c60bf76"></akn:timeInterval>
         </akn:temporalGroup>
       </akn:temporalData>
+      <akn:proprietary eId="meta-1_proprietary-1" GUID="fe419055-3201-41b1-b096-402eabcbe6a1" source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+               <meta:typ>gesetz</meta:typ>
+               <meta:form>stammform</meta:form>
+               <meta:fassung>verkuendungsfassung</meta:fassung>
+               <meta:art>regelungstext</meta:art>
+               <meta:initiant>bundesregierung</meta:initiant>
+               <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+               <meta:fna>nicht-vorhanden</meta:fna>
+            </meta:legalDocML.de_metadaten>
+         </akn:proprietary>
     </akn:meta>
 
     <akn:preface eId="einleitung-1" GUID="a3399d47-218a-46cf-939c-685f884ed724">

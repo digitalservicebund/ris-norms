@@ -339,7 +339,7 @@ VALUES ('77167d15-511d-4927-adf3-3c8b0464423c', 'eli/bund/bgbl-1/1990/s2954/2022
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                    <meta:typ>gesetz</meta:typ>
-                   <meta:form>mantelform</meta:form>
+                   <meta:form>stammform</meta:form>
                    <meta:fassung>verkuendungsfassung</meta:fassung>
                    <meta:art>regelungstext</meta:art>
                    <meta:initiant>bundesregierung</meta:initiant>
@@ -4536,7 +4536,7 @@ VALUES ('b0f315a1-620b-4eaf-922c-ea46a7d10c8b', 'eli/bund/bgbl-1/1990/s2954/2023
             <akn:proprietary eId="meta-1_proprietary-1" GUID="33fc7615-4c37-4101-9184-a14185ee3ec2" source="attributsemantik-noch-undefiniert">
                 <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                    <meta:typ>gesetz</meta:typ>
-                   <meta:form>mantelform</meta:form>
+                   <meta:form>stammform</meta:form>
                    <meta:fassung>verkuendungsfassung</meta:fassung>
                    <meta:art>regelungstext</meta:art>
                    <meta:initiant>bundesregierung</meta:initiant>

@@ -76,7 +76,7 @@ VALUES ('c58770da-120c-4d46-9f19-737be72590b7', 'eli/bund/bgbl-1/2024/108/2024-0
          <akn:proprietary eId="meta-1_proprietary-1" GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7" source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
                <meta:typ>gesetz</meta:typ>
-               <meta:form>stammform</meta:form>
+               <meta:form>mantelform</meta:form>
                <meta:fassung>neufassung</meta:fassung>
                <meta:art>regelungstext</meta:art>
                <meta:initiant>nicht-vorhanden</meta:initiant>

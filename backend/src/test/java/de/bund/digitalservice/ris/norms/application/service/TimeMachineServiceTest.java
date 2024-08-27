@@ -131,7 +131,7 @@ class TimeMachineServiceTest {
       // then
       var changedNodeValue =
           NodeParser.getValueFromExpression(
-              "//*[@eId=\"hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-1_text-1\"]",
+              "//*[@eId=\"hauptteil-1_abschnitt-erster_art-6_abs-3_inhalt-1_text-1\"]",
               result.getDocument());
       assertThat(changedNodeValue).isPresent();
       assertThat(changedNodeValue.get())

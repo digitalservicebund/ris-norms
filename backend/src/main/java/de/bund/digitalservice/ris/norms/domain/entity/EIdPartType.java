@@ -180,7 +180,6 @@ public enum EIdPartType {
       return EIdPartType.PARA;
     }
 
-    // SCH-00570
     var form =
         NodeParser.getValueFromExpression(
             "//akomaNtoso/*/meta/proprietary/legalDocML.de_metadaten/form", aknArticleElement);

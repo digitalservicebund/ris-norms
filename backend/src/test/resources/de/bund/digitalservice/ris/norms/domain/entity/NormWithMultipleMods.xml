@@ -153,6 +153,18 @@
                                       refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2"/>
                 </akn:temporalGroup>
             </akn:temporalData>
+          <akn:proprietary eId="meta-1_proprietary-1" GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
+                           source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+              <meta:typ>gesetz</meta:typ>
+              <meta:form>mantelform</meta:form>
+              <meta:fassung>verkuendungsfassung</meta:fassung>
+              <meta:art>regelungstext</meta:art>
+              <meta:initiant>bundesregierung</meta:initiant>
+              <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+              <meta:fna>nicht-vorhanden</meta:fna>
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
         </akn:meta>
 
         <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">

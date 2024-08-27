@@ -103,6 +103,17 @@ VALUES ('e7abd358-32cb-4fc2-8a1a-b033961f3708', 'eli/bund/bgbl-1/1001/2/1001-02-
           <akn:timeInterval start="#meta-1_lebzykl-1_ereignis-2" refersTo="geltungszeit" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="b5f2b610-ea4e-43dc-9262-8afe1a812145"></akn:timeInterval>
         </akn:temporalGroup>
       </akn:temporalData>
+      <akn:proprietary eId="meta-1_proprietary-1" GUID="fe419055-3201-41b1-b096-402eabcbe6a1" source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+               <meta:typ>gesetz</meta:typ>
+               <meta:form>mantelform</meta:form>
+               <meta:fassung>verkuendungsfassung</meta:fassung>
+               <meta:art>regelungstext</meta:art>
+               <meta:initiant>bundesregierung</meta:initiant>
+               <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+               <meta:fna>nicht-vorhanden</meta:fna>
+            </meta:legalDocML.de_metadaten>
+         </akn:proprietary>
     </akn:meta>
 
     <akn:preface eId="einleitung-1" GUID="5d844674-c11c-45bf-9bb8-4d54fe108c66">
@@ -326,6 +337,17 @@ VALUES ('f260b43f-6218-4bd7-ac1a-f5f46d190bfb', 'eli/bund/bgbl-1/1001/1/1001-01-
           <akn:timeInterval start="#meta-1_lebzykl-1_ereignis-1" refersTo="geltungszeit" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" GUID="f11ec4d9-a419-4288-b47c-0b0341a3cf74"></akn:timeInterval>
         </akn:temporalGroup>
       </akn:temporalData>
+      <akn:proprietary eId="meta-1_proprietary-1" GUID="fe419055-3201-41b1-b096-402eabcbe6a1" source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+               <meta:typ>gesetz</meta:typ>
+               <meta:form>stammform</meta:form>
+               <meta:fassung>verkuendungsfassung</meta:fassung>
+               <meta:art>regelungstext</meta:art>
+               <meta:initiant>bundesregierung</meta:initiant>
+               <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+               <meta:fna>nicht-vorhanden</meta:fna>
+            </meta:legalDocML.de_metadaten>
+         </akn:proprietary>
     </akn:meta>
 
     <akn:preface eId="einleitung-1" GUID="e1d90925-6093-41d9-84e1-df810c83a024">
