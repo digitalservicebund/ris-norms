@@ -148,18 +148,19 @@ public class ArticleController {
   }
 
   /**
-   * Retrieves a norm's articles as html based on its expression ELI. The ELI's components are
-   * interpreted as query parameters.
+   * Retrieves articles of a specific type within a norm as HTML. The norm is identified by its
+   * expression ELI. The ELI's components are interpreted as query parameters.
    *
    * <p>(German terms are taken from the LDML_de 1.6 specs, p146/147, cf. <a
    * href="https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24">...</a>)
    *
-   * @param eli Eli of the request
+   * @param eli ELI of the norm
    * @param refersTo DE: "Artikeltyp" - The articles are filtered to only include articles of this
    *     type.
    * @return A {@link ResponseEntity} containing the retrieved norm's articles as html.
-   *     <p>Returns HTTP 200 (OK) and the norm if found.
-   *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
+   *     <p>Returns HTTP 200 (OK) and the articles as HTML if found.
+   *     <p>Returns HTTP 404 (Not Found) if the norm is not found or the norm doesn't contain
+   *     articles of that type
    */
   @GetMapping(produces = {TEXT_HTML_VALUE})
   public ResponseEntity<String> getArticlesRender(
@@ -178,7 +179,7 @@ public class ArticleController {
 
     String divWrapped = "<div>\n" + articles + "</div>\n";
 
-    return (articles.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(divWrapped);
+    return ResponseEntity.ok(divWrapped);
   }
 
   /**

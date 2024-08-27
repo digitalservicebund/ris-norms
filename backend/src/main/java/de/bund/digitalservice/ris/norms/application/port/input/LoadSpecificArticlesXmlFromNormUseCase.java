@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
 
@@ -13,11 +14,13 @@ public interface LoadSpecificArticlesXmlFromNormUseCase {
   /**
    * Retrieves articles of a specific type based on the provided query.
    *
+   * @throws NormNotFoundException If no norm with that ELI exists
    * @param query The query containing the ELI (European Legislation Identifier) of the norm.
    * @return An {@link List} containing the loaded Xml-{@link String}s if found, or empty if not
    *     found.
    */
-  List<String> loadSpecificArticlesXmlFromNorm(Query query);
+  List<String> loadSpecificArticlesXmlFromNorm(Query query)
+      throws NormNotFoundException, ArticleOfTypeNotFoundException;
 
   /**
    * A record representing the query for loading a norm. The query includes the ELI (European
@@ -27,4 +30,11 @@ public interface LoadSpecificArticlesXmlFromNormUseCase {
    * @param refersTo Specifies the type of article.
    */
   record Query(String eli, String refersTo) {}
+
+  /** Indicates that the Norm was found but does not include articles of that type. */
+  class ArticleOfTypeNotFoundException extends RuntimeException {
+    public ArticleOfTypeNotFoundException(final String eli, final String type) {
+      super("Norm with eli %s does not contain articles of type %s".formatted(eli, type));
+    }
+  }
 }

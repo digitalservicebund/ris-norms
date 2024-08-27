@@ -4,6 +4,7 @@ import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundExc
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.TransformationException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -82,6 +83,23 @@ public class NormExceptionHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<String> handleException(final ArticleNotFoundException e) {
     log.error("ArticleNotFoundException: {}", e.getMessage(), e);
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  }
+
+  /**
+   * Exception handler method for handling {@link
+   * LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException}.
+   *
+   * @param e The exception that occured.
+   * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
+   */
+  @ExceptionHandler(LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<String> handleException(
+      final LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException e) {
+    log.error("ArticleOfTypeNotFoundException: {}", e.getMessage(), e);
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
