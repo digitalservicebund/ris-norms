@@ -32,6 +32,7 @@ class ArticleControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LoadNormUseCase loadNormUseCase;
+  @MockBean private LoadArticlesFromNormUseCase loadArticlesFromNormUseCase;
   @MockBean private LoadSpecificArticlesXmlFromNormUseCase loadSpecificArticlesXmlFromNormUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private LoadArticleHtmlUseCase loadArticleHtmlUseCase;
@@ -123,6 +124,7 @@ class ArticleControllerTest {
 
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
       when(loadZf0UseCase.loadOrCreateZf0(any())).thenReturn(normZf0);
+      when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any())).thenReturn(norm.getArticles());
 
       // When
       mockMvc
@@ -160,7 +162,14 @@ class ArticleControllerTest {
     void itReturnsArticlesFilteredByAmendedAt() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
+
+      when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any()))
+          .thenReturn(
+              norm.getArticles().stream()
+                  .filter(article -> article.getEid().get().equals("hauptteil-1_para-20"))
+                  .toList());
 
       // When
       mockMvc
@@ -172,13 +181,27 @@ class ArticleControllerTest {
           .andExpect(jsonPath("$[0]").exists())
           .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-20"))
           .andExpect(jsonPath("$[1]").doesNotExist());
+
+      verify(loadArticlesFromNormUseCase, times(1))
+          .loadArticlesFromNorm(
+              new LoadArticlesFromNormUseCase.Query(
+                  "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+                  null,
+                  "meta-1_lebzykl-1_ereignis-4"));
     }
 
     @Test
     void itReturnsArticlesFilteredByAmendedBy() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
+
+      when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any()))
+          .thenReturn(
+              norm.getArticles().stream()
+                  .filter(article -> article.getEid().get().equals("hauptteil-1_para-1"))
+                  .toList());
 
       // When
       mockMvc
@@ -190,38 +213,13 @@ class ArticleControllerTest {
           .andExpect(jsonPath("$[0]").exists())
           .andExpect(jsonPath("$[0].eid").value("hauptteil-1_para-1"))
           .andExpect(jsonPath("$[1]").doesNotExist());
-    }
 
-    @Test
-    void itReturnsNoArticlesWhenAmendedByDoesNotMatch() throws Exception {
-      // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
-
-      // When
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2023-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-2")
-                  .accept(MediaType.APPLICATION_JSON))
-          // Then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$[0]").doesNotExist());
-    }
-
-    @Test
-    void itReturnsNoArticlesWhenAmendedAtDoesNotMatch() throws Exception {
-      // Given
-      var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
-      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
-
-      // When
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1&amendedAt=meta-1_lebzykl-1_ereignis-3")
-                  .accept(MediaType.APPLICATION_JSON))
-          // Then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$[0]").doesNotExist());
+      verify(loadArticlesFromNormUseCase, times(1))
+          .loadArticlesFromNorm(
+              new LoadArticlesFromNormUseCase.Query(
+                  "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+                  "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1",
+                  null));
     }
   }
 
