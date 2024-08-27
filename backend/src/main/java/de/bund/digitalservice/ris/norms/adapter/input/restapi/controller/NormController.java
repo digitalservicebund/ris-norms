@@ -73,9 +73,8 @@ public class NormController {
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<NormResponseSchema> getNorm(final Eli eli) {
-    return ResponseEntity.ok(
-        NormResponseMapper.fromUseCaseData(
-            loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()))));
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+    return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 
   /**

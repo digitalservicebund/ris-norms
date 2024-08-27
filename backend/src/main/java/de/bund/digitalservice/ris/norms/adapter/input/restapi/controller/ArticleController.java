@@ -244,8 +244,8 @@ public class ArticleController {
       produces = {TEXT_HTML_VALUE})
   public ResponseEntity<String> getArticleRender(
       final Eli eli, @PathVariable final String eid, @RequestParam Optional<Instant> atIsoDate) {
-    return ResponseEntity.ok(
-        loadArticleHtmlUseCase.loadArticleHtml(
-            new LoadArticleHtmlUseCase.Query(eli.getValue(), eid, atIsoDate.orElse(null))));
+    var query = new LoadArticleHtmlUseCase.Query(eli.getValue(), eid, atIsoDate.orElse(null));
+    var articleHtml = loadArticleHtmlUseCase.loadArticleHtml(query);
+    return ResponseEntity.ok(articleHtml);
   }
 }
