@@ -17,7 +17,6 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Article {
-  private static final String UNKNOWN = "UNKNOWN";
   private final Node node;
 
   /**
