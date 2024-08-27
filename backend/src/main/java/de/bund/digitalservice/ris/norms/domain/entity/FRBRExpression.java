@@ -41,8 +41,7 @@ public class FRBRExpression extends FRBR {
         .orElseGet(
             () -> {
               final Element newElement =
-                  NodeCreator.createElementWithEidAndGuid(
-                      "akn:FRBRalias", "meta-1_ident-1_frbrexpression-1_frbralias-1", getNode());
+                  NodeCreator.createElementWithEidAndGuid("akn:FRBRalias", getNode());
               newElement.setAttribute("name", "vorherige-version-id");
               newElement.setAttribute(VALUE_ATTIBUTE, uuid.toString());
               getNode().appendChild(newElement);

@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateActiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +57,7 @@ public class UpdateNormService
 
     // clean up existing passive modifications stemming from the amending zf0Norm
     removePassiveModificationsThatStemFromSource(norm, query.amendingNorm().getEli());
+    EidConsistencyGuardian.correctEids(norm.getDocument());
 
     final List<TextualMod> activeModificationsToAdd =
         query

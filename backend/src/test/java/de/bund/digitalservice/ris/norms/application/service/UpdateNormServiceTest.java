@@ -50,7 +50,7 @@ class UpdateNormServiceTest {
           .contains(
               new Href("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34"));
       assertThat(passiveModification.getForcePeriodEid())
-          .contains("meta-1_geltzeiten-1_geltungszeitgr-5");
+          .contains("meta-1_geltzeiten-1_geltungszeitgr-4");
     }
 
     @Test

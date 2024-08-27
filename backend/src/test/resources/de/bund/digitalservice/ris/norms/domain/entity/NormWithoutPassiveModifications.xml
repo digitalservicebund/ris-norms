@@ -66,13 +66,13 @@
                               source="attributsemantik-noch-undefiniert"
                               type="amendment"
                               refersTo="ausfertigung"/>
-                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-5"
+                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4"
                               GUID="d4404741-e72f-414f-98d0-4cbcdcdc4fac"
                               date="2019-01-01"
                               source="attributsemantik-noch-undefiniert"
                               type="repeal"
                               refersTo="ausserkrafttreten"/>
-                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-6"
+                <akn:eventRef eId="meta-1_lebzykl-1_ereignis-5"
                               GUID="d4404741-e72f-414f-98d0-4cbcdcdcdefg"
                               date="2017-03-01"
                               source="attributsemantik-noch-undefiniert"
@@ -89,21 +89,33 @@
                                       refersTo="geltungszeit"
                                       start="#meta-1_lebzykl-1_ereignis-2"/>
                 </akn:temporalGroup>
-                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3"
+                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2"
                                    GUID="2dbb57fd-b1bf-4efd-8cdc-9e35be4f2e24">
-                    <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1"
+                    <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-2_gelzeitintervall-1"
                                       GUID="60a7f0fb-42c6-4897-8a65-853cd5c288c6"
+                                      refersTo="geltungszeit"
+                                      start="#meta-1_lebzykl-1_ereignis-4"/>
+                </akn:temporalGroup>
+                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-3"
+                                   GUID="2dbb57fd-b1bf-4efd-8cdc-9e35be4f2444">
+                    <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-3_gelzeitintervall-1"
+                                      GUID="60a7f0fb-42c6-4897-8a65-853cd5c29999"
                                       refersTo="geltungszeit"
                                       start="#meta-1_lebzykl-1_ereignis-5"/>
                 </akn:temporalGroup>
-                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-4"
-                                   GUID="2dbb57fd-b1bf-4efd-8cdc-9e35be4f2444">
-                    <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-4_gelzeitintervall-1"
-                                      GUID="60a7f0fb-42c6-4897-8a65-853cd5c29999"
-                                      refersTo="geltungszeit"
-                                      start="#meta-1_lebzykl-1_ereignis-6"/>
-                </akn:temporalGroup>
             </akn:temporalData>
+          <akn:proprietary eId="meta-1_proprietary-1" GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
+                           source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+              <meta:typ>gesetz</meta:typ>
+              <meta:form>stammform</meta:form>
+              <meta:fassung>verkuendungsfassung</meta:fassung>
+              <meta:art>regelungstext</meta:art>
+              <meta:initiant>bundesregierung</meta:initiant>
+              <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+              <meta:fna>nicht-vorhanden</meta:fna>
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
         </akn:meta>
 
         <akn:body eId="hauptteil-1" GUID="6c5d6dc7-f14b-4e1d-8f8b-570a13aeff9c">

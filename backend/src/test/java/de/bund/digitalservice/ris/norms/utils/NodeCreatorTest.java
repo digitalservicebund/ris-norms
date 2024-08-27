@@ -37,21 +37,19 @@ class NodeCreatorTest {
         XmlMapper.toDocument(
             """
                                                           <root>
-                                                              <test eId="test-1">test value</test>
+                    <akn:p eId="text-1">test value</akn:p>
                                                           </root>""");
-    final Node testNode = NodeParser.getMandatoryNodeFromExpression("//test", document);
+    final Node testNode = NodeParser.getMandatoryNodeFromExpression("//*/p", document);
 
     // when
-    final Element newElement =
-        NodeCreator.createElementWithEidAndGuid("childTest", "child-test", testNode);
+    final Element newElement = NodeCreator.createElementWithEidAndGuid("akn:ref", testNode);
 
     // Then
-    final Node childTestNode =
-        NodeParser.getMandatoryNodeFromExpression("//test/childTest", document);
+    final Node childTestNode = NodeParser.getMandatoryNodeFromExpression("//p/ref", document);
     assertThat(childTestNode).isEqualTo(newElement);
     assertThat(childTestNode.getAttributes().getNamedItem("GUID")).isNotNull();
     assertThat(childTestNode.getAttributes().getNamedItem("eId").getNodeValue())
-        .isEqualTo("test-1_child-test-1");
+        .isEqualTo("text-1_ref-1");
   }
 
   @Test
@@ -77,23 +75,5 @@ class NodeCreatorTest {
     assertThat(newElement.getAttributes().getNamedItem("GUID")).isNotNull();
     assertThat(newElement.getAttributes().getNamedItem("eId").getNodeValue())
         .isEqualTo("test-1_child-test-1");
-  }
-
-  @Test
-  void calculateNextPossibleEid() {
-    // given
-    final Document document =
-        XmlMapper.toDocument(
-            """
-                                                          <root>
-                                                              <test eId="test-1">test value</test>
-                                                          </root>""");
-    final Node testNode = NodeParser.getMandatoryNodeFromExpression("//test", document);
-
-    // when
-    final String nextPossibleEid = NodeCreator.calculateNextPossibleEid(testNode, "child-test");
-
-    // Then
-    assertThat(nextPossibleEid).isEqualTo("test-1_child-test-1");
   }
 }

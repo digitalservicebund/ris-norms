@@ -46,10 +46,7 @@ public class Analysis {
    */
   public Node getOrCreatePassiveModificationsNode() {
     return NodeParser.getNodeFromExpression("./passiveModifications", node)
-        .orElseGet(
-            () ->
-                NodeCreator.createElementWithEidAndGuid(
-                    "akn:passiveModifications", "pasmod", node));
+        .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:passiveModifications", node));
   }
 
   /**
@@ -72,24 +69,22 @@ public class Analysis {
     var passiveModificationsNode = getOrCreatePassiveModificationsNode();
 
     var textualMod =
-        NodeCreator.createElementWithEidAndGuid(
-            "akn:textualMod", "textualmod", passiveModificationsNode);
+        NodeCreator.createElementWithEidAndGuid("akn:textualMod", passiveModificationsNode);
     textualMod.setAttribute("type", type);
     passiveModificationsNode.appendChild(textualMod);
 
-    var source = NodeCreator.createElementWithEidAndGuid("akn:source", "source", textualMod);
+    var source = NodeCreator.createElementWithEidAndGuid("akn:source", textualMod);
     source.setAttribute("href", sourceHref);
     textualMod.appendChild(source);
 
-    var destination =
-        NodeCreator.createElementWithEidAndGuid("akn:destination", "destination", textualMod);
+    var destination = NodeCreator.createElementWithEidAndGuid("akn:destination", textualMod);
     destination.setAttribute("href", destinationHref);
     if (StringUtils.isNotEmpty(destinationUpTo)) {
       destination.setAttribute("upTo", destinationUpTo);
     }
     textualMod.appendChild(destination);
 
-    var force = NodeCreator.createElementWithEidAndGuid("akn:force", "gelzeitnachw", textualMod);
+    var force = NodeCreator.createElementWithEidAndGuid("akn:force", textualMod);
     force.setAttribute("period", periodHref);
     textualMod.appendChild(force);
 

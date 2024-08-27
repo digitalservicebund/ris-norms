@@ -188,30 +188,24 @@ public class Norm {
   public TemporalGroup addTimeBoundary(LocalDate date, EventRefType eventRefType) {
     // Create new eventRef node
     final Node livecycle = getTimeBoundaries().getLast().getEventRef().getNode().getParentNode();
-    final Element eventRef =
-        NodeCreator.createElementWithEidAndGuid("akn:eventRef", "ereignis", livecycle);
+    final Element eventRef = NodeCreator.createElementWithEidAndGuid("akn:eventRef", livecycle);
     eventRef.setAttribute("date", date.toString());
     eventRef.setAttribute("source", "attributsemantik-noch-undefiniert");
     eventRef.setAttribute("type", eventRefType.getValue());
     eventRef.setAttribute("refersTo", "inkrafttreten");
-    livecycle.appendChild(eventRef);
 
     // Create new temporalGroup node
     final TemporalData temporalData = getMeta().getTemporalData();
     final Element temporalGroup =
-        NodeCreator.createElementWithEidAndGuid(
-            "akn:temporalGroup", "geltungszeitgr", temporalData.getNode());
-    temporalData.getNode().appendChild(temporalGroup);
+        NodeCreator.createElementWithEidAndGuid("akn:temporalGroup", temporalData.getNode());
 
     // Create new timeInterval node
     final Element timeInterval =
-        NodeCreator.createElementWithEidAndGuid(
-            "akn:timeInterval", "gelzeitintervall", temporalGroup);
+        NodeCreator.createElementWithEidAndGuid("akn:timeInterval", temporalGroup);
     timeInterval.setAttribute("refersTo", "geltungszeit");
     final var eventRefEId = eventRef.getAttribute("eId");
     timeInterval.setAttribute(
         "start", new Href.Builder().setEId(eventRefEId).buildInternalReference().value());
-    temporalGroup.appendChild(timeInterval);
 
     return new TemporalGroup(temporalGroup);
   }

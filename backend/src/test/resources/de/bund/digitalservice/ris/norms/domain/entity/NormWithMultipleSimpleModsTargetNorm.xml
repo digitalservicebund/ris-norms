@@ -89,6 +89,18 @@
                                       GUID="f11ec4d9-a419-4288-b47c-0b0341a3cf74"></akn:timeInterval>
                 </akn:temporalGroup>
             </akn:temporalData>
+          <akn:proprietary eId="meta-1_proprietary-1" GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
+                           source="attributsemantik-noch-undefiniert">
+            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.6/">
+              <meta:typ>gesetz</meta:typ>
+              <meta:form>stammform</meta:form>
+              <meta:fassung>verkuendungsfassung</meta:fassung>
+              <meta:art>regelungstext</meta:art>
+              <meta:initiant>bundesregierung</meta:initiant>
+              <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
+              <meta:fna>nicht-vorhanden</meta:fna>
+            </meta:legalDocML.de_metadaten>
+          </akn:proprietary>
         </akn:meta>
 
         <akn:preface eId="einleitung-1" GUID="e1d90925-6093-41d9-84e1-df810c83a024">

@@ -69,8 +69,7 @@ public class Meta {
     try {
       return getTemporalData();
     } catch (final MandatoryNodeNotFoundException e) {
-      final var newElement =
-          NodeCreator.createElementWithEidAndGuid("akn:temporalData", "analysis", node);
+      final var newElement = NodeCreator.createElementWithEidAndGuid("akn:temporalData", node);
       newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
       return new TemporalData(newElement);
     }
@@ -103,8 +102,7 @@ public class Meta {
     return getAnalysis()
         .orElseGet(
             () -> {
-              final var newElement =
-                  NodeCreator.createElementWithEidAndGuid("akn:analysis", "analysis", node);
+              final var newElement = NodeCreator.createElementWithEidAndGuid("akn:analysis", node);
               newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
               return new Analysis(newElement);
             });
@@ -121,7 +119,7 @@ public class Meta {
         .orElseGet(
             () -> {
               final var newElement =
-                  NodeCreator.createElementWithEidAndGuid("akn:proprietary", "proprietary", node);
+                  NodeCreator.createElementWithEidAndGuid("akn:proprietary", node);
               newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
               return new Proprietary(newElement);
             });

@@ -981,7 +981,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       XmlMatcher.xml(
                           hasXPath(
                               "//passiveModifications/textualMod/force/@period",
-                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-5")))))
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-4")))))
           .andExpect(
               jsonPath("targetNormZf0Xml")
                   .value(
@@ -1114,7 +1114,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                       XmlMatcher.xml(
                           hasXPath(
                               "//textualMod[@eId=\"meta-1_analysis-1_pasmod-1_textualmod-1\"]/force/@period",
-                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-5")))));
+                              equalTo("#meta-1_geltzeiten-1_geltungszeitgr-4")))));
 
       // saved norm is unchanged
       mockMvc

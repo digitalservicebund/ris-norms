@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.time.LocalDate;
 import java.util.*;
@@ -1126,52 +1125,6 @@ class NormTest {
   }
 
   @Test
-  void calculateNextPossibleEid() {
-    // given
-    Node parentNode =
-        XmlMapper.toNode(
-            """
-                <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_geltzeiten-1"
-                                                          GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"
-                                                          source="attributsemantik-noch-undefiniert">
-                                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
-                                                   GUID="7b13adb9-ef62-43c4-bf1b-155561edf89b">
-                                </akn:temporalGroup>
-                                <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-2"
-                                                   GUID="7af9337a-3727-424c-a3df-dee918a79b22">
-                                </akn:temporalGroup>
-                            </akn:temporalData>
-                            """);
-
-    // when
-    final String nextPossibleEid =
-        NodeCreator.calculateNextPossibleEid(parentNode, "geltungszeitgr");
-
-    // then
-    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-3");
-  }
-
-  @Test
-  void calculateNextPossibleEidWhenNoChildNodeOfTypeExists() {
-    // given
-    Node parentNode =
-        XmlMapper.toNode(
-            """
-                <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="meta-1_geltzeiten-1"
-                                                          GUID="2fcdfa3e-1460-4ef4-b22b-5ff4a897538f"
-                                                          source="attributsemantik-noch-undefiniert">
-                            </akn:temporalData>
-                            """);
-
-    // when
-    final String nextPossibleEid =
-        NodeCreator.calculateNextPossibleEid(parentNode, "geltungszeitgr");
-
-    // then
-    assertThat(nextPossibleEid).contains("meta-1_geltzeiten-1_geltungszeitgr-1");
-  }
-
-  @Test
   void getMods() {
     // given
     Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -1231,8 +1184,7 @@ class NormTest {
           NodeParser.getNodeFromExpression("//act/meta", norm.getDocument()).orElseThrow();
 
       // when
-      final Node createdNode =
-          NodeCreator.createElementWithEidAndGuid("akn:analysis", "analysis", parentNode);
+      final Node createdNode = NodeCreator.createElementWithEidAndGuid("akn:analysis", parentNode);
 
       // then
       assertThat(NodeParser.getNodeFromExpression("//act/meta/analysis", norm.getDocument()))
