@@ -1,10 +1,13 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
@@ -35,23 +38,24 @@ class ArticleServiceTest {
       // when
       var result = articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid));
       // then
-      assertThat(result).isPresent();
+      assertThat(result).isNotNull();
     }
 
     @Test
-    void returnEmptyIfNormNotFound() {
+    void throwsIfNormNotFound() {
       // given
       var eli = "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
       // when
-      var result = articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid));
-      // then
-      assertThat(result).isEmpty();
+      assertThatThrownBy(
+              () -> articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid)))
+          // then
+          .isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
-    void returnEmptyIfArticleNotFound() {
+    void throwsIfArticleNotFound() {
       // given
       var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
       var eli = "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1";
@@ -59,9 +63,10 @@ class ArticleServiceTest {
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       // when
-      var result = articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid));
-      // then
-      assertThat(result).isEmpty();
+      assertThatThrownBy(
+              () -> articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid)))
+          // then
+          .isInstanceOf(ArticleNotFoundException.class);
     }
   }
 }

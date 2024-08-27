@@ -853,5 +853,35 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.TEXT_HTML))
           .andExpect(status().isInternalServerError());
     }
+
+    @Test
+    void itReturnsNotFoundIfNormDoesntExist() throws Exception {
+      // Given
+      // Nothing
+
+      // When / Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2017-03-01T00:00:00.000Z")
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void itReturnsNotFoundIfArticleDoesntExist() throws Exception {
+      // Given
+      var amendingNorm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
+
+      normRepository.save(NormMapper.mapToDto(amendingNorm));
+      normRepository.save(NormMapper.mapToDto(targetNorm));
+
+      // When / Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-9999?atIsoDate=2017-03-01T00:00:00.000Z")
+                  .accept(MediaType.TEXT_HTML))
+          .andExpect(status().isNotFound());
+    }
   }
 }
