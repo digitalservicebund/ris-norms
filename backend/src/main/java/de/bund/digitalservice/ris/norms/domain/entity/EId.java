@@ -38,7 +38,23 @@ public record EId(String value) {
    * @return the eId of the node or empty if no eId could be found.
    */
   public static Optional<EId> fromNode(Node node) {
-    return NodeParser.getValueFromExpression("./@eId", node).map(EId::new);
+    if (!node.hasAttributes()) {
+      return Optional.empty();
+    }
+
+    var eIdNode = node.getAttributes().getNamedItem("eId");
+
+    if (eIdNode == null) {
+      return Optional.empty();
+    }
+
+    var eId = eIdNode.getNodeValue();
+
+    if (eId.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(new EId(eId));
   }
 
   /**

@@ -1,7 +1,11 @@
 package de.bund.digitalservice.ris.norms.utils;
 
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.Href;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -87,33 +91,48 @@ public final class EidConsistencyGuardian {
   }
 
   private static void updateElementEids(final Node node, Element rootElement) {
+    final Map<String, String> oldToNewEIdMap = new HashMap<>();
+    List<Node> nodesToUpdate = new ArrayList<>();
+    nodesToUpdate.add(node);
 
-    final var expectedEId = EId.forNode(node);
-    final var currentEId = EId.fromNode(node);
+    while (!nodesToUpdate.isEmpty()) {
+      var currentNode = nodesToUpdate.removeLast();
 
-    if (node instanceof Element element && expectedEId != currentEId) {
-      if (expectedEId.isPresent()) {
-        element.setAttribute("eId", expectedEId.get().value());
-      }
+      if (currentNode instanceof Element element) {
+        final var expectedEId = EId.forNode(currentNode);
+        final var currentEId = EId.fromNode(currentNode);
 
-      if (currentEId.isPresent() && expectedEId.isPresent()) {
-        // Traverse the entire document to find references to the old eId in attributes
-        updateReferencesInAttributes(
-            rootElement, currentEId.get().value(), expectedEId.get().value());
+        if (expectedEId != currentEId) {
+          if (expectedEId.isPresent()) {
+            element.setAttribute("eId", expectedEId.get().value());
+          }
+
+          if (currentEId.isPresent() && expectedEId.isPresent()) {
+            oldToNewEIdMap.put(currentEId.get().value(), expectedEId.get().value());
+          }
+        }
+
+        nodesToUpdate.addAll(NodeParser.nodeListToList(currentNode.getChildNodes()).reversed());
       }
     }
 
-    NodeParser.nodeListToList(node.getChildNodes())
-        .forEach(childNode -> updateElementEids(childNode, rootElement));
+    // Traverse the entire document to find references to the old eId in attributes
+    updateReferencesInAttributes(rootElement, oldToNewEIdMap);
   }
 
   private static void updateReferencesInAttributes(
-      final Element element, final String oldId, final String newId) {
+      final Element element, final Map<String, String> oldToNewEIdMap) {
     final NamedNodeMap attributes = element.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
       Node attribute = attributes.item(i);
-      if (attribute.getNodeValue().startsWith("#" + oldId)) {
-        attribute.setNodeValue(attribute.getNodeValue().replace(oldId, newId));
+      if (attribute.getNodeValue().startsWith("#")) {
+        Href attributeHref = new Href(attribute.getNodeValue());
+        var currentEId = attributeHref.getEId();
+
+        if (currentEId.isPresent() && oldToNewEIdMap.containsKey(currentEId.get())) {
+          var newEId = oldToNewEIdMap.get(currentEId.get());
+          attribute.setNodeValue(attribute.getNodeValue().replace(currentEId.get(), newEId));
+        }
       }
     }
 
@@ -121,6 +140,6 @@ public final class EidConsistencyGuardian {
     final List<Node> childNodes = NodeParser.nodeListToList(element.getChildNodes());
     childNodes.stream()
         .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
-        .forEach(node -> updateReferencesInAttributes((Element) node, oldId, newId));
+        .forEach(node -> updateReferencesInAttributes((Element) node, oldToNewEIdMap));
   }
 }

@@ -16,6 +16,7 @@ import org.w3c.dom.NodeList;
 
 /** Util class that is responsible for parsing a {@link Node}. */
 public final class NodeParser {
+  private static XPathFactory xPathFactory = XPathFactory.newInstance();
 
   private NodeParser() {
     // Should not be instantiated as an object
@@ -36,9 +37,15 @@ public final class NodeParser {
         return Optional.empty();
       }
 
+      // Clone the node if the xpath is relative to the node. This drastically improves the
+      // performance.
+      if (xPathExpression.startsWith("./")) {
+        sourceNode = sourceNode.cloneNode(true);
+      }
+
       // should be invoked on every method call since: An XPath object is not thread-safe and not
       // reentrant.
-      final XPath xPath = XPathFactory.newInstance().newXPath();
+      final XPath xPath = xPathFactory.newXPath();
       String result = (String) xPath.evaluate(xPathExpression, sourceNode, XPathConstants.STRING);
       return result.isEmpty() ? Optional.empty() : Optional.of(result);
     } catch (XPathExpressionException | NoSuchElementException e) {

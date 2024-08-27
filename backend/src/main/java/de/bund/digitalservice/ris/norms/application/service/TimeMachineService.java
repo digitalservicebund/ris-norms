@@ -193,9 +193,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               newChildFragment.appendChild(importedChild);
             });
 
-    final String quotedTextEid = EId.fromMandatoryNode(mod.getSecondQuotedText().get()).value();
-
-    replaceNodes(nodesToBeReplaced, newChildFragment, quotedTextEid);
+    replaceNodes(nodesToBeReplaced, newChildFragment);
   }
 
   private void applyQuotedStructure(
@@ -240,13 +238,10 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
       currentNode = currentNode.getNextSibling();
     }
 
-    final String quotedStructureEid = EId.fromMandatoryNode(mod.getQuotedStructure().get()).value();
-
-    replaceNodes(nodesToReplace, newChildFragment, quotedStructureEid);
+    replaceNodes(nodesToReplace, newChildFragment);
   }
 
-  private void replaceNodes(
-      final List<Node> targetNodes, final Node newNode, final String oldParentEId) {
+  private void replaceNodes(final List<Node> targetNodes, final Node newNode) {
     if (targetNodes.isEmpty()) {
       return;
     }

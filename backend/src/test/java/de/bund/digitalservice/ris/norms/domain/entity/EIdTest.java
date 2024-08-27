@@ -7,6 +7,8 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class EIdTest {
 
@@ -81,17 +83,24 @@ class EIdTest {
 
   @Nested
   class forNode {
-    @Test
-    void itShouldProvideEIdForNodeWithoutParent() {
-      var node =
-          XmlMapper.toNode("<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />");
+
+    @ParameterizedTest
+    @CsvSource(
+        """
+            <akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" />,ändbefehl-1
+            <akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" refersTo=\"stammform\"><akn:num><akn:marker>3a</akn:marker>§ 3a</akn:num></akn:article>,para-3a
+            <akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" refersTo=\"stammform\"><akn:num><akn:marker name=\"3a\" />§ 3a</akn:num></akn:article>,para-3a
+            <akn:ol xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\"><akn:li value=\"3.\">Some text</akn:li></akn:ol>,listenelem-3
+            """)
+    void itShouldProvideEIdForNode(String xml, String expectedEId) {
+      var node = XmlMapper.toNode(xml);
       // when
       var optionalEId = EId.forNode(node);
       // then
       assertThat(optionalEId)
           .hasValueSatisfying(
               eId -> {
-                assertThat(eId.value()).isEqualTo("ändbefehl-1");
+                assertThat(eId.value()).isEqualTo(expectedEId);
               });
     }
 
@@ -124,51 +133,6 @@ class EIdTest {
               eId -> {
                 assertThat(eId.value())
                     .isEqualTo("hauptteil-1_abschnitt-erster_para-6_abs-3_inhalt-3_text-2");
-              });
-    }
-
-    @Test
-    void itShouldProvideEIdForNodeWithNestedNum() {
-      var node =
-          XmlMapper.toNode(
-              "<akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" refersTo=\"stammform\"><akn:num><akn:marker>3a</akn:marker>§ 3a</akn:num></akn:article>");
-      // when
-      var optionalEId = EId.forNode(node);
-      // then
-      assertThat(optionalEId)
-          .hasValueSatisfying(
-              eId -> {
-                assertThat(eId.value()).isEqualTo("para-3a");
-              });
-    }
-
-    @Test
-    void itShouldProvideEIdForNodeWithNestedNumWithNameAttribute() {
-      var node =
-          XmlMapper.toNode(
-              "<akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" refersTo=\"stammform\"><akn:num><akn:marker name=\"3a\" />§ 3a</akn:num></akn:article>");
-      // when
-      var optionalEId = EId.forNode(node);
-      // then
-      assertThat(optionalEId)
-          .hasValueSatisfying(
-              eId -> {
-                assertThat(eId.value()).isEqualTo("para-3a");
-              });
-    }
-
-    @Test
-    void itShouldProvideEIdForLiElementNestedInOl() {
-      var node =
-          XmlMapper.toNode(
-              "<akn:ol xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\"><akn:li value=\"3.\">Some text</akn:li></akn:ol>");
-      // when
-      var optionalEId = EId.forNode(node.getFirstChild());
-      // then
-      assertThat(optionalEId)
-          .hasValueSatisfying(
-              eId -> {
-                assertThat(eId.value()).isEqualTo("listenelem-3");
               });
     }
   }
