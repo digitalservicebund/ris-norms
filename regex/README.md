@@ -13,7 +13,7 @@ When a certain case shall be captured, that is not yet handled, the idea is:
 - run the tool to fetch the final regex
 - insert the final regex [here](https://github.com/digitalservicebund/ris-norms/blob/main/backend/src/main/java/de/bund/digitalservice/ris/norms/application/service/ReferenceService.java#L131)
 ## Obstacles
-The bitter pill of the current approach is, that one needs to check if the regex in Java code was altered in the meantime. Meaning if someone touched the regex there without changing it here, the next time a rendered regex will be inserted there, the changes will be overridden.
+The bitter pill of the current approach is, that one needs to check if the regex in Java code was altered in the meantime. Meaning if someone touched the regex there without changing it here, the next time a rendered regex will be inserted there, the changes will be overwritten.
 
 Therefore:
 - Before altering anything, render the regex and compare it with what is in the ReferenceService in the backend.
