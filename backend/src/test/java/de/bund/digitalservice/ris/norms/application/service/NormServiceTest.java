@@ -85,10 +85,11 @@ class NormServiceTest {
     void itThrowsWhenNormIsNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var query = new LoadNormUseCase.Query(eli);
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
-      assertThatThrownBy(() -> service.loadNorm(new LoadNormUseCase.Query(eli)))
+      assertThatThrownBy(() -> service.loadNorm(query))
 
           // Then
           .isInstanceOf(NormNotFoundException.class);
@@ -532,13 +533,11 @@ class NormServiceTest {
     void itCallsLoadNormAndThrowsIfNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
-      assertThatThrownBy(
-              () ->
-                  service.loadSpecificArticlesXmlFromNorm(
-                      new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel")))
+      assertThatThrownBy(() -> service.loadSpecificArticlesXmlFromNorm(query))
 
           // Then
           .isInstanceOf(NormNotFoundException.class);
@@ -595,6 +594,7 @@ class NormServiceTest {
     void itThrowsWhenNoArticlesOfTypeAreFoundInNorm() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
 
       var norm =
           Norm.builder()
@@ -619,10 +619,7 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      assertThatThrownBy(
-              () ->
-                  service.loadSpecificArticlesXmlFromNorm(
-                      new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel")))
+      assertThatThrownBy(() -> service.loadSpecificArticlesXmlFromNorm(query))
 
           // Then
           .isInstanceOf(

@@ -113,22 +113,21 @@ public class ArticleService implements LoadArticleHtmlUseCase, LoadArticlesFromN
   }
 
   private Predicate<Article> createPassiveModFilter(final List<TextualMod> mods) {
-    return article -> {
-      // If we filter by amendedAt or amendedBy: Those properties are found
-      // in the passive modifications we already collected above. What's left
-      // now is to only return the articles that are going to be modified by
-      // those passive modifications.
-      return mods.stream()
-          .map(TextualMod::getDestinationHref)
-          .flatMap(Optional::stream)
-          .map(Href::getEId)
-          .flatMap(Optional::stream)
-          .anyMatch(
-              destinationEid ->
-                  // Modifications can be either on the article itself or anywhere
-                  // inside the article, hence the "contains" rather than exact
-                  // matching.
-                  destinationEid.contains(article.getEid().orElseThrow()));
-    };
+    return article ->
+        // If we filter by amendedAt or amendedBy: Those properties are found
+        // in the passive modifications we already collected above. What's left
+        // now is to only return the articles that are going to be modified by
+        // those passive modifications.
+        mods.stream()
+            .map(TextualMod::getDestinationHref)
+            .flatMap(Optional::stream)
+            .map(Href::getEId)
+            .flatMap(Optional::stream)
+            .anyMatch(
+                destinationEid ->
+                    // Modifications can be either on the article itself or anywhere
+                    // inside the article, hence the "contains" rather than exact
+                    // matching.
+                    destinationEid.contains(article.getEid().orElseThrow()));
   }
 }

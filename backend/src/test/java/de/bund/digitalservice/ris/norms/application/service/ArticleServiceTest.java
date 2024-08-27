@@ -49,11 +49,11 @@ class ArticleServiceTest {
       // given
       var eli = "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
+      var query = new LoadArticleHtmlUseCase.Query(eli, eid);
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
 
       // when
-      assertThatThrownBy(
-              () -> articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid)))
+      assertThatThrownBy(() -> articleService.loadArticleHtml(query))
 
           // then
           .isInstanceOf(NormNotFoundException.class);
@@ -65,12 +65,12 @@ class ArticleServiceTest {
       var norm = NormFixtures.loadFromDisk("SimpleNorm.xml");
       var eli = "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "NOT_IN_NORM";
+      var query = new LoadArticleHtmlUseCase.Query(eli, eid);
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
 
       // when
-      assertThatThrownBy(
-              () -> articleService.loadArticleHtml(new LoadArticleHtmlUseCase.Query(eli, eid)))
+      assertThatThrownBy(() -> articleService.loadArticleHtml(query))
 
           // then
           .isInstanceOf(ArticleNotFoundException.class);
