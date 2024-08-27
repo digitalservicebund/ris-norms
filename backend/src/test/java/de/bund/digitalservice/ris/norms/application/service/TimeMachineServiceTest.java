@@ -70,7 +70,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -95,7 +95,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -121,7 +121,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw =
           NormFixtures.loadFromDisk("NormWithModsWhereTargetNodeEqualsNodeToChange.xml");
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -157,7 +157,7 @@ class TimeMachineServiceTest {
       final var norm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -207,7 +207,7 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -232,7 +232,7 @@ class TimeMachineServiceTest {
       final var amendingLawNorm = NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml");
       final var expectedResult = NormFixtures.loadFromDisk("NormWithAppliedQuotedStructure.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
+      when(normService.loadNorm(any())).thenReturn(amendingLawNorm);
 
       // when
       Norm result =
@@ -259,7 +259,7 @@ class TimeMachineServiceTest {
       final var expectedResult =
           NormFixtures.loadFromDisk("NormWithAppliedQuotedStructureAndUpTo.xml");
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLawNorm));
+      when(normService.loadNorm(any())).thenReturn(amendingLawNorm);
 
       // when
       Norm result =
@@ -290,7 +290,7 @@ class TimeMachineServiceTest {
                                         Kennezichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
                 """);
 
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
 
       // when
       Norm result =
@@ -318,6 +318,8 @@ class TimeMachineServiceTest {
 
       final var amendingLaw = NormFixtures.loadFromDisk("NormWithQuotedTextModAndRefs.xml");
 
+      when(normService.loadNorm(any())).thenReturn(amendingLaw);
+
       final Node expectedNode =
           XmlMapper.toNode(
               """
@@ -325,8 +327,6 @@ class TimeMachineServiceTest {
                      Kennezichen eines verbotenen Vereins oder einer <akn:ref GUID="514f37b3-5f75-4ee4-a110-6bad8c5a33c3" eId="hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ref-3" href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-1">Ersatzorganisation</akn:ref> verwendet,
                   </akn:p>
                                   """);
-
-      when(normService.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
 
       // when
       Norm result =

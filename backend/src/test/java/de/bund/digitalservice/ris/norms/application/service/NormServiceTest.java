@@ -78,7 +78,23 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(returnedNorm).isPresent().contains(norm);
+      assertThat(returnedNorm).isEqualTo(norm);
+    }
+
+    @Test
+    void itThrowsWhenNormIsNotFound() {
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+
+      // When
+      assertThatThrownBy(() -> service.loadNorm(new LoadNormUseCase.Query(eli)))
+
+          // Then
+          .isInstanceOf(NormNotFoundException.class);
+
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
     }
   }
 

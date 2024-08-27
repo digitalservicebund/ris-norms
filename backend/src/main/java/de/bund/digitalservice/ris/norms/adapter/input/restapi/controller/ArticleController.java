@@ -5,12 +5,10 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import java.time.Instant;
 import java.util.Collections;
@@ -69,15 +67,17 @@ public class ArticleController {
       final Eli eli,
       @RequestParam final Optional<String> amendedBy,
       @RequestParam final Optional<String> amendedAt) {
-    final var optionalNorm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+    final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
 
     // amendedAt and amendedBy refer to passive modifications (i.e. amended at a specific
     // date or by a specific change law). So we collect a list of all passive modifications
     // matching both criteria.
 
     var passiveModificationsAmendedAtOrBy =
-        optionalNorm
-            .flatMap(n -> n.getMeta().getAnalysis().map(Analysis::getPassiveModifications))
+        norm
+            .getMeta()
+            .getAnalysis()
+            .map(Analysis::getPassiveModifications)
             .orElse(Collections.emptyList())
             .stream()
             .filter(
@@ -93,17 +93,14 @@ public class ArticleController {
                 passiveModification -> {
                   if (amendedAt.isEmpty()) return true;
                   else
-                    return optionalNorm
-                        .get()
-                        .getStartEventRefForTemporalGroup(
+                    return norm.getStartEventRefForTemporalGroup(
                             passiveModification.getForcePeriodEid().orElseThrow())
                         .equals(amendedAt);
                 })
             .toList();
 
     return ResponseEntity.ok(
-        optionalNorm.map(Norm::getArticles).stream()
-            .flatMap(List::stream)
+        norm.getArticles().stream()
             .filter(
                 article -> {
                   // If we don't filter by anything related to passive modifications,
@@ -130,18 +127,20 @@ public class ArticleController {
                 })
             .map(
                 article -> {
-                  var targetLawZf0 =
+                  final var targetLaw =
                       article
                           .getAffectedDocumentEli()
-                          .flatMap(
+                          .map(
                               eliTargetLaw ->
                                   loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
-                          .map(
-                              targetLaw ->
-                                  loadZf0UseCase.loadOrCreateZf0(
-                                      new LoadZf0UseCase.Query(
-                                          optionalNorm.get(), targetLaw, true)))
                           .orElse(null);
+
+                  final var targetLawZf0 =
+                      targetLaw != null
+                          ? loadZf0UseCase.loadOrCreateZf0(
+                              new LoadZf0UseCase.Query(norm, targetLaw, true))
+                          : null;
+
                   return ArticleResponseMapper.fromNormArticle(article, targetLawZf0);
                 })
             .toList());
@@ -202,10 +201,7 @@ public class ArticleController {
       final Eli eli, @PathVariable final String eid) {
     final var eliValue = eli.getValue();
 
-    final var norm =
-        loadNormUseCase
-            .loadNorm(new LoadNormUseCase.Query(eliValue))
-            .orElseThrow(() -> new NormNotFoundException(eliValue));
+    final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliValue));
 
     final var foundArticle =
         norm.getArticles().stream()
@@ -213,15 +209,16 @@ public class ArticleController {
             .findFirst()
             .orElseThrow(() -> new ArticleNotFoundException(eliValue, eid));
 
-    var targetLawZf0 =
+    final var targetLaw =
         foundArticle
             .getAffectedDocumentEli()
-            .flatMap(
-                eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
-            .map(
-                targetLaw ->
-                    loadZf0UseCase.loadOrCreateZf0(new LoadZf0UseCase.Query(norm, targetLaw, true)))
+            .map(eliTargetLaw -> loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
             .orElse(null);
+
+    final var targetLawZf0 =
+        targetLaw != null
+            ? loadZf0UseCase.loadOrCreateZf0(new LoadZf0UseCase.Query(norm, targetLaw, true))
+            : null;
 
     // The response type is richer than the domain "Norm" type, hence the separate mapper
     return ResponseEntity.ok(ArticleResponseMapper.fromNormArticle(foundArticle, targetLawZf0));

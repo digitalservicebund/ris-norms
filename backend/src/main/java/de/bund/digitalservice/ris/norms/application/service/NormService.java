@@ -52,8 +52,10 @@ public class NormService
   }
 
   @Override
-  public Optional<Norm> loadNorm(final LoadNormUseCase.Query query) {
-    return loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+  public Norm loadNorm(final LoadNormUseCase.Query query) {
+    return loadNormPort
+        .loadNorm(new LoadNormPort.Command(query.eli()))
+        .orElseThrow(() -> new NormNotFoundException(query.eli()));
   }
 
   @Override

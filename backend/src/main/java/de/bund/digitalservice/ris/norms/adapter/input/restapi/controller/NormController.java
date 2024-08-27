@@ -73,11 +73,9 @@ public class NormController {
    */
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<NormResponseSchema> getNorm(final Eli eli) {
-    return loadNormUseCase
-        .loadNorm(new LoadNormUseCase.Query(eli.getValue()))
-        .map(NormResponseMapper::fromUseCaseData)
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+    return ResponseEntity.ok(
+        NormResponseMapper.fromUseCaseData(
+            loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()))));
   }
 
   /**
@@ -127,20 +125,15 @@ public class NormController {
         return ResponseEntity.badRequest().build();
       }
 
-      return loadNormUseCase
-          .loadNorm(new LoadNormUseCase.Query(eli.getValue()))
-          .map(
-              norm ->
-                  applyPassiveModificationsUseCase.applyPassiveModifications(
-                      new ApplyPassiveModificationsUseCase.Query(
-                          norm, Instant.parse(atIsoDate.get()))))
-          .map(
-              norm ->
-                  ResponseEntity.ok(
-                      this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                          new TransformLegalDocMlToHtmlUseCase.Query(
-                              XmlMapper.toString(norm.getDocument()), showMetadata, false))))
-          .orElseGet(() -> ResponseEntity.notFound().build());
+      var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
+      norm =
+          applyPassiveModificationsUseCase.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, Instant.parse(atIsoDate.get())));
+
+      return ResponseEntity.ok(
+          this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+              new TransformLegalDocMlToHtmlUseCase.Query(
+                  XmlMapper.toString(norm.getDocument()), showMetadata, false)));
     }
 
     return loadNormXmlUseCase
