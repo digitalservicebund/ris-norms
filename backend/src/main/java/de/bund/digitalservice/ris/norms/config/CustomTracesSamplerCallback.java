@@ -1,10 +1,10 @@
 package de.bund.digitalservice.ris.norms.config;
 
+import io.sentry.CustomSamplingContext;
 import io.sentry.SamplingContext;
 import io.sentry.SentryOptions.TracesSamplerCallback;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
 /** Custom filter for sentry traces. Removes all traces for the actuator endpoints. */
@@ -12,23 +12,28 @@ import org.springframework.stereotype.Component;
 public class CustomTracesSamplerCallback implements TracesSamplerCallback {
   @Override
   public @Nullable Double sample(@NotNull SamplingContext context) {
-    if (context.getCustomSamplingContext() == null) {
+
+    CustomSamplingContext customContext = context.getCustomSamplingContext();
+
+    if (customContext == null) {
       return null;
     }
 
-    ServerHttpRequest request =
-        (ServerHttpRequest) context.getCustomSamplingContext().get("request");
+    Boolean parentSampled = context.getTransactionContext().getParentSampled();
 
-    if (request == null) {
-      return null;
+    // it's sad that it can be null at all
+    if (parentSampled != null) {
+      // if parent gets sampled, sample child; otherwise drop it
+      return parentSampled ? 1.0 : 0.0;
     }
 
-    String url = request.getPath().value();
-
-    if (url.startsWith("/actuator")) {
-      return 0d;
+    // route specific sampling / dropping
+    if ("/actuator".equals(customContext.get("url"))) {
+      // drop actuator traces
+      return 0.0;
     } else {
-      return null;
+      // default sample rate
+      return 0.1;
     }
   }
 }
