@@ -1,10 +1,10 @@
 # 13. Organize feature specific things by page in frontend
 
-Date: 202x-xx-xx
+Date: 2024-08-22
 
 ## Status
 
-Proposal
+Accepted
 
 ## Context
 
