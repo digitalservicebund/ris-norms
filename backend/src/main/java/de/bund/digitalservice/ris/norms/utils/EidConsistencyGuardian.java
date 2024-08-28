@@ -23,17 +23,13 @@ public final class EidConsistencyGuardian {
   }
 
   /**
-   * This method traverses all the XML nodes and checks the eId consistency, making the necessary
-   * updates of the index positions and taking care of updating also the references in other parts
-   * of the XML. But first of all it checks if dead references exists
+   * This method checks for dead references and removes them
    *
-   * @param currentXml - the XML to be checked/corrected for eIds consistency
-   * @return the corrected XML
+   * @param currentXml - the XML in which dead references should be removed
    */
-  public static Document correctEids(final Document currentXml) {
+  public static void eliminateDeadReferences(final Document currentXml) {
     Element rootElement = currentXml.getDocumentElement();
     if (rootElement != null) {
-      // Dead references
       setRemovedReferencesToEmptyStringNew(
           "//textualMod/force", "period", "//temporalData/temporalGroup", "eId", rootElement);
       setRemovedReferencesToEmptyStringNew(
@@ -48,10 +44,44 @@ public final class EidConsistencyGuardian {
           "//lifecycle/eventRef",
           "eId",
           rootElement);
-      // Check and fix eIds
-      updateElementEids(rootElement);
     }
-    return currentXml;
+  }
+
+  /**
+   * This method traverses all the XML nodes and checks the eId consistency, making the necessary
+   * updates of the index positions and taking care of updating also the references in other parts
+   * of the XML
+   *
+   * @param node - the XML-Node to be checked/corrected for eIds consistency
+   */
+  public static void correctEids(final Node node) {
+    final Map<String, String> oldToNewEIdMap = new HashMap<>();
+    List<Node> nodesToUpdate = new ArrayList<>();
+    nodesToUpdate.add(node);
+
+    while (!nodesToUpdate.isEmpty()) {
+      var currentNode = nodesToUpdate.removeFirst();
+
+      if (currentNode instanceof Element currentElement) {
+        final var expectedEId = EId.forNode(currentNode);
+        final var currentEId = EId.fromNode(currentNode);
+
+        if (expectedEId != currentEId) {
+          if (expectedEId.isPresent()) {
+            currentElement.setAttribute("eId", expectedEId.get().value());
+          }
+
+          if (currentEId.isPresent() && expectedEId.isPresent()) {
+            oldToNewEIdMap.put(currentEId.get().value(), expectedEId.get().value());
+          }
+        }
+      }
+
+      nodesToUpdate.addAll(NodeParser.nodeListToList(currentNode.getChildNodes()));
+    }
+
+    // Traverse the entire document to find references to the old eId in attributes
+    updateReferencesInAttributes(node, oldToNewEIdMap);
   }
 
   private static void setRemovedReferencesToEmptyStringNew(
@@ -90,48 +120,21 @@ public final class EidConsistencyGuardian {
     return false;
   }
 
-  private static void updateElementEids(final Element element) {
-    final Map<String, String> oldToNewEIdMap = new HashMap<>();
-    List<Node> nodesToUpdate = new ArrayList<>();
-    nodesToUpdate.add(element);
-
-    while (!nodesToUpdate.isEmpty()) {
-      var currentNode = nodesToUpdate.removeFirst();
-
-      if (currentNode instanceof Element currentElement) {
-        final var expectedEId = EId.forNode(currentNode);
-        final var currentEId = EId.fromNode(currentNode);
-
-        if (expectedEId != currentEId) {
-          if (expectedEId.isPresent()) {
-            currentElement.setAttribute("eId", expectedEId.get().value());
-          }
-
-          if (currentEId.isPresent() && expectedEId.isPresent()) {
-            oldToNewEIdMap.put(currentEId.get().value(), expectedEId.get().value());
-          }
-        }
-
-        nodesToUpdate.addAll(NodeParser.nodeListToList(currentNode.getChildNodes()));
-      }
-    }
-
-    // Traverse the entire document to find references to the old eId in attributes
-    updateReferencesInAttributes(element, oldToNewEIdMap);
-  }
-
   private static void updateReferencesInAttributes(
-      final Element element, final Map<String, String> oldToNewEIdMap) {
+      final Node element, final Map<String, String> oldToNewEIdMap) {
     final NamedNodeMap attributes = element.getAttributes();
-    for (int i = 0; i < attributes.getLength(); i++) {
-      Node attribute = attributes.item(i);
-      if (attribute.getNodeValue().startsWith("#")) {
-        Href attributeHref = new Href(attribute.getNodeValue());
-        var currentEId = attributeHref.getEId();
 
-        if (currentEId.isPresent() && oldToNewEIdMap.containsKey(currentEId.get())) {
-          var newEId = oldToNewEIdMap.get(currentEId.get());
-          attribute.setNodeValue(attribute.getNodeValue().replace(currentEId.get(), newEId));
+    if (attributes != null) {
+      for (int i = 0; i < attributes.getLength(); i++) {
+        Node attribute = attributes.item(i);
+        if (attribute.getNodeValue().startsWith("#")) {
+          Href attributeHref = new Href(attribute.getNodeValue());
+          var currentEId = attributeHref.getEId();
+
+          if (currentEId.isPresent() && oldToNewEIdMap.containsKey(currentEId.get())) {
+            var newEId = oldToNewEIdMap.get(currentEId.get());
+            attribute.setNodeValue(attribute.getNodeValue().replace(currentEId.get(), newEId));
+          }
         }
       }
     }
@@ -140,6 +143,6 @@ public final class EidConsistencyGuardian {
     final List<Node> childNodes = NodeParser.nodeListToList(element.getChildNodes());
     childNodes.stream()
         .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
-        .forEach(node -> updateReferencesInAttributes((Element) node, oldToNewEIdMap));
+        .forEach(node -> updateReferencesInAttributes(node, oldToNewEIdMap));
   }
 }

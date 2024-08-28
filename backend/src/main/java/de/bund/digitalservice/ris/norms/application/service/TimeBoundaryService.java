@@ -100,6 +100,7 @@ public class TimeBoundaryService
 
       editTimeBoundaries(query.timeBoundaries(), norm.get());
 
+      EidConsistencyGuardian.eliminateDeadReferences(norm.get().getDocument());
       EidConsistencyGuardian.correctEids(norm.get().getDocument());
 
       normResponse = updateNormPort.updateNorm(new UpdateNormPort.Command(norm.get()));

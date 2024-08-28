@@ -31,7 +31,8 @@ class EidConsistencyGuardianTest {
 
     // When
     final Document document = XmlMapper.toDocument(sampleXml);
-    final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
+    final Document correctedDocument = XmlMapper.toDocument(sampleXml);
+    EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
     final Diff diff =
@@ -62,8 +63,8 @@ class EidConsistencyGuardianTest {
                 """;
 
     // When
-    final Document document = XmlMapper.toDocument(sampleXml);
-    final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
+    final Document correctedDocument = XmlMapper.toDocument(sampleXml);
+    EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
     var expectedXml =
@@ -110,8 +111,8 @@ class EidConsistencyGuardianTest {
                     """;
 
     // When
-    final Document document = XmlMapper.toDocument(sampleXml);
-    final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
+    final Document correctedDocument = XmlMapper.toDocument(sampleXml);
+    EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
     var expectedXml =
@@ -155,8 +156,8 @@ class EidConsistencyGuardianTest {
                     """;
 
     // When
-    final Document document = XmlMapper.toDocument(sampleXml);
-    final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
+    final Document correctedDocument = XmlMapper.toDocument(sampleXml);
+    EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
     var expectedXml =
@@ -196,8 +197,8 @@ class EidConsistencyGuardianTest {
                     """;
 
     // When
-    final Document document = XmlMapper.toDocument(sampleXml);
-    final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
+    final Document correctedDocument = XmlMapper.toDocument(sampleXml);
+    EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
     var expectedXml =
@@ -279,8 +280,9 @@ class EidConsistencyGuardianTest {
                 """;
 
     // When
-    final Document document = XmlMapper.toDocument(text);
-    final Document correctedDocument = EidConsistencyGuardian.correctEids(document);
+    final Document correctedDocument = XmlMapper.toDocument(text);
+    EidConsistencyGuardian.eliminateDeadReferences(correctedDocument);
+    EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
     var exectedResult =
