@@ -49,7 +49,7 @@ public final class EidConsistencyGuardian {
           "eId",
           rootElement);
       // Check and fix eIds
-      updateElementEids(rootElement, rootElement);
+      updateElementEids(rootElement);
     }
     return currentXml;
   }
@@ -90,21 +90,21 @@ public final class EidConsistencyGuardian {
     return false;
   }
 
-  private static void updateElementEids(final Node node, Element rootElement) {
+  private static void updateElementEids(final Element element) {
     final Map<String, String> oldToNewEIdMap = new HashMap<>();
     List<Node> nodesToUpdate = new ArrayList<>();
-    nodesToUpdate.add(node);
+    nodesToUpdate.add(element);
 
     while (!nodesToUpdate.isEmpty()) {
-      var currentNode = nodesToUpdate.removeLast();
+      var currentNode = nodesToUpdate.removeFirst();
 
-      if (currentNode instanceof Element element) {
+      if (currentNode instanceof Element currentElement) {
         final var expectedEId = EId.forNode(currentNode);
         final var currentEId = EId.fromNode(currentNode);
 
         if (expectedEId != currentEId) {
           if (expectedEId.isPresent()) {
-            element.setAttribute("eId", expectedEId.get().value());
+            currentElement.setAttribute("eId", expectedEId.get().value());
           }
 
           if (currentEId.isPresent() && expectedEId.isPresent()) {
@@ -112,12 +112,12 @@ public final class EidConsistencyGuardian {
           }
         }
 
-        nodesToUpdate.addAll(NodeParser.nodeListToList(currentNode.getChildNodes()).reversed());
+        nodesToUpdate.addAll(NodeParser.nodeListToList(currentNode.getChildNodes()));
       }
     }
 
     // Traverse the entire document to find references to the old eId in attributes
-    updateReferencesInAttributes(rootElement, oldToNewEIdMap);
+    updateReferencesInAttributes(element, oldToNewEIdMap);
   }
 
   private static void updateReferencesInAttributes(
