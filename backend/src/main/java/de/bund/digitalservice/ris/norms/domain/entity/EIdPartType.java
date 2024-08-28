@@ -31,6 +31,7 @@ public enum EIdPartType {
   BLOCK("block", List.of("akn:block")),
   BLOCKCONTAINER("blockcontainer", List.of("akn:blockContainer")),
   BR("br", List.of("akn:br")),
+  BREF("bref", List.of("akn:rref")), // new in LDML.de 1.7
   BUCH("buch", List.of("akn:book")),
   CONTAINER("container", List.of("akn:hcontainer")),
   DATUM("datum", List.of("akn:date")),
@@ -59,7 +60,10 @@ public enum EIdPartType {
   FRBRAUTHOR("frbrauthor", List.of("akn:FRBRauthor")),
   FRBRCOUNTRY("frbrcountry", List.of("akn:FRBRcountry")),
   FRBRDATE("frbrdate", List.of("akn:FRBRdate")),
-  FRBRERSIONNUMBER("frbrersionnumber", List.of("akn:FRBRversionNumber")),
+  FRBRERSIONNUMBER(
+      "frbrersionnumber",
+      List.of("akn:FRBRversionNumber")), // TODO: (Malte Laukötter, 2024-08-28) change to
+  // "frbrversionnumber" for LDML.de 1.7
   FRBREXPRESSION("frbrexpression", List.of("akn:FRBRExpression")),
   FRBRFORMAT("frbrformat", List.of("akn:FRBRformat")),
   FRBRLANGUAGE("frbrlanguage", List.of("akn:FRBRlanguage")),
@@ -83,6 +87,7 @@ public enum EIdPartType {
   INLINE("inline", List.of("akn:inline")),
   INTRO("intro", List.of("akn:intro")),
   KAPITEL("kapitel", List.of("akn:chapter")),
+  KOMBAENDBEFEHL("kombändbefehl", List.of("akn:mmod")), // new in LDML.de 1.7
   KURSIV("kursiv", List.of("akn:i")),
   KURZTITEL("kurztitel", List.of("akn:shortTitle")),
   LEBZYKL("lebzykl", List.of("akn:lifecycle")),
@@ -134,7 +139,11 @@ public enum EIdPartType {
   UNTERGL("untergl", List.of("akn:list")),
   UTITEL("utitel", List.of("akn:subtitle")),
   VERWEIS("verweis", List.of("akn:documentRef")),
-  ZAEHLBEZ("zaehlbez", List.of("akn:marker"));
+  ZAEHLBEZ(
+      "zaehlbez",
+      List.of(
+          "akn:marker")) // TODO: (Malte Laukötter, 2024-08-28) change to "marker" for LDML.de 1.7
+;
 
   /** Name for the part type to use in the eId. */
   private final String name;
