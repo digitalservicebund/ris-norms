@@ -10,6 +10,7 @@ import {
 } from "@/services/xmlService"
 import { useDebounceFn } from "@vueuse/core"
 import { deleteRef } from "@/lib/ref"
+import RisEmptyState from "@/components/RisEmptyState.vue"
 
 /**
  * The eId of the currently selected akn:ref element.
@@ -78,6 +79,7 @@ function selectNextRef(relativeTo: number) {
 <template>
   <div>
     <div
+      v-if="refs.length > 0"
       class="grid max-h-full grid-cols-[3fr,8fr,max-content] items-center overflow-auto"
     >
       <div>Typ</div>
@@ -104,5 +106,9 @@ function selectNextRef(relativeTo: number) {
         ></RefEditor>
       </section>
     </div>
+    <RisEmptyState
+      v-else
+      text-content="Für die ausgewählte Textpassage sind noch keine Verweise dokumentiert. Markieren Sie links Text, um neue Verweise hinzuzufügen."
+    />
   </div>
 </template>
