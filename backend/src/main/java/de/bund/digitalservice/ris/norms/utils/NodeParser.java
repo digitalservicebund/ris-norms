@@ -16,7 +16,11 @@ import org.w3c.dom.NodeList;
 
 /** Util class that is responsible for parsing a {@link Node}. */
 public final class NodeParser {
-  private static XPathFactory xPathFactory = XPathFactory.newInstance();
+  // the XPathFactory is not thread safe so every thread gets its own one. It should not be a
+  // problem that we do not call remove() on it as it can be reused even after returning the thread
+  // to a ThreadPool.
+  private static final ThreadLocal<XPathFactory> xPathFactory =
+      ThreadLocal.withInitial(XPathFactory::newInstance);
 
   private NodeParser() {
     // Should not be instantiated as an object
@@ -45,7 +49,7 @@ public final class NodeParser {
 
       // should be invoked on every method call since: An XPath object is not thread-safe and not
       // reentrant.
-      final XPath xPath = xPathFactory.newXPath();
+      final XPath xPath = xPathFactory.get().newXPath();
       String result = (String) xPath.evaluate(xPathExpression, sourceNode, XPathConstants.STRING);
       return result.isEmpty() ? Optional.empty() : Optional.of(result);
     } catch (XPathExpressionException | NoSuchElementException e) {
@@ -80,9 +84,12 @@ public final class NodeParser {
     try {
       // should be invoked on every method call since: An XPath object is not thread-safe and not
       // reentrant.
-      final XPath xPath = XPathFactory.newInstance().newXPath();
       final NodeList nodeList =
-          (NodeList) xPath.evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
+          (NodeList)
+              xPathFactory
+                  .get()
+                  .newXPath()
+                  .evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
       return nodeListToList(nodeList);
     } catch (XPathExpressionException | NoSuchElementException e) {
       throw new XmlProcessingException(e.getMessage(), e);
@@ -100,8 +107,7 @@ public final class NodeParser {
    */
   public static Optional<Node> getNodeFromExpression(String xPathExpression, Node sourceNode) {
     try {
-      final XPathFactory xpathfactory = XPathFactory.newInstance();
-      final XPath xpath = xpathfactory.newXPath();
+      final XPath xpath = xPathFactory.get().newXPath();
       final var result = xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
       if (result instanceof Node node) {
         return Optional.of(node);
