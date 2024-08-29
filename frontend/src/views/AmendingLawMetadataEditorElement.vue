@@ -4,7 +4,6 @@ import RisCopyableLabel from "@/components/controls/RisCopyableLabel.vue"
 import { useHeaderContext } from "@/components/controls/RisHeader.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisRadioInput from "@/components/controls/RisRadioInput.vue"
-import RisTextButton from "@/components/controls/RisTextButton.vue"
 import RisTooltip from "@/components/controls/RisTooltip.vue"
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisTabs from "@/components/editor/RisTabs.vue"
@@ -23,6 +22,7 @@ import { produce } from "immer"
 import { computed, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import Button from "primevue/button"
 
 const affectedDocumentEli = useEliPathParameter("affectedDocument")
 const elementEid = useEidPathParameter()
@@ -250,10 +250,11 @@ const sentryTraceId = useSentryTraceId()
               attachment="bottom"
             >
               <template #default="{ ariaDescribedby }">
-                <RisTextButton
+                <Button
                   :aria-describedby
                   :disabled="isFetching || !!fetchError"
                   :loading="isSaving"
+                  severity="primary"
                   label="Speichern"
                   @click="save()"
                 />
