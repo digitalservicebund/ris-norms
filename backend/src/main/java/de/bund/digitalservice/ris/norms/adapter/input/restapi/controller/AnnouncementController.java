@@ -105,7 +105,7 @@ public class AnnouncementController {
           "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
       produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<ReleaseResponseSchema> putRelease(final Eli eli) {
-    var announcementOptional =
+    final Announcement announcement =
         releaseAnnouncementUseCase.releaseAnnouncement(
             new ReleaseAnnouncementUseCase.Query(eli.getValue()));
 
@@ -113,9 +113,6 @@ public class AnnouncementController {
         loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
             new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue()));
 
-    return announcementOptional
-        .map(announcement -> ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms))
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+    return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));
   }
 }

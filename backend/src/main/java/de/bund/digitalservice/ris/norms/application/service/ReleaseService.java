@@ -5,7 +5,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncement
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import java.time.Instant;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,15 +25,15 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
   }
 
   @Override
-  public Optional<Announcement> releaseAnnouncement(ReleaseAnnouncementUseCase.Query query) {
-    return loadAnnouncementByNormEliPort
-        .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-        .flatMap(
-            announcement -> {
-              announcement.setReleasedByDocumentalistAt(Instant.now());
+  public Announcement releaseAnnouncement(ReleaseAnnouncementUseCase.Query query) {
+    final Announcement announcement =
+        loadAnnouncementByNormEliPort
+            .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
+            .orElseThrow();
 
-              return updateAnnouncementPort.updateAnnouncement(
-                  new UpdateAnnouncementPort.Command(announcement));
-            });
+    announcement.setReleasedByDocumentalistAt(Instant.now());
+
+    updateAnnouncementPort.updateAnnouncement(new UpdateAnnouncementPort.Command(announcement));
+    return announcement;
   }
 }
