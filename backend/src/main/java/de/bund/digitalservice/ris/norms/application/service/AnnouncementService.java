@@ -46,7 +46,6 @@ public class AnnouncementService
     return loadAllAnnouncementsPort.loadAllAnnouncements();
   }
 
-  // TODO: test the exception
   @Override
   public Announcement loadAnnouncementByNormEli(LoadAnnouncementByNormEliUseCase.Query query) {
     return loadAnnouncementByNormEliPort
