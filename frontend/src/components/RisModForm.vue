@@ -12,6 +12,7 @@ import { computed, nextTick, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useEIdRange } from "@/composables/useEIdRange"
+import Button from "primevue/button"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -420,11 +421,12 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           allow-dismiss
         >
           <template #default="{ ariaDescribedby }">
-            <RisTextButton
+            <Button
               :aria-describedby="ariaDescribedby"
               label="Speichern"
               :icon="CheckIcon"
               :loading="isUpdating"
+              severity="primary"
               @click.prevent="$emit('update-mod')"
             />
           </template>
