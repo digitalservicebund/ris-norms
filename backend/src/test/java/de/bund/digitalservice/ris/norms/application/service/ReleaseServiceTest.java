@@ -1,10 +1,12 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
@@ -79,28 +81,19 @@ class ReleaseServiceTest {
   }
 
   @Test
-  void itShouldDoNothingForUnknownAnnouncement() {
+  void itShouldThrowForUnknownAnnouncement() {
     // Given
     when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
         .thenReturn(Optional.empty());
 
-    // When
-    Announcement result =
-        releaseService.releaseAnnouncement(
-            new ReleaseAnnouncementUseCase.Query(
-                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
+    // when
+    assertThatThrownBy(
+            () ->
+                releaseService.releaseAnnouncement(
+                    new ReleaseAnnouncementUseCase.Query(
+                        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
 
-    // Then
-    verify(loadAnnouncementByNormEliPort, times(1))
-        .loadAnnouncementByNormEli(
-            argThat(
-                argument ->
-                    Objects.equals(
-                        argument.eli(),
-                        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
-    verify(updateAnnouncementPort, times(0)).updateAnnouncement(any());
-
-    // TODO: assert something proper
-    // assertThat(result).isEmpty();
+        // then
+        .isInstanceOf(AnnouncementNotFoundException.class);
   }
 }
