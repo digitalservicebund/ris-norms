@@ -30,7 +30,6 @@ public class AnnouncementExceptionHandler {
   @ExceptionHandler(AnnouncementNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<String> handleException(final AnnouncementNotFoundException e) {
-    // TODO: test for the error message
     log.error("AnnouncementNotFoundException: {}", e.getMessage(), e);
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND)

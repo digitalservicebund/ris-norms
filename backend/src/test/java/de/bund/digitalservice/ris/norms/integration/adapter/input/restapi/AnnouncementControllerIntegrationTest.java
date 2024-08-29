@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -14,6 +15,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
+import java.util.Objects;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -231,6 +233,24 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
             jsonPath(
                 "zf0Elis[0]",
                 equalTo("eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1")));
+  }
+
+  @Test
+  void itReturns404AnnouncementNotFound() throws Exception {
+    // given no announcement is stored in the database
+
+    // when
+    mockMvc
+        .perform(
+            put("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release")
+                .accept(MediaType.APPLICATION_JSON))
+        // then
+        .andExpect(status().isNotFound())
+        .andExpect(
+            result ->
+                assertEquals(
+                    "Announcement with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist",
+                    Objects.requireNonNull(result.getResolvedException()).getMessage()));
   }
 
   @Test
