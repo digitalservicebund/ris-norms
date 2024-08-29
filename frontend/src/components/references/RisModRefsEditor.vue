@@ -117,10 +117,14 @@ function handleSave() {
       />
       <RisEmptyState
         v-else
-        text-content="Wählen sie einen Änderungsbefehl zur Bearbeitung aus."
+        text-content="Wählen Sie links einen Änderungsbefehl zur Dokumentation von textbasierten Metadaten aus."
       />
     </section>
-    <section aria-labelledby="referencesHeading" class="flex flex-col">
+    <section
+      v-if="selectedModQuotedContentXmlString"
+      aria-labelledby="referencesHeading"
+      class="flex flex-col"
+    >
       <h3 id="referencesHeading" class="ds-label-02-bold mb-12 block">
         Verweise
       </h3>

@@ -174,7 +174,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
         </section>
 
         <RisModRefsEditor
-          v-if="selectedModEId && amendingNormXml"
+          v-if="amendingNormXml"
           :norm-xml="amendingNormXml"
           :selected-mod-e-id="selectedModEId"
           :eli="amendingNormEli"

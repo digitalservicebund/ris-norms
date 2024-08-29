@@ -6,6 +6,20 @@ import { describe, expect, it } from "vitest"
 import { nextTick } from "vue"
 
 describe("RisRefEditorTable", () => {
+  it("Should not render the ref editor because no akn:ref present in the xml snippet", async () => {
+    render(RisRefEditorTable, {
+      props: {
+        xmlSnippet:
+          "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\" eId='quot-1'>Render of a ref and a second ref and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
+      },
+    })
+    await nextTick()
+    const emptyState = screen.getByText(
+      "Für die ausgewählte Textpassage sind noch keine Verweise dokumentiert. Markieren Sie links Text, um neue Verweise hinzuzufügen.",
+    )
+    expect(emptyState).toBeInTheDocument()
+  })
+
   it("Should render a ref editor for every akn:ref of the xml snippet", async () => {
     render(RisRefEditorTable, {
       props: {

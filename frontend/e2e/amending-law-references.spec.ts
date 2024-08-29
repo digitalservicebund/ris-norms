@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test"
 
-test("navigate to amending law overview", async ({ page }) => {
+test("navigate to amending law references page without selected mods", async ({
+  page,
+}) => {
   await page.goto("/amending-laws")
   await page.getByRole("link", { name: "BGBl. I 1002 Nr. 10" }).click()
   await page.getByRole("link", { name: "Betroffene Normenkomplexe" }).click()
@@ -9,6 +11,34 @@ test("navigate to amending law overview", async ({ page }) => {
   await expect(page).toHaveURL(
     "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references",
   )
+
+  await expect(
+    page.getByText(
+      "Wählen Sie links einen Änderungsbefehl zur Dokumentation von textbasierten Metadaten aus.",
+    ),
+  ).toBeVisible()
+})
+
+test("selects a mod but not references present so it shows the empty state for the ref table", async ({
+  page,
+}) => {
+  await page.goto(
+    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references",
+  )
+
+  await page
+    .getByRole("button", { name: /Absatz 2 bis Absatz 3 wird ersetzt durch/ })
+    .click()
+
+  await expect(page).toHaveURL(
+    "/amending-laws/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1/references/hauptteil-1_art-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1",
+  )
+
+  await expect(
+    page.getByText(
+      "Für die ausgewählte Textpassage sind noch keine Verweise dokumentiert. Markieren Sie links Text, um neue Verweise hinzuzufügen.",
+    ),
+  ).toBeVisible()
 })
 
 test("handles API call still in progress and disables mod selection", async ({

@@ -27,6 +27,29 @@ describe("RisModRefsEditor", () => {
     renderError.value = undefined
   })
 
+  it("Should not render component if no mod was selected", async () => {
+    const { default: RisModRefsEditor } = await import(
+      "@/components/references/RisModRefsEditor.vue"
+    )
+
+    render(RisModRefsEditor, {
+      props: {
+        normXml: "",
+        selectedModEId: "",
+        isSaving: false,
+        hasSaved: false,
+        saveError: null,
+      },
+    })
+
+    await nextTick()
+
+    const emptyState = screen.getByText(
+      "Wählen Sie links einen Änderungsbefehl zur Dokumentation von textbasierten Metadaten aus.",
+    )
+    expect(emptyState).toBeInTheDocument()
+  })
+
   it("Should render the html of the second quotedText of the selected mod", async () => {
     vi.doMock("vue-router", () => ({
       useRoute: vi.fn().mockReturnValue({
