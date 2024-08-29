@@ -116,7 +116,6 @@ class AnnouncementServiceTest {
 
       // Then
       verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
-      // TODO: is that what we want?
       assertEquals(loadedAnnouncement.toString(), announcement.toString());
     }
   }
