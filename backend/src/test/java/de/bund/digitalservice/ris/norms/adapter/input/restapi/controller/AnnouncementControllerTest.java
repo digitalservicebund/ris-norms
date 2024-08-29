@@ -262,7 +262,7 @@ class AnnouncementControllerTest {
               .build();
 
       when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
-          .thenReturn(Optional.of(announcement));
+          .thenReturn(announcement);
       when(loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
               any()))
           .thenReturn(List.of(affectedNormZf0));
