@@ -1,5 +1,6 @@
 import { RahmenProprietary } from "@/types/proprietary"
-import { Locator, Page, expect, test } from "@playwright/test"
+import { Page, expect, test } from "@playwright/test"
+import { MetadataEditorRahmenPage } from "@e2e/pages/MetadataEditorRahmenPage"
 
 async function restoreInitialState(page: Page) {
   const dataIn2015: RahmenProprietary = {
@@ -265,147 +266,162 @@ test.describe("XML view", () => {
 })
 
 test.describe("metadata view", () => {
-  let sharedPage: Page
+  test.afterEach(async ({ page }) => {
+    await restoreInitialState(page)
+  })
 
-  async function saveMetadata() {
-    await sharedPage.getByRole("button", { name: "Speichern" }).click()
-    await sharedPage.waitForResponse(/proprietary/)
-  }
+  test("displays at different time boundaries", async ({ page }) => {
+    const metadataPage = new MetadataEditorRahmenPage(page)
 
-  async function gotoTimeBoundary(date: string) {
-    await sharedPage.goto(
-      `/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/affected-documents/eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/regelungstext-1/edit/${date}`,
+    // When
+    await metadataPage.gotoTimeBoundary("2023-12-30")
+
+    // Then
+    await expect.soft(metadataPage.fnaInput).toHaveValue("310-5")
+    await expect
+      .soft(metadataPage.documentTypeDropdown)
+      .toHaveValue("Gesetz im formellen Sinne")
+    await expect.soft(metadataPage.artSnCheckbox).not.toBeChecked()
+    await expect.soft(metadataPage.artAnCheckbox).toBeChecked()
+    await expect.soft(metadataPage.artUnCheckbox).not.toBeChecked()
+    await expect
+      .soft(metadataPage.bezeichnungInput)
+      .toHaveValue("Neue Testbezeichnung ab 2023")
+    await expect.soft(metadataPage.staatDropdown).toHaveValue("HA - Hamburg")
+    await expect
+      .soft(metadataPage.organDropdown)
+      .toHaveValue("BMinI - Bundesministerium des Innern")
+    await expect.soft(metadataPage.qualMehrheitCheckbox).not.toBeChecked()
+    await expect
+      .soft(metadataPage.ressortDropdown)
+      .toHaveValue("BMI - Bundesministerium des Innern und für Heimat")
+    await expect
+      .soft(metadataPage.organisationsEinheitInput)
+      .toHaveValue("Einheit 2")
+
+    // When
+    await metadataPage.gotoTimeBoundary("2015-06-01")
+
+    // Then
+    await expect.soft(metadataPage.fnaInput).toHaveValue("210-5")
+    await expect
+      .soft(metadataPage.documentTypeDropdown)
+      .toHaveValue("Rechtsverordnung")
+    await expect.soft(metadataPage.artSnCheckbox).toBeChecked()
+    await expect.soft(metadataPage.artAnCheckbox).not.toBeChecked()
+    await expect.soft(metadataPage.artUnCheckbox).toBeChecked()
+    await expect
+      .soft(metadataPage.bezeichnungInput)
+      .toHaveValue("Testbezeichnung nach meiner Vorlage")
+    await expect
+      .soft(metadataPage.staatDropdown)
+      .toHaveValue("BEO - Berlin (Ost)")
+    await expect
+      .soft(metadataPage.organDropdown)
+      .toHaveValue("BMinJ - Bundesministerium der Justiz")
+    await expect.soft(metadataPage.qualMehrheitCheckbox).toBeChecked()
+    await expect
+      .soft(metadataPage.ressortDropdown)
+      .toHaveValue("BMVg - Bundesministerium der Verteidigung")
+    await expect
+      .soft(metadataPage.organisationsEinheitInput)
+      .toHaveValue("Einheit 1")
+  })
+
+  test("saves changes", async ({ page }) => {
+    const metadataPage = new MetadataEditorRahmenPage(page)
+    await metadataPage.gotoTimeBoundary("2023-12-30")
+
+    // When
+    await metadataPage.fnaInput.fill("123-4")
+    await metadataPage.documentTypeDropdown.selectOption("Satzung")
+    await metadataPage.artSnCheckbox.check()
+    await metadataPage.artAnCheckbox.uncheck()
+    await metadataPage.artUnCheckbox.check()
+    await metadataPage.bezeichnungInput.fill("Andere Bezeichnung")
+    await metadataPage.staatDropdown.selectOption("BE - Berlin")
+    await metadataPage.organDropdown.selectOption("BT - Bundestag")
+    await metadataPage.qualMehrheitCheckbox.check()
+    await metadataPage.ressortDropdown.selectOption(
+      "BMVg - Bundesministerium der Verteidigung",
     )
-  }
+    await metadataPage.organisationsEinheitInput.fill("Einheit 3")
 
-  async function mockPutResponse(data: RahmenProprietary) {
-    await sharedPage.route(/\/proprietary\/2023-12-30/, async (route) => {
-      if (route.request().method() === "PUT") {
-        const response = await route.fetch()
-        const body = await response.json()
+    await metadataPage.saveMetadata()
+    await page.reload()
 
-        await route.fulfill({
-          response,
-          body: JSON.stringify({ ...body, ...data }),
-        })
-      } else await route.continue()
-    })
-  }
-
-  test.beforeAll(async ({ browser }) => {
-    sharedPage = await browser.newPage()
-    await restoreInitialState(sharedPage)
-    await gotoTimeBoundary("2023-12-30")
+    // Then
+    await expect.soft(metadataPage.fnaInput).toHaveValue("123-4")
+    await expect.soft(metadataPage.documentTypeDropdown).toHaveValue("Satzung")
+    await expect.soft(metadataPage.artSnCheckbox).toBeChecked()
+    await expect.soft(metadataPage.artAnCheckbox).not.toBeChecked()
+    await expect.soft(metadataPage.artUnCheckbox).toBeChecked()
+    await expect
+      .soft(metadataPage.bezeichnungInput)
+      .toHaveValue("Andere Bezeichnung")
+    await expect.soft(metadataPage.staatDropdown).toHaveValue("BE - Berlin")
+    await expect.soft(metadataPage.organDropdown).toHaveValue("BT - Bundestag")
+    await expect.soft(metadataPage.qualMehrheitCheckbox).toBeChecked()
+    await expect
+      .soft(metadataPage.ressortDropdown)
+      .toHaveValue("BMVg - Bundesministerium der Verteidigung")
+    await expect
+      .soft(metadataPage.organisationsEinheitInput)
+      .toHaveValue("Einheit 3")
   })
 
-  test.afterAll(async () => {
-    await restoreInitialState(sharedPage)
-  })
+  test("is updated with backend state after saving", async ({ page }) => {
+    const metadataPage = new MetadataEditorRahmenPage(page)
+    await metadataPage.gotoTimeBoundary("2023-12-30")
 
-  test.describe("FNA", () => {
-    let fnaInput: Locator
-
-    test.beforeAll(() => {
-      fnaInput = sharedPage.getByRole("textbox", { name: "Sachgebiet" })
+    // Given
+    await metadataPage.mockPutResponse({
+      fna: "fake-backend-state",
+      art: "offene-struktur",
+      typ: "sonstige-bekanntmachung",
+      subtyp: "Technische Norm",
+      artDerNorm: "SN,ÄN,ÜN",
+      bezeichnungInVorlage: "fake-backend-bezeichnung",
+      staat: "SL - Saarland",
+      beschliessendesOrgan: "AA - Auswärtiges Amt",
+      qualifizierteMehrheit: false,
+      ressort: "AA - Auswärtiges Amt",
+      organisationsEinheit: "Fake Einheit",
     })
 
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2015-06-01")
+    // When
+    await metadataPage.saveMetadata()
 
-      // Then
-      await expect(fnaInput).toHaveValue("210-5")
-
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(fnaInput).toHaveValue("310-5")
-    })
-
-    test("saves changes", async () => {
-      // When
-      await fnaInput.fill("123-4")
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(fnaInput).toHaveValue("123-4")
-    })
-
-    test("is updated with backend state after saving", async () => {
-      // Given
-      await mockPutResponse({ fna: "fake-backend-state" })
-      await expect(fnaInput).toHaveValue("123-4")
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(fnaInput).toHaveValue("fake-backend-state")
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
+    // Then
+    await expect.soft(metadataPage.fnaInput).toHaveValue("fake-backend-state")
+    await expect
+      .soft(metadataPage.documentTypeDropdown)
+      .toHaveValue("Technische Norm")
+    await expect.soft(metadataPage.artSnCheckbox).toBeChecked()
+    await expect.soft(metadataPage.artAnCheckbox).toBeChecked()
+    await expect.soft(metadataPage.artUnCheckbox).toBeChecked()
+    await expect
+      .soft(metadataPage.bezeichnungInput)
+      .toHaveValue("fake-backend-bezeichnung")
+    await expect.soft(metadataPage.staatDropdown).toHaveValue("SL - Saarland")
+    await expect
+      .soft(metadataPage.organDropdown)
+      .toHaveValue("AA - Auswärtiges Amt")
+    await expect.soft(metadataPage.qualMehrheitCheckbox).not.toBeChecked()
+    await expect
+      .soft(metadataPage.ressortDropdown)
+      .toHaveValue("AA - Auswärtiges Amt")
+    await expect
+      .soft(metadataPage.organisationsEinheitInput)
+      .toHaveValue("Fake Einheit")
   })
 
   test.describe("Dokumenttyp", () => {
-    let documentTypeDropdown: Locator
+    test("displays the value as unknown", async ({ page }) => {
+      const metadataPage = new MetadataEditorRahmenPage(page)
 
-    test.beforeAll(() => {
-      documentTypeDropdown = sharedPage.getByRole("combobox", {
-        name: "Dokumenttyp",
-      })
-    })
-
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2015-06-01")
-
-      // Then
-      await expect(documentTypeDropdown).toHaveValue("Rechtsverordnung")
-
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(documentTypeDropdown).toHaveValue(
-        "Gesetz im formellen Sinne",
-      )
-    })
-
-    test("saves changes", async () => {
-      // When
-      await documentTypeDropdown.selectOption("Satzung")
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(documentTypeDropdown).toHaveValue("Satzung")
-    })
-
-    test("is updated with backend state after saving", async () => {
       // Given
-      await mockPutResponse({
-        art: "offene-struktur",
-        typ: "sonstige-bekanntmachung",
-        subtyp: "Technische Norm",
-      })
-      await expect(documentTypeDropdown).toHaveValue("Satzung")
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(documentTypeDropdown).toHaveValue("Technische Norm")
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
-
-    test("displays the value as unknown", async () => {
-      // Given
-      await sharedPage.route(/\/proprietary\/2023-12-30/, async (route) => {
+      await page.route(/\/proprietary\/2023-12-30/, async (route) => {
         if (route.request().method() === "GET") {
           const response = await route.fetch()
           const body = await response.json()
@@ -421,20 +437,19 @@ test.describe("metadata view", () => {
           })
         } else await route.fulfill()
       })
-      await sharedPage.reload()
+      await metadataPage.gotoTimeBoundary("2023-12-30")
 
       // Then
-      await expect(documentTypeDropdown).toHaveValue(
+      await expect(metadataPage.documentTypeDropdown).toHaveValue(
         "__unknown_document_type__",
       )
-
-      // Cleanup
-      await sharedPage.unrouteAll()
     })
 
-    test("displays the value as empty", async () => {
+    test("displays the value as empty", async ({ page }) => {
+      const metadataPage = new MetadataEditorRahmenPage(page)
+
       // Given
-      await sharedPage.route(/\/proprietary\/2023-12-30/, async (route) => {
+      await page.route(/\/proprietary\/2023-12-30/, async (route) => {
         if (route.request().method() === "GET") {
           const response = await route.fetch()
           const body = await response.json()
@@ -445,407 +460,26 @@ test.describe("metadata view", () => {
           })
         } else await route.fulfill()
       })
-      await sharedPage.reload()
+      await metadataPage.gotoTimeBoundary("2023-12-30")
 
       // Then
-      await expect(documentTypeDropdown).toHaveValue("")
-
-      // Cleanup
-      await sharedPage.unrouteAll()
+      await expect(metadataPage.documentTypeDropdown).toHaveValue("")
     })
   })
 
-  test.describe("Art der Norm", () => {
-    let artSnCheckbox: Locator
-    let artAnCheckbox: Locator
-    let artUnCheckbox: Locator
+  test("shows an error if the metadata could not be loaded", async ({
+    page,
+  }) => {
+    const metadataPage = new MetadataEditorRahmenPage(page)
 
-    test.beforeAll(() => {
-      // Given
-      artSnCheckbox = sharedPage.getByRole("checkbox", {
-        name: "SN - Stammnorm",
-      })
-      artAnCheckbox = sharedPage.getByRole("checkbox", {
-        name: "ÄN - Änderungsnorm",
-      })
-      artUnCheckbox = sharedPage.getByRole("checkbox", {
-        name: "ÜN - Übergangsnorm",
-      })
-    })
-
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2015-06-01")
-
-      // Then
-      await expect(artSnCheckbox).toBeChecked()
-      await expect(artAnCheckbox).not.toBeChecked()
-      await expect(artUnCheckbox).toBeChecked()
-
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(artSnCheckbox).not.toBeChecked()
-      await expect(artAnCheckbox).toBeChecked()
-      await expect(artUnCheckbox).not.toBeChecked()
-    })
-
-    test("saves changes", async () => {
-      // When
-      await artSnCheckbox.check()
-      await artAnCheckbox.uncheck()
-      await artUnCheckbox.check()
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(artSnCheckbox).toBeChecked()
-      await expect(artAnCheckbox).not.toBeChecked()
-      await expect(artUnCheckbox).toBeChecked()
-    })
-
-    test("is updated with backend state after saving", async () => {
-      // Given
-      await mockPutResponse({ artDerNorm: "SN,ÄN,ÜN" })
-      await expect(artSnCheckbox).toBeChecked()
-      await expect(artAnCheckbox).not.toBeChecked()
-      await expect(artUnCheckbox).toBeChecked()
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(artSnCheckbox).toBeChecked()
-      await expect(artAnCheckbox).toBeChecked()
-      await expect(artUnCheckbox).toBeChecked()
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
-  })
-
-  test.describe("Bezeichnung gemäß Vorlage", () => {
-    let bezeichnungInput: Locator
-
-    test.beforeAll(() => {
-      bezeichnungInput = sharedPage.getByRole("textbox", {
-        name: "Bezeichnung gemäß Vorlage",
-      })
-    })
-
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2015-06-01")
-
-      // Then
-      await expect(bezeichnungInput).toHaveValue(
-        "Testbezeichnung nach meiner Vorlage",
-      )
-
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(bezeichnungInput).toHaveValue("Neue Testbezeichnung ab 2023")
-    })
-
-    test("saves changes", async () => {
-      // When
-      await bezeichnungInput.fill("Andere Bezeichnung")
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(bezeichnungInput).toHaveValue("Andere Bezeichnung")
-    })
-
-    test("is updated with backend state after saving", async () => {
-      // Given
-      await mockPutResponse({
-        bezeichnungInVorlage: "fake-backend-bezeichnung",
-      })
-      await expect(bezeichnungInput).toHaveValue("Andere Bezeichnung")
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(bezeichnungInput).toHaveValue("fake-backend-bezeichnung")
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
-  })
-
-  test.describe("Staat", () => {
-    let staatDropdown: Locator
-
-    test.beforeAll(() => {
-      staatDropdown = sharedPage.getByRole("combobox", {
-        name: "Staat",
-      })
-    })
-
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2015-06-01")
-
-      // Then
-      await expect(staatDropdown).toHaveValue("BEO - Berlin (Ost)")
-
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(staatDropdown).toHaveValue("HA - Hamburg")
-    })
-
-    test("saves changes", async () => {
-      // When
-      await staatDropdown.selectOption("BE - Berlin")
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(staatDropdown).toHaveValue("BE - Berlin")
-    })
-
-    test("is updated with backend state after saving", async () => {
-      // Given
-      await mockPutResponse({ staat: "SL - Saarland" })
-      await expect(staatDropdown).toHaveValue("BE - Berlin")
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(staatDropdown).toHaveValue("SL - Saarland")
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
-  })
-
-  test.describe("beschließendes Organ", () => {
-    let organDropdown: Locator
-
-    test.beforeAll(() => {
-      organDropdown = sharedPage.getByRole("combobox", {
-        name: "beschließendes Organ",
-      })
-    })
-
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2015-06-01")
-
-      // Then
-      await expect(organDropdown).toHaveValue(
-        "BMinJ - Bundesministerium der Justiz",
-      )
-
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(organDropdown).toHaveValue(
-        "BMinI - Bundesministerium des Innern",
-      )
-    })
-
-    test("saves changes", async () => {
-      // When
-      await organDropdown.selectOption("BT - Bundestag")
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(organDropdown).toHaveValue("BT - Bundestag")
-    })
-
-    test("is updated with backend state after saving", async () => {
-      // Given
-      await mockPutResponse({ beschliessendesOrgan: "AA - Auswärtiges Amt" })
-      await expect(organDropdown).toHaveValue("BT - Bundestag")
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(organDropdown).toHaveValue("AA - Auswärtiges Amt")
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
-  })
-
-  test.describe("Beschlussfassung qualifizierte Mehrheit", () => {
-    let qualMehrheitCheckbox: Locator
-
-    test.beforeAll(() => {
-      qualMehrheitCheckbox = sharedPage.getByRole("checkbox", {
-        name: "Beschlussf. qual. Mehrheit",
-      })
-    })
-
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2015-06-01")
-
-      // Then
-      await expect(qualMehrheitCheckbox).toBeChecked()
-
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(qualMehrheitCheckbox).not.toBeChecked()
-    })
-
-    test("saves changes", async () => {
-      // When
-      await qualMehrheitCheckbox.check()
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(qualMehrheitCheckbox).toBeChecked()
-    })
-
-    test("is updated with backend state after saving", async () => {
-      // Given
-      await mockPutResponse({ qualifizierteMehrheit: false })
-      await expect(qualMehrheitCheckbox).toBeChecked()
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(qualMehrheitCheckbox).not.toBeChecked()
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
-  })
-
-  test.describe("Ressort", () => {
-    let ressortDropdown: Locator
-
-    test.beforeAll(() => {
-      ressortDropdown = sharedPage.getByRole("combobox", {
-        name: "Ressort",
-      })
-    })
-
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2015-06-01")
-
-      // Then
-      await expect(ressortDropdown).toHaveValue(
-        "BMVg - Bundesministerium der Verteidigung",
-      )
-
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(ressortDropdown).toHaveValue(
-        "BMI - Bundesministerium des Innern und für Heimat",
-      )
-    })
-
-    test("saves changes", async () => {
-      // When
-      await ressortDropdown.selectOption(
-        "BMVg - Bundesministerium der Verteidigung",
-      )
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(ressortDropdown).toHaveValue(
-        "BMVg - Bundesministerium der Verteidigung",
-      )
-    })
-
-    test("is updated with backend state after saving", async () => {
-      // Given
-      await mockPutResponse({ ressort: "AA - Auswärtiges Amt" })
-      await expect(ressortDropdown).toHaveValue(
-        "BMVg - Bundesministerium der Verteidigung",
-      )
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(ressortDropdown).toHaveValue("AA - Auswärtiges Amt")
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
-  })
-
-  test.describe("Organisationseinheit", () => {
-    let organisationsEinheitInput: Locator
-
-    test.beforeAll(() => {
-      organisationsEinheitInput = sharedPage.getByRole("textbox", {
-        name: "Organisationseinheit",
-      })
-    })
-
-    test("displays at different time boundaries", async () => {
-      // When
-      await gotoTimeBoundary("2015-06-01")
-
-      // Then
-      await expect(organisationsEinheitInput).toHaveValue("Einheit 1")
-
-      // When
-      await gotoTimeBoundary("2023-12-30")
-
-      // Then
-      await expect(organisationsEinheitInput).toHaveValue("Einheit 2")
-    })
-
-    test("saves changes", async () => {
-      // When
-      await organisationsEinheitInput.fill("Einheit 3")
-      await saveMetadata()
-      await sharedPage.reload()
-
-      // Then
-      await expect(organisationsEinheitInput).toHaveValue("Einheit 3")
-    })
-
-    test("is updated with backend state after saving", async () => {
-      // Given
-      await mockPutResponse({ organisationsEinheit: "Fake Einheit" })
-      await expect(organisationsEinheitInput).toHaveValue("Einheit 3")
-
-      // When
-      await saveMetadata()
-
-      // Then
-      await expect(organisationsEinheitInput).toHaveValue("Fake Einheit")
-
-      // Cleanup
-      await sharedPage.unrouteAll()
-    })
-  })
-
-  test("shows an error if the metadata could not be loaded", async () => {
     // Given
-    await sharedPage.route(/\/proprietary\/2023-12-30$/, (request) => {
+    await page.route(/\/proprietary\/2023-12-30$/, (request) => {
       request.abort()
     })
 
-    await sharedPage.reload()
+    await metadataPage.gotoTimeBoundary("2023-12-30")
 
-    const editorRegion = sharedPage.getByRole("region", {
+    const editorRegion = page.getByRole("region", {
       name: "Metadaten dokumentieren",
     })
 
@@ -853,50 +487,46 @@ test.describe("metadata view", () => {
     await expect(
       editorRegion.getByText("Die Metadaten konnten nicht geladen werden."),
     ).toBeVisible()
-
-    // Cleanup
-    await sharedPage.unrouteAll()
   })
 
-  test("displays a success message when the data has been saved", async () => {
+  test("displays a success message when the data has been saved", async ({
+    page,
+  }) => {
+    const metadataPage = new MetadataEditorRahmenPage(page)
     // Given
-    await sharedPage.reload()
+    await metadataPage.gotoTimeBoundary("2023-12-30")
 
     // When
-    await sharedPage.getByRole("button", { name: "Speichern" }).click()
+    await metadataPage.saveMetadata()
 
     // Then
     await expect(
-      sharedPage.getByRole("tooltip", { name: "Gespeichert!" }),
+      page.getByRole("tooltip", { name: "Gespeichert!" }),
     ).toBeVisible()
-
-    // Cleanup
-    await sharedPage.unrouteAll()
   })
 
-  test("displays an error if the data could not be saved", async () => {
+  test("displays an error if the data could not be saved", async ({ page }) => {
+    const metadataPage = new MetadataEditorRahmenPage(page)
     // Given
-    await sharedPage.route(/\/proprietary\/2023-12-30$/, (route) => {
+    await page.route(/\/proprietary\/2023-12-30$/, (route) => {
       if (route.request().method() === "PUT") route.abort("failed")
       else route.continue()
     })
 
-    await sharedPage.reload()
+    await metadataPage.gotoTimeBoundary("2023-12-30")
 
     // When
-    await sharedPage.getByRole("button", { name: "Speichern" }).click()
+    await metadataPage.saveButton.click()
 
     // Then
     await expect(
-      sharedPage.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
+      page.getByRole("tooltip", { name: "Speichern fehlgeschlagen" }),
     ).toBeVisible()
 
     await expect(
-      sharedPage.getByRole("button", {
+      page.getByRole("button", {
         name: "Trace-ID in die Zwischenablage kopieren",
       }),
     ).toBeVisible()
-
-    await sharedPage.unrouteAll()
   })
 })
