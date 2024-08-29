@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateAnnouncementPort;
@@ -29,7 +30,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
     final Announcement announcement =
         loadAnnouncementByNormEliPort
             .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-            .orElseThrow();
+            .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
 
     announcement.setReleasedByDocumentalistAt(Instant.now());
 

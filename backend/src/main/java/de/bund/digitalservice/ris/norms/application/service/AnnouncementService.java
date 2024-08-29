@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
@@ -46,12 +46,12 @@ public class AnnouncementService
     return loadAllAnnouncementsPort.loadAllAnnouncements();
   }
 
+  // TODO: test the exception
   @Override
   public Announcement loadAnnouncementByNormEli(LoadAnnouncementByNormEliUseCase.Query query) {
     return loadAnnouncementByNormEliPort
         .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-        // TODO: What exception to throw?
-        .orElseThrow(() -> new NormNotFoundException(query.eli()));
+        .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
   }
 
   @Override
@@ -65,11 +65,11 @@ public class AnnouncementService
         .map(
             article -> {
               final Optional<String> optionalTargetLawEli = article.getAffectedDocumentEli();
-              // TODO: does this stay an Optional?
               final Optional<Norm> optionalTargetLaw =
                   optionalTargetLawEli.flatMap(
                       targetLawEli ->
                           loadNormPort.loadNorm(new LoadNormPort.Command(targetLawEli)));
+
               return optionalTargetLaw
                   .map(
                       targetLaw ->

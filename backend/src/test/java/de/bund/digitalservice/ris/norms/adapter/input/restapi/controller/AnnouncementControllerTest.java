@@ -44,7 +44,7 @@ class AnnouncementControllerTest {
 
   @MockBean private ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
 
-  // TODO: walk the tests (compare with integration tests) and compare to our goals:
+  // TODO: re-visit the tests (compare with integration tests) and compare to our goals:
   // https://digitalservicebund.atlassian.net/jira/software/c/projects/RISDEV/boards/12?selectedIssue=RISDEV-4690
 
   @Nested
