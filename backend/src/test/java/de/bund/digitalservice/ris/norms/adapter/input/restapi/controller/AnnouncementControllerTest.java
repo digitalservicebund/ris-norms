@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -43,6 +44,9 @@ class AnnouncementControllerTest {
   private LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase;
 
   @MockBean private ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
+
+  // TODO: walk the tests (compare with integration tests) and compare to our goals:
+  // https://digitalservicebund.atlassian.net/jira/software/c/projects/RISDEV/boards/12?selectedIssue=RISDEV-4690
 
   @Nested
   class getAllAnnouncements {
