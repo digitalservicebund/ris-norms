@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
@@ -112,6 +113,33 @@ class NormControllerTest {
                       query
                           .eli()
                           .equals("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itReturnsErrorResponse() throws Exception {
+      // Given
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenThrow(new NormNotFoundException("eli/of/norm"));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value(equalTo("/errors/norm-not-found")))
+          .andExpect(jsonPath("title").value(equalTo("Norm not found")))
+          .andExpect(jsonPath("status").value(equalTo(404)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(equalTo("{\"message\": \"Norm with eli eli/of/norm does not exist\"}")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
+          .andExpect(jsonPath("eli").value(equalTo("eli/of/norm")));
     }
   }
 

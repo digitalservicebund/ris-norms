@@ -5,9 +5,11 @@ import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundExcept
 import de.bund.digitalservice.ris.norms.application.exception.TransformationException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
+import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -64,13 +66,17 @@ public class NormExceptionHandler {
    * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
    */
   @ExceptionHandler(NormNotFoundException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<String> handleException(final NormNotFoundException e) {
+  public ProblemDetail handleException(final NormNotFoundException e) {
 
     log.error("NormNotFoundException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(
+            HttpStatus.NOT_FOUND, CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    problemDetail.setTitle("Norm not found");
+    problemDetail.setType(URI.create("/errors/norm-not-found"));
+    problemDetail.setProperty("eli", e.getEli());
+    return problemDetail;
   }
 
   /**
