@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
@@ -115,8 +116,8 @@ class AnnouncementServiceTest {
 
       // Then
       verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
-      // TODO: assert content to equal the above
-      // assertThat(loadedAnnouncement).contains(announcement);
+      // TODO: is that what we want?
+      assertEquals(loadedAnnouncement.toString(), announcement.toString());
     }
   }
 
