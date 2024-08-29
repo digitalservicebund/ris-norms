@@ -26,7 +26,7 @@ public class NormService
     implements LoadNormUseCase,
         LoadNormXmlUseCase,
         UpdateNormXmlUseCase,
-        LoadSpecificArticleXmlFromNormUseCase,
+        LoadSpecificArticlesXmlFromNormUseCase,
         UpdateModUseCase,
         UpdateModsUseCase {
   private final LoadNormPort loadNormPort;
@@ -52,8 +52,10 @@ public class NormService
   }
 
   @Override
-  public Optional<Norm> loadNorm(final LoadNormUseCase.Query query) {
-    return loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+  public Norm loadNorm(final LoadNormUseCase.Query query) {
+    return loadNormPort
+        .loadNorm(new LoadNormPort.Command(query.eli()))
+        .orElseThrow(() -> new NormNotFoundException(query.eli()));
   }
 
   @Override
@@ -90,20 +92,28 @@ public class NormService
   }
 
   @Override
-  public List<String> loadSpecificArticles(LoadSpecificArticleXmlFromNormUseCase.Query query) {
+  public List<String> loadSpecificArticlesXmlFromNorm(
+      LoadSpecificArticlesXmlFromNormUseCase.Query query) {
     List<Article> articles =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(query.eli()))
-            .map(Norm::getArticles)
-            .orElse(List.of());
+            .orElseThrow(() -> new NormNotFoundException(query.eli()))
+            .getArticles();
 
     if (query.refersTo() == null) {
       return articles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
     } else {
-      return articles.stream()
-          .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
-          .map(a -> XmlMapper.toString(a.getNode()))
-          .toList();
+      var articlesOfType =
+          articles.stream()
+              .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
+              .map(a -> XmlMapper.toString(a.getNode()))
+              .toList();
+
+      if (articlesOfType.isEmpty()) {
+        throw new ArticleOfTypeNotFoundException(query.eli(), query.refersTo());
+      }
+
+      return articlesOfType;
     }
   }
 

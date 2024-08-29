@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
-import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +30,6 @@ class ElementControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
-  @MockBean private LoadNormUseCase loadNormUseCase;
   @MockBean private LoadElementFromNormUseCase loadElementFromNormUseCase;
   @MockBean private LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
   @MockBean private LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase;
@@ -46,36 +44,26 @@ class ElementControllerTest {
       @Test
       void returns404IfNormNotFoundByEli() throws Exception {
         // given
-        when(loadNormUseCase.loadNorm(
-                new LoadNormUseCase.Query(
-                    "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1")))
+        when(loadElementFromNormUseCase.loadElementFromNorm(
+                new LoadElementFromNormUseCase.Query(
+                    "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1",
+                    "any-eid")))
             .thenReturn(Optional.empty());
+
         // when
         mockMvc
             .perform(
                 get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3")
                     .accept(MediaType.TEXT_HTML))
-            .andExpect(status().isNotFound());
-        // then
-      }
 
-      @Test
-      void returns404IfElementNotFoundByEid() throws Exception {
-        // given
-        var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-        when(loadNormUseCase.loadNorm(
-                new LoadNormUseCase.Query(
-                    "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
-            .thenReturn(Optional.of(norm));
-
-        // when
-        mockMvc
-            .perform(
-                get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID")
-                    .accept(MediaType.TEXT_HTML))
             // then
             .andExpect(status().isNotFound());
       }
+
+      // Removed test for element not found in norm as this would currently be identical to "Norm
+      // not found".
+      // The error handling should be refactored to throw exceptions rather than building error
+      // responses manually, so this, and the test above, should not be necessary anymore.
 
       @Test
       void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {

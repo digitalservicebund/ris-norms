@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
@@ -100,10 +99,7 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
               if (customNorms.containsKey(sourceEli)) {
                 amendingLaw = customNorms.get(sourceEli);
               } else {
-                amendingLaw =
-                    normService
-                        .loadNorm(new LoadNormUseCase.Query(sourceEli))
-                        .orElseThrow(() -> new NormNotFoundException(sourceEli));
+                amendingLaw = normService.loadNorm(new LoadNormUseCase.Query(sourceEli));
               }
 
               var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);

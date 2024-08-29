@@ -1,18 +1,23 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import org.springframework.stereotype.Service;
 
 /** Service for loading a norm's articles */
 @Service
-public class ArticleService implements LoadArticleHtmlUseCase {
+public class ArticleService implements LoadArticleHtmlUseCase, LoadArticlesFromNormUseCase {
 
   LoadNormPort loadNormPort;
   TimeMachineService timeMachineService;
@@ -28,20 +33,19 @@ public class ArticleService implements LoadArticleHtmlUseCase {
   }
 
   @Override
-  public Optional<String> loadArticleHtml(final Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(
-            norm -> {
-              if (query.atIsoDate() == null) return norm; // no date given -> use the norm unchanged
-              else {
-                return timeMachineService.applyPassiveModifications(
-                    new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate()));
-              }
-            })
-        .map(Norm::getArticles)
-        .stream()
-        .flatMap(List::stream)
+  public String loadArticleHtml(final LoadArticleHtmlUseCase.Query query) {
+    var norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    if (query.atIsoDate() != null) {
+      norm =
+          timeMachineService.applyPassiveModifications(
+              new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate()));
+    }
+
+    return norm.getArticles().stream()
         .filter(
             article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
         .findFirst()
@@ -49,6 +53,81 @@ public class ArticleService implements LoadArticleHtmlUseCase {
         .map(
             xml ->
                 xsltTransformationService.transformLegalDocMlToHtml(
-                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)));
+                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)))
+        .orElseThrow(() -> new ArticleNotFoundException(query.eli(), query.eid()));
+  }
+
+  @Override
+  public List<Article> loadArticlesFromNorm(final LoadArticlesFromNormUseCase.Query query) {
+    final var amendedAt = query.amendedAt();
+    final var amendedBy = query.amendedBy();
+
+    final var norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    List<Article> articles = norm.getArticles();
+
+    // Filter list of articles by passive mods if at least one filter is specified
+    if (amendedBy != null || amendedAt != null) {
+      var filterPassiveMods = getPassiveModsAmendingByOrAt(norm, amendedBy, amendedAt);
+      var passiveModFilter = createPassiveModFilter(filterPassiveMods);
+      articles = articles.stream().filter(passiveModFilter).toList();
+    }
+
+    return articles;
+  }
+
+  private List<TextualMod> getPassiveModsAmendingByOrAt(
+      final Norm fromNorm, final String amendingBy, final String amendingAt) {
+    if (amendingBy == null && amendingAt == null) return List.of();
+
+    return fromNorm
+        .getMeta()
+        .getAnalysis()
+        .map(Analysis::getPassiveModifications)
+        .orElse(Collections.emptyList())
+        .stream()
+        .filter(
+            passiveModification -> {
+              if (amendingBy == null) return true;
+
+              return passiveModification
+                  .getSourceHref()
+                  .flatMap(Href::getEli)
+                  .map(sourceEli -> sourceEli.equals(amendingBy))
+                  .orElse(false);
+            })
+        .filter(
+            passiveModification -> {
+              if (amendingAt == null) return true;
+
+              return passiveModification
+                  .getForcePeriodEid()
+                  .flatMap(fromNorm::getStartEventRefForTemporalGroup)
+                  .map(startEventRef -> startEventRef.equals(amendingAt))
+                  .orElse(false);
+            })
+        .toList();
+  }
+
+  private Predicate<Article> createPassiveModFilter(final List<TextualMod> mods) {
+    return article ->
+        // If we filter by amendedAt or amendedBy: Those properties are found
+        // in the passive modifications we already collected above. What's left
+        // now is to only return the articles that are going to be modified by
+        // those passive modifications.
+        mods.stream()
+            .map(TextualMod::getDestinationHref)
+            .flatMap(Optional::stream)
+            .map(Href::getEId)
+            .flatMap(Optional::stream)
+            .anyMatch(
+                destinationEid ->
+                    // Modifications can be either on the article itself or anywhere
+                    // inside the article, hence the "contains" rather than exact
+                    // matching.
+                    destinationEid.contains(article.getEid().orElseThrow()));
   }
 }
