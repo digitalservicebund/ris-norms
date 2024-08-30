@@ -263,7 +263,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
             result ->
                 assertEquals(
-                    "Announcement with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist",
+                    "Announcement for norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist",
                     Objects.requireNonNull(result.getResolvedException()).getMessage()));
   }
 
