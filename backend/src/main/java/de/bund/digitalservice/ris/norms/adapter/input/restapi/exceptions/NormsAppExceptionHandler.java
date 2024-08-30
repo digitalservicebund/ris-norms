@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Order(1)
 @ControllerAdvice
 @Slf4j
-public class NormExceptionHandler {
+public class NormsAppExceptionHandler {
 
   private static final String CONTENT_FORMAT_TEMPLATE = "{\"message\": \"%s\"}";
 
