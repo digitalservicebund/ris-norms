@@ -2,22 +2,23 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleHtmlUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesFromNormUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import org.springframework.stereotype.Service;
 
 /** Service for loading a norm's articles */
 @Service
-public class ArticleService implements LoadArticleHtmlUseCase, LoadArticlesFromNormUseCase {
+public class ArticleService
+    implements LoadArticleHtmlUseCase,
+        LoadArticlesFromNormUseCase,
+        LoadSpecificArticlesXmlFromNormUseCase {
 
   LoadNormPort loadNormPort;
   TimeMachineService timeMachineService;
@@ -110,6 +111,32 @@ public class ArticleService implements LoadArticleHtmlUseCase, LoadArticlesFromN
                   .orElse(false);
             })
         .toList();
+  }
+
+  @Override
+  public List<String> loadSpecificArticlesXmlFromNorm(
+      LoadSpecificArticlesXmlFromNormUseCase.Query query) {
+    List<Article> articles =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()))
+            .getArticles();
+
+    if (query.refersTo() == null) {
+      return articles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
+    } else {
+      var articlesOfType =
+          articles.stream()
+              .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
+              .map(a -> XmlMapper.toString(a.getNode()))
+              .toList();
+
+      if (articlesOfType.isEmpty()) {
+        throw new ArticleOfTypeNotFoundException(query.eli(), query.refersTo());
+      }
+
+      return articlesOfType;
+    }
   }
 
   private Predicate<Article> createPassiveModFilter(final List<TextualMod> mods) {
