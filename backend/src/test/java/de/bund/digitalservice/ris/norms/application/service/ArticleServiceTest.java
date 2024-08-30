@@ -391,5 +391,40 @@ class ArticleServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
     }
+
+    @Test
+    void itThrowsWhenTheNormHasNoArticles() {
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
+
+      var norm =
+          Norm.builder()
+              .document(
+                  XmlMapper.toDocument(
+                      """
+                        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                           xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                               http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                           <akn:act name="regelungstext">
+                              <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
+                              </akn:body>
+                           </akn:act>
+                        </akn:akomaNtoso>
+                      """))
+              .build();
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+
+      // When
+      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromNorm(query))
+
+          // Then
+          .isInstanceOf(
+              LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class);
+
+      verify(loadNormPort, times(1))
+          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+    }
   }
 }

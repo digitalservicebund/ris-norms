@@ -122,21 +122,18 @@ public class ArticleService
             .orElseThrow(() -> new NormNotFoundException(query.eli()))
             .getArticles();
 
-    if (query.refersTo() == null) {
-      return articles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
-    } else {
-      var articlesOfType =
+    if (query.refersTo() != null) {
+      articles =
           articles.stream()
               .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
-              .map(a -> XmlMapper.toString(a.getNode()))
               .toList();
-
-      if (articlesOfType.isEmpty()) {
-        throw new ArticleOfTypeNotFoundException(query.eli(), query.refersTo());
-      }
-
-      return articlesOfType;
     }
+
+    if (articles.isEmpty()) {
+      throw new ArticleOfTypeNotFoundException(query.eli(), query.refersTo());
+    }
+
+    return articles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
   }
 
   private Predicate<Article> createPassiveModFilter(final List<TextualMod> mods) {
