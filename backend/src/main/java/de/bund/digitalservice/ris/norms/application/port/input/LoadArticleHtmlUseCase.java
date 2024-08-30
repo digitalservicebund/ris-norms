@@ -1,7 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import java.time.Instant;
 import org.springframework.lang.Nullable;
 
@@ -12,10 +10,8 @@ public interface LoadArticleHtmlUseCase {
    *
    * @param query The article to load
    * @return HTML string of the article
-   * @throws NormNotFoundException If the norm is not found
-   * @throws ArticleNotFoundException If the norm exists but does not contain the article
    */
-  String loadArticleHtml(Query query) throws ArticleNotFoundException, NormNotFoundException;
+  String loadArticleHtml(Query query);
 
   /**
    * Query for loading a norm's article via the use case

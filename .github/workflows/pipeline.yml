@@ -21,7 +21,7 @@ jobs:
      with:
        container-registry: ghcr.io
        container-image-name: ${{ github.repository }}
-       container-image-version: ${{ github.sha }}
+       container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
      secrets: inherit # e.g. sonar token
 
    frontend-jobs:
@@ -60,7 +60,7 @@ jobs:
       secrets: inherit # e.g. sonar token
 
    push-docker-image-job:
-     if: ${{ github.ref == 'refs/heads/main' }}
+     if: ${{ github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'dev-env') || contains(github.event.labeled.labels.*.name, 'dev-env') }}
      needs:
        - backend-jobs
        - frontend-jobs

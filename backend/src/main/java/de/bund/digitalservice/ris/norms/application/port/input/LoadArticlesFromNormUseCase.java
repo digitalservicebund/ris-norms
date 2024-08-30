@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
@@ -15,9 +14,8 @@ public interface LoadArticlesFromNormUseCase {
    *
    * @param query Query used for identifying the articles
    * @return List of articles (can be empty)
-   * @throws NormNotFoundException when the norm is not found
    */
-  List<Article> loadArticlesFromNorm(Query query) throws NormNotFoundException;
+  List<Article> loadArticlesFromNorm(Query query);
 
   /**
    * Contains the parameters needed for loading articles from a norm.
@@ -25,7 +23,7 @@ public interface LoadArticlesFromNormUseCase {
    * @param eli The ELI used to identify the norm
    * @param amendedBy ELI of an amending law. When specified, only articles with passive
    *     modifications from that amending law are included in the result.
-   * @param amendedAt eId of a lifecycle event. When specified, only articles with passice
+   * @param amendedAt eId of a lifecycle event. When specified, only articles with passive
    *     modifications that will be applied at the date of this lifecycle event will be included in
    *     the result.
    */

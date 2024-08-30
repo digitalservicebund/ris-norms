@@ -6,13 +6,10 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +23,6 @@ public class NormService
     implements LoadNormUseCase,
         LoadNormXmlUseCase,
         UpdateNormXmlUseCase,
-        LoadSpecificArticlesXmlFromNormUseCase,
         UpdateModUseCase,
         UpdateModsUseCase {
   private final LoadNormPort loadNormPort;
@@ -89,32 +85,6 @@ public class NormService
         .updateNorm(new UpdateNormPort.Command(updatedNorm))
         .map(Norm::getDocument)
         .map(XmlMapper::toString);
-  }
-
-  @Override
-  public List<String> loadSpecificArticlesXmlFromNorm(
-      LoadSpecificArticlesXmlFromNormUseCase.Query query) {
-    List<Article> articles =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli()))
-            .getArticles();
-
-    if (query.refersTo() == null) {
-      return articles.stream().map(a -> XmlMapper.toString(a.getNode())).toList();
-    } else {
-      var articlesOfType =
-          articles.stream()
-              .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
-              .map(a -> XmlMapper.toString(a.getNode()))
-              .toList();
-
-      if (articlesOfType.isEmpty()) {
-        throw new ArticleOfTypeNotFoundException(query.eli(), query.refersTo());
-      }
-
-      return articlesOfType;
-    }
   }
 
   /**
