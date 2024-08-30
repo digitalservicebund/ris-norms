@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import java.net.URI;
-import java.util.Map;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 
@@ -14,18 +14,6 @@ import org.springframework.http.ProblemDetail;
  * ProblemDetailDescriptor that contains the problem's type URI and title.
  */
 public class ProblemDetailConfig {
-
-  // Static and final initialization of mappings
-  private static final Map<Class<? extends Throwable>, ProblemDetailDescriptor> MAPPINGS =
-      Map.of(
-          NormNotFoundException.class,
-          new ProblemDetailDescriptor(URI.create("/errors/norm-not-found"), "Norm not found"),
-          ArticleNotFoundException.class,
-          new ProblemDetailDescriptor(URI.create("/errors/article-not-found"), "Article not found")
-
-          // Add more mappings as needed
-          );
-
   /**
    * Creates a ProblemDetail instance for the given exception and HTTP status. The ProblemDetail is
    * populated with information from a predefined mapping based on the exception type.
@@ -36,20 +24,47 @@ public class ProblemDetailConfig {
    *     title, and detailed message.
    */
   public static ProblemDetail createProblemDetail(final Throwable e, final HttpStatus status) {
-    final ProblemDetailDescriptor descriptor = MAPPINGS.get(e.getClass());
+    final ProblemMapping problemMapping = ProblemMapping.getInstance(e.getClass());
     ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
-    problemDetail.setType(descriptor.type());
-    problemDetail.setTitle(descriptor.title());
+    problemDetail.setType(problemMapping.getType());
+    problemDetail.setTitle(problemMapping.getTitle());
     problemDetail.setDetail(e.getMessage());
     return problemDetail;
   }
 
-  /**
-   * A record that describes the details of a specific problem type. It contains the type URI and
-   * the title of the problem, which are used to populate the ProblemDetail object.
-   *
-   * @param type The URI representing the type of the problem.
-   * @param title The title of the problem.
-   */
-  public record ProblemDetailDescriptor(URI type, String title) {}
+  @Getter
+  private enum ProblemMapping {
+    NORM_NOT_FOUND(
+        NormNotFoundException.class, URI.create("/errors/norm-not-found"), "Norm not found"),
+    ARTICLE_NOT_FOUND(
+        ArticleNotFoundException.class,
+        URI.create("/errors/article-not-found"),
+        "Article not found");
+
+    /**
+     * Creates the Enum
+     *
+     * @param clazz - Class to create the enum
+     * @return A ProblemMapping enum
+     */
+    public static ProblemMapping getInstance(Class<? extends Throwable> clazz) {
+      for (ProblemMapping mapping : ProblemMapping.values()) {
+        if (mapping.clazz.equals(clazz)) {
+          return mapping;
+        }
+      }
+      throw new IllegalArgumentException(
+          "No matching ProblemMapping found for class: " + clazz.getName());
+    }
+
+    private final Class<? extends Throwable> clazz;
+    private final URI type;
+    private final String title;
+
+    ProblemMapping(Class<? extends Throwable> clazz, URI type, String title) {
+      this.clazz = clazz;
+      this.type = type;
+      this.title = title;
+    }
+  }
 }
