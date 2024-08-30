@@ -83,15 +83,15 @@ class AnnouncementServiceTest {
     @Test
     void itThrowsAnnouncementNotFoundException() {
       // given
+      final var query =
+          new LoadAnnouncementByNormEliUseCase.Query(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+
       when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
           .thenReturn(Optional.empty());
 
       // when
-      assertThatThrownBy(
-              () ->
-                  announcementService.loadAnnouncementByNormEli(
-                      new LoadAnnouncementByNormEliUseCase.Query(
-                          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
+      assertThatThrownBy(() -> announcementService.loadAnnouncementByNormEli(query))
           // then
           .isInstanceOf(AnnouncementNotFoundException.class);
     }
