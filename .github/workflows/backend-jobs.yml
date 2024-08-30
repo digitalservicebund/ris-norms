@@ -44,7 +44,7 @@ jobs:
           name: performance-report
           path: backend/build/reports/profile/profile*.html
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -66,7 +66,7 @@ jobs:
         working-directory: ./backend
         run: ./gradlew clean test -x integrationTest
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -88,7 +88,7 @@ jobs:
         working-directory: ./backend
         run: ./gradlew clean integrationTest -x test
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -114,7 +114,7 @@ jobs:
           retention-days: 3
           path: backend/build/reports/dependency-license/backend-licence-report.csv
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main'}}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -152,7 +152,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -178,7 +178,7 @@ jobs:
           retention-days: 3
           path: backend/build/docs/javadoc/
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
