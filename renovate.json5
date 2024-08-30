@@ -30,7 +30,7 @@
         "frontend-updates"
       ],
       "platformAutomerge": false, // this would require more repository setup; also it interferes with automergeSchedule
-      "automergeType": "branch" // default is "pr", creates brancha nd PR. With "branch" it only creates PR if fails
+      "automergeType": "pr"
     },
     {
       "groupName": "all non-major backend dependencies",
@@ -49,7 +49,7 @@
         "backend-updates"
       ],
       "platformAutomerge": false, // this would require more repository setup; also it interferes with automergeSchedule
-      "automergeType": "branch" // default is "pr", creates brancha nd PR. With "branch" it only creates PR if fails
+      "automergeType": "pr"
     }
   ]
 }

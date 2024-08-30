@@ -190,7 +190,7 @@ VALUES ('ba44d2ae-0e73-44ba-850a-932ab2fa553f', 'eli/bund/bgbl-1/2023/413/2023-1
                   <akn:point eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2" GUID="36243c1a-c952-4ab1-b926-2f414c05da7d">
                      <akn:num eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1" GUID="3624dcaa-4851-4656-8b65-f26c8f56d1f1">
                         <akn:marker eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_bezeichnung-1_zaehlbez-1"
-                           GUID="36245080-1644-4b0f-83f3-2c0b4378f7af" name="1" />2.</akn:num>
+                           GUID="36245080-1644-4b0f-83f3-2c0b4378f7af" name="2" />2.</akn:num>
                      <akn:content eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1" GUID="362473be-9df6-47fa-b1ea-1cf6273d82e6">
                         <akn:p eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1" GUID="3624ef20-52d5-4baa-9e1a-b2c63cd21ccc">
                            <akn:mod eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
