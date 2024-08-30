@@ -67,8 +67,6 @@ public class ArticleController {
       @RequestParam final Optional<String> amendedBy,
       @RequestParam final Optional<String> amendedAt) {
 
-    final var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
-
     final var query =
         new LoadArticlesFromNormUseCase.Query(
             eli.getValue(), amendedBy.orElse(null), amendedAt.orElse(null));
@@ -83,7 +81,13 @@ public class ArticleController {
                           .map(
                               eliTargetLaw ->
                                   loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eliTargetLaw)))
-                          .map(targetLaw -> new LoadZf0UseCase.Query(norm, targetLaw, true))
+                          .map(
+                              targetLaw -> {
+                                final var norm =
+                                    loadNormUseCase.loadNorm(
+                                        new LoadNormUseCase.Query(eli.getValue()));
+                                return new LoadZf0UseCase.Query(norm, targetLaw, true);
+                              })
                           .map(loadZf0UseCase::loadOrCreateZf0)
                           .orElse(null);
 
