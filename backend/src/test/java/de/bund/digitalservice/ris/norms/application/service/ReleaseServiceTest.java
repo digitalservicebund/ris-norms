@@ -83,16 +83,14 @@ class ReleaseServiceTest {
   @Test
   void itShouldThrowForUnknownAnnouncement() {
     // Given
+    final var query =
+        new ReleaseAnnouncementUseCase.Query(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
     when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
         .thenReturn(Optional.empty());
 
     // when
-    assertThatThrownBy(
-            () ->
-                releaseService.releaseAnnouncement(
-                    new ReleaseAnnouncementUseCase.Query(
-                        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
-
+    assertThatThrownBy(() -> releaseService.releaseAnnouncement(query))
         // then
         .isInstanceOf(AnnouncementNotFoundException.class);
   }
