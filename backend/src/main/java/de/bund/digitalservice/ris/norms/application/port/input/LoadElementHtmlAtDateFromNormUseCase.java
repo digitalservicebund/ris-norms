@@ -15,8 +15,7 @@ public interface LoadElementHtmlAtDateFromNormUseCase {
    * @return An {@link Optional} containing the HTML string if found, or empty if either the norm or
    *     the element don't exist.
    */
-  Optional<String> loadElementHtmlAtDateFromNorm(LoadElementHtmlAtDateFromNormUseCase.Query query)
-      throws IllegalArgumentException;
+  Optional<String> loadElementHtmlAtDateFromNorm(LoadElementHtmlAtDateFromNormUseCase.Query query);
 
   /**
    * Contains the parameters needed for loading an element from a norm at a specific date.

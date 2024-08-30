@@ -59,10 +59,8 @@ public class ElementService
      *
      * @param label Label to infer the enum value from.
      * @return Enum value for that label
-     * @throws LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException If no value exists
-     *     for that label.
      */
-    public static ElementType fromLabel(String label) throws UnsupportedElementTypeException {
+    public static ElementType fromLabel(String label) {
       for (ElementType type : values()) {
         if (type.label.equals(label)) {
           return type;
@@ -132,8 +130,7 @@ public class ElementService
   }
 
   @Override
-  public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query)
-      throws UnsupportedElementTypeException {
+  public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query) {
     // No need to do anything if no types are requested
     if (query.elementType().isEmpty()) return List.of();
 
