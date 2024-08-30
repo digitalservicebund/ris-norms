@@ -12,7 +12,6 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import org.springframework.stereotype.Service;
@@ -36,22 +35,27 @@ public class ElementService
 
   /** The types of elements that can be retrieved from a norm. */
   public enum ElementType {
-    ARTICLE("article"),
-    BOOK("book"),
-    CHAPTER("chapter"),
-    CONCLUSIONS("conclusions"),
-    PART("part"),
-    PREAMBLE("preamble"),
-    PREFACE("preface"),
-    SECTION("section"),
-    SUBSECTION("subsection"),
-    SUBTITLE("subtitle"),
-    TITLE("title");
+    ARTICLE("article", "//body//article"),
+    BOOK("book", "//body//book"),
+    CHAPTER("chapter", "//body//chapter"),
+    CONCLUSIONS("conclusions", "//act/conclusions"),
+    PART("part", "//body//part"),
+    PREAMBLE("preamble", "//act/preamble"),
+    PREFACE("preface", "//act/preface"),
+    SECTION("section", "//body//section"),
+    SUBSECTION("subsection", "//body//subsection"),
+    SUBTITLE("subtitle", "//body//subtitle"),
+    TITLE("title", "//body//title");
 
+    /** The name of the element. */
     public final String label;
 
-    ElementType(String label) {
+    /** The XPath used for finding elements of that type in a norm. */
+    public final String xPath;
+
+    ElementType(String label, String xPath) {
       this.label = label;
+      this.xPath = xPath;
     }
 
     /**
@@ -70,20 +74,6 @@ public class ElementService
       throw new UnsupportedElementTypeException(label + " is not supported");
     }
   }
-
-  private final Map<ElementType, String> xPathsForTypes =
-      Map.ofEntries(
-          Map.entry(ElementType.ARTICLE, "//body//article"),
-          Map.entry(ElementType.BOOK, "//body//book"),
-          Map.entry(ElementType.CHAPTER, "//body//chapter"),
-          Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"),
-          Map.entry(ElementType.PART, "//body//part"),
-          Map.entry(ElementType.PREAMBLE, "//act/preamble"),
-          Map.entry(ElementType.PREFACE, "//act/preface"),
-          Map.entry(ElementType.SECTION, "//body//section"),
-          Map.entry(ElementType.SUBSECTION, "//body//subsection"),
-          Map.entry(ElementType.SUBTITLE, "//body//subtitle"),
-          Map.entry(ElementType.TITLE, "//body//title"));
 
   public ElementService(
       LoadNormPort loadNormPort,
@@ -137,10 +127,7 @@ public class ElementService
     var combinedXPaths =
         String.join(
             "|",
-            query.elementType().stream()
-                .map(ElementType::fromLabel)
-                .map(xPathsForTypes::get)
-                .toList());
+            query.elementType().stream().map(label -> ElementType.fromLabel(label).xPath).toList());
 
     var norm =
         loadNormPort
