@@ -17,7 +17,7 @@ public interface LoadAnnouncementByNormEliUseCase {
    * @return An {@link Optional} containing the loaded {@link Announcement} if found, or empty if
    *     not found.
    */
-  Optional<Announcement> loadAnnouncementByNormEli(Query query);
+  Announcement loadAnnouncementByNormEli(Query query);
 
   /**
    * A record representing the query for loading an {@link Announcement}. The query includes the ELI

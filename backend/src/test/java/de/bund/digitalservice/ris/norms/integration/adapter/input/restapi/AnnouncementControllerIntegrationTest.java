@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -14,6 +15,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
+import java.util.Objects;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,18 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   void cleanUp() {
     announcementRepository.deleteAll();
     normRepository.deleteAll();
+  }
+
+  @Test
+  void itReturnsEmptyListOfAnnouncements() throws Exception {
+    // given no announcement in the DB
+
+    // when
+    mockMvc
+        .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+        // then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").doesNotExist());
   }
 
   @Test
@@ -77,9 +91,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     var announcement = Announcement.builder().norm(norm).releasedByDocumentalistAt(null).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
-    // When // Then
+    // When
     mockMvc
         .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+        // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
         .andExpect(jsonPath("$[1]").doesNotExist())
@@ -214,11 +229,12 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     normRepository.save(NormMapper.mapToDto(affectedNorm));
     normRepository.save(NormMapper.mapToDto(affectedNormZf0));
 
-    // When // Then
+    // When
     mockMvc
         .perform(
             get("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release")
                 .accept(MediaType.APPLICATION_JSON))
+        // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("releaseAt", equalTo("2024-01-02T10:20:30Z")))
         .andExpect(
@@ -231,6 +247,24 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
             jsonPath(
                 "zf0Elis[0]",
                 equalTo("eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1")));
+  }
+
+  @Test
+  void itReturns404AnnouncementNotFoundInReleasePut() throws Exception {
+    // given no announcement is stored in the database
+
+    // when
+    mockMvc
+        .perform(
+            put("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release")
+                .accept(MediaType.APPLICATION_JSON))
+        // then
+        .andExpect(status().isNotFound())
+        .andExpect(
+            result ->
+                assertEquals(
+                    "Announcement for norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist",
+                    Objects.requireNonNull(result.getResolvedException()).getMessage()));
   }
 
   @Test
