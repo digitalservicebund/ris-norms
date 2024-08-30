@@ -71,8 +71,7 @@ public class NormExceptionHandler {
     log.error("NormNotFoundException: {}", e.getMessage(), e);
 
     ProblemDetail problemDetail =
-        ProblemDetail.forStatusAndDetail(
-            HttpStatus.NOT_FOUND, CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
     problemDetail.setTitle("Norm not found");
     problemDetail.setType(URI.create("/errors/norm-not-found"));
     problemDetail.setProperty("eli", e.getEli());

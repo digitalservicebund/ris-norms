@@ -131,9 +131,7 @@ class NormControllerTest {
           .andExpect(jsonPath("type").value(equalTo("/errors/norm-not-found")))
           .andExpect(jsonPath("title").value(equalTo("Norm not found")))
           .andExpect(jsonPath("status").value(equalTo(404)))
-          .andExpect(
-              jsonPath("detail")
-                  .value(equalTo("{\"message\": \"Norm with eli eli/of/norm does not exist\"}")))
+          .andExpect(jsonPath("detail").value(equalTo("Norm with eli eli/of/norm does not exist")))
           .andExpect(
               jsonPath("instance")
                   .value(
