@@ -3,6 +3,11 @@ name: Pipeline
 on:
   # run on any branch receiving a push (not only on main)
   push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   # also: allow to run this workflow manually
   workflow_dispatch:
 
