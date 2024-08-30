@@ -17,7 +17,7 @@ public interface UpdateNormXmlUseCase {
    * @return An {@link Optional} containing the saved xml representation of {@link Norm} if found,
    *     or empty if not found.
    */
-  Optional<String> updateNormXml(Query query) throws InvalidUpdateException;
+  String updateNormXml(Query query);
 
   /**
    * A record representing the query for updating the XML representation of a norm. The query
@@ -27,11 +27,4 @@ public interface UpdateNormXmlUseCase {
    * @param xml The new XML representation of the norm.
    */
   record Query(String eli, String xml) {}
-
-  /** This exception indicates that a proposed change to a norm is not allowed */
-  class InvalidUpdateException extends Exception {
-    public InvalidUpdateException(String message) {
-      super(message);
-    }
-  }
 }

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
@@ -125,7 +126,7 @@ class NormControllerTest {
       final String xml = "<target></target>";
 
       // When
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
 
       // When // Then
       mockMvc
@@ -145,7 +146,7 @@ class NormControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When // Then
@@ -167,7 +168,7 @@ class NormControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When // Then
@@ -215,7 +216,7 @@ class NormControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(Optional.of(xml));
+      when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(xml);
 
       // When // Then
       mockMvc
@@ -239,7 +240,7 @@ class NormControllerTest {
       final String xml = "<akn:doc>new</akn:doc>";
 
       when(updateNormXmlUseCase.updateNormXml(any()))
-          .thenThrow(new UpdateNormXmlUseCase.InvalidUpdateException("Error Message"));
+          .thenThrow(new InvalidUpdateException("Error Message"));
 
       // When // Then
       mockMvc

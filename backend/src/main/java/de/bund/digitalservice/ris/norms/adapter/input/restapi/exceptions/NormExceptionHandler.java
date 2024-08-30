@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.TransformationException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
@@ -24,6 +25,23 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NormExceptionHandler {
 
   private static final String CONTENT_FORMAT_TEMPLATE = "{\"message\": \"%s\"}";
+
+  // InvalidUpdateException
+  /**
+   * Exception handler method for handling {@link InvalidUpdateException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status and the exception message.
+   */
+  @ExceptionHandler(InvalidUpdateException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ResponseEntity<String> handleException(final InvalidUpdateException e) {
+
+    log.error("InvalidUpdateException: {}", e.getMessage(), e);
+
+    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  }
 
   /**
    * Exception handler method for handling {@link ValidationException}.

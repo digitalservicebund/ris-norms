@@ -158,14 +158,10 @@ public class NormController {
       consumes = {APPLICATION_XML_VALUE},
       produces = {APPLICATION_XML_VALUE})
   public ResponseEntity<String> updateAmendingLaw(final Eli eli, @RequestBody String xml) {
-    try {
-      return updateNormXmlUseCase
-          .updateNormXml(new UpdateNormXmlUseCase.Query(eli.getValue(), xml))
-          .map(ResponseEntity::ok)
-          .orElseGet(() -> ResponseEntity.notFound().build());
-    } catch (UpdateNormXmlUseCase.InvalidUpdateException e) {
-      return ResponseEntity.badRequest().body(e.getMessage());
-    }
+    var updatedAmendingLaw =
+        updateNormXmlUseCase.updateNormXml(new UpdateNormXmlUseCase.Query(eli.getValue(), xml));
+
+    return ResponseEntity.ok(updatedAmendingLaw);
   }
 
   /**

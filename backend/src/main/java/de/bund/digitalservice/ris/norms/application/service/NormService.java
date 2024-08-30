@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
@@ -65,28 +66,30 @@ public class NormService
   }
 
   @Override
-  public Optional<String> updateNormXml(UpdateNormXmlUseCase.Query query)
-      throws InvalidUpdateException {
-    var existingNorm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+  // TODO: why do I have to declare the exception, here?
+  public String updateNormXml(UpdateNormXmlUseCase.Query query) {
+    var existingNorm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
-    if (existingNorm.isEmpty()) {
-      return Optional.empty();
+    var normToBeUpdated = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
+
+    if (!existingNorm.getEli().equals(normToBeUpdated.getEli())) {
+      throw new InvalidUpdateException("Changing the ELI is not supported.");
     }
 
-    var updatedNorm = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
-
-    if (!existingNorm.get().getEli().equals(updatedNorm.getEli())) {
-      throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the ELI is not supported.");
+    if (!existingNorm.getGuid().equals(normToBeUpdated.getGuid())) {
+      throw new InvalidUpdateException("Changing the GUID is not supported.");
     }
 
-    if (!existingNorm.get().getGuid().equals(updatedNorm.getGuid())) {
-      throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the GUID is not supported.");
-    }
+    var updatedNorm =
+        updateNormPort
+            .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
+            .orElseThrow(
+                () -> new InvalidUpdateException("Invalid update %s".formatted(query.eli())));
 
-    return updateNormPort
-        .updateNorm(new UpdateNormPort.Command(updatedNorm))
-        .map(Norm::getDocument)
-        .map(XmlMapper::toString);
+    return XmlMapper.toString(updatedNorm.getDocument());
   }
 
   /**
