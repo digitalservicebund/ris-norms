@@ -65,7 +65,7 @@ jobs:
       - name: Install node modules
         run: npm ci
         working-directory: ./frontend
-      - name: Check style
+      - name: Run tests
         run: npm run test
         working-directory: ./frontend
       - name: Send status to Slack
