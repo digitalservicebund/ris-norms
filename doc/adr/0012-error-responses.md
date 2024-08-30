@@ -29,7 +29,7 @@ All error responses are JSON objects.
 
 The `type` field always starts with `/errors/`. Therefore, all errors are URLs relative to our application.
 
-For errors related to a specific norm the `instance` field is filled with the eli of the norm starting with `/eli/`.
+The `instance` field is filled with the api call URI that triggered the exception. **_NOTE:_** updated on 2024-08-30 because this is a Spring standard, and it will be easier to debug issues.
 
 Both `title` and `details` are written in english.
 
@@ -76,7 +76,8 @@ Example error response for NormNotFound:
  "type": "/errors/norm-not-found",
  "title": "Norm not found.",
  "details": "The requested norm (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1) could not be found.",
- "instance": "/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+ "instance": "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+ "eli": "/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
 }
 ```
 
@@ -114,13 +115,13 @@ Example error response for an invalid json object:
     "type": "/errors/proprietary-frame-schema-not-valid/fna-does-not-exist",
     "title": "FNA does not exist.",
     "details": "FNA \"48\" does not exist.",
-    "instance": "48"
+    "instance": "uri/to/api/call"
  }, {
     "pointer": "/ressort",
     "type": "/errors/proprietary-frame-schema-not-valid/ressort-does-not-exist",
     "title": "Ressort does not exist.",
     "details": "Ressort \"Bundesministerium für GIFs und Memes\" does not exist.",
-    "instance": "Bundesministerium für GIFs und Memes"
+    "instance": "uri/to/api/call"
  }]
 }
 ```
