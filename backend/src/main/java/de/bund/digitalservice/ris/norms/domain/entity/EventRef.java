@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class EventRef {
+
   private final Node node;
 
   public EId getEid() {

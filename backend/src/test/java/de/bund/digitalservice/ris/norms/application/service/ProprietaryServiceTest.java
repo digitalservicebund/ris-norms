@@ -20,13 +20,17 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ProprietaryServiceTest {
+
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
-  final ProprietaryService proprietaryService =
-      new ProprietaryService(loadNormPort, updateNormPort);
+  final ProprietaryService proprietaryService = new ProprietaryService(
+    loadNormPort,
+    updateNormPort
+  );
 
   @Nested
   class loadProprietary {
+
     @Test
     void throwsNormNotFoundExceptionIfNormNotFound() {
       // given
@@ -36,8 +40,8 @@ class ProprietaryServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
       // then
       assertThatThrownBy(() -> proprietaryService.loadProprietaryFromNorm(query))
-          // then
-          .isInstanceOf(NormNotFoundException.class);
+        // then
+        .isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
@@ -46,11 +50,12 @@ class ProprietaryServiceTest {
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithoutProprietary));
+        .thenReturn(Optional.of(normWithoutProprietary));
 
       // when
-      var result =
-          proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
+      var result = proprietaryService.loadProprietaryFromNorm(
+        new LoadProprietaryFromNormUseCase.Query(eli)
+      );
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -62,10 +67,11 @@ class ProprietaryServiceTest {
       var eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithProprietary));
+        .thenReturn(Optional.of(normWithProprietary));
       // when
-      var result =
-          proprietaryService.loadProprietaryFromNorm(new LoadProprietaryFromNormUseCase.Query(eli));
+      var result = proprietaryService.loadProprietaryFromNorm(
+        new LoadProprietaryFromNormUseCase.Query(eli)
+      );
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
     }
@@ -79,16 +85,28 @@ class ProprietaryServiceTest {
       // given
       var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       UpdateProprietaryFrameFromNormUseCase.Query query =
-          new UpdateProprietaryFrameFromNormUseCase.Query(
-              eli,
-              LocalDate.parse("2003-01-01"),
-              new UpdateProprietaryFrameFromNormUseCase.Metadata(
-                  "fna", null, null, null, null, null, null, null, null, null, null));
+        new UpdateProprietaryFrameFromNormUseCase.Query(
+          eli,
+          LocalDate.parse("2003-01-01"),
+          new UpdateProprietaryFrameFromNormUseCase.Metadata(
+            "fna",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          )
+        );
       // when
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
       assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromNorm(query))
-          // then
-          .isInstanceOf(NormNotFoundException.class);
+        // then
+        .isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
@@ -98,16 +116,28 @@ class ProprietaryServiceTest {
       var date = LocalDate.parse("2003-01-01");
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithoutProprietary));
+        .thenReturn(Optional.of(normWithoutProprietary));
 
       // when
-      var result =
-          proprietaryService.updateProprietaryFrameFromNorm(
-              new UpdateProprietaryFrameFromNormUseCase.Query(
-                  eli,
-                  date,
-                  new UpdateProprietaryFrameFromNormUseCase.Metadata(
-                      "fna", null, null, null, null, null, null, null, null, null, null)));
+      var result = proprietaryService.updateProprietaryFrameFromNorm(
+        new UpdateProprietaryFrameFromNormUseCase.Query(
+          eli,
+          date,
+          new UpdateProprietaryFrameFromNormUseCase.Metadata(
+            "fna",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          )
+        )
+      );
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -130,26 +160,28 @@ class ProprietaryServiceTest {
       var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithProprietary));
+        .thenReturn(Optional.of(normWithProprietary));
 
       // when
-      var result =
-          proprietaryService.updateProprietaryFrameFromNorm(
-              new UpdateProprietaryFrameFromNormUseCase.Query(
-                  eli,
-                  date,
-                  new UpdateProprietaryFrameFromNormUseCase.Metadata(
-                      "fna",
-                      "art",
-                      "typ",
-                      "subtype",
-                      "bezeichnungInVorlage",
-                      "ÄN,ÜN",
-                      "DDR",
-                      "Landtag",
-                      false,
-                      "BMJ - Bundesministerium der Justiz",
-                      "andere org einheit")));
+      var result = proprietaryService.updateProprietaryFrameFromNorm(
+        new UpdateProprietaryFrameFromNormUseCase.Query(
+          eli,
+          date,
+          new UpdateProprietaryFrameFromNormUseCase.Metadata(
+            "fna",
+            "art",
+            "typ",
+            "subtype",
+            "bezeichnungInVorlage",
+            "ÄN,ÜN",
+            "DDR",
+            "Landtag",
+            false,
+            "BMJ - Bundesministerium der Justiz",
+            "andere org einheit"
+          )
+        )
+      );
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -173,16 +205,28 @@ class ProprietaryServiceTest {
       var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithProprietary));
+        .thenReturn(Optional.of(normWithProprietary));
 
       // when
-      var result =
-          proprietaryService.updateProprietaryFrameFromNorm(
-              new UpdateProprietaryFrameFromNormUseCase.Query(
-                  eli,
-                  date,
-                  new UpdateProprietaryFrameFromNormUseCase.Metadata(
-                      null, null, null, null, null, null, null, null, null, null, null)));
+      var result = proprietaryService.updateProprietaryFrameFromNorm(
+        new UpdateProprietaryFrameFromNormUseCase.Query(
+          eli,
+          date,
+          new UpdateProprietaryFrameFromNormUseCase.Metadata(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          )
+        )
+      );
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -210,16 +254,17 @@ class ProprietaryServiceTest {
       var eid = "hauptteil-1_abschnitt-0_para-1";
       var eli = "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
       UpdateProprietarySingleElementFromNormUseCase.Query query =
-          new UpdateProprietarySingleElementFromNormUseCase.Query(
-              eli,
-              eid,
-              LocalDate.parse("2003-01-01"),
-              new UpdateProprietarySingleElementFromNormUseCase.Metadata("SN"));
+        new UpdateProprietarySingleElementFromNormUseCase.Query(
+          eli,
+          eid,
+          LocalDate.parse("2003-01-01"),
+          new UpdateProprietarySingleElementFromNormUseCase.Metadata("SN")
+        );
       // when
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
       assertThatThrownBy(() -> proprietaryService.updateProprietarySingleElementFromNorm(query))
-          // then
-          .isInstanceOf(NormNotFoundException.class);
+        // then
+        .isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
@@ -230,16 +275,17 @@ class ProprietaryServiceTest {
       var date = LocalDate.parse("2003-01-01");
       var normWithoutProprietary = NormFixtures.loadFromDisk("NormWithoutProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithoutProprietary));
+        .thenReturn(Optional.of(normWithoutProprietary));
 
       // when
-      var result =
-          proprietaryService.updateProprietarySingleElementFromNorm(
-              new UpdateProprietarySingleElementFromNormUseCase.Query(
-                  eli,
-                  eid,
-                  date,
-                  new UpdateProprietarySingleElementFromNormUseCase.Metadata("SN")));
+      var result = proprietaryService.updateProprietarySingleElementFromNorm(
+        new UpdateProprietarySingleElementFromNormUseCase.Query(
+          eli,
+          eid,
+          date,
+          new UpdateProprietarySingleElementFromNormUseCase.Metadata("SN")
+        )
+      );
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -254,16 +300,17 @@ class ProprietaryServiceTest {
       var date = LocalDate.parse("2003-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithProprietary));
+        .thenReturn(Optional.of(normWithProprietary));
 
       // when
-      var result =
-          proprietaryService.updateProprietarySingleElementFromNorm(
-              new UpdateProprietarySingleElementFromNormUseCase.Query(
-                  eli,
-                  eid,
-                  date,
-                  new UpdateProprietarySingleElementFromNormUseCase.Metadata("ÜN")));
+      var result = proprietaryService.updateProprietarySingleElementFromNorm(
+        new UpdateProprietarySingleElementFromNormUseCase.Query(
+          eli,
+          eid,
+          date,
+          new UpdateProprietarySingleElementFromNormUseCase.Metadata("ÜN")
+        )
+      );
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);
@@ -278,16 +325,17 @@ class ProprietaryServiceTest {
       var date = LocalDate.parse("1980-01-01");
       var normWithProprietary = NormFixtures.loadFromDisk("NormWithProprietary.xml");
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli)))
-          .thenReturn(Optional.of(normWithProprietary));
+        .thenReturn(Optional.of(normWithProprietary));
 
       // when
-      var result =
-          proprietaryService.updateProprietarySingleElementFromNorm(
-              new UpdateProprietarySingleElementFromNormUseCase.Query(
-                  eli,
-                  eid,
-                  date,
-                  new UpdateProprietarySingleElementFromNormUseCase.Metadata(null)));
+      var result = proprietaryService.updateProprietarySingleElementFromNorm(
+        new UpdateProprietarySingleElementFromNormUseCase.Query(
+          eli,
+          eid,
+          date,
+          new UpdateProprietarySingleElementFromNormUseCase.Metadata(null)
+        )
+      );
 
       // then
       assertThat(result).isInstanceOf(Proprietary.class);

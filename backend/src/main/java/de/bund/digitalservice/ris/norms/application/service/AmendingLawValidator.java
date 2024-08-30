@@ -26,9 +26,10 @@ public class AmendingLawValidator {
   private final SingleModValidator singleModValidator;
 
   public AmendingLawValidator(
-      final LoadNormPort loadNormPort,
-      final LoadZf0Service loadZf0Service,
-      final SingleModValidator singleModValidator) {
+    final LoadNormPort loadNormPort,
+    final LoadZf0Service loadZf0Service,
+    final SingleModValidator singleModValidator
+  ) {
     this.loadNormPort = loadNormPort;
     this.loadZf0Service = loadZf0Service;
     this.singleModValidator = singleModValidator;
@@ -48,42 +49,42 @@ public class AmendingLawValidator {
   }
 
   private void checkAllMods(Norm amendingNorm) {
-    final List<Article> articles =
-        amendingNorm.getArticles().stream()
-            .filter(
-                article -> {
-                  String articleRefersTo =
-                      article
-                          .getRefersTo()
-                          .orElseThrow(
-                              () ->
-                                  new ValidationException(
-                                      "For norm with Eli (%s): RefersTo is empty in article with eId %s"
-                                          .formatted(amendingNorm.getEli(), article.getEid())));
-                  return Objects.equals(articleRefersTo, "hauptaenderung");
-                })
-            .toList();
+    final List<Article> articles = amendingNorm
+      .getArticles()
+      .stream()
+      .filter(article -> {
+        String articleRefersTo = article
+          .getRefersTo()
+          .orElseThrow(() ->
+            new ValidationException(
+              "For norm with Eli (%s): RefersTo is empty in article with eId %s".formatted(
+                  amendingNorm.getEli(),
+                  article.getEid()
+                )
+            )
+          );
+        return Objects.equals(articleRefersTo, "hauptaenderung");
+      })
+      .toList();
 
     final List<Mod> mods = articles.stream().map(Article::getMods).flatMap(List::stream).toList();
 
-    mods.forEach(
-        mod -> {
-          final String targetNormEli =
-              mod.getTargetRefHref()
-                  .orElseThrow(() -> new ValidationException("Target href missing"))
-                  .getEli()
-                  .orElseThrow(() -> new ValidationException("Target eli missing"));
-          final Norm targetNorm =
-              loadNormPort
-                  .loadNorm(new LoadNormPort.Command(targetNormEli))
-                  .orElseThrow(
-                      () ->
-                          new ValidationException(
-                              String.format("Target law with eli %s missing", targetNormEli)));
-          final Norm zf0Norm =
-              loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
-          singleModValidator.validate(zf0Norm, mod);
-        });
+    mods.forEach(mod -> {
+      final String targetNormEli = mod
+        .getTargetRefHref()
+        .orElseThrow(() -> new ValidationException("Target href missing"))
+        .getEli()
+        .orElseThrow(() -> new ValidationException("Target eli missing"));
+      final Norm targetNorm = loadNormPort
+        .loadNorm(new LoadNormPort.Command(targetNormEli))
+        .orElseThrow(() ->
+          new ValidationException(String.format("Target law with eli %s missing", targetNormEli))
+        );
+      final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
+        new LoadZf0UseCase.Query(amendingNorm, targetNorm)
+      );
+      singleModValidator.validate(zf0Norm, mod);
+    });
   }
 
   /**
@@ -100,80 +101,94 @@ public class AmendingLawValidator {
 
   private void validateActiveModificationsEli(Norm amendingNorm) {
     amendingNorm
-        .getMeta()
-        .getAnalysis()
-        .map(Analysis::getActiveModifications)
-        .orElse(Collections.emptyList())
-        .forEach(
-            tm ->
-                tm.getDestinationHref()
-                    .orElseThrow(
-                        () -> {
-                          String amendingNormEli = amendingNorm.getEli();
-                          return new ValidationException(
-                              "For norm with Eli (%s): ActiveModification Destination Href is empty where textualMod eId is %s"
-                                  .formatted(
-                                      amendingNormEli, getTextualModEId(amendingNormEli, tm)));
-                        })
-                    .getEli()
-                    .orElseThrow(
-                        () -> {
-                          String amendingNormEli = amendingNorm.getEli();
-                          return new ValidationException(
-                              "For norm with Eli (%s): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is %s"
-                                  .formatted(
-                                      amendingNormEli, getTextualModEId(amendingNormEli, tm)));
-                        }));
+      .getMeta()
+      .getAnalysis()
+      .map(Analysis::getActiveModifications)
+      .orElse(Collections.emptyList())
+      .forEach(tm ->
+        tm
+          .getDestinationHref()
+          .orElseThrow(() -> {
+            String amendingNormEli = amendingNorm.getEli();
+            return new ValidationException(
+              "For norm with Eli (%s): ActiveModification Destination Href is empty where textualMod eId is %s".formatted(
+                  amendingNormEli,
+                  getTextualModEId(amendingNormEli, tm)
+                )
+            );
+          })
+          .getEli()
+          .orElseThrow(() -> {
+            String amendingNormEli = amendingNorm.getEli();
+            return new ValidationException(
+              "For norm with Eli (%s): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is %s".formatted(
+                  amendingNormEli,
+                  getTextualModEId(amendingNormEli, tm)
+                )
+            );
+          })
+      );
   }
 
   private void validateArticlesEli(Norm amendingNorm) {
-    amendingNorm.getArticles().stream()
-        .filter(
-            article -> {
-              String articleRefersTo;
-              try {
-                articleRefersTo =
-                    article
-                        .getRefersTo()
-                        .orElseThrow(
-                            () ->
-                                new ValidationException(
-                                    "For norm with Eli (%s): RefersTo is empty in article with eId %s"
-                                        .formatted(amendingNorm.getEli(), article.getEid().get())));
-              } catch (NullPointerException e) {
-                throw new ValidationException(e.getMessage());
-              }
+    amendingNorm
+      .getArticles()
+      .stream()
+      .filter(article -> {
+        String articleRefersTo;
+        try {
+          articleRefersTo =
+          article
+            .getRefersTo()
+            .orElseThrow(() ->
+              new ValidationException(
+                "For norm with Eli (%s): RefersTo is empty in article with eId %s".formatted(
+                    amendingNorm.getEli(),
+                    article.getEid().get()
+                  )
+              )
+            );
+        } catch (NullPointerException e) {
+          throw new ValidationException(e.getMessage());
+        }
 
-              return Objects.equals(articleRefersTo, "hauptaenderung");
-            })
-        .forEach(
-            article -> {
-              String amendingNormEli = amendingNorm.getEli();
-              String articleEId = article.getMandatoryEid();
-              validateAknModEli(amendingNormEli, article, articleEId);
-              validateAffectedDocumentEli(amendingNormEli, article, articleEId);
-            });
+        return Objects.equals(articleRefersTo, "hauptaenderung");
+      })
+      .forEach(article -> {
+        String amendingNormEli = amendingNorm.getEli();
+        String articleEId = article.getMandatoryEid();
+        validateAknModEli(amendingNormEli, article, articleEId);
+        validateAffectedDocumentEli(amendingNormEli, article, articleEId);
+      });
   }
 
   private void validateAknModEli(String amendingNormEli, Article article, String articleEId) {
     List<Mod> mods = article.getMods();
-    mods.forEach(
-        mod -> {
-          Optional<String> eli = getModTargetHref(amendingNormEli, mod, articleEId).getEli();
-          if (eli.isEmpty()) {
-            throw new ValidationException(
-                "For norm with Eli (%s): The Eli in aknMod href is empty in article with eId %s"
-                    .formatted(amendingNormEli, articleEId));
-          }
-        });
+    mods.forEach(mod -> {
+      Optional<String> eli = getModTargetHref(amendingNormEli, mod, articleEId).getEli();
+      if (eli.isEmpty()) {
+        throw new ValidationException(
+          "For norm with Eli (%s): The Eli in aknMod href is empty in article with eId %s".formatted(
+              amendingNormEli,
+              articleEId
+            )
+        );
+      }
+    });
   }
 
   private void validateAffectedDocumentEli(
-      String amendingNormEli, Article article, String articleEId) {
+    String amendingNormEli,
+    Article article,
+    String articleEId
+  ) {
     if (article.getAffectedDocumentEli().isEmpty()) {
       throw new ValidationException(
-          "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
-              .formatted(amendingNormEli, articleEId));
+        "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s".formatted(
+            amendingNormEli,
+            articleEId
+          )
+      );
     }
   }
 
@@ -184,39 +199,42 @@ public class AmendingLawValidator {
    * @param amendingNorm the amending law to be checked
    */
   public void destinationEliIsConsistent(Norm amendingNorm) {
-    Set<String> affectedDocumentElis =
-        amendingNorm.getArticles().stream()
-            .map(Article::getAffectedDocumentEli)
-            .flatMap(Optional::stream)
-            .collect(Collectors.toSet());
+    Set<String> affectedDocumentElis = amendingNorm
+      .getArticles()
+      .stream()
+      .map(Article::getAffectedDocumentEli)
+      .flatMap(Optional::stream)
+      .collect(Collectors.toSet());
 
-    Set<String> activeModificationsDestinationElis =
-        amendingNorm
-            .getMeta()
-            .getAnalysis()
-            .map(Analysis::getActiveModifications)
-            .orElse(Collections.emptyList())
-            .stream()
-            .map(TextualMod::getDestinationHref)
-            .flatMap(Optional::stream)
-            .map(Href::getEli)
-            .flatMap(Optional::stream)
-            .collect(Collectors.toSet());
+    Set<String> activeModificationsDestinationElis = amendingNorm
+      .getMeta()
+      .getAnalysis()
+      .map(Analysis::getActiveModifications)
+      .orElse(Collections.emptyList())
+      .stream()
+      .map(TextualMod::getDestinationHref)
+      .flatMap(Optional::stream)
+      .map(Href::getEli)
+      .flatMap(Optional::stream)
+      .collect(Collectors.toSet());
 
-    Set<String> aknModElis =
-        amendingNorm.getArticles().stream()
-            .map(Article::getMods)
-            .flatMap(List::stream)
-            .map(Mod::getTargetRefHref)
-            .flatMap(Optional::stream)
-            .map(Href::getEli)
-            .flatMap(Optional::stream)
-            .collect(Collectors.toSet());
+    Set<String> aknModElis = amendingNorm
+      .getArticles()
+      .stream()
+      .map(Article::getMods)
+      .flatMap(List::stream)
+      .map(Mod::getTargetRefHref)
+      .flatMap(Optional::stream)
+      .map(Href::getEli)
+      .flatMap(Optional::stream)
+      .collect(Collectors.toSet());
 
-    if (!affectedDocumentElis.equals(activeModificationsDestinationElis)
-        && !activeModificationsDestinationElis.equals(aknModElis))
-      throw new ValidationException(
-          "For norm with Eli (%s): Elis are not consistent".formatted(amendingNorm.getEli()));
+    if (
+      !affectedDocumentElis.equals(activeModificationsDestinationElis) &&
+      !activeModificationsDestinationElis.equals(aknModElis)
+    ) throw new ValidationException(
+      "For norm with Eli (%s): Elis are not consistent".formatted(amendingNorm.getEli())
+    );
   }
 
   /**
@@ -226,44 +244,47 @@ public class AmendingLawValidator {
    * @param amendingNorm the amending law to be checked
    */
   public void destinationHrefIsConsistent(Norm amendingNorm) {
-    Set<Href> activeModificationsDestinationHrefs =
-        amendingNorm
-            .getMeta()
-            .getAnalysis()
-            .map(Analysis::getActiveModifications)
-            .orElse(Collections.emptyList())
-            .stream()
-            .map(TextualMod::getDestinationHref)
-            .flatMap(Optional::stream)
-            .collect(Collectors.toSet());
+    Set<Href> activeModificationsDestinationHrefs = amendingNorm
+      .getMeta()
+      .getAnalysis()
+      .map(Analysis::getActiveModifications)
+      .orElse(Collections.emptyList())
+      .stream()
+      .map(TextualMod::getDestinationHref)
+      .flatMap(Optional::stream)
+      .collect(Collectors.toSet());
 
-    Set<Href> aknModHrefs =
-        amendingNorm.getArticles().stream()
-            .map(Article::getMods)
-            .flatMap(List::stream)
-            .map(Mod::getTargetRefHref)
-            .flatMap(Optional::stream)
-            .collect(Collectors.toSet());
-    if (!activeModificationsDestinationHrefs.equals(aknModHrefs))
-      throw new ValidationException(
-          "For norm with Eli (%s): Eids are not consistent".formatted(amendingNorm.getEli()));
+    Set<Href> aknModHrefs = amendingNorm
+      .getArticles()
+      .stream()
+      .map(Article::getMods)
+      .flatMap(List::stream)
+      .map(Mod::getTargetRefHref)
+      .flatMap(Optional::stream)
+      .collect(Collectors.toSet());
+    if (!activeModificationsDestinationHrefs.equals(aknModHrefs)) throw new ValidationException(
+      "For norm with Eli (%s): Eids are not consistent".formatted(amendingNorm.getEli())
+    );
   }
 
   private Href getModTargetHref(String eli, Mod m, String modEId) {
-    return m.getTargetRefHref()
-        .orElseThrow(
-            () ->
-                new ValidationException(
-                    "For norm with Eli (%s): mod href is empty in article mod with eId %s"
-                        .formatted(eli, modEId)));
+    return m
+      .getTargetRefHref()
+      .orElseThrow(() ->
+        new ValidationException(
+          "For norm with Eli (%s): mod href is empty in article mod with eId %s".formatted(
+              eli,
+              modEId
+            )
+        )
+      );
   }
 
   private String getTextualModEId(String eli, TextualMod textualMod) {
     return textualMod
-        .getEid()
-        .orElseThrow(
-            () ->
-                new ValidationException(
-                    "For norm with Eli (%s): TextualMod eId empty.".formatted(eli)));
+      .getEid()
+      .orElseThrow(() ->
+        new ValidationException("For norm with Eli (%s): TextualMod eId empty.".formatted(eli))
+      );
   }
 }

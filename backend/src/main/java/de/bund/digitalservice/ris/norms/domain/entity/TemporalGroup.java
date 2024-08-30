@@ -12,6 +12,7 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class TemporalGroup {
+
   private final Node node;
 
   /**
@@ -29,8 +30,9 @@ public class TemporalGroup {
    * @return the TimeInterval node as {@link TimeInterval}
    */
   public TimeInterval getTimeInterval() {
-    return NodeParser.getNodeFromExpression("./timeInterval", node)
-        .map(TimeInterval::new)
-        .orElseThrow();
+    return NodeParser
+      .getNodeFromExpression("./timeInterval", node)
+      .map(TimeInterval::new)
+      .orElseThrow();
   }
 }

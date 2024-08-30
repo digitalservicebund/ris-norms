@@ -15,18 +15,21 @@ import org.springframework.web.bind.annotation.*;
 /** Controller for retrieving a norm's elements. */
 @RestController
 @RequestMapping(
-    "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/elements")
+  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/elements"
+)
 public class ElementController {
+
   private final LoadElementFromNormUseCase loadElementFromNormUseCase;
   private final LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
   private final LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
   private final LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase;
 
   public ElementController(
-      LoadElementFromNormUseCase loadElementFromNormUseCase,
-      LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase,
-      LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase,
-      LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase) {
+    LoadElementFromNormUseCase loadElementFromNormUseCase,
+    LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase,
+    LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase,
+    LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase
+  ) {
     this.loadElementFromNormUseCase = loadElementFromNormUseCase;
     this.loadElementHtmlFromNormUseCase = loadElementHtmlFromNormUseCase;
     this.loadElementHtmlAtDateFromNormUseCase = loadElementHtmlAtDateFromNormUseCase;
@@ -46,23 +49,25 @@ public class ElementController {
    * @return A {@link ResponseEntity} containing the HTML.
    *     <p>Returns HTTP 400 (Bad Request) if ELI or EID can not be found
    */
-  @GetMapping(
-      path = "/{eid}",
-      produces = {TEXT_HTML_VALUE})
+  @GetMapping(path = "/{eid}", produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getElementHtmlPreview(
-      final Eli eli, @PathVariable final String eid, @RequestParam Optional<Instant> atIsoDate) {
-
+    final Eli eli,
+    @PathVariable final String eid,
+    @RequestParam Optional<Instant> atIsoDate
+  ) {
     return atIsoDate
-        .map(
-            date ->
-                loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(
-                    new LoadElementHtmlAtDateFromNormUseCase.Query(eli.getValue(), eid, date)))
-        .orElseGet(
-            () ->
-                loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
-                    new LoadElementHtmlFromNormUseCase.Query(eli.getValue(), eid)))
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+      .map(date ->
+        loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(
+          new LoadElementHtmlAtDateFromNormUseCase.Query(eli.getValue(), eid, date)
+        )
+      )
+      .orElseGet(() ->
+        loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
+          new LoadElementHtmlFromNormUseCase.Query(eli.getValue(), eid)
+        )
+      )
+      .map(ResponseEntity::ok)
+      .orElse(ResponseEntity.notFound().build());
   }
 
   /**
@@ -76,17 +81,16 @@ public class ElementController {
    * @return A {@link ResponseEntity} containing the element's information.
    *     <p>Returns HTTP 400 (Bad Request) if ELI or EID can not be found
    */
-  @GetMapping(
-      path = "/{eid}",
-      produces = {APPLICATION_JSON_VALUE})
+  @GetMapping(path = "/{eid}", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ElementResponseSchema> getElementInfo(
-      final Eli eli, @PathVariable final String eid) {
-
+    final Eli eli,
+    @PathVariable final String eid
+  ) {
     return loadElementFromNormUseCase
-        .loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli.getValue(), eid))
-        .map(ElementResponseMapper::fromElementNode)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+      .loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli.getValue(), eid))
+      .map(ElementResponseMapper::fromElementNode)
+      .map(ResponseEntity::ok)
+      .orElse(ResponseEntity.notFound().build());
   }
 
   /**
@@ -105,21 +109,24 @@ public class ElementController {
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    *     <p>Returns HTTP 500 (Server error) if an unsupported type is provided.
    */
-  @GetMapping(produces = {APPLICATION_JSON_VALUE})
+  @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ElementResponseSchema>> getElementList(
-      final Eli eli,
-      @RequestParam final String[] type,
-      @RequestParam final Optional<String> amendedBy) {
-
+    final Eli eli,
+    @RequestParam final String[] type,
+    @RequestParam final Optional<String> amendedBy
+  ) {
     try {
-      List<ElementResponseSchema> elements =
-          loadElementsByTypeFromNormUseCase
-              .loadElementsByTypeFromNorm(
-                  new LoadElementsByTypeFromNormUseCase.Query(
-                      eli.getValue(), Arrays.asList(type), amendedBy.orElse(null)))
-              .stream()
-              .map(ElementResponseMapper::fromElementNode)
-              .toList();
+      List<ElementResponseSchema> elements = loadElementsByTypeFromNormUseCase
+        .loadElementsByTypeFromNorm(
+          new LoadElementsByTypeFromNormUseCase.Query(
+            eli.getValue(),
+            Arrays.asList(type),
+            amendedBy.orElse(null)
+          )
+        )
+        .stream()
+        .map(ElementResponseMapper::fromElementNode)
+        .toList();
 
       return ResponseEntity.ok(elements);
     } catch (LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException e) {

@@ -32,12 +32,13 @@ public class FrameWorkExceptionHandler {
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseEntity<String> handleHttpMessageNotReadableException(
-      final HttpMessageNotReadableException e) {
-
+    final HttpMessageNotReadableException e
+  ) {
     log.error("HttpMessageNotReadableException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ResponseEntity
+      .status(HttpStatus.BAD_REQUEST)
+      .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 
   /**
@@ -50,24 +51,25 @@ public class FrameWorkExceptionHandler {
   @ExceptionHandler(HandlerMethodValidationException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseEntity<String> handleHandlerMethodValidationException(
-      final HandlerMethodValidationException e) {
-
-    e.getAllValidationResults()
-        .forEach(
-            validationResults ->
-                validationResults
-                    .getResolvableErrors()
-                    .forEach(
-                        resolvableErrors ->
-                            log.error(
-                                "Validation Error: {}", resolvableErrors.getDefaultMessage())));
+    final HandlerMethodValidationException e
+  ) {
+    e
+      .getAllValidationResults()
+      .forEach(validationResults ->
+        validationResults
+          .getResolvableErrors()
+          .forEach(resolvableErrors ->
+            log.error("Validation Error: {}", resolvableErrors.getDefaultMessage())
+          )
+      );
 
     log.error("HandlerMethodValidationException: {}", e.getMessage(), e);
 
     final String safeMessage = e.getMessage().replace("\"", "'");
 
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(safeMessage));
+    return ResponseEntity
+      .status(HttpStatus.BAD_REQUEST)
+      .body(CONTENT_FORMAT_TEMPLATE.formatted(safeMessage));
   }
 
   /**
@@ -79,11 +81,11 @@ public class FrameWorkExceptionHandler {
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<String> handleException(final Exception e) {
-
     log.error("Internal server error: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ResponseEntity
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 
   /**
@@ -103,7 +105,8 @@ public class FrameWorkExceptionHandler {
    */
   @ExceptionHandler(AsyncRequestNotUsableException.class)
   public ResponseEntity<Object> handleAsyncRequestNotUsableException(
-      AsyncRequestNotUsableException e) {
+    AsyncRequestNotUsableException e
+  ) {
     log.debug("Async request was not usable: ", e);
     return null;
   }

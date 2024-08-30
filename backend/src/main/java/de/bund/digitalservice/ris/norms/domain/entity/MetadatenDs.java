@@ -71,9 +71,11 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
    * @return an optional string value of the attribute, if found
    */
   public Optional<String> getAttributeOfSimpleMetadatumAt(
-      final MetadatenDs.Attribute attribute, final LocalDate date) {
+    final MetadatenDs.Attribute attribute,
+    final LocalDate date
+  ) {
     return getSimpleNodeAt(attribute.simpleMetadatum, date)
-        .flatMap(m -> m.getAttribute(attribute.name));
+      .flatMap(m -> m.getAttribute(attribute.name));
   }
 
   /**
@@ -84,16 +86,18 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
    * @param newValue the new value
    */
   public void setAttributeOfSimpleMetadatum(
-      final MetadatenDs.Attribute attribute, final LocalDate date, final String newValue) {
+    final MetadatenDs.Attribute attribute,
+    final LocalDate date,
+    final String newValue
+  ) {
     getSimpleNodeAt(attribute.simpleMetadatum, date)
-        .ifPresent(
-            m -> {
-              if (m.getValue().isEmpty()) {
-                m.removeAttribute(attribute.name);
-              } else {
-                m.setAttribute(attribute.name, newValue);
-              }
-            });
+      .ifPresent(m -> {
+        if (m.getValue().isEmpty()) {
+          m.removeAttribute(attribute.name);
+        } else {
+          m.setAttribute(attribute.name, newValue);
+        }
+      });
   }
 
   /**
@@ -106,10 +110,13 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
    * @return value of the requested metadata element or empty if it doesn't exist
    */
   public Optional<String> getSingleElementSimpleMetadatum(
-      final Einzelelement.Metadata metadatumSingleElement, final String eid, final LocalDate date) {
-    return NodeParser.getNodeFromExpression(
-            "./einzelelement[@href='#%s']".formatted(eid), this.getNode())
-        .flatMap(node -> new Einzelelement(node).getSimpleMetadatum(metadatumSingleElement, date));
+    final Einzelelement.Metadata metadatumSingleElement,
+    final String eid,
+    final LocalDate date
+  ) {
+    return NodeParser
+      .getNodeFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
+      .flatMap(node -> new Einzelelement(node).getSimpleMetadatum(metadatumSingleElement, date));
   }
 
   /**
@@ -123,40 +130,45 @@ public class MetadatenDs extends Metadaten<MetadatenDs.Metadata> {
    * @param newValue the new value
    */
   public void updateSingleElementSimpleMetadatum(
-      final Einzelelement.Metadata metadatumSingleElement,
-      final String eid,
-      final LocalDate date,
-      final String newValue) {
-    NodeParser.getNodeFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
-        .ifPresentOrElse(
-            nodeFound -> {
-              Einzelelement e = new Einzelelement(nodeFound);
-              e.updateSimpleMetadatum(metadatumSingleElement, date, newValue);
+    final Einzelelement.Metadata metadatumSingleElement,
+    final String eid,
+    final LocalDate date,
+    final String newValue
+  ) {
+    NodeParser
+      .getNodeFromExpression("./einzelelement[@href='#%s']".formatted(eid), this.getNode())
+      .ifPresentOrElse(
+        nodeFound -> {
+          Einzelelement e = new Einzelelement(nodeFound);
+          e.updateSimpleMetadatum(metadatumSingleElement, date, newValue);
 
-              var nodeList = nodeFound.getChildNodes();
-              boolean nodeIsEmpty = true;
+          var nodeList = nodeFound.getChildNodes();
+          boolean nodeIsEmpty = true;
 
-              // all child nodes need to be not of type ELEMENT_NODE
-              for (int i = 0; i < nodeList.getLength(); i++) {
-                if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                  nodeIsEmpty = false;
-                  break;
-                }
-              }
+          // all child nodes need to be not of type ELEMENT_NODE
+          for (int i = 0; i < nodeList.getLength(); i++) {
+            if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+              nodeIsEmpty = false;
+              break;
+            }
+          }
 
-              if (nodeIsEmpty) {
-                nodeFound.getParentNode().removeChild(nodeFound);
-              }
-            },
-            () -> {
-              if (StringUtils.isNotEmpty(newValue)) {
-                // Create and set the new element
-                final Element newElement =
-                    NodeCreator.createElement("meta:einzelelement", this.getNode());
-                newElement.setAttribute("href", "#%s".formatted(eid));
-                new Einzelelement(newElement)
-                    .updateSimpleMetadatum(metadatumSingleElement, date, newValue);
-              }
-            });
+          if (nodeIsEmpty) {
+            nodeFound.getParentNode().removeChild(nodeFound);
+          }
+        },
+        () -> {
+          if (StringUtils.isNotEmpty(newValue)) {
+            // Create and set the new element
+            final Element newElement = NodeCreator.createElement(
+              "meta:einzelelement",
+              this.getNode()
+            );
+            newElement.setAttribute("href", "#%s".formatted(eid));
+            new Einzelelement(newElement)
+              .updateSimpleMetadatum(metadatumSingleElement, date, newValue);
+          }
+        }
+      );
   }
 }

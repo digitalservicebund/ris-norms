@@ -42,14 +42,15 @@ public class XsltTransformationService implements TransformLegalDocMlToHtmlUseCa
       String inputXml = query.xml();
       if (query.snippet()) {
         inputXml =
-            "<akn:akomaNtoso xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\">"
-                + inputXml
-                + "</akn:akomaNtoso>";
+        "<akn:akomaNtoso xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.6/\">" +
+        inputXml +
+        "</akn:akomaNtoso>";
       }
       StringWriter output = new StringWriter();
       transformer.transform(
-          new StreamSource(new ByteArrayInputStream(inputXml.getBytes())),
-          new StreamResult(output));
+        new StreamSource(new ByteArrayInputStream(inputXml.getBytes())),
+        new StreamResult(output)
+      );
       return output.toString();
     } catch (IOException | TransformerException e) {
       throw new XmlProcessingException(e.getMessage(), e);

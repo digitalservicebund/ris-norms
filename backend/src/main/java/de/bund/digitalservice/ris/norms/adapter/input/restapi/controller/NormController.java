@@ -31,7 +31,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(
-    "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}")
+  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}"
+)
 public class NormController {
 
   private final LoadNormUseCase loadNormUseCase;
@@ -43,13 +44,14 @@ public class NormController {
   private final UpdateModsUseCase updateModsUseCase;
 
   public NormController(
-      LoadNormUseCase loadNormUseCase,
-      LoadNormXmlUseCase loadNormXmlUseCase,
-      UpdateNormXmlUseCase updateNormXmlUseCase,
-      TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
-      ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
-      UpdateModUseCase updateModUseCase,
-      UpdateModsUseCase updateModsUseCase) {
+    LoadNormUseCase loadNormUseCase,
+    LoadNormXmlUseCase loadNormXmlUseCase,
+    UpdateNormXmlUseCase updateNormXmlUseCase,
+    TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase,
+    ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase,
+    UpdateModUseCase updateModUseCase,
+    UpdateModsUseCase updateModsUseCase
+  ) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadNormXmlUseCase = loadNormXmlUseCase;
     this.updateNormXmlUseCase = updateNormXmlUseCase;
@@ -71,7 +73,7 @@ public class NormController {
    *     <p>Returns HTTP 200 (OK) and the norm if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @GetMapping(produces = {APPLICATION_JSON_VALUE})
+  @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<NormResponseSchema> getNorm(final Eli eli) {
     var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
@@ -89,12 +91,12 @@ public class NormController {
    *     <p>Returns HTTP 200 (OK) and the norm's xml if found.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @GetMapping(produces = {APPLICATION_XML_VALUE})
+  @GetMapping(produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> getNormXml(final Eli eli) {
     return loadNormXmlUseCase
-        .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+      .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
+      .map(ResponseEntity::ok)
+      .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   /**
@@ -112,11 +114,12 @@ public class NormController {
    *     <p>Returns HTTP 200 (OK) and the norm as rendered html.
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
-  @GetMapping(produces = {TEXT_HTML_VALUE})
+  @GetMapping(produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getNormRender(
-      final Eli eli,
-      @RequestParam(defaultValue = "false") boolean showMetadata,
-      @RequestParam Optional<String> atIsoDate) {
+    final Eli eli,
+    @RequestParam(defaultValue = "false") boolean showMetadata,
+    @RequestParam Optional<String> atIsoDate
+  ) {
     if (atIsoDate.isPresent()) {
       try {
         DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
@@ -126,23 +129,31 @@ public class NormController {
 
       var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
       norm =
-          applyPassiveModificationsUseCase.applyPassiveModifications(
-              new ApplyPassiveModificationsUseCase.Query(norm, Instant.parse(atIsoDate.get())));
+      applyPassiveModificationsUseCase.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(norm, Instant.parse(atIsoDate.get()))
+      );
 
       return ResponseEntity.ok(
-          this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-              new TransformLegalDocMlToHtmlUseCase.Query(
-                  XmlMapper.toString(norm.getDocument()), showMetadata, false)));
+        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(
+              XmlMapper.toString(norm.getDocument()),
+              showMetadata,
+              false
+            )
+          )
+      );
     }
 
     return loadNormXmlUseCase
-        .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
-        .map(
-            xml ->
-                ResponseEntity.ok(
-                    this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata, false))))
-        .orElseGet(() -> ResponseEntity.notFound().build());
+      .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
+      .map(xml ->
+        ResponseEntity.ok(
+          this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+              new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata, false)
+            )
+        )
+      )
+      .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   /**
@@ -158,15 +169,13 @@ public class NormController {
    *     <p>Returns HTTP 200 (OK) with the saved XML as response payload.
    *     <p>Returns HTTP 404 (Not Found) if the amending law is not found.
    */
-  @PutMapping(
-      consumes = {APPLICATION_XML_VALUE},
-      produces = {APPLICATION_XML_VALUE})
+  @PutMapping(consumes = { APPLICATION_XML_VALUE }, produces = { APPLICATION_XML_VALUE })
   public ResponseEntity<String> updateAmendingLaw(final Eli eli, @RequestBody String xml) {
     try {
       return updateNormXmlUseCase
-          .updateNormXml(new UpdateNormXmlUseCase.Query(eli.getValue(), xml))
-          .map(ResponseEntity::ok)
-          .orElseGet(() -> ResponseEntity.notFound().build());
+        .updateNormXml(new UpdateNormXmlUseCase.Query(eli.getValue(), xml))
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
     } catch (UpdateNormXmlUseCase.InvalidUpdateException e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
@@ -186,29 +195,32 @@ public class NormController {
    *     found.
    */
   @PutMapping(
-      path = "/mods/{eid}",
-      consumes = {APPLICATION_JSON_VALUE},
-      produces = {APPLICATION_JSON_VALUE})
+    path = "/mods/{eid}",
+    consumes = { APPLICATION_JSON_VALUE },
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<UpdateModResponseSchema> updateMod(
-      final Eli eli,
-      @PathVariable final String eid,
-      @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
-      @RequestParam(defaultValue = "false") final Boolean dryRun) {
-
+    final Eli eli,
+    @PathVariable final String eid,
+    @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
+    @RequestParam(defaultValue = "false") final Boolean dryRun
+  ) {
     return updateModUseCase
-        .updateMod(
-            new UpdateModUseCase.Query(
-                eli.getValue(),
-                eid,
-                updateModRequestSchema.getRefersTo(),
-                updateModRequestSchema.getTimeBoundaryEid(),
-                updateModRequestSchema.getDestinationHref(),
-                updateModRequestSchema.getDestinationUpTo(),
-                updateModRequestSchema.getNewContent(),
-                dryRun))
-        .map(UpdateModResponseMapper::fromResult)
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+      .updateMod(
+        new UpdateModUseCase.Query(
+          eli.getValue(),
+          eid,
+          updateModRequestSchema.getRefersTo(),
+          updateModRequestSchema.getTimeBoundaryEid(),
+          updateModRequestSchema.getDestinationHref(),
+          updateModRequestSchema.getDestinationUpTo(),
+          updateModRequestSchema.getNewContent(),
+          dryRun
+        )
+      )
+      .map(UpdateModResponseMapper::fromResult)
+      .map(ResponseEntity::ok)
+      .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   /**
@@ -224,28 +236,34 @@ public class NormController {
    *     found.
    */
   @PatchMapping(
-      path = "/mods",
-      consumes = {APPLICATION_JSON_VALUE},
-      produces = {APPLICATION_JSON_VALUE})
+    path = "/mods",
+    consumes = { APPLICATION_JSON_VALUE },
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<UpdateModsResponseSchema> updateMods(
-      final Eli eli,
-      @RequestBody @Valid
-          final Map<String, UpdateModsRequestSchema.ModUpdate> updateModsRequestSchema,
-      @RequestParam(defaultValue = "false") final Boolean dryRun) {
-
+    final Eli eli,
+    @RequestBody @Valid final Map<
+      String,
+      UpdateModsRequestSchema.ModUpdate
+    > updateModsRequestSchema,
+    @RequestParam(defaultValue = "false") final Boolean dryRun
+  ) {
     return updateModsUseCase
-        .updateMods(
-            new UpdateModsUseCase.Query(
-                eli.getValue(),
-                updateModsRequestSchema.entrySet().stream()
-                    .map(
-                        entry ->
-                            new UpdateModsUseCase.NewModData(
-                                entry.getKey(), entry.getValue().timeBoundaryEid()))
-                    .toList(),
-                dryRun))
-        .map(UpdateModsResponseMapper::fromResult)
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.unprocessableEntity().build());
+      .updateMods(
+        new UpdateModsUseCase.Query(
+          eli.getValue(),
+          updateModsRequestSchema
+            .entrySet()
+            .stream()
+            .map(entry ->
+              new UpdateModsUseCase.NewModData(entry.getKey(), entry.getValue().timeBoundaryEid())
+            )
+            .toList(),
+          dryRun
+        )
+      )
+      .map(UpdateModsResponseMapper::fromResult)
+      .map(ResponseEntity::ok)
+      .orElseGet(() -> ResponseEntity.unprocessableEntity().build());
   }
 }

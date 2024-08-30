@@ -68,9 +68,9 @@ class NodeParserTest {
 
   @Test
   void nodeListToListMultipleElements() {
-    Node node =
-        XmlMapper.toDocument("<foo><test>testValue</test><test>testValue2</test></foo>")
-            .getFirstChild();
+    Node node = XmlMapper
+      .toDocument("<foo><test>testValue</test><test>testValue2</test></foo>")
+      .getFirstChild();
     var nodes = NodeParser.nodeListToList(node.getChildNodes());
     assertThat(nodes).hasSize(2);
   }

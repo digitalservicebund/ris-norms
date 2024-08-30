@@ -15,6 +15,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 public class ReleaseResponseSchema {
+
   private Instant releaseAt;
   private String amendingLawEli;
   private List<String> zf0Elis;

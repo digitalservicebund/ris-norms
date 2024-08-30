@@ -21,8 +21,10 @@ public class TemporalData {
    * @return the list of {@link TemporalGroup}
    */
   public List<TemporalGroup> getTemporalGroups() {
-    return NodeParser.getNodesFromExpression("./temporalGroup", node).stream()
-        .map(TemporalGroup::new)
-        .toList();
+    return NodeParser
+      .getNodesFromExpression("./temporalGroup", node)
+      .stream()
+      .map(TemporalGroup::new)
+      .toList();
   }
 }

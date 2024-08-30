@@ -16,18 +16,18 @@ import org.springframework.stereotype.Service;
 /** Service for loading a norm's articles */
 @Service
 public class ArticleService
-    implements LoadArticleHtmlUseCase,
-        LoadArticlesFromNormUseCase,
-        LoadSpecificArticlesXmlFromNormUseCase {
+  implements
+    LoadArticleHtmlUseCase, LoadArticlesFromNormUseCase, LoadSpecificArticlesXmlFromNormUseCase {
 
   LoadNormPort loadNormPort;
   TimeMachineService timeMachineService;
   XsltTransformationService xsltTransformationService;
 
   public ArticleService(
-      LoadNormPort loadNormPort,
-      TimeMachineService timeMachineService,
-      XsltTransformationService xsltTransformationService) {
+    LoadNormPort loadNormPort,
+    TimeMachineService timeMachineService,
+    XsltTransformationService xsltTransformationService
+  ) {
     this.loadNormPort = loadNormPort;
     this.timeMachineService = timeMachineService;
     this.xsltTransformationService = xsltTransformationService;
@@ -35,27 +35,29 @@ public class ArticleService
 
   @Override
   public String loadArticleHtml(final LoadArticleHtmlUseCase.Query query) {
-    var norm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+    var norm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     if (query.atIsoDate() != null) {
       norm =
-          timeMachineService.applyPassiveModifications(
-              new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate()));
+      timeMachineService.applyPassiveModifications(
+        new ApplyPassiveModificationsUseCase.Query(norm, query.atIsoDate())
+      );
     }
 
-    return norm.getArticles().stream()
-        .filter(
-            article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
-        .findFirst()
-        .map(article -> XmlMapper.toString(article.getNode()))
-        .map(
-            xml ->
-                xsltTransformationService.transformLegalDocMlToHtml(
-                    new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)))
-        .orElseThrow(() -> new ArticleNotFoundException(query.eli(), query.eid()));
+    return norm
+      .getArticles()
+      .stream()
+      .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(query.eid()))
+      .findFirst()
+      .map(article -> XmlMapper.toString(article.getNode()))
+      .map(xml ->
+        xsltTransformationService.transformLegalDocMlToHtml(
+          new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)
+        )
+      )
+      .orElseThrow(() -> new ArticleNotFoundException(query.eli(), query.eid()));
   }
 
   @Override
@@ -63,10 +65,9 @@ public class ArticleService
     final var amendedAt = query.amendedAt();
     final var amendedBy = query.amendedBy();
 
-    final var norm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+    final var norm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     List<Article> articles = norm.getArticles();
 
@@ -81,52 +82,54 @@ public class ArticleService
   }
 
   private List<TextualMod> getPassiveModsAmendingByOrAt(
-      final Norm fromNorm, final String amendingBy, final String amendingAt) {
+    final Norm fromNorm,
+    final String amendingBy,
+    final String amendingAt
+  ) {
     if (amendingBy == null && amendingAt == null) return List.of();
 
     return fromNorm
-        .getMeta()
-        .getAnalysis()
-        .map(Analysis::getPassiveModifications)
-        .orElse(Collections.emptyList())
-        .stream()
-        .filter(
-            passiveModification -> {
-              if (amendingBy == null) return true;
+      .getMeta()
+      .getAnalysis()
+      .map(Analysis::getPassiveModifications)
+      .orElse(Collections.emptyList())
+      .stream()
+      .filter(passiveModification -> {
+        if (amendingBy == null) return true;
 
-              return passiveModification
-                  .getSourceHref()
-                  .flatMap(Href::getEli)
-                  .map(sourceEli -> sourceEli.equals(amendingBy))
-                  .orElse(false);
-            })
-        .filter(
-            passiveModification -> {
-              if (amendingAt == null) return true;
+        return passiveModification
+          .getSourceHref()
+          .flatMap(Href::getEli)
+          .map(sourceEli -> sourceEli.equals(amendingBy))
+          .orElse(false);
+      })
+      .filter(passiveModification -> {
+        if (amendingAt == null) return true;
 
-              return passiveModification
-                  .getForcePeriodEid()
-                  .flatMap(fromNorm::getStartEventRefForTemporalGroup)
-                  .map(startEventRef -> startEventRef.equals(amendingAt))
-                  .orElse(false);
-            })
-        .toList();
+        return passiveModification
+          .getForcePeriodEid()
+          .flatMap(fromNorm::getStartEventRefForTemporalGroup)
+          .map(startEventRef -> startEventRef.equals(amendingAt))
+          .orElse(false);
+      })
+      .toList();
   }
 
   @Override
   public List<String> loadSpecificArticlesXmlFromNorm(
-      LoadSpecificArticlesXmlFromNormUseCase.Query query) {
-    List<Article> articles =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli()))
-            .getArticles();
+    LoadSpecificArticlesXmlFromNormUseCase.Query query
+  ) {
+    List<Article> articles = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli()))
+      .getArticles();
 
     if (query.refersTo() != null) {
       articles =
-          articles.stream()
-              .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
-              .toList();
+      articles
+        .stream()
+        .filter(a -> Objects.equals(a.getRefersTo().orElse(""), query.refersTo()))
+        .toList();
     }
 
     if (articles.isEmpty()) {
@@ -138,20 +141,21 @@ public class ArticleService
 
   private Predicate<Article> createPassiveModFilter(final List<TextualMod> mods) {
     return article ->
-        // If we filter by amendedAt or amendedBy: Those properties are found
-        // in the passive modifications we already collected above. What's left
-        // now is to only return the articles that are going to be modified by
-        // those passive modifications.
-        mods.stream()
-            .map(TextualMod::getDestinationHref)
-            .flatMap(Optional::stream)
-            .map(Href::getEId)
-            .flatMap(Optional::stream)
-            .anyMatch(
-                destinationEid ->
-                    // Modifications can be either on the article itself or anywhere
-                    // inside the article, hence the "contains" rather than exact
-                    // matching.
-                    destinationEid.contains(article.getEid().orElseThrow()));
+      // If we filter by amendedAt or amendedBy: Those properties are found
+      // in the passive modifications we already collected above. What's left
+      // now is to only return the articles that are going to be modified by
+      // those passive modifications.
+      mods
+        .stream()
+        .map(TextualMod::getDestinationHref)
+        .flatMap(Optional::stream)
+        .map(Href::getEId)
+        .flatMap(Optional::stream)
+        .anyMatch(destinationEid ->
+          // Modifications can be either on the article itself or anywhere
+          // inside the article, hence the "contains" rather than exact
+          // matching.
+          destinationEid.contains(article.getEid().orElseThrow())
+        );
   }
 }

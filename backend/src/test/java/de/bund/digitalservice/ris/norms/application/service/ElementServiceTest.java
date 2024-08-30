@@ -19,15 +19,20 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ElementServiceTest {
+
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final XsltTransformationService xsltTransformationService = mock(XsltTransformationService.class);
   final TimeMachineService timeMachineService = mock(TimeMachineService.class);
 
-  final ElementService service =
-      new ElementService(loadNormPort, xsltTransformationService, timeMachineService);
+  final ElementService service = new ElementService(
+    loadNormPort,
+    xsltTransformationService,
+    timeMachineService
+  );
 
   @Nested
   class loadElementFromNorm {
+
     @Test
     void itLoadsAnElementFromANorm() {
       // Given
@@ -35,28 +40,28 @@ class ElementServiceTest {
       var eid = "meta-1";
 
       var normXml =
-          """
-              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-              <akn:akomaNtoso
-                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
-                <akn:act name="regelungstext">
-                  <!-- Metadaten -->
-                  <akn:meta eId="meta-1" GUID="000">
-                    <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
-                      <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
-                        <akn:FRBRthis
-                          eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                          GUID="000"
-                          value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-                        />
-                      </akn:FRBRExpression>
-                    </akn:identification>
-                  </akn:meta>
-                </akn:act>
-              </akn:akomaNtoso>
-              """;
+        """
+        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+        <akn:akomaNtoso
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+          <akn:act name="regelungstext">
+            <!-- Metadaten -->
+            <akn:meta eId="meta-1" GUID="000">
+              <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
+                  <akn:FRBRthis
+                    eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                    GUID="000"
+                    value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
+                  />
+                </akn:FRBRExpression>
+              </akn:identification>
+            </akn:meta>
+          </akn:act>
+        </akn:akomaNtoso>
+        """;
 
       var norm = new Norm(XmlMapper.toDocument(normXml));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
@@ -95,28 +100,28 @@ class ElementServiceTest {
       var eid = "meta-1000";
 
       var normXml =
-          """
-              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-              <akn:akomaNtoso
-                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
-                <akn:act name="regelungstext">
-                  <!-- Metadaten -->
-                  <akn:meta eId="meta-1" GUID="000">
-                    <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
-                      <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
-                        <akn:FRBRthis
-                          eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                          GUID="000"
-                          value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-                        />
-                      </akn:FRBRExpression>
-                    </akn:identification>
-                  </akn:meta>
-                </akn:act>
-              </akn:akomaNtoso>
-              """;
+        """
+        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+        <akn:akomaNtoso
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+          <akn:act name="regelungstext">
+            <!-- Metadaten -->
+            <akn:meta eId="meta-1" GUID="000">
+              <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
+                  <akn:FRBRthis
+                    eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                    GUID="000"
+                    value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
+                  />
+                </akn:FRBRExpression>
+              </akn:identification>
+            </akn:meta>
+          </akn:act>
+        </akn:akomaNtoso>
+        """;
 
       var norm = new Norm(XmlMapper.toDocument(normXml));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
@@ -133,6 +138,7 @@ class ElementServiceTest {
 
   @Nested
   class loadElementHtmlFromNorm {
+
     @Test
     void itLoadsTheElementHtmlFromANorm() {
       // Given
@@ -140,36 +146,37 @@ class ElementServiceTest {
       var eid = "meta-1";
 
       var normXml =
-          """
-              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-              <akn:akomaNtoso
-                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
-                <akn:act name="regelungstext">
-                  <!-- Metadaten -->
-                  <akn:meta eId="meta-1" GUID="000">
-                    <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
-                      <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
-                        <akn:FRBRthis
-                          eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                          GUID="000"
-                          value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-                        />
-                      </akn:FRBRExpression>
-                    </akn:identification>
-                  </akn:meta>
-                </akn:act>
-              </akn:akomaNtoso>
-              """;
+        """
+        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+        <akn:akomaNtoso
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+          <akn:act name="regelungstext">
+            <!-- Metadaten -->
+            <akn:meta eId="meta-1" GUID="000">
+              <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
+                  <akn:FRBRthis
+                    eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                    GUID="000"
+                    value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
+                  />
+                </akn:FRBRExpression>
+              </akn:identification>
+            </akn:meta>
+          </akn:act>
+        </akn:akomaNtoso>
+        """;
 
       var norm = new Norm(XmlMapper.toDocument(normXml));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
-      var html =
-          service.loadElementHtmlFromNorm(new LoadElementHtmlFromNormUseCase.Query(eli, eid));
+      var html = service.loadElementHtmlFromNorm(
+        new LoadElementHtmlFromNormUseCase.Query(eli, eid)
+      );
 
       // Then
       assertThat(html).contains("<div></div>");
@@ -187,8 +194,9 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
 
       // When
-      var element =
-          service.loadElementHtmlFromNorm(new LoadElementHtmlFromNormUseCase.Query(eli, eid));
+      var element = service.loadElementHtmlFromNorm(
+        new LoadElementHtmlFromNormUseCase.Query(eli, eid)
+      );
 
       // Then
       assertThat(element).isEmpty();
@@ -203,36 +211,37 @@ class ElementServiceTest {
       var eid = "meta-1000";
 
       var normXml =
-          """
-              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-              <akn:akomaNtoso
-                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
-                <akn:act name="regelungstext">
-                  <!-- Metadaten -->
-                  <akn:meta eId="meta-1" GUID="000">
-                    <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
-                      <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
-                        <akn:FRBRthis
-                          eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                          GUID="000"
-                          value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-                        />
-                      </akn:FRBRExpression>
-                    </akn:identification>
-                  </akn:meta>
-                </akn:act>
-              </akn:akomaNtoso>
-              """;
+        """
+        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+        <akn:akomaNtoso
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+          <akn:act name="regelungstext">
+            <!-- Metadaten -->
+            <akn:meta eId="meta-1" GUID="000">
+              <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
+                  <akn:FRBRthis
+                    eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                    GUID="000"
+                    value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
+                  />
+                </akn:FRBRExpression>
+              </akn:identification>
+            </akn:meta>
+          </akn:act>
+        </akn:akomaNtoso>
+        """;
 
       var norm = new Norm(XmlMapper.toDocument(normXml));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
-      var html =
-          service.loadElementHtmlFromNorm(new LoadElementHtmlFromNormUseCase.Query(eli, eid));
+      var html = service.loadElementHtmlFromNorm(
+        new LoadElementHtmlFromNormUseCase.Query(eli, eid)
+      );
 
       // Then
       assertThat(html).isEmpty();
@@ -243,6 +252,7 @@ class ElementServiceTest {
 
   @Nested
   class loadElementHtmlAtDateFromNorm {
+
     @Test
     void itLoadsTheElementHtmlAtTheDateFromTheNorm() {
       // Given
@@ -251,46 +261,49 @@ class ElementServiceTest {
       var date = Instant.parse("2099-12-31T00:00:00.00Z");
 
       var normXml =
-          """
-              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-              <akn:akomaNtoso
-                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
-                <akn:act name="regelungstext">
-                  <!-- Metadaten -->
-                  <akn:meta eId="meta-1" GUID="000">
-                    <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
-                      <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
-                        <akn:FRBRthis
-                          eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                          GUID="000"
-                          value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-                        />
-                      </akn:FRBRExpression>
-                    </akn:identification>
-                  </akn:meta>
-                </akn:act>
-              </akn:akomaNtoso>
-              """;
+        """
+        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+        <akn:akomaNtoso
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+          <akn:act name="regelungstext">
+            <!-- Metadaten -->
+            <akn:meta eId="meta-1" GUID="000">
+              <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
+                  <akn:FRBRthis
+                    eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                    GUID="000"
+                    value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
+                  />
+                </akn:FRBRExpression>
+              </akn:identification>
+            </akn:meta>
+          </akn:act>
+        </akn:akomaNtoso>
+        """;
 
       var norm = new Norm(XmlMapper.toDocument(normXml));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
-      when(timeMachineService.applyPassiveModifications(
-              new ApplyPassiveModificationsUseCase.Query(norm, date)))
-          .thenReturn(norm);
+      when(
+        timeMachineService.applyPassiveModifications(
+          new ApplyPassiveModificationsUseCase.Query(norm, date)
+        )
+      )
+        .thenReturn(norm);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
-      var html =
-          service.loadElementHtmlAtDateFromNorm(
-              new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date));
+      var html = service.loadElementHtmlAtDateFromNorm(
+        new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)
+      );
 
       // Then
       assertThat(html).contains("<div></div>");
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
       verify(timeMachineService)
-          .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(norm, date));
+        .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(norm, date));
       verify(xsltTransformationService, times(1)).transformLegalDocMlToHtml(any());
     }
 
@@ -304,9 +317,9 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
 
       // When
-      var html =
-          service.loadElementHtmlAtDateFromNorm(
-              new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date));
+      var html = service.loadElementHtmlAtDateFromNorm(
+        new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)
+      );
 
       // Then
       assertThat(html).isEmpty();
@@ -321,51 +334,55 @@ class ElementServiceTest {
       var date = Instant.parse("2099-12-31T00:00:00.00Z");
 
       var normXml =
-          """
-              <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-              <akn:akomaNtoso
-                xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
-                <akn:act name="regelungstext">
-                  <!-- Metadaten -->
-                  <akn:meta eId="meta-1" GUID="000">
-                    <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
-                      <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
-                        <akn:FRBRthis
-                          eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
-                          GUID="000"
-                          value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
-                        />
-                      </akn:FRBRExpression>
-                    </akn:identification>
-                  </akn:meta>
-                </akn:act>
-              </akn:akomaNtoso>
-              """;
+        """
+        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+        <akn:akomaNtoso
+          xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+          <akn:act name="regelungstext">
+            <!-- Metadaten -->
+            <akn:meta eId="meta-1" GUID="000">
+              <akn:identification eId="meta-1_ident-1" GUID="000" source="attributsemantik-noch-undefiniert">
+                <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="000">
+                  <akn:FRBRthis
+                    eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
+                    GUID="000"
+                    value="eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
+                  />
+                </akn:FRBRExpression>
+              </akn:identification>
+            </akn:meta>
+          </akn:act>
+        </akn:akomaNtoso>
+        """;
 
       var norm = new Norm(XmlMapper.toDocument(normXml));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
-      when(timeMachineService.applyPassiveModifications(
-              new ApplyPassiveModificationsUseCase.Query(norm, date)))
-          .thenReturn(norm);
+      when(
+        timeMachineService.applyPassiveModifications(
+          new ApplyPassiveModificationsUseCase.Query(norm, date)
+        )
+      )
+        .thenReturn(norm);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
       // When
-      var html =
-          service.loadElementHtmlAtDateFromNorm(
-              new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date));
+      var html = service.loadElementHtmlAtDateFromNorm(
+        new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date)
+      );
 
       // Then
       assertThat(html).isEmpty();
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
       verify(timeMachineService)
-          .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(norm, date));
+        .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(norm, date));
     }
   }
 
   @Nested
   class loadElementsByTypeFromNorm {
+
     @Test
     void returnsAllSupportedTypesFromANorm() {
       // Given
@@ -373,10 +390,12 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var elements =
-          service.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query(
-                  "fake/eli", List.of("preface", "preamble", "article", "conclusions")));
+      var elements = service.loadElementsByTypeFromNorm(
+        new LoadElementsByTypeFromNormUseCase.Query(
+          "fake/eli",
+          List.of("preface", "preamble", "article", "conclusions")
+        )
+      );
 
       // Then
       assertThat(elements).hasSize(5);
@@ -396,9 +415,9 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var elements =
-          service.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article")));
+      var elements = service.loadElementsByTypeFromNorm(
+        new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"))
+      );
 
       // Then
       assertThat(elements).hasSize(2);
@@ -413,9 +432,9 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var elements =
-          service.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("preface")));
+      var elements = service.loadElementsByTypeFromNorm(
+        new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("preface"))
+      );
 
       // Then
       assertThat(elements).isEmpty();
@@ -428,9 +447,9 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var elements =
-          service.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of()));
+      var elements = service.loadElementsByTypeFromNorm(
+        new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of())
+      );
 
       // Then
       assertThat(elements).isEmpty();
@@ -443,12 +462,12 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When / Then
-      assertThatThrownBy(
-              () ->
-                  service.loadElementsByTypeFromNorm(
-                      new LoadElementsByTypeFromNormUseCase.Query(
-                          "fake/eli", List.of("invalid_type"))))
-          .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
+      assertThatThrownBy(() ->
+          service.loadElementsByTypeFromNorm(
+            new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("invalid_type"))
+          )
+        )
+        .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
     }
 
     @Test
@@ -456,30 +475,34 @@ class ElementServiceTest {
       // Given
       // Nothing given -> Loading should fail
 
-      LoadElementsByTypeFromNormUseCase.Query query =
-          new LoadElementsByTypeFromNormUseCase.Query("fake/eli", List.of("article"));
+      LoadElementsByTypeFromNormUseCase.Query query = new LoadElementsByTypeFromNormUseCase.Query(
+        "fake/eli",
+        List.of("article")
+      );
 
       // When / Then
       assertThatThrownBy(() -> service.loadElementsByTypeFromNorm(query))
-          .isInstanceOf(NormNotFoundException.class);
+        .isInstanceOf(NormNotFoundException.class);
     }
 
     @Test
     void filtersReturnedElementsByAmendingNorm() {
       // Given
-      var targetNorm =
-          NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+      var targetNorm = NormFixtures.loadFromDisk(
+        "NormWithPassiveModificationsInDifferentArticles.xml"
+      );
       var targetNormEli = targetNorm.getEli();
       when(loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli)))
-          .thenReturn(Optional.of(targetNorm));
+        .thenReturn(Optional.of(targetNorm));
 
       // When
-      var elements =
-          service.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query(
-                  targetNormEli,
-                  List.of("preface", "preamble", "article", "conclusions"),
-                  "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"));
+      var elements = service.loadElementsByTypeFromNorm(
+        new LoadElementsByTypeFromNormUseCase.Query(
+          targetNormEli,
+          List.of("preface", "preamble", "article", "conclusions"),
+          "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+        )
+      );
 
       // Then
       assertThat(elements).hasSize(1);
@@ -491,18 +514,21 @@ class ElementServiceTest {
       // Given
       var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       var targetNormEli = targetNorm.getEli();
-      when(loadNormPort.loadNorm(
-              new LoadNormPort.Command(
-                  "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")))
-          .thenReturn(Optional.of(targetNorm));
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Command("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+        )
+      )
+        .thenReturn(Optional.of(targetNorm));
 
       // When
-      var elements =
-          service.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query(
-                  targetNormEli,
-                  List.of("preface", "preamble", "article", "conclusions"),
-                  "fake/eli"));
+      var elements = service.loadElementsByTypeFromNorm(
+        new LoadElementsByTypeFromNormUseCase.Query(
+          targetNormEli,
+          List.of("preface", "preamble", "article", "conclusions"),
+          "fake/eli"
+        )
+      );
 
       // Then
       assertThat(elements).isEmpty();
@@ -511,6 +537,7 @@ class ElementServiceTest {
 
   @Nested
   class elementType {
+
     @Test
     void returnsTheEnumValueForSupportedTypes() {
       // When
@@ -524,7 +551,7 @@ class ElementServiceTest {
     void throwsWhenAttemptingToGetTheValueForAnUnsupportedType() {
       // When / Then
       assertThatThrownBy(() -> ElementService.ElementType.fromLabel("invalid_type"))
-          .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
+        .isInstanceOf(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class);
     }
   }
 }

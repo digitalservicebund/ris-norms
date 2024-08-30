@@ -12,6 +12,7 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class TimeBoundary {
+
   private final TimeInterval timeInterval;
   private final EventRef eventRef;
   private final TemporalGroup temporalGroup;

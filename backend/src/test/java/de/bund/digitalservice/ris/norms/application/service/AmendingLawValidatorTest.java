@@ -22,44 +22,50 @@ class AmendingLawValidatorTest {
   private final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
   private final SingleModValidator singleModValidator = mock(SingleModValidator.class);
 
-  private final AmendingLawValidator underTest =
-      new AmendingLawValidator(loadNormPort, loadZf0Service, singleModValidator);
+  private final AmendingLawValidator underTest = new AmendingLawValidator(
+    loadNormPort,
+    loadZf0Service,
+    singleModValidator
+  );
 
   @Test
   void emptyActiveModificationDestinationHref() {
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
     amendingNorm
-        .getNodeByEId("hauptteil-1_art-1")
-        .get()
-        .getAttributes()
-        .getNamedItem("refersTo")
-        .setTextContent("");
+      .getNodeByEId("hauptteil-1_art-1")
+      .get()
+      .getAttributes()
+      .getNamedItem("refersTo")
+      .setTextContent("");
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
-        .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): RefersTo is empty in article with eId hauptteil-1_art-1");
+      .isInstanceOf(ValidationException.class)
+      .hasMessageContaining(
+        "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): RefersTo is empty in article with eId hauptteil-1_art-1"
+      );
   }
 
   @Test
   void emptyArticleRefersTo() {
     // given
-    final Norm amendingNorm =
-        NormFixtures.loadFromDisk("NormWithEmptyActiveModificationDestinationHref.xml");
+    final Norm amendingNorm = NormFixtures.loadFromDisk(
+      "NormWithEmptyActiveModificationDestinationHref.xml"
+    );
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
-        .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href is empty where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
+      .isInstanceOf(ValidationException.class)
+      .hasMessageContaining(
+        "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href is empty where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1"
+      );
   }
 
   @Test
@@ -67,21 +73,22 @@ class AmendingLawValidatorTest {
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
     amendingNorm
-        .getMeta()
-        .getAnalysis()
-        .map(Analysis::getActiveModifications)
-        .orElse(Collections.emptyList())
-        .getFirst()
-        .setDestinationHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
+      .getMeta()
+      .getAnalysis()
+      .map(Analysis::getActiveModifications)
+      .orElse(Collections.emptyList())
+      .getFirst()
+      .setDestinationHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
-        .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
+      .isInstanceOf(ValidationException.class)
+      .hasMessageContaining(
+        "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1"
+      );
   }
 
   @Test
@@ -89,59 +96,59 @@ class AmendingLawValidatorTest {
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
     amendingNorm
-        .getMeta()
-        .getAnalysis()
-        .map(Analysis::getActiveModifications)
-        .orElse(Collections.emptyList())
-        .getFirst()
-        .setDestinationHref("");
+      .getMeta()
+      .getAnalysis()
+      .map(Analysis::getActiveModifications)
+      .orElse(Collections.emptyList())
+      .getFirst()
+      .setDestinationHref("");
 
     amendingNorm
-        .getMeta()
-        .getAnalysis()
-        .map(Analysis::getActiveModifications)
-        .orElse(Collections.emptyList())
-        .getFirst()
-        .getNode()
-        .getAttributes()
-        .getNamedItem("eId")
-        .setTextContent("");
+      .getMeta()
+      .getAnalysis()
+      .map(Analysis::getActiveModifications)
+      .orElse(Collections.emptyList())
+      .getFirst()
+      .getNode()
+      .getAttributes()
+      .getNamedItem("eId")
+      .setTextContent("");
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
-        .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): TextualMod eId empty.");
+      .isInstanceOf(ValidationException.class)
+      .hasMessageContaining(
+        "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): TextualMod eId empty."
+      );
   }
 
   @Test
   void emptyAknModHrefEli() {
-
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
     amendingNorm
-        .getArticles()
-        .getFirst()
-        .getMods()
-        .getFirst()
-        .setTargetRefHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
+      .getArticles()
+      .getFirst()
+      .getMods()
+      .getFirst()
+      .setTargetRefHref("#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
 
     // when
     Throwable thrown = catchThrowable(() -> underTest.destinationIsSet(amendingNorm));
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
-        .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The Eli in aknMod href is empty in article with eId hauptteil-1_art-1");
+      .isInstanceOf(ValidationException.class)
+      .hasMessageContaining(
+        "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The Eli in aknMod href is empty in article with eId hauptteil-1_art-1"
+      );
   }
 
   @Test
   void emptyAffectedDocumentHref() {
-
     // given
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
     amendingNorm.getArticles().getFirst().setAffectedDocumentEli("");
@@ -151,9 +158,10 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
-        .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): AffectedDocument href is empty in article with eId hauptteil-1_art-1");
+      .isInstanceOf(ValidationException.class)
+      .hasMessageContaining(
+        "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): AffectedDocument href is empty in article with eId hauptteil-1_art-1"
+      );
   }
 
   @Test
@@ -175,9 +183,10 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
-        .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Elis are not consistent");
+      .isInstanceOf(ValidationException.class)
+      .hasMessageContaining(
+        "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Elis are not consistent"
+      );
   }
 
   @Test
@@ -199,9 +208,10 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
-        .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Eids are not consistent");
+      .isInstanceOf(ValidationException.class)
+      .hasMessageContaining(
+        "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): Eids are not consistent"
+      );
   }
 
   @Test

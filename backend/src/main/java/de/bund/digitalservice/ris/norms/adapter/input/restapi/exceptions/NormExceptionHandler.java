@@ -37,8 +37,9 @@ public class NormExceptionHandler {
   public ResponseEntity<String> handleException(final AnnouncementNotFoundException e) {
     log.error("AnnouncementNotFoundException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ResponseEntity
+      .status(HttpStatus.NOT_FOUND)
+      .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 
   /**
@@ -50,11 +51,11 @@ public class NormExceptionHandler {
   @ExceptionHandler(ValidationException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ResponseEntity<String> handleException(final ValidationException e) {
-
     log.error("ValidationException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ResponseEntity
+      .status(HttpStatus.UNPROCESSABLE_ENTITY)
+      .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 
   /**
@@ -66,11 +67,11 @@ public class NormExceptionHandler {
   @ExceptionHandler(TransformationException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<String> handleException(final TransformationException e) {
-
     log.error("TransformationException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ResponseEntity
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 
   /**
@@ -82,11 +83,11 @@ public class NormExceptionHandler {
   @ExceptionHandler(NormNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<String> handleException(final NormNotFoundException e) {
-
     log.error("NormNotFoundException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ResponseEntity
+      .status(HttpStatus.NOT_FOUND)
+      .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 
   /**
@@ -100,8 +101,9 @@ public class NormExceptionHandler {
   public ResponseEntity<String> handleException(final ArticleNotFoundException e) {
     log.error("ArticleNotFoundException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ResponseEntity
+      .status(HttpStatus.NOT_FOUND)
+      .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 
   /**
@@ -114,10 +116,12 @@ public class NormExceptionHandler {
   @ExceptionHandler(LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<String> handleException(
-      final LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException e) {
+    final LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException e
+  ) {
     log.error("ArticleOfTypeNotFoundException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ResponseEntity
+      .status(HttpStatus.NOT_FOUND)
+      .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 }

@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
  * by another {@link Norm}'s akn:activeModifications.
  */
 public interface UpdatePassiveModificationsUseCase {
-
   /**
    * Update the passive modifications of the zf0Norm.
    *

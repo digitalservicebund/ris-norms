@@ -16,6 +16,7 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public abstract class FRBR {
+
   private final Node node;
 
   /**
@@ -33,10 +34,11 @@ public abstract class FRBR {
    * @param eli - the new ELI
    */
   public void setEli(final String eli) {
-    NodeParser.getMandatoryNodeFromExpression("./FRBRthis", node)
-        .getAttributes()
-        .getNamedItem("value")
-        .setNodeValue(eli);
+    NodeParser
+      .getMandatoryNodeFromExpression("./FRBRthis", node)
+      .getAttributes()
+      .getNamedItem("value")
+      .setNodeValue(eli);
   }
 
   /**
@@ -55,8 +57,9 @@ public abstract class FRBR {
    * @param name - the new name
    */
   public void setFBRDate(final String date, final String name) {
-    final NamedNodeMap attributes =
-        NodeParser.getMandatoryNodeFromExpression("./FRBRdate", node).getAttributes();
+    final NamedNodeMap attributes = NodeParser
+      .getMandatoryNodeFromExpression("./FRBRdate", node)
+      .getAttributes();
     attributes.getNamedItem("date").setNodeValue(date);
     attributes.getNamedItem("name").setNodeValue(name);
   }

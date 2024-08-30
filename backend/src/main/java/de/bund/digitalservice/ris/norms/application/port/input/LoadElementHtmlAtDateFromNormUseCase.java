@@ -16,7 +16,7 @@ public interface LoadElementHtmlAtDateFromNormUseCase {
    *     the element don't exist.
    */
   Optional<String> loadElementHtmlAtDateFromNorm(LoadElementHtmlAtDateFromNormUseCase.Query query)
-      throws IllegalArgumentException;
+    throws IllegalArgumentException;
 
   /**
    * Contains the parameters needed for loading an element from a norm at a specific date.

@@ -20,11 +20,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class NormService
-    implements LoadNormUseCase,
-        LoadNormXmlUseCase,
-        UpdateNormXmlUseCase,
-        UpdateModUseCase,
-        UpdateModsUseCase {
+  implements
+    LoadNormUseCase, LoadNormXmlUseCase, UpdateNormXmlUseCase, UpdateModUseCase, UpdateModsUseCase {
+
   private final LoadNormPort loadNormPort;
   private final UpdateNormPort updateNormPort;
   private final SingleModValidator singleModValidator;
@@ -33,12 +31,13 @@ public class NormService
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
 
   public NormService(
-      LoadNormPort loadNormPort,
-      UpdateNormPort updateNormPort,
-      SingleModValidator singleModValidator,
-      UpdateNormService updateNormService,
-      LoadZf0Service loadZf0Service,
-      UpdateOrSaveNormPort updateOrSaveNormPort) {
+    LoadNormPort loadNormPort,
+    UpdateNormPort updateNormPort,
+    SingleModValidator singleModValidator,
+    UpdateNormService updateNormService,
+    LoadZf0Service loadZf0Service,
+    UpdateOrSaveNormPort updateOrSaveNormPort
+  ) {
     this.loadNormPort = loadNormPort;
     this.updateNormPort = updateNormPort;
     this.singleModValidator = singleModValidator;
@@ -50,21 +49,21 @@ public class NormService
   @Override
   public Norm loadNorm(final LoadNormUseCase.Query query) {
     return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .orElseThrow(() -> new NormNotFoundException(query.eli()));
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli()));
   }
 
   @Override
   public Optional<String> loadNormXml(final LoadNormXmlUseCase.Query query) {
     return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(Norm::getDocument)
-        .map(XmlMapper::toString);
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .map(Norm::getDocument)
+      .map(XmlMapper::toString);
   }
 
   @Override
   public Optional<String> updateNormXml(UpdateNormXmlUseCase.Query query)
-      throws InvalidUpdateException {
+    throws InvalidUpdateException {
     var existingNorm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
 
     if (existingNorm.isEmpty()) {
@@ -82,9 +81,9 @@ public class NormService
     }
 
     return updateNormPort
-        .updateNorm(new UpdateNormPort.Command(updatedNorm))
-        .map(Norm::getDocument)
-        .map(XmlMapper::toString);
+      .updateNorm(new UpdateNormPort.Command(updatedNorm))
+      .map(Norm::getDocument)
+      .map(XmlMapper::toString);
   }
 
   /**
@@ -100,13 +99,14 @@ public class NormService
    * @param newContent the new future text of the akn:mod
    */
   private void updateModInPlace(
-      Norm amendingNorm,
-      Norm zf0Norm,
-      String eId,
-      String destinationHref,
-      String destinationUpTo,
-      String timeBoundaryEId,
-      String newContent) {
+    Norm amendingNorm,
+    Norm zf0Norm,
+    String eId,
+    String destinationHref,
+    String destinationUpTo,
+    String timeBoundaryEId,
+    String newContent
+  ) {
     var targetNormEli = new Href(destinationHref).getEli();
     if (targetNormEli.isEmpty()) {
       throw new ValidationException("The destinationHref does not contain a eli");
@@ -114,86 +114,95 @@ public class NormService
 
     // Update active mods (meta and body) in amending law
     updateNormService.updateActiveModifications(
-        new UpdateActiveModificationsUseCase.Query(
-            amendingNorm, eId, destinationHref, destinationUpTo, timeBoundaryEId, newContent));
+      new UpdateActiveModificationsUseCase.Query(
+        amendingNorm,
+        eId,
+        destinationHref,
+        destinationUpTo,
+        timeBoundaryEId,
+        newContent
+      )
+    );
 
     // Update passiv mods in ZF0
     updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli.get()));
+      new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli.get())
+    );
 
     // Validate changes on ZF0
-    final Mod selectedMod =
-        amendingNorm.getMods().stream()
-            .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(eId))
-            .findFirst()
-            .orElseThrow(
-                () ->
-                    new ValidationException(
-                        "Did not find a textual mod in the norm %s"
-                            .formatted(amendingNorm.getEli())));
+    final Mod selectedMod = amendingNorm
+      .getMods()
+      .stream()
+      .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(eId))
+      .findFirst()
+      .orElseThrow(() ->
+        new ValidationException(
+          "Did not find a textual mod in the norm %s".formatted(amendingNorm.getEli())
+        )
+      );
     singleModValidator.validate(zf0Norm, selectedMod);
   }
 
   @Override
   public Optional<UpdateModsUseCase.Result> updateMods(UpdateModsUseCase.Query query) {
-
     if (query.mods().isEmpty()) {
       return Optional.empty();
     }
 
-    final Optional<Norm> amendingNormOptional =
-        loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    final Optional<Norm> amendingNormOptional = loadNormPort.loadNorm(
+      new LoadNormPort.Command(query.eli())
+    );
     if (amendingNormOptional.isEmpty()) {
       return Optional.empty();
     }
     final Norm amendingNorm = amendingNormOptional.get();
 
-    final var targetNormEli =
-        amendingNorm
-            .getNodeByEId(query.mods().stream().findAny().orElseThrow().eId())
-            .map(Mod::new)
-            .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
-            .flatMap(Href::getEli);
+    final var targetNormEli = amendingNorm
+      .getNodeByEId(query.mods().stream().findAny().orElseThrow().eId())
+      .map(Mod::new)
+      .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
+      .flatMap(Href::getEli);
     if (targetNormEli.isEmpty()) {
       return Optional.empty();
     }
 
-    if (!query.mods().stream()
-        .allMatch(
-            modData -> {
-              final var modNode = amendingNorm.getNodeByEId(modData.eId()).map(Mod::new);
-              final var eli =
-                  modNode
-                      .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
-                      .flatMap(Href::getEli);
-              return eli.equals(targetNormEli);
-            })) {
+    if (
+      !query
+        .mods()
+        .stream()
+        .allMatch(modData -> {
+          final var modNode = amendingNorm.getNodeByEId(modData.eId()).map(Mod::new);
+          final var eli = modNode
+            .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
+            .flatMap(Href::getEli);
+          return eli.equals(targetNormEli);
+        })
+    ) {
       throw new IllegalArgumentException("Not all mods have the same target norm");
     }
 
-    final Norm targetNorm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(targetNormEli.get()))
-            .orElseThrow(() -> new NormNotFoundException(targetNormEli.get()));
-    final Norm zf0Norm =
-        loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
+    final Norm targetNorm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(targetNormEli.get()))
+      .orElseThrow(() -> new NormNotFoundException(targetNormEli.get()));
+    final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
+      new LoadZf0UseCase.Query(amendingNorm, targetNorm)
+    );
 
     query
-        .mods()
-        .forEach(
-            newModData -> {
-              final Mod mod =
-                  amendingNorm.getNodeByEId(newModData.eId()).map(Mod::new).orElseThrow();
+      .mods()
+      .forEach(newModData -> {
+        final Mod mod = amendingNorm.getNodeByEId(newModData.eId()).map(Mod::new).orElseThrow();
 
-              this.updateModInPlace(
-                  amendingNorm,
-                  zf0Norm,
-                  newModData.eId(),
-                  mod.getTargetRefHref().or(mod::getTargetRrefFrom).map(Href::value).orElse(null),
-                  null,
-                  newModData.timeBoundaryEId(),
-                  mod.getNewText().orElse(null));
-            });
+        this.updateModInPlace(
+            amendingNorm,
+            zf0Norm,
+            newModData.eId(),
+            mod.getTargetRefHref().or(mod::getTargetRrefFrom).map(Href::value).orElse(null),
+            null,
+            newModData.timeBoundaryEId(),
+            mod.getNewText().orElse(null)
+          );
+      });
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
@@ -202,15 +211,18 @@ public class NormService
     }
 
     return Optional.of(
-        new UpdateModsUseCase.Result(
-            XmlMapper.toString(amendingNorm.getDocument()),
-            XmlMapper.toString(zf0Norm.getDocument())));
+      new UpdateModsUseCase.Result(
+        XmlMapper.toString(amendingNorm.getDocument()),
+        XmlMapper.toString(zf0Norm.getDocument())
+      )
+    );
   }
 
   @Override
   public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
-    final Optional<Norm> amendingNormOptional =
-        loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    final Optional<Norm> amendingNormOptional = loadNormPort.loadNorm(
+      new LoadNormPort.Command(query.eli())
+    );
     if (amendingNormOptional.isEmpty()) {
       throw new NormNotFoundException(query.eli());
     }
@@ -221,10 +233,12 @@ public class NormService
       return Optional.empty();
     }
 
-    final Norm targetNorm =
-        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli.get())).orElseThrow();
-    final Norm zf0Norm =
-        loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
+    final Norm targetNorm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(targetNormEli.get()))
+      .orElseThrow();
+    final Norm zf0Norm = loadZf0Service.loadOrCreateZf0(
+      new LoadZf0UseCase.Query(amendingNorm, targetNorm)
+    );
 
     this.updateModInPlace(
         amendingNorm,
@@ -233,7 +247,8 @@ public class NormService
         query.destinationHref(),
         query.destinationUpTo(),
         query.timeBoundaryEid(),
-        query.newContent());
+        query.newContent()
+      );
 
     // Don't save changes when dryRun (when preview is being generated but changes not saved)
     if (!query.dryRun()) {
@@ -242,8 +257,10 @@ public class NormService
     }
 
     return Optional.of(
-        new UpdateModUseCase.Result(
-            XmlMapper.toString(amendingNorm.getDocument()),
-            XmlMapper.toString(zf0Norm.getDocument())));
+      new UpdateModUseCase.Result(
+        XmlMapper.toString(amendingNorm.getDocument()),
+        XmlMapper.toString(zf0Norm.getDocument())
+      )
+    );
   }
 }

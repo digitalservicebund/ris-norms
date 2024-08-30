@@ -26,10 +26,12 @@ import org.w3c.dom.Node;
  */
 @Service
 public class ElementService
-    implements LoadElementFromNormUseCase,
-        LoadElementHtmlFromNormUseCase,
-        LoadElementHtmlAtDateFromNormUseCase,
-        LoadElementsByTypeFromNormUseCase {
+  implements
+    LoadElementFromNormUseCase,
+    LoadElementHtmlFromNormUseCase,
+    LoadElementHtmlAtDateFromNormUseCase,
+    LoadElementsByTypeFromNormUseCase {
+
   private final LoadNormPort loadNormPort;
   private final XsltTransformationService xsltTransformationService;
   private final TimeMachineService timeMachineService;
@@ -73,24 +75,25 @@ public class ElementService
     }
   }
 
-  private final Map<ElementType, String> xPathsForTypes =
-      Map.ofEntries(
-          Map.entry(ElementType.ARTICLE, "//body//article"),
-          Map.entry(ElementType.BOOK, "//body//book"),
-          Map.entry(ElementType.CHAPTER, "//body//chapter"),
-          Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"),
-          Map.entry(ElementType.PART, "//body//part"),
-          Map.entry(ElementType.PREAMBLE, "//act/preamble"),
-          Map.entry(ElementType.PREFACE, "//act/preface"),
-          Map.entry(ElementType.SECTION, "//body//section"),
-          Map.entry(ElementType.SUBSECTION, "//body//subsection"),
-          Map.entry(ElementType.SUBTITLE, "//body//subtitle"),
-          Map.entry(ElementType.TITLE, "//body//title"));
+  private final Map<ElementType, String> xPathsForTypes = Map.ofEntries(
+    Map.entry(ElementType.ARTICLE, "//body//article"),
+    Map.entry(ElementType.BOOK, "//body//book"),
+    Map.entry(ElementType.CHAPTER, "//body//chapter"),
+    Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"),
+    Map.entry(ElementType.PART, "//body//part"),
+    Map.entry(ElementType.PREAMBLE, "//act/preamble"),
+    Map.entry(ElementType.PREFACE, "//act/preface"),
+    Map.entry(ElementType.SECTION, "//body//section"),
+    Map.entry(ElementType.SUBSECTION, "//body//subsection"),
+    Map.entry(ElementType.SUBTITLE, "//body//subtitle"),
+    Map.entry(ElementType.TITLE, "//body//title")
+  );
 
   public ElementService(
-      LoadNormPort loadNormPort,
-      XsltTransformationService xsltTransformationService,
-      TimeMachineService timeMachineService) {
+    LoadNormPort loadNormPort,
+    XsltTransformationService xsltTransformationService,
+    TimeMachineService timeMachineService
+  ) {
     this.loadNormPort = loadNormPort;
     this.xsltTransformationService = xsltTransformationService;
     this.timeMachineService = timeMachineService;
@@ -101,74 +104,73 @@ public class ElementService
     var xPath = getXPathForEid(query.eid());
 
     return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .flatMap(norm -> NodeParser.getNodeFromExpression(xPath, norm.getDocument()));
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .flatMap(norm -> NodeParser.getNodeFromExpression(xPath, norm.getDocument()));
   }
 
   @Override
   public Optional<String> loadElementHtmlFromNorm(
-      final LoadElementHtmlFromNormUseCase.Query query) {
+    final LoadElementHtmlFromNormUseCase.Query query
+  ) {
     return loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid()))
-        .map(XmlMapper::toString)
-        .map(rawXml -> new TransformLegalDocMlToHtmlUseCase.Query(rawXml, false, false))
-        .map(xsltTransformationService::transformLegalDocMlToHtml);
+      .map(XmlMapper::toString)
+      .map(rawXml -> new TransformLegalDocMlToHtmlUseCase.Query(rawXml, false, false))
+      .map(xsltTransformationService::transformLegalDocMlToHtml);
   }
 
   @Override
   public Optional<String> loadElementHtmlAtDateFromNorm(
-      final LoadElementHtmlAtDateFromNormUseCase.Query query) {
+    final LoadElementHtmlAtDateFromNormUseCase.Query query
+  ) {
     return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(norm -> new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()))
-        .map(timeMachineService::applyPassiveModifications)
-        .flatMap(
-            norm ->
-                NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument()))
-        .map(
-            element ->
-                new TransformLegalDocMlToHtmlUseCase.Query(
-                    XmlMapper.toString(element), false, false))
-        .map(xsltTransformationService::transformLegalDocMlToHtml);
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .map(norm -> new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()))
+      .map(timeMachineService::applyPassiveModifications)
+      .flatMap(norm ->
+        NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument())
+      )
+      .map(element ->
+        new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false, false)
+      )
+      .map(xsltTransformationService::transformLegalDocMlToHtml);
   }
 
   @Override
   public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query)
-      throws UnsupportedElementTypeException {
+    throws UnsupportedElementTypeException {
     // No need to do anything if no types are requested
     if (query.elementType().isEmpty()) return List.of();
 
-    var combinedXPaths =
-        String.join(
-            "|",
-            query.elementType().stream()
-                .map(ElementType::fromLabel)
-                .map(xPathsForTypes::get)
-                .toList());
+    var combinedXPaths = String.join(
+      "|",
+      query.elementType().stream().map(ElementType::fromLabel).map(xPathsForTypes::get).toList()
+    );
 
-    var norm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli() + " does not exist"));
+    var norm = loadNormPort
+      .loadNorm(new LoadNormPort.Command(query.eli()))
+      .orElseThrow(() -> new NormNotFoundException(query.eli() + " does not exist"));
 
     // Source EIDs from passive mods
-    var passiveModsDestinationEids =
-        getDestinationEidsFromPassiveMods(
-            norm.getMeta()
-                .getAnalysis()
-                .map(Analysis::getPassiveModifications)
-                .orElse(Collections.emptyList()),
-            query.amendedBy());
+    var passiveModsDestinationEids = getDestinationEidsFromPassiveMods(
+      norm
+        .getMeta()
+        .getAnalysis()
+        .map(Analysis::getPassiveModifications)
+        .orElse(Collections.emptyList()),
+      query.amendedBy()
+    );
 
-    return NodeParser.getNodesFromExpression(combinedXPaths, norm.getDocument()).stream()
-        .filter( // filter by "amendedBy")
-            element -> {
-              // no amending law -> all elements are fine
-              if (query.amendedBy() == null) return true;
+    return NodeParser
+      .getNodesFromExpression(combinedXPaths, norm.getDocument())
+      .stream()
+      .filter(element -> { // filter by "amendedBy")
+        // no amending law -> all elements are fine
+        if (query.amendedBy() == null) return true;
 
-              var eId = EId.fromNode(element).map(EId::value).orElseThrow();
-              return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
-            })
-        .toList();
+        var eId = EId.fromNode(element).map(EId::value).orElseThrow();
+        return passiveModsDestinationEids.stream().anyMatch(modEid -> modEid.contains(eId));
+      })
+      .toList();
   }
 
   private String getXPathForEid(String eid) {
@@ -176,22 +178,20 @@ public class ElementService
   }
 
   private List<String> getDestinationEidsFromPassiveMods(
-      List<TextualMod> mods, @Nullable String amendedBy) {
-    return mods.stream()
-        .filter(
-            passiveMod -> {
-              if (amendedBy == null) return true;
+    List<TextualMod> mods,
+    @Nullable String amendedBy
+  ) {
+    return mods
+      .stream()
+      .filter(passiveMod -> {
+        if (amendedBy == null) return true;
 
-              return passiveMod
-                  .getSourceHref()
-                  .flatMap(Href::getEli)
-                  .orElseThrow()
-                  .equals(amendedBy);
-            })
-        .map(TextualMod::getDestinationHref)
-        .flatMap(Optional::stream)
-        .map(Href::getEId)
-        .flatMap(Optional::stream)
-        .toList();
+        return passiveMod.getSourceHref().flatMap(Href::getEli).orElseThrow().equals(amendedBy);
+      })
+      .map(TextualMod::getDestinationHref)
+      .flatMap(Optional::stream)
+      .map(Href::getEId)
+      .flatMap(Optional::stream)
+      .toList();
   }
 }

@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.apache.commons.io.IOUtils;
 
 public class NormFixtures {
+
   public static Norm loadFromDisk(final String fileName) {
     return loadFromDisk(fileName, false);
   }
@@ -18,8 +19,9 @@ public class NormFixtures {
   private static String loadNormFile(final String fileName) {
     try {
       return IOUtils.toString(
-          Objects.requireNonNull(NormFixtures.class.getResourceAsStream(fileName)),
-          StandardCharsets.UTF_8);
+        Objects.requireNonNull(NormFixtures.class.getResourceAsStream(fileName)),
+        StandardCharsets.UTF_8
+      );
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

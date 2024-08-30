@@ -42,12 +42,12 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
    * @return the Norm with the applied passive modifications that are in effect before the date
    */
   public Norm applyPassiveModifications(ApplyPassiveModificationsUseCase.Query query) {
-
     var norm = query.norm();
     var date = query.date();
-    var customNorms =
-        query.customNorms().stream()
-            .collect(Collectors.toMap(Norm::getEli, customNorm -> customNorm));
+    var customNorms = query
+      .customNorms()
+      .stream()
+      .collect(Collectors.toMap(Norm::getEli, customNorm -> customNorm));
 
     var actualDate = date.equals(Instant.MAX) ? Instant.MAX : date.plus(Duration.ofDays(1));
 
@@ -57,62 +57,67 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
       return norm;
     }
 
-    norm.getMeta()
-        .getAnalysis()
-        .map(analysis -> analysis.getPassiveModifications().stream())
-        .orElse(Stream.empty())
-        .filter(
-            (TextualMod passiveModification) -> {
-              final var startDate =
-                  passiveModification
-                      .getForcePeriodEid()
-                      .flatMap(norm::getStartDateForTemporalGroup)
-                      .map(dateString -> Instant.parse(dateString + "T00:00:00.000Z"));
+    norm
+      .getMeta()
+      .getAnalysis()
+      .map(analysis -> analysis.getPassiveModifications().stream())
+      .orElse(Stream.empty())
+      .filter((TextualMod passiveModification) -> {
+        final var startDate = passiveModification
+          .getForcePeriodEid()
+          .flatMap(norm::getStartDateForTemporalGroup)
+          .map(dateString -> Instant.parse(dateString + "T00:00:00.000Z"));
 
-              // when no start date exists we do not want to apply the mod
-              return startDate.isPresent() && startDate.get().isBefore(actualDate);
-            })
-        .sorted(
-            Comparator.comparing(
-                (TextualMod passiveModification) ->
-                    passiveModification
-                        .getForcePeriodEid()
-                        .flatMap(norm::getStartDateForTemporalGroup)
-                        .orElseThrow(
-                            () ->
-                                new ValidationException(
-                                    "Did not find a start date for textual mod with eId %s"
-                                        .formatted(passiveModification.getEid())))))
-        .flatMap(
-            (TextualMod passiveModification) -> {
-              var sourceEli =
-                  passiveModification
-                      .getSourceHref()
-                      .flatMap(Href::getEli)
-                      .orElseThrow(
-                          () ->
-                              new ValidationException(
-                                  "Did not find source href for textual mod with eId %s"
-                                      .formatted(passiveModification.getEid())));
+        // when no start date exists we do not want to apply the mod
+        return startDate.isPresent() && startDate.get().isBefore(actualDate);
+      })
+      .sorted(
+        Comparator.comparing((TextualMod passiveModification) ->
+          passiveModification
+            .getForcePeriodEid()
+            .flatMap(norm::getStartDateForTemporalGroup)
+            .orElseThrow(() ->
+              new ValidationException(
+                "Did not find a start date for textual mod with eId %s".formatted(
+                    passiveModification.getEid()
+                  )
+              )
+            )
+        )
+      )
+      .flatMap((TextualMod passiveModification) -> {
+        var sourceEli = passiveModification
+          .getSourceHref()
+          .flatMap(Href::getEli)
+          .orElseThrow(() ->
+            new ValidationException(
+              "Did not find source href for textual mod with eId %s".formatted(
+                  passiveModification.getEid()
+                )
+            )
+          );
 
-              Norm amendingLaw;
-              if (customNorms.containsKey(sourceEli)) {
-                amendingLaw = customNorms.get(sourceEli);
-              } else {
-                amendingLaw = normService.loadNorm(new LoadNormUseCase.Query(sourceEli));
-              }
+        Norm amendingLaw;
+        if (customNorms.containsKey(sourceEli)) {
+          amendingLaw = customNorms.get(sourceEli);
+        } else {
+          amendingLaw = normService.loadNorm(new LoadNormUseCase.Query(sourceEli));
+        }
 
-              var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);
-              return amendingLaw.getMods().stream()
-                  .filter(mod -> mod.getEid().equals(sourceEid))
-                  .map(
-                      mod ->
-                          new ModData(
-                              passiveModification.getDestinationHref(),
-                              passiveModification.getDestinationUpTo(),
-                              mod));
-            })
-        .forEach(modData -> applyMod(modData, norm));
+        var sourceEid = passiveModification.getSourceHref().flatMap(Href::getEId);
+        return amendingLaw
+          .getMods()
+          .stream()
+          .filter(mod -> mod.getEid().equals(sourceEid))
+          .map(mod ->
+            new ModData(
+              passiveModification.getDestinationHref(),
+              passiveModification.getDestinationUpTo(),
+              mod
+            )
+          );
+      })
+      .forEach(modData -> applyMod(modData, norm));
 
     EidConsistencyGuardian.correctEids(norm.getDocument());
 
@@ -127,9 +132,10 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
     }
 
     final var targetEid = modData.targetHref().get().getEId().get();
-    final var targetNode =
-        NodeParser.getNodeFromExpression(
-            String.format("//*[@eId='%s']", targetEid), targetZf0Norm.getDocument());
+    final var targetNode = NodeParser.getNodeFromExpression(
+      String.format("//*[@eId='%s']", targetEid),
+      targetZf0Norm.getDocument()
+    );
 
     if (targetNode.isEmpty()) {
       return;
@@ -140,8 +146,9 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         applyQuotedText(modData, targetNode.get());
       } catch (IllegalArgumentException | IndexOutOfBoundsException exception) {
         log.info(
-            "Could not apply quoted text mod (%s)".formatted(modData.mod().getMandatoryEid()),
-            exception);
+          "Could not apply quoted text mod (%s)".formatted(modData.mod().getMandatoryEid()),
+          exception
+        );
       }
     } else if (modData.mod().getQuotedStructure().isPresent()) {
       applyQuotedStructure(modData, targetNode.get(), targetZf0Norm);
@@ -149,31 +156,33 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
   }
 
   private void applyQuotedText(final ModData modData, Node targetNode)
-      throws IllegalArgumentException, IndexOutOfBoundsException {
+    throws IllegalArgumentException, IndexOutOfBoundsException {
     final Mod mod = modData.mod();
-    final Node secondQuotedTextNode =
-        mod.getSecondQuotedText()
-            .orElseThrow(
-                () -> new IllegalArgumentException("Second quoted text (new text) is empty."));
-    final var targetHref =
-        modData
-            .targetHref()
-            .orElseThrow(() -> new IllegalArgumentException("Target href is empty."));
-    final var characterRange =
-        targetHref
-            .getCharacterRange()
-            .orElseThrow(
-                () ->
-                    new IllegalArgumentException(
-                        "Destination has empty character range (%s)".formatted(targetHref)));
-    final var oldText =
-        mod.getOldText().orElseThrow(() -> new IllegalArgumentException("Old text is empty."));
+    final Node secondQuotedTextNode = mod
+      .getSecondQuotedText()
+      .orElseThrow(() -> new IllegalArgumentException("Second quoted text (new text) is empty."));
+    final var targetHref = modData
+      .targetHref()
+      .orElseThrow(() -> new IllegalArgumentException("Target href is empty."));
+    final var characterRange = targetHref
+      .getCharacterRange()
+      .orElseThrow(() ->
+        new IllegalArgumentException(
+          "Destination has empty character range (%s)".formatted(targetHref)
+        )
+      );
+    final var oldText = mod
+      .getOldText()
+      .orElseThrow(() -> new IllegalArgumentException("Old text is empty."));
 
     if (!Objects.equals(characterRange.findTextInNode(targetNode), oldText)) {
       throw new IllegalArgumentException(
-          "Old text (%s) is not the same as the text of the character range (%s). Text of the node: %s"
-              .formatted(
-                  oldText, characterRange.findTextInNode(targetNode), targetNode.getTextContent()));
+        "Old text (%s) is not the same as the text of the character range (%s). Text of the node: %s".formatted(
+            oldText,
+            characterRange.findTextInNode(targetNode),
+            targetNode.getTextContent()
+          )
+      );
     }
 
     final var nodesToBeReplaced = characterRange.getNodesInRange(targetNode);
@@ -182,18 +191,21 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
 
     // Import content of quotedText from amending law (which include akn:refs) using importNode
     // because of different documents
-    NodeParser.nodeListToList(secondQuotedTextNode.getChildNodes())
-        .forEach(
-            child -> {
-              final Node importedChild = targetNode.getOwnerDocument().importNode(child, true);
-              newChildFragment.appendChild(importedChild);
-            });
+    NodeParser
+      .nodeListToList(secondQuotedTextNode.getChildNodes())
+      .forEach(child -> {
+        final Node importedChild = targetNode.getOwnerDocument().importNode(child, true);
+        newChildFragment.appendChild(importedChild);
+      });
 
     replaceNodes(nodesToBeReplaced, newChildFragment);
   }
 
   private void applyQuotedStructure(
-      final ModData modData, final Node targetNode, final Norm targetZf0Norm) {
+    final ModData modData,
+    final Node targetNode,
+    final Norm targetZf0Norm
+  ) {
     final Mod mod = modData.mod();
     if (mod.getQuotedStructure().isEmpty()) return;
 
@@ -204,23 +216,25 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
       } else {
         final var upToTargetNodeEid = modData.targetUpToRef().get().getEId().get();
         upToTargetNode =
-            NodeParser.getNodeFromExpression(
-                String.format("//*[@eId='%s']", upToTargetNodeEid), targetZf0Norm.getDocument());
+        NodeParser.getNodeFromExpression(
+          String.format("//*[@eId='%s']", upToTargetNodeEid),
+          targetZf0Norm.getDocument()
+        );
         if (upToTargetNode.isEmpty()) {
           return;
         }
       }
     }
 
-    final List<Node> newQuotedStructureContent =
-        NodeParser.nodeListToList(mod.getQuotedStructure().get().getChildNodes());
+    final List<Node> newQuotedStructureContent = NodeParser.nodeListToList(
+      mod.getQuotedStructure().get().getChildNodes()
+    );
 
     final Node newChildFragment = targetNode.getOwnerDocument().createDocumentFragment();
-    newQuotedStructureContent.forEach(
-        node -> {
-          Node importedChild = targetNode.getOwnerDocument().importNode(node, true);
-          newChildFragment.appendChild(importedChild);
-        });
+    newQuotedStructureContent.forEach(node -> {
+      Node importedChild = targetNode.getOwnerDocument().importNode(node, true);
+      newChildFragment.appendChild(importedChild);
+    });
 
     // Collect nodes to be replaced
     final List<Node> nodesToReplace = new ArrayList<>();

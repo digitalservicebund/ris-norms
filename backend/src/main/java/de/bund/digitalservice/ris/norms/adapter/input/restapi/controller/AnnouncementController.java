@@ -27,19 +27,19 @@ public class AnnouncementController {
 
   private final LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase;
   private final LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase;
-  private final LoadTargetNormsAffectedByAnnouncementUseCase
-      loadTargetNormsAffectedByAnnouncementUseCase;
+  private final LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase;
   private final ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
 
   public AnnouncementController(
-      LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase,
-      LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
-      LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase,
-      ReleaseAnnouncementUseCase releaseAnnouncementUseCase) {
+    LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase,
+    LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
+    LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase,
+    ReleaseAnnouncementUseCase releaseAnnouncementUseCase
+  ) {
     this.loadAllAnnouncementsUseCase = loadAllAnnouncementsUseCase;
     this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
     this.loadTargetNormsAffectedByAnnouncementUseCase =
-        loadTargetNormsAffectedByAnnouncementUseCase;
+    loadTargetNormsAffectedByAnnouncementUseCase;
     this.releaseAnnouncementUseCase = releaseAnnouncementUseCase;
   }
 
@@ -53,11 +53,12 @@ public class AnnouncementController {
    */
   @GetMapping(produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<List<NormResponseSchema>> getAllAnnouncements() {
-    var responseSchemas =
-        loadAllAnnouncementsUseCase.loadAllAnnouncements().stream()
-            .map(Announcement::getNorm)
-            .map(NormResponseMapper::fromUseCaseData)
-            .toList();
+    var responseSchemas = loadAllAnnouncementsUseCase
+      .loadAllAnnouncements()
+      .stream()
+      .map(Announcement::getNorm)
+      .map(NormResponseMapper::fromUseCaseData)
+      .toList();
     return ResponseEntity.ok(responseSchemas);
   }
 
@@ -74,16 +75,17 @@ public class AnnouncementController {
    *     <p>Returns HTTP 404 (Not Found) if no release is found.
    */
   @GetMapping(
-      path =
-          "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
-      produces = {APPLICATION_JSON_VALUE})
+    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<ReleaseResponseSchema> getRelease(final Eli eli) {
-    var announcement =
-        loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
-            new LoadAnnouncementByNormEliUseCase.Query(eli.getValue()));
+    var announcement = loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(
+      new LoadAnnouncementByNormEliUseCase.Query(eli.getValue())
+    );
     var affectedNorms =
-        loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-            new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue()));
+      loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
+        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue())
+      );
 
     return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));
   }
@@ -101,17 +103,18 @@ public class AnnouncementController {
    *     <p>Returns HTTP 404 (Not Found) if no {@link Announcement} is found.
    */
   @PutMapping(
-      path =
-          "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
-      produces = {APPLICATION_JSON_VALUE})
+    path = "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<ReleaseResponseSchema> putRelease(final Eli eli) {
-    var announcement =
-        releaseAnnouncementUseCase.releaseAnnouncement(
-            new ReleaseAnnouncementUseCase.Query(eli.getValue()));
+    var announcement = releaseAnnouncementUseCase.releaseAnnouncement(
+      new ReleaseAnnouncementUseCase.Query(eli.getValue())
+    );
 
     var affectedNorms =
-        loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
-            new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue()));
+      loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
+        new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue())
+      );
 
     return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));
   }

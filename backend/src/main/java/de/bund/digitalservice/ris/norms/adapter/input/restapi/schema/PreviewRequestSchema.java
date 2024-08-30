@@ -6,6 +6,7 @@ import lombok.Getter;
 /** Schema for the request for rendering the preview of a norm xml. */
 @Getter
 public class PreviewRequestSchema {
+
   /** The xml of the norm. */
   private String norm;
 

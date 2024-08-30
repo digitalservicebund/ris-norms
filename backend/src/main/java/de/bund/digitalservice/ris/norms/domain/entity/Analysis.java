@@ -23,9 +23,11 @@ public class Analysis {
    * @return a list of active modifications.
    */
   public List<TextualMod> getActiveModifications() {
-    return NodeParser.getNodesFromExpression("./activeModifications/textualMod", node).stream()
-        .map(TextualMod::new)
-        .toList();
+    return NodeParser
+      .getNodesFromExpression("./activeModifications/textualMod", node)
+      .stream()
+      .map(TextualMod::new)
+      .toList();
   }
 
   /**
@@ -34,9 +36,11 @@ public class Analysis {
    * @return a list of passive modifications.
    */
   public List<TextualMod> getPassiveModifications() {
-    return NodeParser.getNodesFromExpression("./passiveModifications/textualMod", node).stream()
-        .map(TextualMod::new)
-        .toList();
+    return NodeParser
+      .getNodesFromExpression("./passiveModifications/textualMod", node)
+      .stream()
+      .map(TextualMod::new)
+      .toList();
   }
 
   /**
@@ -45,8 +49,9 @@ public class Analysis {
    * @return the akn:passiveModifications element of the norm
    */
   public Node getOrCreatePassiveModificationsNode() {
-    return NodeParser.getNodeFromExpression("./passiveModifications", node)
-        .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:passiveModifications", node));
+    return NodeParser
+      .getNodeFromExpression("./passiveModifications", node)
+      .orElseGet(() -> NodeCreator.createElementWithEidAndGuid("akn:passiveModifications", node));
   }
 
   /**
@@ -61,15 +66,18 @@ public class Analysis {
    * @return the newly create passive modification
    */
   public TextualMod addPassiveModification(
-      String type,
-      String sourceHref,
-      String destinationHref,
-      String periodHref,
-      String destinationUpTo) {
+    String type,
+    String sourceHref,
+    String destinationHref,
+    String periodHref,
+    String destinationUpTo
+  ) {
     var passiveModificationsNode = getOrCreatePassiveModificationsNode();
 
-    var textualMod =
-        NodeCreator.createElementWithEidAndGuid("akn:textualMod", passiveModificationsNode);
+    var textualMod = NodeCreator.createElementWithEidAndGuid(
+      "akn:textualMod",
+      passiveModificationsNode
+    );
     textualMod.setAttribute("type", type);
     passiveModificationsNode.appendChild(textualMod);
 

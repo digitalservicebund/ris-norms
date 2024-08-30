@@ -7,7 +7,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
  * interface should provide functionality to update a norm using the specified command.
  */
 public interface UpdateOrSaveNormPort {
-
   /**
    * Updates or saves a {@link Norm} based on the provided data in the command.
    *

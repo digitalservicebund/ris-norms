@@ -28,12 +28,20 @@ import org.springframework.test.web.servlet.MockMvc;
 @Import(SecurityConfig.class)
 class ElementControllerTest {
 
-  @Autowired private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-  @MockBean private LoadElementFromNormUseCase loadElementFromNormUseCase;
-  @MockBean private LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
-  @MockBean private LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase;
-  @MockBean private LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
+  @MockBean
+  private LoadElementFromNormUseCase loadElementFromNormUseCase;
+
+  @MockBean
+  private LoadElementHtmlFromNormUseCase loadElementHtmlFromNormUseCase;
+
+  @MockBean
+  private LoadElementsByTypeFromNormUseCase loadElementsByTypeFromNormUseCase;
+
+  @MockBean
+  private LoadElementHtmlAtDateFromNormUseCase loadElementHtmlAtDateFromNormUseCase;
 
   @Nested
   class GetSingleElement {
@@ -44,20 +52,26 @@ class ElementControllerTest {
       @Test
       void returns404IfNormNotFoundByEli() throws Exception {
         // given
-        when(loadElementFromNormUseCase.loadElementFromNorm(
-                new LoadElementFromNormUseCase.Query(
-                    "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1",
-                    "any-eid")))
-            .thenReturn(Optional.empty());
+        when(
+          loadElementFromNormUseCase.loadElementFromNorm(
+            new LoadElementFromNormUseCase.Query(
+              "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1",
+              "any-eid"
+            )
+          )
+        )
+          .thenReturn(Optional.empty());
 
         // when
         mockMvc
-            .perform(
-                get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3")
-                    .accept(MediaType.TEXT_HTML))
-
-            // then
-            .andExpect(status().isNotFound());
+          .perform(
+            get(
+              "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3"
+            )
+              .accept(MediaType.TEXT_HTML)
+          )
+          // then
+          .andExpect(status().isNotFound());
       }
 
       // Removed test for element not found in norm as this would currently be identical to "Norm
@@ -71,10 +85,13 @@ class ElementControllerTest {
 
         // When / Then
         mockMvc
-            .perform(
-                get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID")
-                    .accept(MediaType.TEXT_HTML))
-            .andExpect(status().is5xxServerError());
+          .perform(
+            get(
+              "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements/hauptteil-1_para-20?atIsoDate=INVALID"
+            )
+              .accept(MediaType.TEXT_HTML)
+          )
+          .andExpect(status().is5xxServerError());
       }
     }
 
@@ -82,57 +99,71 @@ class ElementControllerTest {
     void returnsHtmlRendering() throws Exception {
       // given
       var elementHtml = "<div></div>";
-      when(loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
-              new LoadElementHtmlFromNormUseCase.Query(
-                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-                  "hauptteil-1_art-1")))
-          .thenReturn(Optional.of(elementHtml));
+      when(
+        loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
+          new LoadElementHtmlFromNormUseCase.Query(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+            "hauptteil-1_art-1"
+          )
+        )
+      )
+        .thenReturn(Optional.of(elementHtml));
 
       // when
       mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1")
-                  .accept(MediaType.TEXT_HTML))
-          // then
-          .andExpect(status().isOk())
-          .andExpect(content().string(elementHtml));
+        .perform(
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+          )
+            .accept(MediaType.TEXT_HTML)
+        )
+        // then
+        .andExpect(status().isOk())
+        .andExpect(content().string(elementHtml));
     }
 
     @Test
     void returnsJsonWithElementEidTitleAndType() throws Exception {
       // given
       var elementNode =
-          """
-              <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="hauptteil-1_art-1"
-                              GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
-                              period="#geltungszeitgr-1"
-                              refersTo="hauptaenderung">
-                              <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
-                                  GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
-                                  <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1"
-                                      GUID="81c9c481-9427-4f03-9f51-099aa9b2201e"
-                                      name="1" />Artikel 1 </akn:num>
-                              <akn:heading eId="hauptteil-1_art-1_überschrift-1"
-                                  GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
-                              </akn:heading>
-                          </akn:article>
-              """;
-      when(loadElementFromNormUseCase.loadElementFromNorm(
-              new LoadElementFromNormUseCase.Query(
-                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-                  "hauptteil-1_art-1")))
-          .thenReturn(Optional.of(XmlMapper.toNode(elementNode)));
+        """
+        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" eId="hauptteil-1_art-1"
+                        GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
+                        period="#geltungszeitgr-1"
+                        refersTo="hauptaenderung">
+                        <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
+                            GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
+                            <akn:marker eId="hauptteil-1_art-1_bezeichnung-1_zaehlbez-1"
+                                GUID="81c9c481-9427-4f03-9f51-099aa9b2201e"
+                                name="1" />Artikel 1 </akn:num>
+                        <akn:heading eId="hauptteil-1_art-1_überschrift-1"
+                            GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
+                        </akn:heading>
+                    </akn:article>
+        """;
+      when(
+        loadElementFromNormUseCase.loadElementFromNorm(
+          new LoadElementFromNormUseCase.Query(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+            "hauptteil-1_art-1"
+          )
+        )
+      )
+        .thenReturn(Optional.of(XmlMapper.toNode(elementNode)));
 
       // when
       mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1")
-                  .accept(MediaType.APPLICATION_JSON))
-          // then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
-          .andExpect(jsonPath("type").value("article"))
-          .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
+        .perform(
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+          )
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        // then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
+        .andExpect(jsonPath("type").value("article"))
+        .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
     }
   }
 
@@ -148,114 +179,134 @@ class ElementControllerTest {
 
         // when
         mockMvc
-            .perform(
-                get(
-                    "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements"))
-            // then
-            .andExpect(status().is5xxServerError());
+          .perform(
+            get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements")
+          )
+          // then
+          .andExpect(status().is5xxServerError());
       }
 
       @Test
       void itReturnsBadRequestIfTheTypeIsNotSupported() throws Exception {
         // given
         when(loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(any()))
-            .thenThrow(
-                new LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException(
-                    "Type not supported"));
+          .thenThrow(
+            new LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException(
+              "Type not supported"
+            )
+          );
 
         // when
         mockMvc
-            .perform(
-                get(
-                    "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=NOT_SUPPORTED"))
-            // then
-            .andExpect(status().isBadRequest());
+          .perform(
+            get(
+              "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=NOT_SUPPORTED"
+            )
+          )
+          // then
+          .andExpect(status().isBadRequest());
       }
 
       @Test
       void itReturnsNotFoundIfNormIsNotFound() throws Exception {
         // given
         when(loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(any()))
-            .thenThrow(new NormNotFoundException("Norm not found"));
+          .thenThrow(new NormNotFoundException("Norm not found"));
 
         // when
         mockMvc
-            .perform(
-                get(
-                    "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
-            // then
-            .andExpect(status().isNotFound());
+          .perform(
+            get(
+              "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"
+            )
+          )
+          // then
+          .andExpect(status().isNotFound());
       }
     }
 
     @Test
     void itReturnsEmptyListIfNoMatchingElementsAreFound() throws Exception {
       // given
-      when(loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query(
-                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-                  eq(List.of("preface")))))
-          .thenReturn(List.of());
+      when(
+        loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
+          new LoadElementsByTypeFromNormUseCase.Query(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+            eq(List.of("preface"))
+          )
+        )
+      )
+        .thenReturn(List.of());
 
       // when
       mockMvc
-          .perform(
-              get(
-                  "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements?type=preface"))
-          // then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$[0]").doesNotExist());
+        .perform(
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements?type=preface"
+          )
+        )
+        // then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").doesNotExist());
     }
 
     @Test
     void itReturnsPrefacePreambleArticleAndConclusionDataInElementsResponseEntrySchema()
-        throws Exception {
-
+      throws Exception {
       // given
-      when(loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
-              new LoadElementsByTypeFromNormUseCase.Query(
-                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
-                  eq(List.of("preface", "preamble", "article", "conclusions")))))
-          .thenReturn(List.of());
+      when(
+        loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
+          new LoadElementsByTypeFromNormUseCase.Query(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+            eq(List.of("preface", "preamble", "article", "conclusions"))
+          )
+        )
+      )
+        .thenReturn(List.of());
 
       var url =
-          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements"
-              + "?type=preface"
-              + "&type=preamble"
-              + "&type=article"
-              + "&type=conclusions";
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements" +
+        "?type=preface" +
+        "&type=preamble" +
+        "&type=article" +
+        "&type=conclusions";
 
       // when
       mockMvc
-          .perform(get(url))
-          // then
-          .andExpect(status().isOk());
+        .perform(get(url))
+        // then
+        .andExpect(status().isOk());
     }
 
     @Nested
     class GivenAnAmendingLaw {
+
       @Test
       void itReturnsOnlyTheElementsMatchingTheGivenAmendingLaw() throws Exception {
-        when(loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
-                new LoadElementsByTypeFromNormUseCase.Query(
-                    "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
-                    eq(List.of("preface", "preamble", "article", "conclusions")),
-                    "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")))
-            .thenReturn(List.of());
+        when(
+          loadElementsByTypeFromNormUseCase.loadElementsByTypeFromNorm(
+            new LoadElementsByTypeFromNormUseCase.Query(
+              "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+              eq(List.of("preface", "preamble", "article", "conclusions")),
+              "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+            )
+          )
+        )
+          .thenReturn(List.of());
 
         var url =
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements"
-                + "?type=preface"
-                + "&type=preamble"
-                + "&type=article"
-                + "&type=conclusions"
-                + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
+          "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/elements" +
+          "?type=preface" +
+          "&type=preamble" +
+          "&type=article" +
+          "&type=conclusions" +
+          "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
 
         // when
         mockMvc
-            .perform(get(url))
-            // then
-            .andExpect(status().isOk());
+          .perform(get(url))
+          // then
+          .andExpect(status().isOk());
       }
     }
   }

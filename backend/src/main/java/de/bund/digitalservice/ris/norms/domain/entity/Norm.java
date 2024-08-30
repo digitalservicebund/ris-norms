@@ -33,12 +33,13 @@ public class Norm {
    * @return An Eli
    */
   public String getEli() {
-    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
-        .orElseGet(
-            () ->
-                NodeParser.getValueFromMandatoryNodeFromExpression(
-                        "//FRBRManifestation/FRBRthis/@value", document)
-                    .replace(".xml", ""));
+    return NodeParser
+      .getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
+      .orElseGet(() ->
+        NodeParser
+          .getValueFromMandatoryNodeFromExpression("//FRBRManifestation/FRBRthis/@value", document)
+          .replace(".xml", "")
+      );
   }
 
   /**
@@ -47,9 +48,10 @@ public class Norm {
    * @return An GUID of the norm (of the expression level)
    */
   public UUID getGuid() {
-    var guid =
-        NodeParser.getValueFromMandatoryNodeFromExpression(
-            "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value", document);
+    var guid = NodeParser.getValueFromMandatoryNodeFromExpression(
+      "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value",
+      document
+    );
 
     return UUID.fromString(guid);
   }
@@ -69,9 +71,12 @@ public class Norm {
    * @return The short title
    */
   public Optional<String> getShortTitle() {
-    return NodeParser.getValueFromExpression(
-            "//longTitle/*/shortTitle/*[@refersTo=\"amtliche-abkuerzung\"]", document)
-        .or(() -> NodeParser.getValueFromExpression("//longTitle/*/shortTitle", document));
+    return NodeParser
+      .getValueFromExpression(
+        "//longTitle/*/shortTitle/*[@refersTo=\"amtliche-abkuerzung\"]",
+        document
+      )
+      .or(() -> NodeParser.getValueFromExpression("//longTitle/*/shortTitle", document));
   }
 
   /**
@@ -90,9 +95,10 @@ public class Norm {
    * @return The list of articles
    */
   public List<Article> getArticles() {
-    return getNodesFromExpression("//body//article[not(ancestor-or-self::mod)]", document).stream()
-        .map(Article::new)
-        .toList();
+    return getNodesFromExpression("//body//article[not(ancestor-or-self::mod)]", document)
+      .stream()
+      .map(Article::new)
+      .toList();
   }
 
   /**
@@ -122,24 +128,26 @@ public class Norm {
    * @return a list of {@link TimeBoundary} containing dates and event IDs.
    */
   public List<TimeBoundary> getTimeBoundaries(final List<TemporalGroup> temporalGroups) {
-    return temporalGroups.stream()
-        .map(
-            temporalGroup -> {
-              final TimeInterval timeInterval = temporalGroup.getTimeInterval();
-              final String eventRefEId = timeInterval.getEventRefEId().orElseThrow();
-              final EventRef eventRef =
-                  getMeta().getLifecycle().getEventRefs().stream()
-                      .filter(f -> Objects.equals(f.getEid().value(), eventRefEId))
-                      .findFirst()
-                      .orElseThrow();
-              return (TimeBoundary)
-                  TimeBoundary.builder()
-                      .temporalGroup(temporalGroup)
-                      .timeInterval(timeInterval)
-                      .eventRef(eventRef)
-                      .build();
-            })
-        .toList();
+    return temporalGroups
+      .stream()
+      .map(temporalGroup -> {
+        final TimeInterval timeInterval = temporalGroup.getTimeInterval();
+        final String eventRefEId = timeInterval.getEventRefEId().orElseThrow();
+        final EventRef eventRef = getMeta()
+          .getLifecycle()
+          .getEventRefs()
+          .stream()
+          .filter(f -> Objects.equals(f.getEid().value(), eventRefEId))
+          .findFirst()
+          .orElseThrow();
+        return (TimeBoundary) TimeBoundary
+          .builder()
+          .temporalGroup(temporalGroup)
+          .timeInterval(timeInterval)
+          .eventRef(eventRef)
+          .build();
+      })
+      .toList();
   }
 
   /**
@@ -148,7 +156,7 @@ public class Norm {
    */
   public Optional<String> getStartDateForTemporalGroup(String temporalGroupEid) {
     return getStartEventRefForTemporalGroup(temporalGroupEid)
-        .flatMap(this::getStartDateForEventRef);
+      .flatMap(this::getStartDateForEventRef);
   }
 
   /**
@@ -156,12 +164,15 @@ public class Norm {
    * @return eid of the event ref of the start of the temporal group
    */
   public Optional<String> getStartEventRefForTemporalGroup(final String temporalGroupEid) {
-    return getMeta().getTemporalData().getTemporalGroups().stream()
-        .filter(
-            temporalGroup ->
-                temporalGroup.getEid().map(eid -> eid.equals(temporalGroupEid)).orElse(false))
-        .findFirst()
-        .flatMap(m -> m.getTimeInterval().getEventRefEId());
+    return getMeta()
+      .getTemporalData()
+      .getTemporalGroups()
+      .stream()
+      .filter(temporalGroup ->
+        temporalGroup.getEid().map(eid -> eid.equals(temporalGroupEid)).orElse(false)
+      )
+      .findFirst()
+      .flatMap(m -> m.getTimeInterval().getEventRefEId());
   }
 
   /**
@@ -169,11 +180,14 @@ public class Norm {
    * @return Start date of the event ref
    */
   public Optional<String> getStartDateForEventRef(String eId) {
-    return getMeta().getLifecycle().getEventRefs().stream()
-        .filter(eventRef -> Objects.equals(eventRef.getEid().value(), eId))
-        .findFirst()
-        .flatMap(EventRef::getDate)
-        .map(LocalDate::toString);
+    return getMeta()
+      .getLifecycle()
+      .getEventRefs()
+      .stream()
+      .filter(eventRef -> Objects.equals(eventRef.getEid().value(), eId))
+      .findFirst()
+      .flatMap(EventRef::getDate)
+      .map(LocalDate::toString);
   }
 
   /**
@@ -196,16 +210,22 @@ public class Norm {
 
     // Create new temporalGroup node
     final TemporalData temporalData = getMeta().getTemporalData();
-    final Element temporalGroup =
-        NodeCreator.createElementWithEidAndGuid("akn:temporalGroup", temporalData.getNode());
+    final Element temporalGroup = NodeCreator.createElementWithEidAndGuid(
+      "akn:temporalGroup",
+      temporalData.getNode()
+    );
 
     // Create new timeInterval node
-    final Element timeInterval =
-        NodeCreator.createElementWithEidAndGuid("akn:timeInterval", temporalGroup);
+    final Element timeInterval = NodeCreator.createElementWithEidAndGuid(
+      "akn:timeInterval",
+      temporalGroup
+    );
     timeInterval.setAttribute("refersTo", "geltungszeit");
     final var eventRefEId = eventRef.getAttribute("eId");
     timeInterval.setAttribute(
-        "start", new Href.Builder().setEId(eventRefEId).buildInternalReference().value());
+      "start",
+      new Href.Builder().setEId(eventRefEId).buildInternalReference().value()
+    );
 
     return new TemporalGroup(temporalGroup);
   }
@@ -228,7 +248,9 @@ public class Norm {
    */
   public Optional<Node> getNodeByEId(String eId) {
     return NodeParser.getNodeFromExpression(
-        String.format("//*[@eId='%s']", eId), this.getDocument());
+      String.format("//*[@eId='%s']", eId),
+      this.getDocument()
+    );
   }
 
   /**
@@ -249,8 +271,10 @@ public class Norm {
    * @return the deleted temporal group or empty if nothing was deleted
    */
   public Optional<TemporalGroup> deleteTemporalGroupIfUnused(String eId) {
-    final var nodesUsingTemporalData =
-        getNodesFromExpression(String.format("//*[@period='#%s']", eId), getDocument());
+    final var nodesUsingTemporalData = getNodesFromExpression(
+      String.format("//*[@period='#%s']", eId),
+      getDocument()
+    );
 
     if (!nodesUsingTemporalData.isEmpty()) {
       return Optional.empty();
@@ -266,9 +290,10 @@ public class Norm {
    * @return the deleted temporal ref node or empty if nothing was deleted
    */
   public Optional<Node> deleteEventRefIfUnused(String eId) {
-    final var nodesUsingTemporalData =
-        getNodesFromExpression(
-            String.format("//*[@start='#%s' or @end='#%s']", eId, eId), getDocument());
+    final var nodesUsingTemporalData = getNodesFromExpression(
+      String.format("//*[@start='#%s' or @end='#%s']", eId, eId),
+      getDocument()
+    );
 
     if (!nodesUsingTemporalData.isEmpty()) {
       return Optional.empty();
@@ -287,11 +312,14 @@ public class Norm {
     deleteByEId(timeBoundaryToDelete.eid());
 
     // delete temporalGroup node and its timeInterval node children
-    String timeIntervalNodeExpression =
-        String.format(
-            "//temporalData/temporalGroup/timeInterval[@start='#%s']", timeBoundaryToDelete.eid());
-    Optional<Node> timeIntervalNode =
-        NodeParser.getNodeFromExpression(timeIntervalNodeExpression, document);
+    String timeIntervalNodeExpression = String.format(
+      "//temporalData/temporalGroup/timeInterval[@start='#%s']",
+      timeBoundaryToDelete.eid()
+    );
+    Optional<Node> timeIntervalNode = NodeParser.getNodeFromExpression(
+      timeIntervalNodeExpression,
+      document
+    );
 
     if (timeIntervalNode.isEmpty()) {
       return;

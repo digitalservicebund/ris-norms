@@ -10,7 +10,6 @@ import java.util.List;
  * based on a given query.
  */
 public interface UpdateTimeBoundariesUseCase {
-
   /**
    * Updates a list of time boundaries related to the specified norm based on the provided query.
    *

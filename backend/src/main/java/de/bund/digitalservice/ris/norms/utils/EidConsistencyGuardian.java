@@ -31,19 +31,26 @@ public final class EidConsistencyGuardian {
     Element rootElement = currentXml.getDocumentElement();
     if (rootElement != null) {
       setRemovedReferencesToEmptyStringNew(
-          "//textualMod/force", "period", "//temporalData/temporalGroup", "eId", rootElement);
+        "//textualMod/force",
+        "period",
+        "//temporalData/temporalGroup",
+        "eId",
+        rootElement
+      );
       setRemovedReferencesToEmptyStringNew(
-          "//proprietary/legalDocML.de_metadaten_ds/*",
-          "start",
-          "//lifecycle/eventRef",
-          "eId",
-          rootElement);
+        "//proprietary/legalDocML.de_metadaten_ds/*",
+        "start",
+        "//lifecycle/eventRef",
+        "eId",
+        rootElement
+      );
       setRemovedReferencesToEmptyStringNew(
-          "//proprietary/legalDocML.de_metadaten_ds/*",
-          "end",
-          "//lifecycle/eventRef",
-          "eId",
-          rootElement);
+        "//proprietary/legalDocML.de_metadaten_ds/*",
+        "end",
+        "//lifecycle/eventRef",
+        "eId",
+        rootElement
+      );
     }
   }
 
@@ -85,29 +92,33 @@ public final class EidConsistencyGuardian {
   }
 
   private static void setRemovedReferencesToEmptyStringNew(
-      final String elementXPath,
-      final String attribute,
-      final String targetXpath,
-      final String targetAttribute,
-      final Element rootElement) {
+    final String elementXPath,
+    final String attribute,
+    final String targetXpath,
+    final String targetAttribute,
+    final Element rootElement
+  ) {
     // Traverse the document to find the elements with the specified XPath expression
     final List<Node> nodeList = NodeParser.getNodesFromExpression(elementXPath, rootElement);
     for (Node node : nodeList) {
       final Element targetElement = (Element) node;
       final String attributeValue = targetElement.getAttribute(attribute);
       // Check if the attribute contains references
-      if (!attributeValue.isEmpty()
-          && (!isReferenceValid(attributeValue, targetXpath, targetAttribute, rootElement))) {
+      if (
+        !attributeValue.isEmpty() &&
+        (!isReferenceValid(attributeValue, targetXpath, targetAttribute, rootElement))
+      ) {
         targetElement.setAttribute(attribute, "");
       }
     }
   }
 
   private static boolean isReferenceValid(
-      final String reference,
-      final String targetXpath,
-      final String targetAttribute,
-      final Element rootElement) {
+    final String reference,
+    final String targetXpath,
+    final String targetAttribute,
+    final Element rootElement
+  ) {
     // Check if the reference exists within the XML document
     final List<Node> nodeList = NodeParser.getNodesFromExpression(targetXpath, rootElement);
     for (Node node : nodeList) {
@@ -121,7 +132,9 @@ public final class EidConsistencyGuardian {
   }
 
   private static void updateReferencesInAttributes(
-      final Node element, final Map<String, String> oldToNewEIdMap) {
+    final Node element,
+    final Map<String, String> oldToNewEIdMap
+  ) {
     final NamedNodeMap attributes = element.getAttributes();
 
     if (attributes != null) {
@@ -141,8 +154,9 @@ public final class EidConsistencyGuardian {
 
     // Recursively traverse child elements
     final List<Node> childNodes = NodeParser.nodeListToList(element.getChildNodes());
-    childNodes.stream()
-        .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
-        .forEach(node -> updateReferencesInAttributes(node, oldToNewEIdMap));
+    childNodes
+      .stream()
+      .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
+      .forEach(node -> updateReferencesInAttributes(node, oldToNewEIdMap));
   }
 }

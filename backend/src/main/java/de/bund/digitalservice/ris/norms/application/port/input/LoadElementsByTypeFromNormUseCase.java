@@ -35,6 +35,7 @@ public interface LoadElementsByTypeFromNormUseCase {
 
   /** Indicates that at least one of the requested types is not supported. */
   class UnsupportedElementTypeException extends IllegalArgumentException {
+
     public UnsupportedElementTypeException(String message) {
       super(message);
     }

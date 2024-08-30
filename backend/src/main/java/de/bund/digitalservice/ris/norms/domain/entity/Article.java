@@ -17,6 +17,7 @@ import org.w3c.dom.Node;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 public class Article {
+
   private final Node node;
 
   /**
@@ -80,8 +81,10 @@ public class Article {
    * @param href The ELI of the affected document of the article
    */
   public void setAffectedDocumentEli(String href) {
-    Optional<Node> articleAffectedDocument =
-        NodeParser.getNodeFromExpression(".//affectedDocument/@href", this.node);
+    Optional<Node> articleAffectedDocument = NodeParser.getNodeFromExpression(
+      ".//affectedDocument/@href",
+      this.node
+    );
     articleAffectedDocument.ifPresent(value -> value.setTextContent(href));
   }
 

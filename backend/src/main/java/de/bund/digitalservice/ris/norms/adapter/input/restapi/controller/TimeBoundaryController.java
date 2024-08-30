@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.*;
 /** Controller for norm-related actions. */
 @RestController
 @RequestMapping(
-    "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/timeBoundaries")
+  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/timeBoundaries"
+)
 public class TimeBoundaryController {
 
   private final LoadTimeBoundariesUseCase loadTimeBoundariesUseCase;
@@ -26,10 +27,10 @@ public class TimeBoundaryController {
   private final UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase;
 
   public TimeBoundaryController(
-      LoadTimeBoundariesUseCase loadTimeBoundariesUseCase,
-      LoadTimeBoundariesAmendedByUseCase loadTimeBoundariesAmendedByUseCase,
-      UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase) {
-
+    LoadTimeBoundariesUseCase loadTimeBoundariesUseCase,
+    LoadTimeBoundariesAmendedByUseCase loadTimeBoundariesAmendedByUseCase,
+    UpdateTimeBoundariesUseCase updateTimeBoundariesUseCase
+  ) {
     this.loadTimeBoundariesUseCase = loadTimeBoundariesUseCase;
     this.loadTimeBoundariesAmendedByUseCase = loadTimeBoundariesAmendedByUseCase;
     this.updateTimeBoundariesUseCase = updateTimeBoundariesUseCase;
@@ -48,22 +49,27 @@ public class TimeBoundaryController {
    * @return a {@link ResponseEntity} containing a list of {@link TimeBoundarySchema} or HTTP 404
    *     Not Found if no boundaries are available.
    */
-  @GetMapping(produces = {APPLICATION_JSON_VALUE})
+  @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<TimeBoundarySchema>> getTimeBoundaries(
-      final Eli eli, @RequestParam final Optional<String> amendedBy) {
+    final Eli eli,
+    @RequestParam final Optional<String> amendedBy
+  ) {
     return ResponseEntity.ok(
-        amendedBy
-            .map(
-                amendingBy ->
-                    loadTimeBoundariesAmendedByUseCase.loadTimeBoundariesAmendedBy(
-                        new LoadTimeBoundariesAmendedByUseCase.Query(eli.getValue(), amendingBy)))
-            .orElseGet(
-                () ->
-                    loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(
-                        new LoadTimeBoundariesUseCase.Query(eli.getValue())))
-            .stream()
-            .map(TimeBoundaryMapper::fromUseCaseData)
-            .toList());
+      amendedBy
+        .map(amendingBy ->
+          loadTimeBoundariesAmendedByUseCase.loadTimeBoundariesAmendedBy(
+            new LoadTimeBoundariesAmendedByUseCase.Query(eli.getValue(), amendingBy)
+          )
+        )
+        .orElseGet(() ->
+          loadTimeBoundariesUseCase.loadTimeBoundariesOfNorm(
+            new LoadTimeBoundariesUseCase.Query(eli.getValue())
+          )
+        )
+        .stream()
+        .map(TimeBoundaryMapper::fromUseCaseData)
+        .toList()
+    );
   }
 
   /**
@@ -78,26 +84,25 @@ public class TimeBoundaryController {
    * @return a {@link ResponseEntity} containing a list of {@link TimeBoundarySchema} or HTTP 404
    *     Not Found if no boundaries are available or a 400 if the update failed.
    */
-  @PutMapping(
-      consumes = {APPLICATION_JSON_VALUE},
-      produces = {APPLICATION_JSON_VALUE})
+  @PutMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<TimeBoundarySchema>> updateTimeBoundaries(
-      final Eli eli,
-      @RequestBody
-          @Valid
-          @UniqueTimeBoundariesDatesConstraint
-          @NotEmpty(message = "Change list must not be empty")
-          @Size(max = 100, message = "A maximum of 100 time boundaries is supported")
-          final List<TimeBoundarySchema> timeBoundaries) {
-
-    List<TimeBoundarySchema> result =
-        updateTimeBoundariesUseCase
-            .updateTimeBoundariesOfNorm(
-                new UpdateTimeBoundariesUseCase.Query(
-                    eli.getValue(), TimeBoundaryMapper.fromResponseSchema(timeBoundaries)))
-            .stream()
-            .map(TimeBoundaryMapper::fromUseCaseData)
-            .toList();
+    final Eli eli,
+    @RequestBody @Valid @UniqueTimeBoundariesDatesConstraint @NotEmpty(
+      message = "Change list must not be empty"
+    ) @Size(max = 100, message = "A maximum of 100 time boundaries is supported") final List<
+      TimeBoundarySchema
+    > timeBoundaries
+  ) {
+    List<TimeBoundarySchema> result = updateTimeBoundariesUseCase
+      .updateTimeBoundariesOfNorm(
+        new UpdateTimeBoundariesUseCase.Query(
+          eli.getValue(),
+          TimeBoundaryMapper.fromResponseSchema(timeBoundaries)
+        )
+      )
+      .stream()
+      .map(TimeBoundaryMapper::fromUseCaseData)
+      .toList();
 
     // Assumptions: According to spec there must always be a temporalData with one temporalGroup
     // having 1 temporalInterval in a ReglungstextVerkuendungsfassung

@@ -6,7 +6,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
  * Interface representing the use case for updating the akn:activeModifications of a {@link Norm}.
  */
 public interface UpdateActiveModificationsUseCase {
-
   /**
    * Update the active modifications of the amendingNorm.
    *
@@ -27,10 +26,11 @@ public interface UpdateActiveModificationsUseCase {
    * @param newContent - the new text to replace the old one
    */
   record Query(
-      Norm amendingNorm,
-      String eId,
-      String destinationHref,
-      String destinationUpTo,
-      String timeBoundaryEid,
-      String newContent) {}
+    Norm amendingNorm,
+    String eId,
+    String destinationHref,
+    String destinationUpTo,
+    String timeBoundaryEid,
+    String newContent
+  ) {}
 }

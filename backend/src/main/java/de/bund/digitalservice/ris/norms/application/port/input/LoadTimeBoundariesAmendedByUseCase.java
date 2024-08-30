@@ -9,7 +9,6 @@ import java.util.List;
  * given amending law.
  */
 public interface LoadTimeBoundariesAmendedByUseCase {
-
   /**
    * Retrieves a list of time boundaries related to the specified norm filtered by the amending law
    * eli.

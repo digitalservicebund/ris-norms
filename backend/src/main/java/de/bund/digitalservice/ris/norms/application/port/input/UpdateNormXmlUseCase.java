@@ -9,7 +9,6 @@ import java.util.Optional;
  * query.
  */
 public interface UpdateNormXmlUseCase {
-
   /**
    * Updates a xml representation of {@link Norm} based on the provided query.
    *
@@ -30,6 +29,7 @@ public interface UpdateNormXmlUseCase {
 
   /** This exception indicates that a proposed change to a norm is not allowed */
   class InvalidUpdateException extends Exception {
+
     public InvalidUpdateException(String message) {
       super(message);
     }

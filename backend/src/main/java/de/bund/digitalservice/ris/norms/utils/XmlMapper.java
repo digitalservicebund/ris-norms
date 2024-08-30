@@ -47,7 +47,6 @@ public class XmlMapper {
    * @return the resulting {@link Document}
    */
   public static Document toDocument(String xmlText, boolean validateSchema) {
-
     var factory = DocumentBuilderFactory.newInstance();
 
     try {
@@ -59,11 +58,11 @@ public class XmlMapper {
       if (validateSchema) {
         factory.setNamespaceAware(true);
         factory.setSchema(
-            SchemaFactory.newDefaultInstance()
-                .newSchema(
-                    XmlMapper.class.getResource("/schema/fixtures/ldml1.6_ds_regelungstext.xsd")));
-        factory.setIgnoringElementContentWhitespace(
-            true); // does only work when a schema is provided
+          SchemaFactory
+            .newDefaultInstance()
+            .newSchema(XmlMapper.class.getResource("/schema/fixtures/ldml1.6_ds_regelungstext.xsd"))
+        );
+        factory.setIgnoringElementContentWhitespace(true); // does only work when a schema is provided
       }
 
       final DocumentBuilder builder = factory.newDocumentBuilder();
@@ -96,8 +95,8 @@ public class XmlMapper {
 
     try {
       new TransformerFactoryImpl()
-          .newTransformer()
-          .transform(new DOMSource(node), new StreamResult(writer));
+        .newTransformer()
+        .transform(new DOMSource(node), new StreamResult(writer));
     } catch (TransformerException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }

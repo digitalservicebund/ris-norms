@@ -16,11 +16,13 @@ import org.w3c.dom.NodeList;
 
 /** Util class that is responsible for parsing a {@link Node}. */
 public final class NodeParser {
+
   // the XPathFactory is not thread safe so every thread gets its own one. It should not be a
   // problem that we do not call remove() on it as it can be reused even after returning the thread
   // to a ThreadPool.
-  private static final ThreadLocal<XPathFactory> xPathFactory =
-      ThreadLocal.withInitial(XPathFactory::newInstance);
+  private static final ThreadLocal<XPathFactory> xPathFactory = ThreadLocal.withInitial(
+    XPathFactory::newInstance
+  );
 
   private NodeParser() {
     // Should not be instantiated as an object
@@ -67,9 +69,11 @@ public final class NodeParser {
    * @return the Node identified by the <code>xPathExpression</code>
    */
   public static String getValueFromMandatoryNodeFromExpression(
-      String xPathExpression, Node sourceNode) {
+    String xPathExpression,
+    Node sourceNode
+  ) {
     return getValueFromExpression(xPathExpression, sourceNode)
-        .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
+      .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
   }
 
   /**
@@ -84,12 +88,10 @@ public final class NodeParser {
     try {
       // should be invoked on every method call since: An XPath object is not thread-safe and not
       // reentrant.
-      final NodeList nodeList =
-          (NodeList)
-              xPathFactory
-                  .get()
-                  .newXPath()
-                  .evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
+      final NodeList nodeList = (NodeList) xPathFactory
+        .get()
+        .newXPath()
+        .evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
       return nodeListToList(nodeList);
     } catch (XPathExpressionException | NoSuchElementException e) {
       throw new XmlProcessingException(e.getMessage(), e);
@@ -129,7 +131,7 @@ public final class NodeParser {
    */
   public static Node getMandatoryNodeFromExpression(String xPathExpression, Node sourceNode) {
     return getNodeFromExpression(xPathExpression, sourceNode)
-        .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
+      .orElseThrow(() -> throwMandatoryNotFoundException(xPathExpression, sourceNode));
   }
 
   /**
@@ -154,28 +156,31 @@ public final class NodeParser {
   }
 
   private static MandatoryNodeNotFoundException throwMandatoryNotFoundException(
-      String xPathExpression, Node sourceNode) {
-    final Optional<String> optionalEli =
-        sourceNode.getOwnerDocument() == null
-            ? getEli((Document) sourceNode)
-            : getEli(sourceNode.getOwnerDocument());
+    String xPathExpression,
+    Node sourceNode
+  ) {
+    final Optional<String> optionalEli = sourceNode.getOwnerDocument() == null
+      ? getEli((Document) sourceNode)
+      : getEli(sourceNode.getOwnerDocument());
 
     final String nodeName = sourceNode.getNodeName();
 
     return optionalEli
-        .map(
-            eli ->
-                "#document".equals(nodeName)
-                    ? new MandatoryNodeNotFoundException(xPathExpression, eli)
-                    : new MandatoryNodeNotFoundException(xPathExpression, nodeName, eli))
-        .orElseGet(() -> new MandatoryNodeNotFoundException(xPathExpression));
+      .map(eli ->
+        "#document".equals(nodeName)
+          ? new MandatoryNodeNotFoundException(xPathExpression, eli)
+          : new MandatoryNodeNotFoundException(xPathExpression, nodeName, eli)
+      )
+      .orElseGet(() -> new MandatoryNodeNotFoundException(xPathExpression));
   }
 
   private static Optional<String> getEli(final Document document) {
-    return NodeParser.getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
-        .or(
-            () ->
-                NodeParser.getValueFromExpression("//FRBRManifestation/FRBRthis/@value", document)
-                    .map(m -> m.replace(".xml", "")));
+    return NodeParser
+      .getValueFromExpression("//FRBRExpression/FRBRthis/@value", document)
+      .or(() ->
+        NodeParser
+          .getValueFromExpression("//FRBRManifestation/FRBRthis/@value", document)
+          .map(m -> m.replace(".xml", ""))
+      );
   }
 }

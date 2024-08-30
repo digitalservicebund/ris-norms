@@ -9,7 +9,6 @@ import java.util.Optional;
  * a norm based on a given query.
  */
 public interface LoadNormXmlUseCase {
-
   /**
    * Retrieves the xml representation of a norm based on the provided query.
    *

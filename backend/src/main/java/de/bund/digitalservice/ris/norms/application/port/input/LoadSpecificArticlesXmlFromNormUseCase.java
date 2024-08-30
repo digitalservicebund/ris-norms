@@ -9,7 +9,6 @@ import java.util.List;
  * query.
  */
 public interface LoadSpecificArticlesXmlFromNormUseCase {
-
   /**
    * Retrieves articles of a specific type based on the provided query.
    *
@@ -30,6 +29,7 @@ public interface LoadSpecificArticlesXmlFromNormUseCase {
 
   /** Indicates that the Norm was found but does not include articles of that type. */
   class ArticleOfTypeNotFoundException extends RuntimeException {
+
     public ArticleOfTypeNotFoundException(final String eli, final String type) {
       super("Norm with eli %s does not contain articles of type %s".formatted(eli, type));
     }

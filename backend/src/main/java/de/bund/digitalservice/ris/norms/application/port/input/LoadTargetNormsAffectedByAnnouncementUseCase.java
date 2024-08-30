@@ -10,7 +10,6 @@ import java.util.List;
  * functionality to load these {@link Norm}s based on a given query.
  */
 public interface LoadTargetNormsAffectedByAnnouncementUseCase {
-
   /**
    * Retrieves all target {@link Norm}s that are released when an {@link Announcement} is released
    * based on the provided query. (These are the zf0 versions of the target laws)

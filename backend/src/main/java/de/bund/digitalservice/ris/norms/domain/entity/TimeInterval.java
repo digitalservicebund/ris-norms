@@ -12,6 +12,7 @@ import org.w3c.dom.Node;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class TimeInterval {
+
   private final Node node;
 
   /**
@@ -20,8 +21,9 @@ public class TimeInterval {
    * @return The eId of the event ref of this temporal group
    */
   public Optional<String> getEventRefEId() {
-    return NodeParser.getValueFromExpression("./@start", this.node)
-        .map(Href::new)
-        .flatMap(Href::getEId);
+    return NodeParser
+      .getValueFromExpression("./@start", this.node)
+      .map(Href::new)
+      .flatMap(Href::getEId);
   }
 }

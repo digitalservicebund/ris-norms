@@ -26,25 +26,27 @@ public class SecurityConfig {
    */
   @Bean
   public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests(
-            authorize ->
-                authorize
-                    .requestMatchers(
-                        "/.well-known/security.txt",
-                        "/favicon.svg",
-                        "/actuator/health/**",
-                        "/actuator/prometheus",
-                        "/api/**",
-                        "/index.html",
-                        "/",
-                        "/assets/**")
-                    .permitAll()
-                    .anyRequest()
-                    .denyAll())
-        .csrf(AbstractHttpConfigurer::disable)
-        .sessionManagement(
-            sessionManagement ->
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+    http
+      .authorizeHttpRequests(authorize ->
+        authorize
+          .requestMatchers(
+            "/.well-known/security.txt",
+            "/favicon.svg",
+            "/actuator/health/**",
+            "/actuator/prometheus",
+            "/api/**",
+            "/index.html",
+            "/",
+            "/assets/**"
+          )
+          .permitAll()
+          .anyRequest()
+          .denyAll()
+      )
+      .csrf(AbstractHttpConfigurer::disable)
+      .sessionManagement(sessionManagement ->
+        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+      );
     return http.build();
   }
 }

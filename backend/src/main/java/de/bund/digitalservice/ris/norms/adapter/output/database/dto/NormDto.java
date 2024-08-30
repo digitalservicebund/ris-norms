@@ -24,9 +24,16 @@ import lombok.Setter;
 @Entity
 @Table(name = "norms")
 public class NormDto {
-  @Id @NotNull private UUID guid;
 
-  @NotNull @Column private String eli;
+  @Id
+  @NotNull
+  private UUID guid;
 
-  @NotNull @Column private String xml;
+  @NotNull
+  @Column
+  private String eli;
+
+  @NotNull
+  @Column
+  private String xml;
 }

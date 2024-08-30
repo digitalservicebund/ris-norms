@@ -20,13 +20,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DBService
-    implements LoadNormPort,
-        LoadNormByGuidPort,
-        LoadAnnouncementByNormEliPort,
-        LoadAllAnnouncementsPort,
-        UpdateNormPort,
-        UpdateAnnouncementPort,
-        UpdateOrSaveNormPort {
+  implements
+    LoadNormPort,
+    LoadNormByGuidPort,
+    LoadAnnouncementByNormEliPort,
+    LoadAllAnnouncementsPort,
+    UpdateNormPort,
+    UpdateAnnouncementPort,
+    UpdateOrSaveNormPort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
@@ -48,35 +49,39 @@ public class DBService
 
   @Override
   public Optional<Announcement> loadAnnouncementByNormEli(
-      LoadAnnouncementByNormEliPort.Command command) {
+    LoadAnnouncementByNormEliPort.Command command
+  ) {
     return announcementRepository
-        .findByNormDtoEli(command.eli())
-        .map(AnnouncementMapper::mapToDomain);
+      .findByNormDtoEli(command.eli())
+      .map(AnnouncementMapper::mapToDomain);
   }
 
   @Override
   public List<Announcement> loadAllAnnouncements() {
-    return announcementRepository.findAll().stream()
-        .map(AnnouncementMapper::mapToDomain)
-        .sorted(
-            Comparator.comparing(
-                    (Announcement announcement) ->
-                        announcement.getNorm().getMeta().getFRBRWork().getFBRDate())
-                .reversed())
-        .toList();
+    return announcementRepository
+      .findAll()
+      .stream()
+      .map(AnnouncementMapper::mapToDomain)
+      .sorted(
+        Comparator
+          .comparing((Announcement announcement) ->
+            announcement.getNorm().getMeta().getFRBRWork().getFBRDate()
+          )
+          .reversed()
+      )
+      .toList();
   }
 
   @Override
   public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
     var normXml = XmlMapper.toString(command.norm().getDocument());
     return normRepository
-        .findByEli(command.norm().getEli())
-        .map(
-            normDto -> {
-              normDto.setXml(normXml);
-              // we do not update the GUID or ELI as they may not change
-              return NormMapper.mapToDomain(normRepository.save(normDto));
-            });
+      .findByEli(command.norm().getEli())
+      .map(normDto -> {
+        normDto.setXml(normXml);
+        // we do not update the GUID or ELI as they may not change
+        return NormMapper.mapToDomain(normRepository.save(normDto));
+      });
   }
 
   @Override
@@ -94,14 +99,12 @@ public class DBService
   public Optional<Announcement> updateAnnouncement(UpdateAnnouncementPort.Command command) {
     var announcement = command.announcement();
     return announcementRepository
-        .findByNormDtoEli(command.announcement().getNorm().getEli())
-        .map(
-            announcementDto -> {
-              announcementDto.setReleasedByDocumentalistAt(
-                  announcement.getReleasedByDocumentalistAt());
-              // It is not possible to change the norm associated with an announcement.
-              // Therefore, we don't update that relationship.
-              return AnnouncementMapper.mapToDomain(announcementRepository.save(announcementDto));
-            });
+      .findByNormDtoEli(command.announcement().getNorm().getEli())
+      .map(announcementDto -> {
+        announcementDto.setReleasedByDocumentalistAt(announcement.getReleasedByDocumentalistAt());
+        // It is not possible to change the norm associated with an announcement.
+        // Therefore, we don't update that relationship.
+        return AnnouncementMapper.mapToDomain(announcementRepository.save(announcementDto));
+      });
   }
 }

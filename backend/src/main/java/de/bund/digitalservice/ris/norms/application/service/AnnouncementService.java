@@ -22,19 +22,22 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AnnouncementService
-    implements LoadAllAnnouncementsUseCase,
-        LoadAnnouncementByNormEliUseCase,
-        LoadTargetNormsAffectedByAnnouncementUseCase {
+  implements
+    LoadAllAnnouncementsUseCase,
+    LoadAnnouncementByNormEliUseCase,
+    LoadTargetNormsAffectedByAnnouncementUseCase {
+
   private final LoadAllAnnouncementsPort loadAllAnnouncementsPort;
   private final LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort;
   private final LoadNormPort loadNormPort;
   private final LoadZf0Service loadZf0Service;
 
   public AnnouncementService(
-      LoadAllAnnouncementsPort loadAllAnnouncementsPort,
-      LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
-      LoadNormPort loadNormPort,
-      LoadZf0Service loadZf0Service) {
+    LoadAllAnnouncementsPort loadAllAnnouncementsPort,
+    LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
+    LoadNormPort loadNormPort,
+    LoadZf0Service loadZf0Service
+  ) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
     this.loadNormPort = loadNormPort;
@@ -49,34 +52,34 @@ public class AnnouncementService
   @Override
   public Announcement loadAnnouncementByNormEli(LoadAnnouncementByNormEliUseCase.Query query) {
     return loadAnnouncementByNormEliPort
-        .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
-        .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
+      .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
+      .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
   }
 
   @Override
   public List<Norm> loadTargetNormsAffectedByAnnouncement(
-      LoadTargetNormsAffectedByAnnouncementUseCase.Query query) {
+    LoadTargetNormsAffectedByAnnouncementUseCase.Query query
+  ) {
     final Norm amendingNorm =
-        this.loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(query.eli()))
-            .getNorm();
+      this.loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(query.eli()))
+        .getNorm();
 
-    return amendingNorm.getArticles().stream()
-        .map(
-            article -> {
-              final Optional<String> optionalTargetLawEli = article.getAffectedDocumentEli();
-              final Optional<Norm> optionalTargetLaw =
-                  optionalTargetLawEli.flatMap(
-                      targetLawEli ->
-                          loadNormPort.loadNorm(new LoadNormPort.Command(targetLawEli)));
+    return amendingNorm
+      .getArticles()
+      .stream()
+      .map(article -> {
+        final Optional<String> optionalTargetLawEli = article.getAffectedDocumentEli();
+        final Optional<Norm> optionalTargetLaw = optionalTargetLawEli.flatMap(targetLawEli ->
+          loadNormPort.loadNorm(new LoadNormPort.Command(targetLawEli))
+        );
 
-              return optionalTargetLaw
-                  .map(
-                      targetLaw ->
-                          loadZf0Service.loadOrCreateZf0(
-                              new LoadZf0UseCase.Query(amendingNorm, targetLaw, true)))
-                  .orElse(null);
-            })
-        .filter(Objects::nonNull)
-        .toList();
+        return optionalTargetLaw
+          .map(targetLaw ->
+            loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetLaw, true))
+          )
+          .orElse(null);
+      })
+      .filter(Objects::nonNull)
+      .toList();
   }
 }
