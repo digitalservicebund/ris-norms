@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
+import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
@@ -40,6 +41,21 @@ public class NormExceptionHandler {
     log.error("InvalidUpdateException: {}", e.getMessage(), e);
 
     return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  }
+
+  /**
+   * Exception handler method for handling {@link AnnouncementNotFoundException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
+   */
+  @ExceptionHandler(AnnouncementNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<String> handleException(final AnnouncementNotFoundException e) {
+    log.error("AnnouncementNotFoundException: {}", e.getMessage(), e);
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 

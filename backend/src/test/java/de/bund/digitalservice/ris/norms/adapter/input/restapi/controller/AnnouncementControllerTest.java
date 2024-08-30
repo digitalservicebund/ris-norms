@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -16,7 +17,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -262,7 +262,7 @@ class AnnouncementControllerTest {
               .build();
 
       when(loadAnnouncementByNormEliUseCase.loadAnnouncementByNormEli(any()))
-          .thenReturn(Optional.of(announcement));
+          .thenReturn(announcement);
       when(loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
               any()))
           .thenReturn(List.of(affectedNormZf0));
@@ -384,8 +384,7 @@ class AnnouncementControllerTest {
               .releasedByDocumentalistAt(Instant.parse("2024-01-02T10:20:30.0Z"))
               .build();
 
-      when(releaseAnnouncementUseCase.releaseAnnouncement(any()))
-          .thenReturn(Optional.of(announcement));
+      when(releaseAnnouncementUseCase.releaseAnnouncement(any())).thenReturn(announcement);
       when(loadTargetNormsAffectedByAnnouncementUseCase.loadTargetNormsAffectedByAnnouncement(
               any()))
           .thenReturn(List.of(affectedNormZf0));
