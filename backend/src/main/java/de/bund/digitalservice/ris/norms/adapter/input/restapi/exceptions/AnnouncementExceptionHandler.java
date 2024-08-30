@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Custom exception handler for handling exceptions that are related to an {@link Announcement}.
- * This class is annotated with {@link ControllerAdvice} to allow centralized exception handling for
- * all controllers in the application.
+ * Custom exception handler for handling exceptions that are related to an Announcement. This class
+ * is annotated with {@link ControllerAdvice} to allow centralized exception handling for all
+ * controllers in the application.
  */
 @Order(1)
 @ControllerAdvice
