@@ -36,6 +36,18 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
+  void itReturnsEmptyListOfAnnouncements() throws Exception {
+    // given no announcement in the DB
+
+    // when
+    mockMvc
+        .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+        // then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").doesNotExist());
+  }
+
+  @Test
   void itReturnsAllAnnouncementsNorm() throws Exception {
     // Given
     var norm =
@@ -79,9 +91,10 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     var announcement = Announcement.builder().norm(norm).releasedByDocumentalistAt(null).build();
     announcementRepository.save(AnnouncementMapper.mapToDto(announcement));
 
-    // When // Then
+    // When
     mockMvc
         .perform(get("/api/v1/announcements").accept(MediaType.APPLICATION_JSON))
+        // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
         .andExpect(jsonPath("$[1]").doesNotExist())
@@ -216,11 +229,12 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     normRepository.save(NormMapper.mapToDto(affectedNorm));
     normRepository.save(NormMapper.mapToDto(affectedNormZf0));
 
-    // When // Then
+    // When
     mockMvc
         .perform(
             get("/api/v1/announcements/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/release")
                 .accept(MediaType.APPLICATION_JSON))
+        // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("releaseAt", equalTo("2024-01-02T10:20:30Z")))
         .andExpect(
@@ -236,7 +250,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  void itReturns404AnnouncementNotFound() throws Exception {
+  void itReturns404AnnouncementNotFoundInReleasePut() throws Exception {
     // given no announcement is stored in the database
 
     // when
