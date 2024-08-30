@@ -87,11 +87,15 @@ public class NormExceptionHandler {
    */
   @ExceptionHandler(ArticleNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<String> handleException(final ArticleNotFoundException e) {
+  public ProblemDetail handleException(final ArticleNotFoundException e) {
     log.error("ArticleNotFoundException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    final ProblemDetail problemDetail =
+        ProblemDetailConfig.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    problemDetail.setInstance(URI.create(e.getEli()));
+    problemDetail.setProperty("eid", e.getEid());
+
+    return problemDetail;
   }
 
   /**
