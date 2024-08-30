@@ -9,7 +9,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ class ElementControllerTest {
               new LoadElementHtmlFromNormUseCase.Query(
                   "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
                   "hauptteil-1_art-1")))
-          .thenReturn(Optional.of(elementHtml));
+          .thenReturn(elementHtml);
 
       // when
       mockMvc
@@ -82,7 +81,7 @@ class ElementControllerTest {
               new LoadElementFromNormUseCase.Query(
                   "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
                   "hauptteil-1_art-1")))
-          .thenReturn(Optional.of(XmlMapper.toNode(elementNode)));
+          .thenReturn(XmlMapper.toNode(elementNode));
 
       // when
       mockMvc

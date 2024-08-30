@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -85,38 +86,46 @@ public class ElementService
   }
 
   @Override
-  public Optional<Node> loadElementFromNorm(final LoadElementFromNormUseCase.Query query) {
-    var xPath = getXPathForEid(query.eid());
+  public Node loadElementFromNorm(final LoadElementFromNormUseCase.Query query) {
+    final var xPath = getXPathForEid(query.eid());
 
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .flatMap(norm -> NodeParser.getNodeFromExpression(xPath, norm.getDocument()));
+    final var norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    return NodeParser.getNodeFromExpression(xPath, norm.getDocument())
+        .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
   }
 
   @Override
-  public Optional<String> loadElementHtmlFromNorm(
-      final LoadElementHtmlFromNormUseCase.Query query) {
-    return loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid()))
-        .map(XmlMapper::toString)
-        .map(rawXml -> new TransformLegalDocMlToHtmlUseCase.Query(rawXml, false, false))
-        .map(xsltTransformationService::transformLegalDocMlToHtml);
+  public String loadElementHtmlFromNorm(final LoadElementHtmlFromNormUseCase.Query query) {
+    final var normXml =
+        XmlMapper.toString(
+            loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid())));
+
+    return xsltTransformationService.transformLegalDocMlToHtml(
+        new TransformLegalDocMlToHtmlUseCase.Query(normXml, false, false));
   }
 
   @Override
-  public Optional<String> loadElementHtmlAtDateFromNorm(
+  public String loadElementHtmlAtDateFromNorm(
       final LoadElementHtmlAtDateFromNormUseCase.Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(norm -> new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()))
-        .map(timeMachineService::applyPassiveModifications)
-        .flatMap(
-            norm ->
-                NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument()))
-        .map(
-            element ->
-                new TransformLegalDocMlToHtmlUseCase.Query(
-                    XmlMapper.toString(element), false, false))
-        .map(xsltTransformationService::transformLegalDocMlToHtml);
+    var norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    norm =
+        timeMachineService.applyPassiveModifications(
+            new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()));
+
+    final var element =
+        NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument())
+            .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
+
+    return xsltTransformationService.transformLegalDocMlToHtml(
+        new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false, false));
   }
 
   @Override
@@ -124,18 +133,18 @@ public class ElementService
     // No need to do anything if no types are requested
     if (query.elementType().isEmpty()) return List.of();
 
-    var combinedXPaths =
+    final var combinedXPaths =
         String.join(
             "|",
             query.elementType().stream().map(label -> ElementType.fromLabel(label).xPath).toList());
 
-    var norm =
+    final var norm =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli() + " does not exist"));
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     // Source EIDs from passive mods
-    var passiveModsDestinationEids =
+    final var passiveModsDestinationEids =
         getDestinationEidsFromPassiveMods(
             norm.getMeta()
                 .getAnalysis()
