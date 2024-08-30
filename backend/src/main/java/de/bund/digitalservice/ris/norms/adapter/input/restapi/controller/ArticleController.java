@@ -4,8 +4,9 @@ import static org.springframework.http.MediaType.*;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ArticleResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ArticleResponseSchema;
-import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.application.service.ElementService;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import java.time.Instant;
 import java.util.List;
@@ -159,7 +160,10 @@ public class ArticleController {
         norm.getArticles().stream()
             .filter(article -> article.getEid().isPresent() && article.getEid().get().equals(eid))
             .findFirst()
-            .orElseThrow(() -> new ArticleNotFoundException(eliValue, eid));
+            .orElseThrow(
+                () ->
+                    new ElementNotFoundException(
+                        eliValue, eid, ElementService.ElementType.ARTICLE));
 
     final var targetLawZf0 =
         foundArticle

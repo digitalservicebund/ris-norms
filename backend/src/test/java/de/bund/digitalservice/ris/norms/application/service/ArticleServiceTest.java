@@ -7,7 +7,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
-import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticleHtmlUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadArticlesFromNormUseCase;
@@ -78,7 +78,7 @@ class ArticleServiceTest {
       assertThatThrownBy(() -> articleService.loadArticleHtml(query))
 
           // then
-          .isInstanceOf(ArticleNotFoundException.class);
+          .isInstanceOf(ElementNotFoundException.class);
     }
   }
 
