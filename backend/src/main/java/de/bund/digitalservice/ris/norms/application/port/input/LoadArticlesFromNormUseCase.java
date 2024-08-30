@@ -25,7 +25,7 @@ public interface LoadArticlesFromNormUseCase {
    * @param eli The ELI used to identify the norm
    * @param amendedBy ELI of an amending law. When specified, only articles with passive
    *     modifications from that amending law are included in the result.
-   * @param amendedAt eId of a lifecycle event. When specified, only articles with passice
+   * @param amendedAt eId of a lifecycle event. When specified, only articles with passive
    *     modifications that will be applied at the date of this lifecycle event will be included in
    *     the result.
    */
