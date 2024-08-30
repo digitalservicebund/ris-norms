@@ -21,6 +21,8 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+// TODO: Review unit and integration tests
+
 /**
  * Controller for norm-related actions.
  *

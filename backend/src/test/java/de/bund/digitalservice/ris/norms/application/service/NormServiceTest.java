@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -137,23 +138,20 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xml).isPresent();
-      assertThat(xml.get()).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
+      assertThat(xml).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
     }
 
     @Test
-    void itCallsLoadNormAndReturnsEmptyIfNotFound() {
+    void itCallsLoadNormAndThrowsIfNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
-      var xml = service.loadNormXml(new LoadNormXmlUseCase.Query(eli));
+      assertThatThrownBy(() -> service.loadNormXml(new LoadNormXmlUseCase.Query(eli)))
 
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xml).isEmpty();
+          // then
+          .isInstanceOf(NormNotFoundException.class);
     }
   }
 
@@ -161,7 +159,7 @@ class NormServiceTest {
   class updateNormXml {
 
     @Test
-    void itUpdatesXml() throws UpdateNormXmlUseCase.InvalidUpdateException {
+    void itUpdatesXml() throws InvalidUpdateException {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
@@ -247,13 +245,12 @@ class NormServiceTest {
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(1))
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), newNorm)));
-      assertThat(result).isPresent();
-      assertThat(result.get())
+      assertThat(result)
           .contains("Entwurf eines Dritten Gesetzes zur Änderung des Vereinsgesetzes");
     }
 
     @Test
-    void itReturnsEmptyIfNormDoesNotExist() throws UpdateNormXmlUseCase.InvalidUpdateException {
+    void itThrowsNormNotFoundIfNormDoesNotExist() throws InvalidUpdateException {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
@@ -295,13 +292,14 @@ class NormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
-      var result = service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml));
+      assertThatThrownBy(() -> service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml)))
 
-      // Then
+          // then
+          .isInstanceOf(NormNotFoundException.class);
+
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(result).isEmpty();
     }
 
     @Test
@@ -389,7 +387,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(thrown).isInstanceOf(UpdateNormXmlUseCase.InvalidUpdateException.class);
+      assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
 
     @Test
@@ -477,7 +475,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(thrown).isInstanceOf(UpdateNormXmlUseCase.InvalidUpdateException.class);
+      assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
   }
 
@@ -485,7 +483,7 @@ class NormServiceTest {
   class UpdateMod {
 
     @Test
-    void itCallsLoadNormAndReturnsEmptyBecauseEliNotFound() {
+    void itCallsLoadNormAndThrowsNormNotFoundBecauseEliNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -673,22 +671,24 @@ class NormServiceTest {
   @Nested
   class updateMods {
     @Test
-    void itCallsLoadNormAndReturnsEmptyBecauseEliNotFound() {
+    void itCallsLoadNormAndThrowsNormNotFoundBecauseEliNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
-      var result =
-          service.updateMods(
-              new UpdateModsUseCase.Query(
-                  eli, List.of(new UpdateModsUseCase.NewModData("eid", "time-boundary-eid"))));
+      assertThatThrownBy(
+              () ->
+                  service.updateMods(
+                      new UpdateModsUseCase.Query(
+                          eli,
+                          List.of(new UpdateModsUseCase.NewModData("eid", "time-boundary-eid")))))
+          .isInstanceOf(NormNotFoundException.class);
 
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(result).isEmpty();
     }
 
     @Test
