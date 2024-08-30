@@ -55,11 +55,13 @@ public class NormService
   }
 
   @Override
-  public Optional<String> loadNormXml(final LoadNormXmlUseCase.Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(Norm::getDocument)
-        .map(XmlMapper::toString);
+  public String loadNormXml(final LoadNormXmlUseCase.Query query) {
+    final Norm norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    return XmlMapper.toString(norm.getDocument());
   }
 
   @Override

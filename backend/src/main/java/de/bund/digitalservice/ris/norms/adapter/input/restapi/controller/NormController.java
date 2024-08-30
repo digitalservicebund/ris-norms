@@ -91,10 +91,8 @@ public class NormController {
    */
   @GetMapping(produces = {APPLICATION_XML_VALUE})
   public ResponseEntity<String> getNormXml(final Eli eli) {
-    return loadNormXmlUseCase
-        .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+    return ResponseEntity.ok(
+        loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue())));
   }
 
   /**
@@ -135,14 +133,12 @@ public class NormController {
                   XmlMapper.toString(norm.getDocument()), showMetadata, false)));
     }
 
-    return loadNormXmlUseCase
-        .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
-        .map(
-            xml ->
-                ResponseEntity.ok(
-                    this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata, false))))
-        .orElseGet(() -> ResponseEntity.notFound().build());
+    var normXml = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()));
+    var legalDocHtml =
+        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(normXml, showMetadata, false));
+
+    return ResponseEntity.ok(legalDocHtml);
   }
 
   /**

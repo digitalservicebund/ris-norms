@@ -16,7 +16,7 @@ public interface LoadNormXmlUseCase {
    * @param query The query containing the ELI (European Legislation Identifier) of the norm.
    * @return An {@link Optional} containing the loaded {@link Norm} if found, or empty if not found.
    */
-  Optional<String> loadNormXml(Query query);
+  String loadNormXml(Query query);
 
   /**
    * A record representing the query for loading the xml representation of a norm. The query
