@@ -105,7 +105,7 @@ public class AnnouncementController {
           "/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/release",
       produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<ReleaseResponseSchema> putRelease(final Eli eli) {
-    final Announcement announcement =
+    var announcement =
         releaseAnnouncementUseCase.releaseAnnouncement(
             new ReleaseAnnouncementUseCase.Query(eli.getValue()));
 

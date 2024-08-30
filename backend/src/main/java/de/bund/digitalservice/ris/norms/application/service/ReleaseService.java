@@ -27,7 +27,7 @@ public class ReleaseService implements ReleaseAnnouncementUseCase {
 
   @Override
   public Announcement releaseAnnouncement(ReleaseAnnouncementUseCase.Query query) {
-    final Announcement announcement =
+    var announcement =
         loadAnnouncementByNormEliPort
             .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
             .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
