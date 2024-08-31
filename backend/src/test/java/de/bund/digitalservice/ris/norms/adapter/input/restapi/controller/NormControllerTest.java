@@ -233,6 +233,7 @@ class NormControllerTest {
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
     }
 
+    // TODO: Not a happy path test
     @Test
     void itCallsNormServiceAndReturnsErrorMessage() throws Exception {
       // Given
@@ -316,6 +317,7 @@ class NormControllerTest {
       verify(updateModUseCase, times(1)).updateMod(argThat(UpdateModUseCase.Query::dryRun));
     }
 
+    // TODO: Not a happy case
     @Test
     void itCallsUpdateModUseCaseAndReturnsEmpty() throws Exception {
       // Given
@@ -336,6 +338,7 @@ class NormControllerTest {
           .andExpect(status().isNotFound());
     }
 
+    // TODO: Not a happy case
     @Test
     void itCallsUpdateModUseCaseAndReturnsUnprocessableEntity() throws Exception {
       // Given
@@ -356,6 +359,7 @@ class NormControllerTest {
           .andExpect(status().isUnprocessableEntity());
     }
 
+    // TODO: Not a happy case
     @Test
     void itCallsUpdateModUseCaseAndReturnsUnprocessableEntityWithMessage() throws Exception {
       // Given
@@ -435,6 +439,7 @@ class NormControllerTest {
       verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
     }
 
+    // TODO: Not a happy case
     @Test
     void itCallsUpdateModsUseCaseAndReturnsEmpty() throws Exception {
       // Given
@@ -453,6 +458,7 @@ class NormControllerTest {
           .andExpect(status().isUnprocessableEntity());
     }
 
+    // TODO: Not a happy case
     @Test
     void itCallsUpdateModsUseCaseAndReturnsUnprocessableEntity() throws Exception {
       // Given

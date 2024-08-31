@@ -20,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-// TODO: do we have all failure cases in here?
-
 class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
@@ -35,6 +33,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class GetNormByEli {
+
+    // TODO: Error case missing
 
     @Test
     void itCallsNormsServiceAndReturnsNorm() throws Exception {
@@ -191,6 +191,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class GetNormRenderWithQueryParameters {
+
+    // TODO: Error case missing
 
     @Test
     void itCallsNormServiceAndReturnsNormRenderWithMetadata() throws Exception {
@@ -462,6 +464,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class GetNormTimeBoundaries {
+
+    // TODO: Error case missing
 
     @Test
     void itExtractsAndReturnsTimeBoundariesFromNorm() throws Exception {
