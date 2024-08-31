@@ -66,7 +66,6 @@ public class NormService
   }
 
   @Override
-  // TODO: why do I have to declare the exception, here?
   public String updateNormXml(UpdateNormXmlUseCase.Query query) {
     var existingNorm =
         loadNormPort
