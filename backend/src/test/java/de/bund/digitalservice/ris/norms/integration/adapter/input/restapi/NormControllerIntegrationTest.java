@@ -348,6 +348,24 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class PutNormByEli {
+
+    @Test
+    void itReturnsNormNotFound() throws Exception {
+      // Given no norm in database
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<akn:doc>new</akn:doc>";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}", eli)
+                  .accept(MediaType.APPLICATION_XML)
+                  .contentType(MediaType.APPLICATION_XML)
+                  .content(xml))
+          // Then
+          .andExpect(status().isNotFound());
+    }
+
     @Test
     void itCallsNormServiceAndUpdatesNorm() throws Exception {
       // Given

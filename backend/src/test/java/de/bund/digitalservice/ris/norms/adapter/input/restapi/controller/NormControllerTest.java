@@ -14,7 +14,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -252,29 +251,6 @@ class NormControllerTest {
                   .content(xml))
           .andExpect(status().isBadRequest())
           .andExpect(content().string("Error Message"));
-
-      verify(updateNormXmlUseCase, times(1))
-          .updateNormXml(argThat(query -> query.xml().equals(xml)));
-    }
-
-    // TODO: Not sure what the correct behavior would be.
-    @Ignore
-    @Test
-    void itCallsNormServiceAndReturnsNotFound() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String xml = "<akn:doc>new</akn:doc>";
-
-      //   when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(Optional.empty());
-
-      // When // Then
-      mockMvc
-          .perform(
-              put("/api/v1/norms/{eli}", eli)
-                  .accept(MediaType.APPLICATION_XML)
-                  .contentType(MediaType.APPLICATION_XML)
-                  .content(xml))
-          .andExpect(status().isNotFound());
 
       verify(updateNormXmlUseCase, times(1))
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
