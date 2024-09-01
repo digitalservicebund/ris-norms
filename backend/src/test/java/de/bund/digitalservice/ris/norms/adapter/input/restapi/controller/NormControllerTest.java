@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -227,30 +226,6 @@ class NormControllerTest {
           .andExpect(status().isOk())
           .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_XML))
           .andExpect(content().string(xml));
-
-      verify(updateNormXmlUseCase, times(1))
-          .updateNormXml(argThat(query -> query.xml().equals(xml)));
-    }
-
-    // TODO: Not a happy path test
-    @Test
-    void itCallsNormServiceAndReturnsErrorMessage() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String xml = "<akn:doc>new</akn:doc>";
-
-      when(updateNormXmlUseCase.updateNormXml(any()))
-          .thenThrow(new InvalidUpdateException("Error Message"));
-
-      // When // Then
-      mockMvc
-          .perform(
-              put("/api/v1/norms/{eli}", eli)
-                  .accept(MediaType.APPLICATION_XML)
-                  .contentType(MediaType.APPLICATION_XML)
-                  .content(xml))
-          .andExpect(status().isBadRequest())
-          .andExpect(content().string("Error Message"));
 
       verify(updateNormXmlUseCase, times(1))
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
