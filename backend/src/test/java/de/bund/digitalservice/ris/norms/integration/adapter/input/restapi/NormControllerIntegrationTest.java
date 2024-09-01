@@ -609,6 +609,26 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isUnprocessableEntity());
     }
 
+    // TODO: Unclear what data to use, here
+    @Test
+    void itCallsUpdateModUseCaseAndReturnsUnprocessableEntityWithMessage() throws Exception {
+      // Given
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(content().string("{\"message\": \"error exception\"}"));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"", "?dryRun=true"})
     void itUpdatesAQuotedTextMod(String queryParameters) throws Exception {
