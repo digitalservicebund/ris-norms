@@ -571,6 +571,24 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   @Nested
   class UpdateMod {
 
+    @Test
+    void itReturns404NotFound() throws Exception {
+      // given there's no norm
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+
+      // when
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"))
+          // then
+          .andExpect(status().isNotFound());
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"", "?dryRun=true"})
     void itUpdatesAQuotedTextMod(String queryParameters) throws Exception {
