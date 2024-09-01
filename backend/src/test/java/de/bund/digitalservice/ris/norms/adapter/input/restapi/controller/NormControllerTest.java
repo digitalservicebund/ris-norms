@@ -319,27 +319,6 @@ class NormControllerTest {
 
     // TODO: Not a happy case
     @Test
-    void itCallsUpdateModUseCaseAndReturnsUnprocessableEntity() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String modEid = "mod-eid-1";
-
-      // When
-      when(updateModUseCase.updateMod(any())).thenThrow(ValidationException.class);
-
-      // When // Then
-      mockMvc
-          .perform(
-              put("/api/v1/norms/" + eli + "/mods/" + modEid)
-                  .accept(MediaType.APPLICATION_JSON)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"))
-          .andExpect(status().isUnprocessableEntity());
-    }
-
-    // TODO: Not a happy case
-    @Test
     void itCallsUpdateModUseCaseAndReturnsUnprocessableEntityWithMessage() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
