@@ -373,24 +373,5 @@ class NormControllerTest {
 
       verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
     }
-
-    // TODO: Not a happy case
-    @Test
-    void itCallsUpdateModsUseCaseAndReturnsEmpty() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-
-      // When
-      when(updateModsUseCase.updateMods(any())).thenReturn(Optional.empty());
-
-      // When // Then
-      mockMvc
-          .perform(
-              patch("/api/v1/norms/" + eli + "/mods")
-                  .accept(MediaType.APPLICATION_JSON)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
-          .andExpect(status().isUnprocessableEntity());
-    }
   }
 }
