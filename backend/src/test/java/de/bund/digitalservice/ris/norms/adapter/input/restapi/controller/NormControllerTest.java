@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
-import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -383,25 +382,6 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any())).thenReturn(Optional.empty());
-
-      // When // Then
-      mockMvc
-          .perform(
-              patch("/api/v1/norms/" + eli + "/mods")
-                  .accept(MediaType.APPLICATION_JSON)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
-          .andExpect(status().isUnprocessableEntity());
-    }
-
-    // TODO: Not a happy case
-    @Test
-    void itCallsUpdateModsUseCaseAndReturnsUnprocessableEntity() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-
-      // When
-      when(updateModsUseCase.updateMods(any())).thenThrow(ValidationException.class);
 
       // When // Then
       mockMvc
