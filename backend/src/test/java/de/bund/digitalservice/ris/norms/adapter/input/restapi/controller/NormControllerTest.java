@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -248,8 +249,8 @@ class NormControllerTest {
                   .accept(MediaType.APPLICATION_XML)
                   .contentType(MediaType.APPLICATION_XML)
                   .content(xml))
-          .andExpect(status().isBadRequest())
-          .andExpect(content().string("Error Message"));
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(content().string("{\"message\": \"Error Message\"}"));
 
       verify(updateNormXmlUseCase, times(1))
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
