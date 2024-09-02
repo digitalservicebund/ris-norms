@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.Nested;
@@ -220,6 +221,25 @@ class ArticleControllerTest {
                   "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
                   "eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1",
                   null));
+    }
+
+    @Test
+    void itReturnsUnprocessableEntityWhenMandatoryNodeIsMissing() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithPassiveModificationsInDifferentArticles.xml");
+
+      when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
+
+      when(loadArticlesFromNormUseCase.loadArticlesFromNorm(any()))
+          .thenThrow(new MandatoryNodeNotFoundException("example-xpath", "example/eli"));
+
+      // When
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_JSON))
+          // Then
+          .andExpect(status().isUnprocessableEntity());
     }
   }
 

@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -274,6 +275,25 @@ class NormControllerTest {
 
       verify(updateNormXmlUseCase, times(1))
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
+    }
+
+    @Test
+    void itCallsNormServiceAndReturnsUnprocessableWhenNodeIsMissing() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<akn:doc>new</akn:doc>";
+
+      when(updateNormXmlUseCase.updateNormXml(any()))
+          .thenThrow(new MandatoryNodeNotFoundException("example-xpath", "example/eli"));
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}", eli)
+                  .accept(MediaType.APPLICATION_XML)
+                  .contentType(MediaType.APPLICATION_XML)
+                  .content(xml))
+          .andExpect(status().isUnprocessableEntity());
     }
   }
 
