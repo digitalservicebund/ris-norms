@@ -90,7 +90,7 @@ public class NormExceptionHandler {
     log.error("ArticleNotFoundException: {}", e.getMessage(), e);
 
     final ProblemDetail problemDetail =
-        ProblemDetailConfig.createProblemDetail(e, HttpStatus.NOT_FOUND);
+        ProblemDetailsCreator.createProblemDetail(e, HttpStatus.NOT_FOUND);
     problemDetail.setInstance(URI.create(e.getEli()));
     problemDetail.setProperty("eid", e.getEid());
 

@@ -13,7 +13,7 @@ import org.springframework.http.ProblemDetail;
  * 9457 - Problem Details for HTTP APIs. Each exception type is mapped to a specific
  * ProblemDetailDescriptor that contains the problem's type URI and title.
  */
-public class ProblemDetailConfig {
+public class ProblemDetailsCreator {
   /**
    * Creates a ProblemDetail instance for the given exception and HTTP status. The ProblemDetail is
    * populated with information from a predefined mapping based on the exception type.
