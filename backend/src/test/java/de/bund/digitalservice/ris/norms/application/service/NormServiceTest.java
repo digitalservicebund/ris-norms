@@ -509,33 +509,6 @@ class NormServiceTest {
       verify(updateNormPort, times(0)).updateNorm(any());
     }
 
-    // TODO: test for error, move to integration test
-    // @Test
-    // void itReturnsEmptyBecauseDestinationHrefIsRelative() {
-    //   // Given
-    //   Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    //   String eli = amendingLaw.getEli();
-    //   when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
-
-    //   // When
-    //   var xml =
-    //       service.updateMod(
-    //           new UpdateModUseCase.Query(
-    //               eli,
-    //               "eid",
-    //               "refersTo",
-    //               "time-boundary-eid",
-    //               "#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE",
-    //               null,
-    //               "new text"));
-
-    //   // Then
-    //   verify(loadNormPort, times(1))
-    //       .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-    //   verify(updateNormPort, times(0)).updateNorm(any());
-    //   assertThat(xml).isEmpty();
-    // }
-
     @Test
     void itCallsTheValidator() {
       // Given
@@ -671,28 +644,6 @@ class NormServiceTest {
 
   @Nested
   class updateMods {
-    // TODO: Move to integration test
-    // @Test
-    // void itCallsLoadNormAndThrowsNormNotFoundBecauseEliNotFound() {
-    //   // Given
-    //   var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-    //   when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-
-    //   // When
-    //   assertThatThrownBy(
-    //           () ->
-    //               service.updateMods(
-    //                   new UpdateModsUseCase.Query(
-    //                       eli,
-    //                       List.of(new UpdateModsUseCase.NewModData("eid",
-    // "time-boundary-eid")))))
-    //       .isInstanceOf(NormNotFoundException.class);
-
-    //   // Then
-    //   verify(loadNormPort, times(1))
-    //       .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-    //   verify(updateNormPort, times(0)).updateNorm(any());
-    // }
 
     @Test
     void itCallsTheValidator() {
