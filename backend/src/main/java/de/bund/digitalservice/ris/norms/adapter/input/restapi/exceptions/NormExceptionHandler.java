@@ -1,9 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
-import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.TransformationException;
-import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
+import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +38,47 @@ public class NormExceptionHandler {
 
     return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
         .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  }
+
+  /**
+   * Exception handler method for handling {@link MissingAttributeValidationException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ProblemDetail} with an HTTP 422 status and the exception message.
+   */
+  @ExceptionHandler(MissingAttributeValidationException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ProblemDetail handleException(final MissingAttributeValidationException e) {
+
+    log.error("MissingAttributeValidationException: {}", e.getMessage(), e);
+
+    ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    problemDetail.setProperty("eli", e.getEli());
+    problemDetail.setProperty("eId", e.getEId());
+    problemDetail.setProperty("attributeName", e.getAttributeName());
+    return problemDetail;
+  }
+
+  /**
+   * Exception handler method for handling {@link MalformedAttributeValidationException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ProblemDetail} with an HTTP 422 status and the exception message.
+   */
+  @ExceptionHandler(MalformedAttributeValidationException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ProblemDetail handleException(final MalformedAttributeValidationException e) {
+
+    log.error("MalformedAttributeValidationException: {}", e.getMessage(), e);
+
+    ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    problemDetail.setProperty("eli", e.getEli());
+    problemDetail.setProperty("eId", e.getEId());
+    problemDetail.setProperty("attributeName", e.getAttributeName());
+    problemDetail.setProperty("attributeValue", e.getAttributeValue());
+    return problemDetail;
   }
 
   /**

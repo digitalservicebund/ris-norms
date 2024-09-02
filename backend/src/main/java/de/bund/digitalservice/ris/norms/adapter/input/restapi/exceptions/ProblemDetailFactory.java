@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.MissingAttributeValidationException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormsAppException;
 import java.net.URI;
@@ -41,7 +42,11 @@ public class ProblemDetailFactory {
     ARTICLE_NOT_FOUND(
         ArticleNotFoundException.class,
         URI.create("/errors/article-not-found"),
-        "Article not found");
+        "Article not found"),
+    MISSING_ATTRIBUTE(
+        MissingAttributeValidationException.class,
+        URI.create("/errors/missing-attribute"),
+        "Expected attribute not found");
 
     /**
      * Creates the Enum

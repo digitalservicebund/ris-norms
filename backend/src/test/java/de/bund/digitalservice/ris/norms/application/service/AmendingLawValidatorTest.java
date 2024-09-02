@@ -6,6 +6,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import de.bund.digitalservice.ris.norms.application.exception.MalformedAttributeValidationException;
+import de.bund.digitalservice.ris.norms.application.exception.MissingAttributeValidationException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
@@ -41,9 +43,9 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
+        .isInstanceOf(MissingAttributeValidationException.class)
         .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): RefersTo is empty in article with eId hauptteil-1_art-1");
+            "In the norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1 the element with eId hauptteil-1_art-1 is missing the attribute refersTo");
   }
 
   @Test
@@ -57,9 +59,9 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
+        .isInstanceOf(MissingAttributeValidationException.class)
         .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href is empty where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
+            "In the norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1 the element with eId meta-1_analysis-1_activemod-1_textualmod-1 is missing the attribute href");
   }
 
   @Test
@@ -79,9 +81,9 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
+        .isInstanceOf(MalformedAttributeValidationException.class)
         .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is meta-1_analysis-1_activemod-1_textualmod-1");
+            "In the norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1 the element with eId meta-1_analysis-1_activemod-1_textualmod-1 has a malformed attribute value #THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE on attribute");
   }
 
   @Test
@@ -112,9 +114,9 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
+        .isInstanceOf(MissingAttributeValidationException.class)
         .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): TextualMod eId empty.");
+            "In the norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1 the element with eId  is missing the attribute href"); // TODO why is eid missing?
   }
 
   @Test
@@ -134,9 +136,9 @@ class AmendingLawValidatorTest {
 
     // then
     assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
+        .isInstanceOf(MissingAttributeValidationException.class)
         .hasMessageContaining(
-            "For norm with Eli (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1): The Eli in aknMod href is empty in article with eId hauptteil-1_art-1");
+            "In the norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1 the element with eId hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 is missing the attribute href");
   }
 
   @Test

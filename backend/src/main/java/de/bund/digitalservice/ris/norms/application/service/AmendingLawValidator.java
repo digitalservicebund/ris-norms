@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.MalformedAttributeValidationException;
+import de.bund.digitalservice.ris.norms.application.exception.MissingAttributeValidationException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -57,9 +59,10 @@ public class AmendingLawValidator {
                           .getRefersTo()
                           .orElseThrow(
                               () ->
-                                  new ValidationException(
-                                      "For norm with Eli (%s): RefersTo is empty in article with eId %s"
-                                          .formatted(amendingNorm.getEli(), article.getEid())));
+                                  new MissingAttributeValidationException(
+                                      amendingNorm.getEli(),
+                                      article.getEid().orElse(""),
+                                      "refersTo"));
                   return Objects.equals(articleRefersTo, "hauptaenderung");
                 })
             .toList();
@@ -70,16 +73,28 @@ public class AmendingLawValidator {
         mod -> {
           final String targetNormEli =
               mod.getTargetRefHref()
-                  .orElseThrow(() -> new ValidationException("Target href missing"))
+                  .orElseThrow(
+                      () ->
+                          new MissingAttributeValidationException(
+                              amendingNorm.getEli(), mod.getEid().orElse(""), "href"))
                   .getEli()
-                  .orElseThrow(() -> new ValidationException("Target eli missing"));
+                  .orElseThrow(
+                      () ->
+                          new MalformedAttributeValidationException(
+                              amendingNorm.getEli(),
+                              mod.getEid().orElse(""),
+                              "href",
+                              mod.getTargetRefHref().get().value()));
           final Norm targetNorm =
               loadNormPort
                   .loadNorm(new LoadNormPort.Command(targetNormEli))
                   .orElseThrow(
                       () ->
-                          new ValidationException(
-                              String.format("Target law with eli %s missing", targetNormEli)));
+                          new MalformedAttributeValidationException(
+                              amendingNorm.getEli(),
+                              mod.getEid().orElse(""),
+                              "href",
+                              mod.getTargetRefHref().get().value()));
           final Norm zf0Norm =
               loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
           singleModValidator.validate(zf0Norm, mod);
@@ -110,19 +125,18 @@ public class AmendingLawValidator {
                     .orElseThrow(
                         () -> {
                           String amendingNormEli = amendingNorm.getEli();
-                          return new ValidationException(
-                              "For norm with Eli (%s): ActiveModification Destination Href is empty where textualMod eId is %s"
-                                  .formatted(
-                                      amendingNormEli, getTextualModEId(amendingNormEli, tm)));
+                          return new MissingAttributeValidationException(
+                              amendingNormEli, tm.getEid().orElse(""), "href");
                         })
                     .getEli()
                     .orElseThrow(
                         () -> {
                           String amendingNormEli = amendingNorm.getEli();
-                          return new ValidationException(
-                              "For norm with Eli (%s): ActiveModification Destination Href holds an empty (more general: invalid) Eli where textualMod eId is %s"
-                                  .formatted(
-                                      amendingNormEli, getTextualModEId(amendingNormEli, tm)));
+                          return new MalformedAttributeValidationException(
+                              amendingNormEli,
+                              getTextualModEId(amendingNormEli, tm),
+                              "href",
+                              tm.getDestinationHref().get().value());
                         }));
   }
 
@@ -131,18 +145,13 @@ public class AmendingLawValidator {
         .filter(
             article -> {
               String articleRefersTo;
-              try {
-                articleRefersTo =
-                    article
-                        .getRefersTo()
-                        .orElseThrow(
-                            () ->
-                                new ValidationException(
-                                    "For norm with Eli (%s): RefersTo is empty in article with eId %s"
-                                        .formatted(amendingNorm.getEli(), article.getEid().get())));
-              } catch (NullPointerException e) {
-                throw new ValidationException(e.getMessage());
-              }
+              articleRefersTo =
+                  article
+                      .getRefersTo()
+                      .orElseThrow(
+                          () ->
+                              new MissingAttributeValidationException(
+                                  amendingNorm.getEli(), article.getEid().orElse(""), "refersTo"));
 
               return Objects.equals(articleRefersTo, "hauptaenderung");
             })
@@ -161,9 +170,8 @@ public class AmendingLawValidator {
         mod -> {
           Optional<String> eli = getModTargetHref(amendingNormEli, mod, articleEId).getEli();
           if (eli.isEmpty()) {
-            throw new ValidationException(
-                "For norm with Eli (%s): The Eli in aknMod href is empty in article with eId %s"
-                    .formatted(amendingNormEli, articleEId));
+            throw new MissingAttributeValidationException(
+                amendingNormEli, mod.getEid().orElse(""), "href");
           }
         });
   }
@@ -173,7 +181,11 @@ public class AmendingLawValidator {
     if (article.getAffectedDocumentEli().isEmpty()) {
       throw new ValidationException(
           "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
-              .formatted(amendingNormEli, articleEId));
+              .formatted(
+                  amendingNormEli,
+                  articleEId)); // TODO Please check: it only returns the affected document of the
+      // first mod of an article. Couldn't there be several mods in an
+      // article?
     }
   }
 
@@ -251,19 +263,12 @@ public class AmendingLawValidator {
 
   private Href getModTargetHref(String eli, Mod m, String modEId) {
     return m.getTargetRefHref()
-        .orElseThrow(
-            () ->
-                new ValidationException(
-                    "For norm with Eli (%s): mod href is empty in article mod with eId %s"
-                        .formatted(eli, modEId)));
+        .orElseThrow(() -> new MissingAttributeValidationException(eli, modEId, "href"));
   }
 
   private String getTextualModEId(String eli, TextualMod textualMod) {
     return textualMod
         .getEid()
-        .orElseThrow(
-            () ->
-                new ValidationException(
-                    "For norm with Eli (%s): TextualMod eId empty.".formatted(eli)));
+        .orElseThrow(() -> new MissingAttributeValidationException(eli, "", "eId"));
   }
 }
