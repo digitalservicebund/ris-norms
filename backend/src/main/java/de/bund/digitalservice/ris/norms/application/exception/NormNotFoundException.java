@@ -4,7 +4,7 @@ import lombok.Getter;
 
 /** Indicates that the requested norm does not exist. */
 @Getter
-public class NormNotFoundException extends RuntimeException {
+public class NormNotFoundException extends RuntimeException implements NormsAppException {
 
   private final String eli;
 

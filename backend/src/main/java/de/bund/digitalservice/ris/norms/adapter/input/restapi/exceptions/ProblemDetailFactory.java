@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
 import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormsAppException;
 import java.net.URI;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,8 @@ public class ProblemDetailFactory {
    * @return A ProblemDetail object containing information about the problem, including its type,
    *     title, and detailed message.
    */
-  public static ProblemDetail createProblemDetail(final Throwable e, final HttpStatus status) {
+  public static ProblemDetail createProblemDetail(
+      final NormsAppException e, final HttpStatus status) {
     final ProblemMapping problemMapping = ProblemMapping.getInstance(e.getClass());
     ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
     problemDetail.setType(problemMapping.getType());
@@ -47,7 +49,7 @@ public class ProblemDetailFactory {
      * @param clazz - Class to create the enum
      * @return A ProblemMapping enum
      */
-    public static ProblemMapping getInstance(Class<? extends Throwable> clazz) {
+    public static ProblemMapping getInstance(Class<? extends NormsAppException> clazz) {
       for (ProblemMapping mapping : ProblemMapping.values()) {
         if (mapping.clazz.equals(clazz)) {
           return mapping;
@@ -57,11 +59,11 @@ public class ProblemDetailFactory {
           "No matching ProblemMapping found for class: " + clazz.getName());
     }
 
-    private final Class<? extends Throwable> clazz;
+    private final Class<? extends NormsAppException> clazz;
     private final URI type;
     private final String title;
 
-    ProblemMapping(Class<? extends Throwable> clazz, URI type, String title) {
+    ProblemMapping(Class<? extends NormsAppException> clazz, URI type, String title) {
       this.clazz = clazz;
       this.type = type;
       this.title = title;

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormsAppException;
 import java.net.URI;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,13 +35,22 @@ class ProblemDetailFactoryTest {
     @Test
     void throwExceptionWhenProblemDetailNotDefined() {
       // given
-      RuntimeException runtimeException = new RuntimeException("message");
+      NormsAppException normNotFoundException = new UndefinedNormsException();
 
       // when/then
       assertThatThrownBy(
               () ->
-                  ProblemDetailFactory.createProblemDetail(runtimeException, HttpStatus.NOT_FOUND))
+                  ProblemDetailFactory.createProblemDetail(
+                      normNotFoundException, HttpStatus.NOT_FOUND))
           .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    static class UndefinedNormsException extends RuntimeException implements NormsAppException {
+
+      @Override
+      public String getMessage() {
+        return "";
+      }
     }
   }
 }
