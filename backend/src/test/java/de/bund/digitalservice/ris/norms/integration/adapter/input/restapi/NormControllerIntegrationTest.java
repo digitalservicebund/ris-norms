@@ -993,28 +993,22 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   @Nested
   class UpdateMods {
 
-    // TODO: moved from service test, needs to be adjusted
-    // @Test
-    // void itCallsLoadNormAndThrowsNormNotFoundBecauseEliNotFound() {
-    //   // Given
-    //   var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-    //   when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+    @Test
+    void itReturnsNormNotFoundAsEliNotFound() throws Exception {
+      // Given no norm in database
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
-    //   // When
-    //   assertThatThrownBy(
-    //           () ->
-    //               service.updateMods(
-    //                   new UpdateModsUseCase.Query(
-    //                       eli,
-    //                       List.of(new UpdateModsUseCase.NewModData("eid",
-    // "time-boundary-eid")))))
-    //       .isInstanceOf(NormNotFoundException.class);
+      // When
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
 
-    //   // Then
-    //   verify(loadNormPort, times(1))
-    //       .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-    //   verify(updateNormPort, times(0)).updateNorm(any());
-    // }
+          // then
+          .andExpect(status().isNotFound());
+    }
 
     // TODO: unclear, what to test, here
     @Test
