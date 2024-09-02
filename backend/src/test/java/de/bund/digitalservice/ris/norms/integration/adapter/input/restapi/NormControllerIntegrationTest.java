@@ -571,33 +571,6 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   @Nested
   class UpdateMod {
 
-    // TODO: moved from service test: review and possibly adjust (or drop)
-    // @Test
-    // void itReturnsEmptyBecauseDestinationHrefIsRelative() {
-    //   // Given
-    //   Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    //   String eli = amendingLaw.getEli();
-    //   when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
-
-    //   // When
-    //   var xml =
-    //       service.updateMod(
-    //           new UpdateModUseCase.Query(
-    //               eli,
-    //               "eid",
-    //               "refersTo",
-    //               "time-boundary-eid",
-    //               "#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE",
-    //               null,
-    //               "new text"));
-
-    //   // Then
-    //   verify(loadNormPort, times(1))
-    //       .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-    //   verify(updateNormPort, times(0)).updateNorm(any());
-    //   assertThat(xml).isEmpty();
-    // }
-
     @Test
     void itReturns404NotFound() throws Exception {
       // given there's no norm
@@ -1057,7 +1030,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
-          // the
+          // then
           .andExpect(status().isUnprocessableEntity());
     }
 
