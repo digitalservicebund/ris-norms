@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -55,10 +55,7 @@ public class ArticleService
             xml ->
                 xsltTransformationService.transformLegalDocMlToHtml(
                     new TransformLegalDocMlToHtmlUseCase.Query(xml, false, false)))
-        .orElseThrow(
-            () ->
-                new ElementNotFoundException(
-                    query.eli(), query.eid(), ElementService.ElementType.ARTICLE));
+        .orElseThrow(() -> new ArticleNotFoundException(query.eli(), query.eid()));
   }
 
   @Override
