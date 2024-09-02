@@ -465,7 +465,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   @Nested
   class GetNormTimeBoundaries {
 
-    // TODO: Error case missing
+    // Note: Error case missing
 
     @Test
     void itExtractsAndReturnsTimeBoundariesFromNorm() throws Exception {
