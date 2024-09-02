@@ -187,19 +187,19 @@ public class NormController {
       @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
-    // TODO: split this into separate steps for readability
-    return ResponseEntity.ok(
-        UpdateModResponseMapper.fromResult(
-            updateModUseCase.updateMod(
-                new UpdateModUseCase.Query(
-                    eli.getValue(),
-                    eid,
-                    updateModRequestSchema.getRefersTo(),
-                    updateModRequestSchema.getTimeBoundaryEid(),
-                    updateModRequestSchema.getDestinationHref(),
-                    updateModRequestSchema.getDestinationUpTo(),
-                    updateModRequestSchema.getNewContent(),
-                    dryRun))));
+    var result =
+        updateModUseCase.updateMod(
+            new UpdateModUseCase.Query(
+                eli.getValue(),
+                eid,
+                updateModRequestSchema.getRefersTo(),
+                updateModRequestSchema.getTimeBoundaryEid(),
+                updateModRequestSchema.getDestinationHref(),
+                updateModRequestSchema.getDestinationUpTo(),
+                updateModRequestSchema.getNewContent(),
+                dryRun));
+
+    return ResponseEntity.ok(UpdateModResponseMapper.fromResult(result));
   }
 
   /**
