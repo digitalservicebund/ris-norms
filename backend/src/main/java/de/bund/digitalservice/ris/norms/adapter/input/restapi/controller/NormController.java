@@ -224,19 +224,18 @@ public class NormController {
           final Map<String, UpdateModsRequestSchema.ModUpdate> updateModsRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
-    return updateModsUseCase
-        .updateMods(
-            new UpdateModsUseCase.Query(
-                eli.getValue(),
-                updateModsRequestSchema.entrySet().stream()
-                    .map(
-                        entry ->
-                            new UpdateModsUseCase.NewModData(
-                                entry.getKey(), entry.getValue().timeBoundaryEid()))
-                    .toList(),
-                dryRun))
-        .map(UpdateModsResponseMapper::fromResult)
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.unprocessableEntity().build());
+    // TODO: unwrap for legibility
+    return ResponseEntity.ok(
+        UpdateModsResponseMapper.fromResult(
+            updateModsUseCase.updateMods(
+                new UpdateModsUseCase.Query(
+                    eli.getValue(),
+                    updateModsRequestSchema.entrySet().stream()
+                        .map(
+                            entry ->
+                                new UpdateModsUseCase.NewModData(
+                                    entry.getKey(), entry.getValue().timeBoundaryEid()))
+                        .toList(),
+                    dryRun))));
   }
 }
