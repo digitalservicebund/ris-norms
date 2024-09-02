@@ -10,7 +10,7 @@ on:
       - main
   # also: allow to run this workflow manually
   workflow_dispatch:
-  4
+
 env:
   CONTAINER_IMAGE_VERSION: ${{ github.event.pull_request.head.sha || github.sha }} # Use PR head SHA if available
 
