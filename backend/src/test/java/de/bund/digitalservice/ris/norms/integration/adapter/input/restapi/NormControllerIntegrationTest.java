@@ -34,7 +34,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   @Nested
   class GetNormByEli {
 
-    // TODO: Error case missing
+    // Note: Error case missing
 
     @Test
     void itCallsNormsServiceAndReturnsNorm() throws Exception {
@@ -192,7 +192,7 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   @Nested
   class GetNormRenderWithQueryParameters {
 
-    // TODO: Error case missing
+    // Note: Error case missing
 
     @Test
     void itCallsNormServiceAndReturnsNormRenderWithMetadata() throws Exception {
