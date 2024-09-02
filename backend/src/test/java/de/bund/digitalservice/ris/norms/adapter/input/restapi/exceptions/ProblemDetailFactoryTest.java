@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 
-class ProblemDetailsCreatorTest {
+class ProblemDetailFactoryTest {
 
   @Nested
   class CreateProblemDetail {
@@ -21,7 +21,7 @@ class ProblemDetailsCreatorTest {
 
       // when
       ProblemDetail problemDetail =
-          ProblemDetailsCreator.createProblemDetail(normNotFoundException, HttpStatus.NOT_FOUND);
+          ProblemDetailFactory.createProblemDetail(normNotFoundException, HttpStatus.NOT_FOUND);
 
       // then
       assertThat(problemDetail).isNotNull();
@@ -39,7 +39,7 @@ class ProblemDetailsCreatorTest {
       // when/then
       assertThatThrownBy(
               () ->
-                  ProblemDetailsCreator.createProblemDetail(runtimeException, HttpStatus.NOT_FOUND))
+                  ProblemDetailFactory.createProblemDetail(runtimeException, HttpStatus.NOT_FOUND))
           .isInstanceOf(IllegalArgumentException.class);
     }
   }
