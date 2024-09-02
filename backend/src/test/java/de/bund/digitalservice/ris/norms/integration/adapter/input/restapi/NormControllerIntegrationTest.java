@@ -1010,14 +1010,13 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(status().isNotFound());
     }
 
-    // TODO: unclear, what to test, here
     @Test
-    void itCallsUpdateModsUseCaseAndReturnsEmpty() throws Exception {
+    void itReturnsUnprocessableEntiti() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
 
       // When
-      //   when(updateModsUseCase.updateMods(any())).thenReturn(Optional.empty());
       mockMvc
           .perform(
               patch("/api/v1/norms/" + eli + "/mods")
