@@ -14,9 +14,8 @@ public interface LoadElementsByTypeFromNormUseCase {
    *
    * @return List of elements from the norm
    * @param query Query used for identifying the elements
-   * @throws UnsupportedElementTypeException when providing an invalid type
    */
-  List<Node> loadElementsByTypeFromNorm(Query query) throws UnsupportedElementTypeException;
+  List<Node> loadElementsByTypeFromNorm(Query query);
 
   /**
    * Contains the parameters needed for loading an element from a norm.
