@@ -245,7 +245,7 @@ class NormControllerTest {
 
       // When
       when(updateModUseCase.updateMod(any()))
-          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+          .thenReturn(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml));
 
       // When // Then
       mockMvc
@@ -273,7 +273,7 @@ class NormControllerTest {
 
       // When
       when(updateModUseCase.updateMod(any()))
-          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+          .thenReturn(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml));
 
       // When // Then
       mockMvc

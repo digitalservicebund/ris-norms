@@ -655,16 +655,16 @@ class NormServiceTest {
       verify(updateOrSaveNormPort, times(1))
           .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
-      assertThat(returnedXml).isPresent();
-      final Document amendingXmlDocument =
-          XmlMapper.toDocument(returnedXml.get().amendingNormXml());
+      // TOOD: what to check instead?
+      //   assertThat(returnedXml).isPresent();
+      final Document amendingXmlDocument = XmlMapper.toDocument(returnedXml.amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetRefHref()).isPresent();
       assertThat(mod.getTargetRefHref().get().value()).contains(newDestinationHref);
       assertThat(mod.getNewText()).contains(newContent);
-      assertThat(returnedXml.get().targetNormZf0Xml())
+      assertThat(returnedXml.targetNormZf0Xml())
           .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }
   }
