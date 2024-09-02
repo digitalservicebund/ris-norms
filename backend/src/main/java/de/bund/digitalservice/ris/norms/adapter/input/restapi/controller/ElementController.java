@@ -52,17 +52,18 @@ public class ElementController {
   public ResponseEntity<String> getElementHtmlPreview(
       final Eli eli, @PathVariable final String eid, @RequestParam Optional<Instant> atIsoDate) {
 
-    return atIsoDate
-        .map(
-            date ->
-                loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(
-                    new LoadElementHtmlAtDateFromNormUseCase.Query(eli.getValue(), eid, date)))
-        .orElseGet(
-            () ->
-                loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
-                    new LoadElementHtmlFromNormUseCase.Query(eli.getValue(), eid)))
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+    var elementHtml =
+        atIsoDate
+            .map(
+                date ->
+                    loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(
+                        new LoadElementHtmlAtDateFromNormUseCase.Query(eli.getValue(), eid, date)))
+            .orElseGet(
+                () ->
+                    loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(
+                        new LoadElementHtmlFromNormUseCase.Query(eli.getValue(), eid)));
+
+    return ResponseEntity.ok(elementHtml);
   }
 
   /**
@@ -82,11 +83,11 @@ public class ElementController {
   public ResponseEntity<ElementResponseSchema> getElementInfo(
       final Eli eli, @PathVariable final String eid) {
 
-    return loadElementFromNormUseCase
-        .loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli.getValue(), eid))
-        .map(ElementResponseMapper::fromElementNode)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+    var element =
+        loadElementFromNormUseCase.loadElementFromNorm(
+            new LoadElementFromNormUseCase.Query(eli.getValue(), eid));
+
+    return ResponseEntity.ok(ElementResponseMapper.fromElementNode(element));
   }
 
   /**
@@ -111,19 +112,15 @@ public class ElementController {
       @RequestParam final String[] type,
       @RequestParam final Optional<String> amendedBy) {
 
-    try {
-      List<ElementResponseSchema> elements =
-          loadElementsByTypeFromNormUseCase
-              .loadElementsByTypeFromNorm(
-                  new LoadElementsByTypeFromNormUseCase.Query(
-                      eli.getValue(), Arrays.asList(type), amendedBy.orElse(null)))
-              .stream()
-              .map(ElementResponseMapper::fromElementNode)
-              .toList();
+    List<ElementResponseSchema> elements =
+        loadElementsByTypeFromNormUseCase
+            .loadElementsByTypeFromNorm(
+                new LoadElementsByTypeFromNormUseCase.Query(
+                    eli.getValue(), Arrays.asList(type), amendedBy.orElse(null)))
+            .stream()
+            .map(ElementResponseMapper::fromElementNode)
+            .toList();
 
-      return ResponseEntity.ok(elements);
-    } catch (LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException e) {
-      return ResponseEntity.badRequest().build();
-    }
+    return ResponseEntity.ok(elements);
   }
 }

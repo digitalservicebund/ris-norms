@@ -1,10 +1,11 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
 import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.TransformationException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -90,15 +91,15 @@ public class NormExceptionHandler {
   }
 
   /**
-   * Exception handler method for handling {@link ArticleNotFoundException}.
+   * Exception handler method for handling {@link ElementNotFoundException}.
    *
    * @param e The exception that occured.
    * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
    */
-  @ExceptionHandler(ArticleNotFoundException.class)
+  @ExceptionHandler(ElementNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<String> handleException(final ArticleNotFoundException e) {
-    log.error("ArticleNotFoundException: {}", e.getMessage(), e);
+  public ResponseEntity<String> handleException(final ElementNotFoundException e) {
+    log.error("ElementNotFoundException: {}", e.getMessage(), e);
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
@@ -118,6 +119,23 @@ public class NormExceptionHandler {
     log.error("ArticleOfTypeNotFoundException: {}", e.getMessage(), e);
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  }
+
+  /**
+   * Exception handler method for handling {@link
+   * LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException}.
+   *
+   * @param e The exception that occured.
+   * @return A {@link ResponseEntity} with an HTTP 400 status code and the exception message.
+   */
+  @ExceptionHandler(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<String> handleException(
+      final LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException e) {
+    log.error("UnsupportedElementTypeException: {}", e.getMessage(), e);
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
   }
 }

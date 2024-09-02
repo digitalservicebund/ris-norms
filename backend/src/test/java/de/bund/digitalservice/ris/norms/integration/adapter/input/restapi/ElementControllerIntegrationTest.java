@@ -27,71 +27,54 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class GetElement {
+  class getElementHtmlPreview {
     @Test
-    void returns404IfNormNotFoundByEli() throws Exception {
-      // given no norm
-      // when
+    void returnsNotFoundIfNormNotFoundByEli() throws Exception {
+      // Given
+      // Nothing
+
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3")
                   .accept(MediaType.TEXT_HTML))
-          // then
+          // Then
           .andExpect(status().isNotFound());
     }
 
     @Test
-    void returns404IfElementNotFoundByEid() throws Exception {
-      // given
+    void returnsNotFoundIfElementNotFoundByEid() throws Exception {
+      // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
-      // when
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID")
                   .accept(MediaType.TEXT_HTML))
-          // then
+          // Then
           .andExpect(status().isNotFound());
     }
 
     @Test
     void returnsElementRenderedAsHtml() throws Exception {
-      // given
+      // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));
 
-      // when
+      // When
       mockMvc
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1")
                   .accept(MediaType.TEXT_HTML))
-          // then
+          // Then
           .andExpect(status().isOk())
           .andExpect(content().string(containsString("Änderung des Vereinsgesetzes")));
     }
 
     @Test
-    void returnElementEidTitleAndType() throws Exception {
-      // given
-      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
-      normRepository.save(NormMapper.mapToDto(norm));
-
-      // when
-      mockMvc
-          .perform(
-              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1")
-                  .accept(MediaType.APPLICATION_JSON))
-          // then
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
-          .andExpect(jsonPath("type").value("article"))
-          .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
-    }
-
-    @Test
     void returnsElementAtGivenIsoDateRenderedAsHtml() throws Exception {
-
       // Given
       var amendingNorm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
@@ -112,6 +95,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void returnsBadRequestIfAtIsoDateIsInvalid() throws Exception {
       // Given
+      // Nothing
 
       // When / Then
       mockMvc
@@ -123,65 +107,118 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class getListOfElements {
+  class getElementInfo {
+    @Test
+    void returnsNotFoundIfNormNotFoundByEli() throws Exception {
+      // Given
+      // Nothing
+
+      // When
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3")
+                  .accept(MediaType.APPLICATION_JSON))
+          // Then
+          .andExpect(status().isNotFound());
+    }
 
     @Test
-    void itReturnsServerErrorIfTypeParameterIsMissing() throws Exception {
-      // given
+    void returnsNotFoundIfElementNotFoundByEid() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
 
-      // when
+      // When
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID")
+                  .accept(MediaType.APPLICATION_JSON))
+          // Then
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void returnElementEidTitleAndType() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // When
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1")
+                  .accept(MediaType.APPLICATION_JSON))
+          // Then
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
+          .andExpect(jsonPath("type").value("article"))
+          .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
+    }
+  }
+
+  @Nested
+  class getListOfElements {
+    @Test
+    void itReturnsServerErrorIfTypeParameterIsMissing() throws Exception {
+      // Given
+      // Nothing
+
+      // When
       mockMvc
           .perform(
               get(
                   "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements"))
-          // then
+          // Then
           .andExpect(status().is5xxServerError());
     }
 
     @Test
     void itReturnsBadRequestIfTheTypeIsNotSupported() throws Exception {
-      // given
+      // Given
+      // Nothing
 
-      // when
+      // When
       mockMvc
           .perform(
               get(
                   "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=foo"))
-          // then
+          // Then
           .andExpect(status().isBadRequest());
     }
 
     @Test
     void itReturnsNotFoundIfNormIsNotFound() throws Exception {
-      // given
+      // Given
+      // Nothing
 
-      // when
+      // When
       mockMvc
           .perform(
               get(
                   "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
-          // then
+          // Then
           .andExpect(status().isNotFound());
     }
 
     @Test
     void itReturnsEmptyListIfNoMatchingElementsAreFound() throws Exception {
-      // given
+      // Given
       var norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
       normRepository.save(NormMapper.mapToDto(norm));
-      // when
+
+      // When
       mockMvc
           .perform(
               get(
                   "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements?type=preface"))
-          // then
+          // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0]").doesNotExist());
     }
 
     @Test
     void itReturnsEntriesWithPrefacePreambleArticleAndConclusionInformation() throws Exception {
-      // given
+      // Given
       var norm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
       normRepository.save(NormMapper.mapToDto(norm));
       var url =
@@ -191,10 +228,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               + "&type=article"
               + "&type=conclusions";
 
-      // when
+      // When
       mockMvc
           .perform(get(url))
-          // then
+
+          // Then
           .andExpect(status().isOk())
           // preface
           .andExpect(jsonPath("$[0]").exists())
@@ -221,7 +259,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsEntriesWithBookPartChapterTitleSubtitleSectionAndSubsectionInformation()
         throws Exception {
-      // given
+      // Given
       var norm = NormFixtures.loadFromDisk("NormWithGliederung.xml");
       normRepository.save(NormMapper.mapToDto(norm));
       var url =
@@ -234,10 +272,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               + "&type=section"
               + "&type=subsection";
 
-      // when
+      // When
       mockMvc
           .perform(get(url))
-          // then
+
+          // Then
           .andExpect(status().isOk())
           // book
           .andExpect(jsonPath("$[0]").exists())
@@ -282,14 +321,10 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
                       "hauptteil-1_buch-1_teil-1_kapitel-1_abschnitt-1_uabschnitt-1_titel-1_utitel-1"))
           .andExpect(jsonPath("$[6].type").value("subtitle"));
     }
-  }
-
-  @Nested
-  class getElementsWithAmendedByQueryParameter {
 
     @Test
     void itReturnsAnEmptyListIfNoElementIsAffectedByTheGivenAmendingLaw() throws Exception {
-      // given
+      // Given
       var targetNorm = NormFixtures.loadFromDisk("NormWithMultiplePassiveModifications.xml");
       normRepository.save(NormMapper.mapToDto(targetNorm));
       var amendingNorm = NormFixtures.loadFromDisk("NormWithPrefacePreambleAndConclusions.xml");
@@ -304,10 +339,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               + "&amendedBy="
               + amendingNorm.getEli(); // amending norm eli
 
-      // when
+      // When
       mockMvc
           .perform(get(url))
-          // then
+
+          // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0]").doesNotExist());
     }
@@ -326,10 +362,11 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               + "&type=conclusions"
               + "&amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"; // second
 
-      // when
+      // When
       mockMvc
           .perform(get(url))
-          // then
+
+          // Then
           .andExpect(status().isOk())
           .andExpect(jsonPath("$[0].eid").exists())
           .andExpect(jsonPath("$[0].title").exists())
