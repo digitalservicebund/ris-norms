@@ -187,6 +187,7 @@ public class NormController {
       @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
+    // TODO: split this into separate steps for readability
     return ResponseEntity.ok(
         UpdateModResponseMapper.fromResult(
             updateModUseCase.updateMod(
