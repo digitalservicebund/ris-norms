@@ -142,13 +142,14 @@ class NormServiceTest {
     }
 
     @Test
-    void itCallsLoadNormAndThrowsIfNotFound() {
+    void itCallsLoadNormAndThrowsNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      var query = new LoadNormXmlUseCase.Query(eli);
 
       // When
-      assertThatThrownBy(() -> service.loadNormXml(new LoadNormXmlUseCase.Query(eli)))
+      assertThatThrownBy(() -> service.loadNormXml(query))
 
           // then
           .isInstanceOf(NormNotFoundException.class);
@@ -290,9 +291,10 @@ class NormServiceTest {
           """;
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      var query = new UpdateNormXmlUseCase.Query(eli, newXml);
 
       // When
-      assertThatThrownBy(() -> service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml)))
+      assertThatThrownBy(() -> service.updateNormXml(query))
 
           // then
           .isInstanceOf(NormNotFoundException.class);
@@ -628,8 +630,6 @@ class NormServiceTest {
       verify(updateOrSaveNormPort, times(1))
           .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
-      // TOOD: what to check instead?
-      //   assertThat(returnedXml).isPresent();
       final Document amendingXmlDocument = XmlMapper.toDocument(returnedXml.amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
