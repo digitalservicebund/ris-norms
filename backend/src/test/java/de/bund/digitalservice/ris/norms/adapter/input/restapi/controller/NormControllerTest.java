@@ -232,7 +232,6 @@ class NormControllerTest {
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
     }
 
-    // TODO: check if we have this already (integration test)
     @Test
     void itCallsNormServiceAndReturnsErrorMessage() throws Exception {
       // Given
@@ -256,7 +255,6 @@ class NormControllerTest {
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
     }
 
-    // TODO: check if we already have this (integration test)
     @Test
     void itCallsNormServiceAndReturnsUnprocessableWhenNodeIsMissing() throws Exception {
       // Given
