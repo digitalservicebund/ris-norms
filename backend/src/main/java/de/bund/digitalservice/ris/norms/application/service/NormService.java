@@ -212,7 +212,7 @@ public class NormService
   }
 
   @Override
-  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
+  public UpdateModUseCase.Result updateMod(UpdateModUseCase.Query query) {
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (amendingNormOptional.isEmpty()) {
@@ -222,7 +222,7 @@ public class NormService
 
     final var targetNormEli = new Href(query.destinationHref()).getEli();
     if (targetNormEli.isEmpty()) {
-      return Optional.empty();
+      throw new ValidationException(query.destinationHref());
     }
 
     final Norm targetNorm =
@@ -245,9 +245,7 @@ public class NormService
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
 
-    return Optional.of(
-        new UpdateModUseCase.Result(
-            XmlMapper.toString(amendingNorm.getDocument()),
-            XmlMapper.toString(zf0Norm.getDocument())));
+    return new UpdateModUseCase.Result(
+        XmlMapper.toString(amendingNorm.getDocument()), XmlMapper.toString(zf0Norm.getDocument()));
   }
 }
