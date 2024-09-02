@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -304,7 +303,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+          .thenReturn(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml));
 
       // When // Then
       mockMvc
@@ -332,7 +331,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+          .thenReturn(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml));
 
       // When // Then
       mockMvc

@@ -739,8 +739,9 @@ class NormServiceTest {
       verify(updateOrSaveNormPort, times(1))
           .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
-      assertThat(result).isPresent();
-      final Document amendingXmlDocument = XmlMapper.toDocument(result.get().amendingNormXml());
+      // TODO: what to essert, here?
+      //   assertThat(result).isPresent();
+      final Document amendingXmlDocument = XmlMapper.toDocument(result.amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
@@ -749,8 +750,7 @@ class NormServiceTest {
           .contains(
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml");
       assertThat(mod.getNewText()).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
-      assertThat(result.get().targetNormZf0Xml())
-          .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
+      assertThat(result.targetNormZf0Xml()).isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }
 
     @Test
@@ -796,7 +796,8 @@ class NormServiceTest {
       verify(updateNormPort, times(1)).updateNorm(any());
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
 
-      assertThat(result).isPresent();
+      // TODO: what to assert, here?
+      //   assertThat(result).isPresent();
     }
 
     @Test
@@ -843,7 +844,8 @@ class NormServiceTest {
       verify(updateNormPort, times(1)).updateNorm(any());
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
 
-      assertThat(result).isPresent();
+      // TODO: what to assert here?
+      //   assertThat(result).isPresent();
     }
   }
 }
