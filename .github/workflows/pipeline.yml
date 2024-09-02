@@ -11,9 +11,6 @@ on:
   # also: allow to run this workflow manually
   workflow_dispatch:
 
-env:
-  CONTAINER_IMAGE_VERSION: ${{ github.event.pull_request.head.sha || github.sha }} # Use PR head SHA if available
-
 jobs:
   #############################################
   # jobs dispatched to a separate workflow file
@@ -29,7 +26,7 @@ jobs:
      with:
        container-registry: ghcr.io
        container-image-name: ${{ github.repository }}
-       container-image-version: ${{ env.CONTAINER_IMAGE_VERSION }}
+       container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
      secrets: inherit # e.g. sonar token
 
    frontend-jobs:
@@ -47,7 +44,7 @@ jobs:
        # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow
        container-registry: ghcr.io
        container-image-name: ${{ github.repository }}
-       container-image-version: ${{ env.CONTAINER_IMAGE_VERSION }}
+       container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
      secrets: inherit # e.g. sonar token
 
    ldml-extension-jobs:
@@ -64,7 +61,7 @@ jobs:
       with:
         container-registry: ghcr.io
         container-image-name: ${{ github.repository }}
-        container-image-version: ${{ env.CONTAINER_IMAGE_VERSION }}
+        container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
       secrets: inherit # e.g. sonar token
 
    push-docker-image-job:
@@ -83,7 +80,7 @@ jobs:
      with:
        container-registry: ghcr.io
        container-image-name: ${{ github.repository }}
-       container-image-version: ${{ env.CONTAINER_IMAGE_VERSION }}
+       container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
      secrets: inherit # e.g. sonar token
 
   # ######################
