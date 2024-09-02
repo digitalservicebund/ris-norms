@@ -770,18 +770,17 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
-      var result =
-          service.updateMods(
-              new UpdateModsUseCase.Query(
-                  amendingNormEli,
-                  List.of(
-                      new UpdateModsUseCase.NewModData(
-                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
-                          "#meta-1_geltzeiten-1_geltungszeitgr-1"),
-                      new UpdateModsUseCase.NewModData(
-                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1",
-                          "#meta-1_geltzeiten-1_geltungszeitgr-1")),
-                  false));
+      service.updateMods(
+          new UpdateModsUseCase.Query(
+              amendingNormEli,
+              List.of(
+                  new UpdateModsUseCase.NewModData(
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                      "#meta-1_geltzeiten-1_geltungszeitgr-1"),
+                  new UpdateModsUseCase.NewModData(
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1",
+                      "#meta-1_geltzeiten-1_geltungszeitgr-1")),
+              false));
 
       // Then
       verify(loadNormPort, times(1))
@@ -793,9 +792,6 @@ class NormServiceTest {
       verify(updateNormService, times(2)).updatePassiveModifications(any());
       verify(updateNormPort, times(1)).updateNorm(any());
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
-
-      // TODO: what to assert, here?
-      //   assertThat(result).isPresent();
     }
 
     @Test
@@ -818,18 +814,17 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
-      var result =
-          service.updateMods(
-              new UpdateModsUseCase.Query(
-                  amendingNormEli,
-                  List.of(
-                      new UpdateModsUseCase.NewModData(
-                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
-                          "#meta-1_geltzeiten-1_geltungszeitgr-2"),
-                      new UpdateModsUseCase.NewModData(
-                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
-                          "#meta-1_geltzeiten-1_geltungszeitgr-2")),
-                  false));
+      service.updateMods(
+          new UpdateModsUseCase.Query(
+              amendingNormEli,
+              List.of(
+                  new UpdateModsUseCase.NewModData(
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+                      "#meta-1_geltzeiten-1_geltungszeitgr-2"),
+                  new UpdateModsUseCase.NewModData(
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                      "#meta-1_geltzeiten-1_geltungszeitgr-2")),
+              false));
 
       // Then
       verify(loadNormPort, times(1))
@@ -841,9 +836,6 @@ class NormServiceTest {
       verify(updateNormService, times(2)).updatePassiveModifications(any());
       verify(updateNormPort, times(1)).updateNorm(any());
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
-
-      // TODO: what to assert here?
-      //   assertThat(result).isPresent();
     }
   }
 }
