@@ -91,10 +91,8 @@ public class NormController {
    */
   @GetMapping(produces = {APPLICATION_XML_VALUE})
   public ResponseEntity<String> getNormXml(final Eli eli) {
-    return loadNormXmlUseCase
-        .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+    return ResponseEntity.ok(
+        loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue())));
   }
 
   /**
@@ -135,14 +133,12 @@ public class NormController {
                   XmlMapper.toString(norm.getDocument()), showMetadata, false)));
     }
 
-    return loadNormXmlUseCase
-        .loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()))
-        .map(
-            xml ->
-                ResponseEntity.ok(
-                    this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-                        new TransformLegalDocMlToHtmlUseCase.Query(xml, showMetadata, false))))
-        .orElseGet(() -> ResponseEntity.notFound().build());
+    var normXml = loadNormXmlUseCase.loadNormXml(new LoadNormXmlUseCase.Query(eli.getValue()));
+    var legalDocHtml =
+        this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+            new TransformLegalDocMlToHtmlUseCase.Query(normXml, showMetadata, false));
+
+    return ResponseEntity.ok(legalDocHtml);
   }
 
   /**
@@ -162,14 +158,10 @@ public class NormController {
       consumes = {APPLICATION_XML_VALUE},
       produces = {APPLICATION_XML_VALUE})
   public ResponseEntity<String> updateAmendingLaw(final Eli eli, @RequestBody String xml) {
-    try {
-      return updateNormXmlUseCase
-          .updateNormXml(new UpdateNormXmlUseCase.Query(eli.getValue(), xml))
-          .map(ResponseEntity::ok)
-          .orElseGet(() -> ResponseEntity.notFound().build());
-    } catch (UpdateNormXmlUseCase.InvalidUpdateException e) {
-      return ResponseEntity.badRequest().body(e.getMessage());
-    }
+    var updatedAmendingLaw =
+        updateNormXmlUseCase.updateNormXml(new UpdateNormXmlUseCase.Query(eli.getValue(), xml));
+
+    return ResponseEntity.ok(updatedAmendingLaw);
   }
 
   /**
@@ -195,8 +187,8 @@ public class NormController {
       @RequestBody @Valid final UpdateModRequestSchema updateModRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
-    return updateModUseCase
-        .updateMod(
+    var result =
+        updateModUseCase.updateMod(
             new UpdateModUseCase.Query(
                 eli.getValue(),
                 eid,
@@ -205,10 +197,9 @@ public class NormController {
                 updateModRequestSchema.getDestinationHref(),
                 updateModRequestSchema.getDestinationUpTo(),
                 updateModRequestSchema.getNewContent(),
-                dryRun))
-        .map(UpdateModResponseMapper::fromResult)
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+                dryRun));
+
+    return ResponseEntity.ok(UpdateModResponseMapper.fromResult(result));
   }
 
   /**
@@ -233,8 +224,8 @@ public class NormController {
           final Map<String, UpdateModsRequestSchema.ModUpdate> updateModsRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 
-    return updateModsUseCase
-        .updateMods(
+    final var result =
+        updateModsUseCase.updateMods(
             new UpdateModsUseCase.Query(
                 eli.getValue(),
                 updateModsRequestSchema.entrySet().stream()
@@ -243,9 +234,8 @@ public class NormController {
                             new UpdateModsUseCase.NewModData(
                                 entry.getKey(), entry.getValue().timeBoundaryEid()))
                     .toList(),
-                dryRun))
-        .map(UpdateModsResponseMapper::fromResult)
-        .map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.unprocessableEntity().build());
+                dryRun));
+
+    return ResponseEntity.ok(UpdateModsResponseMapper.fromResult(result));
   }
 }

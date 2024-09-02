@@ -24,6 +24,23 @@ public class NormExceptionHandler {
 
   private static final String CONTENT_FORMAT_TEMPLATE = "{\"message\": \"%s\"}";
 
+  // InvalidUpdateException
+  /**
+   * Exception handler method for handling {@link InvalidUpdateException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status and the exception message.
+   */
+  @ExceptionHandler(InvalidUpdateException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ResponseEntity<String> handleException(final InvalidUpdateException e) {
+
+    log.error("InvalidUpdateException: {}", e.getMessage(), e);
+
+    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  }
+
   /**
    * Exception handler method for handling {@link AnnouncementNotFoundException}.
    *

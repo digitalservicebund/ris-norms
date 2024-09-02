@@ -34,6 +34,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
   @Nested
   class GetNormByEli {
 
+    // Note: Error case missing
+
     @Test
     void itCallsNormsServiceAndReturnsNorm() throws Exception {
       // Given
@@ -189,6 +191,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class GetNormRenderWithQueryParameters {
+
+    // Note: Error case missing
 
     @Test
     void itCallsNormServiceAndReturnsNormRenderWithMetadata() throws Exception {
@@ -346,6 +350,24 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class PutNormByEli {
+
+    @Test
+    void itReturnsNormNotFound() throws Exception {
+      // Given no norm in database
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String xml = "<akn:doc>new</akn:doc>";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}", eli)
+                  .accept(MediaType.APPLICATION_XML)
+                  .contentType(MediaType.APPLICATION_XML)
+                  .content(xml))
+          // Then
+          .andExpect(status().isNotFound());
+    }
+
     @Test
     void itCallsNormServiceAndUpdatesNorm() throws Exception {
       // Given
@@ -442,6 +464,8 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class GetNormTimeBoundaries {
+
+    // Note: Error case missing
 
     @Test
     void itExtractsAndReturnsTimeBoundariesFromNorm() throws Exception {
@@ -546,6 +570,24 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class UpdateMod {
+
+    @Test
+    void itReturns404NotFound() throws Exception {
+      // given there's no norm
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String modEid = "mod-eid-1";
+
+      // when
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/" + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"))
+          // then
+          .andExpect(status().isNotFound());
+    }
 
     @ParameterizedTest
     @ValueSource(strings = {"", "?dryRun=true"})
@@ -910,6 +952,40 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class UpdateMods {
+
+    @Test
+    void itReturnsNormNotFoundAsEliNotFound() throws Exception {
+      // Given no norm in database
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+
+      // When
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
+
+          // then
+          .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void itReturnsUnprocessableEntiti() throws Exception {
+      // Given
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
+
+      // When
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
+          // then
+          .andExpect(status().isUnprocessableEntity());
+    }
 
     @Test
     void itUpdatesASingleMod() throws Exception {

@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
@@ -55,36 +56,39 @@ public class NormService
   }
 
   @Override
-  public Optional<String> loadNormXml(final LoadNormXmlUseCase.Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(Norm::getDocument)
-        .map(XmlMapper::toString);
+  public String loadNormXml(final LoadNormXmlUseCase.Query query) {
+    final Norm norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    return XmlMapper.toString(norm.getDocument());
   }
 
   @Override
-  public Optional<String> updateNormXml(UpdateNormXmlUseCase.Query query)
-      throws InvalidUpdateException {
-    var existingNorm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+  public String updateNormXml(UpdateNormXmlUseCase.Query query) {
+    var existingNorm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
-    if (existingNorm.isEmpty()) {
-      return Optional.empty();
+    var normToBeUpdated = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
+
+    if (!existingNorm.getEli().equals(normToBeUpdated.getEli())) {
+      throw new InvalidUpdateException("Changing the ELI is not supported.");
     }
 
-    var updatedNorm = Norm.builder().document(XmlMapper.toDocument(query.xml())).build();
-
-    if (!existingNorm.get().getEli().equals(updatedNorm.getEli())) {
-      throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the ELI is not supported.");
+    if (!existingNorm.getGuid().equals(normToBeUpdated.getGuid())) {
+      throw new InvalidUpdateException("Changing the GUID is not supported.");
     }
 
-    if (!existingNorm.get().getGuid().equals(updatedNorm.getGuid())) {
-      throw new UpdateNormXmlUseCase.InvalidUpdateException("Changing the GUID is not supported.");
-    }
+    var updatedNorm =
+        updateNormPort
+            .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
+            .orElseThrow(
+                () -> new InvalidUpdateException("Invalid update %s".formatted(query.eli())));
 
-    return updateNormPort
-        .updateNorm(new UpdateNormPort.Command(updatedNorm))
-        .map(Norm::getDocument)
-        .map(XmlMapper::toString);
+    return XmlMapper.toString(updatedNorm.getDocument());
   }
 
   /**
@@ -135,16 +139,16 @@ public class NormService
   }
 
   @Override
-  public Optional<UpdateModsUseCase.Result> updateMods(UpdateModsUseCase.Query query) {
+  public UpdateModsUseCase.Result updateMods(UpdateModsUseCase.Query query) {
 
     if (query.mods().isEmpty()) {
-      return Optional.empty();
+      throw new InvalidUpdateException("No mods given");
     }
 
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (amendingNormOptional.isEmpty()) {
-      return Optional.empty();
+      throw new NormNotFoundException(query.eli());
     }
     final Norm amendingNorm = amendingNormOptional.get();
 
@@ -155,7 +159,7 @@ public class NormService
             .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
             .flatMap(Href::getEli);
     if (targetNormEli.isEmpty()) {
-      return Optional.empty();
+      throw new InvalidUpdateException("No target href/eli found");
     }
 
     if (!query.mods().stream()
@@ -201,14 +205,12 @@ public class NormService
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
 
-    return Optional.of(
-        new UpdateModsUseCase.Result(
-            XmlMapper.toString(amendingNorm.getDocument()),
-            XmlMapper.toString(zf0Norm.getDocument())));
+    return new UpdateModsUseCase.Result(
+        XmlMapper.toString(amendingNorm.getDocument()), XmlMapper.toString(zf0Norm.getDocument()));
   }
 
   @Override
-  public Optional<UpdateModUseCase.Result> updateMod(UpdateModUseCase.Query query) {
+  public UpdateModUseCase.Result updateMod(UpdateModUseCase.Query query) {
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (amendingNormOptional.isEmpty()) {
@@ -218,11 +220,13 @@ public class NormService
 
     final var targetNormEli = new Href(query.destinationHref()).getEli();
     if (targetNormEli.isEmpty()) {
-      return Optional.empty();
+      throw new ValidationException(query.destinationHref());
     }
 
     final Norm targetNorm =
-        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli.get())).orElseThrow();
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(targetNormEli.get()))
+            .orElseThrow(() -> new NormNotFoundException(targetNormEli.get()));
     final Norm zf0Norm =
         loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
@@ -241,9 +245,7 @@ public class NormService
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
 
-    return Optional.of(
-        new UpdateModUseCase.Result(
-            XmlMapper.toString(amendingNorm.getDocument()),
-            XmlMapper.toString(zf0Norm.getDocument())));
+    return new UpdateModUseCase.Result(
+        XmlMapper.toString(amendingNorm.getDocument()), XmlMapper.toString(zf0Norm.getDocument()));
   }
 }
