@@ -226,7 +226,9 @@ public class NormService
     }
 
     final Norm targetNorm =
-        loadNormPort.loadNorm(new LoadNormPort.Command(targetNormEli.get())).orElseThrow();
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(targetNormEli.get()))
+            .orElseThrow(() -> new NormNotFoundException(targetNormEli.get()));
     final Norm zf0Norm =
         loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
