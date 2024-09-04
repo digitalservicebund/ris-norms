@@ -49,7 +49,7 @@ const localValue = computed({
 </script>
 
 <template>
-  <div class="grid gap-2">
+  <div class="flex flex-col gap-2">
     <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
     <label v-if="label" :for="id" class="ds-label">
       {{ label }}
@@ -57,7 +57,7 @@ const localValue = computed({
     <textarea
       :id="id"
       v-model="localValue"
-      class="h-unset ds-input h-auto resize-none py-12"
+      class="h-unset ds-input h-full resize-none py-12"
       :placeholder="placeholder"
       :readonly="readOnly"
       :rows="rows"

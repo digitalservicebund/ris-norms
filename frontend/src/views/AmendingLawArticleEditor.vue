@@ -217,6 +217,7 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
 
           <router-view
             v-if="showEditor"
+            :key="selectedMods[0]"
             v-model:xml="currentXml"
             :selected-mods="selectedMods"
           ></router-view>

@@ -93,14 +93,13 @@ test.describe("Loading mod details", () => {
     await expect(destinationHrefEidElement).not.toHaveAttribute("readonly")
 
     // Quoted Text First
-    const quotedTextFirstElement = modFormSection.getByRole("textbox", {
-      name: "zu ersetzender Text",
-    })
+    const quotedTextFirstElement = modFormSection
+      .getByLabel("zu ersetzender Text")
+      .getByRole("textbox")
     await expect(quotedTextFirstElement).toBeVisible()
-    await expect(quotedTextFirstElement).toHaveValue(
+    await expect(quotedTextFirstElement).toContainText(
       "§ 9 Abs. 1 Satz 2, Abs. 2",
     )
-    await expect(quotedTextFirstElement).toHaveAttribute("readonly", "")
 
     // Quoted Text Second
     const quotedTextSecondElement = modFormSection.getByRole("textbox", {

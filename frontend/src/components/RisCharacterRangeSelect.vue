@@ -52,8 +52,16 @@ function highlightCurrentCharacterRange() {
 
   // create the range in the ldml xml
   const range = new Range()
-  range.setStart(containerNode, characterRange[0])
-  range.setEnd(containerNode, characterRange[1])
+  try {
+    range.setStart(containerNode, characterRange[0])
+    range.setEnd(containerNode, characterRange[1])
+  } catch (e) {
+    if (e instanceof Error && e.name === "IndexSizeError") {
+      console.warn("Couldn't find selected character range:", e)
+      return
+    }
+    throw e
+  }
 
   const htmlRange = ldmlRangeToHtmlRenderRange(range, preview.value)
 
