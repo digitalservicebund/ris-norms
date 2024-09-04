@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toDocument;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -48,7 +48,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(normString));
 
-    assertThrows(MandatoryNodeNotFoundException.class, norm::getEli);
+    assertThatThrownBy(norm::getEli).isInstanceOf(MandatoryNodeNotFoundException.class);
   }
 
   @Test
@@ -369,7 +369,7 @@ class NormTest {
 
     Norm norm = new Norm(toDocument(normString));
 
-    assertThrows(MandatoryNodeNotFoundException.class, norm::getMeta);
+    assertThatThrownBy(norm::getMeta).isInstanceOf(MandatoryNodeNotFoundException.class);
   }
 
   private static Stream<Arguments> provideParametersForGetArticles() {
@@ -1253,7 +1253,7 @@ class NormTest {
       norm.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
 
       // then
-      assertThrows(MandatoryNodeNotFoundException.class, norm::getEli);
+      assertThatThrownBy(norm::getEli).isInstanceOf(MandatoryNodeNotFoundException.class);
     }
   }
 

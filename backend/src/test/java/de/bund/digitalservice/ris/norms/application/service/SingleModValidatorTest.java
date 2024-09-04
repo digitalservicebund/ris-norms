@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
@@ -14,7 +14,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Collections;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -117,7 +116,7 @@ class SingleModValidatorTest {
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when/then
-      Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
+      assertThatCode(() -> underTest.validate(zf0Norm, mod)).doesNotThrowAnyException();
     }
 
     @Test
@@ -154,7 +153,7 @@ class SingleModValidatorTest {
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when/then
-      Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
+      assertThatCode(() -> underTest.validate(zf0Norm, mod)).doesNotThrowAnyException();
     }
 
     @Test
@@ -191,7 +190,7 @@ class SingleModValidatorTest {
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
 
       // when/then
-      Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
+      assertThatCode(() -> underTest.validate(zf0Norm, mod)).doesNotThrowAnyException();
     }
 
     @Test
@@ -325,7 +324,7 @@ class SingleModValidatorTest {
       final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml");
 
       // when then
-      Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
+      assertThatCode(() -> underTest.validate(zf0Norm, mod)).doesNotThrowAnyException();
     }
 
     @Test
@@ -342,7 +341,7 @@ class SingleModValidatorTest {
           NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructureAndUpTo.xml");
 
       // when then
-      Assertions.assertDoesNotThrow(() -> underTest.validate(zf0Norm, mod));
+      assertThatCode(() -> underTest.validate(zf0Norm, mod)).doesNotThrowAnyException();
     }
 
     @Test

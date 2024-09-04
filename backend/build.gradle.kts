@@ -208,12 +208,14 @@ licenseReport {
     filters = arrayOf<DependencyFilter>(LicenseBundleNormalizer())
 }
 
-checkstyle {
-    configFile = rootProject.file("javadocs_checkstyle.xml")
+tasks.named<Checkstyle>("checkstyleMain") {
+    source = sourceSets["main"].allJava
+    configFile = rootProject.file("checkstyle/config-main.xml")
 }
 
-tasks.named("checkstyleTest").configure {
-    enabled = false
+tasks.named<Checkstyle>("checkstyleTest") {
+    source = sourceSets["test"].allJava
+    configFile = rootProject.file("checkstyle/config-test.xml")
 }
 
 if (System.getProperty("spring.profiles.active") == "staging") {

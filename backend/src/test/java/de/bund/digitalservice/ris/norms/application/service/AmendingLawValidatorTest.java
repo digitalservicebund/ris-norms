@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -13,7 +14,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import java.util.Collections;
 import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class AmendingLawValidatorTest {
@@ -162,7 +162,8 @@ class AmendingLawValidatorTest {
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
 
     // when/then
-    Assertions.assertDoesNotThrow(() -> underTest.destinationEliIsConsistent(amendingNorm));
+    assertThatCode(() -> underTest.destinationEliIsConsistent(amendingNorm))
+        .doesNotThrowAnyException();
   }
 
   @Test
@@ -186,7 +187,8 @@ class AmendingLawValidatorTest {
     final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
 
     // when/then
-    Assertions.assertDoesNotThrow(() -> underTest.destinationHrefIsConsistent(amendingNorm));
+    assertThatCode(() -> underTest.destinationHrefIsConsistent(amendingNorm))
+        .doesNotThrowAnyException();
   }
 
   @Test
@@ -213,6 +215,6 @@ class AmendingLawValidatorTest {
     when(loadZf0Service.loadZf0(any(), any())).thenReturn(zf0Norm);
 
     // when/then
-    Assertions.assertDoesNotThrow(() -> underTest.validate(amendingNorm));
+    assertThatCode(() -> underTest.validate(amendingNorm)).doesNotThrowAnyException();
   }
 }
