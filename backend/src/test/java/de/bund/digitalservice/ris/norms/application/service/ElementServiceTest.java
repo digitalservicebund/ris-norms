@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -65,34 +66,33 @@ class ElementServiceTest {
       var element = service.loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid));
 
       // Then
-      assertThat(element).isPresent();
-      assertThat(NodeParser.getValueFromExpression("./@eId", element.get())).contains(eid);
+      assertThat(NodeParser.getValueFromExpression("./@eId", element)).contains(eid);
 
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
     }
 
     @Test
-    void itReturnsEmptyOptionalIfNoNormIsFound() {
+    void itThrowsIfNormIsNotFound() {
       // Given
       var eli = "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
+      var query = new LoadElementFromNormUseCase.Query(eli, eid);
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
 
-      // When
-      var element = service.loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid));
-
-      // Then
-      assertThat(element).isEmpty();
+      // When / Then
+      assertThatThrownBy(() -> service.loadElementFromNorm(query))
+          .isInstanceOf(NormNotFoundException.class);
 
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
     }
 
     @Test
-    void itReturnsEmptyOptionalIfNoElementIsFound() {
+    void itThrowsIfNoElementIsFound() {
       // Given
       var eli = "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1000";
+      var query = new LoadElementFromNormUseCase.Query(eli, eid);
 
       var normXml =
           """
@@ -121,11 +121,9 @@ class ElementServiceTest {
       var norm = new Norm(XmlMapper.toDocument(normXml));
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
 
-      // When
-      var element = service.loadElementFromNorm(new LoadElementFromNormUseCase.Query(eli, eid));
-
-      // Then
-      assertThat(element).isEmpty();
+      // When / Then
+      assertThatThrownBy(() -> service.loadElementFromNorm(query))
+          .isInstanceOf(ElementNotFoundException.class);
 
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
     }
@@ -179,28 +177,27 @@ class ElementServiceTest {
     }
 
     @Test
-    void itReturnsEmptyOptionalIfNoNormIsFound() {
+    void itThrowsIfNoNormIsFound() {
       // Given
       var eli = "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
+      var query = new LoadElementHtmlFromNormUseCase.Query(eli, eid);
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
 
-      // When
-      var element =
-          service.loadElementHtmlFromNorm(new LoadElementHtmlFromNormUseCase.Query(eli, eid));
-
-      // Then
-      assertThat(element).isEmpty();
+      // When / Then
+      assertThatThrownBy(() -> service.loadElementHtmlFromNorm(query))
+          .isInstanceOf(NormNotFoundException.class);
 
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
     }
 
     @Test
-    void itReturnsEmptyOptionalIfNoElementIsFound() {
+    void itThrowsIfNoElementIsFound() {
       // Given
       var eli = "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1000";
+      var query = new LoadElementHtmlFromNormUseCase.Query(eli, eid);
 
       var normXml =
           """
@@ -230,12 +227,9 @@ class ElementServiceTest {
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.of(norm));
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
-      // When
-      var html =
-          service.loadElementHtmlFromNorm(new LoadElementHtmlFromNormUseCase.Query(eli, eid));
-
-      // Then
-      assertThat(html).isEmpty();
+      // When / Then
+      assertThatThrownBy(() -> service.loadElementHtmlFromNorm(query))
+          .isInstanceOf(ElementNotFoundException.class);
 
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
     }
@@ -295,30 +289,29 @@ class ElementServiceTest {
     }
 
     @Test
-    void itReturnsEmptyOptionalIfNormIsNotFound() {
+    void itThrowsIfNormIsNotFound() {
       // Given
       var eli = "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1";
       var date = Instant.parse("2099-12-31T00:00:00.00Z");
+      var query = new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date);
 
       when(loadNormPort.loadNorm(new LoadNormPort.Command(eli))).thenReturn(Optional.empty());
 
-      // When
-      var html =
-          service.loadElementHtmlAtDateFromNorm(
-              new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date));
+      // When / Then
+      assertThatThrownBy(() -> service.loadElementHtmlAtDateFromNorm(query))
+          .isInstanceOf(NormNotFoundException.class);
 
-      // Then
-      assertThat(html).isEmpty();
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
     }
 
     @Test
-    void itReturnsEmptyOptionalIfElementIsNotFound() {
+    void itThrowsIfElementIsNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1";
       var eid = "meta-1000";
       var date = Instant.parse("2099-12-31T00:00:00.00Z");
+      var query = new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date);
 
       var normXml =
           """
@@ -351,13 +344,10 @@ class ElementServiceTest {
           .thenReturn(norm);
       when(xsltTransformationService.transformLegalDocMlToHtml(any())).thenReturn("<div></div>");
 
-      // When
-      var html =
-          service.loadElementHtmlAtDateFromNorm(
-              new LoadElementHtmlAtDateFromNormUseCase.Query(eli, eid, date));
+      // When / Then
+      assertThatThrownBy(() -> service.loadElementHtmlAtDateFromNorm(query))
+          .isInstanceOf(ElementNotFoundException.class);
 
-      // Then
-      assertThat(html).isEmpty();
       verify(loadNormPort).loadNorm(new LoadNormPort.Command(eli));
       verify(timeMachineService)
           .applyPassiveModifications(new ApplyPassiveModificationsUseCase.Query(norm, date));

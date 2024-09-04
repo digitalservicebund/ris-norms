@@ -3,7 +3,6 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -24,7 +23,6 @@ import de.bund.digitalservice.ris.norms.helper.MemoryAppender;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
 import java.util.Objects;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
@@ -247,13 +245,12 @@ class TimeBoundaryControllerTest {
           .andExpect(status().isBadRequest())
           .andExpect(
               result ->
-                  Assertions.assertInstanceOf(
-                      HandlerMethodValidationException.class, result.getResolvedException()))
+                  assertThat(result.getResolvedException())
+                      .isInstanceOf(HandlerMethodValidationException.class))
           .andExpect(
               result ->
-                  assertEquals(
-                      "400 BAD_REQUEST \"Validation failure\"",
-                      Objects.requireNonNull(result.getResolvedException()).getMessage()))
+                  assertThat(Objects.requireNonNull(result.getResolvedException()).getMessage())
+                      .isEqualTo("400 BAD_REQUEST \"Validation failure\""))
           .andExpect(
               result ->
                   assertThat(memoryAppender.contains("All dates must be unique.", Level.ERROR))
@@ -298,13 +295,12 @@ class TimeBoundaryControllerTest {
           .andExpect(status().isBadRequest())
           .andExpect(
               result ->
-                  Assertions.assertInstanceOf(
-                      HandlerMethodValidationException.class, result.getResolvedException()))
+                  assertThat(result.getResolvedException())
+                      .isInstanceOf(HandlerMethodValidationException.class))
           .andExpect(
               result ->
-                  assertEquals(
-                      "400 BAD_REQUEST \"Validation failure\"",
-                      Objects.requireNonNull(result.getResolvedException()).getMessage()))
+                  assertThat(Objects.requireNonNull(result.getResolvedException()).getMessage())
+                      .isEqualTo("400 BAD_REQUEST \"Validation failure\""))
           .andExpect(
               result ->
                   assertThat(memoryAppender.contains("Change list must not be empty", Level.ERROR))
@@ -334,13 +330,12 @@ class TimeBoundaryControllerTest {
           .andExpect(status().isBadRequest())
           .andExpect(
               result ->
-                  Assertions.assertInstanceOf(
-                      HandlerMethodValidationException.class, result.getResolvedException()))
+                  assertThat(result.getResolvedException())
+                      .isInstanceOf(HandlerMethodValidationException.class))
           .andExpect(
               result ->
-                  assertEquals(
-                      "400 BAD_REQUEST \"Validation failure\"",
-                      Objects.requireNonNull(result.getResolvedException()).getMessage()))
+                  assertThat(Objects.requireNonNull(result.getResolvedException()).getMessage())
+                      .isEqualTo("400 BAD_REQUEST \"Validation failure\""))
           .andExpect(
               result ->
                   assertThat(memoryAppender.contains("Date must not be null", Level.ERROR))

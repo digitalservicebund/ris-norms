@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -137,23 +138,21 @@ class NormServiceTest {
       // Then
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xml).isPresent();
-      assertThat(xml.get()).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
+      assertThat(xml).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
     }
 
     @Test
-    void itCallsLoadNormAndReturnsEmptyIfNotFound() {
+    void itCallsLoadNormAndThrowsNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      var query = new LoadNormXmlUseCase.Query(eli);
 
       // When
-      var xml = service.loadNormXml(new LoadNormXmlUseCase.Query(eli));
+      assertThatThrownBy(() -> service.loadNormXml(query))
 
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xml).isEmpty();
+          // then
+          .isInstanceOf(NormNotFoundException.class);
     }
   }
 
@@ -161,7 +160,7 @@ class NormServiceTest {
   class updateNormXml {
 
     @Test
-    void itUpdatesXml() throws UpdateNormXmlUseCase.InvalidUpdateException {
+    void itUpdatesXml() throws InvalidUpdateException {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
@@ -247,13 +246,12 @@ class NormServiceTest {
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(1))
           .updateNorm(argThat(argument -> Objects.equals(argument.norm(), newNorm)));
-      assertThat(result).isPresent();
-      assertThat(result.get())
+      assertThat(result)
           .contains("Entwurf eines Dritten Gesetzes zur Änderung des Vereinsgesetzes");
     }
 
     @Test
-    void itReturnsEmptyIfNormDoesNotExist() throws UpdateNormXmlUseCase.InvalidUpdateException {
+    void itThrowsNormNotFoundIfNormDoesNotExist() throws InvalidUpdateException {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
 
@@ -293,15 +291,17 @@ class NormServiceTest {
           """;
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      var query = new UpdateNormXmlUseCase.Query(eli, newXml);
 
       // When
-      var result = service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml));
+      assertThatThrownBy(() -> service.updateNormXml(query))
 
-      // Then
+          // then
+          .isInstanceOf(NormNotFoundException.class);
+
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(result).isEmpty();
     }
 
     @Test
@@ -389,7 +389,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(thrown).isInstanceOf(UpdateNormXmlUseCase.InvalidUpdateException.class);
+      assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
 
     @Test
@@ -477,156 +477,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(thrown).isInstanceOf(UpdateNormXmlUseCase.InvalidUpdateException.class);
-    }
-  }
-
-  @Nested
-  class loadSpecificArticlesXmlFromNorm {
-
-    @Test
-    void loadAllArticles() {
-      // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-
-      var norm =
-          Norm.builder()
-              .document(
-                  XmlMapper.toDocument(
-                      """
-                          <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                             xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                 http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                             <akn:act name="regelungstext">
-                                <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                                         <!-- Artikel 1 : Hauptänderung -->
-                                         <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
-                                            Some Text
-                                         </akn:article>
-
-                                         <!-- Artikel 3: Geltungszeitregel-->
-                                         <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
-                                            More Text
-                                         </akn:article>
-                                      </akn:body>
-                             </akn:act>
-                          </akn:akomaNtoso>
-                        """))
-              .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-
-      // When
-      var xmls =
-          service.loadSpecificArticlesXmlFromNorm(
-              new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, null));
-
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xmls).isNotEmpty();
-      assertThat(xmls.getFirst()).contains("hauptteil-1_art-1");
-      assertThat(xmls.get(1)).contains("hauptteil-1_art-3");
-    }
-
-    @Test
-    void itCallsLoadNormAndThrowsIfNotFound() {
-      // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-
-      // When
-      assertThatThrownBy(() -> service.loadSpecificArticlesXmlFromNorm(query))
-
-          // Then
-          .isInstanceOf(NormNotFoundException.class);
-
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-    }
-
-    @Test
-    void loadSpecificArticles() {
-      // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-
-      var norm =
-          Norm.builder()
-              .document(
-                  XmlMapper.toDocument(
-                      """
-                                                          <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                                                          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                                             xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                                                                 http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                                                             <akn:act name="regelungstext">
-                                                                <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                                                                         <!-- Artikel 1 : Hauptänderung -->
-                                                                         <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
-                                                                            Some Text
-                                                                         </akn:article>
-
-                                                                         <!-- Artikel 3: Geltungszeitregel-->
-                                                                         <akn:article eId="hauptteil-1_art-3" GUID="aaae12b5-0c74-4e51-a286-d6051ff5d21b" period="#geltungszeitgr-1" refersTo="geltungszeitregel">
-                                                                            More Text
-                                                                         </akn:article>
-                                                                      </akn:body>
-                                                             </akn:act>
-                                                          </akn:akomaNtoso>
-                                                        """))
-              .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-
-      // When
-      var xmls =
-          service.loadSpecificArticlesXmlFromNorm(
-              new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel"));
-
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      assertThat(xmls).isNotEmpty();
-      assertThat(xmls.getFirst()).contains("hauptteil-1_art-3");
-    }
-
-    @Test
-    void itThrowsWhenNoArticlesOfTypeAreFoundInNorm() {
-      // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      var query = new LoadSpecificArticlesXmlFromNormUseCase.Query(eli, "geltungszeitregel");
-
-      var norm =
-          Norm.builder()
-              .document(
-                  XmlMapper.toDocument(
-                      """
-                        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                           xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                               http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                           <akn:act name="regelungstext">
-                              <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-                                       <!-- Artikel 1 : Hauptänderung -->
-                                       <akn:article eId="hauptteil-1_art-1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#geltungszeitgr-1" refersTo="hauptaenderung">
-                                          Some Text
-                                       </akn:article>
-                                    </akn:body>
-                           </akn:act>
-                        </akn:akomaNtoso>
-                      """))
-              .build();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
-
-      // When
-      assertThatThrownBy(() -> service.loadSpecificArticlesXmlFromNorm(query))
-
-          // Then
-          .isInstanceOf(
-              LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class);
-
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
+      assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
   }
 
@@ -634,7 +485,7 @@ class NormServiceTest {
   class UpdateMod {
 
     @Test
-    void itCallsLoadNormAndReturnsEmptyBecauseEliNotFound() {
+    void itCallsLoadNormAndThrowsNormNotFoundBecauseEliNotFound() {
       // Given
       var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -658,32 +509,6 @@ class NormServiceTest {
       verify(loadNormPort, times(1))
           .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
       verify(updateNormPort, times(0)).updateNorm(any());
-    }
-
-    @Test
-    void itReturnsEmptyBecauseDestinationHrefIsRelative() {
-      // Given
-      Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String eli = amendingLaw.getEli();
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingLaw));
-
-      // When
-      var xml =
-          service.updateMod(
-              new UpdateModUseCase.Query(
-                  eli,
-                  "eid",
-                  "refersTo",
-                  "time-boundary-eid",
-                  "#THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE",
-                  null,
-                  "new text"));
-
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(xml).isEmpty();
     }
 
     @Test
@@ -805,40 +630,20 @@ class NormServiceTest {
       verify(updateOrSaveNormPort, times(1))
           .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
-      assertThat(returnedXml).isPresent();
-      final Document amendingXmlDocument =
-          XmlMapper.toDocument(returnedXml.get().amendingNormXml());
+      final Document amendingXmlDocument = XmlMapper.toDocument(returnedXml.amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
       assertThat(mod.getTargetRefHref()).isPresent();
       assertThat(mod.getTargetRefHref().get().value()).contains(newDestinationHref);
       assertThat(mod.getNewText()).contains(newContent);
-      assertThat(returnedXml.get().targetNormZf0Xml())
+      assertThat(returnedXml.targetNormZf0Xml())
           .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }
   }
 
   @Nested
   class updateMods {
-    @Test
-    void itCallsLoadNormAndReturnsEmptyBecauseEliNotFound() {
-      // Given
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
-
-      // When
-      var result =
-          service.updateMods(
-              new UpdateModsUseCase.Query(
-                  eli, List.of(new UpdateModsUseCase.NewModData("eid", "time-boundary-eid"))));
-
-      // Then
-      verify(loadNormPort, times(1))
-          .loadNorm(argThat(argument -> Objects.equals(argument.eli(), eli)));
-      verify(updateNormPort, times(0)).updateNorm(any());
-      assertThat(result).isEmpty();
-    }
 
     @Test
     void itCallsTheValidator() {
@@ -934,8 +739,7 @@ class NormServiceTest {
       verify(updateOrSaveNormPort, times(1))
           .updateOrSave(argThat(argument -> Objects.equals(argument.norm(), zf0Norm)));
 
-      assertThat(result).isPresent();
-      final Document amendingXmlDocument = XmlMapper.toDocument(result.get().amendingNormXml());
+      final Document amendingXmlDocument = XmlMapper.toDocument(result.amendingNormXml());
       final Norm resultAmendingNorm = Norm.builder().document(amendingXmlDocument).build();
 
       final Mod mod = resultAmendingNorm.getMods().getFirst();
@@ -944,8 +748,7 @@ class NormServiceTest {
           .contains(
               "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml");
       assertThat(mod.getNewText()).contains("§ 9 Absatz 1 Satz 2, Absatz 2 oder 3");
-      assertThat(result.get().targetNormZf0Xml())
-          .isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
+      assertThat(result.targetNormZf0Xml()).isEqualTo(XmlMapper.toString(zf0Norm.getDocument()));
     }
 
     @Test
@@ -967,18 +770,17 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
-      var result =
-          service.updateMods(
-              new UpdateModsUseCase.Query(
-                  amendingNormEli,
-                  List.of(
-                      new UpdateModsUseCase.NewModData(
-                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
-                          "#meta-1_geltzeiten-1_geltungszeitgr-1"),
-                      new UpdateModsUseCase.NewModData(
-                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1",
-                          "#meta-1_geltzeiten-1_geltungszeitgr-1")),
-                  false));
+      service.updateMods(
+          new UpdateModsUseCase.Query(
+              amendingNormEli,
+              List.of(
+                  new UpdateModsUseCase.NewModData(
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                      "#meta-1_geltzeiten-1_geltungszeitgr-1"),
+                  new UpdateModsUseCase.NewModData(
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-3_inhalt-1_text-1_ändbefehl-1",
+                      "#meta-1_geltzeiten-1_geltungszeitgr-1")),
+              false));
 
       // Then
       verify(loadNormPort, times(1))
@@ -990,8 +792,6 @@ class NormServiceTest {
       verify(updateNormService, times(2)).updatePassiveModifications(any());
       verify(updateNormPort, times(1)).updateNorm(any());
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
-
-      assertThat(result).isPresent();
     }
 
     @Test
@@ -1014,18 +814,17 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
-      var result =
-          service.updateMods(
-              new UpdateModsUseCase.Query(
-                  amendingNormEli,
-                  List.of(
-                      new UpdateModsUseCase.NewModData(
-                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
-                          "#meta-1_geltzeiten-1_geltungszeitgr-2"),
-                      new UpdateModsUseCase.NewModData(
-                          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
-                          "#meta-1_geltzeiten-1_geltungszeitgr-2")),
-                  false));
+      service.updateMods(
+          new UpdateModsUseCase.Query(
+              amendingNormEli,
+              List.of(
+                  new UpdateModsUseCase.NewModData(
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+                      "#meta-1_geltzeiten-1_geltungszeitgr-2"),
+                  new UpdateModsUseCase.NewModData(
+                      "hauptteil-1_para-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+                      "#meta-1_geltzeiten-1_geltungszeitgr-2")),
+              false));
 
       // Then
       verify(loadNormPort, times(1))
@@ -1037,8 +836,6 @@ class NormServiceTest {
       verify(updateNormService, times(2)).updatePassiveModifications(any());
       verify(updateNormPort, times(1)).updateNorm(any());
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
-
-      assertThat(result).isPresent();
     }
   }
 }

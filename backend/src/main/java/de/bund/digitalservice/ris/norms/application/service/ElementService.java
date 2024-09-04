@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.ElementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -12,7 +13,6 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import org.springframework.stereotype.Service;
@@ -36,22 +36,27 @@ public class ElementService
 
   /** The types of elements that can be retrieved from a norm. */
   public enum ElementType {
-    ARTICLE("article"),
-    BOOK("book"),
-    CHAPTER("chapter"),
-    CONCLUSIONS("conclusions"),
-    PART("part"),
-    PREAMBLE("preamble"),
-    PREFACE("preface"),
-    SECTION("section"),
-    SUBSECTION("subsection"),
-    SUBTITLE("subtitle"),
-    TITLE("title");
+    ARTICLE("article", "//body//article"),
+    BOOK("book", "//body//book"),
+    CHAPTER("chapter", "//body//chapter"),
+    CONCLUSIONS("conclusions", "//act/conclusions"),
+    PART("part", "//body//part"),
+    PREAMBLE("preamble", "//act/preamble"),
+    PREFACE("preface", "//act/preface"),
+    SECTION("section", "//body//section"),
+    SUBSECTION("subsection", "//body//subsection"),
+    SUBTITLE("subtitle", "//body//subtitle"),
+    TITLE("title", "//body//title");
 
+    /** The name of the element. */
     public final String label;
 
-    ElementType(String label) {
+    /** The XPath used for finding elements of that type in a norm. */
+    public final String xPath;
+
+    ElementType(String label, String xPath) {
       this.label = label;
+      this.xPath = xPath;
     }
 
     /**
@@ -59,10 +64,8 @@ public class ElementService
      *
      * @param label Label to infer the enum value from.
      * @return Enum value for that label
-     * @throws LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException If no value exists
-     *     for that label.
      */
-    public static ElementType fromLabel(String label) throws UnsupportedElementTypeException {
+    public static ElementType fromLabel(String label) {
       for (ElementType type : values()) {
         if (type.label.equals(label)) {
           return type;
@@ -72,20 +75,6 @@ public class ElementService
       throw new UnsupportedElementTypeException(label + " is not supported");
     }
   }
-
-  private final Map<ElementType, String> xPathsForTypes =
-      Map.ofEntries(
-          Map.entry(ElementType.ARTICLE, "//body//article"),
-          Map.entry(ElementType.BOOK, "//body//book"),
-          Map.entry(ElementType.CHAPTER, "//body//chapter"),
-          Map.entry(ElementType.CONCLUSIONS, "//act/conclusions"),
-          Map.entry(ElementType.PART, "//body//part"),
-          Map.entry(ElementType.PREAMBLE, "//act/preamble"),
-          Map.entry(ElementType.PREFACE, "//act/preface"),
-          Map.entry(ElementType.SECTION, "//body//section"),
-          Map.entry(ElementType.SUBSECTION, "//body//subsection"),
-          Map.entry(ElementType.SUBTITLE, "//body//subtitle"),
-          Map.entry(ElementType.TITLE, "//body//title"));
 
   public ElementService(
       LoadNormPort loadNormPort,
@@ -97,61 +86,65 @@ public class ElementService
   }
 
   @Override
-  public Optional<Node> loadElementFromNorm(final LoadElementFromNormUseCase.Query query) {
-    var xPath = getXPathForEid(query.eid());
+  public Node loadElementFromNorm(final LoadElementFromNormUseCase.Query query) {
+    final var xPath = getXPathForEid(query.eid());
 
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .flatMap(norm -> NodeParser.getNodeFromExpression(xPath, norm.getDocument()));
+    final var norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    return NodeParser.getNodeFromExpression(xPath, norm.getDocument())
+        .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
   }
 
   @Override
-  public Optional<String> loadElementHtmlFromNorm(
-      final LoadElementHtmlFromNormUseCase.Query query) {
-    return loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid()))
-        .map(XmlMapper::toString)
-        .map(rawXml -> new TransformLegalDocMlToHtmlUseCase.Query(rawXml, false, false))
-        .map(xsltTransformationService::transformLegalDocMlToHtml);
+  public String loadElementHtmlFromNorm(final LoadElementHtmlFromNormUseCase.Query query) {
+    final var normXml =
+        XmlMapper.toString(
+            loadElementFromNorm(new LoadElementFromNormUseCase.Query(query.eli(), query.eid())));
+
+    return xsltTransformationService.transformLegalDocMlToHtml(
+        new TransformLegalDocMlToHtmlUseCase.Query(normXml, false, false));
   }
 
   @Override
-  public Optional<String> loadElementHtmlAtDateFromNorm(
+  public String loadElementHtmlAtDateFromNorm(
       final LoadElementHtmlAtDateFromNormUseCase.Query query) {
-    return loadNormPort
-        .loadNorm(new LoadNormPort.Command(query.eli()))
-        .map(norm -> new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()))
-        .map(timeMachineService::applyPassiveModifications)
-        .flatMap(
-            norm ->
-                NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument()))
-        .map(
-            element ->
-                new TransformLegalDocMlToHtmlUseCase.Query(
-                    XmlMapper.toString(element), false, false))
-        .map(xsltTransformationService::transformLegalDocMlToHtml);
-  }
-
-  @Override
-  public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query)
-      throws UnsupportedElementTypeException {
-    // No need to do anything if no types are requested
-    if (query.elementType().isEmpty()) return List.of();
-
-    var combinedXPaths =
-        String.join(
-            "|",
-            query.elementType().stream()
-                .map(ElementType::fromLabel)
-                .map(xPathsForTypes::get)
-                .toList());
-
     var norm =
         loadNormPort
             .loadNorm(new LoadNormPort.Command(query.eli()))
-            .orElseThrow(() -> new NormNotFoundException(query.eli() + " does not exist"));
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+
+    norm =
+        timeMachineService.applyPassiveModifications(
+            new ApplyPassiveModificationsUseCase.Query(norm, query.atDate()));
+
+    final var element =
+        NodeParser.getNodeFromExpression(getXPathForEid(query.eid()), norm.getDocument())
+            .orElseThrow(() -> new ElementNotFoundException(query.eli(), query.eid()));
+
+    return xsltTransformationService.transformLegalDocMlToHtml(
+        new TransformLegalDocMlToHtmlUseCase.Query(XmlMapper.toString(element), false, false));
+  }
+
+  @Override
+  public List<Node> loadElementsByTypeFromNorm(LoadElementsByTypeFromNormUseCase.Query query) {
+    // No need to do anything if no types are requested
+    if (query.elementType().isEmpty()) return List.of();
+
+    final var combinedXPaths =
+        String.join(
+            "|",
+            query.elementType().stream().map(label -> ElementType.fromLabel(label).xPath).toList());
+
+    final var norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     // Source EIDs from passive mods
-    var passiveModsDestinationEids =
+    final var passiveModsDestinationEids =
         getDestinationEidsFromPassiveMods(
             norm.getMeta()
                 .getAnalysis()

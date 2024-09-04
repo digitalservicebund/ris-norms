@@ -1,8 +1,13 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAnnouncementsPort;
@@ -25,7 +30,7 @@ class AnnouncementServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
 
-  final AnnouncementService service =
+  final AnnouncementService announcementService =
       new AnnouncementService(
           loadAllAnnouncementsPort, loadAnnouncementByNormEliPort, loadNormPort, loadZf0Service);
 
@@ -64,7 +69,7 @@ class AnnouncementServiceTest {
       when(loadAllAnnouncementsPort.loadAllAnnouncements()).thenReturn(List.of(announcement));
 
       // When
-      var loadedAnnouncements = service.loadAllAnnouncements();
+      var loadedAnnouncements = announcementService.loadAllAnnouncements();
 
       // Then
       verify(loadAllAnnouncementsPort, times(1)).loadAllAnnouncements();
@@ -74,6 +79,22 @@ class AnnouncementServiceTest {
 
   @Nested
   class loadAnnouncement {
+
+    @Test
+    void itThrowsAnnouncementNotFoundException() {
+      // given
+      final var query =
+          new LoadAnnouncementByNormEliUseCase.Query(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1");
+
+      when(loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(any()))
+          .thenReturn(Optional.empty());
+
+      // when
+      assertThatThrownBy(() -> announcementService.loadAnnouncementByNormEli(query))
+          // then
+          .isInstanceOf(AnnouncementNotFoundException.class);
+    }
 
     @Test
     void itReturnsAnnouncement() {
@@ -109,13 +130,13 @@ class AnnouncementServiceTest {
 
       // When
       var loadedAnnouncement =
-          service.loadAnnouncementByNormEli(
+          announcementService.loadAnnouncementByNormEli(
               new LoadAnnouncementByNormEliUseCase.Query(
                   "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
 
       // Then
       verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
-      assertThat(loadedAnnouncement).contains(announcement);
+      assertEquals(loadedAnnouncement.toString(), announcement.toString());
     }
   }
 
@@ -226,7 +247,7 @@ class AnnouncementServiceTest {
 
       // When
       var norms =
-          service.loadTargetNormsAffectedByAnnouncement(
+          announcementService.loadTargetNormsAffectedByAnnouncement(
               new LoadTargetNormsAffectedByAnnouncementUseCase.Query(
                   "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"));
 

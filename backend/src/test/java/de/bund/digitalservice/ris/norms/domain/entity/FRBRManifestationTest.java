@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
@@ -85,7 +85,8 @@ class FRBRManifestationTest {
                                       """))
             .build();
 
-    assertThrows(MandatoryNodeNotFoundException.class, frbrManifestation::getFBRDate);
+    assertThatThrownBy(frbrManifestation::getFBRDate)
+        .isInstanceOf(MandatoryNodeNotFoundException.class);
   }
 
   @Test

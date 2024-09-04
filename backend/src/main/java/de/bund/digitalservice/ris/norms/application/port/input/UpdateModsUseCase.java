@@ -21,7 +21,7 @@ public interface UpdateModsUseCase {
    * @return An {@link Optional} containing the saved xml representation of the changed {@link
    *     Norm}s.
    */
-  Optional<Result> updateMods(Query query);
+  Result updateMods(Query query);
 
   /**
    * A record representing the query for updating multiple amending command.

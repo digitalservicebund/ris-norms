@@ -2,18 +2,19 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Optional;
+import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,7 +152,7 @@ class NormControllerTest {
       final String xml = "<target></target>";
 
       // When
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
 
       // When // Then
       mockMvc
@@ -171,7 +172,7 @@ class NormControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When // Then
@@ -193,7 +194,7 @@ class NormControllerTest {
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
-      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(Optional.of(xml));
+      when(loadNormXmlUseCase.loadNormXml(any())).thenReturn(xml);
       when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any())).thenReturn(html);
 
       // When // Then
@@ -241,7 +242,7 @@ class NormControllerTest {
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(Optional.of(xml));
+      when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(xml);
 
       // When // Then
       mockMvc
@@ -265,7 +266,7 @@ class NormControllerTest {
       final String xml = "<akn:doc>new</akn:doc>";
 
       when(updateNormXmlUseCase.updateNormXml(any()))
-          .thenThrow(new UpdateNormXmlUseCase.InvalidUpdateException("Error Message"));
+          .thenThrow(new InvalidUpdateException("Error Message"));
 
       // When // Then
       mockMvc
@@ -274,32 +275,30 @@ class NormControllerTest {
                   .accept(MediaType.APPLICATION_XML)
                   .contentType(MediaType.APPLICATION_XML)
                   .content(xml))
-          .andExpect(status().isBadRequest())
-          .andExpect(content().string("Error Message"));
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(content().string("{\"message\": \"Error Message\"}"));
 
       verify(updateNormXmlUseCase, times(1))
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
     }
 
     @Test
-    void itCallsNormServiceAndReturnsNotFound() throws Exception {
+    void itCallsNormServiceAndReturnsUnprocessableWhenNodeIsMissing() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
-      when(updateNormXmlUseCase.updateNormXml(any())).thenReturn(Optional.empty());
+      when(updateNormXmlUseCase.updateNormXml(any()))
+          .thenThrow(new MandatoryNodeNotFoundException("example-xpath", "example/eli"));
 
-      // When // Then
+      // When
       mockMvc
           .perform(
               put("/api/v1/norms/{eli}", eli)
                   .accept(MediaType.APPLICATION_XML)
                   .contentType(MediaType.APPLICATION_XML)
                   .content(xml))
-          .andExpect(status().isNotFound());
-
-      verify(updateNormXmlUseCase, times(1))
-          .updateNormXml(argThat(query -> query.xml().equals(xml)));
+          .andExpect(status().isUnprocessableEntity());
     }
   }
 
@@ -316,7 +315,7 @@ class NormControllerTest {
 
       // When
       when(updateModUseCase.updateMod(any()))
-          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+          .thenReturn(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml));
 
       // When // Then
       mockMvc
@@ -344,7 +343,7 @@ class NormControllerTest {
 
       // When
       when(updateModUseCase.updateMod(any()))
-          .thenReturn(Optional.of(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+          .thenReturn(new UpdateModUseCase.Result(amendingNormXml, targetNormZf0Xml));
 
       // When // Then
       mockMvc
@@ -361,67 +360,6 @@ class NormControllerTest {
 
       verify(updateModUseCase, times(1)).updateMod(argThat(UpdateModUseCase.Query::dryRun));
     }
-
-    @Test
-    void itCallsUpdateModUseCaseAndReturnsEmpty() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String modEid = "mod-eid-1";
-
-      // When
-      when(updateModUseCase.updateMod(any())).thenReturn(Optional.empty());
-
-      // When // Then
-      mockMvc
-          .perform(
-              put("/api/v1/norms/" + eli + "/mods/" + modEid)
-                  .accept(MediaType.APPLICATION_JSON)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"))
-          .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void itCallsUpdateModUseCaseAndReturnsUnprocessableEntity() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String modEid = "mod-eid-1";
-
-      // When
-      when(updateModUseCase.updateMod(any())).thenThrow(ValidationException.class);
-
-      // When // Then
-      mockMvc
-          .perform(
-              put("/api/v1/norms/" + eli + "/mods/" + modEid)
-                  .accept(MediaType.APPLICATION_JSON)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"))
-          .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    void itCallsUpdateModUseCaseAndReturnsUnprocessableEntityWithMessage() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      final String modEid = "mod-eid-1";
-
-      // When
-      when(updateModUseCase.updateMod(any())).thenThrow(new ValidationException("error exception"));
-
-      // When // Then
-      mockMvc
-          .perform(
-              put("/api/v1/norms/" + eli + "/mods/" + modEid)
-                  .accept(MediaType.APPLICATION_JSON)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content(
-                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"))
-          .andExpect(status().isUnprocessableEntity())
-          .andExpect(content().string("{\"message\": \"error exception\"}"));
-    }
   }
 
   @Nested
@@ -436,7 +374,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+          .thenReturn(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml));
 
       // When // Then
       mockMvc
@@ -464,7 +402,7 @@ class NormControllerTest {
 
       // When
       when(updateModsUseCase.updateMods(any()))
-          .thenReturn(Optional.of(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml)));
+          .thenReturn(new UpdateModsUseCase.Result(amendingNormXml, targetNormZf0Xml));
 
       // When // Then
       mockMvc
@@ -479,42 +417,6 @@ class NormControllerTest {
           .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
       verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
-    }
-
-    @Test
-    void itCallsUpdateModsUseCaseAndReturnsEmpty() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-
-      // When
-      when(updateModsUseCase.updateMods(any())).thenReturn(Optional.empty());
-
-      // When // Then
-      mockMvc
-          .perform(
-              patch("/api/v1/norms/" + eli + "/mods")
-                  .accept(MediaType.APPLICATION_JSON)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
-          .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    void itCallsUpdateModsUseCaseAndReturnsUnprocessableEntity() throws Exception {
-      // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-
-      // When
-      when(updateModsUseCase.updateMods(any())).thenThrow(ValidationException.class);
-
-      // When // Then
-      mockMvc
-          .perform(
-              patch("/api/v1/norms/" + eli + "/mods")
-                  .accept(MediaType.APPLICATION_JSON)
-                  .contentType(MediaType.APPLICATION_JSON)
-                  .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
-          .andExpect(status().isUnprocessableEntity());
     }
   }
 }

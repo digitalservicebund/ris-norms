@@ -20,7 +20,7 @@ public interface UpdateModUseCase {
    * @return An {@link Optional} containing the saved xml representation of {@link Norm} of the
    *     amending law.
    */
-  Optional<Result> updateMod(Query query);
+  Result updateMod(Query query);
 
   /**
    * A record representing the query for updating an amending command.

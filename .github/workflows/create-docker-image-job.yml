@@ -74,7 +74,7 @@ jobs:
           key: docker-images-cache-${{ github.run_id }}
           restore-keys: docker-images-cache-${{ github.run_id }}
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

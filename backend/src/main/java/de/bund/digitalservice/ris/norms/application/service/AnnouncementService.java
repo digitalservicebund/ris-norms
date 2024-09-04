@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
@@ -9,7 +10,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncement
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -47,45 +47,36 @@ public class AnnouncementService
   }
 
   @Override
-  public Optional<Announcement> loadAnnouncementByNormEli(
-      LoadAnnouncementByNormEliUseCase.Query query) {
-    return loadAnnouncementByNormEliPort.loadAnnouncementByNormEli(
-        new LoadAnnouncementByNormEliPort.Command(query.eli()));
+  public Announcement loadAnnouncementByNormEli(LoadAnnouncementByNormEliUseCase.Query query) {
+    return loadAnnouncementByNormEliPort
+        .loadAnnouncementByNormEli(new LoadAnnouncementByNormEliPort.Command(query.eli()))
+        .orElseThrow(() -> new AnnouncementNotFoundException(query.eli()));
   }
 
   @Override
   public List<Norm> loadTargetNormsAffectedByAnnouncement(
       LoadTargetNormsAffectedByAnnouncementUseCase.Query query) {
-    final Optional<Norm> optionalAmendingNorm =
+    final Norm amendingNorm =
         this.loadAnnouncementByNormEli(new LoadAnnouncementByNormEliUseCase.Query(query.eli()))
-            .map(Announcement::getNorm);
+            .getNorm();
 
-    return optionalAmendingNorm
-        .flatMap(
-            m -> {
-              List<Norm> norms =
-                  m.getArticles().stream()
-                      .map(
-                          a -> {
-                            final Optional<String> optionalTargetLawEli =
-                                a.getAffectedDocumentEli();
-                            final Optional<Norm> optionalTargetLaw =
-                                optionalTargetLawEli.flatMap(
-                                    targetLawEli ->
-                                        loadNormPort.loadNorm(
-                                            new LoadNormPort.Command(targetLawEli)));
-                            return optionalTargetLaw
-                                .map(
-                                    targetLaw ->
-                                        loadZf0Service.loadOrCreateZf0(
-                                            new LoadZf0UseCase.Query(
-                                                optionalAmendingNorm.get(), targetLaw, true)))
-                                .orElse(null);
-                          })
-                      .filter(Objects::nonNull)
-                      .toList();
-              return Optional.of(norms);
+    return amendingNorm.getArticles().stream()
+        .map(
+            article -> {
+              final Optional<String> optionalTargetLawEli = article.getAffectedDocumentEli();
+              final Optional<Norm> optionalTargetLaw =
+                  optionalTargetLawEli.flatMap(
+                      targetLawEli ->
+                          loadNormPort.loadNorm(new LoadNormPort.Command(targetLawEli)));
+
+              return optionalTargetLaw
+                  .map(
+                      targetLaw ->
+                          loadZf0Service.loadOrCreateZf0(
+                              new LoadZf0UseCase.Query(amendingNorm, targetLaw, true)))
+                  .orElse(null);
             })
-        .orElse(Collections.emptyList());
+        .filter(Objects::nonNull)
+        .toList();
   }
 }

@@ -65,7 +65,7 @@ jobs:
       - name: Install node modules
         run: npm ci
         working-directory: ./frontend
-      - name: Check style
+      - name: Run tests
         run: npm run test
         working-directory: ./frontend
       - name: Send status to Slack
@@ -107,7 +107,7 @@ jobs:
           sonar-scanner
         working-directory: ./frontend
       - name: Check SonarQube Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@72f24ebf1f81eda168a979ce14b8203273b7c3ad
+        uses: sonarsource/sonarqube-quality-gate-action@dc2f7b0dd95544cd550de3028f89193576e958b9
         with:
           scanMetadataReportFile: frontend/.scannerwork/report-task.txt
         timeout-minutes: 3
@@ -149,7 +149,7 @@ jobs:
           retention-days: 3
           path: frontend/frontend-licence-report.csv
       - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@9ced11eb82275ff563398657c140caba3a9e6ec1
+        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
