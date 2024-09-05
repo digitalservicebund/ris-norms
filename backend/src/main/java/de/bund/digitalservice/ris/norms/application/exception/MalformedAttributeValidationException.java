@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.application.exception;
 
 import lombok.Getter;
 
-/** This exception indicates that there was a validation error. */
+/** This exception indicates that there was a validation error with a malformed attribute */
 @Getter
 public class MalformedAttributeValidationException extends RuntimeException
     implements NormsAppException {
@@ -13,10 +13,10 @@ public class MalformedAttributeValidationException extends RuntimeException
   private final String attributeValue;
 
   public MalformedAttributeValidationException(
-      String eli, String eId, String attributeName, String attributeValue) {
+      final String eli, final String eId, final String attributeName, final String attributeValue) {
     super(
-        "In the norm %s the element with eId %s has a malformed attribute value %s on attribute %s"
-            .formatted(eli, eId, attributeValue, attributeName));
+        "In the norm %s the element with eId %s has the attribute %s with a malformed value %s"
+            .formatted(eli, eId, attributeName, attributeValue));
 
     this.eli = eli;
     this.eId = eId;

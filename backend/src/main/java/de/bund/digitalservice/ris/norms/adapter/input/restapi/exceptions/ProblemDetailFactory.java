@@ -1,9 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
-import de.bund.digitalservice.ris.norms.application.exception.ArticleNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.MissingAttributeValidationException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.NormsAppException;
+import de.bund.digitalservice.ris.norms.application.exception.*;
 import java.net.URI;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -46,7 +43,11 @@ public class ProblemDetailFactory {
     MISSING_ATTRIBUTE(
         MissingAttributeValidationException.class,
         URI.create("/errors/missing-attribute"),
-        "Expected attribute not found");
+        "Expected attribute not found"),
+    MALFORMED_ATTRIBUTE(
+        MalformedAttributeValidationException.class,
+        URI.create("/errors/malformed-attribute"),
+        "Value of attribute is malformed");
 
     /**
      * Creates the Enum
