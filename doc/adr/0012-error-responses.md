@@ -29,7 +29,7 @@ All error responses are JSON objects.
 
 The `type` field always starts with `/errors/`. Therefore, all errors are URLs relative to our application.
 
-The `instance` field is filled with the api call URI that triggered the exception. **_NOTE:_** updated on 2024-08-30 because this is a Spring standard, and it will be easier to debug issues.
+The `instance` field is filled with the api call URI that triggered the exception.
 
 Both `title` and `details` are written in english.
 
@@ -87,7 +87,7 @@ Example error response for validation:
 {
  "type": "/errors/norm-not-valid",
  "title": "Norm validation failed.",
- "instance": "/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+ "instance": "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_para-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1_rref-1"
  "errors": [{
     "type": "/errors/norm-not-valid/quoted-structure/target-and-up-to-are-not-siblings"
     "title": "Target node und upTo node are not siblings",
