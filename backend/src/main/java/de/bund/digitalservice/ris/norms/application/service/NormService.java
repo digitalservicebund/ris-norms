@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
-import de.bund.digitalservice.ris.norms.application.exception.MissingAttributeValidationException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
@@ -114,7 +113,7 @@ public class NormService
       String newContent) {
     var targetNormEli = new Href(destinationHref).getEli();
     if (targetNormEli.isEmpty()) {
-      throw new MissingAttributeValidationException(amendingNorm.getEli(), eId, "href");
+      throw new ValidationException("The destinationHref does not contain a eli");
     }
 
     // Update active mods (meta and body) in amending law
