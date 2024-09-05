@@ -90,7 +90,7 @@ public class NormsAppExceptionHandler {
         ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
     problemDetail.setProperty("eli", e.getEli());
     problemDetail.setProperty("eId", e.getEId());
-    problemDetail.setProperty("attributeName", e.getAttributeName());
+    problemDetail.setProperty("attributeName", e.getAttribute().getValue());
     return problemDetail;
   }
 
@@ -110,7 +110,7 @@ public class NormsAppExceptionHandler {
         ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
     problemDetail.setProperty("eli", e.getEli());
     problemDetail.setProperty("eId", e.getEId());
-    problemDetail.setProperty("attributeName", e.getAttributeName());
+    problemDetail.setProperty("attributeName", e.getAttribute().getValue());
     problemDetail.setProperty("attributeValue", e.getAttributeValue());
     return problemDetail;
   }

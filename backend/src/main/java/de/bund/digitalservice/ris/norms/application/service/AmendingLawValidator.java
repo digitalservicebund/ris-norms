@@ -5,12 +5,7 @@ import de.bund.digitalservice.ris.norms.application.exception.MissingAttributeVa
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Analysis;
-import de.bund.digitalservice.ris.norms.domain.entity.Article;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Mod;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -62,7 +57,7 @@ public class AmendingLawValidator {
                                   new MissingAttributeValidationException(
                                       amendingNorm.getEli(),
                                       article.getEid().orElse(""),
-                                      "refersTo"));
+                                      Attribute.REFERS_TO));
                   return Objects.equals(articleRefersTo, "hauptaenderung");
                 })
             .toList();
@@ -76,14 +71,14 @@ public class AmendingLawValidator {
                   .orElseThrow(
                       () ->
                           new MissingAttributeValidationException(
-                              amendingNorm.getEli(), mod.getEid().orElse(""), "href"))
+                              amendingNorm.getEli(), mod.getEid().orElse(""), Attribute.HREF))
                   .getEli()
                   .orElseThrow(
                       () ->
                           new MalformedAttributeValidationException(
                               amendingNorm.getEli(),
                               mod.getEid().orElse(""),
-                              "href",
+                              Attribute.HREF,
                               mod.getTargetRefHref().get().value()));
           final Norm targetNorm =
               loadNormPort
@@ -93,7 +88,7 @@ public class AmendingLawValidator {
                           new MalformedAttributeValidationException(
                               amendingNorm.getEli(),
                               mod.getEid().orElse(""),
-                              "href",
+                              Attribute.HREF,
                               mod.getTargetRefHref().get().value()));
           final Norm zf0Norm =
               loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
@@ -126,7 +121,7 @@ public class AmendingLawValidator {
                         () -> {
                           String amendingNormEli = amendingNorm.getEli();
                           return new MissingAttributeValidationException(
-                              amendingNormEli, tm.getEid().orElse(""), "href");
+                              amendingNormEli, tm.getEid().orElse(""), Attribute.HREF);
                         })
                     .getEli()
                     .orElseThrow(
@@ -135,7 +130,7 @@ public class AmendingLawValidator {
                           return new MalformedAttributeValidationException(
                               amendingNormEli,
                               getTextualModEId(amendingNormEli, tm),
-                              "href",
+                              Attribute.HREF,
                               tm.getDestinationHref().get().value());
                         }));
   }
@@ -151,7 +146,9 @@ public class AmendingLawValidator {
                       .orElseThrow(
                           () ->
                               new MissingAttributeValidationException(
-                                  amendingNorm.getEli(), article.getEid().orElse(""), "refersTo"));
+                                  amendingNorm.getEli(),
+                                  article.getEid().orElse(""),
+                                  Attribute.REFERS_TO));
 
               return Objects.equals(articleRefersTo, "hauptaenderung");
             })
@@ -171,7 +168,7 @@ public class AmendingLawValidator {
           Optional<String> eli = getModTargetHref(amendingNormEli, mod, articleEId).getEli();
           if (eli.isEmpty()) {
             throw new MissingAttributeValidationException(
-                amendingNormEli, mod.getEid().orElse(""), "href");
+                amendingNormEli, mod.getEid().orElse(""), Attribute.HREF);
           }
         });
   }
@@ -181,11 +178,7 @@ public class AmendingLawValidator {
     if (article.getAffectedDocumentEli().isEmpty()) {
       throw new ValidationException(
           "For norm with Eli (%s): AffectedDocument href is empty in article with eId %s"
-              .formatted(
-                  amendingNormEli,
-                  articleEId)); // TODO Please check: it only returns the affected document of the
-      // first mod of an article. Couldn't there be several mods in an
-      // article?
+              .formatted(amendingNormEli, articleEId));
     }
   }
 
@@ -263,12 +256,12 @@ public class AmendingLawValidator {
 
   private Href getModTargetHref(String eli, Mod m, String modEId) {
     return m.getTargetRefHref()
-        .orElseThrow(() -> new MissingAttributeValidationException(eli, modEId, "href"));
+        .orElseThrow(() -> new MissingAttributeValidationException(eli, modEId, Attribute.HREF));
   }
 
   private String getTextualModEId(String eli, TextualMod textualMod) {
     return textualMod
         .getEid()
-        .orElseThrow(() -> new MissingAttributeValidationException(eli, "", "eId"));
+        .orElseThrow(() -> new MissingAttributeValidationException(eli, "", Attribute.EID));
   }
 }
