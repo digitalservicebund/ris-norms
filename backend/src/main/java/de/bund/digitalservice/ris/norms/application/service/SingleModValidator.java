@@ -72,7 +72,7 @@ public class SingleModValidator {
             .orElseThrow(
                 () ->
                     new ValidationException(
-                        "Destination href with value %s of passive mod with eId %s within ZF0 norm with eli %s not present." // TODO should be Character range not present
+                        "In the destination href with value %s of passive mod with eId %s within ZF0 norm with eli %s, the character range not present."
                             .formatted(destinationHref, passiveModEid, zf0NormEli)));
 
     if (!characterRange.isValidCharacterRange())
