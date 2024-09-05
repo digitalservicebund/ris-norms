@@ -14,6 +14,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -220,7 +221,7 @@ public class NormController {
       produces = {APPLICATION_JSON_VALUE})
   public ResponseEntity<UpdateModsResponseSchema> updateMods(
       final Eli eli,
-      @RequestBody @Valid
+      @RequestBody @Valid @NotEmpty
           final Map<String, UpdateModsRequestSchema.ModUpdate> updateModsRequestSchema,
       @RequestParam(defaultValue = "false") final Boolean dryRun) {
 

@@ -47,7 +47,11 @@ public class ProblemDetailFactory {
     MALFORMED_ATTRIBUTE(
         MalformedAttributeValidationException.class,
         URI.create("/errors/malformed-attribute"),
-        "Value of attribute is malformed");
+        "Value of attribute is malformed"),
+    INVALID_UPDATE(
+        InvalidUpdateException.class,
+        URI.create("/errors/invalidate-update"),
+        "Invalid update in XML");
 
     /**
      * Creates the Enum

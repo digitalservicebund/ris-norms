@@ -236,7 +236,7 @@ class NormServiceTest {
       var newNorm = Norm.builder().document(XmlMapper.toDocument(newXml)).build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(newNorm));
+      when(updateNormPort.updateNorm(any())).thenReturn(newNorm);
 
       // When
       var result = service.updateNormXml(new UpdateNormXmlUseCase.Query(eli, newXml));
@@ -544,7 +544,7 @@ class NormServiceTest {
       when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(any())).thenReturn(amendingNorm);
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
@@ -589,7 +589,7 @@ class NormServiceTest {
       when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(any())).thenReturn(amendingNorm);
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
@@ -670,7 +670,7 @@ class NormServiceTest {
       when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(any())).thenReturn(amendingNorm);
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
@@ -704,7 +704,7 @@ class NormServiceTest {
       when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(any())).thenReturn(amendingNorm);
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
@@ -766,7 +766,7 @@ class NormServiceTest {
       when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(any())).thenReturn(amendingNorm);
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
@@ -810,7 +810,7 @@ class NormServiceTest {
       when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
       when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
       when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(amendingNorm));
+      when(updateNormPort.updateNorm(any())).thenReturn(amendingNorm);
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(zf0Norm);
 
       // When
