@@ -19,7 +19,6 @@ The frontend is the main entry point for users of _RIS norms_.
 - `npm run style:check` does linting and formatting
 - `npm run style:fix` will try to fix linting and formatting issues
 - `npm run build` builds the app
-- `npm run histoire` shows the frontend components in isolation
 
 ## E2E Tests
 
