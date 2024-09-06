@@ -212,6 +212,47 @@ test.describe("Editing a single mod", () => {
     )
   })
 
+  test("editing and saving the eid mod change by highlighting", async () => {
+    const amendingLawSection = sharedPage.getByRole("region", {
+      name: "Änderungsbefehle",
+    })
+
+    await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
+
+    const modFormSection = sharedPage.getByRole("region", {
+      name: "Änderungsbefehl bearbeiten",
+    })
+
+    await expect(
+      modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
+    ).toHaveValue(
+      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+    )
+
+    const textBoundingBox = await modFormSection
+      .getByLabel("Zu ersetzender Text")
+      .getByText("entgegen § 9")
+      .boundingBox()
+
+    await sharedPage.mouse.dblclick(
+      textBoundingBox!.x + 50,
+      textBoundingBox!.y + 5,
+    )
+    await sharedPage.mouse.click(0, 0)
+
+    await expect(
+      modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
+    ).not.toHaveValue(
+      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+    )
+
+    await expect(
+      modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
+    ).toHaveValue(
+      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-8.xml",
+    )
+  })
+
   test("selecting and saving the time boundary", async () => {
     // use api to create new time boundary
     await sharedPage.request.put(
