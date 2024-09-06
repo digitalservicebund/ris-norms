@@ -229,7 +229,7 @@ class SingleModValidatorTest {
       assertThat(thrown)
           .isInstanceOf(ValidationException.class)
           .hasMessageContaining(
-              "Destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 not present.");
+              "In the destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present.");
     }
 
     private static Stream<Arguments> provideParametersForThrowsExceptionWhenCharacterRange() {
@@ -245,7 +245,7 @@ class SingleModValidatorTest {
               "The character range 0-.xml of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format."),
           Arguments.of(
               "",
-              "Destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 not present."));
+              "In the destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/ of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-2 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present."));
     }
 
     @ParameterizedTest

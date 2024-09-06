@@ -83,7 +83,7 @@ class AmendingLawValidatorTest {
     assertThat(thrown)
         .isInstanceOf(MalformedAttributeValidationException.class)
         .hasMessageContaining(
-            "In the norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1 the element with eId meta-1_analysis-1_activemod-1_textualmod-1 has a malformed attribute value #THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE on attribute");
+            "In the norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1 the element with eId meta-1_analysis-1_activemod-1_textualmod-1 has the attribute href with a malformed value #THIS_IS_NOT_OK_A_HREF_IS_NEVER_RELATIVE");
   }
 
   @Test
