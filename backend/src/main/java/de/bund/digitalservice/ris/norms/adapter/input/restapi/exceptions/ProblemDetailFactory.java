@@ -27,7 +27,11 @@ public class ProblemDetailFactory {
       final NormsAppException e, final HttpStatus status) {
     final ProblemMapping problemMapping = ProblemMapping.getInstance(e.getClass());
     final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
-    problemDetail.setType(problemMapping.getType());
+    if (e instanceof ValidationException validationException) {
+      problemDetail.setType(URI.create(validationException.getErrorType().getType()));
+    } else {
+      problemDetail.setType(problemMapping.getType());
+    }
     problemDetail.setTitle(problemMapping.getTitle());
     return problemDetail;
   }
@@ -51,7 +55,9 @@ public class ProblemDetailFactory {
     INVALID_UPDATE(
         InvalidUpdateException.class,
         URI.create("/errors/invalidate-update"),
-        "Invalid update in XML");
+        "Invalid update in XML"),
+    VALIDATION_ERROR(
+        ValidationException.class, URI.create("/errors/validation-error"), "Validation error");
 
     /**
      * Creates the Enum

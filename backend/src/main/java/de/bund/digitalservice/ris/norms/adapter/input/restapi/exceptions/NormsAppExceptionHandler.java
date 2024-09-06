@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTyp
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.net.URI;
+import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -65,12 +66,15 @@ public class NormsAppExceptionHandler {
    */
   @ExceptionHandler(ValidationException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ResponseEntity<String> handleException(final ValidationException e) {
+  public ProblemDetail handleException(final ValidationException e) {
 
     log.error("ValidationException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    Arrays.stream(e.getFields())
+        .forEach(field -> problemDetail.setProperty(field.getKey(), field.getValue()));
+    return problemDetail;
   }
 
   /**
