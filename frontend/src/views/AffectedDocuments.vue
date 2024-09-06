@@ -25,10 +25,7 @@ onUnmounted(() => cleanupBreadcrumbs())
       <RisLoadingSpinner></RisLoadingSpinner>
     </div>
 
-    <RisErrorCallout
-      v-else-if="error"
-      title="Die Liste der betroffenen Normkomplexe konnte nicht geladen werden."
-    />
+    <RisErrorCallout v-else-if="error" :error />
 
     <ul v-else class="space-y-16">
       <RisAffectedDocumentPanel

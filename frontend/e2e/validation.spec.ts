@@ -21,7 +21,7 @@ test.describe("Validation errors on check modifications page", () => {
     )
 
     await expect(
-      page.getByText("Die Vorschau konnte nicht erzeugt werden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(
@@ -55,7 +55,7 @@ test.describe("Validation errors on check modifications page", () => {
     )
 
     await expect(
-      page.getByText("Die Vorschau konnte nicht erzeugt werden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(
@@ -89,7 +89,7 @@ test.describe("Validation errors on check modifications page", () => {
     )
 
     await expect(
-      page.getByText("Die Vorschau konnte nicht erzeugt werden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(

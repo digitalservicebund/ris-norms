@@ -140,12 +140,11 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
   </div>
 
   <div v-else-if="loadAmendingLawError || !amendingLaw" class="m-24">
-    <RisErrorCallout title="Das Änderungsgesetz konnte nicht geladen werden." />
+    <RisErrorCallout :error="loadAmendingLawError" />
   </div>
 
   <div v-else-if="loadArticleError" class="m-24">
-    <RisErrorCallout title="Der Artikel konnte nicht gefunden werden.">
-    </RisErrorCallout>
+    <RisErrorCallout :error="loadArticleError" />
   </div>
 
   <div v-else>
@@ -168,9 +167,7 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
             </div>
 
             <div v-else-if="loadXmlError">
-              <RisErrorCallout
-                title="Der Artikel konnte nicht geladen werden."
-              />
+              <RisErrorCallout :error="loadXmlError" />
             </div>
 
             <RisTabs
@@ -189,10 +186,7 @@ function handlePreviewKeyDown(e: KeyboardEvent) {
                   <RisLoadingSpinner></RisLoadingSpinner>
                 </div>
                 <div v-else-if="loadArticleHtmlError">
-                  <RisErrorCallout
-                    title="Die Artikel-Vorschau konnte nicht erzeugt werden."
-                    variant="error"
-                  />
+                  <RisErrorCallout :error="loadArticleHtmlError" />
                 </div>
                 <RisLawPreview
                   v-else

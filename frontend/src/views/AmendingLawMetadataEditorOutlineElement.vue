@@ -36,8 +36,7 @@ const {
   </div>
 
   <div v-else-if="elementError" class="p-24">
-    <RisErrorCallout title="Das Element konnte nicht geladen werden.">
-    </RisErrorCallout>
+    <RisErrorCallout :error="elementError" />
   </div>
 
   <div v-else class="flex flex-col overflow-hidden p-24">
@@ -55,10 +54,7 @@ const {
           <RisLoadingSpinner />
         </div>
 
-        <RisErrorCallout
-          v-else-if="renderError"
-          title="Die Vorschau konnte nicht geladen werden."
-        />
+        <RisErrorCallout v-else-if="renderError" :error="renderError" />
 
         <RisLawPreview
           v-else

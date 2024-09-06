@@ -182,7 +182,7 @@ test.describe("Error handling for Temporal Data page", () => {
     )
 
     await expect(
-      page.getByText("Es wurde kein Inkrafttreten-Artikel gefunden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(

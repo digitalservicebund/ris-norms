@@ -196,7 +196,7 @@ watch(
     </div>
 
     <div v-else-if="loadTimeBoundariesError">
-      <RisErrorCallout title="Die Zeitgrenzen konnten nicht geladen werden." />
+      <RisErrorCallout :error="loadTimeBoundariesError" />
     </div>
 
     <RisModForm
@@ -251,10 +251,10 @@ watch(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewHtmlError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="loadPreviewHtmlError" />
         </div>
         <div v-else-if="previewError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="previewError" />
         </div>
         <RisLawPreview
           v-else
@@ -271,13 +271,10 @@ watch(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewXmlError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="loadPreviewXmlError" />
         </div>
         <div v-else-if="previewError">
-          <RisErrorCallout
-            title="Die Vorschau konnte nicht erzeugt werden."
-            variant="error"
-          />
+          <RisErrorCallout :error="previewError" />
         </div>
         <RisCodeEditor
           v-else

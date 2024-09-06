@@ -48,9 +48,7 @@ test.describe("Affected documents page", () => {
     )
 
     await expect(
-      page.getByText(
-        "Die Liste der betroffenen Normkomplexe konnte nicht geladen werden.",
-      ),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(

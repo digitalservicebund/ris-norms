@@ -39,7 +39,7 @@ test.describe("navigate to page", () => {
 
     // Then
     await expect(
-      page.getByText("Das Element konnte nicht geladen werden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(
@@ -165,7 +165,7 @@ test.describe("preview", () => {
 
     // Then
     await expect(
-      previewRegion.getByText("Die Vorschau konnte nicht geladen werden."),
+      previewRegion.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(
@@ -249,7 +249,7 @@ test.describe("XML view", () => {
 
     // Then
     await expect(
-      page.getByText("Die XML-Ansicht konnte nicht geladen werden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(
