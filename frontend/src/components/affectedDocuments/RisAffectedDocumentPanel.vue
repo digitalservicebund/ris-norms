@@ -57,9 +57,7 @@ const referenceEditorUrl = computed<string>(
     </div>
 
     <div v-else-if="error" class="flex-1">
-      <RisErrorCallout
-        title="Der betroffene Normkomplex konnte nicht geladen werden."
-      />
+      <RisErrorCallout :error />
     </div>
 
     <div v-else class="flex flex-1 flex-col gap-8">

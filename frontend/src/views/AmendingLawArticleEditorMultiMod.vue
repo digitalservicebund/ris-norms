@@ -171,7 +171,7 @@ const sentryTraceId = useSentryTraceId()
     </div>
 
     <div v-else-if="loadTimeBoundariesError">
-      <RisErrorCallout title="Die Zeitgrenzen konnten nicht geladen werden." />
+      <RisErrorCallout :error="loadTimeBoundariesError" />
     </div>
 
     <div
@@ -269,10 +269,10 @@ const sentryTraceId = useSentryTraceId()
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewHtmlError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="loadPreviewHtmlError" />
         </div>
         <div v-else-if="previewError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="previewError" />
         </div>
         <RisLawPreview
           v-else
@@ -289,7 +289,7 @@ const sentryTraceId = useSentryTraceId()
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="previewError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="previewError" />
         </div>
         <RisCodeEditor
           v-else

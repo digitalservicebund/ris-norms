@@ -128,8 +128,7 @@ const sentryTraceId = useSentryTraceId()
   </div>
 
   <div v-else-if="elementError" class="p-24">
-    <RisErrorCallout title="Das Element konnte nicht geladen werden.">
-    </RisErrorCallout>
+    <RisErrorCallout :error="elementError" />
   </div>
 
   <div v-else class="flex flex-col overflow-hidden p-24">
@@ -147,10 +146,7 @@ const sentryTraceId = useSentryTraceId()
           <RisLoadingSpinner />
         </div>
 
-        <RisErrorCallout
-          v-else-if="renderError"
-          title="Die Vorschau konnte nicht geladen werden."
-        />
+        <RisErrorCallout v-else-if="renderError" :error="renderError" />
 
         <RisLawPreview
           v-else
@@ -172,10 +168,7 @@ const sentryTraceId = useSentryTraceId()
               <RisLoadingSpinner />
             </div>
 
-            <RisErrorCallout
-              v-else-if="fetchError"
-              title="Die Metadaten konnten nicht geladen werden."
-            />
+            <RisErrorCallout v-else-if="fetchError" :error="fetchError" />
 
             <form
               v-else
@@ -221,10 +214,7 @@ const sentryTraceId = useSentryTraceId()
               <RisLoadingSpinner />
             </div>
 
-            <RisErrorCallout
-              v-else-if="xmlError"
-              title="Die XML-Ansicht konnte nicht geladen werden."
-            />
+            <RisErrorCallout v-else-if="xmlError" :error="xmlError" />
 
             <RisCodeEditor
               :model-value="xml ?? ''"

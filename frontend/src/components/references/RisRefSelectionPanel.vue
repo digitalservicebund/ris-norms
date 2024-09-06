@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RisCallout from "@/components/controls/RisCallout.vue"
 import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisLawPreview, {
   AknElementClickEvent,
@@ -17,6 +16,7 @@ import {
 import { useDebounce } from "@vueuse/core"
 import { computed, ref, triggerRef, watch } from "vue"
 import CloseIcon from "~icons/ic/close"
+import RisErrorCallout from "../controls/RisErrorCallout.vue"
 
 /**
  * The eId of the currently selected akn:ref element.
@@ -132,10 +132,9 @@ function eidToSlotName(eid: string) {
 
 <template>
   <div class="flex max-h-full flex-col">
-    <RisCallout
+    <RisErrorCallout
       v-if="!debouncedRenderLoading && renderError"
-      variant="error"
-      title="Die Vorschau konnte nicht geladen werden."
+      :error="renderError"
     />
     <div v-else ref="preview" class="grid flex-grow grid-cols-1 overflow-auto">
       <RisLawPreview

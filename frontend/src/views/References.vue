@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisCallout from "@/components/controls/RisCallout.vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
 import RisHeader, {
   HeaderBreadcrumb,
 } from "@/components/controls/RisHeader.vue"
@@ -145,9 +146,8 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
       v-else-if="amendingNormError || affectedNormError || amendingNormXmlError"
       class="p-24"
     >
-      <RisCallout
-        title="Das Gesetz konnte nicht geladen werden."
-        variant="error"
+      <RisErrorCallout
+        :error="amendingNormError ?? affectedNormError ?? amendingNormXmlError"
       />
     </div>
 

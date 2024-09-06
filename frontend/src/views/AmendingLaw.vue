@@ -62,7 +62,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   </div>
 
   <div v-else-if="error || !amendingLaw" class="m-24">
-    <RisErrorCallout title="Das Änderungsgesetz konnte nicht geladen werden." />
+    <RisErrorCallout :error />
   </div>
 
   <div

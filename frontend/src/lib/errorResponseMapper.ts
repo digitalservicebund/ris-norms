@@ -30,7 +30,8 @@ export function isErrorResponse(
  * @param e Response received from the backend
  * @param mapping Mapping to retrieve the messages from. The default mapping should
  *  already include everything you need, this is only intended for testing.
- * @returns
+ * @returns Mapped response. This will always have a value, even if the type of the
+ *  input resoponse is unknown. In that case, a fallback is returned.
  */
 export function mapErrorResponse(e: ErrorResponse): MappedErrorResponse {
   const mapper = (errorMessages as ErrorResponseMapping)[e.type]

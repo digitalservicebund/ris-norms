@@ -22,9 +22,7 @@ onUnmounted(() => cleanupBreadcrumbs())
       <RisLoadingSpinner />
     </div>
     <div v-else-if="error">
-      <RisErrorCallout
-        title="Die Liste der Artikel konnte nicht geladen werden."
-      />
+      <RisErrorCallout :error />
     </div>
     <RisInfoModal
       v-for="article in articles"
