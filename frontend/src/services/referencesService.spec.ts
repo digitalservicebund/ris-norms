@@ -16,7 +16,7 @@ describe("useFetchReferences", () => {
       }),
     )
 
-    const { useGetReferences } = await import("../services/referencesService")
+    const { useGetReferences } = await import("./referencesService")
     const eli = "some-eli"
     const { data, isFinished } = useGetReferences(ref(eli))
 
@@ -43,7 +43,7 @@ describe("useFetchReferences", () => {
       }),
     )
 
-    const { useGetReferences } = await import("../services/referencesService")
+    const { useGetReferences } = await import("./referencesService")
     const eli = "some-eli"
     const { error, isFinished } = useGetReferences(ref(eli))
 
@@ -66,7 +66,7 @@ describe("useFetchReferences", () => {
   it("does not call the API if ELI is undefined", async () => {
     const fetchSpy = vi.spyOn(global, "fetch")
 
-    const { useGetReferences } = await import("../services/referencesService")
+    const { useGetReferences } = await import("./referencesService")
     const eli = undefined
     const { data, isFinished } = useGetReferences(ref(eli))
 
