@@ -35,12 +35,11 @@ public class NormsAppExceptionHandler {
    */
   @ExceptionHandler(InvalidUpdateException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ResponseEntity<String> handleException(final InvalidUpdateException e) {
+  public ProblemDetail handleException(final InvalidUpdateException e) {
 
     log.error("InvalidUpdateException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   /**

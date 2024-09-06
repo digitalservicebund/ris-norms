@@ -13,6 +13,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Node;
 
 /**
  * Service class within the application core part of the backend. It is responsible for implementing
@@ -85,8 +86,7 @@ public class NormService
     var updatedNorm =
         updateNormPort
             .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
-            .orElseThrow(
-                () -> new InvalidUpdateException("Invalid update %s".formatted(query.eli())));
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     return XmlMapper.toString(updatedNorm.getDocument());
   }
@@ -141,10 +141,6 @@ public class NormService
   @Override
   public UpdateModsUseCase.Result updateMods(UpdateModsUseCase.Query query) {
 
-    if (query.mods().isEmpty()) {
-      throw new InvalidUpdateException("No mods given");
-    }
-
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (amendingNormOptional.isEmpty()) {
@@ -152,14 +148,21 @@ public class NormService
     }
     final Norm amendingNorm = amendingNormOptional.get();
 
+    String queryModEId = query.mods().stream().findAny().orElseThrow().eId();
+    final Optional<Node> nodeOfMod = amendingNorm.getNodeByEId(queryModEId);
+    if (nodeOfMod.isEmpty()) {
+      throw new InvalidUpdateException(
+          "Mod with eId %s not found in amending law %s"
+              .formatted(queryModEId, amendingNorm.getEli()));
+    }
+
     final var targetNormEli =
-        amendingNorm
-            .getNodeByEId(query.mods().stream().findAny().orElseThrow().eId())
+        nodeOfMod
             .map(Mod::new)
             .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
             .flatMap(Href::getEli);
     if (targetNormEli.isEmpty()) {
-      throw new InvalidUpdateException("No target href/eli found");
+      throw new InvalidUpdateException("No eli found in href of mod %s".formatted(queryModEId));
     }
 
     if (!query.mods().stream()

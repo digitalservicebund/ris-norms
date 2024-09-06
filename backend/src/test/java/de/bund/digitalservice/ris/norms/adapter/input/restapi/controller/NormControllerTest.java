@@ -276,7 +276,14 @@ class NormControllerTest {
                   .contentType(MediaType.APPLICATION_XML)
                   .content(xml))
           .andExpect(status().isUnprocessableEntity())
-          .andExpect(content().string("{\"message\": \"Error Message\"}"));
+          .andExpect(jsonPath("type").value("/errors/invalidate-update"))
+          .andExpect(jsonPath("title").value("Invalid update in XML"))
+          .andExpect(jsonPath("status").value(422))
+          .andExpect(jsonPath("detail").value("Error Message"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"));
 
       verify(updateNormXmlUseCase, times(1))
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
