@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 import RisLawPreview, {
   AknElementClickEvent,
 } from "@/components/RisLawPreview.vue"
 import { useNormRenderHtml } from "@/composables/useNormRender"
-import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
-import RisCallout from "@/components/controls/RisCallout.vue"
+import RisErrorCallout from "../controls/RisErrorCallout.vue"
 
 const props = defineProps<{
   /**
@@ -34,11 +34,7 @@ function handleAknModClick({ eid }: AknElementClickEvent) {
     <div v-if="normRenderLoading" class="flex justify-center">
       <RisLoadingSpinner />
     </div>
-    <RisCallout
-      v-else-if="normRenderError"
-      variant="error"
-      title="Die Vorschau konnte nicht geladen werden."
-    />
+    <RisErrorCallout v-else-if="normRenderError" :error="normRenderError" />
     <RisLawPreview
       class="ds-textarea flex-grow p-2"
       :selected="selectedModEId ? [selectedModEId] : []"
