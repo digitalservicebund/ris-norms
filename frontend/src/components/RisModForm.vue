@@ -370,7 +370,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="targetLawHtmlError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="targetLawHtmlError" />
         </div>
         <RisLawPreview
           v-else
@@ -427,7 +427,7 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="targetLawError || targetLawHtmlError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="targetLawError ?? targetLawHtmlError" />
         </div>
         <RisCharacterRangeSelect
           v-else
