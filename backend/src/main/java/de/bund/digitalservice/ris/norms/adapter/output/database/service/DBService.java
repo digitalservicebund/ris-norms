@@ -5,7 +5,6 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.Announcem
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.AnnouncementRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -68,7 +67,7 @@ public class DBService
   }
 
   @Override
-  public Norm updateNorm(UpdateNormPort.Command command) {
+  public Optional<Norm> updateNorm(UpdateNormPort.Command command) {
     var normXml = XmlMapper.toString(command.norm().getDocument());
     return normRepository
         .findByEli(command.norm().getEli())
@@ -77,17 +76,17 @@ public class DBService
               normDto.setXml(normXml);
               // we do not update the GUID or ELI as they may not change
               return NormMapper.mapToDomain(normRepository.save(normDto));
-            })
-        .orElseThrow(() -> new NormNotFoundException(command.norm().getEli()));
+            });
   }
 
   @Override
   public Norm updateOrSave(UpdateOrSaveNormPort.Command command) {
-    try {
-      return updateNorm(new UpdateNormPort.Command(command.norm()));
-    } catch (final NormNotFoundException e) {
+    final Optional<Norm> updatedNorm = updateNorm(new UpdateNormPort.Command(command.norm()));
+    if (updatedNorm.isEmpty()) {
       final NormDto normDto = NormMapper.mapToDto(command.norm());
       return NormMapper.mapToDomain(normRepository.save(normDto));
+    } else {
+      return updatedNorm.get();
     }
   }
 

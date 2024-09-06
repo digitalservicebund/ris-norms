@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,15 +40,6 @@ public record Href(String value) {
                 .limit(NUMBER_OF_ELI_PARTS)
                 .collect(Collectors.joining("/")))
         .map(Href::removeFileExtension);
-  }
-
-  /**
-   * Get the ELI when one is sure that the ELI should be there
-   *
-   * @return the eli
-   */
-  public String getMandatoryEli() {
-    return getEli().orElseThrow(() -> new MandatoryNodeNotFoundException("ELI"));
   }
 
   /**

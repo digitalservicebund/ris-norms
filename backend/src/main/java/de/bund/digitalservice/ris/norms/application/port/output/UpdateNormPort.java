@@ -15,7 +15,7 @@ public interface UpdateNormPort {
    * @param command The command specifying the norm to be updated.
    * @return An {@link Optional} containing the {@link Norm} if found, or empty if not found.
    */
-  Norm updateNorm(final Command command);
+  Optional<Norm> updateNorm(final Command command);
 
   /**
    * A record representing the command for updating a norm.

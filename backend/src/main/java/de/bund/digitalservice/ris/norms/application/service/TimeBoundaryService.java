@@ -81,6 +81,7 @@ public class TimeBoundaryService
   @Override
   public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
     Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
+    Optional<Norm> normResponse = Optional.empty();
     if (norm.isPresent()) {
 
       // At first time boundaries that shall be deleted need to be selected
@@ -102,10 +103,9 @@ public class TimeBoundaryService
       EidConsistencyGuardian.eliminateDeadReferences(norm.get().getDocument());
       EidConsistencyGuardian.correctEids(norm.get().getDocument());
 
-      return updateNormPort.updateNorm(new UpdateNormPort.Command(norm.get())).getTimeBoundaries();
-    } else {
-      return Collections.emptyList();
+      normResponse = updateNormPort.updateNorm(new UpdateNormPort.Command(norm.get()));
     }
+    return normResponse.map(Norm::getTimeBoundaries).orElse(List.of());
   }
 
   private void editTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {

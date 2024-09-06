@@ -82,7 +82,11 @@ public class NormService
       throw new InvalidUpdateException("Changing the GUID is not supported.");
     }
 
-    var updatedNorm = updateNormPort.updateNorm(new UpdateNormPort.Command(normToBeUpdated));
+    var updatedNorm =
+        updateNormPort
+            .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
+            .orElseThrow(
+                () -> new InvalidUpdateException("Invalid update %s".formatted(query.eli())));
 
     return XmlMapper.toString(updatedNorm.getDocument());
   }
@@ -137,6 +141,10 @@ public class NormService
   @Override
   public UpdateModsUseCase.Result updateMods(UpdateModsUseCase.Query query) {
 
+    if (query.mods().isEmpty()) {
+      throw new InvalidUpdateException("No mods given");
+    }
+
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
     if (amendingNormOptional.isEmpty()) {
@@ -149,7 +157,10 @@ public class NormService
             .getNodeByEId(query.mods().stream().findAny().orElseThrow().eId())
             .map(Mod::new)
             .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
-            .map(Href::getMandatoryEli);
+            .flatMap(Href::getEli);
+    if (targetNormEli.isEmpty()) {
+      throw new InvalidUpdateException("No target href/eli found");
+    }
 
     if (!query.mods().stream()
         .allMatch(
