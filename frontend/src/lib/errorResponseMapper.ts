@@ -18,8 +18,7 @@ import {
  * @returns Whether the candidate is an error response
  */
 export function isErrorResponse(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Fetch errors are always any
-  e: any,
+  e: any, // eslint-disable-line @typescript-eslint/no-explicit-any -- Fetch errors are always any
 ): e is ErrorResponse {
   return typeof e === "object" && e.type in errorMessages
 }
@@ -35,7 +34,7 @@ export function isErrorResponse(
  */
 export function mapErrorResponse(e: ErrorResponse): MappedErrorResponse {
   const mapper = (errorMessages as ErrorResponseMapping)[e.type]
-  let message = mapper?.(e) ?? errorMessages.__fallback__
+  let message = mapper?.(e) ?? errorMessages.__fallback__()
   if (typeof message === "string") message = { title: message }
   return message
 }
