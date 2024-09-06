@@ -175,7 +175,8 @@ public class NormService
                       .flatMap(Href::getEli);
               return eli.equals(targetNormEli);
             })) {
-      throw new IllegalArgumentException("Not all mods have the same target norm");
+      throw new InvalidUpdateException(
+          "Currently not supported: Not all mods have the same target norm");
     }
 
     final Norm targetNorm =
