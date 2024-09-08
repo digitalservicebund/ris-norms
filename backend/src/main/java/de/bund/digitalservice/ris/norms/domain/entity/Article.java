@@ -19,6 +19,8 @@ import org.w3c.dom.Node;
 public class Article {
   private final Node node;
 
+  private static final String AFFECTED_DOCUMENT_XPATH = ".//affectedDocument/@href";
+
   /**
    * Returns a GUID as {@link UUID} from a {@link Node} in a {@link Norm}.
    *
@@ -66,12 +68,22 @@ public class Article {
 
   /**
    * Returns the ELI of the affected document as {@link String} from a {@link Node} in a {@link
-   * Norm}.
+   * Norm}. If not present returns an Optional.empty
    *
    * @return The ELI of the affected document of the article
    */
   public Optional<String> getAffectedDocumentEli() {
-    return NodeParser.getValueFromExpression(".//affectedDocument/@href", this.node);
+    return NodeParser.getValueFromExpression(AFFECTED_DOCUMENT_XPATH, this.node);
+  }
+
+  /**
+   * Returns the ELI of the affected document as {@link String} from a {@link Node} in a {@link
+   * Norm}.
+   *
+   * @return The ELI of the affected document of the article
+   */
+  public String getMandatoryAffectedDocumentEli() {
+    return NodeParser.getValueFromMandatoryNodeFromExpression(AFFECTED_DOCUMENT_XPATH, this.node);
   }
 
   /**
@@ -81,7 +93,7 @@ public class Article {
    */
   public void setAffectedDocumentEli(String href) {
     Optional<Node> articleAffectedDocument =
-        NodeParser.getNodeFromExpression(".//affectedDocument/@href", this.node);
+        NodeParser.getNodeFromExpression(AFFECTED_DOCUMENT_XPATH, this.node);
     articleAffectedDocument.ifPresent(value -> value.setTextContent(href));
   }
 

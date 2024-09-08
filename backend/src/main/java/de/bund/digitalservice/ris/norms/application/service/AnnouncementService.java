@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
@@ -11,8 +12,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /**
@@ -61,22 +60,21 @@ public class AnnouncementService
             .getNorm();
 
     return amendingNorm.getArticles().stream()
+        .filter(
+            article ->
+                article.getRefersTo().isPresent()
+                    && !article.getRefersTo().get().equals("geltungszeitregel"))
         .map(
             article -> {
-              final Optional<String> optionalTargetLawEli = article.getAffectedDocumentEli();
-              final Optional<Norm> optionalTargetLaw =
-                  optionalTargetLawEli.flatMap(
-                      targetLawEli ->
-                          loadNormPort.loadNorm(new LoadNormPort.Command(targetLawEli)));
-
-              return optionalTargetLaw
-                  .map(
-                      targetLaw ->
-                          loadZf0Service.loadOrCreateZf0(
-                              new LoadZf0UseCase.Query(amendingNorm, targetLaw, true)))
-                  .orElse(null);
+              final Norm targetLaw =
+                  loadNormPort
+                      .loadNorm(new LoadNormPort.Command(article.getMandatoryAffectedDocumentEli()))
+                      .orElseThrow(
+                          () ->
+                              new NormNotFoundException(article.getMandatoryAffectedDocumentEli()));
+              return loadZf0Service.loadOrCreateZf0(
+                  new LoadZf0UseCase.Query(amendingNorm, targetLaw, true));
             })
-        .filter(Objects::nonNull)
         .toList();
   }
 }
