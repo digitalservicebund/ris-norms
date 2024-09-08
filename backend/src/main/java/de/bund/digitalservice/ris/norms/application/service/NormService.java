@@ -132,8 +132,8 @@ public class NormService
                 () ->
                     new ValidationException(
                         ValidationException.ErrorType.META_MOD_NOT_FOUND,
-                        Pair.of("eId", eId),
-                        Pair.of("eli", amendingNorm.getEli())));
+                        Pair.of(ValidationException.FieldName.EID, eId),
+                        Pair.of(ValidationException.FieldName.ELI, amendingNorm.getEli())));
 
     singleModValidator.validate(zf0Norm, selectedMod);
   }
@@ -226,7 +226,7 @@ public class NormService
     if (targetNormEli.isEmpty()) {
       throw new ValidationException(
           ValidationException.ErrorType.ELI_NOT_IN_HREF,
-          Pair.of("destinationHref", query.destinationHref()));
+          Pair.of(ValidationException.FieldName.DESTINATION_HREF, query.destinationHref()));
     }
 
     final Norm targetNorm =

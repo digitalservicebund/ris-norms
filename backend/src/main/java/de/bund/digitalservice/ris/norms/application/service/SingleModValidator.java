@@ -1,11 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
-import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Mod;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
@@ -45,8 +41,8 @@ public class SingleModValidator {
                 () ->
                     new ValidationException(
                         ValidationException.ErrorType.TARGET_NODE_NOT_PRESENT,
-                        Pair.of("eId", targetNodeEid),
-                        Pair.of("eli", zf0NormEli)));
+                        Pair.of(ValidationException.FieldName.EID, targetNodeEid),
+                        Pair.of(ValidationException.FieldName.ELI, zf0NormEli)));
     if (activeMod.usesQuotedText()) {
       validateQuotedText(
           zf0NormEli,
@@ -75,31 +71,33 @@ public class SingleModValidator {
                 () ->
                     new ValidationException(
                         ValidationException.ErrorType.CHARACTER_RANGE_NOT_PRESENT,
-                        Pair.of("destinationHref", destinationHref.value()),
-                        Pair.of("eId", passiveModEid),
-                        Pair.of("eli", zf0NormEli)));
+                        Pair.of(
+                            ValidationException.FieldName.DESTINATION_HREF,
+                            destinationHref.value()),
+                        Pair.of(ValidationException.FieldName.EID, passiveModEid),
+                        Pair.of(ValidationException.FieldName.ELI, zf0NormEli)));
 
     if (!characterRange.isValidCharacterRange())
       throw new ValidationException(
           ValidationException.ErrorType.CHARACTER_RANGE_INVALID_FORMAT,
-          Pair.of("characterRange", characterRange.characterRange()),
-          Pair.of("eId", passiveModEid),
-          Pair.of("eli", zf0NormEli));
+          Pair.of(ValidationException.FieldName.CHARACTER_RANGE, characterRange.characterRange()),
+          Pair.of(ValidationException.FieldName.EID, passiveModEid),
+          Pair.of(ValidationException.FieldName.ELI, zf0NormEli));
 
     try {
       if (!characterRange.findTextInNode(targetNode).equals(amendingNormOldText))
         throw new ValidationException(
             ValidationException.ErrorType.CHARACTER_RANGE_NOT_RESOLVE_TARGET,
-            Pair.of("characterRange", characterRange.characterRange()),
-            Pair.of("eId", passiveModEid),
-            Pair.of("eli", zf0NormEli));
+            Pair.of(ValidationException.FieldName.CHARACTER_RANGE, characterRange.characterRange()),
+            Pair.of(ValidationException.FieldName.EID, passiveModEid),
+            Pair.of(ValidationException.FieldName.ELI, zf0NormEli));
 
     } catch (IndexOutOfBoundsException exception) {
       throw new ValidationException(
           ValidationException.ErrorType.CHARACTER_RANGE_NOT_WITHIN_NODE_RANGE,
-          Pair.of("characterRange", characterRange.characterRange()),
-          Pair.of("eId", passiveModEid),
-          Pair.of("eli", zf0NormEli));
+          Pair.of(ValidationException.FieldName.CHARACTER_RANGE, characterRange.characterRange()),
+          Pair.of(ValidationException.FieldName.EID, passiveModEid),
+          Pair.of(ValidationException.FieldName.ELI, zf0NormEli));
     }
   }
 
@@ -123,15 +121,15 @@ public class SingleModValidator {
                           () ->
                               new ValidationException(
                                   ValidationException.ErrorType.TARGET_UPTO_NODE_NOT_PRESENT,
-                                  Pair.of("eId", targetUpToNodeEid),
-                                  Pair.of("eli", zf0Norm.getEli())));
+                                  Pair.of(ValidationException.FieldName.EID, targetUpToNodeEid),
+                                  Pair.of(ValidationException.FieldName.ELI, zf0Norm.getEli())));
 
               if (targetNode.getParentNode() != zf0TargetedUpToNode.getParentNode()) {
                 throw new ValidationException(
                     ValidationException.ErrorType.TARGET_AND_UPTO_NODES_NOT_SIBLINGS,
-                    Pair.of("targetNodeEid", targetNodeEid),
-                    Pair.of("targetUpToNodeEid", targetUpToNodeEid),
-                    Pair.of("eli", zf0Norm.getEli()));
+                    Pair.of(ValidationException.FieldName.TARGET_NODE_EID, targetNodeEid),
+                    Pair.of(ValidationException.FieldName.TARGET_UPTO_NODE_EID, targetUpToNodeEid),
+                    Pair.of(ValidationException.FieldName.ELI, zf0Norm.getEli()));
               }
 
               if ((targetNode.compareDocumentPosition(zf0TargetedUpToNode)
@@ -139,9 +137,9 @@ public class SingleModValidator {
                   == 0) {
                 throw new ValidationException(
                     ValidationException.ErrorType.TARGET_NODE_AFTER_UPTO_NODE,
-                    Pair.of("targetNodeEid", targetNodeEid),
-                    Pair.of("targetUpToNodeEid", targetUpToNodeEid),
-                    Pair.of("eli", zf0Norm.getEli()));
+                    Pair.of(ValidationException.FieldName.TARGET_NODE_EID, targetNodeEid),
+                    Pair.of(ValidationException.FieldName.TARGET_UPTO_NODE_EID, targetUpToNodeEid),
+                    Pair.of(ValidationException.FieldName.ELI, zf0Norm.getEli()));
               }
             });
   }

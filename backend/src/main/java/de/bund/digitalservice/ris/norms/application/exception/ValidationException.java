@@ -10,13 +10,30 @@ import org.apache.commons.lang3.tuple.Pair;
 public class ValidationException extends RuntimeException implements NormsAppException {
 
   private final ErrorType errorType;
-  private final Pair<String, String>[] fields;
+  private final Pair<FieldName, String>[] fields;
 
   @SafeVarargs
-  public ValidationException(final ErrorType errorType, final Pair<String, String>... fields) {
+  public ValidationException(final ErrorType errorType, final Pair<FieldName, String>... fields) {
     super(errorType.resolveMessage(Arrays.stream(fields).map(Pair::getRight).toList()));
     this.errorType = errorType;
     this.fields = fields;
+  }
+
+  /** List of all possible field names in validation errors. */
+  @Getter
+  public enum FieldName {
+    CHARACTER_RANGE("characterRange"),
+    EID("eId"),
+    ELI("eli"),
+    DESTINATION_HREF("destinationHref"),
+    TARGET_NODE_EID("targetNodeEid"),
+    TARGET_UPTO_NODE_EID("targetUpToNodeEid");
+
+    private final String name;
+
+    FieldName(final String name) {
+      this.name = name;
+    }
   }
 
   /** Error types for validation errors, including a message template */

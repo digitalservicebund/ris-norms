@@ -73,7 +73,7 @@ public class NormsAppExceptionHandler {
     ProblemDetail problemDetail =
         ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
     Arrays.stream(e.getFields())
-        .forEach(field -> problemDetail.setProperty(field.getKey(), field.getValue()));
+        .forEach(field -> problemDetail.setProperty(field.getKey().getName(), field.getValue()));
     return problemDetail;
   }
 

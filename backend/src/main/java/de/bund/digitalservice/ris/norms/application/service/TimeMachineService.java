@@ -79,7 +79,9 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                             () ->
                                 new ValidationException(
                                     ValidationException.ErrorType.START_DATE_IN_META_MOD_MISSING,
-                                    Pair.of("eId", passiveModification.getEid().orElse(""))))))
+                                    Pair.of(
+                                        ValidationException.FieldName.EID,
+                                        passiveModification.getEid().orElse(""))))))
         .flatMap(
             (TextualMod passiveModification) -> {
               var sourceEli =
@@ -90,7 +92,9 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                           () ->
                               new ValidationException(
                                   ValidationException.ErrorType.SOURCE_HREF_IN_META_MOD_MISSING,
-                                  Pair.of("eId", passiveModification.getEid().orElse(""))));
+                                  Pair.of(
+                                      ValidationException.FieldName.EID,
+                                      passiveModification.getEid().orElse(""))));
 
               Norm amendingLaw;
               if (customNorms.containsKey(sourceEli)) {
