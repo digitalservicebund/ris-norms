@@ -938,8 +938,7 @@ class NormServiceTest {
       amendingNorm.getMods().stream()
           .filter(mod -> mod.getMandatoryEid().equals(eid))
           .findFirst()
-          .get()
-          .setTargetRefHref("#fake-href");
+          .ifPresent(m -> m.setTargetRefHref("#fake-href"));
 
       String amendingNormEli = amendingNorm.getEli();
       String newTimeBoundaryEid = "#time-boundary-eid";
@@ -969,9 +968,10 @@ class NormServiceTest {
       amendingNorm.getMods().stream()
           .filter(mod -> mod.getMandatoryEid().equals(eid))
           .findFirst()
-          .get()
-          .setTargetRefHref(
-              "eli/bund/bgbl-1/1964/s593/4000-01-01/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml");
+          .ifPresent(
+              m ->
+                  m.setTargetRefHref(
+                      "eli/bund/bgbl-1/1964/s593/4000-01-01/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"));
 
       String amendingNormEli = amendingNorm.getEli();
       String newTimeBoundaryEid = "#time-boundary-eid";
