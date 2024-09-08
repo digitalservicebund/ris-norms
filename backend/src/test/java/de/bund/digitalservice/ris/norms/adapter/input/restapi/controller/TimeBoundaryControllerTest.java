@@ -1,8 +1,8 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -355,10 +355,17 @@ class TimeBoundaryControllerTest {
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("[{\"date\": null, \"eventRefEid\": null}]"))
           // Then
+
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("type").value(equalTo("/errors/input-validation-error")))
+          .andExpect(jsonPath("title").value(equalTo("Input validation error")))
+          .andExpect(jsonPath("status").value(equalTo(400)))
+          .andExpect(jsonPath("detail").value(equalTo("Date must not be null")))
           .andExpect(
-              result ->
-                  assertThat(result.getResponse().getContentAsString())
-                      .contains("400 BAD_REQUEST 'Validation failure'"));
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/timeBoundaries")));
     }
 
     @Test

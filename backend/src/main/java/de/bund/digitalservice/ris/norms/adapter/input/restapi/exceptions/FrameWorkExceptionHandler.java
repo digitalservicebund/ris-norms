@@ -1,8 +1,12 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
+import java.net.URI;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,8 +25,6 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 @Slf4j
 public class FrameWorkExceptionHandler {
 
-  private static final String CONTENT_FORMAT_TEMPLATE = "{\"message\": \"%s\"}";
-
   /**
    * Exception handler method for letting Spring handle {@link HttpMessageNotReadableException}.
    *
@@ -31,13 +33,13 @@ public class FrameWorkExceptionHandler {
    */
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseEntity<String> handleHttpMessageNotReadableException(
+  public ProblemDetail handleHttpMessageNotReadableException(
       final HttpMessageNotReadableException e) {
-
     log.error("HttpMessageNotReadableException: {}", e.getMessage(), e);
-
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    final ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    problemDetail.setType(URI.create("/errors/http-message-not-readable-exception"));
+    return problemDetail;
   }
 
   /**
@@ -49,25 +51,23 @@ public class FrameWorkExceptionHandler {
    */
   @ExceptionHandler(HandlerMethodValidationException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseEntity<String> handleHandlerMethodValidationException(
+  public ProblemDetail handleHandlerMethodValidationException(
       final HandlerMethodValidationException e) {
 
-    e.getAllValidationResults()
-        .forEach(
-            validationResults ->
-                validationResults
-                    .getResolvableErrors()
-                    .forEach(
-                        resolvableErrors ->
-                            log.error(
-                                "Validation Error: {}", resolvableErrors.getDefaultMessage())));
+    final List<String> validationErrors =
+        e.getAllValidationResults().stream()
+            .flatMap(validationResults -> validationResults.getResolvableErrors().stream())
+            .map(MessageSourceResolvable::getDefaultMessage)
+            .toList();
 
-    log.error("HandlerMethodValidationException: {}", e.getMessage(), e);
+    final String concatenatedValidationErrors = String.join(";", validationErrors);
+    log.error("HandlerMethodValidationException: {}", concatenatedValidationErrors, e);
 
-    final String safeMessage = e.getMessage().replace("\"", "'");
-
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(safeMessage));
+    final ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, concatenatedValidationErrors);
+    problemDetail.setTitle("Input validation error");
+    problemDetail.setType(URI.create("/errors/input-validation-error"));
+    return problemDetail;
   }
 
   /**
@@ -78,12 +78,12 @@ public class FrameWorkExceptionHandler {
    */
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public ResponseEntity<String> handleException(final Exception e) {
-
+  public ProblemDetail handleException(final Exception e) {
     log.error("Internal server error: {}", e.getMessage(), e);
-
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    final ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+    problemDetail.setType(URI.create("/errors/internal-server-error"));
+    return problemDetail;
   }
 
   /**
