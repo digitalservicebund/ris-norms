@@ -78,47 +78,6 @@ public class NormsAppExceptionHandler {
   }
 
   /**
-   * Exception handler method for handling {@link MissingAttributeValidationException}.
-   *
-   * @param e The exception that occurred.
-   * @return A {@link ProblemDetail} with an HTTP 422 status and the exception message.
-   */
-  @ExceptionHandler(MissingAttributeValidationException.class)
-  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ProblemDetail handleException(final MissingAttributeValidationException e) {
-
-    log.error("MissingAttributeValidationException: {}", e.getMessage(), e);
-
-    ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
-    problemDetail.setProperty("eli", e.getEli());
-    problemDetail.setProperty("eId", e.getEId());
-    problemDetail.setProperty("attributeName", e.getAttribute().getValue());
-    return problemDetail;
-  }
-
-  /**
-   * Exception handler method for handling {@link MalformedAttributeValidationException}.
-   *
-   * @param e The exception that occurred.
-   * @return A {@link ProblemDetail} with an HTTP 422 status and the exception message.
-   */
-  @ExceptionHandler(MalformedAttributeValidationException.class)
-  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ProblemDetail handleException(final MalformedAttributeValidationException e) {
-
-    log.error("MalformedAttributeValidationException: {}", e.getMessage(), e);
-
-    ProblemDetail problemDetail =
-        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
-    problemDetail.setProperty("eli", e.getEli());
-    problemDetail.setProperty("eId", e.getEId());
-    problemDetail.setProperty("attributeName", e.getAttribute().getValue());
-    problemDetail.setProperty("attributeValue", e.getAttributeValue());
-    return problemDetail;
-  }
-
-  /**
    * Exception handler method for handling {@link TransformationException}.
    *
    * @param e The exception that occurred.

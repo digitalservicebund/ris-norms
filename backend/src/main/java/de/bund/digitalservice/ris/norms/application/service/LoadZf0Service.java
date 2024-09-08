@@ -1,11 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
-import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdatePassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.DocumentUtils;
@@ -24,17 +21,14 @@ public class LoadZf0Service implements LoadZf0UseCase {
   private final UpdateNormService updateNormService;
   private final LoadNormByGuidPort loadNormByGuidPort;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
-  private final LoadNormPort loadNormPort;
 
   public LoadZf0Service(
       final UpdateNormService updateNormService,
       final LoadNormByGuidPort loadNormByGuidPort,
-      final UpdateOrSaveNormPort updateOrSaveNormPort,
-      final LoadNormPort loadNormPort) {
+      final UpdateOrSaveNormPort updateOrSaveNormPort) {
     this.updateNormService = updateNormService;
     this.loadNormByGuidPort = loadNormByGuidPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
-    this.loadNormPort = loadNormPort;
   }
 
   @Override
@@ -65,24 +59,6 @@ public class LoadZf0Service implements LoadZf0UseCase {
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Command(zf0Norm));
     }
     return zf0Norm;
-  }
-
-  Norm loadZf0(Norm amendingLaw, Mod mod) {
-    Optional<String> targetNormEliOptional = mod.getTargetRefHref().flatMap(Href::getEli);
-    String targetNormEli;
-    if (targetNormEliOptional.isPresent()) {
-      targetNormEli = targetNormEliOptional.get();
-    } else
-      throw new ValidationException(
-          "Cannot read target norm eli from mod %s .".formatted(mod.getEid()));
-
-    final Norm targetNorm =
-        loadNormPort
-            .loadNorm(new LoadNormPort.Command(targetNormEli))
-            .orElseThrow(() -> new NormNotFoundException(targetNormEliOptional.get()));
-
-    var query = new LoadZf0UseCase.Query(amendingLaw, targetNorm);
-    return loadOrCreateZf0(query);
   }
 
   private void updateFRBRExpression(

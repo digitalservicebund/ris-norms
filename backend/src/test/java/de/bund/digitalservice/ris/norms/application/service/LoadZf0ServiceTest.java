@@ -1,14 +1,11 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZf0UseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import java.time.LocalDate;
@@ -21,9 +18,8 @@ class LoadZf0ServiceTest {
   final UpdateNormService updateNormService = new UpdateNormService();
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
-  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadZf0Service loadZf0Service =
-      new LoadZf0Service(updateNormService, loadNormByGuidPort, updateOrSaveNormPort, loadNormPort);
+      new LoadZf0Service(updateNormService, loadNormByGuidPort, updateOrSaveNormPort);
 
   @Test
   void itLoadsZf0FromDB() {
@@ -206,46 +202,5 @@ class LoadZf0ServiceTest {
         .isEqualTo(secondPassiveMod.getDestinationHref().orElseThrow().toString().replace("#", ""));
     assertThat(secondPassiveMod.getDestinationUpTo().orElseThrow().getEId().orElseThrow())
         .isEqualTo(secondPassiveMod.getDestinationUpTo().orElseThrow().toString().replace("#", ""));
-  }
-
-  @Test
-  void itLoadsTargetLawFromDB() {
-
-    // Given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    final Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-    when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(zf0Law));
-    when(loadNormPort.loadNorm((any()))).thenReturn(Optional.of(targetLaw));
-    Mod mod = amendingLaw.getMods().getFirst();
-
-    // When
-    final Norm zf0NormLoaded = loadZf0Service.loadZf0(amendingLaw, mod);
-
-    // Then
-    assertThat(zf0Law).isEqualTo(zf0NormLoaded);
-    verify(loadNormPort, times(1)).loadNorm(any(LoadNormPort.Command.class));
-  }
-
-  @Test
-  void throwExceptionWhenEliIsEmpty() {
-
-    // Given
-    final Norm amendingLaw = NormFixtures.loadFromDisk("NormWithMods.xml");
-    final Norm targetLaw = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
-    final Norm zf0Law = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
-    when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(Optional.of(zf0Law));
-    when(loadNormPort.loadNorm((any()))).thenReturn(Optional.of(targetLaw));
-    Mod mod = amendingLaw.getMods().getFirst();
-    mod.setTargetRefHref("");
-
-    // When
-    final Throwable thrown = catchThrowable(() -> loadZf0Service.loadZf0(amendingLaw, mod));
-
-    // then
-    assertThat(thrown)
-        .isInstanceOf(ValidationException.class)
-        .hasMessageContaining(
-            "Cannot read target norm eli from mod Optional[hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1]");
   }
 }

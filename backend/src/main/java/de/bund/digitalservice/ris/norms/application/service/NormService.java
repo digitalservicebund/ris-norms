@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 
@@ -111,10 +112,7 @@ public class NormService
       String destinationUpTo,
       String timeBoundaryEId,
       String newContent) {
-    var targetNormEli = new Href(destinationHref).getEli();
-    if (targetNormEli.isEmpty()) {
-      throw new ValidationException("The destinationHref does not contain a eli");
-    }
+    var targetNormEli = new Href(destinationHref).getEli().orElse("");
 
     // Update active mods (meta and body) in amending law
     updateNormService.updateActiveModifications(
@@ -123,7 +121,7 @@ public class NormService
 
     // Update passiv mods in ZF0
     updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli.get()));
+        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli));
 
     // Validate changes on ZF0
     final Mod selectedMod =
@@ -133,8 +131,10 @@ public class NormService
             .orElseThrow(
                 () ->
                     new ValidationException(
-                        "Did not find a textual mod in the norm %s"
-                            .formatted(amendingNorm.getEli())));
+                        ValidationException.ErrorType.META_MOD_NOT_FOUND,
+                        Pair.of("eId", eId),
+                        Pair.of("eli", amendingNorm.getEli())));
+
     singleModValidator.validate(zf0Norm, selectedMod);
   }
 
@@ -224,7 +224,9 @@ public class NormService
 
     final var targetNormEli = new Href(query.destinationHref()).getEli();
     if (targetNormEli.isEmpty()) {
-      throw new ValidationException(query.destinationHref());
+      throw new ValidationException(
+          ValidationException.ErrorType.ELI_NOT_IN_HREF,
+          Pair.of("destinationHref", query.destinationHref()));
     }
 
     final Norm targetNorm =

@@ -13,22 +13,34 @@ public class ValidationException extends RuntimeException implements NormsAppExc
   private final Pair<String, String>[] fields;
 
   @SafeVarargs
-  public ValidationException(final ErrorType errorType, final Pair<String, String>... args) {
-    super(errorType.resolveMessage(Arrays.stream(args).map(Pair::getRight).toList()));
+  public ValidationException(final ErrorType errorType, final Pair<String, String>... fields) {
+    super(errorType.resolveMessage(Arrays.stream(fields).map(Pair::getRight).toList()));
     this.errorType = errorType;
-    this.fields = args;
-  }
-
-  // TODO to remove, needed now for non-yet migrated ValidationException
-  public ValidationException(final String message) {
-    super(message);
-    this.errorType = ErrorType.TARGET_NODE_NOT_PRESENT;
-    this.fields = null;
+    this.fields = fields;
   }
 
   /** Error types for validation errors, including a message template */
   @Getter
   public enum ErrorType {
+    ABSOLUTE_HREF_WITHOUT_ELI(
+        "/errors/absolute-href-without-eli",
+        "The provided Href with value %s does not contain the required 9 ELI parts."),
+    META_MOD_NOT_FOUND(
+        "/errors/meta-mod-not-found", "Did not find a textual mod with eId %s in the norm %s"),
+    ELI_NOT_IN_HREF(
+        "/errors/eli-not-in-href", "The destinationHref with value %s does not contain a eli"),
+    SOURCE_HREF_IN_META_MOD_MISSING(
+        "/errors/source-href-in-meta-mod-missing",
+        "Did not find source href for textual mod with eId %s"),
+    START_DATE_IN_META_MOD_MISSING(
+        "/errors/start-date-in-meta-mod-missing",
+        "Did not find a start date for textual mod with eId %s"),
+    DESTINATION_ELIS_IN_META_MODS_NOT_CONSISTENT_WITH_BODY_MODS(
+        "/errors/elis-not-consistent-between-meta-and-body",
+        "For norm with Eli (%s): Eids are not consistent"),
+    DESTINATION_ELIS_NOT_CONSISTENT(
+        "/errors/destination-elis-not-consistent",
+        "For norm with Eli (%s): Elis are not consistent"),
     VALIDATION_ERROR("/errors/validation-error", "General validation error occurred."),
     TARGET_NODE_NOT_PRESENT(
         "/errors/target-node-not-present",
@@ -63,8 +75,8 @@ public class ValidationException extends RuntimeException implements NormsAppExc
       this.message = message;
     }
 
-    public String resolveMessage(final List<String> args) {
-      return String.format(this.message, args.toArray());
+    public String resolveMessage(final List<String> values) {
+      return String.format(this.message, values.toArray());
     }
   }
 }

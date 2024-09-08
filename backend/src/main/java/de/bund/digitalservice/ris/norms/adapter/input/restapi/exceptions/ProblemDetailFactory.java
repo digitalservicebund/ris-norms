@@ -44,20 +44,11 @@ public class ProblemDetailFactory {
         ArticleNotFoundException.class,
         URI.create("/errors/article-not-found"),
         "Article not found"),
-    MISSING_ATTRIBUTE(
-        MissingAttributeValidationException.class,
-        URI.create("/errors/missing-attribute"),
-        "Expected attribute not found"),
-    MALFORMED_ATTRIBUTE(
-        MalformedAttributeValidationException.class,
-        URI.create("/errors/malformed-attribute"),
-        "Value of attribute is malformed"),
     INVALID_UPDATE(
         InvalidUpdateException.class,
         URI.create("/errors/invalidate-update"),
         "Invalid update in XML"),
-    VALIDATION_ERROR(
-        ValidationException.class, URI.create("/errors/validation-error"), "Validation error");
+    VALIDATION_ERROR(ValidationException.class, null, "Validation error");
 
     /**
      * Creates the Enum
