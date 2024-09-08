@@ -12,7 +12,9 @@ import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.Optional;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Node;
 
 /**
  * Service class within the application core part of the backend. It is responsible for implementing
@@ -85,8 +87,7 @@ public class NormService
     var updatedNorm =
         updateNormPort
             .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
-            .orElseThrow(
-                () -> new InvalidUpdateException("Invalid update %s".formatted(query.eli())));
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
     return XmlMapper.toString(updatedNorm.getDocument());
   }
@@ -111,10 +112,7 @@ public class NormService
       String destinationUpTo,
       String timeBoundaryEId,
       String newContent) {
-    var targetNormEli = new Href(destinationHref).getEli();
-    if (targetNormEli.isEmpty()) {
-      throw new ValidationException("The destinationHref does not contain a eli");
-    }
+    var targetNormEli = new Href(destinationHref).getEli().orElse("");
 
     // Update active mods (meta and body) in amending law
     updateNormService.updateActiveModifications(
@@ -123,7 +121,7 @@ public class NormService
 
     // Update passiv mods in ZF0
     updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli.get()));
+        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli));
 
     // Validate changes on ZF0
     final Mod selectedMod =
@@ -133,17 +131,15 @@ public class NormService
             .orElseThrow(
                 () ->
                     new ValidationException(
-                        "Did not find a textual mod in the norm %s"
-                            .formatted(amendingNorm.getEli())));
+                        ValidationException.ErrorType.META_MOD_NOT_FOUND,
+                        Pair.of(ValidationException.FieldName.EID, eId),
+                        Pair.of(ValidationException.FieldName.ELI, amendingNorm.getEli())));
+
     singleModValidator.validate(zf0Norm, selectedMod);
   }
 
   @Override
   public UpdateModsUseCase.Result updateMods(UpdateModsUseCase.Query query) {
-
-    if (query.mods().isEmpty()) {
-      throw new InvalidUpdateException("No mods given");
-    }
 
     final Optional<Norm> amendingNormOptional =
         loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
@@ -152,14 +148,21 @@ public class NormService
     }
     final Norm amendingNorm = amendingNormOptional.get();
 
+    String queryModEId = query.mods().stream().findAny().orElseThrow().eId();
+    final Optional<Node> nodeOfMod = amendingNorm.getNodeByEId(queryModEId);
+    if (nodeOfMod.isEmpty()) {
+      throw new InvalidUpdateException(
+          "Mod with eId %s not found in amending law %s"
+              .formatted(queryModEId, amendingNorm.getEli()));
+    }
+
     final var targetNormEli =
-        amendingNorm
-            .getNodeByEId(query.mods().stream().findAny().orElseThrow().eId())
+        nodeOfMod
             .map(Mod::new)
             .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
             .flatMap(Href::getEli);
     if (targetNormEli.isEmpty()) {
-      throw new InvalidUpdateException("No target href/eli found");
+      throw new InvalidUpdateException("No eli found in href of mod %s".formatted(queryModEId));
     }
 
     if (!query.mods().stream()
@@ -172,7 +175,8 @@ public class NormService
                       .flatMap(Href::getEli);
               return eli.equals(targetNormEli);
             })) {
-      throw new IllegalArgumentException("Not all mods have the same target norm");
+      throw new InvalidUpdateException(
+          "Currently not supported: Not all mods have the same target norm");
     }
 
     final Norm targetNorm =
@@ -220,7 +224,9 @@ public class NormService
 
     final var targetNormEli = new Href(query.destinationHref()).getEli();
     if (targetNormEli.isEmpty()) {
-      throw new ValidationException(query.destinationHref());
+      throw new ValidationException(
+          ValidationException.ErrorType.ELI_NOT_IN_HREF,
+          Pair.of(ValidationException.FieldName.DESTINATION_HREF, query.destinationHref()));
     }
 
     final Norm targetNorm =

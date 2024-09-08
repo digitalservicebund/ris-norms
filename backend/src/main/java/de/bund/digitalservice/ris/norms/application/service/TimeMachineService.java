@@ -9,14 +9,11 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 
@@ -81,8 +78,10 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                         .orElseThrow(
                             () ->
                                 new ValidationException(
-                                    "Did not find a start date for textual mod with eId %s"
-                                        .formatted(passiveModification.getEid())))))
+                                    ValidationException.ErrorType.START_DATE_IN_META_MOD_MISSING,
+                                    Pair.of(
+                                        ValidationException.FieldName.EID,
+                                        passiveModification.getEid().orElse(""))))))
         .flatMap(
             (TextualMod passiveModification) -> {
               var sourceEli =
@@ -92,8 +91,10 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
                       .orElseThrow(
                           () ->
                               new ValidationException(
-                                  "Did not find source href for textual mod with eId %s"
-                                      .formatted(passiveModification.getEid())));
+                                  ValidationException.ErrorType.SOURCE_HREF_IN_META_MOD_MISSING,
+                                  Pair.of(
+                                      ValidationException.FieldName.EID,
+                                      passiveModification.getEid().orElse(""))));
 
               Norm amendingLaw;
               if (customNorms.containsKey(sourceEli)) {

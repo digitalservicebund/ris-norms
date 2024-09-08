@@ -4,9 +4,12 @@ import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
+import java.net.URI;
+import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Order(1)
 @ControllerAdvice
 @Slf4j
-public class NormExceptionHandler {
+public class NormsAppExceptionHandler {
 
   private static final String CONTENT_FORMAT_TEMPLATE = "{\"message\": \"%s\"}";
 
@@ -33,12 +36,11 @@ public class NormExceptionHandler {
    */
   @ExceptionHandler(InvalidUpdateException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ResponseEntity<String> handleException(final InvalidUpdateException e) {
+  public ProblemDetail handleException(final InvalidUpdateException e) {
 
     log.error("InvalidUpdateException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    return ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   /**
@@ -64,12 +66,15 @@ public class NormExceptionHandler {
    */
   @ExceptionHandler(ValidationException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ResponseEntity<String> handleException(final ValidationException e) {
+  public ProblemDetail handleException(final ValidationException e) {
 
     log.error("ValidationException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    Arrays.stream(e.getFields())
+        .forEach(field -> problemDetail.setProperty(field.getKey().getName(), field.getValue()));
+    return problemDetail;
   }
 
   /**
@@ -95,13 +100,13 @@ public class NormExceptionHandler {
    * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
    */
   @ExceptionHandler(NormNotFoundException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<String> handleException(final NormNotFoundException e) {
+  public ProblemDetail handleException(final NormNotFoundException e) {
 
     log.error("NormNotFoundException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    problemDetail.setProperty("eli", e.getEli());
+    return problemDetail;
   }
 
   /**
@@ -112,12 +117,15 @@ public class NormExceptionHandler {
    */
   @ExceptionHandler(ArticleNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<String> handleException(final ArticleNotFoundException e) {
-
+  public ProblemDetail handleException(final ArticleNotFoundException e) {
     log.error("ArticleNotFoundException: {}", e.getMessage(), e);
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    final ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    problemDetail.setInstance(URI.create(e.getEli()));
+    problemDetail.setProperty("eid", e.getEid());
+
+    return problemDetail;
   }
 
   /**

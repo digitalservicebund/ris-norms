@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
@@ -512,6 +513,53 @@ class NormServiceTest {
     }
 
     @Test
+    void itThrowsValidationExceptionBecauseInputDestinationHrefWithoutEli() {
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+
+      // when/than
+      final UpdateModUseCase.Query query =
+          new UpdateModUseCase.Query(
+              eli, "eid", "refersTo", "time-boundary-eid", "#destinanation-href", null, "new text");
+      assertThatThrownBy(() -> service.updateMod(query))
+          .isInstanceOf(ValidationException.class)
+          .hasMessageContaining(
+              "The destinationHref with value #destinanation-href does not contain a eli");
+    }
+
+    @Test
+    void itThrowsValidationExceptionBecauseMetaModNotFound() {
+      // Given
+      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      final Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+      final Norm zf0Norm = NormFixtures.loadFromDisk("NormWithPassiveModifications.xml");
+      when(loadNormPort.loadNorm(any()))
+          .thenReturn(Optional.of(amendingNorm))
+          .thenReturn(Optional.of(targetNorm));
+      when(loadZf0Service.loadOrCreateZf0(any())).thenReturn(zf0Norm);
+      when(updateNormService.updateActiveModifications(any())).thenReturn(amendingNorm);
+      when(updateNormService.updatePassiveModifications(any())).thenReturn(zf0Norm);
+
+      // when/than
+      final UpdateModUseCase.Query query =
+          new UpdateModUseCase.Query(
+              eli,
+              "eid",
+              "refersTo",
+              "time-boundary-eid",
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1",
+              null,
+              "new text");
+      assertThatThrownBy(() -> service.updateMod(query))
+          .isInstanceOf(ValidationException.class)
+          .hasMessageContaining(
+              "Did not find a textual mod with eId eid in the norm eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
+    }
+
+    @Test
     void itCallsTheValidator() {
       // Given
       Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
@@ -836,6 +884,113 @@ class NormServiceTest {
       verify(updateNormService, times(2)).updatePassiveModifications(any());
       verify(updateNormPort, times(1)).updateNorm(any());
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
+    }
+
+    @Test
+    void itThrowsNormNotFoundExceptionWhenAmendingLawCanNotBeLoaded() {
+      // Given
+      String amendingNormEli = "fake/eli";
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+
+      // when
+      UpdateModsUseCase.Query query =
+          new UpdateModsUseCase.Query(
+              amendingNormEli,
+              List.of(new UpdateModsUseCase.NewModData("not-relevant", "not-relevant")),
+              false);
+
+      assertThatThrownBy(() -> service.updateMods(query))
+
+          // Then
+          .isInstanceOf(NormNotFoundException.class)
+          .hasMessageContaining("Norm with eli fake/eli does not exist");
+    }
+
+    @Test
+    void itThrowsInvalidUpdateExceptionWhenModWithGivenEidNotFound() {
+      // Given
+      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      String amendingNormEli = amendingNorm.getEli();
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+
+      // when
+      UpdateModsUseCase.Query query =
+          new UpdateModsUseCase.Query(
+              amendingNormEli,
+              List.of(
+                  new UpdateModsUseCase.NewModData("eid-that-does-not-exist", newTimeBoundaryEid)),
+              false);
+
+      assertThatThrownBy(() -> service.updateMods(query))
+
+          // Then
+          .isInstanceOf(InvalidUpdateException.class)
+          .hasMessageContaining(
+              "Mod with eId eid-that-does-not-exist not found in amending law eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
+    }
+
+    @Test
+    void itThrowsInvalidUpdateExceptionWhenModHrefDoesNotContainEli() {
+      // Given
+      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      String eid = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      amendingNorm.getMods().stream()
+          .filter(mod -> mod.getMandatoryEid().equals(eid))
+          .findFirst()
+          .ifPresent(m -> m.setTargetRefHref("#fake-href"));
+
+      String amendingNormEli = amendingNorm.getEli();
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+
+      // when
+      UpdateModsUseCase.Query query =
+          new UpdateModsUseCase.Query(
+              amendingNormEli,
+              List.of(new UpdateModsUseCase.NewModData(eid, newTimeBoundaryEid)),
+              false);
+
+      assertThatThrownBy(() -> service.updateMods(query))
+
+          // Then
+          .isInstanceOf(InvalidUpdateException.class)
+          .hasMessageContaining(
+              "No eli found in href of mod hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
+    }
+
+    @Test
+    void itThrowsInvalidUpdateExceptionWhenModsDoNotHaveSameTargetEli() {
+      // Given
+      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      String eid = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String eid2 = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-2_ändbefehl-1";
+      amendingNorm.getMods().stream()
+          .filter(mod -> mod.getMandatoryEid().equals(eid))
+          .findFirst()
+          .ifPresent(
+              m ->
+                  m.setTargetRefHref(
+                      "eli/bund/bgbl-1/1964/s593/4000-01-01/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"));
+
+      String amendingNormEli = amendingNorm.getEli();
+      String newTimeBoundaryEid = "#time-boundary-eid";
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
+
+      // when
+      UpdateModsUseCase.Query updateModQuery =
+          new UpdateModsUseCase.Query(
+              amendingNormEli,
+              List.of(
+                  new UpdateModsUseCase.NewModData(eid, newTimeBoundaryEid),
+                  new UpdateModsUseCase.NewModData(eid2, newTimeBoundaryEid)),
+              false);
+
+      assertThatThrownBy(() -> service.updateMods(updateModQuery))
+
+          // Then
+          .isInstanceOf(InvalidUpdateException.class)
+          .hasMessageContaining("Currently not supported: Not all mods have the same target norm");
     }
   }
 }

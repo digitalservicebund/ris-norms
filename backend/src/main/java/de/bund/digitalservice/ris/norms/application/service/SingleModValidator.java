@@ -1,12 +1,9 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.ValidationException;
-import de.bund.digitalservice.ris.norms.domain.entity.CharacterRange;
-import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import de.bund.digitalservice.ris.norms.domain.entity.Mod;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.TextualMod;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 
@@ -43,8 +40,9 @@ public class SingleModValidator {
             .orElseThrow(
                 () ->
                     new ValidationException(
-                        "Target node with eid %s not present in ZF0 norm with eli %s."
-                            .formatted(targetNodeEid, zf0NormEli)));
+                        ValidationException.ErrorType.TARGET_NODE_NOT_PRESENT,
+                        Pair.of(ValidationException.FieldName.EID, targetNodeEid),
+                        Pair.of(ValidationException.FieldName.ELI, zf0NormEli)));
     if (activeMod.usesQuotedText()) {
       validateQuotedText(
           zf0NormEli,
@@ -72,23 +70,34 @@ public class SingleModValidator {
             .orElseThrow(
                 () ->
                     new ValidationException(
-                        "Destination href with value %s of passive mod with eId %s within ZF0 norm with eli %s not present."
-                            .formatted(destinationHref, passiveModEid, zf0NormEli)));
+                        ValidationException.ErrorType.CHARACTER_RANGE_NOT_PRESENT,
+                        Pair.of(
+                            ValidationException.FieldName.DESTINATION_HREF,
+                            destinationHref.value()),
+                        Pair.of(ValidationException.FieldName.EID, passiveModEid),
+                        Pair.of(ValidationException.FieldName.ELI, zf0NormEli)));
 
     if (!characterRange.isValidCharacterRange())
       throw new ValidationException(
-          "The character range %s of passive mod with eId %s within ZF0 norm with eli %s has invalid format."
-              .formatted(characterRange, passiveModEid, zf0NormEli));
+          ValidationException.ErrorType.CHARACTER_RANGE_INVALID_FORMAT,
+          Pair.of(ValidationException.FieldName.CHARACTER_RANGE, characterRange.characterRange()),
+          Pair.of(ValidationException.FieldName.EID, passiveModEid),
+          Pair.of(ValidationException.FieldName.ELI, zf0NormEli));
 
     try {
       if (!characterRange.findTextInNode(targetNode).equals(amendingNormOldText))
         throw new ValidationException(
-            "The character range %s of passive mod with eId %s within ZF0 norm with eli %s does not resolve to the targeted text to be replaced."
-                .formatted(characterRange, passiveModEid, zf0NormEli));
+            ValidationException.ErrorType.CHARACTER_RANGE_NOT_RESOLVE_TARGET,
+            Pair.of(ValidationException.FieldName.CHARACTER_RANGE, characterRange.characterRange()),
+            Pair.of(ValidationException.FieldName.EID, passiveModEid),
+            Pair.of(ValidationException.FieldName.ELI, zf0NormEli));
+
     } catch (IndexOutOfBoundsException exception) {
       throw new ValidationException(
-          "The character range %s of passive mod with eId %s within ZF0 norm with eli %s is not within the target node."
-              .formatted(characterRange, passiveModEid, zf0NormEli));
+          ValidationException.ErrorType.CHARACTER_RANGE_NOT_WITHIN_NODE_RANGE,
+          Pair.of(ValidationException.FieldName.CHARACTER_RANGE, characterRange.characterRange()),
+          Pair.of(ValidationException.FieldName.EID, passiveModEid),
+          Pair.of(ValidationException.FieldName.ELI, zf0NormEli));
     }
   }
 
@@ -111,21 +120,26 @@ public class SingleModValidator {
                       .orElseThrow(
                           () ->
                               new ValidationException(
-                                  "Target upTo node with eid %s not present in ZF0 norm with eli %s."
-                                      .formatted(targetUpToNodeEid, zf0Norm.getEli())));
+                                  ValidationException.ErrorType.TARGET_UPTO_NODE_NOT_PRESENT,
+                                  Pair.of(ValidationException.FieldName.EID, targetUpToNodeEid),
+                                  Pair.of(ValidationException.FieldName.ELI, zf0Norm.getEli())));
 
               if (targetNode.getParentNode() != zf0TargetedUpToNode.getParentNode()) {
                 throw new ValidationException(
-                    "Target node with eid %s and target upTo node with eid %s are not siblings in ZF0 norm with eli %s."
-                        .formatted(targetNodeEid, targetUpToNodeEid, zf0Norm.getEli()));
+                    ValidationException.ErrorType.TARGET_AND_UPTO_NODES_NOT_SIBLINGS,
+                    Pair.of(ValidationException.FieldName.TARGET_NODE_EID, targetNodeEid),
+                    Pair.of(ValidationException.FieldName.TARGET_UPTO_NODE_EID, targetUpToNodeEid),
+                    Pair.of(ValidationException.FieldName.ELI, zf0Norm.getEli()));
               }
 
               if ((targetNode.compareDocumentPosition(zf0TargetedUpToNode)
                       & Node.DOCUMENT_POSITION_FOLLOWING)
                   == 0) {
                 throw new ValidationException(
-                    "Target node with eid %s does not appear before target upTo node with eid %s in ZF0 norm with eli %s."
-                        .formatted(targetNodeEid, targetUpToNodeEid, zf0Norm.getEli()));
+                    ValidationException.ErrorType.TARGET_NODE_AFTER_UPTO_NODE,
+                    Pair.of(ValidationException.FieldName.TARGET_NODE_EID, targetNodeEid),
+                    Pair.of(ValidationException.FieldName.TARGET_UPTO_NODE_EID, targetUpToNodeEid),
+                    Pair.of(ValidationException.FieldName.ELI, zf0Norm.getEli()));
               }
             });
   }

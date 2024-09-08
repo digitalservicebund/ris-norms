@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -114,6 +115,31 @@ class NormControllerTest {
                       query
                           .eli()
                           .equals("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itReturnsErrorResponse() throws Exception {
+      // Given
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenThrow(new NormNotFoundException("eli/of/norm"));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value(equalTo("/errors/norm-not-found")))
+          .andExpect(jsonPath("title").value(equalTo("Norm not found")))
+          .andExpect(jsonPath("status").value(equalTo(404)))
+          .andExpect(jsonPath("detail").value(equalTo("Norm with eli eli/of/norm does not exist")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
+          .andExpect(jsonPath("eli").value(equalTo("eli/of/norm")));
     }
   }
 
@@ -251,7 +277,14 @@ class NormControllerTest {
                   .contentType(MediaType.APPLICATION_XML)
                   .content(xml))
           .andExpect(status().isUnprocessableEntity())
-          .andExpect(content().string("{\"message\": \"Error Message\"}"));
+          .andExpect(jsonPath("type").value("/errors/invalidate-update"))
+          .andExpect(jsonPath("title").value("Invalid update in XML"))
+          .andExpect(jsonPath("status").value(422))
+          .andExpect(jsonPath("detail").value("Error Message"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"));
 
       verify(updateNormXmlUseCase, times(1))
           .updateNormXml(argThat(query -> query.xml().equals(xml)));
