@@ -111,13 +111,11 @@ const formatEliForDownload = (eli: string) => eli.replace(/\//g, "_") + ".xml"
       </div>
 
       <div v-else-if="releaseError">
-        <RisErrorCallout title="Abgabe nicht erfolgreich." />
+        <RisErrorCallout :error="releaseError" />
       </div>
 
       <div v-else-if="fetchError">
-        <RisErrorCallout
-          title="Die letzte Abgabe konnte nicht geladen werden."
-        />
+        <RisErrorCallout :error="fetchError" />
       </div>
 
       <RisCallout

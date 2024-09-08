@@ -13,9 +13,7 @@ const { isFetching, error, data: amendingLaws } = useGetAmendingLaws()
     <h1 class="ds-heading-02-reg mb-24">Verkündungen</h1>
     <div>
       <div v-if="error" class="w-1/2">
-        <RisErrorCallout
-          title="Die Liste der Verkündungen konnte nicht geladen werden."
-        />
+        <RisErrorCallout :error />
       </div>
       <RisLoadingSpinner v-if="isFetching" />
       <div v-else class="flex flex-col gap-8">

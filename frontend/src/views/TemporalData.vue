@@ -57,15 +57,13 @@ const sentryTraceId = useSentryTraceId()
 
     <template v-else-if="entryIntoForceError">
       <div class="col-span-3">
-        <RisErrorCallout
-          title="Es wurde kein Inkrafttreten-Artikel gefunden."
-        />
+        <RisErrorCallout :error="entryIntoForceError" />
       </div>
     </template>
 
     <template v-else-if="loadTimeBoundariesError">
       <div class="col-span-3">
-        <RisErrorCallout title="Zeitgrenzen konnten nicht geladen werden." />
+        <RisErrorCallout :error="loadTimeBoundariesError" />
       </div>
     </template>
 

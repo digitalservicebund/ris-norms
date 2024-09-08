@@ -48,7 +48,7 @@ test("should display a loading error message when the API call fails", async ({
   )
 
   await expect(
-    page.getByText("Der Text der Verkündung konnte nicht geladen werden."),
+    page.getByText("Ein unbekannter Fehler ist aufgetreten."),
   ).toBeVisible()
 
   await expect(

@@ -36,6 +36,7 @@ class NormControllerTest {
 
   @MockBean private LoadNormUseCase loadNormUseCase;
   @MockBean private LoadNormXmlUseCase loadNormXmlUseCase;
+  @MockBean private LoadZf0UseCase loadZf0UseCase;
   @MockBean private UpdateNormXmlUseCase updateNormXmlUseCase;
   @MockBean private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
   @MockBean private ApplyPassiveModificationsUseCase applyPassiveModificationsUseCase;
@@ -424,6 +425,31 @@ class NormControllerTest {
           .andExpect(jsonPath("targetNormZf0Xml").value(targetNormZf0Xml));
 
       verify(updateModsUseCase, times(1)).updateMods(argThat(UpdateModsUseCase.Query::dryRun));
+    }
+  }
+
+  @Nested
+  class getNormZf0Xml {
+
+    @Test
+    void itReturnsZf0NormXml() throws Exception {
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenReturn(NormFixtures.loadFromDisk("SimpleNorm.xml"));
+      when(loadZf0UseCase.loadOrCreateZf0(any()))
+          .thenReturn(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml"));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/zf0?amendingNormEli=eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML))
+          .andExpect(status().isOk())
+          .andExpect(
+              xpath("//meta//FRBRExpression/FRBRthis/@value")
+                  .string("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1"));
+
+      verify(loadNormUseCase, times(2)).loadNorm(any());
+      verify(loadZf0UseCase, times(1)).loadOrCreateZf0(any());
     }
   }
 }

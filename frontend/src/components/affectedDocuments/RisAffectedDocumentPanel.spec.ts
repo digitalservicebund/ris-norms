@@ -214,7 +214,7 @@ describe("RisAffectedDocumentPanel", () => {
     })
 
     expect(document.body).toHaveTextContent(
-      "Der betroffene Normkomplex konnte nicht geladen werden.",
+      "Ein unbekannter Fehler ist aufgetreten.",
     )
   })
 

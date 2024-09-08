@@ -12,6 +12,9 @@ import { computed, nextTick, ref, watch } from "vue"
 import CheckIcon from "~icons/ic/check"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useEIdRange } from "@/composables/useEIdRange"
+import RisCharacterRangeSelect from "@/components/RisCharacterRangeSelect.vue"
+import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import RisLoadingSpinner from "@/components/controls/RisLoadingSpinner.vue"
 
 const props = defineProps<{
   /** Unique ID for the dro. */
@@ -28,6 +31,11 @@ const props = defineProps<{
   isUpdatingFinished?: boolean
   updateError?: any // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are `any`
   targetLawHtml?: string
+  targetLawHtmlIsFetching?: boolean
+  targetLawHtmlError?: any // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are `any`
+  targetLaw?: string
+  targetLawIsFetching?: boolean
+  targetLawError?: any // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are `any`
 }>()
 
 const emit = defineEmits<{
@@ -224,7 +232,11 @@ const selectedElements = useEIdRange(
 )
 
 watch(
-  [destinationHrefEid, () => props.targetLawHtml],
+  [
+    destinationHrefEid,
+    () => props.targetLawHtml,
+    () => elementToBeReplacedRef.value,
+  ],
   async () => {
     if (destinationHrefEid.value) {
       await nextTick()
@@ -314,7 +326,10 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
 </script>
 
 <template>
-  <form :id="id" class="grid max-h-full grid-cols-1 gap-y-12 overflow-hidden">
+  <form
+    :id="id"
+    class="grid h-full max-h-full grid-cols-1 grid-rows-[min-content,min-content,1fr,min-content] gap-y-12 overflow-auto"
+  >
     <div class="grid grid-cols-2 gap-x-16">
       <RisDropdownInput
         id="timeBoundaries"
@@ -348,7 +363,17 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         <label for="replacingElement" class="ds-label"
           >Zu ersetzendes Element</label
         >
+        <div
+          v-if="targetLawHtmlIsFetching"
+          class="flex items-center justify-center"
+        >
+          <RisLoadingSpinner></RisLoadingSpinner>
+        </div>
+        <div v-else-if="targetLawHtmlError">
+          <RisErrorCallout :error="targetLawHtmlError" />
+        </div>
         <RisLawPreview
+          v-else
           v-bind="selectableAknElementsLabels"
           id="elementToBeReplaced"
           ref="elementToBeReplacedRef"
@@ -378,28 +403,48 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         />
       </div>
     </div>
-    <template v-else-if="textualModType === 'aenderungsbefehl-ersetzen'">
+    <div
+      v-else-if="textualModType === 'aenderungsbefehl-ersetzen'"
+      class="grid max-h-full grid-cols-subgrid grid-rows-[min-content,2fr,1fr] gap-y-12 overflow-hidden"
+    >
       <RisTextInput
         id="destinationHrefEid"
         v-model="destinationHrefEid"
         label="zu ersetzende Textstelle"
         @blur="$emit('generate-preview')"
       />
-      <RisTextAreaInput
-        id="quotedTextFirst"
-        label="zu ersetzender Text"
-        :model-value="quotedTextFirst"
-        read-only
-        :rows="8"
-      />
+      <div class="grid grid-rows-[max-content,1fr] gap-2 overflow-hidden">
+        <div id="label-old-text" class="ds-label">zu ersetzender Text</div>
+        <div
+          v-if="
+            targetLawIsFetching ||
+            targetLawHtmlIsFetching ||
+            (!targetLawHtml && !targetLawError) ||
+            (!targetLawHtmlError && !targetLawHtml)
+          "
+          class="flex items-center justify-center"
+        >
+          <RisLoadingSpinner></RisLoadingSpinner>
+        </div>
+        <div v-else-if="targetLawError || targetLawHtmlError">
+          <RisErrorCallout :error="targetLawError ?? targetLawHtmlError" />
+        </div>
+        <RisCharacterRangeSelect
+          v-else
+          v-model="destinationHrefEid"
+          :xml="targetLaw ?? ''"
+          :render="targetLawHtml ?? ''"
+          aria-labelledby="label-old-text"
+        />
+      </div>
       <RisTextAreaInput
         id="quotedTextSecond"
         v-model="quotedTextSecondModel"
+        class="h-full"
         label="Neuer Text Inhalt"
-        :rows="8"
         @blur="$emit('generate-preview')"
       />
-    </template>
+    </div>
 
     <div class="flex">
       <RisTextButton
@@ -568,7 +613,8 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
   @apply scroll-m-20;
 }
 
-:deep(
+.preview {
+  :deep(
     :is(
         /* inline elements without akn:num */
         .akn-a,
@@ -602,136 +648,137 @@ const selectableAknElementsEventHandlers = Object.fromEntries(
         .akn-u
       )
   ) {
-  :deep(&):not(:empty) {
-    @apply inline border border-highlight-elementSelect-hover-border bg-highlight-elementSelect-hover-background;
+    :deep(&):not(:empty) {
+      @apply inline border border-highlight-elementSelect-hover-border bg-highlight-elementSelect-hover-background;
+    }
   }
-}
 
-:deep(.akn-longTitle):before {
-  content: "long title";
-}
+  :deep(.akn-longTitle):before {
+    content: "long title";
+  }
 
-:deep(.akn-citations):before {
-  content: "citations";
-}
+  :deep(.akn-citations):before {
+    content: "citations";
+  }
 
-:deep(.akn-recitals):before {
-  content: "recitals";
-}
+  :deep(.akn-recitals):before {
+    content: "recitals";
+  }
 
-:deep(.akn-recital):before {
-  content: "recital";
-}
+  :deep(.akn-recital):before {
+    content: "recital";
+  }
 
-:deep(.akn-blockContainer):before {
-  content: "block container";
-}
+  :deep(.akn-blockContainer):before {
+    content: "block container";
+  }
 
-:deep(.akn-book):before {
-  content: "book";
-}
+  :deep(.akn-book):before {
+    content: "book";
+  }
 
-:deep(.akn-part):before {
-  content: "part";
-}
+  :deep(.akn-part):before {
+    content: "part";
+  }
 
-:deep(.akn-chapter):before {
-  content: "chapter";
-}
+  :deep(.akn-chapter):before {
+    content: "chapter";
+  }
 
-:deep(.akn-subchapter):before {
-  content: "subchapter";
-}
+  :deep(.akn-subchapter):before {
+    content: "subchapter";
+  }
 
-:deep(.akn-section):before {
-  content: "section";
-}
+  :deep(.akn-section):before {
+    content: "section";
+  }
 
-:deep(.akn-subsection):before {
-  content: "subsection";
-}
+  :deep(.akn-subsection):before {
+    content: "subsection";
+  }
 
-:deep(.akn-title):before {
-  content: "title";
-}
+  :deep(.akn-title):before {
+    content: "title";
+  }
 
-:deep(.akn-subtitle):before {
-  content: "subtitle";
-}
+  :deep(.akn-subtitle):before {
+    content: "subtitle";
+  }
 
-:deep(.akn-article):before {
-  content: "article";
-}
+  :deep(.akn-article):before {
+    content: "article";
+  }
 
-:deep(.akn-paragraph):before {
-  content: "paragraph";
-}
+  :deep(.akn-paragraph):before {
+    content: "paragraph";
+  }
 
-:deep(.akn-list):before {
-  content: "list";
-}
+  :deep(.akn-list):before {
+    content: "list";
+  }
 
-:deep(.akn-point):before {
-  content: "point";
-}
+  :deep(.akn-point):before {
+    content: "point";
+  }
 
-:deep(.akn-wrapUp):before {
-  content: "wrap up";
-}
+  :deep(.akn-wrapUp):before {
+    content: "wrap up";
+  }
 
-:deep(.akn-foreign):before {
-  content: "foreign";
-}
+  :deep(.akn-foreign):before {
+    content: "foreign";
+  }
 
-:deep(.akn-tblock):before {
-  content: "tblock";
-}
+  :deep(.akn-tblock):before {
+    content: "tblock";
+  }
 
-:deep(.akn-toc):before {
-  content: "toc";
-}
+  :deep(.akn-toc):before {
+    content: "toc";
+  }
 
-:deep(.akn-tocItem):before {
-  content: "toc item";
-}
+  :deep(.akn-tocItem):before {
+    content: "toc item";
+  }
 
-:deep(.akn-p):before {
-  content: "p";
-}
+  :deep(.akn-p):before {
+    content: "p";
+  }
 
-:deep(.akn-block):before {
-  content: "block";
-}
+  :deep(.akn-block):before {
+    content: "block";
+  }
 
-:deep(.akn-num):before {
-  content: "num";
-}
+  :deep(.akn-num):before {
+    content: "num";
+  }
 
-:deep(.akn-heading):before {
-  content: "heading";
-}
+  :deep(.akn-heading):before {
+    content: "heading";
+  }
 
-:deep(.akn-td):before {
-  content: "td";
-}
+  :deep(.akn-td):before {
+    content: "td";
+  }
 
-:deep(.akn-th):before {
-  content: "th";
-}
+  :deep(.akn-th):before {
+    content: "th";
+  }
 
-:deep(.akn-tr):before {
-  content: "tr";
-}
+  :deep(.akn-tr):before {
+    content: "tr";
+  }
 
-:deep(.akn-ol):before {
-  content: "ol";
-}
+  :deep(.akn-ol):before {
+    content: "ol";
+  }
 
-:deep(.akn-ul):before {
-  content: "ul";
-}
+  :deep(.akn-ul):before {
+    content: "ul";
+  }
 
-:deep(.akn-table):before {
-  content: "table";
+  :deep(.akn-table):before {
+    content: "table";
+  }
 }
 </style>

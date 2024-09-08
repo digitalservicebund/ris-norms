@@ -30,7 +30,7 @@ test.describe("Redirect and start page content", () => {
     await page.goto("/")
 
     await expect(
-      page.getByText("Die Liste der Verkündungen konnte nicht geladen werden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(

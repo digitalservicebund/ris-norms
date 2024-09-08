@@ -546,6 +546,31 @@ paths:
         '404':
           description: If the norm or the single element or the time boundary doesn't exist.
 
+
+  /norms/{eli}/zf0:
+    get:
+      summary: Get the zf0 version of a specific norm by eli
+      parameters:
+        - name: eli
+          in: path
+          required: true
+          description: eli of the norm
+          schema:
+            type: string
+        - name: amendingNormEli
+          in: query
+          schema:
+            type: string
+            default: false
+          description: "Eli of norm that should be used as the amending norm to create the zf0 if no zf0 exists yet."
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+
   /norms/{eli}/{eid}:
     get:
       summary: Get an element of a norm by its EID (currently only in HTML preview format)

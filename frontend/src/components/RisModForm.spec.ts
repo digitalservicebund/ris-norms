@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest"
-import { render, screen } from "@testing-library/vue"
+import { getByText, render, screen } from "@testing-library/vue"
 import RisModForm from "@/components/RisModForm.vue"
 import { userEvent } from "@testing-library/user-event"
 import { ModType } from "@/types/ModType"
@@ -73,14 +73,6 @@ describe("RisModForm", () => {
     expect(destinationHrefEidElement).toHaveValue("para-1_abs-1/5-53.xml")
     expect(destinationHrefEidElement).not.toHaveAttribute("readonly")
 
-    // Quoted Text First
-    const quotedTextFirstElement = screen.getByRole("textbox", {
-      name: "zu ersetzender Text",
-    })
-    expect(quotedTextFirstElement).toBeInTheDocument()
-    expect(quotedTextFirstElement).toHaveValue("")
-    expect(quotedTextFirstElement).toHaveAttribute("readonly")
-
     // Quoted Text Second
     const quotedTextSecondElement = screen.getByRole("textbox", {
       name: "Neuer Text Inhalt",
@@ -99,6 +91,7 @@ describe("RisModForm", () => {
         destinationHref,
         quotedTextFirst,
         quotedTextSecond,
+        targetLawHtml,
       },
     })
 
@@ -108,11 +101,9 @@ describe("RisModForm", () => {
       }),
     ).toHaveValue("para-1_abs-1/5-53.xml")
 
-    expect(
-      screen.getByRole("textbox", {
-        name: "zu ersetzender Text",
-      }),
-    ).toHaveValue(quotedTextFirst)
+    expect(screen.getByLabelText("zu ersetzender Text")).toHaveTextContent(
+      "Target Law Content",
+    )
 
     expect(
       screen.getByRole("textbox", {
@@ -310,6 +301,41 @@ describe("RisModForm", () => {
     await user.type(destinationHrefEidInput, "new-value")
     await user.tab()
     expect(onGeneratePreview).toHaveBeenCalled()
+  })
+
+  it("emits an update & generate preview when the a new destination is selected", async () => {
+    const user = userEvent.setup()
+
+    const result = render(RisModForm, {
+      props: {
+        id: "risModForm",
+        textualModType,
+        timeBoundaries,
+        destinationHref:
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/para-1_abs-1/5-53.xml",
+        targetLawHtml: "<span data-eId='span-1'>Test</span>",
+        targetLaw: `<akn:akonaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/"><akn:span eId="span-1">Test</akn:span></akn:akonaNtoso>`,
+      },
+    })
+
+    await user.pointer([
+      {
+        keys: "[MouseLeft>]",
+        target: getByText(screen.getByLabelText("zu ersetzender Text"), "Test"),
+        offset: 1,
+      },
+      {
+        offset: 3,
+      },
+      { keys: "[/MouseLeft]" },
+    ])
+
+    expect(result.emitted("update:destinationHref")).toHaveLength(1)
+    expect(result.emitted("update:destinationHref")[0]).toContain(
+      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/span-1/1-3.xml",
+    )
+
+    expect(result.emitted("generate-preview")).toHaveLength(1)
   })
 
   it("emits an update when the quotedTextSecond input is changed", async () => {

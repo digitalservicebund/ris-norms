@@ -12,9 +12,10 @@ import {
   useNormRenderXml,
 } from "@/composables/useNormRender"
 import { useTemporalData } from "@/composables/useTemporalData"
-import { useGetNormHtml } from "@/services/normService"
 import { computed, ref, watch } from "vue"
 import RisErrorCallout from "@/components/controls/RisErrorCallout.vue"
+import dayjs from "dayjs"
+import { useZf0Service } from "@/services/zf0Service"
 
 const xml = defineModel<string>("xml", {
   required: true,
@@ -126,16 +127,39 @@ const destinationHrefEli = computed(() => {
   const parts = destinationHref.value?.split("regelungstext-1")
   return parts ? parts[0] + "regelungstext-1" : ""
 })
-const targetLawHtml = ref("")
-watch(
-  destinationHrefEli,
-  async (newEli) => {
-    if (newEli) {
-      const { data } = await useGetNormHtml(newEli)
-      targetLawHtml.value = data.value ?? ""
-    }
+
+const {
+  data: originalTargetNormZf0Xml,
+  error: targetNormZf0Error,
+  isFetching: targetNormZf0IsFetching,
+} = useZf0Service(destinationHrefEli, eli)
+
+const dayBeforeTimeBoundary = computed(() => {
+  if (!timeBoundary.value?.date) {
+    return new Date(0)
+  }
+  const dateOfTimeBoundary = new Date(timeBoundary.value?.date)
+  return dayjs(dateOfTimeBoundary).subtract(1, "day").toDate()
+})
+
+// We need the norms with the changes of mods that come into affect before this mod so the character ranges or elements can be selected correctly.
+const {
+  data: targetNormXmlBeforeCurrentMod,
+  isFetching: targetNormXmlBeforeCurrentModIsFetching,
+  error: targetNormXmlBeforeCurrentModError,
+} = useNormRenderXml(
+  computed(() => originalTargetNormZf0Xml.value ?? xml.value),
+  dayBeforeTimeBoundary,
+)
+const {
+  data: targetNormHtmlBeforeCurrentMod,
+  isFetching: targetNormHtmlBeforeCurrentModIsFetching,
+  error: targetNormHtmlBeforeCurrentModError,
+} = useNormRenderHtml(
+  computed(() => originalTargetNormZf0Xml.value ?? xml.value),
+  {
+    at: dayBeforeTimeBoundary,
   },
-  { immediate: true },
 )
 
 watch(
@@ -172,7 +196,7 @@ watch(
     </div>
 
     <div v-else-if="loadTimeBoundariesError">
-      <RisErrorCallout title="Die Zeitgrenzen konnten nicht geladen werden." />
+      <RisErrorCallout :error="loadTimeBoundariesError" />
     </div>
 
     <RisModForm
@@ -189,7 +213,20 @@ watch(
       :is-updating="isUpdating"
       :is-updating-finished="isUpdatingFinished"
       :update-error="saveError"
-      :target-law-html="targetLawHtml"
+      :target-law="targetNormXmlBeforeCurrentMod ?? undefined"
+      :target-law-is-fetching="
+        targetNormXmlBeforeCurrentModIsFetching || targetNormZf0IsFetching
+      "
+      :target-law-error="
+        targetNormXmlBeforeCurrentModError || targetNormZf0Error
+      "
+      :target-law-html="targetNormHtmlBeforeCurrentMod ?? undefined"
+      :target-law-html-is-fetching="
+        targetNormHtmlBeforeCurrentModIsFetching || targetNormZf0IsFetching
+      "
+      :target-law-html-error="
+        targetNormHtmlBeforeCurrentModError || targetNormZf0Error
+      "
       @generate-preview="preview"
       @update-mod="update"
     />
@@ -214,10 +251,10 @@ watch(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewHtmlError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="loadPreviewHtmlError" />
         </div>
         <div v-else-if="previewError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="previewError" />
         </div>
         <RisLawPreview
           v-else
@@ -234,13 +271,10 @@ watch(
           <RisLoadingSpinner></RisLoadingSpinner>
         </div>
         <div v-else-if="loadPreviewXmlError">
-          <RisErrorCallout title="Die Vorschau konnte nicht erzeugt werden." />
+          <RisErrorCallout :error="loadPreviewXmlError" />
         </div>
         <div v-else-if="previewError">
-          <RisErrorCallout
-            title="Die Vorschau konnte nicht erzeugt werden."
-            variant="error"
-          />
+          <RisErrorCallout :error="previewError" />
         </div>
         <RisCodeEditor
           v-else

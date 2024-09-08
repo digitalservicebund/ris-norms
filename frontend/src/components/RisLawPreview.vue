@@ -69,6 +69,7 @@ export type AknElementClickEvent = {
 }
 
 const emit = defineEmits<{
+  rendered: [HTMLElement]
   /**
    * Event fired when clicking on an HTML-element for the specified LDML.de element.
    *
@@ -153,6 +154,10 @@ watch(
   async (value, oldValue, onCleanup) => {
     // Need to tick in order to give Vue some time to render the HTML first
     await nextTick()
+
+    if (container.value) {
+      emit("rendered", container.value)
+    }
 
     const abortController = new AbortController()
 

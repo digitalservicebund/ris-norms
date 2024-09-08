@@ -157,7 +157,7 @@ test.describe("preview", () => {
 
     // Then
     await expect(
-      previewRegion.getByText("Die Vorschau konnte nicht geladen werden."),
+      previewRegion.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(
@@ -251,7 +251,7 @@ test.describe("XML view", () => {
 
     // Then
     await expect(
-      page.getByText("Die XML-Ansicht konnte nicht geladen werden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(
@@ -485,7 +485,7 @@ test.describe("metadata view", () => {
 
     // Then
     await expect(
-      editorRegion.getByText("Die Metadaten konnten nicht geladen werden."),
+      editorRegion.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
   })
 
@@ -505,7 +505,7 @@ test.describe("metadata view", () => {
     ).toBeVisible()
   })
 
-  test("displays an error if the data could not be saved", async ({ page }) => {
+  test("shows an error if the data could not be saved", async ({ page }) => {
     const metadataPage = new MetadataEditorRahmenPage(page)
     // Given
     await page.route(/\/proprietary\/2023-12-30$/, (route) => {

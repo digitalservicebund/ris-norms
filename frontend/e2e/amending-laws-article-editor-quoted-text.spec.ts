@@ -93,14 +93,13 @@ test.describe("Loading mod details", () => {
     await expect(destinationHrefEidElement).not.toHaveAttribute("readonly")
 
     // Quoted Text First
-    const quotedTextFirstElement = modFormSection.getByRole("textbox", {
-      name: "zu ersetzender Text",
-    })
+    const quotedTextFirstElement = modFormSection
+      .getByLabel("zu ersetzender Text")
+      .getByRole("textbox")
     await expect(quotedTextFirstElement).toBeVisible()
-    await expect(quotedTextFirstElement).toHaveValue(
+    await expect(quotedTextFirstElement).toContainText(
       "§ 9 Abs. 1 Satz 2, Abs. 2",
     )
-    await expect(quotedTextFirstElement).toHaveAttribute("readonly", "")
 
     // Quoted Text Second
     const quotedTextSecondElement = modFormSection.getByRole("textbox", {
@@ -210,6 +209,47 @@ test.describe("Editing a single mod", () => {
     const saveResponse = await (await saveResponsePromise).json()
     expect(saveResponse.amendingNormXml).toContain(
       "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+    )
+  })
+
+  test("editing and saving the eid mod change by highlighting", async () => {
+    const amendingLawSection = sharedPage.getByRole("region", {
+      name: "Änderungsbefehle",
+    })
+
+    await amendingLawSection.getByText("§ 20 Absatz 1 Satz 2").click()
+
+    const modFormSection = sharedPage.getByRole("region", {
+      name: "Änderungsbefehl bearbeiten",
+    })
+
+    await expect(
+      modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
+    ).toHaveValue(
+      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+    )
+
+    const textBoundingBox = await modFormSection
+      .getByLabel("Zu ersetzender Text")
+      .getByText("entgegen § 9")
+      .boundingBox()
+
+    await sharedPage.mouse.dblclick(
+      textBoundingBox!.x + 50,
+      textBoundingBox!.y + 5,
+    )
+    await sharedPage.mouse.click(0, 0)
+
+    await expect(
+      modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
+    ).not.toHaveValue(
+      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml",
+    )
+
+    await expect(
+      modFormSection.getByRole("textbox", { name: "zu ersetzende Textstelle" }),
+    ).toHaveValue(
+      "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/0-8.xml",
     )
   })
 

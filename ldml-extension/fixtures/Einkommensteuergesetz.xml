@@ -30,7 +30,9 @@
                <akn:FRBRversionNumber eId="meta-1_ident-1_frbrexpression-1_frbrersionnumber-1" GUID="22170c7e-8c51-4d7c-9917-16d5ea7494fc" value="1"></akn:FRBRversionNumber>
             </akn:FRBRExpression>
             <akn:FRBRManifestation eId="meta-1_ident-1_frbrmanifestation-1" GUID="b81a0b62-bd3c-4b02-b134-250115d9f6f8">
-               <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1" GUID="4c881fca-0e36-440e-a5f9-513079ccc77f" value="eli/bund/bgbl-1/2009/s3366/1/deu/regelungstext-1.xml"></akn:FRBRthis>
+               <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
+                             GUID="4c881fca-0e36-440e-a5f9-513079ccc77f"
+                             value="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1.xml"></akn:FRBRthis>
                <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1" GUID="d0491f91-d599-46d4-ba61-c7426b607e4f" value="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1.xml"></akn:FRBRuri>
                <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1" GUID="1d52860f-0990-4fd4-8b2f-32da6f99c612" date="2023-12-23" name="generierung"></akn:FRBRdate>
                <akn:FRBRauthor eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1" GUID="1d015a20-823e-496e-808d-27c8fec85b51" href="recht.bund.de"></akn:FRBRauthor>
@@ -43,7 +45,7 @@
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2" GUID="22cfa201-1d32-4655-afae-4bf01e9ba75c" date="1934-10-16" source="attributsemantik-noch-undefiniert" type="generation" refersTo="inkrafttreten"></akn:eventRef>
             <!-- Neufassung -->
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3" GUID="85e92fc8-b381-47bb-a476-c35fa2794336" date="2009-10-08" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="neufassung"></akn:eventRef>
-            <!-- Letzte Änderung --> 
+             <!-- Letzte Änderung -->
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-4" GUID="85e92fc8-b381-47bb-a476-c35fa2794337" date="2023-12-24" source="attributsemantik-noch-undefiniert" type="amendment" refersTo="inkrafttreten"></akn:eventRef>
          </akn:lifecycle>
          <akn:temporalData eId="meta-1_geltzeiten-1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
@@ -86,7 +88,8 @@
       <akn:preface eId="einleitung-1" GUID="803123ed-9705-4e0f-8a7c-a648084e1638">
          <akn:longTitle eId="einleitung-1_doktitel-1" GUID="9610fccb-c35a-4756-81fb-0bb8fa111000">
             <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a80af8c8-c844-4b75-824f-cdbf2f666d07">
-               <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Einkommensteuergesetz              
+               <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
+                             GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Einkommensteuergesetz
                </akn:docTitle>
                <akn:shortTitle eId="einleitung-1_doktitel-1_text-1_kurztitel-1" GUID="f25432ed-590e-4bfc-bd6f-2ded9c586dba">
                   <akn:inline refersTo="amtliche-abkuerzung" name="attributsemantik-noch-undefiniert" eId="einleitung-1_doktitel-1_text-1_kurztitel-1_inline-1" GUID="3d5ecf29-792c-4854-99e4-0cf18b5c0c9c">EStG</akn:inline>
@@ -330,7 +333,7 @@
                         <akn:content GUID="485daf4e-2cb4-4080-9f06-f42b4b138fe2" eId="hauptteil-1_para-26_abs-1_inhalt-1"><akn:p GUID="110761f1-afce-4817-aac6-20666db7e130" eId="hauptteil-1_para-26_abs-1_inhalt-1_text-1"></akn:p></akn:content>
             </akn:paragraph>
          </akn:article>
- 
+
                <!-- §6b -->
                <akn:article eId="hauptteil-1_para-27" GUID="17e9c25e-251d-48a7-8e74-3f0bb4b93b6b" period="#geltungszeitgr-3">
                   <akn:num eId="hauptteil-1_para-27_bezeichnung-1" GUID="24f5f556-e005-4d10-8d7e-d92f141780d7">
@@ -764,7 +767,7 @@
                            <akn:marker eId="hauptteil-1_para-70_abs-1_bezeichnung-1_zaehlbez-1" GUID="897eeba8-24e0-4db5-96da-0c2d4e88a0b4" name="1"></akn:marker>(1)</akn:num>
                            <akn:content GUID="5a567605-e8a5-4a20-a9ed-423db6cce51a" eId="hauptteil-1_para-70_abs-1_inhalt-1"><akn:p GUID="b1691777-4124-4097-99e0-b00073b7db53" eId="hauptteil-1_para-70_abs-1_inhalt-1_text-1"></akn:p></akn:content>
                </akn:paragraph>
-            </akn:article>              
+            </akn:article>
             <akn:article eId="hauptteil-1_para-71" GUID="a726a175-3a70-40e7-852f-9d08d1a26a13" period="#geltungszeitgr-3">
                <akn:num eId="hauptteil-1_para-71_bezeichnung-1" GUID="0298199b-a8d3-4f7b-b5e5-16b4dc2501d1">
                         <akn:marker eId="hauptteil-1_para-71_bezeichnung-1_zaehlbez-1" GUID="500625c3-e8c9-4226-99b9-8b175c0d7635" name="1"></akn:marker>§19</akn:num>

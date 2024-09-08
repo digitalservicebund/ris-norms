@@ -147,18 +147,15 @@ const elementLinks = computed(() => {
     </div>
 
     <div v-else-if="amendingLawError" class="p-24">
-      <RisErrorCallout
-        title="Das Gesetz konnte nicht geladen werden."
-        variant="error"
-      />
+      <RisErrorCallout :error="amendingLawError" />
     </div>
 
     <div v-else-if="affectedDocumentError" class="p-24">
-      <RisErrorCallout title="Das Gesetz konnte nicht geladen werden." />
+      <RisErrorCallout :error="affectedDocumentError" />
     </div>
 
     <div v-else-if="timeBoundariesError" class="p-24">
-      <RisErrorCallout title="Die Zeitgrenzen konnten nicht geladen werden." />
+      <RisErrorCallout :error="timeBoundariesError" />
     </div>
 
     <div
@@ -225,7 +222,7 @@ const elementLinks = computed(() => {
 
           <RisErrorCallout
             v-else-if="elementsError"
-            title="Artikel konnten nicht geladen werden."
+            :error="elementsError"
             class="mx-16"
           />
 

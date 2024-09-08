@@ -27,7 +27,7 @@ test.describe("navigate to page", () => {
     )
 
     await expect(
-      page.getByText("Die Zeitgrenzen konnten nicht geladen werden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(
@@ -152,7 +152,7 @@ test.describe("sidebar navigation", () => {
     )
 
     await expect(
-      page.getByText("Artikel konnten nicht geladen werden."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await page.unrouteAll()

@@ -70,7 +70,7 @@ describe("RisRefSelectionPanel", () => {
     await nextTick()
 
     const errorMessage = screen.getByText(
-      "Die Vorschau konnte nicht geladen werden.",
+      "Ein unbekannter Fehler ist aufgetreten.",
     )
     expect(errorMessage).toBeInTheDocument()
   })

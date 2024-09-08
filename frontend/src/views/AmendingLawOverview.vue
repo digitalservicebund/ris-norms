@@ -31,9 +31,7 @@ const classesForPreview = useModHighlightClasses(normDocument, () => false)
   <div class="p-24">
     <h1 class="ds-heading-02-reg mb-24">Verkündung</h1>
     <div v-if="error || loadXmlError">
-      <RisErrorCallout
-        title="Der Text der Verkündung konnte nicht geladen werden."
-      />
+      <RisErrorCallout :error="error ?? loadXmlError" />
     </div>
     <RisLoadingSpinner v-else-if="isFetching || isFetchingXml" />
     <div v-else class="rounded-sm bg-white px-24 py-24 shadow-md">

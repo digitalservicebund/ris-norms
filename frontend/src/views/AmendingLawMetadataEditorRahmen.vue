@@ -329,11 +329,7 @@ const sentryTraceId = useSentryTraceId()
           <RisLoadingSpinner />
         </div>
 
-        <RisErrorCallout
-          v-else-if="renderError"
-          title="Die Vorschau konnte nicht geladen werden."
-        >
-        </RisErrorCallout>
+        <RisErrorCallout v-else-if="renderError" :error="renderError" />
 
         <RisLawPreview
           v-else
@@ -355,10 +351,7 @@ const sentryTraceId = useSentryTraceId()
               <RisLoadingSpinner />
             </div>
 
-            <RisErrorCallout
-              v-else-if="fetchError"
-              title="Die Metadaten konnten nicht geladen werden."
-            />
+            <RisErrorCallout v-else-if="fetchError" :error="fetchError" />
 
             <form
               v-else
@@ -472,10 +465,7 @@ const sentryTraceId = useSentryTraceId()
               <RisLoadingSpinner />
             </div>
 
-            <RisErrorCallout
-              v-else-if="xmlError"
-              title="Die XML-Ansicht konnte nicht geladen werden."
-            />
+            <RisErrorCallout v-else-if="xmlError" :error="xmlError" />
 
             <RisCodeEditor
               v-else
