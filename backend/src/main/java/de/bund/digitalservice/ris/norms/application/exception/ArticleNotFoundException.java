@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.exception;
 
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import lombok.Getter;
 
 /** Indicates that an article was not found based on the provided parameters. */

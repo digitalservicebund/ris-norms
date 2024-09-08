@@ -4,9 +4,10 @@ import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadElementsByTypeFromNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromNormUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
-import java.net.URI;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -25,9 +26,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Slf4j
 public class NormsAppExceptionHandler {
 
-  private static final String CONTENT_FORMAT_TEMPLATE = "{\"message\": \"%s\"}";
-
-  // InvalidUpdateException
   /**
    * Exception handler method for handling {@link InvalidUpdateException}.
    *
@@ -37,9 +35,7 @@ public class NormsAppExceptionHandler {
   @ExceptionHandler(InvalidUpdateException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final InvalidUpdateException e) {
-
     log.error("InvalidUpdateException: {}", e.getMessage(), e);
-
     return ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
@@ -51,11 +47,12 @@ public class NormsAppExceptionHandler {
    */
   @ExceptionHandler(AnnouncementNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<String> handleException(final AnnouncementNotFoundException e) {
+  public ProblemDetail handleException(final AnnouncementNotFoundException e) {
     log.error("AnnouncementNotFoundException: {}", e.getMessage(), e);
-
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    final ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    problemDetail.setProperty("eli", e.getEli());
+    return problemDetail;
   }
 
   /**
@@ -67,10 +64,8 @@ public class NormsAppExceptionHandler {
   @ExceptionHandler(ValidationException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final ValidationException e) {
-
     log.error("ValidationException: {}", e.getMessage(), e);
-
-    ProblemDetail problemDetail =
+    final ProblemDetail problemDetail =
         ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
     Arrays.stream(e.getFields())
         .forEach(field -> problemDetail.setProperty(field.getKey().getName(), field.getValue()));
@@ -78,19 +73,16 @@ public class NormsAppExceptionHandler {
   }
 
   /**
-   * Exception handler method for handling {@link TransformationException}.
+   * Exception handler method for handling {@link XmlProcessingException}.
    *
    * @param e The exception that occurred.
    * @return A {@link ResponseEntity} with an HTTP 500 status and the exception message.
    */
-  @ExceptionHandler(TransformationException.class)
+  @ExceptionHandler(XmlProcessingException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public ResponseEntity<String> handleException(final TransformationException e) {
-
-    log.error("TransformationException: {}", e.getMessage(), e);
-
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  public ProblemDetail handleException(final XmlProcessingException e) {
+    log.error("XmlProcessingException: {}", e.getMessage(), e);
+    return ProblemDetailFactory.createProblemDetail(e, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   /**
@@ -101,10 +93,9 @@ public class NormsAppExceptionHandler {
    */
   @ExceptionHandler(NormNotFoundException.class)
   public ProblemDetail handleException(final NormNotFoundException e) {
-
     log.error("NormNotFoundException: {}", e.getMessage(), e);
-
-    ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    final ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
     problemDetail.setProperty("eli", e.getEli());
     return problemDetail;
   }
@@ -119,12 +110,9 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(final ArticleNotFoundException e) {
     log.error("ArticleNotFoundException: {}", e.getMessage(), e);
-
     final ProblemDetail problemDetail =
         ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
-    problemDetail.setInstance(URI.create(e.getEli()));
     problemDetail.setProperty("eid", e.getEid());
-
     return problemDetail;
   }
 
@@ -136,11 +124,13 @@ public class NormsAppExceptionHandler {
    */
   @ExceptionHandler(ElementNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<String> handleException(final ElementNotFoundException e) {
+  public ProblemDetail handleException(final ElementNotFoundException e) {
     log.error("ElementNotFoundException: {}", e.getMessage(), e);
-
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+    final ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    problemDetail.setProperty("eli", e.getEli());
+    problemDetail.setProperty("eid", e.getEid());
+    return problemDetail;
   }
 
   /**
@@ -152,12 +142,36 @@ public class NormsAppExceptionHandler {
    */
   @ExceptionHandler(LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<String> handleException(
+  public ProblemDetail handleException(
       final LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException e) {
     log.error("ArticleOfTypeNotFoundException: {}", e.getMessage(), e);
+    final ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    problemDetail.setProperty("eli", e.getEli());
+    problemDetail.setProperty("type", e.getType());
+    return problemDetail;
+  }
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
+  /**
+   * Exception handler method for handling {@link MandatoryNodeNotFoundException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
+   */
+  @ExceptionHandler(MandatoryNodeNotFoundException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ProblemDetail handleException(final MandatoryNodeNotFoundException e) {
+    log.error("MandatoryNodeNotFoundException: {}", e.getMessage(), e);
+    final ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    problemDetail.setProperty("xpath", e.getXpath());
+    if (StringUtils.isNotEmpty(e.getEli())) {
+      problemDetail.setProperty("eli", e.getEli());
+    }
+    if (StringUtils.isNotEmpty(e.getNode())) {
+      problemDetail.setProperty("nodeName", e.getNode());
+    }
+    return problemDetail;
   }
 
   /**
@@ -169,26 +183,9 @@ public class NormsAppExceptionHandler {
    */
   @ExceptionHandler(LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseEntity<String> handleException(
+  public ProblemDetail handleException(
       final LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException e) {
     log.error("UnsupportedElementTypeException: {}", e.getMessage(), e);
-
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted(e.getMessage()));
-  }
-
-  /**
-   * Exception handler method for handling {@link MandatoryNodeNotFoundException}.
-   *
-   * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
-   */
-  @ExceptionHandler(MandatoryNodeNotFoundException.class)
-  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ResponseEntity<String> handleException(final MandatoryNodeNotFoundException e) {
-    log.error("MandatoryNodeNotFoundException: {}", e.getMessage(), e);
-
-    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-        .body(CONTENT_FORMAT_TEMPLATE.formatted((e.getMessage())));
+    return ProblemDetailFactory.createProblemDetail(e, HttpStatus.BAD_REQUEST);
   }
 }

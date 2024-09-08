@@ -1,4 +1,4 @@
-package de.bund.digitalservice.ris.norms.application.exception;
+package de.bund.digitalservice.ris.norms.utils.exceptions;
 
 /** Marker interface for all custom exceptions thrown in the norms app */
 public interface NormsAppException {

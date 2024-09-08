@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.exception;
 
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.util.Arrays;
 import java.util.List;
 import lombok.Getter;

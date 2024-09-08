@@ -1,7 +1,9 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.util.List;
+import lombok.Getter;
 
 /**
  * Interface representing the use case for loading a specific type of article in a {@link Norm}.
@@ -29,9 +31,15 @@ public interface LoadSpecificArticlesXmlFromNormUseCase {
   record Query(String eli, String refersTo) {}
 
   /** Indicates that the Norm was found but does not include articles of that type. */
-  class ArticleOfTypeNotFoundException extends RuntimeException {
+  @Getter
+  class ArticleOfTypeNotFoundException extends RuntimeException implements NormsAppException {
+    private final String eli;
+    private final String type;
+
     public ArticleOfTypeNotFoundException(final String eli, final String type) {
       super("Norm with eli %s does not contain articles of type %s".formatted(eli, type));
+      this.eli = eli;
+      this.type = type;
     }
   }
 }

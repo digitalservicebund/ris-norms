@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.application.service.ElementService;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.w3c.dom.Node;
@@ -33,7 +34,8 @@ public interface LoadElementsByTypeFromNormUseCase {
   }
 
   /** Indicates that at least one of the requested types is not supported. */
-  class UnsupportedElementTypeException extends IllegalArgumentException {
+  class UnsupportedElementTypeException extends IllegalArgumentException
+      implements NormsAppException {
     public UnsupportedElementTypeException(String message) {
       super(message);
     }
