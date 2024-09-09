@@ -59,7 +59,6 @@ public class ValidationException extends RuntimeException implements NormsAppExc
     DESTINATION_ELIS_NOT_CONSISTENT(
         "/errors/destination-elis-not-consistent",
         "For norm with Eli (%s): Elis are not consistent"),
-    VALIDATION_ERROR("/errors/validation-error", "General validation error occurred."),
     TARGET_NODE_NOT_PRESENT(
         "/errors/target-node-not-present",
         "Target node with eid %s not present in ZF0 norm with eli %s."),
