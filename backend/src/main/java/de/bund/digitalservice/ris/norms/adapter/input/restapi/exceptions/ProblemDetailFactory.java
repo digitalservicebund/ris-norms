@@ -78,6 +78,20 @@ public class ProblemDetailFactory {
         LoadElementsByTypeFromNormUseCase.UnsupportedElementTypeException.class,
         URI.create("/errors/unsupported-element-type"),
         "Unsupported element type"),
+    NORM_EXISTS_ALREADY(
+        NormExistsAlreadyException.class,
+        URI.create("/errors/norm-exists-already"),
+        "Norm exists already"),
+    ACTIVE_MOD_DESTINATION_NORM_NOT_FOUND(
+        ActiveModDestinationNormNotFoundException.class,
+        URI.create("/errors/active-mod/destination/norm-not-found"),
+        "Destination norm not found"),
+    NORM_NOT_AN_ACT(
+        NormNotAnActException.class, URI.create("/errors/norm-not-an-act"), "Norm is not an act"),
+    NOT_A_XML_FILE(
+        NotAXmlFileException.class,
+        URI.create("/errors/not-a-xml-file"),
+        "The provided file is not a xml file"),
     VALIDATION_ERROR(ValidationException.class, null, "Validation error");
 
     /**
