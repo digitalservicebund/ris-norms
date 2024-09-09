@@ -41,7 +41,21 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/" + eli + "/proprietary/" + atDateString)
                   .accept(MediaType.APPLICATION_JSON_VALUE))
           // then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/2024-06-03"))
+          .andExpect(
+              jsonPath("eli")
+                  .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"));
     }
 
     @Test
@@ -131,7 +145,7 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void return404IfNormNotFound() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1";
       // when
       mockMvc
           .perform(
@@ -149,7 +163,21 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "\"beschliessendesOrgan\": \"Bundestag\","
                           + "\"qualifizierteMehrheit\": true,"
                           + "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/1990-01-01"))
+          .andExpect(
+              jsonPath("eli")
+                  .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"));
     }
 
     @Test
@@ -458,7 +486,21 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/" + eli + "/proprietary/" + eid + "/" + atDateString)
                   .accept(MediaType.APPLICATION_JSON_VALUE))
           // then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_para-1/2024-06-03"))
+          .andExpect(
+              jsonPath("eli")
+                  .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"));
     }
 
     @Test
@@ -536,7 +578,21 @@ public class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"artDerNorm\": \"SN\"}"))
           // then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/hauptteil-1_abschnitt-0_para-1/2024-06-03"))
+          .andExpect(
+              jsonPath("eli")
+                  .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"));
     }
 
     @Test
