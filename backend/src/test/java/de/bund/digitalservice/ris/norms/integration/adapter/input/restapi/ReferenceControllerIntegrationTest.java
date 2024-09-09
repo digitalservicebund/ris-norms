@@ -34,7 +34,20 @@ class ReferenceControllerIntegrationTest extends BaseIntegrationTest {
     // When // Then
     mockMvc
         .perform(post("/api/v1/references/{eli}", eli).accept(MediaType.APPLICATION_XML))
-        .andExpect(status().isNotFound());
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("status").value(404))
+        .andExpect(
+            jsonPath("detail")
+                .value(
+                    "Norm with eli eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1 does not exist"))
+        .andExpect(
+            jsonPath("instance")
+                .value(
+                    "/api/v1/references/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1"))
+        .andExpect(
+            jsonPath("eli").value("eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-1"));
   }
 
   @Test
