@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.AnnouncementDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormMapper;
@@ -26,7 +27,8 @@ public class DBService
         LoadAllAnnouncementsPort,
         UpdateNormPort,
         UpdateAnnouncementPort,
-        UpdateOrSaveNormPort {
+        UpdateOrSaveNormPort,
+        UpdateOrSaveAnnouncementPort {
 
   private final AnnouncementRepository announcementRepository;
   private final NormRepository normRepository;
@@ -103,5 +105,17 @@ public class DBService
               // Therefore, we don't update that relationship.
               return AnnouncementMapper.mapToDomain(announcementRepository.save(announcementDto));
             });
+  }
+
+  @Override
+  public Announcement updateOrSaveAnnouncement(UpdateOrSaveAnnouncementPort.Command command) {
+    final Optional<Announcement> updatedAnnouncement =
+        updateAnnouncement(new UpdateAnnouncementPort.Command(command.announcement()));
+    if (updatedAnnouncement.isEmpty()) {
+      final AnnouncementDto announcementDto = AnnouncementMapper.mapToDto(command.announcement());
+      return AnnouncementMapper.mapToDomain(announcementRepository.save(announcementDto));
+    } else {
+      return updatedAnnouncement.get();
+    }
   }
 }
