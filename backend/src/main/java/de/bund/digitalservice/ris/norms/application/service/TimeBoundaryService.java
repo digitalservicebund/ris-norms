@@ -80,32 +80,32 @@ public class TimeBoundaryService
    */
   @Override
   public List<TimeBoundary> updateTimeBoundariesOfNorm(UpdateTimeBoundariesUseCase.Query query) {
-    Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    Optional<Norm> normResponse = Optional.empty();
-    if (norm.isPresent()) {
+    final Norm norm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
+    // At first time boundaries that shall be deleted need to be selected
+    // if we would delete first, there are cases where the next possible eId could not be safely
+    // calculated
+    // example norm: only one date exists (2023-01-01, id2). That date gets deleted and a new date
+    // (2024-01-01, null)
+    // is being added. Then id3 could not be calculated.
+    List<TimeBoundaryChangeData> timeBoundariesToDelete =
+        selectTimeBoundariesToDelete(query.timeBoundaries(), norm);
 
-      // At first time boundaries that shall be deleted need to be selected
-      // if we would delete first, there are cases where the next possible eId could not be safely
-      // calculated
-      // example norm: only one date exists (2023-01-01, id2). That date gets deleted and a new date
-      // (2024-01-01, null)
-      // is being added. Then id3 could not be calculated.
-      List<TimeBoundaryChangeData> timeBoundariesToDelete =
-          selectTimeBoundariesToDelete(query.timeBoundaries(), norm.get());
+    // Add TimeBoundaries where eid is null|empty
+    addTimeBoundaries(query.timeBoundaries(), norm);
 
-      // Add TimeBoundaries where eid is null|empty
-      addTimeBoundaries(query.timeBoundaries(), norm.get());
+    deleteTimeBoundaries(timeBoundariesToDelete, norm);
 
-      deleteTimeBoundaries(timeBoundariesToDelete, norm.get());
+    editTimeBoundaries(query.timeBoundaries(), norm);
 
-      editTimeBoundaries(query.timeBoundaries(), norm.get());
+    EidConsistencyGuardian.eliminateDeadReferences(norm.getDocument());
+    EidConsistencyGuardian.correctEids(norm.getDocument());
 
-      EidConsistencyGuardian.eliminateDeadReferences(norm.get().getDocument());
-      EidConsistencyGuardian.correctEids(norm.get().getDocument());
+    updateNormPort.updateNorm(new UpdateNormPort.Command(norm));
 
-      normResponse = updateNormPort.updateNorm(new UpdateNormPort.Command(norm.get()));
-    }
-    return normResponse.map(Norm::getTimeBoundaries).orElse(List.of());
+    return norm.getTimeBoundaries();
   }
 
   private void editTimeBoundaries(List<TimeBoundaryChangeData> timeBoundaryChangeData, Norm norm) {

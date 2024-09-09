@@ -89,18 +89,13 @@ public class TimeBoundaryController {
           @NotEmpty(message = "Change list must not be empty")
           @Size(max = 100, message = "A maximum of 100 time boundaries is supported")
           final List<TimeBoundarySchema> timeBoundaries) {
-
-    List<TimeBoundarySchema> result =
+    return ResponseEntity.ok(
         updateTimeBoundariesUseCase
             .updateTimeBoundariesOfNorm(
                 new UpdateTimeBoundariesUseCase.Query(
                     eli.getValue(), TimeBoundaryMapper.fromResponseSchema(timeBoundaries)))
             .stream()
             .map(TimeBoundaryMapper::fromUseCaseData)
-            .toList();
-
-    // Assumptions: According to spec there must always be a temporalData with one temporalGroup
-    // having 1 temporalInterval in a ReglungstextVerkuendungsfassung
-    return (result.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
+            .toList());
   }
 }

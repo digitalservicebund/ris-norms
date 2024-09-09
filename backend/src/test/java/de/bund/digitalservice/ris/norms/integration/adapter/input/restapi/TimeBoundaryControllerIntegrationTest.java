@@ -41,7 +41,21 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
           .perform(
               get("/api/v1/norms/{eli}/timeBoundaries", eli).accept(MediaType.APPLICATION_JSON))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/timeBoundaries"))
+          .andExpect(
+              jsonPath("eli")
+                  .value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist"));
     }
 
     @Test
@@ -117,7 +131,21 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/{eli}/timeBoundaries?amendedBy={amendedBy}", eli, amendedBy)
                   .accept(MediaType.APPLICATION_JSON))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/timeBoundaries"))
+          .andExpect(
+              jsonPath("eli")
+                  .value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist"));
     }
 
     @Test
@@ -291,6 +319,37 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class UpdateTimeBoundaries {
+
+    @Test
+    void itCallsPutTimeBoundariesAndReturns404() throws Exception {
+      // Given
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist";
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/{eli}/timeBoundaries", eli)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "[{\"date\": \"2023-12-30\", \"eventRefEid\": \"meta-1_lebzykl-1_ereignis-2\"},{\"date\": \"2024-01-01\", \"eventRefEid\": null}]"))
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/timeBoundaries"))
+          .andExpect(
+              jsonPath("eli")
+                  .value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist"));
+    }
+
     @Test
     void itCallsUpdateTimeBoundaries() throws Exception {
       final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
