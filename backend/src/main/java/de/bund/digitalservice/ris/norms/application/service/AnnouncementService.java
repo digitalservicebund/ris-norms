@@ -45,18 +45,21 @@ public class AnnouncementService
   private final LoadNormPort loadNormPort;
   private final LoadZf0Service loadZf0Service;
   private final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort;
+  private final LdmlDeValidator ldmlDeValidator;
 
   public AnnouncementService(
       LoadAllAnnouncementsPort loadAllAnnouncementsPort,
       LoadAnnouncementByNormEliPort loadAnnouncementByNormEliPort,
       LoadNormPort loadNormPort,
       LoadZf0Service loadZf0Service,
-      UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort) {
+      UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort,
+      LdmlDeValidator ldmlDeValidator) {
     this.loadAllAnnouncementsPort = loadAllAnnouncementsPort;
     this.loadAnnouncementByNormEliPort = loadAnnouncementByNormEliPort;
     this.loadNormPort = loadNormPort;
     this.loadZf0Service = loadZf0Service;
     this.updateOrSaveAnnouncementPort = updateOrSaveAnnouncementPort;
+    this.ldmlDeValidator = ldmlDeValidator;
   }
 
   @Override
@@ -105,8 +108,12 @@ public class AnnouncementService
 
     var xmlString = IOUtils.toString(query.file().getInputStream(), Charset.defaultCharset());
 
-    var norm = Norm.builder().document(XmlMapper.toDocument(xmlString)).build();
+    // it throws an exception if the validation fails or the LDML.de Version is not 1.6
+    // we can at the moment not use the resulting norm as it is namespace-aware and our xPaths are
+    // not yet.
+    ldmlDeValidator.parseAndValidate(xmlString);
 
+    var norm = Norm.builder().document(XmlMapper.toDocument(xmlString)).build();
     if (!norm.isAct()) {
       throw new NormNotAnActException();
     }

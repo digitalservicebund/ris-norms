@@ -59,7 +59,7 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
                   XmlMapper.toDocument(
                       """
                                           <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                                          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
                                                                  http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
                                              <akn:act name="regelungstext">
@@ -688,6 +688,28 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
           .andExpect(status().isUnprocessableEntity())
           .andExpect(jsonPath("type", equalTo("/errors/norm-exists-already")));
+    }
+
+    @Test
+    void itFailsIfTheNormIsInvalid() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithModsXsdInvalid.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      // When // Then
+      mockMvc
+          .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")))
+          .andExpect(
+              jsonPath("errors[0].type", equalTo("/errors/ldml-de-not-valid/cvc-complex-type.4")));
     }
   }
 }

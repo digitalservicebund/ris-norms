@@ -155,10 +155,21 @@
               <meta:initiant>bundesregierung</meta:initiant>
               <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
               <meta:fna>nicht-vorhanden</meta:fna>
+              <meta:gesta>nicht-vorhanden</meta:gesta>
+                <meta:federfuehrung>
+                    <meta:federfuehrend ab="2020-01-01" bis="unbestimmt">BMI</meta:federfuehrend>
+                </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
           </akn:proprietary>
 
         </akn:meta>
+
+        <akn:preface GUID="6c5d6dc7-f14b-4e1d-8f8b-570a13aeff22" eId="einleitung-1">
+            <akn:longTitle GUID="6c5d6dc7-f14b-4e1d-8f8b-570a13aeff33" eId="einleitung-1_doktitel-1">
+                <akn:p GUID="6c5d6dc7-f14b-4e1d-8f8b-570a13aeff44"
+                       eId="einleitung-1_doktitel-1_text-1">Einleitung</akn:p>
+            </akn:longTitle>
+        </akn:preface>
 
         <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
             <!-- Artikel 1 : Hauptänderung -->
