@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,47 @@ class ElementControllerTest {
 
   @Nested
   class getElementHtmlPreview {
+
+    @Test
+    void itThrowsXmlProcessingException() throws Exception {
+      when(loadElementHtmlFromNormUseCase.loadElementHtmlFromNorm(any()))
+          .thenThrow(new XmlProcessingException("Error message", null));
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1")
+                  .accept(MediaType.TEXT_HTML))
+          // then
+          .andExpect(status().isInternalServerError())
+          .andExpect(jsonPath("type").value("/errors/xml-processing-error"))
+          .andExpect(jsonPath("title").value("XML processing error"))
+          .andExpect(jsonPath("status").value(500))
+          .andExpect(jsonPath("detail").value("Error message"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"));
+    }
+
+    @Test
+    void itThrowsXmlProcessingExceptionWithPassedDate() throws Exception {
+      when(loadElementHtmlAtDateFromNormUseCase.loadElementHtmlAtDateFromNorm(any()))
+          .thenThrow(new XmlProcessingException("Error message", null));
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1?atIsoDate=2024-04-03T00:00:00.000Z")
+                  .accept(MediaType.TEXT_HTML))
+          // then
+          .andExpect(status().isInternalServerError())
+          .andExpect(jsonPath("type").value("/errors/xml-processing-error"))
+          .andExpect(jsonPath("title").value("XML processing error"))
+          .andExpect(jsonPath("status").value(500))
+          .andExpect(jsonPath("detail").value("Error message"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"));
+    }
+
     @Test
     void returnsHtmlRendering() throws Exception {
       // given

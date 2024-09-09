@@ -39,7 +39,21 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3")
                   .accept(MediaType.TEXT_HTML))
           // Then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/elements/hauptteil-1_art-3"))
+          .andExpect(
+              jsonPath("eli")
+                  .value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"));
     }
 
     @Test
@@ -54,7 +68,21 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID")
                   .accept(MediaType.TEXT_HTML))
           // Then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/element-not-found"))
+          .andExpect(jsonPath("title").value("Element not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Element with eid NONEXISTENT_EID does not exist in norm with eli eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/NONEXISTENT_EID"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+          .andExpect(jsonPath("eid").value("NONEXISTENT_EID"));
     }
 
     @Test
@@ -211,7 +239,15 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               get(
                   "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=foo"))
           // Then
-          .andExpect(status().isBadRequest());
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("type").value("/errors/unsupported-element-type"))
+          .andExpect(jsonPath("title").value("Unsupported element type"))
+          .andExpect(jsonPath("status").value(400))
+          .andExpect(jsonPath("detail").value("foo is not supported"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements"));
     }
 
     @Test
@@ -225,7 +261,21 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               get(
                   "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements?type=article"))
           // Then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1/elements"))
+          .andExpect(
+              jsonPath("eli")
+                  .value("eli/bund/INVALID_ELI/2023/413/2023-12-29/1/deu/regelungstext-1"));
     }
 
     @Test
