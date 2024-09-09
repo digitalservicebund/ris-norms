@@ -2,14 +2,15 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import de.bund.digitalservice.ris.norms.application.port.input.ApplyPassiveModificationsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.TransformLegalDocMlToHtmlUseCase;
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.time.Instant;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,37 @@ class RenderingControllerTest {
 
   @Nested
   class getHtmlPreview {
+
+    @Test
+    void itThrowsXmlProcessingException() throws Exception {
+      when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
+          .thenReturn(
+              Norm.builder()
+                  .document(XmlMapper.toDocument("<law>applied-passive-modification</law>"))
+                  .build());
+      when(transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(any()))
+          .thenThrow(new XmlProcessingException("Error message", null));
+
+      mockMvc
+          .perform(
+              post("/api/v1/renderings")
+                  .accept(MediaType.TEXT_HTML)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      """
+
+                                                              {
+                                          "norm": "<law>original-law</law>"
+                                        }
+                                        """))
+          .andExpect(status().isInternalServerError())
+          .andExpect(jsonPath("type").value("/errors/xml-processing-error"))
+          .andExpect(jsonPath("title").value("XML processing error"))
+          .andExpect(jsonPath("status").value(500))
+          .andExpect(jsonPath("detail").value("Error message"))
+          .andExpect(jsonPath("instance").value("/api/v1/renderings"));
+    }
+
     @Test
     void getHtmlPreviewWithShowMetadataTrue() throws Exception {
       when(applyPassiveModificationsUseCase.applyPassiveModifications(any()))
