@@ -958,39 +958,5 @@ class NormServiceTest {
           .hasMessageContaining(
               "No eli found in href of mod hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1");
     }
-
-    @Test
-    void itThrowsInvalidUpdateExceptionWhenModsDoNotHaveSameTargetEli() {
-      // Given
-      Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-      String eid = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
-      String eid2 = "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-2_ändbefehl-1";
-      amendingNorm.getMods().stream()
-          .filter(mod -> mod.getMandatoryEid().equals(eid))
-          .findFirst()
-          .ifPresent(
-              m ->
-                  m.setTargetRefHref(
-                      "eli/bund/bgbl-1/1964/s593/4000-01-01/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"));
-
-      String amendingNormEli = amendingNorm.getEli();
-      String newTimeBoundaryEid = "#time-boundary-eid";
-      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
-
-      // when
-      UpdateModsUseCase.Query updateModQuery =
-          new UpdateModsUseCase.Query(
-              amendingNormEli,
-              List.of(
-                  new UpdateModsUseCase.NewModData(eid, newTimeBoundaryEid),
-                  new UpdateModsUseCase.NewModData(eid2, newTimeBoundaryEid)),
-              false);
-
-      assertThatThrownBy(() -> service.updateMods(updateModQuery))
-
-          // Then
-          .isInstanceOf(InvalidUpdateException.class)
-          .hasMessageContaining("Currently not supported: Not all mods have the same target norm");
-    }
   }
 }

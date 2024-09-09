@@ -11,10 +11,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.Href;
 import de.bund.digitalservice.ris.norms.domain.entity.Mod;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Node;
 
 /**
  * Service class within the application core part of the backend. It is responsible for implementing
@@ -83,7 +81,6 @@ public class NormService
     if (!existingNorm.getGuid().equals(normToBeUpdated.getGuid())) {
       throw new InvalidUpdateException("Changing the GUID is not supported.");
     }
-
     var updatedNorm =
         updateNormPort
             .updateNorm(new UpdateNormPort.Command(normToBeUpdated))
@@ -141,29 +138,31 @@ public class NormService
   @Override
   public UpdateModsUseCase.Result updateMods(UpdateModsUseCase.Query query) {
 
-    final Optional<Norm> amendingNormOptional =
-        loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    if (amendingNormOptional.isEmpty()) {
-      throw new NormNotFoundException(query.eli());
-    }
-    final Norm amendingNorm = amendingNormOptional.get();
+    final Norm amendingNorm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
-    String queryModEId = query.mods().stream().findAny().orElseThrow().eId();
-    final Optional<Node> nodeOfMod = amendingNorm.getNodeByEId(queryModEId);
-    if (nodeOfMod.isEmpty()) {
-      throw new InvalidUpdateException(
-          "Mod with eId %s not found in amending law %s"
-              .formatted(queryModEId, amendingNorm.getEli()));
-    }
-
-    final var targetNormEli =
-        nodeOfMod
+    final String queryModEId = query.mods().stream().findAny().orElseThrow().eId();
+    final Mod modObject =
+        amendingNorm
+            .getNodeByEId(queryModEId)
             .map(Mod::new)
-            .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
-            .flatMap(Href::getEli);
-    if (targetNormEli.isEmpty()) {
-      throw new InvalidUpdateException("No eli found in href of mod %s".formatted(queryModEId));
-    }
+            .orElseThrow(
+                () ->
+                    new InvalidUpdateException(
+                        "Mod with eId %s not found in amending law %s"
+                            .formatted(queryModEId, amendingNorm.getEli())));
+
+    final String targetNormEli =
+        modObject
+            .getTargetRefHref()
+            .or(modObject::getTargetRrefFrom)
+            .flatMap(Href::getEli)
+            .orElseThrow(
+                () ->
+                    new InvalidUpdateException(
+                        "No eli found in href of mod %s".formatted(queryModEId)));
 
     if (!query.mods().stream()
         .allMatch(
@@ -172,7 +171,11 @@ public class NormService
               final var eli =
                   modNode
                       .flatMap(mod -> mod.getTargetRefHref().or(mod::getTargetRrefFrom))
-                      .flatMap(Href::getEli);
+                      .flatMap(Href::getEli)
+                      .orElseThrow(
+                          () ->
+                              new InvalidUpdateException(
+                                  "No eli found in href of mod %s".formatted(modData.eId())));
               return eli.equals(targetNormEli);
             })) {
       throw new InvalidUpdateException(
@@ -181,8 +184,8 @@ public class NormService
 
     final Norm targetNorm =
         loadNormPort
-            .loadNorm(new LoadNormPort.Command(targetNormEli.get()))
-            .orElseThrow(() -> new NormNotFoundException(targetNormEli.get()));
+            .loadNorm(new LoadNormPort.Command(targetNormEli))
+            .orElseThrow(() -> new NormNotFoundException(targetNormEli));
     final Norm zf0Norm =
         loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 
@@ -215,24 +218,26 @@ public class NormService
 
   @Override
   public UpdateModUseCase.Result updateMod(UpdateModUseCase.Query query) {
-    final Optional<Norm> amendingNormOptional =
-        loadNormPort.loadNorm(new LoadNormPort.Command(query.eli()));
-    if (amendingNormOptional.isEmpty()) {
-      throw new NormNotFoundException(query.eli());
-    }
-    final Norm amendingNorm = amendingNormOptional.get();
+    final Norm amendingNorm =
+        loadNormPort
+            .loadNorm(new LoadNormPort.Command(query.eli()))
+            .orElseThrow(() -> new NormNotFoundException(query.eli()));
 
-    final var targetNormEli = new Href(query.destinationHref()).getEli();
-    if (targetNormEli.isEmpty()) {
-      throw new ValidationException(
-          ValidationException.ErrorType.ELI_NOT_IN_HREF,
-          Pair.of(ValidationException.FieldName.DESTINATION_HREF, query.destinationHref()));
-    }
+    final var targetNormEli =
+        new Href(query.destinationHref())
+            .getEli()
+            .orElseThrow(
+                () ->
+                    new ValidationException(
+                        ValidationException.ErrorType.ELI_NOT_IN_HREF,
+                        Pair.of(
+                            ValidationException.FieldName.DESTINATION_HREF,
+                            query.destinationHref())));
 
     final Norm targetNorm =
         loadNormPort
-            .loadNorm(new LoadNormPort.Command(targetNormEli.get()))
-            .orElseThrow(() -> new NormNotFoundException(targetNormEli.get()));
+            .loadNorm(new LoadNormPort.Command(targetNormEli))
+            .orElseThrow(() -> new NormNotFoundException(targetNormEli));
     final Norm zf0Norm =
         loadZf0Service.loadOrCreateZf0(new LoadZf0UseCase.Query(amendingNorm, targetNorm));
 

@@ -64,12 +64,12 @@ public class ProblemDetailFactory {
         "Element not found"),
     MANDATORY_NODE_NOT_FOUND(
         MandatoryNodeNotFoundException.class,
-        URI.create("/errors/mandatory-node-not-foud"),
+        URI.create("/errors/mandatory-node-not-found"),
         "Mandatory node not found"),
     INVALID_UPDATE(
         InvalidUpdateException.class,
         URI.create("/errors/invalidate-update"),
-        "Invalid update in XML"),
+        "Invalid update operation"),
     XML_PROCESSING_ERROR(
         XmlProcessingException.class,
         URI.create("/errors/xml-processing-error"),

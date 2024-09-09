@@ -365,7 +365,208 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .contentType(MediaType.APPLICATION_XML)
                   .content(xml))
           // Then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"));
+    }
+
+    @Test
+    void itThrowsInvalidUpdateExceptionBecauseEliChanged() throws Exception {
+      // Given
+      var oldXml =
+          """
+                   <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                   <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                          http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                      <akn:act name="regelungstext">
+                         <!-- Metadaten -->
+                         <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                               <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                                  <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                                  <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
+                                  <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
+                                  <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
+                               </akn:FRBRExpression>
+                           </akn:identification>
+                         </akn:meta>
+                         <akn:preface eId="einleitung-1" GUID="4554f060-e4ef-43a3-b71f-f30aa25769d6">
+                             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="185fcdbe-04f8-4b17-ac7c-2208c7f2f9df">
+                                <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a9694e02-330d-40e3-b0d1-50b2059f020c">
+                                   <akn:docStage eId="einleitung-1_doktitel-1_text-1_docstadium-1" GUID="884b29f7-584f-41e2-9329-d8780d33a3d7">Referentenentwurf</akn:docStage>
+                                   <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1" GUID="20095250-c44a-45a5-b7e3-2b49366ff5a8"> des Bundesministeriums des
+                                   Innern</akn:docProponent>
+                                   <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="e08874b2-05a8-4d6e-9d78-7be24380c54b">Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes</akn:docTitle>
+                                </akn:p>
+                             </akn:longTitle>
+                             <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
+                                <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="1900-01-01">Vom 01.01.1900</akn:date>
+                             </akn:block>
+                          </akn:preface>
+                      </akn:act>
+                   </akn:akomaNtoso>
+                   """;
+      var newXml =
+          """
+                   <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                   <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                          http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                      <akn:act name="regelungstext">
+                         <!-- Metadaten -->
+                         <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                               <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                                  <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/CHANGED" />
+                                  <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
+                                  <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
+                                  <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
+                               </akn:FRBRExpression>
+                           </akn:identification>
+                         </akn:meta>
+                         <akn:preface eId="einleitung-1" GUID="4554f060-e4ef-43a3-b71f-f30aa25769d6">
+                             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="185fcdbe-04f8-4b17-ac7c-2208c7f2f9df">
+                                <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a9694e02-330d-40e3-b0d1-50b2059f020c">
+                                   <akn:docStage eId="einleitung-1_doktitel-1_text-1_docstadium-1" GUID="884b29f7-584f-41e2-9329-d8780d33a3d7">Referentenentwurf</akn:docStage>
+                                   <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1" GUID="20095250-c44a-45a5-b7e3-2b49366ff5a8"> des Bundesministeriums des
+                                   Innern</akn:docProponent>
+                                   <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="e08874b2-05a8-4d6e-9d78-7be24380c54b">Entwurf eines Dritten Gesetzes zur Änderung des Vereinsgesetzes</akn:docTitle>
+                                </akn:p>
+                             </akn:longTitle>
+                             <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
+                                <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="1900-01-01">Vom 01.01.1900</akn:date>
+                             </akn:block>
+                          </akn:preface>
+                      </akn:act>
+                   </akn:akomaNtoso>
+                   """;
+
+      // When
+      var norm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML)
+                  .contentType(MediaType.APPLICATION_XML)
+                  .content(newXml))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value("/errors/invalidate-update"))
+          .andExpect(jsonPath("title").value("Invalid update operation"))
+          .andExpect(jsonPath("status").value(422))
+          .andExpect(jsonPath("detail").value("Changing the ELI is not supported."))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
+    }
+
+    @Test
+    void itThrowsInvalidUpdateExceptionBecauseGuidChanged() throws Exception {
+      // Given
+      var oldXml =
+          """
+                   <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                   <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                          http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                      <akn:act name="regelungstext">
+                         <!-- Metadaten -->
+                         <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                               <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                                  <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                                  <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
+                                  <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
+                                  <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
+                               </akn:FRBRExpression>
+                           </akn:identification>
+                         </akn:meta>
+                         <akn:preface eId="einleitung-1" GUID="4554f060-e4ef-43a3-b71f-f30aa25769d6">
+                             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="185fcdbe-04f8-4b17-ac7c-2208c7f2f9df">
+                                <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a9694e02-330d-40e3-b0d1-50b2059f020c">
+                                   <akn:docStage eId="einleitung-1_doktitel-1_text-1_docstadium-1" GUID="884b29f7-584f-41e2-9329-d8780d33a3d7">Referentenentwurf</akn:docStage>
+                                   <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1" GUID="20095250-c44a-45a5-b7e3-2b49366ff5a8"> des Bundesministeriums des
+                                   Innern</akn:docProponent>
+                                   <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="e08874b2-05a8-4d6e-9d78-7be24380c54b">Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes</akn:docTitle>
+                                </akn:p>
+                             </akn:longTitle>
+                             <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
+                                <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="1900-01-01">Vom 01.01.1900</akn:date>
+                             </akn:block>
+                          </akn:preface>
+                      </akn:act>
+                   </akn:akomaNtoso>
+                   """;
+      var newXml =
+          """
+                   <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+                   <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.6/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
+                                          http://Inhaltsdaten.LegalDocML.de/1.6/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                      <akn:act name="regelungstext">
+                         <!-- Metadaten -->
+                         <akn:meta eId="meta-1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+                            <akn:identification eId="meta-1_ident-1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
+                               <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+                                  <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" />
+                                  <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="vorgaenger-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
+                                  <akn:FRBRalias GUID="6c99101d-6bca-41ae-9794-250bd096fead" eId="meta-1_ident-1_frbrexpression-1_frbralias-1" name="aktuelle-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6123"/>
+                                  <akn:FRBRalias GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" eId="meta-1_ident-1_frbrexpression-1_frbralias-2" name="nachfolgende-version-id" value="91238a23-4321-31ac-34ad-87ad62e89f01"/>
+                               </akn:FRBRExpression>
+                           </akn:identification>
+                         </akn:meta>
+                         <akn:preface eId="einleitung-1" GUID="4554f060-e4ef-43a3-b71f-f30aa25769d6">
+                             <akn:longTitle eId="einleitung-1_doktitel-1" GUID="185fcdbe-04f8-4b17-ac7c-2208c7f2f9df">
+                                <akn:p eId="einleitung-1_doktitel-1_text-1" GUID="a9694e02-330d-40e3-b0d1-50b2059f020c">
+                                   <akn:docStage eId="einleitung-1_doktitel-1_text-1_docstadium-1" GUID="884b29f7-584f-41e2-9329-d8780d33a3d7">Referentenentwurf</akn:docStage>
+                                   <akn:docProponent eId="einleitung-1_doktitel-1_text-1_docproponent-1" GUID="20095250-c44a-45a5-b7e3-2b49366ff5a8"> des Bundesministeriums des
+                                   Innern</akn:docProponent>
+                                   <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1" GUID="e08874b2-05a8-4d6e-9d78-7be24380c54b">Entwurf eines Dritten Gesetzes zur Änderung des Vereinsgesetzes</akn:docTitle>
+                                </akn:p>
+                             </akn:longTitle>
+                             <akn:block eId="einleitung-1_block-1" GUID="a0973d49-d628-42f7-a1da-b004bc980a44" name="attributsemantik-noch-undefiniert">
+                                <akn:date eId="einleitung-1_block-1_datum-1" GUID="f20d437a-3058-4747-8b8b-9b1e06c17273" refersTo="ausfertigung-datum" date="1900-01-01">Vom 01.01.1900</akn:date>
+                             </akn:block>
+                          </akn:preface>
+                      </akn:act>
+                   </akn:akomaNtoso>
+                   """;
+
+      // When
+      var norm = Norm.builder().document(XmlMapper.toDocument(oldXml)).build();
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      // When // Then
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_XML)
+                  .contentType(MediaType.APPLICATION_XML)
+                  .content(newXml))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value("/errors/invalidate-update"))
+          .andExpect(jsonPath("title").value("Invalid update operation"))
+          .andExpect(jsonPath("status").value(422))
+          .andExpect(jsonPath("detail").value("Changing the GUID is not supported."))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
     }
 
     @Test
@@ -967,11 +1168,27 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
 
           // then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value(equalTo("/errors/norm-not-found")))
+          .andExpect(jsonPath("title").value(equalTo("Norm not found")))
+          .andExpect(jsonPath("status").value(equalTo(404)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/mods")))
+          .andExpect(
+              jsonPath("eli")
+                  .value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
     }
 
     @Test
-    void itReturnsUnprocessableEntiti() throws Exception {
+    void itThrowsInvalidUpdateExceptionBecauseModEidNotInAmendingLaw() throws Exception {
       // Given
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
       final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
@@ -984,7 +1201,100 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"mod-eid-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
           // then
-          .andExpect(status().isUnprocessableEntity());
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value("/errors/invalidate-update"))
+          .andExpect(jsonPath("title").value("Invalid update operation"))
+          .andExpect(jsonPath("status").value(422))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Mod with eId mod-eid-1 not found in amending law eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods"));
+    }
+
+    @Test
+    void itThrowsInvalidateUpdateExceptionBecauseTargetHrefWithoutEli() throws Exception {
+      // Given
+      final Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      norm.getMods().stream()
+          .filter(
+              mod ->
+                  mod.getMandatoryEid()
+                      .equals(
+                          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"))
+          .findFirst()
+          .ifPresent(mod -> mod.setTargetRefHref("#href-without-eli"));
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
+
+      // When
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
+          // then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value("/errors/invalidate-update"))
+          .andExpect(jsonPath("title").value("Invalid update operation"))
+          .andExpect(jsonPath("status").value(422))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "No eli found in href of mod hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods"));
+    }
+
+    @Test
+    void itThrowsInvalidateUpdateExceptionBecauseModsWithoutSameTarget() throws Exception {
+      // Given
+      final Norm norm = NormFixtures.loadFromDisk("NormWithMultipleMods.xml");
+      norm.getMods().stream()
+          .filter(
+              mod ->
+                  mod.getMandatoryEid()
+                      .equals(
+                          "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"))
+          .findFirst()
+          .ifPresent(
+              mod ->
+                  mod.setTargetRefHref(
+                      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/OTHER-ELI/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"));
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
+
+      // When
+      mockMvc
+          .perform(
+              patch("/api/v1/norms/" + eli + "/mods")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"},"
+                          + "\"hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-2_ändbefehl-1\": {\"timeBoundaryEid\": \"new-time-boundary-eid\"}}"))
+
+          // then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value("/errors/invalidate-update"))
+          .andExpect(jsonPath("title").value("Invalid update operation"))
+          .andExpect(jsonPath("status").value(422))
+          .andExpect(
+              jsonPath("detail")
+                  .value("Currently not supported: Not all mods have the same target norm"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods"));
     }
 
     @Test

@@ -278,7 +278,7 @@ class NormControllerTest {
                   .content(xml))
           .andExpect(status().isUnprocessableEntity())
           .andExpect(jsonPath("type").value("/errors/invalidate-update"))
-          .andExpect(jsonPath("title").value("Invalid update in XML"))
+          .andExpect(jsonPath("title").value("Invalid update operation"))
           .andExpect(jsonPath("status").value(422))
           .andExpect(jsonPath("detail").value("Error Message"))
           .andExpect(
