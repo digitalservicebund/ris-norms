@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
-import java.util.Optional;
 
 /**
  * Interface representing the use case for loading an {@link Announcement}. Implementations of this
@@ -14,8 +13,7 @@ public interface LoadAnnouncementByNormEliUseCase {
    *
    * @param query The query containing the ELI (European Legislation Identifier) of the norm of the
    *     {@link Announcement}.
-   * @return An {@link Optional} containing the loaded {@link Announcement} if found, or empty if
-   *     not found.
+   * @return The loaded {@link Announcement}.
    */
   Announcement loadAnnouncementByNormEli(Query query);
 

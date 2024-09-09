@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormRespons
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
+import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
@@ -13,12 +14,16 @@ import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnounceme
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Eli;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import java.io.IOException;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /** Controller for announcement-related actions. */
 @RestController
@@ -30,17 +35,20 @@ public class AnnouncementController {
   private final LoadTargetNormsAffectedByAnnouncementUseCase
       loadTargetNormsAffectedByAnnouncementUseCase;
   private final ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
+  private final CreateAnnouncementUseCase createAnnouncementUseCase;
 
   public AnnouncementController(
       LoadAllAnnouncementsUseCase loadAllAnnouncementsUseCase,
       LoadAnnouncementByNormEliUseCase loadAnnouncementByNormEliUseCase,
       LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase,
-      ReleaseAnnouncementUseCase releaseAnnouncementUseCase) {
+      ReleaseAnnouncementUseCase releaseAnnouncementUseCase,
+      CreateAnnouncementUseCase createAnnouncementUseCase) {
     this.loadAllAnnouncementsUseCase = loadAllAnnouncementsUseCase;
     this.loadAnnouncementByNormEliUseCase = loadAnnouncementByNormEliUseCase;
     this.loadTargetNormsAffectedByAnnouncementUseCase =
         loadTargetNormsAffectedByAnnouncementUseCase;
     this.releaseAnnouncementUseCase = releaseAnnouncementUseCase;
+    this.createAnnouncementUseCase = createAnnouncementUseCase;
   }
 
   /**
@@ -114,5 +122,19 @@ public class AnnouncementController {
             new LoadTargetNormsAffectedByAnnouncementUseCase.Query(eli.getValue()));
 
     return ResponseEntity.ok(ReleaseResponseMapper.fromAnnouncement(announcement, affectedNorms));
+  }
+
+  /**
+   * Creates a new {@link Announcement} using the norm-file provided.
+   *
+   * @param file a file containing an amending norm as an XML file that contains LDML.de
+   * @return information about the newly created announcement
+   */
+  @PostMapping(produces = {APPLICATION_JSON_VALUE})
+  public ResponseEntity<NormResponseSchema> postAnnouncement(@RequestParam final MultipartFile file)
+      throws IOException {
+    var announcement =
+        createAnnouncementUseCase.createAnnouncement(new CreateAnnouncementUseCase.Query(file));
+    return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(announcement.getNorm()));
   }
 }

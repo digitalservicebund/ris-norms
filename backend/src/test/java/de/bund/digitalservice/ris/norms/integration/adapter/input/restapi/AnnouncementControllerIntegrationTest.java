@@ -1,8 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.AnnouncementMapper;
@@ -11,14 +10,17 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Annou
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
 class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
@@ -623,6 +625,69 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
               jsonPath(
                   "zf0Elis[0]",
                   equalTo("eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1")));
+    }
+  }
+
+  @Nested
+  class postAnnouncement {
+    @Test
+    void itCreatesANewAnnouncement() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      // When // Then
+      mockMvc
+          .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(
+              jsonPath(
+                  "eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itFailsIfTheAffectedNormDoesNotExist() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      // When // Then
+      mockMvc
+          .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type", equalTo("/errors/active-mod/destination/norm-not-found")));
+    }
+
+    @Test
+    void itFailsIfTheNormAlreadyExist() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+      normRepository.save(NormMapper.mapToDto(norm));
+
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      // When // Then
+      mockMvc
+          .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type", equalTo("/errors/norm-exists-already")));
     }
   }
 }

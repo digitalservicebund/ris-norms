@@ -3,10 +3,10 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAllAnnouncementsUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
@@ -14,7 +14,9 @@ import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAnnounceme
 import de.bund.digitalservice.ris.norms.config.SecurityConfig;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.io.ByteArrayInputStream;
 import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
@@ -24,6 +26,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
@@ -43,6 +46,7 @@ class AnnouncementControllerTest {
   private LoadTargetNormsAffectedByAnnouncementUseCase loadTargetNormsAffectedByAnnouncementUseCase;
 
   @MockBean private ReleaseAnnouncementUseCase releaseAnnouncementUseCase;
+  @MockBean private CreateAnnouncementUseCase createAnnouncementUseCase;
 
   @Nested
   class getAllAnnouncements {
@@ -406,6 +410,31 @@ class AnnouncementControllerTest {
               jsonPath(
                   "zf0Elis[0]",
                   equalTo("eli/bund/bgbl-1/1964/s593/2023-12-29/1/deu/regelungstext-1")));
+    }
+  }
+
+  @Nested
+  class postAnnouncement {
+
+    @Test
+    void itCreatesAnAnnouncement() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      final MockMultipartFile file =
+          new MockMultipartFile(
+              "file", "norm.txt", "text/plain", new ByteArrayInputStream(xmlContent.getBytes()));
+      var announcement = Announcement.builder().norm(norm).build();
+
+      when(createAnnouncementUseCase.createAnnouncement(any())).thenReturn(announcement);
+
+      // When // Then
+      mockMvc
+          .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andExpect(
+              jsonPath(
+                  "eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")));
     }
   }
 }

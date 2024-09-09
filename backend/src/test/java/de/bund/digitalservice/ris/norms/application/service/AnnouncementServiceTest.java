@@ -7,20 +7,31 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.ActiveModDestinationNormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotAnActException;
+import de.bund.digitalservice.ris.norms.application.exception.NotAXmlFileException;
+import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTargetNormsAffectedByAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAllAnnouncementsPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadAnnouncementByNormEliPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveAnnouncementPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Announcement;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 class AnnouncementServiceTest {
 
@@ -29,10 +40,16 @@ class AnnouncementServiceTest {
       mock(LoadAnnouncementByNormEliPort.class);
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadZf0Service loadZf0Service = mock(LoadZf0Service.class);
+  final UpdateOrSaveAnnouncementPort updateOrSaveAnnouncementPort =
+      mock(UpdateOrSaveAnnouncementPort.class);
 
   final AnnouncementService announcementService =
       new AnnouncementService(
-          loadAllAnnouncementsPort, loadAnnouncementByNormEliPort, loadNormPort, loadZf0Service);
+          loadAllAnnouncementsPort,
+          loadAnnouncementByNormEliPort,
+          loadNormPort,
+          loadZf0Service,
+          updateOrSaveAnnouncementPort);
 
   @Nested
   class loadAllAnnouncements {
@@ -254,6 +271,115 @@ class AnnouncementServiceTest {
       // Then
       verify(loadAnnouncementByNormEliPort, times(1)).loadAnnouncementByNormEli(any());
       assertThat(norms).hasSize(1).containsExactly(affectedNormZf0);
+    }
+  }
+
+  @Nested
+  class createAnnouncement {
+
+    @Test
+    void itCreatesANewAnnouncement() throws IOException {
+      // Given
+      var xmlContent =
+          XmlMapper.toString(NormFixtures.loadFromDisk("NormWithMods.xml").getDocument());
+      final MultipartFile file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      when(loadNormPort.loadNorm(
+              new LoadNormPort.Command(
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+      when(loadNormPort.loadNorm(
+              new LoadNormPort.Command(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
+          .thenReturn(Optional.empty());
+
+      // When
+      var announcement =
+          announcementService.createAnnouncement(new CreateAnnouncementUseCase.Query(file));
+
+      // Then
+      verify(updateOrSaveAnnouncementPort, times(1)).updateOrSaveAnnouncement(any());
+      assertThat(announcement.getNorm().getEli())
+          .isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1");
+    }
+
+    @Test
+    void itThrowsWhenTheFileIsNotXML() throws IOException {
+      // Given
+      var xmlContent =
+          XmlMapper.toString(NormFixtures.loadFromDisk("NormWithMods.xml").getDocument());
+      final MultipartFile file =
+          new MockMultipartFile(
+              "file", "norm.txt", "text/plain", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      // When // Then
+      var query = new CreateAnnouncementUseCase.Query(file);
+      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+          .isInstanceOf(NotAXmlFileException.class);
+    }
+
+    @Test
+    void itThrowsWhenTheNormIsNotAnAct() throws IOException {
+      // Given
+      var xmlContent =
+          XmlMapper.toString(
+              NormFixtures.loadFromDisk(
+                      "01-01_Gesetz_Stammform_Entwurf_(RegTxt_Ans_Vorb_Begr_offStr)_regelungstext.xml")
+                  .getDocument());
+      final MultipartFile file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      // When // Then
+      var query = new CreateAnnouncementUseCase.Query(file);
+      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+          .isInstanceOf(NormNotAnActException.class);
+    }
+
+    @Test
+    void itThrowsWhenADestinationEliDoesNotExist() throws IOException {
+      // Given
+      var xmlContent =
+          XmlMapper.toString(NormFixtures.loadFromDisk("NormWithMods.xml").getDocument());
+      final MultipartFile file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      when(loadNormPort.loadNorm(
+              new LoadNormPort.Command(
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
+          .thenReturn(Optional.empty());
+
+      // When // Then
+      var query = new CreateAnnouncementUseCase.Query(file);
+      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+          .isInstanceOf(ActiveModDestinationNormNotFoundException.class);
+    }
+
+    @Test
+    void itThrowsWhenAnEliOfTheSameEliExists() throws IOException {
+      // Given
+      var xmlContent =
+          XmlMapper.toString(NormFixtures.loadFromDisk("NormWithMods.xml").getDocument());
+      final MultipartFile file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      when(loadNormPort.loadNorm(
+              new LoadNormPort.Command(
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+      when(loadNormPort.loadNorm(
+              new LoadNormPort.Command(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithMods.xml")));
+
+      // When // Then
+      var query = new CreateAnnouncementUseCase.Query(file);
+      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+          .isInstanceOf(NormExistsAlreadyException.class);
     }
   }
 }
