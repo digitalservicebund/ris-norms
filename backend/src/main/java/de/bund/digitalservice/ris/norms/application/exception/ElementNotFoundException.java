@@ -11,7 +11,7 @@ public class ElementNotFoundException extends RuntimeException implements NormsA
   private final String eid;
 
   public ElementNotFoundException(final String eli, final String eid) {
-    super("Element with eid %s does not exist in norm with eli %s".formatted(eli, eid));
+    super("Element with eid %s does not exist in norm with eli %s".formatted(eid, eli));
     this.eli = eli;
     this.eid = eid;
   }
