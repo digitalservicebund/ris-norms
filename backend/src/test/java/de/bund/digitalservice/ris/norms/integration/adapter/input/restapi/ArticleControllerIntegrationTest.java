@@ -263,7 +263,20 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
               get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles")
                   .accept(MediaType.APPLICATION_JSON))
           // Then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"));
     }
   }
 
@@ -461,7 +474,20 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles")
                   .accept(MediaType.TEXT_HTML_VALUE))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"));
     }
 
     @Test
@@ -519,7 +545,21 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel")
                   .accept(MediaType.TEXT_HTML_VALUE))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/article-of-type-not-found"))
+          .andExpect(jsonPath("title").value("Article of specific type not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not contain articles of type geltungszeitregel"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"))
+          .andExpect(jsonPath("articleType").value("geltungszeitregel"));
     }
 
     @Test
@@ -559,7 +599,21 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel")
                   .accept(MediaType.TEXT_HTML_VALUE))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/article-of-type-not-found"))
+          .andExpect(jsonPath("title").value("Article of specific type not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not contain articles of type geltungszeitregel"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"))
+          .andExpect(jsonPath("articleType").value("geltungszeitregel"));
     }
   }
 
@@ -710,7 +764,20 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1")
                   .accept(MediaType.APPLICATION_JSON))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"));
     }
 
     @Test
@@ -838,7 +905,21 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-9999")
                   .accept(MediaType.APPLICATION_JSON))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/article-not-found"))
+          .andExpect(jsonPath("title").value("Article not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Article with eid hauptteil-1_art-9999 does not exist in norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"))
+          .andExpect(jsonPath("eid").value("hauptteil-1_art-9999"));
     }
   }
 
@@ -963,7 +1044,20 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20?atIsoDate=2017-03-01T00:00:00.000Z")
                   .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+          .andExpect(jsonPath("title").value("Norm not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1 does not exist"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-20"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"));
     }
 
     @Test
@@ -980,7 +1074,21 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-9999?atIsoDate=2017-03-01T00:00:00.000Z")
                   .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value("/errors/article-not-found"))
+          .andExpect(jsonPath("title").value("Article not found"))
+          .andExpect(jsonPath("status").value(404))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Article with eid hauptteil-1_para-9999 does not exist in norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles/hauptteil-1_para-9999"))
+          .andExpect(
+              jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"))
+          .andExpect(jsonPath("eid").value("hauptteil-1_para-9999"));
     }
   }
 }

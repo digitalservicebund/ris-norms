@@ -53,7 +53,7 @@ public class ProblemDetailFactory {
     ARTICLE_OF_TYPE_NOT_FOUND(
         LoadSpecificArticlesXmlFromNormUseCase.ArticleOfTypeNotFoundException.class,
         URI.create("/errors/article-of-type-not-found"),
-        "Article of speicifc type not found"),
+        "Article of specific type not found"),
     ANNOUNCEMENT_NOT_FOUND(
         AnnouncementNotFoundException.class,
         URI.create("/errors/announcement-not-found"),

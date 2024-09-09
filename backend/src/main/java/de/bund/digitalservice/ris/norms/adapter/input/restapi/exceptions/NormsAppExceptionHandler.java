@@ -112,6 +112,7 @@ public class NormsAppExceptionHandler {
     log.error("ArticleNotFoundException: {}", e.getMessage(), e);
     final ProblemDetail problemDetail =
         ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
+    problemDetail.setProperty("eli", e.getEli());
     problemDetail.setProperty("eid", e.getEid());
     return problemDetail;
   }
@@ -148,7 +149,7 @@ public class NormsAppExceptionHandler {
     final ProblemDetail problemDetail =
         ProblemDetailFactory.createProblemDetail(e, HttpStatus.NOT_FOUND);
     problemDetail.setProperty("eli", e.getEli());
-    problemDetail.setProperty("type", e.getType());
+    problemDetail.setProperty("articleType", e.getType());
     return problemDetail;
   }
 
