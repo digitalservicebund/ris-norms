@@ -72,16 +72,13 @@ public class TimeMachineService implements ApplyPassiveModificationsUseCase {
         .sorted(
             Comparator.comparing(
                 (TextualMod passiveModification) ->
+                    // We already filtered out empty Optionals, so safe retrieving directly
                     passiveModification
                         .getForcePeriodEid()
                         .flatMap(norm::getStartDateForTemporalGroup)
-                        .orElseThrow(
-                            () ->
-                                new ValidationException(
-                                    ValidationException.ErrorType.START_DATE_IN_META_MOD_MISSING,
-                                    Pair.of(
-                                        ValidationException.FieldName.EID,
-                                        passiveModification.getEid().orElse(""))))))
+                        .map(dateString -> Instant.parse(dateString + "T00:00:00.000Z"))
+                        .orElse(Instant.EPOCH) // This is just a fallback
+                ))
         .flatMap(
             (TextualMod passiveModification) -> {
               var sourceEli =

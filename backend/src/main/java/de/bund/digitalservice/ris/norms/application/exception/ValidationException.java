@@ -50,9 +50,6 @@ public class ValidationException extends RuntimeException implements NormsAppExc
     SOURCE_HREF_IN_META_MOD_MISSING(
         "/errors/source-href-in-meta-mod-missing",
         "Did not find source href for textual mod with eId %s"),
-    START_DATE_IN_META_MOD_MISSING(
-        "/errors/start-date-in-meta-mod-missing",
-        "Did not find a start date for textual mod with eId %s"),
     DESTINATION_ELIS_IN_META_MODS_NOT_CONSISTENT_WITH_BODY_MODS(
         "/errors/elis-not-consistent-between-meta-and-body",
         "For norm with Eli (%s): Eids are not consistent"),
