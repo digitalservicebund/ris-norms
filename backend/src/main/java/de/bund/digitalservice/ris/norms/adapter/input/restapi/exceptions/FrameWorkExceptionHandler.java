@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 /**
  * Global exception handler for handling spring exceptions related to the input request schema and
@@ -67,6 +68,26 @@ public class FrameWorkExceptionHandler {
         ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, concatenatedValidationErrors);
     problemDetail.setTitle("Input validation error");
     problemDetail.setType(URI.create("/errors/input-validation-error"));
+    return problemDetail;
+  }
+
+  /**
+   * Exception handler method for {@link MethodArgumentTypeMismatchException} produced by spring
+   * when the passed parameters could not be transformed to the expected types.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 400 status and the exception message.
+   */
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ProblemDetail handleTypeMismatchException(final MethodArgumentTypeMismatchException e) {
+    log.error("Type mismatch: {}", e.getMessage(), e);
+    final String invalidValue = e.getValue() != null ? e.getValue().toString() : "Unknown";
+    ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST, "Invalid request parameter: %s".formatted(invalidValue));
+    problemDetail.setTitle("Parameter Binding Error");
+    problemDetail.setType(URI.create("/errors/parameter-binding-error"));
     return problemDetail;
   }
 

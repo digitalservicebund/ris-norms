@@ -16,7 +16,6 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -118,18 +117,12 @@ public class NormController {
   public ResponseEntity<String> getNormRender(
       final Eli eli,
       @RequestParam(defaultValue = "false") boolean showMetadata,
-      @RequestParam Optional<String> atIsoDate) {
+      @RequestParam Optional<Instant> atIsoDate) {
     if (atIsoDate.isPresent()) {
-      try {
-        DateTimeFormatter.ISO_DATE_TIME.parse(atIsoDate.get());
-      } catch (Exception e) {
-        return ResponseEntity.badRequest().build();
-      }
-
       var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.Query(eli.getValue()));
       norm =
           applyPassiveModificationsUseCase.applyPassiveModifications(
-              new ApplyPassiveModificationsUseCase.Query(norm, Instant.parse(atIsoDate.get())));
+              new ApplyPassiveModificationsUseCase.Query(norm, atIsoDate.get()));
 
       return ResponseEntity.ok(
           this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(

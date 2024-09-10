@@ -297,7 +297,15 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
           .perform(
               get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1?atIsoDate=NOT_A_DATE")
                   .accept(MediaType.TEXT_HTML))
-          .andExpect(status().isBadRequest());
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("type").value("/errors/parameter-binding-error"))
+          .andExpect(jsonPath("title").value("Parameter Binding Error"))
+          .andExpect(jsonPath("status").value(400))
+          .andExpect(jsonPath("detail").value("Invalid request parameter: NOT_A_DATE"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"));
     }
 
     @Test
