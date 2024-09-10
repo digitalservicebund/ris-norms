@@ -17,6 +17,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Norm'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /announcements/{eli}/release:
     get:
@@ -30,11 +36,23 @@ paths:
             type: string
       responses:
         '200':
-          description: Information about a released an announcement
+          description: Information about a released announcement
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReleaseResponse'
+        '404':
+          description: Announcement not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
     put:
       summary: Release the XML of a specific announcement by the amending law eli
       parameters:
@@ -51,6 +69,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReleaseResponse'
+        '404':
+          description: Announcement not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}:
     get:
@@ -59,7 +89,7 @@ paths:
         - name: eli
           in: path
           required: true
-          description: eli of the norm
+          description: ELI of the norm
           schema:
             type: string
         - name: showMetadata
@@ -87,13 +117,25 @@ paths:
             text/html:
               schema:
                 type: string
+        '404':
+          description: Norm not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
     put:
       summary: Update a specific norm by eli
       parameters:
         - name: eli
           in: path
           required: true
-          description: eli of the norm
+          description: ELI of the norm
           schema:
             type: string
       requestBody:
@@ -110,6 +152,18 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
+        '404':
+          description: Norm not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/elements:
     get:
@@ -149,6 +203,16 @@ paths:
                   $ref: '#/components/schemas/ElementResponse'
         '404':
           description: Norm could not be found by its ELI.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/elements/{eid}:
     get:
@@ -171,7 +235,7 @@ paths:
         - name: atIsoDate
           in: query
           required: false
-          description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
+          description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
           example: "2017-03-01T00:00:00.000Z"
           schema:
             type: string
@@ -188,8 +252,16 @@ paths:
                 type: string
         '400':
           description: "Some parameter is invalid, e.g. `atIsoDate` could not be parsed into a date."
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
         '404':
           description: "The norm or the element could not be found."
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/articles:
     get:
@@ -231,6 +303,12 @@ paths:
             text/html:
               schema:
                 type: string
+        '404':
+          description: "The norm could not be found."
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/articles/{eid}:
     get:
@@ -253,7 +331,7 @@ paths:
           schema:
             type: string
             format: date-time
-          description: "Passive modifications coming into affect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
+          description: "Passive modifications coming into effect before this date should be applied before rendering the HTML (only for Content-Type: text/html)"
       responses:
         '200':
           description: Successful response
@@ -264,6 +342,12 @@ paths:
             text/html:
               schema:
                 type: string
+        '404':
+          description: Norm or article not found.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/mods:
     patch:
@@ -309,10 +393,22 @@ paths:
                       format: LegalDocML.de XML
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
         '422':
-          description: Unprocessable Content
+          description: Validation errors
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
         '404':
           description: Norm not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/mods/{eid}:
     put:
@@ -342,7 +438,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/Mod'
+              $ref: '#/components/schemas/Mod'
       responses:
         '200':
           description: Successful update
@@ -357,10 +453,22 @@ paths:
                     type: string
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
         '422':
-          description: Unprocessable Content
+          description: Validation errors
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
         '404':
           description: Norm not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/timeBoundaries:
     get:
@@ -375,13 +483,18 @@ paths:
       responses:
         '200':
           description: Successful response
-
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/TimeBoundary'
+        '404':
+          description: Norm not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
     put:
       summary: Update all time boundaries for a given norm
       parameters:
@@ -411,67 +524,16 @@ paths:
                   $ref: '#/components/schemas/TimeBoundary'
         '400':
           description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
         '404':
           description: Norm not found
-
-  /norms/{eli}/proprietary/{atDate}:
-    get:
-      summary: Get the proprietary metadata of a norm at the specified date
-      parameters:
-        - name: eli
-          in: path
-          required: true
-          description: ELI of the norm
-          schema:
-            type: string
-        - name: atDate
-          in: path
-          required: false
-          description: date at which the metadata should be loaded
-          schema:
-            type: string
-            format: date
-      responses:
-        '200':
-          description: List of proprietary metadata at that date
           content:
-            'application/json':
+            application/problem+json:
               schema:
-                $ref: '#/components/schemas/Metadata'
-        '404':
-          description: If the norm does not exist.
-    put:
-      summary: Replace the proprietary metadata of a norm at the specified date
-      parameters:
-        - name: eli
-          in: path
-          required: false
-          description: ELI of the norm
-          schema:
-            type: string
-        - name: atDate
-          in: path
-          required: true
-          description: eId of the time boundary at which the metadata should be updated
-          schema:
-            type: string
-            format: date
-      requestBody:
-        description: The proprietary request schema containing several metadata.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Metadata'
-      responses:
-        '200':
-          description: Metadata was updated successfully. Returns the updated metadata.
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/Metadata'
-        '404':
-          description: If the norm or the time boundary doesn't exist.
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/proprietary/{eid}/{atDate}:
     get:
@@ -500,11 +562,15 @@ paths:
         '200':
           description: List of proprietary metadata at that date for the single element
           content:
-            'application/json':
+            application/json:
               schema:
                 $ref: '#/components/schemas/SingleElementMetadata'
         '404':
-          description: If the norm or the single element or the time boundary does not exist.
+          description: If the norm, single element, or the time boundary does not exist.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
     put:
       summary: Replace the proprietary metadata of a single element at the specified date
       tags:
@@ -544,8 +610,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/SingleElementMetadata'
         '404':
-          description: If the norm or the single element or the time boundary doesn't exist.
-
+          description: If the norm, single element, or the time boundary does not exist.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/zf0:
     get:
@@ -554,7 +623,7 @@ paths:
         - name: eli
           in: path
           required: true
-          description: eli of the norm
+          description: ELI of the norm
           schema:
             type: string
         - name: amendingNormEli
@@ -570,6 +639,12 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/LegalDocML.de'
+        '404':
+          description: Norm not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /norms/{eli}/{eid}:
     get:
@@ -598,7 +673,10 @@ paths:
                 type: string
         '404':
           description: Norm or element not found
-
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /renderings:
     post:
@@ -633,6 +711,12 @@ paths:
             application/xml:
               schema:
                 type: string
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /references/{eli}:
     post:
@@ -641,18 +725,22 @@ paths:
         - name: eli
           in: path
           required: true
-          description: eli of the norm
+          description: ELI of the norm
           schema:
             type: string
       responses:
-          '200':
-            description: Successful response
-            content:
-              application/xml:
-                schema:
-                  $ref: '#/components/schemas/LegalDocML.de'
-          '404':
-            description: Norm could not be found by its ELI.
+        '200':
+          description: Successful response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LegalDocML.de'
+        '404':
+          description: Norm could not be found by its ELI
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
 components:
   schemas:
@@ -813,3 +901,36 @@ components:
         artDerNorm:
           type: string
           description: SN or ÄN or ÜN ("Art der Norm") of the single element
+
+    ProblemDetail:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          format: uri
+          description: "A URI reference that identifies the problem type."
+          example: "/errors/norm-not-found"
+        title:
+          type: string
+          description: "A short, human-readable summary of the problem type."
+          example: "Norm not found"
+        status:
+          type: integer
+          format: int32
+          description: "The HTTP status code generated by the origin server for this occurrence of the problem."
+          example: 404
+        detail:
+          type: string
+          description: "A human-readable explanation specific to this occurrence of the problem."
+          example: "Norm with eli this-is-not-an-eli does not exist"
+        instance:
+          type: string
+          format: uri
+          description: "The api call URI that triggered the exception."
+          example: "/api/v1/norms/this-is-not-an-eli"
+        extensions:
+          type: object
+          additionalProperties: true
+          description: "Optional additional fields to convey extra information."
