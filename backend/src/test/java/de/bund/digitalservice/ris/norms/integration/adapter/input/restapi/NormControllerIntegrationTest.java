@@ -1205,7 +1205,123 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsBadRequestAndDoesNotSaveIt() throws Exception {
+    void itThrowsValidationExceptionBecauseCharacterRangeNotPresent() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      String path =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
+      String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String destinationHref = eli + "/" + eId + ".xml";
+      String newContent = "new test text"; // This is not being validated
+
+      // When
+      mockMvc
+          .perform(
+              put(path)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"newContent\": \""
+                          + newContent
+                          + "\"}"))
+          // Then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value(equalTo("/errors/character-range-not-present")))
+          .andExpect(jsonPath("title").value(equalTo("Validation error")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "In the destination href with value #hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1, the character range not present.")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1")))
+          .andExpect(
+              jsonPath("destinationHref")
+                  .value(
+                      equalTo("#hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1")))
+          .andExpect(jsonPath("eId").value(equalTo("meta-1_analysis-1_pasmod-1_textualmod-1")))
+          .andExpect(
+              jsonPath("eli")
+                  .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itThrowsValidationExceptionBecauseCharacterRangeHasInvalidFormat() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      String path =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
+      String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String characterCount = "935";
+      String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
+      String newContent = "new test text"; // This is not being validated
+
+      // When
+      mockMvc
+          .perform(
+              put(path)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"newContent\": \""
+                          + newContent
+                          + "\"}"))
+          // Then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value(equalTo("/errors/character-range-with-invalid-format")))
+          .andExpect(jsonPath("title").value(equalTo("Validation error")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "The character range 935 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 has invalid format.")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1")))
+          .andExpect(jsonPath("eId").value(equalTo("meta-1_analysis-1_pasmod-1_textualmod-1")))
+          .andExpect(
+              jsonPath("eli")
+                  .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itThrowsValidationExceptionBecauseCharacterRangeDoesNotResolveToTargetText()
+        throws Exception {
       // When
       normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
       normRepository.save(
@@ -1240,7 +1356,83 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                           + newContent
                           + "\"}"))
           // Then
-          .andExpect(status().isUnprocessableEntity());
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(
+              jsonPath("type").value(equalTo("/errors/character-range-not-resolve-to-target")))
+          .andExpect(jsonPath("title").value(equalTo("Validation error")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "The character range 9-35 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 does not resolve to the targeted text to be replaced.")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1")))
+          .andExpect(jsonPath("eId").value(equalTo("meta-1_analysis-1_pasmod-1_textualmod-1")))
+          .andExpect(
+              jsonPath("eli")
+                  .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itThrowsValidationExceptionBecauseCharacterRangeNotWithinNodeRange() throws Exception {
+      // When
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      String path =
+          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1";
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-1";
+      String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1";
+      String eId = "hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1";
+      String characterCount = "9-351";
+      String destinationHref = eli + "/" + eId + "/" + characterCount + ".xml";
+      String newContent = "new test text"; // This is not being validated
+
+      // When
+      mockMvc
+          .perform(
+              put(path)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"newContent\": \""
+                          + newContent
+                          + "\"}"))
+          // Then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(
+              jsonPath("type").value(equalTo("/errors/character-range-not-within-node-range")))
+          .andExpect(jsonPath("title").value(equalTo("Validation error")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "The character range 9-351 of passive mod with eId meta-1_analysis-1_pasmod-1_textualmod-1 within ZF0 norm with eli eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1 is not within the target node.")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_%C3%A4ndbefehl-1")))
+          .andExpect(jsonPath("characterRange").value(equalTo("9-351")))
+          .andExpect(jsonPath("eId").value(equalTo("meta-1_analysis-1_pasmod-1_textualmod-1")))
+          .andExpect(
+              jsonPath("eli")
+                  .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")));
     }
   }
 
