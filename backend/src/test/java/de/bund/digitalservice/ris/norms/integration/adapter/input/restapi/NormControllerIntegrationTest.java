@@ -1494,6 +1494,198 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
               jsonPath("eli")
                   .value(equalTo("eli/bund/bgbl-1/1964/s593/2017-03-15/1/deu/regelungstext-1")));
     }
+
+    @Test
+    void itThrowsValidationExceptionBecauseTargetUptoNodeNotPresent() throws Exception {
+      // When
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(
+              NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml")));
+
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-2";
+      String eli = "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1";
+      String destinationHrefEid = "hauptteil-1_para-2_abs-1";
+      String destinationHref = eli + "/" + destinationHrefEid + ".xml";
+      String destinationUpToEid = "hauptteil-1_para-2_abs-99";
+      String destinationUpTo = eli + "/" + destinationUpToEid + ".xml";
+      String newContent = "THIS_IS_NOT_BEING_HANDLED";
+
+      String modEid =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/"
+                      + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"newContent\": \""
+                          + newContent
+                          + "\", \"destinationUpTo\": \""
+                          + destinationUpTo
+                          + "\"}"))
+          // Then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value(equalTo("/errors/target-upto-node-not-present")))
+          .andExpect(jsonPath("title").value(equalTo("Validation error")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "Target upTo node with eid hauptteil-1_para-2_abs-99 not present in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_%C3%A4ndbefehl-1")))
+          .andExpect(jsonPath("eId").value(equalTo("hauptteil-1_para-2_abs-99")))
+          .andExpect(
+              jsonPath("eli")
+                  .value(equalTo("eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itThrowsValidationExceptionBecauseTargetNodeAndUptoNodeNotSiblings() throws Exception {
+      // When
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(
+              NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml")));
+
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-2";
+      String eli = "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1";
+      String destinationHrefEid = "hauptteil-1_para-2_abs-1";
+      String destinationHref = eli + "/" + destinationHrefEid + ".xml";
+      String destinationUpToEid = "hauptteil-1_para-2_abs-1_inhalt-1";
+      String destinationUpTo = eli + "/" + destinationUpToEid + ".xml";
+      String newContent = "THIS_IS_NOT_BEING_HANDLED";
+
+      String modEid =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/"
+                      + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"newContent\": \""
+                          + newContent
+                          + "\", \"destinationUpTo\": \""
+                          + destinationUpTo
+                          + "\"}"))
+          // Then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value(equalTo("/errors/target-and-upto-nodes-not-siblings")))
+          .andExpect(jsonPath("title").value(equalTo("Validation error")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "Target node with eid hauptteil-1_para-2_abs-1 and target upTo node with eid hauptteil-1_para-2_abs-1_inhalt-1 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_%C3%A4ndbefehl-1")))
+          .andExpect(jsonPath("targetNodeEid").value(equalTo("hauptteil-1_para-2_abs-1")))
+          .andExpect(
+              jsonPath("targetUpToNodeEid").value(equalTo("hauptteil-1_para-2_abs-1_inhalt-1")))
+          .andExpect(
+              jsonPath("eli")
+                  .value(equalTo("eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itThrowsValidationExceptionBecauseTargetNodeAfterUptoNode() throws Exception {
+      // When
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithQuotedStructureMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(
+              NormFixtures.loadFromDisk("NormWithoutPassiveModsQuotedStructure.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModsQuotedStructure.xml")));
+
+      String refersTo = "THIS_IS_NOT_BEING_HANDLED";
+      String timeBoundaryEId = "meta-1_geltzeiten-1_geltungszeitgr-2";
+      String eli = "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1";
+      String destinationHrefEid = "hauptteil-1_para-2_abs-2";
+      String destinationHref = eli + "/" + destinationHrefEid + ".xml";
+      String destinationUpToEid = "hauptteil-1_para-2_abs-1";
+      String destinationUpTo = eli + "/" + destinationUpToEid + ".xml";
+      String newContent = "THIS_IS_NOT_BEING_HANDLED";
+
+      String modEid =
+          "hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/"
+                      + modEid)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \""
+                          + refersTo
+                          + "\", \"timeBoundaryEid\": \""
+                          + timeBoundaryEId
+                          + "\", \"destinationHref\": \""
+                          + destinationHref
+                          + "\", \"newContent\": \""
+                          + newContent
+                          + "\", \"destinationUpTo\": \""
+                          + destinationUpTo
+                          + "\"}"))
+          // Then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value(equalTo("/errors/target-node-before-upto-node")))
+          .andExpect(jsonPath("title").value(equalTo("Validation error")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "Target node with eid hauptteil-1_para-2_abs-2 does not appear before target upTo node with eid hauptteil-1_para-2_abs-1 in ZF0 norm with eli eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1.")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/regelungstext-1/mods/hauptteil-1_para-1_abs-1_untergl-1_listenelem-5_untergl-1_listenelem-a_inhalt-1_text-1_%C3%A4ndbefehl-1")))
+          .andExpect(jsonPath("targetNodeEid").value(equalTo("hauptteil-1_para-2_abs-2")))
+          .andExpect(jsonPath("targetUpToNodeEid").value(equalTo("hauptteil-1_para-2_abs-1")))
+          .andExpect(
+              jsonPath("eli")
+                  .value(equalTo("eli/bund/bgbl-1/1002/1/1002-01-10/1/deu/regelungstext-1")));
+    }
   }
 
   @Nested
