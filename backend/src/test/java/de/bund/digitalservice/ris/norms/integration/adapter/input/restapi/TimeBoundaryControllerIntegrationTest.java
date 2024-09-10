@@ -459,7 +459,15 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("[{\"date\": null, \"eventRefEid\": null}]"))
-          .andExpect(status().isBadRequest());
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("type").value("/errors/input-validation-error"))
+          .andExpect(jsonPath("title").value("Input validation error"))
+          .andExpect(jsonPath("status").value(400))
+          .andExpect(jsonPath("detail").value("Date must not be null"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/timeBoundaries"));
     }
 
     @Test
@@ -510,7 +518,14 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
                   .accept(MediaType.APPLICATION_JSON)
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("[{\"date\": \"THISISNODATE\", \"eventRefEid\": null}]"))
-          .andExpect(status().isBadRequest());
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("type").value("/errors/http-message-not-readable-exception"))
+          .andExpect(jsonPath("title").value("Bad Request"))
+          .andExpect(jsonPath("status").value(400))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/timeBoundaries"));
     }
 
     @Test
@@ -566,7 +581,15 @@ public class TimeBoundaryControllerIntegrationTest extends BaseIntegrationTest {
                           + "{\"date\": \"2024-01-01\", \"eventRefEid\": null},"
                           + "{\"date\": \"2024-01-01\", \"eventRefEid\": null}"
                           + "]"))
-          .andExpect(status().isBadRequest());
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("type").value("/errors/input-validation-error"))
+          .andExpect(jsonPath("title").value("Input validation error"))
+          .andExpect(jsonPath("status").value(400))
+          .andExpect(jsonPath("detail").value("All dates must be unique."))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/timeBoundaries"));
     }
 
     @Test

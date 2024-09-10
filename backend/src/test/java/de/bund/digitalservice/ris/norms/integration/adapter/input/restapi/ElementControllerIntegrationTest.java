@@ -233,7 +233,17 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
               get(
                   "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements"))
           // Then
-          .andExpect(status().is5xxServerError());
+          .andExpect(status().is5xxServerError())
+          .andExpect(jsonPath("type").value("/errors/internal-server-error"))
+          .andExpect(jsonPath("status").value(500))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Required request parameter 'type' for method parameter type String[] is not present"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/elements"));
     }
 
     @Test

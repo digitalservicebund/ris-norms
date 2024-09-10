@@ -2083,7 +2083,18 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                             }
                           """))
           // Then
-          .andExpect(status().isUnprocessableEntity());
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value("/errors/invalidate-update"))
+          .andExpect(jsonPath("title").value("Invalid update operation"))
+          .andExpect(jsonPath("status").value(422))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      "Mod with eId hauptteil-1_art-1_abs-23_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1 not found in amending law eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods"));
     }
   }
 
