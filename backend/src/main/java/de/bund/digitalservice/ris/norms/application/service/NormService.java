@@ -111,16 +111,6 @@ public class NormService
       String newContent) {
     var targetNormEli = new Href(destinationHref).getEli().orElse("");
 
-    // Update active mods (meta and body) in amending law
-    updateNormService.updateActiveModifications(
-        new UpdateActiveModificationsUseCase.Query(
-            amendingNorm, eId, destinationHref, destinationUpTo, timeBoundaryEId, newContent));
-
-    // Update passiv mods in ZF0
-    updateNormService.updatePassiveModifications(
-        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli));
-
-    // Validate changes on ZF0
     final Mod selectedMod =
         amendingNorm.getMods().stream()
             .filter(m -> m.getEid().isPresent() && m.getEid().get().equals(eId))
@@ -132,6 +122,16 @@ public class NormService
                         Pair.of(ValidationException.FieldName.EID, eId),
                         Pair.of(ValidationException.FieldName.ELI, amendingNorm.getEli())));
 
+    // Update active mods (meta and body) in amending law
+    updateNormService.updateActiveModifications(
+        new UpdateActiveModificationsUseCase.Query(
+            amendingNorm, eId, destinationHref, destinationUpTo, timeBoundaryEId, newContent));
+
+    // Update passiv mods in ZF0
+    updateNormService.updatePassiveModifications(
+        new UpdatePassiveModificationsUseCase.Query(zf0Norm, amendingNorm, targetNormEli));
+
+    // Validate changes on ZF0
     singleModValidator.validate(zf0Norm, selectedMod);
   }
 

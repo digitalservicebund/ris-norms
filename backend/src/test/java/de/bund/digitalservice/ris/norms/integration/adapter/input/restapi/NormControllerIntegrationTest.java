@@ -787,7 +787,100 @@ class NormControllerIntegrationTest extends BaseIntegrationTest {
                   .content(
                       "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"new-destination-href\", \"newContent\": \"new test text\"}"))
           // then
-          .andExpect(status().isNotFound());
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("type").value(equalTo("/errors/norm-not-found")))
+          .andExpect(jsonPath("title").value(equalTo("Norm not found")))
+          .andExpect(jsonPath("status").value(equalTo(404)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "Norm with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1 does not exist")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/mods/mod-eid-1")))
+          .andExpect(
+              jsonPath("eli")
+                  .value(equalTo("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")));
+    }
+
+    @Test
+    void itThrowsValidationExceptionBecauseDestinationHrefHasNoEli() throws Exception {
+      // Given
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
+      final String destinationHref = "#destination-href-without-eli";
+
+      // When
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/NOT-RELEVANT")
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      String.format(
+                          "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"%s\", \"newContent\": \"new test text\"}",
+                          destinationHref)))
+          // then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value(equalTo("/errors/eli-not-in-href")))
+          .andExpect(jsonPath("title").value(equalTo("Validation error")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "The destinationHref with value %s does not contain a eli"
+                              .formatted(destinationHref))))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/NOT-RELEVANT")))
+          .andExpect(jsonPath("destinationHref").value(equalTo(destinationHref)));
+    }
+
+    @Test
+    void itThrowsValidationExceptionBecauseModWithGivenEidNotFound() throws Exception {
+      normRepository.save(NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithMods.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml")));
+      normRepository.save(
+          NormMapper.mapToDto(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+
+      final String eli = "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1";
+      final String eId = "NOT-EXISTING-EID";
+      final String destinationHref =
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_para-20_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-32.xml";
+
+      mockMvc
+          .perform(
+              put("/api/v1/norms/" + eli + "/mods/" + eId)
+                  .accept(MediaType.APPLICATION_JSON)
+                  .contentType(MediaType.APPLICATION_JSON)
+                  .content(
+                      "{\"refersTo\": \"aenderungsbefehl-ersetzen\", \"timeBoundaryEid\": \"new-time-boundary-eid\", \"destinationHref\": \"%s\", \"newContent\": \"new test text\"}"
+                          .formatted(destinationHref)))
+          // then
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value(equalTo("/errors/meta-mod-not-found")))
+          .andExpect(jsonPath("title").value(equalTo("Validation error")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(
+              jsonPath("detail")
+                  .value(
+                      equalTo(
+                          "Did not find a textual mod with eId %s in the norm %s"
+                              .formatted(eId, eli))))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/NOT-EXISTING-EID")))
+          .andExpect(jsonPath("eId").value(equalTo(eId)))
+          .andExpect(jsonPath("eli").value(equalTo(eli)));
     }
 
     @ParameterizedTest
