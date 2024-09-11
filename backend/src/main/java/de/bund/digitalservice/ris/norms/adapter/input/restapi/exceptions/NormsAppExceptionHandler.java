@@ -202,9 +202,7 @@ public class NormsAppExceptionHandler {
     log.error("NormExistsAlreadyException: {}", e.getMessage(), e);
     final ProblemDetail problemDetail =
         ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
-    if (StringUtils.isNotEmpty(e.getEli())) {
-      problemDetail.setProperty("eli", e.getEli());
-    }
+    problemDetail.setProperty("eli", e.getEli());
     return problemDetail;
   }
 
