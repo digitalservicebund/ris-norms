@@ -11,10 +11,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.validation.SchemaFactory;
 import net.sf.saxon.TransformerFactoryImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -35,38 +35,31 @@ public class XmlMapper {
    * @return the resulting {@link Document}
    */
   public static Document toDocument(String xmlText) {
-    return toDocument(xmlText, false);
+    return toDocument(xmlText, DocumentBuilderFactory.newInstance(), null);
   }
 
   /**
    * Maps a string containing xml to a {@link Document}.
    *
    * @param xmlText The input string containing xml to be mapped to a {@link Document}
-   * @param validateSchema Should the schema of the XML be validated to be valid LDML.de? When this
-   *     is false all whitespace will be treated as significant.
+   * @param factory The DocumentBuilderFactory to use
+   * @param errorHandler The ErrorHandler to use
    * @return the resulting {@link Document}
    */
-  public static Document toDocument(String xmlText, boolean validateSchema) {
-
-    var factory = DocumentBuilderFactory.newInstance();
-
+  public static Document toDocument(
+      String xmlText, DocumentBuilderFactory factory, ErrorHandler errorHandler) {
     try {
       // XXE vulnerability hardening, cf. https://www.sonarsource.com/blog/secure-xml-processor/
       factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
       factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       factory.setExpandEntityReferences(false);
 
-      if (validateSchema) {
-        factory.setNamespaceAware(true);
-        factory.setSchema(
-            SchemaFactory.newDefaultInstance()
-                .newSchema(
-                    XmlMapper.class.getResource("/schema/fixtures/ldml1.6_ds_regelungstext.xsd")));
-        factory.setIgnoringElementContentWhitespace(
-            true); // does only work when a schema is provided
+      final DocumentBuilder builder = factory.newDocumentBuilder();
+
+      if (errorHandler != null) {
+        builder.setErrorHandler(errorHandler);
       }
 
-      final DocumentBuilder builder = factory.newDocumentBuilder();
       final InputSource is = new InputSource(new StringReader(xmlText));
       return builder.parse(is);
     } catch (ParserConfigurationException | SAXException | IOException e) {
