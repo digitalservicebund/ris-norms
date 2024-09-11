@@ -250,7 +250,11 @@ public class NormsAppExceptionHandler {
   public ProblemDetail handleException(final NotAXmlFileException e) {
     log.error("NotAXmlFileException: {}", e.getMessage(), e);
 
-    return ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    final ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    problemDetail.setProperty("fileName", e.getFileName());
+    problemDetail.setProperty("contentType", e.getContentType());
+    return problemDetail;
   }
 
   /**

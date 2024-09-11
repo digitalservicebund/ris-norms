@@ -103,7 +103,8 @@ public class AnnouncementService
   @Override
   public Announcement createAnnouncement(CreateAnnouncementUseCase.Query query) throws IOException {
     if (query.file().isEmpty() || !"text/xml".equals(query.file().getContentType())) {
-      throw new NotAXmlFileException();
+      throw new NotAXmlFileException(
+          query.file().getOriginalFilename(), query.file().getContentType());
     }
 
     var xmlString = IOUtils.toString(query.file().getInputStream(), Charset.defaultCharset());

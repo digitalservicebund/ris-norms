@@ -653,6 +653,25 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void itFailsIfTheFileIsNotAnXmlFile() throws Exception {
+      // Given
+      var file =
+          new MockMultipartFile(
+              "file",
+              "norm.txt",
+              "text/plain",
+              new ByteArrayInputStream("not-important".getBytes()));
+
+      // When // Then
+      mockMvc
+          .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type", equalTo("/errors/not-a-xml-file")))
+          .andExpect(jsonPath("fileName", equalTo("norm.txt")))
+          .andExpect(jsonPath("contentType", equalTo("text/plain")));
+    }
+
+    @Test
     void itFailsIfTheAffectedNormDoesNotExist() throws Exception {
       // Given
       var norm = NormFixtures.loadFromDisk("NormWithMods.xml");
