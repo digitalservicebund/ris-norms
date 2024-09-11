@@ -16,7 +16,7 @@ public class EventRef {
   private final Node node;
 
   public EId getEid() {
-    return EId.fromNode(node).orElseThrow();
+    return EId.fromNode(node);
   }
 
   /**

@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import java.time.LocalDate;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -21,8 +20,8 @@ public class TimeBoundary {
    *
    * @return The eId of the eventRef
    */
-  public Optional<String> getEventRefEid() {
-    return EId.fromNode(eventRef.getNode()).map(EId::value);
+  public String getEventRefEid() {
+    return EId.fromNode(eventRef.getNode()).value();
   }
 
   /**
@@ -30,8 +29,8 @@ public class TimeBoundary {
    *
    * @return The eId of the timeInterval
    */
-  public Optional<String> getTimeIntervalEid() {
-    return EId.fromNode(timeInterval.getNode()).map(EId::value);
+  public String getTimeIntervalEid() {
+    return EId.fromNode(timeInterval.getNode()).value();
   }
 
   /**
@@ -39,8 +38,8 @@ public class TimeBoundary {
    *
    * @return The eId of the temporal group
    */
-  public Optional<String> getTemporalGroupEid() {
-    return EId.fromNode(temporalGroup.getNode()).map(EId::value);
+  public String getTemporalGroupEid() {
+    return EId.fromNode(temporalGroup.getNode()).value();
   }
 
   /**

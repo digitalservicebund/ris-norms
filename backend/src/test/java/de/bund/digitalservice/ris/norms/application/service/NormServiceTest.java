@@ -568,11 +568,9 @@ class NormServiceTest {
           amendingNorm.getMods().stream()
               .filter(
                   m ->
-                      m.getEid().isPresent()
-                          && m.getEid()
-                              .get()
-                              .equals(
-                                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"))
+                      m.getEid()
+                          .equals(
+                              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"))
               .findFirst()
               .orElseThrow();
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
@@ -702,11 +700,9 @@ class NormServiceTest {
           amendingNorm.getMods().stream()
               .filter(
                   m ->
-                      m.getEid().isPresent()
-                          && m.getEid()
-                              .get()
-                              .equals(
-                                  "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"))
+                      m.getEid()
+                          .equals(
+                              "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"))
               .findFirst()
               .orElseThrow();
       Norm targetNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");

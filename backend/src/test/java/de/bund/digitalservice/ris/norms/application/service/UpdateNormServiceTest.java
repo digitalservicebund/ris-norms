@@ -297,7 +297,7 @@ class UpdateNormServiceTest {
       assertThat(activeModifications.getForcePeriodEid()).contains(newTimeBoundaryEid);
       final Mod mod =
           updatedAmendingNorm.getMods().stream()
-              .filter(f -> f.getEid().orElseThrow().equals(eId))
+              .filter(f -> f.getEid().equals(eId))
               .findFirst()
               .orElseThrow();
       assertThat(mod.getNewText()).contains(newContent);

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
 
 class ElementResponseMapperTest {
@@ -448,6 +447,6 @@ class ElementResponseMapperTest {
 
     // When
     assertThatThrownBy(() -> ElementResponseMapper.fromElementNode(node))
-        .isInstanceOf(NoSuchElementException.class);
+        .isInstanceOf(NullPointerException.class);
   }
 }

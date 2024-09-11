@@ -19,8 +19,8 @@ public class TimeBoundaryMapper {
   public static TimeBoundarySchema fromUseCaseData(final TimeBoundary timeBoundary) {
     return TimeBoundarySchema.builder()
         .date(timeBoundary.getEventRef().getDate().orElse(null))
-        .eventRefEid(timeBoundary.getEventRefEid().orElse(null))
-        .temporalGroupEid(timeBoundary.getTemporalGroupEid().orElse(null))
+        .eventRefEid(timeBoundary.getEventRefEid())
+        .temporalGroupEid(timeBoundary.getTemporalGroupEid())
         .build();
   }
 

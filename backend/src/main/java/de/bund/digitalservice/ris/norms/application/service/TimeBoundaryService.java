@@ -69,7 +69,7 @@ public class TimeBoundaryService
 
     final List<TemporalGroup> temporalGroups =
         norm.getMeta().getTemporalData().getTemporalGroups().stream()
-            .filter(f -> temporalGroupEidAmendedBy.contains(f.getEid().orElseThrow()))
+            .filter(f -> temporalGroupEidAmendedBy.contains(f.getEid()))
             .toList();
     return norm.getTimeBoundaries(temporalGroups);
   }
@@ -117,20 +117,19 @@ public class TimeBoundaryService
 
     List<TimeBoundary> timeBoundariesToUpdate =
         norm.getTimeBoundaries().stream()
-            .filter(tb -> tb.getEventRefEid().isPresent())
             .filter(
                 tb ->
                     datesToUpdate.stream()
                         .map(TimeBoundaryChangeData::eid)
                         .toList()
-                        .contains(tb.getEventRefEid().get()))
+                        .contains(tb.getEventRefEid()))
             .toList();
 
     timeBoundariesToUpdate.forEach(
         tb -> {
           LocalDate newDate =
               datesToUpdate.stream()
-                  .filter(date -> date.eid().equals(tb.getEventRefEid().get()))
+                  .filter(date -> date.eid().equals(tb.getEventRefEid()))
                   .map(TimeBoundaryChangeData::date)
                   .findFirst()
                   .orElse(LocalDate.MIN);
@@ -143,11 +142,7 @@ public class TimeBoundaryService
   private void logChangeDataWithoutCorrespondingEidInXml(
       Norm norm, List<TimeBoundaryChangeData> datesToUpdate) {
     List<String> timeBoundaryEids =
-        norm.getTimeBoundaries().stream()
-            .map(TimeBoundary::getEventRefEid)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .toList();
+        norm.getTimeBoundaries().stream().map(TimeBoundary::getEventRefEid).toList();
 
     List<TimeBoundaryChangeData> timeBoundariesListedButNotUpdated =
         datesToUpdate.stream()
@@ -179,8 +174,6 @@ public class TimeBoundaryService
     List<String> allEventRefEidsToDelete =
         norm.getTimeBoundaries().stream()
             .map(TimeBoundary::getEventRefEid)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
             .filter(eid -> !allChangeDateEids.contains(eid))
             .toList();
 

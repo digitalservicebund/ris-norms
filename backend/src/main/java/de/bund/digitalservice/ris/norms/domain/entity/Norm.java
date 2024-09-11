@@ -129,7 +129,7 @@ public class Norm {
               final String eventRefEId = timeInterval.getEventRefEId().orElseThrow();
               final EventRef eventRef =
                   getMeta().getLifecycle().getEventRefs().stream()
-                      .filter(f -> Objects.equals(f.getEid().value(), eventRefEId))
+                      .filter(er -> Objects.equals(er.getEid().value(), eventRefEId))
                       .findFirst()
                       .orElseThrow();
               return (TimeBoundary)
@@ -157,9 +157,7 @@ public class Norm {
    */
   public Optional<String> getStartEventRefForTemporalGroup(final String temporalGroupEid) {
     return getMeta().getTemporalData().getTemporalGroups().stream()
-        .filter(
-            temporalGroup ->
-                temporalGroup.getEid().map(eid -> eid.equals(temporalGroupEid)).orElse(false))
+        .filter(temporalGroup -> temporalGroup.getEid().equals(temporalGroupEid))
         .findFirst()
         .flatMap(m -> m.getTimeInterval().getEventRefEId());
   }

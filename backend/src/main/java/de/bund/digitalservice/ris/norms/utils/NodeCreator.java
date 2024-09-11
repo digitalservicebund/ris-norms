@@ -37,7 +37,7 @@ public class NodeCreator {
     var newElement = parentNode.getOwnerDocument().createElement(tagName);
     newElement.setAttribute("GUID", UUID.randomUUID().toString());
     parentNode.appendChild(newElement);
-    EId.forNode(newElement).ifPresent(eId -> newElement.setAttribute("eId", eId.value()));
+    EId.createForNode(newElement).ifPresent(eId -> newElement.setAttribute("eId", eId.value()));
     return newElement;
   }
 
@@ -54,7 +54,7 @@ public class NodeCreator {
   public static Element createElementWithStaticEidAndGuidNoAppend(
       final String tagName, final String eidPartName, final Node parentNode) {
     var newElement = parentNode.getOwnerDocument().createElement(tagName);
-    newElement.setAttribute("eId", EId.fromMandatoryNode(parentNode) + "_" + eidPartName);
+    newElement.setAttribute("eId", EId.fromNode(parentNode) + "_" + eidPartName);
     newElement.setAttribute("GUID", UUID.randomUUID().toString());
     return newElement;
   }

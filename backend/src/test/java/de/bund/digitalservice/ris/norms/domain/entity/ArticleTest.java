@@ -2,14 +2,9 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toNode;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class ArticleTest {
@@ -68,7 +63,7 @@ class ArticleTest {
     var expectedEid = "hauptteil-1_art-1";
 
     // when
-    var eid = article.getEid().get();
+    var eid = article.getEid();
 
     // then
     assertThat(eid).isEqualTo(expectedEid);
@@ -87,34 +82,10 @@ class ArticleTest {
     var expectedEid = "hauptteil-1_art-1";
 
     // when
-    var eid = article.getEid().orElseThrow();
+    var eid = article.getEid();
 
     // then
     assertThat(eid).isEqualTo(expectedEid);
-  }
-
-  @Test
-  void getEidOrThrowThrowsExceptionMandatoryEidIsMissing() {
-    // given
-    final Norm amendingNorm = NormFixtures.loadFromDisk("NormWithMods.xml");
-    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(amendingNorm));
-    amendingNorm
-        .getNodeByEId("hauptteil-1_art-1")
-        .get()
-        .getAttributes()
-        .getNamedItem("eId")
-        .setTextContent("");
-
-    var article = amendingNorm.getArticles().getFirst();
-
-    // when
-    Throwable thrown = catchThrowable(article::getMandatoryEid);
-
-    // when/then
-    assertThat(thrown)
-        .isInstanceOf(MandatoryNodeNotFoundException.class)
-        .hasMessageContaining(
-            "Element with xpath './@eId' not found in 'akn:article' of norm 'eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1'");
   }
 
   @Test

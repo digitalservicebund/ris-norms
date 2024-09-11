@@ -2,10 +2,7 @@ package de.bund.digitalservice.ris.norms.utils;
 
 import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -62,19 +59,15 @@ public final class EidConsistencyGuardian {
     while (!nodesToUpdate.isEmpty()) {
       var currentNode = nodesToUpdate.removeFirst();
 
-      if (currentNode instanceof Element currentElement) {
-        final var expectedEId = EId.forNode(currentNode);
-        final var currentEId = EId.fromNode(currentNode);
+      if (currentNode instanceof Element currentElement && isContentElement(currentNode)) {
+        final Optional<EId> expectedEId = EId.createForNode(currentNode);
+        final EId currentEId = EId.fromNode(currentNode);
 
-        if (expectedEId != currentEId) {
-          if (expectedEId.isPresent()) {
-            currentElement.setAttribute("eId", expectedEId.get().value());
-          }
-
-          if (currentEId.isPresent() && expectedEId.isPresent()) {
-            oldToNewEIdMap.put(currentEId.get().value(), expectedEId.get().value());
-          }
+        if (expectedEId.isPresent() && expectedEId.get() != currentEId) {
+          currentElement.setAttribute("eId", expectedEId.get().value());
         }
+
+        expectedEId.ifPresent(eId -> oldToNewEIdMap.put(currentEId.value(), eId.value()));
       }
 
       nodesToUpdate.addAll(NodeParser.nodeListToList(currentNode.getChildNodes()));
@@ -82,6 +75,40 @@ public final class EidConsistencyGuardian {
 
     // Traverse the entire document to find references to the old eId in attributes
     updateReferencesInAttributes(node, oldToNewEIdMap);
+  }
+
+  private static boolean isContentElement(Node currentNode) {
+    return !currentNode.getNodeName().equals("root")
+        && !currentNode.getNodeName().equals("akn:akomaNtoso")
+        && !currentNode.getNodeName().equals("#document")
+        && !currentNode.getNodeName().equals("akn:act")
+        && !currentNode.getNodeName().equals("akn:meta")
+        && !currentNode.getNodeName().equals("meta:legalDocML.de_metadaten")
+        && !currentNode.getNodeName().equals("meta:legalDocML.de_metadaten_ds")
+        && !currentNode.getNodeName().equals("meta:typ")
+        && !currentNode.getNodeName().equals("meta:form")
+        && !currentNode.getNodeName().equals("meta:art")
+        && !currentNode.getNodeName().equals("meta:initiant")
+        && !currentNode.getNodeName().equals("meta:bearbeitendeInstitution")
+        && !currentNode.getNodeName().equals("meta:fassung")
+        && !currentNode.getNodeName().equals("meta:fna")
+        && !currentNode.getNodeName().equals("meta:celex")
+        && !currentNode.getNodeName().equals("meta:subtyp")
+        && !currentNode.getNodeName().equals("meta:aktenzeichen")
+        && !currentNode.getNodeName().equals("meta:gesta")
+        && !currentNode.getNodeName().equals("meta:federfuehrung")
+        && !currentNode.getNodeName().equals("meta:interne-referenz")
+        && !currentNode.getNodeName().equals("meta:federfuehrend")
+        && !currentNode.getNodeName().equals("meta:normgeber")
+        && !currentNode.getNodeName().equals("math")
+        && !currentNode.getNodeName().equals("mrow")
+        && !currentNode.getNodeName().equals("mi")
+        && !currentNode.getNodeName().equals("mo")
+        && !currentNode.getNodeName().equals("msup")
+        && !currentNode.getNodeName().equals("mfrac")
+        && !currentNode.getNodeName().equals("munderover")
+        && !currentNode.getNodeName().equals("msqrt")
+        && !currentNode.getNodeName().equals("mn");
   }
 
   private static void setRemovedReferencesToEmptyStringNew(
