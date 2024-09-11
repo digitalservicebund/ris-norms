@@ -6,8 +6,8 @@ import lombok.Getter;
 /** The given file is not a xml file, while a xml file was expected. */
 @Getter
 public class NotAXmlFileException extends RuntimeException implements NormsAppException {
-  private String fileName;
-  private String contentType;
+  private final String fileName;
+  private final String contentType;
 
   public NotAXmlFileException(String fileName, String contentType) {
     super(
