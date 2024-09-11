@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.exceptions;
 
 import java.net.URI;
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.core.annotation.Order;
@@ -68,6 +69,23 @@ public class FrameWorkExceptionHandler {
         ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, concatenatedValidationErrors);
     problemDetail.setTitle("Input validation error");
     problemDetail.setType(URI.create("/errors/input-validation-error"));
+    return problemDetail;
+  }
+
+  /**
+   * Exception handler method for handling {@link NoSuchElementException} thrown by {@link
+   * java.util.Optional}.orElseThrow.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status and the exception message.
+   */
+  @ExceptionHandler(NoSuchElementException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ProblemDetail handleException(final NoSuchElementException e) {
+    log.error("A value necessary for the operation was not found: {}", e.getMessage(), e);
+    final ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage());
+    problemDetail.setType(URI.create("/errors/necessary-value-missing"));
     return problemDetail;
   }
 

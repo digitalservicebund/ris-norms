@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
+import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -450,6 +451,33 @@ class NormControllerTest {
 
       verify(loadNormUseCase, times(2)).loadNorm(any());
       verify(loadZf0UseCase, times(1)).loadOrCreateZf0(any());
+    }
+  }
+
+  @Nested
+  class checkIfExceptionHandlerWorks {
+    @Test
+    void itReturnsErrorResponseOnNoSuchElementException() throws Exception {
+      // Given
+
+      // When
+      when(loadNormUseCase.loadNorm(any())).thenThrow(new NoSuchElementException("ValueNotFound"));
+
+      // When // Then
+      mockMvc
+          .perform(
+              get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                  .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type").value(equalTo("/errors/necessary-value-missing")))
+          .andExpect(jsonPath("title").value(equalTo("Unprocessable Entity")))
+          .andExpect(jsonPath("status").value(equalTo(422)))
+          .andExpect(jsonPath("detail").value(equalTo("ValueNotFound")))
+          .andExpect(
+              jsonPath("instance")
+                  .value(
+                      equalTo(
+                          "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")));
     }
   }
 }
