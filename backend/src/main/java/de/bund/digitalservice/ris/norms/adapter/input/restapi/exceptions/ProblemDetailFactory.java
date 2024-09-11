@@ -92,6 +92,10 @@ public class ProblemDetailFactory {
         NotAXmlFileException.class,
         URI.create("/errors/not-a-xml-file"),
         "The provided file is not a xml file"),
+    LDML_DE_NOT_VALID(
+        LdmlDeNotValidException.class,
+        URI.create("/errors/ldml-de-not-valid"),
+        "The provided xml is not a valid LDML.de 1.6 document"),
     VALIDATION_ERROR(ValidationException.class, null, "Validation error");
 
     /**

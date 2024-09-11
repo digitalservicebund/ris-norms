@@ -252,4 +252,21 @@ public class NormsAppExceptionHandler {
 
     return ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
+
+  /**
+   * Exception handler method for handling {@link LdmlDeNotValidException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
+   */
+  @ExceptionHandler(LdmlDeNotValidException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ProblemDetail handleException(final LdmlDeNotValidException e) {
+    log.error("LdmlDeNotValidException: {}", e.getMessage(), e);
+
+    final ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    problemDetail.setProperty("errors", e.getErrors());
+    return problemDetail;
+  }
 }
