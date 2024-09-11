@@ -128,7 +128,7 @@ public class AnnouncementService
     activeModDestinationElis.forEach(
         eli -> {
           if (loadNormPort.loadNorm(new LoadNormPort.Command(eli)).isEmpty()) {
-            throw new ActiveModDestinationNormNotFoundException(eli);
+            throw new ActiveModDestinationNormNotFoundException(norm.getEli(), eli);
           }
         });
 
