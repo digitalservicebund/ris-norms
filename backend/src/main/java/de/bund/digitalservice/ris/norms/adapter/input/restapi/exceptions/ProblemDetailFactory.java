@@ -86,8 +86,6 @@ public class ProblemDetailFactory {
         ActiveModDestinationNormNotFoundException.class,
         URI.create("/errors/active-mod/destination/norm-not-found"),
         "Destination norm not found"),
-    NORM_NOT_AN_ACT(
-        NormNotAnActException.class, URI.create("/errors/norm-not-an-act"), "Norm is not an act"),
     NOT_A_XML_FILE(
         NotAXmlFileException.class,
         URI.create("/errors/not-a-xml-file"),

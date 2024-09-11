@@ -3,7 +3,6 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.ActiveModDestinationNormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotAnActException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NotAXmlFileException;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
@@ -115,9 +114,6 @@ public class AnnouncementService
     ldmlDeValidator.parseAndValidate(xmlString);
 
     var norm = Norm.builder().document(XmlMapper.toDocument(xmlString)).build();
-    if (!norm.isAct()) {
-      throw new NormNotAnActException();
-    }
 
     var activeMods =
         norm.getMeta().getAnalysis().map(Analysis::getActiveModifications).orElseGet(List::of);

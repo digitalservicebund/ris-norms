@@ -1497,33 +1497,4 @@ class NormTest {
       assertThat(textualMod).isEqualTo(2);
     }
   }
-
-  @Nested
-  class isAct {
-    @Test
-    void itShouldReturnTrueIfItIsAnAct() {
-      // given
-      Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
-
-      // when
-      var result = norm.isAct();
-
-      // then
-      assertThat(result).isTrue();
-    }
-
-    @Test
-    void itShouldReturnFalseIfItIsNotAnAct() {
-      // given
-      Norm norm =
-          NormFixtures.loadFromDisk(
-              "01-01_Gesetz_Stammform_Entwurf_(RegTxt_Ans_Vorb_Begr_offStr)_regelungstext.xml");
-
-      // when
-      var result = norm.isAct();
-
-      // then
-      assertThat(result).isFalse();
-    }
-  }
 }

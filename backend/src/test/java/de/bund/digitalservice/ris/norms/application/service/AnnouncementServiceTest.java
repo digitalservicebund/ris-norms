@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.application.exception.ActiveModDestinati
 import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
-import de.bund.digitalservice.ris.norms.application.exception.NormNotAnActException;
 import de.bund.digitalservice.ris.norms.application.exception.NotAXmlFileException;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadAnnouncementByNormEliUseCase;
@@ -321,24 +320,6 @@ class AnnouncementServiceTest {
       var query = new CreateAnnouncementUseCase.Query(file);
       assertThatThrownBy(() -> announcementService.createAnnouncement(query))
           .isInstanceOf(NotAXmlFileException.class);
-    }
-
-    @Test
-    void itThrowsWhenTheNormIsNotAnAct() throws IOException {
-      // Given
-      var xmlContent =
-          XmlMapper.toString(
-              NormFixtures.loadFromDisk(
-                      "01-01_Gesetz_Stammform_Entwurf_(RegTxt_Ans_Vorb_Begr_offStr)_regelungstext.xml")
-                  .getDocument());
-      final MultipartFile file =
-          new MockMultipartFile(
-              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
-
-      // When // Then
-      var query = new CreateAnnouncementUseCase.Query(file);
-      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
-          .isInstanceOf(NormNotAnActException.class);
     }
 
     @Test

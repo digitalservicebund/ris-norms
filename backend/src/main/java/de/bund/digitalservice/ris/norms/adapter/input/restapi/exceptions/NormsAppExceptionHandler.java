@@ -227,19 +227,6 @@ public class NormsAppExceptionHandler {
   }
 
   /**
-   * Exception handler method for handling {@link NormNotAnActException}.
-   *
-   * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
-   */
-  @ExceptionHandler(NormNotAnActException.class)
-  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ProblemDetail handleException(final NormNotAnActException e) {
-    log.error("NormNotAnActException: {}", e.getMessage(), e);
-    return ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
-  }
-
-  /**
    * Exception handler method for handling {@link NotAXmlFileException}.
    *
    * @param e The exception that occurred.

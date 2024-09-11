@@ -302,10 +302,6 @@ public class Norm {
     temporalDataNode.removeChild(temporalGroupNode);
   }
 
-  public boolean isAct() {
-    return NodeParser.getNodeFromExpression("//*/act", getDocument()).isPresent();
-  }
-
   @Override
   public boolean equals(Object object) {
     if (this == object) return true;

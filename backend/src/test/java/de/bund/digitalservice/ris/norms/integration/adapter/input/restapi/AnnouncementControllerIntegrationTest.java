@@ -730,5 +730,30 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
           .andExpect(
               jsonPath("errors[0].type", equalTo("/errors/ldml-de-not-valid/cvc-complex-type.4")));
     }
+
+    @Test
+    void itFailsIfTheNormIsAVerkündungsfassung() throws Exception {
+      // Given
+      var norm =
+          NormFixtures.loadFromDisk(
+              "01-01_Gesetz_Stammform_Entwurf_(RegTxt_Ans_Vorb_Begr_offStr)_regelungstext.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      // When // Then
+      mockMvc
+          .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")))
+          .andExpect(
+              jsonPath(
+                  "errors[0].type", equalTo("/errors/ldml-de-not-valid/cvc-complex-type.2.4.a")));
+    }
   }
 }
