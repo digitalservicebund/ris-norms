@@ -23,4 +23,26 @@ class XsdLocationTest {
     String result = underTest.getAknNameSpace();
     assertThat(result).isEqualTo("http://Inhaltsdaten.LegalDocML.de/1.7/");
   }
+
+  @Test
+  void setAknNameSpace() {
+    underTest.setAknNameSpace("testing_namespace");
+    String result = underTest.getAknNameSpace();
+    assertThat(result).isEqualTo("testing_namespace");
+  }
+
+  @Test
+  void getXsiSchemaLocation() {
+    String result = underTest.getXsiSchemaLocation();
+    assertThat(result)
+        .isEqualTo(
+            "http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd");
+  }
+
+  @Test
+  void setXsiSchemaLocation() {
+    underTest.setXsiSchemaLocation("testing_schemaLocation");
+    String result = underTest.getXsiSchemaLocation();
+    assertThat(result).isEqualTo("testing_schemaLocation");
+  }
 }

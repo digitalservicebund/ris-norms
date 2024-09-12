@@ -307,7 +307,7 @@ public class Norm {
   }
 
   public XsdLocation getXsdLocation() {
-    return new XsdLocation(NodeParser.getMandatoryNodeFromExpression("//akomaNtoso", document));
+    return new XsdLocation(NodeParser.getMandatoryNodeFromExpression("./akomaNtoso", document));
   }
 
   @Override

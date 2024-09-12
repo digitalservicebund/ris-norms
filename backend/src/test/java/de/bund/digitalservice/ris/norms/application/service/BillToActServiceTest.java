@@ -11,7 +11,7 @@ import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
 
 class BillToActServiceTest {
-  final BillToActService serviceToTest = new BillToActService();
+  final BillToActService underTest = new BillToActService();
 
   @Test
   void itChangesNothing() {
@@ -19,7 +19,7 @@ class BillToActServiceTest {
     final Norm norm = NormFixtures.loadFromDisk("NormWithMods.xml");
 
     // when
-    Norm result = serviceToTest.convert(new BillToActUseCase.Query(norm));
+    Norm result = underTest.convert(new BillToActUseCase.Query(norm));
 
     // then
     final Diff diff =
@@ -27,5 +27,20 @@ class BillToActServiceTest {
             .withTest(Input.from(result.getDocument()))
             .build();
     assertThat(diff.hasDifferences()).isFalse();
+  }
+
+  @Test
+  void updateReferenceToAkomaNtoso() {
+    // given
+    final Norm norm = NormFixtures.loadFromDisk("ReglungstextEntwurfsfassung.xml");
+
+    // when
+    Norm result = underTest.convert(new BillToActUseCase.Query(norm));
+
+    assertThat(result.getXsdLocation().getAknNameSpace())
+        .isEqualTo("http://Inhaltsdaten.LegalDocML.de/1.7/");
+    assertThat(result.getXsdLocation().getXsiSchemaLocation())
+        .isEqualTo(
+            "http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd");
   }
 }
