@@ -1,31 +1,45 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import net.sf.saxon.TransformerFactoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-/** Validator for LDML.de XML files. */
+/** Validators for LDML.de XML files. */
 @Service
 public class LdmlDeValidator {
+  private final Resource schematronXslt;
   private final Resource xsdSchema;
 
   public LdmlDeValidator(
+      @Value("classpath:schema/fixtures/legalDocML.de.xsl") Resource schematronXslt,
       @Value("classpath:schema/fixtures/ldml1.6_ds_regelungstext.xsd") Resource xsdSchema) {
+    this.schematronXslt = schematronXslt;
     this.xsdSchema = xsdSchema;
   }
 
@@ -84,5 +98,82 @@ public class LdmlDeValidator {
     }
 
     return Norm.builder().document(result).build();
+  }
+
+  /**
+   * Validate the norm against the schematron rules. Throws if a rule is not fulfilled.
+   *
+   * @param norm the norm to validate
+   * @throws IOException The schematron file couldn't be read
+   * @throws XmlProcessingException A problem occurred during the processing of the XML
+   * @throws LdmlDeSchematronException A Schematron rule is violated
+   */
+  public void validateSchematron(Norm norm) throws IOException {
+    Source xsltSource = new StreamSource(schematronXslt.getInputStream());
+    xsltSource.setSystemId(schematronXslt.getURL().toString());
+    Transformer transformer = null;
+    try {
+      transformer = new TransformerFactoryImpl().newTransformer(xsltSource);
+    } catch (TransformerConfigurationException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
+    }
+
+    String xmlText = XmlMapper.toString(norm.getDocument());
+    Source xmlSource = new StreamSource(new ByteArrayInputStream(xmlText.getBytes()));
+
+    var result = new DOMResult();
+    try {
+      transformer.transform(xmlSource, result);
+    } catch (TransformerException e) {
+      throw new XmlProcessingException(e.getMessage(), e);
+    }
+
+    if (!(result.getNode() instanceof Document resultDoc)) {
+      throw new XmlProcessingException("Result is not a document.", null);
+    }
+
+    var failedAsserts =
+        resultDoc.getElementsByTagNameNS("http://purl.oclc.org/dsdl/svrl", "failed-assert");
+    // successful-reports are often used for warnings, and do not indicate that an assert was not
+    // failed
+    var successfulReports =
+        resultDoc.getElementsByTagNameNS("http://purl.oclc.org/dsdl/svrl", "successful-report");
+
+    if (failedAsserts.getLength() > 0 || successfulReports.getLength() > 0) {
+      var failedAssertMessages = NodeParser.nodeListToList(failedAsserts).stream();
+      var successfulReportMessages = NodeParser.nodeListToList(successfulReports).stream();
+
+      var errors =
+          Stream.concat(failedAssertMessages, successfulReportMessages)
+              .map(
+                  node -> {
+                    // The location includes an XPath with expanded QNames
+                    // (Q{namespace}<localPart>).
+                    var xPath = node.getAttributes().getNamedItem("location").getNodeValue();
+
+                    // Find the eId of the node responsible for this problem. Sometimes the location
+                    // points to an attribute, so we might need to move up in the element tree to
+                    // find the xPath.
+                    List<Node> eIdNodes =
+                        NodeParser.getNodesFromExpression(
+                            xPath + "/ancestor-or-self::*/@eId", norm.getDocument());
+                    String eId =
+                        eIdNodes.stream()
+                            .map(Node::getNodeValue)
+                            .reduce("", (a, b) -> a.length() > b.length() ? a : b);
+
+                    return new LdmlDeSchematronException.ValidationError(
+                        "/errors/ldml-de-not-schematron-valid/%s/%s"
+                            .formatted(
+                                node.getLocalName(),
+                                node.getAttributes().getNamedItem("id").getNodeValue()),
+                        xPath,
+                        node.getTextContent(),
+                        eId);
+                  })
+              .toList();
+
+      throw new LdmlDeSchematronException(errors);
+    }
   }
 }

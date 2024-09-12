@@ -133,7 +133,7 @@
             <akn:temporalData eId="meta-1_geltzeiten-1" GUID="82854d32-d922-43d7-ac8c-612c07219336"
                               source="attributsemantik-noch-undefiniert">
                 <akn:temporalGroup eId="meta-1_geltzeiten-1_geltungszeitgr-1"
-                                   GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+                                   GUID="82854d32-d922-43d7-ac8c-612c07219336">
                     <akn:timeInterval eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1"
                                       GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179"
                                       refersTo="geltungszeit" start="#meta-1_lebzykl-1_ereignis-2"/>
@@ -178,14 +178,6 @@
                           eId="einleitung-1_block-1_datum-1"/>
             </akn:block>
         </akn:preface>
-
-        <akn:preamble eId="preambel-1" GUID="d3023c46-1e74-4c1f-b101-b29898267f71">
-            <akn:formula eId="preambel-1_formel-1" GUID="1b476669-1cbb-4633-a0ed-04783680b841" refersTo="eingangsformel"
-                         name="attributsemantik-noch-undefiniert">
-                <akn:p eId="preambel-1_formel-1_text-1"
-                       GUID="c1793533-b05a-4fc4-be62-bd6c3449c53a">Der Bundestag hat mit Zustimmung des Bundesrates das folgende Gesetz beschlossen:</akn:p>
-            </akn:formula>
-        </akn:preamble>
 
         <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
             <!-- Artikel 1 : Hauptänderung -->
@@ -293,10 +285,11 @@
                     <akn:content eId="hauptteil-1_art-3_abs-1_inhalt-1"
                                  GUID="3e004e1f-f1bc-42a7-8042-2c1d77df81aa">
                         <akn:p eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1"
-                               GUID="52406e40-b866-410c-b097-af69e6248f58"> Dieses Gesetz tritt <akn:date eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1_datum-1"
-                                                                                                          GUID="2ee89811-5368-46e0-acf8-a598506cc956"
-                                                                                                          date="2017-03-16"
-                                                                                                          refersTo="inkrafttreten-datum">am Tag nach der Verkündung</akn:date> in Kraft. </akn:p>
+                               GUID="52406e40-b866-410c-b097-af69e6248f58"> Dieses Gesetz tritt <akn:date
+                                eId="hauptteil-1_art-3_abs-1_inhalt-1_text-1_datum-1"
+                                GUID="2ee89811-5368-46e0-acf8-a598506cc956"
+                                date="2017-03-16"
+                                refersTo="inkrafttreten-datum">am Tag nach der Verkündung</akn:date> in Kraft. </akn:p>
                     </akn:content>
                 </akn:paragraph>
             </akn:article>

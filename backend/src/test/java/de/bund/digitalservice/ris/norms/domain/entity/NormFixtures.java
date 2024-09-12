@@ -13,6 +13,9 @@ public class NormFixtures {
       new LdmlDeValidator(
           new UrlResource(
               Objects.requireNonNull(
+                  LdmlDeValidator.class.getResource("/schema/fixtures/legalDocML.de.xsl"))),
+          new UrlResource(
+              Objects.requireNonNull(
                   LdmlDeValidator.class.getResource(
                       "/schema/fixtures/ldml1.6_ds_regelungstext.xsd"))));
 

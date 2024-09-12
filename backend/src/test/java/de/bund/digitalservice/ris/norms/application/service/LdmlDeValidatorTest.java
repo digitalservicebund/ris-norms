@@ -1,9 +1,9 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -15,6 +15,9 @@ import org.springframework.core.io.UrlResource;
 class LdmlDeValidatorTest {
   private final LdmlDeValidator ldmlDeValidator =
       new LdmlDeValidator(
+          new UrlResource(
+              Objects.requireNonNull(
+                  LdmlDeValidator.class.getResource("/schema/fixtures/legalDocML.de.xsl"))),
           new UrlResource(
               Objects.requireNonNull(
                   LdmlDeValidator.class.getResource(
@@ -70,6 +73,55 @@ class LdmlDeValidatorTest {
                               84,
                               34,
                               "cvc-complex-type.2.4.b: The content of element 'akn:identification' is not complete. One of '{\"http://Inhaltsdaten.LegalDocML.de/1.6/\":FRBRManifestation}' is expected."));
+                }
+              });
+    }
+  }
+
+  @Nested
+  class validateSchematron {
+    @Test
+    void itShouldValidateNorm() {
+      // Given
+      String xml = NormFixtures.loadTextFromDisk("NormWithMods.xml");
+      Norm norm = ldmlDeValidator.parseAndValidate(xml);
+
+      // When // Then
+      assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
+    }
+
+    @Test
+    void itShouldValidateAInvalidNorm() {
+      // Given
+      String xml = NormFixtures.loadTextFromDisk("NormWithModsSchematronInvalid.xml");
+      Norm norm = ldmlDeValidator.parseAndValidate(xml);
+
+      // When // Then
+      assertThatThrownBy(() -> ldmlDeValidator.validateSchematron(norm))
+          .isInstanceOf(LdmlDeSchematronException.class)
+          .satisfies(
+              e -> {
+                if (e instanceof LdmlDeSchematronException ldmlDeSchematronException) {
+                  assertThat(ldmlDeSchematronException.getErrors())
+                      .hasSize(3)
+                      .contains(
+                          new LdmlDeSchematronException.ValidationError(
+                              "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00050-005",
+                              "/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act[1]",
+                              "Für ein Gesetz muss eine Eingangsformel verwendet werden.",
+                              ""))
+                      .contains(
+                          new LdmlDeSchematronException.ValidationError(
+                              "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000",
+                              "/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}temporalData[1]/@Q{}GUID",
+                              "GUIDs müssen einmalig sein; \"82854d32-d922-43d7-ac8c-612c07219336\" kommt jedoch 2-mal im Dokument vor!",
+                              "meta-1_geltzeiten-1"))
+                      .contains(
+                          new LdmlDeSchematronException.ValidationError(
+                              "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000",
+                              "/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}temporalData[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}temporalGroup[1]/@Q{}GUID",
+                              "GUIDs müssen einmalig sein; \"82854d32-d922-43d7-ac8c-612c07219336\" kommt jedoch 2-mal im Dokument vor!",
+                              "meta-1_geltzeiten-1_geltungszeitgr-1"));
                 }
               });
     }

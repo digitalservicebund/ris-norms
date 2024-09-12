@@ -158,6 +158,7 @@ tasks {
         from("../ldml-extension") {
             includeEmptyDirs = false
             include("**/*.xsd")
+            include("**/*.xsl")
             into("./schema")
         }
     }
