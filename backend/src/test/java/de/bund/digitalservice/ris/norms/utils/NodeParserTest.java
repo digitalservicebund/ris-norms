@@ -2,8 +2,11 @@ package de.bund.digitalservice.ris.norms.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.domain.entity.NormFixtures;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.w3c.dom.Node;
 
 class NodeParserTest {
@@ -80,5 +83,43 @@ class NodeParserTest {
     Node node = XmlMapper.toDocument("<foo></foo>").getFirstChild();
     var nodes = NodeParser.nodeListToList(node.getChildNodes());
     assertThat(nodes).isEmpty();
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      """
+      //act/@name
+      //*:act/@name
+      //Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act/@name
+      """)
+  void xPathsWorkWithoutNamespaceAwareness(String xPath) {
+    var norm = NormFixtures.loadFromDisk("NormWithMods.xml", false);
+    Node node = norm.getDocument();
+    Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
+    assertThat(result).contains("regelungstext");
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      """
+      //act/@name
+      //*:act/@name
+      //Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act/@name
+      """)
+  void xPathsWorkWithNamespaceAwareness(String xPath) {
+    var norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
+    Node node = norm.getDocument();
+    Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
+    assertThat(result).contains("regelungstext");
+  }
+
+  @Test
+  void xPathsWorkWithNamespaceDoesNotMatchInDocumentWithDifferentNamespace() {
+    var norm = NormFixtures.loadFromDisk("NormWithMods.xml", true);
+    Node node = norm.getDocument();
+    Optional<String> result =
+        NodeParser.getValueFromExpression(
+            "//Q{http://Inhaltsdaten.LegalDocML.de/1.5/}act/@name", node);
+    assertThat(result).isEmpty();
   }
 }

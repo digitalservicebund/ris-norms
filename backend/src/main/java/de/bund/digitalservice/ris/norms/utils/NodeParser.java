@@ -10,6 +10,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import net.sf.saxon.s9api.UnprefixedElementMatchingPolicy;
+import net.sf.saxon.xpath.XPathFactoryImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -19,11 +21,26 @@ public final class NodeParser {
   // the XPathFactory is not thread safe so every thread gets its own one. It should not be a
   // problem that we do not call remove() on it as it can be reused even after returning the thread
   // to a ThreadPool.
+  // We need to use the Saxon XPathFactory to support XPath 3.0
   private static final ThreadLocal<XPathFactory> xPathFactory =
-      ThreadLocal.withInitial(XPathFactory::newInstance);
+      ThreadLocal.withInitial(XPathFactoryImpl::new);
 
   private NodeParser() {
     // Should not be instantiated as an object
+  }
+
+  private static XPath createXPath() {
+    // should be invoked on every method call since: An XPath object is not thread-safe and not
+    // reentrant.
+    final XPath xPath = xPathFactory.get().newXPath();
+
+    // Allow xpaths without namespaces to match in any namespace. This means that we can select a
+    // `akn:mod` element using `//mod` irregardless of if the norm is parsed namespace-aware or not.
+    ((net.sf.saxon.xpath.XPathEvaluator) xPath)
+        .getStaticContext()
+        .setUnprefixedElementMatchingPolicy(UnprefixedElementMatchingPolicy.ANY_NAMESPACE);
+
+    return xPath;
   }
 
   /**
@@ -49,7 +66,7 @@ public final class NodeParser {
 
       // should be invoked on every method call since: An XPath object is not thread-safe and not
       // reentrant.
-      final XPath xPath = xPathFactory.get().newXPath();
+      final XPath xPath = createXPath();
       String result = (String) xPath.evaluate(xPathExpression, sourceNode, XPathConstants.STRING);
       return result.isEmpty() ? Optional.empty() : Optional.of(result);
     } catch (XPathExpressionException | NoSuchElementException e) {
@@ -82,14 +99,8 @@ public final class NodeParser {
    */
   public static List<Node> getNodesFromExpression(String xPathExpression, Node sourceNode) {
     try {
-      // should be invoked on every method call since: An XPath object is not thread-safe and not
-      // reentrant.
       final NodeList nodeList =
-          (NodeList)
-              xPathFactory
-                  .get()
-                  .newXPath()
-                  .evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
+          (NodeList) createXPath().evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
       return nodeListToList(nodeList);
     } catch (XPathExpressionException | NoSuchElementException e) {
       throw new XmlProcessingException(e.getMessage(), e);
@@ -107,8 +118,7 @@ public final class NodeParser {
    */
   public static Optional<Node> getNodeFromExpression(String xPathExpression, Node sourceNode) {
     try {
-      final XPath xpath = xPathFactory.get().newXPath();
-      final var result = xpath.evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
+      final var result = createXPath().evaluate(xPathExpression, sourceNode, XPathConstants.NODE);
       if (result instanceof Node node) {
         return Optional.of(node);
       }
