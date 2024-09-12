@@ -257,4 +257,21 @@ public class NormsAppExceptionHandler {
     problemDetail.setProperty("errors", e.getErrors());
     return problemDetail;
   }
+
+  /**
+   * Exception handler method for handling {@link LdmlDeSchematronException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
+   */
+  @ExceptionHandler(LdmlDeSchematronException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+  public ProblemDetail handleException(final LdmlDeSchematronException e) {
+    log.error("LdmlDeSchematronException: {}", e.getMessage(), e);
+
+    final ProblemDetail problemDetail =
+        ProblemDetailFactory.createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+    problemDetail.setProperty("errors", e.getErrors());
+    return problemDetail;
+  }
 }

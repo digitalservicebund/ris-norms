@@ -94,6 +94,10 @@ public class ProblemDetailFactory {
         LdmlDeNotValidException.class,
         URI.create("/errors/ldml-de-not-valid"),
         "The provided xml is not a valid LDML.de 1.6 document"),
+    LDML_DE_SCHEMATRON_EXCEPTION(
+        LdmlDeSchematronException.class,
+        URI.create("/errors/ldml-de-not-schematron-valid"),
+        "The provided xml is not a schematron-valid LDML.de 1.6 document"),
     VALIDATION_ERROR(ValidationException.class, null, "Validation error");
 
     /**
