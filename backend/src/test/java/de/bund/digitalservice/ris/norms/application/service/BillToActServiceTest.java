@@ -30,17 +30,20 @@ class BillToActServiceTest {
   }
 
   @Test
-  void updateReferenceToAkomaNtoso() {
+  void convert() {
     // given
     final Norm norm = NormFixtures.loadFromDisk("ReglungstextEntwurfsfassung.xml");
+    final Norm expectedResult = NormFixtures.loadFromDisk("ReglungstextVerkuendungsfassung.xml");
 
     // when
     Norm result = underTest.convert(new BillToActUseCase.Query(norm));
 
-    assertThat(result.getXsdLocation().getAknNameSpace())
-        .isEqualTo("http://Inhaltsdaten.LegalDocML.de/1.7/");
-    assertThat(result.getXsdLocation().getXsiSchemaLocation())
-        .isEqualTo(
-            "http://Metadaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-metadaten.xsd http://Inhaltsdaten.LegalDocML.de/1.7/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd");
+    // then
+    final Diff diff =
+        DiffBuilder.compare(Input.from(result.getDocument()))
+            .withTest(Input.from(expectedResult.getDocument()))
+            .build();
+    System.out.println(diff.fullDescription());
+    assertThat(diff.hasDifferences()).isFalse();
   }
 }
