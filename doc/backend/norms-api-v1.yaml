@@ -23,6 +23,34 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetail'
+    post:
+      summary: Create a new announcement by uploading the XML of a norm
+      requestBody:
+        required: true
+        content:
+          application/xml:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Norm was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Norm'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Validation errors, the norm already exists, or the uploaded file has an invalid format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
 
   /announcements/{eli}/release:
     get:
