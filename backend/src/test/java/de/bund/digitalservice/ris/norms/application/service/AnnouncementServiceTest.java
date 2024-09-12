@@ -10,6 +10,7 @@ import static org.mockito.Mockito.*;
 import de.bund.digitalservice.ris.norms.application.exception.ActiveModDestinationNormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.AnnouncementNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
 import de.bund.digitalservice.ris.norms.application.exception.NotAXmlFileException;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateAnnouncementUseCase;
@@ -390,6 +391,34 @@ class AnnouncementServiceTest {
       var query = new CreateAnnouncementUseCase.Query(file);
       assertThatThrownBy(() -> announcementService.createAnnouncement(query))
           .isInstanceOf(LdmlDeNotValidException.class);
+    }
+
+    @Test
+    void itThrowsWhenTheNormIsNotSchematronValid() throws IOException {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml");
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      final MultipartFile file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      when(loadNormPort.loadNorm(
+              new LoadNormPort.Command(
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")))
+          .thenReturn(Optional.of(NormFixtures.loadFromDisk("NormWithPassiveModifications.xml")));
+      when(loadNormPort.loadNorm(
+              new LoadNormPort.Command(
+                  "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")))
+          .thenReturn(Optional.empty());
+      when(ldmlDeValidator.parseAndValidate(any())).thenReturn(norm);
+      doThrow(new LdmlDeSchematronException(List.of()))
+          .when(ldmlDeValidator)
+          .validateSchematron(norm);
+
+      // When // Then
+      var query = new CreateAnnouncementUseCase.Query(file);
+      assertThatThrownBy(() -> announcementService.createAnnouncement(query))
+          .isInstanceOf(LdmlDeSchematronException.class);
     }
   }
 }

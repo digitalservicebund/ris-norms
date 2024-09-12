@@ -739,6 +739,50 @@ class AnnouncementControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void itFailsIfTheNormIsSchematronInvalid() throws Exception {
+      // Given
+      var norm = NormFixtures.loadFromDisk("NormWithModsSchematronInvalid.xml");
+      var affectedNorm = NormFixtures.loadFromDisk("NormWithoutPassiveModifications.xml");
+
+      normRepository.save(NormMapper.mapToDto(affectedNorm));
+
+      var xmlContent = XmlMapper.toString(norm.getDocument());
+      var file =
+          new MockMultipartFile(
+              "file", "norm.xml", "text/xml", new ByteArrayInputStream(xmlContent.getBytes()));
+
+      // When // Then
+      mockMvc
+          .perform(multipart("/api/v1/announcements").file(file).accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isUnprocessableEntity())
+          .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-schematron-valid")))
+          .andExpect(
+              jsonPath(
+                  "errors[0].type",
+                  equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00050-005")))
+          .andExpect(
+              jsonPath(
+                  "errors[0].xPath",
+                  equalTo(
+                      "/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.6/}act[1]")))
+          .andExpect(
+              jsonPath(
+                  "errors[0].details",
+                  equalTo("Für ein Gesetz muss eine Eingangsformel verwendet werden.")))
+          .andExpect(jsonPath("errors[0].eId", equalTo("")))
+          .andExpect(
+              jsonPath(
+                  "errors[1].type",
+                  equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")))
+          .andExpect(jsonPath("errors[1].eId", equalTo("meta-1_geltzeiten-1")))
+          .andExpect(
+              jsonPath(
+                  "errors[2].type",
+                  equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")))
+          .andExpect(jsonPath("errors[2].eId", equalTo("meta-1_geltzeiten-1_geltungszeitgr-1")));
+    }
+
+    @Test
     void itFailsIfTheNormIsAVerkündungsfassung() throws Exception {
       // Given
       var norm =
