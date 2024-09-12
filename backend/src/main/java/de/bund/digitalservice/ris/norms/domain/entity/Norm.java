@@ -306,10 +306,6 @@ public class Norm {
     return NodeParser.getNodeFromExpression("//*/act", getDocument()).isPresent();
   }
 
-  public XsdLocation getXsdLocation() {
-    return new XsdLocation(NodeParser.getMandatoryNodeFromExpression("./akomaNtoso", document));
-  }
-
   @Override
   public boolean equals(Object object) {
     if (this == object) return true;

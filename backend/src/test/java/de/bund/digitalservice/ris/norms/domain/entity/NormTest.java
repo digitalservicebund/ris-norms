@@ -1525,19 +1525,5 @@ class NormTest {
       // then
       assertThat(result).isFalse();
     }
-
-    @Test
-    void itShouldReturnTheAkomaNtosoNameSpacesAndFileLocation() {
-      // given
-      Norm norm =
-          NormFixtures.loadFromDisk(
-              "01-01_Gesetz_Stammform_Entwurf_(RegTxt_Ans_Vorb_Begr_offStr)_regelungstext.xml");
-
-      // when
-      var result = norm.getXsdLocation();
-
-      // then
-      assertThat(result).isNotNull();
-    }
   }
 }
