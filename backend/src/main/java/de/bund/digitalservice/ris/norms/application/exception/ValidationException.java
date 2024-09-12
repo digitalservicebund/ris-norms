@@ -40,9 +40,6 @@ public class ValidationException extends RuntimeException implements NormsAppExc
   /** Error types for validation errors, including a message template */
   @Getter
   public enum ErrorType {
-    ABSOLUTE_HREF_WITHOUT_ELI(
-        "/errors/absolute-href-without-eli",
-        "The provided Href with value %s does not contain the required 9 ELI parts."),
     META_MOD_NOT_FOUND(
         "/errors/meta-mod-not-found", "Did not find a textual mod with eId %s in the norm %s"),
     ELI_NOT_IN_HREF(
@@ -50,12 +47,6 @@ public class ValidationException extends RuntimeException implements NormsAppExc
     SOURCE_HREF_IN_META_MOD_MISSING(
         "/errors/source-href-in-meta-mod-missing",
         "Did not find source href for textual mod with eId %s"),
-    DESTINATION_ELIS_IN_META_MODS_NOT_CONSISTENT_WITH_BODY_MODS(
-        "/errors/elis-not-consistent-between-meta-and-body",
-        "For norm with Eli (%s): Eids are not consistent"),
-    DESTINATION_ELIS_NOT_CONSISTENT(
-        "/errors/destination-elis-not-consistent",
-        "For norm with Eli (%s): Elis are not consistent"),
     TARGET_NODE_NOT_PRESENT(
         "/errors/target-node-not-present",
         "Target node with eid %s not present in ZF0 norm with eli %s."),
