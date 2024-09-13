@@ -26,6 +26,11 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import("@/views/AmendingLaws.vue"),
       },
       {
+        path: "/amending-laws/upload-announcement",
+        name: "UploadAnnouncement",
+        component: () => import("@/views/UploadAnnouncement.vue"),
+      },
+      {
         path: createEliPathParameter(),
         component: () => import("@/views/AmendingLaw.vue"),
         children: [

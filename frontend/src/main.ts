@@ -1,8 +1,9 @@
-import { RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
-import "@digitalservicebund/ris-ui/primevue/style.css"
 import "@digitalservicebund/ris-ui/fonts.css"
+import { RisUiLocale, RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
+import "@digitalservicebund/ris-ui/primevue/style.css"
 import * as Sentry from "@sentry/vue"
 import PrimeVue from "primevue/config"
+import ToastService from "primevue/toastservice"
 import { createApp } from "vue"
 import App from "./App.vue"
 import router from "./router"
@@ -16,7 +17,10 @@ const app = createApp(App)
 app.use(PrimeVue, {
   pt: RisUiTheme,
   unstyled: true,
+  locale: RisUiLocale.deDE,
 })
+
+app.use(ToastService)
 
 if (import.meta.env.PROD && import.meta.env.E2E_TESTS_RUNNING !== "true") {
   Sentry.init({
